@@ -39,3 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+\n# Local audit repos and embedded samples\n_repo-audits/\npublic/projects/\n

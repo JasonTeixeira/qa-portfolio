@@ -138,6 +138,7 @@ See the repo README for step-by-step deploy instructions.
     github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails",
     documentation: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails#readme",
     proof: {
+      reportUrl: "/artifacts/evidence/landing-zone-ci.png",
       ciRunsUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions",
     },
   },

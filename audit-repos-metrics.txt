@@ -1,0 +1,13 @@
+┌─────────┬─────────────────────────────────────────────────┬──────────┬────────────────────────┬────────────┬───────────────────┬────────────────────────────────────────────────────────────────────────────┐
+│ (index) │ repo                                            │ workflow │ lastRun                │ conclusion │ qaMetricsArtifact │ actionsUrl                                                                 │
+├─────────┼─────────────────────────────────────────────────┼──────────┼────────────────────────┼────────────┼───────────────────┼────────────────────────────────────────────────────────────────────────────┤
+│ 0       │ 'JasonTeixeira/qa-portfolio'                    │ 'no'     │ '—'                    │ '—'        │ 'no'              │ 'https://github.com/JasonTeixeira/qa-portfolio/actions'                    │
+│ 1       │ 'JasonTeixeira/Qa-Automation-Project'           │ 'no'     │ '—'                    │ '—'        │ 'no'              │ 'https://github.com/JasonTeixeira/Qa-Automation-Project/actions'           │
+│ 2       │ 'JasonTeixeira/API-Test-Automation-Wireframe'   │ 'yes'    │ '2026-01-10T00:39:07Z' │ 'failure'  │ 'no'              │ 'https://github.com/JasonTeixeira/API-Test-Automation-Wireframe/actions'   │
+│ 3       │ 'JasonTeixeira/CI-CD-Pipeline'                  │ 'no'     │ '2026-01-10T02:43:07Z' │ 'failure'  │ 'no'              │ 'https://github.com/JasonTeixeira/CI-CD-Pipeline/actions'                  │
+│ 4       │ 'JasonTeixeira/Performance-Testing-Framework'   │ 'no'     │ '—'                    │ '—'        │ 'no'              │ 'https://github.com/JasonTeixeira/Performance-Testing-Framework/actions'   │
+│ 5       │ 'JasonTeixeira/Mobile-Testing-Framework'        │ 'no'     │ '—'                    │ '—'        │ 'no'              │ 'https://github.com/JasonTeixeira/Mobile-Testing-Framework/actions'        │
+│ 6       │ 'JasonTeixeira/BDD-Cucumber-Framework'          │ 'yes'    │ '2026-01-07T21:11:11Z' │ 'success'  │ 'yes'             │ 'https://github.com/JasonTeixeira/BDD-Cucumber-Framework/actions'          │
+│ 7       │ 'JasonTeixeira/visual-regression-testing-suite' │ 'no'     │ '2026-01-07T22:22:06Z' │ 'failure'  │ 'no'              │ 'https://github.com/JasonTeixeira/visual-regression-testing-suite/actions' │
+│ 8       │ 'JasonTeixeira/Security-Testing-Suite'          │ 'no'     │ '2026-01-07T22:21:56Z' │ 'failure'  │ 'no'              │ 'https://github.com/JasonTeixeira/Security-Testing-Suite/actions'          │
+└─────────┴─────────────────────────────────────────────────┴──────────┴────────────────────────┴────────────┴───────────────────┴────────────────────────────────────────────────────────────────────────────┘

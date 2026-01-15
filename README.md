@@ -2,6 +2,12 @@
 
 A premium Next.js portfolio showcasing cloud/infrastructure automation, CI/CD systems, telemetry dashboards, and QA automation engineering with evidence-backed artifacts.
 
+## Status
+
+[![CI](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/ci.yml)
+[![Portfolio Verification](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/qa-portfolio-verification.yml/badge.svg)](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/qa-portfolio-verification.yml)
+[![Quality Snapshot](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/quality-snapshot.yml/badge.svg)](https://github.com/JasonTeixeira/qa-portfolio/actions/workflows/quality-snapshot.yml)
+
 ## Start here (60-second tour)
 
 If you only have a minute, these pages show the strongest signal (cloud automation + platform engineering + operational proof):

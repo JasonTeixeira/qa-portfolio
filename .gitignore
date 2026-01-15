@@ -43,3 +43,19 @@ next-env.d.ts
 # Local audit repos and embedded samples
 _repo-audits/
 public/projects/
+
+# Lighthouse CI outputs (reports generated locally/CI)
+.lighthouseci/
+
+# Playwright artifacts / local test outputs
+test-results/
+playwright-report/
+
+# Terraform runtime artifacts (NEVER commit)
+**/.terraform/
+**/.terraform.lock.hcl.backup
+**/terraform.tfstate
+**/terraform.tfstate.*
+
+# Built artifacts (keep source, not bundles)
+infra/**/dist/

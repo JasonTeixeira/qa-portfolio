@@ -6,12 +6,20 @@ import { Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
+    id: 100,
+    title: "AWS Landing Zone + Guardrails",
+    description: "Flagship platform project: multi-account AWS Organizations foundation with SCP guardrails, centralized audit logging, and gated Terraform deployments.",
+    tech: ["AWS", "Terraform", "SCP", "GitHub Actions"],
+    github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails",
+    link: "/projects/aws-landing-zone-guardrails",
+  },
+  {
     id: 1,
     title: "Selenium Python Framework",
     description: "Page Object Model framework with 300+ automated tests, reducing regression time by 70% at Fortune 50 scale.",
     tech: ["Python", "Selenium", "pytest", "Allure"],
     github: "https://github.com/JasonTeixeira/Qa-Automation-Project",
-    link: "/projects",
+    link: "/projects/selenium-python-framework",
   },
   {
     id: 2,
@@ -19,7 +27,7 @@ const projects = [
     description: "Production-grade REST API testing with intelligent retry logic, Pydantic validation, and 125+ tests covering critical endpoints.",
     tech: ["Python", "pytest", "Requests", "Pydantic", "Docker"],
     github: "https://github.com/JasonTeixeira/API-Test-Automation-Wireframe",
-    link: "/projects",
+    link: "/projects/api-testing-framework",
   },
   {
     id: 3,
@@ -27,7 +35,7 @@ const projects = [
     description: "Kubernetes-based test automation processing 500+ test cases with 95% uptime in production fintech environment.",
     tech: ["Jenkins", "Docker", "K8s", "pytest", "Allure"],
     github: "https://github.com/JasonTeixeira/CI-CD-Pipeline",
-    link: "/projects",
+    link: "/projects/cicd-testing-pipeline",
   },
 ];
 

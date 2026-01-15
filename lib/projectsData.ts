@@ -79,27 +79,32 @@ export const projects: Project[] = [
 
 This project builds a **small but real AWS landing zone** using **AWS Organizations + Terraform**, with guardrails (SCPs), centralized audit logging, and a gated CI workflow.
 
-The goal isn’t to show "I can click around AWS" — it’s to show I can build a foundation that a company could actually run.
+The goal isn’t “I can click around AWS” — it’s to show I can build a foundation a company could actually run.
 
 ## What this proves
 
 - AWS Organizations / multi-account governance
 - Guardrails that prevent risky behavior without slowing teams down
-- Centralized audit logging
+- Centralized audit logging and baseline detective controls
 - Cost controls (budgets + notifications)
 - CI/CD discipline for infrastructure changes (plan on PR, apply with approval)
 
-## Links
+## Proof & evidence
 
 - Repo: https://github.com/JasonTeixeira/Landing-Zone-Guardrails
+- CI (plan/validate): https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions
+- Docs (architecture): https://github.com/JasonTeixeira/Landing-Zone-Guardrails/blob/main/docs/architecture.md
+- Docs (security): https://github.com/JasonTeixeira/Landing-Zone-Guardrails/blob/main/docs/security.md
+- Docs (operations): https://github.com/JasonTeixeira/Landing-Zone-Guardrails/blob/main/docs/operations.md
+- Docs (cost): https://github.com/JasonTeixeira/Landing-Zone-Guardrails/blob/main/docs/cost.md
 
-## What’s in scope (v1)
+## In scope (v1)
 
 - AWS Organizations
 - OUs + account layout (security/logging + workloads)
 - Org CloudTrail → central S3
-- SCPs (region restriction, deny disabling audit tooling, etc.)
-- Budget alerts to "sage@sageideas.org"
+- SCP guardrails (region restriction, deny disabling audit tooling, etc.)
+- Budget alerts (target: $75/mo)
 
 ## How to run
 
@@ -130,7 +135,11 @@ See the repo README for step-by-step deploy instructions.
       }
     },
     tech: ["AWS", "Terraform", "GitHub Actions"],
-    github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails"
+    github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails",
+    documentation: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails#readme",
+    proof: {
+      ciRunsUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions",
+    },
   },
   {
     id: 1,

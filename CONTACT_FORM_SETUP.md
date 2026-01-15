@@ -22,7 +22,7 @@
 Create a file named `.env.local` in your qa-portfolio folder:
 
 ```bash
-NEXT_PUBLIC_WEB3FORMS_KEY=your_access_key_here
+WEB3FORMS_ACCESS_KEY=your_access_key_here
 ```
 
 Replace `your_access_key_here` with the key from your email.

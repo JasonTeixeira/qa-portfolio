@@ -1,6 +1,20 @@
-# Jason Teixeira - QA Automation Portfolio
+# Jason Teixeira - Cloud Automation Portfolio
 
-A premium Next.js 14 portfolio showcasing 8+ years of test automation expertise, ISTQB certifications, and real-world projects from Fortune 50 companies and fintech startups.
+A premium Next.js portfolio showcasing cloud/infrastructure automation, CI/CD systems, telemetry dashboards, and QA automation engineering with evidence-backed artifacts.
+
+## Start here (60-second tour)
+
+If you only have a minute, these pages show the strongest signal (cloud automation + platform engineering + operational proof):
+
+- **Telemetry Dashboard:** `/dashboard`
+  - Snapshot / Live / Cloud modes
+  - Live mode attempts artifact-backed QA metrics with graceful fallback
+- **System Design (Telemetry Pipeline):** `/platform/quality-telemetry`
+  - Architecture + tradeoffs: CI as telemetry source, artifact ingestion, caching, safe observability, cloud deployment path
+- **Runbooks & Evidence:** `/artifacts`
+  - Evidence packs, runbooks, templates (how I operate)
+- **Case Studies:** `/projects`
+  - Framework + infrastructure work with real engineering outcomes
 
 ## 🚀 Built With
 
@@ -23,6 +37,8 @@ A premium Next.js 14 portfolio showcasing 8+ years of test automation expertise,
 - **Dark Theme:** Professional dark design with teal (#06b6d4) accents
 - **Fully Responsive:** Mobile-first design, works perfectly on all devices
 - **Performance:** Optimized for 95+ Lighthouse score
+- **Quality Telemetry:** Live GitHub Actions ingestion + artifact parsing for QA metrics
+- **System Design:** Dedicated platform-engineering writeup of the pipeline + tradeoffs
 
 ## 📦 Installation
 
@@ -211,7 +227,6 @@ MIT License - feel free to use for your own portfolio
 
 **Jason Teixeira**
 - Email: sage@sageideas.org
-- Phone: (908) 937-6568
 - Location: Orlando, FL (Remote-First)
 - LinkedIn: [linkedin.com/in/jasonteixeira](https://www.linkedin.com/in/jasonteixeira)
 - GitHub: [github.com/JasonTeixeira](https://github.com/JasonTeixeira)

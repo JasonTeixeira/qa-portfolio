@@ -1,0 +1,5 @@
+Captured proof:
+- node scripts/waf-attack-sim.mjs output showed large number of non-200 responses
+- subsequent curl /health returned HTTP 429 (rate limiting active)
+
+See terminal history for exact headers/status codes.

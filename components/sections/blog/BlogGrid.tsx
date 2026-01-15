@@ -6,11 +6,66 @@ import { Clock, Calendar, Tag } from "lucide-react";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blogData";
 
-const categories = ["All", "API Testing", "Selenium", "CI/CD", "Debugging", "E-Commerce", "Best Practices", "Infrastructure", "Career", "Reporting"];
+const categories = [
+  "All",
+  "Cloud Automation",
+  "Infrastructure",
+  "CI/CD",
+  "API Testing",
+  "Selenium",
+  "Debugging",
+  "E-Commerce",
+  "Best Practices",
+  "Career",
+  "Reporting",
+];
 
-export default function BlogGrid() {
+export default function BlogGrid({ searchQuery = "" }: { searchQuery?: string }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchQuery] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [subscribeError, setSubscribeError] = useState<string>("");
+
+  async function handleSubscribe() {
+    const nextEmail = email.trim();
+    if (!nextEmail) {
+      setSubscribeStatus("error");
+      setSubscribeError("Please enter an email address.");
+      return;
+    }
+
+    setSubscribeStatus("loading");
+    setSubscribeError("");
+
+    try {
+      const base = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
+      const url = base ? `${base}/newsletter/subscribe` : '/api/newsletter/subscribe';
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: nextEmail, source: 'blog' }),
+      });
+
+      if (!res.ok) {
+        let msg = 'Subscription failed';
+        try {
+          const data = await res.json();
+          if (data?.error) msg = data.error;
+        } catch {
+          // ignore
+        }
+        throw new Error(msg);
+      }
+
+      setSubscribeStatus("success");
+      setEmail("");
+      setTimeout(() => setSubscribeStatus("idle"), 6000);
+    } catch (e) {
+      setSubscribeStatus("error");
+      setSubscribeError(e instanceof Error ? e.message : 'Subscription failed');
+    }
+  }
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
@@ -61,7 +116,7 @@ export default function BlogGrid() {
             >
               {/* Cover Image Placeholder */}
               <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                <div className="text-primary text-6xl font-bold opacity-20">JT</div>
+                <div className="text-primary text-6xl font-bold opacity-20">Blog</div>
               </div>
 
               {/* Content */}
@@ -99,7 +154,7 @@ export default function BlogGrid() {
                   {post.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-1 bg-primary/10 text-primary text-xs rounded font-mono"
+                      className="px-2 py-1 bg-primary/10 text-foreground text-xs rounded font-mono"
                     >
                       {tag}
                     </span>
@@ -140,15 +195,37 @@ export default function BlogGrid() {
             I share weekly tips and lessons learned from building test frameworks at Fortune 50 companies and fintech startups.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
               type="email"
-              placeholder="Enter your email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="flex-1 px-4 py-3 bg-dark border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
             />
-            <button className="px-6 py-3 bg-primary text-dark font-semibold rounded hover:bg-primary-dark transition-colors">
-              Subscribe
+            <button
+              type="button"
+              onClick={() => handleSubscribe()}
+              disabled={subscribeStatus === 'loading'}
+              className="px-6 py-3 bg-primary text-dark font-semibold rounded hover:bg-primary-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {subscribeStatus === 'loading' ? 'Subscribing…' : 'Subscribe'}
             </button>
           </div>
+
+          {subscribeStatus === 'success' && (
+            <p className="mt-4 text-sm text-green-400">
+              Check your inbox to confirm your subscription.
+            </p>
+          )}
+
+          {subscribeStatus === 'error' && (
+            <p className="mt-4 text-sm text-red-400">
+              {subscribeError}
+            </p>
+          )}
         </motion.div>
       </div>
     </section>

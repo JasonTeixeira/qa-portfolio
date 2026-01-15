@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, Phone, Linkedin, Github, Calendar } from "lucide-react";
+import { MapPin, Mail, Linkedin, Github, Calendar } from "lucide-react";
 
 export default function ContactInfo() {
   return (
@@ -30,18 +30,6 @@ export default function ContactInfo() {
             <p className="text-sm text-gray-400 mb-1">Email</p>
             <a href="mailto:sage@sageideas.org" className="text-foreground hover:text-primary transition-colors">
               sage@sageideas.org
-            </a>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-primary/10 rounded-lg">
-            <Phone className="text-primary" size={20} />
-          </div>
-          <div>
-            <p className="text-sm text-gray-400 mb-1">Phone</p>
-            <a href="tel:+19089376568" className="text-foreground hover:text-primary transition-colors">
-              (908) 937-6568
             </a>
           </div>
         </div>

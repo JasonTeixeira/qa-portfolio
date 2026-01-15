@@ -51,7 +51,7 @@ export default function ProjectsGrid() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="bg-dark-card border border-dark-lighter rounded-lg p-8 hover:border-primary transition-all duration-300 group h-full">
+              <div className="bg-dark-card border border-dark-lighter rounded-lg p-8 hover:border-primary transition-all duration-300 group text-foreground h-full">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex-1">
@@ -134,13 +134,13 @@ export default function ProjectsGrid() {
                   {project.tech.slice(0, 5).map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-mono"
+                      className="px-3 py-1 bg-dark-lighter text-foreground text-xs rounded-full font-mono text-white"
                     >
                       {tech}
                     </span>
                   ))}
                   {project.tech.length > 5 && (
-                    <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-mono">
+                    <span className="px-3 py-1 bg-dark-lighter text-foreground text-xs rounded-full font-mono text-white">
                       +{project.tech.length - 5}
                     </span>
                   )}
@@ -149,7 +149,7 @@ export default function ProjectsGrid() {
                 {/* Read More Link */}
                 <Link href={`/projects/${project.slug}`} className="block">
                   <div className="flex items-center gap-2 text-primary hover:gap-3 transition-all mt-4 pt-4 border-t border-dark-lighter cursor-pointer">
-                    <span className="font-semibold">View Full Case Study</span>
+                    <span className="font-semibold text-foreground">View Full Case Study</span>
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>

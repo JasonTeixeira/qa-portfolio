@@ -47,7 +47,7 @@ export default function Footer() {
             <p className="text-sm text-gray-400">
               © {new Date().getFullYear()} Jason Teixeira. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-400">
               Built with{" "}
               <a
                 href="https://nextjs.org"

@@ -7,10 +7,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const roles = [
-  "QA Automation Engineer",
-  "Test Automation Specialist", 
-  "CI/CD Engineer",
-  "ISTQB Certified",
+  "Cloud Automation Engineer",
+  "Infrastructure + CI/CD",
+  "Automation Systems (QA + Platform)",
+  "Telemetry + Observability",
 ];
 
 export default function Hero() {
@@ -51,9 +51,9 @@ export default function Hero() {
 
   const stats = [
     { label: "Years Experience", value: "8+" },
-    { label: "Automated Tests", value: "500+" },
-    { label: "Fortune 50 Clients", value: "Yes" },
-    { label: "ISTQB Certified", value: "✓" },
+    { label: "Automation Systems", value: "CI/CD + QA + Infra" },
+    { label: "Fortune 50 Impact", value: "Yes" },
+    { label: "Cloud Focus", value: "AWS + IaC" },
   ];
 
   return (
@@ -89,6 +89,7 @@ export default function Hero() {
                 src="/images/headshot.jpg"
                 alt="Jason Teixeira"
                 fill
+                sizes="192px"
                 className="object-cover"
                 priority
               />
@@ -129,7 +130,8 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-8 max-w-3xl mx-auto"
           >
-            I reduced The Home Depot&apos;s regression testing time by 70% and prevented multi-million dollar trading errors through bulletproof test automation
+            I build cloud automation systems: CI/CD pipelines, telemetry dashboards, and infrastructure-as-code that keep teams shipping safely.
+            <span className="text-gray-400"> Previously: reduced regression time 70% at The Home Depot and prevented multi-million dollar trading errors.</span>
           </motion.h2>
 
           {/* Social Proof Badge */}
@@ -139,7 +141,7 @@ export default function Hero() {
             transition={{ delay: 0.55 }}
             className="flex items-center justify-center gap-2 text-sm text-gray-400 mb-12"
           >
-            <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-primary font-semibold">
+            <span className="px-3 py-1 bg-dark-card border border-dark-lighter rounded-full text-foreground font-semibold">
               Trusted by Fortune 50 & Fintech
             </span>
           </motion.div>
@@ -165,7 +167,7 @@ export default function Hero() {
                 e.preventDefault();
                 window.open('/resume.html', '_blank', 'noopener,noreferrer');
               }}
-              className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
+              className="px-8 py-4 border-2 border-primary text-foreground font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
             >
               Download Resume
             </a>

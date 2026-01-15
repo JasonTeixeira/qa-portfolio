@@ -10,7 +10,7 @@ const projects = [
     title: "Selenium Python Framework",
     description: "Page Object Model framework with 300+ automated tests, reducing regression time by 70% at Fortune 50 scale.",
     tech: ["Python", "Selenium", "pytest", "Allure"],
-    github: "https://github.com/JasonTeixeira",
+    github: "https://github.com/JasonTeixeira/Qa-Automation-Project",
     link: "/projects",
   },
   {
@@ -26,7 +26,7 @@ const projects = [
     title: "CI/CD Testing Pipeline",
     description: "Kubernetes-based test automation processing 500+ test cases with 95% uptime in production fintech environment.",
     tech: ["Jenkins", "Docker", "K8s", "pytest", "Allure"],
-    github: "https://github.com/JasonTeixeira",
+    github: "https://github.com/JasonTeixeira/CI-CD-Pipeline",
     link: "/projects",
   },
 ];
@@ -46,7 +46,7 @@ export default function FeaturedProjects() {
             Featured Projects
           </h2>
           <p className="text-gray-400 text-lg">
-            Test automation frameworks that actually work in production
+            Cloud automation + test infrastructure systems that work in production
           </p>
         </motion.div>
 
@@ -108,7 +108,7 @@ export default function FeaturedProjects() {
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-mono"
+                    className="px-3 py-1 bg-dark-lighter text-foreground text-xs rounded-full font-mono"
                   >
                     {tech}
                   </span>

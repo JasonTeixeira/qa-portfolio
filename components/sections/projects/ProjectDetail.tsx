@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Project, getRelatedProjects } from "@/lib/projectsData";
 import { blogPosts } from "@/lib/blogData";
 import ProofBlock from "@/components/ui/projects/ProofBlock";
+import ProjectQualityGates from "@/components/sections/projects/ProjectQualityGates";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -158,7 +159,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       case "Production": return "bg-green-500/10 text-green-400 border-green-500/20";
       case "Active": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
       case "Archived": return "bg-gray-500/10 text-gray-400 border-gray-500/20";
-      default: return "bg-primary/10 text-primary border-primary/20";
+      default: return "bg-primary/10 text-foreground border-primary/20";
     }
   };
 
@@ -168,7 +169,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       case "Beginner": return "bg-green-500/10 text-green-400";
       case "Intermediate": return "bg-yellow-500/10 text-yellow-400";
       case "Advanced": return "bg-red-500/10 text-red-400";
-      default: return "bg-primary/10 text-primary";
+      default: return "bg-primary/10 text-foreground";
     }
   };
 
@@ -346,6 +347,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               {/* Proof / Evidence */}
               {project.proof && <ProofBlock proof={project.proof} />}
 
+              {/* Quality Gates (platform signal) */}
+              <ProjectQualityGates project={project} />
+
               {/* Metrics Dashboard */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
                 {project.metrics.tests && (
@@ -495,7 +499,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="px-4 py-2 bg-primary/10 text-primary text-sm rounded-full font-mono hover:bg-primary/20 transition-colors cursor-default"
+                      className="px-4 py-2 bg-primary/10 text-foreground text-sm rounded-full font-mono hover:bg-primary/20 transition-colors cursor-default"
                     >
                       {tech}
                     </span>
@@ -546,7 +550,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             <p className="text-sm text-gray-400 mb-3">{relProject.tagline}</p>
                             <div className="flex flex-wrap gap-2">
                               {relProject.tech.slice(0, 4).map((tech) => (
-                                <span key={tech} className="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
+                                <span key={tech} className="text-xs px-2 py-1 bg-primary/10 text-foreground rounded">
                                   {tech}
                                 </span>
                               ))}

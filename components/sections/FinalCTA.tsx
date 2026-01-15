@@ -15,11 +15,11 @@ export default function FinalCTA() {
           className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-12 text-center"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Looking for a QA Automation Engineer?
+            Looking for a Quality Platform / QA Automation Engineer?
           </h2>
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            I build test frameworks that scale, catch bugs early, and make teams more productive. 
-            Let&apos;s talk about how I can help your organization ship quality software faster.
+            I build and operate test systems in the cloud: CI/CD quality gates, observability, performance budgets,
+            and security automation. Let&apos;s talk about how I can help your organization ship quality software faster.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -29,10 +29,10 @@ export default function FinalCTA() {
               Let&apos;s Talk
             </Link>
             <Link
-              href="/projects"
+              href="/platform"
               className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200"
             >
-              View My Work
+              How I Build Systems
             </Link>
           </div>
         </motion.div>

@@ -31,10 +31,13 @@ export default function BlogHero({ onSearch }: BlogHeroProps) {
             className="max-w-2xl mx-auto"
           >
             <div className="relative">
+              <label htmlFor="blog-search" className="sr-only">
+                Search blog posts
+              </label>
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <input
+                id="blog-search"
                 type="text"
-                placeholder="Search articles by title, category, or keyword..."
                 onChange={(e) => onSearch?.(e.target.value)}
                 className="w-full pl-12 pr-4 py-4 bg-dark-card border border-dark-lighter rounded-lg text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
               />

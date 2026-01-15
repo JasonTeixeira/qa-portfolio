@@ -8,8 +8,12 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    company: "",
+    website: "",
     subject: "",
-    message: ""
+    message: "",
+    // Honeypot (bots fill this, humans won't)
+    honey: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,7 +31,10 @@ export default function ContactForm() {
 
     // Send to API route
     try {
-      const response = await fetch('/api/contact', {
+      const base = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
+      const url = base ? `${base}/contact` : '/api/contact';
+
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,17 +43,25 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        // Try to surface a helpful server error message
+        let msg = 'Failed to send message';
+        try {
+          const data = await response.json();
+          if (data?.error) msg = data.error;
+        } catch {
+          // ignore
+        }
+        throw new Error(msg);
       }
       
       setStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ name: "", email: "", company: "", website: "", subject: "", message: "", honey: "" });
       
       // Reset success message after 5 seconds
       setTimeout(() => setStatus("idle"), 5000);
-    } catch {
+    } catch (err) {
       setStatus("error");
-      setErrorMessage("Something went wrong. Please try again or email me directly at sage@sageideas.org");
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again or email me directly at sage@sageideas.org");
     }
   };
 
@@ -66,6 +81,18 @@ export default function ContactForm() {
       <h2 className="text-3xl font-bold text-foreground mb-6">Send a Message</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Honeypot (visually hidden) */}
+        <input
+          type="text"
+          name="honey"
+          value={formData.honey}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+          className="absolute left-[-10000px] top-auto w-1 h-1 overflow-hidden"
+          aria-hidden="true"
+        />
+
         {/* Name */}
         <div>
           <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">
@@ -79,7 +106,6 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-            placeholder="Your name"
           />
         </div>
 
@@ -96,7 +122,36 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-            placeholder="your@email.com"
+          />
+        </div>
+
+        {/* Company */}
+        <div>
+          <label htmlFor="company" className="block text-sm font-semibold text-gray-300 mb-2">
+            Company
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
+          />
+        </div>
+
+        {/* Website */}
+        <div>
+          <label htmlFor="website" className="block text-sm font-semibold text-gray-300 mb-2">
+            Website
+          </label>
+          <input
+            type="url"
+            id="website"
+            name="website"
+            value={formData.website}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
           />
         </div>
 
@@ -112,7 +167,6 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={handleChange}
             className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-            placeholder="What is this about?"
           />
         </div>
 
@@ -129,7 +183,6 @@ export default function ContactForm() {
             required
             rows={6}
             className="w-full px-4 py-3 bg-dark-card border border-dark-lighter rounded text-foreground placeholder-gray-400 focus:outline-none focus:border-primary transition-colors resize-none"
-            placeholder="Tell me about your project or opportunity..."
           />
         </div>
 

@@ -123,7 +123,7 @@ export default function ValueProps() {
                 Get In Touch
               </a>
               <a
-                href="/resume.pdf"
+                href="/resume.html"
                 download
                 className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200"
               >

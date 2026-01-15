@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, Phone } from "lucide-react";
+import { MapPin, Mail } from "lucide-react";
 import Image from "next/image";
 
 export default function AboutHero() {
@@ -35,6 +35,7 @@ export default function AboutHero() {
                 src="/images/headshot.jpg"
                 alt="Jason Teixeira"
                 fill
+                sizes="256px"
                 className="object-cover"
                 priority
               />
@@ -57,12 +58,6 @@ export default function AboutHero() {
                 <Mail className="text-primary" size={20} />
                 <a href="mailto:sage@sageideas.org" className="hover:text-primary transition-colors">
                   sage@sageideas.org
-                </a>
-              </div>
-              <div className="flex items-center gap-3 text-gray-300">
-                <Phone className="text-primary" size={20} />
-                <a href="tel:+19089376568" className="hover:text-primary transition-colors">
-                  (908) 937-6568
                 </a>
               </div>
             </div>

@@ -6,7 +6,11 @@ import { Menu, X, Linkedin, Github } from "lucide-react";
 
 const navLinks = [
   { name: "About", href: "/about" },
+  { name: "Platform", href: "/platform" },
+  { name: "Telemetry", href: "/platform/quality-telemetry" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "Projects", href: "/projects" },
+  { name: "Artifacts", href: "/artifacts" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ];
@@ -33,8 +37,11 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-primary hover:text-primary-dark transition-colors">
-            JT
+          <Link
+            href="/"
+            className="text-xl font-bold text-primary hover:text-primary-dark transition-colors"
+          >
+            Jason
           </Link>
 
           {/* Desktop Navigation */}
@@ -54,7 +61,7 @@ export default function Navigation() {
               rel="noopener noreferrer"
               onClick={(e) => {
                 e.preventDefault();
-                window.open('/resume.html', '_blank', 'noopener,noreferrer');
+                window.open("/resume.html", "_blank", "noopener,noreferrer");
               }}
               className="px-4 py-2 border border-primary text-primary rounded hover:bg-primary hover:text-dark transition-all duration-200"
             >
@@ -68,7 +75,11 @@ export default function Navigation() {
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.open('https://www.linkedin.com/in/jason-teixeira/', '_blank', 'noopener,noreferrer');
+                  window.open(
+                    "https://www.linkedin.com/in/jason-teixeira/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
                 }}
                 className="text-foreground hover:text-primary transition-colors duration-200"
                 aria-label="LinkedIn"
@@ -81,7 +92,11 @@ export default function Navigation() {
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.open('https://github.com/JasonTeixeira', '_blank', 'noopener,noreferrer');
+                  window.open(
+                    "https://github.com/JasonTeixeira",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
                 }}
                 className="text-foreground hover:text-primary transition-colors duration-200"
                 aria-label="GitHub"
@@ -122,7 +137,7 @@ export default function Navigation() {
               rel="noopener noreferrer"
               onClick={(e) => {
                 e.preventDefault();
-                window.open('/resume.html', '_blank', 'noopener,noreferrer');
+                window.open("/resume.html", "_blank", "noopener,noreferrer");
                 setIsOpen(false);
               }}
               className="block w-full text-center px-4 py-2 border border-primary text-primary rounded hover:bg-primary hover:text-dark transition-all duration-200"
@@ -137,7 +152,11 @@ export default function Navigation() {
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.open('https://www.linkedin.com/in/jason-teixeira/', '_blank', 'noopener,noreferrer');
+                  window.open(
+                    "https://www.linkedin.com/in/jason-teixeira/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
                   setIsOpen(false);
                 }}
                 className="text-foreground hover:text-primary transition-colors duration-200"
@@ -151,7 +170,11 @@ export default function Navigation() {
                 rel="noopener noreferrer"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.open('https://github.com/JasonTeixeira', '_blank', 'noopener,noreferrer');
+                  window.open(
+                    "https://github.com/JasonTeixeira",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
                   setIsOpen(false);
                 }}
                 className="text-foreground hover:text-primary transition-colors duration-200"

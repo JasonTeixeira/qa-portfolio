@@ -363,7 +363,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-4 py-2 bg-primary/10 text-primary text-sm rounded-full font-mono hover:bg-primary/20 transition-colors cursor-default"
+                      className="px-4 py-2 bg-primary/10 text-foreground text-sm rounded-full font-mono hover:bg-primary/20 transition-colors cursor-default"
                     >
                       #{tag}
                     </span>

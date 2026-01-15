@@ -17,13 +17,26 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jason Teixeira | QA Automation Engineer",
-  description: "QA Automation Engineer with 8+ years experience building bulletproof test frameworks. ISTQB certified, specializing in Selenium, Python, API testing, and CI/CD integration.",
-  keywords: ["QA Automation", "Test Automation", "Selenium", "Python", "API Testing", "ISTQB", "CI/CD", "DevOps"],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sageideas.org"),
+  title: "Jason Teixeira | Cloud Automation Portfolio",
+  description:
+    "Cloud Automation Engineer building CI/CD pipelines, telemetry dashboards, infrastructure-as-code, and QA automation systems with evidence-backed artifacts.",
+  keywords: [
+    "Cloud Automation",
+    "Infrastructure",
+    "Terraform",
+    "AWS",
+    "CI/CD",
+    "Platform Engineering",
+    "Observability",
+    "QA Automation",
+    "Test Automation",
+  ],
   authors: [{ name: "Jason Teixeira" }],
   openGraph: {
-    title: "Jason Teixeira | QA Automation Engineer",
-    description: "Building bulletproof test frameworks that ship quality software faster",
+    title: "Jason Teixeira | Cloud Automation Portfolio",
+    description:
+      "Cloud automation systems (CI/CD, IaC, telemetry) plus QA automation proof: dashboards, runbooks, and artifacts.",
     type: "website",
   },
 };

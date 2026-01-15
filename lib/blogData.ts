@@ -13,6 +13,51 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: 100,
+    title: "GitHub OIDC → AWS (No Long-Lived Keys): Cloud Automation the Right Way",
+    excerpt:
+      "How to use GitHub Actions OIDC to assume an AWS IAM role and deploy/upload artifacts without storing AWS keys. Includes least-privilege IAM, trust policy patterns, and troubleshooting tips.",
+    content: "How to use GitHub Actions OIDC to assume AWS roles without static keys...",
+    fullContent: `
+# GitHub OIDC → AWS (No Long-Lived Keys): Cloud Automation the Right Way
+
+Static AWS keys in CI are a footgun.
+
+If you want cloud automation that scales (and passes security review), use **OIDC-based federation**:
+
+- GitHub Actions issues a short-lived identity token (OIDC)
+- AWS STS exchanges it for short-lived AWS credentials
+- Your workflow assumes a least-privilege role and does the work
+
+This portfolio uses the same pattern to support **Cloud telemetry mode** (AWS S3) without ever embedding long-lived credentials.
+
+## The architecture
+
+\`GitHub Actions\` → OIDC token → \`AWS STS AssumeRoleWithWebIdentity\` → IAM Role → S3 write
+
+## Why this matters
+
+- No credential rotation
+- Blast radius is smaller (short-lived creds)
+- Easy to lock down by repo/branch/environment
+
+## What I shipped in this portfolio
+
+- Terraform module that provisions S3 + IAM role with an OIDC trust policy
+- A GitHub workflow that uploads a metrics artifact to S3
+- A dashboard mode that reads from S3 (with safe fallback)
+
+## Takeaway
+
+If you’re building cloud automation, treat identity as part of the system design.
+OIDC + least privilege is the modern baseline.
+`,
+    category: "Cloud Automation",
+    tags: ["AWS", "IAM", "OIDC", "GitHub Actions", "Terraform", "Security"],
+    date: "2026-01-10",
+    readTime: "10 min read",
+  },
+  {
     id: 1,
     title: "Building a Production-Ready API Testing Framework",
     excerpt: "Learn how I built an API testing framework that reduced flaky tests from 10% to <1% using intelligent retry logic, Pydantic validation, and session pooling.",

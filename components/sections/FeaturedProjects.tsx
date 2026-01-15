@@ -3,41 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Github, ExternalLink } from "lucide-react";
+import { getFeaturedProjects } from "@/lib/featuredProjects";
 
-const projects = [
-  {
-    id: 100,
-    title: "AWS Landing Zone + Guardrails",
-    description: "Flagship platform project: multi-account AWS Organizations foundation with SCP guardrails, centralized audit logging, and gated Terraform deployments.",
-    tech: ["AWS", "Terraform", "SCP", "GitHub Actions"],
-    github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails",
-    link: "/projects/aws-landing-zone-guardrails",
-  },
-  {
-    id: 1,
-    title: "Selenium Python Framework",
-    description: "Page Object Model framework with 300+ automated tests, reducing regression time by 70% at Fortune 50 scale.",
-    tech: ["Python", "Selenium", "pytest", "Allure"],
-    github: "https://github.com/JasonTeixeira/Qa-Automation-Project",
-    link: "/projects/selenium-python-framework",
-  },
-  {
-    id: 2,
-    title: "API Test Automation Framework",
-    description: "Production-grade REST API testing with intelligent retry logic, Pydantic validation, and 125+ tests covering critical endpoints.",
-    tech: ["Python", "pytest", "Requests", "Pydantic", "Docker"],
-    github: "https://github.com/JasonTeixeira/API-Test-Automation-Wireframe",
-    link: "/projects/api-testing-framework",
-  },
-  {
-    id: 3,
-    title: "CI/CD Testing Pipeline",
-    description: "Kubernetes-based test automation processing 500+ test cases with 95% uptime in production fintech environment.",
-    tech: ["Jenkins", "Docker", "K8s", "pytest", "Allure"],
-    github: "https://github.com/JasonTeixeira/CI-CD-Pipeline",
-    link: "/projects/cicd-testing-pipeline",
-  },
-];
+const projects = getFeaturedProjects();
 
 export default function FeaturedProjects() {
   return (
@@ -86,7 +54,7 @@ export default function FeaturedProjects() {
                 </div>
                 <div className="flex gap-2">
                   <a
-                    href={project.github}
+                    href={project.github ?? "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-primary transition-colors"
@@ -95,7 +63,7 @@ export default function FeaturedProjects() {
                     <Github size={20} />
                   </a>
                   <Link
-                    href={project.link}
+                    href={`/projects/${project.slug}`}
                     className="text-gray-400 hover:text-primary transition-colors"
                     aria-label="View project"
                   >

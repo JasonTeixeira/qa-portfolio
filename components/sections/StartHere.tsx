@@ -34,6 +34,8 @@ function Card({
 }
 
 export default function StartHere() {
+  const flagshipHref = "/projects/aws-landing-zone-guardrails";
+
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -49,6 +51,12 @@ export default function StartHere() {
         </p>
 
         <div className="mt-8 grid md:grid-cols-2 gap-6">
+          <Card
+            title="Flagship: AWS Landing Zone + Guardrails"
+            description="Multi-account AWS Organizations foundation with Terraform, guardrails (SCPs), centralized audit logging, and gated CI workflows. Includes real proof links."
+            href={flagshipHref}
+            icon={<Activity size={20} />}
+          />
           <Card
             title="Telemetry Dashboard (snapshot · live · cloud)"
             description="A production-style dashboard that pulls telemetry from CI. Live mode uses GitHub artifacts; Cloud mode is designed for AWS S3 ingestion with safe fallback."

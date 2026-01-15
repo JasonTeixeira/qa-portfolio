@@ -1,0 +1,67 @@
+name: QA Metrics (Template)
+
+# Copy this workflow into each project repo as:
+#   .github/workflows/qa-metrics.yml
+#
+# Then, customize the steps to match that repo's tech stack.
+# The goal is to produce:
+#   - a `qa-metrics.json` file
+#   - upload it as artifact `qa-metrics`
+# Optional:
+#   - upload Playwright/Lighthouse reports
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa-metrics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --- Example: replace with repo-specific test command ---
+      - name: Install deps
+        run: npm ci
+
+      - name: Run tests (example)
+        run: npm test --silent
+
+      # --- Generate qa-metrics.json (minimal example) ---
+      - name: Generate qa-metrics.json
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const out = {
+            generatedAt: new Date().toISOString(),
+            repo: process.env.GITHUB_REPOSITORY,
+            branch: process.env.GITHUB_REF_NAME,
+            commit: process.env.GITHUB_SHA,
+            runId: Number(process.env.GITHUB_RUN_ID),
+            tests: {
+              // TODO: replace with parsed test results
+              total: null,
+              passRate: null,
+              flakeRate: null,
+            },
+          };
+          fs.writeFileSync('qa-metrics.json', JSON.stringify(out, null, 2));
+          console.log('Wrote qa-metrics.json');
+          NODE
+
+      - name: Upload metrics artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-metrics
+          path: qa-metrics.json

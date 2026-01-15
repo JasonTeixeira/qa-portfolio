@@ -1,15 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Github, ExternalLink, CheckCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { projects } from "@/lib/projectsData";
 
-const categories = ["All", "Selenium", "API", "CI/CD", "Performance", "Mobile", "BDD", "Python", "Docker", "Kubernetes"];
-
 export default function ProjectsGrid() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    for (const project of projects) {
+      for (const category of project.category) set.add(category);
+    }
+
+    // Stable sort for consistent UX
+    const sorted = Array.from(set).sort((a, b) => a.localeCompare(b));
+    return ["All", ...sorted];
+  }, []);
 
   const filteredProjects = projects.filter((project) => {
     return selectedCategory === "All" || project.category.includes(selectedCategory);

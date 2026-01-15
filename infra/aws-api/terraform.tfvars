@@ -1,0 +1,10 @@
+project_name   = "qa-portfolio"
+environment    = "prod"
+aws_region     = "us-east-1"
+hosted_zone_id = "Z0426642BJYTEQDR29LE"
+
+api_domain_name  = "api.sageideas.dev"
+site_url         = "https://sageideas.dev"
+ses_from_email   = "sage@sageideas.org"
+contact_to_email = "sage@sageideas.org"
+alarm_email      = "sage@sageideas.org"

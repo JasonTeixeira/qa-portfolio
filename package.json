@@ -49,6 +49,7 @@
     "globby": "^16.1.0",
     "http-server": "^14.1.1",
     "jsdom": "^27.4.0",
+    "knip": "^5.81.0",
     "playwright": "^1.57.0",
     "tailwindcss": "^4",
     "typescript": "^5",

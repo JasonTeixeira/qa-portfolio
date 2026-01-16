@@ -37,7 +37,7 @@ export default function StartHere() {
   const flagshipHref = "/projects/aws-landing-zone-guardrails";
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="start-here" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-3 mb-3">
           <Activity className="text-primary" size={20} />
@@ -46,8 +46,8 @@ export default function StartHere() {
 
         <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Start here (60-second tour)</h2>
         <p className="mt-4 text-gray-300 max-w-3xl">
-          If you only have a minute, these links show the strongest signal: cloud/platform thinking, automation systems,
-          and proof (dashboards, runbooks, CI artifacts).
+          If you only have a minute, start with the flagship and the dashboard.
+          They’re built to answer one question fast: <span className="text-foreground font-semibold">can this person run systems?</span>
         </p>
 
         <div className="mt-8 grid md:grid-cols-2 gap-6">

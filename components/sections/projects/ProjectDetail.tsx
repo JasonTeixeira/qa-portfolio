@@ -7,6 +7,7 @@ import { Project, getRelatedProjects } from "@/lib/projectsData";
 import { blogPosts } from "@/lib/blogData";
 import ProofBlock from "@/components/ui/projects/ProofBlock";
 import ProjectQualityGates from "@/components/sections/projects/ProjectQualityGates";
+import ProjectOpsEvidence from "@/components/sections/projects/ProjectOpsEvidence";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -346,6 +347,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
               {/* Proof / Evidence */}
               {project.proof && <ProofBlock proof={project.proof} />}
+
+              {/* Ops evidence (flagship signal) */}
+              <ProjectOpsEvidence project={project} />
 
               {/* Quality Gates (platform signal) */}
               <ProjectQualityGates project={project} />

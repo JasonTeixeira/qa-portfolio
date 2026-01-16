@@ -188,6 +188,32 @@ export const qaArtifacts: QAArtifact[] = [
     lastUpdated: "2026-01-03",
   },
   {
+    id: "ops-incident-triage-playbook",
+    title: "Incident Triage Playbook (Ops-First)",
+    type: "Playbook",
+    category: "Automation",
+    description:
+      "A practical incident workflow: stabilize, restore, root-cause, and prevent recurrence. Written for on-call reality.",
+    format: "md",
+    downloadPath: "/artifacts/playbooks/incident-triage-playbook.md",
+    tags: ["incident", "on-call", "slo", "runbook"],
+    recommendedFor: ["Recruiters", "Hiring Managers", "Teams"],
+    lastUpdated: "2026-01-15",
+  },
+  {
+    id: "ops-cost-spike-triage-playbook",
+    title: "Cost Spike Triage Playbook (AWS)",
+    type: "Playbook",
+    category: "Automation",
+    description:
+      "How I investigate sudden AWS spend: Cost Explorer → service metrics → containment → prevention (budgets + guardrails).",
+    format: "md",
+    downloadPath: "/artifacts/playbooks/cost-spike-triage-playbook.md",
+    tags: ["aws", "cost", "finops", "guardrails"],
+    recommendedFor: ["Recruiters", "Hiring Managers", "Teams"],
+    lastUpdated: "2026-01-15",
+  },
+  {
     id: "qa-release-signoff-template",
     title: "Release Sign-off (Template)",
     type: "Template",

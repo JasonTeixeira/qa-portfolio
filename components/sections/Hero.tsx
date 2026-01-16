@@ -130,8 +130,11 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-8 max-w-3xl mx-auto"
           >
-            I build cloud automation systems: CI/CD pipelines, telemetry dashboards, and infrastructure-as-code that keep teams shipping safely.
-            <span className="text-gray-400"> Previously: reduced regression time 70% at The Home Depot and prevented multi-million dollar trading errors.</span>
+            I build and operate automation systems that ship: CI/CD pipelines, quality telemetry, and cloud guardrails.
+            <span className="text-gray-400">
+              {' '}
+              I don’t just build demos — I document, monitor, and put guardrails around what I deliver.
+            </span>
           </motion.h2>
 
           {/* Social Proof Badge */}
@@ -158,6 +161,12 @@ export default function Hero() {
               className="px-8 py-4 bg-primary text-dark font-semibold rounded hover:bg-primary-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
             >
               View Flagship
+            </Link>
+            <Link
+              href="#start-here"
+              className="px-8 py-4 border-2 border-primary text-foreground font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
+            >
+              Start here (60 seconds)
             </Link>
             <Link
               href="/projects"

@@ -70,7 +70,7 @@ function ensureDefaults(metric: QualityProjectMetric): QualityProjectMetric {
   };
 }
 
-async function getRepoMetric(repo: string) {
+async function getRepoMetric(repo: string): Promise<QualityProjectMetric> {
   const runs = await ghFetch(
     `https://api.github.com/repos/${OWNER}/${repo}/actions/runs?per_page=1`
   );
@@ -108,7 +108,7 @@ async function getRepoMetric(repo: string) {
           reportUrl: qa.ctx.matchedRunUrl || qa.ctx.runUrl,
         },
         debug: {
-          source: 'live' as const,
+          source: 'live',
           scannedRuns: qa.ctx.scannedRuns,
           latestRunId: qa.ctx.runId,
           latestRunUrl: qa.ctx.runUrl,
@@ -128,7 +128,7 @@ async function getRepoMetric(repo: string) {
       },
       notes: 'notes' in qa ? qa.notes : undefined,
       debug: {
-        source: 'live' as const,
+        source: 'live',
         scannedRuns: qa.ctx.scannedRuns,
         latestRunId: qa.ctx.runId,
         latestRunUrl: qa.ctx.runUrl,
@@ -141,6 +141,7 @@ async function getRepoMetric(repo: string) {
     return baseMetric;
   }
 }
+
 
 async function isTokenValid() {
   if (!TOKEN) return false;

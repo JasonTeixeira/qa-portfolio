@@ -81,6 +81,16 @@ This project builds a **small but real AWS landing zone** using **AWS Organizati
 
 The goal isn’t “I can click around AWS” — it’s to show I can build a foundation a company could actually run.
 
+## What I built (v1)
+
+This repo is intentionally scoped to a practical, low-cost baseline you can actually stand up:
+
+- **Organizations foundation** (org + accounts + OU structure)
+- **Central audit trail**: org-level CloudTrail → central S3
+- **Preventative guardrails**: Service Control Policies (SCPs)
+- **Change control**: Terraform fmt/validate/plan in CI + a gated apply path
+- **Ops-ready documentation**: architecture/security/ops/cost notes
+
 ## What this proves
 
 - AWS Organizations / multi-account governance
@@ -88,6 +98,26 @@ The goal isn’t “I can click around AWS” — it’s to show I can build a f
 - Centralized audit logging and baseline detective controls
 - Cost controls (budgets + notifications)
 - CI/CD discipline for infrastructure changes (plan on PR, apply with approval)
+
+## Architecture (high level)
+
+\`Developer PR\` → \`GitHub Actions\` → \`terraform fmt/validate/plan\` → review/approval → \`apply\`
+
+AWS side:
+
+Organizations
+  ├─ OU: Security
+  │    ├─ Account: Audit
+  │    └─ Account: Log Archive
+  └─ OU: Workloads
+       ├─ Account: Dev
+       └─ Account: Prod
+
+Org CloudTrail
+  └─ centralized S3 bucket (log archive)
+
+SCPs
+  └─ deny patterns that block high-risk actions (examples below)
 
 ## Proof & evidence
 
@@ -103,8 +133,40 @@ The goal isn’t “I can click around AWS” — it’s to show I can build a f
 - AWS Organizations
 - OUs + account layout (security/logging + workloads)
 - Org CloudTrail → central S3
-- SCP guardrails (region restriction, deny disabling audit tooling, etc.)
+- SCP guardrails (examples)
+  - deny leaving the organization / removing required controls
+  - deny disabling CloudTrail / audit log delivery
+  - restrict regions (allowlist) to reduce blast radius
+  - deny turning off encryption / public access on log buckets
 - Budget alerts (target: $75/mo)
+
+## Guardrails philosophy (how I think about SCPs)
+
+SCPs are **coarse safety rails**, not fine-grained IAM. I use them to enforce:
+
+- **Non-negotiables** (audit/logging cannot be disabled)
+- **Blast radius control** (region restriction)
+- **Safe defaults** (encryption + public access blocks)
+
+The goal is to stop obviously dangerous actions *before* they happen, while leaving teams free to operate inside the guardrails.
+
+## Change control philosophy (why gated apply matters)
+
+Infrastructure changes are production changes.
+
+I treat Terraform like an engineering system:
+- Plan is generated on PR so reviewers can see intent
+- Apply is separated and can be gated (approval) to reduce accidental changes
+- The repo contains docs/runbooks so “how it works” is not tribal knowledge
+
+## What’s next (v2 / planned)
+
+These are natural next increments once the foundation is stable:
+
+- AWS IAM Identity Center (SSO) baseline
+- Detective controls: AWS Config + Security Hub + GuardDuty
+- Guardrail expansions: org-wide deny lists + break-glass process
+- Drift detection and scheduled policy checks
 
 ## How to run
 
@@ -131,13 +193,15 @@ See the repo README for step-by-step deploy instructions.
       custom: {
         "Budget": "$75/mo target",
         "Governance": "AWS Organizations + SCPs",
-        "Change control": "PR plan + approved apply"
+        "Change control": "PR plan + gated apply",
+        "Evidence": "CI screenshot in portfolio artifacts"
       }
     },
     tech: ["AWS", "Terraform", "GitHub Actions"],
     github: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails",
     documentation: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails#readme",
     proof: {
+      ciBadgeUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions/workflows/ci.yml/badge.svg",
       reportUrl: "/artifacts/evidence/landing-zone-ci.png",
       ciRunsUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions",
     },
@@ -714,6 +778,7 @@ Impressed by this project? I'm available for:
     tech: ["Python", "Selenium", "pytest", "Allure", "Page Object Model", "Jenkins", "Docker"],
     github: "https://github.com/JasonTeixeira/Qa-Automation-Project",
     proof: {
+      ciBadgeUrl: "https://github.com/JasonTeixeira/Qa-Automation-Project/actions/workflows/ci.yml/badge.svg",
       reportUrl: "/artifacts/evidence/playwright-report.png",
       ciRunsUrl: "https://github.com/JasonTeixeira/Qa-Automation-Project/actions",
     },
@@ -2249,6 +2314,8 @@ Impressed by this project? I'm available for:
     tech: ["Kubernetes", "Docker", "GitHub Actions", "pytest", "pytest-xdist", "Prometheus", "Grafana"],
     github: "https://github.com/JasonTeixeira/CI-CD-Pipeline",
     proof: {
+      ciBadgeUrl: "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions/workflows/ci.yml/badge.svg",
+      ciRunsUrl: "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions",
       reportUrl: "/artifacts/evidence/github-actions-run.png",
     },
     relatedProjects: [1, 2],
@@ -2928,6 +2995,8 @@ Impressed by this project? I'm available for:
     tech: ["JMeter", "Locust", "Python", "InfluxDB", "Grafana", "Docker", "PostgreSQL"],
     github: "https://github.com/JasonTeixeira/Performance-Testing-Framework",
     proof: {
+      ciBadgeUrl: "https://github.com/JasonTeixeira/Performance-Testing-Framework/actions/workflows/ci.yml/badge.svg",
+      ciRunsUrl: "https://github.com/JasonTeixeira/Performance-Testing-Framework/actions",
       reportUrl: "/artifacts/evidence/lighthouse-ci.png",
     },
     relatedProjects: [2, 3],
@@ -3689,6 +3758,8 @@ Impressed by this project? I'm available for:
     tech: ["Appium", "Python", "pytest", "iOS", "Android", "BrowserStack", "XCUITest", "UIAutomator2"],
     github: "https://github.com/JasonTeixeira/Mobile-Testing-Framework",
     proof: {
+      ciBadgeUrl: "https://github.com/JasonTeixeira/Mobile-Testing-Framework/actions/workflows/ci.yml/badge.svg",
+      ciRunsUrl: "https://github.com/JasonTeixeira/Mobile-Testing-Framework/actions",
       reportUrl: "/artifacts/evidence/playwright-report.png",
     },
     relatedProjects: [1, 3],

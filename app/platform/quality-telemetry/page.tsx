@@ -142,6 +142,38 @@ qa-portfolio (Next.js on Vercel)
           </div>
 
           <div className="mt-10 bg-dark-card border border-dark-lighter rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-foreground">Threat model (abuse cases + mitigations)</h2>
+            <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+              This is intentionally a <strong>read-only telemetry surface</strong>. The system is designed so that even if someone abuses the
+              public endpoints, the blast radius stays small.
+            </p>
+            <ul className="mt-4 text-sm text-gray-300 list-disc pl-5 space-y-2">
+              <li>
+                <strong>GitHub API rate-limit abuse:</strong> requests are cached briefly, and the API falls back to the committed snapshot.
+              </li>
+              <li>
+                <strong>Token exposure:</strong> GitHub token stays server-only; the client never receives it. Responses include only safe
+                metadata (run URLs/IDs) and sanitized debug fields.
+              </li>
+              <li>
+                <strong>Artifact / ZIP attacks:</strong> artifacts are treated as untrusted input. Extraction is scoped to expected filenames
+                and the metrics payload must validate against the schema.
+              </li>
+              <li>
+                <strong>Data leakage:</strong> no secrets, logs, or raw environment are embedded in the dashboard. Evidence is linked, not
+                embedded.
+              </li>
+              <li>
+                <strong>Denial-of-service:</strong> live mode is best-effort; failures degrade gracefully to static mode rather than
+                cascading.
+              </li>
+            </ul>
+            <div className="mt-4 text-xs text-gray-400 font-mono">
+              Patterns: least privilege + untrusted input handling + graceful degradation
+            </div>
+          </div>
+
+          <div className="mt-10 bg-dark-card border border-dark-lighter rounded-xl p-6">
             <h2 className="text-lg font-semibold text-foreground">What this demonstrates</h2>
             <ul className="mt-3 text-sm text-gray-300 list-disc pl-5 space-y-2">
               <li>Cloud/platform automation: CI as an event source, artifacts as evidence, optional AWS S3 cloud ingestion.</li>

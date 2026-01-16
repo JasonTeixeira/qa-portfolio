@@ -154,8 +154,14 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20"
           >
             <Link
-              href="/projects"
+              href="/projects/aws-landing-zone-guardrails"
               className="px-8 py-4 bg-primary text-dark font-semibold rounded hover:bg-primary-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
+            >
+              View Flagship
+            </Link>
+            <Link
+              href="/projects"
+              className="px-8 py-4 border-2 border-primary text-foreground font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
             >
               View Projects
             </Link>

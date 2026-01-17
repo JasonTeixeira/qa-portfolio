@@ -59,3 +59,4 @@ playwright-report/
 
 # Built artifacts (keep source, not bundles)
 infra/**/dist/
+.env*.local

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import type { APIResponse } from '@playwright/test';
+import type { Response as PWResponse } from '@playwright/test';
 
 // This suite is intentionally “paranoid”. It tries to click every user-facing
 // navigation path and a representative set of CTAs so we catch:
@@ -24,7 +24,7 @@ const projectSlugs = [
 
 const blogIds = ['1', '2', '3', '4', '5', '100'];
 
-async function expectOkResponse(url: string, response: APIResponse | null) {
+async function expectOkResponse(url: string, response: PWResponse | null) {
   expect(response, `No response for navigation to ${url}`).toBeTruthy();
   expect(response?.status(), `Expected <400 for ${url}, got ${response?.status()}`).toBeLessThan(400);
 }

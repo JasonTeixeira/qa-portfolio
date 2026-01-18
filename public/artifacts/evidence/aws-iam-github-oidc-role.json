@@ -1,0 +1,31 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "qa-portfolio-dev-github-qa-metrics-writer",
+        "RoleId": "AROAWBDWGERIUG3PMXUXC",
+        "Arn": "arn:aws:iam::414712210513:role/qa-portfolio-dev-github-qa-metrics-writer",
+        "CreateDate": "2026-01-17T23:54:32+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Federated": "arn:aws:iam::414712210513:oidc-provider/token.actions.githubusercontent.com"
+                    },
+                    "Action": "sts:AssumeRoleWithWebIdentity",
+                    "Condition": {
+                        "StringEquals": {
+                            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                        },
+                        "StringLike": {
+                            "token.actions.githubusercontent.com:sub": "repo:JasonTeixeira/qa-portfolio:*"
+                        }
+                    }
+                }
+            ]
+        },
+        "MaxSessionDuration": 3600,
+        "RoleLastUsed": {}
+    }
+}

@@ -34,6 +34,19 @@ export interface QAArtifact {
 
 export const qaArtifacts: QAArtifact[] = [
   {
+    id: "interview-demo-quality-dashboard",
+    title: "Interview Demo Script: Quality Dashboard + AWS Telemetry",
+    type: "Playbook",
+    category: "Reporting",
+    description:
+      "30-second pitch + 5-minute walkthrough + common Q&A for demoing the flagship dashboard and AWS telemetry proof.",
+    format: "md",
+    downloadPath: "/artifacts/interview-demo-quality-dashboard.md",
+    tags: ["interview", "demo", "telemetry", "dashboard"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
     id: "aws-telemetry-s3-latest",
     title: "Evidence: AWS Telemetry S3 latest.json (metadata)",
     type: "Example",

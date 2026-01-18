@@ -107,6 +107,67 @@ qa-portfolio (Next.js on Vercel)
             </div>
           </div>
 
+          <div className="mt-10 bg-dark-card border border-dark-lighter rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-foreground">Failure Modes (and how the system responds)</h2>
+            <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+              This dashboard is intentionally built with <strong>production-style degradation</strong>. When upstream systems fail,
+              the UI stays usable and the API returns a coherent payload.
+            </p>
+
+            <div className="mt-5 grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+              <div className="bg-dark-lighter rounded-lg p-4 border border-dark-lighter">
+                <div className="font-semibold text-foreground">GitHub API rate limits / outages</div>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li><strong>Impact:</strong> Live mode cannot fetch run metadata/artifacts.</li>
+                  <li><strong>Detection:</strong> debug panel + response notes; CI remains the source of truth.</li>
+                  <li><strong>Response:</strong> fall back to Snapshot mode (committed metrics.json).</li>
+                </ul>
+              </div>
+
+              <div className="bg-dark-lighter rounded-lg p-4 border border-dark-lighter">
+                <div className="font-semibold text-foreground">Missing artifact / empty repo signal</div>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li><strong>Impact:</strong> Live scan may not find qa-metrics on the newest run.</li>
+                  <li><strong>Detection:</strong> debug fields show scan depth + matched run ID.</li>
+                  <li><strong>Response:</strong> scan back through recent runs, or degrade to Snapshot if needed.</li>
+                </ul>
+              </div>
+
+              <div className="bg-dark-lighter rounded-lg p-4 border border-dark-lighter">
+                <div className="font-semibold text-foreground">AWS proxy down / token mismatch</div>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li><strong>Impact:</strong> Cloud mode cannot read metrics from AWS.</li>
+                  <li><strong>Detection:</strong> CloudWatch alarms (errors/p95) + access logs.</li>
+                  <li><strong>Response:</strong> fall back to Snapshot mode; Cloud mode still shows proof links.</li>
+                </ul>
+              </div>
+
+              <div className="bg-dark-lighter rounded-lg p-4 border border-dark-lighter">
+                <div className="font-semibold text-foreground">S3 object missing / retention expired</div>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li><strong>Impact:</strong> AWS mode returns 404/NoSuchKey.</li>
+                  <li><strong>Detection:</strong> access logs + Lambda error alarm.</li>
+                  <li><strong>Response:</strong> fail closed (no secrets) + degrade to Snapshot mode.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary-dark font-semibold"
+              >
+                Demo this on the dashboard <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/artifacts"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary-dark font-semibold"
+              >
+                See AWS evidence exports <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+
           <div className="mt-10 grid md:grid-cols-2 gap-6">
             <Block title="Reliability / Fall Back" icon={<GitBranch size={18} />}>
               Live data is best-effort. If GitHub rate-limits or a repo has no artifact on the latest run, the API scans recent runs and

@@ -1,0 +1,11 @@
+{
+    "AcceptRanges": "bytes",
+    "Expiration": "expiry-date=\"Tue, 17 Feb 2026 00:00:00 GMT\", rule-id=\"expire-metrics\"",
+    "LastModified": "2026-01-17T23:55:53+00:00",
+    "ContentLength": 3788,
+    "ETag": "\"4a6f604888613b120e620c3702970693\"",
+    "VersionId": "PJM8b_cFdjjqQLTbJrbs2OfpqH3WzTmI",
+    "ContentType": "application/json",
+    "ServerSideEncryption": "AES256",
+    "Metadata": {}
+}

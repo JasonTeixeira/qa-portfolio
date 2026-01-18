@@ -1,0 +1,46 @@
+{
+    "Items": [
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "9b0josn",
+            "RouteKey": "POST /newsletter/subscribe",
+            "Target": "integrations/2rcdcul"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "f6dlvn6",
+            "RouteKey": "GET /metrics/latest",
+            "Target": "integrations/2rcdcul"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "fl3yrcd",
+            "RouteKey": "POST /contact",
+            "Target": "integrations/2rcdcul"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "nl78irp",
+            "RouteKey": "GET /health",
+            "Target": "integrations/2rcdcul"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "p87hfyh",
+            "RouteKey": "GET /newsletter/confirm",
+            "Target": "integrations/2rcdcul"
+        },
+        {
+            "ApiKeyRequired": false,
+            "AuthorizationType": "NONE",
+            "RouteId": "rffdma3",
+            "RouteKey": "GET /newsletter/unsubscribe",
+            "Target": "integrations/2rcdcul"
+        }
+    ]
+}

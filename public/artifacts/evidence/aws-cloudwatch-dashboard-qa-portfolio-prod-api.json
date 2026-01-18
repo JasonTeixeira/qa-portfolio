@@ -1,0 +1,5 @@
+{
+    "DashboardArn": "arn:aws:cloudwatch::414712210513:dashboard/qa-portfolio-prod-api",
+    "DashboardBody": "{\"widgets\":[{\"height\":6,\"properties\":{\"metrics\":[[\"AWS/Lambda\",\"Errors\",\"FunctionName\",\"qa-portfolio-prod-portfolio-api\"],[\".\",\"Invocations\",\".\",\".\"]],\"period\":300,\"region\":\"us-east-1\",\"stat\":\"Sum\",\"title\":\"Lambda Errors / Invocations\"},\"type\":\"metric\",\"width\":12,\"x\":0,\"y\":0},{\"height\":6,\"properties\":{\"metrics\":[[\"AWS/Lambda\",\"Duration\",\"FunctionName\",\"qa-portfolio-prod-portfolio-api\"]],\"period\":300,\"region\":\"us-east-1\",\"stat\":\"p95\",\"title\":\"Lambda Duration p95\"},\"type\":\"metric\",\"width\":12,\"x\":12,\"y\":0},{\"height\":6,\"properties\":{\"query\":\"SOURCE '/aws/apigateway/qa-portfolio-prod-http-api-access' | fields @timestamp, status, routeKey, ip, userAgent | sort @timestamp desc | limit 20\",\"region\":\"us-east-1\",\"title\":\"API Gateway Access Logs (last 20)\"},\"type\":\"log\",\"width\":24,\"x\":0,\"y\":6}]}",
+    "DashboardName": "qa-portfolio-prod-api"
+}

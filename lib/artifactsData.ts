@@ -34,6 +34,19 @@ export interface QAArtifact {
 
 export const qaArtifacts: QAArtifact[] = [
   {
+    id: "ops-slo-incident-drill",
+    title: "Ops Evidence: SLOs + Incident Drill Report (Quality Dashboard)",
+    type: "Example",
+    category: "Automation",
+    description:
+      "Postmortem-style incident drill report + SLO/SLI framing for the AWS-backed quality telemetry system.",
+    format: "md",
+    downloadPath: "/artifacts/evidence/incident-drill-report.md",
+    tags: ["ops", "slo", "incident", "reliability", "aws"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
     id: "interview-demo-quality-dashboard",
     title: "Interview Demo Script: Quality Dashboard + AWS Telemetry",
     type: "Playbook",

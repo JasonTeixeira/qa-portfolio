@@ -14,6 +14,28 @@ export interface EvidenceItem {
 
 export const evidenceItems: EvidenceItem[] = [
   {
+    id: "incident-drill-report",
+    title: "Incident Drill Report (postmortem-style)",
+    type: "Report",
+    description:
+      "Recruiter-friendly incident drill write-up showing operational mindset: detect → triage → mitigate → verify → follow-ups.",
+    links: [
+      {
+        label: "Incident drill report",
+        url: "/artifacts/evidence/incident-drill-report.md",
+      },
+      {
+        label: "Incident triage playbook",
+        url: "/artifacts/playbooks/incident-triage-playbook.md",
+      },
+      {
+        label: "Ops readiness doc",
+        url: "https://github.com/JasonTeixeira/qa-portfolio/blob/main/OPS_READINESS_DASHBOARD.md",
+      },
+    ],
+    lastUpdated: "2026-01-18",
+  },
+  {
     id: "aws-cloudwatch-dashboard",
     title: "AWS CloudWatch Dashboard (qa-portfolio-prod-api)",
     type: "Report",

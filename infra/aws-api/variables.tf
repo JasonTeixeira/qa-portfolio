@@ -50,3 +50,20 @@ variable "alarm_email" {
   type        = string
   default     = "sage@sageideas.org"
 }
+
+variable "metrics_bucket" {
+  description = "S3 bucket holding the telemetry snapshot object (read-only by the API Lambda)."
+  type        = string
+}
+
+variable "metrics_key" {
+  description = "S3 key for the latest telemetry snapshot JSON."
+  type        = string
+  default     = "metrics/qa-portfolio/latest.json"
+}
+
+variable "metrics_shared_token" {
+  description = "Optional shared token required for GET /metrics/latest (sent as x-metrics-token)."
+  type        = string
+  default     = ""
+}

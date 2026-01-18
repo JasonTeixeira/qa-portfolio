@@ -13,10 +13,22 @@ const {
   SendEmailCommand,
 } = require('@aws-sdk/client-sesv2');
 
+const {
+  S3Client,
+  GetObjectCommand,
+} = require('@aws-sdk/client-s3');
+
 const NEWSLETTER_TABLE_NAME = process.env.NEWSLETTER_TABLE_NAME;
 const SITE_URL = process.env.SITE_URL || 'https://sageideas.dev';
 const SES_FROM_EMAIL = process.env.SES_FROM_EMAIL;
 const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
+
+// Optional: metrics proxy (no AWS creds in Vercel)
+const METRICS_BUCKET = process.env.METRICS_BUCKET;
+const METRICS_KEY = process.env.METRICS_KEY || 'metrics/qa-portfolio/latest.json';
+const METRICS_SHARED_TOKEN = process.env.METRICS_SHARED_TOKEN; // optional
+
+const s3 = new S3Client({});
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const ses = new SESv2Client({});
@@ -102,6 +114,57 @@ function getBody(event) {
   } catch {
     return {};
   }
+}
+
+async function streamToString(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on('data', (c) => chunks.push(Buffer.isBuffer(c) ? c : Buffer.from(c)));
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    stream.on('error', reject);
+  });
+}
+
+function forbidden(message = 'Forbidden') {
+  return json(403, { error: message });
+}
+
+async function handleMetricsLatest(event) {
+  if (!METRICS_BUCKET) return json(500, { error: 'METRICS_BUCKET not configured' });
+
+  // Optional shared token (simple protection against casual scraping).
+  if (METRICS_SHARED_TOKEN) {
+    const token = event?.headers?.['x-metrics-token'] || event?.headers?.['X-Metrics-Token'];
+    if (!token || token !== METRICS_SHARED_TOKEN) return forbidden('Missing or invalid metrics token');
+  }
+
+  const obj = await s3.send(
+    new GetObjectCommand({
+      Bucket: METRICS_BUCKET,
+      Key: METRICS_KEY,
+    })
+  );
+
+  if (!obj.Body) return json(404, { error: 'Metrics object had no body' });
+  const raw = await streamToString(obj.Body);
+
+  // Validate JSON quickly (avoid sending invalid responses)
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return json(500, { error: 'Metrics object is not valid JSON' });
+  }
+
+  return json(200, {
+    ...parsed,
+    summary: {
+      ...(parsed.summary || {}),
+      notes: `Loaded via AWS proxy API from s3://${METRICS_BUCKET}/${METRICS_KEY}`,
+    },
+  }, {
+    'cache-control': 'no-store',
+  });
 }
 
 function badRequest(message, details) {
@@ -328,6 +391,22 @@ async function handleHealth(event) {
   });
 }
 
+async function handleApiRoot(event) {
+  return json(200, {
+    ok: true,
+    service: 'qa-portfolio-api',
+    endpoints: [
+      'GET /health',
+      'GET /metrics/latest',
+      'POST /contact',
+      'POST /newsletter/subscribe',
+      'GET /newsletter/confirm',
+      'GET /newsletter/unsubscribe',
+    ],
+    now: new Date().toISOString(),
+  });
+}
+
 exports.handler = async (event) => {
   const key = routeKey(event);
 
@@ -339,6 +418,8 @@ exports.handler = async (event) => {
   });
 
   try {
+    if (key === 'GET /') return await handleApiRoot(event);
+    if (key === 'GET /metrics/latest') return await handleMetricsLatest(event);
     if (key === 'POST /contact') return await handleContact(event);
     if (key === 'POST /newsletter/subscribe') return await handleNewsletterSubscribe(event);
     if (key === 'GET /newsletter/confirm') return await handleNewsletterConfirm(event);

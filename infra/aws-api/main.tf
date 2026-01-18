@@ -114,6 +114,15 @@ data "aws_iam_policy_document" "lambda_inline" {
     actions   = ["ses:SendEmail", "ses:SendRawEmail"]
     resources = ["*"]
   }
+
+  statement {
+    sid     = "ReadTelemetryMetricsFromS3"
+    effect  = "Allow"
+    actions = ["s3:GetObject"]
+    resources = [
+      "arn:aws:s3:::${var.metrics_bucket}/${var.metrics_key}",
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_inline" {
@@ -271,6 +280,11 @@ resource "aws_lambda_function" "api" {
       SITE_URL              = var.site_url
       SES_FROM_EMAIL        = var.ses_from_email
       CONTACT_TO_EMAIL      = var.contact_to_email
+
+      # Telemetry proxy endpoint config
+      METRICS_BUCKET        = var.metrics_bucket
+      METRICS_KEY           = var.metrics_key
+      METRICS_SHARED_TOKEN  = var.metrics_shared_token
     }
   }
 }
@@ -421,5 +435,11 @@ resource "aws_apigatewayv2_route" "newsletter_unsubscribe" {
 resource "aws_apigatewayv2_route" "health" {
   api_id    = aws_apigatewayv2_api.http.id
   route_key = "GET /health"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
+resource "aws_apigatewayv2_route" "metrics_latest" {
+  api_id    = aws_apigatewayv2_api.http.id
+  route_key = "GET /metrics/latest"
   target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
 }

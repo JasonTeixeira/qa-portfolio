@@ -14,6 +14,34 @@ export async function tryFetchAwsMetricsLatest(): Promise<
   | { ok: true; snapshot: QualityMetricsSnapshot; notes?: string }
   | { ok: false; notes: string }
 > {
+  const proxyUrl = process.env.QUALITY_AWS_PROXY_URL;
+  const proxyToken = process.env.QUALITY_AWS_PROXY_TOKEN;
+
+  // Preferred path for production (Vercel): call an AWS-hosted proxy API.
+  // This avoids storing AWS credentials in the Vercel runtime.
+  if (proxyUrl) {
+    try {
+      const res = await fetch(proxyUrl, {
+        headers: {
+          Accept: 'application/json',
+          ...(proxyToken ? { 'x-metrics-token': proxyToken } : {}),
+        },
+        cache: 'no-store',
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        return { ok: false, notes: `AWS proxy error ${res.status}: ${body}` };
+      }
+
+      const parsed = (await res.json()) as QualityMetricsSnapshot;
+      return { ok: true, snapshot: parsed, notes: parsed.summary?.notes };
+    } catch (e) {
+      return { ok: false, notes: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  // Local/dev fallback path: read directly from S3 using AWS SDK.
   const bucket = process.env.QUALITY_AWS_BUCKET;
   const prefix = process.env.QUALITY_AWS_PREFIX || 'metrics';
 

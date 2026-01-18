@@ -13,5 +13,5 @@ alarm_email      = "sage@sageideas.org"
 metrics_bucket = "qa-portfolio-dev-qa-metrics"
 metrics_key    = "metrics/qa-portfolio/latest.json"
 
-# Optional. Leave empty to make endpoint public.
-metrics_shared_token = ""
+# Required for GET /metrics/latest (sent as x-metrics-token)
+metrics_shared_token = "d89fd7ea3f51a40f8d9560819a268d102ebf1dc32f3459693d7d26c79ca49bd7"

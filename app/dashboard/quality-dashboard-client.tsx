@@ -318,6 +318,7 @@ export default function QualityDashboardClient() {
       awsProxyUrl: 'https://api.sageideas.dev/metrics/latest',
       cloudwatchDashboardUrl: 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=qa-portfolio-prod-api',
       terraformUrl: 'https://github.com/JasonTeixeira/qa-portfolio/tree/master/infra/aws-quality-telemetry',
+      opsReadinessUrl: 'https://github.com/JasonTeixeira/qa-portfolio/blob/master/OPS_READINESS_DASHBOARD.md',
     };
   }, [projects]);
 
@@ -519,6 +520,15 @@ export default function QualityDashboardClient() {
             >
               <ExternalLink size={16} className="text-primary" />
               Terraform (aws-quality-telemetry)
+            </a>
+            <a
+              href={proof.opsReadinessUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-primary/60 transition-colors"
+            >
+              <ExternalLink size={16} className="text-primary" />
+              Ops readiness
             </a>
             <Link
               href="/artifacts"

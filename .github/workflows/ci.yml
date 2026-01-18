@@ -39,3 +39,10 @@ jobs:
 
       - name: Lighthouse CI
         run: npm run test:lh
+
+      # Interview-grade release confidence: prove production endpoints still work.
+      # We intentionally verify Snapshot + AWS. Live mode depends on GitHub API rate limits.
+      - name: Production verification (snapshot + aws)
+        env:
+          SITE_URL: https://sageideas.dev
+        run: npm run verify:prod

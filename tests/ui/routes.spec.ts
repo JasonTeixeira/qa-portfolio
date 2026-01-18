@@ -9,6 +9,8 @@ const staticRoutes: Array<{ path: string; mustContain: RegExp }> = [
   { path: '/platform', mustContain: /Quality Platform/i },
   { path: '/platform/quality-telemetry', mustContain: /Quality Telemetry Pipeline/i },
   { path: '/platform/ops-reliability', mustContain: /SLOs \+ Incident Drills/i },
+  { path: '/platform/security-guardrails', mustContain: /Security & Guardrails/i },
+  { path: '/platform/flagship-blueprint', mustContain: /Flagship Blueprint/i },
   { path: '/dashboard', mustContain: /Quality Dashboard/i },
   { path: '/projects', mustContain: /Projects/i },
   { path: '/artifacts', mustContain: /Runbooks & Evidence/i },

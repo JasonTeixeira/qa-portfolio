@@ -14,6 +14,28 @@ export interface EvidenceItem {
 
 export const evidenceItems: EvidenceItem[] = [
   {
+    id: "waf-rate-limit",
+    title: "WAF Rate Limiting Evidence (429)",
+    type: "Report",
+    description:
+      "Evidence capture showing WAF rate limiting in action (attack simulation triggers non-200 responses and subsequent 429).",
+    links: [
+      {
+        label: "Evidence: waf-rate-limit.txt",
+        url: "/artifacts/evidence/waf-rate-limit.txt",
+      },
+      {
+        label: "Attack simulation script",
+        url: "https://github.com/JasonTeixeira/qa-portfolio/blob/main/scripts/waf-attack-sim.mjs",
+      },
+      {
+        label: "Terraform: CloudFront + WAF",
+        url: "https://github.com/JasonTeixeira/qa-portfolio/tree/main/infra/aws-api-edge",
+      },
+    ],
+    lastUpdated: "2026-01-18",
+  },
+  {
     id: "incident-drill-report",
     title: "Incident Drill Report (postmortem-style)",
     type: "Report",

@@ -34,6 +34,32 @@ export interface QAArtifact {
 
 export const qaArtifacts: QAArtifact[] = [
   {
+    id: "flagship-blueprint-reliability-platform",
+    title: "Flagship Blueprint: Multi-tenant Reliability + Automation Platform",
+    type: "Example",
+    category: "Automation",
+    description:
+      "Recruiter-readable spec for the next flagship cloud/platform system: multi-tenant, async processing, SLOs, alerts, cost guardrails, and security receipts.",
+    format: "txt",
+    downloadPath: "/platform/flagship-blueprint",
+    tags: ["flagship", "platform", "sre", "cloud", "automation"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
+    id: "security-waf-rate-limit-proof",
+    title: "Security Evidence: WAF Rate Limiting (429) + Attack Simulation",
+    type: "Example",
+    category: "Security",
+    description:
+      "Proof that edge rate limiting is configured and testable: a scripted attack simulation plus evidence capture.",
+    format: "txt",
+    downloadPath: "/artifacts/evidence/waf-rate-limit.txt",
+    tags: ["security", "waf", "rate-limit", "cloudfront", "aws"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
     id: "ops-slo-incident-drill",
     title: "Ops Evidence: SLOs + Incident Drill Report (Quality Dashboard)",
     type: "Example",

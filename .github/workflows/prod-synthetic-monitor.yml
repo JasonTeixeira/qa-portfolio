@@ -1,0 +1,48 @@
+name: prod-synthetic-monitor
+
+on:
+  schedule:
+    # Every 30 minutes
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  verify-prod:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify production
+        id: verify
+        env:
+          SITE_URL: https://sageideas.dev
+        run: |
+          set -euo pipefail
+          npm run -s verify:prod
+
+      - name: Write summary JSON
+        if: always()
+        run: |
+          node -e "const fs=require('fs'); const ok='${{ job.status }}'==='success'; const out={ ok, checkedAt: new Date().toISOString(), siteUrl: 'https://sageideas.dev', workflowRun: process.env.GITHUB_RUN_ID }; fs.writeFileSync('prod-monitor.json', JSON.stringify(out, null, 2));"
+
+      - name: Upload monitor artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prod-monitor
+          path: prod-monitor.json
+

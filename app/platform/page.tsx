@@ -99,6 +99,18 @@ export default function PlatformPage() {
                 Ops: SLOs & Incident Drills <ArrowRight size={16} className="inline-block ml-2" />
               </Link>
               <Link
+                href="/platform/security-guardrails"
+                className="px-6 py-3 border border-dark-lighter bg-dark-card text-foreground font-semibold rounded-lg hover:border-primary/60 transition-colors"
+              >
+                Security & Guardrails <ArrowRight size={16} className="inline-block ml-2" />
+              </Link>
+              <Link
+                href="/platform/flagship-blueprint"
+                className="px-6 py-3 border border-dark-lighter bg-dark-card text-foreground font-semibold rounded-lg hover:border-primary/60 transition-colors"
+              >
+                Flagship Blueprint <ArrowRight size={16} className="inline-block ml-2" />
+              </Link>
+              <Link
                 href="/projects"
                 className="px-6 py-3 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-dark transition-colors"
               >

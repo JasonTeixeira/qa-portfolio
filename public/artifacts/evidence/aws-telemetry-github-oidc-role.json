@@ -1,0 +1,34 @@
+{
+  "title": "AWS Telemetry: GitHub OIDC writer role trust policy",
+  "capturedAt": "2026-01-17T23:54:32Z",
+  "system": "aws-quality-telemetry",
+  "aws": {
+    "account": "414712210513",
+    "roleName": "qa-portfolio-dev-github-qa-metrics-writer",
+    "roleArn": "arn:aws:iam::414712210513:role/qa-portfolio-dev-github-qa-metrics-writer"
+  },
+  "proof": {
+    "command": "aws iam get-role --role-name qa-portfolio-dev-github-qa-metrics-writer --profile sageideas",
+    "trustPolicy": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Federated": "arn:aws:iam::414712210513:oidc-provider/token.actions.githubusercontent.com"
+          },
+          "Action": "sts:AssumeRoleWithWebIdentity",
+          "Condition": {
+            "StringEquals": {
+              "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+            },
+            "StringLike": {
+              "token.actions.githubusercontent.com:sub": "repo:JasonTeixeira/qa-portfolio:*"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+

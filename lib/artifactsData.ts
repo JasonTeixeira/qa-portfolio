@@ -17,6 +17,8 @@ export type ArtifactCategory =
   | "Visual"
   | "API";
 
+// Note: we keep categories intentionally broad; infra evidence lives under Automation.
+
 export interface QAArtifact {
   id: string;
   title: string;
@@ -31,6 +33,58 @@ export interface QAArtifact {
 }
 
 export const qaArtifacts: QAArtifact[] = [
+  {
+    id: "aws-telemetry-s3-latest",
+    title: "Evidence: AWS Telemetry S3 latest.json (metadata)",
+    type: "Example",
+    category: "Automation",
+    description:
+      "Proof that Cloud mode is backed by a real S3 object (retention, encryption, versioning, content-type).",
+    format: "txt",
+    downloadPath: "/artifacts/evidence/aws-telemetry-s3-latest.json",
+    tags: ["aws", "s3", "telemetry", "proof"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
+    id: "aws-telemetry-dynamo-table",
+    title: "Evidence: AWS Telemetry DynamoDB table (PAY_PER_REQUEST)",
+    type: "Example",
+    category: "Automation",
+    description:
+      "Proof of DynamoDB indexing layer for metrics (on-demand billing, schema, table ARN).",
+    format: "txt",
+    downloadPath: "/artifacts/evidence/aws-telemetry-dynamo-table.json",
+    tags: ["aws", "dynamodb", "telemetry", "proof"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
+    id: "aws-telemetry-github-oidc-role",
+    title: "Evidence: GitHub OIDC trust policy (no long-lived AWS keys)",
+    type: "Example",
+    category: "Security",
+    description:
+      "Proof of GitHub Actions → AWS OIDC federation trust policy for the telemetry writer role.",
+    format: "txt",
+    downloadPath: "/artifacts/evidence/aws-telemetry-github-oidc-role.json",
+    tags: ["aws", "iam", "oidc", "security", "telemetry"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
+  {
+    id: "aws-telemetry-proxy-api-routes",
+    title: "Evidence: Telemetry Proxy API routes (API Gateway)",
+    type: "Example",
+    category: "API",
+    description:
+      "Proof that the AWS proxy API exposes GET /metrics/latest for the portfolio Cloud mode (no AWS creds in Vercel).",
+    format: "txt",
+    downloadPath: "/artifacts/evidence/aws-telemetry-proxy-api-routes.json",
+    tags: ["aws", "api-gateway", "lambda", "telemetry", "proof"],
+    recommendedFor: ["Recruiters", "Hiring Managers"],
+    lastUpdated: "2026-01-18",
+  },
   {
     id: "qa-1-page-playbook",
     title: "QA Playbook (1-page)",

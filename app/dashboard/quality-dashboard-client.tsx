@@ -313,7 +313,12 @@ export default function QualityDashboardClient() {
     // Prefer a run URL from the portfolio repo, otherwise fall back to first available.
     const portfolio = projects.find((p) => p.name === 'qa-portfolio');
     const runUrl = portfolio?.ci?.reportUrl || projects.find((p) => p.ci?.reportUrl)?.ci?.reportUrl;
-    return { runUrl };
+    return {
+      runUrl,
+      awsProxyUrl: 'https://api.sageideas.dev/metrics/latest',
+      cloudwatchDashboardUrl: 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=qa-portfolio-prod-api',
+      terraformUrl: 'https://github.com/JasonTeixeira/qa-portfolio/tree/master/infra/aws-quality-telemetry',
+    };
   }, [projects]);
 
   return (
@@ -488,6 +493,33 @@ export default function QualityDashboardClient() {
               <FileText size={16} className="text-primary" />
               System design
             </Link>
+            <a
+              href={proof.awsProxyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+            >
+              <ExternalLink size={16} className="text-emerald-300" />
+              Proof: AWS proxy endpoint
+            </a>
+            <a
+              href={proof.cloudwatchDashboardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+            >
+              <ExternalLink size={16} className="text-emerald-300" />
+              Proof: CloudWatch dashboard
+            </a>
+            <a
+              href={proof.terraformUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-primary/60 transition-colors"
+            >
+              <ExternalLink size={16} className="text-primary" />
+              Terraform (aws-quality-telemetry)
+            </a>
             <Link
               href="/artifacts"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-primary/60 transition-colors"
@@ -496,6 +528,23 @@ export default function QualityDashboardClient() {
               Evidence library
             </Link>
           </div>
+
+          {/* Cloud mode proof */}
+          {mode === 'aws' && (
+            <div className="mt-8 bg-dark-card border border-emerald-500/20 rounded-lg p-5">
+              <div className="flex items-center gap-2 text-emerald-200 font-semibold">
+                <Shield size={16} className="text-emerald-300" />
+                Cloud mode is backed by AWS (no AWS creds in Vercel)
+              </div>
+              <p className="mt-2 text-sm text-gray-300 max-w-3xl">
+                Cloud mode reads metrics via an AWS-hosted proxy API (API Gateway → Lambda → S3). This keeps the public
+                portfolio runtime credential-free while still proving a real cloud deployment.
+              </p>
+              <div className="mt-3 text-xs text-gray-400 font-mono">
+                Proxy: {proof.awsProxyUrl}
+              </div>
+            </div>
+          )}
 
           {error && (
             <div className="mt-8 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-300">

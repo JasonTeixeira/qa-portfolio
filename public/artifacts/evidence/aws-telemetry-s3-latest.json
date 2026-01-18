@@ -1,0 +1,24 @@
+{
+  "title": "AWS Telemetry: S3 latest.json object metadata",
+  "capturedAt": "2026-01-18T03:55:53Z",
+  "system": "aws-quality-telemetry",
+  "aws": {
+    "account": "414712210513",
+    "region": "us-east-1",
+    "bucket": "qa-portfolio-dev-qa-metrics",
+    "key": "metrics/qa-portfolio/latest.json"
+  },
+  "proof": {
+    "command": "aws s3api head-object --bucket qa-portfolio-dev-qa-metrics --key metrics/qa-portfolio/latest.json --profile sageideas",
+    "fields": {
+      "LastModified": "2026-01-17T23:55:53+00:00",
+      "ContentType": "application/json",
+      "ContentLength": 3788,
+      "ETag": "4a6f604888613b120e620c3702970693",
+      "ServerSideEncryption": "AES256",
+      "VersionId": "PJM8b_cFdjjqQLTbJrbs2OfpqH3WzTmI",
+      "Expiration": "Tue, 17 Feb 2026 00:00:00 GMT"
+    }
+  }
+}
+

@@ -1,0 +1,23 @@
+{
+  "title": "AWS Telemetry: Proxy API routes (API Gateway HTTP API)",
+  "capturedAt": "2026-01-18T03:41:01Z",
+  "system": "aws-telemetry-proxy-api",
+  "aws": {
+    "account": "414712210513",
+    "region": "us-east-1",
+    "apiId": "jsoz9rqb3f",
+    "customDomain": "api.sageideas.dev"
+  },
+  "proof": {
+    "command": "aws apigatewayv2 get-routes --api-id jsoz9rqb3f --profile sageideas",
+    "routes": [
+      "GET /metrics/latest",
+      "GET /health",
+      "POST /contact",
+      "POST /newsletter/subscribe",
+      "GET /newsletter/confirm",
+      "GET /newsletter/unsubscribe"
+    ]
+  }
+}
+

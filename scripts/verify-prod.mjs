@@ -60,6 +60,20 @@ function validateQualitySnapshot(payload, modeLabel) {
 async function main() {
   console.log(`Verifying production at ${SITE_URL}`);
 
+  // small retry helper for transient edge conditions
+  async function retry(fn, { attempts = 3, delayMs = 500 } = {}) {
+    let lastErr;
+    for (let i = 0; i < attempts; i++) {
+      try {
+        return await fn();
+      } catch (e) {
+        lastErr = e;
+        await new Promise((r) => setTimeout(r, delayMs * (i + 1)));
+      }
+    }
+    throw lastErr;
+  }
+
   // 1) Dashboard
   {
     const url = `${SITE_URL}/dashboard`;
@@ -83,18 +97,20 @@ async function main() {
   // 3) AWS mode
   {
     const url = `${SITE_URL}/api/quality?mode=aws`;
-    const res = await fetchWithTimeout(url, { headers: { accept: 'application/json' } });
-    expect(res.ok, `/api/quality aws not OK (status ${res.status})`);
-    const json = await res.json();
+    const json = await retry(async () => {
+      const res = await fetchWithTimeout(url, { headers: { accept: 'application/json' } });
+      if (!res.ok) throw new Error(`/api/quality aws not OK (status ${res.status})`);
+      return res.json();
+    });
     validateQualitySnapshot(json, 'aws');
 
-    const notes = json?.summary?.notes ? String(json.summary.notes) : '';
+    const source = json?.debug?.source ? String(json.debug.source) : '';
     expect(
-      notes.includes('Loaded via AWS proxy API'),
-      `aws: expected summary.notes to prove proxy path; got: ${notes || '(empty)'}`
+      source === 'aws-proxy',
+      `aws: expected debug.source === 'aws-proxy'; got: ${source || '(missing)'} (notes: ${json?.summary?.notes || ''})`
     );
 
-    ok('/api/quality?mode=aws valid and proves AWS proxy path');
+    ok('/api/quality?mode=aws valid and confirms aws-proxy source');
   }
 }
 

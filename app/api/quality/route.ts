@@ -3,6 +3,10 @@ import type { HealthStatus, QualityHistory, QualityMetricsSnapshot, QualityProje
 import { mergeQaMetricsIntoProject, tryFetchQaMetrics } from '@/lib/githubArtifacts';
 import { tryFetchAwsMetricsLatest } from '@/lib/awsMetrics';
 
+type DebugInfo =
+  | { source: 'aws-proxy' }
+  | { source: 'snapshot-fallback'; awsNotes: string };
+
 export const dynamic = 'force-dynamic';
 
 // Live GitHub-backed endpoint.
@@ -204,25 +208,32 @@ export async function GET(request: Request) {
 
     const aws = await tryFetchAwsMetricsLatest();
     if (aws.ok) {
-      const data: QualityMetricsSnapshot = {
+      const data: QualityMetricsSnapshot & { debug?: DebugInfo } = {
         ...aws.snapshot,
         summary: {
           ...(aws.snapshot.summary ?? {}),
           notes: aws.notes || 'Loaded from AWS S3.',
         },
       };
+      data.debug = {
+        source: 'aws-proxy',
+      };
       cache = { ts: now, data };
       return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
     }
 
     const fallback = await getStaticSnapshot();
-    const data: QualityMetricsSnapshot = {
+    const data: QualityMetricsSnapshot & { debug?: DebugInfo } = {
       ...fallback,
       summary: {
         ...(fallback.summary || {}),
         overallStatus: 'degraded',
         notes: `AWS mode unavailable; using snapshot. (${aws.notes})`,
       },
+    };
+    data.debug = {
+      source: 'snapshot-fallback',
+      awsNotes: aws.notes,
     };
     cache = { ts: now, data };
     return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });

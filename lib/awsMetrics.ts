@@ -35,7 +35,11 @@ export async function tryFetchAwsMetricsLatest(): Promise<
       }
 
       const parsed = (await res.json()) as QualityMetricsSnapshot;
-      return { ok: true, snapshot: parsed, notes: parsed.summary?.notes };
+      return {
+        ok: true,
+        snapshot: parsed,
+        notes: parsed.summary?.notes,
+      };
     } catch (e) {
       return { ok: false, notes: e instanceof Error ? e.message : String(e) };
     }

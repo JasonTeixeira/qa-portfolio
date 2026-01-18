@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-07T18:59:05.752Z",
+  "generatedAt": "2026-01-18T05:09:46.798Z",
   "summary": {
     "overallStatus": "degraded",
     "notes": "Auto-generated snapshot from GitHub Actions (Phase 1). Phase 2 upgrades to live server-side GitHub API + report artifacts.",
@@ -20,7 +20,7 @@
       "repo": "JasonTeixeira/qa-portfolio",
       "type": "portfolio",
       "status": "degraded",
-      "lastRun": null,
+      "lastRun": "2026-01-18T05:09:27Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/qa-portfolio/actions"
       },
@@ -29,13 +29,13 @@
       "security": {}
     },
     {
-      "name": "Qa-Automation-Project",
-      "repo": "JasonTeixeira/Qa-Automation-Project",
+      "name": "E2E-Framework",
+      "repo": "JasonTeixeira/E2E-Framework",
       "type": "project",
       "status": "degraded",
       "lastRun": null,
       "ci": {
-        "runsUrl": "https://github.com/JasonTeixeira/Qa-Automation-Project/actions"
+        "runsUrl": "https://github.com/JasonTeixeira/E2E-Framework/actions"
       },
       "tests": {},
       "performance": {},
@@ -46,7 +46,7 @@
       "repo": "JasonTeixeira/API-Test-Automation-Wireframe",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2026-01-07T00:39:19Z",
+      "lastRun": "2026-01-18T00:43:43Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/API-Test-Automation-Wireframe/actions"
       },
@@ -59,7 +59,7 @@
       "repo": "JasonTeixeira/CI-CD-Pipeline",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2026-01-07T02:47:50Z",
+      "lastRun": "2026-01-18T02:54:12Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions"
       },
@@ -98,7 +98,7 @@
       "repo": "JasonTeixeira/BDD-Cucumber-Framework",
       "type": "project",
       "status": "healthy",
-      "lastRun": "2026-01-03T22:38:39Z",
+      "lastRun": "2026-01-07T21:11:11Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/BDD-Cucumber-Framework/actions"
       },
@@ -111,7 +111,7 @@
       "repo": "JasonTeixeira/visual-regression-testing-suite",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2025-12-31T19:38:31Z",
+      "lastRun": "2026-01-07T22:22:06Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/visual-regression-testing-suite/actions"
       },
@@ -124,7 +124,7 @@
       "repo": "JasonTeixeira/Security-Testing-Suite",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2026-01-04T00:37:55Z",
+      "lastRun": "2026-01-18T00:37:06Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/Security-Testing-Suite/actions"
       },

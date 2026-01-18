@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Shield, Activity, BarChart3, ListChecks, GitBranch, ArrowUpRight, ArrowDownRight, ArrowUpDown, FileText, Info, Pause, Play, RotateCw } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Clock, ExternalLink, Shield, Activity, BarChart3, ListChecks, GitBranch, ArrowUpRight, ArrowDownRight, ArrowUpDown, FileText, Info, Pause, Play, RotateCw, ArrowRight } from 'lucide-react';
 import type { HealthStatus, QualityHistory, QualityMetricsSnapshot, QualityProjectMetric } from '@/lib/qualityMetrics';
 import { getQualityHistoryLive, getQualityHistorySnapshot, getQualityMetricsAws, getQualityMetricsLive, getQualityMetricsSnapshot } from '@/lib/qualityMetrics';
 import { KpiCard } from '@/components/ui/dashboard/KpiCard';
@@ -317,8 +317,17 @@ export default function QualityDashboardClient() {
       runUrl,
       awsProxyUrl: 'https://api.sageideas.dev/metrics/latest',
       cloudwatchDashboardUrl: 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=qa-portfolio-prod-api',
+      cloudwatchAlarmsUrl: 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#alarmsV2:',
       terraformUrl: 'https://github.com/JasonTeixeira/qa-portfolio/tree/master/infra/aws-quality-telemetry',
       opsReadinessUrl: 'https://github.com/JasonTeixeira/qa-portfolio/blob/master/OPS_READINESS_DASHBOARD.md',
+      failureModesUrl: 'https://sageideas.dev/platform/quality-telemetry',
+      evidence: {
+        cloudwatchDashboardExport: '/artifacts/evidence/aws-cloudwatch-dashboard-qa-portfolio-prod-api.json',
+        cloudwatchAlarmsExport: '/artifacts/evidence/aws-cloudwatch-alarms-qa-portfolio-prod-api.json',
+        apigwRoutesExport: '/artifacts/evidence/aws-apigw-routes-qa-portfolio-prod.json',
+        s3HeadObjectExport: '/artifacts/evidence/aws-s3-latest-head-object.json',
+        iamRoleExport: '/artifacts/evidence/aws-iam-github-oidc-role.json',
+      },
     };
   }, [projects]);
 
@@ -513,6 +522,15 @@ export default function QualityDashboardClient() {
               Proof: CloudWatch dashboard
             </a>
             <a
+              href={proof.cloudwatchAlarmsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-card text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+            >
+              <ExternalLink size={16} className="text-emerald-300" />
+              Proof: CloudWatch alarms
+            </a>
+            <a
               href={proof.terraformUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -537,6 +555,87 @@ export default function QualityDashboardClient() {
               <Shield size={16} className="text-primary" />
               Evidence library
             </Link>
+          </div>
+
+          {/* AWS proof / receipts */}
+          <div className="mt-8 bg-dark-card border border-emerald-500/20 rounded-lg p-5">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-2 text-emerald-200 font-semibold">
+                <Shield size={16} className="text-emerald-300" />
+                AWS Proof / Receipts
+              </div>
+              <Link
+                href="/artifacts"
+                className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-dark font-semibold"
+              >
+                Browse all evidence <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <p className="mt-2 text-sm text-gray-300 max-w-4xl">
+              Quick proof that Cloud mode is backed by a real AWS path (API Gateway → Lambda → S3) and is monitored like a production service.
+              These links are intentionally recruiter-friendly: one click = receipts.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href={proof.awsProxyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-lighter text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+              >
+                <ExternalLink size={16} className="text-emerald-300" />
+                AWS proxy endpoint (403 without token)
+              </a>
+
+              <a
+                href={proof.cloudwatchDashboardUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-lighter text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+              >
+                <ExternalLink size={16} className="text-emerald-300" />
+                CloudWatch dashboard
+              </a>
+
+              <a
+                href={proof.cloudwatchAlarmsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-lighter text-sm text-gray-200 hover:border-emerald-400/60 transition-colors"
+              >
+                <ExternalLink size={16} className="text-emerald-300" />
+                CloudWatch alarms
+              </a>
+
+              <a
+                href={proof.failureModesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-dark-lighter bg-dark-lighter text-sm text-gray-200 hover:border-primary/60 transition-colors"
+              >
+                <ExternalLink size={16} className="text-primary" />
+                Failure modes
+              </a>
+            </div>
+
+            <div className="mt-4 grid md:grid-cols-2 gap-3 text-sm">
+              <a className="underline text-gray-200 hover:text-white" href={proof.evidence.cloudwatchDashboardExport} target="_blank" rel="noreferrer">
+                Evidence export: CloudWatch dashboard JSON
+              </a>
+              <a className="underline text-gray-200 hover:text-white" href={proof.evidence.cloudwatchAlarmsExport} target="_blank" rel="noreferrer">
+                Evidence export: alarms JSON
+              </a>
+              <a className="underline text-gray-200 hover:text-white" href={proof.evidence.apigwRoutesExport} target="_blank" rel="noreferrer">
+                Evidence export: API Gateway routes JSON
+              </a>
+              <a className="underline text-gray-200 hover:text-white" href={proof.evidence.s3HeadObjectExport} target="_blank" rel="noreferrer">
+                Evidence export: S3 head-object JSON
+              </a>
+              <a className="underline text-gray-200 hover:text-white" href={proof.evidence.iamRoleExport} target="_blank" rel="noreferrer">
+                Evidence export: IAM role (OIDC) JSON
+              </a>
+            </div>
           </div>
 
           {/* Cloud mode proof */}

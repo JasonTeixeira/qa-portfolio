@@ -39,7 +39,8 @@ const TOKEN =
 const WRITE_TOKEN = process.env.QUALITY_GITHUB_TOKEN;
 
 const CACHE_TTL_MS = 60_000; // 1 minute
-let cache: { ts: number; data: QualityMetricsSnapshot } | null = null;
+let liveCache: { ts: number; data: QualityMetricsSnapshot } | null = null;
+let awsCache: { ts: number; data: QualityMetricsSnapshot } | null = null;
 let historyCache: { ts: number; data: QualityHistory } | null = null;
 
 async function ghFetch(url: string) {
@@ -200,8 +201,8 @@ export async function GET(request: Request) {
   // Optional cloud-backed mode (S3). Best-effort; falls back to snapshot if not configured.
   if (mode === 'aws') {
     const now = Date.now();
-    if (cache && now - cache.ts < CACHE_TTL_MS) {
-      return NextResponse.json(cache.data, {
+    if (awsCache && now - awsCache.ts < CACHE_TTL_MS) {
+      return NextResponse.json(awsCache.data, {
         headers: { 'Cache-Control': 'no-store' },
       });
     }
@@ -218,7 +219,7 @@ export async function GET(request: Request) {
       data.debug = {
         source: 'aws-proxy',
       };
-      cache = { ts: now, data };
+      awsCache = { ts: now, data };
       return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
     }
 
@@ -235,7 +236,7 @@ export async function GET(request: Request) {
       source: 'snapshot-fallback',
       awsNotes: aws.notes,
     };
-    cache = { ts: now, data };
+    awsCache = { ts: now, data };
     return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } });
   }
 
@@ -257,8 +258,8 @@ export async function GET(request: Request) {
   }
 
   const now = Date.now();
-  if (cache && now - cache.ts < CACHE_TTL_MS) {
-    return NextResponse.json(cache.data, {
+  if (liveCache && now - liveCache.ts < CACHE_TTL_MS) {
+    return NextResponse.json(liveCache.data, {
       headers: { 'Cache-Control': 'no-store' },
     });
   }
@@ -290,7 +291,7 @@ export async function GET(request: Request) {
       projects,
     };
 
-    cache = { ts: now, data };
+    liveCache = { ts: now, data };
 
     return NextResponse.json(data, {
       headers: { 'Cache-Control': 'no-store' },
@@ -306,7 +307,7 @@ export async function GET(request: Request) {
           'Live GitHub metrics failed; showing the last known snapshot instead.',
       },
     };
-    cache = { ts: now, data };
+    liveCache = { ts: now, data };
     return NextResponse.json(data, {
       headers: { 'Cache-Control': 'no-store' },
     });

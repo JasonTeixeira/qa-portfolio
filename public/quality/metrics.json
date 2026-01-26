@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-25T05:13:55.443Z",
+  "generatedAt": "2026-01-26T05:16:47.750Z",
   "summary": {
     "overallStatus": "degraded",
     "notes": "Auto-generated snapshot from GitHub Actions (Phase 1). Phase 2 upgrades to live server-side GitHub API + report artifacts.",
@@ -20,7 +20,7 @@
       "repo": "JasonTeixeira/qa-portfolio",
       "type": "portfolio",
       "status": "degraded",
-      "lastRun": "2026-01-25T05:13:34Z",
+      "lastRun": "2026-01-26T05:16:26Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/qa-portfolio/actions"
       },
@@ -46,7 +46,7 @@
       "repo": "JasonTeixeira/API-Test-Automation-Wireframe",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2026-01-25T00:44:36Z",
+      "lastRun": "2026-01-26T00:43:34Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/API-Test-Automation-Wireframe/actions"
       },
@@ -59,7 +59,7 @@
       "repo": "JasonTeixeira/CI-CD-Pipeline",
       "type": "project",
       "status": "degraded",
-      "lastRun": "2026-01-25T02:56:56Z",
+      "lastRun": "2026-01-26T02:58:07Z",
       "ci": {
         "runsUrl": "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions"
       },

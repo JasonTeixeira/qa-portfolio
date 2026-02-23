@@ -22,6 +22,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} | Jason Teixeira Blog`,
     description: post.excerpt,
+    openGraph: {
+      title: `${post.title} | Jason Teixeira Blog`,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      tags: post.tags,
+      images: post.coverImage
+        ? [
+            {
+              url: post.coverImage,
+              width: 1600,
+              height: 900,
+              alt: post.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: post.coverImage ? "summary_large_image" : "summary",
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : undefined,
+    },
   };
 }
 

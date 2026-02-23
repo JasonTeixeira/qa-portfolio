@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Calendar, Clock, Tag, ArrowLeft, Copy, Check, Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { BlogPost as BlogPostType } from "@/lib/blogData";
 import ReactMarkdown from "react-markdown";
@@ -236,6 +237,23 @@ export default function BlogPost({ post }: BlogPostProps) {
                   <span>{post.readTime}</span>
                 </div>
               </div>
+
+              {/* Cover Image */}
+              {post.coverImage && (
+                <div className="mb-10 rounded-2xl overflow-hidden border border-dark-lighter bg-dark-card">
+                  <div className="relative aspect-video">
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 768px"
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/0 to-dark/20" />
+                  </div>
+                </div>
+              )}
 
               {/* Excerpt */}
               <p className="text-xl text-gray-300 leading-relaxed mb-12 max-w-[70ch]">

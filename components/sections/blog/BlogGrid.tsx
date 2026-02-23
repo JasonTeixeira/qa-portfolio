@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Clock, Calendar, Tag } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blogData";
 
@@ -114,9 +115,23 @@ export default function BlogGrid({ searchQuery = "" }: { searchQuery?: string })
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-dark-card border border-dark-lighter rounded-lg overflow-hidden hover:border-primary transition-all duration-300 group"
             >
-              {/* Cover Image Placeholder */}
-              <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                <div className="text-primary text-6xl font-bold opacity-20">Blog</div>
+              {/* Cover Image */}
+              <div className="relative aspect-video bg-gradient-to-br from-primary/20 to-primary/5">
+                {post.coverImage ? (
+                  <Image
+                    src={post.coverImage}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover"
+                    priority={index < 3}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-primary text-6xl font-bold opacity-20">Blog</div>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/0 to-dark/20" />
               </div>
 
               {/* Content */}

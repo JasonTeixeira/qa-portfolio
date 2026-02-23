@@ -8,7 +8,7 @@ import { projects, type Project } from "@/lib/projectsData";
  */
 const FEATURED_SLUGS = [
   "aws-landing-zone-guardrails",
-  "selenium-python-framework",
+  "quality-telemetry-dashboard",
   "api-testing-framework",
   "cicd-testing-pipeline",
 ] as const;

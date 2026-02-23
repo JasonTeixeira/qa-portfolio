@@ -17,6 +17,7 @@ export default function ContactForm() {
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showDirectContact, setShowDirectContact] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +51,9 @@ export default function ContactForm() {
           if (data?.error) msg = data.error;
         } catch {
           // ignore
+        }
+        if (/not configured/i.test(msg)) {
+          setShowDirectContact(true);
         }
         throw new Error(msg);
       }
@@ -233,6 +237,26 @@ export default function ContactForm() {
             <div>
               <p className="text-red-500 font-semibold">Error sending message</p>
               <p className="text-gray-300 text-sm mt-1">{errorMessage}</p>
+
+              {showDirectContact && (
+                <div className="mt-3 text-sm text-gray-200">
+                  <div className="font-semibold text-foreground">Quick workaround:</div>
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    <li>
+                      Email me directly at{' '}
+                      <a
+                        className="text-primary underline underline-offset-4"
+                        href="mailto:sage@sageideas.org"
+                      >
+                        sage@sageideas.org
+                      </a>
+                    </li>
+                    <li>
+                      Or set <span className="font-mono">WEB3FORMS_ACCESS_KEY</span> on Vercel to enable the form.
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

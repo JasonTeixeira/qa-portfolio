@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const roles = [
-  "QA Automation / SDET (cloud-curious)",
+  "Automation Engineer (QA + Cloud)",
   "Test Automation + CI/CD",
   "API Testing + Quality Telemetry",
   "AWS + IaC (learning by shipping)",

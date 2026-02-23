@@ -81,6 +81,17 @@ This project builds a **small but real AWS landing zone** using **AWS Organizati
 
 The goal isn’t “I can click around AWS” — it’s to show I can build a foundation a company could actually run.
 
+## Interview hooks (talk track)
+
+If we talk about this in an interview, here’s the quick story:
+
+- **Problem:** Most “cloud projects” don’t show governance. Teams need *multi-account*, auditability, and safe change control.
+- **Constraints:** Keep it **low-cost**, reproducible, and safe-by-default (no “click ops” and no hidden steps).
+- **What I built:** AWS Organizations layout + centralized CloudTrail → S3 + SCP guardrails + CI plan/apply gates.
+- **Proof:** CI receipts + docs + evidence screenshot (see links below).
+- **What I learned:** Guardrails are about *defaults + blast radius* (not over-restricting teams).
+- **What I’d do next:** Add SSO (Identity Center) + Config/SecurityHub + drift detection.
+
 ## What I built (v1)
 
 This repo is intentionally scoped to a practical, low-cost baseline you can actually stand up:
@@ -204,6 +215,85 @@ See the repo README for step-by-step deploy instructions.
       ciBadgeUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions/workflows/ci.yml/badge.svg",
       reportUrl: "/artifacts/evidence/landing-zone-ci.png",
       ciRunsUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions",
+    },
+  },
+  {
+    id: 101,
+    slug: "quality-telemetry-dashboard",
+    title: "Quality Telemetry Dashboard",
+    tagline: "A production-style QA health dashboard with snapshot/live/cloud modes and proof-first evidence",
+    description: "This portfolio’s flagship demo system: a quality dashboard fed by CI artifacts with an optional AWS-backed ingestion path (safe fallbacks + receipts).",
+    fullContent: `
+# Quality Telemetry Dashboard (Portfolio)
+
+## Executive summary
+
+I built a **production-style quality telemetry dashboard** that answers a recruiter / hiring manager question fast:
+
+> Can this person build automation systems and make them *observable*?
+
+The dashboard supports:
+
+- **Snapshot mode:** loads a committed metrics file (always works)
+- **Live mode:** queries GitHub Actions and pulls the latest 
+  **artifact-backed** QA metrics (best-effort, rate-limit-safe)
+- **Cloud mode:** is designed to read metrics from AWS S3 via a proxy API (credential-free on Vercel)
+
+## Interview hooks (talk track)
+
+- **Problem:** CI results often get lost in logs. Teams need a simple, consistent way to see *health + trends*.
+- **Constraints:** Must be safe on a public portfolio site (no secrets leaked), and must degrade gracefully.
+- **What I built:** Next.js dashboard + \`/api/quality\` aggregator + caching + snapshot fallback + AWS proof artifacts.
+- **Proof:** The dashboard itself + evidence exports in the artifacts library.
+- **What I learned:** Reliability is product work — fallbacks, caching, and clear failure modes matter.
+- **What I’d do next:** Add alert routing (email/Slack), per-suite trend slicing, and a “release gate” summary.
+
+## Proof & evidence
+
+- Dashboard: /dashboard
+- System design: /platform/quality-telemetry
+- API endpoint: /api/quality
+- Evidence library: /artifacts#evidence
+
+AWS receipts (exports committed to the repo):
+
+- CloudWatch dashboard export: /artifacts/evidence/aws-cloudwatch-dashboard-qa-portfolio-prod-api.json
+- CloudWatch alarms export: /artifacts/evidence/aws-cloudwatch-alarms-qa-portfolio-prod-api.json
+- API Gateway routes export: /artifacts/evidence/aws-apigw-routes-qa-portfolio-prod.json
+- S3 head-object export: /artifacts/evidence/aws-s3-latest-head-object.json
+- IAM role export: /artifacts/evidence/aws-iam-github-oidc-role.json
+`,
+    category: ["Telemetry", "QA Platform", "Next.js"],
+    tags: ["Next.js", "Playwright", "GitHub Actions", "Quality Metrics", "Observability", "AWS"],
+    difficulty: "Intermediate",
+    status: "Active",
+    startDate: "2026-01-01",
+    duration: "Ongoing",
+    lastUpdated: "2026-02-23",
+    teamSize: 1,
+    yourRole: "Automation Engineer - build + test + ops receipts",
+    problem: "CI signals are often hard to consume. Teams need a fast, reliable view of test health + trends with proof links.",
+    solution: "Built a telemetry dashboard with snapshot/live/cloud modes, safe fallbacks, and evidence exports (AWS receipts) to prove the system is real.",
+    results: [
+      "Live-style health table across repos with safe fallbacks",
+      "Artifact-backed metrics ingestion (GitHub Actions)",
+      "Cloud-mode design for AWS S3 ingestion without exposing creds",
+      "Evidence exports to make the system recruiter-friendly"
+    ],
+    metrics: {
+      tests: "49 UI",
+      performance: "CI gates",
+      custom: {
+        "Modes": "snapshot · live · cloud",
+        "Evidence": "AWS exports + CI artifacts",
+      },
+    },
+    tech: ["Next.js", "TypeScript", "Playwright", "GitHub Actions", "AWS"],
+    github: "https://github.com/JasonTeixeira/qa-portfolio",
+    documentation: "/platform/quality-telemetry",
+    proof: {
+      ciRunsUrl: "https://github.com/JasonTeixeira/qa-portfolio/actions",
+      reportUrl: "/artifacts/interview-demo-quality-dashboard.md",
     },
   },
   {
@@ -797,6 +887,15 @@ Impressed by this project? I'm available for:
 ## Executive Summary
 
 Built a production-grade REST API testing framework that reduced flaky test rate from 10% to <1% using intelligent retry logic, Pydantic schema validation, and connection pooling. The framework now powers 125+ automated API tests running in CI/CD with 3x faster execution times.
+
+## Interview hooks (talk track)
+
+- **Problem:** Flaky API tests create noise; teams stop trusting CI.
+- **Constraints:** Handle rate limits (429), transient network issues, and schema drift without hiding real failures.
+- **What I built:** A layered client with connection pooling + targeted retries + Pydantic contract validation.
+- **Proof:** CI runs + repo code + the case study below.
+- **What I learned:** Retries must be *selective* — blanket retries hide real defects.
+- **What I’d improve next:** Add OpenAPI-driven contract tests + per-endpoint SLOs + richer failure classification.
 
 ## How this was measured
 

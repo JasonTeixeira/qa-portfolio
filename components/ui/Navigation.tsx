@@ -56,13 +56,8 @@ export default function Navigation() {
               </Link>
             ))}
             <a
-              href="/resume.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.preventDefault();
-                window.open("/resume.html", "_blank", "noopener,noreferrer");
-              }}
+              href="/resume.pdf"
+              download
               className="px-4 py-2 border border-primary text-primary rounded hover:bg-primary hover:text-dark transition-all duration-200"
             >
               Resume
@@ -132,14 +127,9 @@ export default function Navigation() {
               </Link>
             ))}
             <a
-              href="/resume.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.preventDefault();
-                window.open("/resume.html", "_blank", "noopener,noreferrer");
-                setIsOpen(false);
-              }}
+              href="/resume.pdf"
+              download
+              onClick={() => setIsOpen(false)}
               className="block w-full text-center px-4 py-2 border border-primary text-primary rounded hover:bg-primary hover:text-dark transition-all duration-200"
             >
               Resume

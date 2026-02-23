@@ -68,14 +68,11 @@ test('Home hero CTAs: View Flagship / View Projects / Resume', async ({ page }) 
   await page.goto('/');
   const resume = page.getByRole('link', { name: /Download Resume/i });
   await expect(resume).toBeVisible();
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
     resume.click(),
   ]);
-  await popup.waitForLoadState('domcontentloaded');
-  await expect(popup).toHaveURL(/\/resume\.html$/);
-  await expect(popup.locator('body')).toContainText(/JASON TEIXEIXRA|JASON TEIXEIRA/i);
-  await popup.close();
+  expect(download.suggestedFilename()).toMatch(/resume\.pdf$/i);
 });
 
 test('Projects: click every project page + validate proof links exist', async ({ page }) => {

@@ -24,8 +24,7 @@ export default function MyStory() {
             </p>
 
             <p>
-              In 2012, I joined <span className="text-primary font-semibold">The Home Depot</span> as a Software Tester. Over the next 8+ years, I grew from 
-              testing basic workflows to leading enterprise-scale test automation initiatives as an Automation Engineer and Cloud Engineer. I built frameworks that tested systems serving 
+              I joined <span className="text-primary font-semibold">The Home Depot</span> as a Software Tester and grew from testing basic workflows to leading enterprise-scale test automation initiatives as an Automation Engineer and Cloud Engineer. I built frameworks that tested systems serving
               <span className="text-primary font-semibold"> 2,300+ stores</span> and millions of customers daily.
             </p>
 

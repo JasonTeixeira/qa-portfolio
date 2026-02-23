@@ -50,7 +50,7 @@ export default function Hero() {
   }, [text, delta, roleIndex, isDeleting]);
 
   const stats = [
-    { label: "Years Experience", value: "8+" },
+    { label: "Tests in Production", value: "500+" },
     { label: "Automation Systems", value: "CI/CD + QA + Infra" },
     { label: "Fortune 50 Impact", value: "Yes" },
     { label: "Cloud Focus", value: "AWS + IaC" },
@@ -175,13 +175,8 @@ export default function Hero() {
               View Projects
             </Link>
             <a
-              href="/resume.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.preventDefault();
-                window.open('/resume.html', '_blank', 'noopener,noreferrer');
-              }}
+              href="/resume.pdf"
+              download
               className="px-8 py-4 border-2 border-primary text-foreground font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
             >
               Download Resume

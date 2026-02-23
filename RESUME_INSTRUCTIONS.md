@@ -8,7 +8,7 @@ Your professional LaTeX resume is ready! Follow these steps to generate the PDF.
 
 - **File Location:** `/Users/Sage/Desktop/qa-portfolio/resume.tex`
 - **Format:** LaTeX (ATS-optimized, professional)
-- **Content:** 8+ years experience, NO "senior" titles, all metrics included
+- **Content:** no tenure claims, NO "senior" titles, all metrics included
 - **Style:** One-page, modern, recruiter-friendly
 
 ---
@@ -96,7 +96,7 @@ Now the "Download Resume" button on your website will work!
 
 Your resume includes:
 
-✅ **Professional Summary:** 8+ years, quantified achievements  
+✅ **Professional Summary:** quantified achievements
 ✅ **Technical Skills:** Python, Selenium, API Testing, CI/CD  
 ✅ **Experience:**
 - QA Automation Engineer at HighStrike Capital (2022-Present)

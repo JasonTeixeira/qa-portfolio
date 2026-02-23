@@ -7,55 +7,55 @@ const skillCategories = [
   {
     title: "Test Automation",
     skills: [
-      { name: "Selenium WebDriver", level: "Advanced", years: "6+ years", context: "300+ tests in production" },
-      { name: "Playwright", level: "Proficient", years: "3 years", context: "Multi-browser testing" },
-      { name: "Cypress", level: "Proficient", years: "2 years", context: "E2E test suites" },
-      { name: "Appium", level: "Intermediate", years: "2 years", context: "15+ device coverage" },
+      { name: "Selenium WebDriver", level: "Advanced", years: "Advanced", context: "300+ tests in production" },
+      { name: "Playwright", level: "Proficient", years: "Proficient", context: "Multi-browser testing" },
+      { name: "Cypress", level: "Proficient", years: "Proficient", context: "E2E test suites" },
+      { name: "Appium", level: "Intermediate", years: "Intermediate", context: "15+ device coverage" },
     ],
   },
   {
     title: "Programming",
     skills: [
-      { name: "Python", level: "Advanced", years: "6+ years", context: "6 frameworks built" },
-      { name: "JavaScript/TypeScript", level: "Proficient", years: "4 years", context: "Node.js test scripts" },
-      { name: "SQL", level: "Proficient", years: "5 years", context: "Data validation testing" },
-      { name: "Bash/Shell", level: "Intermediate", years: "4 years", context: "CI/CD automation" },
+      { name: "Python", level: "Advanced", years: "Advanced", context: "6 frameworks built" },
+      { name: "JavaScript/TypeScript", level: "Proficient", years: "Proficient", context: "Node.js test scripts" },
+      { name: "SQL", level: "Proficient", years: "Proficient", context: "Data validation testing" },
+      { name: "Bash/Shell", level: "Intermediate", years: "Intermediate", context: "CI/CD automation" },
     ],
   },
   {
     title: "API & Performance",
     skills: [
-      { name: "REST API Testing", level: "Advanced", years: "5+ years", context: "125+ API tests" },
-      { name: "Postman/pytest", level: "Proficient", years: "5 years", context: "Schema validation" },
-      { name: "JMeter", level: "Intermediate", years: "2 years", context: "10K+ concurrent users" },
-      { name: "GraphQL Testing", level: "Learning", years: "1 year", context: "Query optimization" },
+      { name: "REST API Testing", level: "Advanced", years: "Advanced", context: "125+ API tests" },
+      { name: "Postman/pytest", level: "Proficient", years: "Proficient", context: "Schema validation" },
+      { name: "JMeter", level: "Intermediate", years: "Intermediate", context: "10K+ concurrent users" },
+      { name: "GraphQL Testing", level: "Learning", years: "Learning", context: "Query optimization" },
     ],
   },
   {
     title: "CI/CD & DevOps",
     skills: [
-      { name: "Jenkins", level: "Proficient", years: "4 years", context: "500+ tests/8 min" },
-      { name: "GitHub Actions", level: "Proficient", years: "3 years", context: "Automated PR testing" },
-      { name: "Docker", level: "Proficient", years: "3 years", context: "Containerized test suites" },
-      { name: "Kubernetes", level: "Intermediate", years: "2 years", context: "Test infrastructure" },
+      { name: "Jenkins", level: "Proficient", years: "Proficient", context: "500+ tests/8 min" },
+      { name: "GitHub Actions", level: "Proficient", years: "Proficient", context: "Automated PR testing" },
+      { name: "Docker", level: "Proficient", years: "Proficient", context: "Containerized test suites" },
+      { name: "Kubernetes", level: "Intermediate", years: "Intermediate", context: "Test infrastructure" },
     ],
   },
   {
     title: "Cloud & Tools",
     skills: [
-      { name: "AWS", level: "Proficient", years: "4 years", context: "6 AWS certifications" },
-      { name: "Git", level: "Advanced", years: "6+ years", context: "Version control" },
-      { name: "Allure Reports", level: "Proficient", years: "3 years", context: "Test reporting" },
-      { name: "TestRail/Jira", level: "Proficient", years: "5 years", context: "Test management" },
+      { name: "AWS", level: "Proficient", years: "Proficient", context: "6 AWS certifications" },
+      { name: "Git", level: "Advanced", years: "Advanced", context: "Version control" },
+      { name: "Allure Reports", level: "Proficient", years: "Proficient", context: "Test reporting" },
+      { name: "TestRail/Jira", level: "Proficient", years: "Proficient", context: "Test management" },
     ],
   },
   {
     title: "Frameworks & Methodologies",
     skills: [
-      { name: "pytest", level: "Advanced", years: "5+ years", context: "Custom fixtures & plugins" },
-      { name: "Page Object Model", level: "Advanced", years: "6+ years", context: "Component composition" },
-      { name: "BDD/Cucumber", level: "Proficient", years: "3 years", context: "200+ scenarios" },
-      { name: "TDD", level: "Proficient", years: "4 years", context: "Test-first development" },
+      { name: "pytest", level: "Advanced", years: "Advanced", context: "Custom fixtures & plugins" },
+      { name: "Page Object Model", level: "Advanced", years: "Advanced", context: "Component composition" },
+      { name: "BDD/Cucumber", level: "Proficient", years: "Proficient", context: "200+ scenarios" },
+      { name: "TDD", level: "Proficient", years: "Proficient", context: "Test-first development" },
     ],
   },
 ];
@@ -89,15 +89,15 @@ export default function Skills() {
           <div className="flex flex-wrap justify-center gap-4 mt-6 text-sm">
             <div className="flex items-center gap-2">
               <CheckCircle className="text-primary" size={16} />
-              <span className="text-gray-300">Advanced: 5+ years production</span>
+              <span className="text-gray-300">Advanced: production-ready</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="text-teal-400" size={16} />
-              <span className="text-gray-300">Proficient: 3-4 years</span>
+              <span className="text-gray-300">Proficient: reliable delivery</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="text-teal-500" size={16} />
-              <span className="text-gray-300">Intermediate: 1-2 years</span>
+              <span className="text-gray-300">Intermediate: hands-on practice</span>
             </div>
           </div>
         </motion.div>
@@ -154,16 +154,16 @@ export default function Skills() {
           className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           <div className="bg-dark-card border border-dark-lighter rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-primary mb-1">8+</div>
-            <div className="text-sm text-gray-400">Years Experience</div>
+            <div className="text-2xl font-bold text-primary mb-1">500+</div>
+            <div className="text-sm text-gray-400">Tests in Production</div>
           </div>
           <div className="bg-dark-card border border-dark-lighter rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-primary mb-1">6</div>
             <div className="text-sm text-gray-400">Frameworks Built</div>
           </div>
           <div className="bg-dark-card border border-dark-lighter rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-primary mb-1">500+</div>
-            <div className="text-sm text-gray-400">Tests in Production</div>
+            <div className="text-2xl font-bold text-primary mb-1">125+</div>
+            <div className="text-sm text-gray-400">API Tests</div>
           </div>
           <div className="bg-dark-card border border-dark-lighter rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-primary mb-1">9</div>

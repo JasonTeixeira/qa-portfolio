@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 export default function ResumePage() {
   // Keep the canonical resume as a static file for easy printing/downloading.
   // This route exists to support /resume URLs (and link-checkers) cleanly.
-  redirect("/resume.html");
+  redirect("/resume.pdf");
 }
 

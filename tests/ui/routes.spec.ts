@@ -42,11 +42,11 @@ test.describe('route coverage', () => {
     });
   }
 
-  test('resume route redirects to resume.html', async ({ page }) => {
-    const res = await page.goto('/resume', { waitUntil: 'domcontentloaded' });
-    expect(res?.status()).toBeLessThan(400);
-    await expect(page).toHaveURL(/\/resume\.html$/);
-    await expect(page.locator('body')).toContainText(/JASON TEIXEIXRA|JASON TEIXEIRA/i);
+  test('resume route redirects to resume.pdf', async ({ request }) => {
+    const res = await request.get('/resume', { maxRedirects: 0 });
+    expect(res.status()).toBeGreaterThanOrEqual(300);
+    expect(res.status()).toBeLessThan(400);
+    expect(res.headers()['location'] || '').toMatch(/\/resume\.pdf$/);
   });
 
   for (const slug of projectSlugs) {

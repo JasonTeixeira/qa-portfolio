@@ -50,8 +50,7 @@ export default function AboutPreview() {
               className="space-y-4 text-gray-300 text-lg"
             >
               <p>
-                With over <span className="text-primary font-semibold">8 years of experience</span> in QA automation, 
-                I specialize in building robust test frameworks that catch bugs before they reach production.
+                I specialize in QA automation and in building robust test frameworks that catch bugs before they reach production.
               </p>
               <p>
                 From Fortune 50 enterprises to cutting-edge fintech startups, I&apos;ve architected 

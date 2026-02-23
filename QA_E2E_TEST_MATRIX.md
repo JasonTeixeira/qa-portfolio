@@ -21,7 +21,7 @@ This doc is the **source of truth** for what we verify end-to-end in this portfo
 - `/artifacts`
 - `/blog`
 - `/contact`
-- `/resume` (redirects to `/resume.html`)
+- `/resume` (redirects to `/resume.pdf`)
 
 ### Dynamic pages
 - `/projects/[slug]` (all slugs in `lib/projectsData.ts`)

@@ -8,7 +8,7 @@ import Certifications from "@/components/sections/about/Certifications";
 
 export const metadata: Metadata = {
   title: "About | Jason Teixeira - QA Automation Engineer",
-  description: "Learn about my journey from finance to QA automation, 8+ years of experience, ISTQB certifications, and passion for quality engineering.",
+  description: "Learn about my journey from finance to QA automation, ISTQB certifications, and passion for quality engineering.",
 };
 
 export default function AboutPage() {

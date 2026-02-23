@@ -181,7 +181,7 @@ Tested on:
 
 ## 🌟 Key Metrics Displayed
 
-- **8+ years** of QA automation experience
+- **QA automation** portfolio focus
 - **500+ automated tests** in production
 - **3 ISTQB certifications** (CTFL, TAE, CT-AI)
 - **Fortune 50 experience** (The Home Depot)

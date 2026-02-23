@@ -80,7 +80,7 @@ git push -u origin main
 - [ ] Add your professional photo (replace "JT" placeholders)
 - [ ] Verify all project links point to correct GitHub repos
 - [ ] Update LinkedIn URL in footer and nav
-- [ ] Add your resume PDF to `/public/resume.pdf`
+- [ ] Add your resume PDF to `/public/resume.pdf` (generated from `/public/resume.html`)
 
 ### 2. Configuration
 - [ ] Update `baseUrl` in `app/sitemap.ts` to your domain
@@ -325,7 +325,7 @@ Your portfolio is optimized for:
 ## 🎉 Congratulations!
 
 Your premium QA automation portfolio is ready to launch. This represents:
-- **Professional branding** for your 8+ years of experience
+- **Professional branding** centered on QA automation and quality engineering
 - **Technical expertise** showcased through real projects
 - **Modern tech stack** demonstrating current skills
 - **SEO optimization** for recruiter discovery

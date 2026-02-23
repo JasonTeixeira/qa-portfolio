@@ -8,7 +8,7 @@ const valueProps = [
     icon: Code,
     title: "Framework Architecture",
     description: "Build scalable, maintainable test frameworks using Page Object Model, BDD, and modern design patterns.",
-    example: "Built 6+ frameworks used by 50+ engineers",
+    example: "Built frameworks used by 50+ engineers",
     impact: "70% reduction in regression testing time"
   },
   {
@@ -123,7 +123,7 @@ export default function ValueProps() {
                 Get In Touch
               </a>
               <a
-                href="/resume.html"
+                href="/resume.pdf"
                 download
                 className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200"
               >

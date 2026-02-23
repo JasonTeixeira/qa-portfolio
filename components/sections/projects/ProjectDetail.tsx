@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Clock, Tag, ArrowLeft, Copy, Check, Menu, Github, ExternalLink, Users, Target } from "lucide-react";
+import { Calendar, Clock, Tag, ArrowLeft, ArrowRight, Copy, Check, Menu, Github, ExternalLink, Users, Target } from "lucide-react";
 import Link from "next/link";
 import { Project, getRelatedProjects } from "@/lib/projectsData";
 import { blogPosts } from "@/lib/blogData";
@@ -15,6 +15,12 @@ import rehypeRaw from "rehype-raw";
 import "highlight.js/styles/tokyo-night-dark.css";
 import { useState, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
+
+type RecruiterLink = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
 
 interface ProjectDetailProps {
   project: Project;
@@ -173,6 +179,40 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       default: return "bg-primary/10 text-foreground";
     }
   };
+
+  const recruiterLinks: RecruiterLink[] = (() => {
+    const base: RecruiterLink[] = [{ label: "Recruiter Mode", href: "/start" }];
+
+    if (project.slug === "quality-telemetry-dashboard") {
+      base.push(
+        { label: "Live Dashboard", href: "/dashboard" },
+        { label: "System Design", href: "/platform/quality-telemetry" },
+        { label: "Evidence Library", href: "/artifacts#evidence" }
+      );
+    }
+
+    if (project.slug === "aws-landing-zone-guardrails") {
+      base.push(
+        { label: "Security Guardrails", href: "/platform/security-guardrails" },
+        { label: "Evidence Library", href: "/artifacts#evidence" }
+      );
+    }
+
+    if (project.slug === "api-testing-framework") {
+      base.push(
+        { label: "Quality Telemetry Concept", href: "/platform/quality-telemetry" },
+        { label: "Artifacts Library", href: "/artifacts" }
+      );
+    }
+
+    return base;
+  })();
+
+  const showRecruiterLinks = [
+    "aws-landing-zone-guardrails",
+    "quality-telemetry-dashboard",
+    "api-testing-framework",
+  ].includes(project.slug);
 
   return (
     <div className="min-h-screen bg-dark">
@@ -344,6 +384,41 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   </a>
                 )}
               </div>
+
+              {/* Recruiter quick links (fast proof for remote hiring) */}
+              {showRecruiterLinks && (
+                <div className="mb-10 bg-dark-card border border-dark-lighter rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-foreground mb-3">Recruiter quick links</h3>
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+                    {recruiterLinks.map((l) =>
+                      l.external ? (
+                        <a
+                          key={l.label}
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors"
+                        >
+                          <span className="font-semibold">{l.label}</span>
+                          <ExternalLink size={16} className="opacity-70" />
+                        </a>
+                      ) : (
+                        <Link
+                          key={l.label}
+                          href={l.href}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors"
+                        >
+                          <span className="font-semibold">{l.label}</span>
+                          <ArrowRight size={16} className="opacity-70" />
+                        </Link>
+                      )
+                    )}
+                  </div>
+                  <p className="mt-4 text-sm text-gray-400">
+                    Remote-friendly: each link is a short path to proof (design, runtime, evidence).
+                  </p>
+                </div>
+              )}
 
               {/* Proof / Evidence */}
               {project.proof && <ProofBlock proof={project.proof} />}

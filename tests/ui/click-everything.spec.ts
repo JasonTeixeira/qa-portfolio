@@ -8,7 +8,7 @@ import type { Response as PWResponse } from '@playwright/test';
 // - broken internal routing
 // - obvious regressions in client-side widgets
 
-const navLinks = ['About', 'Platform', 'Telemetry', 'Dashboard', 'Projects', 'Artifacts', 'Blog', 'Contact'];
+const navLinks = ['Start', 'About', 'Platform', 'Telemetry', 'Dashboard', 'Projects', 'Artifacts', 'Blog', 'Contact'];
 
 const projectSlugs = [
   'aws-landing-zone-guardrails',

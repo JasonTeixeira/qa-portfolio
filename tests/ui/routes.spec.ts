@@ -5,6 +5,7 @@ import { test, expect } from '@playwright/test';
 
 const staticRoutes: Array<{ path: string; mustContain: RegExp }> = [
   { path: '/', mustContain: /Jason Teixeira/i },
+  { path: '/start', mustContain: /(Recruiter Mode|Start here)/i },
   { path: '/about', mustContain: /About/i },
   { path: '/platform', mustContain: /Quality Platform/i },
   { path: '/platform/quality-telemetry', mustContain: /Quality Telemetry Pipeline/i },

@@ -49,6 +49,9 @@ test('Navigation routes render (top nav)', async ({ page }) => {
   const nav = page.locator('nav');
   await expect(nav).toBeVisible();
 
+  await nav.getByRole('link', { name: 'Start', exact: true }).click();
+  await expect(page).toHaveURL(/\/start(\.html)?$/);
+
   await nav.getByRole('link', { name: 'About', exact: true }).click();
   await expect(page).toHaveURL(/\/about(\.html)?$/);
 

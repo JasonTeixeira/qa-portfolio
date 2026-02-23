@@ -116,6 +116,99 @@ export default function StartRecruiterModePage() {
             </Link>
           </div>
 
+          {/* Proof bundle (one-click) */}
+          <div className="mt-10 rounded-2xl border border-dark-lighter bg-dark-card p-6">
+            <div className="flex items-center gap-3 mb-3">
+              <Activity className="text-primary" size={18} />
+              <h2 className="text-xl font-bold text-foreground">Proof bundle (one-click)</h2>
+            </div>
+            <p className="text-gray-300 leading-relaxed max-w-3xl">
+              Fastest path to evaluation: open the dashboard, flip modes, and follow the receipts. Everything is
+              built to be safe on a public portfolio (no secrets) with graceful fallbacks.
+            </p>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-dark rounded-lg hover:bg-primary-dark transition-colors font-semibold"
+              >
+                Dashboard <LayoutDashboard size={18} />
+              </Link>
+              <Link
+                href="/platform/quality-telemetry"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors font-semibold"
+              >
+                System design <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/artifacts#evidence"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors font-semibold"
+              >
+                Evidence <ArrowRight size={18} />
+              </Link>
+              <a
+                href="https://github.com/JasonTeixeira/qa-portfolio/actions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors font-semibold"
+              >
+                CI runs <ArrowRight size={18} />
+              </a>
+              <a
+                href="/QA_E2E_TEST_MATRIX.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors font-semibold"
+              >
+                Test matrix <ArrowRight size={18} />
+              </a>
+            </div>
+
+            <div className="mt-5 text-sm text-gray-400">
+              Remote-friendly: every link is designed to answer “is this real?” without needing a live call.
+            </div>
+          </div>
+
+          {/* Remote-ready workflow */}
+          <div className="mt-10 grid lg:grid-cols-3 gap-6">
+            <div className="rounded-2xl border border-dark-lighter bg-dark-card p-6">
+              <h3 className="text-lg font-bold text-foreground">How I ship (async)</h3>
+              <ul className="mt-3 text-sm text-gray-300 leading-relaxed space-y-2 list-disc pl-5">
+                <li>Small, reviewable PRs with clear intent</li>
+                <li>CI gates + artifacts as receipts</li>
+                <li>Docs + diagrams so knowledge isn’t tribal</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-dark-lighter bg-dark-card p-6">
+              <h3 className="text-lg font-bold text-foreground">How I build apps</h3>
+              <ul className="mt-3 text-sm text-gray-300 leading-relaxed space-y-2 list-disc pl-5">
+                <li>Next.js + API routes + typed data contracts</li>
+                <li>Quality built-in: tests, lint, validation</li>
+                <li>Designed for safe public runtime (no secrets)</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-dark-lighter bg-dark-card p-6">
+              <h3 className="text-lg font-bold text-foreground">Interview pack</h3>
+              <p className="mt-3 text-sm text-gray-300 leading-relaxed">
+                Coming next: 3 flagship 1-pagers + an evidence index + a 30/60/90 plan.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <Link
+                  href="/artifacts"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-dark border border-dark-lighter rounded-lg hover:border-primary transition-colors font-semibold"
+                >
+                  Browse artifacts <ArrowRight size={18} />
+                </Link>
+                <a
+                  href="/artifacts/recruiter-pack.zip"
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-dark transition-colors font-semibold"
+                >
+                  Recruiter pack (ZIP) <FileText size={18} />
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-12 grid lg:grid-cols-3 gap-6">
             <FlagshipCard
               title="AWS Landing Zone + Guardrails"

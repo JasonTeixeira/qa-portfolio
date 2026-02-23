@@ -32,6 +32,27 @@ interface ToCItem {
   level: number;
 }
 
+function TLDR({ items }: { items: Array<{ label: string; value: string }> }) {
+  return (
+    <div className="mb-10 bg-dark-card border border-primary/20 rounded-xl p-6">
+      <div className="flex items-center justify-between gap-4 mb-3">
+        <h3 className="text-lg font-semibold text-foreground">TL;DR</h3>
+        <span className="text-xs font-mono text-gray-400">fast skim</span>
+      </div>
+      <div className="grid gap-3">
+        {items.map((i) => (
+          <div key={i.label} className="text-sm text-gray-300 leading-relaxed">
+            <span className="text-foreground font-semibold">{i.label}:</span> {i.value}
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-sm text-gray-400">
+        Recruiter note: this block is designed for remote evaluation — problem, constraints, what shipped, and proof.
+      </p>
+    </div>
+  );
+}
+
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [copied, setCopied] = useState<string | null>(null);
   const [tableOfContents, setTableOfContents] = useState<ToCItem[]>([]);
@@ -214,6 +235,40 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     "api-testing-framework",
   ].includes(project.slug);
 
+  const tldrItems = (() => {
+    if (project.slug === "aws-landing-zone-guardrails") {
+      return [
+        { label: "Problem", value: "Most AWS projects show services, not governance + change control." },
+        { label: "Constraints", value: "Low-cost, reproducible, safe-by-default (no click-ops)." },
+        { label: "Built", value: "AWS Organizations landing zone + SCP guardrails + centralized audit logging + gated Terraform CI." },
+        { label: "Results", value: "Evidence-first guardrails baseline with CI receipts and ops docs." },
+        { label: "Proof", value: "Repo + CI runs + Evidence library + Security guardrails write-up." },
+      ];
+    }
+
+    if (project.slug === "quality-telemetry-dashboard") {
+      return [
+        { label: "Problem", value: "CI signals get buried; teams need a reliable health + trend view." },
+        { label: "Constraints", value: "Public-safe (no secrets), rate-limit-safe, graceful fallbacks." },
+        { label: "Built", value: "Next.js dashboard + /api/quality aggregator + snapshot/live/cloud modes + caching." },
+        { label: "Results", value: "Evidence-backed telemetry with exports, receipts, and verified routing." },
+        { label: "Proof", value: "Live dashboard + system design page + evidence exports + CI." },
+      ];
+    }
+
+    if (project.slug === "api-testing-framework") {
+      return [
+        { label: "Problem", value: "Flaky API tests create noise; teams stop trusting CI." },
+        { label: "Constraints", value: "Retry only what’s safe (429/5xx/network) without hiding real failures." },
+        { label: "Built", value: "Layered client + connection pooling + selective retries + Pydantic contract validation." },
+        { label: "Results", value: "Stable, readable tests with resilience patterns devs trust." },
+        { label: "Proof", value: "Repo + CI runs + related case study content." },
+      ];
+    }
+
+    return null;
+  })();
+
   return (
     <div className="min-h-screen bg-dark">
       {/* Progress Bar */}
@@ -384,6 +439,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   </a>
                 )}
               </div>
+
+              {/* TL;DR (standardized executive skim) */}
+              {tldrItems && <TLDR items={tldrItems} />}
 
               {/* Recruiter quick links (fast proof for remote hiring) */}
               {showRecruiterLinks && (

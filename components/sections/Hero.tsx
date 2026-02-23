@@ -7,10 +7,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const roles = [
-  "Cloud Automation Engineer",
-  "Infrastructure + CI/CD",
-  "Automation Systems (QA + Platform)",
-  "Telemetry + Observability",
+  "QA Automation / SDET (cloud-curious)",
+  "Test Automation + CI/CD",
+  "API Testing + Quality Telemetry",
+  "AWS + IaC (learning by shipping)",
 ];
 
 export default function Hero() {
@@ -130,11 +130,8 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-8 max-w-3xl mx-auto"
           >
-            I build and operate automation systems that ship: CI/CD pipelines, quality telemetry, and cloud guardrails.
-            <span className="text-gray-400">
-              {' '}
-              I don’t just build demos — I document, monitor, and put guardrails around what I deliver.
-            </span>
+            I build automation systems with a production mindset: CI/CD gates, quality telemetry, and cloud guardrails.
+            <span className="text-gray-400">{' '}I’m always learning — and I document what I build so teams can run it.</span>
           </motion.h2>
 
           {/* Social Proof Badge */}
@@ -145,7 +142,7 @@ export default function Hero() {
             className="flex items-center justify-center gap-2 text-sm text-gray-400 mb-12"
           >
             <span className="px-3 py-1 bg-dark-card border border-dark-lighter rounded-full text-foreground font-semibold">
-              Trusted by Fortune 50 & Fintech
+              Built with real-world constraints (enterprise + fintech)
             </span>
           </motion.div>
 
@@ -161,6 +158,12 @@ export default function Hero() {
               className="px-8 py-4 bg-primary text-dark font-semibold rounded hover:bg-primary-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
             >
               View Flagship
+            </Link>
+            <Link
+              href="/contact"
+              className="px-8 py-4 bg-dark-card border-2 border-primary text-foreground font-semibold rounded hover:bg-primary hover:text-dark transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
+            >
+              Contact
             </Link>
             <Link
               href="#start-here"

@@ -50,16 +50,14 @@ export default function AboutPreview() {
               className="space-y-4 text-gray-300 text-lg"
             >
               <p>
-                I specialize in QA automation and in building robust test frameworks that catch bugs before they reach production.
+                I build QA automation and production-minded test systems that catch bugs early and make releases safer.
               </p>
               <p>
-                From Fortune 50 enterprises to cutting-edge fintech startups, I&apos;ve architected 
-                testing solutions that scale. <span className="text-primary font-semibold">ISTQB certified</span> and 
-                passionate about quality engineering.
+                My background includes enterprise and fintech environments, and I try to bring the same habits into what I build: clear docs, evidence, and repeatable workflows.
+                <span className="text-primary font-semibold"> ISTQB certified</span>.
               </p>
               <p>
-                Currently focused on API testing, CI/CD integration, and building frameworks that 
-                developers actually want to use.
+                Currently focused on API testing, CI/CD integration, and building frameworks that teams can maintain.
               </p>
             </motion.div>
 

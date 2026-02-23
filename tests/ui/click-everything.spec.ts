@@ -48,7 +48,7 @@ test('Top nav: every link navigates and renders a page', async ({ page }) => {
   }
 });
 
-test('Home hero CTAs: View Flagship / View Projects / Resume', async ({ page }) => {
+test('Home hero CTAs: View Flagship / Contact / View Projects / Resume', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('link', { name: /View Flagship/i })).toBeVisible();
 
@@ -57,6 +57,11 @@ test('Home hero CTAs: View Flagship / View Projects / Resume', async ({ page }) 
   expect(flagshipHref).toBe('/projects/aws-landing-zone-guardrails');
   await flagship.click();
   await expect(page).toHaveURL(/\/projects\/aws-landing-zone-guardrails$/);
+  await expect(page.locator('h1').first()).toBeVisible();
+
+  await page.goto('/');
+  await page.getByRole('link', { name: /Contact/i, exact: true }).first().click();
+  await expect(page).toHaveURL(/\/contact$/);
   await expect(page.locator('h1').first()).toBeVisible();
 
   await page.goto('/');

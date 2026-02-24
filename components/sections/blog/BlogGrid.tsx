@@ -6,6 +6,7 @@ import { Clock, Calendar, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blogData";
+import { formatISODateUTC } from "@/lib/formatDate";
 
 const categories = [
   "All",
@@ -156,7 +157,7 @@ export default function BlogGrid({ searchQuery = "" }: { searchQuery?: string })
                 <div className="flex items-center gap-4 text-gray-500 text-xs mb-4">
                   <div className="flex items-center gap-1">
                     <Calendar size={14} />
-                    <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    <span>{formatISODateUTC(post.date, "short")}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock size={14} />

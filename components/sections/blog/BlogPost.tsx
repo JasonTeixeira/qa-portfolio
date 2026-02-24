@@ -5,6 +5,7 @@ import { Calendar, Clock, Tag, ArrowLeft, Copy, Check, Menu } from "lucide-react
 import Image from "next/image";
 import Link from "next/link";
 import { BlogPost as BlogPostType } from "@/lib/blogData";
+import { formatISODateUTC } from "@/lib/formatDate";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -226,11 +227,7 @@ export default function BlogPost({ post }: BlogPostProps) {
               <div className="flex flex-wrap items-center gap-6 text-gray-400 text-sm mb-8 pb-8 border-b border-dark-lighter">
                 <div className="flex items-center gap-2">
                   <Calendar size={16} />
-                  <span>{new Date(post.date).toLocaleDateString('en-US', { 
-                    month: 'long', 
-                    day: 'numeric', 
-                    year: 'numeric' 
-                  })}</span>
+                  <span>{formatISODateUTC(post.date, "long")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock size={16} />

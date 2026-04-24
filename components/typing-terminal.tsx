@@ -2,20 +2,34 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check } from 'lucide-react'
+import { Check, ArrowRight } from 'lucide-react'
 
 interface TerminalLine {
   text: string
-  type: 'command' | 'output' | 'success'
+  type: 'command' | 'output' | 'success' | 'info' | 'blank'
 }
 
 const terminalLines: TerminalLine[] = [
-  { text: '$ sage deploy nexural-platform', type: 'command' },
-  { text: '185 tables migrated', type: 'success' },
+  { text: '$ sage status --all', type: 'command' },
+  { text: '', type: 'blank' },
+  { text: '▸ Nexural Platform', type: 'info' },
+  { text: '185 database tables migrated', type: 'success' },
   { text: '69 API endpoints verified', type: 'success' },
   { text: '61 test suites passing', type: 'success' },
-  { text: 'Stripe integration live', type: 'success' },
-  { text: 'Deployed to production', type: 'success' },
+  { text: 'Stripe billing live', type: 'success' },
+  { text: '', type: 'blank' },
+  { text: '▸ Testing Frameworks', type: 'info' },
+  { text: '13 frameworks built (API, E2E, mobile, security, BDD...)', type: 'success' },
+  { text: '500+ tests in production', type: 'success' },
+  { text: '82% pipeline time reduction', type: 'success' },
+  { text: '', type: 'blank' },
+  { text: '▸ AlphaStream ML Engine', type: 'info' },
+  { text: '200+ indicators | 5 ML models | real-time signals', type: 'success' },
+  { text: '', type: 'blank' },
+  { text: '▸ Cloud Infrastructure', type: 'info' },
+  { text: 'AWS Landing Zone + Terraform + CI gates deployed', type: 'success' },
+  { text: '', type: 'blank' },
+  { text: 'All systems operational. Ready for deployment.', type: 'output' },
 ]
 
 export function TypingTerminal() {
@@ -32,14 +46,16 @@ export function TypingTerminal() {
     const typeCommand = async () => {
       const command = terminalLines[0].text
       for (let i = 0; i <= command.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 40))
+        await new Promise(resolve => setTimeout(resolve, 35))
         setTypedText(command.slice(0, i))
       }
       setIsTyping(false)
-      
-      // Start showing output lines
+
+      // Show output lines with varied timing
       for (let i = 1; i < terminalLines.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 400))
+        const line = terminalLines[i]
+        const delay = line.type === 'blank' ? 150 : line.type === 'info' ? 350 : 250
+        await new Promise(resolve => setTimeout(resolve, delay))
         setVisibleLines(i)
       }
     }
@@ -57,17 +73,17 @@ export function TypingTerminal() {
   }, [])
 
   return (
-    <div className="bg-[#18181B] border border-[#27272A] rounded-2xl overflow-hidden shadow-2xl">
+    <div className="w-full bg-[#18181B] border border-[#27272A] rounded-2xl overflow-hidden shadow-2xl">
       {/* Terminal Header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-[#09090B] border-b border-[#27272A]">
         <div className="w-3 h-3 rounded-full bg-[#EF4444]" />
         <div className="w-3 h-3 rounded-full bg-[#F59E0B]" />
         <div className="w-3 h-3 rounded-full bg-[#10B981]" />
-        <span className="ml-2 text-xs text-[#71717A] font-mono">terminal</span>
+        <span className="ml-2 text-xs text-[#71717A] font-mono">sage@sageideas ~ /portfolio</span>
       </div>
-      
+
       {/* Terminal Content */}
-      <div className="p-6 font-mono text-sm space-y-3 min-h-[240px]">
+      <div className="p-5 font-mono text-sm space-y-1.5 min-h-[380px]">
         {/* Command Line */}
         <div className="text-[#71717A]">
           <span className="text-[#06B6D4]">$</span>{' '}
@@ -82,17 +98,31 @@ export function TypingTerminal() {
         {/* Output Lines */}
         <AnimatePresence>
           {!isTyping && (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {terminalLines.slice(1, visibleLines + 1).map((line, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center gap-2"
+                  transition={{ duration: 0.2 }}
                 >
-                  <Check className="h-4 w-4 text-[#10B981]" />
-                  <span className="text-[#A1A1AA]">{line.text}</span>
+                  {line.type === 'blank' ? (
+                    <div className="h-2" />
+                  ) : line.type === 'info' ? (
+                    <div className="flex items-center gap-2 pt-1">
+                      <ArrowRight className="h-3 w-3 text-[#8B5CF6]" />
+                      <span className="text-[#FAFAFA] font-semibold">{line.text.slice(2)}</span>
+                    </div>
+                  ) : line.type === 'success' ? (
+                    <div className="flex items-center gap-2 pl-5">
+                      <Check className="h-3.5 w-3.5 text-[#10B981] flex-shrink-0" />
+                      <span className="text-[#A1A1AA]">{line.text}</span>
+                    </div>
+                  ) : (
+                    <div className="pt-1 text-[#10B981] font-semibold">
+                      {line.text}
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>

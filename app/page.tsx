@@ -178,16 +178,13 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Right - Avatar & Terminal */}
+            {/* Right - Terminal */}
             <motion.div
-              className="lg:col-span-2 flex flex-col items-center gap-8"
+              className="lg:col-span-2 flex flex-col items-center"
               initial={{ opacity: 0, x: 30, rotateY: -10 }}
               animate={{ opacity: 1, x: 0, rotateY: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <div className="hidden lg:block">
-                <ProfessionalAvatar size="xl" showGlow />
-              </div>
               <TypingTerminal />
             </motion.div>
           </div>

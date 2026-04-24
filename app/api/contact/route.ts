@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 // Web3Forms - 100% FREE (no credit card needed!)
 // Get your access key at: https://web3forms.com

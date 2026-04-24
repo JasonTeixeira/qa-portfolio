@@ -1,17 +1,15 @@
-import type { Metadata } from "next";
-import ProjectsHero from "@/components/sections/projects/ProjectsHero";
-import ProjectsGrid from "@/components/sections/projects/ProjectsGrid";
+import type { Metadata } from 'next'
+import { ProjectsContent } from './projects-content'
 
 export const metadata: Metadata = {
-  title: "Projects | Jason Teixeira - QA Automation Engineer",
-  description: "Explore test automation frameworks, CI/CD pipelines, and QA projects built with Python, Selenium, pytest, and modern testing tools.",
-};
+  title: 'Projects | Jason Teixeira - 37+ Production Systems',
+  description: 'Browse 37+ projects: full-stack applications, trading systems, test automation frameworks, cloud infrastructure, AI tools, and more.',
+  openGraph: {
+    title: 'Projects - 37+ Production Systems',
+    description: 'Full-stack applications, trading systems, test automation, cloud infrastructure, and AI tools.',
+  },
+}
 
 export default function ProjectsPage() {
-  return (
-    <div>
-      <ProjectsHero />
-      <ProjectsGrid />
-    </div>
-  );
+  return <ProjectsContent />
 }

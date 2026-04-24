@@ -1,12 +1,141 @@
-import type { Metadata } from "next";
-import BlogPageClient from "./BlogPageClient";
+'use client'
 
-export const metadata: Metadata = {
-  title: "Blog | Jason Teixeira - QA Automation Engineer",
-  description:
-    "Technical articles about test automation, API testing, CI/CD, Selenium, pytest, and quality engineering best practices.",
-};
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Clock, ArrowRight } from 'lucide-react'
+import { SectionLabel } from '@/components/section-label'
+
+const posts = [
+  {
+    slug: 'building-13-testing-frameworks',
+    title: 'How I Built 13 Testing Frameworks and What I Learned',
+    excerpt: 'A deep dive into creating specialized testing frameworks for every layer of the modern software stack — from API to visual regression to security.',
+    date: '2024-12-15',
+    readTime: 12,
+    category: 'Testing'
+  },
+  {
+    slug: 'nexural-architecture',
+    title: 'The Architecture Behind Nexural: 185 Tables, 69 APIs, One Engineer',
+    excerpt: 'Breaking down the database design, API architecture, and system interconnections of a fintech platform built from scratch.',
+    date: '2024-11-28',
+    readTime: 15,
+    category: 'Architecture'
+  },
+  {
+    slug: 'aws-landing-zones-guide',
+    title: 'AWS Landing Zones: A Practical Guide with Terraform',
+    excerpt: 'How to set up a secure, compliant multi-account AWS organization with infrastructure-as-code and CI gates.',
+    date: '2024-10-20',
+    readTime: 10,
+    category: 'Cloud'
+  },
+  {
+    slug: 'qa-to-systems-architect',
+    title: 'From QA Engineer to Systems Architect: My Career Path',
+    excerpt: 'The journey from testing software to building entire platforms, and what I learned along the way.',
+    date: '2024-09-15',
+    readTime: 8,
+    category: 'Career'
+  },
+  {
+    slug: 'ai-powered-discord-bots',
+    title: 'Building AI-Powered Discord Bots for Trading Communities',
+    excerpt: 'Lessons from building the Nexural Discord AI Engine — GPT-4o integration, market data, and community management.',
+    date: '2024-08-10',
+    readTime: 11,
+    category: 'AI'
+  },
+  {
+    slug: 'ci-cd-optimization',
+    title: 'CI/CD Pipeline Optimization: How I Cut Pipeline Time by 82%',
+    excerpt: 'Containerized testing, parallel execution, and caching strategies that dramatically improved deployment speed.',
+    date: '2024-07-05',
+    readTime: 9,
+    category: 'DevOps'
+  }
+]
 
 export default function BlogPage() {
-  return <BlogPageClient />;
+  return (
+    <div className="min-h-screen pt-24 pb-20">
+      {/* Hero */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <SectionLabel>Blog</SectionLabel>
+          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold text-[#FAFAFA]">
+            Engineering & Architecture
+          </h1>
+          <p className="mt-6 text-lg text-[#A1A1AA] max-w-2xl">
+            Technical writing on systems architecture, automation, trading systems, and software engineering.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Posts Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-6">
+          {posts.map((post, index) => (
+            <motion.article
+              key={post.slug}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <Link
+                href={`/blog/${post.slug}`}
+                className="group block h-full p-6 bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-1 rounded">
+                    {post.category}
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-[#71717A]">
+                    <Clock className="h-3 w-3" />
+                    {post.readTime} min read
+                  </span>
+                </div>
+
+                <h2 className="text-xl font-semibold text-[#FAFAFA] mb-3 group-hover:text-[#06B6D4] transition-colors">
+                  {post.title}
+                </h2>
+
+                <p className="text-sm text-[#A1A1AA] mb-4 line-clamp-2">
+                  {post.excerpt}
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t border-[#27272A]">
+                  <span className="text-xs text-[#71717A]">
+                    {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  </span>
+                  <span className="inline-flex items-center text-sm font-medium text-[#06B6D4] group-hover:text-[#22D3EE] transition-colors">
+                    Read
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* Coming Soon Note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-12 text-center"
+        >
+          <p className="text-[#71717A]">
+            More posts coming soon. Subscribe to get notified.
+          </p>
+        </motion.div>
+      </section>
+    </div>
+  )
 }

@@ -1,16 +1,15 @@
-import type { MetadataRoute } from 'next';
-
-export const dynamic = 'force-static';
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sageideas.org';
+import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
-  };
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/', '/_next/'],
+      },
+    ],
+    sitemap: 'https://sageideas.dev/sitemap.xml',
+    host: 'https://sageideas.dev',
+  }
 }

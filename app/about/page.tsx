@@ -1,25 +1,15 @@
-import type { Metadata } from "next";
-import AboutHero from "@/components/sections/about/AboutHero";
-import MyStory from "@/components/sections/about/MyStory";
-import Skills from "@/components/sections/about/Skills";
-import CareerTimeline from "@/components/sections/about/CareerTimeline";
-import ValueProps from "@/components/sections/about/ValueProps";
-import Certifications from "@/components/sections/about/Certifications";
+import type { Metadata } from 'next'
+import { AboutContent } from './about-content'
 
 export const metadata: Metadata = {
-  title: "About | Jason Teixeira - QA Automation Engineer",
-  description: "Learn about my journey from finance to QA automation, ISTQB certifications, and passion for quality engineering.",
-};
+  title: 'About | Jason Teixeira - Systems Architect',
+  description: 'Learn about Jason Teixeira - systems architect with Fortune 50 experience, 9 certifications, and expertise in full-stack development, test automation, and trading systems.',
+  openGraph: {
+    title: 'About Jason Teixeira',
+    description: 'Systems architect with Fortune 50 experience building production platforms and trading systems.',
+  },
+}
 
 export default function AboutPage() {
-  return (
-    <div>
-      <AboutHero />
-      <MyStory />
-      <Skills />
-      <Certifications />
-      <CareerTimeline />
-      <ValueProps />
-    </div>
-  );
+  return <AboutContent />
 }

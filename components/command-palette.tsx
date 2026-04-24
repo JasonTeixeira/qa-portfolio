@@ -91,6 +91,30 @@ export function CommandPalette() {
       keywords: ['articles', 'posts', 'writing']
     },
     {
+      id: 'platform',
+      label: 'Platform Engineering',
+      description: 'CI/CD, IaC, SLOs, security receipts',
+      icon: <Code2 className="h-4 w-4" />,
+      action: () => navigate('/platform'),
+      keywords: ['platform', 'infrastructure', 'cicd', 'slo', 'security', 'ops']
+    },
+    {
+      id: 'dashboard',
+      label: 'Live Dashboard',
+      description: 'Quality telemetry in real-time',
+      icon: <Code2 className="h-4 w-4" />,
+      action: () => navigate('/dashboard'),
+      keywords: ['dashboard', 'telemetry', 'metrics', 'live']
+    },
+    {
+      id: 'artifacts',
+      label: 'Artifacts & Evidence',
+      description: 'Playbooks, templates, recruiter pack',
+      icon: <Code2 className="h-4 w-4" />,
+      action: () => navigate('/artifacts'),
+      keywords: ['artifacts', 'evidence', 'playbooks', 'templates', 'recruiter', 'download']
+    },
+    {
       id: 'stack',
       label: 'Tech Stack',
       description: 'Technologies I use',

@@ -19,6 +19,9 @@ const navLinks = [
 ]
 
 const mobileExtraLinks = [
+  { href: '/platform', label: 'Platform Engineering' },
+  { href: '/dashboard', label: 'Live Dashboard' },
+  { href: '/artifacts', label: 'Artifacts & Evidence' },
   { href: '/stack', label: 'Tech Stack' },
   { href: '/start', label: 'Start Here' },
 ]

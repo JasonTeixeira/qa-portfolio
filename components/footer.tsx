@@ -14,6 +14,9 @@ const navigation = [
 ]
 
 const resources = [
+  { href: '/platform', label: 'Platform Engineering' },
+  { href: '/dashboard', label: 'Live Dashboard' },
+  { href: '/artifacts', label: 'Artifacts & Evidence' },
   { href: '/stack', label: 'Tech Stack' },
   { href: '/resume', label: 'Resume' },
   { href: '/start', label: 'Start Here' },

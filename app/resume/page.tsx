@@ -243,9 +243,15 @@ export default function ResumePage() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-2xl font-bold text-[#FAFAFA] mb-6">Education</h2>
-          <div className="p-6 bg-[#18181B] border border-[#27272A] rounded-2xl">
-            <p className="text-[#FAFAFA]">Dual B.S. Degrees</p>
-            <p className="text-sm text-[#71717A]">Computer Science & Business Administration</p>
+          <div className="space-y-4">
+            <div className="p-6 bg-[#18181B] border border-[#27272A] rounded-2xl">
+              <p className="text-[#FAFAFA] font-medium">B.S. Finance</p>
+              <p className="text-sm text-[#71717A]">Kean University</p>
+            </div>
+            <div className="p-6 bg-[#18181B] border border-[#27272A] rounded-2xl">
+              <p className="text-[#FAFAFA] font-medium">B.S. Computer Science</p>
+              <p className="text-sm text-[#71717A]">Full Sail University</p>
+            </div>
           </div>
         </motion.div>
       </section>

@@ -73,14 +73,14 @@ const companies = ['The Home Depot', 'HighStrike', 'AWS', 'NinjaTrader']
 
 const testimonials = [
   {
-    quote: "Jason's automation framework reduced our test execution time by 82% while improving coverage. The ROI was immediate.",
-    author: "Engineering Lead",
-    company: "Fortune 50 Retail",
+    quote: "Test frameworks used by 50+ engineers across enterprise teams. Reduced regression testing time by 70% and prevented 12+ breaking changes from reaching production.",
+    author: "Impact at Scale",
+    company: "The Home Depot (2,300+ stores)",
   },
   {
-    quote: "Built our entire trading infrastructure from scratch. 185 tables, 69 endpoints, all documented and tested. Exceptional work.",
-    author: "Founder",
-    company: "FinTech Startup",
+    quote: "Built test automation for a platform processing $10M+ daily trading volume. Achieved <1% flaky test rate, 95% uptime SLA, and prevented multiple potential multi-million dollar trading errors.",
+    author: "Fintech Reliability",
+    company: "HighStrike Trading Platform",
   },
 ]
 
@@ -169,7 +169,7 @@ export default function HomePage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
-                  100 Repos
+                  120K+ Word Book
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full" />
@@ -396,7 +396,7 @@ export default function HomePage() {
           >
             <SectionLabel>Testimonials</SectionLabel>
             <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              What People Say
+              Proven Impact
             </h2>
           </motion.div>
 

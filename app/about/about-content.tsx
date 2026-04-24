@@ -61,17 +61,17 @@ const differentiators = [
   {
     icon: Layers,
     title: 'I Build End-to-End',
-    description: 'Most engineers specialize in one layer. I architect entire systems. The Nexural platform has 185 database tables, 69 API endpoints, Stripe billing, AI-powered bots, and real-time trading integrations. I designed and built all of it — database to deploy.'
+    description: 'Most engineers specialize in one layer. I architect entire systems. The Nexural platform has 185 database tables, 69 API endpoints, Stripe billing, AI-powered bots, and real-time trading integrations. I designed and built all of it — database to deploy. My frameworks have been used by 50+ engineers and reduced regression testing time by 70%.'
   },
   {
     icon: Shield,
     title: 'Evidence Over Claims',
-    description: "Every project on this site has a GitHub repo, a test suite, or a live deployment behind it. I built 13 testing frameworks because I believe in proof. I don't say I can build something — I show you the running system."
+    description: "Every project on this site has a GitHub repo, a test suite, or a live deployment behind it. I built 13 testing frameworks because I believe in proof. 500+ tests running in under 8 minutes. 12+ breaking changes caught before production. <1% flaky test rate. I don't say I can build something — I show you the running system."
   },
   {
     icon: Network,
     title: 'Cross-Domain Thinking',
-    description: "Enterprise retail (Home Depot), fintech trading (HighStrike), cloud infrastructure, AI/ML, cybersecurity, quantitative analysis. I don't just know one vertical — I bring pattern recognition across domains to solve problems others haven't seen."
+    description: "Enterprise retail (Home Depot, 2,300+ stores), fintech trading (HighStrike, $10M+ daily volume), cloud infrastructure, AI/ML, cybersecurity, quantitative analysis. I've trained 15+ engineers in test automation and established QA standards at 2 companies. I don't just know one vertical — I bring pattern recognition across domains to solve problems others haven't seen."
   }
 ]
 
@@ -156,7 +156,8 @@ export function AboutContent() {
                 </div>
                 <div>
                   <span className="text-[#71717A]">Education</span>
-                  <p className="text-[#FAFAFA] font-medium">Dual B.S. Degrees</p>
+                  <p className="text-[#FAFAFA] font-medium">B.S. Finance — Kean University</p>
+                  <p className="text-[#FAFAFA] font-medium">B.S. Computer Science — Full Sail University</p>
                 </div>
                 <div>
                   <span className="text-[#71717A]">Certifications</span>

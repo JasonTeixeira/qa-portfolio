@@ -3906,5 +3906,786 @@ Solo engineering isn't about working harder. It's about automating everything th
     tags: ["Productivity", "Tools", "Solo Engineering", "Automation", "Workflow"],
     date: "2026-02-08",
     readTime: "10 min read",
+  },
+  {
+    id: 25,
+    title: "The Bug That Taught Me More Than Any Course Ever Did",
+    excerpt: "A race condition in a payment webhook handler sat undetected for 3 weeks. When it fired, it double-charged 4 customers. Here's the full postmortem and why I now test billing code differently.",
+    content: "A real production bug story and what it taught me...",
+    fullContent: `
+# The Bug That Taught Me More Than Any Course Ever Did
+
+I want to tell you about a bug. Not a fun one. Not a clever one. The kind that makes your stomach drop when you get the Slack notification at 11pm on a Thursday.
+
+## What Happened
+
+I was building subscription billing for Nexural. Stripe webhook comes in — \\\`invoice.payment_succeeded\\\`. My handler updates the user's subscription status to "active" and extends their access period.
+
+Simple. Tested it manually. Worked perfectly. Deployed it.
+
+Three weeks later, a customer emails: "I was charged twice."
+
+Then another. Then two more.
+
+## The Root Cause
+
+Stripe retries failed webhook deliveries. My endpoint was returning a 500 on about 1 in 50 requests — a transient database connection timeout. So Stripe would retry. My handler would run again. And because I wasn't checking whether I'd already processed that specific event, it would extend the subscription again and Stripe would create another invoice line item.
+
+The fix was embarrassingly simple:
+
+\\\`\\\`\\\`typescript
+// Before: no idempotency check
+async function handlePaymentSucceeded(event) {
+  const invoice = event.data.object;
+  await db.subscriptions.update({
+    where: { stripeCustomerId: invoice.customer },
+    data: { status: 'active', periodEnd: new Date(invoice.period_end * 1000) }
+  });
+}
+
+// After: idempotent
+async function handlePaymentSucceeded(event) {
+  const processed = await db.webhookEvents.findUnique({
+    where: { eventId: event.id }
+  });
+  if (processed) return; // Already handled this exact event
+
+  await db.$transaction([
+    db.subscriptions.update({
+      where: { stripeCustomerId: invoice.customer },
+      data: { status: 'active', periodEnd: new Date(invoice.period_end * 1000) }
+    }),
+    db.webhookEvents.create({
+      data: { eventId: event.id, type: event.type, processedAt: new Date() }
+    })
+  ]);
+}
+\\\`\\\`\\\`
+
+Eight lines of code. That's all it took to prevent the bug. But I didn't write them because I'd never been bitten by webhook retries before.
+
+## What I Actually Learned
+
+**1. Manual testing doesn't catch timing bugs.**
+
+I tested the webhook flow 20+ times before deploying. It worked every time. Because my local Supabase instance never had connection timeouts. The bug only manifested under real-world network conditions with real Stripe retry behavior.
+
+**2. Idempotency isn't optional for financial operations.**
+
+I knew the word. I'd read about it. I even had it in my interview talking points. But I didn't implement it because the code "worked." The difference between knowing a concept and internalizing it is getting burned by it.
+
+**3. The scariest bugs are the ones that work most of the time.**
+
+If this bug had failed 100% of the time, I would have caught it in development. It failed 2% of the time. That's the worst kind — rare enough to slip through testing, common enough to hurt real people.
+
+**4. Webhooks are distributed systems problems.**
+
+A webhook handler isn't a simple HTTP endpoint. It's a message consumer in a distributed system with at-least-once delivery semantics. The moment I started thinking about it that way, the idempotency requirement became obvious.
+
+## What Changed in My Process
+
+After this incident, I implemented three things:
+
+**A webhook event log table.** Every Stripe event gets recorded before processing. If the event ID already exists, skip it. This is now in every project I build.
+
+**A billing test script.** I wrote a script that simulates 50 rapid-fire webhook deliveries of the same event. If the system processes it more than once, the test fails. This runs in CI.
+
+**A "payment bugs" checklist.** Before any billing code ships, I check: idempotency, proration handling, dunning behavior, refund edge cases, currency rounding. It's 12 items. Takes 10 minutes to review. Would have caught this bug.
+
+## The Uncomfortable Truth
+
+Every senior engineer has a bug like this. The ones who are actually senior will tell you about it. The ones who pretend they've never shipped broken code are either lying or haven't built anything that matters.
+
+I refunded the 4 customers immediately, explained what happened, and gave them a free month. Three of them are still subscribers. The fourth one would have churned anyway.
+
+The bug cost me maybe $200 in refunds. The lesson was worth infinitely more.
+`,
+    category: "Engineering",
+    tags: ["Debugging", "Stripe", "Webhooks", "Postmortem", "Lessons Learned"],
+    date: "2026-02-01",
+    readTime: "9 min read",
+  },
+  {
+    id: 26,
+    title: "Your Test Coverage Number Is Lying to You",
+    excerpt: "80% test coverage means nothing if you're testing the wrong 80%. Here's how I think about coverage — not as a number to chase, but as a map of where you're blind.",
+    content: "Why test coverage metrics are misleading and what to do instead...",
+    fullContent: `
+# Your Test Coverage Number Is Lying to You
+
+I've seen codebases with 95% test coverage that ship critical bugs weekly. I've seen codebases with 40% coverage that rarely break.
+
+The number isn't the problem. The obsession with the number is.
+
+## The Coverage Trap
+
+Here's a test that increases coverage but catches nothing:
+
+\\\`\\\`\\\`python
+def test_user_model():
+    user = User(name="test", email="test@test.com")
+    assert user.name == "test"
+    assert user.email == "test@test.com"
+\\\`\\\`\\\`
+
+Congratulations, you've covered the User model. You've tested that Python assignment works. You've caught zero bugs.
+
+Now here's a test at 0% model coverage that catches real problems:
+
+\\\`\\\`\\\`python
+def test_duplicate_email_rejected():
+    create_user(email="jason@test.com")
+    with pytest.raises(IntegrityError):
+        create_user(email="jason@test.com")
+\\\`\\\`\\\`
+
+This test doesn't care about coverage. It cares about a business rule: emails must be unique. If someone removes the unique constraint during a migration, this test screams.
+
+## What I Actually Measure
+
+Instead of line coverage, I track three things:
+
+**1. Critical path coverage.** Can a user sign up, subscribe, and use the core feature? If those 3 flows are tested end-to-end, I sleep fine. Everything else is bonus.
+
+**2. Bug recurrence rate.** Every production bug gets a regression test. If the same bug appears twice, that's a process failure, not a code failure.
+
+**3. Change failure rate.** What percentage of deployments cause incidents? This tells you whether your tests are catching the right things. High coverage + high change failure rate = you're testing the wrong stuff.
+
+## The Coverage Map I Actually Use
+
+I think of my codebase as a risk map, not a coverage report:
+
+| Zone | Risk | Test Strategy |
+|------|------|--------------|
+| Payment/billing | Catastrophic | 100% critical path + edge cases |
+| Authentication | High | Full flow testing + security scenarios |
+| Data mutations | High | Constraint testing + migration testing |
+| API contracts | Medium | Schema validation + contract tests |
+| UI rendering | Low | Smoke tests + visual regression |
+| Internal utils | Very low | Only test if complex logic |
+
+I don't aim for 80% everywhere. I aim for 100% in the red zone and 20% in the green zone. The weighted risk is what matters.
+
+## The Honest Conversation
+
+When a manager asks "what's our test coverage?" they're really asking "how confident are you that this deploy won't break?" Coverage percentage doesn't answer that question.
+
+What answers it:
+- "Every payment flow has end-to-end tests"
+- "We've never had the same bug twice"
+- "Our last 30 deploys had zero rollbacks"
+
+Those are confidence metrics. Coverage is a vanity metric.
+
+## My Rule of Thumb
+
+If I'm spending more time maintaining tests than the tests are saving me in bug prevention, I've over-tested. Tests are an investment. Like any investment, the return should exceed the cost.
+
+Write tests that make you money (prevent costly bugs). Skip tests that cost you money (slow down development without catching anything).
+`,
+    category: "Testing",
+    tags: ["Testing", "QA", "Code Coverage", "Strategy", "Engineering"],
+    date: "2026-01-28",
+    readTime: "8 min read",
+  },
+  {
+    id: 27,
+    title: "I Read 50 Senior Engineer Job Descriptions. Here's What They Actually Want.",
+    excerpt: "I analyzed 50 job postings for senior/staff engineers at companies paying $180K-$350K. The patterns are clear — and most portfolios miss them completely.",
+    content: "What senior engineering job descriptions actually mean...",
+    fullContent: `
+# I Read 50 Senior Engineer Job Descriptions. Here's What They Actually Want.
+
+When I started applying for senior roles, I did what any engineer would do: I reverse-engineered the requirements.
+
+I collected 50 job descriptions for Senior, Staff, and Principal engineer roles at companies paying $180K-$350K. Here's what I found.
+
+## The Words That Appear in Every Posting
+
+Some phrases show up so consistently they're basically table stakes:
+
+- **"Production systems"** (47/50) — They don't want someone who builds tutorials. They want someone who's been paged at 2am.
+- **"Cross-functional collaboration"** (44/50) — You'll work with product, design, data, and ops. Can you communicate outside your bubble?
+- **"Mentorship"** (41/50) — If you can't teach, you're not senior. Period.
+- **"Architecture decisions"** (39/50) — They want you to DESIGN systems, not just implement tickets.
+- **"Operational excellence"** (35/50) — SLOs, monitoring, incident response. Building it isn't enough — can you run it?
+
+## The Words That Differentiate $180K from $300K+
+
+The jump from senior ($180K) to staff ($250K+) is exactly this:
+
+**Senior:** "Build features and maintain systems."
+**Staff:** "Define the technical direction and enable other engineers."
+
+Practically, that means:
+
+| Senior Engineer | Staff Engineer |
+|----------------|----------------|
+| Writes code | Writes code + decides WHAT to build |
+| Reviews PRs | Defines code review standards |
+| Fixes bugs | Prevents classes of bugs |
+| Implements architecture | Designs architecture |
+| Uses monitoring | Defines what to monitor |
+| Follows processes | Creates processes |
+
+## What Most Portfolios Get Wrong
+
+After looking at dozens of engineering portfolios (including my old one), here's the pattern:
+
+**What most people show:** "I built X with React and Node.js."
+**What hiring managers want:** "I chose React over Vue because of X constraint, and here's the trade-off I accepted."
+
+**What most people show:** "I have 95% test coverage."
+**What hiring managers want:** "I reduced production incidents by 60% by implementing targeted contract testing on our payment pipeline."
+
+**What most people show:** A list of technologies.
+**What hiring managers want:** Evidence that you've operated systems at scale and made difficult decisions under constraints.
+
+## How I Restructured My Portfolio Based on This
+
+After this analysis, I made three changes:
+
+**1. Added a Platform Engineering page.** SLOs, incident drills, security receipts, reference architecture. This signals "I run systems, not just build demos."
+
+**2. Added case studies with "Challenges" sections.** Not just what I built — what went wrong, how I diagnosed it, and what I learned. That's the operational experience signal.
+
+**3. Added a Services page with pricing.** This sounds counterintuitive for job hunting, but it signals something powerful: "I'm not desperate. I have options. I'm choosing to work with you." Negotiation leverage is a real thing.
+
+## The Interview Signal Nobody Talks About
+
+Here's something I noticed: at the $250K+ level, interviews are less about whether you CAN do the job and more about whether you THINK like someone at that level.
+
+They're not testing "can you implement a linked list?" They're testing:
+- When you describe a system, do you mention failure modes?
+- When you discuss a decision, do you mention what you traded off?
+- When something went wrong, do you take ownership or blame the tool?
+- Can you explain a complex system to someone non-technical?
+
+My portfolio now answers all four of those questions before the interview starts.
+
+## The Actionable Takeaway
+
+If you're targeting senior+ roles, your portfolio should answer:
+
+1. What's the most complex system you've OPERATED (not just built)?
+2. What's a decision you made that had real trade-offs?
+3. What broke, and how did you fix it?
+4. Can you teach someone else what you know?
+
+The technology stack matters less than you think. The operational maturity matters more than you think.
+`,
+    category: "Career",
+    tags: ["Career", "Job Search", "Senior Engineer", "Interviewing", "Portfolio"],
+    date: "2026-01-22",
+    readTime: "10 min read",
+  },
+  {
+    id: 28,
+    title: "Why I Use Raw SQL Instead of an ORM (Most of the Time)",
+    excerpt: "ORMs are great until they're not. After debugging generated queries that took 30 seconds on a 185-table database, I switched to raw SQL for the hot paths. Here's when each makes sense.",
+    content: "The pragmatic case for raw SQL over ORMs...",
+    fullContent: `
+# Why I Use Raw SQL Instead of an ORM (Most of the Time)
+
+This is going to be controversial, so let me start with the disclaimer: ORMs are fine. Prisma, SQLAlchemy, Drizzle — they're all good tools built by smart people. I use them.
+
+But for the Nexural platform — 185 tables, complex joins, materialized views, row-level security — raw SQL was the right call for the critical paths. Here's why.
+
+## The Moment I Switched
+
+I was using Prisma. The dashboard loaded in 200ms locally. In production with real data, it took 4.2 seconds.
+
+I ran \\\`EXPLAIN ANALYZE\\\` on the generated query. Prisma was doing 6 separate queries where one JOIN would have worked. It was fetching entire rows when I needed 3 columns. And it was ignoring my carefully designed indexes because its query planner didn't know about them.
+
+I replaced the Prisma query with raw SQL:
+
+\\\`\\\`\\\`sql
+-- What Prisma generated (simplified): 6 queries, 4.2 seconds
+SELECT * FROM strategies WHERE user_id = $1;
+SELECT * FROM positions WHERE strategy_id IN (...);
+SELECT * FROM trades WHERE position_id IN (...);
+-- ... 3 more queries
+
+-- What I wrote: 1 query, 47ms
+SELECT
+  s.id, s.name,
+  COUNT(p.id) as position_count,
+  SUM(p.unrealized_pnl) as total_pnl,
+  MAX(t.executed_at) as last_trade
+FROM strategies s
+LEFT JOIN positions p ON p.strategy_id = s.id AND p.status = 'open'
+LEFT JOIN trades t ON t.strategy_id = s.id
+WHERE s.user_id = $1
+GROUP BY s.id, s.name
+ORDER BY s.created_at DESC
+LIMIT 20;
+\\\`\\\`\\\`
+
+4.2 seconds to 47ms. Same data. The ORM was making it slow, not the database.
+
+## When I Use an ORM
+
+ORMs excel at:
+
+**CRUD operations.** Creating a user, updating a profile, deleting a record — these are simple operations where the generated SQL is fine and the type safety is valuable.
+
+**Migrations.** Prisma's migration system is genuinely excellent. I use it for schema management even when I write raw queries.
+
+**Prototyping.** When I'm exploring a new feature and don't care about performance yet, ORM speed of development wins.
+
+## When I Use Raw SQL
+
+**Complex joins.** Anything involving 3+ tables, aggregations, or window functions. ORMs either can't express these or generate inefficient queries.
+
+**Performance-critical paths.** Dashboard loads, trading data queries, analytics aggregations. These run thousands of times per day and every millisecond counts.
+
+**Database-specific features.** PostgreSQL materialized views, RLS policies, custom functions, CTEs (Common Table Expressions). ORMs abstract these away, but they're the most powerful tools in the database.
+
+**Reporting and analytics.** Complex GROUP BY with HAVING, window functions like ROW_NUMBER and LAG, pivot queries. Writing these through an ORM is fighting the tool.
+
+## How I Keep Raw SQL Maintainable
+
+The main argument against raw SQL is maintainability. Fair point. Here's how I handle it:
+
+**Typed query functions.**
+
+\\\`\\\`\\\`typescript
+interface DashboardSummary {
+  strategyId: string;
+  name: string;
+  positionCount: number;
+  totalPnl: number;
+  lastTrade: Date | null;
+}
+
+async function getDashboardSummary(userId: string): Promise<DashboardSummary[]> {
+  const result = await db.query<DashboardSummary>(
+    \\\`SELECT s.id as "strategyId", s.name, ... FROM strategies s ...\\\`,
+    [userId]
+  );
+  return result.rows;
+}
+\\\`\\\`\\\`
+
+The SQL lives inside a typed function. The caller doesn't know or care that it's raw SQL. If I need to change the query, I change it in one place.
+
+**SQL files for complex queries.** For queries over 20 lines, I put them in .sql files and load them at build time. This gives me syntax highlighting, easier testing, and version control diffs that make sense.
+
+**Query tests.** Every raw SQL query has a test that runs against a real database with test data. Not a mock — a real PostgreSQL instance. If my query has a syntax error or returns the wrong shape, the test catches it.
+
+## The Pragmatic Middle Ground
+
+My actual split is:
+- **70% ORM** for standard CRUD, migrations, simple queries
+- **30% raw SQL** for dashboards, analytics, complex joins, performance-critical paths
+
+This gives me the best of both worlds: fast development for simple stuff, and full control where performance matters.
+
+## The Hot Take
+
+The "ORM vs raw SQL" debate is a false dichotomy. They're not competing tools — they're complementary. Use the ORM until it gets in your way, then drop to SQL for the specific queries that need it.
+
+Anyone who says "always use an ORM" hasn't built a system with 185 tables.
+Anyone who says "never use an ORM" enjoys suffering.
+`,
+    category: "Architecture",
+    tags: ["SQL", "PostgreSQL", "ORM", "Prisma", "Database", "Performance"],
+    date: "2026-01-18",
+    readTime: "10 min read",
+  },
+  {
+    id: 29,
+    title: "What Trading Futures Taught Me About Writing Software",
+    excerpt: "I trade ES, NQ, and CL futures every morning before I write code. The parallels between risk management in trading and risk management in software are uncomfortably similar.",
+    content: "Lessons from trading that apply to software engineering...",
+    fullContent: `
+# What Trading Futures Taught Me About Writing Software
+
+Every morning at 6am, before I write a single line of code, I'm staring at futures charts. ES (S&P 500), NQ (Nasdaq), CL (Crude Oil), GC (Gold) — 8 symbols on NinjaTrader, looking for setups.
+
+I've been trading for years. And the more I do both — trading and building software — the more I realize they're the same discipline wearing different clothes.
+
+## Lesson 1: Risk Management > Being Right
+
+In trading, you can be wrong 60% of the time and still make money. Sounds impossible, but the math is simple: if your winners are 2x the size of your losers, you only need to win 34% of the time to break even.
+
+The same is true in software. You don't need every architectural decision to be perfect. You need the failures to be small and the successes to compound.
+
+This is why I:
+- Deploy small changes (small losing trades)
+- Feature flag risky changes (stop losses)
+- Have rollback procedures (exit strategy)
+- Never deploy on Friday (never hold through the weekend)
+
+A trader who risks their entire account on one trade will blow up. A developer who deploys a massive untested change to production will blow up. Same energy.
+
+## Lesson 2: The Setup Matters More Than the Entry
+
+New traders obsess over entry timing. "Should I buy at 4,521.25 or 4,521.50?" It doesn't matter. What matters is the setup: Is the trend in your favor? Is there a clear invalidation point? Is the risk/reward at least 2:1?
+
+New developers obsess over technology choice. "Should I use Prisma or Drizzle?" It doesn't matter. What matters is the architecture: Is your data model sound? Are your APIs well-designed? Can you change your mind later without rewriting everything?
+
+The specific tool is the entry. The architecture is the setup. Nail the setup and the tool choice becomes a rounding error.
+
+## Lesson 3: Journal Everything
+
+I keep a trading journal. Every trade: entry, exit, reasoning, emotions, market context, outcome, lessons. After 6 months, patterns emerge. I overtrade on Mondays. I hold losers too long when I'm tired. I size up too aggressively after a winning streak.
+
+I now keep the engineering equivalent: architecture decision records (ADRs). Every major decision: what I chose, what I rejected, why, what I'd change. After a year of Nexural development, the patterns are clear. I under-invest in error handling early. I over-engineer authentication. I consistently underestimate database migration complexity.
+
+Self-awareness through documentation. Same practice, different domain.
+
+## Lesson 4: Survivors Are Boring
+
+The most successful traders I know are boring. They trade the same 2-3 setups, day after day, with the same risk parameters. No YOLO plays. No "I feel lucky today." Just consistent execution of a proven edge.
+
+The best codebases I've worked in are boring too. Consistent patterns. Predictable file structures. Standard naming conventions. No clever hacks. No "I found a cool way to do this." Just reliable, maintainable code that does what it says.
+
+Boring is underrated in both disciplines.
+
+## Lesson 5: You're Trading Against Yourself
+
+Markets don't care about you. They're not out to get you. Every loss is a consequence of your decisions, not the market's malice.
+
+Software doesn't care about you either. Bugs aren't personal. Production outages aren't the universe punishing you. They're consequences of decisions — usually made weeks ago under different constraints.
+
+Taking ownership (in trading, they call it "being accountable for your P&L") is what separates professionals from amateurs in both fields.
+
+## The Meta-Lesson
+
+Both trading and software engineering are disciplines of managing complexity under uncertainty. In trading, the uncertainty is market direction. In software, the uncertainty is user behavior, system load, and edge cases.
+
+The tools are different. The principles are identical:
+- Manage risk first, seek reward second
+- Have a plan before you execute
+- Document what happened and learn from it
+- Be consistent, not clever
+- Survive long enough to compound your edge
+
+I build better software because I trade. And I trade better because I build software. The cross-pollination is real.
+`,
+    category: "Trading",
+    tags: ["Trading", "Futures", "Risk Management", "Software Engineering", "Lessons"],
+    date: "2026-01-12",
+    readTime: "10 min read",
+  },
+  {
+    id: 30,
+    title: "How I Debug Production Issues (A Real Framework, Not Guessing)",
+    excerpt: "Most developers debug by changing things until the error goes away. I debug by narrowing the blast radius systematically. Here's my actual framework.",
+    content: "A systematic approach to production debugging...",
+    fullContent: `
+# How I Debug Production Issues (A Real Framework, Not Guessing)
+
+Early in my career, I debugged by vibes. Something broke, I'd stare at the code, change something, redeploy, hope. Sometimes it worked. Often it made things worse.
+
+At Home Depot — where a bug affected 2,300+ stores — I couldn't afford to guess. I developed a framework. It's not glamorous, but it works every time.
+
+## The Framework: ISOLATE
+
+**I** — Identify the symptom (not the cause)
+**S** — Scope the blast radius
+**O** — Observe the data (logs, metrics, traces)
+**L** — List hypotheses (minimum 3)
+**A** — Assess each hypothesis with evidence
+**T** — Test the fix in isolation
+**E** — Explain what happened (postmortem)
+
+Let me walk through a real example.
+
+## Real Case: Dashboard Loading 30 Seconds
+
+**I — Identify the symptom.**
+Users report the quality dashboard takes 30+ seconds to load. Locally it loads in 2 seconds. Production only.
+
+Don't jump to "it's a database problem" or "it's a network issue" yet. Just describe what you see.
+
+**S — Scope the blast radius.**
+Is it all users or specific ones? All browsers? Started when? Correlated with a deploy?
+
+In this case: all users, started 3 days ago, no deploy in that window. That eliminates "we shipped broken code" as the cause.
+
+**O — Observe the data.**
+
+\\\`\\\`\\\`bash
+# Check API response times
+curl -o /dev/null -s -w "Total: %{time_total}s\\n" https://api.example.com/quality
+
+# Check database query times
+SELECT query, calls, mean_exec_time
+FROM pg_stat_statements
+ORDER BY mean_exec_time DESC
+LIMIT 10;
+
+# Check for connection pool exhaustion
+SELECT count(*) FROM pg_stat_activity WHERE state = 'active';
+\\\`\\\`\\\`
+
+The data showed: API response time was 28 seconds. Database query took 0.3 seconds. So the bottleneck wasn't the database.
+
+**L — List hypotheses.**
+1. GitHub API rate limiting (we fetch CI artifacts)
+2. Artifact ZIP file grew too large (parsing bottleneck)
+3. DNS resolution delay on the serverless function cold start
+
+Never go with just one hypothesis. If you only have one, you'll confirm it whether it's right or not.
+
+**A — Assess each hypothesis.**
+
+Hypothesis 1: Checked GitHub API response headers — \\\`X-RateLimit-Remaining: 4,823\\\`. Not rate limited.
+
+Hypothesis 2: Downloaded the latest artifact ZIP — 340KB. Normal size. But wait — the function was downloading artifacts from the LAST 20 workflow runs to find the newest one. And GitHub's artifact API was paginating slowly because the repo had 500+ workflow runs.
+
+Found it. The API was making 20 sequential HTTP requests to GitHub, each taking ~1.4 seconds.
+
+**T — Test the fix.**
+Changed the logic to fetch only the latest 3 runs instead of 20. Tested locally against production GitHub data. Load time: 3.2 seconds.
+
+Deployed behind a feature flag. Monitored for 24 hours. Confirmed fix.
+
+**E — Explain what happened.**
+Wrote a 1-page postmortem: what broke, why, how we found it, what we changed, and what we'd do to prevent similar issues (added a \\\`perPage=3\\\` parameter and a circuit breaker for GitHub API calls).
+
+## Why This Works Better Than Guessing
+
+The framework forces you to **separate observation from interpretation**. Most debugging goes wrong at step 1: someone observes "it's slow" and immediately concludes "it's a database problem." They spend 4 hours optimizing queries while the real issue is a network call.
+
+By listing 3+ hypotheses before investigating any of them, you prevent confirmation bias. The fix is usually in the hypothesis you almost didn't write down.
+
+## The One-Liner Version
+
+When someone asks me how I debug, I say: "I don't look for the bug. I look for the data that tells me where the bug isn't. I eliminate everything it's not, and what's left is the answer."
+
+It's Sherlock Holmes, but for API calls.
+`,
+    category: "Engineering",
+    tags: ["Debugging", "Production", "Incident Response", "Engineering", "Framework"],
+    date: "2026-01-05",
+    readTime: "10 min read",
+  },
+  {
+    id: 31,
+    title: "Authentication Is Harder Than You Think",
+    excerpt: "I've implemented auth 4 times across different projects. Every time I thought it would take 2 days. Every time it took 2 weeks. Here's why, and what I'd do differently.",
+    content: "Why authentication is deceptively complex...",
+    fullContent: `
+# Authentication Is Harder Than You Think
+
+Every project plan I've ever written has a line item: "Authentication — 2 days."
+
+Every project retrospective has a note: "Auth took 2 weeks."
+
+I've built auth systems 4 times now. Each time, I underestimate it. Here's why, and what I finally learned.
+
+## The Iceberg
+
+What you think auth is:
+- Login form
+- Store a token
+- Check if token is valid
+- Done
+
+What auth actually is:
+- Login form (email/password + OAuth + magic links + MFA?)
+- Password hashing (bcrypt, argon2, what cost factor?)
+- Session management (JWT vs session cookie vs both?)
+- Token refresh (silent refresh, rotation, revocation)
+- CSRF protection (same-site cookies, double-submit token)
+- Rate limiting (on login, on registration, on password reset)
+- Password reset flow (token generation, expiry, single-use)
+- Email verification (token, resend logic, what if they change email?)
+- Account lockout (how many attempts? What's the unlock flow?)
+- Role-based access (admin vs user vs moderator)
+- API key management (for programmatic access)
+- Session invalidation on password change
+- "Remember me" vs "this session only"
+- Login from new device notification
+- Audit logging (who logged in, when, from where)
+
+That's 15+ features. At 1-2 days each, you're looking at a month.
+
+## What I Do Now: Use Supabase Auth and Extend
+
+After building custom auth twice and hating my life both times, I now start with Supabase Auth (or Clerk, or Auth.js). It handles:
+
+- Email/password with bcrypt
+- OAuth providers (Google, GitHub, Discord)
+- JWT tokens with refresh
+- Email verification
+- Password reset
+- Session management
+- Rate limiting
+
+That's 80% of auth, handled by people who think about auth full-time. I focus on the 20% that's specific to my app:
+
+\\\`\\\`\\\`typescript
+// My auth layer is thin — it extends Supabase Auth with app-specific logic
+async function handleLogin(email: string, password: string) {
+  // Supabase handles the actual authentication
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email, password
+  });
+
+  if (error) {
+    // My addition: audit logging
+    await logAuthEvent('login_failed', { email, reason: error.message });
+    throw error;
+  }
+
+  // My addition: check subscription status
+  const subscription = await getActiveSubscription(data.user.id);
+  if (!subscription) {
+    // Redirect to pricing, not error
+    return { user: data.user, redirect: '/pricing' };
+  }
+
+  // My addition: update last login
+  await db.profiles.update({
+    where: { userId: data.user.id },
+    data: { lastLoginAt: new Date(), loginCount: { increment: 1 } }
+  });
+
+  await logAuthEvent('login_success', { userId: data.user.id });
+  return { user: data.user, subscription };
+}
+\\\`\\\`\\\`
+
+## The Mistakes I Made (So You Don't Have To)
+
+**Mistake 1: JWT tokens in localStorage.** localStorage is accessible to any JavaScript on the page. If you have an XSS vulnerability, the attacker gets your auth token. Use httpOnly cookies instead.
+
+**Mistake 2: Not rotating refresh tokens.** If a refresh token is stolen, the attacker has access forever. Rotate refresh tokens on every use — when a refresh token is used, issue a new one and invalidate the old one.
+
+**Mistake 3: Forgetting to invalidate sessions on password change.** If a user changes their password because they think they've been compromised, all existing sessions should be killed. I shipped without this once. It defeats the purpose of changing your password.
+
+**Mistake 4: Password reset tokens that don't expire.** My first implementation had reset tokens that were valid forever. That means if someone's email is compromised a year from now, old reset links still work. Set a 1-hour expiry.
+
+## The Decision Framework
+
+| Situation | Use |
+|-----------|-----|
+| Building an MVP | Supabase Auth / Clerk (don't build auth) |
+| SaaS with subscriptions | Supabase Auth + custom subscription logic |
+| Enterprise with SSO | Auth0 or WorkOS (don't even try to build SAML) |
+| API-only service | API keys + rate limiting (simpler than JWT) |
+| Never | Rolling your own crypto, password hashing, or token generation |
+
+## The Bottom Line
+
+Auth is infrastructure, not a feature. Users don't care about your auth — they care about getting into the app. Spend as little time as possible on auth mechanics and as much time as possible on what happens after login.
+
+The best auth system is one you didn't build.
+`,
+    category: "Architecture",
+    tags: ["Authentication", "Security", "Supabase", "JWT", "Architecture"],
+    date: "2025-12-28",
+    readTime: "11 min read",
+  },
+  {
+    id: 32,
+    title: "The Architecture Decision Nobody Writes Down",
+    excerpt: "We spend weeks choosing between Kafka and RabbitMQ but never document why. ADRs take 15 minutes and save months of 'why did we do this?' conversations.",
+    content: "Architecture Decision Records and why they matter...",
+    fullContent: `
+# The Architecture Decision Nobody Writes Down
+
+Six months ago, I chose Supabase over Firebase for Nexural. I had good reasons — PostgreSQL, row-level security, self-hostable. But I almost forgot those reasons. The only thing that saved me from re-evaluating the same decision (and wasting a week) was a markdown file I wrote in 15 minutes.
+
+## The Problem
+
+Every engineering team has this conversation:
+
+"Why do we use RabbitMQ instead of Kafka?"
+"I think Dave chose it. Dave left 8 months ago."
+"..."
+"Should we switch to Kafka?"
+
+And now you're spending a sprint re-evaluating a decision that was already evaluated. The institutional knowledge walked out the door.
+
+## Architecture Decision Records (ADRs)
+
+An ADR is a short document that captures a significant decision. Mine are dead simple:
+
+\\\`\\\`\\\`markdown
+# ADR-003: Use Supabase over Firebase for Nexural
+
+## Status
+Accepted (2024-06-15)
+
+## Context
+Need a database and auth solution for the Nexural trading platform.
+Requirements: PostgreSQL (for complex queries), row-level security,
+real-time subscriptions, self-hostable (for future enterprise clients).
+
+## Decision
+Use Supabase.
+
+## Alternatives Considered
+- **Firebase:** NoSQL limits complex trading queries. No RLS.
+  Vendor lock-in with no self-host option.
+- **Raw PostgreSQL on RDS:** No built-in auth, real-time, or
+  admin dashboard. Would need to build all of that.
+- **PlanetScale:** MySQL-based. No PostgreSQL features we need
+  (materialized views, RLS, jsonb).
+
+## Consequences
+- Positive: Native PostgreSQL, RLS for multi-tenancy, built-in auth
+- Negative: Smaller ecosystem than Firebase, fewer tutorials
+- Risk: Supabase is younger and could pivot/shut down (mitigated
+  by PostgreSQL portability — we can migrate to raw Postgres)
+
+## Revisit When
+- We need real-time collaborative editing (Firebase CRDT support is better)
+- We need to serve 100K+ concurrent connections (unknown Supabase limits)
+\\\`\\\`\\\`
+
+That took 15 minutes. It will save me hours every time I (or anyone else) questions the choice.
+
+## What Gets an ADR
+
+Not every decision needs one. My rule: if the decision would take more than 30 minutes to reverse, write an ADR.
+
+Things that deserve ADRs:
+- Database choice
+- Auth strategy
+- API architecture (REST vs GraphQL)
+- Hosting platform
+- State management approach
+- Major library choices (ORM, testing framework)
+- Billing/payment provider
+- CI/CD platform
+
+Things that don't:
+- Which CSS class naming convention
+- Tabs vs spaces (actually, this probably does)
+- Which icon library
+- File naming conventions
+
+## Where I Store Them
+
+\\\`\\\`\\\`
+docs/
+  adr/
+    001-use-nextjs-for-frontend.md
+    002-use-stripe-for-billing.md
+    003-use-supabase-over-firebase.md
+    004-monolith-over-microservices.md
+    005-raw-sql-for-dashboards.md
+\\\`\\\`\\\`
+
+Numbered. In the repo. Version controlled. Searchable.
+
+When someone asks "why do we use X?" the answer is \\\`docs/adr/\\\`. Not "I think I remember" or "ask the person who left."
+
+## The Superpower Nobody Talks About
+
+ADRs aren't just documentation. They're a **thinking tool**. The act of writing down "Alternatives Considered" forces you to actually consider alternatives. I've changed my mind mid-ADR at least three times because writing it out made me realize my original choice was wrong.
+
+The 15 minutes you spend writing an ADR is the most undervalued engineering practice I know.
+`,
+    category: "Architecture",
+    tags: ["Architecture", "Documentation", "ADR", "Decision Making", "Best Practices"],
+    date: "2025-12-20",
+    readTime: "9 min read",
   }
 ];

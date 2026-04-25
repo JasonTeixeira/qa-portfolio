@@ -37,17 +37,6 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'nexquantsite',
-    name: 'NexQuantSite',
-    description: 'Professional quantitative trading platform with real-time market analytics and algorithmic strategies.',
-    category: 'fintech',
-    tags: ['TypeScript', 'Next.js', 'React'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/NexQuantSite',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'quality-telemetry',
     name: 'Quality Telemetry Dashboard',
     description: 'CI-artifact-fed quality dashboard with AWS S3 ingestion. Real-time test health, coverage trends, and quality metrics.',
@@ -61,10 +50,10 @@ export const projects: Project[] = [
   },
   {
     slug: 'cloud-resume-aws',
-    name: 'CloudResumeChallenge AWS',
-    description: 'Full AWS infrastructure — S3, CloudFront, Route53, Lambda, DynamoDB visitor counter. The classic cloud resume challenge.',
+    name: 'Cloud Resume Challenge AWS',
+    description: 'Full AWS infrastructure — S3, CloudFront, Route53, Lambda, DynamoDB visitor counter with CloudFormation IaC.',
     category: 'cloud',
-    tags: ['AWS', 'CloudFront', 'Lambda', 'DynamoDB', 'S3'],
+    tags: ['AWS', 'CloudFront', 'Lambda', 'DynamoDB', 'CloudFormation'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/CloudResumeChallangeAWS',
     isPrivate: false,
@@ -97,17 +86,6 @@ export const projects: Project[] = [
     featured: true
   },
   {
-    slug: 'nexural-research',
-    name: 'Nexural Research',
-    description: 'Institutional-grade strategy analysis — 71+ metrics, AI-powered insights, and comprehensive research tools.',
-    category: 'fintech',
-    tags: ['TypeScript', 'Next.js', 'AI'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Nexural-Research',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'nexural-studio',
     name: 'Nexural Studio',
     description: 'AI-powered market intelligence newsletter platform with automated content generation and distribution.',
@@ -116,18 +94,6 @@ export const projects: Project[] = [
     status: 'production',
     isPrivate: true,
     featured: false
-  },
-  {
-    slug: 'nexural-automation',
-    name: 'Nexural Automation',
-    description: 'End-to-end automation suite for the Nexural ecosystem — 61 test suites passing, .NET 8 backend.',
-    category: 'qa',
-    tags: ['TypeScript', '.NET 8', 'Testing', 'Automation'],
-    status: 'production',
-    github: 'https://github.com/JasonTeixeira/Nexural_Automation',
-    isPrivate: false,
-    featured: false,
-    stars: 2
   },
   {
     slug: 'nt8-alert-system',
@@ -140,24 +106,24 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    slug: 'quantumtrader',
-    name: 'QuantumTrader',
-    description: 'Quantitative trading system with algorithmic execution and risk management.',
-    category: 'fintech',
-    tags: ['Python', 'Trading', 'Algorithms'],
+    slug: 'riskradar',
+    name: 'RiskRadar',
+    description: 'Full-stack risk assessment platform — FastAPI backend with 35KB risk engine, Next.js frontend, real-time threat analysis.',
+    category: 'security',
+    tags: ['Python', 'FastAPI', 'Next.js', 'Risk Management'],
     status: 'active',
-    github: 'https://github.com/JasonTeixeira/QuantumTrader',
+    github: 'https://github.com/JasonTeixeira/RiskRadar',
     isPrivate: false,
     featured: false
   },
   {
-    slug: 'trading-scripts',
-    name: 'Trading Automation Scripts',
-    description: 'Collection of trading automation utilities and scripts for futures market analysis and execution.',
+    slug: 'quantumtrader',
+    name: 'QuantumTrader',
+    description: 'Quantitative trading system with algorithmic execution, backtesting engine, momentum strategies, and risk management.',
     category: 'fintech',
-    tags: ['Python', 'Trading', 'Automation', 'Futures'],
+    tags: ['Python', 'Trading', 'Algorithms', 'Backtesting'],
     status: 'active',
-    github: 'https://github.com/JasonTeixeira/2025-trading-automation-scripts',
+    github: 'https://github.com/JasonTeixeira/QuantumTrader',
     isPrivate: false,
     featured: false
   },
@@ -176,59 +142,13 @@ export const projects: Project[] = [
   {
     slug: 'aws-landing-zone',
     name: 'AWS Landing Zone + Guardrails',
-    description: 'Multi-account AWS Organizations with Terraform, SCPs, centralized audit logging, and CI gates.',
+    description: 'Multi-account AWS Organizations architecture with Terraform, SCPs, centralized audit logging, and CI gates.',
     category: 'cloud',
     tags: ['AWS', 'Terraform', 'HCL', 'GitHub Actions', 'Security'],
     status: 'production',
-    github: 'https://github.com/JasonTeixeira/Landing-Zone-Guardrails',
     caseStudy: '/case-studies/aws-landing-zone',
-    isPrivate: false,
+    isPrivate: true,
     featured: true
-  },
-  {
-    slug: 'cloudeng-library',
-    name: 'CloudEngLibrary',
-    description: 'Enterprise-grade cloud platform library with high availability architecture and auto-scaling patterns.',
-    category: 'cloud',
-    tags: ['Shell', 'AWS', 'Cloud', 'HA'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/CloudEngLibrary',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'migration-pipeline',
-    name: 'Master Migration Pipeline',
-    description: 'Enterprise migration pipeline with automated deployment strategies and rollback capabilities.',
-    category: 'cloud',
-    tags: ['Cloud', 'DevOps', 'Migration', 'Automation'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Master-Migration-Pipeline',
-    isPrivate: false,
-    featured: false,
-    stars: 1
-  },
-  {
-    slug: 'cloudmind',
-    name: 'Cloudmind',
-    description: 'AI-powered cloud intelligence platform for automated infrastructure optimization and monitoring.',
-    category: 'cloud',
-    tags: ['Python', 'AWS', 'AI', 'Monitoring'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Cloudmind',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'nexuralflow',
-    name: 'NexuralFlow',
-    description: 'Infrastructure workflow automation for the Nexural ecosystem deployment pipeline.',
-    category: 'cloud',
-    tags: ['DevOps', 'Automation', 'CI/CD'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/NexuralFlow',
-    isPrivate: false,
-    featured: false
   },
 
   // QA & TESTING FRAMEWORKS
@@ -244,17 +164,6 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    slug: 'cicd-pipeline',
-    name: 'CI/CD Testing Pipeline',
-    description: 'Containerized Kubernetes testing with parallel execution — 82% pipeline time reduction, 500+ tests per build.',
-    category: 'qa',
-    tags: ['Kubernetes', 'Docker', 'GitHub Actions', 'pytest', 'Prometheus', 'Grafana'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/CI-CD-Pipeline',
-    isPrivate: false,
-    featured: true
-  },
-  {
     slug: 'selenium-framework',
     name: 'Selenium Python Framework',
     description: 'Production-ready Selenium framework with Page Object Model, cross-browser support, and comprehensive reporting.',
@@ -268,18 +177,29 @@ export const projects: Project[] = [
   {
     slug: 'e2e-framework',
     name: 'E2E Framework',
-    description: 'End-to-end testing framework with full user journey coverage, CI integration, and detailed reporting.',
+    description: 'End-to-end testing framework with Selenium POM architecture, full user journey coverage, and CI integration.',
     category: 'qa',
-    tags: ['Python', 'E2E', 'Testing', 'CI'],
+    tags: ['Python', 'Selenium', 'E2E', 'Testing', 'CI'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/E2E-Framework',
     isPrivate: false,
     featured: false
   },
   {
+    slug: 'security-suite',
+    name: 'Security Testing Suite',
+    description: 'Security testing automation — 31KB security scanner, API security module, secrets detection, OWASP Top 10 coverage.',
+    category: 'security',
+    tags: ['Python', 'Security', 'OWASP', 'Scanning'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/Security-Testing-Suite',
+    isPrivate: false,
+    featured: false
+  },
+  {
     slug: 'bdd-cucumber',
     name: 'BDD Cucumber Framework',
-    description: 'Behavior-driven development framework with Gherkin syntax, automated step definitions, and living documentation.',
+    description: 'Behavior-driven development framework with Gherkin syntax, automated step definitions, and GitHub Actions CI.',
     category: 'qa',
     tags: ['Python', 'BDD', 'Cucumber', 'Gherkin'],
     status: 'active',
@@ -290,31 +210,20 @@ export const projects: Project[] = [
   {
     slug: 'performance-testing',
     name: 'Performance Testing Framework',
-    description: 'Load and performance testing suite with metrics collection, threshold enforcement, and trend analysis.',
+    description: 'Load testing suite built with Locust — configurable user scenarios, metrics collection, and threshold enforcement.',
     category: 'qa',
-    tags: ['Python', 'Performance', 'JMeter', 'Load Testing'],
+    tags: ['Python', 'Locust', 'Performance', 'Load Testing'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/Performance-Testing-Framework',
     isPrivate: false,
     featured: false
   },
   {
-    slug: 'mobile-testing',
-    name: 'Mobile Testing Framework',
-    description: 'Cross-platform mobile test automation with device farm support, visual validation, and CI integration.',
-    category: 'qa',
-    tags: ['Python', 'Appium', 'Mobile', 'iOS', 'Android'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Mobile-Testing-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'visual-regression',
     name: 'Visual Regression Testing Suite',
-    description: 'Automated visual comparison testing with baseline management, diff reporting, and CI integration.',
+    description: 'Automated visual comparison testing with Percy integration, baseline management, and CI integration.',
     category: 'qa',
-    tags: ['Python', 'Visual Testing', 'Screenshot', 'CI'],
+    tags: ['Python', 'Visual Testing', 'Percy', 'CI'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/visual-regression-testing-suite',
     isPrivate: false,
@@ -334,7 +243,7 @@ export const projects: Project[] = [
   {
     slug: 'ecommerce-tests',
     name: 'E-Commerce Test Suite',
-    description: 'Comprehensive test suite for e-commerce — cart, checkout, payment, inventory, and user flow coverage.',
+    description: 'Comprehensive test suite for e-commerce platforms — cart, checkout, payment, inventory, and user flow coverage.',
     category: 'qa',
     tags: ['Python', 'E-Commerce', 'Testing', 'Selenium'],
     status: 'active',
@@ -343,36 +252,13 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    slug: 'contract-testing',
-    name: 'Contract Testing Framework',
-    description: 'Consumer-driven contract testing for microservices API compatibility verification and versioning.',
+    slug: 'cicd-pipeline',
+    name: 'CI/CD Testing Pipeline',
+    description: 'Containerized testing pipeline architecture with Docker, Kubernetes configs, Jenkins pipelines, and parallel execution patterns.',
     category: 'qa',
-    tags: ['Contract Testing', 'Microservices', 'API', 'Pact'],
+    tags: ['Kubernetes', 'Docker', 'Jenkins', 'pytest', 'CI/CD'],
     status: 'active',
-    github: 'https://github.com/JasonTeixeira/Contract-Testing-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'security-suite',
-    name: 'Security Testing Suite',
-    description: 'Security testing automation — OWASP Top 10 checks, vulnerability scanning, and compliance verification.',
-    category: 'security',
-    tags: ['Python', 'Security', 'OWASP', 'Scanning'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Security-Testing-Suite',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'security-framework',
-    name: 'Security Testing Framework',
-    description: 'Security-focused testing framework with penetration test automation and vulnerability assessment capabilities.',
-    category: 'security',
-    tags: ['Python', 'Security', 'Pen Testing'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Security-Testing-Framework',
-    isPrivate: false,
+    isPrivate: true,
     featured: false
   },
 
@@ -380,9 +266,9 @@ export const projects: Project[] = [
   {
     slug: 'nexus-encryption',
     name: 'NexusEncryption',
-    description: 'Encryption library with quantum-resistant cryptographic algorithms and secure key management.',
+    description: 'Desktop encryption application built with Tauri — TypeScript crypto library with modern cryptographic standards.',
     category: 'security',
-    tags: ['Cryptography', 'Security', 'Quantum-Resistant'],
+    tags: ['TypeScript', 'Tauri', 'Cryptography', 'Security'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/NexusEncryption',
     isPrivate: false,
@@ -399,35 +285,12 @@ export const projects: Project[] = [
     isPrivate: false,
     featured: false
   },
-  {
-    slug: 'riskradar',
-    name: 'RiskRadar',
-    description: 'Risk assessment and monitoring platform with enterprise and standard editions for threat analysis.',
-    category: 'security',
-    tags: ['Python', 'Risk Management', 'Security', 'Analytics'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/RiskRadar',
-    isPrivate: false,
-    featured: false
-  },
 
   // OPEN SOURCE & EDUCATION
   {
-    slug: 'togaf-template',
-    name: 'TOGAF Master Template',
-    description: 'Enterprise architecture documentation template with comprehensive TOGAF framework guidelines and examples.',
-    category: 'open-source',
-    tags: ['TOGAF', 'Architecture', 'Documentation', 'Enterprise'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/TOGAF-Master-Documenting-Template',
-    isPrivate: false,
-    featured: false,
-    stars: 2
-  },
-  {
     slug: 'cissp-prep',
     name: 'CISSP Exam Prep',
-    description: 'Comprehensive CISSP certification study guide with practice exams and all 8 security domain coverage.',
+    description: 'Comprehensive 105KB CISSP certification study guide covering all 8 security domains with practice materials.',
     category: 'open-source',
     tags: ['CISSP', 'Security', 'Certification', 'Education'],
     status: 'active',
@@ -436,17 +299,6 @@ export const projects: Project[] = [
     featured: false,
     stars: 2
   },
-  {
-    slug: 'sierra-studies',
-    name: 'Nexural Sierra Studies',
-    description: 'Curated collection of libraries, packages, and resources for traders using Sierra Chart.',
-    category: 'open-source',
-    tags: ['Sierra Chart', 'Trading', 'Resources', 'Curated'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Nexural_Sierra_Studies',
-    isPrivate: false,
-    featured: false
-  }
 ]
 
 export const categories = [

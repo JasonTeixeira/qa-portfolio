@@ -15,7 +15,7 @@ const caseStudyContent: Record<string, {
   overview: string[]
   problem: { heading: string; content: string[] }
   approach: { heading: string; content: string[] }
-  technicalDetails: { heading: string; sections: { title: string; content: string }[] }
+  technicalDetails: { heading: string; sections: { title: string; content: string; code?: string }[] }
   challenges: { title: string; challenge: string; solution: string; result: string }[]
   results: { heading: string; content: string; metrics: { label: string; value: string }[] }
   github?: string
@@ -48,19 +48,92 @@ const caseStudyContent: Record<string, {
       sections: [
         {
           title: 'Database Architecture',
-          content: 'The 185-table schema is designed around trading workflows: users, subscriptions, strategies, watchlists, alerts, research notes, and analytics. Foreign keys enforce referential integrity, and Supabase RLS policies control access at the row level.'
+          content: 'The 185-table schema is designed around trading workflows: users, subscriptions, strategies, watchlists, alerts, research notes, and analytics. Foreign keys enforce referential integrity, and Supabase RLS policies control access at the row level.',
+          code: `-- Row-Level Security: users can only access their own data
+CREATE POLICY "Users can view own strategies"
+  ON strategies FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Denormalized view for dashboard performance
+CREATE VIEW dashboard_summary AS
+SELECT u.id, u.email,
+  COUNT(DISTINCT s.id) as strategy_count,
+  COUNT(DISTINCT a.id) as alert_count,
+  MAX(t.executed_at) as last_trade
+FROM users u
+LEFT JOIN strategies s ON s.user_id = u.id
+LEFT JOIN alerts a ON a.user_id = u.id
+LEFT JOIN trades t ON t.user_id = u.id
+GROUP BY u.id, u.email;`
         },
         {
           title: 'API Design',
-          content: '69 API endpoints follow RESTful conventions with consistent error handling. Rate limiting protects against abuse, and request validation uses Zod schemas. All endpoints are covered by automated tests.'
+          content: '69 API endpoints follow RESTful conventions with consistent error handling. Rate limiting protects against abuse, and request validation uses Zod schemas. All endpoints are covered by automated tests.',
+          code: `// Zod schema validation middleware
+const CreateStrategySchema = z.object({
+  name: z.string().min(1).max(100),
+  symbol: z.string().regex(/^[A-Z]{1,5}$/),
+  timeframe: z.enum(['1m', '5m', '15m', '1h', '4h', '1d']),
+  parameters: z.record(z.number()).optional(),
+});
+
+export async function POST(req: Request) {
+  const body = await req.json();
+  const validated = CreateStrategySchema.parse(body);
+  // Rate limit: 10 creates per minute per user
+  await enforceRateLimit(req, { window: 60, max: 10 });
+  return NextResponse.json(await createStrategy(validated));
+}`
         },
         {
           title: 'AI Integration',
-          content: 'The Discord bot uses GPT-4o for natural language queries about market conditions, strategy analysis, and educational content. Context is maintained per conversation, and responses are formatted for Discord\'s message limits.'
+          content: 'The Discord bot uses GPT-4o for natural language queries about market conditions, strategy analysis, and educational content. Context is maintained per conversation, and responses are formatted for Discord\'s message limits.',
+          code: `// GPT-4o with financial safety guardrails
+const systemPrompt = \`You are a trading education assistant.
+NEVER: give financial advice, predict prices, recommend trades.
+ALWAYS: frame responses as educational, include disclaimers.
+Format: Discord-compatible markdown, max 2000 chars.\`;
+
+async function handleAIQuery(message, conversationHistory) {
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      ...conversationHistory.slice(-5), // Last 5 messages for context
+      { role: 'user', content: message }
+    ],
+    max_tokens: 500,
+  });
+  // Filter response for financial advice patterns
+  return validateAndSanitize(response.choices[0].message);
+}`
         },
         {
           title: 'Real-Time Features',
-          content: 'Market data streams through WebSocket connections with automatic reconnection. Price alerts trigger within milliseconds of threshold crossings, and the dashboard updates without page refreshes.'
+          content: 'Market data streams through WebSocket connections with automatic reconnection. Price alerts trigger within milliseconds of threshold crossings, and the dashboard updates without page refreshes.',
+          code: `// WebSocket with auto-reconnection and exponential backoff
+class MarketDataStream {
+  private retryCount = 0;
+  private maxRetries = 10;
+
+  connect(symbols: string[]) {
+    this.ws = new WebSocket(ALPACA_WS_URL);
+    this.ws.onopen = () => {
+      this.retryCount = 0; // Reset on successful connect
+      this.subscribe(symbols);
+    };
+    this.ws.onclose = () => {
+      const delay = Math.min(1000 * 2 ** this.retryCount, 30000);
+      setTimeout(() => this.connect(symbols), delay);
+      this.retryCount++;
+    };
+    this.ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      this.checkAlerts(data); // Sub-ms alert evaluation
+      this.updateDashboard(data);
+    };
+  }
+}`
         }
       ]
     },
@@ -469,6 +542,11 @@ export default function CaseStudyDetailPage() {
               <div key={section.title} className="p-6 bg-[#18181B] border border-[#27272A] rounded-xl">
                 <h3 className="text-lg font-semibold text-[#FAFAFA] mb-3">{section.title}</h3>
                 <p className="text-[#A1A1AA]">{section.content}</p>
+                {section.code && (
+                  <pre className="mt-4 p-4 bg-[#09090B] border border-[#27272A] rounded-lg overflow-x-auto text-sm font-mono text-[#A1A1AA] leading-relaxed">
+                    <code>{section.code}</code>
+                  </pre>
+                )}
               </div>
             ))}
           </div>

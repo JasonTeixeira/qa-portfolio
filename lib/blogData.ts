@@ -1656,5 +1656,354 @@ Mobile automation is challenging but absolutely necessary. The investment pays o
     date: "2023-12-20",
     readTime: "16 min read",
     coverImage: "/images/blog/blog-5-cover.png",
+  },
+  {
+    id: 6,
+    title: "Building a Fintech Platform Solo: 185 Tables, 69 APIs, 7 Systems",
+    excerpt: "The full story of architecting and building the Nexural ecosystem from scratch — database design, API architecture, Stripe integration, and lessons from being the sole engineer on a production fintech platform.",
+    content: "How I built a complete fintech platform as a solo engineer...",
+    fullContent: `
+# Building a Fintech Platform Solo: 185 Tables, 69 APIs, 7 Systems
+
+Most engineers work on one service at a time. I built an entire ecosystem.
+
+The Nexural platform started as a simple idea: a dashboard for my trading community. It became a full fintech platform with 185 database tables, 69 API endpoints, Stripe billing, an AI-powered Discord bot, a research engine, a newsletter studio, and a real-time alert system.
+
+I designed and built all of it. Here's what I learned.
+
+## The Scope
+
+Seven interconnected systems:
+1. **Trading Dashboard** — real-time market data, charts, portfolio tracking
+2. **Discord AI Engine** — 30+ commands, GPT-4o integration, auto-moderation
+3. **Research Engine** — 71+ metrics, strategy analysis, CSV import
+4. **Alert System** — NinjaTrader 8 integration, .NET backend, real-time notifications
+5. **Newsletter Studio** — automated content generation and distribution
+6. **Strategy Tracker** — performance monitoring across trading systems
+7. **Automation Suite** — 61 test suites, CI/CD, quality gates
+
+## Database Design at Scale
+
+185 tables sounds intimidating. The key was phased design:
+
+- **Phase 1 (Core):** Users, auth, subscriptions — 20 tables
+- **Phase 2 (Trading):** Instruments, positions, signals — 35 tables
+- **Phase 3 (Community):** Discord integration, moderation logs — 25 tables
+- **Phase 4 (Analytics):** Metrics, reports, telemetry — 30 tables
+- **Phase 5-7:** Research, alerts, newsletter — 75 tables
+
+Each phase had its own migration, its own test suite, and its own rollback plan. I never modified more than one domain at a time.
+
+### Schema Decisions That Mattered
+
+**Normalized where it counts:** User → Subscription → Plan is fully normalized. No denormalization shortcuts that would create billing bugs.
+
+**Denormalized where speed matters:** Trading dashboards query denormalized views. A trader doesn't care about 3NF — they care about sub-50ms load times.
+
+**Row-level security everywhere:** Supabase RLS policies on every table. A user can never see another user's data, even if the API has a bug.
+
+## API Architecture
+
+69 endpoints following consistent patterns:
+
+\`\`\`
+GET    /api/v1/instruments          — list with pagination
+GET    /api/v1/instruments/:id      — detail
+POST   /api/v1/instruments          — create (admin)
+PATCH  /api/v1/instruments/:id      — update (admin)
+DELETE /api/v1/instruments/:id      — soft delete (admin)
+\`\`\`
+
+Every endpoint has:
+- Zod schema validation on input
+- Rate limiting (per-user, per-endpoint)
+- Structured error responses
+- Full test coverage
+
+## Stripe Integration
+
+Billing is where fintech gets real. I implemented:
+- Subscription lifecycle (create, upgrade, downgrade, cancel)
+- Webhook handling for payment events
+- Dunning for failed payments
+- Prorated billing on plan changes
+- Invoice generation
+
+The Stripe webhook handler alone is 400 lines of carefully tested code. Payment bugs are the kind that lose customers permanently.
+
+## What I'd Do Differently
+
+1. **Start with a monorepo.** I split services too early. A monorepo with shared types would have saved weeks of type synchronization.
+2. **API versioning from day one.** I added /v1/ after breaking two integrations. Should have been there from the start.
+3. **Less custom, more conventions.** I built custom auth middleware when NextAuth would have been fine for v1.
+
+## The Real Lesson
+
+Building a platform solo teaches you something that team environments don't: every decision compounds. Good architecture decisions save you hundreds of hours later. Bad ones haunt you at 2am.
+
+The Nexural ecosystem works because I spent more time designing than coding. The schema document was 40 pages before I wrote the first migration.
+
+If you're building something ambitious alone, invest in architecture first. The code is the easy part.
+`,
+    category: "Architecture",
+    tags: ["Next.js", "Supabase", "Stripe", "Architecture", "Database Design", "FinTech"],
+    date: "2026-04-20",
+    readTime: "14 min read",
+  },
+  {
+    id: 7,
+    title: "Building an AI Discord Bot for a Trading Community",
+    excerpt: "How I built the Nexural Discord AI Engine — 30+ commands, GPT-4o integration, auto-moderation, and market intelligence. Lessons on AI safety in financial contexts.",
+    content: "Building an AI-powered Discord bot for traders...",
+    fullContent: `
+# Building an AI Discord Bot for a Trading Community
+
+Trading communities have unique needs that generic bots can't handle. Traders need market data, not memes. They need AI that understands financial context, not generic chatbots. They need moderation that catches pump-and-dump schemes, not just spam.
+
+I built the Nexural Discord AI Engine to solve these problems. Here's what went into it.
+
+## The Architecture
+
+The bot runs as a Node.js service with:
+- **Discord.js** for the bot framework
+- **GPT-4o** for natural language interactions
+- **Supabase** for persistent storage (user data, conversation history, moderation logs)
+- **Alpaca API** for real-time market data
+- **Custom middleware** for rate limiting, permission checks, and audit logging
+
+## 30+ Commands, 12 Phases
+
+I built this iteratively across 12 development phases:
+
+- **Phase 0-2:** Core commands, welcome system, basic moderation
+- **Phase 3-5:** Market data integration, AI chat, portfolio tracking
+- **Phase 6-8:** Auto-moderation, community management, role management
+- **Phase 9-12:** Analytics, alerting, performance optimization
+
+Each phase had its own test suite and rollback plan. I never deployed more than one phase at a time.
+
+## AI Safety in Financial Contexts
+
+This is where it gets serious. An AI bot in a trading community can't:
+- Give financial advice (legal liability)
+- Generate trading signals (regulatory issues)
+- Confirm or deny specific trade ideas (responsibility)
+
+My approach:
+
+**Strict system prompts:** GPT-4o receives a 2,000-word system prompt that explicitly defines what it can and cannot discuss. Every response is framed as educational, never advisory.
+
+**Response validation:** Before any AI response is sent to Discord, it passes through a filter that checks for:
+- Price predictions ("will go up/down")
+- Specific trade recommendations ("buy/sell X")
+- Guarantees or promises of returns
+- Inappropriate content
+
+**Disclaimers:** Every AI response includes a footer: "This is educational content, not financial advice."
+
+**Audit logging:** Every AI interaction is logged to Supabase with the prompt, response, and whether any filters triggered.
+
+## Market Data Integration
+
+The Alpaca API provides real-time market data:
+
+\`\`\`javascript
+// Simplified market data command
+async function getQuote(symbol) {
+  const snapshot = await alpaca.getSnapshot(symbol);
+  return {
+    price: snapshot.latestTrade.p,
+    change: snapshot.dailyBar.c - snapshot.dailyBar.o,
+    volume: snapshot.dailyBar.v,
+    timestamp: snapshot.latestTrade.t
+  };
+}
+\`\`\`
+
+Users can query any stock or crypto with \`/quote AAPL\` and get real-time data formatted in a Discord embed.
+
+## Auto-Moderation
+
+Beyond standard spam detection, the bot watches for:
+- **Pump-and-dump language** — "guaranteed returns", "moon", "100x"
+- **Unverified claims** — "I made $X today" without proof
+- **Scam patterns** — DM solicitation, fake giveaways
+- **Off-topic flooding** — keeping channels focused
+
+Each moderation action is logged, reviewable by admins, and appealable by users.
+
+## Lessons Learned
+
+1. **AI in financial contexts requires 10x more guardrails** than general-purpose bots. One bad response can have legal consequences.
+2. **Rate limiting is critical.** GPT-4o costs money. Without per-user rate limits, one person can rack up $50 in API calls in an hour.
+3. **Conversation context matters.** Stateless AI responses feel robotic. Storing conversation history in Supabase makes the bot feel intelligent.
+4. **Test your moderation rules on real data.** My initial filters had a 30% false positive rate. After tuning on actual community messages, it dropped to under 5%.
+
+The bot is now live and actively used by the Nexural trading community. It handles 200+ interactions per day with zero moderation incidents.
+`,
+    category: "AI",
+    tags: ["Discord.js", "GPT-4o", "Node.js", "Supabase", "AI Safety", "Trading"],
+    date: "2026-04-15",
+    readTime: "12 min read",
+  },
+  {
+    id: 8,
+    title: "Why I Treat My Portfolio Like a Production System",
+    excerpt: "SLOs, incident drills, WAF rate limiting, and OIDC federation — why I operate my portfolio site with the same rigor as enterprise infrastructure, and what it signals to hiring managers.",
+    content: "Operating a portfolio like production infrastructure...",
+    fullContent: `
+# Why I Treat My Portfolio Like a Production System
+
+Most developer portfolios are static sites. Mine has SLOs.
+
+This isn't about over-engineering. It's about demonstrating a specific skill that's hard to show in interviews: **operational maturity**.
+
+## What "Production-Grade Portfolio" Means
+
+My portfolio site (sageideas.dev) has:
+
+- **SLO targets:** 99.9% dashboard availability, <24h telemetry freshness, <500ms P95 response time
+- **Incident drills:** 4 failure scenarios tested with documented responses
+- **WAF rate limiting:** CloudFront Web ACL with attack simulation evidence
+- **OIDC federation:** GitHub Actions → AWS without static credentials
+- **Quality telemetry:** Live dashboard pulling CI artifacts in real-time
+- **Security receipts:** IAM policies, threat models, and evidence for every claim
+
+## Why Bother?
+
+Because the gap between "I can build things" and "I can run things" is where senior roles live.
+
+Junior engineers build features. Mid-level engineers build systems. Senior engineers **operate** systems — they think about failure modes, blast radius, cost, compliance, and what happens at 3am.
+
+By treating my portfolio like production, I'm showing:
+
+1. **I think about failure before it happens** — every external dependency has a fallback
+2. **I measure what matters** — SLOs, not vanity metrics
+3. **I document for the next person** — runbooks, playbooks, architecture docs
+4. **I don't cut corners on security** — even for a portfolio site
+
+## The Incident Drill Pattern
+
+Every quarter, I run through 4 scenarios:
+
+| Scenario | Response | Status |
+|---|---|---|
+| GitHub API rate limits | Fall back to snapshot mode | Tested |
+| Missing CI artifact | Scan recent runs, degrade gracefully | Tested |
+| AWS proxy token mismatch | CloudWatch alarm, auto-degrade | Tested |
+| S3 object missing | Fail closed, no secrets leak | Tested |
+
+Each drill follows: **detect → triage → mitigate → verify → document**
+
+The drill report is publicly available in my artifacts library.
+
+## What Hiring Managers Notice
+
+When I interview for senior/staff roles, I don't talk about my portfolio's design. I talk about its operations:
+
+- "Here's my SLO dashboard. We're at 99.94% this month."
+- "Here's a WAF rate limiting test I ran last week. 429s trigger at 100 req/5min."
+- "Here's the IAM policy. The Lambda has exactly one permission: s3:GetObject on one key."
+
+This changes the conversation from "can you code?" to "can you run systems?" — which is what $200K+ roles actually require.
+
+## How to Do This Yourself
+
+You don't need AWS. Start small:
+
+1. **Define one SLO** — "My site will have 99% uptime this month." Monitor it.
+2. **Add one quality gate** — Lighthouse CI in your deploy pipeline. Fail the build if performance drops.
+3. **Document one failure mode** — "If my API key expires, what happens?" Write the answer down.
+4. **Run one incident drill** — Actually break something intentionally and practice the response.
+
+The goal isn't perfection. It's demonstrating that you think about production, not just development.
+`,
+    category: "Cloud Automation",
+    tags: ["SLOs", "Operations", "Security", "AWS", "Production", "Career"],
+    date: "2026-04-10",
+    readTime: "10 min read",
+  },
+  {
+    id: 9,
+    title: "The Recruiter Pack: Why I Give Away My QA Playbooks",
+    excerpt: "I created a downloadable ZIP with my resume, test strategies, architecture samples, and operational evidence. Here's why giving away your best work for free is the best career move you can make.",
+    content: "Why downloadable artifacts beat traditional portfolios...",
+    fullContent: `
+# The Recruiter Pack: Why I Give Away My QA Playbooks
+
+My portfolio site has a download button. Click it, and you get a ZIP file containing:
+
+- My resume (PDF)
+- A test strategy template (filled, not blank)
+- An architecture sample (the Nexural platform blueprint)
+- Security evidence (WAF rate limiting proof)
+- An incident drill report (postmortem format)
+- A quality dashboard walkthrough script
+
+Why would I give away my best work for free?
+
+## The Hiring Funnel Problem
+
+Here's how most hiring works:
+
+1. Recruiter sees your resume (30 seconds)
+2. If interested, they forward to hiring manager
+3. Hiring manager checks your portfolio (60 seconds)
+4. If interesting, they schedule a call
+
+The problem is step 2-3. The recruiter isn't technical. They can't evaluate your GitHub repos. They need something they can forward with confidence — something that makes the hiring manager say "bring this person in."
+
+## What the Recruiter Pack Solves
+
+A ZIP file with your best artifacts does three things:
+
+**1. It's forwardable.** A recruiter can attach it to an internal email: "Check out this candidate's materials." They can't do that with a GitHub link.
+
+**2. It's evaluable by non-technical people.** A filled test strategy template shows process. An incident drill report shows maturity. These are readable by anyone.
+
+**3. It shows generosity and confidence.** Most candidates hoard their work. Giving it away signals that you have more where that came from.
+
+## What's In My Pack
+
+### Test Strategy (Filled)
+Not a blank template — a completed test strategy for a real project. It shows:
+- How I scope testing
+- How I prioritize (risk-based, not checkbox-based)
+- How I communicate test plans to non-technical stakeholders
+
+### Architecture Sample
+A blueprint showing database design, API structure, and system interconnections. Demonstrates that I think architecturally, not just in functions and classes.
+
+### Security Evidence
+A WAF rate limiting test with actual HTTP responses. Shows that I don't just claim security — I prove it with evidence.
+
+### Incident Drill Report
+A postmortem-format report for a simulated incident. Demonstrates operational thinking: timeline, root cause, mitigation, follow-ups.
+
+### Dashboard Walkthrough
+A script for demoing my quality telemetry dashboard in an interview. Shows preparation and presentation skills.
+
+## The Results
+
+Since adding the recruiter pack:
+- Recruiter response rate increased (they have something tangible to share)
+- Interview conversations start deeper (they've already seen my work)
+- I spend less time in "tell me about yourself" and more time in technical discussion
+
+## Build Your Own
+
+1. Pick your 3-5 best artifacts (not code — documents, reports, evidence)
+2. Make sure each one is self-explanatory (no context needed)
+3. Put them in a ZIP with a one-page index
+4. Add a prominent download button to your portfolio
+
+The best portfolio isn't a wall of project cards. It's a package that makes someone say "I need to talk to this person."
+
+You can download my recruiter pack at [sageideas.dev/artifacts](/artifacts).
+`,
+    category: "Career",
+    tags: ["Career", "Recruiting", "QA", "Portfolio", "Job Search"],
+    date: "2026-04-05",
+    readTime: "8 min read",
   }
 ];

@@ -322,6 +322,59 @@ export function ServicesContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
+            {/* Not For Section */}
+            <div className="mb-16 max-w-2xl mx-auto text-left">
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Who This Is Not For</h3>
+              <p className="text-sm text-[#A1A1AA] mb-4">
+                {"I'm selective about projects to ensure quality. I'm probably not the right fit if you need:"}
+              </p>
+              <ul className="space-y-2 text-sm text-[#71717A]">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#EF4444] mt-1">✕</span>
+                  WordPress sites, Shopify themes, or no-code customizations
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#EF4444] mt-1">✕</span>
+                  {"Equity-only compensation or \"build it and we'll pay you later\" arrangements"}
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#EF4444] mt-1">✕</span>
+                  {"Vague requirements (\"just build me an app\") without defined scope"}
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#EF4444] mt-1">✕</span>
+                  Rush projects with unrealistic deadlines and no room for quality
+                </li>
+              </ul>
+            </div>
+
+            {/* Proof Section */}
+            <div className="mb-16 max-w-3xl mx-auto">
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-6 text-center">Proof, Not Promises</h3>
+              <div className="grid sm:grid-cols-2 gap-4 text-sm">
+                <Link href="/case-studies/nexural-ecosystem" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors">
+                  <span className="text-[#06B6D4] font-mono text-xs">Custom Software →</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium">Nexural Platform</p>
+                  <p className="text-[#71717A] mt-1">185 tables, 69 APIs, Stripe billing, 7 phases</p>
+                </Link>
+                <Link href="/case-studies/testing-frameworks" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors">
+                  <span className="text-[#06B6D4] font-mono text-xs">Test Automation →</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium">13 Testing Frameworks</p>
+                  <p className="text-[#71717A] mt-1">500+ tests, 82% faster pipelines, {"<1%"} flaky</p>
+                </Link>
+                <Link href="/case-studies/aws-landing-zone" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors">
+                  <span className="text-[#06B6D4] font-mono text-xs">Cloud Infrastructure →</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium">AWS Landing Zone</p>
+                  <p className="text-[#71717A] mt-1">Multi-account, Terraform, SCPs, CI gates</p>
+                </Link>
+                <Link href="/case-studies/alphastream" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors">
+                  <span className="text-[#06B6D4] font-mono text-xs">Trading Systems →</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium">AlphaStream ML</p>
+                  <p className="text-[#71717A] mt-1">200+ indicators, 5 ML models, real-time signals</p>
+                </Link>
+              </div>
+            </div>
+
             <h2 className="text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
               Ready to Build Something?
             </h2>

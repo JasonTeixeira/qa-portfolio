@@ -4687,5 +4687,539 @@ The 15 minutes you spend writing an ADR is the most undervalued engineering prac
     tags: ["Architecture", "Documentation", "ADR", "Decision Making", "Best Practices"],
     date: "2025-12-20",
     readTime: "9 min read",
+  },
+  {
+    id: 33,
+    title: "Rate Limiting: The Feature Nobody Thinks About Until It's Too Late",
+    excerpt: "Your API works perfectly at 10 requests per second. At 10,000, it falls over. Here's how I implement rate limiting that protects without annoying legitimate users.",
+    content: "Implementing rate limiting that actually works...",
+    fullContent: `
+# Rate Limiting: The Feature Nobody Thinks About Until It's Too Late
+
+Nobody puts "implement rate limiting" on the sprint board. It's not a user story. It doesn't move a metric. Product never asks for it.
+
+Then one day, someone scripts 50,000 requests to your API in 30 seconds and your database melts. Or worse — a single user's runaway script costs you $800 in AWS Lambda invocations overnight.
+
+Both of these happened to me. Now rate limiting is in my starter template.
+
+## The Three Layers
+
+I implement rate limiting at three layers, because each catches different abuse patterns:
+
+### Layer 1: Edge (CloudFront / Vercel)
+
+\\\`\\\`\\\`
+Rate: 100 requests per 5 minutes per IP
+Purpose: Stop brute force and scrapers before they hit your app
+Cost: $0 (included in CloudFront / Vercel)
+\\\`\\\`\\\`
+
+This is your first defense. It runs at the CDN edge, so abusive traffic never reaches your server. The rate is generous enough that no real user hits it, but tight enough to stop automated abuse.
+
+### Layer 2: Application (per-user)
+
+\\\`\\\`\\\`typescript
+// Simple in-memory rate limiter
+const limits = new Map<string, number[]>();
+
+function rateLimit(userId: string, windowMs = 60000, max = 30): boolean {
+  const now = Date.now();
+  const hits = (limits.get(userId) || []).filter(t => now - t < windowMs);
+  hits.push(now);
+  limits.set(userId, hits);
+  return hits.length > max;
+}
+\\\`\\\`\\\`
+
+30 requests per minute per authenticated user. This prevents a legitimate user's runaway script from monopolizing your API.
+
+### Layer 3: Endpoint-specific
+
+Not all endpoints are equal. A search endpoint can handle 100 req/min. A payment endpoint should allow 5 req/min (nobody legitimately submits 10 payments per minute).
+
+\\\`\\\`\\\`typescript
+const endpointLimits: Record<string, { window: number; max: number }> = {
+  '/api/search':     { window: 60000, max: 100 },
+  '/api/contact':    { window: 60000, max: 5 },
+  '/api/subscribe':  { window: 3600000, max: 3 }, // 3 per hour
+  '/api/export':     { window: 3600000, max: 10 },
+};
+\\\`\\\`\\\`
+
+## What to Return
+
+When a user is rate limited, return a 429 with helpful headers:
+
+\\\`\\\`\\\`typescript
+return new Response(JSON.stringify({
+  error: 'Too many requests',
+  retryAfter: Math.ceil(retryAfterMs / 1000)
+}), {
+  status: 429,
+  headers: {
+    'Retry-After': String(Math.ceil(retryAfterMs / 1000)),
+    'X-RateLimit-Limit': String(max),
+    'X-RateLimit-Remaining': String(Math.max(0, max - hits.length)),
+    'X-RateLimit-Reset': String(Math.ceil((now + windowMs) / 1000)),
+  }
+});
+\\\`\\\`\\\`
+
+The \\\`Retry-After\\\` header tells well-behaved clients when to try again. The X-RateLimit headers let them track their own usage. This is the difference between "your API is broken" and "I need to slow down."
+
+## The Real-World Test
+
+For my portfolio's WAF rate limiting, I wrote an attack simulation:
+
+\\\`\\\`\\\`javascript
+// waf-attack-sim.mjs
+const url = 'https://api.sageideas.dev/metrics/latest';
+const results = { success: 0, limited: 0 };
+
+for (let i = 0; i < 200; i++) {
+  const res = await fetch(url);
+  if (res.status === 429) results.limited++;
+  else results.success++;
+  // No delay — intentionally aggressive
+}
+
+console.log(results);
+// Expected: ~100 success, ~100 limited
+\\\`\\\`\\\`
+
+I run this quarterly. It proves the rate limiting actually works. The evidence is in my artifacts library — real 429 responses from a real attack simulation.
+
+## When Rate Limiting Isn't Enough
+
+Rate limiting is table stakes. For real protection, you also need:
+- **Request signing** for webhooks (verify the sender)
+- **CAPTCHA** for public forms (stop bots)
+- **API keys** for programmatic access (identity + rate limit per key)
+- **Cost alerts** in AWS (catch runaway Lambda invocations)
+
+Rate limiting is like a lock on your door. It keeps honest people honest. For dedicated attackers, you need more.
+`,
+    category: "Architecture",
+    tags: ["Security", "API", "Rate Limiting", "Architecture", "AWS"],
+    date: "2025-12-15",
+    readTime: "9 min read",
+  },
+  {
+    id: 34,
+    title: "How to Review Your Own Code (When There's Nobody Else)",
+    excerpt: "Solo engineering means no code reviews. I've developed a self-review process that catches 80% of what a second pair of eyes would find. It starts with stepping away.",
+    content: "Self code review process for solo engineers...",
+    fullContent: `
+# How to Review Your Own Code (When There's Nobody Else)
+
+At Home Depot, every PR got reviewed by at least one other engineer. At Sage Ideas, I'm the only engineer. Nobody reviews my code.
+
+This is a problem. Not because I write bad code — but because I'm blind to my own assumptions. Every developer is.
+
+I've developed a self-review process that catches most of what a second pair of eyes would. It's not perfect, but it's dramatically better than "looks good, merge."
+
+## The 24-Hour Rule
+
+I never review code I wrote today. The minimum gap between writing and reviewing is 24 hours. Ideally 48.
+
+This sounds slow. It's actually fast. In those 24 hours, I'm building something else. When I come back to review, I've partially forgotten my implementation. That forgetting is the point — it lets me read the code like someone else wrote it.
+
+## The Review Checklist
+
+I review in 4 passes. Each pass looks for different things:
+
+### Pass 1: Read Like a User (5 minutes)
+Don't look at the code. Open the PR diff and read just the file names and line counts.
+
+Questions:
+- Does the change make sense from the file names alone?
+- Is it touching too many files? (sign of a coupled change)
+- Are there files that shouldn't be in this change?
+
+### Pass 2: Read for Logic (15 minutes)
+Now read the code. But don't check for style, naming, or formatting. Just logic.
+
+Questions:
+- Does the happy path work?
+- What happens with null/undefined inputs?
+- Are there any cases where this fails silently?
+- Am I handling the error case, or just logging and moving on?
+- Is there a race condition? (Especially in async code)
+
+### Pass 3: Read for Security (10 minutes)
+
+\\\`\\\`\\\`
+For every input from outside the system, ask:
+- Is it validated?
+- Is it sanitized?
+- Could it be used for injection (SQL, XSS, command)?
+- Could it be used to access another user's data?
+- Am I exposing more data than necessary in the response?
+\\\`\\\`\\\`
+
+### Pass 4: Read for the Next Person (5 minutes)
+Pretend someone new joins the team tomorrow. Would they understand this code?
+
+Questions:
+- Are variable names clear without context?
+- Is there a comment explaining WHY (not what) for non-obvious logic?
+- Is the function name a lie? (Does \\\`getUser\\\` actually create a user if none exists?)
+- Is there a simpler way to do this?
+
+## The Git Diff Trick
+
+I don't review in my editor. I review in GitHub's PR diff view — even for solo PRs.
+
+Why? My editor shows me the whole file with all its context. The diff shows me ONLY what changed. That's what I need to review.
+
+I actually PR against myself:
+
+\\\`\\\`\\\`bash
+# Create a branch for every change
+git checkout -b feature/add-billing-webhook
+# ... do the work ...
+git push origin feature/add-billing-webhook
+# Create a PR on GitHub
+gh pr create --title "Add billing webhook handler" --body "..."
+# Review the PR diff in GitHub's UI
+# Merge when satisfied
+\\\`\\\`\\\`
+
+This gives me the PR URL, diff view, and a record of every change with context. Six months from now, I can find the PR where I added billing.
+
+## The Rubber Duck Upgrade
+
+Instead of talking to a rubber duck, I write a one-paragraph summary of what the change does and why. If I can't explain it in one paragraph, the change is too complex and needs to be split.
+
+This paragraph becomes the PR description. It serves double duty.
+
+## What I Still Miss
+
+Let me be honest about what self-review doesn't catch:
+
+- **Assumptions I didn't know I had.** I once implemented timezone handling assuming all users were in EST. It took a user from California to find it.
+- **Performance issues at scale.** My test data is 100 rows. Production has 100,000. I miss O(n²) problems regularly.
+- **Better approaches I'm not aware of.** A reviewer who's used a library I haven't will suggest better solutions. Self-review can't add knowledge I don't have.
+
+For these, I compensate with: integration tests on real-ish data, performance monitoring in production, and regularly reading other people's code on GitHub.
+
+Solo engineering without code review is risky. Solo engineering without SELF code review is reckless.
+`,
+    category: "Engineering",
+    tags: ["Code Review", "Solo Engineering", "Best Practices", "Git", "Quality"],
+    date: "2025-12-08",
+    readTime: "10 min read",
+  },
+  {
+    id: 35,
+    title: "The Case Against Over-Engineering (From Someone Who's Done It)",
+    excerpt: "I once built a plugin architecture for a system that never needed plugins. 3 weeks of abstraction layers for a feature nobody asked for. Here's how I learned to stop.",
+    content: "How to recognize and avoid over-engineering...",
+    fullContent: `
+# The Case Against Over-Engineering (From Someone Who's Done It)
+
+I have a confession. In 2023, I spent three weeks building a plugin system for a test automation framework. Configurable test runners. Hot-reloadable plugins. A dependency injection container. The whole thing.
+
+Nobody ever wrote a plugin.
+
+The framework ran in CI with the same configuration every time. The "extensibility" I built was used by exactly zero people. I could have shipped the entire thing in 4 days without the plugin architecture.
+
+## How Over-Engineering Happens
+
+It starts with a reasonable thought: "What if we need to extend this later?"
+
+That thought is the trap. Because "later" rarely looks like what you imagined, and the abstractions you build for imaginary requirements usually get in the way of the real ones.
+
+Here's the progression I've watched in myself:
+
+1. Build a simple function ✅
+2. Think "this should be configurable" ⚠️
+3. Add a config object
+4. Think "different environments might need different implementations" ⚠️
+5. Add an interface and factory pattern
+6. Think "we might need to swap this at runtime" 🚩
+7. Add dependency injection
+8. Realize nobody has ever needed to swap it
+9. Maintain the abstraction forever because removing it is harder than keeping it
+
+## The Three Questions
+
+Before adding any abstraction, I now ask:
+
+**1. "Has anyone actually asked for this?"**
+
+If the answer is "no, but they might" — don't build it. YAGNI (You Aren't Gonna Need It) is the most violated principle in engineering.
+
+**2. "What's the cost of adding this later vs now?"**
+
+If I can add the abstraction in 2 hours when it's actually needed, there's no reason to build it now "just in case." The cost of premature abstraction (maintaining code nobody uses) is almost always higher than the cost of adding it later.
+
+**3. "Can I explain why this exists to someone in one sentence?"**
+
+"We use dependency injection because we need to swap the payment provider between Stripe and Braintree in different environments." That's a real reason.
+
+"We use dependency injection because it's best practice." That's not a reason. That's cargo culting.
+
+## What Simple Code Looks Like
+
+\\\`\\\`\\\`python
+# Over-engineered
+class NotificationService:
+    def __init__(self, provider: NotificationProvider):
+        self.provider = provider
+
+    def send(self, notification: Notification):
+        self.provider.send(notification)
+
+class EmailProvider(NotificationProvider):
+    def send(self, notification):
+        # 200 lines of email logic
+
+class SMSProvider(NotificationProvider):
+    def send(self, notification):
+        # never implemented, never will be
+
+# Simple
+def send_email(to: str, subject: str, body: str):
+    # 30 lines that actually send email
+    ...
+\\\`\\\`\\\`
+
+The simple version is readable, testable, and does what it says. If you ever need SMS, add a \\\`send_sms\\\` function. Don't build the architecture until you need the architecture.
+
+## When Abstraction IS Worth It
+
+I'm not saying never abstract. Abstraction is valuable when:
+
+- **You have 3+ concrete implementations.** Not 1 with an interface. Not 2. Three. That's when patterns emerge naturally.
+- **The abstraction removes duplication.** If 5 test files copy the same setup code, a fixture is justified.
+- **The abstraction is well-understood.** Page Object Model for Selenium? Yes. Custom reactive framework? No.
+
+## The Nexural Lesson
+
+The Nexural platform has 185 tables and 69 API endpoints. You'd think it's heavily abstracted. It's not.
+
+Most API routes follow the same 5-line pattern: validate input, query database, format response, handle error, return. There's no "BaseController" or "ServiceLayer" pattern. Each route is a standalone function.
+
+This means I can read any route and understand it without tracing through 4 layers of abstraction. When a route needs special behavior, it has special behavior — right there in the file, not hidden behind an interface.
+
+185 tables. Zero abstract base classes. And it works just fine.
+
+## The Rule I Follow Now
+
+**Don't design for the future. Design for clarity.**
+
+Clear code can be refactored into any pattern when the need arises. Abstract code can only be understood by the person who wrote it — and even they forget why after 3 months.
+`,
+    category: "Engineering",
+    tags: ["Architecture", "Over-Engineering", "YAGNI", "Best Practices", "Design"],
+    date: "2025-12-01",
+    readTime: "10 min read",
+  },
+  {
+    id: 36,
+    title: "Supabase in Production: What I Wish I Knew Before 185 Tables",
+    excerpt: "After a year of running Supabase in production with 185 tables, here's the honest review — what's incredible, what's frustrating, and what almost made me switch.",
+    content: "Honest Supabase production review after 185 tables...",
+    fullContent: `
+# Supabase in Production: What I Wish I Knew Before 185 Tables
+
+I've been running Supabase in production for over a year. 185 tables. 69 API endpoints. Stripe webhooks. Real-time subscriptions. Discord bot data. Trading analytics.
+
+This isn't a "getting started" tutorial. This is the honest review after living with it at scale.
+
+## What's Genuinely Incredible
+
+### Row-Level Security Changes Everything
+
+RLS is Supabase's killer feature, and most people underuse it. Instead of writing authorization checks in every API endpoint, the database enforces access:
+
+\\\`\\\`\\\`sql
+-- This one line prevents every "user A sees user B's data" bug
+CREATE POLICY "users_own_data" ON strategies
+  FOR ALL USING (auth.uid() = user_id);
+\\\`\\\`\\\`
+
+I have RLS on every table. In a year of development, I've had exactly zero data leak bugs. At my previous companies, data access bugs were a monthly occurrence.
+
+### The Dashboard Saves Hours
+
+The Supabase dashboard lets me browse data, run SQL, check RLS policies, and manage auth users — without any custom admin tooling. For a solo engineer, this saves easily 10 hours per month of admin panel development.
+
+### Real-Time Works (With Caveats)
+
+Real-time subscriptions for price alerts and dashboard updates work well. The caveats are below.
+
+## What's Frustrating
+
+### Migration Tooling Is Rough
+
+Supabase's migration system (\\\`supabase db diff\\\`) generates migrations by diffing your local and remote schemas. In theory, this is clever. In practice:
+
+- It sometimes generates incorrect migration order (tries to add a foreign key before the referenced table exists)
+- It doesn't handle RLS policy changes cleanly
+- Complex migrations (adding a column with a default value computed from existing data) need to be written by hand anyway
+
+I now write all migrations by hand and just use the Supabase CLI for running them.
+
+### Connection Pooling is Confusing
+
+Supabase provides two connection strings: one direct and one through a connection pooler (PgBouncer). The pooler is required for serverless environments (Vercel, Lambda) because serverless functions open new connections on every invocation.
+
+The confusing part: some PostgreSQL features don't work through the pooler. Prepared statements, LISTEN/NOTIFY, and long-running transactions all need the direct connection. I've wasted days debugging "this works locally but fails in production" issues that turned out to be pooler vs direct connection mismatches.
+
+### Real-Time Has a 10-Second Delay (Sometimes)
+
+Real-time subscriptions have near-instant delivery for small payloads. But for larger changes or during high load, I've seen delays of 5-10 seconds. For a trading alert system where milliseconds matter, this was a dealbreaker.
+
+I ended up using a separate WebSocket service for time-critical alerts and Supabase real-time only for non-urgent updates (dashboard refresh, notification counts).
+
+### Free Tier Limits Hit Fast
+
+The free tier is generous for prototyping (500MB database, 1GB storage, 50K auth users). But once you hit the limits, the jump to Pro ($25/month) is the only option — there's no intermediate tier.
+
+## What Almost Made Me Switch
+
+At table #120, I hit a Supabase Studio bug where the dashboard would time out trying to load my schema. The table list took 15 seconds to render, and schema diffs would crash the browser tab.
+
+I seriously considered migrating to raw PostgreSQL on RDS. What kept me on Supabase:
+1. RLS would need to be reimplemented manually
+2. Auth would need to be replaced (probably with Auth.js)
+3. The migration effort for 120+ tables would take weeks
+
+The Studio performance has improved since then, but it was a wake-up call about depending on a managed service's UI.
+
+## My Honest Recommendation
+
+| Use Case | Recommendation |
+|----------|---------------|
+| MVP / prototype | Absolutely use Supabase |
+| SaaS with < 50 tables | Great fit |
+| SaaS with 100+ tables | Works, but expect Studio performance issues |
+| High-frequency trading data | Use Supabase for CRUD, separate system for real-time |
+| Enterprise with compliance needs | Consider self-hosted Supabase or raw PostgreSQL |
+
+## The Bottom Line
+
+Supabase is the best developer experience I've used for PostgreSQL-backed applications. RLS alone justifies the choice. But it's not magic — at scale, you'll hit edges that require workarounds.
+
+Would I choose it again for Nexural? Yes. Would I also plan for the workarounds from day one? Absolutely yes.
+`,
+    category: "Architecture",
+    tags: ["Supabase", "PostgreSQL", "Database", "Production", "Review"],
+    date: "2025-11-22",
+    readTime: "12 min read",
+  },
+  {
+    id: 37,
+    title: "Environment Variables: The Security Hole in Every Startup",
+    excerpt: "Your .env file has your database password, Stripe secret key, and AWS credentials. It's in a Slack message, a developer's laptop, and probably a Docker image somewhere. Let's fix that.",
+    content: "Environment variable security for real-world systems...",
+    fullContent: `
+# Environment Variables: The Security Hole in Every Startup
+
+Quick audit: where is your database password right now?
+
+If you answered ".env file in the repo root" — you're in the majority. If you answered "also in a Slack message to the new hire, a screenshot in Confluence, and hardcoded in that one Lambda function that Dave wrote before he left" — you're being honest.
+
+Environment variables are the most dangerous infrastructure in most startups because everyone treats them as an afterthought.
+
+## The Common Mistakes
+
+### Mistake 1: .env in Version Control
+
+I've seen it in production repos at real companies. A \\\`.env\\\` file with the Stripe secret key, committed in 2022, still in git history even though it was "removed."
+
+\\\`\\\`\\\`bash
+# Check if you've ever committed secrets
+git log --all --full-history -- .env
+git log --all --full-history -- "*.pem"
+git log --all -p | grep -E "STRIPE_SECRET|AWS_SECRET|DATABASE_URL" | head -5
+\\\`\\\`\\\`
+
+Git history is forever. Even if you delete the file, the secret is in every clone of the repo. You need to rotate the key AND clean the history (using git filter-branch or BFG Repo-Cleaner).
+
+### Mistake 2: Same Secrets Everywhere
+
+Development database password = staging password = production password. I've seen this at a company processing $10M/month. One compromised developer laptop gives you production access.
+
+### Mistake 3: Sharing via Slack/Email
+
+"Hey, what's the Stripe key?" "Check DM." That DM is now in Slack's database forever, searchable by anyone with workspace admin access.
+
+## What I Do Instead
+
+### For Development: .env.local + .env.example
+
+\\\`\\\`\\\`bash
+# .env.example (committed — template only)
+DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+
+# .env.local (gitignored — real values)
+DATABASE_URL=postgresql://jason:real_password@localhost:5432/nexural
+STRIPE_SECRET_KEY=sk_test_actual_key_here
+\\\`\\\`\\\`
+
+\\\`.env.example\\\` shows what variables exist. \\\`.env.local\\\` has real values and is gitignored. New developers copy the example and fill in their own values.
+
+### For Production: Platform-Native Secrets
+
+- **Vercel:** Project settings → Environment Variables (encrypted at rest)
+- **AWS:** Secrets Manager or SSM Parameter Store
+- **GitHub Actions:** Repository secrets
+
+Never put production secrets in a file that touches a developer's machine.
+
+### For CI/CD: GitHub OIDC (No Static Keys)
+
+This is the pattern I'm most proud of. Instead of storing AWS access keys in GitHub secrets, I use OIDC federation:
+
+\\\`\\\`\\\`yaml
+# GitHub Actions assumes an AWS role via OIDC — no static keys anywhere
+permissions:
+  id-token: write
+  contents: read
+
+steps:
+  - uses: aws-actions/configure-aws-credentials@v4
+    with:
+      role-to-assume: arn:aws:iam::role/GitHubActions-Deploy
+      aws-region: us-east-1
+\\\`\\\`\\\`
+
+The IAM role's trust policy limits access to your specific repo and branch. No long-lived keys to rotate. No keys to leak.
+
+## The Audit Script I Run Monthly
+
+\\\`\\\`\\\`bash
+#!/bin/bash
+# secrets-audit.sh
+
+echo "=== Checking for committed secrets ==="
+grep -r "sk_live" . --include="*.ts" --include="*.js" --include="*.py" | grep -v node_modules
+grep -r "AKIA" . --include="*.ts" --include="*.js" --include="*.py" | grep -v node_modules
+grep -r "BEGIN PRIVATE KEY" . --include="*.pem" --include="*.key"
+
+echo "=== Checking .gitignore ==="
+for pattern in ".env" ".env.local" "*.pem" "*.key"; do
+  grep -q "$pattern" .gitignore && echo "OK: $pattern in .gitignore" || echo "MISSING: $pattern"
+done
+
+echo "=== Checking for .env in git history ==="
+git log --all --full-history --diff-filter=A -- .env .env.local .env.production
+\\\`\\\`\\\`
+
+Takes 30 seconds. Catches the most common mistakes. I run it before every major deploy.
+
+## The Bottom Line
+
+Your .env file isn't a configuration file — it's a manifest of everything an attacker needs to own your infrastructure. Treat it accordingly.
+`,
+    category: "Security",
+    tags: ["Security", "Environment Variables", "AWS", "DevOps", "Best Practices"],
+    date: "2025-11-15",
+    readTime: "10 min read",
   }
 ];

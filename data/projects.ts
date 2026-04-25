@@ -17,7 +17,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // FULL-STACK & PLATFORMS
+  // ═══ FULL-STACK & PLATFORMS ═══
   {
     slug: 'nexural-platform',
     name: 'Nexural Trading Platform',
@@ -39,51 +39,79 @@ export const projects: Project[] = [
   {
     slug: 'quality-telemetry',
     name: 'Quality Telemetry Dashboard',
-    description: 'CI-artifact-fed quality dashboard with AWS S3 ingestion. Real-time test health, coverage trends, and quality metrics.',
+    description: 'CI-artifact-fed quality dashboard with AWS S3 ingestion, 3 data modes, real-time test health, and 6 CI workflows including Playwright E2E.',
     category: 'qa',
-    tags: ['Next.js', 'TypeScript', 'Playwright', 'GitHub Actions', 'AWS'],
+    tags: ['Next.js', 'TypeScript', 'Playwright', 'GitHub Actions', 'AWS', 'Terraform'],
     status: 'production',
     github: 'https://github.com/JasonTeixeira/qa-portfolio',
     liveUrl: '/dashboard',
     isPrivate: false,
-    featured: true
-  },
-  {
-    slug: 'cloud-resume-aws',
-    name: 'Cloud Resume Challenge AWS',
-    description: 'Full AWS infrastructure — S3, CloudFront, Route53, Lambda, DynamoDB visitor counter with CloudFormation IaC.',
-    category: 'cloud',
-    tags: ['AWS', 'CloudFront', 'Lambda', 'DynamoDB', 'CloudFormation'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/CloudResumeChallangeAWS',
-    isPrivate: false,
-    featured: false
+    featured: true,
+    metrics: [
+      { label: 'CI Workflows', value: '6' },
+      { label: 'Playwright Tests', value: '20+' },
+      { label: 'Data Modes', value: '3' },
+      { label: 'Commits', value: '156' }
+    ]
   },
 
-  // TRADING & FINTECH
+  // ═══ TRADING & FINTECH ═══
   {
     slug: 'alphastream',
     name: 'AlphaStream',
-    description: 'ML-powered trading signal generation — 200+ indicators, 5 ML models, backtesting engine, real-time streaming.',
+    description: 'ML-powered trading signal system — XGBoost, LightGBM, LSTM models, FastAPI with WebSocket streaming, Redis caching, and event-driven backtesting.',
     category: 'fintech',
-    tags: ['Python', 'ML/AI', 'scikit-learn', 'pandas', 'NumPy'],
+    tags: ['Python', 'scikit-learn', 'XGBoost', 'PyTorch', 'FastAPI', 'Redis'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/AlphaStream',
     caseStudy: '/case-studies/alphastream',
     isPrivate: false,
     featured: true,
-    stars: 4
+    stars: 4,
+    metrics: [
+      { label: 'Indicators', value: '200+' },
+      { label: 'ML Models', value: '5' },
+      { label: 'GitHub Stars', value: '4' },
+      { label: 'Python', value: '208K' }
+    ]
   },
   {
     slug: 'nexural-discord-bot',
     name: 'Nexural Discord AI Engine',
-    description: 'AI-powered trading community bot — 30+ commands, GPT-4o, auto-moderation, market intelligence, 12 dev phases.',
+    description: 'AI-powered trading community bot — 30+ commands, GPT-4o with financial safety guardrails, auto-moderation, and real-time Alpaca market data.',
     category: 'ai',
     tags: ['JavaScript', 'Discord.js', 'Supabase', 'GPT-4o', 'Alpaca'],
     status: 'production',
     caseStudy: '/case-studies/nexural-discord-bot',
     isPrivate: true,
     featured: true
+  },
+  {
+    slug: 'riskradar',
+    name: 'RiskRadar',
+    description: 'Portfolio risk platform — Ledoit-Wolf covariance estimation, Monte Carlo VaR, scipy portfolio optimization, FastAPI backend with WebSockets.',
+    category: 'fintech',
+    tags: ['Python', 'FastAPI', 'Next.js', 'scipy', 'WebSockets'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/RiskRadar',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Risk Engine', value: '35KB' },
+      { label: 'Python', value: '83K' },
+      { label: 'TypeScript', value: '54K' }
+    ]
+  },
+  {
+    slug: 'quantumtrader',
+    name: 'QuantumTrader',
+    description: 'Event-driven backtesting engine with multiple fill models, MACD/ADX/RSI momentum strategies, and proper Position/Signal/Order abstractions.',
+    category: 'fintech',
+    tags: ['Python', 'Trading', 'Backtesting', 'Event-Driven'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/QuantumTrader',
+    isPrivate: false,
+    featured: false
   },
   {
     slug: 'nexural-studio',
@@ -106,28 +134,6 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    slug: 'riskradar',
-    name: 'RiskRadar',
-    description: 'Full-stack risk assessment platform — FastAPI backend with 35KB risk engine, Next.js frontend, real-time threat analysis.',
-    category: 'security',
-    tags: ['Python', 'FastAPI', 'Next.js', 'Risk Management'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/RiskRadar',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'quantumtrader',
-    name: 'QuantumTrader',
-    description: 'Quantitative trading system with algorithmic execution, backtesting engine, momentum strategies, and risk management.',
-    category: 'fintech',
-    tags: ['Python', 'Trading', 'Algorithms', 'Backtesting'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/QuantumTrader',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'nexural-strategy-tracker',
     name: 'Nexural Strategy Tracker',
     description: 'Strategy performance tracking application for monitoring and analyzing trading system results over time.',
@@ -138,7 +144,7 @@ export const projects: Project[] = [
     featured: false
   },
 
-  // CLOUD & INFRASTRUCTURE
+  // ═══ CLOUD & INFRASTRUCTURE ═══
   {
     slug: 'aws-landing-zone',
     name: 'AWS Landing Zone + Guardrails',
@@ -151,11 +157,44 @@ export const projects: Project[] = [
     featured: true
   },
 
-  // QA & TESTING FRAMEWORKS
+  // ═══ QA & TESTING ═══
+  {
+    slug: 'ecommerce-tests',
+    name: 'E-Commerce Test Suite',
+    description: 'Full-spectrum QA suite — UI, API, accessibility, performance (Locust), security, visual regression, and integration tests. 250K+ Python, 278+ tests.',
+    category: 'qa',
+    tags: ['Python', 'Selenium', 'Locust', 'pytest', 'GitHub Actions'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/E-Commerce-Test-Suite',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Tests', value: '278+' },
+      { label: 'Python', value: '250K' },
+      { label: 'Test Types', value: '7' },
+      { label: 'Commits', value: '12' }
+    ]
+  },
+  {
+    slug: 'selenium-framework',
+    name: 'Web Automation Framework',
+    description: 'Production Selenium framework — Page Object Model, multi-browser support, pytest-xdist parallel execution, Docker, and CI integration. 118+ tests.',
+    category: 'qa',
+    tags: ['Python', 'Selenium', 'pytest', 'Docker', 'GitHub Actions'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/Web-Automation-Test-Framework',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Tests', value: '118+' },
+      { label: 'Python', value: '120K' },
+      { label: 'Commits', value: '10' }
+    ]
+  },
   {
     slug: 'api-test-automation',
     name: 'API Test Automation Framework',
-    description: 'Layered API testing with smart retry on 429/5xx, Pydantic validation, session pooling — 3x speed improvement.',
+    description: 'Layered API testing — smart retry on 429/5xx, Pydantic schema validation, session pooling for 3x speed, Docker containerized, full CI pipeline.',
     category: 'qa',
     tags: ['Python', 'pytest', 'Requests', 'Pydantic', 'Docker', 'GitHub Actions'],
     status: 'active',
@@ -164,66 +203,22 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    slug: 'selenium-framework',
-    name: 'Selenium Python Framework',
-    description: 'Production-ready Selenium framework with Page Object Model, cross-browser support, and comprehensive reporting.',
-    category: 'qa',
-    tags: ['Python', 'Selenium', 'pytest', 'POM'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Web-Automation-Test-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'e2e-framework',
-    name: 'E2E Framework',
-    description: 'End-to-end testing framework with Selenium POM architecture, full user journey coverage, and CI integration.',
-    category: 'qa',
-    tags: ['Python', 'Selenium', 'E2E', 'Testing', 'CI'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/E2E-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'security-suite',
     name: 'Security Testing Suite',
-    description: 'Security testing automation — 31KB security scanner, API security module, secrets detection, OWASP Top 10 coverage.',
+    description: 'OWASP Top 10 automated scanning — SQL injection detection, XSS scanning, secrets detection, with CWE ID tracking and severity classification.',
     category: 'security',
-    tags: ['Python', 'Security', 'OWASP', 'Scanning'],
+    tags: ['Python', 'Security', 'OWASP', 'Scanning', 'GitHub Actions'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/Security-Testing-Suite',
     isPrivate: false,
     featured: false
   },
   {
-    slug: 'bdd-cucumber',
-    name: 'BDD Cucumber Framework',
-    description: 'Behavior-driven development framework with Gherkin syntax, automated step definitions, and GitHub Actions CI.',
-    category: 'qa',
-    tags: ['Python', 'BDD', 'Cucumber', 'Gherkin'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/BDD-Cucumber-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'performance-testing',
-    name: 'Performance Testing Framework',
-    description: 'Load testing suite built with Locust — configurable user scenarios, metrics collection, and threshold enforcement.',
-    category: 'qa',
-    tags: ['Python', 'Locust', 'Performance', 'Load Testing'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Performance-Testing-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
     slug: 'visual-regression',
     name: 'Visual Regression Testing Suite',
-    description: 'Automated visual comparison testing with Percy integration, baseline management, and CI integration.',
+    description: 'Automated visual comparison testing with Percy integration, multi-viewport snapshots, baseline management, and CI workflow.',
     category: 'qa',
-    tags: ['Python', 'Visual Testing', 'Percy', 'CI'],
+    tags: ['Python', 'Percy', 'Visual Testing', 'GitHub Actions'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/visual-regression-testing-suite',
     isPrivate: false,
@@ -232,22 +227,11 @@ export const projects: Project[] = [
   {
     slug: 'api-testing',
     name: 'API Testing Framework',
-    description: 'REST API testing framework with request chaining, data-driven tests, schema validation, and environment management.',
+    description: 'REST API testing with FastAPI test app, request chaining, data-driven tests, schema validation, and environment management.',
     category: 'qa',
-    tags: ['Python', 'API', 'REST', 'Testing'],
+    tags: ['Python', 'FastAPI', 'API', 'REST', 'Testing'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/API-Testing-Framework',
-    isPrivate: false,
-    featured: false
-  },
-  {
-    slug: 'ecommerce-tests',
-    name: 'E-Commerce Test Suite',
-    description: 'Comprehensive test suite for e-commerce platforms — cart, checkout, payment, inventory, and user flow coverage.',
-    category: 'qa',
-    tags: ['Python', 'E-Commerce', 'Testing', 'Selenium'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/E-Commerce-Test-Suite',
     isPrivate: false,
     featured: false
   },
@@ -262,42 +246,17 @@ export const projects: Project[] = [
     featured: false
   },
 
-  // SECURITY & CRYPTOGRAPHY
+  // ═══ SECURITY ═══
   {
     slug: 'nexus-encryption',
     name: 'NexusEncryption',
-    description: 'Desktop encryption application built with Tauri — TypeScript crypto library with modern cryptographic standards.',
+    description: 'Desktop encryption app built with Tauri + Rust backend — OS keychain integration, AES-256-GCM encryption, and Next.js 15 frontend.',
     category: 'security',
-    tags: ['TypeScript', 'Tauri', 'Cryptography', 'Security'],
+    tags: ['Tauri', 'Rust', 'TypeScript', 'Cryptography'],
     status: 'active',
     github: 'https://github.com/JasonTeixeira/NexusEncryption',
     isPrivate: false,
     featured: false
-  },
-  {
-    slug: 'eidocrypt',
-    name: 'Eidocrypt',
-    description: 'Encryption and decryption tool with secure file processing and modern cryptographic standards.',
-    category: 'security',
-    tags: ['JavaScript', 'Cryptography', 'Security'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/Eidocrypt',
-    isPrivate: false,
-    featured: false
-  },
-
-  // OPEN SOURCE & EDUCATION
-  {
-    slug: 'cissp-prep',
-    name: 'CISSP Exam Prep',
-    description: 'Comprehensive 105KB CISSP certification study guide covering all 8 security domains with practice materials.',
-    category: 'open-source',
-    tags: ['CISSP', 'Security', 'Certification', 'Education'],
-    status: 'active',
-    github: 'https://github.com/JasonTeixeira/CISSP-Exam-Prep',
-    isPrivate: false,
-    featured: false,
-    stars: 2
   },
 ]
 
@@ -309,7 +268,6 @@ export const categories = [
   { slug: 'qa', name: 'QA & Testing', count: projects.filter(p => p.category === 'qa').length },
   { slug: 'ai', name: 'AI & Automation', count: projects.filter(p => p.category === 'ai').length },
   { slug: 'security', name: 'Security', count: projects.filter(p => p.category === 'security').length },
-  { slug: 'open-source', name: 'Open Source', count: projects.filter(p => p.category === 'open-source').length }
 ]
 
 export const featuredProjects = projects.filter(p => p.featured)

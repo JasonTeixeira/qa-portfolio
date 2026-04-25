@@ -59,7 +59,7 @@ const capabilities = [
 ]
 
 const metrics = [
-  { value: '27+', label: 'Projects Built' },
+  { value: '20+', label: 'Projects Built' },
   { value: '500+', label: 'Tests in Production' },
   { value: '$10M+', label: 'Daily Volume Supported' },
   { value: '82%', label: 'Pipeline Time Cut' },
@@ -161,7 +161,7 @@ export default function HomePage() {
               >
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#06B6D4] rounded-full" />
-                  27+ Projects
+                  20+ Projects
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
@@ -316,7 +316,7 @@ export default function HomePage() {
             <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
               Projects That Ship
             </h2>
-            <p className="mt-4 text-[#A1A1AA]">A few highlights from 27+ projects.</p>
+            <p className="mt-4 text-[#A1A1AA]">A few highlights from 20+ projects.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -336,7 +336,7 @@ export default function HomePage() {
               href="/projects"
               className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors group"
             >
-              View All 27 Projects
+              View All 20 Projects
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>

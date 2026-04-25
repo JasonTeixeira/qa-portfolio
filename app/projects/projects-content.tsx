@@ -27,7 +27,7 @@ export function ProjectsContent() {
             {"Everything I've Built"}
           </h1>
           <p className="mt-6 text-lg text-[#A1A1AA] max-w-2xl">
-            27+ projects spanning full-stack development, cloud infrastructure, trading systems, automation frameworks, AI tools, and security.
+            20+ projects spanning full-stack development, cloud infrastructure, trading systems, automation frameworks, AI tools, and security.
           </p>
         </motion.div>
       </section>

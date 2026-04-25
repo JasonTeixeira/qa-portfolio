@@ -9,7 +9,7 @@ const steps = [
   {
     number: '1',
     title: 'See what I\'ve built',
-    description: '27+ projects spanning full-stack, trading, cloud, and automation.',
+    description: '20+ projects spanning full-stack, trading, cloud, and automation.',
     icon: Folder,
     href: '/projects',
     color: 'cyan'

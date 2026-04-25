@@ -5221,5 +5221,782 @@ Your .env file isn't a configuration file — it's a manifest of everything an a
     tags: ["Security", "Environment Variables", "AWS", "DevOps", "Best Practices"],
     date: "2025-11-15",
     readTime: "10 min read",
+  },
+  {
+    id: 38,
+    title: "How I Structure a Next.js Project (After 6 Production Apps)",
+    excerpt: "Folder conventions, data fetching patterns, component organization, and the file structure that scales from MVP to 185 database tables without becoming unmanageable.",
+    content: "Next.js project structure that scales...",
+    fullContent: `
+# How I Structure a Next.js Project (After 6 Production Apps)
+
+I've shipped 6 Next.js apps to production — from simple portfolios to a fintech platform with 185 tables. My project structure has evolved with each one. Here's where I've landed.
+
+## The Structure
+
+\\\`\\\`\\\`
+project/
+├── app/                    # Next.js App Router
+│   ├── (marketing)/        # Route groups for layout sharing
+│   │   ├── page.tsx        # Landing page
+│   │   ├── about/
+│   │   └── pricing/
+│   ├── (dashboard)/        # Authenticated layout
+│   │   ├── layout.tsx      # Shared sidebar, auth check
+│   │   ├── page.tsx        # Dashboard home
+│   │   ├── settings/
+│   │   └── billing/
+│   ├── api/                # API routes
+│   │   ├── webhooks/       # Stripe, GitHub webhooks
+│   │   └── v1/             # Versioned API
+│   └── layout.tsx          # Root layout (fonts, metadata)
+├── components/
+│   ├── ui/                 # Primitives (Button, Input, Card)
+│   ├── features/           # Feature-specific (PricingTable, TradeCard)
+│   └── layout/             # Nav, Footer, Sidebar
+├── lib/                    # Shared utilities
+│   ├── db.ts               # Database client
+│   ├── auth.ts             # Auth helpers
+│   ├── stripe.ts           # Stripe client
+│   └── utils.ts            # General utilities
+├── data/                   # Static data, constants
+└── types/                  # Shared TypeScript types
+\\\`\\\`\\\`
+
+## The Rules
+
+**Rule 1: Route groups for layout separation.**
+
+\\\`(marketing)\\\` pages get a public layout (nav + footer). \\\`(dashboard)\\\` pages get an authenticated layout (sidebar + auth check). The parentheses mean the group name doesn't appear in the URL.
+
+**Rule 2: Components go in 3 buckets, no more.**
+
+\\\`ui/\\\` is for pure, reusable components with no business logic. They take props and render. Think shadcn/ui.
+
+\\\`features/\\\` is for components tied to a specific feature. \\\`PricingTable\\\` knows about subscription tiers. \\\`TradeCard\\\` knows about positions. They import from \\\`lib/\\\` and have business logic.
+
+\\\`layout/\\\` is for the shell — Navigation, Footer, Sidebar, MobileMenu. Max 5-6 files.
+
+**Rule 3: Server components by default, client only when needed.**
+
+If a component doesn't need interactivity, it's a server component. No \\\`'use client'\\\` unless it uses useState, useEffect, onClick, or a browser API. This reduces your JavaScript bundle dramatically.
+
+**Rule 4: API routes are thin.**
+
+\\\`\\\`\\\`typescript
+// app/api/v1/strategies/route.ts
+import { createStrategy, getStrategies } from '@/lib/strategies';
+import { validateAuth } from '@/lib/auth';
+
+export async function GET(req: Request) {
+  const user = await validateAuth(req);
+  if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  return Response.json(await getStrategies(user.id));
+}
+
+export async function POST(req: Request) {
+  const user = await validateAuth(req);
+  if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  const body = await req.json();
+  return Response.json(await createStrategy(user.id, body));
+}
+\\\`\\\`\\\`
+
+The route validates and delegates. Business logic lives in \\\`lib/\\\`.
+
+**Rule 5: Types live separately.**
+
+\\\`\\\`\\\`typescript
+// types/strategy.ts
+export interface Strategy {
+  id: string;
+  name: string;
+  symbol: string;
+  timeframe: '1m' | '5m' | '15m' | '1h' | '4h' | '1d';
+  status: 'active' | 'paused' | 'archived';
+  createdAt: Date;
+}
+\\\`\\\`\\\`
+
+Types are imported everywhere — components, API routes, lib functions. Keeping them in one place prevents the "I defined Strategy in 3 different files" problem.
+
+## What I Got Wrong Initially
+
+**Mistake: Putting everything in \\\`components/\\\`.** By table #80, I had 120 components in a flat directory. Finding anything took 30 seconds of scrolling. The \\\`ui/\\\` + \\\`features/\\\` + \\\`layout/\\\` split solved this.
+
+**Mistake: Fat API routes.** My early routes had database queries, validation, error handling, and response formatting all inline. When I needed the same logic in a webhook handler, I had to duplicate it. Moving logic to \\\`lib/\\\` made it reusable.
+
+**Mistake: Not using route groups from the start.** I had \\\`app/layout.tsx\\\` trying to conditionally render a sidebar or navigation based on the pathname. Route groups eliminate this entirely — each group gets its own layout.
+
+## The File I Wish Existed
+
+Every Next.js project needs a \\\`lib/config.ts\\\` that centralizes environment variables:
+
+\\\`\\\`\\\`typescript
+// lib/config.ts
+function requireEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) throw new Error(\\\`Missing required env: \\\${key}\\\`);
+  return value;
+}
+
+export const config = {
+  database: {
+    url: requireEnv('DATABASE_URL'),
+  },
+  stripe: {
+    secretKey: requireEnv('STRIPE_SECRET_KEY'),
+    webhookSecret: requireEnv('STRIPE_WEBHOOK_SECRET'),
+  },
+  supabase: {
+    url: requireEnv('NEXT_PUBLIC_SUPABASE_URL'),
+    anonKey: requireEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
+  },
+} as const;
+\\\`\\\`\\\`
+
+This crashes at startup if any required variable is missing. Better to crash immediately than to get a mysterious \\\`undefined\\\` error at 3am when a Stripe webhook fires.
+`,
+    category: "Architecture",
+    tags: ["Next.js", "React", "TypeScript", "Project Structure", "Architecture"],
+    date: "2025-11-08",
+    readTime: "11 min read",
+  },
+  {
+    id: 39,
+    title: "Monitoring That Actually Tells You Something",
+    excerpt: "Dashboards with 47 panels where everything is green aren't monitoring. They're decoration. Here's what I actually monitor and why most alerting is useless noise.",
+    content: "Practical monitoring and alerting for real systems...",
+    fullContent: `
+# Monitoring That Actually Tells You Something
+
+I once inherited a Grafana instance with 47 dashboard panels. CPU utilization, memory usage, disk I/O, network bytes, JVM heap — every metric you could imagine. Everything was green. All the time.
+
+Two days later, the API went down for 4 hours. Not a single alert fired.
+
+Why? Because CPU was at 22%, memory at 45%, and disk at 30%. All "healthy." The actual problem was a connection pool exhaustion — a metric nobody was watching.
+
+## The Four Golden Signals (and Nothing Else)
+
+Google's SRE book nailed this. You need exactly four signals:
+
+**1. Latency** — How long do requests take?
+Not average latency — that hides problems. Track P50, P95, and P99:
+
+- P50 = 200ms means half your users get responses in 200ms (good)
+- P95 = 800ms means 1 in 20 users waits 800ms (acceptable)
+- P99 = 5000ms means 1 in 100 users waits 5 seconds (problem)
+
+Your P99 is your real performance. The average lies.
+
+**2. Traffic** — How many requests are you handling?
+This is your baseline. If traffic drops 80% at 2pm on a Tuesday, something is wrong even if all other metrics are green.
+
+**3. Errors** — What percentage of requests fail?
+Track error rate, not error count. 100 errors out of 1 million requests (0.01%) is fine. 100 errors out of 200 requests (50%) is an outage.
+
+**4. Saturation** — How full is your system?
+Database connections, memory, queue depth, thread pools. When any resource hits 80% utilization, you need to act — not because it's broken, but because you've lost your headroom.
+
+## My Actual Monitoring Setup
+
+For the Nexural platform:
+
+\\\`\\\`\\\`yaml
+# What I alert on
+alerts:
+  - name: "High Error Rate"
+    condition: error_rate > 5% for 5 minutes
+    severity: critical
+    notify: email + slack
+
+  - name: "High Latency"
+    condition: p95_latency > 2000ms for 5 minutes
+    severity: warning
+    notify: slack
+
+  - name: "Traffic Drop"
+    condition: requests_per_minute < 50% of 1h_average
+    severity: warning
+    notify: slack
+
+  - name: "DB Connection Saturation"
+    condition: active_connections > 80% of pool_size
+    severity: critical
+    notify: email + slack
+\\\`\\\`\\\`
+
+That's 4 alerts. Not 40. Every alert requires action. If an alert fires and the response is "ignore it," delete the alert.
+
+## The Anti-Patterns
+
+**Dashboard driven development.** Adding a panel for every metric because "more data is better." More data is more noise. You end up with 47 panels and zero insight.
+
+**Alerting on symptoms, not causes.** "CPU is high" is a symptom. "Request queue depth is growing because the database is slow" is a cause. Alert on the cause.
+
+**Percentage-based thresholds without baselines.** "Alert when CPU > 80%" means nothing if your baseline is 75%. Alert on deviation from baseline, not absolute values.
+
+**No alert for the absence of data.** If your monitoring system stops receiving data, do you get an alert? Most people's answer is no. Add a heartbeat check: if no data received for 5 minutes, something is wrong.
+
+## The Dashboard I Actually Look At
+
+One dashboard. Four panels. That's it.
+
+\\\`\\\`\\\`
+┌─────────────────────┬─────────────────────┐
+│  Request Latency    │  Error Rate          │
+│  P50/P95/P99        │  5xx / total (%)     │
+│  (15 min window)    │  (15 min window)     │
+├─────────────────────┼─────────────────────┤
+│  Traffic            │  Saturation          │
+│  Requests/min       │  DB connections      │
+│  (vs 24h ago)       │  (% of pool)         │
+└─────────────────────┴─────────────────────┘
+\\\`\\\`\\\`
+
+If all four panels are normal, the system is healthy. I don't need to check anything else. If one panel is abnormal, I know exactly where to look.
+
+## The Lesson
+
+Good monitoring isn't about collecting data. It's about answering one question quickly: "Is the system working for users right now?"
+
+If your monitoring can't answer that in 10 seconds, it's decoration.
+`,
+    category: "DevOps",
+    tags: ["Monitoring", "SRE", "Alerting", "DevOps", "Production", "Observability"],
+    date: "2025-11-01",
+    readTime: "10 min read",
+  },
+  {
+    id: 40,
+    title: "Git Workflows That Don't Make You Want to Quit",
+    excerpt: "Trunk-based vs GitFlow vs GitHub Flow — I've used all three. Here's what actually works for solo developers and small teams, and why most Git workflows are over-complicated.",
+    content: "Practical Git workflow for real teams...",
+    fullContent: `
+# Git Workflows That Don't Make You Want to Quit
+
+At Home Depot, we used GitFlow. Feature branches, develop branches, release branches, hotfix branches. Our branch graph looked like a subway map. Merging a feature required a PhD in conflict resolution.
+
+Now I use trunk-based development. One branch. Ship from main. My deploy frequency went from weekly to daily.
+
+## Why Most Git Workflows Are Over-Complicated
+
+GitFlow was designed for software that ships quarterly on physical media. If your deployment process involves burning a CD, you need release branches.
+
+If you deploy by merging to main and Vercel/GitHub Actions handles the rest, you don't need 90% of GitFlow.
+
+## What I Actually Do
+
+\\\`\\\`\\\`bash
+# 1. Create a branch for the change
+git checkout -b fix/stripe-webhook-idempotency
+
+# 2. Make small, focused commits
+git commit -m "add webhook event log table"
+git commit -m "check for duplicate events before processing"
+git commit -m "add test for duplicate webhook delivery"
+
+# 3. Push and create a PR (even solo — for the diff view)
+git push -u origin fix/stripe-webhook-idempotency
+gh pr create --title "Fix: Stripe webhook idempotency" --body "..."
+
+# 4. Self-review the PR diff (24 hours later)
+# 5. Merge to main
+# 6. Auto-deploy to production
+
+# Delete the branch — it served its purpose
+git branch -d fix/stripe-webhook-idempotency
+\\\`\\\`\\\`
+
+That's it. No develop branch. No staging branch. No release branches.
+
+## The Commit Message Convention
+
+I use conventional commits, but keep it simple:
+
+\\\`\\\`\\\`
+feat: add Stripe webhook idempotency check
+fix: prevent duplicate payment processing
+docs: add ADR for database choice
+chore: update dependencies
+refactor: extract billing logic to lib/billing.ts
+test: add regression test for double-charge bug
+\\\`\\\`\\\`
+
+The prefix tells you what KIND of change without reading the diff. \\\`feat\\\` is new functionality. \\\`fix\\\` is a bug fix. \\\`chore\\\` is maintenance. That's all you need.
+
+## When I Use Feature Flags Instead of Branches
+
+Long-lived branches are where productivity goes to die. If a feature takes more than 3 days, I don't keep it in a branch — I merge it to main behind a feature flag:
+
+\\\`\\\`\\\`typescript
+function DashboardPage() {
+  const showNewAnalytics = process.env.NEXT_PUBLIC_FF_ANALYTICS === 'true';
+
+  return (
+    <div>
+      <ExistingDashboard />
+      {showNewAnalytics && <NewAnalyticsPanel />}
+    </div>
+  );
+}
+\\\`\\\`\\\`
+
+This means:
+- Main is always deployable
+- Incomplete features don't block other work
+- I can demo the feature by flipping a flag
+- No merge conflicts from a 2-week-old branch
+
+## The Solo Developer Advantage
+
+Most Git workflow advice is for teams of 5-50 people coordinating parallel work streams. If you're solo, you don't have coordination problems. Your workflow should be as simple as possible:
+
+1. Branch for every change (even small ones — for the PR record)
+2. Keep branches short-lived (1-3 days max)
+3. Merge to main = deploy to production
+4. Feature flags for anything that takes more than 3 days
+
+No develop branch. No staging branch. No release manager. Just main, branches, and deploys.
+
+## The Non-Negotiable: Never Push Directly to Main
+
+Even solo, I never push directly to main. Every change goes through a branch and a PR. Why?
+
+- **PR history is searchable.** "When did we add Stripe?" → search PRs for "Stripe"
+- **The diff view catches mistakes.** I've caught bugs in my own PR diffs that I missed in the editor
+- **It's a forcing function for small changes.** If a PR has 40 files, it's too big. Break it up.
+
+The 30 seconds it takes to create a branch pays for itself in clarity, traceability, and quality.
+`,
+    category: "Engineering",
+    tags: ["Git", "Version Control", "Workflow", "DevOps", "Best Practices"],
+    date: "2025-10-25",
+    readTime: "9 min read",
+  },
+  {
+    id: 41,
+    title: "Why Most API Documentation Is Useless (And How to Fix Yours)",
+    excerpt: "If your API docs list every endpoint but don't show me how to complete a task, they're a reference manual disguised as documentation. Here's what developers actually need.",
+    content: "Writing API documentation that developers actually use...",
+    fullContent: `
+# Why Most API Documentation Is Useless (And How to Fix Yours)
+
+Your API docs have 47 endpoints listed. Each one has the HTTP method, the path, the request body, and the response schema. It's complete, accurate, and thoroughly useless.
+
+Why? Because when I land on your docs, I don't want to know that \\\`POST /api/v1/strategies\\\` accepts a JSON body. I want to know: **how do I create a trading strategy with a stop loss and a take profit?**
+
+The first is a reference. The second is documentation.
+
+## The Three Types of API Docs
+
+### 1. Getting Started (5 minutes to first success)
+
+\\\`\\\`\\\`markdown
+## Quick Start
+
+# 1. Get your API key
+curl https://api.example.com/auth/api-key \\
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# 2. Create your first strategy
+curl -X POST https://api.example.com/v1/strategies \\
+  -H "X-API-Key: your_key_here" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "My Strategy",
+    "symbol": "ES",
+    "timeframe": "15m"
+  }'
+
+# 3. Check the result
+curl https://api.example.com/v1/strategies \\
+  -H "X-API-Key: your_key_here"
+\\\`\\\`\\\`
+
+Copy. Paste. See a result. That's all Quick Start needs to do.
+
+### 2. Guides (Complete a real task)
+
+\\\`\\\`\\\`markdown
+## Guide: Setting Up Price Alerts
+
+Price alerts notify you when a symbol crosses a price threshold.
+
+### Step 1: Create an alert
+POST /v1/alerts
+{
+  "symbol": "ES",
+  "condition": "crosses_above",
+  "price": 4500.00,
+  "notification": "webhook"
+}
+
+### Step 2: Configure your webhook
+POST /v1/webhooks
+{
+  "url": "https://your-server.com/alert-handler",
+  "events": ["alert.triggered"]
+}
+
+### Step 3: Test it
+POST /v1/alerts/:id/test
+// This sends a test notification to your webhook
+\\\`\\\`\\\`
+
+Notice: this guide tells a story. Step 1, 2, 3. Each step builds on the last. The developer follows a path from "I have nothing" to "I have a working alert system."
+
+### 3. Reference (Every endpoint, every field)
+
+This is what most docs are. It's valuable — but only AFTER the developer understands what the API does.
+
+## The Mistake I Made
+
+For the Nexural API, my first docs were pure reference. 69 endpoints listed with request/response schemas. Technically complete.
+
+The feedback: "I can see the endpoints but I have no idea where to start."
+
+I restructured the docs:
+1. **Quick Start** (3 steps to first API call)
+2. **Core Concepts** (what is a strategy, what is a signal, how do they relate)
+3. **Guides** (create a strategy → add signals → set alerts → view results)
+4. **Reference** (the full endpoint list, auto-generated from OpenAPI)
+
+Usage went up 5x. The API didn't change — the docs did.
+
+## Auto-Generate the Reference, Write the Guides
+
+For the reference section, I use FastAPI's built-in OpenAPI generation:
+
+\\\`\\\`\\\`python
+@app.post("/v1/strategies", response_model=Strategy)
+async def create_strategy(
+    strategy: StrategyCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Create a new trading strategy.
+
+    **Required fields:**
+    - name: Strategy display name
+    - symbol: Trading symbol (e.g., "ES", "NQ")
+    - timeframe: Candle timeframe
+
+    **Example:** See the [Getting Started guide](/docs/getting-started)
+    """
+    ...
+\\\`\\\`\\\`
+
+FastAPI generates interactive docs at \\\`/docs\\\` automatically. I don't maintain the reference manually — the code IS the reference.
+
+The guides are written by hand. They can't be auto-generated because they require understanding HOW the API should be used, not just what it can do.
+
+## The Test for Good API Docs
+
+Give your docs to someone who's never seen your API. Set a timer. If they can't make a successful API call in 5 minutes, your docs have failed.
+
+Not your API. Your docs.
+`,
+    category: "Architecture",
+    tags: ["API", "Documentation", "FastAPI", "Developer Experience", "REST"],
+    date: "2025-10-18",
+    readTime: "10 min read",
+  },
+  {
+    id: 42,
+    title: "The Myth of the 10x Developer",
+    excerpt: "There are no 10x developers. There are developers with 10x clarity about what to build and what to skip. The difference is decision-making, not typing speed.",
+    content: "Why the 10x developer myth is wrong and what actually matters...",
+    fullContent: `
+# The Myth of the 10x Developer
+
+The "10x developer" is the tech industry's Bigfoot. Everyone claims to have seen one. Nobody can prove they exist.
+
+What DOES exist: developers who produce 10x the value. But not by writing 10x the code. By writing 1/10th the code — the right 1/10th.
+
+## The Real 10x Skill: Knowing What Not to Build
+
+I've watched two developers tackle the same problem:
+
+**Developer A** built a custom event sourcing system with CQRS, a saga pattern for distributed transactions, and a custom query language. It took 6 weeks and had 3 critical bugs at launch.
+
+**Developer B** used a PostgreSQL table with a status column and a cron job. It took 3 days and worked perfectly for 2 years.
+
+Developer B looked "less impressive." Their code wasn't clever. Their architecture wasn't interesting. But their solution shipped in 3 days, never broke, and cost $0 in infrastructure.
+
+Developer B was the 10x developer.
+
+## What Actually Makes Someone Productive
+
+**1. They delete code more than they write it.**
+
+Every line of code is a liability. It needs to be understood, tested, maintained, and debugged. The developer who deletes 200 lines and replaces them with 40 has improved the codebase more than the one who added 400 lines.
+
+**2. They say "no" more than "yes."**
+
+"Should we add GraphQL?" No, our 5 clients are fine with REST.
+"Should we add a caching layer?" No, our database handles the load.
+"Should we migrate to microservices?" No, our monolith deploys in 30 seconds.
+
+Every "no" saves weeks of work that would produce zero user value.
+
+**3. They communicate before they code.**
+
+The most productive developer I worked with at Home Depot spent 3 hours a day in meetings. Not pointless meetings — architecture discussions, product alignment, cross-team coordination. His code output was "low." His team shipped 2x faster than any other team.
+
+He was removing ambiguity. Every hour of upfront clarity saves 10 hours of rework.
+
+**4. They automate themselves out of work.**
+
+I wrote a CI pipeline that runs 500+ tests in 8 minutes. That pipeline has saved thousands of hours of manual testing across the team. The ROI of that one automation dwarfs anything else I built that quarter.
+
+10x productivity isn't about velocity — it's about leverage. Build things that multiply everyone's output, not just your own.
+
+## The Uncomfortable Truth About Productivity
+
+Most engineering time isn't spent writing code. It's spent:
+- Understanding requirements (30%)
+- Reading existing code (25%)
+- Debugging (20%)
+- Waiting for CI/deploys (10%)
+- Actually writing code (15%)
+
+If you want to be 10x more productive, don't learn to type faster. Learn to:
+- Ask better questions during requirements
+- Navigate codebases faster
+- Debug systematically instead of randomly
+- Automate your CI/CD pipeline
+
+## Why This Matters for Your Career
+
+The market pays for output, not effort. Nobody cares if you worked 80 hours this week. They care if the feature shipped, if it works, and if it didn't break anything.
+
+The developer who ships the right thing in 20 hours is more valuable than the one who ships the wrong thing in 60 hours.
+
+Focus on making the right decisions. The code will follow.
+`,
+    category: "Career",
+    tags: ["Productivity", "Career", "Engineering Culture", "Decision Making"],
+    date: "2025-10-10",
+    readTime: "9 min read",
+  },
+  {
+    id: 43,
+    title: "Building for the Next Engineer: Code That Outlasts You",
+    excerpt: "Every system I've built at Home Depot is still running without me. That's not luck — it's intentional design for operability. Here's what I do differently.",
+    content: "Writing code and systems designed for handoff...",
+    fullContent: `
+# Building for the Next Engineer: Code That Outlasts You
+
+When I left Home Depot, not a single Slack message asked me "how does this work?" My systems kept running. My pipelines kept deploying. My dashboards kept updating.
+
+That wasn't luck. It was the most intentional part of my engineering practice: building for the person who comes after me.
+
+## The Test
+
+Before I consider any system "done," I ask: **"Could a mid-level engineer, who has never seen this code, operate it without contacting me?"**
+
+If the answer is no, I'm not done. The code might work, but it's not complete.
+
+## What "Operability" Looks Like
+
+### 1. README That Answers the First 5 Questions
+
+Every new engineer asks the same 5 questions:
+1. What does this do?
+2. How do I run it locally?
+3. How do I deploy it?
+4. Where are the logs?
+5. Who do I contact if it breaks?
+
+\\\`\\\`\\\`markdown
+# Quality Telemetry Dashboard
+
+Fetches CI test metrics and displays build health across repos.
+
+## Run Locally
+npm install && npm run dev
+# Open http://localhost:3040
+
+## Deploy
+Push to main → Vercel auto-deploys
+
+## Logs
+Vercel Dashboard → Functions → quality-api
+
+## On-Call
+This system degrades gracefully. If GitHub API is down,
+it falls back to cached data. No pager required.
+\\\`\\\`\\\`
+
+Twelve lines. Answers all five questions. The next engineer is productive in 5 minutes.
+
+### 2. Runbooks, Not Tribal Knowledge
+
+When something goes wrong, the fix shouldn't live in someone's head:
+
+\\\`\\\`\\\`markdown
+# Runbook: Dashboard Shows Stale Data
+
+## Symptom
+Dashboard metrics haven't updated in >24 hours.
+
+## Diagnosis
+1. Check GitHub Actions: is the daily cron job running?
+   → github.com/JasonTeixeira/qa-portfolio/actions
+2. If cron failed: check the error log for rate limiting
+3. If cron succeeded: check if the artifact was uploaded
+   → Look for qa-metrics artifact in latest run
+
+## Fix
+- Rate limited: wait 1 hour, re-run manually
+- Artifact missing: check test suite for failures
+- API changed: check GitHub's changelog for breaking changes
+
+## Escalation
+This is non-critical. Dashboard degrades to snapshot mode
+automatically. Fix during business hours.
+\\\`\\\`\\\`
+
+I have runbooks for every failure mode in every system I build. They take 15 minutes to write and save hours of debugging for the next person.
+
+### 3. Inline Comments That Explain WHY
+
+\\\`\\\`\\\`typescript
+// Bad: describes WHAT (I can read the code)
+// Increment retry count
+retryCount++;
+
+// Good: describes WHY (I can't read your mind)
+// Retry up to 3 times because GitHub's artifact API
+// returns 404 for ~5 seconds after a workflow completes.
+// See: https://github.com/actions/upload-artifact/issues/270
+retryCount++;
+\\\`\\\`\\\`
+
+The best comments are links to issues, RFCs, or conversations that explain WHY a non-obvious decision was made.
+
+### 4. Error Messages That Help
+
+\\\`\\\`\\\`typescript
+// Bad
+throw new Error('Invalid input');
+
+// Good
+throw new Error(
+  \\\`Strategy timeframe "\\\${timeframe}" is not supported. \\\` +
+  \\\`Valid options: 1m, 5m, 15m, 1h, 4h, 1d. \\\` +
+  \\\`See: docs/api/strategies.md\\\`
+);
+\\\`\\\`\\\`
+
+The second error message tells the next engineer exactly what went wrong, what the valid options are, and where to learn more. They fix the issue in 30 seconds instead of 30 minutes.
+
+## The Career Impact
+
+Building for operability isn't just good engineering — it's career insurance. When my systems run without me:
+
+- **My reputation persists.** "Jason's system just works" is said long after I've left
+- **I leave on good terms.** No hostage situation where I'm the only person who knows how it works
+- **References are stronger.** "He built systems that survived his departure" is the highest compliment a manager can give
+
+Build systems that outlast you. It's the most generous — and most strategic — thing you can do.
+`,
+    category: "Engineering",
+    tags: ["Engineering Culture", "Documentation", "Operability", "Best Practices"],
+    date: "2025-10-01",
+    readTime: "10 min read",
+  },
+  {
+    id: 44,
+    title: "Running an LLC as an Engineer: What Nobody Tells You",
+    excerpt: "I founded Sage Ideas LLC. Here's the stuff the 'start a consulting business' articles leave out — taxes, insurance, contracts, and why I keep a personal financial runway.",
+    content: "Practical advice on running an engineering LLC...",
+    fullContent: `
+# Running an LLC as an Engineer: What Nobody Tells You
+
+In 2024, I filed the paperwork for Sage Ideas LLC. $125 in filing fees. 20 minutes on the Florida Division of Corporations website. Easy.
+
+Everything after that was the hard part nobody warned me about.
+
+## What They Tell You
+
+"Start an LLC for liability protection. Take consulting gigs. Write off your laptop. Be your own boss."
+
+Great pitch. Here's the reality.
+
+## What They Don't Tell You
+
+### Self-Employment Tax Is 15.3%
+
+As an employee, your employer pays half of Social Security and Medicare taxes. As an LLC, YOU pay both halves. That's 15.3% on top of your income tax.
+
+At $150K income:
+- **As W-2 employee:** ~$5,700 FICA (your half)
+- **As LLC:** ~$22,950 self-employment tax
+
+That $23K difference is the "freedom tax." It's real, it's every year, and most "start a consulting business" articles conveniently forget to mention it.
+
+The mitigation: S-Corp election. Once your income justifies it (~$80K+), electing S-Corp treatment lets you split income into salary (subject to FICA) and distributions (not subject to FICA). You'll need an accountant for this.
+
+### Quarterly Estimated Taxes
+
+No employer is withholding taxes from your checks. The IRS expects quarterly payments: April 15, June 15, September 15, January 15.
+
+Miss one? Penalty. Underpay? Penalty. Pay the right amount but a day late? Believe it or not, penalty.
+
+I set aside 30% of every payment into a separate savings account labeled "TAXES DO NOT TOUCH." It's not elegant but I've never been surprised at tax time.
+
+### Health Insurance Is Expensive
+
+Employer-sponsored health insurance costs you maybe $200-400/month (they pay the rest). Individual health insurance: $500-1,200/month depending on your state, age, and plan.
+
+In Florida, my options were $680/month for a decent PPO or $420/month for a high-deductible plan with a $7,000 deductible. I went with the HDHP and opened an HSA (triple tax advantage — deductible contributions, tax-free growth, tax-free medical withdrawals).
+
+### Contracts Are Your Only Protection
+
+When you're W-2, employment law protects you. When you're 1099/LLC, the contract IS the law.
+
+My contract template includes:
+- **Scope of work** (exactly what I'm building, not "whatever you need")
+- **Payment terms** (50% upfront, 50% on delivery. Non-negotiable.)
+- **Revision limits** (2 rounds of revisions included, additional at hourly rate)
+- **IP assignment** (client owns the code upon final payment)
+- **Kill clause** (either party can terminate with 14 days notice, pro-rated payment for work completed)
+- **Liability cap** (my liability is limited to the total contract value)
+
+I learned about the kill clause the hard way — a client ghosted midway through a project. Without the clause, I had no way to formally end the engagement and free myself up for other work.
+
+### The Feast-or-Famine Cycle
+
+Month 1: Three clients want projects. You're overbooked.
+Month 3: All three projects finish. Your pipeline is empty.
+Month 4: You're scrambling for new clients while burning runway.
+
+My fix: always have 6 months of expenses in the business account. This lets me say no to bad projects during feast times and survive without panic during famine times.
+
+## Why I Still Do It
+
+Despite the taxes, insurance, contracts, and uncertainty — I wouldn't go back to full-time employment (at least not without the right opportunity).
+
+The reasons:
+- **I choose what I build.** No sprint planning for features I disagree with.
+- **I choose who I work with.** Toxic client? End the contract.
+- **I build equity in my own brand.** Every project I complete adds to Sage Ideas' portfolio, not some company's internal tools.
+- **The income ceiling is higher.** A senior engineer tops out at $250-350K in salary. A consultant billing $150/hr at 30 hours/week makes $234K — with more flexibility.
+
+## The Advice I'd Give Past Me
+
+1. **Get an accountant before you need one.** Don't figure out S-Corp election and quarterly taxes on your own.
+2. **Say no to your first client offer.** Not literally — but negotiate. The first offer is never the best offer.
+3. **Build your personal brand before you need clients.** My portfolio site generates inbound inquiries now. That took a year to build.
+4. **Keep your W-2 job until your LLC has 3 months of runway.** Don't jump without a net.
+
+The LLC isn't the hard part. The discipline — saving for taxes, maintaining health insurance, managing feast-and-famine — that's the real work.
+`,
+    category: "Career",
+    tags: ["LLC", "Freelancing", "Business", "Career", "Consulting", "Taxes"],
+    date: "2025-09-22",
+    readTime: "12 min read",
   }
 ];

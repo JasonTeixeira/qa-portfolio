@@ -322,6 +322,33 @@ export function ServicesContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
+            {/* Solo vs Agency */}
+            <div className="mb-16 max-w-3xl mx-auto">
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-6 text-center">Why a Solo Architect, Not an Agency</h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="p-5 bg-[#06B6D4]/5 border border-[#06B6D4]/20 rounded-xl">
+                  <p className="text-sm font-semibold text-[#06B6D4] mb-3">Working With Me</p>
+                  <ul className="space-y-2 text-sm text-[#A1A1AA]">
+                    <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5">+</span>One person designs, builds, and deploys — no handoff delays</li>
+                    <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5">+</span>$150/hr — no account managers, no project coordinators billing you</li>
+                    <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5">+</span>Direct communication — you talk to the person writing the code</li>
+                    <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5">+</span>Faster decisions — architecture choices in hours, not committees</li>
+                    <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5">+</span>Domain expertise — I trade the same markets my software serves</li>
+                  </ul>
+                </div>
+                <div className="p-5 bg-[#18181B] border border-[#27272A] rounded-xl">
+                  <p className="text-sm font-semibold text-[#71717A] mb-3">Typical Agency</p>
+                  <ul className="space-y-2 text-sm text-[#71717A]">
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Sales team sells, junior devs build — knowledge gaps</li>
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>$200-400/hr blended rate — layers of overhead</li>
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Communication through project managers — telephone game</li>
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Decisions need stakeholder alignment — weeks of meetings</li>
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Generalists — no domain depth in trading or fintech</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             {/* Not For Section */}
             <div className="mb-16 max-w-2xl mx-auto text-left">
               <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Who This Is Not For</h3>

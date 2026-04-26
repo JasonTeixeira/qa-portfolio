@@ -13,13 +13,13 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/projects', label: 'Projects' },
+  { href: '/platform', label: 'Platform' },
   { href: '/case-studies', label: 'Case Studies' },
-  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
 
 const mobileExtraLinks = [
-  { href: '/platform', label: 'Platform Engineering' },
+  { href: '/blog', label: 'Blog' },
   { href: '/dashboard', label: 'Live Dashboard' },
   { href: '/artifacts', label: 'Artifacts & Evidence' },
   { href: '/stack', label: 'Tech Stack' },

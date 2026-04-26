@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Clock, ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
@@ -39,8 +40,19 @@ export function BlogContent() {
             >
               <Link
                 href={`/blog/${post.id}`}
-                className="group block h-full p-6 bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+                className="group block h-full bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden"
               >
+                {post.coverImage && (
+                  <div className="relative w-full h-40 bg-[#09090B]">
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      fill
+                      className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                )}
+                <div className="p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-1 rounded">
                     {post.category}
@@ -75,6 +87,7 @@ export function BlogContent() {
                     Read Article
                     <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </span>
+                </div>
                 </div>
               </Link>
             </motion.article>

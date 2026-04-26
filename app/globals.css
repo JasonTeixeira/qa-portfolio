@@ -30,6 +30,11 @@
   --foreground: #FAFAFA;
   --text-secondary: #A1A1AA;
   --text-muted: #71717A;
+
+  /* Legacy dashboard compatibility */
+  --dark: #09090B;
+  --dark-card: #18181B;
+  --dark-lighter: #27272A;
   
   /* Card */
   --card: #18181B;
@@ -89,6 +94,10 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-accent: var(--accent);
+
+  --color-dark: var(--dark);
+  --color-dark-card: var(--dark-card);
+  --color-dark-lighter: var(--dark-lighter);
   --color-accent-foreground: var(--accent-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);

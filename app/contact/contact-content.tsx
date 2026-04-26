@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Mail, Linkedin, Github, MapPin, Send, Check } from 'lucide-react'
+import { Mail, Linkedin, Github, MapPin, Send, Check, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
 
@@ -329,6 +329,23 @@ export function ContactContent() {
                   Open to contract work
                 </li>
               </ul>
+            </div>
+
+            {/* Book a Call */}
+            <div className="p-6 bg-gradient-to-br from-[#06B6D4]/10 to-[#8B5CF6]/10 border border-[#06B6D4]/20 rounded-2xl">
+              <h3 className="font-semibold text-[#FAFAFA] mb-2">Prefer to Talk?</h3>
+              <p className="text-sm text-[#A1A1AA] mb-4">
+                Book a free 30-minute discovery call. No pressure — just a conversation about what you need.
+              </p>
+              <a
+                href="https://cal.com/jason-teixeira-8elz3z"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-full px-4 py-3 bg-[#06B6D4] text-[#09090B] font-semibold rounded-xl hover:bg-[#22D3EE] transition-colors btn-glow"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                Book a Call
+              </a>
             </div>
 
             {/* Response Time */}

@@ -179,10 +179,10 @@ export function ServicesContent() {
               </Link>
             </Button>
             <Button asChild variant="outline" className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent">
-              <Link href="/contact">
+              <a href="https://cal.com/jason-teixeira-8elz3z" target="_blank" rel="noopener noreferrer">
                 <CalendarClock className="mr-2 h-4 w-4" />
                 Book a Call
-              </Link>
+              </a>
             </Button>
           </div>
         </motion.div>
@@ -409,15 +409,15 @@ export function ServicesContent() {
               {"Start with a 30-minute discovery call. We'll discuss your project, timeline, and budget. No pressure, just clarity on whether we're a good fit."}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button asChild className="bg-[#8B5CF6] text-white hover:bg-[#A78BFA] btn-glow px-8">
-                <Link href="/start">
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Start a Project
-                </Link>
+              <Button asChild className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] btn-glow px-8 font-semibold">
+                <a href="https://cal.com/jason-teixeira-8elz3z" target="_blank" rel="noopener noreferrer">
+                  Book a Discovery Call
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
               </Button>
               <Button asChild variant="outline" className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent px-8">
                 <Link href="/contact">
-                  Contact Me
+                  Send a Message
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

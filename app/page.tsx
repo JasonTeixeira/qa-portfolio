@@ -353,7 +353,7 @@ export default function HomePage() {
               href="/projects"
               className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors group"
             >
-              View All 20 Projects
+              View All Projects
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>

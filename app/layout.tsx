@@ -29,11 +29,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Jason Teixeira | Systems Architect & Full-Stack Engineer',
-  description: 'Systems architect building production platforms, trading systems, and automation frameworks. 30+ projects, 9 certifications, enterprise and fintech experience. Available for hire and consulting.',
+  description: 'Systems architect building production platforms, trading systems, and automation frameworks. 20+ projects, 9 certifications, enterprise and fintech experience. Available for hire and consulting.',
   metadataBase: new URL('https://sageideas.dev'),
   openGraph: {
     title: 'Jason Teixeira | Systems Architect & Full-Stack Engineer',
-    description: 'Systems architect building production platforms, trading systems, and automation frameworks. 30+ projects, 9 certifications.',
+    description: 'Systems architect building production platforms, trading systems, and automation frameworks. 20+ projects, 9 certifications.',
     url: 'https://sageideas.dev',
     siteName: 'Sage Ideas',
     locale: 'en_US',

@@ -267,7 +267,7 @@ export function ResumeContent() {
         >
           <h2 className="text-xl font-bold text-[#FAFAFA] mb-4">Want to see what I&apos;ve built?</h2>
           <p className="text-[#A1A1AA] mb-6">
-            Check out my 20+ projects spanning full-stack development, trading systems, and automation frameworks.
+            Check out my Projects spanning full-stack development, trading systems, and automation frameworks.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE]">

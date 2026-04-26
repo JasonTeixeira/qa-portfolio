@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
-import { projects } from '@/data/projects'
 import { caseStudies } from '@/data/case-studies'
+import { blogPosts } from '@/lib/blogData'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://sageideas.dev'
-  
+
   // Static pages
   const staticPages = [
     '',
@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === '' ? 'weekly' as const : 'monthly' as const,
-    priority: route === '' ? 1 : route === '/services' || route === '/projects' ? 0.9 : 0.8,
+    priority: route === '' ? 1 : route === '/services' || route === '/projects' || route === '/platform' ? 0.9 : 0.8,
   }))
 
   // Dynamic case study pages
@@ -35,5 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...caseStudyPages]
+  // Dynamic blog post pages
+  const blogPages = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.id}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...caseStudyPages, ...blogPages]
 }

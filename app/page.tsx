@@ -182,9 +182,9 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="flex flex-wrap gap-3 pt-2"
               >
-                <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 rounded-full px-3 py-1 hover:bg-[#10B981]/20 transition-colors">
+                <Link href="/hire" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 rounded-full px-3 py-1 hover:bg-[#10B981]/20 transition-colors">
                   <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
-                  Live Dashboard
+                  Hire Me
                 </Link>
                 <Link href="/platform" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 rounded-full px-3 py-1 hover:bg-[#8B5CF6]/20 transition-colors">
                   Platform Engineering

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#09090B"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#06B6D4"/>
+  <circle cx="950" cy="180" r="220" fill="#06B6D4" opacity="0.04"/>
+  <circle cx="250" cy="480" r="180" fill="#06B6D4" opacity="0.03"/>
+  <text x="80" y="75" fill="#06B6D4" font-family="monospace" font-size="18" font-weight="bold" letter-spacing="2">SAGE IDEAS</text>
+  <rect x="80" y="105" width="168" height="30" rx="15" fill="#06B6D4" fill-opacity="0.12" stroke="#06B6D4" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="164" y="125" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="12" font-weight="bold">ARCHITECTURE</text>
+  <text x="600" y="260" text-anchor="middle" fill="#FAFAFA" font-family="Inter, system-ui, sans-serif" font-size="40" font-weight="bold">How I Structure a Next.js</text>
+  <text x="600" y="312" text-anchor="middle" fill="#FAFAFA" font-family="Inter, system-ui, sans-serif" font-size="40" font-weight="bold">Project</text>
+  <text x="600" y="490" text-anchor="middle" fill="#71717A" font-family="Inter, system-ui, sans-serif" font-size="16">Jason Teixeira  —  sageideas.dev</text>
+  <rect x="540" y="530" width="120" height="3" rx="1.5" fill="#06B6D4" opacity="0.5"/>
+</svg>

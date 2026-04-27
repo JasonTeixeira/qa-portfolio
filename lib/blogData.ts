@@ -1766,6 +1766,7 @@ If you're building something ambitious alone, invest in architecture first. The 
     tags: ["Next.js", "Supabase", "Stripe", "Architecture", "Database Design", "FinTech"],
     date: "2026-04-20",
     readTime: "14 min read",
+    coverImage: "/images/blog/blog-6-cover.svg",
   },
   {
     id: 7,
@@ -1863,6 +1864,7 @@ The bot is now live and actively used by the Nexural trading community. It handl
     tags: ["Discord.js", "GPT-4o", "Node.js", "Supabase", "AI Safety", "Trading"],
     date: "2026-04-15",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-7-cover.svg",
   },
   {
     id: 8,
@@ -1941,6 +1943,7 @@ The goal isn't perfection. It's demonstrating that you think about production, n
     tags: ["SLOs", "Operations", "Security", "AWS", "Production", "Career"],
     date: "2026-04-10",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-8-cover.svg",
   },
   {
     id: 9,
@@ -2025,6 +2028,7 @@ You can download my recruiter pack at [sageideas.dev/artifacts](/artifacts).
     tags: ["Career", "Recruiting", "QA", "Portfolio", "Job Search"],
     date: "2026-04-05",
     readTime: "8 min read",
+    coverImage: "/images/blog/blog-9-cover.svg",
   },
 
   // ═══ BATCH 1: ARCHITECTURE & SYSTEMS ═══
@@ -2143,6 +2147,7 @@ If you're building something ambitious, invest in schema design first. Refactori
     tags: ["PostgreSQL", "Database Design", "Supabase", "Schema", "FinTech", "Migrations"],
     date: "2026-04-22",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-10-cover.svg",
   },
   {
     id: 11,
@@ -2290,6 +2295,7 @@ Real-time is hard because it fails in ways that are hard to reproduce. Build for
     tags: ["WebSocket", "Real-Time", "TypeScript", "Trading", "Architecture", "Patterns"],
     date: "2026-04-18",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-11-cover.svg",
   },
   {
     id: 12,
@@ -2445,6 +2451,7 @@ Billing code is the highest-stakes code in your application. Test it more than a
     tags: ["Stripe", "Payments", "Webhooks", "SaaS", "TypeScript", "FinTech"],
     date: "2026-04-12",
     readTime: "13 min read",
+    coverImage: "/images/blog/blog-12-cover.svg",
   },
   {
     id: 13,
@@ -2539,6 +2546,7 @@ When Nexural has 5 engineers and 50K daily active users, I'll split services. Un
     tags: ["Architecture", "Microservices", "Monolith", "TypeScript", "System Design"],
     date: "2026-04-08",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-13-cover.svg",
   },
 
   // ═══ BATCH 2: TRADING & FINTECH ═══
@@ -2664,6 +2672,7 @@ The goal isn't prediction perfection — it's a statistical edge that compounds 
     tags: ["Python", "ML/AI", "Trading", "Feature Engineering", "pandas", "scikit-learn"],
     date: "2026-04-01",
     readTime: "14 min read",
+    coverImage: "/images/blog/blog-14-cover.svg",
   },
   {
     id: 15,
@@ -2792,6 +2801,7 @@ A good backtesting engine is one that makes your strategies look worse than they
     tags: ["Python", "Backtesting", "Trading", "Quantitative", "Risk Management"],
     date: "2026-03-28",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-15-cover.svg",
   },
   {
     id: 16,
@@ -2929,6 +2939,7 @@ Risk math isn't about predicting the future. It's about sizing your bets so that
     tags: ["Python", "Risk Management", "Trading", "Mathematics", "Portfolio", "scipy"],
     date: "2026-03-22",
     readTime: "15 min read",
+    coverImage: "/images/blog/blog-16-cover.svg",
   },
 
   // ═══ BATCH 3: CLOUD & INFRASTRUCTURE ═══
@@ -3081,6 +3092,7 @@ Good IaC is boring. It should be predictable, documented, and tested — just li
     tags: ["Terraform", "AWS", "IaC", "Infrastructure", "DevOps", "HCL"],
     date: "2026-03-18",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-17-cover.svg",
   },
   {
     id: 18,
@@ -3192,6 +3204,7 @@ The 82% reduction wasn't one big fix — it was 5 patterns stacked together. Eac
     tags: ["Docker", "CI/CD", "GitHub Actions", "DevOps", "Performance", "Kubernetes"],
     date: "2026-03-12",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-18-cover.svg",
   },
   {
     id: 19,
@@ -3299,6 +3312,7 @@ Cloud cost optimization isn't about finding cheaper instances. It's about choosi
     tags: ["AWS", "Cost Optimization", "Supabase", "Vercel", "Lambda", "Architecture"],
     date: "2026-03-08",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-19-cover.svg",
   },
 
   // ═══ BATCH 4: QA & TESTING + CAREER ═══
@@ -3422,6 +3436,7 @@ Everything else is a luxury you earn with revenue.
     tags: ["Testing", "QA", "Startups", "pytest", "Strategy", "CI/CD"],
     date: "2026-03-05",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-20-cover.svg",
   },
   {
     id: 21,
@@ -3571,6 +3586,7 @@ The biggest win isn't the number — it's developer trust. When engineers trust 
     tags: ["Testing", "QA", "Flaky Tests", "pytest", "CI/CD", "Selenium"],
     date: "2026-02-28",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-21-cover.svg",
   },
   {
     id: 22,
@@ -3737,6 +3753,7 @@ But catching the obvious stuff automatically means your security team (or your m
     tags: ["Security", "OWASP", "Python", "Automation", "CI/CD", "Scanning"],
     date: "2026-02-22",
     readTime: "13 min read",
+    coverImage: "/images/blog/blog-22-cover.svg",
   },
   {
     id: 23,
@@ -3832,6 +3849,7 @@ The trade-off is loneliness, self-doubt, and the constant question: "Is this goo
     tags: ["Career", "Solo Engineering", "Building in Public", "Entrepreneurship", "Reflection"],
     date: "2026-02-15",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-23-cover.svg",
   },
   {
     id: 24,
@@ -3941,6 +3959,7 @@ Solo engineering isn't about working harder. It's about automating everything th
     tags: ["Productivity", "Tools", "Solo Engineering", "Automation", "Workflow"],
     date: "2026-02-08",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-24-cover.svg",
   },
   {
     id: 25,
@@ -4040,6 +4059,7 @@ The bug cost me maybe $200 in refunds. The lesson was worth infinitely more.
     tags: ["Debugging", "Stripe", "Webhooks", "Postmortem", "Lessons Learned"],
     date: "2026-02-01",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-25-cover.svg",
   },
   {
     id: 26,
@@ -4124,6 +4144,7 @@ Write tests that make you money (prevent costly bugs). Skip tests that cost you 
     tags: ["Testing", "QA", "Code Coverage", "Strategy", "Engineering"],
     date: "2026-01-28",
     readTime: "8 min read",
+    coverImage: "/images/blog/blog-26-cover.svg",
   },
   {
     id: 27,
@@ -4216,6 +4237,7 @@ The technology stack matters less than you think. The operational maturity matte
     tags: ["Career", "Job Search", "Senior Engineer", "Interviewing", "Portfolio"],
     date: "2026-01-22",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-27-cover.svg",
   },
   {
     id: 28,
@@ -4331,6 +4353,7 @@ Anyone who says "never use an ORM" enjoys suffering.
     tags: ["SQL", "PostgreSQL", "ORM", "Prisma", "Database", "Performance"],
     date: "2026-01-18",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-28-cover.svg",
   },
   {
     id: 29,
@@ -4408,6 +4431,7 @@ I build better software because I trade. And I trade better because I build soft
     tags: ["Trading", "Futures", "Risk Management", "Software Engineering", "Lessons"],
     date: "2026-01-12",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-29-cover.svg",
   },
   {
     id: 30,
@@ -4503,6 +4527,7 @@ It's Sherlock Holmes, but for API calls.
     tags: ["Debugging", "Production", "Incident Response", "Engineering", "Framework"],
     date: "2026-01-05",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-30-cover.svg",
   },
   {
     id: 31,
@@ -4622,6 +4647,7 @@ The best auth system is one you didn't build.
     tags: ["Authentication", "Security", "Supabase", "JWT", "Architecture"],
     date: "2025-12-28",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-31-cover.svg",
   },
   {
     id: 32,
@@ -4730,6 +4756,7 @@ The 15 minutes you spend writing an ADR is the most undervalued engineering prac
     tags: ["Architecture", "Documentation", "ADR", "Decision Making", "Best Practices"],
     date: "2025-12-20",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-32-cover.svg",
   },
   {
     id: 33,
@@ -4847,6 +4874,7 @@ Rate limiting is like a lock on your door. It keeps honest people honest. For de
     tags: ["Security", "API", "Rate Limiting", "Architecture", "AWS"],
     date: "2025-12-15",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-33-cover.svg",
   },
   {
     id: 34,
@@ -4954,6 +4982,7 @@ Solo engineering without code review is risky. Solo engineering without SELF cod
     tags: ["Code Review", "Solo Engineering", "Best Practices", "Git", "Quality"],
     date: "2025-12-08",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-34-cover.svg",
   },
   {
     id: 35,
@@ -5061,6 +5090,7 @@ Clear code can be refactored into any pattern when the need arises. Abstract cod
     tags: ["Architecture", "Over-Engineering", "YAGNI", "Best Practices", "Design"],
     date: "2025-12-01",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-35-cover.svg",
   },
   {
     id: 36,
@@ -5156,6 +5186,7 @@ Would I choose it again for Nexural? Yes. Would I also plan for the workarounds 
     tags: ["Supabase", "PostgreSQL", "Database", "Production", "Review"],
     date: "2025-11-22",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-36-cover.svg",
   },
   {
     id: 37,
@@ -5269,6 +5300,7 @@ Your .env file isn't a configuration file — it's a manifest of everything an a
     tags: ["Security", "Environment Variables", "AWS", "DevOps", "Best Practices"],
     date: "2025-11-15",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-37-cover.svg",
   },
   {
     id: 38,
@@ -5410,6 +5442,7 @@ This crashes at startup if any required variable is missing. Better to crash imm
     tags: ["Next.js", "React", "TypeScript", "Project Structure", "Architecture"],
     date: "2025-11-08",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-38-cover.svg",
   },
   {
     id: 39,
@@ -5516,6 +5549,7 @@ If your monitoring can't answer that in 10 seconds, it's decoration.
     tags: ["Monitoring", "SRE", "Alerting", "DevOps", "Production", "Observability"],
     date: "2025-11-01",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-39-cover.svg",
   },
   {
     id: 40,
@@ -5624,6 +5658,7 @@ The 30 seconds it takes to create a branch pays for itself in clarity, traceabil
     tags: ["Git", "Version Control", "Workflow", "DevOps", "Best Practices"],
     date: "2025-10-25",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-40-cover.svg",
   },
   {
     id: 41,
@@ -5753,6 +5788,7 @@ Not your API. Your docs.
     tags: ["API", "Documentation", "FastAPI", "Developer Experience", "REST"],
     date: "2025-10-18",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-41-cover.svg",
   },
   {
     id: 42,
@@ -5832,6 +5868,7 @@ Focus on making the right decisions. The code will follow.
     tags: ["Productivity", "Career", "Engineering Culture", "Decision Making"],
     date: "2025-10-10",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-42-cover.svg",
   },
   {
     id: 43,
@@ -5960,6 +5997,7 @@ Build systems that outlast you. It's the most generous — and most strategic �
     tags: ["Engineering Culture", "Documentation", "Operability", "Best Practices"],
     date: "2025-10-01",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-43-cover.svg",
   },
   {
     id: 44,
@@ -6053,6 +6091,7 @@ The LLC isn't the hard part. The discipline — saving for taxes, maintaining he
     tags: ["LLC", "Freelancing", "Business", "Career", "Consulting", "Taxes"],
     date: "2025-09-22",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-44-cover.svg",
   },
   {
     id: 45,
@@ -6124,6 +6163,7 @@ The best interviews feel like working sessions. The worst feel like interrogatio
     tags: ["Interviewing", "Career", "System Design", "Technical Interview"],
     date: "2025-09-15",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-45-cover.svg",
   },
   {
     id: 46,
@@ -6261,6 +6301,7 @@ That shift — from executing work to eliminating work — is what separates ope
     tags: ["Automation", "Scripting", "DevOps", "Productivity", "Bash"],
     date: "2025-09-08",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-46-cover.svg",
   },
   {
     id: 47,
@@ -6346,6 +6387,7 @@ The same applies to software, to portfolios, to careers. Ship the imperfect vers
     tags: ["Writing", "Productivity", "Trading", "Personal Growth", "Discipline"],
     date: "2025-09-01",
     readTime: "11 min read",
+    coverImage: "/images/blog/blog-47-cover.svg",
   },
   {
     id: 48,
@@ -6488,6 +6530,7 @@ If all four pass, the error handling is solid. If any fail, I'm disrespecting ei
     tags: ["Error Handling", "UX", "TypeScript", "React", "Best Practices"],
     date: "2025-08-25",
     readTime: "10 min read",
+    coverImage: "/images/blog/blog-48-cover.svg",
   },
   {
     id: 49,
@@ -6600,6 +6643,7 @@ If you can build it AND document it AND hand it off — you're not just an engin
     tags: ["Documentation", "Architecture", "Best Practices", "Templates", "Engineering"],
     date: "2025-08-18",
     readTime: "9 min read",
+    coverImage: "/images/blog/blog-49-cover.svg",
   },
   {
     id: 50,
@@ -6694,5 +6738,6 @@ The perfect portfolio doesn't exist. The shipped one does.
     tags: ["Retrospective", "Year in Review", "Career", "Building in Public"],
     date: "2025-08-10",
     readTime: "12 min read",
+    coverImage: "/images/blog/blog-50-cover.svg",
   }
 ];

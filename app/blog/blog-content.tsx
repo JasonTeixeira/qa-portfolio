@@ -39,7 +39,7 @@ export function BlogContent() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Link
-                href={`/blog/${post.id}`}
+                href={`/blog/${post.slug}`}
                 className="group block h-full bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden"
               >
                 {post.coverImage && (

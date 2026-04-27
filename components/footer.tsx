@@ -132,7 +132,7 @@ export function Footer() {
           >
             <h3 className="text-sm font-semibold text-[#FAFAFA]">{"Let's Work Together"}</h3>
             <p className="text-sm text-[#A1A1AA]">
-              Available for full-time roles and consulting projects. {"Let's"} build something great.
+              Available for full-time roles and consulting projects.
             </p>
             <Button
               asChild
@@ -143,6 +143,47 @@ export function Footer() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
+
+            {/* Newsletter Signup */}
+            <div className="pt-4 border-t border-[#27272A] mt-4">
+              <p className="text-xs text-[#71717A] mb-2">Get new articles in your inbox:</p>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  const form = e.target as HTMLFormElement
+                  const email = (form.elements.namedItem('email') as HTMLInputElement).value
+                  try {
+                    await fetch('/api/newsletter/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email }),
+                    })
+                    form.reset()
+                    alert('Subscribed! Check your email to confirm.')
+                  } catch {
+                    alert('Something went wrong. Try again.')
+                  }
+                }}
+                className="flex gap-2"
+              >
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="you@email.com"
+                  className="flex-1 px-3 py-1.5 bg-[#09090B] border border-[#27272A] rounded-lg text-xs text-[#FAFAFA] placeholder-[#71717A] focus:outline-none focus:border-[#06B6D4]"
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-[#06B6D4] text-[#09090B] text-xs font-semibold rounded-lg hover:bg-[#22D3EE] transition-colors"
+                >
+                  Subscribe
+                </button>
+              </form>
+              <a href="/feed.xml" className="inline-flex items-center gap-1 text-[10px] text-[#71717A] hover:text-[#06B6D4] mt-2 transition-colors">
+                RSS Feed
+              </a>
+            </div>
           </motion.div>
         </div>
 

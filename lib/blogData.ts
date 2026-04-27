@@ -1,5 +1,6 @@
 export interface BlogPost {
   id: number;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -11,9 +12,19 @@ export interface BlogPost {
   coverImage?: string;
 }
 
+// Helper to generate slug from title
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80);
+}
+
 export const blogPosts: BlogPost[] = [
   {
     id: 100,
+    slug: "github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way",
     title: "GitHub OIDC → AWS (No Long-Lived Keys): Cloud Automation the Right Way",
     excerpt:
       "How to use GitHub Actions OIDC to assume an AWS IAM role and deploy/upload artifacts without storing AWS keys. Includes least-privilege IAM, trust policy patterns, and troubleshooting tips.",
@@ -60,6 +71,7 @@ OIDC + least privilege is the modern baseline.
   },
   {
     id: 1,
+    slug: "building-a-production-ready-api-testing-framework",
     title: "Building a Production-Ready API Testing Framework",
     excerpt: "Learn how I built an API testing framework that reduced flaky tests from 10% to <1% using intelligent retry logic, Pydantic validation, and session pooling.",
     content: "Deep dive into architecting a robust API testing framework with Python, pytest, and Requests...",
@@ -286,6 +298,7 @@ The investment in a solid foundation pays off every single day.
   },
   {
     id: 2,
+    slug: "page-object-model-beyond-the-basics",
     title: "Page Object Model: Beyond the Basics",
     excerpt: "Most teams implement POM wrong. Here's how to build a truly maintainable Selenium framework that scales to hundreds of tests.",
     content: "Advanced patterns for Page Object Model including dynamic locators, component composition, and testing strategies...",
@@ -605,6 +618,7 @@ The investment in proper POM architecture pays off every single sprint.
   },
   {
     id: 3,
+    slug: "fixing-docker-compose-connection-errors-in-ci-cd",
     title: "Fixing Docker Compose Connection Errors in CI/CD",
     excerpt: "Spent 4 hours debugging 'Connection refused' errors in Jenkins. Here's what I learned about Docker networking in CI pipelines.",
     content: "Troubleshooting guide for Docker Compose networking issues in Jenkins CI/CD pipelines...",
@@ -867,6 +881,7 @@ The secret is treating Docker networking as a first-class concern, not an aftert
   },
   {
     id: 4,
+    slug: "performance-testing-from-zero-to-production",
     title: "Performance Testing: From Zero to Production",
     excerpt: "How I built a performance testing suite that identified 3 critical bottlenecks before production and improved API response times by 40%.",
     content: "Complete guide to load testing with Locust and JMeter, including baseline establishment and CI integration...",
@@ -1254,6 +1269,7 @@ Performance testing isn't optional for production systems. The cost of finding i
   },
   {
     id: 5,
+    slug: "mobile-test-automation-with-appium-the-complete-guide",
     title: "Mobile Test Automation with Appium: The Complete Guide",
     excerpt: "Built a cross-platform mobile testing framework that reduced regression time from 2 days to 2 hours and found 23 device-specific bugs before release.",
     content: "Comprehensive guide to mobile automation including iOS/Android testing, cloud device farms, and real device vs emulator strategies...",
@@ -1659,6 +1675,7 @@ Mobile automation is challenging but absolutely necessary. The investment pays o
   },
   {
     id: 6,
+    slug: "building-a-fintech-platform-solo-185-tables-69-apis-7-systems",
     title: "Building a Fintech Platform Solo: 185 Tables, 69 APIs, 7 Systems",
     excerpt: "The full story of architecting and building the Nexural ecosystem from scratch — database design, API architecture, Stripe integration, and lessons from being the sole engineer on a production fintech platform.",
     content: "How I built a complete fintech platform as a solo engineer...",
@@ -1752,6 +1769,7 @@ If you're building something ambitious alone, invest in architecture first. The 
   },
   {
     id: 7,
+    slug: "building-an-ai-discord-bot-for-a-trading-community",
     title: "Building an AI Discord Bot for a Trading Community",
     excerpt: "How I built the Nexural Discord AI Engine — 30+ commands, GPT-4o integration, auto-moderation, and market intelligence. Lessons on AI safety in financial contexts.",
     content: "Building an AI-powered Discord bot for traders...",
@@ -1848,6 +1866,7 @@ The bot is now live and actively used by the Nexural trading community. It handl
   },
   {
     id: 8,
+    slug: "why-i-treat-my-portfolio-like-a-production-system",
     title: "Why I Treat My Portfolio Like a Production System",
     excerpt: "SLOs, incident drills, WAF rate limiting, and OIDC federation — why I operate my portfolio site with the same rigor as enterprise infrastructure, and what it signals to hiring managers.",
     content: "Operating a portfolio like production infrastructure...",
@@ -1925,6 +1944,7 @@ The goal isn't perfection. It's demonstrating that you think about production, n
   },
   {
     id: 9,
+    slug: "the-recruiter-pack-why-i-give-away-my-qa-playbooks",
     title: "The Recruiter Pack: Why I Give Away My QA Playbooks",
     excerpt: "I created a downloadable ZIP with my resume, test strategies, architecture samples, and operational evidence. Here's why giving away your best work for free is the best career move you can make.",
     content: "Why downloadable artifacts beat traditional portfolios...",
@@ -2011,6 +2031,7 @@ You can download my recruiter pack at [sageideas.dev/artifacts](/artifacts).
 
   {
     id: 10,
+    slug: "designing-a-185-table-database-schema-lessons-from-building-nexural",
     title: "Designing a 185-Table Database Schema: Lessons from Building Nexural",
     excerpt: "How I designed a normalized database schema for a fintech platform with 7 interconnected systems. Schema phases, RLS policies, denormalization trade-offs, and migration strategies.",
     content: "Database design lessons from a 185-table fintech platform...",
@@ -2125,6 +2146,7 @@ If you're building something ambitious, invest in schema design first. Refactori
   },
   {
     id: 11,
+    slug: "real-time-websocket-architecture-patterns-that-actually-scale",
     title: "Real-Time WebSocket Architecture: Patterns That Actually Scale",
     excerpt: "How I handle WebSocket connections in trading platforms — reconnection strategies, heartbeats, backpressure, and the patterns that work when milliseconds matter.",
     content: "WebSocket patterns for real-time trading systems...",
@@ -2271,6 +2293,7 @@ Real-time is hard because it fails in ways that are hard to reproduce. Build for
   },
   {
     id: 12,
+    slug: "stripe-integration-lessons-what-the-docs-don",
     title: "Stripe Integration Lessons: What the Docs Don't Tell You",
     excerpt: "Webhook idempotency, subscription state machines, dunning strategies, and the edge cases that will break your billing system if you don't handle them.",
     content: "Hard lessons from integrating Stripe into a production platform...",
@@ -2425,6 +2448,7 @@ Billing code is the highest-stakes code in your application. Test it more than a
   },
   {
     id: 13,
+    slug: "monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural",
     title: "Monolith vs Microservices: Why I Chose a Modular Monolith for Nexural",
     excerpt: "The Nexural platform has 7 systems but runs as a modular monolith, not microservices. Here's why that was the right call for a solo engineer, and when I'd split.",
     content: "Why modular monolith beats microservices for solo builders...",
@@ -2521,6 +2545,7 @@ When Nexural has 5 engineers and 50K daily active users, I'll split services. Un
 
   {
     id: 14,
+    slug: "feature-engineering-for-trading-200-indicators-that-actually-matter",
     title: "Feature Engineering for Trading: 200+ Indicators That Actually Matter",
     excerpt: "How I built AlphaStream's feature engineering pipeline — which indicators predict price movement, which are noise, and how to select features that generalize.",
     content: "ML feature engineering for quantitative trading...",
@@ -2642,6 +2667,7 @@ The goal isn't prediction perfection — it's a statistical edge that compounds 
   },
   {
     id: 15,
+    slug: "building-a-backtesting-engine-that-doesn",
     title: "Building a Backtesting Engine That Doesn't Lie to You",
     excerpt: "Most backtesting engines produce results that look great but fall apart in live trading. Here's how I built QuantumTrader's backtesting engine to be honest about performance.",
     content: "How to build a backtesting engine that produces realistic results...",
@@ -2769,6 +2795,7 @@ A good backtesting engine is one that makes your strategies look worse than they
   },
   {
     id: 16,
+    slug: "portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters",
     title: "Portfolio Risk Math Explained: VaR, CVaR, and Why Covariance Estimation Matters",
     excerpt: "The math behind RiskRadar — Value at Risk, Conditional VaR, Ledoit-Wolf shrinkage, and Monte Carlo simulation explained for engineers who aren't quants.",
     content: "Portfolio risk mathematics for software engineers...",
@@ -2908,6 +2935,7 @@ Risk math isn't about predicting the future. It's about sizing your bets so that
 
   {
     id: 17,
+    slug: "terraform-module-patterns-how-i-structure-iac-for-reuse",
     title: "Terraform Module Patterns: How I Structure IaC for Reuse",
     excerpt: "Opinionated Terraform module patterns — consistent variable naming, output contracts, testing with Terratest, and the module structure that works across teams.",
     content: "Terraform module patterns for reusable infrastructure...",
@@ -3056,6 +3084,7 @@ Good IaC is boring. It should be predictable, documented, and tested — just li
   },
   {
     id: 18,
+    slug: "docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82",
     title: "Docker in CI/CD: The Patterns That Cut My Pipeline Time by 82%",
     excerpt: "Layer caching, multi-stage builds, BuildKit, and the Docker patterns that took my CI pipeline from 45 minutes to 8 minutes.",
     content: "Docker optimization patterns for CI/CD pipelines...",
@@ -3166,6 +3195,7 @@ The 82% reduction wasn't one big fix — it was 5 patterns stacked together. Eac
   },
   {
     id: 19,
+    slug: "aws-cost-optimization-how-i-keep-a-production-platform-under-50-month",
     title: "AWS Cost Optimization: How I Keep a Production Platform Under $50/Month",
     excerpt: "The Nexural platform runs on AWS with Vercel, Supabase, and targeted AWS services. Here's how I keep costs under $50/month for a platform with 185 tables and real-time data.",
     content: "AWS cost optimization for production platforms...",
@@ -3275,6 +3305,7 @@ Cloud cost optimization isn't about finding cheaper instances. It's about choosi
 
   {
     id: 20,
+    slug: "test-strategy-for-startups-what-to-test-when-you-can",
     title: "Test Strategy for Startups: What to Test When You Can't Test Everything",
     excerpt: "You have 2 engineers and 100 features. You can't test everything. Here's the risk-based test strategy I use to maximize coverage with minimal investment.",
     content: "Pragmatic test strategy for resource-constrained teams...",
@@ -3394,6 +3425,7 @@ Everything else is a luxury you earn with revenue.
   },
   {
     id: 21,
+    slug: "eliminating-flaky-tests-a-systematic-approach",
     title: "Eliminating Flaky Tests: A Systematic Approach",
     excerpt: "How I took a test suite from 10% flaky rate to under 1% — retry logic, test isolation, deterministic data, and the patterns that make tests reliable.",
     content: "Systematic approach to eliminating flaky tests...",
@@ -3542,6 +3574,7 @@ The biggest win isn't the number — it's developer trust. When engineers trust 
   },
   {
     id: 22,
+    slug: "owasp-top-10-automated-testing-a-practical-implementation",
     title: "OWASP Top 10 Automated Testing: A Practical Implementation",
     excerpt: "How I built a security scanner that checks for SQL injection, XSS, broken auth, and 7 other OWASP categories automatically in CI/CD pipelines.",
     content: "Implementing automated OWASP security testing...",
@@ -3707,6 +3740,7 @@ But catching the obvious stuff automatically means your security team (or your m
   },
   {
     id: 23,
+    slug: "what-i-learned-building-in-public-as-a-solo-engineer",
     title: "What I Learned Building in Public as a Solo Engineer",
     excerpt: "One year of building the Nexural ecosystem, trading futures, writing a book, and documenting everything. The wins, the failures, and what I'd tell someone starting today.",
     content: "Lessons from one year of building in public...",
@@ -3801,6 +3835,7 @@ The trade-off is loneliness, self-doubt, and the constant question: "Is this goo
   },
   {
     id: 24,
+    slug: "the-solo-engineer",
     title: "The Solo Engineer's Toolkit: Tools That Replace a Team",
     excerpt: "How I operate as a solo engineer building production systems — the tools, workflows, and automations that let one person do the work of a small team.",
     content: "Tools and workflows for solo engineering productivity...",
@@ -3909,6 +3944,7 @@ Solo engineering isn't about working harder. It's about automating everything th
   },
   {
     id: 25,
+    slug: "the-bug-that-taught-me-more-than-any-course-ever-did",
     title: "The Bug That Taught Me More Than Any Course Ever Did",
     excerpt: "A race condition in a payment webhook handler sat undetected for 3 weeks. When it fired, it double-charged 4 customers. Here's the full postmortem and why I now test billing code differently.",
     content: "A real production bug story and what it taught me...",
@@ -4007,6 +4043,7 @@ The bug cost me maybe $200 in refunds. The lesson was worth infinitely more.
   },
   {
     id: 26,
+    slug: "your-test-coverage-number-is-lying-to-you",
     title: "Your Test Coverage Number Is Lying to You",
     excerpt: "80% test coverage means nothing if you're testing the wrong 80%. Here's how I think about coverage — not as a number to chase, but as a map of where you're blind.",
     content: "Why test coverage metrics are misleading and what to do instead...",
@@ -4090,6 +4127,7 @@ Write tests that make you money (prevent costly bugs). Skip tests that cost you 
   },
   {
     id: 27,
+    slug: "i-read-50-senior-engineer-job-descriptions-here",
     title: "I Read 50 Senior Engineer Job Descriptions. Here's What They Actually Want.",
     excerpt: "I analyzed 50 job postings for senior/staff engineers at companies paying $180K-$350K. The patterns are clear — and most portfolios miss them completely.",
     content: "What senior engineering job descriptions actually mean...",
@@ -4181,6 +4219,7 @@ The technology stack matters less than you think. The operational maturity matte
   },
   {
     id: 28,
+    slug: "why-i-use-raw-sql-instead-of-an-orm-most-of-the-time",
     title: "Why I Use Raw SQL Instead of an ORM (Most of the Time)",
     excerpt: "ORMs are great until they're not. After debugging generated queries that took 30 seconds on a 185-table database, I switched to raw SQL for the hot paths. Here's when each makes sense.",
     content: "The pragmatic case for raw SQL over ORMs...",
@@ -4295,6 +4334,7 @@ Anyone who says "never use an ORM" enjoys suffering.
   },
   {
     id: 29,
+    slug: "what-trading-futures-taught-me-about-writing-software",
     title: "What Trading Futures Taught Me About Writing Software",
     excerpt: "I trade ES, NQ, and CL futures every morning before I write code. The parallels between risk management in trading and risk management in software are uncomfortably similar.",
     content: "Lessons from trading that apply to software engineering...",
@@ -4371,6 +4411,7 @@ I build better software because I trade. And I trade better because I build soft
   },
   {
     id: 30,
+    slug: "how-i-debug-production-issues-a-real-framework-not-guessing",
     title: "How I Debug Production Issues (A Real Framework, Not Guessing)",
     excerpt: "Most developers debug by changing things until the error goes away. I debug by narrowing the blast radius systematically. Here's my actual framework.",
     content: "A systematic approach to production debugging...",
@@ -4465,6 +4506,7 @@ It's Sherlock Holmes, but for API calls.
   },
   {
     id: 31,
+    slug: "authentication-is-harder-than-you-think",
     title: "Authentication Is Harder Than You Think",
     excerpt: "I've implemented auth 4 times across different projects. Every time I thought it would take 2 days. Every time it took 2 weeks. Here's why, and what I'd do differently.",
     content: "Why authentication is deceptively complex...",
@@ -4583,6 +4625,7 @@ The best auth system is one you didn't build.
   },
   {
     id: 32,
+    slug: "the-architecture-decision-nobody-writes-down",
     title: "The Architecture Decision Nobody Writes Down",
     excerpt: "We spend weeks choosing between Kafka and RabbitMQ but never document why. ADRs take 15 minutes and save months of 'why did we do this?' conversations.",
     content: "Architecture Decision Records and why they matter...",
@@ -4690,6 +4733,7 @@ The 15 minutes you spend writing an ADR is the most undervalued engineering prac
   },
   {
     id: 33,
+    slug: "rate-limiting-the-feature-nobody-thinks-about-until-it",
     title: "Rate Limiting: The Feature Nobody Thinks About Until It's Too Late",
     excerpt: "Your API works perfectly at 10 requests per second. At 10,000, it falls over. Here's how I implement rate limiting that protects without annoying legitimate users.",
     content: "Implementing rate limiting that actually works...",
@@ -4806,6 +4850,7 @@ Rate limiting is like a lock on your door. It keeps honest people honest. For de
   },
   {
     id: 34,
+    slug: "how-to-review-your-own-code-when-there",
     title: "How to Review Your Own Code (When There's Nobody Else)",
     excerpt: "Solo engineering means no code reviews. I've developed a self-review process that catches 80% of what a second pair of eyes would find. It starts with stepping away.",
     content: "Self code review process for solo engineers...",
@@ -4912,6 +4957,7 @@ Solo engineering without code review is risky. Solo engineering without SELF cod
   },
   {
     id: 35,
+    slug: "the-case-against-over-engineering-from-someone-who",
     title: "The Case Against Over-Engineering (From Someone Who's Done It)",
     excerpt: "I once built a plugin architecture for a system that never needed plugins. 3 weeks of abstraction layers for a feature nobody asked for. Here's how I learned to stop.",
     content: "How to recognize and avoid over-engineering...",
@@ -5018,6 +5064,7 @@ Clear code can be refactored into any pattern when the need arises. Abstract cod
   },
   {
     id: 36,
+    slug: "supabase-in-production-what-i-wish-i-knew-before-185-tables",
     title: "Supabase in Production: What I Wish I Knew Before 185 Tables",
     excerpt: "After a year of running Supabase in production with 185 tables, here's the honest review — what's incredible, what's frustrating, and what almost made me switch.",
     content: "Honest Supabase production review after 185 tables...",
@@ -5112,6 +5159,7 @@ Would I choose it again for Nexural? Yes. Would I also plan for the workarounds 
   },
   {
     id: 37,
+    slug: "environment-variables-the-security-hole-in-every-startup",
     title: "Environment Variables: The Security Hole in Every Startup",
     excerpt: "Your .env file has your database password, Stripe secret key, and AWS credentials. It's in a Slack message, a developer's laptop, and probably a Docker image somewhere. Let's fix that.",
     content: "Environment variable security for real-world systems...",
@@ -5224,6 +5272,7 @@ Your .env file isn't a configuration file — it's a manifest of everything an a
   },
   {
     id: 38,
+    slug: "how-i-structure-a-next-js-project-after-6-production-apps",
     title: "How I Structure a Next.js Project (After 6 Production Apps)",
     excerpt: "Folder conventions, data fetching patterns, component organization, and the file structure that scales from MVP to 185 database tables without becoming unmanageable.",
     content: "Next.js project structure that scales...",
@@ -5364,6 +5413,7 @@ This crashes at startup if any required variable is missing. Better to crash imm
   },
   {
     id: 39,
+    slug: "monitoring-that-actually-tells-you-something",
     title: "Monitoring That Actually Tells You Something",
     excerpt: "Dashboards with 47 panels where everything is green aren't monitoring. They're decoration. Here's what I actually monitor and why most alerting is useless noise.",
     content: "Practical monitoring and alerting for real systems...",
@@ -5469,6 +5519,7 @@ If your monitoring can't answer that in 10 seconds, it's decoration.
   },
   {
     id: 40,
+    slug: "git-workflows-that-don",
     title: "Git Workflows That Don't Make You Want to Quit",
     excerpt: "Trunk-based vs GitFlow vs GitHub Flow — I've used all three. Here's what actually works for solo developers and small teams, and why most Git workflows are over-complicated.",
     content: "Practical Git workflow for real teams...",
@@ -5576,6 +5627,7 @@ The 30 seconds it takes to create a branch pays for itself in clarity, traceabil
   },
   {
     id: 41,
+    slug: "why-most-api-documentation-is-useless-and-how-to-fix-yours",
     title: "Why Most API Documentation Is Useless (And How to Fix Yours)",
     excerpt: "If your API docs list every endpoint but don't show me how to complete a task, they're a reference manual disguised as documentation. Here's what developers actually need.",
     content: "Writing API documentation that developers actually use...",
@@ -5704,6 +5756,7 @@ Not your API. Your docs.
   },
   {
     id: 42,
+    slug: "the-myth-of-the-10x-developer",
     title: "The Myth of the 10x Developer",
     excerpt: "There are no 10x developers. There are developers with 10x clarity about what to build and what to skip. The difference is decision-making, not typing speed.",
     content: "Why the 10x developer myth is wrong and what actually matters...",
@@ -5782,6 +5835,7 @@ Focus on making the right decisions. The code will follow.
   },
   {
     id: 43,
+    slug: "building-for-the-next-engineer-code-that-outlasts-you",
     title: "Building for the Next Engineer: Code That Outlasts You",
     excerpt: "Every system I've built at Home Depot is still running without me. That's not luck — it's intentional design for operability. Here's what I do differently.",
     content: "Writing code and systems designed for handoff...",
@@ -5909,6 +5963,7 @@ Build systems that outlast you. It's the most generous — and most strategic �
   },
   {
     id: 44,
+    slug: "running-an-llc-as-an-engineer-what-nobody-tells-you",
     title: "Running an LLC as an Engineer: What Nobody Tells You",
     excerpt: "I founded Sage Ideas LLC. Here's the stuff the 'start a consulting business' articles leave out — taxes, insurance, contracts, and why I keep a personal financial runway.",
     content: "Practical advice on running an engineering LLC...",
@@ -6001,6 +6056,7 @@ The LLC isn't the hard part. The discipline — saving for taxes, maintaining he
   },
   {
     id: 45,
+    slug: "the-technical-interview-from-both-sides-of-the-table",
     title: "The Technical Interview From Both Sides of the Table",
     excerpt: "I've been the candidate sweating through system design questions and the interviewer evaluating them. The gap between what interviewers look for and what candidates prepare is enormous.",
     content: "Technical interview insights from both perspectives...",
@@ -6071,6 +6127,7 @@ The best interviews feel like working sessions. The worst feel like interrogatio
   },
   {
     id: 46,
+    slug: "the-automation-mindset-if-you-do-it-twice-script-it",
     title: "The Automation Mindset: If You Do It Twice, Script It",
     excerpt: "I have 47 shell scripts, 6 CI workflows, and a cron job that texts me when my SSL cert is expiring. Here's the mindset behind automating everything.",
     content: "The philosophy of automating repetitive engineering work...",
@@ -6207,6 +6264,7 @@ That shift — from executing work to eliminating work — is what separates ope
   },
   {
     id: 47,
+    slug: "writing-a-120-000-word-book-while-building-software-full-time",
     title: "Writing a 120,000-Word Book While Building Software Full-Time",
     excerpt: "I wrote a 24-chapter book on trading while building the Nexural platform. Here's how I managed both, what nearly broke me, and why writing made me a better engineer.",
     content: "Balancing writing a book with full-time engineering...",
@@ -6291,6 +6349,7 @@ The same applies to software, to portfolios, to careers. Ship the imperfect vers
   },
   {
     id: 48,
+    slug: "error-handling-that-respects-your-users",
     title: "Error Handling That Respects Your Users",
     excerpt: "Your users don't care about stack traces. They care about what went wrong and what to do next. Here's how I design error experiences that help instead of frustrate.",
     content: "User-facing error handling done right...",
@@ -6432,6 +6491,7 @@ If all four pass, the error handling is solid. If any fail, I'm disrespecting ei
   },
   {
     id: 49,
+    slug: "why-i-document-every-system-i-build-and-the-template-i-use",
     title: "Why I Document Every System I Build (And the Template I Use)",
     excerpt: "I have a 1-page template for system documentation. It takes 30 minutes to fill out and saves 30 hours of 'how does this work?' questions. Here's the template.",
     content: "System documentation template and philosophy...",
@@ -6543,6 +6603,7 @@ If you can build it AND document it AND hand it off — you're not just an engin
   },
   {
     id: 50,
+    slug: "everything-i-shipped-this-year-and-what-i",
     title: "Everything I Shipped This Year (And What I'd Cut in Hindsight)",
     excerpt: "A year-end retrospective: 7 systems, 185 tables, 50 blog posts, a book, and a trading career. What was worth it, what wasn't, and what I'm building next.",
     content: "Year-end engineering retrospective...",

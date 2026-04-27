@@ -48,6 +48,18 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    types: {
+      'application/rss+xml': 'https://sageideas.dev/feed.xml',
+    },
+  },
+  keywords: [
+    'systems architect', 'full-stack engineer', 'automation engineer',
+    'trading systems developer', 'fintech engineer', 'cloud infrastructure',
+    'test automation', 'Orlando FL developer', 'hire software engineer',
+    'custom software development', 'Terraform AWS', 'Next.js developer',
+    'QA automation consultant', 'portfolio', 'Sage Ideas'
+  ],
 }
 
 export default function RootLayout({
@@ -81,6 +93,45 @@ export default function RootLayout({
                 "Trading Systems",
                 "AI/ML",
                 "DevOps"
+              ],
+              worksFor: {
+                "@type": "Organization",
+                name: "Sage Ideas LLC",
+                url: "https://sageideas.dev"
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Orlando",
+                addressRegion: "FL",
+                addressCountry: "US"
+              }
+            })
+          }}
+        />
+        {/* LocalBusiness Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "Sage Ideas LLC",
+              url: "https://sageideas.dev",
+              description: "Custom software development, test automation, cloud infrastructure, and trading systems. Orlando, FL — available remotely.",
+              founder: { "@type": "Person", name: "Jason Teixeira" },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Orlando",
+                addressRegion: "FL",
+                addressCountry: "US"
+              },
+              areaServed: { "@type": "Country", name: "United States" },
+              serviceType: ["Custom Software Development", "Test Automation", "Cloud Infrastructure", "Trading Systems", "AI Integration"],
+              priceRange: "$$$",
+              email: "sage@sageideas.org",
+              sameAs: [
+                "https://github.com/JasonTeixeira",
+                "https://linkedin.com/in/jason-teixeira"
               ]
             })
           }}

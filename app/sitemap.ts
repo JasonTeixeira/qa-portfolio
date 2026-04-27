@@ -18,6 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/platform',
     '/dashboard',
     '/artifacts',
+    '/services/fintech',
+    '/services/enterprise-qa',
+    '/services/cloud-infrastructure',
+    '/services/trading-systems',
     '/stack',
     '/start',
   ].map((route) => ({

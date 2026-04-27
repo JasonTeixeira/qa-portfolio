@@ -322,6 +322,33 @@ export function ServicesContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
+            {/* Industry-Specific Pages */}
+            <div className="mb-16 max-w-3xl mx-auto">
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-6 text-center">Specialized Services</h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Link href="/services/fintech" className="p-4 bg-[#18181B] border border-[#8B5CF6]/20 rounded-xl hover:border-[#8B5CF6]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#8B5CF6]">FinTech</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#8B5CF6] transition-colors">Trading Platforms & Financial Systems</p>
+                  <p className="text-xs text-[#71717A] mt-1">Built by an active futures trader</p>
+                </Link>
+                <Link href="/services/enterprise-qa" className="p-4 bg-[#18181B] border border-[#10B981]/20 rounded-xl hover:border-[#10B981]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#10B981]">Enterprise QA</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#10B981] transition-colors">Test Automation & Quality Engineering</p>
+                  <p className="text-xs text-[#71717A] mt-1">13 frameworks, ISTQB certified</p>
+                </Link>
+                <Link href="/services/cloud-infrastructure" className="p-4 bg-[#18181B] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#F59E0B]">Cloud & DevOps</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">AWS, Terraform, CI/CD Pipelines</p>
+                  <p className="text-xs text-[#71717A] mt-1">6 AWS certifications</p>
+                </Link>
+                <Link href="/services/trading-systems" className="p-4 bg-[#18181B] border border-[#06B6D4]/20 rounded-xl hover:border-[#06B6D4]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#06B6D4]">Trading Systems</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#06B6D4] transition-colors">Algorithmic Trading & Signal Engines</p>
+                  <p className="text-xs text-[#71717A] mt-1">NinjaTrader, Python, ML</p>
+                </Link>
+              </div>
+            </div>
+
             {/* Solo vs Agency */}
             <div className="mb-16 max-w-3xl mx-auto">
               <h3 className="text-xl font-semibold text-[#FAFAFA] mb-6 text-center">Why a Solo Architect, Not an Agency</h3>

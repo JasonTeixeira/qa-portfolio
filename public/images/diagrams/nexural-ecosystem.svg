@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" fill="none">
+  <rect width="1200" height="700" fill="#09090B"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="20" font-weight="bold">NEXURAL ECOSYSTEM — 7 Systems, 1 Architect</text>
+  <text x="600" y="68" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="13">185 Database Tables · 69 API Endpoints · Stripe Billing · AI-Powered</text>
+
+  <!-- Central DB -->
+  <rect x="460" y="280" width="280" height="90" rx="12" fill="#18181B" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="600" y="315" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="14" font-weight="bold">Supabase PostgreSQL</text>
+  <text x="600" y="338" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="12">185 Tables · RLS · Real-Time</text>
+  <text x="600" y="358" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="11">Auth · Subscriptions · Trading · Analytics</text>
+
+  <!-- Trading Dashboard (top center) -->
+  <rect x="430" y="100" width="340" height="70" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="600" y="132" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="14" font-weight="bold">Trading Dashboard</text>
+  <text x="600" y="152" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">Next.js · Stripe · Real-Time Market Data</text>
+  <line x1="600" y1="170" x2="600" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Discord Bot (left) -->
+  <rect x="40" y="190" width="300" height="70" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="190" y="222" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="14" font-weight="bold">Discord AI Engine</text>
+  <text x="190" y="242" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">30+ Commands · GPT-4o · Alpaca</text>
+  <line x1="340" y1="225" x2="460" y2="310" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Research Engine (right) -->
+  <rect x="860" y="190" width="300" height="70" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="1010" y="222" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="14" font-weight="bold">Research Engine</text>
+  <text x="1010" y="242" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">71+ Metrics · AI Insights · CSV Import</text>
+  <line x1="860" y1="225" x2="740" y2="310" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Alert System (bottom left) -->
+  <rect x="40" y="420" width="300" height="70" rx="12" fill="#18181B" stroke="#F59E0B" stroke-width="2"/>
+  <text x="190" y="452" text-anchor="middle" fill="#F59E0B" font-family="monospace" font-size="14" font-weight="bold">Alert System</text>
+  <text x="190" y="472" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">.NET 8 · NinjaTrader · Real-Time</text>
+  <line x1="340" y1="455" x2="460" y2="345" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Newsletter Studio (bottom right) -->
+  <rect x="860" y="420" width="300" height="70" rx="12" fill="#18181B" stroke="#F59E0B" stroke-width="2"/>
+  <text x="1010" y="452" text-anchor="middle" fill="#F59E0B" font-family="monospace" font-size="14" font-weight="bold">Newsletter Studio</text>
+  <text x="1010" y="472" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">AI Content · Automated Distribution</text>
+  <line x1="860" y1="455" x2="740" y2="345" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Strategy Tracker (bottom center) -->
+  <rect x="430" y="500" width="340" height="70" rx="12" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+  <text x="600" y="532" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="14" font-weight="bold">Strategy Tracker</text>
+  <text x="600" y="552" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">Performance Analytics · Trade History</text>
+  <line x1="600" y1="500" x2="600" y2="370" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Automation Suite (bottom) -->
+  <rect x="430" y="610" width="340" height="55" rx="12" fill="#18181B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="600" y="637" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="13" font-weight="bold">Automation Suite</text>
+  <text x="600" y="655" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="11">61 Test Suites · CI/CD · Quality Gates</text>
+  <line x1="600" y1="610" x2="600" y2="570" stroke="#3F3F46" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Legend -->
+  <rect x="40" y="620" width="12" height="12" rx="2" fill="#06B6D4"/>
+  <text x="58" y="631" fill="#71717A" font-family="monospace" font-size="11">Core Platform</text>
+  <rect x="170" y="620" width="12" height="12" rx="2" fill="#F59E0B"/>
+  <text x="188" y="631" fill="#71717A" font-family="monospace" font-size="11">Integrations</text>
+  <rect x="290" y="620" width="12" height="12" rx="2" fill="#10B981"/>
+  <text x="308" y="631" fill="#71717A" font-family="monospace" font-size="11">Operations</text>
+  <rect x="40" y="645" width="12" height="12" rx="2" fill="#8B5CF6"/>
+  <text x="58" y="656" fill="#71717A" font-family="monospace" font-size="11">Database Layer</text>
+</svg>

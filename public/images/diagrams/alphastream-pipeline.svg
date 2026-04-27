@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" fill="none">
+  <rect width="1200" height="500" fill="#09090B"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="20" font-weight="bold">ALPHASTREAM — ML Signal Generation Pipeline</text>
+  <text x="600" y="62" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="13">200+ Indicators · 5 Models · Walk-Forward Validation · Real-Time Streaming</text>
+
+  <!-- Stage 1: Data -->
+  <rect x="30" y="110" width="180" height="100" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="120" y="140" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="13" font-weight="bold">Market Data</text>
+  <text x="120" y="162" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">yfinance / Alpaca</text>
+  <text x="120" y="178" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">OHLCV + Volume</text>
+  <text x="120" y="194" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Multi-timeframe</text>
+
+  <!-- Arrow 1 -->
+  <path d="M210 160 L250 160" stroke="#06B6D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Features -->
+  <rect x="250" y="110" width="180" height="100" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="340" y="140" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="13" font-weight="bold">Feature Eng.</text>
+  <text x="340" y="162" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">200+ Indicators</text>
+  <text x="340" y="178" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">pandas-ta + custom</text>
+  <text x="340" y="194" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Cross-timeframe</text>
+
+  <!-- Arrow 2 -->
+  <path d="M430 160 L470 160" stroke="#06B6D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Selection -->
+  <rect x="470" y="110" width="180" height="100" rx="12" fill="#18181B" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="560" y="140" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="13" font-weight="bold">Feature Select</text>
+  <text x="560" y="162" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Mutual Information</text>
+  <text x="560" y="178" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">RF Importance</text>
+  <text x="560" y="194" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Correlation Filter</text>
+
+  <!-- Arrow 3 -->
+  <path d="M650 160 L690 160" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Stage 4: Training -->
+  <rect x="690" y="90" width="200" height="140" rx="12" fill="#18181B" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="790" y="118" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="13" font-weight="bold">Model Training</text>
+  <text x="790" y="142" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">5 Architectures:</text>
+  <text x="790" y="158" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="10">XGBoost · LightGBM</text>
+  <text x="790" y="174" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="10">LSTM (PyTorch)</text>
+  <text x="790" y="190" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="10">Random Forest</text>
+  <text x="790" y="206" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="10">Voting Ensemble</text>
+
+  <!-- Arrow 4 -->
+  <path d="M890 160 L930 160" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Stage 5: Validation -->
+  <rect x="930" y="110" width="230" height="100" rx="12" fill="#18181B" stroke="#F59E0B" stroke-width="2"/>
+  <text x="1045" y="140" text-anchor="middle" fill="#F59E0B" font-family="monospace" font-size="13" font-weight="bold">Walk-Forward Valid.</text>
+  <text x="1045" y="162" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">No look-ahead bias</text>
+  <text x="1045" y="178" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Rolling windows</text>
+  <text x="1045" y="194" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Weekly retraining</text>
+
+  <!-- Down arrow to serving -->
+  <path d="M1045 210 L1045 260" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- Stage 6: Serving -->
+  <rect x="690" y="280" width="240" height="90" rx="12" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+  <text x="810" y="310" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="13" font-weight="bold">Signal Generation</text>
+  <text x="810" y="332" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Ensemble prediction → BUY/SELL/HOLD</text>
+  <text x="810" y="352" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Confidence score + position sizing</text>
+
+  <!-- Left arrow from validation to serving -->
+  <path d="M930 325 L930 325" stroke="#10B981" stroke-width="1.5"/>
+  <line x1="930" y1="325" x2="930" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="930" y1="280" x2="930" y2="325" stroke="#10B981" stroke-width="1.5"/>
+
+  <!-- Stage 7: API -->
+  <rect x="250" y="280" width="200" height="90" rx="12" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+  <text x="350" y="310" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="13" font-weight="bold">FastAPI + WS</text>
+  <text x="350" y="332" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">REST + WebSocket streaming</text>
+  <text x="350" y="352" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Redis cache · Auth</text>
+
+  <!-- Arrow serving to API -->
+  <path d="M690 325 L450 325" stroke="#10B981" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Stage 8: Clients -->
+  <rect x="30" y="280" width="180" height="90" rx="12" fill="#18181B" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="120" y="310" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="13" font-weight="bold">Consumers</text>
+  <text x="120" y="332" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Dashboard · Alerts</text>
+  <text x="120" y="352" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="10">Discord · Webhook</text>
+
+  <path d="M250 325 L210 325" stroke="#06B6D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Backtesting feedback loop -->
+  <rect x="250" y="410" width="680" height="55" rx="12" fill="#18181B" stroke="#3F3F46" stroke-width="1"/>
+  <text x="590" y="438" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="12">Backtesting Engine — quantstats · empyrical · Sharpe · Max Drawdown · Win Rate · Expectancy</text>
+  <text x="590" y="455" text-anchor="middle" fill="#3F3F46" font-family="monospace" font-size="10">Feedback loop: retrain models when performance degrades below threshold</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#06B6D4"/>
+    </marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#8B5CF6"/>
+    </marker>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L5,10 L10,0 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="0" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M10,0 L0,5 L10,10 Z" fill="#10B981"/>
+    </marker>
+  </defs>
+</svg>

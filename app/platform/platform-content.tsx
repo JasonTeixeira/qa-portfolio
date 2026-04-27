@@ -187,18 +187,12 @@ export function PlatformContent() {
           <SectionLabel>Architecture</SectionLabel>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-8">Reference Pipeline</h2>
 
-          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-6 sm:p-8 overflow-x-auto">
-            <pre className="font-mono text-sm text-[#A1A1AA] leading-relaxed whitespace-pre">
-              <span className="text-[#FAFAFA] font-semibold">PR / Commit</span>{'\n'}
-              {'  └─► '}<span className="text-[#06B6D4]">CI Pipeline</span>{' (lint / typecheck / unit)\n'}
-              {'        └─► '}<span className="text-[#06B6D4]">Integration tests</span>{' (DB / services)\n'}
-              {'              └─► '}<span className="text-[#06B6D4]">E2E + a11y + visual</span>{'\n'}
-              {'                    └─► '}<span className="text-[#8B5CF6]">Perf budgets</span>{' (Lighthouse / load)\n'}
-              {'                          └─► '}<span className="text-[#EF4444]">Security gates</span>{' (deps / secrets / ZAP)\n'}
-              {'                                └─► '}<span className="text-[#F59E0B]">Publish artifacts</span>{' (reports / screenshots)\n'}
-              {'                                      └─► '}<span className="text-[#10B981]">Telemetry snapshot + dashboard</span>{'\n'}
-              {'                                            └─► '}<span className="text-[#10B981]">Alerts / triage playbooks</span>
-            </pre>
+          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-4 overflow-hidden">
+            <img
+              src="/images/diagrams/cicd-pipeline.svg"
+              alt="CI/CD Reference Pipeline — Lint, Test, Integration, E2E, Performance, Security, Deploy, Telemetry"
+              className="w-full h-auto rounded-lg"
+            />
           </div>
         </motion.div>
       </section>

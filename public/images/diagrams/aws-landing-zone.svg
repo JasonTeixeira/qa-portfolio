@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 550" fill="none">
+  <rect width="1200" height="550" fill="#09090B"/>
+
+  <!-- Title -->
+  <text x="600" y="35" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="18" font-weight="bold">AWS LANDING ZONE ARCHITECTURE</text>
+  <text x="600" y="55" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="12">Multi-Account · Terraform IaC · SCPs · OIDC · Centralized Audit</text>
+
+  <!-- AWS Organizations box -->
+  <rect x="40" y="80" width="1120" height="440" rx="16" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="110" y="105" fill="#F59E0B" font-family="monospace" font-size="13" font-weight="bold">AWS Organizations</text>
+
+  <!-- Management Account -->
+  <rect x="80" y="125" width="300" height="120" rx="10" fill="#18181B" stroke="#EF4444" stroke-width="2"/>
+  <text x="230" y="152" text-anchor="middle" fill="#EF4444" font-family="monospace" font-size="13" font-weight="bold">Management Account</text>
+  <text x="230" y="172" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Organizations root</text>
+  <text x="230" y="190" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">SCPs (Service Control Policies)</text>
+  <text x="230" y="208" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Billing · IAM Identity Center</text>
+  <text x="230" y="228" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">No workloads — admin only</text>
+
+  <!-- Dev OU -->
+  <rect x="80" y="280" width="240" height="110" rx="10" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+  <text x="200" y="305" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="12" font-weight="bold">Dev OU</text>
+  <rect x="100" y="315" width="200" height="60" rx="8" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
+  <text x="200" y="338" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="10">Dev Account</text>
+  <text x="200" y="355" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">VPC · Lambda · S3 · RDS</text>
+  <text x="200" y="370" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Relaxed SCPs</text>
+
+  <!-- Staging OU -->
+  <rect x="360" y="280" width="240" height="110" rx="10" fill="#18181B" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="480" y="305" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="12" font-weight="bold">Staging OU</text>
+  <rect x="380" y="315" width="200" height="60" rx="8" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
+  <text x="480" y="338" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="10">Staging Account</text>
+  <text x="480" y="355" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Production-like config</text>
+  <text x="480" y="370" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Stricter SCPs</text>
+
+  <!-- Production OU -->
+  <rect x="640" y="280" width="240" height="110" rx="10" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+  <text x="760" y="305" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="12" font-weight="bold">Production OU</text>
+  <rect x="660" y="315" width="200" height="60" rx="8" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
+  <text x="760" y="338" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="10">Prod Account</text>
+  <text x="760" y="355" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">CloudFront · S3 · Lambda</text>
+  <text x="760" y="370" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Strictest SCPs · WAF</text>
+
+  <!-- Audit OU -->
+  <rect x="920" y="280" width="220" height="110" rx="10" fill="#18181B" stroke="#F59E0B" stroke-width="2"/>
+  <text x="1030" y="305" text-anchor="middle" fill="#F59E0B" font-family="monospace" font-size="12" font-weight="bold">Audit OU</text>
+  <rect x="935" y="315" width="190" height="60" rx="8" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
+  <text x="1030" y="338" text-anchor="middle" fill="#FAFAFA" font-family="monospace" font-size="10">Audit Account</text>
+  <text x="1030" y="355" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">CloudTrail · Config</text>
+  <text x="1030" y="370" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Centralized logging</text>
+
+  <!-- Connections -->
+  <line x1="230" y1="245" x2="200" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="230" y1="245" x2="480" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="230" y1="245" x2="760" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="230" y1="245" x2="1030" y2="280" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- GitHub OIDC box -->
+  <rect x="440" y="130" width="340" height="90" rx="10" fill="#18181B" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="610" y="155" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="12" font-weight="bold">GitHub Actions (OIDC)</text>
+  <text x="610" y="175" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Keyless CI/CD — no static AWS credentials</text>
+  <text x="610" y="195" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Branch-scoped trust · terraform plan on PR · apply on merge</text>
+
+  <!-- Terraform box -->
+  <rect x="830" y="130" width="300" height="90" rx="10" fill="#18181B" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="980" y="155" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="12" font-weight="bold">Terraform (100% IaC)</text>
+  <text x="980" y="175" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="10">Every resource is code-defined</text>
+  <text x="980" y="195" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">State in S3 · Lock in DynamoDB · Modules</text>
+
+  <!-- Bottom bar -->
+  <rect x="80" y="420" width="1060" height="45" rx="8" fill="#18181B" stroke="#3F3F46" stroke-width="1"/>
+  <text x="600" y="443" text-anchor="middle" fill="#A1A1AA" font-family="monospace" font-size="11">Security: SCPs prevent region sprawl · No public S3 · Require encryption · Block root user access</text>
+  <text x="600" y="458" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="9">Cost: NAT optional ($32/mo flag) · CloudFront free tier · Lambda free tier · S3 pennies/month</text>
+
+  <!-- Flow arrows -->
+  <path d="M610 220 L480 280" stroke="#06B6D4" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M610 220 L760 280" stroke="#06B6D4" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

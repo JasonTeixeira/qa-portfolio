@@ -11,6 +11,14 @@ import { BreadcrumbNav } from '@/components/breadcrumb-nav'
 import { GlowCard } from '@/components/glow-card'
 import { caseStudies } from '@/data/case-studies'
 
+const diagrams: Record<string, string> = {
+  'nexural-ecosystem': '/images/diagrams/nexural-ecosystem.svg',
+  'alphastream': '/images/diagrams/alphastream-pipeline.svg',
+  'aws-landing-zone': '/images/diagrams/aws-landing-zone.svg',
+  'testing-frameworks': '/images/diagrams/cicd-pipeline.svg',
+  'nexural-discord-bot': '/images/diagrams/nexural-ecosystem.svg',
+}
+
 const caseStudyContent: Record<string, {
   overview: string[]
   problem: { heading: string; content: string[] }
@@ -524,6 +532,27 @@ export default function CaseStudyDetailPage() {
             ))}
           </div>
         </motion.section>
+
+        {/* Architecture Diagram */}
+        {diagrams[slug as string] && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16"
+          >
+            <SectionLabel>Architecture</SectionLabel>
+            <h2 className="mt-4 text-2xl sm:text-3xl font-bold text-[#FAFAFA] mb-6">System Architecture</h2>
+            <div className="bg-[#18181B] border border-[#27272A] rounded-2xl p-4 overflow-hidden">
+              <img
+                src={diagrams[slug as string]}
+                alt={`Architecture diagram for ${study?.title || 'case study'}`}
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+          </motion.section>
+        )}
 
         {/* Technical Details */}
         <motion.section

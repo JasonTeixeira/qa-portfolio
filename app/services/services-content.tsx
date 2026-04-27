@@ -346,6 +346,16 @@ export function ServicesContent() {
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#06B6D4] transition-colors">Algorithmic Trading & Signal Engines</p>
                   <p className="text-xs text-[#71717A] mt-1">NinjaTrader, Python, ML</p>
                 </Link>
+                <Link href="/services/ai-development" className="p-4 bg-[#18181B] border border-[#8B5CF6]/20 rounded-xl hover:border-[#8B5CF6]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#8B5CF6]">AI / LLM</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#8B5CF6] transition-colors">AI Application Development</p>
+                  <p className="text-xs text-[#71717A] mt-1">GPT-4o, Claude, bots, ML</p>
+                </Link>
+                <Link href="/services/technical-consulting" className="p-4 bg-[#18181B] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
+                  <span className="text-xs font-mono text-[#F59E0B]">Consulting</span>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">Architecture Reviews & CTO Advisory</p>
+                  <p className="text-xs text-[#71717A] mt-1">Code audits, strategy, $150/hr</p>
+                </Link>
               </div>
             </div>
 

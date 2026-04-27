@@ -19,6 +19,7 @@ const navLinks = [
 ]
 
 const mobileExtraLinks = [
+  { href: '/hire', label: 'Hire Me' },
   { href: '/blog', label: 'Blog' },
   { href: '/dashboard', label: 'Live Dashboard' },
   { href: '/artifacts', label: 'Artifacts & Evidence' },

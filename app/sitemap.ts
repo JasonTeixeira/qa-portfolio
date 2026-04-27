@@ -22,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/services/enterprise-qa',
     '/services/cloud-infrastructure',
     '/services/trading-systems',
+    '/services/ai-development',
+    '/services/technical-consulting',
+    '/hire',
     '/stack',
     '/start',
   ].map((route) => ({

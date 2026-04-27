@@ -115,6 +115,14 @@ export function CommandPalette() {
       keywords: ['artifacts', 'evidence', 'playbooks', 'templates', 'recruiter', 'download']
     },
     {
+      id: 'hire',
+      label: 'Hire Me',
+      description: 'Roles, skills, and how to hire me',
+      icon: <Code2 className="h-4 w-4" />,
+      action: () => navigate('/hire'),
+      keywords: ['hire', 'job', 'resume', 'employment', 'roles', 'senior', 'staff']
+    },
+    {
       id: 'stack',
       label: 'Tech Stack',
       description: 'Technologies I use',

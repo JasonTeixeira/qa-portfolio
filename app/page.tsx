@@ -476,10 +476,10 @@ export default function HomePage() {
                       <Link href="/resume">Download Resume</Link>
                     </Button>
                     <Link
-                      href="/projects"
+                      href="/hire"
                       className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors"
                     >
-                      View My Work
+                      See What I Bring
                       <ArrowRight className="ml-1 h-4 w-4" />
                     </Link>
                   </div>

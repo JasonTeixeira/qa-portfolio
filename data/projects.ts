@@ -57,6 +57,23 @@ export const projects: Project[] = [
 
   // ═══ TRADING & FINTECH ═══
   {
+    slug: 'trade-engine',
+    name: 'Trade Engine',
+    description: 'Event-driven order execution engine — strict state machines (7 states, enforced transitions), position tracking with P&L, risk management, event sourcing, simulated broker. 37 tests passing.',
+    category: 'fintech',
+    tags: ['Python', 'Event Sourcing', 'State Machines', 'Trading', 'Risk Management'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/trade-engine',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Tests', value: '37' },
+      { label: 'Order States', value: '7' },
+      { label: 'Event Types', value: '9' },
+      { label: 'Python', value: '2,200+' }
+    ]
+  },
+  {
     slug: 'alphastream',
     name: 'AlphaStream',
     description: 'ML-powered trading signal system — XGBoost, LightGBM, LSTM models, FastAPI with WebSocket streaming, Redis caching, and event-driven backtesting.',

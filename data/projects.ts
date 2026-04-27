@@ -55,6 +55,25 @@ export const projects: Project[] = [
     ]
   },
 
+  // ═══ DEVELOPER TOOLS ═══
+  {
+    slug: 'sage-cli',
+    name: 'sage-dev-cli',
+    description: 'Developer CLI for project health audits, scaffolding, and automation. 13 checks across CI, tests, docs, security. Zero dependencies — pure Node.js.',
+    category: 'open-source',
+    tags: ['Node.js', 'CLI', 'Developer Tools', 'Automation'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/sage-cli',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Commands', value: '4' },
+      { label: 'Checks', value: '13' },
+      { label: 'Tests', value: '11' },
+      { label: 'Dependencies', value: '0' }
+    ]
+  },
+
   // ═══ TRADING & FINTECH ═══
   {
     slug: 'trade-engine',

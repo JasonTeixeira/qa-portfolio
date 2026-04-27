@@ -146,6 +146,22 @@ export const projects: Project[] = [
 
   // ═══ CLOUD & INFRASTRUCTURE ═══
   {
+    slug: 'terraform-aws-modules',
+    name: 'Terraform AWS Module Library',
+    description: 'Production-ready Terraform modules — VPC (multi-AZ, NAT, flow logs), S3+CloudFront static sites, Lambda API Gateway, GitHub OIDC keyless CI/CD. CI-tested with Checkov security scanning.',
+    category: 'cloud',
+    tags: ['Terraform', 'AWS', 'HCL', 'GitHub Actions', 'Checkov'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/terraform-aws-modules',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Modules', value: '4' },
+      { label: 'HCL Lines', value: '1,600+' },
+      { label: 'CI Checks', value: '3' }
+    ]
+  },
+  {
     slug: 'aws-landing-zone',
     name: 'AWS Landing Zone + Guardrails',
     description: 'Multi-account AWS Organizations architecture with Terraform, SCPs, centralized audit logging, and CI gates.',

@@ -55,6 +55,24 @@ export const projects: Project[] = [
     ]
   },
 
+  // ═══ REAL-TIME APPS ═══
+  {
+    slug: 'realtime-market-dash',
+    name: 'Real-Time Market Dashboard',
+    description: 'Live crypto dashboard — 8 coins with prices, 7-day SVG sparklines, global market stats. Auto-refresh with graceful degradation. Zero API keys needed.',
+    category: 'fintech',
+    tags: ['Next.js', 'TypeScript', 'CoinGecko', 'Real-Time', 'SVG'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/realtime-market-dash',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Coins', value: '8' },
+      { label: 'Refresh', value: '30s' },
+      { label: 'API Routes', value: '2' }
+    ]
+  },
+
   // ═══ DEVELOPER TOOLS ═══
   {
     slug: 'sage-cli',

@@ -55,6 +55,25 @@ export const projects: Project[] = [
     ]
   },
 
+  // ═══ SAAS TEMPLATES ═══
+  {
+    slug: 'micro-saas-starter',
+    name: 'Micro-SaaS Starter',
+    description: 'Production SaaS template — Supabase Auth, Stripe billing with idempotent webhooks, RLS, dashboard. The same patterns behind a 185-table platform, packaged for reuse.',
+    category: 'full-stack',
+    tags: ['Next.js', 'Supabase', 'Stripe', 'TypeScript', 'Tailwind'],
+    status: 'active',
+    github: 'https://github.com/JasonTeixeira/micro-saas-starter',
+    isPrivate: false,
+    featured: false,
+    metrics: [
+      { label: 'Auth', value: 'Supabase' },
+      { label: 'Billing', value: 'Stripe' },
+      { label: 'RLS', value: 'Enabled' },
+      { label: 'Webhooks', value: 'Idempotent' }
+    ]
+  },
+
   // ═══ REAL-TIME APPS ═══
   {
     slug: 'realtime-market-dash',

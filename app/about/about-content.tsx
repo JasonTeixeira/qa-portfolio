@@ -9,38 +9,38 @@ import { ProfessionalAvatar } from '@/components/professional-avatar'
 
 const timeline = [
   {
-    period: '2024 - Present',
-    company: 'Sage Ideas LLC',
-    role: 'Founder & Systems Architect',
+    period: '2021 - 2026',
+    company: 'HighStrike',
+    role: 'Trading Strategy Developer & Finance Analyst (Contract)',
     achievements: [
-      'Built Nexural ecosystem: 7 interconnected fintech systems',
-      '185 database tables, 69/69 APIs passing, Stripe billing live',
-      'Nexural Discord AI Engine: 30+ commands, 12 phases, GPT-4o',
-      'AlphaStream: ML signal system, 200+ indicators, 5 models',
-      'Wrote 120K+ word trading book (24 chapters, editorial phase)',
+      'Developed trading strategies, indicators, and quantitative research tools for a fintech startup',
+      'Built internal web applications and dashboards using Python and JavaScript',
+      'Analyzed financial data to support investment decisions and trading operations',
+      'Created internal business tools for a 14-person company, automating manual workflows',
+      'Self-taught across Python, JavaScript, SQL, and data analysis during this role'
+    ]
+  },
+  {
+    period: '2021 - Present',
+    company: 'Self-Employed',
+    role: 'Freelance Developer & Technical Projects',
+    achievements: [
+      'Built 30+ projects on GitHub spanning full-stack apps, trading systems, and cloud infrastructure',
+      'Delivered applications and tools for private clients',
+      'Created a fintech ecosystem with 185 database tables, 69 API endpoints, and Stripe billing',
+      'Built an ML-powered trading signal system with 200+ indicators and 5 ML models',
       'Active futures trader: 8 symbols on NinjaTrader'
     ]
   },
   {
-    period: '2023 - 2024',
-    company: 'HighStrike',
-    role: 'QA Automation Engineer',
+    period: '2016 - 2021',
+    company: 'Sage Ideas LLC',
+    role: 'Founder & General Contractor',
     achievements: [
-      'Fintech platform: $10M+ daily volume, 50K+ daily trades',
-      'Built test frameworks achieving <1% flaky test rate',
-      '95% uptime SLA enforcement',
-      'Prevented multiple potential multi-million dollar errors'
-    ]
-  },
-  {
-    period: '2019 - 2023',
-    company: 'The Home Depot',
-    role: 'Cloud Automation Engineer',
-    achievements: [
-      'Enterprise scale: 2,300+ stores, millions of customers',
-      'CI/CD pipelines and infrastructure-as-code (Terraform)',
-      'Quality gates and automated deployment systems',
-      'Fortune 50 impact'
+      'Founded and operated a construction company in central Florida',
+      'Home Depot contractor — designed and installed kitchens, bathrooms, and full remodels',
+      'Managed projects end-to-end: budgets, timelines, subcontractors, client delivery',
+      'Built the project management and client communication skills I bring to software'
     ]
   }
 ]
@@ -61,17 +61,17 @@ const differentiators = [
   {
     icon: Layers,
     title: 'I Build End-to-End',
-    description: 'Most engineers specialize in one layer. I architect entire systems. The Nexural platform has 185 database tables, 69 API endpoints, Stripe billing, AI-powered bots, and real-time trading integrations. I designed and built all of it — database to deploy. My frameworks have been used by 50+ engineers and reduced regression testing time by 70%.'
+    description: 'I build entire systems, not just features. The Nexural platform has 185 database tables, 69 API endpoints, Stripe billing, AI-powered bots, and real-time trading integrations. I designed and built all of it solo — from database schema to deployed production app. Every project on this portfolio is something I actually built.'
   },
   {
     icon: Shield,
     title: 'Evidence Over Claims',
-    description: "Every project on this site has a GitHub repo, a test suite, or a live deployment behind it. I built 13 testing frameworks because I believe in proof. 500+ tests running in under 8 minutes. 12+ breaking changes caught before production. <1% flaky test rate. I don't say I can build something — I show you the running system."
+    description: "Every project on this site has a GitHub repo, a test suite, or a live deployment you can inspect. 20+ projects with real, readable code. A live telemetry dashboard. 51 blog posts with working examples. I don't just say I can build — I show you the running system."
   },
   {
     icon: Network,
-    title: 'Cross-Domain Thinking',
-    description: "Enterprise retail (Home Depot, 2,300+ stores), fintech trading (HighStrike, $10M+ daily volume), cloud infrastructure, AI/ML, cybersecurity, quantitative analysis. I've trained 15+ engineers in test automation and established QA standards at 2 companies. I don't just know one vertical — I bring pattern recognition across domains to solve problems others haven't seen."
+    title: 'Non-Traditional Path, Real-World Thinking',
+    description: "I ran a construction company, managed remodeling projects, then transitioned into fintech development where I built trading systems and research tools for 5 years. This background gives me project management discipline, client communication skills, and a problem-solving mindset that comes from building things in the real world."
   }
 ]
 
@@ -136,10 +136,10 @@ export function AboutContent() {
             </h1>
             <div className="mt-6 space-y-4 text-[#A1A1AA]">
               <p>
-                {"I'm Jason Teixeira — a systems architect and full-stack engineer who builds production-grade software. From enterprise QA systems serving 2,300+ Home Depot stores to real-time trading platforms processing $10M+ daily at HighStrike — I've operated at scale and under pressure."}
+                {"I'm Jason Teixeira — a developer and finance analyst with a non-traditional path into tech. I started tinkering with computers at 8, ran a construction company for five years, then spent another five years building trading strategies, applications, and research tools at HighStrike, a fintech startup."}
               </p>
               <p>
-                Today I run Sage Ideas LLC, where I architect and build software systems for businesses, trading firms, and startups. I founded and built the entire Nexural ecosystem — a fintech platform with 185 database tables, 69 API endpoints, AI-powered bots, and Stripe billing — from zero to production, as sole architect.
+                Now I build production-grade software independently through Sage Ideas LLC. I designed and built the entire Nexural ecosystem — a fintech platform with 185 database tables, 69 API endpoints, AI-powered bots, and Stripe billing — from zero to production, completely self-taught. I bring the resourcefulness of an entrepreneur and the discipline of someone who has managed real-world projects from start to finish.
               </p>
             </div>
 
@@ -192,9 +192,9 @@ export function AboutContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Enterprise Foundations (2019-2023)</h3>
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Entrepreneurship & Project Management (2016-2021)</h3>
               <p className="text-[#A1A1AA]">
-                {"I cut my teeth at The Home Depot, where I built cloud automation and CI/CD pipelines at Fortune 50 scale. When your code affects 2,300+ stores and millions of customers, you learn to build systems that don't break. I learned rigor, process, and what production-grade really means."}
+                {"I founded Sage Ideas LLC as a construction company and worked as a Home Depot contractor across central Florida — designing and installing kitchens, bathrooms, and managing full home remodels. Running my own business taught me project management, client delivery, budgeting, and the discipline of shipping real work on deadline. These are the same skills that make me effective as a developer."}
               </p>
             </motion.div>
 
@@ -204,9 +204,9 @@ export function AboutContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Fintech Precision (2023-2024)</h3>
+              <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Fintech Development (2021-2026)</h3>
               <p className="text-[#A1A1AA]">
-                {"At HighStrike, I built test automation for a platform processing $10M+ in daily trading volume and 50K+ daily trades. A bug here doesn't just cause a bad UX — it causes real financial loss. I built frameworks that achieved <1% flaky test rate and a 95% uptime SLA. My test systems prevented multiple potential multi-million dollar trading errors."}
+                {"At HighStrike, I worked as a trading strategy developer and finance analyst on a 14-person team. I built internal web applications, dashboards, trading indicators, and business tools. Everything was self-taught on the job. This is where I went from someone who could code to someone who could build real applications that a business depended on."}
               </p>
             </motion.div>
 
@@ -218,7 +218,7 @@ export function AboutContent() {
             >
               <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Building My Own (2024-Present)</h3>
               <p className="text-[#A1A1AA]">
-                I founded Sage Ideas LLC and built the Nexural ecosystem from scratch — a complete fintech platform with a trading dashboard, AI-powered Discord bot (30+ commands, GPT-4o integration), research engine (71+ metrics), alert system, newsletter studio, and strategy tracker. 185 database tables. 69 API endpoints. 61 test suites. Stripe billing. All designed, architected, and built by me. I also wrote a 120,000+ word book on trading — because understanding the domain makes the software better.
+                I pivoted Sage Ideas LLC into a software company and built the Nexural ecosystem from scratch — a complete fintech platform with a trading dashboard, AI-powered Discord bot (30+ commands, GPT-4o integration), research engine, alert system, newsletter studio, and strategy tracker. 185 database tables. 69 API endpoints. Stripe billing. All designed and built by me. I also wrote a 120,000+ word book on trading — because understanding the domain makes the software better. Now I am looking for a team where I can bring this drive and keep growing as an engineer.
               </p>
             </motion.div>
           </div>

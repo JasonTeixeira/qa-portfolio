@@ -8,39 +8,41 @@ import { SectionLabel } from '@/components/section-label'
 
 const experience = [
   {
-    company: 'Sage Ideas LLC',
-    role: 'Founder & Systems Architect',
-    period: '2024 - Present',
+    company: 'HighStrike',
+    role: 'Trading Strategy Developer & Finance Analyst',
+    period: '2021 - 2026',
+    location: 'Remote (Contract)',
+    highlights: [
+      'Developed trading strategies, indicators, and quantitative research tools for a fintech startup',
+      'Built internal web applications and dashboards using Python and JavaScript',
+      'Analyzed financial data to support investment decisions and trading operations',
+      'Created internal business tools for a 14-person company, automating manual workflows',
+      'Self-taught across Python, JavaScript, SQL, and data analysis during this role'
+    ]
+  },
+  {
+    company: 'Self-Employed',
+    role: 'Freelance Developer & Technical Projects',
+    period: '2021 - Present',
     location: 'Orlando, FL (Remote)',
     highlights: [
-      'Built Nexural ecosystem: 7 interconnected fintech systems, 185 database tables, 69 API endpoints',
-      'Developed AI-powered Discord bot with 30+ commands, GPT-4o integration, and community management',
-      'Created AlphaStream ML trading signal system with 200+ indicators and 5 ML models',
-      'Wrote 120K+ word trading book covering 24 chapters of trading strategy and analysis'
+      'Built 30+ projects on GitHub spanning full-stack apps, trading systems, and cloud infrastructure',
+      'Delivered small applications and tools for private clients',
+      'Created a fintech ecosystem with 185 database tables, 69 API endpoints, and Stripe billing',
+      'Built an ML-powered trading signal system with 200+ indicators and 5 machine learning models',
+      'Deployed production applications using Next.js, Supabase, Vercel, and AWS'
     ]
   },
   {
-    company: 'HighStrike',
-    role: 'QA Automation Engineer',
-    period: '2023 - 2024',
-    location: 'Remote',
+    company: 'Sage Ideas LLC',
+    role: 'Founder & General Contractor',
+    period: '2016 - 2021',
+    location: 'Central Florida',
     highlights: [
-      'Built test automation for fintech platform processing $10M+ daily volume and 50K+ trades',
-      'Achieved <1% flaky test rate across comprehensive test suites',
-      'Enforced 95% uptime SLA through robust monitoring and quality gates',
-      'Prevented multiple potential multi-million dollar trading errors through proactive testing'
-    ]
-  },
-  {
-    company: 'The Home Depot',
-    role: 'Cloud Automation Engineer',
-    period: '2019 - 2023',
-    location: 'Atlanta, GA (Remote)',
-    highlights: [
-      'Built cloud automation and CI/CD pipelines at Fortune 50 scale (2,300+ stores)',
-      'Implemented infrastructure-as-code with Terraform and CloudFormation',
-      'Developed quality gates and automated deployment systems',
-      'Served millions of customers through enterprise-grade systems'
+      'Founded and operated a residential construction company serving clients across Central Florida',
+      'Home Depot contractor — designed and installed kitchens, bathrooms, and full home remodels',
+      'Managed projects end-to-end: budgets, timelines, subcontractors, permits, and client delivery',
+      'Coordinated crews, sourced materials, and maintained client relationships'
     ]
   }
 ]
@@ -83,7 +85,7 @@ export function ResumeContent() {
               Jason Teixeira
             </h1>
             <p className="mt-2 text-xl text-[#06B6D4]">
-              Systems Architect & Full-Stack Engineer
+              Developer & Finance Analyst | Open to Opportunities
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-[#A1A1AA]">
               <span className="flex items-center gap-1">
@@ -134,7 +136,7 @@ export function ResumeContent() {
         >
           <h2 className="text-lg font-semibold text-[#FAFAFA] mb-4">Summary</h2>
           <p className="text-[#A1A1AA] leading-relaxed">
-            Systems architect and full-stack engineer with enterprise (Home Depot) and fintech (HighStrike) experience. Built production platforms with 185+ database tables, 69 API endpoints, and AI-powered tools. 9 certifications including ISTQB and AWS. Founder of Sage Ideas LLC where I architect and build software systems for businesses, trading firms, and startups.
+            Resourceful technologist with a non-traditional path — from running a construction company to building trading strategies and fintech tools. B.S. in Computer Science and Finance, 9 certifications (AWS, ISTQB, Cisco), and 30+ projects on GitHub. Spent 5 years at a fintech startup developing trading strategies, analyzing financial data, and building internal applications. Trilingual (English, Portuguese, Spanish). U.S. citizen seeking an entry-level remote role where I can contribute, learn, and grow.
           </p>
         </motion.div>
       </section>

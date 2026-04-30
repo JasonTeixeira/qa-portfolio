@@ -60,27 +60,27 @@ const capabilities = [
 
 const metrics = [
   { value: '20+', label: 'Projects Built' },
-  { value: '500+', label: 'Tests in Production' },
-  { value: '$10M+', label: 'Daily Volume Supported' },
-  { value: '82%', label: 'Pipeline Time Cut' },
-  { value: '2,300+', label: 'Stores Impacted' },
   { value: '185', label: 'Database Tables' },
   { value: '69', label: 'API Endpoints' },
-  { value: '9', label: 'Certifications' }
+  { value: '5', label: 'Years Dev Experience' },
+  { value: '51', label: 'Blog Posts' },
+  { value: '9', label: 'Certifications' },
+  { value: '120K+', label: 'Words Written' },
+  { value: '3', label: 'Languages Spoken' }
 ]
 
-const companies = ['The Home Depot', 'HighStrike', 'AWS', 'NinjaTrader']
+const companies = ['HighStrike', 'Sage Ideas LLC', 'NinjaTrader']
 
 const testimonials = [
   {
-    quote: "Test frameworks used by 50+ engineers across enterprise teams. Reduced regression testing time by 70% and prevented 12+ breaking changes from reaching production.",
-    author: "Impact at Scale",
-    company: "The Home Depot (2,300+ stores)",
+    quote: "Built full-stack trading applications, indicators, and internal business tools as the sole developer. Self-taught across Python, JavaScript, and data analysis — delivering production tools a 14-person team relied on daily.",
+    author: "Trading Strategy Developer & Finance Analyst",
+    company: "HighStrike (2021-2026)",
   },
   {
-    quote: "Built test automation for a platform processing $10M+ daily trading volume. Achieved <1% flaky test rate, 95% uptime SLA, and prevented multiple potential multi-million dollar trading errors.",
-    author: "Fintech Reliability",
-    company: "HighStrike Trading Platform",
+    quote: "Designed and built the entire Nexural ecosystem independently — 185 database tables, 69 API endpoints, Stripe billing, AI-powered Discord bot, and real-time trading integrations. Every system is live and verifiable.",
+    author: "Founder & Developer",
+    company: "Sage Ideas LLC (2024-Present)",
   },
 ]
 
@@ -118,7 +118,7 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#FAFAFA] leading-tight text-shadow-glow"
               >
-                I Build <span className="gradient-text-animated">Systems</span> That Scale
+                I Build <span className="gradient-text-animated">Things</span> That Work
               </motion.h1>
 
               {/* Subtitle */}
@@ -126,7 +126,7 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="text-lg sm:text-xl text-[#A1A1AA] max-w-xl leading-relaxed"
               >
-                Automation architect and full-stack engineer with enterprise and fintech experience. From cloud infrastructure to trading platforms — I design, build, ship, and automate.
+                Developer and finance analyst with 5 years of fintech experience. Self-taught across Python, JavaScript, and cloud infrastructure. I build trading systems, web applications, and tools that solve real problems.
               </motion.p>
 
               {/* CTAs */}
@@ -165,15 +165,15 @@ export default function HomePage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
-                  9 Certifications
+                  5 Years Fintech Dev
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
-                  120K+ Word Book
+                  Self-Taught Builder
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full" />
-                  Fortune 50 Experience
+                  B.S. Finance + B.S. CS
                 </span>
               </motion.div>
 
@@ -411,9 +411,9 @@ export default function HomePage() {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
           >
-            <SectionLabel>Testimonials</SectionLabel>
+            <SectionLabel>Track Record</SectionLabel>
             <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              Proven Impact
+              What I Have Built
             </h2>
           </motion.div>
 
@@ -466,7 +466,7 @@ export default function HomePage() {
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Looking to Hire?</h3>
                   <p className="text-[#A1A1AA] mb-6">
-                    {"I'm open to remote full-time roles in automation engineering, platform engineering, and full-stack development. I bring enterprise scale (Home Depot) and fintech precision (HighStrike) to every team."}
+                    {"I'm looking for my first dedicated tech role — remote, full-time or contract. I bring 5 years of self-taught development at a fintech company, 20+ projects you can inspect, and the work ethic of someone who ran their own business."}
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <Button

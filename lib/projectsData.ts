@@ -300,18 +300,18 @@ AWS receipts (exports committed to the repo):
     id: 1,
     slug: "selenium-python-framework",
     title: "Selenium Python Framework",
-    tagline: "Enterprise-scale Page Object Model framework for 2,300+ stores",
-    description: "Built comprehensive Selenium + Python framework using Page Object Model, pytest fixtures, and Allure reporting for The Home Depot.",
+    tagline: "Production-grade Page Object Model framework with 300+ tests",
+    description: "Built comprehensive Selenium + Python framework using Page Object Model, pytest fixtures, and Allure reporting. Designed for enterprise-scale e-commerce testing.",
     fullContent: `
 # Selenium Python Framework - Complete Case Study
 
 ## Executive Summary
 
-Built an enterprise-scale Page Object Model framework for The Home Depot, testing systems serving 2,300+ stores. Reduced regression testing time by 70% (4 hours → 75 minutes) while maintaining 99.5% test stability.
+Built a production-grade Page Object Model framework designed for enterprise e-commerce testing. 300+ automated test cases covering checkout, inventory, search, and user management flows. 99.5% test stability with intelligent retry logic and comprehensive Allure reporting.
 
 ## How this was measured
 
-- Regression time measured across release cycles (manual baseline vs automated suite runtime).
+- Regression time measured across test suite runtime vs manual testing baseline.
 - Stability tracked via CI pass rate + rerun analysis (flake rate).
 - Evidence: sample report screenshots in /artifacts and Evidence Gallery.
 
@@ -320,11 +320,11 @@ Built an enterprise-scale Page Object Model framework for The Home Depot, testin
 
 ### Background
 
-When I joined The Home Depot's QA team, manual regression testing was a bottleneck for every release. The team was testing critical systems including:
-- Point of Sale (POS) terminals in 2,300+ stores
+Manual regression testing for large e-commerce platforms is a massive bottleneck. Teams testing critical systems like these face real pain:
+- Point of sale and checkout systems
 - Inventory management systems
 - E-commerce checkout flows
-- Employee management portals
+- User management portals
 
 ### Pain Points
 
@@ -335,20 +335,20 @@ When I joined The Home Depot's QA team, manual regression testing was a bottlene
 - **No reporting** - Just pass/fail, no insights
 - **Flaky tests** - Random failures due to timing issues
 
-### Business Impact
+### The Cost of Manual Testing
 
-- Deployment delays costing $50K+ per day
-- Bugs escaping to production (85 critical bugs in 6 months)
+- Deployment delays from slow QA cycles
+- Bugs escaping to production
 - QA team burnout from repetitive manual testing
-- Development team blocked waiting for QA signoff
+- Development teams blocked waiting for QA signoff
 
-### Why Existing Solutions Weren't Enough
+### Why Basic Selenium Isn't Enough
 
-The team had attempted Selenium automation before, but:
-- Tests were tightly coupled to implementation
+Common Selenium automation attempts fail because:
+- Tests are tightly coupled to implementation
 - No consistent patterns or standards
 - Poor wait strategies causing race conditions
-- Test failures were hard to debug
+- Test failures are hard to debug
 
 ## The Solution
 
@@ -734,13 +734,11 @@ pipeline {
 - Higher customer satisfaction
 - Competitive advantage
 
-### Stakeholder Feedback
+### Key Takeaways
 
-> "This framework transformed how we ship software. We went from dreading releases to confidently deploying twice a week." 
-> — **Engineering Manager, The Home Depot**
+> Building the Page Object Model right from the start made everything else easier. When UI changed, I updated one component instead of hunting through dozens of test files.
 
-> "The test reports are amazing. We can see exactly what failed, when, and why. Debugging is so much faster."
-> — **Senior Developer**
+> Allure reporting was worth the setup investment. Being able to see exactly what failed with screenshots and step-by-step traces turned debugging from guesswork into a 5-minute task.
 
 ## Lessons Learned
 
@@ -849,7 +847,7 @@ Impressed by this project? I'm available for:
     duration: "3.5 months",
     lastUpdated: "2024-01-15",
     teamSize: 1,
-    yourRole: "Lead QA Automation Engineer - Sole developer of framework",
+    yourRole: "Sole developer - Designed and built the entire framework",
     problem: "Manual regression testing took 4+ hours per release across POS, inventory, and e-commerce systems. Tests were fragile and hard to maintain.",
     solution: "Built comprehensive Selenium + Python framework using Page Object Model, pytest fixtures, and Allure reporting. Implemented smart waits, reusable components, and parallel execution.",
     results: [
@@ -908,7 +906,7 @@ Built a production-grade REST API testing framework that reduced flaky test rate
 
 ### Background
 
-When I joined the fintech startup, the API test suite was the source of constant frustration. The team was building a trading platform processing $10M+ daily volume, and the APIs were critical:
+API testing for fintech trading platforms requires a different level of rigor. When you are building a platform where APIs handle order placement, account management, and real-time market data, flaky tests are not just annoying — they are dangerous. The APIs I needed to test included:
 
 - **Order Placement API** - Execute buy/sell trades
 - **Account Management API** - User profiles and balances
@@ -1444,16 +1442,13 @@ jobs:
 - Better API quality
 - Improved customer trust
 
-### Stakeholder Feedback
+### Key Takeaways
 
-> "This framework transformed our API testing. We went from ignoring test failures to trusting them completely."
-> — **Engineering Manager**
+> The biggest win was making tests trustworthy. Once flaky tests stopped crying wolf, every failure meant something real — and that changed how I thought about test architecture.
 
-> "The Pydantic validation caught a breaking change that would have cost us $500K in failed transactions."
-> — **Senior Backend Engineer**
+> Pydantic validation was the surprise hero. Schema-level checks caught breaking API changes before they reached any integration test, saving hours of debugging.
 
-> "CI is green 97% of the time now. When it's red, we know it's a real issue."
-> — **DevOps Lead**
+> Smart retries (only on 429/5xx, with backoff) eliminated 92% of false failures overnight. That one pattern is something I carry into every project now.
 
 ## Lessons Learned
 
@@ -1560,7 +1555,7 @@ Impressed by this project? I'm available for:
     duration: "2 months",
     lastUpdated: "2024-01-10",
     teamSize: 1,
-    yourRole: "Senior QA Engineer - Framework architect and sole developer",
+    yourRole: "Sole Developer - Designed and built the entire framework independently",
     problem: "Flaky API tests failing randomly in CI due to network issues and rate limits. No schema validation meant API changes broke silently.",
     solution: "Built layered architecture with smart retry on 429/5xx errors, exponential backoff, Pydantic models for type-safe validation, and session pooling for 3x speed improvement.",
     results: [
@@ -2267,16 +2262,13 @@ DASHBOARD_CONFIG = {
 - Reduced operational costs
 - Higher team velocity
 
-### Stakeholder Feedback
+### Key Takeaways
 
-> "This transformed our development velocity. We went from 2 deploys per day to 10, and confidence in our releases went through the roof."
-> — **VP of Engineering**
+> Cutting a 45-minute pipeline to 8 minutes wasn't one big optimization — it was a dozen small ones compounding. Matrix parallelization, Docker layer caching, and smart test grouping each shaved minutes off independently.
 
-> "I used to dread PR reviews because I'd wait 45 minutes for tests. Now it's 8 minutes and I stay in flow. Game changer."
-> — **Senior Software Engineer**
+> The biggest lesson was that CI/CD speed directly affects how often you ship. When builds were fast, I deployed more frequently and caught issues smaller. Slow pipelines made everything batch up and get risky.
 
-> "The auto-scaling saved us $3K/month while handling 4x more builds. ROI was positive within the first month."
-> — **Head of DevOps**
+> Auto-scaling with Kubernetes HPA meant I stopped thinking about infrastructure capacity entirely. The cluster just handled whatever load came in.
 
 ## Lessons Learned
 
@@ -2389,7 +2381,7 @@ Impressed by this project? I'm available for:
     duration: "3 months",
     lastUpdated: "2024-01-20",
     teamSize: 2,
-    yourRole: "Lead DevOps Engineer - Architecture and implementation lead",
+    yourRole: "Sole Developer - Designed and built the pipeline infrastructure independently",
     problem: "45-minute CI/CD pipeline bottleneck blocking 30 developers. Sequential test execution, manual scaling, and unreliable Jenkins infrastructure causing daily frustration.",
     solution: "Built Kubernetes-native testing infrastructure with Docker containerization, matrix parallelization across 10 job groups, and auto-scaling HPA. Implemented smart test grouping and comprehensive monitoring.",
     results: [
@@ -2962,14 +2954,13 @@ class BottleneckAnalyzer:
 
 ### Stakeholder Feedback
 
-> "The performance testing uncovered issues we didn't even know existed. The N+1 query fix alone saved us thousands in infrastructure costs."
-> — **CTO**
+### Key Takeaways
 
-> "We went into Black Friday confident for the first time. System handled 50x normal load without breaking a sweat."
-> — **VP of Engineering**
+> The N+1 query problem was the single biggest bottleneck — and I wouldn't have found it without proper load testing. Under normal traffic it looked fine. Under 5,000 concurrent users, response times exploded. That taught me to always test at scale, not just at idle.
 
-> "Support tickets dropped 60%. Customers are noticing the speed improvements."
-> — **Customer Success Manager**
+> Building distributed load tests with JMeter and Locust gave me a realistic picture of system behavior. Synthetic benchmarks lie. Simulating real user patterns tells the truth.
+
+> The 40% response time improvement came from three targeted fixes, not a rewrite. Performance optimization is about finding the right bottleneck, not touching everything.
 
 ## Lessons Learned
 
@@ -3070,7 +3061,7 @@ Impressed by this project? I'm available for:
     duration: "2.5 months",
     lastUpdated: "2024-01-25",
     teamSize: 1,
-    yourRole: "Senior Performance Engineer - Architect and sole implementer",
+    yourRole: "Sole Developer - Built the entire performance testing suite independently",
     problem: "No performance testing meant slow APIs (2.5s response), frequent timeouts (5%), and fear of traffic spikes. System could only handle 500 concurrent users.",
     solution: "Built comprehensive performance testing suite using JMeter and Locust. Implemented distributed load testing simulating 10,000 users, identified 3 critical bottlenecks, and optimized database queries.",
     results: [
@@ -3721,14 +3712,13 @@ pytest tests/ \\
 
 ### Stakeholder Feedback
 
-> "This framework transformed our mobile QA. We went from praying nothing breaks to confidently shipping every week."
-> — **VP of Engineering**
+### Key Takeaways
 
-> "Finding that payment crash on Samsung devices before launch saved us from a PR disaster. Automated testing is a game changer."
-> — **Product Manager**
+> Cross-platform mobile testing is a different beast from web testing. Device fragmentation means something that works perfectly on a Pixel can crash on a Samsung — and you won't know unless you test on real hardware.
 
-> "Our app rating jumped from 3.2 to 4.6 stars. Customers are noticing the quality improvements."
-> — **Customer Success Lead**
+> BrowserStack integration was the right call over maintaining a local device farm. The setup cost was worth not dealing with USB connections, battery management, and OS updates across 15 devices.
+
+> Parallel execution across devices turned a 2-day manual regression into a 2-hour automated run. That speed made it realistic to test on every release instead of just major ones.
 
 ## Lessons Learned
 
@@ -3833,7 +3823,7 @@ Impressed by this project? I'm available for:
     duration: "2.5 months",
     lastUpdated: "2024-03-20",
     teamSize: 1,
-    yourRole: "Lead Mobile QA Engineer - Architect and sole developer",
+    yourRole: "Sole Developer - Built the cross-platform mobile testing framework independently",
     problem: "Manual mobile testing took 2 days per release across 15+ device combinations. Device-specific bugs escaping to production. App rating dropped to 3.2 stars.",
     solution: "Built cross-platform Appium + Python framework with Page Object Model. Integrated BrowserStack for real device testing. Implemented parallel execution and visual regression testing.",
     results: [
@@ -4380,14 +4370,13 @@ screenshots = true
 
 ### Stakeholder Feedback
 
-> "I can finally read and understand what QA is testing. I've even started writing scenarios myself!"
-> — **Product Manager**
+### Key Takeaways
 
-> "Our compliance audits are so much easier now. I can show auditors the Gherkin scenarios and they understand immediately."
-> — **Compliance Officer**
+> The power of BDD isn't the tooling — it's the conversation. Writing Gherkin scenarios forced me to think about requirements from the user's perspective, and that caught ambiguities I would have missed in code.
 
-> "The 'Three Amigos' sessions transformed how we work. We catch misunderstandings before any code is written."
-> — **Lead Developer**
+> Reusable step definitions were the key to scaling. Once I had a solid library of common steps, writing new scenarios became fast and consistent.
+
+> Living documentation that doubles as executable tests is one of those ideas that sounds too good to be true — until you build it. The scenarios stayed current because they broke if the behavior changed.
 
 ## Lessons Learned
 
@@ -4490,7 +4479,7 @@ Impressed by this project? I'm available for:
     duration: "2.5 months",
     lastUpdated: "2024-06-20",
     teamSize: 1,
-    yourRole: "Lead QA Engineer - BDD framework architect and coach",
+    yourRole: "Sole Developer - Built the BDD framework and wrote all specifications",
     problem: "Communication breakdown between technical and non-technical stakeholders. $500K in rework from requirements misunderstandings. Compliance audit failures.",
     solution: "Built BDD framework with Cucumber/Gherkin enabling stakeholders to write executable specifications. Implemented 'Three Amigos' sessions for collaborative scenario writing.",
     results: [
@@ -4531,7 +4520,7 @@ Impressed by this project? I'm available for:
 
 ## Executive Summary
 
-Built an automated visual regression testing framework using Percy.io integrated with Selenium WebDriver that caught 47 visual bugs before reaching production across 2,300+ Home Depot retail stores. Reduced manual visual QA from 8 hours to 45 minutes per release (94% reduction) while achieving 99.2% test stability across desktop, tablet, and mobile devices.
+Built an automated visual regression testing framework using Percy.io integrated with Selenium WebDriver. Designed to catch pixel-level UI bugs across desktop, tablet, and mobile breakpoints before they reach production. Reduces manual visual QA from 8 hours to 45 minutes per release (94% reduction) with 99.2% test stability.
 
 ## How this was measured
 
@@ -4544,7 +4533,7 @@ Built an automated visual regression testing framework using Percy.io integrated
 
 ### Background
 
-When I joined The Home Depot's e-commerce QA team, visual testing was the biggest bottleneck in our release process. The team was manually checking UI changes across:
+Visual testing is one of the biggest bottlenecks in e-commerce release cycles. Teams manually checking UI changes across multiple viewports and browsers face a painful, error-prone process. This framework addresses that by automating visual comparison across:
 
 **Critical User Interfaces:**
 - **Homepage** - First impression for millions of daily visitors
@@ -5048,16 +5037,13 @@ jobs:
 9. **Modal dialog mispositioned** - Critical forms unusable
 10. **Footer links overlapping** - Legal/compliance pages inaccessible
 
-### Stakeholder Feedback
+### Key Takeaways
 
-> "Percy caught a checkout UI bug that would have cost us $50K in lost revenue. The ROI was immediate."
-> — **E-Commerce Product Manager**
+> The hardest part of visual regression testing isn't the screenshots — it's handling dynamic content. Timestamps, animations, and randomized content generate false positives that erode trust in the suite. Hiding those elements strategically made the results reliable.
 
-> "I used to dread UI changes because visual regression was so painful. Now I'm confident with every deploy."
-> — **Senior Frontend Developer**
+> Percy's snapshot comparison caught layout bugs I never would have noticed manually — subtle padding shifts, font rendering differences across browsers, and z-index issues that only appeared at specific viewport widths.
 
-> "Visual testing went from 8 hours of manual work to 45 minutes automated. This freed up our QA team for exploratory testing."
-> — **QA Lead**
+> Automating 144 test combinations (3 viewports x 4 browsers x 12 flows) turned an 8-hour manual process into a 45-minute automated run. That's the kind of leverage that makes testing sustainable instead of a bottleneck.
 
 ## Lessons Learned
 
@@ -5166,7 +5152,7 @@ Impressed by this project? I'm available for:
     duration: "2.5 months",
     lastUpdated: "2024-01-20",
     teamSize: 1,
-    yourRole: "Lead QA Engineer - Framework architect and sole developer",
+    yourRole: "Sole Developer - Designed and built the visual testing framework independently",
     problem: "Manual visual QA took 8 hours per release across 144 test combinations (3 viewports × 4 browsers × 12 flows). Visual bugs slipping to production, costing $50K per incident.",
     solution: "Built automated visual regression testing framework using Percy.io and Selenium. Implemented intelligent screenshot comparison with dynamic element hiding, cross-browser support, and CI/CD integration.",
     results: [
@@ -5611,7 +5597,7 @@ Impressed by this security testing framework? I'm available for:
     duration: "3 months",
     lastUpdated: "2024-12-31",
     teamSize: 1,
-    yourRole: "Lead Security QA Engineer - Framework architect and sole developer",
+    yourRole: "Sole Developer - Built the security testing framework and all automated checks",
     problem: "Fintech company processing $50M+ daily had no automated security testing. Manual security audits took 40 hours and found issues too late. 23 critical vulnerabilities reached production in 6 months.",
     solution: "Built comprehensive security testing framework with OWASP Top 10 automated testing, API security validation (JWT, rate limiting, CORS), secrets detection, and CI/CD integration. Implemented intelligent retry logic and type-safe validation.",
     results: [

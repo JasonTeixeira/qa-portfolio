@@ -73,8 +73,8 @@ export const caseStudies: CaseStudy[] = [
     metrics: [
       { label: 'Frameworks', value: '13' },
       { label: 'Tests', value: '500+' },
-      { label: 'Pipeline', value: '-82%' },
-      { label: 'Flaky Rate', value: '<1%' }
+      { label: 'Languages', value: '4' },
+      { label: 'Coverage', value: 'Full Stack' }
     ],
     readTime: 15,
     publishedDate: '2024-09-10',

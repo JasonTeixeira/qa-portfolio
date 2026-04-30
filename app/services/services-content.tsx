@@ -55,7 +55,7 @@ const services = [
       'Performance testing',
       'Test strategy consulting'
     ],
-    examples: 'HighStrike QA Framework (95% SLA), Home Depot Quality Gates'
+    examples: 'Nexural Platform (69 API tests), E-Commerce Test Suite (278+ tests)'
   },
   {
     icon: Cloud,

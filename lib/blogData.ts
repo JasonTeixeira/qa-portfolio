@@ -305,7 +305,7 @@ The investment in a solid foundation pays off every single day.
     fullContent: `
 # Page Object Model: Beyond the Basics
 
-Most Selenium frameworks I've seen use Page Object Model, but they're doing it wrong. After building frameworks for The Home Depot (2,300+ stores) and maintaining 300+ tests, here's what actually works.
+Most Selenium frameworks I've seen use Page Object Model, but they're doing it wrong. After building enterprise-scale frameworks and maintaining 300+ tests across complex e-commerce flows, here's what actually works.
 
 ## The Standard POM Problem
 
@@ -434,7 +434,7 @@ class ProductPage(BaseComponent):
         self.click(locator)
 \`\`\`
 
-This saved us hundreds of hours when The Home Depot redesigned their UI.
+This approach saves hundreds of hours when a major UI redesign lands.
 
 ## Handling Complex Interactions
 
@@ -596,7 +596,7 @@ def test_complete_purchase_flow(driver):
 4. **Testability** - Page objects should be easy to test
 5. **Performance** - Cache page load states
 
-## Results at The Home Depot
+## Results in Practice
 
 After implementing these patterns:
 - ✅ **Test maintenance time: 8 hours/week → 2 hours/week**
@@ -888,7 +888,7 @@ The secret is treating Docker networking as a first-class concern, not an aftert
     fullContent: `
 # Performance Testing: From Zero to Production
 
-When I joined a fintech startup processing $10M+ daily volume, they had zero performance testing. Here's how I built a comprehensive load testing suite that saved us from multiple production disasters.
+When I started building performance tests for a trading platform, there was zero load testing in place. Here's how I built a comprehensive load testing suite designed to catch production-breaking issues before they happen.
 
 ## The Wake-Up Call
 
@@ -4444,7 +4444,7 @@ I build better software because I trade. And I trade better because I build soft
 
 Early in my career, I debugged by vibes. Something broke, I'd stare at the code, change something, redeploy, hope. Sometimes it worked. Often it made things worse.
 
-At Home Depot — where a bug affected 2,300+ stores — I couldn't afford to guess. I developed a framework. It's not glamorous, but it works every time.
+When you are building systems that people depend on, you cannot afford to guess. I developed a framework for debugging systematically. It's not glamorous, but it works every time.
 
 ## The Framework: ISOLATE
 
@@ -4885,7 +4885,7 @@ Rate limiting is like a lock on your door. It keeps honest people honest. For de
     fullContent: `
 # How to Review Your Own Code (When There's Nobody Else)
 
-At Home Depot, every PR got reviewed by at least one other engineer. At Sage Ideas, I'm the only engineer. Nobody reviews my code.
+On larger teams, every PR gets reviewed by at least one other engineer. At Sage Ideas, I'm the only engineer. Nobody reviews my code.
 
 This is a problem. Not because I write bad code — but because I'm blind to my own assumptions. Every developer is.
 
@@ -5560,7 +5560,7 @@ If your monitoring can't answer that in 10 seconds, it's decoration.
     fullContent: `
 # Git Workflows That Don't Make You Want to Quit
 
-At Home Depot, we used GitFlow. Feature branches, develop branches, release branches, hotfix branches. Our branch graph looked like a subway map. Merging a feature required a PhD in conflict resolution.
+I've worked with GitFlow on larger projects. Feature branches, develop branches, release branches, hotfix branches. The branch graph looked like a subway map. Merging a feature required a PhD in conflict resolution.
 
 Now I use trunk-based development. One branch. Ship from main. My deploy frequency went from weekly to daily.
 
@@ -5831,7 +5831,7 @@ Every "no" saves weeks of work that would produce zero user value.
 
 **3. They communicate before they code.**
 
-The most productive developer I worked with at Home Depot spent 3 hours a day in meetings. Not pointless meetings — architecture discussions, product alignment, cross-team coordination. His code output was "low." His team shipped 2x faster than any other team.
+The most productive developer I ever worked with spent 3 hours a day in meetings. Not pointless meetings — architecture discussions, product alignment, cross-team coordination. His code output was "low." His team shipped 2x faster than any other team.
 
 He was removing ambiguity. Every hour of upfront clarity saves 10 hours of rework.
 
@@ -5874,14 +5874,14 @@ Focus on making the right decisions. The code will follow.
     id: 43,
     slug: "building-for-the-next-engineer-code-that-outlasts-you",
     title: "Building for the Next Engineer: Code That Outlasts You",
-    excerpt: "Every system I've built at Home Depot is still running without me. That's not luck — it's intentional design for operability. Here's what I do differently.",
+    excerpt: "Every system I've built is designed to run without me. That's not luck — it's intentional design for operability. Here's what I do differently.",
     content: "Writing code and systems designed for handoff...",
     fullContent: `
 # Building for the Next Engineer: Code That Outlasts You
 
-When I left Home Depot, not a single Slack message asked me "how does this work?" My systems kept running. My pipelines kept deploying. My dashboards kept updating.
+The best test of your engineering is what happens when you step away. If someone has to message you "how does this work?" — you failed. Systems should keep running. Pipelines should keep deploying. Dashboards should keep updating.
 
-That wasn't luck. It was the most intentional part of my engineering practice: building for the person who comes after me.
+This is the most intentional part of my engineering practice: building for the person who comes after me.
 
 ## The Test
 

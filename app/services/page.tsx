@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Custom software development, test automation architecture, cloud infrastructure (AWS/Terraform), and trading systems. $150/hr consulting, $5K-$50K projects. Orlando, FL — available remotely.',
   openGraph: {
     title: 'Services — Custom Software, Automation & Trading Systems',
-    description: 'Full-stack development, test automation, cloud infrastructure, and trading systems from a systems architect with Fortune 50 experience.',
+    description: 'Full-stack development, test automation, cloud infrastructure, and trading systems from a developer with 5 years of fintech experience.',
   },
 }
 

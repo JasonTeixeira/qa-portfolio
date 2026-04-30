@@ -1,17 +1,59 @@
 'use client'
 
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Clock, ArrowRight } from 'lucide-react'
+import { Clock, ArrowRight, Search } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { blogPosts } from '@/lib/blogData'
 
+const ALL_CATEGORIES = [
+  'All',
+  'Architecture',
+  'Engineering',
+  'Career',
+  'Cloud Automation',
+  'Trading',
+  'Testing',
+  'Security',
+  'DevOps',
+  'AI',
+]
+
+const PINNED_SLUGS = [
+  'building-a-fintech-platform-solo-185-tables-69-apis-7-systems',
+  'building-a-production-ready-api-testing-framework',
+  'what-trading-futures-taught-me-about-writing-software',
+  'github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way',
+  'i-read-50-senior-engineer-job-descriptions-here',
+]
+
 export function BlogContent() {
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredPosts = useMemo(() => {
+    return blogPosts.filter((post) => {
+      const matchesCategory = activeCategory === 'All' || post.category === activeCategory
+      const matchesSearch = searchQuery === '' ||
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+      return matchesCategory && matchesSearch
+    })
+  }, [activeCategory, searchQuery])
+
+  const pinnedPosts = useMemo(() => {
+    return blogPosts.filter(post => PINNED_SLUGS.includes(post.slug))
+  }, [])
+
+  const showPinned = activeCategory === 'All' && searchQuery === ''
+
   return (
     <div className="min-h-screen pt-24 pb-20">
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -22,77 +64,154 @@ export function BlogContent() {
             Engineering & Architecture
           </h1>
           <p className="mt-6 text-lg text-[#A1A1AA] max-w-2xl">
-            Technical writing on systems architecture, automation, cloud infrastructure, and software engineering.
+            Technical writing on systems architecture, automation, cloud infrastructure, and software engineering. {blogPosts.length} articles with real code examples.
           </p>
         </motion.div>
       </section>
 
-      {/* Posts Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-6">
-          {blogPosts.map((post, index) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+      {/* Search + Filters */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#71717A]" />
+          <input
+            type="text"
+            placeholder="Search articles by title, topic, or tag..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 bg-[#18181B] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm placeholder:text-[#52525B] focus:outline-none focus:border-[#06B6D4]/50 focus:ring-1 focus:ring-[#06B6D4]/20 transition-colors"
+          />
+        </div>
+
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2">
+          {ALL_CATEGORIES.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`text-xs font-mono px-3 py-1.5 rounded-lg transition-colors ${
+                activeCategory === category
+                  ? 'bg-[#06B6D4] text-[#09090B] font-semibold'
+                  : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:border-[#06B6D4]/50 hover:text-[#06B6D4]'
+              }`}
             >
-              <Link
-                href={`/blog/${post.slug}`}
-                className="group block h-full bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden"
-              >
-                {post.coverImage && (
-                  <div className="relative w-full h-40 bg-[#09090B]">
-                    <Image
-                      src={post.coverImage}
-                      alt={post.title}
-                      fill
-                      className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                )}
-                <div className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-1 rounded">
-                    {post.category}
-                  </span>
-                  <span className="flex items-center gap-1 text-xs text-[#71717A]">
-                    <Clock className="h-3 w-3" />
-                    {post.readTime}
-                  </span>
-                </div>
-
-                <h2 className="text-xl font-semibold text-[#FAFAFA] mb-3 group-hover:text-[#06B6D4] transition-colors">
-                  {post.title}
-                </h2>
-
-                <p className="text-sm text-[#A1A1AA] mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 4).map((tag) => (
-                    <span key={tag} className="text-xs font-mono text-[#71717A] bg-[#27272A] px-2 py-0.5 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-[#27272A]">
-                  <span className="text-xs text-[#71717A]">
-                    {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                  </span>
-                  <span className="inline-flex items-center text-sm font-medium text-[#06B6D4] group-hover:text-[#22D3EE] transition-colors">
-                    Read Article
-                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </div>
-                </div>
-              </Link>
-            </motion.article>
+              {category}
+            </button>
           ))}
         </div>
+
+        {/* Results count */}
+        <p className="mt-4 text-xs text-[#71717A]">
+          {searchQuery || activeCategory !== 'All'
+            ? `${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} found`
+            : `${blogPosts.length} articles`
+          }
+        </p>
+      </section>
+
+      {/* Pinned / Start Here */}
+      {showPinned && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <h2 className="text-lg font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
+            Start Here
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pinnedPosts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="group p-4 bg-[#10B981]/5 border border-[#10B981]/20 rounded-xl hover:border-[#10B981]/50 transition-colors"
+              >
+                <span className="text-xs font-mono text-[#10B981] mb-2 block">{post.category}</span>
+                <h3 className="text-sm font-semibold text-[#FAFAFA] group-hover:text-[#10B981] transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+                <span className="text-xs text-[#71717A] mt-2 block">{post.readTime}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Posts Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {filteredPosts.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-[#71717A] text-lg">No articles found matching your search.</p>
+            <button
+              onClick={() => { setSearchQuery(''); setActiveCategory('All') }}
+              className="mt-4 text-[#06B6D4] hover:text-[#22D3EE] text-sm transition-colors"
+            >
+              Clear filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-6">
+            {filteredPosts.map((post, index) => (
+              <motion.article
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: Math.min(index * 0.05, 0.3) }}
+              >
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="group block h-full bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden"
+                >
+                  {post.coverImage && (
+                    <div className="relative w-full h-40 bg-[#09090B]">
+                      <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                      />
+                    </div>
+                  )}
+                  <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-1 rounded">
+                      {post.category}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-[#71717A]">
+                      <Clock className="h-3 w-3" />
+                      {post.readTime}
+                    </span>
+                  </div>
+
+                  <h2 className="text-xl font-semibold text-[#FAFAFA] mb-3 group-hover:text-[#06B6D4] transition-colors">
+                    {post.title}
+                  </h2>
+
+                  <p className="text-sm text-[#A1A1AA] mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {post.tags.slice(0, 4).map((tag) => (
+                      <span key={tag} className="text-xs font-mono text-[#71717A] bg-[#27272A] px-2 py-0.5 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-[#27272A]">
+                    <span className="text-xs text-[#71717A]">
+                      {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </span>
+                    <span className="inline-flex items-center text-sm font-medium text-[#06B6D4] group-hover:text-[#22D3EE] transition-colors">
+                      Read Article
+                      <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   )

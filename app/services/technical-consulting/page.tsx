@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 const services = [
   { icon: FileSearch, title: 'Architecture Review', description: 'Deep analysis of your system architecture. I review database design, API structure, deployment pipeline, and security posture. You get a written report with prioritized recommendations.', price: 'From $2,500' },
   { icon: GitBranch, title: 'Code Audit', description: 'Comprehensive code quality assessment. Test coverage gaps, performance bottlenecks, security vulnerabilities, maintainability issues. Actionable findings, not just a list of complaints.', price: 'From $1,500' },
-  { icon: Shield, title: 'Test Strategy Consulting', description: 'Build your QA practice from scratch or fix a broken one. Framework selection, CI/CD integration, coverage strategy, flaky test elimination. I\'ve done this at Fortune 50 scale.', price: 'From $3,000' },
+  { icon: Shield, title: 'Test Strategy Consulting', description: 'Build your QA practice from scratch or fix a broken one. Framework selection, CI/CD integration, coverage strategy, flaky test elimination. ISTQB certified across 3 disciplines.', price: 'From $3,000' },
   { icon: BarChart3, title: 'Cloud Infrastructure Planning', description: 'AWS architecture design, cost optimization, Terraform module structure, CI/CD pipeline setup. I keep a 185-table production platform under $50/month — I can optimize yours.', price: 'From $2,000' },
-  { icon: Users, title: 'Hiring & Team Building', description: 'Help defining engineering roles, reviewing candidates, building interview processes. I\'ve trained 50+ engineers and established QA standards at 2 companies.', price: '$150/hr' },
+  { icon: Users, title: 'Hiring & Team Building', description: 'Help defining engineering roles, reviewing candidates, building interview processes. I understand what it takes to build and ship software from both the business and technical side.', price: '$150/hr' },
   { icon: Lightbulb, title: 'Startup CTO Advisory', description: 'Tech stack selection, architecture decisions, build vs buy, MVP scoping, technical due diligence. I\'ve built an entire platform solo — I know what corners to cut and which to never cut.', price: '$150/hr' },
 ]
 

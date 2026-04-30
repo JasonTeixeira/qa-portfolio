@@ -286,7 +286,7 @@ class MarketDataStream {
   'testing-frameworks': {
     overview: [
       'A systematic approach to testing: 13 specialized frameworks covering every layer of the modern software stack. From API testing to visual regression to security scanning.',
-      'Built from real-world experience at Home Depot and HighStrike where reliable testing prevented production incidents.'
+      'Built from real-world fintech development experience and applied across 20+ projects covering web, API, and trading systems.'
     ],
     problem: {
       heading: 'The Challenge',

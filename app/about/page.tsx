@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import { AboutContent } from './about-content'
 
 export const metadata: Metadata = {
-  title: 'About | Jason Teixeira - Systems Architect',
-  description: 'Learn about Jason Teixeira - systems architect with Fortune 50 experience, 9 certifications, and expertise in full-stack development, test automation, and trading systems.',
+  title: 'About | Jason Teixeira - Full-Stack Developer',
+  description: 'Learn about Jason Teixeira - full-stack developer with 5 years of fintech experience, 9 certifications, and expertise in trading systems, web development, and automation.',
   openGraph: {
     title: 'About Jason Teixeira',
-    description: 'Systems architect with Fortune 50 experience building production platforms and trading systems.',
+    description: 'Full-stack developer with 5 years fintech experience building trading systems and production platforms.',
   },
 }
 

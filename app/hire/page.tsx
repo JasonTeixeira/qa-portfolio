@@ -3,40 +3,39 @@ import Link from 'next/link'
 import { ArrowRight, MapPin, Monitor, TestTube2, Cloud, TrendingUp, Brain, Briefcase, CheckCircle2, Download, Calendar } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Hire Jason Teixeira | Senior Systems Architect & Full-Stack Engineer — Remote',
-  description: 'Senior/Staff-level systems architect seeking remote roles in automation engineering, platform engineering, full-stack development, or fintech. Fortune 50 + fintech experience. 9 certifications. 20+ production projects.',
+  title: 'Hire Jason Teixeira | Full-Stack Developer & Trading Systems Engineer — Remote',
+  description: 'Full-stack developer with 5 years of fintech experience seeking remote roles. Self-taught builder with 20+ projects, 9 certifications, and a production platform with 185 database tables. B.S. in CS and Finance.',
   openGraph: {
-    title: 'Hire Jason Teixeira — Senior Systems Architect',
-    description: 'Seeking remote roles: automation, platform engineering, full-stack, fintech. Fortune 50 experience, 9 certs, 20+ projects.',
+    title: 'Hire Jason Teixeira — Full-Stack Developer',
+    description: 'Seeking remote dev roles: full-stack, fintech, QA, DevOps. 5 years fintech experience, 9 certs, 20+ projects.',
   },
   keywords: [
-    'hire senior engineer', 'staff engineer remote', 'senior automation engineer',
-    'platform engineer hire', 'SDET remote', 'senior full-stack developer',
-    'fintech engineer', 'test infrastructure lead', 'QA architect',
-    'devops engineer remote', 'Orlando FL developer', 'hire systems architect'
+    'hire developer', 'junior developer remote', 'full-stack developer',
+    'fintech developer', 'trading systems developer', 'QA engineer',
+    'devops engineer remote', 'Orlando FL developer', 'self-taught developer',
+    'python developer', 'typescript developer', 'entry level software engineer'
   ],
 }
 
 const targetRoles = [
-  { icon: Monitor, title: 'Senior / Staff Software Engineer', description: 'Full-stack development with Next.js, Python, .NET. Architecture ownership, mentoring, technical decision-making.', keywords: 'SDE, SWE, Software Engineer, Full-Stack Developer' },
-  { icon: TestTube2, title: 'Senior Automation / QA Engineer', description: 'Test framework architecture, CI/CD pipeline optimization, quality engineering culture. ISTQB certified (3x).', keywords: 'SDET, QA Architect, Test Lead, Automation Architect' },
-  { icon: Cloud, title: 'Platform / DevOps Engineer', description: 'AWS infrastructure, Terraform IaC, CI/CD, SLOs, incident response, cost optimization. 6 AWS certifications.', keywords: 'Platform Engineer, SRE, DevOps Engineer, Cloud Engineer' },
-  { icon: TrendingUp, title: 'FinTech / Trading Systems Engineer', description: 'Trading platforms, risk systems, market data pipelines. Active futures trader who builds his own tools.', keywords: 'FinTech Developer, Trading Systems, Quantitative Engineer' },
-  { icon: Brain, title: 'AI / ML Engineer', description: 'LLM integration (GPT-4o, Claude), ML signal systems, AI-powered bots with safety guardrails.', keywords: 'AI Engineer, ML Engineer, LLM Integration' },
-  { icon: Briefcase, title: 'Engineering Manager / Tech Lead', description: 'Trained 50+ engineers, established QA standards at 2 companies, architecture decision ownership.', keywords: 'Tech Lead, Engineering Manager, QA Manager' },
+  { icon: Monitor, title: 'Software Developer', description: 'Full-stack development with Next.js, Python, TypeScript. 5 years building trading apps and business tools at HighStrike. 20+ personal projects.', keywords: 'Software Developer, Full-Stack Developer, Web Developer, SDE' },
+  { icon: TestTube2, title: 'QA / Automation Engineer', description: 'Test frameworks, CI/CD pipelines, Playwright, Selenium, pytest. ISTQB certified (3x including CT-AI). Built multiple testing suites.', keywords: 'QA Engineer, SDET, Test Engineer, Automation Engineer' },
+  { icon: Cloud, title: 'DevOps / Cloud Engineer', description: 'AWS, Terraform, Docker, GitHub Actions. Built CI/CD pipelines and cloud infrastructure. 5 AWS knowledge certifications.', keywords: 'DevOps Engineer, Cloud Engineer, Infrastructure Engineer' },
+  { icon: TrendingUp, title: 'FinTech Developer', description: 'Trading platforms, market data, indicators, strategy development. Active futures trader who builds his own tools.', keywords: 'FinTech Developer, Trading Systems, Quantitative Developer' },
+  { icon: Brain, title: 'AI / ML Developer', description: 'LLM integration (GPT-4o, Claude), ML signal systems, AI-powered bots. Built AlphaStream with 5 ML models.', keywords: 'AI Developer, ML Engineer, LLM Integration' },
 ]
 
 const highlights = [
-  'Fortune 50 experience (Home Depot, 2,300+ stores)',
-  'Fintech production systems ($10M+ daily volume)',
-  'Built 185-table platform as sole architect',
-  '13 testing frameworks, 500+ tests in production',
+  '5 years building trading apps & business tools at HighStrike (contract)',
+  'Built 185-table fintech platform independently — database to deploy',
+  '20+ projects with real code on GitHub you can inspect today',
   '9 certifications (ISTQB x3, AWS x5, Cisco)',
-  '50 technical articles published',
-  '120,000-word trading book (24 chapters)',
-  'Active futures trader (8 symbols daily)',
+  '51 technical blog posts published',
+  'B.S. Computer Science (Full Sail) + B.S. Finance (Kean)',
+  'Ran a construction business — project management, client delivery, budgets',
+  'Active futures trader (8 symbols daily) — real domain expertise',
   'Trilingual: English, Portuguese, Spanish',
-  'B.S. Finance (Kean) + B.S. Computer Science (Full Sail)',
+  'Self-taught developer with entrepreneurial drive',
 ]
 
 const techStack = {
@@ -62,16 +61,16 @@ export default function HirePage() {
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#FAFAFA] leading-tight">
-          Hire a Systems Architect Who Ships
+          A Developer Who Builds and Ships
         </h1>
         <p className="mt-6 text-lg text-[#A1A1AA] max-w-3xl">
-          {"Senior/Staff-level engineer with Fortune 50 enterprise and fintech production experience. I don't just write code — I architect systems, build platforms, train teams, and operate infrastructure. 20+ production projects. 50 technical articles. 9 certifications."}
+          {"Full-stack developer with 5 years of hands-on fintech development and 20+ projects you can inspect on GitHub. I'm self-taught, I've run my own business, and I've built a production platform with 185 database tables from scratch. I'm looking for a team where I can contribute from day one and keep growing as an engineer."}
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-[#71717A]">
-          <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4" /> Orlando, FL — Remote-First</span>
-          <span>Senior / Staff Level</span>
+          <span className="flex items-center gap-1.5"><MapPin className="h-4 w-4" /> Orlando, FL — Remote Only</span>
           <span>Full-Time or Contract</span>
+          <span>Open to Any Level</span>
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
@@ -89,7 +88,7 @@ export default function HirePage() {
 
       {/* What I'm Looking For */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        <h2 className="text-3xl font-bold text-[#FAFAFA] mb-8">Roles I Excel In</h2>
+        <h2 className="text-3xl font-bold text-[#FAFAFA] mb-8">Roles I Am Targeting</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {targetRoles.map(role => (
             <div key={role.title} className="p-5 bg-[#18181B] border border-[#27272A] rounded-2xl hover:border-[#06B6D4]/30 transition-colors">
@@ -136,23 +135,23 @@ export default function HirePage() {
       {/* Why Me vs Other Candidates */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div className="p-8 bg-gradient-to-r from-[#06B6D4]/10 to-[#8B5CF6]/10 border border-[#06B6D4]/20 rounded-2xl">
-          <h2 className="text-2xl font-bold text-[#FAFAFA] mb-6">Why Hire Me Over Other Candidates</h2>
+          <h2 className="text-2xl font-bold text-[#FAFAFA] mb-6">Why Take a Chance on Me</h2>
           <div className="grid md:grid-cols-2 gap-6 text-sm">
             <div>
-              <h3 className="font-semibold text-[#FAFAFA] mb-3">Most engineers say they build.</h3>
-              <p className="text-[#A1A1AA] mb-4">{"I have a live portfolio with 20+ production projects, 5 case studies with code, a live telemetry dashboard, 50 blog posts, and 27 downloadable artifacts. Every claim on my resume has a URL."}</p>
+              <h3 className="font-semibold text-[#FAFAFA] mb-3">I show, not tell.</h3>
+              <p className="text-[#A1A1AA] mb-4">{"I have 20+ projects with real code on GitHub, 5 case studies, a live telemetry dashboard, 51 blog posts, and 27 downloadable artifacts. Every claim on this site has a URL you can verify."}</p>
             </div>
             <div>
-              <h3 className="font-semibold text-[#FAFAFA] mb-3">Most engineers specialize in one thing.</h3>
-              <p className="text-[#A1A1AA] mb-4">{"I architect full-stack applications, build test automation frameworks, deploy cloud infrastructure, develop trading systems, and integrate AI — across enterprise retail and fintech. I bring pattern recognition across domains."}</p>
+              <h3 className="font-semibold text-[#FAFAFA] mb-3">I figure things out.</h3>
+              <p className="text-[#A1A1AA] mb-4">{"Everything I know is self-taught. I built full-stack trading applications at HighStrike with no formal training — just persistence, documentation, and relentless problem-solving. Give me a problem and I will find the solution."}</p>
             </div>
             <div>
-              <h3 className="font-semibold text-[#FAFAFA] mb-3">Most engineers need direction.</h3>
-              <p className="text-[#A1A1AA] mb-4">{"I founded Sage Ideas LLC and built the Nexural ecosystem solo — 185 tables, 69 APIs, 7 systems, from architecture to production. I'm self-directed, I document everything, and I mentor others."}</p>
+              <h3 className="font-semibold text-[#FAFAFA] mb-3">{"I don't need hand-holding."}</h3>
+              <p className="text-[#A1A1AA] mb-4">{"I ran a construction business and built a 185-table fintech platform solo. I know how to manage my time, prioritize work, communicate with stakeholders, and deliver. I'm looking for guidance and mentorship, not micromanagement."}</p>
             </div>
             <div>
-              <h3 className="font-semibold text-[#FAFAFA] mb-3">Most engineers just code.</h3>
-              <p className="text-[#A1A1AA] mb-4">{"I operate systems. SLOs, incident drills, runbooks, security receipts. My portfolio site has a platform engineering page with 99.9% availability targets and tested failure modes. I think about production, not just development."}</p>
+              <h3 className="font-semibold text-[#FAFAFA] mb-3">I bring real-world perspective.</h3>
+              <p className="text-[#A1A1AA] mb-4">{"Finance degree + CS degree + construction management + fintech development + active trading. I understand business, users, and the real-world impact of the software I build. I don't just write code — I understand why it matters."}</p>
             </div>
           </div>
         </div>

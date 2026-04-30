@@ -4,10 +4,10 @@ import { ArrowRight, TrendingUp, Shield, Database, Zap, BarChart3, Bot } from 'l
 
 export const metadata: Metadata = {
   title: 'FinTech Software Development | Jason Teixeira — Trading Platforms & Financial Systems',
-  description: 'Custom fintech development from a systems architect who trades futures daily. Trading platforms, payment systems, risk analytics, ML signal engines. Built a 185-table platform processing $10M+ daily volume.',
+  description: 'Custom fintech development from a developer who trades futures daily. Trading platforms, payment systems, risk analytics, ML signal engines. Built a 185-table production platform independently.',
   openGraph: {
     title: 'FinTech Software Development — Jason Teixeira',
-    description: 'Trading platforms, payment systems, risk analytics from an active futures trader. 185-table platform, $10M+ daily volume supported.',
+    description: 'Trading platforms, payment systems, risk analytics from an active futures trader. 185-table platform built independently.',
   },
   keywords: ['fintech developer', 'trading platform development', 'financial software engineer', 'custom trading system', 'algorithmic trading developer', 'payment system developer', 'risk management software'],
 }
@@ -23,7 +23,7 @@ const capabilities = [
 
 const proofPoints = [
   { metric: '185', label: 'Database Tables', detail: 'Nexural Trading Platform' },
-  { metric: '$10M+', label: 'Daily Volume', detail: 'HighStrike Platform QA' },
+  { metric: '69', label: 'API Endpoints', detail: 'Nexural Platform' },
   { metric: '200+', label: 'ML Indicators', detail: 'AlphaStream Engine' },
   { metric: '8', label: 'Symbols Traded', detail: 'Active Futures Trading' },
 ]

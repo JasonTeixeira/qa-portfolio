@@ -4,7 +4,7 @@ import { ArrowRight, TestTube2, GitBranch, Gauge, Shield, BarChart3, Smartphone 
 
 export const metadata: Metadata = {
   title: 'Enterprise QA Automation | Jason Teixeira — Test Frameworks, CI/CD, Quality Engineering',
-  description: 'QA automation architecture for enterprise teams. 13 testing frameworks built, 500+ tests in production, 82% pipeline reduction. Home Depot and HighStrike experience. ISTQB certified.',
+  description: 'QA automation architecture for teams. Multiple testing frameworks built, 500+ tests across projects. 5 years fintech development experience. ISTQB certified (3x).',
   openGraph: {
     title: 'Enterprise QA Automation — Jason Teixeira',
     description: '13 testing frameworks, 500+ tests, 82% faster pipelines. ISTQB certified QA automation architect.',
@@ -22,10 +22,10 @@ const frameworks = [
 ]
 
 const results = [
-  { metric: '82%', label: 'Pipeline Time Reduction', context: 'From 45 min to 8 min through parallelization and Docker caching' },
-  { metric: '<1%', label: 'Flaky Test Rate', context: 'Down from 10% through systematic isolation and retry logic' },
-  { metric: '500+', label: 'Tests in Production', context: 'Across API, E2E, visual, performance, and security suites' },
-  { metric: '50+', label: 'Engineers Trained', context: 'In test automation practices at enterprise scale' },
+  { metric: '20+', label: 'Testing Projects Built', context: 'API, E2E, visual, performance, and security testing frameworks' },
+  { metric: '500+', label: 'Tests Written', context: 'Across API, E2E, visual, performance, and security suites' },
+  { metric: '9', label: 'Certifications', context: 'ISTQB CTFL, TAE, CT-AI, plus AWS and Cisco certifications' },
+  { metric: '51', label: 'Technical Articles', context: 'Blog posts covering testing strategies, frameworks, and best practices' },
 ]
 
 export default function EnterpriseQAPage() {
@@ -38,7 +38,7 @@ export default function EnterpriseQAPage() {
           QA Automation That Ships Confidence
         </h1>
         <p className="mt-6 text-lg text-[#A1A1AA] max-w-3xl">
-          {"I've built 13 specialized testing frameworks and run QA at Fortune 50 scale (Home Depot, 2,300+ stores) and fintech speed (HighStrike, $10M+ daily volume). ISTQB certified across 3 disciplines."}
+          {"I've built multiple testing frameworks across API, E2E, performance, security, and visual regression testing. 5 years of hands-on fintech development at HighStrike. ISTQB certified across 3 disciplines (CTFL, TAE, CT-AI)."}
         </p>
         <p className="mt-4 text-sm text-[#71717A] max-w-2xl">
           {"Most QA consultants set up Selenium and leave. I build quality engineering systems — CI/CD integration, telemetry dashboards, incident playbooks, and the automation culture that makes testing stick."}

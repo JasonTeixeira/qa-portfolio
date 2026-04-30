@@ -48,7 +48,7 @@ export function Footer() {
               SAGE IDEAS
             </Link>
             <p className="text-sm text-[#A1A1AA]">
-              Systems Architect & Full-Stack Engineer building production platforms, trading systems, and automation frameworks.
+              Full-stack developer building production platforms, trading systems, and automation tools. Self-taught. Entrepreneur. Looking for my next opportunity.
             </p>
             <div className="flex items-center gap-3">
               {[

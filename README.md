@@ -181,12 +181,12 @@ Tested on:
 
 ## 🌟 Key Metrics Displayed
 
-- **QA automation** portfolio focus
-- **500+ automated tests** in production
+- **Full-stack development** portfolio focus
+- **20+ projects** with real code on GitHub
 - **3 ISTQB certifications** (CTFL, TAE, CT-AI)
-- **Fortune 50 experience** (The Home Depot)
-- **Fintech expertise** (HighStrike)
-- **6 AWS certifications**
+- **5 years fintech development** (HighStrike)
+- **185 database tables** (Nexural Platform)
+- **5 AWS knowledge certifications**
 
 ## 📧 Contact Form Integration
 

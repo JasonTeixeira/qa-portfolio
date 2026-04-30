@@ -335,4 +335,4 @@ Your premium QA automation portfolio is ready to launch. This represents:
 
 ---
 
-*Built with passion by Jason Teixeira | QA Automation Engineer*
+*Built by Jason Teixeira | Full-Stack Developer & Trading Systems Engineer*

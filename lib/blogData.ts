@@ -67,7 +67,7 @@ OIDC + least privilege is the modern baseline.
     tags: ["AWS", "IAM", "OIDC", "GitHub Actions", "Terraform", "Security"],
     date: "2026-01-10",
     readTime: "10 min read",
-    coverImage: "/images/blog/blog-100-cover.png",
+    coverImage: "/images/blog/blog-100-cover.svg",
   },
   {
     id: 1,
@@ -294,7 +294,7 @@ The investment in a solid foundation pays off every single day.
     tags: ["Python", "API Testing", "pytest", "Pydantic"],
     date: "2024-01-15",
     readTime: "12 min read",
-    coverImage: "/images/blog/blog-1-cover.png",
+    coverImage: "/images/blog/blog-1-cover.svg",
   },
   {
     id: 2,
@@ -614,7 +614,7 @@ The investment in proper POM architecture pays off every single sprint.
     tags: ["Selenium", "Python", "Design Patterns", "POM"],
     date: "2024-01-10",
     readTime: "15 min read",
-    coverImage: "/images/blog/blog-2-cover.png",
+    coverImage: "/images/blog/blog-2-cover.svg",
   },
   {
     id: 3,
@@ -877,7 +877,7 @@ The secret is treating Docker networking as a first-class concern, not an aftert
     tags: ["Docker", "Jenkins", "CI/CD", "Troubleshooting"],
     date: "2024-01-05",
     readTime: "8 min read",
-    coverImage: "/images/blog/blog-3-cover.png",
+    coverImage: "/images/blog/blog-3-cover.svg",
   },
   {
     id: 4,
@@ -1265,7 +1265,7 @@ Performance testing isn't optional for production systems. The cost of finding i
     tags: ["Locust", "JMeter", "Performance Testing", "Python"],
     date: "2023-12-28",
     readTime: "14 min read",
-    coverImage: "/images/blog/blog-4-cover.png",
+    coverImage: "/images/blog/blog-4-cover.svg",
   },
   {
     id: 5,
@@ -1671,7 +1671,7 @@ Mobile automation is challenging but absolutely necessary. The investment pays o
     tags: ["Appium", "Python", "iOS", "Android", "Mobile Automation"],
     date: "2023-12-20",
     readTime: "16 min read",
-    coverImage: "/images/blog/blog-5-cover.png",
+    coverImage: "/images/blog/blog-5-cover.svg",
   },
   {
     id: 6,

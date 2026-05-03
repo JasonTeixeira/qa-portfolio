@@ -133,7 +133,7 @@ export function StudioAnimations() {
           <div className="space-y-6 text-[#A1A1AA] text-lg leading-relaxed">
             <p>
               Clients work with Jason directly — not an account manager, not a project coordinator, not a handoff to a
-              junior team after the sales call. The same person who scoped the project is the person building it. That
+              handoff team after the sales call. The same person who scoped the project is the person building it. That
               accountability is structural, not a feature we sell.
             </p>
             <p>

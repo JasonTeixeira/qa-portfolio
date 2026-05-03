@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
     return [
       // Studio relaunch IA migration
       { source: '/hire', destination: '/founder', permanent: true },
+      { source: '/start', destination: '/contact', permanent: true },
       { source: '/about', destination: '/studio', permanent: true },
+      { source: '/resume', destination: '/founder', permanent: true },
       { source: '/services/all', destination: '/services', permanent: false },
       // Old case-study URLs → new /work URLs
       { source: '/case-studies', destination: '/work', permanent: true },

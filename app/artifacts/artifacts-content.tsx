@@ -46,7 +46,7 @@ export function ArtifactsContent() {
           </h1>
           <p className="mt-6 text-lg text-[#A1A1AA] max-w-2xl">
             Downloadable artifacts from real projects — QA playbooks, test strategy templates,
-            incident triage guides, security evidence, and a recruiter pack. Everything I use
+            incident triage guides, and security evidence. The same documents the studio uses
             to operate production systems.
           </p>
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-[#71717A]">
@@ -59,29 +59,6 @@ export function ArtifactsContent() {
               {evidenceItems.length} evidence items
             </span>
           </div>
-        </motion.div>
-      </section>
-
-      {/* Recruiter Pack CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="p-6 bg-gradient-to-r from-[#06B6D4]/10 to-[#8B5CF6]/10 border border-[#06B6D4]/20 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-        >
-          <div>
-            <h3 className="text-lg font-semibold text-[#FAFAFA]">Recruiter Pack (ZIP)</h3>
-            <p className="text-sm text-[#A1A1AA] mt-1">
-              One download with my resume, test strategy, architecture samples, and key evidence — designed for quick evaluation.
-            </p>
-          </div>
-          <Button asChild className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold shrink-0">
-            <a href="/artifacts/recruiter-pack.zip" download>
-              <Download className="mr-2 h-4 w-4" />
-              Download Pack
-            </a>
-          </Button>
         </motion.div>
       </section>
 
@@ -191,7 +168,7 @@ export function ArtifactsContent() {
             Evidence Gallery
           </h2>
           <p className="mt-4 text-[#A1A1AA] max-w-2xl">
-            Recruiter-friendly proof that these artifacts connect to real automation outputs:
+            Verifiable proof that these artifacts connect to real automation outputs:
             reports, CI runs, security scans, and infrastructure evidence.
           </p>
         </motion.div>

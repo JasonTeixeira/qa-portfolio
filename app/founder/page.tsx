@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import { FounderAnimations } from './founder-animations'
 
 export const metadata: Metadata = {
-  title: 'For Hiring Managers',
+  title: 'Founder',
   description:
-    'Jason Teixeira — fintech engineer, studio founder, full-stack practitioner. Five years at HighStrike. Nine certifications. The person behind every Sage Ideas engagement.',
+    'Jason Teixeira — founder and principal of Sage Ideas. Fintech engineer, full-stack practitioner, and the person behind every studio engagement.',
   openGraph: {
-    title: 'For Hiring Managers — Jason Teixeira',
+    title: 'Founder — Jason Teixeira',
     description: 'The person behind every Sage Ideas engagement.',
-    images: ['/og?title=For+Hiring+Managers&subtitle=The+person+behind+the+studio.'],
+    images: ['/og?title=Founder&subtitle=The+person+behind+the+studio.'],
   },
 }
 
@@ -18,23 +18,22 @@ const capabilities = [
   'Infrastructure as Code: Terraform on AWS, GitHub OIDC, CI/CD pipeline design',
   'Quality engineering: test strategy, framework selection, CI gate design — 13 frameworks deployed',
   'AI-native product development: LLM integration, ML feature engineering, automation pipelines',
-  'Technical leadership: architecture review, code review, engineering culture, hiring calibration',
+  'Brand, content, and site systems: identity work, copy systems, marketing infrastructure',
   'Domain depth in fintech, developer tooling, trades tech, and edtech',
 ]
 
-const roleParams = [
-  'Staff or principal-level IC, or technical leadership — not mid-level',
-  'AI-forward team where LLMs are infrastructure, not a pitch deck bullet',
-  'Meaningful equity participation — real skin in the game',
-  'Transparent compensation: range shared upfront, no range-reveal games',
-  'Remote-first required — based in Orlando, FL',
-  "Compatible with Sage Ideas continuing as a side operation (I'll be direct about this)",
+const principles = [
+  'The person who scopes the work is the person who builds it. No bait-and-switch teams.',
+  'Fixed scope and fixed price up front, with the artifacts and timelines spelled out before we start.',
+  'Custom engagements and retainers are always available — productized tiers are starting points, not ceilings.',
+  'Every deliverable is documented and handed off so it survives without me on the next call.',
+  'Direct communication. No agency theater, no status calls that should have been emails.',
 ]
 
 export default function FounderPage() {
   return (
     <div className="min-h-screen bg-[#09090B]">
-      <FounderAnimations capabilities={capabilities} roleParams={roleParams} />
+      <FounderAnimations capabilities={capabilities} principles={principles} />
     </div>
   )
 }

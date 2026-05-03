@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import { ArtifactsContent } from './artifacts-content'
 
 export const metadata: Metadata = {
-  title: 'Artifacts & Evidence | Jason Teixeira — Playbooks, Templates, Recruiter Pack',
-  description: '27 downloadable QA artifacts: test strategies, incident playbooks, security evidence, architecture templates, and a recruiter pack ZIP. Real operational documents from production systems.',
+  title: 'Artifacts & Evidence — Sage Ideas',
+  description: 'Downloadable QA artifacts: test strategies, incident playbooks, security evidence, and architecture templates. The same operational documents the studio uses on production systems.',
   openGraph: {
-    title: 'Artifacts & Evidence — Jason Teixeira',
+    title: 'Artifacts & Evidence — Sage Ideas',
     description: 'Downloadable playbooks, templates, checklists, and security evidence from real projects.',
   },
 }

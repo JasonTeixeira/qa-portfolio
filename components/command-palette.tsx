@@ -109,18 +109,18 @@ export function CommandPalette() {
     {
       id: 'artifacts',
       label: 'Artifacts & Evidence',
-      description: 'Playbooks, templates, recruiter pack',
+      description: 'Playbooks, templates, evidence',
       icon: <Code2 className="h-4 w-4" />,
       action: () => navigate('/artifacts'),
-      keywords: ['artifacts', 'evidence', 'playbooks', 'templates', 'recruiter', 'download']
+      keywords: ['artifacts', 'evidence', 'playbooks', 'templates', 'download']
     },
     {
-      id: 'hire',
-      label: 'Hire Me',
-      description: 'Roles, skills, and how to hire me',
+      id: 'founder',
+      label: 'Founder',
+      description: 'Background, capabilities, certifications',
       icon: <Code2 className="h-4 w-4" />,
-      action: () => navigate('/hire'),
-      keywords: ['hire', 'job', 'resume', 'employment', 'roles', 'staff', 'principal']
+      action: () => navigate('/founder'),
+      keywords: ['founder', 'about', 'background', 'capabilities', 'jason']
     },
     {
       id: 'stack',
@@ -139,20 +139,20 @@ export function CommandPalette() {
       keywords: ['email', 'message', 'reach']
     },
     {
-      id: 'resume',
-      label: 'Resume',
-      description: 'View my resume',
+      id: 'pricing',
+      label: 'Pricing',
+      description: 'Productized tiers and care retainers',
       icon: <FileDown className="h-4 w-4" />,
-      action: () => navigate('/resume'),
-      keywords: ['cv', 'experience', 'download']
+      action: () => navigate('/pricing'),
+      keywords: ['pricing', 'tiers', 'cost', 'rates']
     },
     {
       id: 'start',
       label: 'Start a Project',
       description: 'Begin a new project together',
       icon: <Rocket className="h-4 w-4" />,
-      action: () => navigate('/start'),
-      keywords: ['begin', 'hire', 'new']
+      action: () => navigate('/contact'),
+      keywords: ['begin', 'new', 'project', 'engagement']
     },
   ]
 

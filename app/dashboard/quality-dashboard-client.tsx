@@ -574,7 +574,7 @@ export default function QualityDashboardClient() {
 
             <p className="mt-2 text-sm text-gray-300 max-w-4xl">
               Quick proof that Cloud mode is backed by a real AWS path (API Gateway → Lambda → S3) and is monitored like a production service.
-              These links are intentionally recruiter-friendly: one click = receipts.
+              These links are intentionally one-click: receipts you can verify in seconds.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">

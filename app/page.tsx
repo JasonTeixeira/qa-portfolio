@@ -667,7 +667,7 @@ export default function HomePage() {
                   className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
                 >
                   <Link href="/founder">
-                    Hiring? Start here <ArrowRight className="w-4 h-4 ml-1.5" />
+                    Meet the founder <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Link>
                 </Button>
               </div>

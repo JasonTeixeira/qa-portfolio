@@ -172,11 +172,11 @@ export function ServicesContent() {
             {"I help businesses, startups, and trading firms build production-grade software. From web applications to trading systems to test automation — you get working software, not slide decks."}
           </p>
           <p className="mt-3 text-sm text-[#71717A] italic">
-            {"I'm primarily seeking a full-time remote role, but I take on select freelance and consulting projects."}
+            {"Sage Ideas operates as a productized studio with custom packages, monthly retainers, and bespoke engagements available on request."}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Button asChild className="bg-[#8B5CF6] text-white hover:bg-[#A78BFA] btn-glow">
-              <Link href="/start">
+              <Link href="/contact">
                 <Sparkles className="mr-2 h-4 w-4" />
                 Start a Project
               </Link>
@@ -379,7 +379,7 @@ export function ServicesContent() {
                 <div className="p-5 bg-[#18181B] border border-[#27272A] rounded-xl">
                   <p className="text-sm font-semibold text-[#71717A] mb-3">Typical Agency</p>
                   <ul className="space-y-2 text-sm text-[#71717A]">
-                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Sales team sells, junior devs build — knowledge gaps</li>
+                    <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Sales team sells, handoff team builds — knowledge gaps</li>
                     <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>$200-400/hr blended rate — layers of overhead</li>
                     <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Communication through project managers — telephone game</li>
                     <li className="flex items-start gap-2"><span className="text-[#71717A] mt-0.5">-</span>Decisions need stakeholder alignment — weeks of meetings</li>

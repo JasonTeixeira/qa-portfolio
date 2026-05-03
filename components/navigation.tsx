@@ -23,7 +23,7 @@ const mobileExtraLinks = [
   { href: '/process', label: 'Process' },
   { href: '/trust', label: 'Trust' },
   { href: '/studio', label: 'Studio' },
-  { href: '/founder', label: 'For Hiring Managers' },
+  { href: '/founder', label: 'Founder' },
   { href: '/contact', label: 'Contact' },
   { href: '/legal/privacy', label: 'Privacy' },
   { href: '/legal/terms', label: 'Terms' },

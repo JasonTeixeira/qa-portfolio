@@ -28,7 +28,7 @@ export interface QAArtifact {
   format: "md" | "pdf" | "docx" | "txt";
   downloadPath: string;
   tags: string[];
-  recommendedFor: ("Recruiters" | "Hiring Managers" | "Teams")[];
+  recommendedFor: ("Founders" | "Engineering Leads" | "Teams")[];
   lastUpdated: string; // YYYY-MM-DD
 }
 
@@ -39,11 +39,11 @@ export const qaArtifacts: QAArtifact[] = [
     type: "Example",
     category: "Automation",
     description:
-      "Recruiter-readable spec for the next flagship cloud/platform system: multi-tenant, async processing, SLOs, alerts, cost guardrails, and security receipts.",
+      "Detailed spec for the next flagship cloud/platform system: multi-tenant, async processing, SLOs, alerts, cost guardrails, and security receipts.",
     format: "txt",
     downloadPath: "/platform/flagship-blueprint",
     tags: ["flagship", "platform", "sre", "cloud", "automation"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -56,7 +56,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "txt",
     downloadPath: "/artifacts/evidence/waf-rate-limit.txt",
     tags: ["security", "waf", "rate-limit", "cloudfront", "aws"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -69,7 +69,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/evidence/incident-drill-report.md",
     tags: ["ops", "slo", "incident", "reliability", "aws"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -82,7 +82,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/interview-demo-quality-dashboard.md",
     tags: ["interview", "demo", "telemetry", "dashboard"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -95,7 +95,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "txt",
     downloadPath: "/artifacts/evidence/aws-telemetry-s3-latest.json",
     tags: ["aws", "s3", "telemetry", "proof"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -108,7 +108,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "txt",
     downloadPath: "/artifacts/evidence/aws-telemetry-dynamo-table.json",
     tags: ["aws", "dynamodb", "telemetry", "proof"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -121,7 +121,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "txt",
     downloadPath: "/artifacts/evidence/aws-telemetry-github-oidc-role.json",
     tags: ["aws", "iam", "oidc", "security", "telemetry"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -134,7 +134,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "txt",
     downloadPath: "/artifacts/evidence/aws-telemetry-proxy-api-routes.json",
     tags: ["aws", "api-gateway", "lambda", "telemetry", "proof"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-18",
   },
   {
@@ -143,11 +143,11 @@ export const qaArtifacts: QAArtifact[] = [
     type: "Playbook",
     category: "Strategy",
     description:
-      "A concise, recruiter-friendly overview of how I approach quality (risk, automation, CI, reporting).",
+      "A concise, concise overview of how I approach quality (risk, automation, CI, reporting).",
     format: "md",
     downloadPath: "/artifacts/playbooks/qa-1-page-playbook.md",
     tags: ["playbook", "overview"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -160,7 +160,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/templates/test-strategy-template.md",
     tags: ["risk-based", "stakeholder-alignment", "coverage"],
-    recommendedFor: ["Hiring Managers", "Teams"],
+    recommendedFor: ["Engineering Leads", "Teams"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -173,7 +173,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/templates/test-plan-template.md",
     tags: ["planning", "scope", "entry-exit"],
-    recommendedFor: ["Hiring Managers", "Teams"],
+    recommendedFor: ["Engineering Leads", "Teams"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -186,7 +186,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/templates/risk-based-test-matrix.md",
     tags: ["risk", "prioritization", "rbt"],
-    recommendedFor: ["Hiring Managers", "Teams"],
+    recommendedFor: ["Engineering Leads", "Teams"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -212,7 +212,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/templates/bug-report-template.md",
     tags: ["triage", "repro", "evidence"],
-    recommendedFor: ["Recruiters", "Hiring Managers", "Teams"],
+    recommendedFor: ["Founders", "Engineering Leads", "Teams"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -225,7 +225,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/examples/sample-bug-report.md",
     tags: ["example", "bug-report"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -251,7 +251,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/checklists/api-testing-checklist.md",
     tags: ["api", "contracts", "negative"],
-    recommendedFor: ["Teams", "Hiring Managers"],
+    recommendedFor: ["Teams", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -264,7 +264,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/checklists/security-testing-checklist.md",
     tags: ["security", "owasp", "api-security"],
-    recommendedFor: ["Teams", "Hiring Managers"],
+    recommendedFor: ["Teams", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -290,7 +290,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/playbooks/flaky-test-triage-playbook.md",
     tags: ["flaky", "stability", "ci"],
-    recommendedFor: ["Hiring Managers", "Teams"],
+    recommendedFor: ["Engineering Leads", "Teams"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -303,7 +303,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/playbooks/incident-triage-playbook.md",
     tags: ["incident", "on-call", "slo", "runbook"],
-    recommendedFor: ["Recruiters", "Hiring Managers", "Teams"],
+    recommendedFor: ["Founders", "Engineering Leads", "Teams"],
     lastUpdated: "2026-01-15",
   },
   {
@@ -316,7 +316,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/playbooks/cost-spike-triage-playbook.md",
     tags: ["aws", "cost", "finops", "guardrails"],
-    recommendedFor: ["Recruiters", "Hiring Managers", "Teams"],
+    recommendedFor: ["Founders", "Engineering Leads", "Teams"],
     lastUpdated: "2026-01-15",
   },
   {
@@ -329,7 +329,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/templates/release-signoff-template.md",
     tags: ["release", "go-no-go", "risk"],
-    recommendedFor: ["Teams", "Hiring Managers"],
+    recommendedFor: ["Teams", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },  {
     id: "qa-test-strategy-filled",
@@ -341,7 +341,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/filled/test-strategy-filled.md",
     tags: ["filled", "strategy", "realistic"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -354,7 +354,7 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/filled/test-plan-filled.md",
     tags: ["filled", "plan", "release"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
@@ -367,20 +367,20 @@ export const qaArtifacts: QAArtifact[] = [
     format: "md",
     downloadPath: "/artifacts/filled/release-signoff-filled.md",
     tags: ["filled", "signoff", "go-no-go"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
   {
-    id: "qa-recruiter-pack-zip",
-    title: "Recruiter Pack (ZIP)",
+    id: "qa-studio-pack-zip",
+    title: "Studio Pack (ZIP)",
     type: "Playbook",
     category: "Reporting",
     description:
       "One-click download: QA playbook + filled strategy/plan/signoff + sample bug report.",
     format: "txt",
-    downloadPath: "/artifacts/recruiter-pack.zip",
-    tags: ["recruiter-pack", "one-click", "proof"],
-    recommendedFor: ["Recruiters", "Hiring Managers"],
+    downloadPath: "/artifacts/studio-pack.zip",
+    tags: ["studio-pack", "one-click", "proof"],
+    recommendedFor: ["Founders", "Engineering Leads"],
     lastUpdated: "2026-01-03",
   },
 

@@ -67,7 +67,7 @@ const capabilities = [
     icon: Terminal,
     title: 'Operate as fractional CTO',
     description:
-      'Monthly retainer for engineering leadership — architecture decisions, code review, technical roadmap. Senior judgment on call without the full-time commitment.',
+      'Monthly retainer for engineering leadership — architecture decisions, code review, technical roadmap. Operator-grade judgment on call without the full-time commitment.',
     href: '/services/operate',
     accent: 'violet',
   },
@@ -264,7 +264,7 @@ export default function HomePage() {
                   Recruiting?
                 </div>
                 <div className="text-sm text-[#FAFAFA]">
-                  Open to senior roles where the fit is right.
+                  Open to staff-level roles where the fit is right.
                 </div>
               </div>
               <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
@@ -324,7 +324,7 @@ export default function HomePage() {
             </h2>
             <p className="text-[#A1A1AA] mt-4 text-lg">
               We don’t do everything. We do four things — and we do them with the
-              architecture discipline of a senior team and the speed of a single operator.
+              architecture discipline of a tight team and the speed of a single operator.
             </p>
           </motion.div>
 
@@ -364,6 +364,58 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Engagement options strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-12 grid md:grid-cols-3 gap-3"
+          >
+            <Link
+              href="/services"
+              className="rounded-xl border border-[#06B6D4]/20 bg-[#06B6D4]/[0.04] hover:border-[#06B6D4]/50 p-5 transition-colors group"
+            >
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4] mb-1">
+                Productized tiers
+              </div>
+              <div className="text-base font-semibold text-[#FAFAFA] mb-1">
+                9 fixed-price engagements
+              </div>
+              <div className="text-xs text-[#A1A1AA]">
+                From $750 audits to $9,500+ builds. Stripe checkout.
+              </div>
+            </Link>
+            <Link
+              href="/pricing#care"
+              className="rounded-xl border border-[#8B5CF6]/20 bg-[#8B5CF6]/[0.04] hover:border-[#8B5CF6]/50 p-5 transition-colors group"
+            >
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#8B5CF6] mb-1">
+                Monthly retainers
+              </div>
+              <div className="text-base font-semibold text-[#FAFAFA] mb-1">
+                Care plans from $300/mo
+              </div>
+              <div className="text-xs text-[#A1A1AA]">
+                Site Care, Brand Care, Content Care. Cancel anytime.
+              </div>
+            </Link>
+            <Link
+              href="/contact?engagement=custom"
+              className="rounded-xl border border-[#27272A] bg-[#0F0F12] hover:border-[#A1A1AA]/40 p-5 transition-colors group"
+            >
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#A1A1AA] mb-1">
+                Custom packages
+              </div>
+              <div className="text-base font-semibold text-[#FAFAFA] mb-1">
+                Or build your own scope
+              </div>
+              <div className="text-xs text-[#A1A1AA]">
+                Hybrid sprints, multi-month builds, custom retainers.
+              </div>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -589,7 +641,7 @@ export default function HomePage() {
               </p>
               <p className="text-[#A1A1AA] text-lg leading-relaxed">
                 The studio is small by design — not because we’re growing into something
-                larger, but because one senior practitioner with a tight process beats a
+                larger, but because one focused practitioner with a tight process beats a
                 six-person agency with a project manager. Every client engages directly with
                 the person building their product.
               </p>

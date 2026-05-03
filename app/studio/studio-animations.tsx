@@ -34,9 +34,9 @@ const pillars = [
   },
   {
     icon: Users,
-    title: 'Senior solo, agency rigor',
+    title: 'Solo studio, agency rigor',
     description:
-      'One person with senior judgment, running a production-grade process: CI/CD gates, contract testing, Lighthouse budgets, accessibility audits, security scans, idempotent webhooks, RLS policies, SOC2-aware architecture. The output is indistinguishable from a five-person agency, shipped on a solo timeline.',
+      'One person running a production-grade process: CI/CD gates, contract testing, Lighthouse budgets, accessibility audits, security scans, idempotent webhooks, RLS policies, SOC2-aware architecture. The output is indistinguishable from a five-person agency, shipped on a solo timeline.',
     accent: 'cyan' as const,
   },
 ] as const

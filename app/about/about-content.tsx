@@ -139,7 +139,7 @@ export function AboutContent() {
                 {"I'm Jason Teixeira — founder and principal engineer of Sage Ideas. I started writing code at 8, ran a construction company for five years, then spent five more shipping trading systems, applications, and research tools at HighStrike, a fintech startup."}
               </p>
               <p>
-                Today I run Sage Ideas as an AI-native studio. I architected and shipped the Nexural fintech platform end-to-end — 185 database tables, 69 API endpoints, an AI Discord agent, and live Stripe billing — and now deploy that same stack into client work. I bring an operator’s discipline and a senior engineer’s craft to every engagement.
+                Today I run Sage Ideas as an AI-native studio. I architected and shipped the Nexural fintech platform end-to-end — 185 database tables, 69 API endpoints, an AI Discord agent, and live Stripe billing — and now deploy that same stack into client work. I bring an operator’s discipline and an engineer’s craft to every engagement.
               </p>
             </div>
 

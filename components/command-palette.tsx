@@ -120,7 +120,7 @@ export function CommandPalette() {
       description: 'Roles, skills, and how to hire me',
       icon: <Code2 className="h-4 w-4" />,
       action: () => navigate('/hire'),
-      keywords: ['hire', 'job', 'resume', 'employment', 'roles', 'senior', 'staff']
+      keywords: ['hire', 'job', 'resume', 'employment', 'roles', 'staff', 'principal']
     },
     {
       id: 'stack',

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sage Ideas — AI-Native Studio for B2B Operators',
     description:
-      'AI-native studio. We build the businesses we’d want to run. Senior craft, agency rigor, productized engagements.',
+      'AI-native studio. We build the businesses we’d want to run. Studio craft, agency rigor, productized engagements.',
     url: SITE_URL,
     siteName: 'Sage Ideas',
     locale: 'en_US',
@@ -137,7 +137,7 @@ const professionalServiceSchema = {
   name: 'Sage Ideas LLC',
   url: SITE_URL,
   description:
-    'AI-native studio. Productized engagements: audit, ship, automate, scale, build, operate. Senior solo, agency rigor.',
+    'AI-native studio. Productized engagements: audit, ship, automate, scale, build, operate. Solo studio, agency rigor.',
   founder: { '@type': 'Person', name: 'Jason Teixeira' },
   address: {
     '@type': 'PostalAddress',

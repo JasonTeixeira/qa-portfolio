@@ -42,7 +42,7 @@ export function IndustriesIndexContent({
             <SectionLabel>Industries</SectionLabel>
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
               Five verticals.{' '}
-              <span className="text-[#06B6D4]">Senior execution.</span>
+              <span className="text-[#06B6D4]">Operator-grade execution.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
               {

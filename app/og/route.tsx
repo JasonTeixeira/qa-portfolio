@@ -123,7 +123,7 @@ export async function GET(req: NextRequest) {
           }}
         >
           <span>sageideas.dev</span>
-          <span style={{ color: '#06B6D4' }}>{'>'} senior solo · agency rigor</span>
+          <span style={{ color: '#06B6D4' }}>{'>'} solo studio · agency rigor</span>
         </div>
 
         {/* Decorative gradient orb */}

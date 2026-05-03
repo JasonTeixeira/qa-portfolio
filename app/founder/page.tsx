@@ -4,10 +4,10 @@ import { FounderAnimations } from './founder-animations'
 export const metadata: Metadata = {
   title: 'For Hiring Managers',
   description:
-    'Jason Teixeira — fintech engineer, studio founder, full-stack practitioner. Five years at HighStrike. Nine certifications. Open to select senior IC and staff-level roles.',
+    'Jason Teixeira — fintech engineer, studio founder, full-stack practitioner. Five years at HighStrike. Nine certifications. The person behind every Sage Ideas engagement.',
   openGraph: {
     title: 'For Hiring Managers — Jason Teixeira',
-    description: 'The person behind the studio. Open to senior roles where the fit is strong.',
+    description: 'The person behind every Sage Ideas engagement.',
     images: ['/og?title=For+Hiring+Managers&subtitle=The+person+behind+the+studio.'],
   },
 }
@@ -23,7 +23,7 @@ const capabilities = [
 ]
 
 const roleParams = [
-  'Senior IC (Staff / Principal) or technical leadership — not mid-level',
+  'Staff or principal-level IC, or technical leadership — not mid-level',
   'AI-forward team where LLMs are infrastructure, not a pitch deck bullet',
   'Meaningful equity participation — real skin in the game',
   'Transparent compensation: range shared upfront, no range-reveal games',

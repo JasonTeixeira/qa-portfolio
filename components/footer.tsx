@@ -12,17 +12,20 @@ const studio = [
   { href: '/contact', label: 'Contact' },
 ]
 
-// All 9 tiers in display order.
+// All 9 productized tiers + 3 monthly retainers.
 const services = [
-  { href: '/services/audit', label: 'Sage Audit · $1,500' },
-  { href: '/services/ship', label: 'Ship · $4,900' },
-  { href: '/services/automate', label: 'Automate · $9,900' },
-  { href: '/services/seo-sprint', label: 'SEO Sprint · $3,500' },
-  { href: '/services/content-engine', label: 'Content Engine · $6,500/mo' },
-  { href: '/services/brand-sprint', label: 'Brand Sprint · $8,500' },
-  { href: '/services/scale', label: 'Scale · $4,900/mo' },
-  { href: '/services/build', label: 'Build · from $25,000' },
-  { href: '/services/operate', label: 'Operate · $7,500/mo' },
+  { href: '/services/audit', label: 'Sage Audit · $750' },
+  { href: '/services/ship', label: 'Ship · $2,500' },
+  { href: '/services/automate', label: 'Automate · $3,500' },
+  { href: '/services/seo-sprint', label: 'SEO Sprint · $1,500' },
+  { href: '/services/content-engine', label: 'Content Engine · $1,500/mo' },
+  { href: '/services/brand-sprint', label: 'Brand Sprint · $2,500' },
+  { href: '/services/scale', label: 'Scale · $1,200/mo' },
+  { href: '/services/build', label: 'Build · from $9,500' },
+  { href: '/services/operate', label: 'Operate · $2,500/mo' },
+  { href: '/services/site-care', label: 'Site Care · $300/mo' },
+  { href: '/services/brand-care', label: 'Brand Care · $400/mo' },
+  { href: '/services/content-care', label: 'Content Care · $800/mo' },
 ]
 
 const navigate = [

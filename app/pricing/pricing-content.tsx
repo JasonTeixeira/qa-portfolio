@@ -7,6 +7,9 @@ import type { Tier } from '@/data/services/tiers'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { CheckoutButton } from '@/components/studio/checkout-button'
+import { CareCheckoutButton } from '@/components/studio/care-checkout-button'
+import { careTiers } from '@/data/services/tiers'
+import { RefreshCw, Sparkles } from 'lucide-react'
 
 const pricingFaq = [
   {
@@ -15,7 +18,7 @@ const pricingFaq = [
   },
   {
     q: "Can I change tiers mid-engagement?",
-    a: "For active one-time engagements (Audit, Ship, Automate), scope changes are handled via a written amendment — any addition is estimated and approved before work begins. Monthly tiers (Scale, Operate) can be upgraded or paused at the next renewal with 30 days notice.",
+    a: "For active one-time engagements (Audit, Ship, Automate, SEO Sprint, Brand Sprint), scope changes are handled via a written amendment — any addition is estimated and approved before work begins. Monthly tiers (Scale, Operate, Care plans) can be upgraded or paused at the next billing cycle.",
   },
   {
     q: "Do you take equity?",
@@ -23,11 +26,15 @@ const pricingFaq = [
   },
   {
     q: "What if my project doesn't fit any of these tiers?",
-    a: "The Build tier (from $25,000) is specifically designed for projects that need custom scoping. Book a discovery call and we'll define scope and price together.",
+    a: "Two paths. Build (from $9,500) is for full custom multi-week engagements. Or scope a fully custom package — a hybrid sprint, a multi-month retainer, or a specific deliverable list. Every engagement can be custom-scoped with a transparent fixed quote.",
+  },
+  {
+    q: "Do you offer monthly retainers and ongoing services?",
+    a: "Yes. Site Care ($300/mo), Brand Care ($400/mo), and Content Care ($800/mo) are lightweight monthly retainers for upkeep on something you already shipped. Scale ($1,200/mo), Operate ($2,500/mo), and Content Engine ($1,500/mo) are heavier ongoing engagements. All retainers cancel anytime.",
   },
   {
     q: "What's the cancellation policy?",
-    a: "One-time engagements (Audit, Ship, Automate) are non-refundable once work begins. Scale and Operate subscriptions can cancel after the minimum 3-month commitment with 30 days written notice. If we haven't started work, we issue a full refund.",
+    a: "One-time engagements are non-refundable once work begins. Monthly retainers (Scale, Operate, Content Engine, Site Care, Brand Care, Content Care) cancel anytime through Stripe — you'll be billed through the end of the current cycle. If we haven't started work, we issue a full refund.",
   },
   {
     q: "International clients and taxes/VAT?",
@@ -51,7 +58,7 @@ const bestForMap: Record<string, string> = {
   'brand-sprint': 'Founders shipping a real brand identity in two weeks',
   scale: 'Growing businesses investing in long-term organic traffic',
   build: 'Founders building a full-stack product from scratch',
-  operate: 'Post-launch teams that need senior engineering leadership',
+  operate: 'Post-launch teams that need ongoing engineering leadership',
 }
 
 export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
@@ -69,12 +76,23 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
           >
             <SectionLabel>Pricing</SectionLabel>
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
-              Pricing — clear,{' '}
-              <span className="text-[#06B6D4]">productized.</span>
+              Pricing — small-business{' '}
+              <span className="text-[#06B6D4]">friendly.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
-              {'Every tier has a defined scope and a defined price. You know what you\u2019re getting before anything starts. No retainer ambiguity, no scope creep, no \u201cit depends.\u201d'}
+              {'Every tier has a defined scope and a defined price \u2014 from $750 audits to $9,500+ builds. Plus monthly care retainers from $300/mo, and custom packages on request. No retainer ambiguity, no scope creep, no \u201cit depends.\u201d'}
             </p>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs font-mono">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4]">
+                Productized — fixed price
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#8B5CF6]">
+                <RefreshCw className="w-3 h-3" /> Care retainers — from $300/mo
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#27272A] border border-[#3F3F46] text-[#A1A1AA]">
+                <Sparkles className="w-3 h-3" /> Custom packages welcome
+              </span>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -230,6 +248,98 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
               </motion.div>
             ))}
           </div>
+        </motion.section>
+
+        {/* Care retainers */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+        >
+          <SectionLabel>Care retainers</SectionLabel>
+          <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-2">
+            Monthly care plans
+          </h2>
+          <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+            Lightweight monthly retainers for teams who already have something in market.
+            Cancel anytime through Stripe.
+          </p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {careTiers.map((c, i) => (
+              <motion.div
+                key={c.slug}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="rounded-2xl border border-[#8B5CF6]/20 bg-gradient-to-br from-[#8B5CF6]/[0.04] to-transparent p-6 flex flex-col"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <RefreshCw className="w-3.5 h-3.5 text-[#8B5CF6]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#8B5CF6]">
+                    Retainer
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-[#FAFAFA] mb-1">{c.name}</h3>
+                <div className="text-2xl font-bold text-[#FAFAFA] mb-3">
+                  {c.price}
+                  <span className="text-sm text-[#71717A] font-normal">/mo</span>
+                </div>
+                <p className="text-sm text-[#A1A1AA] leading-snug mb-4">{c.tagline}</p>
+                <ul className="space-y-1.5 mb-5 flex-1">
+                  {c.outcomes.slice(0, 3).map((o) => (
+                    <li
+                      key={o}
+                      className="flex items-start gap-1.5 text-xs text-[#A1A1AA]"
+                    >
+                      <Check className="w-3 h-3 text-[#8B5CF6] mt-0.5 shrink-0" />
+                      {o}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap items-center gap-2">
+                  <CareCheckoutButton care={c} variant="primary" />
+                  <Link
+                    href={`/services/${c.slug}`}
+                    className="text-xs font-mono text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  >
+                    Details
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Custom packages */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="rounded-2xl border border-[#27272A] bg-[#0F0F12] p-8 sm:p-10"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="w-4 h-4 text-[#A1A1AA]" />
+            <span className="text-xs font-mono uppercase tracking-widest text-[#A1A1AA]">
+              Custom packages
+            </span>
+          </div>
+          <h2 className="text-3xl font-bold text-[#FAFAFA] mb-3">
+            Don&apos;t see what you need?
+          </h2>
+          <p className="text-[#A1A1AA] max-w-2xl leading-relaxed mb-6">
+            Every engagement can be custom-scoped — hybrid sprints, multi-month builds,
+            specific-deliverable retainers, monthly content + brand combos. Transparent
+            quotes, fixed prices, no asterisks.
+          </p>
+          <Link
+            href="/contact?engagement=custom"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors"
+          >
+            Talk to Sage about custom scope <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </motion.section>
 
         {/* Pricing FAQ */}

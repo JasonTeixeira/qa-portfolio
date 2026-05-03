@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { tiersBySlug } from '@/data/services/tiers'
+import { tiersBySlug, careTiersBySlug } from '@/data/services/tiers'
+
+type CheckoutTarget = {
+  slug: string
+  name: string
+  stripePriceId?: string
+  cadence: 'one-time' | 'monthly' | 'custom'
+}
 
 export async function POST(req: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY
@@ -20,35 +27,53 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing slug' }, { status: 400 })
   }
 
+  // Look up either a productized tier or a Care retainer
   const tier = tiersBySlug[slug]
-  if (!tier) {
-    return NextResponse.json({ error: `Unknown tier: ${slug}` }, { status: 404 })
+  const care = careTiersBySlug[slug]
+  let target: CheckoutTarget | null = null
+  if (tier) {
+    target = {
+      slug: tier.slug,
+      name: tier.name,
+      stripePriceId: tier.stripePriceId,
+      cadence: tier.cadence,
+    }
+  } else if (care) {
+    target = {
+      slug: care.slug,
+      name: care.name,
+      stripePriceId: care.stripePriceId,
+      cadence: care.cadence,
+    }
+  }
+
+  if (!target) {
+    return NextResponse.json({ error: `Unknown slug: ${slug}` }, { status: 404 })
   }
 
   // Custom-cadence tiers (Build) should route to /book, not Stripe
-  if (tier.cadence === 'custom') {
+  if (target.cadence === 'custom') {
     return NextResponse.json({ error: 'This tier requires a discovery call.' }, { status: 422 })
   }
 
-  if (!tier.stripePriceId) {
-    return NextResponse.json({ error: 'No Stripe price configured for this tier' }, { status: 500 })
+  if (!target.stripePriceId) {
+    return NextResponse.json({ error: 'No Stripe price configured for this offering' }, { status: 500 })
   }
 
   const stripe = new Stripe(stripeKey, { apiVersion: '2026-04-22.dahlia' })
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sageideas.dev'
 
-  // Determine checkout mode
-  const mode = tier.cadence === 'monthly' ? 'subscription' : 'payment'
+  const mode = target.cadence === 'monthly' ? 'subscription' : 'payment'
 
   const sessionParams: Stripe.Checkout.SessionCreateParams = {
     mode,
-    line_items: [{ price: tier.stripePriceId, quantity: 1 }],
+    line_items: [{ price: target.stripePriceId, quantity: 1 }],
     success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${baseUrl}/checkout/cancel`,
     billing_address_collection: 'auto',
     automatic_tax: { enabled: false },
-    metadata: { tier_slug: tier.slug, tier_name: tier.name },
+    metadata: { tier_slug: target.slug, tier_name: target.name },
   }
 
   if (mode === 'payment') {

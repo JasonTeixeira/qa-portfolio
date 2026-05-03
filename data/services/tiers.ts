@@ -107,17 +107,17 @@ export const tiers: Tier[] = [
     slug: 'audit',
     name: 'Sage Audit',
     shortName: 'Audit',
-    tagline: 'A senior set of eyes on your stack — in one week.',
+    tagline: 'A focused set of eyes on your stack — in one week.',
     description:
       'A focused 5-day strategic audit. We dig into your product, site, infrastructure, or workflow and deliver a prioritized recommendations doc, a Loom walkthrough, and a 60-minute review call. Best for teams who suspect they’re leaving money or velocity on the table.',
-    price: '$1,500',
-    priceCents: 150_000,
+    price: '$750',
+    priceCents: 75_000,
     cadence: 'one-time',
     timeline: '5 business days',
     cta: 'Buy Sage Audit',
     ctaHref: '/checkout/audit',
     stripeProductId: 'prod_URxMF53KV9WPzt',
-    stripePriceId: 'price_1TT3RbEDeyGfkojJjPhl3gQv',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJZwqYdbmm',
     capability: 'strategy',
     mode: 'audit',
     outcomes: [
@@ -145,7 +145,7 @@ export const tiers: Tier[] = [
       },
       {
         q: 'Can the cost be applied to a larger engagement?',
-        a: 'Yes. If you move forward with Ship, Automate, Build, SEO Sprint, Content Engine, or Brand Sprint within 30 days, the full $1,500 is credited toward that engagement.',
+        a: 'Yes. If you move forward with Ship, Automate, Build, SEO Sprint, Content Engine, or Brand Sprint within 30 days, the full $750 is credited toward that engagement.',
       },
       {
         q: 'How much access do you need?',
@@ -211,7 +211,7 @@ export const tiers: Tier[] = [
       href: '/artifacts/sample-audit-report.pdf',
       comingSoon: true,
     },
-    schemaSummary: 'Senior engineering and SEO audit delivered in 5 business days.',
+    schemaSummary: 'Strategic engineering and SEO audit delivered in 5 business days.',
   },
 
   // ────────────────────────────────────────────────────────────────────────
@@ -224,14 +224,14 @@ export const tiers: Tier[] = [
     tagline: 'A production marketing site, in two weeks.',
     description:
       'A 2-week sprint that takes your marketing site from idea to production. Next.js, CMS-backed content, SEO foundation, analytics, and deploy. You get the same engineering discipline we apply to our own products.',
-    price: '$4,900',
-    priceCents: 490_000,
+    price: '$2,500',
+    priceCents: 250_000,
     cadence: 'one-time',
     timeline: '2 weeks',
     cta: 'Buy Ship',
     ctaHref: '/checkout/ship',
     stripeProductId: 'prod_URxMDngEq9ZNBH',
-    stripePriceId: 'price_1TT3RbEDeyGfkojJjHhT324h',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJzpw9JR4k',
     capability: 'web',
     mode: 'sprint',
     outcomes: [
@@ -316,7 +316,7 @@ export const tiers: Tier[] = [
       {
         name: 'Brand Sprint pairing',
         description: 'Ship + Brand Sprint as one engagement — saves $500 vs. buying separately.',
-        price: '$12,900 combined',
+        price: '$4,500 combined',
       },
       {
         name: 'Bilingual / i18n',
@@ -345,14 +345,14 @@ export const tiers: Tier[] = [
     tagline: 'One critical workflow, automated end-to-end.',
     description:
       'A 3-week sprint that takes one workflow — onboarding, billing, support, lead routing, content production — and automates it end-to-end with monitoring, error handling, and a runbook your team can actually operate.',
-    price: '$9,900',
-    priceCents: 990_000,
+    price: '$3,500',
+    priceCents: 350_000,
     cadence: 'one-time',
     timeline: '3 weeks',
     cta: 'Buy Automate',
     ctaHref: '/checkout/automate',
     stripeProductId: 'prod_URxMLWjK4k5izZ',
-    stripePriceId: 'price_1TT3RbEDeyGfkojJRWFGFm9z',
+    stripePriceId: 'price_1TT4nWEDeyGfkojJVcCHy76b',
     highlight: true,
     capability: 'automation',
     mode: 'sprint',
@@ -437,7 +437,7 @@ export const tiers: Tier[] = [
       {
         name: 'Operate handoff',
         description: 'Roll into Operate at month 1 — first month at 50% off.',
-        price: '$3,750 first month',
+        price: '$1,250 first month',
       },
     ],
     caseStudySlugs: ['alphastream', 'quality-telemetry'],
@@ -461,14 +461,14 @@ export const tiers: Tier[] = [
     tagline: 'Technical SEO + on-page foundation, fixed in 30 days.',
     description:
       'A 30-day audit + fix sprint that gets your technical SEO right. Crawl health, Core Web Vitals, schema, internal linking, on-page optimization, and programmatic SEO scaffolding. Built for teams who want compounding organic traffic without a full retainer.',
-    price: '$3,500',
-    priceCents: 350_000,
+    price: '$1,500',
+    priceCents: 150_000,
     cadence: 'one-time',
     timeline: '30 days',
     cta: 'Buy SEO Sprint',
     ctaHref: '/checkout/seo-sprint',
     stripeProductId: 'prod_URyENd3VyvT2vt',
-    stripePriceId: 'price_1TT4IcEDeyGfkojJdQLE5Rci',
+    stripePriceId: 'price_1TT4nWEDeyGfkojJ0P9NjqEa',
     capability: 'seo',
     mode: 'sprint',
     outcomes: [
@@ -549,8 +549,8 @@ export const tiers: Tier[] = [
     addOns: [
       {
         name: 'Content Engine pairing',
-        description: 'SEO Sprint + Content Engine first month at 50% off — total $6,750.',
-        price: '$6,750 first month',
+        description: 'SEO Sprint + Content Engine first month at 50% off — total $2,250.',
+        price: '$2,250 first month',
       },
       {
         name: 'Migration / replatform',
@@ -585,14 +585,14 @@ export const tiers: Tier[] = [
     tagline: 'Editorial-grade long-form, every week, for compounding reach.',
     description:
       'A monthly engine that produces 4 long-form pieces (2,000+ words), distribution kits for LinkedIn / X / newsletter, an internal linking strategy that compounds, and a performance dashboard. Quarterly minimum.',
-    price: '$6,500',
-    priceCents: 650_000,
+    price: '$1,500',
+    priceCents: 150_000,
     cadence: 'monthly',
     timeline: 'Quarterly minimum',
     cta: 'Subscribe to Content Engine',
     ctaHref: '/checkout/content-engine',
     stripeProductId: 'prod_URyERLk7O50c0U',
-    stripePriceId: 'price_1TT4IgEDeyGfkojJ8i1qbLyU',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJyGWmKIpw',
     capability: 'content',
     mode: 'operate',
     outcomes: [
@@ -636,7 +636,7 @@ export const tiers: Tier[] = [
       },
       {
         q: 'What if I want a specific writer / SME?',
-        a: 'Discuss in discovery. For specialist domains (legal, medical, hard-tech finance) we bring in a credentialed reviewer at +$1,500/mo.',
+        a: 'Discuss in discovery. For specialist domains (legal, medical, hard-tech finance) we bring in a credentialed reviewer at +$750/mo.',
       },
     ],
     phases: [
@@ -679,18 +679,18 @@ export const tiers: Tier[] = [
       {
         name: 'SME reviewer',
         description: 'Credentialed reviewer (legal, medical, regulated finance) per piece.',
-        price: '+$1,500/mo',
+        price: '+$750/mo',
       },
       {
         name: 'Newsletter operations',
         description:
           'We run your newsletter end-to-end on Resend or Beehiiv — list growth, weekly cadence, segmentation.',
-        price: '+$2,000/mo',
+        price: '+$800/mo',
       },
       {
         name: 'Video repurpose',
         description: 'Each long-form piece repurposed into a 60-second YouTube Short + LinkedIn video.',
-        price: '+$2,500/mo',
+        price: '+$900/mo',
       },
     ],
     caseStudySlugs: ['nexural', 'alphastream'],
@@ -714,14 +714,14 @@ export const tiers: Tier[] = [
     tagline: 'Verbal + visual identity, ready to ship — in 2 weeks.',
     description:
       'A 2-week brand identity sprint. Verbal identity (positioning, voice, messaging), visual identity (logo, type, color, motion), brand guidelines, and web-ready design tokens. Delivered with a Figma library and a Notion brand book.',
-    price: '$8,500',
-    priceCents: 850_000,
+    price: '$2,500',
+    priceCents: 250_000,
     cadence: 'one-time',
     timeline: '2 weeks',
     cta: 'Buy Brand Sprint',
     ctaHref: '/checkout/brand-sprint',
     stripeProductId: 'prod_URyFr3xIKTBsIS',
-    stripePriceId: 'price_1TT4IkEDeyGfkojJsxbCDh3E',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJXiZiLhM9',
     capability: 'brand',
     mode: 'sprint',
     outcomes: [
@@ -809,7 +809,7 @@ export const tiers: Tier[] = [
       {
         name: 'Brand Sprint + Ship combo',
         description: 'Bundle Brand Sprint into a Ship engagement — saves $500.',
-        price: '$12,900 combined',
+        price: '$4,500 combined',
       },
       {
         name: 'Pitch deck template',
@@ -848,14 +848,14 @@ export const tiers: Tier[] = [
     tagline: 'SEO + Content Engine running in lockstep — the compounding stack.',
     description:
       'The compounding stack. Programmatic SEO architecture, 8 long-form articles per month, technical SEO maintenance, distribution, and monthly reporting. Built for teams who want a real organic moat in their category.',
-    price: '$4,900',
-    priceCents: 490_000,
+    price: '$1,200',
+    priceCents: 120_000,
     cadence: 'monthly',
     timeline: 'Quarterly minimum',
     cta: 'Subscribe to Scale',
     ctaHref: '/checkout/scale',
     stripeProductId: 'prod_URxMPJt8RTbNPx',
-    stripePriceId: 'price_1TT3RbEDeyGfkojJTDhgGX30',
+    stripePriceId: 'price_1TT4nYEDeyGfkojJNH8NUDgJ',
     capability: 'seo',
     mode: 'operate',
     outcomes: [
@@ -879,7 +879,7 @@ export const tiers: Tier[] = [
     faq: [
       {
         q: 'How is Scale different from SEO Sprint + Content Engine?',
-        a: 'Scale runs them as one engagement at a discounted combined rate vs. buying separately ($3,500 + $6,500 = $10,000/mo if standalone; Scale is $4,900/mo with a leaner content cadence — 8 instead of 4 pieces but no SME review by default).',
+        a: 'Scale runs them as one engagement at a discounted combined rate vs. buying separately ($1,500 SEO Sprint + $1,500/mo Content Engine if standalone; Scale is $1,200/mo with programmatic SEO and a leaner ongoing content cadence — 8 lighter pieces vs. 4 long-form, no SME review by default).',
       },
       {
         q: 'How fast will I see results?',
@@ -914,23 +914,23 @@ export const tiers: Tier[] = [
     resultMetrics: [
       { value: '24', label: 'Long-form pieces / quarter', context: 'guaranteed' },
       { value: '3–9 mo', label: 'Compounding window', context: 'typical' },
-      { value: '$10k+', label: 'Saved vs. buying SEO + Content separately', context: 'per quarter' },
+      { value: 'compounds', label: 'Combined SEO + content moat', context: 'over 3–9 months' },
     ],
     addOns: [
       {
         name: 'SME reviewer',
         description: 'Credentialed reviewer per piece for regulated industries.',
-        price: '+$1,500/mo',
+        price: '+$750/mo',
       },
       {
         name: 'Newsletter operations',
         description: 'Run your newsletter end-to-end on Resend or Beehiiv.',
-        price: '+$2,000/mo',
+        price: '+$800/mo',
       },
       {
         name: 'Video repurpose',
         description: 'Each long-form piece into a 60s Short + LinkedIn video.',
-        price: '+$2,500/mo',
+        price: '+$900/mo',
       },
     ],
     caseStudySlugs: ['nexural', 'alphastream', 'jobpoise'],
@@ -954,14 +954,14 @@ export const tiers: Tier[] = [
     tagline: 'Site + app + automation + SEO. Live in one sprint.',
     description:
       'The flagship engagement. A 4–12 week sprint where we take a business from idea or fragmented stack to a coherent, AI-native production system. Custom scope, custom proposal, starts after a 30-minute discovery call.',
-    price: 'from $25,000',
-    priceCents: 2_500_000,
+    price: 'from $9,500',
+    priceCents: 950_000,
     cadence: 'custom',
     timeline: '4–12 weeks',
     cta: 'Book a Discovery Call',
     ctaHref: '/book?tier=build',
     stripeProductId: 'prod_URxMU6zh8iJSls',
-    stripePriceId: 'price_1TT3RbEDeyGfkojJeEI3l8QT',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJrqu9Zrlo',
     highlight: true,
     capability: 'product',
     mode: 'build',
@@ -994,7 +994,7 @@ export const tiers: Tier[] = [
       },
       {
         q: 'Who actually writes the code?',
-        a: 'Sage Ideas + a curated bench of senior specialists when scope warrants. Every line of code is reviewed by Jason. No offshore unsupervised contractors.',
+        a: 'Sage Ideas + a curated bench of trusted specialists when scope warrants. Every line of code is reviewed by Jason. No offshore unsupervised contractors.',
       },
       {
         q: 'What if scope changes?',
@@ -1040,17 +1040,17 @@ export const tiers: Tier[] = [
       {
         name: 'Compliance package',
         description: 'SOC 2 readiness controls, audit trail, vendor docs, DPIA.',
-        price: '+$8,000',
+        price: '+$3,500',
       },
       {
         name: 'Year-1 Operate retainer',
         description: 'Roll into Operate with the first month at 50% off.',
-        price: '$3,750 first month',
+        price: '$1,250 first month',
       },
       {
         name: 'Brand Sprint pairing',
-        description: 'Add a Brand Sprint into Build at a $1,500 discount.',
-        price: '+$7,000',
+        description: 'Add a Brand Sprint into Build at a $500 discount.',
+        price: '+$2,000',
       },
     ],
     caseStudySlugs: ['nexural', 'jobpoise', 'trayd', 'aws-landing-zone'],
@@ -1070,26 +1070,26 @@ export const tiers: Tier[] = [
     slug: 'operate',
     name: 'Operate',
     shortName: 'Operate',
-    tagline: 'Senior engineering on retainer. Twenty hours a week.',
+    tagline: 'Engineering ownership on retainer. About twenty hours a week.',
     description:
-      'A monthly fractional CTO engagement. ~20 hours/week of senior engineering, architecture, and ownership of one critical surface area. Best for post-Build clients and growing SMBs without an in-house technical lead.',
-    price: '$7,500',
-    priceCents: 750_000,
+      'A monthly fractional CTO engagement. ~20 hours/week of focused engineering, architecture, and ownership of one critical surface area. Best for post-Build clients and growing SMBs without an in-house technical lead.',
+    price: '$2,500',
+    priceCents: 250_000,
     cadence: 'monthly',
     timeline: 'Quarterly minimum',
     cta: 'Book a Discovery Call',
     ctaHref: '/book?tier=operate',
     stripeProductId: 'prod_URxM07ZeyQoJdP',
-    stripePriceId: 'price_1TT3RcEDeyGfkojJf8DHD2oV',
+    stripePriceId: 'price_1TT4nXEDeyGfkojJSKzzlZT6',
     capability: 'platform',
     mode: 'operate',
     outcomes: [
-      'A senior engineer who owns one critical surface area',
+      'A dedicated engineer who owns one critical surface area',
       'Weekly syncs + async availability',
       'Architecture decisions you can stand behind',
     ],
     deliverables: [
-      '~20 hours/week senior engineering',
+      '~20 hours/week of focused engineering',
       'Weekly sync + written status',
       'Async availability via Slack / Linear',
       'Architecture review on all major changes',
@@ -1135,7 +1135,7 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '20 hrs/wk', label: 'Senior engineering capacity', context: 'guaranteed' },
+      { value: '20 hrs/wk', label: 'Engineering capacity', context: 'guaranteed' },
       { value: '24h', label: 'Async response SLA', context: 'business days' },
       { value: '1', label: 'Surface area owned end-to-end', context: 'per engagement' },
     ],
@@ -1143,12 +1143,12 @@ export const tiers: Tier[] = [
       {
         name: 'On-call coverage extension',
         description: 'Extended on-call beyond launch windows — pager + 30-min response.',
-        price: '+$2,500/mo',
+        price: '+$800/mo',
       },
       {
         name: 'Hiring partner',
         description: 'I help you hire your first engineer — JD, sourcing, interview rubric.',
-        price: '+$5,000 one-time',
+        price: '+$1,500 one-time',
       },
     ],
     caseStudySlugs: ['aws-landing-zone', 'quality-telemetry'],
@@ -1159,7 +1159,7 @@ export const tiers: Tier[] = [
       href: '/artifacts/operate-weekly-status.pdf',
       comingSoon: true,
     },
-    schemaSummary: 'Fractional CTO retainer — 20 hrs/week senior engineering ownership.',
+    schemaSummary: 'Fractional CTO retainer — 20 hrs/week of engineering ownership.',
   },
 ] as const
 
@@ -1192,13 +1192,13 @@ export const capabilities: Record<
 > = {
   strategy: {
     label: 'Strategy',
-    tagline: 'A senior set of eyes on what to build, ship, and stop doing.',
+    tagline: 'A focused set of eyes on what to build, ship, and stop doing.',
     tierSlugs: ['audit'],
   },
   web: {
     label: 'Web',
     tagline: 'Production marketing sites, fast, indexable, and CMS-backed.',
-    tierSlugs: ['ship'],
+    tierSlugs: ['ship', 'site-care'],
   },
   automation: {
     label: 'Automation',
@@ -1213,12 +1213,12 @@ export const capabilities: Record<
   content: {
     label: 'Content',
     tagline: 'Long-form, research-backed, distributed — every week.',
-    tierSlugs: ['content-engine'],
+    tierSlugs: ['content-engine', 'content-care'],
   },
   brand: {
     label: 'Brand',
     tagline: 'Verbal + visual identity, ready for production.',
-    tierSlugs: ['brand-sprint'],
+    tierSlugs: ['brand-sprint', 'brand-care'],
   },
   product: {
     label: 'Product',
@@ -1227,7 +1227,487 @@ export const capabilities: Record<
   },
   platform: {
     label: 'Platform',
-    tagline: 'Senior engineering on retainer for one critical surface area.',
+    tagline: 'Engineering ownership on retainer for one critical surface area.',
     tierSlugs: ['operate'],
   },
 }
+
+/* ============================================================================
+ * Capability × Mode matrix — every cell filled
+ *
+ * Some cells map to a productized tier (Sage Audit, Ship, etc.) with Stripe
+ * checkout. Others are “custom” engagements with a transparent floor price
+ * and a “Talk to Sage” CTA. A small set of “Care” retainers (Site Care,
+ * Brand Care, Content Care) live as standalone Stripe products too.
+ * ===========================================================================
+ */
+
+export type Mode = 'audit' | 'sprint' | 'build' | 'operate'
+
+export type MatrixCellKind = 'tier' | 'care' | 'custom'
+
+export type MatrixCell = {
+  /** A tier slug (‘audit’, ‘ship’, etc.) when kind=tier. Otherwise a stable id. */
+  id: string
+  kind: MatrixCellKind
+  /** Short label for the matrix cell. */
+  label: string
+  /** Display price string (‘$750’, ‘from $1,200’, ‘$300/mo’). */
+  price: string
+  /** Short delivery / engagement timeline. */
+  timeline: string
+  /** Where the cell links to (service page, checkout, or contact). */
+  href: string
+  /** Optional one-liner used in tooltip / mobile expanded card. */
+  description?: string
+  /** True for the existing 9 productized tiers (highlight color). */
+  productized?: boolean
+  /** Stripe price + product id when applicable (Care retainers). */
+  stripeProductId?: string
+  stripePriceId?: string
+}
+
+export type CareTier = {
+  slug: string
+  name: string
+  shortName: string
+  tagline: string
+  description: string
+  price: string
+  priceCents: number
+  cadence: 'monthly'
+  stripeProductId: string
+  stripePriceId: string
+  capability: CapabilityKey
+  outcomes: string[]
+  ctaHref: string
+}
+
+/** Lightweight monthly retainers that complement the productized tiers. */
+export const careTiers: CareTier[] = [
+  {
+    slug: 'site-care',
+    name: 'Site Care',
+    shortName: 'Site Care',
+    tagline: 'Monthly site upkeep — patches, copy edits, perf tuning.',
+    description:
+      'A lightweight monthly retainer for an existing site. Uptime monitoring, security patches, copy edits, performance tuning, content updates, and small feature tweaks. Cancel anytime.',
+    price: '$300',
+    priceCents: 30_000,
+    cadence: 'monthly',
+    stripeProductId: 'prod_URylIJqZtFVUl5',
+    stripePriceId: 'price_1TT4o0EDeyGfkojJH0Ose7UB',
+    capability: 'web',
+    outcomes: [
+      'Uptime + security patching',
+      'Copy edits and content updates',
+      'Performance tuning + Lighthouse upkeep',
+      'Small feature tweaks each month',
+    ],
+    ctaHref: '/checkout/site-care',
+  },
+  {
+    slug: 'brand-care',
+    name: 'Brand Care',
+    shortName: 'Brand Care',
+    tagline: 'Monthly brand maintenance — logo updates, social, guideline upkeep.',
+    description:
+      'Ongoing brand maintenance retainer for teams who shipped Brand Sprint or already have an identity in place. Logo refreshes, social asset templates, brand guideline upkeep, and small-batch design requests. Cancel anytime.',
+    price: '$400',
+    priceCents: 40_000,
+    cadence: 'monthly',
+    stripeProductId: 'prod_URylEiF1dSdmOc',
+    stripePriceId: 'price_1TT4o0EDeyGfkojJuXE37BDs',
+    capability: 'brand',
+    outcomes: [
+      'Asset library upkeep + new template requests',
+      'Brand guideline edits as the company evolves',
+      'Small-batch social / sales / event design',
+      'Quarterly brand health review',
+    ],
+    ctaHref: '/checkout/brand-care',
+  },
+  {
+    slug: 'content-care',
+    name: 'Content Care',
+    shortName: 'Content Care',
+    tagline: 'Monthly content maintenance — refreshes, internal linking, repurposing.',
+    description:
+      'A lighter alternative to Content Engine. Refresh existing posts, tighten internal linking, light editing, social repurposing, and analytics check-ins. Designed for teams who already publish but want a steady hand on quality. Cancel anytime.',
+    price: '$800',
+    priceCents: 80_000,
+    cadence: 'monthly',
+    stripeProductId: 'prod_URylShYqQm6kyO',
+    stripePriceId: 'price_1TT4o0EDeyGfkojJNEKyCk1L',
+    capability: 'content',
+    outcomes: [
+      'Existing-post refreshes (every month)',
+      'Internal linking + cluster strengthening',
+      'Light social + newsletter repurposing',
+      'Monthly analytics + topic suggestions',
+    ],
+    ctaHref: '/checkout/content-care',
+  },
+]
+
+export const careTiersBySlug = Object.fromEntries(
+  careTiers.map((c) => [c.slug, c])
+)
+
+/** Builds a fully populated 8 × 4 matrix — every cell has a real offering. */
+export const capabilityMatrix: Record<
+  CapabilityKey,
+  Record<Mode, MatrixCell>
+> = {
+  strategy: {
+    audit: {
+      id: 'audit',
+      kind: 'tier',
+      label: 'Sage Audit',
+      price: '$750',
+      timeline: '5 business days',
+      href: '/services/audit',
+      productized: true,
+    },
+    sprint: {
+      id: 'strategy-sprint',
+      kind: 'custom',
+      label: 'Strategy Sprint',
+      price: 'from $1,200',
+      timeline: '2–3 weeks',
+      href: '/contact?engagement=strategy-sprint',
+      description:
+        'A short, focused engagement to translate audit findings into a roadmap or to scope a single critical decision. Custom-priced.',
+    },
+    build: {
+      id: 'roadmap-build',
+      kind: 'custom',
+      label: 'Roadmap Build',
+      price: 'from $4,500',
+      timeline: '4–6 weeks',
+      href: '/contact?engagement=roadmap-build',
+      description:
+        'A full strategic roadmap: target customer, positioning, technical bets, build/buy/partner calls, hiring plan. Custom-priced.',
+    },
+    operate: {
+      id: 'fractional-strategy',
+      kind: 'custom',
+      label: 'Fractional Strategy',
+      price: 'from $1,500/mo',
+      timeline: 'Quarterly minimum',
+      href: '/contact?engagement=fractional-strategy',
+      description:
+        'Monthly advisory retainer for founder/CEO-level decisions. Async + scheduled syncs. Custom-priced.',
+    },
+  },
+  web: {
+    audit: {
+      id: 'web-audit',
+      kind: 'custom',
+      label: 'Web Audit',
+      price: 'from $500',
+      timeline: '5 business days',
+      href: '/contact?engagement=web-audit',
+      description:
+        'Slimmer audit focused only on a marketing site or web app. Lighthouse, accessibility, SEO foundations, conversion review.',
+    },
+    sprint: {
+      id: 'ship',
+      kind: 'tier',
+      label: 'Ship',
+      price: '$2,500',
+      timeline: '2 weeks',
+      href: '/services/ship',
+      productized: true,
+    },
+    build: {
+      id: 'web-build-custom',
+      kind: 'custom',
+      label: 'Custom Web Build',
+      price: 'from $5,000',
+      timeline: '3–6 weeks',
+      href: '/contact?engagement=custom-web-build',
+      description:
+        'When Ship is too small — multi-page builds, custom CMS workflows, complex integrations, e-commerce flows. Custom-priced.',
+    },
+    operate: {
+      id: 'site-care',
+      kind: 'care',
+      label: 'Site Care',
+      price: '$300/mo',
+      timeline: 'Cancel anytime',
+      href: '/services/site-care',
+      stripeProductId: 'prod_URylIJqZtFVUl5',
+      stripePriceId: 'price_1TT4o0EDeyGfkojJH0Ose7UB',
+      description:
+        'Ongoing site upkeep retainer — patches, copy edits, perf tuning, small feature tweaks.',
+    },
+  },
+  automation: {
+    audit: {
+      id: 'automation-audit',
+      kind: 'custom',
+      label: 'Automation Audit',
+      price: 'from $900',
+      timeline: '5 business days',
+      href: '/contact?engagement=automation-audit',
+      description:
+        'Map a workflow end-to-end, identify the biggest leverage points, and produce a build-ready spec.',
+    },
+    sprint: {
+      id: 'automate',
+      kind: 'tier',
+      label: 'Automate',
+      price: '$3,500',
+      timeline: '3 weeks',
+      href: '/services/automate',
+      productized: true,
+    },
+    build: {
+      id: 'automation-build',
+      kind: 'custom',
+      label: 'Automation Build',
+      price: 'from $5,500',
+      timeline: '4–6 weeks',
+      href: '/contact?engagement=automation-build',
+      description:
+        'Multi-workflow automation system with monitoring, fallbacks, observability, and a runbook.',
+    },
+    operate: {
+      id: 'automation-operate',
+      kind: 'custom',
+      label: 'Automation Care',
+      price: 'from $400/mo',
+      timeline: 'Cancel anytime',
+      href: '/contact?engagement=automation-care',
+      description:
+        'Monthly care for shipped automations — monitoring, prompt updates, model refreshes, runbook updates.',
+    },
+  },
+  seo: {
+    audit: {
+      id: 'seo-audit',
+      kind: 'custom',
+      label: 'SEO Audit',
+      price: 'from $500',
+      timeline: '5 business days',
+      href: '/contact?engagement=seo-audit',
+      description:
+        'A focused, standalone SEO audit — crawl health, schema, vitals, on-page — without the full sprint.',
+    },
+    sprint: {
+      id: 'seo-sprint',
+      kind: 'tier',
+      label: 'SEO Sprint',
+      price: '$1,500',
+      timeline: '30 days',
+      href: '/services/seo-sprint',
+      productized: true,
+    },
+    build: {
+      id: 'programmatic-seo-build',
+      kind: 'custom',
+      label: 'Programmatic SEO Build',
+      price: 'from $4,500',
+      timeline: '4–6 weeks',
+      href: '/contact?engagement=programmatic-seo-build',
+      description:
+        'Build out programmatic SEO at scale — templates, data ingestion, internal linking, schema, reporting.',
+    },
+    operate: {
+      id: 'scale',
+      kind: 'tier',
+      label: 'Scale',
+      price: '$1,200/mo',
+      timeline: 'Quarterly minimum',
+      href: '/services/scale',
+      productized: true,
+    },
+  },
+  content: {
+    audit: {
+      id: 'content-audit',
+      kind: 'custom',
+      label: 'Content Audit',
+      price: 'from $500',
+      timeline: '5 business days',
+      href: '/contact?engagement=content-audit',
+      description:
+        'Review your existing content, topic coverage, and editorial process. Output: a 90-day plan.',
+    },
+    sprint: {
+      id: 'content-sprint',
+      kind: 'custom',
+      label: 'Content Sprint',
+      price: 'from $1,200',
+      timeline: '2 weeks',
+      href: '/contact?engagement=content-sprint',
+      description:
+        'A short editorial sprint — 4 long-form pieces shipped without a long-term commitment.',
+    },
+    build: {
+      id: 'editorial-build',
+      kind: 'custom',
+      label: 'Editorial System Build',
+      price: 'from $4,500',
+      timeline: '4–6 weeks',
+      href: '/contact?engagement=editorial-build',
+      description:
+        'Stand up an end-to-end editorial system — CMS, workflow, distribution, analytics, on-brand templates.',
+    },
+    operate: {
+      id: 'content-engine',
+      kind: 'tier',
+      label: 'Content Engine',
+      price: '$1,500/mo',
+      timeline: 'Quarterly minimum',
+      href: '/services/content-engine',
+      productized: true,
+    },
+  },
+  brand: {
+    audit: {
+      id: 'brand-audit',
+      kind: 'custom',
+      label: 'Brand Audit',
+      price: 'from $500',
+      timeline: '5 business days',
+      href: '/contact?engagement=brand-audit',
+      description:
+        'Audit your existing brand — verbal, visual, applied. Output: a fix list and risk assessment.',
+    },
+    sprint: {
+      id: 'brand-sprint',
+      kind: 'tier',
+      label: 'Brand Sprint',
+      price: '$2,500',
+      timeline: '2 weeks',
+      href: '/services/brand-sprint',
+      productized: true,
+    },
+    build: {
+      id: 'brand-build-full',
+      kind: 'custom',
+      label: 'Full Brand Build',
+      price: 'from $4,500',
+      timeline: '4–6 weeks',
+      href: '/contact?engagement=brand-build',
+      description:
+        'Verbal + visual + applied identity, plus a launch site, deck, and asset library.',
+    },
+    operate: {
+      id: 'brand-care',
+      kind: 'care',
+      label: 'Brand Care',
+      price: '$400/mo',
+      timeline: 'Cancel anytime',
+      href: '/services/brand-care',
+      stripeProductId: 'prod_URylEiF1dSdmOc',
+      stripePriceId: 'price_1TT4o0EDeyGfkojJuXE37BDs',
+      description:
+        'Monthly brand maintenance retainer — logo updates, social asset refreshes, guideline upkeep.',
+    },
+  },
+  product: {
+    audit: {
+      id: 'product-audit',
+      kind: 'custom',
+      label: 'Product Audit',
+      price: 'from $1,000',
+      timeline: '5 business days',
+      href: '/contact?engagement=product-audit',
+      description:
+        'Audit a SaaS or product — architecture, growth instrumentation, billing, onboarding, and tech debt.',
+    },
+    sprint: {
+      id: 'product-sprint',
+      kind: 'custom',
+      label: 'Product Sprint',
+      price: 'from $4,500',
+      timeline: '3–4 weeks',
+      href: '/contact?engagement=product-sprint',
+      description:
+        'A focused sprint — ship one new product surface, fix one critical workflow, or run a focused redesign.',
+    },
+    build: {
+      id: 'build',
+      kind: 'tier',
+      label: 'Build',
+      price: 'from $9,500',
+      timeline: '4–12 weeks',
+      href: '/services/build',
+      productized: true,
+    },
+    operate: {
+      id: 'product-care',
+      kind: 'custom',
+      label: 'Product Care',
+      price: 'from $1,500/mo',
+      timeline: 'Quarterly minimum',
+      href: '/contact?engagement=product-care',
+      description:
+        'Ongoing product retainer — feature work, bug triage, growth experiments, billing changes.',
+    },
+  },
+  platform: {
+    audit: {
+      id: 'platform-audit',
+      kind: 'custom',
+      label: 'Platform Audit',
+      price: 'from $900',
+      timeline: '5 business days',
+      href: '/contact?engagement=platform-audit',
+      description:
+        'Cloud architecture review — IAM, networking, IaC quality, cost, observability, security posture.',
+    },
+    sprint: {
+      id: 'platform-sprint',
+      kind: 'custom',
+      label: 'Platform Sprint',
+      price: 'from $3,500',
+      timeline: '3 weeks',
+      href: '/contact?engagement=platform-sprint',
+      description:
+        'Targeted platform work — stand up a landing zone, fix observability, ship CI/CD overhauls.',
+    },
+    build: {
+      id: 'platform-build',
+      kind: 'custom',
+      label: 'Platform Build',
+      price: 'from $6,500',
+      timeline: '4–8 weeks',
+      href: '/contact?engagement=platform-build',
+      description:
+        'Greenfield platform engineering — multi-account AWS, IaC, observability, runbooks, on-call setup.',
+    },
+    operate: {
+      id: 'operate',
+      kind: 'tier',
+      label: 'Operate',
+      price: '$2,500/mo',
+      timeline: 'Quarterly minimum',
+      href: '/services/operate',
+      productized: true,
+    },
+  },
+}
+
+/** Capability metadata in stable display order. */
+export const capabilityOrder: CapabilityKey[] = [
+  'strategy',
+  'web',
+  'automation',
+  'seo',
+  'content',
+  'brand',
+  'product',
+  'platform',
+]
+
+/** Mode metadata in stable display order with display labels + taglines. */
+export const modeMeta: { key: Mode; label: string; tagline: string }[] = [
+  { key: 'audit', label: 'Audit', tagline: 'Focused eyes on what to fix.' },
+  { key: 'sprint', label: 'Sprint', tagline: 'Fixed-scope, fixed-price ship.' },
+  { key: 'build', label: 'Build', tagline: 'Custom, multi-week engagement.' },
+  { key: 'operate', label: 'Operate', tagline: 'Engineering ownership, on retainer.' },
+]

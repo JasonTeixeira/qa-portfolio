@@ -125,9 +125,9 @@ export function FounderAnimations({ capabilities, roleParams }: Props) {
                     <Award className="h-5 w-5 text-[#8B5CF6]" />
                     <span className="text-xs font-mono uppercase tracking-widest text-[#8B5CF6]">Open Roles</span>
                   </div>
-                  <h3 className="text-xl font-semibold text-[#FAFAFA] mb-3">Strong-fit senior roles</h3>
+                  <h3 className="text-xl font-semibold text-[#FAFAFA] mb-3">Strong-fit staff-level roles</h3>
                   <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                    I&apos;m selectively open to senior IC or staff-level engineering roles where the fit is strong. Strong fit
+                    I&apos;m selectively open to staff or principal IC engineering roles where the fit is strong. Strong fit
                     means: AI-forward team, serious engineering culture, equity participation, and a company building
                     something I&apos;d want to use. The studio continues as a side operation — I&apos;m transparent about this
                     in every conversation.

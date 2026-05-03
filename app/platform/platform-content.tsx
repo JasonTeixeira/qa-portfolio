@@ -209,7 +209,7 @@ export function PlatformContent() {
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA]">SLOs & Operational Targets</h2>
           <p className="mt-4 text-[#A1A1AA] max-w-2xl">
             This portfolio is intentionally operated like a production system. These are the same
-            signals senior cloud/platform teams look for: SLOs, SLIs, error budgets, and a
+            signals serious cloud/platform teams look for: SLOs, SLIs, error budgets, and a
             repeatable incident drill loop.
           </p>
         </motion.div>
@@ -259,7 +259,7 @@ export function PlatformContent() {
           </h2>
           <p className="mt-4 text-[#A1A1AA] max-w-2xl">
             Every security claim has evidence behind it. WAF configs, IAM policies, attack simulations,
-            and threat models — designed for cloud/infrastructure reviewers and senior engineers.
+            and threat models — designed for cloud/infrastructure reviewers and staff-level engineers.
           </p>
         </motion.div>
 

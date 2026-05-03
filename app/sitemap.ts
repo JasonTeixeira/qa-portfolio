@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { tiers } from '@/data/services/tiers'
+import { tiers, careTiers } from '@/data/services/tiers'
 import { verticals } from '@/data/industries/verticals'
 
 const SITE = 'https://sageideas.dev'
@@ -53,6 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.85,
+    })),
+    ...careTiers.map((c) => ({
+      url: `${SITE}/services/${c.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
     })),
     ...verticals.map((v) => ({
       url: `${SITE}/industries/${v.slug}`,

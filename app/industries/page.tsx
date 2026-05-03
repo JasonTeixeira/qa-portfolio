@@ -13,11 +13,11 @@ export const metadata: Metadata = {
     title: 'Industries — Sage Ideas',
     description:
       'Sage Ideas industry expertise: fintech, SaaS, ecommerce, healthcare, AI startups.',
-    images: [{ url: '/og?title=Industries&subtitle=Five+verticals.+Senior+execution.' }],
+    images: [{ url: '/og?title=Industries&subtitle=Five+verticals.+Operator-grade+execution.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og?title=Industries&subtitle=Five+verticals.+Senior+execution.'],
+    images: ['/og?title=Industries&subtitle=Five+verticals.+Operator-grade+execution.'],
   },
 }
 

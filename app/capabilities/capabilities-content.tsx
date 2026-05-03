@@ -17,39 +17,28 @@ import {
   Hammer,
   Settings,
   CheckCircle2,
+  Sparkles,
+  RefreshCw,
 } from 'lucide-react'
-import { capabilities, tiersBySlug, tiersOrdered, type Tier, type CapabilityKey } from '@/data/services/tiers'
+import {
+  capabilities,
+  capabilityMatrix,
+  capabilityOrder,
+  modeMeta,
+  tiersBySlug,
+  type CapabilityKey,
+  type Mode,
+  type MatrixCell,
+} from '@/data/services/tiers'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 
-type Mode = Tier['mode']
-
-const modes: { key: Mode; label: string; tagline: string; Icon: typeof Eye }[] = [
-  {
-    key: 'audit',
-    label: 'Audit',
-    tagline: 'Senior eyes on what to fix.',
-    Icon: Eye,
-  },
-  {
-    key: 'sprint',
-    label: 'Sprint',
-    tagline: 'Fixed-scope, fixed-price ship.',
-    Icon: Rocket,
-  },
-  {
-    key: 'build',
-    label: 'Build',
-    tagline: 'Custom, multi-month engagement.',
-    Icon: Hammer,
-  },
-  {
-    key: 'operate',
-    label: 'Operate',
-    tagline: 'Senior engineering, on retainer.',
-    Icon: Settings,
-  },
-]
+const modeIcons: Record<Mode, typeof Eye> = {
+  audit: Eye,
+  sprint: Rocket,
+  build: Hammer,
+  operate: Settings,
+}
 
 const capabilityIcons: Record<CapabilityKey, typeof Brain> = {
   strategy: Brain,
@@ -62,27 +51,52 @@ const capabilityIcons: Record<CapabilityKey, typeof Brain> = {
   platform: Server,
 }
 
-const capabilityOrder: CapabilityKey[] = [
-  'strategy',
-  'web',
-  'automation',
-  'seo',
-  'content',
-  'brand',
-  'product',
-  'platform',
-]
+type CellTone = 'productized' | 'care' | 'custom'
+
+const toneFor = (cell: MatrixCell): CellTone => {
+  if (cell.kind === 'tier') return 'productized'
+  if (cell.kind === 'care') return 'care'
+  return 'custom'
+}
+
+const toneClasses: Record<
+  CellTone,
+  {
+    border: string
+    bg: string
+    label: string
+    iconBg: string
+    Icon: typeof CheckCircle2
+    badge: string
+  }
+> = {
+  productized: {
+    border: 'border-[#06B6D4]/25 hover:border-[#06B6D4]/60',
+    bg: 'bg-[#06B6D4]/[0.04] hover:bg-[#06B6D4]/[0.08]',
+    label: 'text-[#06B6D4]',
+    iconBg: 'bg-[#06B6D4]/10 border-[#06B6D4]/20',
+    Icon: CheckCircle2,
+    badge: 'Productized',
+  },
+  care: {
+    border: 'border-[#8B5CF6]/25 hover:border-[#8B5CF6]/60',
+    bg: 'bg-[#8B5CF6]/[0.04] hover:bg-[#8B5CF6]/[0.08]',
+    label: 'text-[#8B5CF6]',
+    iconBg: 'bg-[#8B5CF6]/10 border-[#8B5CF6]/20',
+    Icon: RefreshCw,
+    badge: 'Retainer',
+  },
+  custom: {
+    border: 'border-dashed border-[#52525B]/60 hover:border-[#A1A1AA]/60',
+    bg: 'bg-transparent hover:bg-[#FAFAFA]/[0.03]',
+    label: 'text-[#A1A1AA]',
+    iconBg: 'bg-[#27272A] border-[#3F3F46]',
+    Icon: Sparkles,
+    badge: 'Custom',
+  },
+}
 
 export function CapabilitiesContent() {
-  // Build the matrix: capability x mode → tier slug (or null)
-  const matrix: Record<CapabilityKey, Partial<Record<Mode, string>>> = {} as never
-  for (const key of capabilityOrder) {
-    matrix[key] = {}
-  }
-  for (const tier of tiersOrdered) {
-    matrix[tier.capability][tier.mode] = tier.slug
-  }
-
   return (
     <div className="min-h-screen bg-[#09090B]">
       {/* Hero */}
@@ -99,13 +113,24 @@ export function CapabilitiesContent() {
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
               Eight capabilities.{' '}
               <span className="text-[#06B6D4]">Four modes.</span>{' '}
-              <span className="text-[#8B5CF6]">Nine tiers.</span>
+              <span className="text-[#8B5CF6]">Every cell filled.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
               {
-                'Each capability area has a productized engagement. Pick the service line you need, then pick the mode — audit, sprint, build, or operate. Every tier has a fixed scope, a fixed price, and a Stripe checkout.'
+                "Each capability has a productized engagement, a custom option, and an ongoing retainer. Pick what fits — fixed-price tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime. Don't see your shape? Every engagement can be custom-scoped."
               }
             </p>
+            <div className="mt-8 flex flex-wrap gap-2 text-xs font-mono">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4]">
+                <CheckCircle2 className="w-3 h-3" /> Productized · instant checkout
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#8B5CF6]">
+                <RefreshCw className="w-3 h-3" /> Retainer · monthly
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#27272A] border border-[#3F3F46] text-[#A1A1AA]">
+                <Sparkles className="w-3 h-3" /> Custom · talk to Sage
+              </span>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -123,24 +148,27 @@ export function CapabilitiesContent() {
             How engagements run
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {modes.map((m, i) => (
-              <motion.div
-                key={m.key}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="rounded-xl bg-[#0F0F12] border border-[#27272A] p-5"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-9 h-9 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/20 flex items-center justify-center">
-                    <m.Icon className="w-4 h-4 text-[#06B6D4]" />
+            {modeMeta.map((m, i) => {
+              const Icon = modeIcons[m.key]
+              return (
+                <motion.div
+                  key={m.key}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="rounded-xl bg-[#0F0F12] border border-[#27272A] p-5"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/20 flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-[#06B6D4]" />
+                    </div>
+                    <span className="font-semibold text-[#FAFAFA]">{m.label}</span>
                   </div>
-                  <span className="font-semibold text-[#FAFAFA]">{m.label}</span>
-                </div>
-                <p className="text-sm text-[#A1A1AA]">{m.tagline}</p>
-              </motion.div>
-            ))}
+                  <p className="text-sm text-[#A1A1AA]">{m.tagline}</p>
+                </motion.div>
+              )
+            })}
           </div>
         </motion.section>
 
@@ -153,12 +181,12 @@ export function CapabilitiesContent() {
         >
           <SectionLabel>Matrix</SectionLabel>
           <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-2">
-            Capability × Mode
+            Capability × Mode — every cell filled
           </h2>
           <p className="text-[#A1A1AA] mb-8 max-w-2xl">
-            Find your row (capability) and column (mode). The intersection is the
-            engagement. Empty cells are deliberate — we focus where we can deliver
-            senior, accountable work.
+            Find your row (capability) and column (mode). Every intersection has a real
+            offering — productized tiers checkout instantly, custom engagements get a
+            same-day quote, retainers cancel anytime.
           </p>
 
           <div className="hidden lg:block overflow-hidden rounded-2xl border border-[#27272A] bg-[#0F0F12]">
@@ -167,7 +195,7 @@ export function CapabilitiesContent() {
               <div className="px-4 py-3 text-xs font-mono uppercase tracking-widest text-[#71717A]">
                 Capability
               </div>
-              {modes.map((m) => (
+              {modeMeta.map((m) => (
                 <div
                   key={m.key}
                   className="px-4 py-3 text-xs font-mono uppercase tracking-widest text-[#71717A] border-l border-[#27272A]"
@@ -206,44 +234,38 @@ export function CapabilitiesContent() {
                   </div>
 
                   {/* Mode cells */}
-                  {modes.map((m) => {
-                    const slug = matrix[capKey][m.key]
-                    const tier = slug ? tiersBySlug[slug] : null
+                  {modeMeta.map((m) => {
+                    const cell = capabilityMatrix[capKey][m.key]
+                    const tone = toneFor(cell)
+                    const styles = toneClasses[tone]
+                    const ToneIcon = styles.Icon
                     return (
                       <div
                         key={m.key}
                         className="border-l border-[#27272A]/60 p-3"
                       >
-                        {tier ? (
-                          <Link
-                            href={`/services/${tier.slug}`}
-                            className="block h-full rounded-lg bg-[#06B6D4]/[0.04] border border-[#06B6D4]/20 hover:border-[#06B6D4]/60 hover:bg-[#06B6D4]/[0.08] p-3 transition-all group"
-                          >
-                            <div className="flex items-center gap-1.5 mb-1">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#06B6D4]" />
-                              <span className="text-[11px] font-mono uppercase tracking-widest text-[#06B6D4]">
-                                {tier.shortName}
-                              </span>
-                            </div>
-                            <div className="text-sm font-semibold text-[#FAFAFA] group-hover:text-[#06B6D4] transition-colors leading-tight">
-                              {tier.price}
-                              {tier.cadence === 'monthly' && (
-                                <span className="text-[#71717A] text-xs font-normal">
-                                  /mo
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-xs text-[#71717A] mt-0.5">
-                              {tier.timeline}
-                            </div>
-                          </Link>
-                        ) : (
-                          <div className="h-full rounded-lg border border-dashed border-[#27272A] p-3 flex items-center justify-center min-h-[78px]">
-                            <span className="text-xs font-mono text-[#3F3F46]">
-                              —
+                        <Link
+                          href={cell.href}
+                          className={`block h-full rounded-lg border ${styles.border} ${styles.bg} p-3 transition-all group min-h-[100px]`}
+                        >
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <ToneIcon className={`w-3.5 h-3.5 ${styles.label}`} />
+                            <span
+                              className={`text-[10px] font-mono uppercase tracking-widest ${styles.label}`}
+                            >
+                              {styles.badge}
                             </span>
                           </div>
-                        )}
+                          <div className="text-sm font-semibold text-[#FAFAFA] leading-tight mb-1">
+                            {cell.label}
+                          </div>
+                          <div className="text-[13px] text-[#FAFAFA]/90 font-medium">
+                            {cell.price}
+                          </div>
+                          <div className="text-xs text-[#71717A] mt-0.5">
+                            {cell.timeline}
+                          </div>
+                        </Link>
                       </div>
                     )
                   })}
@@ -278,41 +300,101 @@ export function CapabilitiesContent() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {modes.map((m) => {
-                      const slug = matrix[capKey][m.key]
-                      const tier = slug ? tiersBySlug[slug] : null
-                      return tier ? (
+                    {modeMeta.map((m) => {
+                      const cell = capabilityMatrix[capKey][m.key]
+                      const tone = toneFor(cell)
+                      const styles = toneClasses[tone]
+                      return (
                         <Link
                           key={m.key}
-                          href={`/services/${tier.slug}`}
-                          className="rounded-lg bg-[#06B6D4]/[0.04] border border-[#06B6D4]/20 p-2.5 hover:border-[#06B6D4]/60 transition-colors"
+                          href={cell.href}
+                          className={`rounded-lg border ${styles.border} ${styles.bg} p-2.5 transition-colors`}
                         >
-                          <div className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4] mb-0.5">
-                            {m.label}
+                          <div
+                            className={`text-[10px] font-mono uppercase tracking-widest ${styles.label} mb-0.5`}
+                          >
+                            {m.label} · {styles.badge}
                           </div>
                           <div className="text-sm font-semibold text-[#FAFAFA] leading-tight">
-                            {tier.shortName}
+                            {cell.label}
                           </div>
-                          <div className="text-xs text-[#71717A] mt-0.5">
-                            {tier.price}
+                          <div className="text-xs text-[#A1A1AA] mt-0.5">
+                            {cell.price}
                           </div>
                         </Link>
-                      ) : (
-                        <div
-                          key={m.key}
-                          className="rounded-lg border border-dashed border-[#27272A] p-2.5"
-                        >
-                          <div className="text-[10px] font-mono uppercase tracking-widest text-[#3F3F46]">
-                            {m.label}
-                          </div>
-                          <div className="text-xs font-mono text-[#3F3F46] mt-1">—</div>
-                        </div>
                       )
                     })}
                   </div>
                 </motion.div>
               )
             })}
+          </div>
+        </motion.section>
+
+        {/* Custom + retainer messaging */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="grid md:grid-cols-2 gap-6"
+        >
+          <div className="rounded-2xl border border-[#27272A] bg-[#0F0F12] p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-[#A1A1AA]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#A1A1AA]">
+                Custom packages
+              </span>
+            </div>
+            <h3 className="text-xl font-bold text-[#FAFAFA] mb-2">
+              Don&apos;t see what you need?
+            </h3>
+            <p className="text-sm text-[#A1A1AA] mb-4 leading-relaxed">
+              Every engagement can be custom-scoped — combine capabilities, adjust the
+              timeline, set your own deliverables. Every quote is transparent and
+              fixed-price.
+            </p>
+            <Link
+              href="/contact?engagement=custom"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors"
+            >
+              Talk to Sage <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+          <div className="rounded-2xl border border-[#8B5CF6]/20 bg-gradient-to-br from-[#8B5CF6]/[0.06] to-transparent p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <RefreshCw className="w-4 h-4 text-[#8B5CF6]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#8B5CF6]">
+                Monthly retainers
+              </span>
+            </div>
+            <h3 className="text-xl font-bold text-[#FAFAFA] mb-2">
+              Already shipped? Keep it healthy.
+            </h3>
+            <p className="text-sm text-[#A1A1AA] mb-4 leading-relaxed">
+              Site Care, Brand Care, and Content Care are lightweight monthly retainers
+              for teams who already have something in market. Cancel anytime.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/services/site-care"
+                className="text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 px-2.5 py-1 rounded hover:bg-[#8B5CF6]/20 transition-colors"
+              >
+                Site Care · $300/mo
+              </Link>
+              <Link
+                href="/services/brand-care"
+                className="text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 px-2.5 py-1 rounded hover:bg-[#8B5CF6]/20 transition-colors"
+              >
+                Brand Care · $400/mo
+              </Link>
+              <Link
+                href="/services/content-care"
+                className="text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 px-2.5 py-1 rounded hover:bg-[#8B5CF6]/20 transition-colors"
+              >
+                Content Care · $800/mo
+              </Link>
+            </div>
           </div>
         </motion.section>
 
@@ -332,7 +414,7 @@ export function CapabilitiesContent() {
               const cap = capabilities[capKey]
               const Icon = capabilityIcons[capKey]
               const tierCount = cap.tierSlugs.length
-              const firstTier = tiersBySlug[cap.tierSlugs[0]]
+              const firstSlug = cap.tierSlugs[0]
               return (
                 <motion.div
                   key={capKey}
@@ -355,27 +437,25 @@ export function CapabilitiesContent() {
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {cap.tierSlugs.map((slug) => {
                           const t = tiersBySlug[slug]
-                          if (!t) return null
+                          const label = t ? t.shortName : slug.replace(/-/g, ' ')
                           return (
                             <Link
                               key={slug}
                               href={`/services/${slug}`}
-                              className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 border border-[#06B6D4]/20 px-2 py-0.5 rounded hover:bg-[#06B6D4]/20 transition-colors"
+                              className="text-xs font-mono text-[#06B6D4] bg-[#06B6D4]/10 border border-[#06B6D4]/20 px-2 py-0.5 rounded hover:bg-[#06B6D4]/20 transition-colors capitalize"
                             >
-                              {t.shortName}
+                              {label}
                             </Link>
                           )
                         })}
                       </div>
-                      {firstTier && (
-                        <Link
-                          href={`/services/${firstTier.slug}`}
-                          className="inline-flex items-center gap-1 text-xs font-mono text-[#71717A] hover:text-[#06B6D4] transition-colors"
-                        >
-                          {tierCount} {tierCount === 1 ? 'tier' : 'tiers'} · explore
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
-                      )}
+                      <Link
+                        href={`/services/${firstSlug}`}
+                        className="inline-flex items-center gap-1 text-xs font-mono text-[#71717A] hover:text-[#06B6D4] transition-colors"
+                      >
+                        {tierCount} {tierCount === 1 ? 'option' : 'options'} · explore
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
                   </GlowCard>
                 </motion.div>
@@ -397,7 +477,7 @@ export function CapabilitiesContent() {
           </h2>
           <p className="text-[#A1A1AA] mb-8 max-w-lg mx-auto">
             Book a 30-minute discovery call. We&apos;ll talk through what you&apos;re
-            building and which row + column fits.
+            building and which row + column fits — or scope something custom together.
           </p>
           <Link
             href="/book"

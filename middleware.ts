@@ -12,13 +12,16 @@ const isPublicStudioRoute = createRouteMatcher([
 
 // Pre-pass that rewrites studio.sageideas.dev/* -> /studio/* internally
 // so the URL bar stays clean while the file system uses /app/studio/*.
+// Also sets x-portal header so server components can detect portal context.
 function rewriteStudioHost(req: NextRequest) {
   const host = req.headers.get('host') || '';
   const url = req.nextUrl.clone();
 
   if (host === STUDIO_HOST && !url.pathname.startsWith('/studio')) {
     url.pathname = `/studio${url.pathname}`;
-    return NextResponse.rewrite(url);
+    const requestHeaders = new Headers(req.headers);
+    requestHeaders.set('x-portal', '1');
+    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
   return null;
 }

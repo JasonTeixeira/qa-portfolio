@@ -217,6 +217,14 @@ export default function HomePage() {
                 >
                   <Link href="/services">View Services</Link>
                 </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="ghost"
+                  className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
+                >
+                  <Link href="/how-it-works">See How It Works</Link>
+                </Button>
                 <Link
                   href="/book"
                   className="text-sm text-[#A1A1AA] hover:text-[#06B6D4] transition-colors ml-1 underline-offset-4 hover:underline"

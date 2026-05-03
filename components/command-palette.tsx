@@ -64,7 +64,15 @@ export function CommandPalette() {
       description: 'View my services',
       icon: <Briefcase className="h-4 w-4" />,
       action: () => navigate('/services'),
-      keywords: ['consulting', 'hire', 'work']
+      keywords: ['consulting', 'work']
+    },
+    {
+      id: 'how-it-works',
+      label: 'How It Works',
+      description: 'Visual pipelines for every service — intro chat to handoff',
+      icon: <Briefcase className="h-4 w-4" />,
+      action: () => navigate('/how-it-works'),
+      keywords: ['pipeline', 'journey', 'process', 'flow', 'visual']
     },
     {
       id: 'projects',

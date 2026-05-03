@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   Sparkles,
   RefreshCw,
+  Smartphone,
 } from 'lucide-react'
 import {
   capabilities,
@@ -49,6 +50,7 @@ const capabilityIcons: Record<CapabilityKey, typeof Brain> = {
   brand: Palette,
   product: Boxes,
   platform: Server,
+  app: Smartphone,
 }
 
 type CellTone = 'productized' | 'care' | 'custom'

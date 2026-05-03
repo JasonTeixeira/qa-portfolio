@@ -14,6 +14,8 @@ import type { CareTier } from '@/data/services/tiers'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { CareCheckoutButton } from '@/components/studio/care-checkout-button'
+import { Pipeline } from '@/components/pipeline'
+import { getPipeline } from '@/data/pipelines'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -292,6 +294,25 @@ export function CarePageContent({ care }: { care: CareTier }) {
             </p>
           </div>
         </motion.section>
+
+        {/* Visual pipeline */}
+        {(() => {
+          const pipeline = getPipeline(care.slug)
+          if (!pipeline) return null
+          return (
+            <motion.section {...fadeUp}>
+              <SectionLabel>The journey</SectionLabel>
+              <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-3">
+                How {care.shortName} actually runs
+              </h2>
+              <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+                A monthly retainer that runs on a calm cadence. Click any stage to see
+                what you do, what I do, and what you walk away with.
+              </p>
+              <Pipeline pipeline={pipeline} />
+            </motion.section>
+          )
+        })()}
 
         {/* Detail tiles */}
         {detail && (

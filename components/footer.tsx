@@ -22,6 +22,7 @@ const services = [
   { href: '/services/brand-sprint', label: 'Brand Sprint · $2,500' },
   { href: '/services/scale', label: 'Scale · $1,200/mo' },
   { href: '/services/build', label: 'Build · from $9,500' },
+  { href: '/services/app-development', label: 'App Development · from $6,500' },
   { href: '/services/operate', label: 'Operate · $2,500/mo' },
   { href: '/services/site-care', label: 'Site Care · $300/mo' },
   { href: '/services/brand-care', label: 'Brand Care · $400/mo' },
@@ -30,6 +31,7 @@ const services = [
 
 const navigate = [
   { href: '/services', label: 'All Services' },
+  { href: '/how-it-works', label: 'How It Works' },
   { href: '/capabilities', label: 'Capabilities Matrix' },
   { href: '/industries', label: 'Industries' },
   { href: '/pricing', label: 'Pricing' },

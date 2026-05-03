@@ -73,6 +73,7 @@ export type Tier = {
     | 'brand'
     | 'product'
     | 'platform'
+    | 'app'
   /** Mode the engagement runs in. */
   mode: 'audit' | 'sprint' | 'build' | 'operate'
 
@@ -1161,6 +1162,141 @@ export const tiers: Tier[] = [
     },
     schemaSummary: 'Fractional CTO retainer — 20 hrs/week of engineering ownership.',
   },
+
+  // ────────────────────────────────────────────────────────────────────────
+  // 10. APP DEVELOPMENT — purpose-built web apps for small teams
+  // ────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'app-development',
+    name: 'App Development',
+    shortName: 'App Dev',
+    tagline: 'A purpose-built web app for your small team — spec, prototype, build, launch.',
+    description:
+      'A custom app build for small teams. We start with a free chat to confirm an app is the right answer, write a tight spec, prove the riskiest flow with a clickable prototype, then build a hardened production app with auth, data, integrations, tests, and monitoring. Web-first with mobile-friendly responsive design.',
+    price: 'from $6,500',
+    priceCents: 650_000,
+    cadence: 'custom',
+    timeline: '4–10 weeks',
+    cta: 'Book a Discovery Call',
+    ctaHref: '/book?tier=app-development',
+    stripeProductId: 'prod_URzrMgS4T1XMhB',
+    stripePriceId: 'price_1TT5rTEDeyGfkojJojR1ygzw',
+    capability: 'app',
+    mode: 'build',
+    outcomes: [
+      'A live, custom web app your team and customers can use',
+      'A spec, a prototype, then a real production app — in that order',
+      'Tests, monitoring, and a runbook so the app survives without me',
+      'Mobile-friendly responsive design out of the box',
+    ],
+    deliverables: [
+      'Free 20-minute intro chat',
+      'Plain-English product spec with milestone-based pricing',
+      'Clickable prototype of the riskiest flow',
+      'Production app: auth, database, UI, integrations',
+      'Cross-device QA + accessibility + perf + security passes',
+      'Loom + written runbook + two weeks of bug-fix support',
+    ],
+    notIncluded: [
+      'Native iOS / Android apps (web-first; we ship responsive web apps and PWAs)',
+      'Long-term hosting bills (your AWS / Vercel / Render account, your costs)',
+      'Open-ended scope expansion (changes go through written change-control)',
+    ],
+    faq: [
+      {
+        q: 'Why does the price start at $6,500?',
+        a: 'Real apps need auth, data, tests, and monitoring on day one — not after launch. The starting price covers a tight scope with those baked in. Bigger apps quote higher; small internal tools may quote lower.',
+      },
+      {
+        q: 'Web app or native app?',
+        a: 'Web-first. Modern web apps install to home screens, work offline, and ship 10x faster than native. If you genuinely need native, I will say so on the intro call and refer out.',
+      },
+      {
+        q: 'Can you take over an existing app?',
+        a: 'Yes — start with Sage Audit ($750) so I understand the codebase, then we scope a continuation engagement honestly.',
+      },
+      {
+        q: 'What if my idea is too small for $6,500?',
+        a: 'Then it might be a Ship (marketing site), an Automate (one workflow), or a Build (broader engagement). The free intro chat is the fastest way to find out.',
+      },
+    ],
+    phases: [
+      {
+        label: 'Day 0',
+        title: 'Free intro chat',
+        description:
+          'A 20-minute call to decide whether an app is the right answer at all and which scope fits.',
+        artifacts: ['Honest fit check', 'Web vs native vs no-code recommendation'],
+      },
+      {
+        label: 'Day 1–4',
+        title: 'Spec & price',
+        description:
+          'A short product spec capturing users, jobs, screens, data model, and milestone-based pricing.',
+        artifacts: ['Product spec', 'Wireframes', 'Milestone pricing'],
+      },
+      {
+        label: 'Week 1–2',
+        title: 'Working prototype',
+        description:
+          'A clickable prototype proves the core flow before we invest in the full build.',
+        artifacts: ['Clickable prototype', 'Confirmed data model'],
+      },
+      {
+        label: 'Week 2–7',
+        title: 'Production build',
+        description:
+          'Real app build — auth, database, UI, integrations, tests, monitoring, observability.',
+        artifacts: ['Daily-updated staging', 'Weekly demo + status', 'Test + monitoring baseline'],
+      },
+      {
+        label: 'Week 7–8',
+        title: 'QA & polish',
+        description:
+          'Cross-device QA, accessibility, performance, and a security pass before launch.',
+        artifacts: ['QA log', 'Accessibility report', 'Lighthouse + security pass'],
+      },
+      {
+        label: 'Week 8–10',
+        title: 'Launch & handoff',
+        description:
+          'Production cutover with a rollback plan, monitoring alerts, and a runbook your team can run.',
+        artifacts: ['Live app', 'Loom + runbook', 'Two weeks of bug-fix support'],
+      },
+    ],
+    resultMetrics: [
+      { value: '4–10 wks', label: 'Spec to launch', context: 'typical engagement' },
+      { value: '<2.5s', label: 'Largest contentful paint', context: 'on launch' },
+      { value: '95+', label: 'Lighthouse score', context: 'desktop & mobile' },
+    ],
+    addOns: [
+      {
+        name: 'Mobile-shell app (PWA polish)',
+        description: 'Installable PWA with offline support and push notifications.',
+        price: '+$1,200 one-time',
+      },
+      {
+        name: 'Stripe / payment integration',
+        description: 'One-time + subscription billing wired and tested.',
+        price: '+$900 one-time',
+      },
+      {
+        name: 'Care for the app',
+        description: 'Roll into Operate retainer ($2,500/mo) for ongoing pager + improvements.',
+        price: 'See Operate',
+      },
+    ],
+    caseStudySlugs: ['nexural', 'jobpoise', 'trayd'],
+    sampleArtifact: {
+      title: 'Sample app spec template',
+      description:
+        'A redacted product spec for a small-team web app — users, jobs, screens, data model, milestones.',
+      href: '/artifacts/app-spec-template.pdf',
+      comingSoon: true,
+    },
+    schemaSummary:
+      'Custom web app development — spec, prototype, production build, QA, launch, optional Care.',
+  },
 ] as const
 
 export const tiersBySlug = Object.fromEntries(tiers.map((t) => [t.slug, t]))
@@ -1175,6 +1311,7 @@ export const tierDisplayOrder: string[] = [
   'brand-sprint',
   'scale',
   'build',
+  'app-development',
   'operate',
 ]
 
@@ -1229,6 +1366,11 @@ export const capabilities: Record<
     label: 'Platform',
     tagline: 'Engineering ownership on retainer for one critical surface area.',
     tierSlugs: ['operate'],
+  },
+  app: {
+    label: 'Apps',
+    tagline: 'Purpose-built web apps for small teams — spec, prototype, build, launch.',
+    tierSlugs: ['app-development'],
   },
 }
 
@@ -1690,6 +1832,47 @@ export const capabilityMatrix: Record<
       productized: true,
     },
   },
+  app: {
+    audit: {
+      id: 'app-audit',
+      kind: 'custom',
+      label: 'App Audit',
+      price: 'from $900',
+      timeline: '5 business days',
+      href: '/contact?engagement=app-audit',
+      description:
+        'Codebase, UX, perf, accessibility, and security review of an existing web app — with a prioritized fix list.',
+    },
+    sprint: {
+      id: 'app-prototype',
+      kind: 'custom',
+      label: 'App Prototype Sprint',
+      price: 'from $2,500',
+      timeline: '2–3 weeks',
+      href: '/contact?engagement=app-prototype',
+      description:
+        'A focused prototype that proves the riskiest flow before committing to a full build. Custom-priced.',
+    },
+    build: {
+      id: 'app-development',
+      kind: 'tier',
+      label: 'App Development',
+      price: 'from $6,500',
+      timeline: '4–10 weeks',
+      href: '/services/app-development',
+      productized: true,
+    },
+    operate: {
+      id: 'app-operate',
+      kind: 'custom',
+      label: 'App Operate',
+      price: 'from $2,500/mo',
+      timeline: 'Quarterly minimum',
+      href: '/contact?engagement=app-operate',
+      description:
+        'Ongoing ownership of a small-team web app — features, bugs, deps, monitoring, on-call.',
+    },
+  },
 }
 
 /** Capability metadata in stable display order. */
@@ -1701,6 +1884,7 @@ export const capabilityOrder: CapabilityKey[] = [
   'content',
   'brand',
   'product',
+  'app',
   'platform',
 ]
 

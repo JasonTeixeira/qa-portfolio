@@ -21,6 +21,8 @@ import { SectionLabel } from '@/components/section-label'
 import { Button } from '@/components/ui/button'
 import { GlowCard } from '@/components/glow-card'
 import { CheckoutButton } from '@/components/studio/checkout-button'
+import { Pipeline } from '@/components/pipeline'
+import { getPipeline } from '@/data/pipelines'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -182,6 +184,31 @@ export function TierPageContent({ tier }: { tier: Tier }) {
             ))}
           </div>
         </motion.section>
+
+        {/* Visual pipeline — the journey from intro chat to handoff */}
+        {(() => {
+          const pipeline = getPipeline(tier.slug)
+          if (!pipeline) return null
+          return (
+            <motion.section
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55 }}
+            >
+              <SectionLabel>The journey</SectionLabel>
+              <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-3">
+                How {tier.name} actually runs
+              </h2>
+              <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+                Every Sage Ideas engagement follows the same five-act story — free
+                intro chat, scope, focused build, clean handoff, and optional Care.
+                Click any stage to see what you do, what I do, and what you walk away with.
+              </p>
+              <Pipeline pipeline={pipeline} />
+            </motion.section>
+          )
+        })()}
 
         {/* Methodology / Phases — Timeline strip */}
         {tier.phases.length > 0 && (

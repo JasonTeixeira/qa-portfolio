@@ -12,22 +12,37 @@ const studio = [
   { href: '/contact', label: 'Contact' },
 ]
 
+// All 9 tiers in display order.
 const services = [
   { href: '/services/audit', label: 'Sage Audit · $1,500' },
   { href: '/services/ship', label: 'Ship · $4,900' },
   { href: '/services/automate', label: 'Automate · $9,900' },
+  { href: '/services/seo-sprint', label: 'SEO Sprint · $3,500' },
+  { href: '/services/content-engine', label: 'Content Engine · $6,500/mo' },
+  { href: '/services/brand-sprint', label: 'Brand Sprint · $8,500' },
   { href: '/services/scale', label: 'Scale · $4,900/mo' },
   { href: '/services/build', label: 'Build · from $25,000' },
   { href: '/services/operate', label: 'Operate · $7,500/mo' },
-  { href: '/pricing', label: 'Compare all →' },
 ]
 
-const proof = [
+const navigate = [
+  { href: '/services', label: 'All Services' },
+  { href: '/capabilities', label: 'Capabilities Matrix' },
+  { href: '/industries', label: 'Industries' },
+  { href: '/pricing', label: 'Pricing' },
   { href: '/work', label: 'Work / Case Studies' },
   { href: '/lab', label: 'The Lab' },
   { href: '/blog', label: 'Insights' },
   { href: '/dashboard', label: 'Live Dashboard' },
   { href: '/stack', label: 'Tech Stack' },
+]
+
+const industries = [
+  { href: '/industries/fintech', label: 'Fintech' },
+  { href: '/industries/saas', label: 'SaaS' },
+  { href: '/industries/ecommerce', label: 'Ecommerce' },
+  { href: '/industries/healthcare', label: 'Healthcare' },
+  { href: '/industries/ai-startups', label: 'AI Startups' },
 ]
 
 const legal = [
@@ -52,10 +67,10 @@ export function Footer() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#06B6D4]/5 via-transparent to-transparent pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Brand */}
           <motion.div
-            className="lg:col-span-2 space-y-4"
+            className="col-span-2 md:col-span-3 lg:col-span-2 space-y-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,8 +111,12 @@ export function Footer() {
 
           {/* Services */}
           <FooterColumn title="Services" links={services} />
-          <FooterColumn title="Studio" links={[...studio, ...proof]} />
-          <FooterColumn title="Legal" links={legal} />
+          {/* Industries */}
+          <FooterColumn title="Industries" links={industries} />
+          {/* Navigate */}
+          <FooterColumn title="Navigate" links={navigate} />
+          {/* Studio + Legal — combined column */}
+          <FooterColumn title="Studio & Legal" links={[...studio, ...legal]} />
         </div>
 
         <div className="mt-16 pt-8 border-t border-[#27272A] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-[#71717A]">
@@ -109,7 +128,13 @@ export function Footer() {
   )
 }
 
-function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string
+  links: { href: string; label: string }[]
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

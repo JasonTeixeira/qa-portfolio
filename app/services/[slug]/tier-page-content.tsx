@@ -2,8 +2,21 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, X, Clock, Zap } from 'lucide-react'
+import {
+  ArrowRight,
+  Check,
+  X,
+  Clock,
+  Zap,
+  Calendar,
+  TrendingUp,
+  Plus,
+  FileText,
+  Download,
+  Briefcase,
+} from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
+import { caseStudies } from '@/data/work/case-studies'
 import { SectionLabel } from '@/components/section-label'
 import { Button } from '@/components/ui/button'
 import { GlowCard } from '@/components/glow-card'
@@ -21,7 +34,18 @@ const cadenceLabel: Record<Tier['cadence'], string> = {
   custom: 'Custom — starts after discovery',
 }
 
+const modeLabel: Record<Tier['mode'], string> = {
+  audit: 'Audit',
+  sprint: 'Sprint',
+  build: 'Build',
+  operate: 'Operate',
+}
+
 export function TierPageContent({ tier }: { tier: Tier }) {
+  const relatedStudies = caseStudies.filter((cs) =>
+    tier.caseStudySlugs.includes(cs.slug)
+  )
+
   return (
     <div className="min-h-screen bg-[#09090B]">
       {/* Hero */}
@@ -34,6 +58,20 @@ export function TierPageContent({ tier }: { tier: Tier }) {
             transition={fadeUp.transition}
             className="max-w-3xl"
           >
+            {/* Capability + Mode breadcrumb */}
+            <div className="flex items-center gap-2 mb-4 text-xs font-mono uppercase tracking-widest text-[#71717A]">
+              <Link
+                href="/capabilities"
+                className="hover:text-[#06B6D4] transition-colors"
+              >
+                Capabilities
+              </Link>
+              <span>·</span>
+              <span className="text-[#A1A1AA] capitalize">{tier.capability}</span>
+              <span>·</span>
+              <span className="text-[#06B6D4]">{modeLabel[tier.mode]}</span>
+            </div>
+
             <SectionLabel>Service</SectionLabel>
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
               {tier.name}
@@ -79,6 +117,44 @@ export function TierPageContent({ tier }: { tier: Tier }) {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
+        {/* Result metrics — quick proof strip */}
+        {tier.resultMetrics.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <SectionLabel>By the numbers</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-8">
+              Typical results
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {tier.resultMetrics.map((m, i) => (
+                <motion.div
+                  key={m.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="rounded-xl bg-[#0F0F12] border border-[#27272A] p-6 hover:border-[#06B6D4]/30 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="w-4 h-4 text-[#06B6D4]" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">
+                      {m.context ?? 'Result'}
+                    </span>
+                  </div>
+                  <div className="text-3xl font-bold text-[#FAFAFA] tabular-nums">
+                    {m.value}
+                  </div>
+                  <div className="text-sm text-[#A1A1AA] mt-1">{m.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
         {/* What you get */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
@@ -106,6 +182,82 @@ export function TierPageContent({ tier }: { tier: Tier }) {
             ))}
           </div>
         </motion.section>
+
+        {/* Methodology / Phases — Timeline strip */}
+        {tier.phases.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <SectionLabel>Methodology</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-2">
+              How we run this
+            </h2>
+            <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+              Phase-by-phase breakdown of the engagement. Every milestone produces a
+              concrete artifact you can see, share, or hand off.
+            </p>
+
+            {/* Timeline gantt-style strip */}
+            <div className="space-y-6">
+              {tier.phases.map((phase, i) => (
+                <motion.div
+                  key={phase.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  className="relative"
+                >
+                  {/* Connector line */}
+                  {i < tier.phases.length - 1 && (
+                    <div className="absolute left-[27px] top-14 bottom-[-24px] w-px bg-gradient-to-b from-[#06B6D4]/40 to-[#27272A]" />
+                  )}
+
+                  <div className="flex gap-4 sm:gap-6">
+                    {/* Index badge */}
+                    <div className="shrink-0 w-14 h-14 rounded-xl bg-[#0F0F12] border border-[#06B6D4]/30 flex flex-col items-center justify-center">
+                      <Calendar className="w-4 h-4 text-[#06B6D4] mb-0.5" />
+                      <span className="text-[9px] font-mono text-[#71717A] uppercase tracking-tight">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    {/* Body */}
+                    <div className="flex-1 rounded-xl bg-[#0F0F12] border border-[#27272A] p-5 sm:p-6">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
+                        <span className="text-xs font-mono uppercase tracking-widest text-[#06B6D4] bg-[#06B6D4]/10 px-2 py-0.5 rounded">
+                          {phase.label}
+                        </span>
+                        <h3 className="text-lg font-semibold text-[#FAFAFA]">
+                          {phase.title}
+                        </h3>
+                      </div>
+                      <p className="text-[#A1A1AA] text-sm leading-relaxed mb-3">
+                        {phase.description}
+                      </p>
+                      {phase.artifacts && phase.artifacts.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[#27272A]">
+                          {phase.artifacts.map((a) => (
+                            <span
+                              key={a}
+                              className="inline-flex items-center gap-1 text-xs font-mono text-[#71717A] bg-[#18181B] border border-[#27272A] px-2 py-0.5 rounded"
+                            >
+                              <FileText className="w-3 h-3" />
+                              {a}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* Deliverables */}
         <motion.section
@@ -137,6 +289,94 @@ export function TierPageContent({ tier }: { tier: Tier }) {
           </GlowCard>
         </motion.section>
 
+        {/* Sample artifact */}
+        {tier.sampleArtifact && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <SectionLabel>Sample</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-8">
+              See what you&apos;ll get
+            </h2>
+            <div className="rounded-2xl bg-gradient-to-br from-[#0F0F12] via-[#0F0F12] to-[#06B6D4]/5 border border-[#27272A] p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-6">
+                <div className="shrink-0 w-16 h-20 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/30 flex items-center justify-center">
+                  <FileText className="w-7 h-7 text-[#06B6D4]" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-[#FAFAFA] mb-2">
+                    {tier.sampleArtifact.title}
+                  </h3>
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed mb-4">
+                    {tier.sampleArtifact.description}
+                  </p>
+                  {tier.sampleArtifact.comingSoon ? (
+                    <span className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#71717A] bg-[#18181B] border border-[#27272A] px-3 py-1.5 rounded">
+                      <Clock className="w-3.5 h-3.5" />
+                      Sample available on request
+                    </span>
+                  ) : tier.sampleArtifact.href ? (
+                    <Link
+                      href={tier.sampleArtifact.href}
+                      className="inline-flex items-center gap-2 text-sm font-medium text-[#06B6D4] hover:text-[#0EA5E9] transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download sample (PDF)
+                    </Link>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Add-ons */}
+        {tier.addOns.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <SectionLabel>Add-ons</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-2">
+              Extend the engagement
+            </h2>
+            <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+              Optional add-ons priced separately. Bundle at checkout or scope into a
+              follow-on engagement.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {tier.addOns.map((addOn, i) => (
+                <motion.div
+                  key={addOn.name}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="rounded-xl bg-[#0F0F12] border border-[#27272A] p-5 hover:border-[#8B5CF6]/30 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Plus className="w-4 h-4 text-[#8B5CF6]" />
+                      <h3 className="font-semibold text-[#FAFAFA]">{addOn.name}</h3>
+                    </div>
+                    <span className="text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 px-2 py-0.5 rounded shrink-0">
+                      {addOn.price}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                    {addOn.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
         {/* Not included */}
         {tier.notIncluded.length > 0 && (
           <motion.section
@@ -150,12 +390,67 @@ export function TierPageContent({ tier }: { tier: Tier }) {
             <div className="rounded-xl border border-[#27272A]/60 bg-[#0F0F12]/50 p-6">
               <ul className="space-y-2.5">
                 {tier.notIncluded.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#71717A] text-sm">
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-[#71717A] text-sm"
+                  >
                     <X className="w-4 h-4 text-[#3F3F46] shrink-0 mt-0.5" />
                     {item}
                   </li>
                 ))}
               </ul>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Related case studies */}
+        {relatedStudies.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <SectionLabel>Proof</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-8">
+              Related case studies
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {relatedStudies.map((cs, i) => (
+                <motion.div
+                  key={cs.slug}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                >
+                  <Link
+                    href={`/work/${cs.slug}`}
+                    className="block h-full rounded-xl bg-[#0F0F12] border border-[#27272A] p-6 hover:border-[#06B6D4]/40 transition-all group"
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-9 h-9 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/20 flex items-center justify-center shrink-0">
+                        <Briefcase className="w-4 h-4 text-[#06B6D4]" />
+                      </div>
+                      <div className="flex-1">
+                        <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">
+                          {cs.category}
+                        </span>
+                        <h3 className="font-semibold text-[#FAFAFA] group-hover:text-[#06B6D4] transition-colors mt-0.5 leading-tight">
+                          {cs.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="text-sm text-[#A1A1AA] leading-relaxed mb-3">
+                      {cs.tagline}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-xs font-mono text-[#06B6D4]">
+                      Read case study
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
           </motion.section>
         )}

@@ -11,13 +11,15 @@ import { cn } from '@/lib/utils'
 
 const primaryLinks = [
   { href: '/work', label: 'Work' },
-  { href: '/lab', label: 'Lab' },
   { href: '/services', label: 'Services' },
+  { href: '/capabilities', label: 'Capabilities' },
+  { href: '/industries', label: 'Industries' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/blog', label: 'Insights' },
 ]
 
 const mobileExtraLinks = [
+  { href: '/lab', label: 'Lab' },
   { href: '/process', label: 'Process' },
   { href: '/trust', label: 'Trust' },
   { href: '/studio', label: 'Studio' },

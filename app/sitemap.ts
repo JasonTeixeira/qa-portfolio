@@ -1,13 +1,16 @@
 import type { MetadataRoute } from 'next'
 import { tiers } from '@/data/services/tiers'
+import { verticals } from '@/data/industries/verticals'
 
 const SITE = 'https://sageideas.dev'
 
 const staticRoutes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
   { path: '/', priority: 1.0, changeFrequency: 'weekly' },
   { path: '/work', priority: 0.9, changeFrequency: 'weekly' },
-  { path: '/lab', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/lab', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/services', priority: 0.95, changeFrequency: 'weekly' },
+  { path: '/capabilities', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/industries', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pricing', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/process', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/trust', priority: 0.7, changeFrequency: 'monthly' },
@@ -47,6 +50,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...tiers.map((t) => ({
       url: `${SITE}/services/${t.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    })),
+    ...verticals.map((v) => ({
+      url: `${SITE}/industries/${v.slug}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.85,

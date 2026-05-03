@@ -5,6 +5,8 @@ import { TierPageContent } from './tier-page-content'
 
 type Params = { slug: string }
 
+const SITE = 'https://sageideas.dev'
+
 export function generateStaticParams(): Params[] {
   return tiers.map((tier) => ({ slug: tier.slug }))
 }
@@ -26,9 +28,11 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `${SITE}/services/${tier.slug}` },
     openGraph: {
       title,
       description,
+      url: `${SITE}/services/${tier.slug}`,
       images: [{ url: `/og?title=${ogTitle}&subtitle=${ogSubtitle}` }],
     },
     twitter: {
@@ -42,5 +46,71 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
   const { slug } = await params
   const tier = tiersBySlug[slug]
   if (!tier) notFound()
-  return <TierPageContent tier={tier} />
+
+  // Schema.org Service JSON-LD
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: tier.name,
+    description: tier.schemaSummary ?? tier.description,
+    serviceType: tier.capability,
+    provider: {
+      '@type': 'Organization',
+      name: 'Sage Ideas LLC',
+      url: SITE,
+    },
+    areaServed: { '@type': 'Place', name: 'Worldwide' },
+    offers: {
+      '@type': 'Offer',
+      price: tier.priceCents > 0 ? (tier.priceCents / 100).toFixed(2) : undefined,
+      priceCurrency: 'USD',
+      url: `${SITE}/services/${tier.slug}`,
+      availability: 'https://schema.org/InStock',
+      ...(tier.cadence === 'monthly'
+        ? {
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: (tier.priceCents / 100).toFixed(2),
+              priceCurrency: 'USD',
+              unitCode: 'MON',
+              billingDuration: 'P1M',
+            },
+          }
+        : {}),
+    },
+    url: `${SITE}/services/${tier.slug}`,
+  }
+
+  // FAQPage JSON-LD if there are FAQs
+  const faqSchema =
+    tier.faq.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: tier.faq.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: f.a,
+            },
+          })),
+        }
+      : null
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      <TierPageContent tier={tier} />
+    </>
+  )
 }

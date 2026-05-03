@@ -67,15 +67,16 @@ const steps = [
     name: 'Operate',
     icon: Server,
     headline: 'Ship, then stand behind it.',
-    body: "Every engagement ends with production deployment, documentation, and a defined handoff. We don't ship and disappear. For ongoing Operate (T5) and Scale (T3) engagements, this step is a continuous loop — monthly deliverables, monthly health reports, continuous improvement.",
+    body: "Every engagement ends with production deployment, documentation, and a defined handoff. We don't ship and disappear. For ongoing Scale, Operate, and Care retainers (Site Care, Brand Care, Content Care), this step is a continuous loop — monthly deliverables, monthly health reports, continuous improvement.",
     deliverables: [
       { label: 'Production deployment', items: 'Deployed to your infrastructure' },
       { label: 'Environment docs', items: 'Configuration documentation for every environment' },
       { label: 'Runbook', items: 'Common failure modes and resolution steps' },
       { label: '30-day bug warranty', items: 'Defects only, not new features' },
       { label: 'Handoff call', items: 'Walkthrough + Q&A' },
+      { label: 'Optional Care retainer', items: 'Site, Brand, or Content Care to keep momentum' },
     ],
-    duration: 'Ongoing for T3/T5 tiers',
+    duration: 'Ongoing for Scale, Operate, and Care retainers',
   },
 ]
 
@@ -116,7 +117,15 @@ const faqs = [
   },
   {
     q: 'How are multi-week engagements billed?',
-    a: 'Audit, Ship, Automate: paid in full before work begins. Build: 50% upfront, 50% on delivery. Scale and Operate: monthly subscription, cancel anytime after the minimum commitment period.',
+    a: 'Audit, Ship, Automate, SEO Sprint, Brand Sprint: paid in full before work begins. Build: 50% upfront, 50% on delivery. Scale, Operate, and Care retainers (Site Care, Brand Care, Content Care): monthly subscription, cancel anytime after the minimum commitment period.',
+  },
+  {
+    q: 'What if my project does not fit a productized tier?',
+    a: 'Custom engagements and retainers are always available. The productized tiers are starting points, not ceilings. If you need a different scope, a different cadence, or a hybrid of multiple tiers, we shape a SOW around what you actually need. Email sage@sageideas.dev with a short brief and we can talk through it.',
+  },
+  {
+    q: 'Can I combine a productized tier with an ongoing retainer?',
+    a: 'Yes — that is a common pattern. A Brand Sprint plus Brand Care, a Build plus Operate, or an SEO Sprint plus Content Care. The productized engagement does the heavy lift; the retainer keeps the momentum.',
   },
 ]
 

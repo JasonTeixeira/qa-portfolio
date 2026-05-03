@@ -35,6 +35,8 @@ const workSlugs = [
   'trayd',
   'aws-landing-zone',
   'quality-telemetry',
+  'brand-sprint-rebuild',
+  'site-care-retainer',
 ]
 
 const labSlugs = ['nexural', 'jobpoise', 'trayd', 'voza', 'owly', 'alphastream']

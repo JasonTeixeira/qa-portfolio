@@ -3,13 +3,13 @@ import Link from 'next/link'
 import { ArrowRight, Lightbulb, FileSearch, Users, GitBranch, Shield, BarChart3 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Technical Consulting & Architecture Reviews | Jason Teixeira — CTO Advisory',
-  description: 'Technical consulting for startups and engineering teams. Architecture reviews, code audits, test strategy, cloud infrastructure planning, hiring guidance. $150/hr. Remote.',
+  title: 'Technical Consulting & Architecture Reviews | Jason Teixeira',
+  description: 'Technical consulting for startups and engineering teams. Architecture reviews, code audits, test strategy, cloud infrastructure planning. Remote.',
   openGraph: {
-    title: 'Technical Consulting & CTO Advisory — Jason Teixeira',
-    description: 'Architecture reviews, code audits, test strategy, cloud planning. $150/hr.',
+    title: 'Technical Consulting & Architecture Reviews — Jason Teixeira',
+    description: 'Architecture reviews, code audits, test strategy, cloud planning.',
   },
-  keywords: ['technical consultant', 'architecture review', 'code audit', 'CTO advisory', 'startup technical advisor', 'engineering consultant', 'fractional CTO'],
+  keywords: ['technical consultant', 'architecture review', 'code audit', 'startup technical advisor', 'engineering consultant'],
 }
 
 const services = [
@@ -18,7 +18,7 @@ const services = [
   { icon: Shield, title: 'Test Strategy Consulting', description: 'Build your QA practice from scratch or fix a broken one. Framework selection, CI/CD integration, coverage strategy, flaky test elimination. ISTQB certified across 3 disciplines.', price: 'From $3,000' },
   { icon: BarChart3, title: 'Cloud Infrastructure Planning', description: 'AWS architecture design, cost optimization, Terraform module structure, CI/CD pipeline setup. I keep a 185-table production platform under $50/month — I can optimize yours.', price: 'From $2,000' },
   { icon: Users, title: 'Hiring & Team Building', description: 'Help defining engineering roles, reviewing candidates, building interview processes. I understand what it takes to build and ship software from both the business and technical side.', price: '$150/hr' },
-  { icon: Lightbulb, title: 'Startup CTO Advisory', description: 'Tech stack selection, architecture decisions, build vs buy, MVP scoping, technical due diligence. I\'ve built an entire platform solo — I know what corners to cut and which to never cut.', price: '$150/hr' },
+  { icon: Lightbulb, title: 'Technical Advisory', description: 'Tech stack selection, architecture decisions, build vs buy, MVP scoping, technical due diligence. I\'ve built an entire platform solo — I know what corners to cut and which to never cut.', price: 'Contact for rates' },
 ]
 
 export default function ConsultingPage() {

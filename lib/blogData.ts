@@ -6649,7 +6649,7 @@ If you can build it AND document it AND hand it off — you're not just an engin
     id: 50,
     slug: "everything-i-shipped-this-year-and-what-i",
     title: "Everything I Shipped This Year (And What I'd Cut in Hindsight)",
-    excerpt: "A year-end retrospective: 7 systems, 185 tables, 50 blog posts, a book, and a trading career. What was worth it, what wasn't, and what I'm building next.",
+    excerpt: "A year-end retrospective: 7 systems, 185 tables, 51 blog posts, a book, and a trading career. What was worth it, what wasn't, and what I'm building next.",
     content: "Year-end engineering retrospective...",
     fullContent: `
 # Everything I Shipped This Year (And What I'd Cut in Hindsight)
@@ -6671,7 +6671,7 @@ A year ago, I founded Sage Ideas LLC with a vague plan: build trading tools, off
 
 **RiskRadar** — Portfolio risk platform (Ledoit-Wolf, CVaR, optimization)
 
-**This Portfolio** — The site you're reading. SLOs, incident drills, live dashboard, 27 artifacts, 50 blog posts.
+**This Portfolio** — The site you're reading. SLOs, incident drills, live dashboard, 27 artifacts, 51 blog posts.
 
 **The Book** — 120,000 words on trading. 24 chapters. In editorial phase.
 
@@ -6681,7 +6681,7 @@ A year ago, I founded Sage Ideas LLC with a vague plan: build trading tools, off
 
 **The Nexural Platform.** It's the centerpiece of my portfolio. Every interview and client conversation starts with "you built a platform with 185 tables?" The depth of this project opens doors that a dozen smaller projects never would.
 
-**The Blog.** 50 posts is a body of work that signals "this person thinks deeply." Every post is a shareable artifact. When I apply for a job, I include a link to a relevant post. It's more convincing than a bullet point on a resume.
+**The Blog.** 51 posts is a body of work that signals "this person thinks deeply." Every post is a shareable artifact. When I apply for a job, I include a link to a relevant post. It's more convincing than a bullet point on a resume.
 
 **The Platform Engineering Page.** SLOs, incident drills, security receipts — this page alone has changed interview conversations from "can you code?" to "tell me about your operational experience." That shift is the difference between mid-level and senior offers.
 

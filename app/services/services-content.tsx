@@ -171,6 +171,9 @@ export function ServicesContent() {
           <p className="mt-6 text-lg text-[#A1A1AA]">
             {"I help businesses, startups, and trading firms build production-grade software. From web applications to trading systems to test automation — you get working software, not slide decks."}
           </p>
+          <p className="mt-3 text-sm text-[#71717A] italic">
+            {"I'm primarily seeking a full-time remote role, but I take on select freelance and consulting projects."}
+          </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Button asChild className="bg-[#8B5CF6] text-white hover:bg-[#A78BFA] btn-glow">
               <Link href="/start">
@@ -339,7 +342,7 @@ export function ServicesContent() {
                 <Link href="/services/cloud-infrastructure" className="p-4 bg-[#18181B] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#F59E0B]">Cloud & DevOps</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">AWS, Terraform, CI/CD Pipelines</p>
-                  <p className="text-xs text-[#71717A] mt-1">6 AWS certifications</p>
+                  <p className="text-xs text-[#71717A] mt-1">5 AWS + Cisco certified</p>
                 </Link>
                 <Link href="/services/trading-systems" className="p-4 bg-[#18181B] border border-[#06B6D4]/20 rounded-xl hover:border-[#06B6D4]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#06B6D4]">Trading Systems</span>
@@ -353,8 +356,8 @@ export function ServicesContent() {
                 </Link>
                 <Link href="/services/technical-consulting" className="p-4 bg-[#18181B] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#F59E0B]">Consulting</span>
-                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">Architecture Reviews & CTO Advisory</p>
-                  <p className="text-xs text-[#71717A] mt-1">Code audits, strategy, $150/hr</p>
+                  <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">Architecture Reviews & Technical Advisory</p>
+                  <p className="text-xs text-[#71717A] mt-1">Code audits, strategy, reviews</p>
                 </Link>
               </div>
             </div>

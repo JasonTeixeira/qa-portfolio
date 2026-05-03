@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Monitor, TestTube2, Briefcase, Quote } from 'lucide-react'
+import { ArrowRight, Monitor, TestTube2, Briefcase } from 'lucide-react'
 import { useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
@@ -71,15 +71,15 @@ const metrics = [
 
 const companies = ['HighStrike', 'Sage Ideas LLC', 'NinjaTrader']
 
-const testimonials = [
+const careerHighlights = [
   {
-    quote: "Built full-stack trading applications, indicators, and internal business tools as the sole developer. Self-taught across Python, JavaScript, and data analysis — delivering production tools a 14-person team relied on daily.",
-    author: "Trading Strategy Developer & Finance Analyst",
+    summary: "Built full-stack trading applications, indicators, and internal business tools as the sole developer. Self-taught across Python, JavaScript, and data analysis — delivering production tools a 14-person team relied on daily.",
+    role: "Trading Strategy Developer & Finance Analyst",
     company: "HighStrike (2021-2026)",
   },
   {
-    quote: "Designed and built the entire Nexural ecosystem independently — 185 database tables, 69 API endpoints, Stripe billing, AI-powered Discord bot, and real-time trading integrations. Every system is live and verifiable.",
-    author: "Founder & Developer",
+    summary: "Designed and built the entire Nexural ecosystem independently — 185 database tables, 69 API endpoints, Stripe billing, AI-powered Discord bot, and real-time trading integrations. Every system is live and verifiable.",
+    role: "Founder & Developer",
     company: "Sage Ideas LLC (2024-Present)",
   },
 ]
@@ -418,7 +418,7 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {testimonials.map((testimonial, index) => (
+            {careerHighlights.map((highlight, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -428,21 +428,18 @@ export default function HomePage() {
               >
                 <GlowCard>
                   <div className="p-8">
-                    <Quote className="h-8 w-8 text-[#06B6D4]/30 mb-4" />
-                    <p className="text-[#A1A1AA] text-lg leading-relaxed mb-6">
-                      {`"${testimonial.quote}"`}
-                    </p>
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] flex items-center justify-center">
-                        <span className="text-[#09090B] font-bold">
-                          {testimonial.author.charAt(0)}
-                        </span>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-[#06B6D4]/10 rounded-lg">
+                        <Briefcase className="h-5 w-5 text-[#06B6D4]" />
                       </div>
                       <div>
-                        <p className="text-[#FAFAFA] font-medium">{testimonial.author}</p>
-                        <p className="text-sm text-[#71717A]">{testimonial.company}</p>
+                        <p className="text-[#FAFAFA] font-medium">{highlight.role}</p>
+                        <p className="text-sm text-[#71717A]">{highlight.company}</p>
                       </div>
                     </div>
+                    <p className="text-[#A1A1AA] leading-relaxed">
+                      {highlight.summary}
+                    </p>
                   </div>
                 </GlowCard>
               </motion.div>

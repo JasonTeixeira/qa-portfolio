@@ -115,37 +115,38 @@ export const projects: Project[] = [
   {
     slug: 'trade-engine',
     name: 'Trade Engine',
-    description: 'Event-driven order execution engine — strict state machines (7 states, enforced transitions), position tracking with P&L, risk management, event sourcing, simulated broker. 37 tests passing.',
+    description: 'Event-driven order execution engine with Next.js dashboard — 3 configurable strategies, real Yahoo Finance data, buy-and-hold benchmark, multi-strategy comparison, 18 institutional metrics (Sharpe, Sortino, Calmar), drawdown analysis, and trade distribution charts.',
     category: 'fintech',
-    tags: ['Python', 'Event Sourcing', 'State Machines', 'Trading', 'Risk Management'],
-    status: 'active',
+    tags: ['Python', 'TypeScript', 'Next.js', 'FastAPI', 'Event Sourcing', 'Trading'],
+    status: 'production',
     github: 'https://github.com/JasonTeixeira/trade-engine',
+    liveUrl: 'https://trade-engine-two.vercel.app',
     isPrivate: false,
-    featured: false,
+    featured: true,
     metrics: [
-      { label: 'Tests', value: '37' },
-      { label: 'Order States', value: '7' },
-      { label: 'Event Types', value: '9' },
-      { label: 'Python', value: '2,200+' }
+      { label: 'Tests', value: '57' },
+      { label: 'Strategies', value: '3' },
+      { label: 'Metrics', value: '18' },
+      { label: 'API Routes', value: '13' }
     ]
   },
   {
     slug: 'alphastream',
     name: 'AlphaStream',
-    description: 'ML-powered trading signal system — XGBoost, LightGBM, LSTM models, FastAPI with WebSocket streaming, Redis caching, and event-driven backtesting.',
+    description: 'ML-powered trading signal platform — 28 trained models (XGBoost, LightGBM, Random Forest, Gradient Boosting) across 7 futures symbols, walk-forward validated with zero data leakage. Full-stack: FastAPI backend + Next.js dashboard with Supabase Auth and Stripe billing.',
     category: 'fintech',
-    tags: ['Python', 'scikit-learn', 'XGBoost', 'PyTorch', 'FastAPI', 'Redis'],
-    status: 'active',
+    tags: ['Python', 'scikit-learn', 'XGBoost', 'LightGBM', 'FastAPI', 'Next.js'],
+    status: 'production',
     github: 'https://github.com/JasonTeixeira/AlphaStream',
+    liveUrl: 'https://alphastream-iota.vercel.app',
     caseStudy: '/case-studies/alphastream',
     isPrivate: false,
     featured: true,
-    stars: 4,
     metrics: [
-      { label: 'Indicators', value: '200+' },
-      { label: 'ML Models', value: '5' },
-      { label: 'GitHub Stars', value: '4' },
-      { label: 'Python', value: '208K' }
+      { label: 'Features', value: '45' },
+      { label: 'Models', value: '28' },
+      { label: 'Symbols', value: '7' },
+      { label: 'Endpoints', value: '13' }
     ]
   },
   {

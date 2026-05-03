@@ -170,7 +170,7 @@ export default function HirePage() {
             <p className="text-sm text-[#A1A1AA]">Case Studies</p>
           </Link>
           <Link href="/blog" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors text-center">
-            <p className="text-2xl font-bold text-[#FAFAFA]">50</p>
+            <p className="text-2xl font-bold text-[#FAFAFA]">51</p>
             <p className="text-sm text-[#A1A1AA]">Blog Posts</p>
           </Link>
           <Link href="/platform" className="p-4 bg-[#18181B] border border-[#27272A] rounded-xl hover:border-[#06B6D4]/50 transition-colors text-center">

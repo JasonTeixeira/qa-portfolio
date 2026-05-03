@@ -33,14 +33,14 @@ export const caseStudies: CaseStudy[] = [
     slug: 'alphastream',
     number: '02',
     title: 'AlphaStream: ML-Powered Trading Signals',
-    subtitle: 'Building a production-ready ML signal generation system',
-    summary: '200+ technical indicators, 5 machine learning models, real-time streaming, and a backtesting engine. How I built a trading signal system from research to production.',
-    tags: ['Python', 'scikit-learn', 'pandas', 'ML/AI'],
+    subtitle: 'Building a full-stack ML signal platform from scratch',
+    summary: '45 engineered features, 28 trained models across 7 futures symbols, walk-forward validation with zero data leakage. FastAPI backend with JWT auth and rate limiting, Next.js dashboard with Supabase Auth and Stripe billing.',
+    tags: ['Python', 'scikit-learn', 'XGBoost', 'LightGBM', 'FastAPI', 'Next.js'],
     metrics: [
-      { label: 'Indicators', value: '200+' },
-      { label: 'Models', value: '5' },
-      { label: 'GitHub Stars', value: '4' },
-      { label: 'Accuracy', value: '73%' }
+      { label: 'Features', value: '45' },
+      { label: 'Models', value: '28' },
+      { label: 'Symbols', value: '7' },
+      { label: 'Accuracy', value: '~50%' }
     ],
     readTime: 10,
     publishedDate: '2024-11-15',

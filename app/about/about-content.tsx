@@ -34,7 +34,7 @@ const timeline = [
   },
   {
     period: '2016 - 2021',
-    company: 'Sage Ideas LLC',
+    company: 'Sage Ideas LLC — Construction',
     role: 'Founder & General Contractor',
     achievements: [
       'Founded and operated a construction company in central Florida',

@@ -3,7 +3,7 @@ import { ServicesContent } from './services-content'
 
 export const metadata: Metadata = {
   title: 'Services | Jason Teixeira — Custom Software, Automation, Cloud, Trading',
-  description: 'Custom software development, test automation architecture, cloud infrastructure (AWS/Terraform), and trading systems. $150/hr consulting, $5K-$50K projects. Orlando, FL — available remotely.',
+  description: 'Custom software development, test automation architecture, cloud infrastructure (AWS/Terraform), and trading systems. Select freelance projects available. Orlando, FL — available remotely.',
   openGraph: {
     title: 'Services — Custom Software, Automation & Trading Systems',
     description: 'Full-stack development, test automation, cloud infrastructure, and trading systems from a developer with 5 years of fintech experience.',

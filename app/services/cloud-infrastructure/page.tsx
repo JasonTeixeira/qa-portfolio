@@ -4,10 +4,10 @@ import { ArrowRight, Cloud, Shield, GitBranch, DollarSign, Server, Lock } from '
 
 export const metadata: Metadata = {
   title: 'Cloud Infrastructure & DevOps | Jason Teixeira — AWS, Terraform, CI/CD',
-  description: 'AWS infrastructure architecture, Terraform IaC, CI/CD pipelines, and DevOps automation. 6 AWS certifications, production Terraform modules, GitHub OIDC keyless deployments. Orlando, FL.',
+  description: 'AWS infrastructure architecture, Terraform IaC, CI/CD pipelines, and DevOps automation. 5 AWS certifications + Cisco Networking, production Terraform modules, GitHub OIDC keyless deployments. Orlando, FL.',
   openGraph: {
     title: 'Cloud Infrastructure & DevOps — Jason Teixeira',
-    description: 'AWS, Terraform, CI/CD. 6 AWS certs, production modules, keyless OIDC deployments.',
+    description: 'AWS, Terraform, CI/CD. 5 AWS certs + Cisco Networking, production modules, keyless OIDC deployments.',
   },
   keywords: ['aws cloud architect', 'terraform consultant', 'devops engineer', 'CI/CD pipeline', 'cloud infrastructure', 'aws certified', 'infrastructure as code'],
 }
@@ -31,7 +31,7 @@ export default function CloudInfraPage() {
           Cloud Infrastructure That Scales and Costs What It Should
         </h1>
         <p className="mt-6 text-lg text-[#A1A1AA] max-w-3xl">
-          {"6 AWS certifications. Published Terraform modules. Production landing zones. GitHub OIDC federation. I build cloud infrastructure with the same rigor I apply to application code — tested, documented, and cost-aware."}
+          {"5 AWS certifications + Cisco Networking. Published Terraform modules. Production landing zones. GitHub OIDC federation. I build cloud infrastructure with the same rigor I apply to application code — tested, documented, and cost-aware."}
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <Link href="https://cal.com/jason-teixeira-8elz3z" target="_blank" className="inline-flex items-center px-6 py-3 bg-[#06B6D4] text-[#09090B] font-semibold rounded-xl hover:bg-[#22D3EE] transition-colors">
@@ -60,7 +60,7 @@ export default function CloudInfraPage() {
       {/* AWS Certifications */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div className="p-8 bg-gradient-to-r from-[#F59E0B]/10 to-[#06B6D4]/10 border border-[#F59E0B]/20 rounded-2xl">
-          <h2 className="text-2xl font-bold text-[#FAFAFA] mb-4">6 AWS Certifications</h2>
+          <h2 className="text-2xl font-bold text-[#FAFAFA] mb-4">Cloud & Network Certifications</h2>
           <div className="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {['Cloud Essentials', 'Serverless', 'Migration Foundations', 'Braket (Quantum)', 'Cloud Practitioner', 'Cisco Networking'].map(cert => (
               <div key={cert} className="p-3 bg-[#18181B] border border-[#27272A] rounded-xl text-center">

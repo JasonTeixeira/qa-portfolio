@@ -28,12 +28,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Jason Teixeira | Full-Stack Developer & Trading Systems Engineer',
-  description: 'Full-stack developer building production platforms, trading systems, and automation tools. 5 years fintech experience. Self-taught builder. 20+ projects, 9 certifications, enterprise and fintech experience. Available for hire and consulting.',
+  title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
+  description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications (ISTQB, AWS, Cisco), self-taught builder. Available for hire — seeking remote entry-level roles.',
   metadataBase: new URL('https://sageideas.dev'),
   openGraph: {
-    title: 'Jason Teixeira | Full-Stack Developer & Trading Systems Engineer',
-    description: 'Full-stack developer building production platforms, trading systems, and automation tools. 5 years fintech experience. Self-taught builder. 20+ projects, 9 certifications.',
+    title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
+    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder available for hire.',
     url: 'https://sageideas.dev',
     siteName: 'Sage Ideas',
     locale: 'en_US',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jason Teixeira | Full-Stack Developer & Trading Systems Engineer',
-    description: 'Full-stack developer building production platforms, trading systems, and automation tools. 5 years fintech experience. Self-taught builder.',
+    title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
+    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Available for hire.',
   },
   robots: {
     index: true,
@@ -54,10 +54,13 @@ export const metadata: Metadata = {
     },
   },
   keywords: [
-    'full-stack developer', 'trading systems engineer', 'self-taught developer',
+    'full-stack developer', 'QA engineer', 'test automation engineer',
     'fintech developer', 'python developer', 'typescript developer',
-    'junior developer', 'Orlando FL developer', 'hire developer',
-    'Next.js developer', 'QA engineer', 'portfolio', 'Sage Ideas'
+    'trading platform developer', 'AWS certified developer',
+    'remote software engineer', 'self-taught developer',
+    'Orlando FL developer', 'hire developer', 'developer portfolio',
+    'Next.js developer', 'FastAPI developer', 'Supabase developer',
+    'machine learning trading', 'algorithmic trading developer',
   ],
 }
 
@@ -79,8 +82,8 @@ export default function RootLayout({
               "@type": "Person",
               name: "Jason Teixeira",
               url: "https://sageideas.dev",
-              jobTitle: "Full-Stack Developer & Trading Systems Engineer",
-              description: "Full-stack developer building production platforms, trading systems, and automation tools. 5 years fintech experience. Self-taught builder.",
+              jobTitle: "Full-Stack Developer & QA Engineer",
+              description: "Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder seeking remote roles.",
               sameAs: [
                 "https://github.com/JasonTeixeira",
                 "https://linkedin.com/in/jason-teixeira"
@@ -126,7 +129,7 @@ export default function RootLayout({
               },
               areaServed: { "@type": "Country", name: "United States" },
               serviceType: ["Custom Software Development", "Test Automation", "Cloud Infrastructure", "Trading Systems", "AI Integration"],
-              priceRange: "$$$",
+              priceRange: "$$",
               email: "sage@sageideas.org",
               sameAs: [
                 "https://github.com/JasonTeixeira",

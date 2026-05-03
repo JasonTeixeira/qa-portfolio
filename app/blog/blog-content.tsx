@@ -51,7 +51,7 @@ export function BlogContent() {
   const showPinned = activeCategory === 'All' && searchQuery === ''
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen bg-[#09090B] pt-24 pb-20">
       {/* Hero */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <motion.div

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Mail, Github, CheckCircle2, Building2, GraduationCap, Award, Calendar } from 'lucide-react'
@@ -90,19 +91,17 @@ export function FounderAnimations({ capabilities, principles }: Props) {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-12 grid md:grid-cols-[200px_1fr] gap-8 max-w-4xl items-start"
         >
-          {/* Headshot placeholder */}
-          <div
-            className="aspect-square w-full rounded-2xl border border-[#27272A] bg-gradient-to-br from-[#0F0F12] via-[#18181B] to-[#0F0F12] flex items-center justify-center relative overflow-hidden"
-            aria-label="Founder headshot placeholder"
-          >
-            <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,#06B6D4_0%,transparent_50%)]" />
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_70%_70%,#8B5CF6_0%,transparent_50%)]" />
-            <div className="relative text-center px-3">
-              <div className="text-5xl font-bold text-[#FAFAFA] tracking-tight">JT</div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717A] mt-2">
-                Headshot · Coming
-              </div>
-            </div>
+          {/* Headshot */}
+          <div className="aspect-square w-full rounded-2xl border border-[#27272A] bg-[#0F0F12] relative overflow-hidden group">
+            <Image
+              src="/images/headshot.jpg"
+              alt="Jason Teixeira — Founder, Sage Ideas Studio"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 200px"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#09090B]/30 via-transparent to-transparent pointer-events-none" />
           </div>
 
           {/* Quick facts */}

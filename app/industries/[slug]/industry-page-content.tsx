@@ -10,6 +10,16 @@ import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
 
+// Maps vertical slug → lowercase phrase used in body copy (e.g. "the SaaS stack").
+// Kept here so /toLowerCase()/ doesn't garble proper nouns like "SaaS" or compound names.
+const STACK_PHRASE: Record<string, string> = {
+  fintech: 'fintech',
+  saas: 'SaaS',
+  ecommerce: 'e-commerce',
+  healthcare: 'healthcare',
+  'ai-startups': 'AI',
+}
+
 export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const tiers = v.recommendedTiers
     .map((slug) => tiersBySlug[slug])
@@ -18,6 +28,8 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const studies = caseStudies.filter((cs) =>
     v.relevantCaseStudySlugs.includes(cs.slug)
   )
+
+  const stackPhrase = STACK_PHRASE[v.slug] ?? v.shortName
 
   return (
     <div className="min-h-screen bg-[#09090B]">
@@ -125,7 +137,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
             </h2>
             <p className="text-[#A1A1AA] mb-8 max-w-2xl">
               The specific operational challenges we&apos;ve already debugged in the{' '}
-              {v.shortName.toLowerCase()} stack.
+              {stackPhrase} stack.
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {v.challenges.map((c, i) => (
@@ -345,7 +357,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
           </h2>
           <p className="text-[#A1A1AA] mb-8 max-w-lg mx-auto">
             Book a 30-minute discovery call. We&apos;ll talk through your{' '}
-            {v.shortName.toLowerCase()} stack and tell you directly which engagement
+            {stackPhrase} stack and tell you directly which engagement
             — if any — is the right fit.
           </p>
           <Link

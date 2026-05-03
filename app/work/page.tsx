@@ -31,7 +31,7 @@ export default function WorkPage() {
               The work speaks.
             </h1>
             <p className="mt-6 text-xl text-[#A1A1AA] max-w-2xl">
-              Six engagements across fintech, trades tech, edtech, developer tooling, and cloud infrastructure. Each project shipped production code, served real users, and went through a complete engineering lifecycle.
+              Selected engagements across fintech, trades tech, edtech, developer tooling, and cloud infrastructure. Each project shipped production code, served real users, and went through a complete engineering lifecycle.
             </p>
             <p className="mt-4 text-[#71717A] max-w-2xl">
               These aren&apos;t redesigns or MVPs handed off to another team. These are products the studio built, launched, and continues to operate. The architecture decisions, the test suites, the CI pipelines, the deployment playbooks — all of it is in here.

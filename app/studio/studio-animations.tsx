@@ -76,7 +76,7 @@ export function StudioAnimations() {
             The studio.
           </h1>
           <h2 className="mt-6 text-2xl font-semibold text-[#A1A1AA]">
-            One engineer. One LLC. Six years of compounded decisions.
+            One engineer. One LLC. Years of compounded decisions and shipped systems.
           </h2>
           <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed">
             Sage Ideas LLC was founded in 2024 with a specific thesis: that the right process, the right infrastructure,

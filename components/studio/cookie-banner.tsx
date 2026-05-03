@@ -14,13 +14,17 @@ export function CookieBanner() {
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    setHydrated(true)
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY) as Consent
-      setConsent(stored)
-    } catch {
-      // localStorage unavailable — show banner on every load.
-    }
+    // Delay hydration by a moment so the banner doesn't fight the hero CTA on first paint.
+    const timer = window.setTimeout(() => {
+      try {
+        const stored = window.localStorage.getItem(STORAGE_KEY) as Consent
+        setConsent(stored)
+      } catch {
+        // localStorage unavailable — show banner on every load.
+      }
+      setHydrated(true)
+    }, 1500)
+    return () => window.clearTimeout(timer)
   }, [])
 
   const persist = (value: Exclude<Consent, null>) => {
@@ -44,7 +48,7 @@ export function CookieBanner() {
         role="dialog"
         aria-live="polite"
         aria-label="Cookie consent"
-        className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-[60]"
+        className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-[90]"
       >
         <div className="bg-[#0F0F12] border border-[#27272A] rounded-2xl p-5 shadow-2xl shadow-black/40 backdrop-blur-md">
           <h2 className="text-sm font-semibold text-[#FAFAFA] mb-1">We use a few cookies.</h2>

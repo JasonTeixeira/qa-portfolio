@@ -189,7 +189,12 @@ export function ProcessContent() {
                       {/* Step header */}
                       <div className="lg:col-span-2">
                         <div className="flex items-center gap-4 mb-4">
-                          <span className="text-5xl font-bold text-[#27272A] font-mono leading-none">{step.number}</span>
+                          <span
+                            aria-hidden="true"
+                            className="text-5xl font-bold text-[#27272A] font-mono leading-none select-none"
+                          >
+                            {step.number}
+                          </span>
                           <div>
                             <div className="flex items-center gap-2">
                               <step.icon className="h-5 w-5 text-[#06B6D4]" />

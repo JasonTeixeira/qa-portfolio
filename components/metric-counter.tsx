@@ -11,17 +11,27 @@ interface MetricCounterProps {
 export function MetricCounter({ value, label }: MetricCounterProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const [displayValue, setDisplayValue] = useState('0')
+  // SSR/a11y fix: render the FINAL value into the DOM by default so screen readers,
+  // crawlers, and no-JS visitors never see a misleading "0". The animation is a
+  // progressive enhancement that only runs once the element scrolls into view.
+  const [displayValue, setDisplayValue] = useState(value)
   const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
     if (!isInView || hasAnimated) return
 
+    // Respect reduced-motion users: don't animate, just hold the final value.
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplayValue(value)
+      setHasAnimated(true)
+      return
+    }
+
     // Extract number and suffix (e.g., "37+" -> 37, "+")
     const numMatch = value.match(/^[\$]?([\d,]+)/)
     const prefix = value.match(/^(\$)/) ? '$' : ''
     const suffix = value.replace(/^[\$]?[\d,]+/, '')
-    
+
     if (!numMatch) {
       setDisplayValue(value)
       setHasAnimated(true)
@@ -29,18 +39,19 @@ export function MetricCounter({ value, label }: MetricCounterProps) {
     }
 
     const targetNum = parseInt(numMatch[1].replace(/,/g, ''), 10)
-    const duration = 2000
-    const steps = 60
+    const duration = 1600
+    const steps = 48
     const stepDuration = duration / steps
-    let currentStep = 0
+    // Start the count from a sensible floor so we never flash a literal "0".
+    // We start the animation from ~30% of target — feels like a quick count-up
+    // without ever showing 0 to anyone.
+    let currentStep = Math.floor(steps * 0.3)
 
     const timer = setInterval(() => {
       currentStep++
       const progress = currentStep / steps
-      // Ease out cubic for smooth deceleration
       const easeOut = 1 - Math.pow(1 - progress, 3)
       const currentValue = Math.round(targetNum * easeOut)
-      
       setDisplayValue(prefix + currentValue.toLocaleString() + suffix)
 
       if (currentStep >= steps) {

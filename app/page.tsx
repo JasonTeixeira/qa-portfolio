@@ -73,14 +73,14 @@ const companies = ['HighStrike', 'Sage Ideas LLC', 'NinjaTrader']
 
 const careerHighlights = [
   {
-    summary: "Built full-stack trading applications, indicators, and internal business tools as the sole developer. Self-taught across Python, JavaScript, and data analysis — delivering production tools a 14-person team relied on daily.",
+    summary: "Built full-stack trading applications, indicators, and internal business tools as the sole engineer on a 14-person desk. Production Python and JavaScript systems that traders and analysts depended on every market session.",
     role: "Trading Strategy Developer & Finance Analyst",
-    company: "HighStrike (2021-2026)",
+    company: "HighStrike (2021–2026)",
   },
   {
-    summary: "Designed and built the entire Nexural ecosystem independently — 185 database tables, 69 API endpoints, Stripe billing, AI-powered Discord bot, and real-time trading integrations. Every system is live and verifiable.",
-    role: "Founder & Developer",
-    company: "Sage Ideas LLC (2024-Present)",
+    summary: "Architected and shipped the Nexural fintech platform end-to-end — 185 database tables, 69 API endpoints, Stripe billing, AI Discord agent, and real-time trading integrations. The same stack we deploy client work on.",
+    role: "Founder & Principal Engineer",
+    company: "Sage Ideas LLC (2024–Present)",
   },
 ]
 
@@ -109,7 +109,7 @@ export default function HomePage() {
               <motion.div variants={fadeInUp}>
                 <span className="inline-flex items-center gap-2 text-sm text-[#A1A1AA] bg-[#18181B]/80 backdrop-blur-sm border border-[#27272A] rounded-full py-1.5 px-4">
                   <span className="w-2 h-2 bg-[#10B981] rounded-full status-dot" />
-                  Available for hire & consulting
+                  Sage Ideas · AI-native studio · Booking Q3 engagements
                 </span>
               </motion.div>
 
@@ -118,7 +118,7 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#FAFAFA] leading-tight text-shadow-glow"
               >
-                I Build <span className="gradient-text-animated">Things</span> That Work
+                We build the <span className="gradient-text-animated">businesses</span> we’d want to run.
               </motion.h1>
 
               {/* Subtitle */}
@@ -126,7 +126,7 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="text-lg sm:text-xl text-[#A1A1AA] max-w-xl leading-relaxed"
               >
-                Developer and finance analyst with 5 years of fintech experience. Self-taught across Python, JavaScript, and cloud infrastructure. I build trading systems, web applications, and tools that solve real problems.
+                Sage Ideas is an AI-native studio for B2B operators. We design, build, automate, and scale the same way we run our own products — Nexural, Trayd, VOZA, Owly, Jobpoise, AlphaStream. Senior craft. Agency rigor. One studio.
               </motion.p>
 
               {/* CTAs */}
@@ -136,8 +136,8 @@ export default function HomePage() {
                   size="lg"
                   className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold px-8 btn-glow"
                 >
-                  <Link href="/projects">
-                    View My Work
+                  <Link href="/book">
+                    Book a Strategy Call
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -147,8 +147,8 @@ export default function HomePage() {
                   size="lg"
                   className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent/50 backdrop-blur-sm px-8"
                 >
-                  <Link href="/contact">
-                    Get In Touch
+                  <Link href="/work">
+                    See Our Work
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -161,19 +161,19 @@ export default function HomePage() {
               >
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#06B6D4] rounded-full" />
-                  20+ Projects
+                  20+ Production Builds
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
-                  5 Years Fintech Dev
+                  6 In-House Products
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
-                  Self-Taught Builder
+                  1,400+ Commits / Year
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full" />
-                  B.S. Finance + B.S. CS
+                  Stripe · AWS · Vercel
                 </span>
               </motion.div>
 
@@ -461,22 +461,22 @@ export default function HomePage() {
             >
               <GlowCard className="border-l-2 border-l-[#06B6D4]">
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Looking to Hire?</h3>
+                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Recruiting?</h3>
                   <p className="text-[#A1A1AA] mb-6">
-                    {"I'm looking for my first dedicated tech role — remote, full-time or contract. I bring 5 years of self-taught development at a fintech company, 20+ projects you can inspect, and the work ethic of someone who ran their own business."}
+                    {"Sage Ideas is run by Jason Teixeira — five years of production fintech engineering, an LLC of shipped products, and 1,400+ commits this year alone. Open to founding-engineer, principal IC, and technical co-founder conversations at AI-native companies."}
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <Button
                       asChild
                       className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold btn-glow"
                     >
-                      <Link href="/resume">Download Resume</Link>
+                      <Link href="/founder">Meet the Founder</Link>
                     </Button>
                     <Link
-                      href="/hire"
+                      href="/resume"
                       className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors"
                     >
-                      See What I Bring
+                      Download Resume
                       <ArrowRight className="ml-1 h-4 w-4" />
                     </Link>
                   </div>
@@ -493,22 +493,22 @@ export default function HomePage() {
             >
               <GlowCard glowColor="violet" className="border-l-2 border-l-[#8B5CF6]">
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Need Something Built?</h3>
+                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Got a project?</h3>
                   <p className="text-[#A1A1AA] mb-6">
-                    I help businesses build custom software, automate operations, and ship trading tools. From MVP to production — I architect, build, and deploy.
+                    Sage Ideas builds AI-native products, internal tools, and full businesses for B2B operators. Productized engagements from $1,500 audits to flagship sprints from $25k. Senior craft, agency rigor, one studio.
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <Button
                       asChild
                       className="bg-[#8B5CF6] text-white hover:bg-[#A78BFA] font-semibold"
                     >
-                      <Link href="/services">View Services</Link>
+                      <Link href="/pricing">See Pricing</Link>
                     </Button>
                     <Link
-                      href="/contact?type=consulting"
+                      href="/book"
                       className="inline-flex items-center text-[#8B5CF6] hover:text-[#A78BFA] font-medium transition-colors"
                     >
-                      Get a Quote
+                      Book a Strategy Call
                       <ArrowRight className="ml-1 h-4 w-4" />
                     </Link>
                   </div>

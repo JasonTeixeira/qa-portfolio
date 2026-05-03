@@ -28,12 +28,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-  description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications (ISTQB, AWS, Cisco), self-taught builder. Available for hire — seeking remote entry-level roles.',
+  title: 'Sage Ideas — AI-Native Studio for B2B Operators',
+  description: 'Sage Ideas is an AI-native studio that builds, automates, and scales B2B businesses. Productized engagements from $1,500 audits to flagship business sprints. We build the same stack we run our own products on.',
   metadataBase: new URL('https://sageideas.dev'),
   openGraph: {
-    title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder available for hire.',
+    title: 'Sage Ideas — AI-Native Studio for B2B Operators',
+    description: 'AI-native studio that builds, automates, and scales B2B businesses. Senior craft, agency rigor, one studio.',
     url: 'https://sageideas.dev',
     siteName: 'Sage Ideas',
     locale: 'en_US',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Available for hire.',
+    title: 'Sage Ideas — AI-Native Studio for B2B Operators',
+    description: 'We build the businesses we\u2019d want to run. AI products, internal tools, and full builds for B2B operators.',
   },
   robots: {
     index: true,
@@ -54,13 +54,13 @@ export const metadata: Metadata = {
     },
   },
   keywords: [
-    'full-stack developer', 'QA engineer', 'test automation engineer',
-    'fintech developer', 'python developer', 'typescript developer',
-    'trading platform developer', 'AWS certified developer',
-    'remote software engineer', 'self-taught developer',
-    'Orlando FL developer', 'hire developer', 'developer portfolio',
-    'Next.js developer', 'FastAPI developer', 'Supabase developer',
-    'machine learning trading', 'algorithmic trading developer',
+    'AI automation agency', 'AI development studio', 'fractional CTO',
+    'B2B software studio', 'AI-native agency', 'productized development',
+    'Next.js development agency', 'fintech software agency',
+    'AI workflow automation', 'programmatic SEO agency',
+    'Stripe SaaS development', 'AWS Terraform consultancy',
+    'Sage Ideas', 'Jason Teixeira', 'AI consulting Orlando',
+    'remote software studio', 'one-person agency',
   ],
 }
 

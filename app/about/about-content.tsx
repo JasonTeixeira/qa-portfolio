@@ -136,10 +136,10 @@ export function AboutContent() {
             </h1>
             <div className="mt-6 space-y-4 text-[#A1A1AA]">
               <p>
-                {"I'm Jason Teixeira — a developer and finance analyst with a non-traditional path into tech. I started tinkering with computers at 8, ran a construction company for five years, then spent another five years building trading strategies, applications, and research tools at HighStrike, a fintech startup."}
+                {"I'm Jason Teixeira — founder and principal engineer of Sage Ideas. I started writing code at 8, ran a construction company for five years, then spent five more shipping trading systems, applications, and research tools at HighStrike, a fintech startup."}
               </p>
               <p>
-                Now I build production-grade software independently through Sage Ideas LLC. I designed and built the entire Nexural ecosystem — a fintech platform with 185 database tables, 69 API endpoints, AI-powered bots, and Stripe billing — from zero to production, completely self-taught. I bring the resourcefulness of an entrepreneur and the discipline of someone who has managed real-world projects from start to finish.
+                Today I run Sage Ideas as an AI-native studio. I architected and shipped the Nexural fintech platform end-to-end — 185 database tables, 69 API endpoints, an AI Discord agent, and live Stripe billing — and now deploy that same stack into client work. I bring an operator’s discipline and a senior engineer’s craft to every engagement.
               </p>
             </div>
 
@@ -206,7 +206,7 @@ export function AboutContent() {
             >
               <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Fintech Development (2021-2026)</h3>
               <p className="text-[#A1A1AA]">
-                {"At HighStrike, I worked as a trading strategy developer and finance analyst on a 14-person team. I built internal web applications, dashboards, trading indicators, and business tools. Everything was self-taught on the job. This is where I went from someone who could code to someone who could build real applications that a business depended on."}
+                {"At HighStrike I shipped production code as the sole engineer on a 14-person desk — trading indicators, internal dashboards, research tools, and business applications a real fintech depended on every market session. Five years of running real systems against real money taught me to write software that has to work the first time."}
               </p>
             </motion.div>
 
@@ -218,7 +218,7 @@ export function AboutContent() {
             >
               <h3 className="text-xl font-semibold text-[#FAFAFA] mb-4">Building My Own (2024-Present)</h3>
               <p className="text-[#A1A1AA]">
-                I pivoted Sage Ideas LLC into a software company and built the Nexural ecosystem from scratch — a complete fintech platform with a trading dashboard, AI-powered Discord bot (30+ commands, GPT-4o integration), research engine, alert system, newsletter studio, and strategy tracker. 185 database tables. 69 API endpoints. Stripe billing. All designed and built by me. I also wrote a 120,000+ word book on trading — because understanding the domain makes the software better. Now I am looking for a team where I can bring this drive and keep growing as an engineer.
+                I run Sage Ideas as a working studio — not a portfolio. The Nexural ecosystem (trading dashboard, AI Discord agent with 30+ GPT-4o commands, research engine, alert system, newsletter studio, strategy tracker) lives in production behind 185 tables, 69 APIs, and Stripe billing. We also operate Trayd, VOZA, Owly, Jobpoise, and AlphaStream. We build the same stack for clients that we run on our own products.
               </p>
             </motion.div>
           </div>

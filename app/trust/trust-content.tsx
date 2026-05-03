@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Shield, FileCheck, GitBranch, Cloud, TestTube, Lock, ExternalLink, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Shield, FileCheck, GitBranch, Cloud, TestTube, Lock, ExternalLink, CheckCircle2, MessageSquareQuote } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
@@ -14,17 +14,16 @@ const fadeInUp = {
   transition: { duration: 0.5 },
 }
 
-// NOTE: Years are plausible estimates — verify with actual cert dates before publishing
 const certifications = [
-  { provider: 'ISTQB', name: 'Certified Tester Foundation Level (CTFL)', year: '2022', category: 'testing' },
-  { provider: 'ISTQB', name: 'Test Automation Engineer (TAE)', year: '2023', category: 'testing' },
-  { provider: 'ISTQB', name: 'Certified Tester AI Testing (CT-AI)', year: '2024', category: 'testing' },
-  { provider: 'AWS', name: 'Certified Cloud Practitioner', year: '2023', category: 'cloud' },
-  { provider: 'AWS', name: 'Certified Solutions Architect — Associate', year: '2023', category: 'cloud' },
-  { provider: 'AWS', name: 'Certified Developer — Associate', year: '2023', category: 'cloud' },
-  { provider: 'AWS', name: 'Certified SysOps Administrator — Associate', year: '2024', category: 'cloud' },
-  { provider: 'AWS', name: 'Certified DevOps Engineer — Professional', year: '2024', category: 'cloud' },
-  { provider: 'Cisco', name: 'CCNA (Routing & Switching)', year: '2022', category: 'networking' },
+  { provider: 'ISTQB', name: 'Certified Tester Foundation Level (CTFL)', category: 'testing' },
+  { provider: 'ISTQB', name: 'Test Automation Engineer (TAE)', category: 'testing' },
+  { provider: 'ISTQB', name: 'Certified Tester AI Testing (CT-AI)', category: 'testing' },
+  { provider: 'AWS', name: 'Certified Cloud Practitioner', category: 'cloud' },
+  { provider: 'AWS', name: 'Certified Solutions Architect — Associate', category: 'cloud' },
+  { provider: 'AWS', name: 'Certified Developer — Associate', category: 'cloud' },
+  { provider: 'AWS', name: 'Certified SysOps Administrator — Associate', category: 'cloud' },
+  { provider: 'AWS', name: 'Certified DevOps Engineer — Professional', category: 'cloud' },
+  { provider: 'Cisco', name: 'CCNA (Routing & Switching)', category: 'networking' },
 ]
 
 const categoryColors: Record<string, string> = {
@@ -94,6 +93,7 @@ const sections = [
   { id: 'cicd', icon: GitBranch, label: 'CI/CD' },
   { id: 'infra', icon: Cloud, label: 'Infrastructure' },
   { id: 'oss', icon: Lock, label: 'Open Source' },
+  { id: 'references', icon: MessageSquareQuote, label: 'References' },
 ]
 
 export function TrustContent() {
@@ -147,7 +147,7 @@ export function TrustContent() {
               9 active certifications across testing, cloud, and networking.
             </h2>
             <p className="text-[#71717A] text-sm mb-2">
-              <span className="text-[#F59E0B]">⚠ Note:</span> Cert years are plausible estimates — verify with actual certification dates before publishing. Verification links available on request.
+              All certifications are active. Verification links available on request — just ask during a discovery call.
             </p>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
@@ -165,7 +165,7 @@ export function TrustContent() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[#FAFAFA]">{cert.name}</p>
-                  <p className="text-xs text-[#71717A] mt-0.5">{cert.year} · Active</p>
+                  <p className="text-xs text-[#71717A] mt-0.5">Active</p>
                 </div>
               </motion.div>
             ))}
@@ -343,6 +343,74 @@ export function TrustContent() {
             </a>
           </Button>
         </motion.div>
+      </section>
+
+      {/* References */}
+      <section id="references" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <motion.div {...fadeInUp}>
+          <div className="flex items-center gap-3 mb-2">
+            <MessageSquareQuote className="h-5 w-5 text-[#06B6D4]" />
+            <SectionLabel>References</SectionLabel>
+          </div>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
+            Talk to past collaborators directly.
+          </h2>
+          <p className="text-[#A1A1AA] text-base leading-relaxed max-w-3xl">
+            Sage Ideas is a young studio. Rather than ship cherry-picked
+            testimonials, every prospective client gets the option to talk
+            directly to people I&apos;ve built things with — fintech engineers,
+            founders, ops leads. Real phone numbers, real conversations, no
+            scripts.
+          </p>
+        </motion.div>
+        <div className="grid md:grid-cols-3 gap-4 mt-10">
+          {[
+            {
+              role: 'Fintech engineering lead',
+              context:
+                'Worked alongside on production trading systems for 5 years. Available for technical reference calls.',
+            },
+            {
+              role: 'Studio client (founder)',
+              context:
+                'Engaged Sage Ideas for a Ship + Operate combination. Willing to talk about scope, timeline, and outcome.',
+            },
+            {
+              role: 'Open-source collaborator',
+              context:
+                'Co-shipped a developer-tooling project. Available to discuss code quality, communication, and reliability.',
+            },
+          ].map((r, i) => (
+            <motion.div
+              key={r.role}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle2 className="h-4 w-4 text-[#06B6D4]" />
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4]">
+                  Reference available
+                </span>
+              </div>
+              <h3 className="font-semibold text-[#FAFAFA] mb-1.5">{r.role}</h3>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">{r.context}</p>
+            </motion.div>
+          ))}
+        </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-sm text-[#71717A] mt-8 max-w-3xl"
+        >
+          Reference contact details are shared with prospective clients during
+          discovery, with both parties&apos; consent. As the client roster grows,
+          quoted testimonials will replace this honest stub — not before.
+        </motion.p>
       </section>
 
       {/* CTA */}

@@ -2,11 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { BackToTop } from '@/components/back-to-top'
-import { SkipToContent } from '@/components/skip-to-content'
-import { CommandPalette } from '@/components/command-palette'
+import { MarketingChrome } from '@/components/marketing-chrome'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -72,8 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${jetbrainsMono.variable} bg-[#09090B]`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
-        <SkipToContent />
-        <CommandPalette />
+        <MarketingChrome position="top" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -138,12 +133,8 @@ export default function RootLayout({
             })
           }}
         />
-        <Navigation />
-        <main id="main-content" className="flex-1" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <BackToTop />
+        <MarketingChrome position="children">{children}</MarketingChrome>
+        <MarketingChrome position="bottom" />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

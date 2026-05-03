@@ -1,521 +1,691 @@
 'use client'
 
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Monitor, TestTube2, Briefcase } from 'lucide-react'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
+import {
+  ArrowRight,
+  Code2,
+  Sparkles,
+  TrendingUp,
+  Terminal,
+  CheckCircle2,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
-import { ProjectCard } from '@/components/project-card'
+import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
 import { TypingTerminal } from '@/components/typing-terminal'
 import { FloatingOrbs } from '@/components/floating-orbs'
-import { GlowCard } from '@/components/glow-card'
-import { ProfessionalAvatar } from '@/components/professional-avatar'
-import { featuredProjects } from '@/data/projects'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: 'easeOut' }
+  transition: { duration: 0.6, ease: 'easeOut' as const },
 }
 
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-}
+const stackLogos = [
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Python',
+  'AWS',
+  'Supabase',
+  'Stripe',
+  'Tailwind',
+  'Framer Motion',
+  'FastAPI',
+  'Terraform',
+  'Playwright',
+]
 
 const capabilities = [
   {
-    icon: Monitor,
-    title: 'Production Systems',
-    description: 'Full-stack web applications, trading platforms, cloud infrastructure, and AI-powered tools. Next.js, .NET, Python, AWS.',
-    tags: ['Next.js', '.NET', 'Python', 'AWS'],
-    href: '/projects',
-    linkText: 'See Projects',
-    accent: 'cyan' as const
+    icon: Code2,
+    title: 'Ship production software',
+    description:
+      'Full-stack products — marketing sites, SaaS platforms, internal tools. Production-grade from day one: CI/CD gates, typed APIs, test suites, idempotent webhooks.',
+    href: '/services/ship',
+    accent: 'cyan',
   },
   {
-    icon: TestTube2,
-    title: 'Automation & Quality',
-    description: 'Test frameworks, CI/CD pipelines, quality telemetry dashboards, and monitoring systems. 13 frameworks built.',
-    tags: ['Selenium', 'Playwright', 'Docker', 'GitHub Actions'],
-    href: '/case-studies',
-    linkText: 'See Case Studies',
-    accent: 'cyan' as const
+    icon: Sparkles,
+    title: 'Build AI-native systems',
+    description:
+      'Automations, agents, and features that use AI as infrastructure — not a plugin. LLM pipelines, ML signal engines, classification layers, RAG-powered tools.',
+    href: '/services/automate',
+    accent: 'cyan',
   },
   {
-    icon: Briefcase,
-    title: 'Services & Consulting',
-    description: 'Custom software development, automation architecture, cloud infrastructure setup, and trading system development.',
-    tags: ['Custom Dev', 'Consulting', 'Architecture'],
-    href: '/services',
-    linkText: 'View Services',
-    accent: 'violet' as const
-  }
+    icon: TrendingUp,
+    title: 'Scale organic search',
+    description:
+      'SEO-first content engines, programmatic page templates, structured data, and technical audits. Built to compound monthly, not deliver one-time traffic spikes.',
+    href: '/services/scale',
+    accent: 'violet',
+  },
+  {
+    icon: Terminal,
+    title: 'Operate as fractional CTO',
+    description:
+      'Monthly retainer for engineering leadership — architecture decisions, code review, technical roadmap. Senior judgment on call without the full-time commitment.',
+    href: '/services/operate',
+    accent: 'violet',
+  },
+] as const
+
+const featuredWork = [
+  {
+    slug: 'nexural',
+    name: 'Nexural',
+    category: 'Fintech Platform',
+    tags: ['Full-stack', 'AI', 'Stripe'],
+    kicker: '185 DB tables · 69 API endpoints · Real-time trading',
+  },
+  {
+    slug: 'alphastream',
+    name: 'AlphaStream',
+    category: 'ML Trading Signals',
+    tags: ['Machine Learning', 'Python'],
+    kicker: '200+ indicators · 5 ML models · 5★ on GitHub',
+  },
+  {
+    slug: 'jobpoise',
+    name: 'Jobpoise',
+    category: 'AI Job Copilot',
+    tags: ['AI', 'Next.js', 'Chrome Extension'],
+    kicker: 'Stripe paywall · Gmail tracking · 3 pricing tiers',
+  },
+  {
+    slug: 'trayd',
+    name: 'Trayd',
+    category: 'Trades AI Companion',
+    tags: ['Bilingual', 'AI', 'Mobile'],
+    kicker: 'EN/ES · HVAC-first · Bootstrapped pre-seed',
+  },
+  {
+    slug: 'aws-landing-zone',
+    name: 'AWS Landing Zone',
+    category: 'Infrastructure',
+    tags: ['Terraform', 'AWS', 'IaC'],
+    kicker: 'VPC · OIDC · Security-scanned · CI-tested',
+  },
+  {
+    slug: 'quality-telemetry',
+    name: 'Quality Telemetry',
+    category: 'Engineering Excellence',
+    tags: ['Testing', 'CI/CD', 'Observability'],
+    kicker: '13 frameworks · Playwright · Lighthouse CI',
+  },
 ]
 
-const metrics = [
-  { value: '20+', label: 'Projects Built' },
-  { value: '185', label: 'Database Tables' },
-  { value: '69', label: 'API Endpoints' },
-  { value: '5', label: 'Years Dev Experience' },
-  { value: '51', label: 'Blog Posts' },
-  { value: '9', label: 'Certifications' },
-  { value: '120K+', label: 'Words Written' },
-  { value: '3', label: 'Languages Spoken' }
+const labProducts = [
+  { slug: 'nexural', name: 'Nexural' },
+  { slug: 'jobpoise', name: 'Jobpoise' },
+  { slug: 'trayd', name: 'Trayd' },
+  { slug: 'voza', name: 'VOZA' },
+  { slug: 'owly', name: 'Owly' },
+  { slug: 'alphastream', name: 'AlphaStream' },
 ]
 
-const companies = ['HighStrike', 'Sage Ideas LLC', 'NinjaTrader']
+const processSteps = [
+  {
+    n: '01',
+    title: 'Discover',
+    body:
+      'We map the problem, define scope, and agree on outcomes before a single line of code. You get a scope document — not a sales pitch.',
+  },
+  {
+    n: '02',
+    title: 'Architect',
+    body:
+      'System design, stack confirmation, data models, API contracts. We show you what we’re building before we build it.',
+  },
+  {
+    n: '03',
+    title: 'Build',
+    body:
+      'Production-grade implementation with CI gates, typed code, test coverage, and weekly progress updates. No ghost-mode development.',
+  },
+  {
+    n: '04',
+    title: 'Operate',
+    body:
+      'Deployment, monitoring, documentation, and handoff — or ongoing fractional support. We don’t ship and disappear.',
+  },
+]
 
-const careerHighlights = [
-  {
-    summary: "Built full-stack trading applications, indicators, and internal business tools as the sole engineer on a 14-person desk. Production Python and JavaScript systems that traders and analysts depended on every market session.",
-    role: "Trading Strategy Developer & Finance Analyst",
-    company: "HighStrike (2021–2026)",
-  },
-  {
-    summary: "Architected and shipped the Nexural fintech platform end-to-end — 185 database tables, 69 API endpoints, Stripe billing, AI Discord agent, and real-time trading integrations. The same stack we deploy client work on.",
-    role: "Founder & Principal Engineer",
-    company: "Sage Ideas LLC (2024–Present)",
-  },
+const trustChips = [
+  '9 active certifications',
+  'Fixed-scope engagements',
+  'Full CI/CD on every project',
+  '13 testing frameworks',
+  'Terraform-managed infra',
+  'GDPR-aware data design',
+  '5 years fintech engineering',
+]
+
+const homepageStats = [
+  { value: '20+', label: 'Production Builds' },
+  { value: '6', label: 'Live Products' },
+  { value: '1,438', label: 'Commits / Year' },
+  { value: '106', label: 'Public Repos' },
 ]
 
 export default function HomePage() {
-  const heroRef = useRef<HTMLDivElement>(null)
-  const isHeroInView = useInView(heroRef, { once: true })
-
   return (
-    <div className="min-h-screen noise-overlay">
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 grid-pattern-animated" />
-        <FloatingOrbs />
+    <div className="overflow-hidden">
+      <FloatingOrbs />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-5 gap-12 items-center">
-            {/* Left Content */}
-            <motion.div
-              className="lg:col-span-3 space-y-8"
-              initial="initial"
-              animate={isHeroInView ? "animate" : "initial"}
-              variants={stagger}
-            >
-              {/* Availability Badge */}
-              <motion.div variants={fadeInUp}>
-                <span className="inline-flex items-center gap-2 text-sm text-[#A1A1AA] bg-[#18181B]/80 backdrop-blur-sm border border-[#27272A] rounded-full py-1.5 px-4">
-                  <span className="w-2 h-2 bg-[#10B981] rounded-full status-dot" />
-                  Sage Ideas · AI-native studio · Booking Q3 engagements
-                </span>
-              </motion.div>
+      {/* HERO */}
+      <section className="relative min-h-screen flex items-center pt-24 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left: Copy */}
+            <motion.div className="lg:col-span-7 space-y-8" {...fadeInUp}>
+              <div className="space-y-4">
+                <SectionLabel>Sage Ideas · Studio</SectionLabel>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-[#FAFAFA] leading-[1.05]">
+                  The studio that builds
+                  <br />
+                  <span className="text-[#06B6D4]">the businesses</span>
+                  <br />
+                  we’d want to run.
+                </h1>
+                <p className="text-lg lg:text-xl text-[#A1A1AA] leading-relaxed max-w-2xl">
+                  Sage Ideas is an AI-native software studio. We design, build, and operate
+                  production-grade products and automations for founders and companies who
+                  need it done right the first time.
+                </p>
+              </div>
 
-              {/* Headline */}
-              <motion.h1
-                variants={fadeInUp}
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#FAFAFA] leading-tight text-shadow-glow"
-              >
-                We build the <span className="gradient-text-animated">businesses</span> we’d want to run.
-              </motion.h1>
-
-              {/* Subtitle */}
-              <motion.p
-                variants={fadeInUp}
-                className="text-lg sm:text-xl text-[#A1A1AA] max-w-xl leading-relaxed"
-              >
-                Sage Ideas is an AI-native studio for B2B operators. We design, build, automate, and scale the same way we run our own products — Nexural, Trayd, VOZA, Owly, Jobpoise, AlphaStream. Senior craft. Agency rigor. One studio.
-              </motion.p>
-
-              {/* CTAs */}
-              <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold px-8 btn-glow"
-                >
-                  <Link href="/book">
-                    Book a Strategy Call
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent/50 backdrop-blur-sm px-8"
+                  className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
                 >
                   <Link href="/work">
                     See Our Work
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Link>
                 </Button>
-              </motion.div>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="ghost"
+                  className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
+                >
+                  <Link href="/services">View Services</Link>
+                </Button>
+                <Link
+                  href="/book"
+                  className="text-sm text-[#A1A1AA] hover:text-[#06B6D4] transition-colors ml-1 underline-offset-4 hover:underline"
+                >
+                  or book a discovery call →
+                </Link>
+              </div>
 
-              {/* Stats */}
-              <motion.div
-                variants={fadeInUp}
-                className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-mono text-[#71717A]"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#06B6D4] rounded-full" />
-                  20+ Production Builds
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
-                  6 In-House Products
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
-                  1,400+ Commits / Year
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full" />
-                  Stripe · AWS · Vercel
-                </span>
-              </motion.div>
-
-              {/* Quick Access */}
-              <motion.div
-                variants={fadeInUp}
-                className="flex flex-wrap gap-3 pt-2"
-              >
-                <Link href="/hire" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 rounded-full px-3 py-1 hover:bg-[#10B981]/20 transition-colors">
-                  <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
-                  Hire Me
-                </Link>
-                <Link href="/platform" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#8B5CF6] bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 rounded-full px-3 py-1 hover:bg-[#8B5CF6]/20 transition-colors">
-                  Platform Engineering
-                </Link>
-                <Link href="/artifacts" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#F59E0B] bg-[#F59E0B]/10 border border-[#F59E0B]/20 rounded-full px-3 py-1 hover:bg-[#F59E0B]/20 transition-colors">
-                  Artifacts & Evidence
-                </Link>
-              </motion.div>
+              {/* Trust micro-strip */}
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-mono text-[#71717A] pt-4 border-t border-[#27272A]">
+                <span>9 certifications</span>
+                <span aria-hidden>·</span>
+                <span>106 public repos</span>
+                <span aria-hidden>·</span>
+                <span>1,438 commits last year</span>
+                <span aria-hidden>·</span>
+                <span>6 live products</span>
+              </div>
             </motion.div>
 
-            {/* Right - Terminal */}
+            {/* Right: Terminal */}
             <motion.div
-              className="lg:col-span-2 flex flex-col items-center"
-              initial={{ opacity: 0, x: 30, rotateY: -10 }}
-              animate={{ opacity: 1, x: 0, rotateY: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              className="lg:col-span-5"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
             >
               <TypingTerminal />
             </motion.div>
           </div>
-        </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.6 }}
-        >
+          {/* Dual-track CTA strip */}
           <motion.div
-            className="w-6 h-10 border-2 border-[#3F3F46] rounded-full flex justify-center"
-            animate={{ borderColor: ['#3F3F46', '#06B6D4', '#3F3F46'] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="mt-20 grid sm:grid-cols-2 gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <motion.div
-              className="w-1.5 h-2.5 bg-[#06B6D4] rounded-full mt-2"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
+            <Link
+              href="/founder"
+              className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#06B6D4]/50 rounded-2xl px-6 py-5 transition-all"
+            >
+              <div>
+                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
+                  Recruiting?
+                </div>
+                <div className="text-sm text-[#FAFAFA]">
+                  Open to senior roles where the fit is right.
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#06B6D4]/50 rounded-2xl px-6 py-5 transition-all"
+            >
+              <div>
+                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
+                  Got a project?
+                </div>
+                <div className="text-sm text-[#FAFAFA]">
+                  Productized engagements from $1,500 to $25k+.
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
+            </Link>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* Social Proof Bar */}
-      <section className="bg-[#18181B]/50 border-y border-[#27272A] py-8 backdrop-blur-sm">
+      {/* LOGO BAR */}
+      <section className="border-y border-[#27272A] bg-[#0A0A0C]/60 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-6">
+            <span className="text-xs font-mono uppercase tracking-[0.18em] text-[#71717A] shrink-0">
+              Built on
+            </span>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              {stackLogos.map((logo) => (
+                <span
+                  key={logo}
+                  className="text-sm text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                >
+                  {logo}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT WE DO */}
+      <section className="py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mb-16"
           >
-            <span className="text-sm text-[#71717A]">Experience building for</span>
-            <div className="flex flex-wrap items-center justify-center gap-8">
-              {companies.map((company, index) => (
-                <motion.span
-                  key={company}
-                  className="text-[#A1A1AA] font-medium hover:text-[#FAFAFA] transition-colors cursor-default"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+            <SectionLabel>What we do</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] mt-4">
+              Four things, done at depth.
+            </h2>
+            <p className="text-[#A1A1AA] mt-4 text-lg">
+              We don’t do everything. We do four things — and we do them with the
+              architecture discipline of a senior team and the speed of a single operator.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {capabilities.map((cap, i) => (
+              <motion.div
+                key={cap.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <Link href={cap.href} className="block group h-full">
+                  <GlowCard glowColor={cap.accent === 'violet' ? 'violet' : 'cyan'} className="h-full p-8">
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`w-12 h-12 rounded-xl border ${
+                          cap.accent === 'violet'
+                            ? 'border-[#8B5CF6]/30 bg-[#8B5CF6]/10 text-[#8B5CF6]'
+                            : 'border-[#06B6D4]/30 bg-[#06B6D4]/10 text-[#06B6D4]'
+                        } flex items-center justify-center shrink-0`}
+                      >
+                        <cap.icon className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-[#FAFAFA] group-hover:text-[#06B6D4] transition-colors">
+                          {cap.title}
+                        </h3>
+                        <p className="text-[#A1A1AA] mt-3 leading-relaxed">{cap.description}</p>
+                        <div className="flex items-center gap-2 mt-5 text-sm text-[#06B6D4] opacity-0 group-hover:opacity-100 transition-opacity">
+                          Learn more <ArrowRight className="w-4 h-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </GlowCard>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED WORK */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12"
+          >
+            <div className="max-w-2xl">
+              <SectionLabel>Recent work</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] mt-4">
+                Six projects. Six problem spaces. All live.
+              </h2>
+              <p className="text-[#A1A1AA] mt-4 text-lg">
+                These aren’t concept pieces. Every project shipped production code, served
+                real users, and went through the full engineering process.
+              </p>
+            </div>
+            <Link
+              href="/work"
+              className="text-sm text-[#06B6D4] hover:text-[#0EA5E9] flex items-center gap-1 group whitespace-nowrap"
+            >
+              All case studies
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {featuredWork.map((work, i) => (
+              <motion.div
+                key={work.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+              >
+                <Link href={`/work/${work.slug}`} className="group block h-full">
+                  <GlowCard className="h-full p-6">
+                    <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
+                      {work.category}
+                    </div>
+                    <h3 className="text-xl font-semibold text-[#FAFAFA] mt-2 group-hover:text-[#06B6D4] transition-colors">
+                      {work.name}
+                    </h3>
+                    <p className="text-sm text-[#A1A1AA] mt-3 leading-relaxed">
+                      {work.kicker}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mt-5">
+                      {work.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[10px] font-mono uppercase tracking-wider text-[#71717A] bg-[#0A0A0C] border border-[#27272A] rounded px-2 py-1"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </GlowCard>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* THE LAB */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A] bg-gradient-to-b from-[#0A0A0C] to-[#09090B]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+          >
+            <div>
+              <SectionLabel color="violet">The Lab</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] mt-4">
+                Products we build and operate ourselves.
+              </h2>
+              <p className="text-[#A1A1AA] mt-4 text-lg leading-relaxed">
+                The Lab is where we validate everything we offer clients. Every framework,
+                every AI integration, every infrastructure pattern — it runs here first. Six
+                active products, all shipping code.
+              </p>
+              <div className="mt-8">
+                <Button
+                  asChild
+                  className="bg-[#0F0F12] hover:bg-[#18181B] text-[#FAFAFA] border border-[#27272A] hover:border-[#8B5CF6]/50"
                 >
-                  {company}
-                </motion.span>
+                  <Link href="/lab">
+                    Explore the Lab <ArrowRight className="w-4 h-4 ml-1.5" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {labProducts.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/lab/${p.slug}`}
+                  className="group bg-[#0F0F12] border border-[#27272A] hover:border-[#8B5CF6]/40 rounded-xl px-5 py-4 transition-all flex items-center justify-between"
+                >
+                  <span className="text-sm text-[#FAFAFA]">{p.name}</span>
+                  <ArrowRight className="w-4 h-4 text-[#71717A] group-hover:text-[#8B5CF6] group-hover:translate-x-0.5 transition-all" />
+                </Link>
               ))}
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* What I Build */}
-      <section className="py-24 sm:py-32">
+      {/* PROCESS */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            <SectionLabel>Capabilities</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              What I Build
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {capabilities.map((cap, index) => (
-              <motion.div
-                key={cap.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <GlowCard glowColor={cap.accent} className="h-full">
-                  <div className="p-6">
-                    <cap.icon className={`h-10 w-10 mb-4 ${
-                      cap.accent === 'violet' ? 'text-[#8B5CF6]' : 'text-[#06B6D4]'
-                    }`} />
-                    <h3 className="text-xl font-semibold text-[#FAFAFA] mb-3">{cap.title}</h3>
-                    <p className="text-[#A1A1AA] text-sm mb-4">{cap.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {cap.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs font-mono text-[#71717A] bg-[#27272A] px-2 py-1 rounded"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <Link
-                      href={cap.href}
-                      className={`inline-flex items-center text-sm font-medium transition-colors ${
-                        cap.accent === 'violet'
-                          ? 'text-[#8B5CF6] hover:text-[#A78BFA]'
-                          : 'text-[#06B6D4] hover:text-[#22D3EE]'
-                      }`}
-                    >
-                      {cap.linkText}
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Projects */}
-      <section className="py-24 sm:py-32 bg-[#09090B] relative">
-        <div className="absolute inset-0 grid-pattern opacity-50" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            <SectionLabel>Selected Work</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              Projects That Ship
-            </h2>
-            <p className="mt-4 text-[#A1A1AA]">A few highlights from 20+ projects.</p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProjects.slice(0, 6).map((project, index) => (
-              <ProjectCard key={project.slug} project={project} index={index} />
-            ))}
-          </div>
-
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mb-12"
           >
-            <Link
-              href="/projects"
-              className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors group"
-            >
-              View All Projects
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Metrics */}
-      <section className="py-24 sm:py-32 bg-[#18181B] relative overflow-hidden">
-        {/* Subtle gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4]/5 via-transparent to-[#8B5CF6]/5" />
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            <SectionLabel>Impact</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              Results That Speak
+            <SectionLabel>Process</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] mt-4">
+              Four steps. No surprises.
             </h2>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            {metrics.map((metric, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {processSteps.map((step, i) => (
               <motion.div
-                key={metric.label}
+                key={step.n}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="bg-[#0F0F12] border border-[#27272A] rounded-2xl p-6 hover:border-[#06B6D4]/30 transition-colors"
               >
-                <MetricCounter value={metric.value} label={metric.label} />
+                <div className="text-xs font-mono text-[#06B6D4]">{step.n}</div>
+                <h3 className="text-lg font-semibold text-[#FAFAFA] mt-2">{step.title}</h3>
+                <p className="text-sm text-[#A1A1AA] mt-3 leading-relaxed">{step.body}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/process"
+              className="text-sm text-[#06B6D4] hover:text-[#0EA5E9] flex items-center gap-1 group"
+            >
+              See the full process
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-24 sm:py-32">
+      {/* TRUST STRIP */}
+      <section className="py-16 border-t border-[#27272A] bg-[#0A0A0C]/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            <SectionLabel>Track Record</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] text-balance">
-              What I Have Built
-            </h2>
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="shrink-0">
+                <SectionLabel>Why teams trust us</SectionLabel>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {trustChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="inline-flex items-center gap-1.5 text-xs text-[#A1A1AA] bg-[#0F0F12] border border-[#27272A] rounded-full px-3 py-1.5"
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-[#06B6D4]" />
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
           </motion.div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {careerHighlights.map((highlight, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <GlowCard>
-                  <div className="p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-[#06B6D4]/10 rounded-lg">
-                        <Briefcase className="h-5 w-5 text-[#06B6D4]" />
-                      </div>
-                      <div>
-                        <p className="text-[#FAFAFA] font-medium">{highlight.role}</p>
-                        <p className="text-sm text-[#71717A]">{highlight.company}</p>
-                      </div>
-                    </div>
-                    <p className="text-[#A1A1AA] leading-relaxed">
-                      {highlight.summary}
-                    </p>
-                  </div>
-                </GlowCard>
-              </motion.div>
+      {/* STATS */}
+      <section className="py-20 border-t border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {homepageStats.map((stat) => (
+              <MetricCounter key={stat.label} value={stat.value} label={stat.label} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Dual CTA */}
-      <section className="py-24 sm:py-32 bg-[#09090B]">
+      {/* FOUNDER SPOTLIGHT */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Employer Path */}
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-7 space-y-6"
             >
-              <GlowCard className="border-l-2 border-l-[#06B6D4]">
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Recruiting?</h3>
-                  <p className="text-[#A1A1AA] mb-6">
-                    {"Sage Ideas is run by Jason Teixeira — five years of production fintech engineering, an LLC of shipped products, and 1,400+ commits this year alone. Open to founding-engineer, principal IC, and technical co-founder conversations at AI-native companies."}
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <Button
-                      asChild
-                      className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold btn-glow"
-                    >
-                      <Link href="/founder">Meet the Founder</Link>
-                    </Button>
-                    <Link
-                      href="/resume"
-                      className="inline-flex items-center text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors"
-                    >
-                      Download Resume
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </GlowCard>
+              <SectionLabel>Founder</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] leading-tight">
+                Built by one person. On purpose.
+              </h2>
+              <p className="text-[#A1A1AA] text-lg leading-relaxed">
+                Jason Teixeira has been writing production software since before it was
+                fashionable to call it “building in public.” Five years in fintech. Two years
+                running a product studio. Nine certifications, six live products, 106 public
+                repositories.
+              </p>
+              <p className="text-[#A1A1AA] text-lg leading-relaxed">
+                The studio is small by design — not because we’re growing into something
+                larger, but because one senior practitioner with a tight process beats a
+                six-person agency with a project manager. Every client engages directly with
+                the person building their product.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[#71717A] pt-2">
+                <span>5 years experience</span>
+                <span aria-hidden>·</span>
+                <span>9 certs</span>
+                <span aria-hidden>·</span>
+                <span>6 live products</span>
+                <span aria-hidden>·</span>
+                <span>106 GitHub repos</span>
+              </div>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Button
+                  asChild
+                  className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
+                >
+                  <Link href="/studio">Meet the studio</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
+                >
+                  <Link href="/founder">
+                    Hiring? Start here <ArrowRight className="w-4 h-4 ml-1.5" />
+                  </Link>
+                </Button>
+              </div>
             </motion.div>
-
-            {/* Client Path */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="lg:col-span-5"
             >
-              <GlowCard glowColor="violet" className="border-l-2 border-l-[#8B5CF6]">
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#FAFAFA] mb-4">Got a project?</h3>
-                  <p className="text-[#A1A1AA] mb-6">
-                    Sage Ideas builds AI-native products, internal tools, and full businesses for B2B operators. Productized engagements from $1,500 audits to flagship sprints from $25k. Senior craft, agency rigor, one studio.
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <Button
-                      asChild
-                      className="bg-[#8B5CF6] text-white hover:bg-[#A78BFA] font-semibold"
-                    >
-                      <Link href="/pricing">See Pricing</Link>
-                    </Button>
-                    <Link
-                      href="/book"
-                      className="inline-flex items-center text-[#8B5CF6] hover:text-[#A78BFA] font-medium transition-colors"
-                    >
-                      Book a Strategy Call
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
+              <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-[#06B6D4]/15 via-[#0F0F12] to-[#8B5CF6]/15 border border-[#27272A] p-1 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(6,182,212,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(139,92,246,0.12),transparent_50%)]" />
+                <div className="relative h-full w-full rounded-[22px] bg-[#0A0A0C]/40 backdrop-blur-sm flex items-end p-8">
+                  <div className="space-y-1">
+                    <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
+                      Sage Ideas LLC
+                    </div>
+                    <div className="text-2xl font-bold text-[#FAFAFA]">Jason Teixeira</div>
+                    <div className="text-sm text-[#A1A1AA]">Founder & Principal Engineer</div>
+                    <div className="text-xs text-[#71717A] mt-2">
+                      Orlando, FL · Available remote
+                    </div>
                   </div>
                 </div>
-              </GlowCard>
+              </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.08),transparent_70%)]" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <SectionLabel>Ready to ship?</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-[#FAFAFA] mt-4 leading-tight">
+              Three slots open this quarter.
+            </h2>
+            <p className="text-[#A1A1AA] text-lg lg:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">
+              Fixed scope, fixed price, no retainer ambiguity. Start with an audit or jump
+              straight to a full build.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-10">
+              <Button
+                asChild
+                size="lg"
+                className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
+              >
+                <Link href="/book">
+                  Book a Discovery Call
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="ghost"
+                className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
+              >
+                <Link href="/pricing">See Pricing</Link>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

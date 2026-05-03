@@ -7,17 +7,18 @@ import { Footer } from '@/components/footer'
 import { BackToTop } from '@/components/back-to-top'
 import { SkipToContent } from '@/components/skip-to-content'
 import { CommandPalette } from '@/components/command-palette'
+import { CookieBanner } from '@/components/studio/cookie-banner'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap'
+  display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains-mono',
-  display: 'swap'
+  display: 'swap',
 })
 
 export const viewport: Viewport = {
@@ -27,40 +28,137 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+const SITE_URL = 'https://sageideas.dev'
+
 export const metadata: Metadata = {
-  title: 'Sage Ideas — AI-Native Studio for B2B Operators',
-  description: 'Sage Ideas is an AI-native studio that builds, automates, and scales B2B businesses. Productized engagements from $1,500 audits to flagship business sprints. We build the same stack we run our own products on.',
-  metadataBase: new URL('https://sageideas.dev'),
+  title: {
+    default: 'Sage Ideas — AI-Native Studio for B2B Operators',
+    template: '%s — Sage Ideas',
+  },
+  description:
+    'Sage Ideas is an AI-native studio that builds, automates, and scales B2B businesses. From $1,500 audits to flagship business sprints — we ship the same stack we run our own products on.',
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     title: 'Sage Ideas — AI-Native Studio for B2B Operators',
-    description: 'AI-native studio that builds, automates, and scales B2B businesses. Senior craft, agency rigor, one studio.',
-    url: 'https://sageideas.dev',
+    description:
+      'AI-native studio. We build the businesses we’d want to run. Senior craft, agency rigor, productized engagements.',
+    url: SITE_URL,
     siteName: 'Sage Ideas',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: `${SITE_URL}/og?title=Sage%20Ideas&subtitle=AI-Native%20Studio%20for%20B2B%20Operators`,
+        width: 1200,
+        height: 630,
+        alt: 'Sage Ideas — AI-Native Studio for B2B Operators',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Sage Ideas — AI-Native Studio for B2B Operators',
-    description: 'We build the businesses we\u2019d want to run. AI products, internal tools, and full builds for B2B operators.',
+    description:
+      'We build the businesses we’d want to run. AI products, internal tools, and full builds for B2B operators.',
+    images: [`${SITE_URL}/og?title=Sage%20Ideas&subtitle=AI-Native%20Studio%20for%20B2B%20Operators`],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   alternates: {
-    types: {
-      'application/rss+xml': 'https://sageideas.dev/feed.xml',
-    },
+    canonical: SITE_URL,
+    types: { 'application/rss+xml': `${SITE_URL}/feed.xml` },
   },
   keywords: [
-    'AI automation agency', 'AI development studio', 'fractional CTO',
-    'B2B software studio', 'AI-native agency', 'productized development',
-    'Next.js development agency', 'fintech software agency',
-    'AI workflow automation', 'programmatic SEO agency',
-    'Stripe SaaS development', 'AWS Terraform consultancy',
-    'Sage Ideas', 'Jason Teixeira', 'AI consulting Orlando',
-    'remote software studio', 'one-person agency',
+    'AI automation agency',
+    'AI development studio',
+    'fractional CTO',
+    'B2B software studio',
+    'AI-native agency',
+    'productized development',
+    'Next.js development agency',
+    'fintech software agency',
+    'AI workflow automation',
+    'programmatic SEO agency',
+    'Stripe SaaS development',
+    'AWS Terraform consultancy',
+    'Sage Ideas',
+    'Jason Teixeira',
+    'remote software studio',
+    'one-person agency',
+  ],
+  authors: [{ name: 'Jason Teixeira', url: SITE_URL }],
+  creator: 'Sage Ideas',
+  publisher: 'Sage Ideas LLC',
+}
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Sage Ideas',
+  legalName: 'Sage Ideas LLC',
+  url: SITE_URL,
+  logo: `${SITE_URL}/brand/logo.svg`,
+  description:
+    'AI-native studio for B2B operators. We design, build, automate, and operate production businesses.',
+  founder: {
+    '@type': 'Person',
+    name: 'Jason Teixeira',
+    url: `${SITE_URL}/founder`,
+  },
+  foundingDate: '2024',
+  email: 'sage@sageideas.dev',
+  sameAs: [
+    'https://github.com/JasonTeixeira',
+    'https://linkedin.com/in/jason-teixeira',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Orlando',
+    addressRegion: 'FL',
+    addressCountry: 'US',
+  },
+  knowsAbout: [
+    'AI Automation',
+    'Full-Stack Development',
+    'Cloud Infrastructure',
+    'Programmatic SEO',
+    'Stripe Integration',
+    'Fractional CTO Engagements',
+    'Next.js Engineering',
+  ],
+}
+
+const professionalServiceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Sage Ideas LLC',
+  url: SITE_URL,
+  description:
+    'AI-native studio. Productized engagements: audit, ship, automate, scale, build, operate. Senior solo, agency rigor.',
+  founder: { '@type': 'Person', name: 'Jason Teixeira' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Orlando',
+    addressRegion: 'FL',
+    addressCountry: 'US',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: [
+    'AI Automation',
+    'Custom Software Development',
+    'Programmatic SEO',
+    'Fractional CTO',
+    'Stripe Integration',
+    'Cloud Infrastructure',
+  ],
+  priceRange: '$$$',
+  email: 'sage@sageideas.dev',
+  sameAs: [
+    'https://github.com/JasonTeixeira',
+    'https://linkedin.com/in/jason-teixeira',
   ],
 }
 
@@ -70,73 +168,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${jetbrainsMono.variable} bg-[#09090B]`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${jetbrainsMono.variable} bg-[#09090B]`}
+    >
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <SkipToContent />
         <CommandPalette />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Jason Teixeira",
-              url: "https://sageideas.dev",
-              jobTitle: "Full-Stack Developer & QA Engineer",
-              description: "Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder seeking remote roles.",
-              sameAs: [
-                "https://github.com/JasonTeixeira",
-                "https://linkedin.com/in/jason-teixeira"
-              ],
-              knowsAbout: [
-                "Full-Stack Development",
-                "Test Automation",
-                "Cloud Infrastructure",
-                "Trading Systems",
-                "AI/ML",
-                "DevOps"
-              ],
-              worksFor: {
-                "@type": "Organization",
-                name: "Sage Ideas LLC",
-                url: "https://sageideas.dev"
-              },
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Orlando",
-                addressRegion: "FL",
-                addressCountry: "US"
-              }
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {/* LocalBusiness Schema */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ProfessionalService",
-              name: "Sage Ideas LLC",
-              url: "https://sageideas.dev",
-              description: "Custom software development, test automation, cloud infrastructure, and trading systems. Orlando, FL — available remotely.",
-              founder: { "@type": "Person", name: "Jason Teixeira" },
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Orlando",
-                addressRegion: "FL",
-                addressCountry: "US"
-              },
-              areaServed: { "@type": "Country", name: "United States" },
-              serviceType: ["Custom Software Development", "Test Automation", "Cloud Infrastructure", "Trading Systems", "AI Integration"],
-              priceRange: "$$",
-              email: "sage@sageideas.org",
-              sameAs: [
-                "https://github.com/JasonTeixeira",
-                "https://linkedin.com/in/jason-teixeira"
-              ]
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
         />
         <Navigation />
         <main id="main-content" className="flex-1" tabIndex={-1}>
@@ -144,6 +190,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <BackToTop />
+        <CookieBanner />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

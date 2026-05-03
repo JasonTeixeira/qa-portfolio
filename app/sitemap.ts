@@ -1,54 +1,67 @@
-import { MetadataRoute } from 'next'
-import { caseStudies } from '@/data/case-studies'
-import { blogPosts } from '@/lib/blogData'
+import type { MetadataRoute } from 'next'
+import { tiers } from '@/data/services/tiers'
+
+const SITE = 'https://sageideas.dev'
+
+const staticRoutes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
+  { path: '/', priority: 1.0, changeFrequency: 'weekly' },
+  { path: '/work', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/lab', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/services', priority: 0.95, changeFrequency: 'weekly' },
+  { path: '/pricing', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/process', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/trust', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/studio', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/founder', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/book', priority: 0.85, changeFrequency: 'monthly' },
+  { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
+  { path: '/blog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
+  { path: '/legal/privacy', priority: 0.4, changeFrequency: 'yearly' },
+  { path: '/legal/terms', priority: 0.4, changeFrequency: 'yearly' },
+  { path: '/legal/cookies', priority: 0.4, changeFrequency: 'yearly' },
+  { path: '/legal/msa', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/legal/nda', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/legal/sow-template', priority: 0.3, changeFrequency: 'yearly' },
+]
+
+const workSlugs = [
+  'nexural',
+  'alphastream',
+  'jobpoise',
+  'trayd',
+  'aws-landing-zone',
+  'quality-telemetry',
+]
+
+const labSlugs = ['nexural', 'jobpoise', 'trayd', 'voza', 'owly', 'alphastream']
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://sageideas.dev'
-
-  // Static pages
-  const staticPages = [
-    '',
-    '/about',
-    '/services',
-    '/projects',
-    '/case-studies',
-    '/blog',
-    '/contact',
-    '/resume',
-    '/platform',
-    '/dashboard',
-    '/artifacts',
-    '/services/fintech',
-    '/services/enterprise-qa',
-    '/services/cloud-infrastructure',
-    '/services/trading-systems',
-    '/services/ai-development',
-    '/services/technical-consulting',
-    '/hire',
-    '/stack',
-    '/start',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === '' ? 'weekly' as const : 'monthly' as const,
-    priority: route === '' ? 1 : route === '/services' || route === '/projects' || route === '/platform' ? 0.9 : 0.8,
-  }))
-
-  // Dynamic case study pages
-  const caseStudyPages = caseStudies.map((study) => ({
-    url: `${baseUrl}/case-studies/${study.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
-
-  // Dynamic blog post pages
-  const blogPages = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
-
-  return [...staticPages, ...caseStudyPages, ...blogPages]
+  const now = new Date()
+  return [
+    ...staticRoutes.map((r) => ({
+      url: `${SITE}${r.path}`,
+      lastModified: now,
+      changeFrequency: r.changeFrequency,
+      priority: r.priority,
+    })),
+    ...tiers.map((t) => ({
+      url: `${SITE}/services/${t.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    })),
+    ...workSlugs.map((slug) => ({
+      url: `${SITE}/work/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
+    })),
+    ...labSlugs.map((slug) => ({
+      url: `${SITE}/lab/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
+  ]
 }

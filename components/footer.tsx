@@ -3,211 +3,136 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
-const navigation = [
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/case-studies', label: 'Case Studies' },
-  { href: '/blog', label: 'Blog' },
+const studio = [
+  { href: '/studio', label: 'Studio' },
+  { href: '/founder', label: 'Founder' },
+  { href: '/process', label: 'Process' },
+  { href: '/trust', label: 'Trust' },
+  { href: '/contact', label: 'Contact' },
 ]
 
-const resources = [
-  { href: '/platform', label: 'Platform Engineering' },
+const services = [
+  { href: '/services/audit', label: 'Sage Audit · $1,500' },
+  { href: '/services/ship', label: 'Ship · $4,900' },
+  { href: '/services/automate', label: 'Automate · $9,900' },
+  { href: '/services/scale', label: 'Scale · $4,900/mo' },
+  { href: '/services/build', label: 'Build · from $25,000' },
+  { href: '/services/operate', label: 'Operate · $7,500/mo' },
+  { href: '/pricing', label: 'Compare all →' },
+]
+
+const proof = [
+  { href: '/work', label: 'Work / Case Studies' },
+  { href: '/lab', label: 'The Lab' },
+  { href: '/blog', label: 'Insights' },
   { href: '/dashboard', label: 'Live Dashboard' },
-  { href: '/artifacts', label: 'Artifacts & Evidence' },
   { href: '/stack', label: 'Tech Stack' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/start', label: 'Start Here' },
+]
+
+const legal = [
+  { href: '/legal/privacy', label: 'Privacy Policy' },
+  { href: '/legal/terms', label: 'Terms of Service' },
+  { href: '/legal/cookies', label: 'Cookie Policy' },
+  { href: '/legal/msa', label: 'Master Services Agreement' },
+  { href: '/legal/nda', label: 'Mutual NDA Template' },
+  { href: '/legal/sow-template', label: 'SOW Template' },
 ]
 
 const connect = [
-  { href: 'mailto:sage@sageideas.org', label: 'sage@sageideas.org', icon: Mail },
+  { href: 'mailto:sage@sageideas.dev', label: 'sage@sageideas.dev', icon: Mail },
   { href: 'https://linkedin.com/in/jason-teixeira', label: 'LinkedIn', icon: Linkedin },
   { href: 'https://github.com/JasonTeixeira', label: 'GitHub', icon: Github },
 ]
 
 export function Footer() {
+  const year = new Date().getFullYear()
   return (
     <footer className="bg-[#09090B] border-t border-[#27272A] relative overflow-hidden">
-      {/* Subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#06B6D4]/5 via-transparent to-transparent pointer-events-none" />
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Column 1: Brand */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+          {/* Brand */}
           <motion.div
-            className="space-y-4"
+            className="lg:col-span-2 space-y-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" className="text-xl font-bold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors">
+            <Link
+              href="/"
+              className="text-xl font-bold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors"
+            >
               SAGE IDEAS
             </Link>
-            <p className="text-sm text-[#A1A1AA]">
-              Full-stack developer building production platforms, trading systems, and automation tools. Self-taught. Entrepreneur. Looking for my next opportunity.
+            <p className="text-sm text-[#A1A1AA] max-w-sm">
+              AI-native studio that builds, automates, and scales B2B businesses. We ship the
+              same stack we run our own products on.
             </p>
-            <div className="flex items-center gap-3">
-              {[
-                { href: 'https://github.com/JasonTeixeira', icon: Github, label: 'GitHub' },
-                { href: 'https://linkedin.com/in/jason-teixeira', icon: Linkedin, label: 'LinkedIn' },
-                { href: 'mailto:sage@sageideas.org', icon: Mail, label: 'Email' },
-              ].map((social) => (
+            <div className="flex items-center gap-3 pt-2">
+              {connect.map((item) => (
                 <Link
-                  key={social.href}
-                  href={social.href}
-                  target={social.href.startsWith('http') ? '_blank' : undefined}
-                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="p-2 text-[#71717A] hover:text-[#06B6D4] hover:bg-[#18181B] rounded-lg transition-all"
+                  key={item.href}
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  aria-label={item.label}
+                  className="p-2 text-[#A1A1AA] hover:text-[#06B6D4] hover:bg-[#18181B] rounded-lg transition-colors"
                 >
-                  <social.icon className="h-5 w-5" />
-                  <span className="sr-only">{social.label}</span>
+                  <item.icon className="w-4 h-4" />
                 </Link>
               ))}
             </div>
-          </motion.div>
-
-          {/* Column 2: Navigation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Navigation</h3>
-            <ul className="space-y-3">
-              {navigation.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[#A1A1AA] hover:text-[#06B6D4] transition-colors inline-flex items-center group"
-                  >
-                    {link.label}
-                    <ArrowRight className="ml-1 h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Column 3: Resources */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4">Resources</h3>
-            <ul className="space-y-3">
-              {resources.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[#A1A1AA] hover:text-[#06B6D4] transition-colors inline-flex items-center group"
-                  >
-                    {link.label}
-                    <ArrowRight className="ml-1 h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  </Link>
-                </li>
-              ))}
-              <li className="pt-2">
-                <span className="text-xs text-[#71717A] flex items-center gap-2">
-                  <span className="w-2 h-2 bg-[#10B981] rounded-full status-dot" />
-                  Orlando, FL (Remote-First)
-                </span>
-              </li>
-            </ul>
-          </motion.div>
-
-          {/* Column 4: CTA */}
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <h3 className="text-sm font-semibold text-[#FAFAFA]">{"Let's Work Together"}</h3>
-            <p className="text-sm text-[#A1A1AA]">
-              Available for full-time roles and consulting projects.
-            </p>
-            <Button
-              asChild
-              className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold w-full btn-glow"
+            <Link
+              href="/book"
+              className="inline-flex items-center gap-2 text-sm text-[#06B6D4] hover:text-[#0EA5E9] transition-colors group"
             >
-              <Link href="/contact">
-                Get In Touch
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-
-            {/* Newsletter Signup */}
-            <div className="pt-4 border-t border-[#27272A] mt-4">
-              <p className="text-xs text-[#71717A] mb-2">Get new articles in your inbox:</p>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault()
-                  const form = e.target as HTMLFormElement
-                  const email = (form.elements.namedItem('email') as HTMLInputElement).value
-                  try {
-                    await fetch('/api/newsletter/subscribe', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ email }),
-                    })
-                    form.reset()
-                    alert('Subscribed! Check your email to confirm.')
-                  } catch {
-                    alert('Something went wrong. Try again.')
-                  }
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="you@email.com"
-                  className="flex-1 px-3 py-1.5 bg-[#09090B] border border-[#27272A] rounded-lg text-xs text-[#FAFAFA] placeholder-[#71717A] focus:outline-none focus:border-[#06B6D4]"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-1.5 bg-[#06B6D4] text-[#09090B] text-xs font-semibold rounded-lg hover:bg-[#22D3EE] transition-colors"
-                >
-                  Subscribe
-                </button>
-              </form>
-              <a href="/feed.xml" className="inline-flex items-center gap-1 text-[10px] text-[#71717A] hover:text-[#06B6D4] mt-2 transition-colors">
-                RSS Feed
-              </a>
-            </div>
+              Book a strategy call
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
           </motion.div>
+
+          {/* Services */}
+          <FooterColumn title="Services" links={services} />
+          <FooterColumn title="Studio" links={[...studio, ...proof]} />
+          <FooterColumn title="Legal" links={legal} />
         </div>
 
-        {/* Bottom Bar */}
-        <motion.div
-          className="mt-12 pt-8 border-t border-[#27272A] flex flex-col sm:flex-row justify-between items-center gap-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <p className="text-sm text-[#71717A]">
-            &copy; {new Date().getFullYear()} Jason Teixeira / Sage Ideas LLC. All rights reserved.
-          </p>
-          <p className="text-sm text-[#71717A] flex items-center gap-2">
-            Built with
-            <span className="inline-flex gap-1">
-              <span className="px-2 py-0.5 bg-[#18181B] rounded text-[#A1A1AA] text-xs font-mono">Next.js</span>
-              <span className="px-2 py-0.5 bg-[#18181B] rounded text-[#A1A1AA] text-xs font-mono">Tailwind</span>
-              <span className="px-2 py-0.5 bg-[#18181B] rounded text-[#A1A1AA] text-xs font-mono">Framer</span>
-            </span>
-          </p>
-        </motion.div>
+        <div className="mt-16 pt-8 border-t border-[#27272A] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-[#71717A]">
+          <p>© {year} Sage Ideas LLC. Orlando, FL. All rights reserved.</p>
+          <p className="font-mono">Built in-house with Next.js, Vercel, Stripe, and AWS.</p>
+        </div>
       </div>
     </footer>
+  )
+}
+
+function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="space-y-3"
+    >
+      <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FAFAFA]">
+        {title}
+      </h3>
+      <ul className="space-y-2">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="text-sm text-[#A1A1AA] hover:text-[#06B6D4] transition-colors"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </motion.div>
   )
 }

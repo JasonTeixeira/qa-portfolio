@@ -1,14 +1,35 @@
 import type { Metadata } from 'next'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { readLegalMdx } from '@/lib/legal'
+import { readLegalDoc } from '@/lib/legal'
+import { legalMdxComponents } from '@/components/studio/mdx-components'
 
 export const metadata: Metadata = {
-  title: 'Master Services Agreement — Sage Ideas',
-  description: 'The standard contract governing all client engagements with Sage Ideas LLC — scope, payment terms, IP ownership, and liability.',
+  title: 'Master Services Agreement',
+  description: 'The standard Master Services Agreement governing all client engagements with Sage Ideas LLC.',
   robots: { index: true, follow: true },
 }
 
-export default async function MsaPage() {
-  const source = await readLegalMdx('msa')
-  return <MDXRemote source={source} />
+export default async function LegalDocPage() {
+  const { frontmatter, body } = await readLegalDoc('msa')
+  return (
+    <>
+      <header className="mb-12 pb-8 border-b border-[#27272A]">
+        <p className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-3">
+          Legal Document
+        </p>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FAFAFA] leading-tight">
+          {frontmatter.title ?? 'Master Services Agreement'}
+        </h1>
+        {frontmatter.summary ? (
+          <p className="mt-4 text-[#A1A1AA] leading-relaxed">{frontmatter.summary}</p>
+        ) : null}
+        {frontmatter.lastUpdated ? (
+          <p className="mt-4 text-xs font-mono text-[#71717A]">
+            Last updated · {frontmatter.lastUpdated}
+          </p>
+        ) : null}
+      </header>
+      <MDXRemote source={body} components={legalMdxComponents} />
+    </>
+  )
 }

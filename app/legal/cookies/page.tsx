@@ -1,14 +1,35 @@
 import type { Metadata } from 'next'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { readLegalMdx } from '@/lib/legal'
+import { readLegalDoc } from '@/lib/legal'
+import { legalMdxComponents } from '@/components/studio/mdx-components'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy — Sage Ideas',
-  description: 'What cookies and tracking technologies Sage Ideas uses, why, and how to control them.',
+  title: 'Cookie Policy',
+  description: 'How sageideas.dev uses cookies and similar technologies.',
   robots: { index: true, follow: true },
 }
 
-export default async function CookiesPage() {
-  const source = await readLegalMdx('cookies')
-  return <MDXRemote source={source} />
+export default async function LegalDocPage() {
+  const { frontmatter, body } = await readLegalDoc('cookies')
+  return (
+    <>
+      <header className="mb-12 pb-8 border-b border-[#27272A]">
+        <p className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-3">
+          Legal Document
+        </p>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#FAFAFA] leading-tight">
+          {frontmatter.title ?? 'Cookie Policy'}
+        </h1>
+        {frontmatter.summary ? (
+          <p className="mt-4 text-[#A1A1AA] leading-relaxed">{frontmatter.summary}</p>
+        ) : null}
+        {frontmatter.lastUpdated ? (
+          <p className="mt-4 text-xs font-mono text-[#71717A]">
+            Last updated · {frontmatter.lastUpdated}
+          </p>
+        ) : null}
+      </header>
+      <MDXRemote source={body} components={legalMdxComponents} />
+    </>
+  )
 }

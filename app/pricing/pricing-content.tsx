@@ -70,9 +70,7 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
               <span className="text-[#06B6D4]">productized.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
-              Every tier has a defined scope and a defined price. You know what you&apos;re
-              getting before anything starts. No retainer ambiguity, no scope creep, no
-              &ldquo;it depends.&rdquo;
+              {'Every tier has a defined scope and a defined price. You know what you\u2019re getting before anything starts. No retainer ambiguity, no scope creep, no \u201cit depends.\u201d'}
             </p>
           </motion.div>
         </div>

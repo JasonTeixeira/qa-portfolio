@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowRight, Mail, FileText, Github, CheckCircle2, Building2, GraduationCap, Award } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
-import { Button } from '@/components/ui/button'
 import { FounderAnimations } from './founder-animations'
 
 export const metadata: Metadata = {
-  title: 'Founder — Jason Teixeira | Sage Ideas',
-  description: 'Jason Teixeira — fintech engineer, studio founder, full-stack practitioner. Five years at HighStrike. Nine certifications. Open to select senior IC and staff-level roles.',
+  title: 'For Hiring Managers',
+  description:
+    'Jason Teixeira — fintech engineer, studio founder, full-stack practitioner. Five years at HighStrike. Nine certifications. Open to select senior IC and staff-level roles.',
   openGraph: {
+    title: 'For Hiring Managers — Jason Teixeira',
+    description: 'The person behind the studio. Open to senior roles where the fit is strong.',
     images: ['/og?title=For+Hiring+Managers&subtitle=The+person+behind+the+studio.'],
   },
 }
@@ -30,7 +28,7 @@ const roleParams = [
   'Meaningful equity participation — real skin in the game',
   'Transparent compensation: range shared upfront, no range-reveal games',
   'Remote-first required — based in Orlando, FL',
-  'Compatible with Sage Ideas continuing as a side operation (I\'ll be direct about this)',
+  "Compatible with Sage Ideas continuing as a side operation (I'll be direct about this)",
 ]
 
 export default function FounderPage() {

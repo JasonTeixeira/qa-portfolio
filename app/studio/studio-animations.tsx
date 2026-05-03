@@ -15,23 +15,46 @@ const fadeInUp = {
   transition: { duration: 0.5 },
 }
 
-interface Pillar {
-  icon: React.ElementType
-  title: string
-  description: string
-  accent: 'cyan' | 'violet'
-}
+// Inlined here so the parent server component never has to pass icon
+// components (functions) across the server/client boundary.
+const pillars = [
+  {
+    icon: Code2,
+    title: 'We build what we operate',
+    description:
+      'Every service offering at Sage Ideas is something we use ourselves. The infrastructure patterns we sell are the same ones running our own products. The AI workflows we build for clients are the same ones powering our lab. We don’t pitch theory — we ship proof.',
+    accent: 'cyan' as const,
+  },
+  {
+    icon: Cpu,
+    title: 'AI-native by default',
+    description:
+      'We don’t bolt AI onto existing workflows. We design systems where AI acceleration is assumed from day one — in code generation, in testing, in content pipelines, in customer-facing features. This isn’t a trend we adopted; it’s how we’ve built since 2024.',
+    accent: 'cyan' as const,
+  },
+  {
+    icon: Users,
+    title: 'Senior solo, agency rigor',
+    description:
+      'One person with senior judgment, running a production-grade process: CI/CD gates, contract testing, Lighthouse budgets, accessibility audits, security scans, idempotent webhooks, RLS policies, SOC2-aware architecture. The output is indistinguishable from a five-person agency, shipped on a solo timeline.',
+    accent: 'cyan' as const,
+  },
+] as const
 
-interface Metric {
-  value: string
-  label: string
-}
+const nonServices = [
+  'Enterprise sales engagements (six-month procurement cycles, vendor panels)',
+  'Agencies-of-agencies (no subcontracting the work to another team)',
+  'Design-only engagements (brand decks, mockups without implementation)',
+  'Native mobile-first builds (iOS/Android apps as the primary deliverable)',
+  'Support-only retainers (helpdesk, ticketing, on-call without a build component)',
+]
 
-interface Props {
-  pillars: Pillar[]
-  nonServices: string[]
-  metrics: Metric[]
-}
+const metrics = [
+  { value: '6', label: 'Live Products' },
+  { value: '106', label: 'GitHub Repos' },
+  { value: '1,438', label: 'Commits / Year' },
+  { value: '9', label: 'Active Certs' },
+]
 
 const stackCategories = [
   { label: 'Frontend', items: 'Next.js 16, React 19, TypeScript, Tailwind CSS, Radix UI, Framer Motion' },
@@ -42,7 +65,7 @@ const stackCategories = [
   { label: 'Testing', items: 'Playwright, Jest, Vitest, Testing Library, Supertest, Pact, k6, Lighthouse CI, OWASP ZAP, Axe' },
 ]
 
-export function StudioAnimations({ pillars, nonServices, metrics }: Props) {
+export function StudioAnimations() {
   return (
     <div>
       {/* Hero */}

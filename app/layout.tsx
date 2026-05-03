@@ -29,11 +29,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-  description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications (ISTQB, AWS, Cisco), self-taught builder. Available for hire — seeking remote entry-level roles.',
+  description: 'Full-stack developer with 5 years fintech experience. 20+ shipped projects, 9 certifications (ISTQB, AWS, Cisco). Building Sage Ideas Studio — strategy, build, and ship for ambitious founders.',
   metadataBase: new URL('https://sageideas.dev'),
   openGraph: {
     title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder available for hire.',
+    description: 'Full-stack developer with 5 years fintech experience. 20+ shipped projects, 9 certifications. Founder of Sage Ideas Studio.',
     url: 'https://sageideas.dev',
     siteName: 'Sage Ideas',
     locale: 'en_US',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Jason Teixeira | Full-Stack Developer & QA Engineer',
-    description: 'Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Available for hire.',
+    description: 'Full-stack developer with 5 years fintech experience. 20+ shipped projects, 9 certifications. Founder of Sage Ideas Studio.',
   },
   robots: {
     index: true,
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     'full-stack developer', 'QA engineer', 'test automation engineer',
     'fintech developer', 'python developer', 'typescript developer',
     'trading platform developer', 'AWS certified developer',
-    'remote software engineer', 'self-taught developer',
+    'remote software engineer', 'independent developer',
     'Orlando FL developer', 'hire developer', 'developer portfolio',
     'Next.js developer', 'FastAPI developer', 'Supabase developer',
     'machine learning trading', 'algorithmic trading developer',
@@ -83,7 +83,7 @@ export default function RootLayout({
               name: "Jason Teixeira",
               url: "https://sageideas.dev",
               jobTitle: "Full-Stack Developer & QA Engineer",
-              description: "Full-stack developer with 5 years fintech experience. 20+ projects, 9 certifications. Self-taught builder seeking remote roles.",
+              description: "Full-stack developer with 5 years fintech experience. 20+ shipped projects, 9 certifications. Founder of Sage Ideas Studio.",
               sameAs: [
                 "https://github.com/JasonTeixeira",
                 "https://linkedin.com/in/jason-teixeira"

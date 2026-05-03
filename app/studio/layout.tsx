@@ -1,6 +1,11 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 
+// Portal is fully auth-gated and DB-backed. Skip static optimization
+// so Clerk has runtime access to env vars and request context.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: {
     default: 'The Studio · Sage Ideas',

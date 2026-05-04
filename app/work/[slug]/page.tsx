@@ -8,7 +8,7 @@ import { caseStudies } from '@/data/work/case-studies'
 import { CaseStudyContent } from './case-study-content'
 import { JsonLd } from '@/components/json-ld'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -27,8 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogSubtitle = encodeURIComponent(study.kicker)
 
   return {
-    title: `${study.title} — Sage Ideas`,
+    title: study.title,
     description: study.tagline,
+    alternates: {
+      canonical: `${SITE}/work/${study.slug}`,
+    },
     openGraph: {
       title: `${study.title} — Sage Ideas`,
       description: study.tagline,

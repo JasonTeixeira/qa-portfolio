@@ -55,15 +55,41 @@ export function LabGrid({ products }: LabGridProps) {
 
             {/* Name + tagline */}
             <h3 className="text-[#FAFAFA] font-bold text-xl">{product.name}</h3>
-            <p className="mt-2 text-[#71717A] text-sm leading-relaxed flex-1">{product.tagline}</p>
+            <p className="mt-2 text-[#A1A1AA] text-sm leading-relaxed">{product.tagline}</p>
+
+            {/* Description */}
+            <p className="mt-3 text-[#71717A] text-xs leading-relaxed line-clamp-3">
+              {product.description}
+            </p>
+
+            {/* Metrics row */}
+            {product.metrics && product.metrics.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-[#27272A]">
+                {product.metrics.slice(0, 3).map((m) => (
+                  <div key={m.label} className="min-w-0">
+                    <div className="text-[#06B6D4] font-mono font-semibold text-sm tracking-tight truncate">
+                      {m.value}
+                    </div>
+                    <div className="text-[9px] font-mono uppercase tracking-wider text-[#71717A] truncate">
+                      {m.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Stack chips */}
-            <div className="flex flex-wrap gap-1.5 mt-4 mb-5">
-              {product.stack.slice(0, 4).map((s) => (
+            <div className="flex flex-wrap gap-1.5 mt-4 mb-5 flex-1 content-start">
+              {product.stack.slice(0, 5).map((s) => (
                 <span key={s} className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#27272A] text-[#A1A1AA]">
                   {s}
                 </span>
               ))}
+              {product.stack.length > 5 && (
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono text-[#71717A]">
+                  +{product.stack.length - 5}
+                </span>
+              )}
             </div>
 
             {/* CTA */}

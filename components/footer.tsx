@@ -39,6 +39,7 @@ const navigate = [
   { href: '/work', label: 'Work / Case Studies' },
   { href: '/lab', label: 'The Lab' },
   { href: '/blog', label: 'Insights' },
+  { href: '/changelog', label: 'Changelog' },
   { href: '/dashboard', label: 'Live Dashboard' },
   { href: '/stack', label: 'Tech Stack' },
 ]

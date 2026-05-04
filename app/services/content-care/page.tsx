@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { careTiersBySlug } from '@/data/services/tiers'
 import { CarePageContent } from '../_care/care-page-content'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 const SLUG = 'content-care'
 
 export async function generateMetadata(): Promise<Metadata> {

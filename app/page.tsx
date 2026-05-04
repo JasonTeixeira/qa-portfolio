@@ -22,6 +22,7 @@ import { FloatingOrbs } from '@/components/floating-orbs'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { LogoStrip } from '@/components/logo-strip'
 import { references, trustedBy } from '@/data/references'
+import { blogPosts } from '@/lib/blogData'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -773,6 +774,71 @@ export default function HomePage() {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* LATEST WRITING */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A] bg-[#0A0A0C]/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
+          >
+            <div className="max-w-2xl">
+              <SectionLabel>Latest writing</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] mt-4">
+                Field notes from the keyboard.
+              </h2>
+              <p className="text-[#A1A1AA] text-base mt-3 leading-relaxed">
+                Engineering and architecture writing — the same patterns we ship for clients, written up while they’re fresh.
+              </p>
+            </div>
+            <Link
+              href="/blog"
+              className="text-sm text-[#06B6D4] hover:text-[#0EA5E9] inline-flex items-center gap-1 group shrink-0"
+            >
+              All posts
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {blogPosts.slice(0, 3).map((post, i) => (
+              <motion.div
+                key={post.slug}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+              >
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="group block h-full rounded-xl border border-[#27272A] bg-[#0F0F12] p-6 hover:border-[#06B6D4]/40 transition-colors"
+                >
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4] mb-3">
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </div>
+                  <h3 className="text-[#FAFAFA] font-semibold leading-snug group-hover:text-[#06B6D4] transition-colors">
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="text-sm text-[#A1A1AA] mt-3 leading-relaxed line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  <div className="text-sm text-[#06B6D4] mt-5 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read →
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { FileText, ArrowRight, Shield, Handshake, Cookie, FileSignature, FileChe
 import { SectionLabel } from '@/components/section-label'
 
 export const metadata: Metadata = {
-  title: 'Legal — Sage Ideas',
+  title: 'Legal',
   description: 'Privacy policy, terms of service, cookie policy, master services agreement, NDA template, and statement of work template for Sage Ideas LLC.',
   openGraph: {
     images: ['/og?title=Legal+Documents&subtitle=Sage+Ideas+LLC'],

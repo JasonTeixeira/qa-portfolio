@@ -7,15 +7,15 @@ import { Button } from '@/components/ui/button'
 import { ServicesGrid } from './services-grid'
 import { RefreshCw, Sparkles } from 'lucide-react'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'Services — Sage Ideas',
+  title: 'Services',
   description:
     'Nine productized service tiers plus three monthly care retainers from Sage Ideas: fixed scope, fixed price, Stripe checkout. Strategy, web, automation, SEO, content, brand, product, and platform engagements from $750 to $9,500+. Custom packages always available.',
   alternates: { canonical: `${SITE}/services` },
   openGraph: {
-    title: 'Services — Sage Ideas',
+    title: 'Services',
     description: 'Nine tiers, three retainers, custom packages on request. Fixed price. No asterisks.',
     images: [{ url: '/og?title=Services&subtitle=Tiers%2C+retainers%2C+and+custom+packages.' }],
   },

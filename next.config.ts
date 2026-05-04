@@ -10,6 +10,18 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   async redirects() {
     return [
+      // Apex → www (canonical hostname)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'sageideas.dev' }],
+        destination: 'https://www.sageideas.dev/:path*',
+        permanent: true,
+      },
+      // Blog/feed canonicalization
+      { source: '/insights', destination: '/blog', permanent: true },
+      { source: '/insights/:slug*', destination: '/blog/:slug*', permanent: true },
+      { source: '/rss.xml', destination: '/feed.xml', permanent: true },
+      { source: '/atom.xml', destination: '/feed.xml', permanent: true },
       // Studio relaunch IA migration
       { source: '/hire', destination: '/founder', permanent: true },
       { source: '/start', destination: '/contact', permanent: true },

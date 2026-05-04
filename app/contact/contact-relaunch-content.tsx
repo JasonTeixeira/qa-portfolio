@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, CheckCircle2, Loader2, UserCheck } from 'lucide-react'
+import { ArrowRight, Calendar, CheckCircle2, Clock, Loader2, MessageSquare, Rocket, Search, UserCheck } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
@@ -383,6 +384,99 @@ function ContactInner() {
               </p>
             </div>
           </aside>
+        </div>
+      </section>
+
+      {/* Who you're talking to + What to expect */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="grid lg:grid-cols-[360px_1fr] gap-8 items-start">
+          {/* Face card */}
+          <motion.div {...fadeInUp} className="rounded-2xl border border-[#27272A] bg-[#0F0F12] overflow-hidden">
+            <div className="relative aspect-[4/5] bg-[#0A0A0C]">
+              <Image
+                src="/images/headshot.jpg"
+                alt="Jason Teixeira, founder of Sage Ideas"
+                fill
+                sizes="360px"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-5">
+              <div className="text-xs font-mono uppercase tracking-widest text-[#71717A]">Who replies</div>
+              <div className="mt-1.5 text-base font-semibold text-[#FAFAFA]">Jason Teixeira</div>
+              <div className="mt-0.5 text-sm text-[#A1A1AA]">Founder · Sage Ideas Studio</div>
+              <p className="mt-3 text-sm text-[#A1A1AA] leading-relaxed">
+                Every inquiry lands in my inbox. No SDR, no triage queue. You'll talk to the person doing the work.
+              </p>
+              <div className="mt-4 flex items-center gap-2 rounded-lg border border-[#27272A] bg-[#0A0A0C] p-3">
+                <Clock className="h-4 w-4 text-[#06B6D4] shrink-0" />
+                <div>
+                  <div className="text-xs text-[#71717A]">Typical response</div>
+                  <div className="text-sm font-semibold text-[#FAFAFA]">Within 1 business day</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* What to expect timeline */}
+          <motion.div {...fadeInUp}>
+            <SectionLabel>What to expect</SectionLabel>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-[#FAFAFA] tracking-tight">
+              From inquiry to kickoff, in four steps.
+            </h2>
+            <p className="mt-3 text-[#A1A1AA] leading-relaxed max-w-2xl">
+              No black-box sales process. Here's exactly what happens after you submit.
+            </p>
+            <div className="mt-8 grid sm:grid-cols-2 gap-4">
+              {[
+                {
+                  icon: MessageSquare,
+                  step: 'Step 1',
+                  title: 'Reply within 1 business day',
+                  body: 'A real response from me — not an autoresponder. Either we book a call or I tell you it\'s not a fit and point you somewhere better.',
+                  duration: '< 24h',
+                },
+                {
+                  icon: Search,
+                  step: 'Step 2',
+                  title: 'Discovery call (30–45 min)',
+                  body: 'I dig into the actual problem, current state, and what "done" looks like. You leave with a clearer picture even if we don\'t work together.',
+                  duration: 'Week 1',
+                },
+                {
+                  icon: CheckCircle2,
+                  step: 'Step 3',
+                  title: 'Written scope + fixed quote',
+                  body: 'A short written proposal: scope, milestones, price, timeline, and what\'s explicitly out of scope. No surprises later.',
+                  duration: 'Week 1–2',
+                },
+                {
+                  icon: Rocket,
+                  step: 'Step 4',
+                  title: 'Kickoff and first artifact',
+                  body: 'On signing, we set up the shared workspace and ship the first deliverable inside the first week.',
+                  duration: 'Week 2–3',
+                },
+              ].map((item) => (
+                <div
+                  key={item.step}
+                  className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5 hover:border-[#3F3F46] transition"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 bg-[#06B6D4]/10 rounded-lg">
+                        <item.icon className="h-4 w-4 text-[#06B6D4]" />
+                      </div>
+                      <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">{item.step}</span>
+                    </div>
+                    <span className="text-xs font-mono text-[#06B6D4]">{item.duration}</span>
+                  </div>
+                  <div className="text-base font-semibold text-[#FAFAFA] mb-2">{item.title}</div>
+                  <p className="text-sm text-[#A1A1AA] leading-relaxed">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

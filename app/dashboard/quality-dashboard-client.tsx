@@ -320,7 +320,7 @@ export default function QualityDashboardClient() {
       cloudwatchAlarmsUrl: 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#alarmsV2:',
       terraformUrl: 'https://github.com/JasonTeixeira/qa-portfolio/tree/master/infra/aws-quality-telemetry',
       opsReadinessUrl: 'https://github.com/JasonTeixeira/qa-portfolio/blob/master/OPS_READINESS_DASHBOARD.md',
-      failureModesUrl: 'https://sageideas.dev/platform/quality-telemetry',
+      failureModesUrl: 'https://www.sageideas.dev/platform/quality-telemetry',
       evidence: {
         cloudwatchDashboardExport: '/artifacts/evidence/aws-cloudwatch-dashboard-qa-portfolio-prod-api.json',
         cloudwatchAlarmsExport: '/artifacts/evidence/aws-cloudwatch-alarms-qa-portfolio-prod-api.json',

@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import { ProcessContent } from './process-content'
 
 export const metadata: Metadata = {
-  title: 'Process — Sage Ideas',
+  title: 'Process',
   description:
     'The Sage Ideas methodology: Discover → Architect → Build → Operate. Four steps, no surprises. Every engagement follows the same production-grade process.',
-  alternates: { canonical: 'https://sageideas.dev/process' },
+  alternates: { canonical: 'https://www.sageideas.dev/process' },
   openGraph: {
-    url: 'https://sageideas.dev/process',
+    url: 'https://www.sageideas.dev/process',
     images: ['/og?title=Four+Steps.+No+Surprises.&subtitle=The+Sage+Ideas+methodology.'],
   },
 }

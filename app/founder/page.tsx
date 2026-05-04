@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { FounderAnimations } from './founder-animations'
 import { JsonLd } from '@/components/json-ld'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -49,7 +49,7 @@ const breadcrumbSchema = {
 }
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://sageideas.dev/founder' },
+  alternates: { canonical: 'https://www.sageideas.dev/founder' },
   title: 'Founder',
   description:
     'Jason Teixeira — founder and principal of Sage Ideas. Fintech engineer, full-stack practitioner, and the person behind every studio engagement.',

@@ -32,7 +32,7 @@ export default function BlogPostPage() {
   }
 
   const htmlContent = marked.parse(post.fullContent || post.content) as string
-  const postUrl = `https://sageideas.dev/blog/${post.slug}`
+  const postUrl = `https://www.sageideas.dev/blog/${post.slug}`
 
   // Find related posts (same category, excluding current)
   const relatedPosts = blogPosts
@@ -48,14 +48,14 @@ export default function BlogPostPage() {
     author: {
       '@type': 'Person',
       name: 'Jason Teixeira',
-      url: 'https://sageideas.dev/about',
+      url: 'https://www.sageideas.dev/about',
     },
     datePublished: post.date,
     dateModified: post.date,
     publisher: {
       '@type': 'Organization',
       name: 'Sage Ideas LLC',
-      url: 'https://sageideas.dev',
+      url: 'https://www.sageideas.dev',
     },
     mainEntityOfPage: postUrl,
     keywords: post.tags.join(', '),

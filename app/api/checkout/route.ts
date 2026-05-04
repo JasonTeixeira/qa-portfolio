@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
 
   const stripe = new Stripe(stripeKey, { apiVersion: '2026-04-22.dahlia' })
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sageideas.dev'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
 
   const mode = target.cadence === 'monthly' ? 'subscription' : 'payment'
 

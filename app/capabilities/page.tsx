@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import { CapabilitiesContent } from './capabilities-content'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'Capabilities — Sage Ideas',
+  title: 'Capabilities',
   description:
     'Nine productized service tiers across eight capability areas. Strategy, web, automation, SEO, content, brand, product, and platform — delivered as audits, sprints, builds, or operate engagements.',
   alternates: { canonical: `${SITE}/capabilities` },
   openGraph: {
-    title: 'Capabilities — Sage Ideas',
+    title: 'Capabilities',
     description:
       'Nine productized tiers across eight capabilities. Pick your service line, pick your mode.',
     images: [

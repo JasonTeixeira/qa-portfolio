@@ -5,12 +5,12 @@ import { SectionLabel } from '@/components/section-label'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://sageideas.dev/book' },
-  title: 'Book a Discovery Call — Sage Ideas',
+  alternates: { canonical: 'https://www.sageideas.dev/book' },
+  title: 'Book a Discovery Call',
   description:
     'Schedule a 30-minute discovery call with Sage Ideas. No pitch deck. No obligation. Just a direct conversation about your project.',
   openGraph: {
-    title: 'Book a Discovery Call — Sage Ideas',
+    title: 'Book a Discovery Call',
     description: "30 minutes. No pitch deck. No obligation.",
     images: [{ url: '/og?title=Book+a+Call&subtitle=Let%27s+talk.' }],
   },

@@ -5,7 +5,7 @@ import { SectionLabel } from '@/components/section-label'
 import { HeroMotionLayer } from '@/components/hero-motion-layer'
 import { JsonLd } from '@/components/json-ld'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 const serviceSchema = {
   '@context': 'https://schema.org',
@@ -47,12 +47,12 @@ const breadcrumbSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'Studio Engagement — By application | Sage Ideas',
+  title: 'Studio Engagement — By application',
   description:
     'A quarterly studio engagement for founders who want production fintech-grade software shipped under one keyboard. By application only.',
   alternates: { canonical: `${SITE}/services/studio-engagement` },
   openGraph: {
-    title: 'Studio Engagement \u2014 Sage Ideas',
+    title: 'Studio Engagement',
     description: 'By application only. Quarterly minimum. One operator, one keyboard.',
     url: `${SITE}/services/studio-engagement`,
     images: [

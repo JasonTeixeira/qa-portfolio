@@ -24,7 +24,41 @@ import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { LogoStrip } from '@/components/logo-strip'
+import { EvidenceStrip } from '@/components/evidence-strip'
 import { references, trustedBy } from '@/data/references'
+
+const trustEvidence = [
+  {
+    src: '/artifacts/evidence/lighthouse-ci.svg',
+    label: 'Performance',
+    caption: 'Lighthouse CI gating every PR — perf, a11y, SEO, and best-practices budgets enforced before merge.',
+  },
+  {
+    src: '/artifacts/evidence/playwright-report.svg',
+    label: 'E2E Tests',
+    caption: 'Playwright suite running on every commit — cross-browser regression coverage on critical user flows.',
+  },
+  {
+    src: '/artifacts/evidence/github-actions-run.svg',
+    label: 'CI/CD',
+    caption: 'GitHub Actions pipeline: install → lint → typecheck → test → build → deploy — no manual steps.',
+  },
+  {
+    src: '/artifacts/evidence/security-scan.svg',
+    label: 'Security',
+    caption: 'CodeQL + dependency review on every PR. Vulnerabilities surface before they ship, not after.',
+  },
+  {
+    src: '/artifacts/evidence/landing-zone-ci.svg',
+    label: 'Infra',
+    caption: 'Terraform-managed AWS landing zone — IAM, OIDC, networking, all in version control.',
+  },
+  {
+    src: '/artifacts/evidence/percy-diff.svg',
+    label: 'Visual QA',
+    caption: 'Percy visual regression on every deploy — pixel-level diff before changes hit production.',
+  },
+]
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -316,6 +350,19 @@ export function TrustContent() {
             )
           })}
         </div>
+      </section>
+
+      {/* Evidence strip — real artifacts from real shipped infrastructure */}
+      <section id="evidence" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <motion.div {...fadeInUp} className="mb-2">
+          <SectionLabel>Evidence</SectionLabel>
+        </motion.div>
+        <EvidenceStrip
+          items={trustEvidence}
+          heading="Receipts from real shipped infrastructure."
+          blurb="These are not stock images. Every tile below maps to a real artifact in the public repo — CI logs, test reports, scans, and infra configs. Click into the source to verify."
+          linkArtifacts
+        />
       </section>
 
       <section id="certifications" className="bg-[#0F0F12] border-y border-[#27272A]">

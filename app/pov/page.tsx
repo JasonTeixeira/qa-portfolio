@@ -4,8 +4,8 @@ import { ArrowRight } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://sageideas.dev/pov' },
-  title: 'POV — Sage Ideas',
+  alternates: { canonical: 'https://www.sageideas.dev/pov' },
+  title: 'POV',
   description:
     'Why Sage Ideas refuses to ship anything that can\u2019t be rolled back in 30 seconds, and what that decision costs (and saves).',
   openGraph: {

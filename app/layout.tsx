@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-const SITE_URL = 'https://sageideas.dev'
+const SITE_URL = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
   title: {

@@ -4,7 +4,7 @@ import { ArrowRight, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'Checkout Cancelled — Sage Ideas',
+  title: 'Checkout Cancelled',
   description: 'Your checkout was cancelled. No payment was taken.',
   robots: { index: false },
 }

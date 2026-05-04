@@ -5,7 +5,7 @@ import { IndustryPageContent } from './industry-page-content'
 
 type Params = { slug: string }
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 export function generateStaticParams(): Params[] {
   return verticals.map((v) => ({ slug: v.slug }))

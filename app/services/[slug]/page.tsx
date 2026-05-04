@@ -5,7 +5,7 @@ import { TierPageContent } from './tier-page-content'
 
 type Params = { slug: string }
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 export function generateStaticParams(): Params[] {
   return tiers.map((tier) => ({ slug: tier.slug }))

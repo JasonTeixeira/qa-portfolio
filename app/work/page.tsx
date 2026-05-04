@@ -8,12 +8,12 @@ import { WorkGrid } from './work-grid'
 import { caseStudies } from '@/data/work/case-studies'
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://sageideas.dev/work' },
-  title: 'Work — Sage Ideas',
+  alternates: { canonical: 'https://www.sageideas.dev/work' },
+  title: 'Work',
   description:
     'Six production case studies from Sage Ideas: fintech platforms, ML signal engines, AI-native products, infrastructure, and developer tooling. Real work, real outcomes.',
   openGraph: {
-    title: 'Work — Sage Ideas',
+    title: 'Work',
     description:
       'Six production case studies from Sage Ideas: fintech platforms, ML signal engines, AI-native products, infrastructure, and developer tooling. Real work, real outcomes.',
     images: ['/og?title=The+work+speaks.&subtitle=Six+production+case+studies'],

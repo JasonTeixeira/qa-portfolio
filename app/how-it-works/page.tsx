@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { HowItWorksContent } from './how-it-works-content'
 
 export const metadata: Metadata = {
-  title: 'How it works — Sage Ideas',
+  title: 'How it works',
   description:
     'Visual pipelines for every Sage Ideas service. See exactly how each engagement runs from the free intro chat through scope, build, handoff, and optional Care.',
   openGraph: {

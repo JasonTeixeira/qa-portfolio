@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import { verticals } from '@/data/industries/verticals'
 import { IndustriesIndexContent } from './industries-index-content'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'Industries — Sage Ideas',
+  title: 'Industries',
   description:
     'Sage Ideas industry expertise: fintech, SaaS, ecommerce, healthcare, and AI startups. Productized engagements tuned to the operational realities of each vertical.',
   alternates: { canonical: `${SITE}/industries` },
   openGraph: {
-    title: 'Industries — Sage Ideas',
+    title: 'Industries',
     description:
       'Sage Ideas industry expertise: fintech, SaaS, ecommerce, healthcare, AI startups.',
     images: [{ url: '/og?title=Industries&subtitle=Five+verticals.+Operator-grade+execution.' }],

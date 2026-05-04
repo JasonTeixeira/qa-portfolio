@@ -4,7 +4,7 @@ import { ArrowRight, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'Payment Confirmed — Sage Ideas',
+  title: 'Payment Confirmed',
   description: 'Your payment was received. We will be in touch shortly to kick off your engagement.',
   robots: { index: false },
 }

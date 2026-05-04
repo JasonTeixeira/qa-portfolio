@@ -4,7 +4,7 @@ import { pricingFaq } from '@/data/services/pricing-faq'
 import { PricingContent } from './pricing-content'
 import { JsonLd } from '@/components/json-ld'
 
-const SITE = 'https://sageideas.dev'
+const SITE = 'https://www.sageideas.dev'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -26,12 +26,12 @@ const breadcrumbSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'Pricing — Sage Ideas',
+  title: 'Pricing',
   description:
     'Nine productized tiers, fixed pricing, Stripe checkout. Sage Audit $1,500 · Ship $4,900 · Automate $9,900 · SEO Sprint $3,500 · Content Engine $6,500/mo · Brand Sprint $8,500 · Scale $4,900/mo · Build from $25,000 · Operate $7,500/mo.',
   alternates: { canonical: `${SITE}/pricing` },
   openGraph: {
-    title: 'Pricing — Sage Ideas',
+    title: 'Pricing',
     description: 'Nine productized tiers. Fixed price. No asterisks.',
     images: [{ url: '/og?title=Pricing&subtitle=Nine+tiers.+Fixed+price.+No+asterisks.' }],
   },

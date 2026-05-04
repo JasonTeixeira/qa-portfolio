@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/'],
       },
     ],
-    sitemap: 'https://sageideas.dev/sitemap.xml',
-    host: 'https://sageideas.dev',
+    sitemap: 'https://www.sageideas.dev/sitemap.xml',
+    host: 'https://www.sageideas.dev',
   }
 }

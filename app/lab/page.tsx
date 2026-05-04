@@ -6,12 +6,12 @@ import { LabGrid } from './lab-grid'
 import { labProducts } from '@/data/lab/products'
 
 export const metadata: Metadata = {
-  alternates: { canonical: 'https://sageideas.dev/lab' },
-  title: 'The Lab — Sage Ideas',
+  alternates: { canonical: 'https://www.sageideas.dev/lab' },
+  title: 'The Lab',
   description:
     'Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream. These are the businesses we\'d want to run.',
   openGraph: {
-    title: 'The Lab — Sage Ideas',
+    title: 'The Lab',
     description:
       'Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream.',
     images: ['/og?title=The+Lab.&subtitle=Built+here+first.'],

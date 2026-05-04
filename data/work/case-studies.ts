@@ -15,6 +15,10 @@ export type CaseStudy = {
   artifacts?: string[]
   /** Optional hero image (16:9 PNG) shown on the work grid card and detail page top. */
   heroImage?: string
+  /** Compact outcome metric (one number + label) shown as a pill on the work grid card. */
+  cardMetric?: string
+  /** Real product UI screenshots shown in the case study detail carousel and as peek on grid card. */
+  screens?: { src: string; alt: string; caption?: string }[]
   /**
    * Visual proof gallery shown on the case study page between "Approach" and
    * "What shipped". Architecture diagrams, screenshots, terminal output,
@@ -36,6 +40,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'nexural',
     heroImage: '/work/heroes/nexural.png',
+    cardMetric: '185 DB tables',
+    screens: [
+      {
+        src: '/work/screens/nexural-1.png',
+        alt: 'Nexural dataset and pipeline dashboard listing 47 datasets and a 1.2TB ML store',
+        caption: 'Datasets dashboard — 47 sources, RLS-isolated, real-time ingestion telemetry on every row.',
+      },
+      {
+        src: '/work/screens/nexural-2.png',
+        alt: 'Nexural training run detail showing loss 0.034 at epoch 22 of 50 on an A100 GPU',
+        caption: 'Training run #248 — live loss curve, GPU utilization, and idempotent checkpoint metadata.',
+      },
+    ],
     title: 'Nexural — Full-Stack Fintech Platform',
     posterTitle: 'A trading platform built like an institution. Run by one person.',
     client: 'Sage Ideas (Internal)',
@@ -107,6 +124,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'alphastream',
     heroImage: '/work/heroes/alphastream.png',
+    cardMetric: '200+ indicators',
+    screens: [
+      {
+        src: '/work/screens/alphastream-1.png',
+        alt: 'AlphaStream live dashboard with 200+ indicators and 14 active strategies',
+        caption: 'Live dashboard — 14 strategies running, 200+ indicators streaming, latency under 200ms.',
+      },
+      {
+        src: '/work/screens/alphastream-2.png',
+        alt: 'AlphaStream backtest result showing Sharpe 2.41 and -8.2% max drawdown over 5 years',
+        caption: 'Backtest result — 5-year window, Sharpe 2.41, max drawdown contained at -8.2%.',
+      },
+    ],
     title: 'AlphaStream — ML Trading Signal Engine',
     posterTitle: 'Five models. Two hundred indicators. No black boxes.',
     client: 'Sage Ideas (Internal)',
@@ -167,6 +197,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'jobpoise',
     heroImage: '/work/heroes/jobpoise.png',
+    cardMetric: '8-question sessions',
+    screens: [
+      {
+        src: '/work/screens/jobpoise-1.png',
+        alt: 'JobPoise mock interview session running a behavioral set of 8 questions',
+        caption: 'Mock interview — behavioral set, real-time transcription, structured rubric scoring.',
+      },
+      {
+        src: '/work/screens/jobpoise-2.png',
+        alt: 'JobPoise insights view showing confidence trend and 38% reduction in filler words',
+        caption: 'Insights — confidence trend across sessions, filler-words reduced 38% over four weeks.',
+      },
+    ],
     title: 'Jobpoise — AI Job Copilot',
     posterTitle: 'The job search, weaponized for the qualified.',
     client: 'Sage Ideas (Internal)',
@@ -206,6 +249,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'trayd',
     heroImage: '/work/heroes/trayd.png',
+    cardMetric: '32 jobs / day',
+    screens: [
+      {
+        src: '/work/screens/trayd-1.png',
+        alt: 'Trayd dispatch board listing 32 jobs across 11 crews in 4 regions',
+        caption: 'Dispatch board — 32 jobs today, 11 crews scheduled, regional load balanced live.',
+      },
+      {
+        src: '/work/screens/trayd-2.png',
+        alt: 'Trayd HVAC service detail with technician assigned and 14:30 ETA',
+        caption: 'Service detail — technician assigned, ETA pinned, customer notified by SMS.',
+      },
+    ],
     title: 'Trayd — AI Companion for the Trades',
     posterTitle: 'Built for the people who fix what breaks.',
     client: 'Sage Ideas (Internal)',
@@ -261,6 +317,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'aws-landing-zone',
     heroImage: '/work/heroes/aws-landing-zone.png',
+    cardMetric: '13 accounts · 4 OUs',
+    screens: [
+      {
+        src: '/work/screens/aws-landing-zone-1.png',
+        alt: 'AWS Console showing 13 accounts and 4 organizational units governed by Control Tower',
+        caption: 'Control Tower view — 13 accounts, 4 OUs, all guardrails green and SCPs in effect.',
+      },
+      {
+        src: '/work/screens/aws-landing-zone-2.png',
+        alt: 'Terraform IDE plan diff: 47 additions, 3 changes, 0 destroys',
+        caption: 'Terraform plan — 47 add, 3 change, 0 destroy. Reviewed, then applied through CI.',
+      },
+    ],
     title: 'AWS Landing Zone & Guardrails',
     posterTitle: 'Infrastructure that survives the on-call rotation.',
     client: 'Sage Ideas (Internal)',
@@ -327,6 +396,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'quality-telemetry',
     heroImage: '/work/heroes/quality-telemetry.png',
+    cardMetric: '99.96% uptime',
+    screens: [
+      {
+        src: '/work/screens/quality-telemetry-1.png',
+        alt: 'Grafana SLO board with p95 latency 124ms and error rate 0.04%',
+        caption: 'SLO board — p95 latency 124ms, error rate at 0.04%, weekly burn-rate alerts wired.',
+      },
+      {
+        src: '/work/screens/quality-telemetry-2.png',
+        alt: 'CI dashboard showing 892 tests across the matrix with 99.2% pass rate in 4.1 minutes',
+        caption: 'CI test matrix — 892 tests, 99.2% pass, 4.1 min wall clock across 13 frameworks.',
+      },
+    ],
     title: 'Quality Telemetry Platform',
     posterTitle: 'Thirteen frameworks. One verdict: ship or don\'t.',
     client: 'Sage Ideas (Internal)',
@@ -396,6 +478,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'brand-sprint-rebuild',
     heroImage: '/work/heroes/brand-sprint-rebuild.png',
+    cardMetric: '+47% conversion',
+    screens: [
+      {
+        src: '/work/screens/brand-sprint-rebuild-1.png',
+        alt: 'Figma component library with 84 reusable design system components',
+        caption: 'Design system — 84 components, tokens centralized, all states documented in Figma.',
+      },
+      {
+        src: '/work/screens/brand-sprint-rebuild-2.png',
+        alt: 'Rebuilt client hero showing +47% conversion and a 1.1s LCP',
+        caption: 'Rebuilt hero — conversion up 47% post-launch, LCP held under 1.1 seconds on mobile.',
+      },
+    ],
     title: 'Brand Sprint — Founder-Led Identity Rebuild',
     posterTitle: 'Two weeks to look like a company that ships.',
     client: 'Sage Ideas Studio (illustrative engagement)',
@@ -448,6 +543,19 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'site-care-retainer',
     heroImage: '/work/heroes/site-care-retainer.png',
+    cardMetric: '12 mo · 0 incidents',
+    screens: [
+      {
+        src: '/work/screens/site-care-retainer-1.png',
+        alt: 'Uptime monitor showing 12 sites at 99.98% uptime over 30 days',
+        caption: 'Uptime status — 12 sites, 99.98% uptime over the last 30 days, no SEV pages.',
+      },
+      {
+        src: '/work/screens/site-care-retainer-2.png',
+        alt: 'Monthly Site Care report showing 47 patches, 12 backups, and 0 incidents',
+        caption: 'Monthly report — 47 patches landed, 12 verified backups, zero incidents on the year.',
+      },
+    ],
     title: 'Site Care — Twelve Months of Quiet Reliability',
     posterTitle: 'A year. Zero outages. Nobody noticed. That\'s the point.',
     client: 'Sage Ideas Studio (illustrative engagement)',

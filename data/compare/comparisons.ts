@@ -78,7 +78,7 @@ export const comparisons: Comparison[] = [
       },
       {
         dimension: 'Output quality variance',
-        sage: 'Senior-only; consistent',
+        sage: 'Seasoned-only; consistent',
         competitor: 'Depends entirely on the hire',
         edge: 'sage',
       },

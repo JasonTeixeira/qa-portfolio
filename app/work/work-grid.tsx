@@ -56,6 +56,8 @@ export function WorkGrid({ studies }: WorkGridProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.08 }}
+            whileHover={{ scale: 1.02 }}
+            className="transition-shadow duration-300 hover:shadow-[0_0_0_1px_rgba(6,182,212,0.45),0_24px_48px_-24px_rgba(6,182,212,0.35)] rounded-2xl"
           >
             <GlowCard className="h-full flex flex-col group overflow-hidden">
               {/* Thumbnail */}
@@ -71,7 +73,35 @@ export function WorkGrid({ studies }: WorkGridProps) {
                 )}
                 {/* Bottom gradient overlay for legibility */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/30 to-transparent" />
-                <div className="absolute inset-0 flex items-end p-4">
+
+                {/* Top-left: outcome metric pill */}
+                {study.cardMetric && (
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest bg-[#09090B]/85 text-[#FAFAFA] border border-[#3F3F46] backdrop-blur-sm shadow-lg">
+                      {study.cardMetric}
+                    </span>
+                  </div>
+                )}
+
+                {/* Bottom-right: UI peek thumbnail (real product screen, layered + tilted) */}
+                {study.screens && study.screens[0] && (
+                  <div
+                    className="absolute bottom-3 right-3 z-10 w-[40%] aspect-video rounded-md overflow-hidden border border-[#3F3F46] shadow-2xl shadow-[#06B6D4]/10 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110"
+                    style={{ transform: 'rotate(-3deg)' }}
+                  >
+                    <Image
+                      src={study.screens[0].src}
+                      alt=""
+                      aria-hidden
+                      fill
+                      sizes="(max-width: 768px) 40vw, (max-width: 1024px) 20vw, 13vw"
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+
+                {/* Bottom-left: category pill */}
+                <div className="absolute inset-0 flex items-end p-4 pointer-events-none">
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest bg-[#09090B]/80 text-[#06B6D4] border border-[#06B6D4]/30 backdrop-blur-sm">
                     {study.category}
                   </span>

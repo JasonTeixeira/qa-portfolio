@@ -23,7 +23,34 @@ import { FounderPortrait } from '@/components/founder-portrait'
 import { HeroMotionLayer } from '@/components/hero-motion-layer'
 import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
-import { TypingTerminal } from '@/components/typing-terminal'
+import { ProductRotator, type RotatorItem } from '@/components/home/product-rotator'
+
+const HERO_ROTATOR_ITEMS: RotatorItem[] = [
+  {
+    src: '/work/screens/nexural-1.png',
+    alt: 'Nexural fintech platform — datasets dashboard',
+    project: 'Nexural — Fintech Platform',
+    url: 'nexural.dev / dashboard',
+  },
+  {
+    src: '/work/screens/alphastream-1.png',
+    alt: 'AlphaStream live trading dashboard with 200+ indicators',
+    project: 'AlphaStream — ML Trading Engine',
+    url: 'alphastream.io / live',
+  },
+  {
+    src: '/work/screens/jobpoise-1.png',
+    alt: 'JobPoise mock interview session',
+    project: 'JobPoise — Interview Coach',
+    url: 'jobpoise.app / sessions',
+  },
+  {
+    src: '/work/screens/quality-telemetry-1.png',
+    alt: 'Quality telemetry SLO dashboard',
+    project: 'Quality Telemetry — SLO Board',
+    url: 'telemetry.sageideas.dev',
+  },
+]
 import { FloatingOrbs } from '@/components/floating-orbs'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { LogoStrip } from '@/components/logo-strip'
@@ -325,14 +352,14 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Right: Terminal */}
+            {/* Right: Product rotator */}
             <motion.div
               className="lg:col-span-5"
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              <TypingTerminal />
+              <ProductRotator items={HERO_ROTATOR_ITEMS} />
             </motion.div>
           </div>
 

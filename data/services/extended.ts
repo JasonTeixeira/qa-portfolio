@@ -2411,7 +2411,7 @@ export const extendedCategories: ExtendedCategoryMeta[] = [
   {
     key: 'fractional',
     label: 'Fractional leadership',
-    tagline: 'Senior technical leadership without the $300k headcount.',
+    tagline: 'Seasoned technical leadership without the $300k headcount.',
     accent: '#A855F7',
     icon: 'briefcase',
   },

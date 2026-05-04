@@ -11,6 +11,7 @@ import { TestimonialCard } from '@/components/testimonial-card'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { CaseStudyArchitecture } from '@/components/diagrams'
+import { ScreensCarousel } from '@/components/work/screens-carousel'
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -202,6 +203,20 @@ export function CaseStudyContent({ study }: Props) {
                     const Diagram = CaseStudyArchitecture[study.slug]
                     return Diagram ? <Diagram /> : null
                   })()}
+                </div>
+              </motion.section>
+            )}
+
+            {/* Selected Screens — real product UI */}
+            {study.screens && study.screens.length > 0 && (
+              <motion.section {...fadeIn} transition={{ duration: 0.5, delay: 0.175 }}>
+                <SectionLabel>Built UI</SectionLabel>
+                <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA]">Selected screens</h2>
+                <p className="mt-3 text-sm text-[#71717A]">
+                  Real product surfaces from the engagement — not stock illustrations.
+                </p>
+                <div className="mt-6">
+                  <ScreensCarousel screens={study.screens} />
                 </div>
               </motion.section>
             )}

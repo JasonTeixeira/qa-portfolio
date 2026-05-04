@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Check, Lock, Calendar, FileLock } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
+import { HeroMotionLayer } from '@/components/hero-motion-layer'
 
 const SITE = 'https://sageideas.dev'
 
@@ -101,7 +102,7 @@ export default function StudioEngagementPage() {
     <div className="min-h-screen bg-[#09090B]">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[#27272A]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(6,182,212,0.10),transparent_55%),radial-gradient(circle_at_85%_30%,rgba(139,92,246,0.10),transparent_55%)]" />
+        <HeroMotionLayer intensity="low" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/[0.06] px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-6">
             <Lock className="w-3 h-3" /> By application only

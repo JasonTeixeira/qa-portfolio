@@ -6,6 +6,7 @@ import { ArrowRight, Search, PenTool, Hammer, Server, MessageSquare, ChevronDown
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
+import { ArtifactGallery } from '@/components/artifact-gallery'
 import { useState } from 'react'
 
 const fadeInUp = {
@@ -239,6 +240,57 @@ export function ProcessContent() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Visual proof — what each step actually produces */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-[#27272A]">
+        <motion.div {...fadeInUp} className="mb-12">
+          <SectionLabel>Evidence</SectionLabel>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] tracking-tight">
+            What each step actually produces.
+          </h2>
+          <p className="text-[#A1A1AA] mt-4 max-w-2xl leading-relaxed">
+            Every engagement leaves a paper trail. Architecture diagrams from
+            <span className="text-[#FAFAFA]"> Architect</span>, CI runs from
+            <span className="text-[#FAFAFA]"> Build</span>, dashboards and
+            scan output from <span className="text-[#FAFAFA]">Operate</span>.
+            These are real artifacts from real engagements — not stock illustrations.
+          </p>
+        </motion.div>
+        <ArtifactGallery
+          eyebrow=""
+          artifacts={[
+            {
+              src: '/images/diagrams/aws-landing-zone.svg',
+              kind: 'diagram',
+              label: 'Architect · system design',
+              aspect: 'wide',
+              caption: 'A signed scope document before any code ships. Component diagrams, data flow, RLS policy maps, and API contracts — we never “figure it out as we go.”',
+            },
+            {
+              src: '/artifacts/evidence/github-actions-run.svg',
+              kind: 'terminal',
+              label: 'Build · CI run',
+              aspect: 'video',
+              caption: 'Lint, typecheck, unit, contract, and E2E gates pass on every PR. The build is the deliverable that lets the next deploy be boring.',
+            },
+            {
+              src: '/artifacts/evidence/playwright-report.svg',
+              kind: 'report',
+              label: 'Build · E2E coverage',
+              aspect: 'video',
+              caption: 'Test reports stakeholders can actually read — critical journeys, what passed, what was skipped and why.',
+            },
+            {
+              src: '/artifacts/evidence/lighthouse-ci.svg',
+              kind: 'dashboard',
+              label: 'Operate · quality budget',
+              aspect: 'video',
+              caption: 'Performance and accessibility budgets enforced in CI. The site never silently gets slower or less accessible after launch.',
+            },
+          ]}
+          columns={2}
+        />
       </section>
 
       {/* Communication cadence */}

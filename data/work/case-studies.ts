@@ -13,6 +13,18 @@ export type CaseStudy = {
   outcome: string[]      // paragraphs
   metrics: { label: string; value: string }[]
   artifacts?: string[]
+  /**
+   * Visual proof gallery shown on the case study page between "Approach" and
+   * "What shipped". Architecture diagrams, screenshots, terminal output,
+   * dashboards — the actual evidence the work happened.
+   */
+  gallery?: {
+    src: string
+    caption: string
+    kind: 'diagram' | 'screenshot' | 'terminal' | 'dashboard' | 'report'
+    label?: string
+    aspect?: 'video' | 'square' | 'wide' | 'portrait'
+  }[]
   relatedLab?: string  // slug of /lab item
   ctaPrimary?: { label: string; href: string }
   ctaSecondary?: { label: string; href: string }
@@ -62,6 +74,29 @@ export const caseStudies: CaseStudy[] = [
       'Discord bot architecture diagram',
       'CI/CD pipeline configuration template',
     ],
+    gallery: [
+      {
+        src: '/images/diagrams/nexural-ecosystem.svg',
+        kind: 'diagram',
+        label: 'System map',
+        aspect: 'wide',
+        caption: 'The full Nexural surface area: trading platform, Discord-native AI bot, billing, real-time market data, and the seven services that talk to each other through typed contracts.',
+      },
+      {
+        src: '/artifacts/evidence/playwright-report.svg',
+        kind: 'report',
+        label: 'CI · Playwright',
+        aspect: 'video',
+        caption: '61 test suites green on every PR. End-to-end coverage across trading flows, billing webhooks, and Discord bot interactions — the regression net that lets one engineer ship into production.',
+      },
+      {
+        src: '/artifacts/evidence/lighthouse-ci.svg',
+        kind: 'dashboard',
+        label: 'Lighthouse CI',
+        aspect: 'video',
+        caption: 'Performance, accessibility, and best-practices budgets enforced in CI. The dashboard fails the build if a PR regresses the user-facing surface — not after launch.',
+      },
+    ],
     relatedLab: 'nexural',
     ctaPrimary: { label: 'Explore the Lab entry for Nexural', href: '/lab/nexural' },
     ctaSecondary: { label: 'Build something like this', href: '/services/build' },
@@ -104,6 +139,22 @@ export const caseStudies: CaseStudy[] = [
       'GitHub repository → github.com/jteixeira/alphastream',
       'Strategy documentation',
       'Backtesting methodology notes',
+    ],
+    gallery: [
+      {
+        src: '/images/diagrams/alphastream-pipeline.svg',
+        kind: 'diagram',
+        label: 'ML pipeline',
+        aspect: 'wide',
+        caption: 'Market data → feature engineering → five-model ensemble → walk-forward validation → streaming signal output. Every stage is observable, every prediction has provenance.',
+      },
+      {
+        src: '/artifacts/evidence/percy-diff.svg',
+        kind: 'screenshot',
+        label: 'Visual diff',
+        aspect: 'video',
+        caption: 'Percy visual regression on the strategy dashboard. Pixel-level diffs catch chart regressions before they reach the people who actually trade off them.',
+      },
     ],
     relatedLab: 'alphastream',
     ctaPrimary: { label: 'View AlphaStream on GitHub', href: 'https://github.com/jteixeira/alphastream' },
@@ -181,6 +232,22 @@ export const caseStudies: CaseStudy[] = [
       { label: 'Market', value: 'Phoenix Metro' },
       { label: 'Status', value: 'Beta Live' },
     ],
+    gallery: [
+      {
+        src: '/images/diagrams/cicd-pipeline.svg',
+        kind: 'diagram',
+        label: 'CI/CD',
+        aspect: 'wide',
+        caption: 'Push → lint → typecheck → unit → contract → E2E → staging deploy → smoke → prod. Every gate blocks the merge. Every prod deploy is rollback-ready in 30 seconds.',
+      },
+      {
+        src: '/artifacts/evidence/github-actions-run.svg',
+        kind: 'terminal',
+        label: 'GitHub Actions',
+        aspect: 'video',
+        caption: 'A real workflow run from the Trayd repo. Test matrix across Node versions, parallelized job graph, all green — the boring screenshot that lets you sleep at night.',
+      },
+    ],
     relatedLab: 'trayd',
     ctaPrimary: { label: 'Explore the Lab entry for Trayd', href: '/lab/trayd' },
     ctaSecondary: { label: 'Build an AI product', href: '/services/automate' },
@@ -223,6 +290,29 @@ export const caseStudies: CaseStudy[] = [
       'GitHub: All 4 Terraform modules (public)',
       'Module documentation and example configurations',
       'CI pipeline templates',
+    ],
+    gallery: [
+      {
+        src: '/images/diagrams/aws-landing-zone.svg',
+        kind: 'diagram',
+        label: 'AWS architecture',
+        aspect: 'wide',
+        caption: 'Multi-account AWS landing zone with hub-spoke topology, centralized logging, security boundaries, and per-account guardrails. The Terraform that makes this reproducible is the deliverable.',
+      },
+      {
+        src: '/artifacts/evidence/landing-zone-ci.svg',
+        kind: 'terminal',
+        label: 'Terraform plan',
+        aspect: 'video',
+        caption: 'CI run on a Terraform PR — plan output is reviewed, security scan runs, and only then does the apply happen. Infrastructure changes get the same review treatment as application code.',
+      },
+      {
+        src: '/artifacts/evidence/security-scan.svg',
+        kind: 'report',
+        label: 'Security scan',
+        aspect: 'video',
+        caption: 'tfsec / Checkov scan output enforced as a CI gate. Misconfigured S3 buckets, open security groups, and weak IAM policies fail the build before they touch a real account.',
+      },
     ],
     ctaPrimary: { label: 'View Terraform modules on GitHub', href: 'https://github.com/jteixeira' },
     ctaSecondary: { label: 'Discuss a Build engagement', href: '/services/build' },
@@ -268,6 +358,29 @@ export const caseStudies: CaseStudy[] = [
       'CI pipeline configuration',
       'Lighthouse CI budget documentation',
       'Test coverage policy documentation',
+    ],
+    gallery: [
+      {
+        src: '/artifacts/evidence/playwright-report.svg',
+        kind: 'report',
+        label: 'Playwright',
+        aspect: 'video',
+        caption: 'End-to-end coverage across critical journeys. The report is the deliverable — stakeholders see exactly what was tested, what passed, and what got skipped.',
+      },
+      {
+        src: '/artifacts/evidence/allure-report.svg',
+        kind: 'dashboard',
+        label: 'Allure',
+        aspect: 'video',
+        caption: 'Aggregated test results across thirteen frameworks in one place. Trends over time, flake detection, and a single pane of glass for ship-or-don’t.',
+      },
+      {
+        src: '/artifacts/evidence/lighthouse-ci.svg',
+        kind: 'dashboard',
+        label: 'Lighthouse CI',
+        aspect: 'video',
+        caption: 'Performance + accessibility budgets enforced per PR. If a change drops the score below threshold, the build fails. The website never silently gets slower.',
+      },
     ],
     ctaPrimary: { label: 'See our quality standards', href: '/trust' },
     ctaSecondary: { label: 'Start with an audit', href: '/services/audit' },

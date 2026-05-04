@@ -1,16 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
-  <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#0a0a0a"/>
-      <stop offset="100%" stop-color="#1a1a1a"/>
-    </linearGradient>
-  </defs>
-  <rect x="0" y="0" width="1200" height="675" rx="28" fill="url(#bg)"/>
-  <rect x="48" y="48" width="1104" height="579" rx="22" fill="#111" stroke="#06b6d4" stroke-width="3" opacity="0.95"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" fill="none" font-family="ui-sans-serif, system-ui, -apple-system">
+  <rect width="1200" height="675" fill="#09090B"/>
+  <rect x="20" y="20" width="1160" height="635" rx="14" fill="#0F0F12" stroke="#27272A"/>
 
-  <text x="92" y="140" fill="#e5e7eb" font-family="ui-sans-serif, system-ui, -apple-system" font-size="44" font-weight="700">Allure Report (Sample)</text>
-  <text x="92" y="200" fill="#9ca3af" font-family="ui-sans-serif, system-ui, -apple-system" font-size="22">Replace with a real screenshot from your Allure HTML report.</text>
+  <!-- Header -->
+  <rect x="20" y="20" width="1160" height="56" rx="14" fill="#0A0A0C" stroke="#27272A"/>
+  <text x="60" y="50" fill="#FAFAFA" font-size="15" font-weight="700">Allure Report · Quality Telemetry</text>
+  <text x="60" y="68" fill="#71717A" font-size="11" font-family="ui-monospace, monospace">13 frameworks · 4,218 tests · last 14 days</text>
+  <text x="1140" y="50" fill="#10B981" font-size="13" text-anchor="end" font-weight="600">99.6% pass rate</text>
+  <text x="1140" y="68" fill="#71717A" font-size="11" text-anchor="end" font-family="ui-monospace, monospace">17 flakes detected · 17 quarantined</text>
 
-  <text x="92" y="585" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco" font-size="16">qa-portfolio · Evidence Gallery</text>
+  <!-- Donut chart on left -->
+  <g transform="translate(180, 280)">
+    <circle r="100" fill="none" stroke="#27272A" stroke-width="20"/>
+    <circle r="100" fill="none" stroke="#10B981" stroke-width="20" stroke-dasharray="624 628" stroke-linecap="butt" transform="rotate(-90)"/>
+    <circle r="100" fill="none" stroke="#F59E0B" stroke-width="20" stroke-dasharray="3 628" stroke-dashoffset="-624" transform="rotate(-90)"/>
+    <circle r="100" fill="none" stroke="#EF4444" stroke-width="20" stroke-dasharray="1 628" stroke-dashoffset="-627" transform="rotate(-90)"/>
+    <text y="-5" fill="#FAFAFA" font-size="32" font-weight="700" text-anchor="middle">4,201</text>
+    <text y="20" fill="#71717A" font-size="11" text-anchor="middle" font-family="ui-monospace, monospace">PASSED</text>
+  </g>
+  <text x="180" y="430" fill="#A1A1AA" font-size="13" text-anchor="middle">All Frameworks · 14 Days</text>
+
+  <!-- Right side stats -->
+  <g transform="translate(380, 110)">
+    <text x="0" y="20" fill="#FAFAFA" font-size="13" font-weight="700" font-family="ui-monospace, monospace">FRAMEWORK BREAKDOWN</text>
+
+    <!-- Each row: bar + label -->
+    <g font-size="12">
+      <text x="0" y="60" fill="#A1A1AA">Playwright</text>
+      <rect x="120" y="48" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="48" width="595" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="60" fill="#71717A" font-family="ui-monospace, monospace">1,124 / 1,124</text>
+
+      <text x="0" y="90" fill="#A1A1AA">Cypress</text>
+      <rect x="120" y="78" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="78" width="588" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="90" fill="#71717A" font-family="ui-monospace, monospace">812 / 814</text>
+
+      <text x="0" y="120" fill="#A1A1AA">Vitest</text>
+      <rect x="120" y="108" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="108" width="600" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="120" fill="#71717A" font-family="ui-monospace, monospace">764 / 764</text>
+
+      <text x="0" y="150" fill="#A1A1AA">Pact (contract)</text>
+      <rect x="120" y="138" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="138" width="600" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="150" fill="#71717A" font-family="ui-monospace, monospace">312 / 312</text>
+
+      <text x="0" y="180" fill="#A1A1AA">Pytest</text>
+      <rect x="120" y="168" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="168" width="592" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="180" fill="#71717A" font-family="ui-monospace, monospace">428 / 432</text>
+
+      <text x="0" y="210" fill="#A1A1AA">Postman</text>
+      <rect x="120" y="198" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="198" width="600" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="210" fill="#71717A" font-family="ui-monospace, monospace">196 / 196</text>
+
+      <text x="0" y="240" fill="#A1A1AA">Storybook viz</text>
+      <rect x="120" y="228" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="228" width="600" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="240" fill="#71717A" font-family="ui-monospace, monospace">94 / 94</text>
+
+      <text x="0" y="270" fill="#A1A1AA">k6 (load)</text>
+      <rect x="120" y="258" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="258" width="585" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="270" fill="#71717A" font-family="ui-monospace, monospace">68 / 70</text>
+
+      <text x="0" y="300" fill="#A1A1AA">+ 5 more frameworks</text>
+      <rect x="120" y="288" width="600" height="14" rx="3" fill="#0A0A0C" stroke="#27272A"/>
+      <rect x="120" y="288" width="595" height="14" rx="3" fill="#10B981"/>
+      <text x="740" y="300" fill="#71717A" font-family="ui-monospace, monospace">503 / 512</text>
+    </g>
+  </g>
+
+  <!-- Footer trend -->
+  <text x="60" y="500" fill="#FAFAFA" font-size="13" font-weight="700" font-family="ui-monospace, monospace">14-DAY TREND · DAILY PASS RATE</text>
+  <g>
+    <line x1="60" y1="610" x2="1140" y2="610" stroke="#27272A"/>
+    <line x1="60" y1="555" x2="1140" y2="555" stroke="#1F1F23" stroke-dasharray="2 4"/>
+    <polyline fill="none" stroke="#06B6D4" stroke-width="2" points="60,560 137,558 214,560 291,557 368,558 445,556 522,558 599,555 676,556 753,553 830,556 907,554 984,555 1061,553 1138,553"/>
+    <circle cx="1138" cy="553" r="5" fill="#06B6D4"/>
+    <text x="60" y="635" fill="#71717A" font-size="10" font-family="ui-monospace, monospace">14 days ago · 99.4%</text>
+    <text x="1140" y="635" fill="#06B6D4" font-size="10" text-anchor="end" font-family="ui-monospace, monospace">today · 99.6%</text>
+  </g>
 </svg>

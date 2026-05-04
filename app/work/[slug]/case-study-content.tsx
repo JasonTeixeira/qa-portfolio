@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink, FlaskConical, Wrench } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
+import { ArtifactGallery } from '@/components/artifact-gallery'
 import { type CaseStudy } from '@/data/work/case-studies'
 
 const fadeIn = {
@@ -154,6 +155,19 @@ export function CaseStudyContent({ study }: Props) {
                 ))}
               </div>
             </motion.section>
+
+            {/* Visual proof gallery */}
+            {study.gallery && study.gallery.length > 0 && (
+              <motion.section {...fadeIn} transition={{ duration: 0.5, delay: 0.18 }}>
+                <ArtifactGallery
+                  eyebrow="Evidence"
+                  title="What it actually looks like"
+                  description="Architecture diagrams, CI runs, and dashboards from the engagement — not stock illustrations."
+                  artifacts={study.gallery}
+                  columns={study.gallery.length === 1 ? 1 : 2}
+                />
+              </motion.section>
+            )}
 
             {/* Build */}
             <motion.section {...fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>

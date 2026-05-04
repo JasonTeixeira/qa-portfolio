@@ -13,6 +13,8 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
+import { FounderPortrait } from '@/components/founder-portrait'
+import { HeroMotionLayer } from '@/components/hero-motion-layer'
 import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
 import { TypingTerminal } from '@/components/typing-terminal'
@@ -178,8 +180,9 @@ export default function HomePage() {
       <FloatingOrbs />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center pt-24 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <section className="relative min-h-screen flex items-center pt-24 pb-20 overflow-hidden">
+        <HeroMotionLayer intensity="medium" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left: Copy */}
             <motion.div className="lg:col-span-7 space-y-8" {...fadeInUp}>
@@ -709,18 +712,20 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
               className="lg:col-span-5"
             >
-              <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-[#06B6D4]/15 via-[#0F0F12] to-[#8B5CF6]/15 border border-[#27272A] p-1 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(6,182,212,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(139,92,246,0.12),transparent_50%)]" />
-                <div className="relative h-full w-full rounded-[22px] bg-[#0A0A0C]/40 backdrop-blur-sm flex items-end p-8">
-                  <div className="space-y-1">
-                    <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
-                      Sage Ideas LLC
-                    </div>
-                    <div className="text-2xl font-bold text-[#FAFAFA]">Jason Teixeira</div>
-                    <div className="text-sm text-[#A1A1AA]">Founder & Principal Engineer</div>
-                    <div className="text-xs text-[#71717A] mt-2">
-                      Orlando, FL · Available remote
-                    </div>
+              <div className="relative">
+                <FounderPortrait size="xl" caption={false} />
+                <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8 z-10">
+                  <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#06B6D4] mb-2">
+                    Sage Ideas LLC
+                  </div>
+                  <div className="text-2xl lg:text-3xl font-bold text-[#FAFAFA] tracking-tight">
+                    Jason Teixeira
+                  </div>
+                  <div className="text-sm text-[#A1A1AA] mt-1">
+                    Founder &amp; Principal Engineer
+                  </div>
+                  <div className="text-xs text-[#71717A] mt-2">
+                    Orlando, FL · Remote-first
                   </div>
                 </div>
               </div>

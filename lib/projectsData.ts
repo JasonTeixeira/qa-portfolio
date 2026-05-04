@@ -213,7 +213,7 @@ See the repo README for step-by-step deploy instructions.
     documentation: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails#readme",
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions/workflows/ci.yml/badge.svg",
-      reportUrl: "/artifacts/evidence/landing-zone-ci.png",
+      reportUrl: "/artifacts/evidence/landing-zone-ci.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/Landing-Zone-Guardrails/actions",
     },
   },
@@ -867,7 +867,7 @@ Impressed by this project? I'm available for:
     github: "https://github.com/JasonTeixeira/Qa-Automation-Project",
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/Qa-Automation-Project/actions/workflows/ci.yml/badge.svg",
-      reportUrl: "/artifacts/evidence/playwright-report.png",
+      reportUrl: "/artifacts/evidence/playwright-report.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/Qa-Automation-Project/actions",
     },
     relatedProjects: [3],
@@ -2407,7 +2407,7 @@ Impressed by this project? I'm available for:
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions/workflows/ci.yml/badge.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/CI-CD-Pipeline/actions",
-      reportUrl: "/artifacts/evidence/github-actions-run.png",
+      reportUrl: "/artifacts/evidence/github-actions-run.svg",
     },
     relatedProjects: [1, 2],
     relatedBlogs: [3]
@@ -3087,7 +3087,7 @@ Impressed by this project? I'm available for:
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/Performance-Testing-Framework/actions/workflows/ci.yml/badge.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/Performance-Testing-Framework/actions",
-      reportUrl: "/artifacts/evidence/lighthouse-ci.png",
+      reportUrl: "/artifacts/evidence/lighthouse-ci.svg",
     },
     relatedProjects: [2, 3],
     relatedBlogs: [1]
@@ -3849,7 +3849,7 @@ Impressed by this project? I'm available for:
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/Mobile-Testing-Framework/actions/workflows/ci.yml/badge.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/Mobile-Testing-Framework/actions",
-      reportUrl: "/artifacts/evidence/playwright-report.png",
+      reportUrl: "/artifacts/evidence/playwright-report.svg",
     },
     relatedProjects: [1, 3],
     relatedBlogs: [1]
@@ -5179,7 +5179,7 @@ Impressed by this project? I'm available for:
     proof: {
       ciBadgeUrl: "https://github.com/JasonTeixeira/visual-regression-testing-suite/actions/workflows/visual-tests.yml/badge.svg",
       ciRunsUrl: "https://github.com/JasonTeixeira/visual-regression-testing-suite/actions/workflows/visual-tests.yml",
-      reportUrl: "/artifacts/evidence/percy-diff.png",
+      reportUrl: "/artifacts/evidence/percy-diff.svg",
     },
     relatedProjects: [1, 3],
     relatedBlogs: [2]

@@ -1,12 +1,12 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Mail, Github, CheckCircle2, Building2, GraduationCap, Award, Calendar } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
+import { FounderPortrait } from '@/components/founder-portrait'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -93,26 +93,15 @@ export function FounderAnimations({ capabilities, principles }: Props) {
           </p>
         </motion.div>
 
-        {/* Headshot placeholder + quick facts */}
+        {/* Headshot + quick facts */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-12 grid md:grid-cols-[200px_1fr] gap-8 max-w-4xl items-start"
+          className="mt-16 grid md:grid-cols-[320px_1fr] gap-10 lg:gap-14 max-w-5xl items-start"
         >
-          {/* Headshot */}
-          <div className="aspect-square w-full rounded-2xl border border-[#27272A] bg-[#0F0F12] relative overflow-hidden group">
-            <Image
-              src="/images/headshot.jpg"
-              alt="Jason Teixeira — Founder, Sage Ideas Studio"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 200px"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#09090B]/30 via-transparent to-transparent pointer-events-none" />
-          </div>
+          <FounderPortrait size="lg" priority />
 
           {/* Quick facts */}
           <div className="grid sm:grid-cols-2 gap-4">

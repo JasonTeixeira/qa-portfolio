@@ -4,61 +4,47 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react'
 
+// Services grouped by outcome — no prices, no menu-card vibe.
+const servicesBuild = [
+  { href: '/services/build', label: 'Build' },
+  { href: '/services/ship', label: 'Ship' },
+  { href: '/services/app-development', label: 'App Development' },
+  { href: '/services/automate', label: 'Automate' },
+  { href: '/services/brand-sprint', label: 'Brand Sprint' },
+]
+
+const servicesGrow = [
+  { href: '/services/audit', label: 'Sage Audit' },
+  { href: '/services/seo-sprint', label: 'SEO Sprint' },
+  { href: '/services/content-engine', label: 'Content Engine' },
+  { href: '/services/scale', label: 'Scale' },
+]
+
+const servicesOperate = [
+  { href: '/services/operate', label: 'Operate' },
+  { href: '/services/site-care', label: 'Site Care' },
+  { href: '/services/brand-care', label: 'Brand Care' },
+  { href: '/services/content-care', label: 'Content Care' },
+]
+
 const studio = [
-  { href: '/studio', label: 'Studio' },
+  { href: '/services', label: 'All Services' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/work', label: 'Case Studies' },
+  { href: '/lab', label: 'The Lab' },
+  { href: '/blog', label: 'Insights' },
+  { href: '/how-it-works', label: 'How It Works' },
   { href: '/founder', label: 'Founder' },
-  { href: '/pov', label: 'POV' },
-  { href: '/process', label: 'Process' },
-  { href: '/trust', label: 'Trust' },
   { href: '/contact', label: 'Contact' },
 ]
 
-// All 9 productized tiers + 3 monthly retainers.
-const services = [
-  { href: '/services/audit', label: 'Sage Audit · $750' },
-  { href: '/services/ship', label: 'Ship · $2,500' },
-  { href: '/services/automate', label: 'Automate · $3,500' },
-  { href: '/services/seo-sprint', label: 'SEO Sprint · $1,500' },
-  { href: '/services/content-engine', label: 'Content Engine · $1,500/mo' },
-  { href: '/services/brand-sprint', label: 'Brand Sprint · $2,500' },
-  { href: '/services/scale', label: 'Scale · $1,200/mo' },
-  { href: '/services/build', label: 'Build · from $9,500' },
-  { href: '/services/app-development', label: 'App Development · from $6,500' },
-  { href: '/services/operate', label: 'Operate · $2,500/mo' },
-  { href: '/services/site-care', label: 'Site Care · $300/mo' },
-  { href: '/services/brand-care', label: 'Brand Care · $400/mo' },
-  { href: '/services/content-care', label: 'Content Care · $800/mo' },
-]
-
-const navigate = [
-  { href: '/services', label: 'All Services' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/capabilities', label: 'Capabilities Matrix' },
-  { href: '/industries', label: 'Industries' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/work', label: 'Work / Case Studies' },
-  { href: '/lab', label: 'The Lab' },
-  { href: '/blog', label: 'Insights' },
-  { href: '/changelog', label: 'Changelog' },
-  { href: '/dashboard', label: 'Live Dashboard' },
-  { href: '/stack', label: 'Tech Stack' },
-]
-
-const industries = [
-  { href: '/industries/fintech', label: 'Fintech' },
-  { href: '/industries/saas', label: 'SaaS' },
-  { href: '/industries/ecommerce', label: 'Ecommerce' },
-  { href: '/industries/healthcare', label: 'Healthcare' },
-  { href: '/industries/ai-startups', label: 'AI Startups' },
-]
-
 const legal = [
-  { href: '/legal/privacy', label: 'Privacy Policy' },
-  { href: '/legal/terms', label: 'Terms of Service' },
-  { href: '/legal/cookies', label: 'Cookie Policy' },
-  { href: '/legal/msa', label: 'Master Services Agreement' },
-  { href: '/legal/nda', label: 'Mutual NDA Template' },
-  { href: '/legal/sow-template', label: 'SOW Template' },
+  { href: '/legal/privacy', label: 'Privacy' },
+  { href: '/legal/terms', label: 'Terms' },
+  { href: '/legal/cookies', label: 'Cookies' },
+  { href: '/legal/msa', label: 'MSA' },
+  { href: '/legal/nda', label: 'NDA' },
+  { href: '/legal/sow-template', label: 'SOW' },
 ]
 
 const connect = [
@@ -74,10 +60,10 @@ export function Footer() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#06B6D4]/5 via-transparent to-transparent pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
           <motion.div
-            className="col-span-2 md:col-span-3 lg:col-span-2 space-y-4"
+            className="col-span-2 md:col-span-4 lg:col-span-4 space-y-5"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -85,15 +71,22 @@ export function Footer() {
           >
             <Link
               href="/"
-              className="text-xl font-bold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors"
+              className="inline-block text-xl font-bold text-[#FAFAFA] tracking-tight hover:text-[#06B6D4] transition-colors"
             >
               SAGE IDEAS
             </Link>
-            <p className="text-sm text-[#A1A1AA] max-w-sm">
-              AI-native studio that builds, automates, and scales B2B businesses. We ship the
-              same stack we run our own products on.
+            <p className="text-sm text-[#A1A1AA] leading-relaxed max-w-sm">
+              AI-native studio that builds, automates, and scales B2B businesses. We ship
+              the same stack we run our own products on.
             </p>
-            <div className="flex items-center gap-3 pt-2">
+            <Link
+              href="/book"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#06B6D4] text-[#09090B] text-sm font-semibold hover:bg-[#0891B2] transition-colors group"
+            >
+              Book a strategy call
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <div className="flex items-center gap-2 pt-1">
               {connect.map((item) => (
                 <Link
                   key={item.href}
@@ -107,28 +100,32 @@ export function Footer() {
                 </Link>
               ))}
             </div>
-            <Link
-              href="/book"
-              className="inline-flex items-center gap-2 text-sm text-[#06B6D4] hover:text-[#0EA5E9] transition-colors group"
-            >
-              Book a strategy call
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
           </motion.div>
 
-          {/* Services */}
-          <FooterColumn title="Services" links={services} />
-          {/* Industries */}
-          <FooterColumn title="Industries" links={industries} />
-          {/* Navigate */}
-          <FooterColumn title="Navigate" links={navigate} />
-          {/* Studio + Legal — combined column */}
-          <FooterColumn title="Studio & Legal" links={[...studio, ...legal]} />
+          {/* Services — Build */}
+          <FooterColumn title="Build" links={servicesBuild} className="lg:col-span-2" />
+          {/* Services — Grow */}
+          <FooterColumn title="Grow" links={servicesGrow} className="lg:col-span-2" />
+          {/* Services — Operate */}
+          <FooterColumn title="Operate" links={servicesOperate} className="lg:col-span-2" />
+          {/* Studio */}
+          <FooterColumn title="Studio" links={studio} className="lg:col-span-2" />
         </div>
 
-        <div className="mt-16 pt-8 border-t border-[#27272A] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-[#71717A]">
-          <p>© {year} Sage Ideas LLC. Orlando, FL. All rights reserved.</p>
-          <p className="font-mono">Built in-house with Next.js, Vercel, Stripe, and AWS.</p>
+        <div className="mt-16 pt-8 border-t border-[#27272A] flex flex-col md:flex-row md:items-center justify-between gap-6 text-xs text-[#71717A]">
+          <p>© {year} Sage Ideas LLC · Orlando, FL · All rights reserved.</p>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {legal.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="hover:text-[#06B6D4] transition-colors"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>
@@ -138,9 +135,11 @@ export function Footer() {
 function FooterColumn({
   title,
   links,
+  className = '',
 }: {
   title: string
   links: { href: string; label: string }[]
+  className?: string
 }) {
   return (
     <motion.div
@@ -148,12 +147,12 @@ function FooterColumn({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="space-y-3"
+      className={`space-y-4 ${className}`}
     >
       <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FAFAFA]">
         {title}
       </h3>
-      <ul className="space-y-2">
+      <ul className="space-y-2.5">
         {links.map((link) => (
           <li key={link.href}>
             <Link

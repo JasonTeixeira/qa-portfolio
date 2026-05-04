@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink, FlaskConical, Wrench } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
@@ -9,6 +10,7 @@ import { ArtifactGallery } from '@/components/artifact-gallery'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
+import { CaseStudyArchitecture } from '@/components/diagrams'
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -44,6 +46,34 @@ export function CaseStudyContent({ study }: Props) {
             <ArrowLeft className="w-4 h-4" /> All case studies
           </Link>
         </div>
+
+        {/* Hero image */}
+        {study.heroImage && (
+          <motion.div
+            {...fadeIn}
+            transition={{ duration: 0.5 }}
+            className="relative mb-12 rounded-2xl overflow-hidden border border-[#27272A] aspect-video"
+          >
+            <Image
+              src={study.heroImage}
+              alt={`${study.title} hero image`}
+              fill
+              priority
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className="object-cover"
+            />
+            {/* Top + bottom gradients for legibility */}
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#09090B]/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#09090B] via-[#09090B]/60 to-transparent" />
+            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
+              {study.posterTitle && (
+                <h2 className="text-[#FAFAFA] text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight max-w-3xl drop-shadow-lg">
+                  {study.posterTitle}
+                </h2>
+              )}
+            </div>
+          </motion.div>
+        )}
 
         {/* Hero */}
         <motion.section {...fadeIn} transition={{ duration: 0.6 }} className="mb-16">
@@ -158,6 +188,23 @@ export function CaseStudyContent({ study }: Props) {
                 ))}
               </div>
             </motion.section>
+
+            {/* Architecture diagram */}
+            {CaseStudyArchitecture[study.slug] && (
+              <motion.section {...fadeIn} transition={{ duration: 0.5, delay: 0.17 }}>
+                <SectionLabel>Architecture</SectionLabel>
+                <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA]">System map</h2>
+                <p className="mt-3 text-sm text-[#71717A]">
+                  How the pieces talk to each other.
+                </p>
+                <div className="mt-6 rounded-2xl border border-[#27272A] bg-[#0F0F12] p-4 sm:p-6 overflow-hidden">
+                  {(() => {
+                    const Diagram = CaseStudyArchitecture[study.slug]
+                    return Diagram ? <Diagram /> : null
+                  })()}
+                </div>
+              </motion.section>
+            )}
 
             {/* Visual proof gallery */}
             {study.gallery && study.gallery.length > 0 && (

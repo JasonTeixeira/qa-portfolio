@@ -691,9 +691,9 @@ const fractionalCto: ExtendedTier = {
   name: 'Fractional CTO Retainer',
   shortName: 'Fractional CTO',
   category: 'fractional',
-  tagline: 'Senior technical leadership without the $300k headcount.',
+  tagline: 'Seasoned technical leadership without the $300k headcount.',
   description:
-    'A senior engineer-leader in your weekly leadership meeting, your architecture reviews, your hiring loop, and your investor calls. Two-day-a-week commitment. We help you make the bets, write the specs, set the bar, ship the right thing, and avoid the expensive wrong things. Cancel any month.',
+    'A seasoned engineer-leader in your weekly leadership meeting, your architecture reviews, your hiring loop, and your investor calls. Two-day-a-week commitment. We help you make the bets, write the specs, set the bar, ship the right thing, and avoid the expensive wrong things. Cancel any month.',
   price: 'from $4,800/mo',
   priceCents: 480_000,
   cadence: 'monthly',

@@ -13,6 +13,8 @@ export type CaseStudy = {
   outcome: string[]      // paragraphs
   metrics: { label: string; value: string }[]
   artifacts?: string[]
+  /** Optional hero image (16:9 PNG) shown on the work grid card and detail page top. */
+  heroImage?: string
   /**
    * Visual proof gallery shown on the case study page between "Approach" and
    * "What shipped". Architecture diagrams, screenshots, terminal output,
@@ -33,6 +35,7 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'nexural',
+    heroImage: '/work/heroes/nexural.png',
     title: 'Nexural — Full-Stack Fintech Platform',
     posterTitle: 'A trading platform built like an institution. Run by one person.',
     client: 'Sage Ideas (Internal)',
@@ -103,6 +106,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'alphastream',
+    heroImage: '/work/heroes/alphastream.png',
     title: 'AlphaStream — ML Trading Signal Engine',
     posterTitle: 'Five models. Two hundred indicators. No black boxes.',
     client: 'Sage Ideas (Internal)',
@@ -162,6 +166,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'jobpoise',
+    heroImage: '/work/heroes/jobpoise.png',
     title: 'Jobpoise — AI Job Copilot',
     posterTitle: 'The job search, weaponized for the qualified.',
     client: 'Sage Ideas (Internal)',
@@ -200,6 +205,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'trayd',
+    heroImage: '/work/heroes/trayd.png',
     title: 'Trayd — AI Companion for the Trades',
     posterTitle: 'Built for the people who fix what breaks.',
     client: 'Sage Ideas (Internal)',
@@ -254,6 +260,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'aws-landing-zone',
+    heroImage: '/work/heroes/aws-landing-zone.png',
     title: 'AWS Landing Zone & Guardrails',
     posterTitle: 'Infrastructure that survives the on-call rotation.',
     client: 'Sage Ideas (Internal)',
@@ -319,6 +326,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'quality-telemetry',
+    heroImage: '/work/heroes/quality-telemetry.png',
     title: 'Quality Telemetry Platform',
     posterTitle: 'Thirteen frameworks. One verdict: ship or don\'t.',
     client: 'Sage Ideas (Internal)',
@@ -387,6 +395,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'brand-sprint-rebuild',
+    heroImage: '/work/heroes/brand-sprint-rebuild.png',
     title: 'Brand Sprint — Founder-Led Identity Rebuild',
     posterTitle: 'Two weeks to look like a company that ships.',
     client: 'Sage Ideas Studio (illustrative engagement)',
@@ -438,6 +447,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'site-care-retainer',
+    heroImage: '/work/heroes/site-care-retainer.png',
     title: 'Site Care — Twelve Months of Quiet Reliability',
     posterTitle: 'A year. Zero outages. Nobody noticed. That\'s the point.',
     client: 'Sage Ideas Studio (illustrative engagement)',

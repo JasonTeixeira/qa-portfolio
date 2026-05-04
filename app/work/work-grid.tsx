@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
@@ -56,11 +57,22 @@ export function WorkGrid({ studies }: WorkGridProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.08 }}
           >
-            <GlowCard className="h-full flex flex-col">
+            <GlowCard className="h-full flex flex-col group overflow-hidden">
               {/* Thumbnail */}
-              <div className={`h-40 bg-gradient-to-br ${gradients[study.category] ?? 'from-zinc-800/40 to-transparent'} relative overflow-hidden`}>
+              <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${gradients[study.category] ?? 'from-zinc-800/40 to-transparent'}`}>
+                {study.heroImage && (
+                  <Image
+                    src={study.heroImage}
+                    alt={`${study.title} hero`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
+                {/* Bottom gradient overlay for legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-[#09090B]/30 to-transparent" />
                 <div className="absolute inset-0 flex items-end p-4">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest bg-[#09090B]/70 text-[#06B6D4] border border-[#06B6D4]/30">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest bg-[#09090B]/80 text-[#06B6D4] border border-[#06B6D4]/30 backdrop-blur-sm">
                     {study.category}
                   </span>
                 </div>

@@ -30,9 +30,9 @@ export const comparisons: Comparison[] = [
     intro:
       'For most SMB and mid-market teams, the actual decision is not "Sage Ideas vs another agency" — it is "do we hire someone or contract this out?" Both are valid. Here is the honest tradeoff.',
     whenTheyWin:
-      'You should hire if you have at least three named AI initiatives stretching past 18 months, you can afford $250k+ all-in for a senior generalist, and your CTO has shipped agents before and can manage the role. In that case the per-hour cost wins on duration alone.',
+      'You should hire if you have at least three named AI initiatives stretching past 18 months, you can afford $250k+ all-in for a seasoned generalist, and your CTO has shipped agents before and can manage the role. In that case the per-hour cost wins on duration alone.',
     whenWeWin:
-      'You should bring us in if you want a working agent in production within 8 weeks, you do not yet know which workflow is highest leverage, and you need to learn what "good" looks like before you commit to a hire. We are also a better fit if you want senior pattern matching from day one — not someone learning on your bill.',
+      'You should bring us in if you want a working agent in production within 8 weeks, you do not yet know which workflow is highest leverage, and you need to learn what "good" looks like before you commit to a hire. We are also a better fit if you want experienced pattern matching from day one — not someone learning on your bill.',
     rows: [
       {
         dimension: 'Time to first agent in production',
@@ -102,7 +102,7 @@ export const comparisons: Comparison[] = [
     whenTheyWin:
       'Pick a Big-4 if you need 50+ consultants across 5 geographies, your board requires a brand-name signature on the SOW, the project crosses ERP and finance and HR systems, or you are spending $5M+ over a year. They have surface area no studio can match.',
     whenWeWin:
-      'Pick us if you want senior engineers actually writing the code, you measure success in shipped agents not slide decks, and your budget is $5k–$200k per engagement. We deliver in weeks because there are no committees, no offshore handoffs, and no day-rate inflation from the SOW upward.',
+      'Pick us if you want experienced engineers actually writing the code, you measure success in shipped agents not slide decks, and your budget is $5k–$200k per engagement. We deliver in weeks because there are no committees, no offshore handoffs, and no day-rate inflation from the SOW upward.',
     rows: [
       {
         dimension: 'Day rate',

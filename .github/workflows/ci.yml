@@ -43,3 +43,6 @@ jobs:
           STRIPE_SECRET_KEY: sk_test_placeholder
           STRIPE_WEBHOOK_SECRET: whsec_placeholder
           RESEND_API_KEY: re_placeholder
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
+          CLERK_SECRET_KEY: sk_test_placeholder
+          NEXT_PUBLIC_APP_URL: https://www.sageideas.dev

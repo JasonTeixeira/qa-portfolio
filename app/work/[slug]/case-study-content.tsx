@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowRight, ExternalLink, FlaskConical, Wrench } from 'lucid
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { ArtifactGallery } from '@/components/artifact-gallery'
+import { TestimonialCard } from '@/components/testimonial-card'
+import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 
 const fadeIn = {
@@ -28,6 +30,7 @@ const categoryColors: Record<string, string> = {
 
 export function CaseStudyContent({ study }: Props) {
   const catColor = categoryColors[study.category] ?? 'text-[#A1A1AA] bg-[#27272A] border-[#27272A]'
+  const refs = referencesForCaseStudy(study.slug, 2)
 
   return (
     <div className="min-h-screen bg-[#09090B]">
@@ -209,11 +212,33 @@ export function CaseStudyContent({ study }: Props) {
           </main>
         </div>
 
+        {/* References for this engagement */}
+        {refs.length > 0 && (
+          <motion.section
+            {...fadeIn}
+            transition={{ duration: 0.5, delay: 0.32 }}
+            className="mt-24 pt-12 border-t border-[#27272A]"
+          >
+            <SectionLabel>References</SectionLabel>
+            <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-[#FAFAFA]">
+              Talk to people on this work.
+            </h2>
+            <p className="mt-3 text-sm text-[#A1A1AA] leading-relaxed max-w-2xl">
+              No fabricated quotes. Reference contacts are shared during discovery, with both parties&apos; consent.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4 mt-6">
+              {refs.map((r, i) => (
+                <TestimonialCard key={r.id} reference={r} index={i} />
+              ))}
+            </div>
+          </motion.section>
+        )}
+
         {/* Dual CTA strip */}
         <motion.section
           {...fadeIn}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="mt-24 pt-12 border-t border-[#27272A]"
+          className={`${refs.length > 0 ? 'mt-16 pt-12' : 'mt-24 pt-12'} border-t border-[#27272A]`}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link

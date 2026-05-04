@@ -2,10 +2,29 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Shield, FileCheck, GitBranch, Cloud, TestTube, Lock, ExternalLink, CheckCircle2, MessageSquareQuote } from 'lucide-react'
+import {
+  ArrowRight,
+  Shield,
+  FileCheck,
+  GitBranch,
+  Cloud,
+  TestTube,
+  Lock,
+  ExternalLink,
+  CheckCircle2,
+  MessageSquareQuote,
+  Activity,
+  Database,
+  Clock,
+  ScrollText,
+  AlertTriangle,
+} from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
+import { TestimonialCard } from '@/components/testimonial-card'
+import { LogoStrip } from '@/components/logo-strip'
+import { references, trustedBy } from '@/data/references'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -87,13 +106,133 @@ const openSourceStats = [
 ]
 
 const sections = [
+  { id: 'receipts', icon: Activity, label: 'Live receipts' },
   { id: 'certifications', icon: Shield, label: 'Certifications' },
   { id: 'quality', icon: FileCheck, label: 'Code Quality' },
   { id: 'testing', icon: TestTube, label: 'Testing' },
   { id: 'cicd', icon: GitBranch, label: 'CI/CD' },
   { id: 'infra', icon: Cloud, label: 'Infrastructure' },
+  { id: 'data-handling', icon: Database, label: 'Data handling' },
+  { id: 'guarantees', icon: ScrollText, label: 'Guarantees' },
+  { id: 'honesty', icon: AlertTriangle, label: 'What could go wrong' },
   { id: 'oss', icon: Lock, label: 'Open Source' },
   { id: 'references', icon: MessageSquareQuote, label: 'References' },
+]
+
+const trustReceipts = [
+  {
+    metric: 'Reply window',
+    value: '< 48h',
+    detail: 'Well-matched inquiries get a response within two business days. No “I’ll get back to you” ghosting.',
+    icon: Clock,
+  },
+  {
+    metric: 'NDA on request',
+    value: 'Same day',
+    detail: 'Mutual NDA available before scope discussion. Template at /legal/nda — sign electronically, no lawyer required.',
+    icon: FileCheck,
+  },
+  {
+    metric: 'Production posture',
+    value: 'Stripe + Supabase + AWS',
+    detail: 'Same stack we ship for clients. Daily encrypted backups, IAM-scoped access, OIDC-only deploys.',
+    icon: Shield,
+  },
+  {
+    metric: 'Code transparency',
+    value: 'Public repo',
+    detail: 'This site’s source is open. Every commit is auditable history of how the studio actually operates.',
+    icon: GitBranch,
+  },
+]
+
+const dataHandling = [
+  {
+    label: 'Where data lives',
+    body:
+      'Customer data lives in Supabase (Postgres, US-East-2) and Stripe. No analytics platform stores PII beyond hashed identifiers — Vercel Analytics is privacy-first by design.',
+  },
+  {
+    label: 'Retention',
+    body:
+      'Inquiry records: kept for two years from last contact, then auto-purged. Engagement artifacts: kept for the duration of the engagement plus 12 months unless an MSA specifies longer.',
+  },
+  {
+    label: 'Access',
+    body:
+      'Service-role keys are server-side only. Row-level security on every customer-facing table. No third-party support seat has read access to customer data — the studio is one operator.',
+  },
+  {
+    label: 'Sub-processors',
+    body:
+      'Vercel (hosting/CDN), Supabase (database/auth), Stripe (payments), Resend (transactional email), Clerk (auth), AWS (infrastructure for client work). Full list maintained on /legal/privacy.',
+  },
+  {
+    label: 'Incident response',
+    body:
+      'Security incidents are disclosed to affected clients within 72 hours. Post-incident report includes root cause, blast radius, and remediation steps — no PR-spin.',
+  },
+  {
+    label: 'Right to delete',
+    body:
+      'Email sage@sageideas.dev with a deletion request and your records are purged within five business days, including downstream caches and backups in the next rotation.',
+  },
+]
+
+const guarantees = [
+  {
+    title: 'Fixed price means fixed price',
+    body:
+      'Quoted scope is what you pay. Scope changes require a written amendment and explicit approval before any additional work begins. No surprise invoices, ever.',
+  },
+  {
+    title: 'Refund before work begins',
+    body:
+      'If we haven’t started, we issue a full refund. No questions, no friction. Once work begins, one-time engagements are non-refundable but always negotiable on outcome.',
+  },
+  {
+    title: 'Cancel monthly anytime',
+    body:
+      'Site Care, Brand Care, Content Care, Scale, Operate, Content Engine — all cancel through Stripe in two clicks. Billed through end-of-cycle. No 12-month lock-ins.',
+  },
+  {
+    title: 'Handoff that survives',
+    body:
+      'Every engagement ships with documentation, runbooks, and a knowledge-transfer call. The system survives without me on the next call — that’s the bar.',
+  },
+  {
+    title: 'No bait-and-switch staffing',
+    body:
+      'The person who scopes the work is the person who builds it. There’s no “we’ll assign a team” — it’s one operator on every line of code.',
+  },
+]
+
+const honestyItems = [
+  {
+    risk: 'You need a 10-person delivery team this quarter',
+    truth:
+      'Sage Ideas is one operator. We can do extraordinary depth on one or two parallel workstreams — not breadth across ten. If you need a staffing agency, we are the wrong fit and we will say so on the first call.',
+  },
+  {
+    risk: 'You want a full-time, on-call, replace-your-CTO arrangement',
+    truth:
+      'Studio Engagement is up to 30 hours per week with defined response windows. It is not 24/7 on-call. If you need a fulltime engineering lead embedded in your team, hire one — we’ll help you scope the role.',
+  },
+  {
+    risk: 'You’re shopping on price alone',
+    truth:
+      'Productized engagements start at $1,500 because that’s the floor at which the work is actually high-quality. There is no $500 audit. Cheap consulting is expensive when it’s wrong.',
+  },
+  {
+    risk: 'You expect equity-only or revenue-share',
+    truth:
+      'For pre-revenue startups in specific circumstances, we’ll consider partial equity (cash + equity, not equity-only). Pure speculation arrangements are declined politely.',
+  },
+  {
+    risk: 'You need someone to ship code fast and ask questions later',
+    truth:
+      'We scope before we build. Discovery and architecture come first — always. If you want a contractor who builds whatever you ask without pushback, we are the wrong choice.',
+  },
 ]
 
 export function TrustContent() {
@@ -136,6 +275,49 @@ export function TrustContent() {
       </section>
 
       {/* Certifications */}
+      {/* Live receipts */}
+      <section id="receipts" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <motion.div {...fadeInUp}>
+          <div className="flex items-center gap-3 mb-2">
+            <Activity className="h-5 w-5 text-[#06B6D4]" />
+            <SectionLabel>Live receipts</SectionLabel>
+          </div>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
+            What we promise, in numbers.
+          </h2>
+          <p className="text-[#A1A1AA] text-base leading-relaxed max-w-3xl">
+            Operational facts that should be true before you send a deposit. Each one is something you can verify
+            today.
+          </p>
+        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+          {trustReceipts.map((r, i) => {
+            const Icon = r.icon
+            return (
+              <motion.div
+                key={r.metric}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5 hover:border-[#06B6D4]/40 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-lg bg-[#06B6D4]/10">
+                    <Icon className="h-4 w-4 text-[#06B6D4]" />
+                  </div>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#71717A]">
+                    {r.metric}
+                  </span>
+                </div>
+                <div className="text-xl font-bold text-[#FAFAFA] mb-2 leading-tight">{r.value}</div>
+                <p className="text-xs text-[#A1A1AA] leading-relaxed">{r.detail}</p>
+              </motion.div>
+            )
+          })}
+        </div>
+      </section>
+
       <section id="certifications" className="bg-[#0F0F12] border-y border-[#27272A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <motion.div {...fadeInUp}>
@@ -345,6 +527,119 @@ export function TrustContent() {
         </motion.div>
       </section>
 
+      {/* Data handling */}
+      <section id="data-handling" className="bg-[#0F0F12] border-y border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <motion.div {...fadeInUp}>
+            <div className="flex items-center gap-3 mb-2">
+              <Database className="h-5 w-5 text-[#06B6D4]" />
+              <SectionLabel>Data handling</SectionLabel>
+            </div>
+            <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
+              Where your data lives, who can read it, and how long.
+            </h2>
+            <p className="text-[#A1A1AA] text-base leading-relaxed max-w-3xl">
+              The facts. No SOC-2 certificate yet — the studio is too young to have one. Here’s the operational
+              equivalent: a plain-English description of how the studio handles client data, sub-processors, and
+              incidents.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-5 mt-10">
+            {dataHandling.map((d, i) => (
+              <motion.div
+                key={d.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="rounded-xl border border-[#27272A] bg-[#0A0A0C] p-5"
+              >
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4] mb-2">
+                  {d.label}
+                </div>
+                <p className="text-sm text-[#D4D4D8] leading-relaxed">{d.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guarantees */}
+      <section id="guarantees" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <motion.div {...fadeInUp}>
+          <div className="flex items-center gap-3 mb-2">
+            <ScrollText className="h-5 w-5 text-[#06B6D4]" />
+            <SectionLabel>Engagement guarantees</SectionLabel>
+          </div>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
+            What we put in writing.
+          </h2>
+          <p className="text-[#A1A1AA] text-base leading-relaxed max-w-3xl">
+            Every engagement signs an MSA + SOW. These five guarantees show up in every one of them — not as
+            marketing copy, as contractual terms.
+          </p>
+        </motion.div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+          {guarantees.map((g, i) => (
+            <motion.div
+              key={g.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5 hover:border-[#10B981]/40 transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <CheckCircle2 className="h-4 w-4 text-[#10B981]" />
+                <h3 className="text-sm font-semibold text-[#FAFAFA]">{g.title}</h3>
+              </div>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">{g.body}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Honesty / what could go wrong */}
+      <section id="honesty" className="bg-[#0F0F12] border-y border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <motion.div {...fadeInUp}>
+            <div className="flex items-center gap-3 mb-2">
+              <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />
+              <SectionLabel>What could go wrong</SectionLabel>
+            </div>
+            <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4">
+              Here’s when we are the wrong fit.
+            </h2>
+            <p className="text-[#A1A1AA] text-base leading-relaxed max-w-3xl">
+              The fastest way to lose your time and ours is pretending we’re right for every situation. We aren’t.
+              These are the most common mismatches — if you see yourself here, save us both a discovery call.
+            </p>
+          </motion.div>
+          <div className="space-y-4 mt-10 max-w-4xl">
+            {honestyItems.map((h, i) => (
+              <motion.div
+                key={h.risk}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="rounded-xl border border-[#27272A] bg-[#0A0A0C] p-5"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 p-1.5 rounded-md bg-[#F59E0B]/10">
+                    <AlertTriangle className="h-3.5 w-3.5 text-[#F59E0B]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-[#FAFAFA] mb-2">If — {h.risk}</div>
+                    <p className="text-sm text-[#A1A1AA] leading-relaxed">{h.truth}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* References */}
       <section id="references" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <motion.div {...fadeInUp}>
@@ -363,41 +658,17 @@ export function TrustContent() {
             scripts.
           </p>
         </motion.div>
-        <div className="grid md:grid-cols-3 gap-4 mt-10">
-          {[
-            {
-              role: 'Fintech engineering lead',
-              context:
-                'Worked alongside on production trading systems for 5 years. Available for technical reference calls.',
-            },
-            {
-              role: 'Studio client (founder)',
-              context:
-                'Engaged Sage Ideas for a Ship + Operate combination. Willing to talk about scope, timeline, and outcome.',
-            },
-            {
-              role: 'Open-source collaborator',
-              context:
-                'Co-shipped a developer-tooling project. Available to discuss code quality, communication, and reliability.',
-            },
-          ].map((r, i) => (
-            <motion.div
-              key={r.role}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className="h-4 w-4 text-[#06B6D4]" />
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4]">
-                  Reference available
-                </span>
-              </div>
-              <h3 className="font-semibold text-[#FAFAFA] mb-1.5">{r.role}</h3>
-              <p className="text-sm text-[#A1A1AA] leading-relaxed">{r.context}</p>
-            </motion.div>
+        <div className="mt-10">
+          <LogoStrip
+            entries={trustedBy}
+            label="Industries shipped into"
+            blurb="Most engagements run under NDA. Names withheld until written permission lands."
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+          {references.map((r, i) => (
+            <TestimonialCard key={r.id} reference={r} index={i} />
           ))}
         </div>
         <motion.p

@@ -19,6 +19,9 @@ import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
 import { TypingTerminal } from '@/components/typing-terminal'
 import { FloatingOrbs } from '@/components/floating-orbs'
+import { TestimonialCard } from '@/components/testimonial-card'
+import { LogoStrip } from '@/components/logo-strip'
+import { references, trustedBy } from '@/data/references'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -608,13 +611,14 @@ export default function HomePage() {
       </section>
 
       {/* TRUST STRIP */}
-      <section className="py-16 border-t border-[#27272A] bg-[#0A0A0C]/60">
+      <section className="py-20 border-t border-[#27272A] bg-[#0A0A0C]/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="mb-10"
           >
             <div className="flex flex-col md:flex-row md:items-center gap-6">
               <div className="shrink-0">
@@ -633,6 +637,45 @@ export default function HomePage() {
               </div>
             </div>
           </motion.div>
+
+          <LogoStrip
+            entries={trustedBy}
+            label="Industries shipped into"
+            blurb="Most engagements run under NDA. Names withheld until written permission lands — no fake logos, no implied endorsements."
+          />
+
+          {/* References / honest testimonials */}
+          <div className="mt-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="max-w-2xl mb-8"
+            >
+              <SectionLabel>References</SectionLabel>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#FAFAFA] mt-3">
+                Talk to people I&apos;ve built things with.
+              </h2>
+              <p className="text-sm text-[#A1A1AA] mt-3 leading-relaxed">
+                No cherry-picked quotes, no stock photos. Until clients sign off on attributed testimonials, every prospective engagement gets the option to talk directly to past collaborators — engineers, founders, ops leads.
+              </p>
+            </motion.div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {references.slice(0, 3).map((r, i) => (
+                <TestimonialCard key={r.id} reference={r} index={i} />
+              ))}
+            </div>
+            <div className="mt-6">
+              <Link
+                href="/trust#references"
+                className="text-sm text-[#06B6D4] hover:text-[#0EA5E9] inline-flex items-center gap-1 group"
+              >
+                See full reference roster
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 

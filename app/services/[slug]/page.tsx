@@ -1,8 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { tiers, tiersBySlug } from '@/data/services/tiers'
-import { extendedTiers, extendedTiersBySlug } from '@/data/services/extended'
+import {
+  extendedTiers,
+  extendedTiersBySlug,
+  type ExtendedTier,
+} from '@/data/services/extended'
 import { TierPageContent } from './tier-page-content'
+import { FlagshipPageContent } from './flagship-page-content'
 
 type Params = { slug: string }
 
@@ -118,7 +123,11 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <TierPageContent tier={tier} />
+      {(tier as ExtendedTier).category === 'ai-flagship' ? (
+        <FlagshipPageContent tier={tier as ExtendedTier} />
+      ) : (
+        <TierPageContent tier={tier} />
+      )}
     </>
   )
 }

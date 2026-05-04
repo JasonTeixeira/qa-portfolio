@@ -13,6 +13,7 @@
 import type { Tier } from './tiers'
 
 export type ExtendedCategory =
+  | 'ai-flagship'
   | 'ai-services'
   | 'automation-pipelines'
   | 'ai-products'
@@ -1672,10 +1673,625 @@ const bespokeBuild: ExtendedTier = {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
+// AI FLAGSHIP SUITE — premium offers, rendered first on /services
+// ─────────────────────────────────────────────────────────────────────────
+
+const aiImplementationConsulting: ExtendedTier = {
+  slug: 'ai-implementation-consulting',
+  name: 'AI Implementation Consulting',
+  shortName: 'AI Consulting',
+  category: 'ai-flagship',
+  tagline: 'Stop guessing where AI fits. Get a build plan you can actually ship.',
+  description:
+    'Most AI consulting ends with a slide deck and a bill. This ends with a build plan: the three highest-ROI agent opportunities in your business, mapped to your tools, your data, and your team — with cost models, eval criteria, and a rollout schedule. Two weeks. If you hire us to build, the consulting fee credits 100% toward the engagement.',
+  price: 'from $2,500',
+  priceCents: 0,
+  cadence: 'one-time',
+  timeline: '2 weeks',
+  cta: 'Book a Discovery Call',
+  ctaHref: inquiryHref('ai-implementation-consulting'),
+  capability: 'strategy',
+  mode: 'audit',
+  highlight: true,
+  stackChips: ['Process mapping', 'ROI modeling', 'Tool audit', 'Build plan', 'Cost forecasting'],
+  outcomes: [
+    'Three ranked AI agent opportunities mapped to real ROI',
+    'Build plan with cost model, eval criteria, and rollout schedule',
+    'Tool + data audit so you know what you have to work with',
+    'Honest assessment of what NOT to automate (saves you from the obvious mistakes)',
+    '60-minute walkthrough + 14 days of Slack follow-up',
+  ],
+  deliverables: [
+    'Process map of current workflows and where AI fits (or doesn\'t)',
+    'Three opportunity briefs ranked by ROI and complexity',
+    'Tool + data inventory (what\'s in your stack, what\'s missing, what\'s ready)',
+    'Cost model: build estimate + monthly run cost per opportunity',
+    'Recommended sequence (what to build first, why, and what to skip)',
+    'Loom walkthrough + 60-minute review call',
+    '14 days post-engagement Slack support',
+  ],
+  notIncluded: [
+    'Building the agents (use AI Agent Development)',
+    'Custom integrations or tool connectors (in-build scope)',
+    'Vendor procurement or contract negotiation',
+  ],
+  faq: [
+    {
+      q: 'Is this just a deck?',
+      a: 'No. Decks are easy and useless. You get a build plan with concrete next steps, cost numbers, and an opinion on what to skip. If you want a deck, we can render the build plan as one — but the value is in the recommendations, not the slides.',
+    },
+    {
+      q: 'What if you find AI isn\'t a fit?',
+      a: 'You get told that, in writing. The most valuable consulting outcome is sometimes "don\'t do this." We\'d rather lose the build engagement than waste your money on something that won\'t work.',
+    },
+    {
+      q: 'Does the fee really credit toward a build?',
+      a: 'Yes — 100%. If you hire us to build any of the recommended agents within 60 days, the consulting fee comes off the build invoice. It\'s not a discount; it\'s a credit.',
+    },
+    {
+      q: 'Do I need technical staff to engage you?',
+      a: 'No. We talk to whoever runs the business and whoever runs the tools. If that\'s the same person, even better.',
+    },
+  ],
+  phases: [
+    {
+      label: 'Day 1–4',
+      title: 'Discovery',
+      description:
+        'Calls with you and 2–3 team members. Map current workflows, tools, data sources, pain points. Identify the moments where AI could meaningfully help.',
+      artifacts: ['Process map', 'Tool inventory', 'Pain point log'],
+    },
+    {
+      label: 'Day 5–9',
+      title: 'Opportunity sizing',
+      description:
+        'For the top 5–7 candidate workflows, model the ROI: time saved, error reduction, cost-per-task. Estimate build effort and monthly run cost.',
+      artifacts: ['Opportunity briefs', 'ROI spreadsheet', 'Cost models'],
+    },
+    {
+      label: 'Day 10–14',
+      title: 'Build plan',
+      description:
+        'Rank the top 3, recommend a sequence, identify dependencies. Final report + Loom walkthrough + 60-minute review call.',
+      artifacts: ['Final report', 'Build plan', 'Loom walkthrough'],
+    },
+  ],
+  resultMetrics: [
+    { value: '2 weeks', label: 'Median delivery', context: 'every consult' },
+    { value: '3', label: 'Ranked opportunities', context: 'with cost models' },
+    { value: '100%', label: 'Credit toward build', context: 'within 60 days' },
+  ],
+  addOns: [
+    {
+      name: 'Stakeholder workshop',
+      description: 'Half-day workshop with your leadership team to align on AI strategy + answer questions.',
+      price: '+$1,500',
+    },
+    {
+      name: 'Vendor evaluation',
+      description: 'Compare 3–5 off-the-shelf AI tools against custom build for your top use case.',
+      price: '+$1,200',
+    },
+  ],
+  caseStudySlugs: [],
+  schemaSummary:
+    'Two-week AI implementation consulting: opportunity audit, ROI modeling, and build plan. Fee credits toward build engagement.',
+}
+
+const aiAgentDevelopment: ExtendedTier = {
+  slug: 'ai-agent-development',
+  name: 'AI Agent Development',
+  shortName: 'AI Agent Build',
+  category: 'ai-flagship',
+  tagline: 'A custom AI agent trained on your business — running 24/7, measurable, and yours.',
+  description:
+    'Your business has processes. Quotes, scheduling, customer follow-up, vendor coordination, expense categorization, document review. We build an AI agent that handles them — trained on your SOPs, wired to your tools, with a dashboard you can actually read. Cloud-hosted by default. Eval harness included so you know it works. Human-in-the-loop guardrails on every action that touches money or customers.',
+  price: 'from $6,500',
+  priceCents: 0,
+  cadence: 'one-time',
+  timeline: '4 weeks',
+  cta: 'Book a Discovery Call',
+  ctaHref: inquiryHref('ai-agent-development'),
+  capability: 'automation',
+  mode: 'build',
+  highlight: true,
+  stackChips: [
+    'LangGraph',
+    'OpenAI / Anthropic',
+    'Tool calling',
+    'Eval harness',
+    'Observability',
+    'Cloud-hosted',
+    'BYOK',
+  ],
+  outcomes: [
+    'A custom agent trained on YOUR business processes — not a generic assistant',
+    'Live dashboard showing every action, cost, and decision the agent makes',
+    'Eval harness that catches regressions before they hit production',
+    'Human-in-the-loop guardrails on financial + customer-facing actions',
+    'Monthly cost cap so you never get a surprise OpenAI bill',
+    'Documented playbook so your team can update prompts and tools without us',
+  ],
+  deliverables: [
+    'Agent runtime (LangGraph or equivalent) deployed to your cloud or ours',
+    'Tool/function library wired to your stack — CRM, calendar, billing, docs, email',
+    'Knowledge base built from your SOPs, processes, and reference docs',
+    'Eval harness with 30–80 test cases derived from your real workflows',
+    'Operations dashboard — live activity, cost meter, eval scores, error log',
+    'Human-in-the-loop approval flows for high-stakes actions',
+    'Monthly cost cap + alerting',
+    'Operations playbook (how to add tools, update prompts, review evals)',
+    '30 days post-launch Slack support + tuning',
+  ],
+  notIncluded: [
+    'Ongoing agent operations (use Agent Operations Retainer)',
+    'Building net-new business processes (we automate what exists)',
+    'Replacing licensed software (we wire to existing tools)',
+    'On-premise installs (cloud-hosted by default; VPC available as enterprise add-on)',
+  ],
+  faq: [
+    {
+      q: 'How is this different from buying ChatGPT Enterprise?',
+      a: 'ChatGPT is a general assistant. This is a specialist trained on your processes, wired to your tools, with measurable outputs. ChatGPT can answer questions about your business; this one runs parts of it.',
+    },
+    {
+      q: 'What if the agent makes a mistake on something important?',
+      a: 'Every action that touches money, customers, or external systems goes through a human-in-the-loop approval flow by default. The agent drafts; a human approves. Over time, as eval scores prove out, you can lower the bar for low-risk actions.',
+    },
+    {
+      q: 'Where does my data live?',
+      a: 'Your cloud (AWS, GCP, Vercel, Supabase) or our managed environment — your call. We use your LLM API keys (BYOK), so your prompts and outputs never touch our infrastructure. Enterprise VPC deployment available.',
+    },
+    {
+      q: 'How much does it cost to RUN per month after launch?',
+      a: 'Depends entirely on volume — typical small-business agents run $50–$400/month in LLM costs. We give you a cost forecast in week 1 and put a monthly cap in place so you never get surprised.',
+    },
+    {
+      q: 'Can I add new tools or processes later?',
+      a: 'Yes — that\'s what the Operations Retainer is for. Or your team can do it themselves; the operations playbook covers it.',
+    },
+    {
+      q: 'Do you do desktop installs?',
+      a: 'No, by default. Desktop installs mean you can\'t push fixes, security becomes harder, and support gets messy. Cloud-hosted with SSO is the standard. If you need on-prem for compliance reasons, that\'s an enterprise add-on.',
+    },
+  ],
+  phases: [
+    {
+      label: 'Week 1',
+      title: 'Discovery + agent design',
+      description:
+        'Process mapping with your team. Identify the workflows the agent will own. Design the tool library, knowledge base structure, and eval criteria. Lock the scope.',
+      artifacts: ['Process map', 'Tool spec', 'Eval rubric', 'Cost forecast'],
+    },
+    {
+      label: 'Week 2',
+      title: 'Build — runtime + tools',
+      description:
+        'Stand up the agent runtime, wire the tool library to your stack, ingest your SOPs into the knowledge base. First end-to-end run on test data.',
+      artifacts: ['Agent runtime deployed', 'Tool library', 'Knowledge base', 'First eval run'],
+    },
+    {
+      label: 'Week 3',
+      title: 'Evals + dashboard',
+      description:
+        'Build out the eval harness with real cases from your business. Stand up the operations dashboard. Wire human-in-the-loop approval flows on high-risk actions.',
+      artifacts: ['Eval harness', 'Ops dashboard', 'Approval flows', 'Cost monitoring'],
+    },
+    {
+      label: 'Week 4',
+      title: 'Pilot + handoff',
+      description:
+        'Soft-launch with one team, monitor evals and dashboard, tune prompts. Documented playbook + 60-minute training session + 30 days Slack support.',
+      artifacts: ['Operations playbook', 'Training session', 'Slack channel', 'Tuning report'],
+    },
+  ],
+  resultMetrics: [
+    { value: '4 weeks', label: 'Median delivery', context: 'spec to launch' },
+    { value: '30–80', label: 'Eval cases at launch', context: 'real-workflow grounded' },
+    { value: '$50–$400', label: 'Typical run cost / mo', context: 'small business volume' },
+  ],
+  addOns: [
+    {
+      name: 'Additional tool integration',
+      description: 'Wire the agent to one additional system beyond the base scope (e.g., a niche CRM, ERP, or industry-specific tool).',
+      price: '+$1,200',
+    },
+    {
+      name: 'Custom dashboard branding',
+      description: 'White-label the operations dashboard with your branding, custom domain, and SSO.',
+      price: '+$1,500',
+    },
+    {
+      name: 'VPC / on-premise deployment',
+      description: 'Deploy the agent inside your private cloud or on-premise environment for compliance-sensitive workloads.',
+      price: '+$5,000',
+    },
+    {
+      name: 'Multi-agent orchestration',
+      description: 'Add a second specialized agent that hands off to the first (e.g., research agent + execution agent).',
+      price: '+$3,500',
+    },
+  ],
+  caseStudySlugs: [],
+  schemaSummary:
+    'Custom AI agent built on a business\'s processes, wired to its tools, with eval harness, human-in-the-loop guardrails, observability dashboard, and monthly cost cap.',
+}
+
+const aiVoiceAgent: ExtendedTier = {
+  slug: 'ai-voice-agent',
+  name: 'AI Voice Agent',
+  shortName: 'Voice Agent',
+  category: 'ai-flagship',
+  tagline: 'A phone agent that handles one workflow well — measurable, always on, never tired.',
+  description:
+    'Pick one phone workflow that costs you time or money: inbound qualification, appointment booking, FAQ deflection, missed-call recovery. We build a voice agent that owns it. Twilio + LLM + your eval rig. Real recordings, scored conversations, monthly performance report. Not a "voice assistant" — a measurable replacement for one specific phone job.',
+  price: 'from $4,500',
+  priceCents: 0,
+  cadence: 'one-time',
+  timeline: '3 weeks',
+  cta: 'Book a Discovery Call',
+  ctaHref: inquiryHref('ai-voice-agent'),
+  capability: 'automation',
+  mode: 'build',
+  highlight: true,
+  stackChips: [
+    'Twilio',
+    'LLM (GPT-4 / Claude)',
+    'ElevenLabs / Deepgram',
+    'Call scoring',
+    'CRM sync',
+    'Real-time analytics',
+  ],
+  outcomes: [
+    'A voice agent owning one specific phone workflow end-to-end',
+    'Call recordings + transcripts + scores you can review',
+    'CRM sync so qualified leads or booked appointments land in your pipeline automatically',
+    'Monthly performance report with conversion + cost-per-call',
+    'Human escalation path when the agent hits its limits',
+  ],
+  deliverables: [
+    'Voice agent built on Twilio + LLM with natural-sounding TTS',
+    'Workflow logic for the chosen use case (qualification / booking / FAQ / recovery)',
+    'Knowledge base of your business info, hours, services, FAQs',
+    'CRM sync — qualified calls drop into HubSpot, Salesforce, Pipedrive, GoHighLevel, or sheet of choice',
+    'Call recording + transcript + scoring pipeline',
+    'Real-time dashboard: calls handled, qualified rate, average duration, cost-per-call',
+    'Human escalation flow (warm transfer, callback request, or message capture)',
+    'Monthly performance report',
+    '30 days post-launch tuning + Slack support',
+  ],
+  notIncluded: [
+    'Outbound cold calling (we don\'t build telemarketing bots)',
+    'Multi-language (single language at launch; add via add-on)',
+    'Replacing your full phone system (we sit alongside or in front of it)',
+  ],
+  faq: [
+    {
+      q: 'Will it sound like a robot?',
+      a: 'No. We use ElevenLabs / Deepgram for natural-sounding voice, and the agent is scripted to acknowledge it\'s an AI when asked. Most callers either don\'t notice or appreciate that it\'s direct and fast.',
+    },
+    {
+      q: 'What happens when it can\'t handle something?',
+      a: 'It hands off — warm transfer to a human, callback request, or message capture. Default behavior is escalation, not pretending to know.',
+    },
+    {
+      q: 'How much does each call cost to run?',
+      a: 'Typically $0.10–$0.50 per call depending on length and complexity. Telephony + LLM + TTS combined. We give you a cost-per-call forecast before we build.',
+    },
+    {
+      q: 'Can it handle Spanish / French / etc?',
+      a: 'Yes — multilingual is an add-on. We support any language the underlying LLM and TTS provider support.',
+    },
+    {
+      q: 'Is this compliant?',
+      a: 'We follow TCPA + state-level disclosure rules. The agent identifies as AI when asked. Recording disclosure is built in. We don\'t build dialers or anything resembling outbound robocalling.',
+    },
+  ],
+  phases: [
+    {
+      label: 'Week 1',
+      title: 'Workflow design',
+      description:
+        'Lock the use case (qualification / booking / FAQ / recovery). Map the conversation flows, edge cases, escalation triggers. Design the knowledge base + integrations.',
+      artifacts: ['Conversation flow', 'Knowledge base spec', 'Integration plan'],
+    },
+    {
+      label: 'Week 2',
+      title: 'Build',
+      description:
+        'Stand up the Twilio number, wire the LLM + TTS, build the workflow logic, integrate the CRM. Internal test calls.',
+      artifacts: ['Voice agent live on test number', 'CRM sync wired', 'Test recordings'],
+    },
+    {
+      label: 'Week 3',
+      title: 'Tuning + launch',
+      description:
+        'Calibrate against real-sounding scenarios, build the dashboard, set up monthly reporting. Soft launch with controlled volume, monitor and tune.',
+      artifacts: ['Production voice agent', 'Dashboard', 'Monthly report template', 'Slack channel'],
+    },
+  ],
+  resultMetrics: [
+    { value: '3 weeks', label: 'Median delivery', context: 'spec to live calls' },
+    { value: '$0.10–$0.50', label: 'Cost per call', context: 'all-in (telco + LLM + TTS)' },
+    { value: '24/7', label: 'Coverage', context: 'never misses a call' },
+  ],
+  addOns: [
+    {
+      name: 'Multilingual support',
+      description: 'Add 1–2 additional languages with native-quality voice and grammar.',
+      price: '+$1,500',
+    },
+    {
+      name: 'SMS follow-up',
+      description: 'Agent sends a follow-up SMS with confirmation, recap, or next steps after every call.',
+      price: '+$900',
+    },
+    {
+      name: 'Call sentiment scoring',
+      description: 'Automated sentiment + intent scoring on every call for QA + coaching.',
+      price: '+$1,200',
+    },
+  ],
+  caseStudySlugs: [],
+  schemaSummary:
+    'Phone-based AI agent for one specific workflow (qualification, booking, FAQ, or missed-call recovery) with CRM sync, call scoring, and performance dashboard.',
+}
+
+const aiLeadEngine: ExtendedTier = {
+  slug: 'ai-lead-engine',
+  name: 'AI Lead Engine',
+  shortName: 'Lead Engine',
+  category: 'ai-flagship',
+  tagline: 'A pipeline that finds, enriches, scores, and engages your ideal leads — with a dashboard you actually open.',
+  description:
+    'Forget "AI SDR" hype. This is a measurable lead-generation pipeline: signal sources you choose, enrichment that resolves the right person, scoring grounded in your actual ICP, and outreach drafts your team approves before anything sends. Personalized dashboard tracks conversion at every stage so you know what works and what doesn\'t.',
+  price: 'from $5,500',
+  priceCents: 0,
+  cadence: 'one-time',
+  timeline: '4 weeks',
+  cta: 'Book a Discovery Call',
+  ctaHref: inquiryHref('ai-lead-engine'),
+  capability: 'automation',
+  mode: 'build',
+  highlight: true,
+  stackChips: [
+    'Apollo / Clay',
+    'LinkedIn signals',
+    'Enrichment APIs',
+    'LLM scoring',
+    'CRM sync',
+    'Custom dashboard',
+  ],
+  outcomes: [
+    'Pipeline of pre-qualified leads matching your ICP, refreshed automatically',
+    'Personalized outreach drafts you approve before they send (no auto-spam)',
+    'Dashboard with stage-by-stage conversion: signal → contact → engaged → meeting → close',
+    'Honest signal of which sources, segments, and messages actually work',
+    'CRM sync so nothing falls through the cracks',
+  ],
+  deliverables: [
+    'Signal sources wired (LinkedIn job changes, funding events, intent data, custom triggers)',
+    'Enrichment layer resolving the right contact + verified email + role context',
+    'LLM-based scoring grounded in your historical wins (or a starter ICP rubric)',
+    'Personalized outreach draft generator (not template-stuffer)',
+    'Approval queue — nothing sends without a human review',
+    'CRM sync to HubSpot, Salesforce, Pipedrive, Attio, or sheet of choice',
+    'Custom dashboard: source attribution, stage funnel, message performance, cost-per-meeting',
+    'Monthly performance report with iteration recommendations',
+    '30 days post-launch tuning + Slack support',
+  ],
+  notIncluded: [
+    'Cold calling automation (use AI Voice Agent for that)',
+    'Email warmup or domain reputation services (use a dedicated provider)',
+    'Replacement of a human SDR — this augments, doesn\'t replace',
+  ],
+  faq: [
+    {
+      q: 'Won\'t this just spam people?',
+      a: 'No — by design. Every outreach draft goes through an approval queue before sending. The agent drafts; a human reviews and clicks send (or rejects). You control quality, the agent saves you research time.',
+    },
+    {
+      q: 'How is this different from Clay or Apollo?',
+      a: 'Clay and Apollo are great tools. This wires them together with your scoring logic, your CRM, and a dashboard that shows what\'s working. It\'s the layer on top of those tools — not a replacement.',
+    },
+    {
+      q: 'How much do leads cost?',
+      a: 'Depends on signal sources and enrichment volume. Typical small-business pipelines run $200–$800/mo in tooling costs (Clay, enrichment APIs, LLM). We give you a forecast in week 1.',
+    },
+    {
+      q: 'What if my ICP is hard to find?',
+      a: 'Niche ICPs are where this shines. Generic ICPs ("SMB B2B") are easy and crowded. Specific ICPs ("HVAC contractors with 5–25 trucks in the Sun Belt who switched ERPs in the last 12 months") are where signal-based pipelines beat list-buying every time.',
+    },
+    {
+      q: 'Can I use this with my existing SDR team?',
+      a: 'Yes — that\'s the ideal use case. Your SDRs spend less time on research and more time on calls. The pipeline feeds them pre-qualified, pre-researched leads with draft outreach.',
+    },
+  ],
+  phases: [
+    {
+      label: 'Week 1',
+      title: 'ICP + signal design',
+      description:
+        'Define your ICP precisely. Identify which signals predict good fits (job changes, funding, hiring, tech stack changes, intent). Pick the sources we\'ll use.',
+      artifacts: ['ICP rubric', 'Signal source list', 'Scoring criteria'],
+    },
+    {
+      label: 'Week 2',
+      title: 'Pipeline build',
+      description:
+        'Wire the signal sources, enrichment layer, scoring logic, and CRM sync. First end-to-end run on test data.',
+      artifacts: ['Pipeline live', 'CRM sync wired', 'First lead batch'],
+    },
+    {
+      label: 'Week 3',
+      title: 'Outreach + dashboard',
+      description:
+        'Build the personalized outreach draft generator and approval queue. Stand up the custom dashboard with stage funnel + source attribution.',
+      artifacts: ['Outreach generator', 'Approval queue', 'Custom dashboard'],
+    },
+    {
+      label: 'Week 4',
+      title: 'Pilot + tuning',
+      description:
+        'Soft launch with controlled volume, monitor scoring accuracy, tune outreach quality. Documented playbook + training + 30 days Slack support.',
+      artifacts: ['Production pipeline', 'Playbook', 'Training session', 'Slack channel'],
+    },
+  ],
+  resultMetrics: [
+    { value: '4 weeks', label: 'Median delivery', context: 'spec to first leads' },
+    { value: 'Approval-gated', label: 'Outreach quality', context: 'no auto-spam' },
+    { value: '$200–$800', label: 'Typical tooling / mo', context: 'small business volume' },
+  ],
+  addOns: [
+    {
+      name: 'Custom signal source',
+      description: 'Build a custom signal source beyond the base set (e.g., scraping a niche directory, monitoring a specific event feed).',
+      price: '+$1,500',
+    },
+    {
+      name: 'Multi-channel outreach',
+      description: 'Add LinkedIn message + SMS as outreach channels alongside email.',
+      price: '+$1,200',
+    },
+    {
+      name: 'A/B testing framework',
+      description: 'Built-in A/B testing for outreach messages with statistical significance reporting.',
+      price: '+$900',
+    },
+  ],
+  caseStudySlugs: [],
+  schemaSummary:
+    'Lead-generation pipeline: signal sources, enrichment, LLM-based scoring, approval-gated personalized outreach, CRM sync, and custom performance dashboard.',
+}
+
+const agentOperationsRetainer: ExtendedTier = {
+  slug: 'agent-operations-retainer',
+  name: 'Agent Operations Retainer',
+  shortName: 'Agent Ops',
+  category: 'ai-flagship',
+  tagline: 'Your agent gets better every month — or we tell you why it isn\'t.',
+  description:
+    'Agents drift. Models update. Tools change. Your business evolves. This retainer keeps your deployed agent sharp: weekly eval review, drift monitoring, prompt tuning, tool additions, monthly cost optimization, and a written report so you know exactly what we did and what changed. Cancel any month.',
+  price: 'from $1,500',
+  priceCents: 0,
+  cadence: 'monthly',
+  timeline: 'Monthly · cancel anytime',
+  cta: 'Talk to Sage',
+  ctaHref: inquiryHref('agent-operations-retainer'),
+  capability: 'automation',
+  mode: 'operate',
+  highlight: true,
+  stackChips: [
+    'Eval review',
+    'Drift monitoring',
+    'Prompt tuning',
+    'Cost optimization',
+    'Tool additions',
+    'Monthly report',
+  ],
+  outcomes: [
+    'Agent quality stays high — or you find out exactly why it dropped',
+    'New tools and workflows added as your business grows',
+    'Monthly cost optimization (model swaps, prompt compression, caching)',
+    'Drift detection so you catch problems before customers do',
+    'Written monthly report — what we did, what changed, what\'s next',
+  ],
+  deliverables: [
+    'Weekly eval review on a sampled set of real agent runs',
+    'Drift monitoring with alerts when quality scores drop',
+    'Prompt + tool tuning based on eval findings',
+    'Up to 2 new tool integrations or workflow expansions per month',
+    'Monthly cost optimization review (model choice, prompt length, caching opportunities)',
+    'Monthly performance report (PDF + Loom)',
+    'Slack channel with 1–2 business day response on issues',
+    'Quarterly strategy call to review trajectory',
+  ],
+  notIncluded: [
+    'Brand new agent builds (use AI Agent Development)',
+    'Major architecture rebuilds (separate engagement)',
+    'On-call / 24/7 support (use Reliability Retainer for that)',
+  ],
+  faq: [
+    {
+      q: 'Why do agents need ongoing operations?',
+      a: 'Three reasons: (1) Models change — what worked on GPT-4-0314 may not work on GPT-5. (2) Your business changes — new tools, new processes, new edge cases. (3) Drift is real — without monitoring, quality degrades silently. The retainer makes this someone\'s job.',
+    },
+    {
+      q: 'What if I built my agent with someone else?',
+      a: 'We can take over operations on agents we didn\'t build, but we need a 1-week onboarding to map the architecture and stand up our eval harness if you don\'t already have one. Onboarding is included in the first month at no extra cost.',
+    },
+    {
+      q: 'Can I cancel?',
+      a: 'Any month, no commitment. We give you the playbook and dashboard access on the way out so your team can take it over.',
+    },
+    {
+      q: 'How does this compare to hiring an AI engineer?',
+      a: 'An in-house AI engineer costs $8–15k/mo loaded. This is a fraction of that, with a tighter scope (agent ops only). If you have multiple agents and need broader engineering, hire an engineer. If you have one or two agents and need them maintained well, this is the play.',
+    },
+  ],
+  phases: [
+    {
+      label: 'Week 1 of month',
+      title: 'Eval review + drift check',
+      description:
+        'Sample 20–50 real agent runs. Score against eval criteria. Flag anything that drifted. Review cost trends.',
+      artifacts: ['Eval scorecard', 'Drift report', 'Cost trend chart'],
+    },
+    {
+      label: 'Week 2',
+      title: 'Tuning + improvements',
+      description:
+        'Apply prompt + tool fixes based on eval findings. Add new tools or workflow expansions. Re-run evals to measure improvement.',
+      artifacts: ['Updated prompts', 'New tool integrations', 'Before/after eval delta'],
+    },
+    {
+      label: 'Week 3',
+      title: 'Cost optimization',
+      description:
+        'Review model choice + prompt length + caching opportunities. Test cheaper alternatives where quality holds. Document savings.',
+      artifacts: ['Model comparison', 'Cost savings report', 'Updated configs'],
+    },
+    {
+      label: 'Week 4',
+      title: 'Report + planning',
+      description:
+        'Monthly performance report. Loom walkthrough of changes. Plan next month\'s priorities with you.',
+      artifacts: ['Monthly PDF report', 'Loom walkthrough', 'Next-month plan'],
+    },
+  ],
+  resultMetrics: [
+    { value: 'Weekly', label: 'Eval review cadence', context: 'on real runs' },
+    { value: '2 new', label: 'Tools / mo included', context: 'or workflow expansions' },
+    { value: 'Cancel any month', label: 'Commitment', context: 'no contracts' },
+  ],
+  addOns: [
+    {
+      name: 'Additional agent',
+      description: 'Add a second agent under the same retainer scope.',
+      price: '+$900/mo',
+    },
+    {
+      name: 'On-call support',
+      description: '24/7 pager for agent-down incidents with 1-hour response.',
+      price: '+$1,500/mo',
+    },
+  ],
+  caseStudySlugs: [],
+  schemaSummary:
+    'Monthly retainer for operating a deployed AI agent: eval review, drift monitoring, prompt tuning, cost optimization, and tool additions.',
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 // CATALOG
 // ─────────────────────────────────────────────────────────────────────────
 
 export const extendedTiers: ExtendedTier[] = [
+  // AI Flagship — premium, rendered first
+  aiAgentDevelopment,
+  aiVoiceAgent,
+  aiLeadEngine,
+  aiImplementationConsulting,
+  agentOperationsRetainer,
   // AI services
   aiReliabilityAudit,
   ragSystemsEngineering,
@@ -1719,6 +2335,13 @@ export type ExtendedCategoryMeta = {
 }
 
 export const extendedCategories: ExtendedCategoryMeta[] = [
+  {
+    key: 'ai-flagship',
+    label: 'AI Flagship',
+    tagline: 'Custom AI agents, voice agents, and lead engines — built on your business.',
+    accent: '#22D3EE',
+    icon: 'sparkles',
+  },
   {
     key: 'ai-services',
     label: 'AI services',
@@ -1765,6 +2388,7 @@ export const extendedCategories: ExtendedCategoryMeta[] = [
 
 export const extendedTiersByCategory = (() => {
   const byCat: Record<ExtendedCategory, ExtendedTier[]> = {
+    'ai-flagship': [],
     'ai-services': [],
     'automation-pipelines': [],
     'ai-products': [],

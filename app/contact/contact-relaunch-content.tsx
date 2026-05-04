@@ -84,15 +84,19 @@ function resolveEngagementContext(slug: string | null): {
   if (ext) {
     const isRetainer = ext.category === 'retainers'
     const isDiagnostic = ext.category === 'diagnostics'
+    const isFlagship = ext.category === 'ai-flagship'
     const type: EngagementType = isRetainer
       ? 'studio'
       : isDiagnostic
         ? 'consult'
         : 'project'
+    const prefill = isFlagship
+      ? `Interested in: ${ext.name} (${ext.price}, ${ext.timeline}).\n\nMy business / use case: \n\nWhat I want the agent to handle: \n\nTools we already use: \n\nAnything custom or out-of-scope to discuss: `
+      : `Interested in: ${ext.name} (${ext.price}). \n\nContext: `
     return {
       type,
       badge: ext.name,
-      prefill: `Interested in: ${ext.name} (${ext.price}). \n\nContext: `,
+      prefill,
     }
   }
   const prod = tiersBySlug[slug]

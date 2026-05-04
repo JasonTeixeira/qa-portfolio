@@ -104,6 +104,7 @@ export function ExtendedPricingMenu({
   extended: ExtendedTier[]
   care: CareTier[]
 }) {
+  const flagship = extended.filter((t) => t.category === 'ai-flagship').map(rowFromExtended)
   const diagnostics = extended.filter((t) => t.category === 'diagnostics').map(rowFromExtended)
   const aiServices = extended.filter((t) => t.category === 'ai-services').map(rowFromExtended)
   const automation = extended
@@ -129,6 +130,53 @@ export function ExtendedPricingMenu({
           The bundle wraps it all into one contract. Or scope something bespoke.
         </p>
       </div>
+
+      {/* Flagship row — premium tier featured first */}
+      {flagship.length > 0 && (
+        <div className="mb-6 rounded-2xl border border-[#22D3EE]/30 bg-gradient-to-br from-[#22D3EE]/10 via-[#0F0F12] to-[#0F0F12] p-6 relative overflow-hidden">
+          <div
+            className="absolute -top-24 -right-24 w-[400px] h-[400px] rounded-full blur-3xl opacity-15 pointer-events-none"
+            style={{ backgroundColor: '#22D3EE' }}
+            aria-hidden
+          />
+          <div className="relative">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-[#22D3EE]" aria-hidden />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#22D3EE]">
+                AI Flagship
+              </span>
+              <span className="ml-2 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#22D3EE]/55 text-[#22D3EE] bg-[#22D3EE]/10">
+                ★ Featured
+              </span>
+            </div>
+            <h3 className="text-2xl font-bold text-[#FAFAFA] mb-1">
+              Custom AI agents, voice agents, and lead engines
+            </h3>
+            <p className="text-sm text-[#A1A1AA] mb-5 max-w-2xl">
+              Built on your business. Cloud-hosted, eval-driven, human-in-the-loop. Custom pricing
+              available on every flagship tier — the listed price is the floor.
+            </p>
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {flagship.map((r) => (
+                <li key={r.slug}>
+                  <Link
+                    href={r.href}
+                    className="group block rounded-xl border border-[#22D3EE]/20 bg-black/30 hover:bg-black/50 hover:border-[#22D3EE]/50 transition-colors p-4"
+                  >
+                    <div className="flex items-start justify-between gap-3 mb-1">
+                      <span className="font-semibold text-[#FAFAFA] leading-snug">{r.name}</span>
+                      <span className="shrink-0 text-xs font-mono px-2 py-0.5 rounded border border-[#22D3EE]/40 text-[#22D3EE] bg-[#22D3EE]/10 whitespace-nowrap">
+                        {r.price}
+                      </span>
+                    </div>
+                    <div className="text-xs text-[#71717A] leading-snug">{r.timeline}</div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-3 gap-4 mb-4">
         <MenuColumn

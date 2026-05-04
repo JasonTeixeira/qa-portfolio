@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
 const primaryLinks: { href: string; label: string; badge?: string }[] = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
-  { href: '/services#ai-and-automation', label: 'AI & Automation', badge: 'NEW' },
+  { href: '/services#cat-ai-flagship', label: 'AI Agents', badge: 'FLAGSHIP' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/how-it-works', label: 'How It Works' },
   { href: '/blog', label: 'Insights' },

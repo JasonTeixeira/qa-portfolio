@@ -73,33 +73,73 @@ export function ExtendedCatalog() {
         const Icon = iconFor[cat.icon]
         const items = extendedTiersByCategory[cat.key]
         if (items.length === 0) return null
+        const isFlagship = cat.key === 'ai-flagship'
         return (
           <section
             key={cat.key}
             id={`cat-${cat.key}`}
-            className="scroll-mt-24"
+            className={`scroll-mt-24${
+              isFlagship
+                ? ' relative rounded-3xl border border-white/10 bg-gradient-to-br from-[#0B0B0F] via-[#0F1014] to-[#0B0B0F] p-6 sm:p-10 overflow-hidden'
+                : ''
+            }`}
             aria-labelledby={`cat-heading-${cat.key}`}
           >
-            <div className="flex items-center gap-2 mb-3">
-              <Icon className="w-4 h-4" style={{ color: cat.accent }} aria-hidden />
-              <span
-                className="text-xs font-mono uppercase tracking-widest"
-                style={{ color: cat.accent }}
+            {isFlagship && (
+              <>
+                <div
+                  className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full blur-3xl opacity-15 pointer-events-none"
+                  style={{ backgroundColor: cat.accent }}
+                  aria-hidden
+                />
+                <div
+                  className="absolute inset-0 grid-pattern opacity-10 pointer-events-none"
+                  aria-hidden
+                />
+              </>
+            )}
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <Icon className="w-4 h-4" style={{ color: cat.accent }} aria-hidden />
+                <span
+                  className="text-xs font-mono uppercase tracking-widest"
+                  style={{ color: cat.accent }}
+                >
+                  {cat.label}
+                </span>
+                {isFlagship && (
+                  <span
+                    className="ml-2 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border"
+                    style={{
+                      color: cat.accent,
+                      borderColor: `${cat.accent}55`,
+                      backgroundColor: `${cat.accent}14`,
+                    }}
+                  >
+                    ★ Featured
+                  </span>
+                )}
+              </div>
+              <h2
+                id={`cat-heading-${cat.key}`}
+                className={`font-bold text-[#FAFAFA] mb-2 ${
+                  isFlagship ? 'text-4xl sm:text-5xl tracking-tight' : 'text-3xl'
+                }`}
               >
-                {cat.label}
-              </span>
-            </div>
-            <h2
-              id={`cat-heading-${cat.key}`}
-              className="text-3xl font-bold text-[#FAFAFA] mb-2"
-            >
-              {cat.label}
-            </h2>
-            <p className="text-[#A1A1AA] mb-8 max-w-2xl">{cat.tagline}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {items.map((t) => (
-                <ServiceCard key={t.slug} tier={t} accent={cat.accent} />
-              ))}
+                {isFlagship ? 'AI Flagship Suite' : cat.label}
+              </h2>
+              <p
+                className={`text-[#A1A1AA] mb-8 max-w-2xl ${
+                  isFlagship ? 'text-lg' : ''
+                }`}
+              >
+                {cat.tagline}
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {items.map((t) => (
+                  <ServiceCard key={t.slug} tier={t} accent={cat.accent} />
+                ))}
+              </div>
             </div>
           </section>
         )

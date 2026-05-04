@@ -179,6 +179,15 @@ const trustChips = [
 
 const aiAutomationCategories = [
   {
+    key: 'ai-flagship',
+    icon: Sparkles,
+    label: 'AI Flagship',
+    tagline: 'Custom AI agents, voice agents, lead engines. Built on your business.',
+    href: '/services#cat-ai-flagship',
+    accent: '#22D3EE',
+    count: 'Featured',
+  },
+  {
     key: 'ai-services',
     icon: Sparkles,
     label: 'AI services',
@@ -530,16 +539,16 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/30 mb-5">
                 <Layers className="w-3.5 h-3.5 text-[#06B6D4]" />
                 <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
-                  AI &amp; Automation · 22 new offers
+                  AI Flagship + 22 productized offers
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA]">
                 What we ship.
               </h2>
               <p className="text-[#A1A1AA] mt-4 text-lg leading-relaxed">
-                Six categories on top of our 9 productized tiers and 3 care plans. Built for teams
-                shipping AI features, automation pipelines, and customer-facing assistants — and
-                the founders who need a real engineer on call instead of a demo.
+                Seven categories on top of our 9 productized tiers and 3 care plans. AI Flagship
+                offers up top — custom agents, voice agents, and lead engines built on your
+                business, with dashboards and approval queues you actually use.
               </p>
             </div>
             <Link
@@ -613,7 +622,9 @@ export default function HomePage() {
             className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#27272A] bg-[#0A0A0C]/60 px-6 py-5"
           >
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[#71717A]">
-              <span className="text-[#FAFAFA]">22 AI &amp; automation offers</span>
+              <span className="text-[#22D3EE]">5 AI Flagship offers</span>
+              <span aria-hidden>·</span>
+              <span>22 AI &amp; automation offers</span>
               <span aria-hidden>·</span>
               <span>9 productized tiers</span>
               <span aria-hidden>·</span>

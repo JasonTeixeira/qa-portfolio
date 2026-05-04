@@ -14,12 +14,13 @@ const primaryLinks = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
   { href: '/how-it-works', label: 'How It Works' },
-  { href: '/capabilities', label: 'Capabilities' },
+  { href: '/pov', label: 'POV' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/blog', label: 'Insights' },
 ]
 
 const mobileExtraLinks = [
+  { href: '/capabilities', label: 'Capabilities' },
   { href: '/industries', label: 'Industries' },
   { href: '/lab', label: 'Lab' },
   { href: '/process', label: 'Process' },

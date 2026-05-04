@@ -1,6 +1,7 @@
 export type CaseStudy = {
   slug: string
   title: string
+  posterTitle?: string // film-poster headline shown above title on case study + grid
   client: string
   tagline: string
   category: 'Fintech' | 'AI/ML' | 'Infrastructure' | 'Product' | 'DevTools'
@@ -21,6 +22,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'nexural',
     title: 'Nexural — Full-Stack Fintech Platform',
+    posterTitle: 'A trading platform built like an institution. Run by one person.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A production-grade trading platform with real-time execution, portfolio tracking, a Discord-native AI companion, and Stripe billing.',
     category: 'Fintech',
@@ -67,6 +69,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'alphastream',
     title: 'AlphaStream — ML Trading Signal Engine',
+    posterTitle: 'Five models. Two hundred indicators. No black boxes.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A Python-based ML signal engine with 200+ technical indicators and 5 ensemble models — explainable, auditable, and open source.',
     category: 'AI/ML',
@@ -109,6 +112,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'jobpoise',
     title: 'Jobpoise — AI Job Copilot',
+    posterTitle: 'The job search, weaponized for the qualified.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A citation-grounded AI job application copilot with Chrome extension, Gmail tracking, and three pricing tiers.',
     category: 'Product',
@@ -146,6 +150,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'trayd',
     title: 'Trayd — AI Companion for the Trades',
+    posterTitle: 'Built for the people who fix what breaks.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A bilingual AI companion for residential HVAC contractors — estimate builder, diagnostic AI, callback scheduler.',
     category: 'Product',
@@ -183,6 +188,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'aws-landing-zone',
     title: 'AWS Landing Zone & Guardrails',
+    posterTitle: 'Infrastructure that survives the on-call rotation.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A Terraform-based AWS foundation covering VPC architecture, GitHub OIDC, security guardrails, and CI-tested infrastructure modules.',
     category: 'Infrastructure',
@@ -224,6 +230,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'quality-telemetry',
     title: 'Quality Telemetry Platform',
+    posterTitle: 'Thirteen frameworks. One verdict: ship or don\'t.',
     client: 'Sage Ideas (Internal)',
     tagline: 'A 13-framework testing infrastructure covering unit, E2E, mobile, security, BDD, performance, contract, visual regression, and Lighthouse CI.',
     category: 'DevTools',
@@ -268,6 +275,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'brand-sprint-rebuild',
     title: 'Brand Sprint — Founder-Led Identity Rebuild',
+    posterTitle: 'Two weeks to look like a company that ships.',
     client: 'Sage Ideas Studio (illustrative engagement)',
     tagline: 'A two-week Brand Sprint for an early-stage founder transitioning from a personal portfolio to a productized studio identity.',
     category: 'Product',
@@ -318,6 +326,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'site-care-retainer',
     title: 'Site Care — Twelve Months of Quiet Reliability',
+    posterTitle: 'A year. Zero outages. Nobody noticed. That\'s the point.',
     client: 'Sage Ideas Studio (illustrative engagement)',
     tagline: 'A twelve-month Site Care retainer for a small-business marketing site — dependency upkeep, performance monitoring, content publishes, and zero unplanned downtime.',
     category: 'Infrastructure',

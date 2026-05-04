@@ -17,6 +17,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/trust', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/studio', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/founder', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/pov', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/book', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.7, changeFrequency: 'weekly' },

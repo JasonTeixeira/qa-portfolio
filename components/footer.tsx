@@ -7,6 +7,7 @@ import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react'
 const studio = [
   { href: '/studio', label: 'Studio' },
   { href: '/founder', label: 'Founder' },
+  { href: '/pov', label: 'POV' },
   { href: '/process', label: 'Process' },
   { href: '/trust', label: 'Trust' },
   { href: '/contact', label: 'Contact' },

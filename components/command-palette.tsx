@@ -131,6 +131,14 @@ export function CommandPalette() {
       keywords: ['founder', 'about', 'background', 'capabilities', 'jason']
     },
     {
+      id: 'pov',
+      label: 'POV',
+      description: 'The 30-second rollback rule and how the studio thinks',
+      icon: <Code2 className="h-4 w-4" />,
+      action: () => navigate('/pov'),
+      keywords: ['pov', 'opinion', 'manifesto', 'rollback', 'philosophy', 'essay']
+    },
+    {
       id: 'stack',
       label: 'Tech Stack',
       description: 'Technologies I use',

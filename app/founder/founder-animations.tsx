@@ -74,12 +74,22 @@ export function FounderAnimations({ capabilities, principles }: Props) {
             Jason Teixeira.
           </h1>
           <p className="mt-6 text-xl text-[#A1A1AA] leading-relaxed font-medium">
-            Fintech engineer. Studio founder. The person on every Sage Ideas engagement.
+            Fintech engineer. Studio founder. The person on every Sage Ideas engagement — first
+            call, last commit, signed handoff.
           </p>
           <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed">
-            Sage Ideas is a one-person studio by design. The founder scopes the work, builds the work, and signs off on
-            the work. There is no offshore team, no handoff bench, no account manager between you and the person typing
-            the code. That is the whole point.
+            Five years inside fintech engineering taught me one thing well: the gap between a
+            product that works in a demo and a product that survives a Stripe webhook retry
+            storm at 2 a.m. is the entire job. Most agencies sell you the demo. The studio that
+            grew out of that experience sells you the part nobody likes building — the
+            idempotency keys, the row-level security, the migrations that don’t lose data, the
+            CI gates that catch the bug before the customer does.
+          </p>
+          <p className="mt-4 text-lg text-[#A1A1AA] leading-relaxed">
+            Sage Ideas is one operator by design, not by accident. The person who scopes the
+            work is the person who builds it. There is no offshore bench, no account manager,
+            no “lead consultant” who disappears after the kickoff. You buy the keyboard. That is
+            the whole proposition.
           </p>
         </motion.div>
 

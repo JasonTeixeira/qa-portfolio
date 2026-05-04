@@ -68,7 +68,12 @@ export function WorkGrid({ studies }: WorkGridProps) {
 
               {/* Content */}
               <div className="flex flex-col flex-1 p-6 gap-3">
-                <h3 className="text-[#FAFAFA] font-semibold text-lg leading-snug">{study.title}</h3>
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#71717A]">
+                  {study.title}
+                </div>
+                <h3 className="text-[#FAFAFA] font-semibold text-lg leading-snug">
+                  {study.posterTitle ?? study.title}
+                </h3>
                 <p className="text-[#71717A] text-sm leading-relaxed">{study.kicker}</p>
 
                 {/* Tags */}

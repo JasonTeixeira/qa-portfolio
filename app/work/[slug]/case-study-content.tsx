@@ -48,10 +48,24 @@ export function CaseStudyContent({ study }: Props) {
               {study.category}
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#FAFAFA] tracking-tight leading-tight max-w-4xl">
-            {study.title}
-          </h1>
-          <p className="mt-4 text-xl text-[#A1A1AA] max-w-3xl">{study.tagline}</p>
+          {study.posterTitle ? (
+            <>
+              <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-3">
+                {study.title}
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#FAFAFA] tracking-tight leading-[1.05] max-w-4xl">
+                {study.posterTitle}
+              </h1>
+              <p className="mt-5 text-lg lg:text-xl text-[#A1A1AA] leading-relaxed max-w-3xl">{study.tagline}</p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#FAFAFA] tracking-tight leading-tight max-w-4xl">
+                {study.title}
+              </h1>
+              <p className="mt-4 text-xl text-[#A1A1AA] max-w-3xl">{study.tagline}</p>
+            </>
+          )}
 
           {/* Kicker metrics row */}
           <div className="mt-8 flex flex-wrap gap-4">

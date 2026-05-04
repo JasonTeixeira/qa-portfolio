@@ -185,16 +185,16 @@ export default function HomePage() {
               <div className="space-y-4">
                 <SectionLabel>Sage Ideas · Studio</SectionLabel>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-[#FAFAFA] leading-[1.05]">
-                  The studio that builds
+                  Production software,
                   <br />
-                  <span className="text-[#06B6D4]">the businesses</span>
+                  <span className="text-[#06B6D4]">shipped</span> by the
                   <br />
-                  we’d want to run.
+                  person who scoped it.
                 </h1>
                 <p className="text-lg lg:text-xl text-[#A1A1AA] leading-relaxed max-w-2xl">
-                  Sage Ideas is an AI-native software studio. We design, build, and operate
-                  production-grade products and automations for founders and companies who
-                  need it done right the first time.
+                  Sage Ideas is a one-person studio for founders who need it built right the
+                  first time. Full-stack, AI-native, billing-grade. No agency middleman, no
+                  offshore handoff, no swap-in resource on your account.
                 </p>
               </div>
 
@@ -264,32 +264,32 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Link
-              href="/founder"
+              href="/pricing"
               className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#06B6D4]/50 rounded-2xl px-6 py-5 transition-all"
             >
               <div>
-                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
-                  Recruiting?
+                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-1">
+                  Got a project
                 </div>
                 <div className="text-sm text-[#FAFAFA]">
-                  Open to staff-level roles where the fit is right.
+                  Fixed-scope engagements from $1,500 to $25k+. Stripe checkout.
                 </div>
               </div>
               <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
             </Link>
             <Link
-              href="/pricing"
-              className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#06B6D4]/50 rounded-2xl px-6 py-5 transition-all"
+              href="/pov"
+              className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#8B5CF6]/50 rounded-2xl px-6 py-5 transition-all"
             >
               <div>
-                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
-                  Got a project?
+                <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#8B5CF6] mb-1">
+                  Want the read first
                 </div>
                 <div className="text-sm text-[#FAFAFA]">
-                  Productized engagements from $1,500 to $25k+.
+                  How we build, what we refuse to ship, why one person ships more.
                 </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
+              <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#8B5CF6] group-hover:translate-x-1 transition-all" />
             </Link>
           </motion.div>
         </div>
@@ -639,19 +639,23 @@ export default function HomePage() {
             >
               <SectionLabel>Founder</SectionLabel>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA] leading-tight">
-                Built by one person. On purpose.
+                One operator. Five years
+                <br className="hidden sm:block" /> of production fintech. Built
+                <br className="hidden sm:block" /> like a team of six.
               </h2>
               <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                Jason Teixeira has been writing production software since before it was
-                fashionable to call it “building in public.” Five years in fintech. Two years
-                running a product studio. Nine certifications, six live products, 106 public
-                repositories.
+                Jason Teixeira spent five years inside fintech engineering — the kind of
+                environment where a webhook retry loop or an off-by-one rounding error gets
+                a phone call from compliance. He left to build the studio that fintech
+                taught him should exist: one person, full-stack, accountable end-to-end, with
+                the architecture discipline of a team and the speed of a single keyboard.
               </p>
               <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                The studio is small by design — not because we’re growing into something
-                larger, but because one focused practitioner with a tight process beats a
-                six-person agency with a project manager. Every client engages directly with
-                the person building their product.
+                The studio is small on purpose. The math is simple — one focused operator
+                with a tight process and AI-native tooling outships a six-person agency with
+                a project manager and three handoffs. You hire Sage Ideas because the person
+                pitching the work is the person typing the code. That’s not a constraint.
+                That’s the offer.
               </p>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[#71717A] pt-2">
                 <span>5 years experience</span>

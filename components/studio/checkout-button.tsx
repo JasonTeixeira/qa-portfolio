@@ -16,8 +16,15 @@ export function CheckoutButton({
 }) {
   const [loading, setLoading] = useState(false)
 
-  // For 'custom' cadence (Build tier), route to /book instead of Stripe
-  if (tier.cadence === 'custom') {
+  // Inquiry-only flow: tier has no Stripe price configured.
+  // Used by all extended catalog services (AI / automation / retainers / bundles)
+  // and the legacy 'custom' Build tier. Routes to ctaHref (/contact?engagement=… or /book).
+  const hasStripeCheckout = Boolean(tier.stripePriceId) && tier.cadence !== 'custom'
+  if (!hasStripeCheckout) {
+    const href =
+      tier.cadence === 'custom'
+        ? `/book?tier=${tier.slug}`
+        : tier.ctaHref || `/contact?engagement=${tier.slug}`
     return (
       <Button
         asChild
@@ -28,7 +35,7 @@ export function CheckoutButton({
             : ''
         }
       >
-        <a href={`/book?tier=${tier.slug}`}>
+        <a href={href}>
           {label ?? tier.cta} <ArrowRight className="w-4 h-4 ml-1" />
         </a>
       </Button>

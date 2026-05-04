@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
-import { tiersOrdered } from '@/data/services/tiers'
+import { tiersOrdered, careTiers } from '@/data/services/tiers'
+import { extendedTiers } from '@/data/services/extended'
 import { pricingFaq } from '@/data/services/pricing-faq'
 import { PricingContent } from './pricing-content'
+import { ExtendedPricingMenu } from './extended-pricing-menu'
 import { JsonLd } from '@/components/json-ld'
 
 const SITE = 'https://www.sageideas.dev'
@@ -28,16 +30,16 @@ const breadcrumbSchema = {
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Nine productized tiers, fixed pricing, Stripe checkout. Sage Audit $1,500 · Ship $4,900 · Automate $9,900 · SEO Sprint $3,500 · Content Engine $6,500/mo · Brand Sprint $8,500 · Scale $4,900/mo · Build from $25,000 · Operate $7,500/mo.',
+    'Full pricing menu from Sage Ideas: productized engineering and QA tiers, AI reliability audits, RAG and agent ops, automation pipelines, customer-facing AI products, productized retainers, diagnostic on-ramps from $1,200, and a 90-day Done-For-You bundle. Fixed scope, transparent pricing.',
   alternates: { canonical: `${SITE}/pricing` },
   openGraph: {
     title: 'Pricing',
-    description: 'Nine productized tiers. Fixed price. No asterisks.',
-    images: [{ url: '/og?title=Pricing&subtitle=Nine+tiers.+Fixed+price.+No+asterisks.' }],
+    description: 'Engineering, QA, AI, automation, retainers, and bundles. Fixed price.',
+    images: [{ url: '/og?title=Pricing&subtitle=Engineering%2C+AI%2C+automation%2C+retainers.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og?title=Pricing&subtitle=Nine+tiers.+Fixed+price.+No+asterisks.'],
+    images: ['/og?title=Pricing&subtitle=Engineering%2C+AI%2C+automation%2C+retainers.'],
   },
 }
 
@@ -46,6 +48,7 @@ export default function PricingPage() {
     <>
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
       <PricingContent tiers={tiersOrdered} />
+      <ExtendedPricingMenu extended={extendedTiers} care={careTiers} />
     </>
   )
 }

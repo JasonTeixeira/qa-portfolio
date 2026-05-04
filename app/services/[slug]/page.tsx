@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { tiers, tiersBySlug } from '@/data/services/tiers'
+import { extendedTiers, extendedTiersBySlug } from '@/data/services/extended'
 import { TierPageContent } from './tier-page-content'
 
 type Params = { slug: string }
@@ -8,7 +9,14 @@ type Params = { slug: string }
 const SITE = 'https://www.sageideas.dev'
 
 export function generateStaticParams(): Params[] {
-  return tiers.map((tier) => ({ slug: tier.slug }))
+  return [
+    ...tiers.map((tier) => ({ slug: tier.slug })),
+    ...extendedTiers.map((tier) => ({ slug: tier.slug })),
+  ]
+}
+
+function resolveTier(slug: string) {
+  return tiersBySlug[slug] ?? extendedTiersBySlug[slug]
 }
 
 export async function generateMetadata({
@@ -17,7 +25,7 @@ export async function generateMetadata({
   params: Promise<Params>
 }): Promise<Metadata> {
   const { slug } = await params
-  const tier = tiersBySlug[slug]
+  const tier = resolveTier(slug)
   if (!tier) return { title: 'Not Found' }
 
   const title = `${tier.name} — ${tier.price} | Sage Ideas`
@@ -44,7 +52,7 @@ export async function generateMetadata({
 
 export default async function TierPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params
-  const tier = tiersBySlug[slug]
+  const tier = resolveTier(slug)
   if (!tier) notFound()
 
   // Schema.org Service JSON-LD

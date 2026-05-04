@@ -10,16 +10,17 @@ import { Button } from '@/components/ui/button'
 import { CommandPaletteHint } from '@/components/command-palette'
 import { cn } from '@/lib/utils'
 
-const primaryLinks = [
+const primaryLinks: { href: string; label: string; badge?: string }[] = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/pov', label: 'POV' },
+  { href: '/services#ai-and-automation', label: 'AI & Automation', badge: 'NEW' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/how-it-works', label: 'How It Works' },
   { href: '/blog', label: 'Insights' },
 ]
 
-const mobileExtraLinks = [
+const mobileExtraLinks: { href: string; label: string; badge?: string }[] = [
+  { href: '/pov', label: 'POV' },
   { href: '/capabilities', label: 'Capabilities' },
   { href: '/industries', label: 'Industries' },
   { href: '/lab', label: 'Lab' },
@@ -73,20 +74,28 @@ export function Navigation() {
           {/* Desktop primary nav */}
           <div className="hidden lg:flex items-center gap-1">
             {primaryLinks.map((link) => {
-              const isActive = pathname === link.href || pathname.startsWith(link.href + '/')
+              const cleanHref = link.href.split('#')[0]
+              const isActive =
+                pathname === cleanHref ||
+                (cleanHref !== '/' && pathname.startsWith(cleanHref + '/'))
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'relative px-4 py-2 text-sm transition-colors rounded-lg',
+                    'relative px-4 py-2 text-sm transition-colors rounded-lg inline-flex items-center gap-1.5',
                     isActive
                       ? 'text-[#06B6D4]'
                       : 'text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#18181B]'
                   )}
                 >
                   {link.label}
-                  {isActive && (
+                  {link.badge && (
+                    <span className="text-[9px] font-mono tracking-widest px-1.5 py-0.5 rounded bg-[#06B6D4]/15 text-[#06B6D4] border border-[#06B6D4]/30">
+                      {link.badge}
+                    </span>
+                  )}
+                  {isActive && !link.href.includes('#') && (
                     <motion.div
                       layoutId="activeNav"
                       className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#06B6D4]"
@@ -182,18 +191,24 @@ export function Navigation() {
               <div className="py-4 px-2 space-y-1">
                 {[...primaryLinks, ...mobileExtraLinks].map((link) => {
                   const isActive = pathname === link.href
+                  const badge = 'badge' in link ? link.badge : undefined
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        'block px-4 py-3 text-sm rounded-lg transition-colors',
+                        'flex items-center justify-between gap-2 px-4 py-3 text-sm rounded-lg transition-colors',
                         isActive
                           ? 'text-[#06B6D4] bg-[#18181B]'
                           : 'text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#18181B]'
                       )}
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      {badge && (
+                        <span className="text-[9px] font-mono tracking-widest px-1.5 py-0.5 rounded bg-[#06B6D4]/15 text-[#06B6D4] border border-[#06B6D4]/30">
+                          {badge}
+                        </span>
+                      )}
                     </Link>
                   )
                 })}

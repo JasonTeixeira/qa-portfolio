@@ -10,6 +10,12 @@ import {
   Terminal,
   CheckCircle2,
   Lock,
+  Workflow,
+  Bot,
+  RefreshCw,
+  Compass,
+  Package,
+  Layers,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
@@ -170,6 +176,63 @@ const trustChips = [
   'GDPR-aware data design',
   '5 years fintech engineering',
 ]
+
+const aiAutomationCategories = [
+  {
+    key: 'ai-services',
+    icon: Sparkles,
+    label: 'AI services',
+    tagline: 'Reliability audits, RAG, agents, internal copilots.',
+    href: '/services#cat-ai-services',
+    accent: '#06B6D4',
+    count: '5 offers',
+  },
+  {
+    key: 'automation-pipelines',
+    icon: Workflow,
+    label: 'Automation pipelines',
+    tagline: 'Postmortems, release notes, feedback routing, data hygiene.',
+    href: '/services#cat-automation-pipelines',
+    accent: '#8B5CF6',
+    count: '5 offers',
+  },
+  {
+    key: 'ai-products',
+    icon: Bot,
+    label: 'Customer-facing AI',
+    tagline: 'Docs-as-a-product, onboarding concierge, support deflection.',
+    href: '/services#cat-ai-products',
+    accent: '#F59E0B',
+    count: '3 offers',
+  },
+  {
+    key: 'retainers',
+    icon: RefreshCw,
+    label: 'Productized retainers',
+    tagline: 'AI Quality, Automation, Reliability, Founder partner.',
+    href: '/services#cat-retainers',
+    accent: '#10B981',
+    count: '4 plans',
+  },
+  {
+    key: 'diagnostics',
+    icon: Compass,
+    label: 'Diagnostics',
+    tagline: '48-hour AI readiness, stack X-ray, hallucination hunt.',
+    href: '/services#cat-diagnostics',
+    accent: '#EC4899',
+    count: '3 sprints',
+  },
+  {
+    key: 'bundle',
+    icon: Package,
+    label: 'Bundles & bespoke',
+    tagline: 'Studio Package (90-day DFY + 6mo retainer) or custom scope.',
+    href: '/services#cat-bundle',
+    accent: '#FAFAFA',
+    count: '2 paths',
+  },
+] as const
 
 const homepageStats = [
   { value: '20+', label: 'Production Builds' },
@@ -448,6 +511,136 @@ export default function HomePage() {
                 Hybrid sprints, multi-month builds, custom retainers.
               </div>
             </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* WHAT WE SHIP — AI & Automation expansion */}
+      <section className="py-24 lg:py-32 border-t border-[#27272A] bg-gradient-to-b from-[#0A0A0C] via-[#09090B] to-[#0A0A0C] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(6,182,212,0.06),transparent_50%),radial-gradient(circle_at_80%_70%,rgba(139,92,246,0.06),transparent_50%)]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12"
+          >
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/30 mb-5">
+                <Layers className="w-3.5 h-3.5 text-[#06B6D4]" />
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
+                  AI &amp; Automation · 22 new offers
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#FAFAFA]">
+                What we ship.
+              </h2>
+              <p className="text-[#A1A1AA] mt-4 text-lg leading-relaxed">
+                Six categories on top of our 9 productized tiers and 3 care plans. Built for teams
+                shipping AI features, automation pipelines, and customer-facing assistants — and
+                the founders who need a real engineer on call instead of a demo.
+              </p>
+            </div>
+            <Link
+              href="/services"
+              className="text-sm text-[#06B6D4] hover:text-[#0EA5E9] flex items-center gap-1 group whitespace-nowrap"
+            >
+              Browse the menu
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {aiAutomationCategories.map((cat, i) => (
+              <motion.div
+                key={cat.key}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+              >
+                <Link
+                  href={cat.href}
+                  className="group block h-full rounded-2xl border border-[#27272A] bg-[#0F0F12] hover:bg-[#131318] p-6 transition-all"
+                  style={{
+                    borderColor: '#27272A',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = `${cat.accent}66`
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#27272A'
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div
+                      className="w-11 h-11 rounded-xl border flex items-center justify-center shrink-0"
+                      style={{
+                        borderColor: `${cat.accent}40`,
+                        backgroundColor: `${cat.accent}14`,
+                        color: cat.accent,
+                      }}
+                    >
+                      <cat.icon className="w-5 h-5" />
+                    </div>
+                    <span
+                      className="text-[10px] font-mono uppercase tracking-widest"
+                      style={{ color: cat.accent }}
+                    >
+                      {cat.count}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#FAFAFA] mt-5 group-hover:text-[#FAFAFA]">
+                    {cat.label}
+                  </h3>
+                  <p className="text-sm text-[#A1A1AA] mt-2 leading-relaxed">{cat.tagline}</p>
+                  <div className="mt-5 inline-flex items-center gap-1 text-xs text-[#A1A1AA] group-hover:gap-2 transition-all">
+                    Explore
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom strip — pricing CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#27272A] bg-[#0A0A0C]/60 px-6 py-5"
+          >
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[#71717A]">
+              <span className="text-[#FAFAFA]">22 AI &amp; automation offers</span>
+              <span aria-hidden>·</span>
+              <span>9 productized tiers</span>
+              <span aria-hidden>·</span>
+              <span>3 care retainers</span>
+              <span aria-hidden>·</span>
+              <span className="text-[#06B6D4]">99+ ways to engage</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                asChild
+                size="sm"
+                variant="ghost"
+                className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
+              >
+                <Link href="/pricing">Full price menu</Link>
+              </Button>
+              <Button
+                asChild
+                size="sm"
+                className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
+              >
+                <Link href="/contact?engagement=custom">
+                  Custom scope
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Link>
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>

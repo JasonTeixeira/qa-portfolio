@@ -9,6 +9,8 @@ import { ArrowRight, Calendar, CheckCircle2, Clock, Loader2, MessageSquare, Rock
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
+import { extendedTiersBySlug } from '@/data/services/extended'
+import { tiersBySlug, careTiers } from '@/data/services/tiers'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -69,11 +71,83 @@ function readType(raw: string | null): EngagementType {
   return 'studio'
 }
 
+// Map engagement slug → default tab + prefilled context.
+// Sources: extendedTiersBySlug (22 AI/automation services), tiersBySlug (9 productized),
+// careTiers (3 retainers), plus custom keywords.
+function resolveEngagementContext(slug: string | null): {
+  type: EngagementType
+  prefill: string
+  badge?: string
+} | null {
+  if (!slug) return null
+  const ext = extendedTiersBySlug[slug]
+  if (ext) {
+    const isRetainer = ext.category === 'retainers'
+    const isDiagnostic = ext.category === 'diagnostics'
+    const type: EngagementType = isRetainer
+      ? 'studio'
+      : isDiagnostic
+        ? 'consult'
+        : 'project'
+    return {
+      type,
+      badge: ext.name,
+      prefill: `Interested in: ${ext.name} (${ext.price}). \n\nContext: `,
+    }
+  }
+  const prod = tiersBySlug[slug]
+  if (prod) {
+    return {
+      type: 'project',
+      badge: prod.name,
+      prefill: `Interested in: ${prod.name} (${prod.price}). \n\nContext: `,
+    }
+  }
+  const care = careTiers.find((t) => t.slug === slug)
+  if (care) {
+    return {
+      type: 'studio',
+      badge: care.name,
+      prefill: `Interested in: ${care.name} (${care.price}/mo). \n\nContext: `,
+    }
+  }
+  if (slug === 'custom' || slug === 'bespoke-build') {
+    return {
+      type: 'project',
+      badge: 'Custom scope',
+      prefill:
+        'Looking for a custom-scoped engagement. \n\nWhat we need: ',
+    }
+  }
+  if (slug === 'studio-package') {
+    return {
+      type: 'studio',
+      badge: 'Studio Package',
+      prefill:
+        'Interested in the Studio Package (90-day DFY + 6-month retainer, from $45k). \n\nContext: ',
+    }
+  }
+  return null
+}
+
 function ContactInner() {
   const params = useSearchParams()
-  const initialType = useMemo(() => readType(params.get('type')), [params])
-  const initialSource = useMemo(() => params.get('source') || '', [params])
-  const initialPrefill = useMemo(() => params.get('prefill') || '', [params])
+  const engagementCtx = useMemo(
+    () => resolveEngagementContext(params.get('engagement')),
+    [params]
+  )
+  const initialType = useMemo(
+    () => engagementCtx?.type ?? readType(params.get('type')),
+    [engagementCtx, params]
+  )
+  const initialSource = useMemo(
+    () => params.get('source') || (engagementCtx ? `engagement:${params.get('engagement')}` : ''),
+    [engagementCtx, params]
+  )
+  const initialPrefill = useMemo(
+    () => engagementCtx?.prefill || params.get('prefill') || '',
+    [engagementCtx, params]
+  )
 
   const [engagementType, setEngagementType] = useState<EngagementType>(initialType)
   const [name, setName] = useState('')
@@ -91,6 +165,11 @@ function ContactInner() {
   useEffect(() => {
     setEngagementType(initialType)
   }, [initialType])
+
+  useEffect(() => {
+    if (initialPrefill && !scope) setScope(initialPrefill)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPrefill])
 
   // Reset budget when type changes if current value isn't valid
   useEffect(() => {
@@ -183,6 +262,14 @@ function ContactInner() {
             Pick the engagement type that fits. The more specific you are about scope and timeline, the faster the
             reply — and the better the fit assessment.
           </p>
+          {engagementCtx?.badge && (
+            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/30">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#06B6D4]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#06B6D4]">
+                Pre-selected: {engagementCtx.badge}
+              </span>
+            </div>
+          )}
         </motion.div>
       </section>
 

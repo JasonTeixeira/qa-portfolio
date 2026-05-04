@@ -5,23 +5,52 @@ import { tiersOrdered, careTiers } from '@/data/services/tiers'
 import { SectionLabel } from '@/components/section-label'
 import { Button } from '@/components/ui/button'
 import { ServicesGrid } from './services-grid'
-import { RefreshCw, Sparkles } from 'lucide-react'
+import { ExtendedCatalog, ExtendedCategoryNav } from './extended-catalog'
+import { RefreshCw, Sparkles, Layers, FlaskConical } from 'lucide-react'
+
+// Evidence pulled from real Lab products / Work case studies. No fabricated metrics.
+const evidenceItems = [
+  {
+    category: 'AI services',
+    title: 'Nexural — GPT-4 Discord assistant in production',
+    body: 'Real-time fintech platform with an LLM-backed Discord bot answering portfolio queries. 200+ AI queries per week, 0 billing incidents, 61 test suites covering the AI surface.',
+    tags: ['GPT-4', 'Discord API', 'Stripe', '185 DB tables'],
+    href: '/lab/nexural',
+    accent: '#06B6D4',
+  },
+  {
+    category: 'Customer-facing AI',
+    title: 'Jobpoise — citation-grounded generation, no hallucinations',
+    body: 'AI cover letters where every output traces to a source (resume bullet, JD requirement) via a structured citation layer. Three-tier Stripe billing, Chrome extension, Gmail integration.',
+    tags: ['OpenAI', 'Citations', 'Chrome MV2', 'Gmail OAuth'],
+    href: '/lab/jobpoise',
+    accent: '#F59E0B',
+  },
+  {
+    category: 'Automation pipelines',
+    title: 'AlphaStream — 200+ indicators, 5 ML models, automated signal pipeline',
+    body: 'End-to-end ML signal engine: data ingestion, feature engineering, training, evaluation, and signal output — all automated. The pattern behind our automation-pipeline offers.',
+    tags: ['Python', 'ML', 'CI/CD', 'Pipelines'],
+    href: '/lab/alphastream',
+    accent: '#8B5CF6',
+  },
+] as const
 
 const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Nine productized service tiers plus three monthly care retainers from Sage Ideas: fixed scope, fixed price, Stripe checkout. Strategy, web, automation, SEO, content, brand, product, and platform engagements from $750 to $9,500+. Custom packages always available.',
+    'Thirty-plus engagements from Sage Ideas: productized engineering and QA tiers, AI reliability audits, RAG and agent ops, automation pipelines, customer-facing AI products, productized retainers, diagnostic on-ramps, and a 90-day done-for-you bundle. Fixed scope, transparent pricing, custom welcome.',
   alternates: { canonical: `${SITE}/services` },
   openGraph: {
     title: 'Services',
-    description: 'Nine tiers, three retainers, custom packages on request. Fixed price. No asterisks.',
-    images: [{ url: '/og?title=Services&subtitle=Tiers%2C+retainers%2C+and+custom+packages.' }],
+    description: 'Engineering, QA, AI, and automation engagements. Fixed scope. Custom welcome.',
+    images: [{ url: '/og?title=Services&subtitle=Engineering%2C+AI%2C+automation%2C+and+retainers.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og?title=Services&subtitle=Tiers%2C+retainers%2C+and+custom+packages.'],
+    images: ['/og?title=Services&subtitle=Engineering%2C+AI%2C+automation%2C+and+retainers.'],
   },
 }
 
@@ -35,22 +64,29 @@ export default function ServicesPage() {
           <div className="max-w-3xl">
             <SectionLabel>Engagements</SectionLabel>
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
-              Tiers. Retainers.{' '}
+              Engineering. AI. Automation.{' '}
               <span className="text-[#06B6D4]">Custom welcome.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
-              Nine productized engagements with fixed scope and Stripe checkout. Three
-              monthly care retainers for ongoing upkeep. And every engagement can be
-              custom-scoped — retainers, hybrid packages, multi-month builds. No discovery
-              fee, no surprises.
+              Productized engagements with fixed scope. AI reliability audits, RAG and
+              agent ops, automation pipelines, customer-facing AI products, retainers,
+              diagnostic on-ramps, and full done-for-you bundles. Or scope something
+              custom — free 30-minute call, 48-hour proposal, no asterisks.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-[#71717A]">
               <Link
-                href="/capabilities"
+                href="#ai-and-automation"
                 className="inline-flex items-center gap-1.5 text-[#06B6D4] hover:text-[#0EA5E9] transition-colors font-medium"
               >
-                See the capability matrix
+                Jump to AI & Automation
                 <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <span className="text-[#3F3F46]">·</span>
+              <Link
+                href="/capabilities"
+                className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#06B6D4] transition-colors"
+              >
+                Capability matrix
               </Link>
               <span className="text-[#3F3F46]">·</span>
               <Link
@@ -71,9 +107,103 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Tier Grid */}
+      {/* Tier Grid — productized engagements with Stripe checkout */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-[#06B6D4]" />
+          <span className="text-xs font-mono uppercase tracking-widest text-[#06B6D4]">
+            Productized engagements
+          </span>
+        </div>
+        <h2 className="text-3xl font-bold text-[#FAFAFA] mb-3">Engineering & QA</h2>
+        <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+          Fixed scope, fixed price, Stripe checkout. The original Sage Ideas catalog —
+          strategy audits, marketing-site sprints, brand work, and platform builds.
+        </p>
         <ServicesGrid tiers={tiersOrdered} />
+      </section>
+
+      {/* AI & Automation — extended catalog */}
+      <section id="ai-and-automation" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 scroll-mt-24">
+        <div className="flex items-center gap-2 mb-3">
+          <Layers className="w-4 h-4 text-[#06B6D4]" />
+          <span className="text-xs font-mono uppercase tracking-widest text-[#06B6D4]">
+            AI & Automation
+          </span>
+        </div>
+        <h2 className="text-3xl font-bold text-[#FAFAFA] mb-3">
+          Twenty-two more ways we can help.
+        </h2>
+        <p className="text-[#A1A1AA] mb-6 max-w-2xl">
+          Six categories spanning AI reliability, automation pipelines, customer-facing
+          AI products, productized retainers, diagnostic on-ramps, and full done-for-you
+          bundles. Inquiry-first — every engagement is scoped before you commit.
+        </p>
+        <div className="mb-10">
+          <ExtendedCategoryNav />
+        </div>
+        <ExtendedCatalog />
+      </section>
+
+      {/* Evidence — real Lab + Work tied to new categories */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="flex items-center gap-2 mb-3">
+          <FlaskConical className="w-4 h-4 text-[#A1A1AA]" />
+          <span className="text-xs font-mono uppercase tracking-widest text-[#A1A1AA]">
+            Proof from the Lab
+          </span>
+        </div>
+        <h2 className="text-3xl font-bold text-[#FAFAFA] mb-3">
+          We ship these patterns ourselves first.
+        </h2>
+        <p className="text-[#A1A1AA] mb-8 max-w-2xl">
+          Every offer above is built on a pattern already running in production — in our Lab
+          or in shipped client work. Three concrete examples:
+        </p>
+        <div className="grid md:grid-cols-3 gap-4">
+          {evidenceItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group rounded-2xl border border-[#27272A] bg-[#0F0F12] p-6 hover:border-[#3F3F46] transition-colors flex flex-col"
+            >
+              <span
+                className="text-[10px] font-mono uppercase tracking-widest mb-3"
+                style={{ color: item.accent }}
+              >
+                {item.category}
+              </span>
+              <h3 className="text-lg font-semibold text-[#FAFAFA] leading-snug mb-2 group-hover:text-[#FAFAFA]">
+                {item.title}
+              </h3>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4 flex-1">{item.body}</p>
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {item.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-mono uppercase tracking-wider text-[#71717A] bg-[#0A0A0C] border border-[#27272A] rounded px-2 py-1"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <span
+                className="inline-flex items-center gap-1 text-xs font-mono group-hover:translate-x-0.5 transition-transform"
+                style={{ color: item.accent }}
+              >
+                See it in the Lab <ArrowRight className="w-3 h-3" />
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#71717A]">
+          <Link href="/lab" className="hover:text-[#06B6D4] transition-colors">
+            Browse the full Lab →
+          </Link>
+          <Link href="/work" className="hover:text-[#06B6D4] transition-colors">
+            Read client case studies →
+          </Link>
+        </div>
       </section>
 
       {/* Care retainers */}

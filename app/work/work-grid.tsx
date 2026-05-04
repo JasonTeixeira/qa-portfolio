@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
+import { Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 import { type CaseStudy } from '@/data/work/case-studies'
 
 const CATEGORIES = ['All', 'Fintech', 'AI/ML', 'Infrastructure', 'Product', 'DevTools'] as const
@@ -48,17 +49,14 @@ export function WorkGrid({ studies }: WorkGridProps) {
       </div>
 
       {/* Case study cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((study, i) => (
-          <motion.div
-            key={study.slug}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            whileHover={{ scale: 1.02 }}
-            className="transition-shadow duration-300 hover:shadow-[0_0_0_1px_rgba(6,182,212,0.45),0_24px_48px_-24px_rgba(6,182,212,0.35)] rounded-2xl"
-          >
+      <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" gap={0.05}>
+        {filtered.map((study) => (
+          <StaggerItem key={study.slug}>
+            <HoverGlow className="rounded-2xl h-full">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="transition-shadow duration-300 hover:shadow-[0_0_0_1px_rgba(6,182,212,0.45),0_24px_48px_-24px_rgba(6,182,212,0.35)] rounded-2xl h-full"
+            >
             <GlowCard className="h-full flex flex-col group overflow-hidden">
               {/* Thumbnail */}
               <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${gradients[study.category] ?? 'from-zinc-800/40 to-transparent'}`}>
@@ -138,9 +136,11 @@ export function WorkGrid({ studies }: WorkGridProps) {
                 </Link>
               </div>
             </GlowCard>
-          </motion.div>
+            </motion.div>
+            </HoverGlow>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
     </div>
   )
 }

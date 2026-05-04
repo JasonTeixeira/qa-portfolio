@@ -24,6 +24,7 @@ import { HeroMotionLayer } from '@/components/hero-motion-layer'
 import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
 import { ProductRotator, type RotatorItem } from '@/components/home/product-rotator'
+import { TypewriterLines, Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 
 const HERO_ROTATOR_ITEMS: RotatorItem[] = [
   {
@@ -292,11 +293,16 @@ export default function HomePage() {
               <div className="space-y-4">
                 <SectionLabel>Sage Ideas · Studio</SectionLabel>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-[#FAFAFA] leading-[1.05]">
-                  Production software,
-                  <br />
-                  <span className="text-[#06B6D4]">shipped</span> by the
-                  <br />
-                  person who scoped it.
+                  <TypewriterLines
+                    lines={[
+                      'I build AI systems.',
+                      'I ship them to production.',
+                      'I keep them healthy.',
+                    ]}
+                    speed={42}
+                    cursorChar="▌"
+                    lineClassName="block"
+                  />
                 </h1>
                 <p className="text-lg lg:text-xl text-[#A1A1AA] leading-relaxed max-w-2xl">
                   Sage Ideas is a one-person studio for founders who need it built right the
@@ -712,15 +718,10 @@ export default function HomePage() {
             </Link>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featuredWork.map((work, i) => (
-              <motion.div
-                key={work.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-              >
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-5" gap={0.05}>
+            {featuredWork.map((work) => (
+              <StaggerItem key={work.slug}>
+                <HoverGlow className="h-full rounded-2xl">
                 <Link href={`/work/${work.slug}`} className="group block h-full">
                   <GlowCard className="h-full p-6">
                     <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
@@ -744,9 +745,10 @@ export default function HomePage() {
                     </div>
                   </GlowCard>
                 </Link>
-              </motion.div>
+                </HoverGlow>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -1036,15 +1038,10 @@ export default function HomePage() {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {blogPosts.slice(0, 3).map((post, i) => (
-              <motion.div
-                key={post.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-              >
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {blogPosts.slice(0, 3).map((post) => (
+              <StaggerItem key={post.slug}>
+                <HoverGlow className="rounded-xl">
                 <Link
                   href={`/blog/${post.slug}`}
                   className="group block h-full rounded-xl border border-[#27272A] bg-[#0F0F12] p-6 hover:border-[#06B6D4]/40 transition-colors"
@@ -1068,9 +1065,10 @@ export default function HomePage() {
                     Read →
                   </div>
                 </Link>
-              </motion.div>
+                </HoverGlow>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

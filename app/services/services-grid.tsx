@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Check, Clock } from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
 import { GlowCard } from '@/components/glow-card'
+import { HoverGlow } from '@/components/motion'
 
 const cadenceLabel: Record<Tier['cadence'], string> = {
   'one-time': 'One-time',
@@ -23,6 +24,7 @@ export function ServicesGrid({ tiers }: { tiers: readonly Tier[] }) {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.07 }}
         >
+          <HoverGlow className="h-full rounded-2xl">
           <GlowCard
             glowColor={tier.highlight ? 'gradient' : 'cyan'}
             className={`h-full flex flex-col ${tier.highlight ? 'border-[#06B6D4]/40' : ''}`}
@@ -80,6 +82,7 @@ export function ServicesGrid({ tiers }: { tiers: readonly Tier[] }) {
               </Link>
             </div>
           </GlowCard>
+          </HoverGlow>
         </motion.div>
       ))}
     </div>

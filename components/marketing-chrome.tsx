@@ -4,6 +4,7 @@ import { Footer } from '@/components/footer';
 import { BackToTop } from '@/components/back-to-top';
 import { CommandPalette } from '@/components/command-palette';
 import { SkipToContent } from '@/components/skip-to-content';
+import { PageTransition } from '@/components/motion';
 
 /**
  * Renders the marketing site chrome (nav, footer, command palette) only
@@ -47,7 +48,7 @@ export async function MarketingChrome({
   // children -> wrap in <main>
   return (
     <main id="main-content" className="flex-1" tabIndex={-1}>
-      {children}
+      <PageTransition>{children}</PageTransition>
     </main>
   );
 }

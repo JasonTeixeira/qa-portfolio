@@ -30,6 +30,14 @@ export function ProductRotator({ items, intervalMs = 4000 }: ProductRotatorProps
     return () => window.clearInterval(id)
   }, [paused, total, intervalMs])
 
+  // Preload all rotator images so non-active slides don't flash blank on first display
+  useEffect(() => {
+    items.forEach((item) => {
+      const img = new window.Image()
+      img.src = item.src
+    })
+  }, [items])
+
   if (total === 0) return null
   const active = items[index]
 

@@ -51,7 +51,10 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound()
   }
 
-  const html = await renderMarkdownToHtml(post.fullContent || post.content)
+  // Strip leading H1 if it duplicates the page title (most posts start with `# Title`)
+  const rawMd = post.fullContent || post.content
+  const cleanedMd = rawMd.replace(/^\s*#\s+.+\n+/, '')
+  const html = await renderMarkdownToHtml(cleanedMd)
   const postUrl = `${SITE}/blog/${post.slug}`
 
   const jsonLd = {

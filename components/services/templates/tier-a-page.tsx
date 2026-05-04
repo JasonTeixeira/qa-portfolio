@@ -86,7 +86,7 @@ export function TierAPage({ tier }: { tier: Tier | ExtendedTier }) {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-[#FAFAFA]">{tier.price}</span>
-                {tier.cadence === 'monthly' && (
+                {tier.cadence === 'monthly' && !tier.price.includes('/mo') && (
                   <span className="text-[#71717A] text-sm">/mo</span>
                 )}
               </div>

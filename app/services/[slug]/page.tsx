@@ -39,7 +39,8 @@ export async function generateMetadata({
   const tier = resolveTier(slug)
   if (!tier) return { title: 'Not Found' }
 
-  const title = `${tier.name} — ${tier.price} | Sage Ideas`
+  // NOTE: layout title template appends ' — Sage Ideas' automatically
+  const title = `${tier.name} — ${tier.price}`
   const description = tier.description
   const ogTitle = encodeURIComponent(tier.name)
   const ogSubtitle = encodeURIComponent(tier.tagline)

@@ -78,9 +78,11 @@ export function ServicesGrid({ tiers }: { tiers: readonly (Tier | ExtendedTier)[
 
                   {/* Cadence + Timeline */}
                   <div className="flex items-center gap-2 mb-5 flex-wrap">
-                    <span className="text-xs font-mono text-[#71717A] bg-[#27272A] px-2 py-0.5 rounded">
-                      {cadenceLabel[tier.cadence]}
-                    </span>
+                    {!(tier.cadence === 'monthly' && tier.price.includes('/mo')) && (
+                      <span className="text-xs font-mono text-[#71717A] bg-[#27272A] px-2 py-0.5 rounded">
+                        {cadenceLabel[tier.cadence]}
+                      </span>
+                    )}
                     <span className="inline-flex items-center gap-1 text-xs text-[#71717A]">
                       <Clock className="w-3 h-3" />
                       {tier.timeline}

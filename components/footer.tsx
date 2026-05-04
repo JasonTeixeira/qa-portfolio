@@ -34,7 +34,10 @@ const studio = [
   { href: '/lab', label: 'The Lab' },
   { href: '/blog', label: 'Insights' },
   { href: '/how-it-works', label: 'How It Works' },
+  { href: '/studio', label: 'The Studio' },
   { href: '/founder', label: 'Founder' },
+  { href: '/process', label: 'Process' },
+  { href: '/trust', label: 'Trust' },
   { href: '/contact', label: 'Contact' },
 ]
 

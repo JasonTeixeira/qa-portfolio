@@ -27,6 +27,7 @@ import { AgentDashboardMockup } from '@/components/agents/agent-dashboard-mockup
 import { AgentCostEstimator } from '@/components/agents/agent-cost-estimator'
 import { VoiceAgentAudioCue } from '@/components/agents/voice-agent-audio-cue'
 import { FlagshipCompare } from '@/components/agents/flagship-compare'
+import { AgentFlowDiagrams } from '@/components/diagrams'
 
 const TRUST_BADGES = [
   {
@@ -440,6 +441,31 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
             ))}
           </div>
         </motion.section>
+
+        {/* Agent flow diagram */}
+        {AgentFlowDiagrams[tier.slug] && (
+          <motion.section
+            initial={fadeUp.initial}
+            whileInView={fadeUp.animate}
+            viewport={{ once: true }}
+            transition={fadeUp.transition}
+          >
+            <SectionLabel>Agent flow</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-2">
+              How the agent thinks
+            </h2>
+            <p className="text-[#A1A1AA] mb-6 max-w-2xl">
+              The decision graph behind the engagement. Inputs, branches, and the
+              point where a human stays in the loop.
+            </p>
+            <div className="rounded-2xl border border-[#27272A] bg-[#0F0F12] p-4 sm:p-6 overflow-hidden">
+              {(() => {
+                const Flow = AgentFlowDiagrams[tier.slug]
+                return Flow ? <Flow /> : null
+              })()}
+            </div>
+          </motion.section>
+        )}
 
         {/* Phases timeline */}
         {tier.phases.length > 0 && (

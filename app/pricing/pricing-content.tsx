@@ -453,7 +453,7 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
                   See the engagement <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/contact?engagement=studio-engagement"
+                  href="/contact?type=studio&source=pricing"
                   className="inline-flex items-center gap-2 border border-[#27272A] hover:border-[#FAFAFA]/40 text-[#FAFAFA] px-5 py-2.5 rounded-lg transition-colors"
                 >
                   Apply for a quarter
@@ -506,7 +506,7 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
             no asterisks.
           </p>
           <Link
-            href="/contact?engagement=custom"
+            href="/contact?type=project&source=pricing"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FAFAFA] hover:text-[#06B6D4] transition-colors"
           >
             Talk to Sage about custom scope <ArrowRight className="w-3.5 h-3.5" />

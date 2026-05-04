@@ -118,18 +118,18 @@ export default function BookPage() {
           ))}
         </div>
 
-        {/* Prefer email fallback */}
+        {/* Prefer typed intake */}
         <div className="mt-12 text-center">
-          <p className="text-[#71717A] text-sm mb-2">Prefer email?</p>
-          <a
-            href="mailto:sage@sageideas.dev?subject=Discovery Call"
+          <p className="text-[#71717A] text-sm mb-2">Prefer to write it out?</p>
+          <Link
+            href="/contact?type=consult&source=book"
             className="inline-flex items-center gap-1.5 text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors text-sm"
           >
-            sage@sageideas.dev
+            Send a structured inquiry
             <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
           <p className="text-[#71717A] text-xs mt-1">
-            Include &ldquo;Discovery Call&rdquo; in the subject line.
+            Same inbox, faster routing.
           </p>
         </div>
       </section>

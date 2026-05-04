@@ -363,9 +363,9 @@ export function FounderAnimations({ capabilities, principles }: Props) {
             {
               step: '01',
               title: 'Send a quick note',
-              body: 'Email sage@sageideas.dev with a short description of what you are working on, where it is stuck, and what success would look like. Most replies land within 48 business hours.',
+              body: 'Send a structured inquiry — what you are working on, where it is stuck, what success would look like. Most replies land within 48 business hours.',
               cta: 'Send a message',
-              href: 'mailto:sage@sageideas.dev',
+              href: '/contact?source=founder',
               external: false,
               icon: Mail,
             },
@@ -425,10 +425,10 @@ export function FounderAnimations({ capabilities, principles }: Props) {
               asChild
               className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold"
             >
-              <a href="mailto:sage@sageideas.dev">
+              <Link href="/contact?source=founder-footer">
                 <Mail className="mr-2 h-4 w-4" />
-                Email directly
-              </a>
+                Send an inquiry
+              </Link>
             </Button>
             <Button
               asChild

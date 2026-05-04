@@ -90,17 +90,17 @@ function ManualBookingFallback() {
         Schedule directly with the founder
       </h3>
       <p className="mt-3 text-[#A1A1AA] text-sm leading-relaxed max-w-md mx-auto">
-        Send a short email — a few sentences about your project, your timeline,
-        and your preferred days. You&apos;ll have three call options within{' '}
+        Fill out a short structured inquiry — project, timeline, preferred days.
+        You&apos;ll have three call options within{' '}
         <span className="text-[#FAFAFA] font-semibold">2 business hours</span>.
       </p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <Link
-          href="mailto:sage@sageideas.dev?subject=Discovery%20Call%20Request&body=Project:%0A%0ATimeline:%0A%0APreferred%20days/times:%0A%0ABudget%20range:%0A%0AAnything%20else:"
+          href="/contact?type=consult&source=cal-embed"
           className="inline-flex items-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-semibold py-3 px-6 rounded-lg transition-colors"
         >
           <Mail className="h-4 w-4" />
-          Email sage@sageideas.dev
+          Request a call
           <ArrowRight className="h-4 w-4" />
         </Link>
         <Link

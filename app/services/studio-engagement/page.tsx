@@ -152,7 +152,7 @@ export default function StudioEngagementPage() {
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
-              href="/contact?engagement=studio-engagement"
+              href="/contact?type=studio&source=studio-engagement"
               className="inline-flex items-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
             >
               Apply for a quarter
@@ -350,7 +350,7 @@ export default function StudioEngagementPage() {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/contact?engagement=studio-engagement"
+              href="/contact?type=studio&source=studio-engagement"
               className="inline-flex items-center justify-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
             >
               Apply for a quarter <ArrowRight className="w-4 h-4" />

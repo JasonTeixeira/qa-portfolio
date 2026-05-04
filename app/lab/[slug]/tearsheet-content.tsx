@@ -180,10 +180,10 @@ export function TearsheetContent({ product }: Props) {
               </p>
             </div>
             <Link
-              href="mailto:sage@sageideas.dev"
+              href="/contact?type=project&source=lab"
               className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#06B6D4] text-[#09090B] font-semibold text-sm hover:bg-[#06B6D4]/90 transition-colors"
             >
-              sage@sageideas.dev <ArrowRight className="w-4 h-4" />
+              Start a project <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </motion.section>

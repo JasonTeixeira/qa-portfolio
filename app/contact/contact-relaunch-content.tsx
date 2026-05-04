@@ -1,8 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import { Suspense, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Mail, Calendar, UserCheck, ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, Calendar, CheckCircle2, Loader2, UserCheck } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
@@ -14,118 +16,445 @@ const fadeInUp = {
   transition: { duration: 0.5 },
 }
 
-const cards = [
-  {
-    icon: Mail,
-    label: 'Email',
-    title: 'Drop a direct message',
-    body: 'For project inquiries, questions about the studio, or anything you want to discuss directly. Well-matched inquiries get a response within 48 hours.',
-    cta: 'sage@sageideas.dev',
-    href: 'mailto:sage@sageideas.dev',
-    external: false,
-    accent: 'cyan' as const,
-  },
-  {
-    icon: Calendar,
-    label: 'Book',
-    title: 'Schedule a strategy call',
-    body: 'Book a 30-minute strategy call to talk through your project, timeline, and which engagement tier fits best. No pitch, no pressure — just an honest conversation.',
-    cta: 'Book a call',
-    href: '/book',
-    external: false,
-    accent: 'cyan' as const,
-  },
-  {
-    icon: UserCheck,
-    label: 'Founder',
-    title: 'Meet the founder',
-    body: "Want to understand who's behind every Sage Ideas engagement? The founder page covers background, capabilities, certifications, and how the studio operates — all in one place.",
-    cta: 'Visit founder page',
-    href: '/founder',
-    external: false,
-    accent: 'violet' as const,
-  },
+type EngagementType = 'studio' | 'project' | 'consult'
+
+const TYPE_TABS: { value: EngagementType; label: string; tagline: string }[] = [
+  { value: 'studio', label: 'Studio Engagement', tagline: 'Embedded — months, not days' },
+  { value: 'project', label: 'Project', tagline: 'Scoped delivery with a fixed outcome' },
+  { value: 'consult', label: 'Consult', tagline: 'A focused call or short review' },
 ]
 
-export function ContactRelaunchContent() {
+const TIMELINE_OPTS = [
+  { value: 'asap', label: 'ASAP — within 2 weeks' },
+  { value: '2-4w', label: '2–4 weeks out' },
+  { value: '1-2m', label: '1–2 months out' },
+  { value: '3m+', label: '3+ months out' },
+  { value: 'exploring', label: 'Just exploring' },
+]
+
+const BUDGET_OPTS: Record<EngagementType, { value: string; label: string }[]> = {
+  studio: [
+    { value: '25-50k', label: '$25–50k / month' },
+    { value: '50-100k', label: '$50–100k / month' },
+    { value: '100k+', label: '$100k+ / month' },
+    { value: 'unsure', label: 'Not sure yet' },
+  ],
+  project: [
+    { value: '<10k', label: 'Under $10k' },
+    { value: '10-25k', label: '$10–25k' },
+    { value: '25-50k', label: '$25–50k' },
+    { value: '50-100k', label: '$50–100k' },
+    { value: '100k+', label: '$100k+' },
+    { value: 'unsure', label: 'Not sure yet' },
+  ],
+  consult: [
+    { value: '<10k', label: 'Under $10k' },
+    { value: '10-25k', label: '$10–25k' },
+    { value: 'unsure', label: 'Not sure yet' },
+  ],
+}
+
+const PLACEHOLDERS: Record<EngagementType, string> = {
+  studio:
+    'What product or platform are you running, what does the team look like, and what would success in the first 90 days look like?',
+  project:
+    'What needs to ship, what does "done" look like, and what existing systems or constraints matter?',
+  consult:
+    'What decision are you trying to make, what have you already tried, and what would a useful 30 minutes give you?',
+}
+
+function readType(raw: string | null): EngagementType {
+  if (raw === 'project' || raw === 'consult') return raw
+  return 'studio'
+}
+
+function ContactInner() {
+  const params = useSearchParams()
+  const initialType = useMemo(() => readType(params.get('type')), [params])
+  const initialSource = useMemo(() => params.get('source') || '', [params])
+  const initialPrefill = useMemo(() => params.get('prefill') || '', [params])
+
+  const [engagementType, setEngagementType] = useState<EngagementType>(initialType)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [company, setCompany] = useState('')
+  const [role, setRole] = useState('')
+  const [timeline, setTimeline] = useState('')
+  const [budget, setBudget] = useState('')
+  const [scope, setScope] = useState(initialPrefill)
+  const [honey, setHoney] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    setEngagementType(initialType)
+  }, [initialType])
+
+  // Reset budget when type changes if current value isn't valid
+  useEffect(() => {
+    const allowed = BUDGET_OPTS[engagementType].map((b) => b.value)
+    if (budget && !allowed.includes(budget)) setBudget('')
+  }, [engagementType, budget])
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError(null)
+
+    if (!name.trim() || name.trim().length < 2) return setError('Name is required.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Enter a valid email.')
+    if (!scope.trim() || scope.trim().length < 20)
+      return setError('Tell us a bit more about scope (20+ characters).')
+
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          engagement_type: engagementType,
+          name: name.trim(),
+          email: email.trim(),
+          company: company.trim(),
+          role: role.trim(),
+          timeline,
+          budget_band: budget,
+          scope: scope.trim(),
+          source: initialSource,
+          referrer: typeof document !== 'undefined' ? document.referrer : '',
+          honey,
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setError(data?.error || 'Something went wrong. Try again or email sage@sageideas.dev.')
+      } else {
+        setSubmitted(true)
+      }
+    } catch {
+      setError('Network error. Try again or email sage@sageideas.dev.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-[#09090B]">
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 mb-6">
+              <CheckCircle2 className="h-4 w-4 text-[#10B981]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-[#10B981]">Inquiry received</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-[#FAFAFA] leading-tight">Got it. Check your inbox.</h1>
+            <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed">
+              A confirmation just landed at <span className="text-[#FAFAFA] font-mono">{email}</span>. Every inquiry is
+              read personally — well-matched ones get a response within 48 hours.
+            </p>
+            <p className="mt-3 text-sm text-[#71717A]">
+              No match? You'll still hear back. We don't ghost.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Button asChild className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold">
+                <Link href="/work">See recent work</Link>
+              </Button>
+              <Button asChild variant="outline" className="border-[#27272A] text-[#FAFAFA] hover:bg-[#18181B]">
+                <Link href="/process">How engagements run</Link>
+              </Button>
+            </div>
+          </motion.div>
+        </section>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#09090B]">
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <motion.div {...fadeInUp} className="max-w-2xl">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <motion.div {...fadeInUp} className="max-w-3xl">
           <SectionLabel>Contact</SectionLabel>
           <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-bold text-[#FAFAFA] leading-tight">
-            Get in touch.
+            Start a conversation.
           </h1>
           <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed">
-            Three ways to reach Sage Ideas — pick the one that fits your situation.
+            Pick the engagement type that fits. The more specific you are about scope and timeline, the faster the
+            reply — and the better the fit assessment.
           </p>
         </motion.div>
       </section>
 
-      {/* Three-column card grid */}
-      <section className="bg-[#0F0F12] border-y border-[#27272A]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid md:grid-cols-3 gap-6">
-            {cards.map((card, i) => (
-              <motion.div
-                key={card.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="h-full"
+      {/* Type tabs */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="grid sm:grid-cols-3 gap-3">
+          {TYPE_TABS.map((tab) => {
+            const active = engagementType === tab.value
+            return (
+              <button
+                key={tab.value}
+                type="button"
+                onClick={() => setEngagementType(tab.value)}
+                className={[
+                  'text-left rounded-xl border p-5 transition',
+                  active
+                    ? 'border-[#06B6D4] bg-[#06B6D4]/[0.06] ring-1 ring-[#06B6D4]/40'
+                    : 'border-[#27272A] bg-[#0F0F12] hover:border-[#3F3F46]',
+                ].join(' ')}
               >
-                <GlowCard glowColor={card.accent} className="h-full">
-                  <div className="p-8 flex flex-col h-full">
-                    <div className="p-3 bg-[#06B6D4]/10 rounded-xl w-fit mb-6">
-                      <card.icon className="h-6 w-6 text-[#06B6D4]" />
-                    </div>
-                    <div className="mb-2">
-                      <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">{card.label}</span>
-                    </div>
-                    <h2 className="text-xl font-semibold text-[#FAFAFA] mb-3">{card.title}</h2>
-                    <p className="text-[#A1A1AA] text-sm leading-relaxed flex-1 mb-8">{card.body}</p>
-                    <Button
-                      asChild
-                      className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold w-full"
-                    >
-                      <Link href={card.href}>
-                        {card.cta}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            ))}
-          </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span
+                    className={[
+                      'h-2 w-2 rounded-full',
+                      active ? 'bg-[#06B6D4]' : 'bg-[#3F3F46]',
+                    ].join(' ')}
+                  />
+                  <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">{tab.value}</span>
+                </div>
+                <div className="text-base font-semibold text-[#FAFAFA]">{tab.label}</div>
+                <div className="mt-1 text-sm text-[#A1A1AA]">{tab.tagline}</div>
+              </button>
+            )
+          })}
         </div>
       </section>
 
-      {/* Privacy notice */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl"
-        >
-          <p className="text-sm text-[#71717A] leading-relaxed">
-            Any information you share with Sage Ideas is handled per our{' '}
-            <Link href="/legal/privacy" className="text-[#06B6D4] hover:text-[#22D3EE] underline underline-offset-2">
-              Privacy Policy
-            </Link>
-            . We collect only what we need to respond to your inquiry and never sell personal information to third parties.
-            For questions about your data, contact{' '}
-            <a href="mailto:sage@sageideas.dev" className="text-[#06B6D4] hover:text-[#22D3EE]">
-              sage@sageideas.dev
-            </a>
-            .
-          </p>
-        </motion.div>
+      {/* Form + sidebar */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="grid lg:grid-cols-[1fr_360px] gap-8">
+          <GlowCard glowColor="cyan" className="">
+            <form onSubmit={onSubmit} className="p-6 sm:p-8 space-y-6">
+              {/* Honeypot */}
+              <input
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honey}
+                onChange={(e) => setHoney(e.target.value)}
+                className="hidden"
+                aria-hidden="true"
+              />
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="Name" required>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your full name"
+                    className={inputClass}
+                    required
+                    maxLength={120}
+                  />
+                </Field>
+                <Field label="Email" required>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    className={inputClass}
+                    required
+                    maxLength={200}
+                  />
+                </Field>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="Company">
+                  <input
+                    type="text"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    placeholder="Acme Inc."
+                    className={inputClass}
+                    maxLength={200}
+                  />
+                </Field>
+                <Field label="Role">
+                  <input
+                    type="text"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    placeholder="CTO, Head of Eng, Founder…"
+                    className={inputClass}
+                    maxLength={120}
+                  />
+                </Field>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="Timeline">
+                  <select
+                    value={timeline}
+                    onChange={(e) => setTimeline(e.target.value)}
+                    className={selectClass}
+                  >
+                    <option value="">Select timeline…</option>
+                    {TIMELINE_OPTS.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Budget band">
+                  <select value={budget} onChange={(e) => setBudget(e.target.value)} className={selectClass}>
+                    <option value="">Select budget…</option>
+                    {BUDGET_OPTS[engagementType].map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </div>
+
+              <Field label="Scope" required hint="Be specific. The more detail, the faster the reply.">
+                <textarea
+                  value={scope}
+                  onChange={(e) => setScope(e.target.value)}
+                  placeholder={PLACEHOLDERS[engagementType]}
+                  rows={6}
+                  className={`${inputClass} font-sans resize-y min-h-[140px]`}
+                  required
+                  maxLength={5000}
+                />
+                <div className="mt-1.5 text-xs text-[#52525B] font-mono">
+                  {scope.length}/5000
+                </div>
+              </Field>
+
+              {error && (
+                <div className="rounded-lg border border-[#EF4444]/40 bg-[#EF4444]/[0.06] px-4 py-3 text-sm text-[#FCA5A5]">
+                  {error}
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold w-full sm:w-auto"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending…
+                    </>
+                  ) : (
+                    <>
+                      Send inquiry <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+                <p className="text-xs text-[#71717A]">
+                  We respond to well-matched inquiries within 48 hours.
+                </p>
+              </div>
+            </form>
+          </GlowCard>
+
+          {/* Sidebar */}
+          <aside className="space-y-4">
+            <SidebarCard
+              icon={Calendar}
+              label="Book"
+              title="Prefer a call?"
+              body="Skip the form and book a 30-minute strategy call. No pitch, no pressure."
+              href="/book"
+              cta="Book a call"
+            />
+            <SidebarCard
+              icon={UserCheck}
+              label="Founder"
+              title="Who you're talking to"
+              body="One operator. Twelve years of platform engineering. Read the founder page first if it helps."
+              href="/founder"
+              cta="Visit founder page"
+            />
+            <div className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5">
+              <div className="text-xs font-mono uppercase tracking-widest text-[#71717A] mb-2">Privacy</div>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed">
+                Your info is handled per our{' '}
+                <Link href="/legal/privacy" className="text-[#06B6D4] hover:text-[#22D3EE] underline underline-offset-2">
+                  Privacy Policy
+                </Link>
+                . We collect only what we need to respond and never sell personal data.
+              </p>
+            </div>
+          </aside>
+        </div>
       </section>
     </div>
+  )
+}
+
+const inputClass =
+  'w-full rounded-lg border border-[#27272A] bg-[#0A0A0C] px-4 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#06B6D4] focus:outline-none focus:ring-1 focus:ring-[#06B6D4] transition'
+const selectClass = `${inputClass} appearance-none cursor-pointer pr-10`
+
+function Field({
+  label,
+  required,
+  hint,
+  children,
+}: {
+  label: string
+  required?: boolean
+  hint?: string
+  children: React.ReactNode
+}) {
+  return (
+    <label className="block">
+      <div className="flex items-center gap-2 mb-1.5">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#A1A1AA]">{label}</span>
+        {required && <span className="text-xs font-mono text-[#06B6D4]">required</span>}
+      </div>
+      {children}
+      {hint && <div className="mt-1.5 text-xs text-[#71717A]">{hint}</div>}
+    </label>
+  )
+}
+
+function SidebarCard({
+  icon: Icon,
+  label,
+  title,
+  body,
+  href,
+  cta,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  title: string
+  body: string
+  href: string
+  cta: string
+}) {
+  return (
+    <div className="rounded-xl border border-[#27272A] bg-[#0F0F12] p-5">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="p-2 bg-[#06B6D4]/10 rounded-lg">
+          <Icon className="h-4 w-4 text-[#06B6D4]" />
+        </div>
+        <span className="text-xs font-mono uppercase tracking-widest text-[#71717A]">{label}</span>
+      </div>
+      <div className="text-base font-semibold text-[#FAFAFA] mb-2">{title}</div>
+      <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">{body}</p>
+      <Link
+        href={href}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#06B6D4] hover:text-[#22D3EE]"
+      >
+        {cta} <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
+    </div>
+  )
+}
+
+export function ContactRelaunchContent() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#09090B]" />}>
+      <ContactInner />
+    </Suspense>
   )
 }

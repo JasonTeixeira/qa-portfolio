@@ -18,19 +18,19 @@ import {
 import { cn } from '@/lib/utils';
 
 const clientNav: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/engagements', label: 'Engagements', icon: Briefcase },
-  { href: '/documents', label: 'Documents', icon: FileSignature },
-  { href: '/messages', label: 'Messages', icon: MessageSquare },
-  { href: '/billing', label: 'Billing', icon: Receipt },
-  { href: '/catalog', label: 'Add Services', icon: Sparkles },
+  { href: '/portal/home', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/portal/engagements', label: 'Engagements', icon: Briefcase },
+  { href: '/portal/documents', label: 'Documents', icon: FileSignature },
+  { href: '/portal/messages', label: 'Messages', icon: MessageSquare },
+  { href: '/portal/billing', label: 'Billing', icon: Receipt },
+  { href: '/portal/catalog', label: 'Add Services', icon: Sparkles },
 ];
 
 const adminNav: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: '/admin', label: 'Admin · Pipeline', icon: ShieldCheck },
-  { href: '/admin/clients', label: 'Clients', icon: Users },
-  { href: '/admin/activity', label: 'Activity', icon: Activity },
-  { href: '/admin/settings', label: 'Settings', icon: Settings2 },
+  { href: '/portal/admin', label: 'Admin · Pipeline', icon: ShieldCheck },
+  { href: '/portal/admin/clients', label: 'Clients', icon: Users },
+  { href: '/portal/admin/activity', label: 'Activity', icon: Activity },
+  { href: '/portal/admin/settings', label: 'Settings', icon: Settings2 },
 ];
 
 function SageLogo() {
@@ -124,8 +124,8 @@ export function Sidebar({ isAdmin = false, orgName }: { isAdmin?: boolean; orgNa
         />
         <div className="min-w-0">
           <div className="text-xs text-[#a1a1aa]">Signed in</div>
-          <Link href="/account" className="text-xs text-[#06b6d4] hover:text-[#22d3ee]">
-            Account settings
+          <Link href="/portal/home" className="text-xs text-[#06b6d4] hover:text-[#22d3ee]">
+            Account
           </Link>
         </div>
       </div>

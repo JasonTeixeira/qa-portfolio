@@ -1,40 +1,36 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const STUDIO_HOST = 'studio.sageideas.dev';
-
-// Public routes within the studio namespace
-const isPublicStudioRoute = createRouteMatcher([
-  '/studio/login(.*)',
-  '/studio/api/portal/health',
-  '/studio/api/portal/webhooks(.*)',
+// Routes that need Clerk context but are publicly accessible
+const isPublicPortalRoute = createRouteMatcher([
+  '/login(.*)',
+  '/api/portal/health',
+  '/api/portal/webhooks(.*)',
 ]);
 
-// Pre-pass that rewrites studio.sageideas.dev/* -> /studio/* internally
-// so the URL bar stays clean while the file system uses /app/studio/*.
-// Also sets x-portal header so server components can detect portal context.
-function rewriteStudioHost(req: NextRequest) {
-  const host = req.headers.get('host') || '';
-  const url = req.nextUrl.clone();
+// All routes that should hide marketing chrome (nav/footer)
+const isPortalChromeRoute = createRouteMatcher([
+  '/login(.*)',
+  '/portal(.*)',
+]);
 
-  if (host === STUDIO_HOST && !url.pathname.startsWith('/studio')) {
-    url.pathname = `/studio${url.pathname}`;
+// Auth-gated portal routes
+const isProtectedPortalRoute = createRouteMatcher([
+  '/portal(.*)',
+]);
+
+export default clerkMiddleware(async (auth, req: NextRequest) => {
+  // Tag portal/login routes with header so server components can hide chrome
+  if (isPortalChromeRoute(req)) {
     const requestHeaders = new Headers(req.headers);
     requestHeaders.set('x-portal', '1');
-    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-  }
-  return null;
-}
 
-export default clerkMiddleware(async (auth, req) => {
-  // 1) Host rewrite for studio.sageideas.dev
-  const rewrite = rewriteStudioHost(req);
-  if (rewrite) return rewrite;
+    // Auth-gate /portal/*
+    if (isProtectedPortalRoute(req) && !isPublicPortalRoute(req)) {
+      await auth.protect();
+    }
 
-  // 2) Auth gate for /studio/* (except public routes)
-  const path = req.nextUrl.pathname;
-  if (path.startsWith('/studio') && !isPublicStudioRoute(req)) {
-    await auth.protect();
+    return NextResponse.next({ request: { headers: requestHeaders } });
   }
 });
 

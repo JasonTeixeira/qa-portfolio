@@ -7,10 +7,10 @@ import { SkipToContent } from '@/components/skip-to-content';
 
 /**
  * Renders the marketing site chrome (nav, footer, command palette) only
- * on non-portal routes. The /studio/* namespace has its own sidebar layout.
+ * on non-portal routes. The /portal/* and /login routes have their own
+ * layouts.
  *
- * Detection: read host header server-side. Portal is served from
- * studio.sageideas.dev OR via /studio/* paths on the marketing host.
+ * Detection: middleware sets x-portal: 1 on portal/login routes.
  */
 export async function MarketingChrome({
   position,
@@ -20,8 +20,7 @@ export async function MarketingChrome({
   children?: React.ReactNode;
 }) {
   const h = await headers();
-  const isPortal =
-    h.get('x-portal') === '1' || h.get('host') === 'studio.sageideas.dev';
+  const isPortal = h.get('x-portal') === '1';
 
   if (isPortal) {
     if (position === 'children') return <>{children}</>;

@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Menu, X, Github, Linkedin, FileDown } from 'lucide-react'
+import { Menu, X, Github, Linkedin, FileDown, LogIn, LayoutDashboard } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { CommandPaletteHint } from '@/components/command-palette'
 import { cn } from '@/lib/utils'
@@ -125,6 +126,38 @@ export function Navigation() {
                 Resume
               </Link>
             </Button>
+
+            <SignedOut>
+              <Button
+                asChild
+                size="sm"
+                className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium ml-1"
+              >
+                <Link href="/login">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Client Login
+                </Link>
+              </Button>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                asChild
+                size="sm"
+                className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium ml-1"
+              >
+                <Link href="/portal/home">
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  Portal
+                </Link>
+              </Button>
+              <div className="ml-2">
+                <UserButton
+                  appearance={{
+                    elements: { avatarBox: 'w-8 h-8 ring-1 ring-[#3F3F46]' },
+                  }}
+                />
+              </div>
+            </SignedIn>
           </div>
 
           {/* Mobile Menu Button */}
@@ -250,6 +283,38 @@ export function Navigation() {
                       Resume
                     </Link>
                   </Button>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="px-4 pt-2"
+                >
+                  <SignedOut>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
+                    >
+                      <Link href="/login">
+                        <LogIn className="h-4 w-4 mr-2" />
+                        Client Login
+                      </Link>
+                    </Button>
+                  </SignedOut>
+                  <SignedIn>
+                    <Button
+                      asChild
+                      size="sm"
+                      className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
+                    >
+                      <Link href="/portal/home">
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Portal
+                      </Link>
+                    </Button>
+                  </SignedIn>
                 </motion.div>
               </div>
             </motion.div>

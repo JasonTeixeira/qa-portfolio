@@ -110,6 +110,6 @@ export async function getPortalContext(): Promise<PortalContext> {
 
 export async function requireAdmin(): Promise<PortalContext> {
   const ctx = await getPortalContext();
-  if (!ctx.isAdmin) redirect('/dashboard');
+  if (!ctx.isAdmin) redirect('/portal/home');
   return ctx;
 }

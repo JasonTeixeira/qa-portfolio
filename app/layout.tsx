@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
 import './globals.css'
 import { MarketingChrome } from '@/components/marketing-chrome'
 
@@ -66,6 +68,25 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#06b6d4',
+          colorBackground: '#0f0f12',
+          colorInputBackground: '#18181b',
+          colorInputText: '#fafafa',
+          colorText: '#fafafa',
+          colorTextSecondary: '#a1a1aa',
+          borderRadius: '0.75rem',
+        },
+        elements: {
+          card: 'bg-[#0f0f12] border border-[#27272a]',
+          formButtonPrimary:
+            'bg-[#06b6d4] hover:bg-[#0891b2] text-[#09090b] font-medium',
+        },
+      }}
+    >
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${jetbrainsMono.variable} bg-[#09090B]`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <MarketingChrome position="top" />
@@ -138,5 +159,6 @@ export default function RootLayout({
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
+    </ClerkProvider>
   )
 }

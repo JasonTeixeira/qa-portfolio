@@ -71,7 +71,7 @@ export default function LoginPage() {
           <SignIn
             routing="hash"
             signUpUrl="/login"
-            fallbackRedirectUrl="/dashboard"
+            fallbackRedirectUrl="/portal/home"
             appearance={{
               elements: {
                 rootBox: 'mx-auto',

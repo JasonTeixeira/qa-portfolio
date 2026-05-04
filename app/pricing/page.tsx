@@ -1,8 +1,29 @@
 import type { Metadata } from 'next'
 import { tiersOrdered } from '@/data/services/tiers'
+import { pricingFaq } from '@/data/services/pricing-faq'
 import { PricingContent } from './pricing-content'
+import { JsonLd } from '@/components/json-ld'
 
 const SITE = 'https://sageideas.dev'
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: pricingFaq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+    { '@type': 'ListItem', position: 2, name: 'Pricing', item: `${SITE}/pricing` },
+  ],
+}
 
 export const metadata: Metadata = {
   title: 'Pricing — Sage Ideas',
@@ -21,5 +42,10 @@ export const metadata: Metadata = {
 }
 
 export default function PricingPage() {
-  return <PricingContent tiers={tiersOrdered} />
+  return (
+    <>
+      <JsonLd data={[faqSchema, breadcrumbSchema]} />
+      <PricingContent tiers={tiersOrdered} />
+    </>
+  )
 }

@@ -3,8 +3,48 @@ import Link from 'next/link'
 import { ArrowRight, Check, Lock, Calendar, FileLock } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { HeroMotionLayer } from '@/components/hero-motion-layer'
+import { JsonLd } from '@/components/json-ld'
 
 const SITE = 'https://sageideas.dev'
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Studio Engagement',
+  url: `${SITE}/services/studio-engagement`,
+  provider: {
+    '@type': 'Organization',
+    name: 'Sage Ideas LLC',
+    url: SITE,
+  },
+  description:
+    'Quarterly embedded studio engagement for founders shipping production fintech, AI-native, or billing-grade software. By application only.',
+  serviceType: 'Embedded Engineering Engagement',
+  areaServed: { '@type': 'Country', name: 'United States' },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    price: '25000',
+    availability: 'https://schema.org/LimitedAvailability',
+    url: `${SITE}/contact?type=studio&source=studio-engagement`,
+    eligibleQuantity: { '@type': 'QuantitativeValue', minValue: 1, unitText: 'quarter' },
+  },
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE}/services` },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Studio Engagement',
+      item: `${SITE}/services/studio-engagement`,
+    },
+  ],
+}
 
 export const metadata: Metadata = {
   title: 'Studio Engagement — By application | Sage Ideas',
@@ -98,6 +138,15 @@ const cadence = [
 ]
 
 export default function StudioEngagementPage() {
+  return (
+    <>
+      <JsonLd data={[serviceSchema, breadcrumbSchema]} />
+      {studioEngagementContent()}
+    </>
+  )
+}
+
+function studioEngagementContent() {
   return (
     <div className="min-h-screen bg-[#09090B]">
       {/* Hero */}

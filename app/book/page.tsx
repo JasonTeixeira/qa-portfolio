@@ -5,6 +5,7 @@ import { SectionLabel } from '@/components/section-label'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://sageideas.dev/book' },
   title: 'Book a Discovery Call — Sage Ideas',
   description:
     'Schedule a 30-minute discovery call with Sage Ideas. No pitch deck. No obligation. Just a direct conversation about your project.',

@@ -8,6 +8,7 @@ import { WorkGrid } from './work-grid'
 import { caseStudies } from '@/data/work/case-studies'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://sageideas.dev/work' },
   title: 'Work — Sage Ideas',
   description:
     'Six production case studies from Sage Ideas: fintech platforms, ML signal engines, AI-native products, infrastructure, and developer tooling. Real work, real outcomes.',

@@ -21,6 +21,8 @@ import {
   type AccentColor,
 } from '@/data/services/visual-meta'
 import { ServiceIcon } from '@/components/services/icon'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -237,6 +239,11 @@ export function TierAPage({ tier }: { tier: Tier | ExtendedTier }) {
           </div>
         </section>
       )}
+
+      {/* Testimonial */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <TestimonialCarousel testimonials={[testimonials[0]]} />
+      </section>
 
       {/* FAQ */}
       {tier.faq.length > 0 && (

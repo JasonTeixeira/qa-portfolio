@@ -11,6 +11,7 @@ import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
 import { extendedTiersBySlug } from '@/data/services/extended'
 import { tiersBySlug, careTiers } from '@/data/services/tiers'
+import { CapacitySignal } from '@/components/social-proof/capacity-signal'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -275,6 +276,11 @@ function ContactInner() {
             </div>
           )}
         </motion.div>
+      </section>
+
+      {/* Capacity signal */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2">
+        <CapacitySignal />
       </section>
 
       {/* Type tabs */}

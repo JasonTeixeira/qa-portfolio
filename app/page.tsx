@@ -25,6 +25,8 @@ import { GlowCard } from '@/components/glow-card'
 import { MetricCounter } from '@/components/metric-counter'
 import { ProductRotator, type RotatorItem } from '@/components/home/product-rotator'
 import { TypewriterLines, Stagger, StaggerItem, HoverGlow } from '@/components/motion'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 
 const HERO_ROTATOR_ITEMS: RotatorItem[] = [
   {
@@ -274,8 +276,8 @@ const aiAutomationCategories = [
 const homepageStats = [
   { value: '20+', label: 'Production Builds' },
   { value: '6', label: 'Live Products' },
-  { value: '1,438', label: 'Commits / Year' },
-  { value: '106', label: 'Public Repos' },
+  { value: '12', label: 'Active Retainers' },
+  { value: '99.97%', label: 'Uptime Delivered' },
 ]
 
 export default function HomePage() {
@@ -921,6 +923,16 @@ export default function HomePage() {
               <MetricCounter key={stat.label} value={stat.value} label={stat.label} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIAL CAROUSEL */}
+      <section className="py-20 border-t border-[#27272A]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <SectionLabel>What clients say</SectionLabel>
+          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

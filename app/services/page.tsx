@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button'
 import { ServicesGrid } from './services-grid'
 import { ExtendedCatalog, ExtendedCategoryNav } from './extended-catalog'
 import { RefreshCw, Sparkles, Layers, FlaskConical } from 'lucide-react'
+import { CapacitySignal } from '@/components/social-proof/capacity-signal'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 
 // Evidence pulled from real Lab products / Work case studies. No fabricated metrics.
 const evidenceItems = [
@@ -105,6 +108,11 @@ export default function ServicesPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Capacity signal */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <CapacitySignal />
       </section>
 
       {/* Tier Grid — productized engagements with Stripe checkout */}
@@ -242,6 +250,14 @@ export default function ServicesPage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="text-center mb-8">
+          <SectionLabel>What clients say</SectionLabel>
+        </div>
+        <TestimonialCarousel testimonials={testimonials} />
       </section>
 
       {/* Custom packages */}

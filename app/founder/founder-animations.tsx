@@ -7,6 +7,7 @@ import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
 import { Button } from '@/components/ui/button'
 import { FounderPortrait } from '@/components/founder-portrait'
+import { SocialBadges } from '@/components/founder/social-badges'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -101,7 +102,10 @@ export function FounderAnimations({ capabilities, principles }: Props) {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-16 grid md:grid-cols-[320px_1fr] gap-10 lg:gap-14 max-w-5xl items-start"
         >
-          <FounderPortrait size="lg" priority />
+          <div>
+            <FounderPortrait size="lg" priority />
+            <SocialBadges className="mt-5" />
+          </div>
 
           {/* Quick facts */}
           <div className="grid sm:grid-cols-2 gap-4">

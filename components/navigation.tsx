@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Menu, X, Github, Linkedin } from 'lucide-react'
+import { Menu, X, Github, Linkedin, LogIn, LayoutDashboard } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { CommandPaletteHint } from '@/components/command-palette'
 import { cn } from '@/lib/utils'
@@ -114,6 +115,32 @@ export function Navigation() {
             >
               <Github className="w-4 h-4" />
             </Link>
+            <SignedOut>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+              >
+                <Link href="/login">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Client Login
+                </Link>
+              </Button>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+              >
+                <Link href="/portal/home">
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  Portal
+                </Link>
+              </Button>
+            </SignedIn>
             <Button
               asChild
               size="sm"
@@ -121,6 +148,13 @@ export function Navigation() {
             >
               <Link href="/book">Book a Call</Link>
             </Button>
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: { avatarBox: 'w-8 h-8 ring-1 ring-[#3F3F46]' },
+                }}
+              />
+            </SignedIn>
           </div>
 
           {/* Mobile toggle */}
@@ -181,6 +215,32 @@ export function Navigation() {
                   >
                     <Linkedin className="w-5 h-5" />
                   </Link>
+                  <SignedOut>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+                    >
+                      <Link href="/login">
+                        <LogIn className="h-4 w-4 mr-1" />
+                        Login
+                      </Link>
+                    </Button>
+                  </SignedOut>
+                  <SignedIn>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+                    >
+                      <Link href="/portal/home">
+                        <LayoutDashboard className="h-4 w-4 mr-1" />
+                        Portal
+                      </Link>
+                    </Button>
+                  </SignedIn>
                   <Button
                     asChild
                     size="sm"

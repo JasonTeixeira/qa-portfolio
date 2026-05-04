@@ -9,6 +9,7 @@ import {
   TrendingUp,
   Terminal,
   CheckCircle2,
+  Lock,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
@@ -256,40 +257,57 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* Dual-track CTA strip */}
+          {/* Three-lane CTA strip */}
           <motion.div
-            className="mt-20 grid sm:grid-cols-2 gap-4"
+            className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Link
-              href="/pricing"
+              href="/pricing#productized"
               className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#06B6D4]/50 rounded-2xl px-6 py-5 transition-all"
             >
               <div>
                 <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#06B6D4] mb-1">
-                  Got a project
+                  Productized
                 </div>
                 <div className="text-sm text-[#FAFAFA]">
-                  Fixed-scope engagements from $1,500 to $25k+. Stripe checkout.
+                  Fixed-scope engagements from $750 to $9,500+. Stripe checkout.
                 </div>
               </div>
               <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#06B6D4] group-hover:translate-x-1 transition-all" />
             </Link>
             <Link
-              href="/pov"
+              href="/pricing#care"
               className="group flex items-center justify-between bg-[#0F0F12] border border-[#27272A] hover:border-[#8B5CF6]/50 rounded-2xl px-6 py-5 transition-all"
             >
               <div>
                 <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#8B5CF6] mb-1">
-                  Want the read first
+                  Care
                 </div>
                 <div className="text-sm text-[#FAFAFA]">
-                  How we build, what we refuse to ship, why one person ships more.
+                  Monthly retainers from $300 to $800. Cancel any month.
                 </div>
               </div>
               <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#8B5CF6] group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link
+              href="/services/studio-engagement"
+              className="group flex items-center justify-between bg-gradient-to-br from-[#06B6D4]/[0.05] via-[#0F0F12] to-[#8B5CF6]/[0.05] border border-[#27272A] hover:border-[#FAFAFA]/40 rounded-2xl px-6 py-5 transition-all sm:col-span-2 lg:col-span-1"
+            >
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Lock className="w-3 h-3 text-[#FAFAFA]" />
+                  <div className="text-xs font-mono uppercase tracking-[0.18em] text-[#FAFAFA]">
+                    Studio Engagement
+                  </div>
+                </div>
+                <div className="text-sm text-[#FAFAFA]">
+                  From $25k/quarter. By application. 3 slots a year.
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-[#71717A] group-hover:text-[#FAFAFA] group-hover:translate-x-1 transition-all" />
             </Link>
           </motion.div>
         </div>
@@ -723,11 +741,11 @@ export default function HomePage() {
           >
             <SectionLabel>Ready to ship?</SectionLabel>
             <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-[#FAFAFA] mt-4 leading-tight">
-              Three slots open this quarter.
+              Three lanes. Three slots this quarter.
             </h2>
             <p className="text-[#A1A1AA] text-lg lg:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">
-              Fixed scope, fixed price, no retainer ambiguity. Start with an audit or jump
-              straight to a full build.
+              Productized engagements with Stripe checkout. Monthly care plans. Or a quarter-long
+              Studio Engagement, by application only.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-10">
               <Button

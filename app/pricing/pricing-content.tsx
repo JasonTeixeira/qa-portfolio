@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Lock } from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
@@ -76,11 +76,14 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
           >
             <SectionLabel>Pricing</SectionLabel>
             <h1 className="mt-4 text-5xl sm:text-6xl font-bold text-[#FAFAFA] leading-tight">
-              Pricing — small-business{' '}
-              <span className="text-[#06B6D4]">friendly.</span>
+              Three lanes.{' '}
+              <span className="text-[#06B6D4]">No asterisks.</span>
             </h1>
             <p className="mt-6 text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
-              {'Every tier has a defined scope and a defined price \u2014 from $750 audits to $9,500+ builds. Plus monthly care retainers from $300/mo, and custom packages on request. No retainer ambiguity, no scope creep, no \u201cit depends.\u201d'}
+              Pick the lane that matches the shape of the work. Productized
+              tiers are fixed-scope, fixed-price, Stripe checkout. Care plans
+              keep what you already shipped quietly running. Studio Engagement
+              is the embedded option — by application, quarterly minimum.
             </p>
             <div className="mt-6 flex flex-wrap gap-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4]">
@@ -89,15 +92,117 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#8B5CF6]">
                 <RefreshCw className="w-3 h-3" /> Care retainers — from $300/mo
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#27272A] border border-[#3F3F46] text-[#A1A1AA]">
-                <Sparkles className="w-3 h-3" /> Custom packages welcome
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#27272A] border border-[#3F3F46] text-[#FAFAFA]">
+                <Lock className="w-3 h-3" /> Studio Engagement — from $25k / quarter
               </span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
+      {/* Lane chooser */}
+      <section className="border-y border-[#27272A] bg-[#0A0A0C]/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <SectionLabel>Choose a lane</SectionLabel>
+          <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-[#FAFAFA] mb-2">
+            Three ways to engage. One studio behind all of them.
+          </h2>
+          <p className="text-[#A1A1AA] mb-10 max-w-2xl">
+            Click the lane that matches your moment. Each one ships against the
+            same standards — the difference is depth, scope, and how the
+            relationship runs.
+          </p>
+          <div className="grid lg:grid-cols-3 gap-4">
+            {/* Lane 1 — Productized */}
+            <Link
+              href="#productized"
+              className="group rounded-2xl border border-[#06B6D4]/30 bg-gradient-to-br from-[#06B6D4]/[0.05] to-transparent p-6 hover:border-[#06B6D4]/60 transition-colors flex flex-col"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#06B6D4]">
+                  Lane 01 — Productized
+                </div>
+                <ArrowRight className="w-4 h-4 text-[#06B6D4] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+              </div>
+              <div className="text-3xl font-bold text-[#FAFAFA] mb-2">$750 — $9,500+</div>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4 flex-1">
+                Ten fixed-scope engagements. Pick a tier, see the deliverables,
+                check out on Stripe. Best for one-off projects with a clear
+                shape.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {['Audit', 'Ship', 'Automate', 'SEO Sprint', 'Brand', 'Build'].map(
+                  (chip) => (
+                    <span
+                      key={chip}
+                      className="text-[10px] font-mono uppercase tracking-wider text-[#71717A] bg-[#0A0A0C] border border-[#27272A] rounded px-2 py-0.5"
+                    >
+                      {chip}
+                    </span>
+                  ),
+                )}
+              </div>
+            </Link>
+
+            {/* Lane 2 — Care */}
+            <Link
+              href="#care"
+              className="group rounded-2xl border border-[#8B5CF6]/30 bg-gradient-to-br from-[#8B5CF6]/[0.05] to-transparent p-6 hover:border-[#8B5CF6]/60 transition-colors flex flex-col"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#8B5CF6]">
+                  Lane 02 — Care retainers
+                </div>
+                <ArrowRight className="w-4 h-4 text-[#8B5CF6] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+              </div>
+              <div className="text-3xl font-bold text-[#FAFAFA] mb-2">
+                $300 — $800<span className="text-base text-[#71717A] font-normal">/mo</span>
+              </div>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4 flex-1">
+                Lightweight monthly upkeep on something you already shipped.
+                Site, brand, content. Cancel anytime through Stripe.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {['Site Care', 'Brand Care', 'Content Care'].map((chip) => (
+                  <span
+                    key={chip}
+                    className="text-[10px] font-mono uppercase tracking-wider text-[#71717A] bg-[#0A0A0C] border border-[#27272A] rounded px-2 py-0.5"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </Link>
+
+            {/* Lane 3 — Studio Engagement */}
+            <Link
+              href="/services/studio-engagement"
+              className="group relative rounded-2xl border border-[#FAFAFA]/20 bg-gradient-to-br from-[#FAFAFA]/[0.04] via-[#06B6D4]/[0.04] to-[#8B5CF6]/[0.04] p-6 hover:border-[#FAFAFA]/40 transition-colors flex flex-col overflow-hidden"
+            >
+              <div className="absolute top-3 right-3 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#FAFAFA] bg-[#09090B] border border-[#27272A] rounded-full px-2 py-1">
+                <Lock className="w-3 h-3" /> By application
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#FAFAFA]">
+                  Lane 03 — Studio Engagement
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-[#FAFAFA] mb-2">
+                From $25k<span className="text-base text-[#71717A] font-normal"> / quarter</span>
+              </div>
+              <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4 flex-1">
+                The studio embedded for a quarter. End-to-end product build,
+                weekly changelog, 90-day operate window. Three slots a year.
+              </p>
+              <div className="inline-flex items-center gap-1.5 text-sm font-medium text-[#06B6D4]">
+                See the engagement <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div id="productized" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 space-y-24">
         {/* Comparison Table */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
@@ -252,10 +357,12 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
 
         {/* Care retainers */}
         <motion.section
+          id="care"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
+          className="scroll-mt-24"
         >
           <SectionLabel>Care retainers</SectionLabel>
           <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-2">
@@ -312,7 +419,71 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
           </div>
         </motion.section>
 
-        {/* Custom packages */}
+        {/* Studio Engagement — Lane 03 deep dive */}
+        <motion.section
+          id="studio-engagement"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="scroll-mt-24 relative overflow-hidden rounded-3xl border border-[#FAFAFA]/15 bg-gradient-to-br from-[#06B6D4]/[0.06] via-[#0F0F12] to-[#8B5CF6]/[0.06] p-8 sm:p-12"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(6,182,212,0.10),transparent_55%),radial-gradient(circle_at_85%_85%,rgba(139,92,246,0.10),transparent_55%)] pointer-events-none" />
+          <div className="relative grid lg:grid-cols-[1.4fr_1fr] gap-10 items-start">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#FAFAFA]/20 bg-[#09090B]/60 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#FAFAFA] mb-5">
+                <Lock className="w-3 h-3" /> Lane 03 — By application only
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-4 tracking-tight leading-tight">
+                Studio Engagement.
+                <br />
+                One quarter, one keyboard.
+              </h2>
+              <p className="text-[#A1A1AA] text-lg leading-relaxed mb-6 max-w-xl">
+                For founders who don&rsquo;t want a vendor &mdash; they want
+                the studio embedded. Twelve weeks minimum, weekly changelog,
+                90-day operate window, the full architecture-discipline
+                playbook. Custom-quoted from a fixed scope.
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href="/services/studio-engagement"
+                  className="inline-flex items-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-semibold px-5 py-2.5 rounded-lg transition-colors"
+                >
+                  See the engagement <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/contact?engagement=studio-engagement"
+                  className="inline-flex items-center gap-2 border border-[#27272A] hover:border-[#FAFAFA]/40 text-[#FAFAFA] px-5 py-2.5 rounded-lg transition-colors"
+                >
+                  Apply for a quarter
+                </Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3">
+              <div className="rounded-xl border border-[#27272A] bg-[#09090B]/60 p-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
+                  Investment
+                </div>
+                <div className="text-xl font-bold text-[#FAFAFA]">From $25k / quarter</div>
+              </div>
+              <div className="rounded-xl border border-[#27272A] bg-[#09090B]/60 p-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
+                  Cadence
+                </div>
+                <div className="text-xl font-bold text-[#FAFAFA]">12 weeks min.</div>
+              </div>
+              <div className="rounded-xl border border-[#27272A] bg-[#09090B]/60 p-4">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#71717A] mb-1">
+                  Capacity
+                </div>
+                <div className="text-xl font-bold text-[#FAFAFA]">3 slots / year</div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Custom packages — fallback */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -323,16 +494,16 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-[#A1A1AA]" />
             <span className="text-xs font-mono uppercase tracking-widest text-[#A1A1AA]">
-              Custom packages
+              None of the lanes fit?
             </span>
           </div>
           <h2 className="text-3xl font-bold text-[#FAFAFA] mb-3">
-            Don&apos;t see what you need?
+            Custom packages on request.
           </h2>
           <p className="text-[#A1A1AA] max-w-2xl leading-relaxed mb-6">
-            Every engagement can be custom-scoped — hybrid sprints, multi-month builds,
-            specific-deliverable retainers, monthly content + brand combos. Transparent
-            quotes, fixed prices, no asterisks.
+            Hybrid sprints, multi-month builds, specific-deliverable retainers,
+            monthly content + brand combos. Transparent quotes, fixed prices,
+            no asterisks.
           </p>
           <Link
             href="/contact?engagement=custom"

@@ -13,6 +13,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/capabilities', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/industries', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pricing', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/services/studio-engagement', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/process', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/trust', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/studio', priority: 0.8, changeFrequency: 'monthly' },

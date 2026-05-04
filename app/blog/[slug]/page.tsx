@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
 import { blogPosts } from '@/lib/blogData'
 import { marked } from 'marked'
+import { StickyCta } from '@/components/sticky-cta'
 
 export default function BlogPostPage() {
   const params = useParams()
@@ -195,6 +196,12 @@ export default function BlogPostPage() {
             </div>
           </section>
         )}
+
+        <StickyCta
+          pitch="Like what you read? Let's build something."
+          ctaLabel="Book a 30-min call"
+          ctaHref="/contact"
+        />
 
         {/* Bottom CTA */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">

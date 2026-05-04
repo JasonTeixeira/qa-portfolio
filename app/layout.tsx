@@ -6,6 +6,7 @@ import { dark } from '@clerk/themes'
 import './globals.css'
 import { MarketingChrome } from '@/components/marketing-chrome'
 import { CookieBanner } from '@/components/studio/cookie-banner'
+import { ExitIntentModal } from '@/components/exit-intent-modal'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -203,6 +204,7 @@ export default function RootLayout({
           <MarketingChrome position="children">{children}</MarketingChrome>
           <MarketingChrome position="bottom" />
           <CookieBanner />
+          <ExitIntentModal />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </body>
       </html>

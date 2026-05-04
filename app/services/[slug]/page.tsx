@@ -8,6 +8,7 @@ import {
 } from '@/data/services/extended'
 import { TierPageContent } from './tier-page-content'
 import { FlagshipPageContent } from './flagship-page-content'
+import { StickyCta } from '@/components/sticky-cta'
 
 type Params = { slug: string }
 
@@ -128,6 +129,11 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
       ) : (
         <TierPageContent tier={tier} />
       )}
+      <StickyCta
+        pitch={`Want to scope ${tier.name}?`}
+        ctaLabel="Book a 30-min call"
+        ctaHref={`/contact?engagement=${tier.slug}`}
+      />
     </>
   )
 }

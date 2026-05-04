@@ -7,6 +7,7 @@ import { GlowCard } from '@/components/glow-card'
 import { caseStudies } from '@/data/work/case-studies'
 import { CaseStudyContent } from './case-study-content'
 import { JsonLd } from '@/components/json-ld'
+import { StickyCta } from '@/components/sticky-cta'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -78,6 +79,11 @@ export default async function CaseStudyPage({ params }: Props) {
     <>
       <JsonLd data={[breadcrumbSchema, creativeWorkSchema]} />
       <CaseStudyContent study={study} />
+      <StickyCta
+        pitch="Want to build something like this?"
+        ctaLabel="Book a 30-min call"
+        ctaHref="/contact"
+      />
     </>
   )
 }

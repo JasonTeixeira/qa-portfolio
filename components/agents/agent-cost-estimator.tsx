@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Calculator, Info } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { motion, animate, useMotionValue, useTransform } from 'framer-motion'
+import { Calculator, Info, ShieldCheck, BellRing } from 'lucide-react'
 
 type Props = {
   /** Unit name shown next to the slider, e.g. "conversations / mo" */
@@ -50,6 +50,22 @@ export function AgentCostEstimator({
   const variableCost = value * costPerUnit
   const total = baseCost + variableCost
   const pct = ((value - min) / (max - min)) * 100
+
+  // Animated total counter
+  const totalMV = useMotionValue(total)
+  const totalRounded = useTransform(totalMV, (v) =>
+    `$${Math.round(v).toLocaleString('en-US')}`
+  )
+  useEffect(() => {
+    const controls = animate(totalMV, total, {
+      duration: 0.4,
+      ease: 'easeOut',
+    })
+    return () => controls.stop()
+  }, [total, totalMV])
+
+  // Suggested cap = 1.5x current total (rounded up to nearest $50)
+  const suggestedCap = Math.ceil((total * 1.5) / 50) * 50
 
   return (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0F] to-[#0F1014] p-6 sm:p-8">
@@ -139,7 +155,6 @@ export function AgentCostEstimator({
         </div>
 
         <motion.div
-          key={total}
           initial={{ scale: 0.98 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.2 }}
@@ -152,17 +167,36 @@ export function AgentCostEstimator({
           <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717A]">
             Total monthly
           </div>
-          <div
-            className="mt-1 text-2xl font-bold"
-            style={{ color: '#FAFAFA' }}
-          >
-            {formatUSD(total)}
+          <div className="mt-1 text-2xl font-bold tabular-nums" style={{ color: '#FAFAFA' }}>
+            <motion.span>{totalRounded}</motion.span>
             <span className="text-[11px] text-[#71717A] font-normal"> / mo</span>
           </div>
           <div className="mt-1 text-[10.5px] text-[#71717A]">
             Forecast — actual capped in prod
           </div>
         </motion.div>
+      </div>
+
+      {/* Cap callout */}
+      <div
+        className="mt-4 rounded-xl border p-3.5 flex items-start gap-3"
+        style={{
+          borderColor: `${accent}33`,
+          backgroundColor: `${accent}0A`,
+        }}
+      >
+        <ShieldCheck className="w-4 h-4 mt-0.5 shrink-0" style={{ color: accent }} />
+        <div className="flex-1 text-[12px] text-[#A1A1AA] leading-snug">
+          <span className="text-[#FAFAFA] font-semibold">
+            Recommended monthly cap: {formatUSD(suggestedCap)}
+          </span>{' '}
+          — we set this hard ceiling in production. Agent auto-pauses when hit, with a Slack
+          alert at 80%. You raise it only if you want to.
+        </div>
+        <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-[#71717A]">
+          <BellRing className="w-3 h-3" />
+          80% alert
+        </span>
       </div>
 
       <div className="mt-5 flex items-start gap-2 text-[11.5px] text-[#71717A]">

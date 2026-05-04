@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Activity,
   AlertTriangle,
@@ -40,6 +41,8 @@ type Props = {
   /** Approval-queue label and count */
   pendingApprovals?: number
   accent?: string
+  /** Optional pool of synthetic events the ticker rotates through every ~4s */
+  liveTickerPool?: DashboardActivity[]
 }
 
 const STATUS_DOT: Record<NonNullable<DashboardActivity['status']>, string> = {
@@ -59,9 +62,41 @@ export function AgentDashboardMockup({
   spendCap = '$500',
   pendingApprovals = 3,
   accent = '#22D3EE',
+  liveTickerPool,
 }: Props) {
+  const [feed, setFeed] = useState<DashboardActivity[]>(activity)
+  const [isLive, setIsLive] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const poolRef = useRef(liveTickerPool ?? [])
+
+  // Pause/play the ticker based on viewport visibility (perf + battery friendly)
+  useEffect(() => {
+    if (!containerRef.current || poolRef.current.length === 0) return
+    const el = containerRef.current
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsLive(entry.isIntersecting),
+      { threshold: 0.25 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isLive || poolRef.current.length === 0) return
+    let i = 0
+    const id = setInterval(() => {
+      const next = poolRef.current[i % poolRef.current.length]
+      i += 1
+      setFeed((prev) => [{ ...next, t: 'now' }, ...prev].slice(0, 6))
+    }, 4000)
+    return () => clearInterval(id)
+  }, [isLive])
+
   return (
-    <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0F] to-[#0F1014] p-5 sm:p-7">
+    <div
+      ref={containerRef}
+      className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0F] to-[#0F1014] p-5 sm:p-7"
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-5">
         <div>
@@ -122,13 +157,15 @@ export function AgentDashboardMockup({
             </span>
           </div>
           <ul className="divide-y divide-white/5">
-            {activity.map((a, i) => (
+            <AnimatePresence initial={false}>
+            {feed.map((a, i) => (
               <motion.li
-                key={i}
-                initial={{ opacity: 0, x: -6 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.04 }}
+                key={`${a.t}-${a.text}-${i}`}
+                layout
+                initial={{ opacity: 0, x: -8, height: 0 }}
+                animate={{ opacity: 1, x: 0, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
                 className="flex items-start gap-3 px-4 py-2.5"
               >
                 <span
@@ -145,6 +182,7 @@ export function AgentDashboardMockup({
                 </span>
               </motion.li>
             ))}
+            </AnimatePresence>
           </ul>
         </div>
 

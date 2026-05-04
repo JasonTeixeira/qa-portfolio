@@ -25,6 +25,7 @@ export type FlagshipVisuals = {
     subtitle: string
     kpis: DashboardKPI[]
     activity: DashboardActivity[]
+    liveTickerPool?: DashboardActivity[]
     evalPct?: number
     spendUsed?: string
     spendCap?: string
@@ -148,6 +149,16 @@ export const flagshipVisuals: Record<string, FlagshipVisuals> = {
         { t: '6m', text: 'Scheduling: rescheduled 2 appointments after weather alert', status: 'ok' },
         { t: '8m', text: 'Eval run: 42/44 passed (2 edge cases flagged for review)', status: 'ok' },
       ],
+      liveTickerPool: [
+        { t: 'now', text: 'Quote drafted: Pinecrest Renovations \u2014 $7,820 \u2014 awaiting your approval', status: 'pending' },
+        { t: 'now', text: 'Day-3 nurture sent to 4 prospects from yesterday\u2019s discovery calls', status: 'ok' },
+        { t: 'now', text: 'Vendor invoice from Westlake Supplies posted to QuickBooks (auto)', status: 'ok' },
+        { t: 'now', text: 'Refund $478 \u2014 over $250 threshold \u2014 needs human review', status: 'warn' },
+        { t: 'now', text: 'SOP question answered in Slack with citation: \u201cwarranty handling v2\u201d', status: 'ok' },
+        { t: 'now', text: 'Eval run: 41/42 passed \u2014 1 edge case captured for retro', status: 'ok' },
+        { t: 'now', text: 'Calendar sync: 3 appointments confirmed for tomorrow', status: 'ok' },
+        { t: 'now', text: 'Spend cap check: $214 of $500 used \u2014 healthy', status: 'ok' },
+      ],
       evalPct: 95,
       spendUsed: '$182',
       spendCap: '$500',
@@ -221,6 +232,16 @@ export const flagshipVisuals: Record<string, FlagshipVisuals> = {
         { t: '5m', text: 'Complex billing issue \u2014 transferred to Sarah (warm handoff)', status: 'warn' },
         { t: '7m', text: 'Spam call detected and dropped \u2014 no log entry', status: 'pending' },
         { t: '9m', text: 'After-hours appt request \u2014 booked + confirmation SMS sent', status: 'ok' },
+      ],
+      liveTickerPool: [
+        { t: 'now', text: 'Caller booked appt for Mon 10:30am \u2014 logged to CRM as warm lead', status: 'ok' },
+        { t: 'now', text: 'Caller asked \u201cis this AI?\u201d \u2014 agent identified as AI per policy', status: 'ok' },
+        { t: 'now', text: 'Pricing question answered from approved FAQ \u2014 quote requested', status: 'ok' },
+        { t: 'now', text: 'After-hours appt request \u2014 booked + confirmation SMS sent', status: 'ok' },
+        { t: 'now', text: 'Insurance verification call \u2014 transferred to Maya (warm handoff)', status: 'warn' },
+        { t: 'now', text: 'Spam call detected and dropped \u2014 no log entry created', status: 'pending' },
+        { t: 'now', text: 'Reschedule request handled \u2014 calendar updated, reminder sent', status: 'ok' },
+        { t: 'now', text: 'New caller: lead score 8/10 \u2014 routed to sales queue', status: 'ok' },
       ],
       evalPct: 92,
       spendUsed: '$67',
@@ -299,6 +320,16 @@ export const flagshipVisuals: Record<string, FlagshipVisuals> = {
         { t: '2h', text: 'Score model recalibrated on last 30 days of wins/losses', status: 'ok' },
         { t: '3h', text: 'Bounce: 2 invalid emails removed from queue automatically', status: 'pending' },
       ],
+      liveTickerPool: [
+        { t: 'now', text: '8 new outreach drafts ready for review (priority: Halcyon, Rivertown, Modal)', status: 'pending' },
+        { t: 'now', text: 'Reply from Acme VP Sales \u2014 marked HOT, routed to Sage', status: 'warn' },
+        { t: 'now', text: 'Enrichment: 31 new ICP matches from this week\u2019s funding rounds', status: 'ok' },
+        { t: 'now', text: 'Send batch: 14 messages sent (you approved at 11:02am)', status: 'ok' },
+        { t: 'now', text: 'Score model recalibrated on last 14 days of replies', status: 'ok' },
+        { t: 'now', text: 'Bounce: 3 invalid emails removed from queue automatically', status: 'pending' },
+        { t: 'now', text: 'LinkedIn touch sent: 6 prospects with hiring signals (approved)', status: 'ok' },
+        { t: 'now', text: 'Reply from Vertex CTO \u2014 \u201cnot now\u201d \u2014 logged + suppressed for 90d', status: 'ok' },
+      ],
       evalPct: 88,
       spendUsed: '$214',
       spendCap: '$800',
@@ -368,6 +399,16 @@ export const flagshipVisuals: Record<string, FlagshipVisuals> = {
         { t: 'Wed', text: 'Anthropic API change \u2014 updated client lib, no agent downtime', status: 'ok' },
         { t: 'Thu', text: 'Spend cap raised $500 \u2192 $750 (you approved) \u2014 reflects 30% volume growth', status: 'pending' },
         { t: 'Fri', text: 'Sent monthly retro: 3 wins, 1 close call, 2 changes for next month', status: 'ok' },
+      ],
+      liveTickerPool: [
+        { t: 'this wk', text: 'Tuned reply-classifier prompt: precision up from 89% \u2192 94% in evals', status: 'ok' },
+        { t: 'this wk', text: 'Added 6 test cases from last week\u2019s approval-queue rejections', status: 'ok' },
+        { t: 'this wk', text: 'OpenAI deprecation notice: migrated 2 calls to current model, no downtime', status: 'ok' },
+        { t: 'this wk', text: 'Spend trend flagged \u2014 cost/task up 11% \u2014 root caused to retry loop', status: 'warn' },
+        { t: 'this wk', text: 'Guardrail added: refund > $300 always requires human approval', status: 'ok' },
+        { t: 'this wk', text: 'Sent monthly retro: 4 wins, 1 close call, 2 changes for next month', status: 'ok' },
+        { t: 'this wk', text: 'Eval suite expanded to 87 cases (+9 this month)', status: 'ok' },
+        { t: 'this wk', text: 'Quarterly model bake-off complete \u2014 staying on current model for now', status: 'pending' },
       ],
       evalPct: 96,
       spendUsed: '$612',

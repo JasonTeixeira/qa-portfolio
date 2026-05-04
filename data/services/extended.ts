@@ -1684,7 +1684,7 @@ const aiImplementationConsulting: ExtendedTier = {
   tagline: 'Stop guessing where AI fits. Get a build plan you can actually ship.',
   description:
     'Most AI consulting ends with a slide deck and a bill. This ends with a build plan: the three highest-ROI agent opportunities in your business, mapped to your tools, your data, and your team — with cost models, eval criteria, and a rollout schedule. Two weeks. If you hire us to build, the consulting fee credits 100% toward the engagement.',
-  price: 'from $2,500',
+  price: 'from $1,000',
   priceCents: 0,
   cadence: 'one-time',
   timeline: '2 weeks',
@@ -1765,12 +1765,12 @@ const aiImplementationConsulting: ExtendedTier = {
     {
       name: 'Stakeholder workshop',
       description: 'Half-day workshop with your leadership team to align on AI strategy + answer questions.',
-      price: '+$1,500',
+      price: '+$600',
     },
     {
       name: 'Vendor evaluation',
       description: 'Compare 3–5 off-the-shelf AI tools against custom build for your top use case.',
-      price: '+$1,200',
+      price: '+$480',
     },
   ],
   caseStudySlugs: [],
@@ -1786,7 +1786,7 @@ const aiAgentDevelopment: ExtendedTier = {
   tagline: 'A custom AI agent trained on your business — running 24/7, measurable, and yours.',
   description:
     'Your business has processes. Quotes, scheduling, customer follow-up, vendor coordination, expense categorization, document review. We build an AI agent that handles them — trained on your SOPs, wired to your tools, with a dashboard you can actually read. Cloud-hosted by default. Eval harness included so you know it works. Human-in-the-loop guardrails on every action that touches money or customers.',
-  price: 'from $6,500',
+  price: 'from $2,600',
   priceCents: 0,
   cadence: 'one-time',
   timeline: '4 weeks',
@@ -1894,22 +1894,22 @@ const aiAgentDevelopment: ExtendedTier = {
     {
       name: 'Additional tool integration',
       description: 'Wire the agent to one additional system beyond the base scope (e.g., a niche CRM, ERP, or industry-specific tool).',
-      price: '+$1,200',
+      price: '+$480',
     },
     {
       name: 'Custom dashboard branding',
       description: 'White-label the operations dashboard with your branding, custom domain, and SSO.',
-      price: '+$1,500',
+      price: '+$600',
     },
     {
       name: 'VPC / on-premise deployment',
       description: 'Deploy the agent inside your private cloud or on-premise environment for compliance-sensitive workloads.',
-      price: '+$5,000',
+      price: '+$2,000',
     },
     {
       name: 'Multi-agent orchestration',
       description: 'Add a second specialized agent that hands off to the first (e.g., research agent + execution agent).',
-      price: '+$3,500',
+      price: '+$1,400',
     },
   ],
   caseStudySlugs: [],
@@ -1925,7 +1925,7 @@ const aiVoiceAgent: ExtendedTier = {
   tagline: 'A phone agent that handles one workflow well — measurable, always on, never tired.',
   description:
     'Pick one phone workflow that costs you time or money: inbound qualification, appointment booking, FAQ deflection, missed-call recovery. We build a voice agent that owns it. Twilio + LLM + your eval rig. Real recordings, scored conversations, monthly performance report. Not a "voice assistant" — a measurable replacement for one specific phone job.',
-  price: 'from $4,500',
+  price: 'from $1,800',
   priceCents: 0,
   cadence: 'one-time',
   timeline: '3 weeks',
@@ -2019,17 +2019,17 @@ const aiVoiceAgent: ExtendedTier = {
     {
       name: 'Multilingual support',
       description: 'Add 1–2 additional languages with native-quality voice and grammar.',
-      price: '+$1,500',
+      price: '+$600',
     },
     {
       name: 'SMS follow-up',
       description: 'Agent sends a follow-up SMS with confirmation, recap, or next steps after every call.',
-      price: '+$900',
+      price: '+$360',
     },
     {
       name: 'Call sentiment scoring',
       description: 'Automated sentiment + intent scoring on every call for QA + coaching.',
-      price: '+$1,200',
+      price: '+$480',
     },
   ],
   caseStudySlugs: [],
@@ -2045,7 +2045,7 @@ const aiLeadEngine: ExtendedTier = {
   tagline: 'A pipeline that finds, enriches, scores, and engages your ideal leads — with a dashboard you actually open.',
   description:
     'Forget "AI SDR" hype. This is a measurable lead-generation pipeline: signal sources you choose, enrichment that resolves the right person, scoring grounded in your actual ICP, and outreach drafts your team approves before anything sends. Personalized dashboard tracks conversion at every stage so you know what works and what doesn\'t.',
-  price: 'from $5,500',
+  price: 'from $2,200',
   priceCents: 0,
   cadence: 'one-time',
   timeline: '4 weeks',
@@ -2146,17 +2146,17 @@ const aiLeadEngine: ExtendedTier = {
     {
       name: 'Custom signal source',
       description: 'Build a custom signal source beyond the base set (e.g., scraping a niche directory, monitoring a specific event feed).',
-      price: '+$1,500',
+      price: '+$600',
     },
     {
       name: 'Multi-channel outreach',
       description: 'Add LinkedIn message + SMS as outreach channels alongside email.',
-      price: '+$1,200',
+      price: '+$480',
     },
     {
       name: 'A/B testing framework',
       description: 'Built-in A/B testing for outreach messages with statistical significance reporting.',
-      price: '+$900',
+      price: '+$360',
     },
   ],
   caseStudySlugs: [],
@@ -2172,7 +2172,7 @@ const agentOperationsRetainer: ExtendedTier = {
   tagline: 'Your agent gets better every month — or we tell you why it isn\'t.',
   description:
     'Agents drift. Models update. Tools change. Your business evolves. This retainer keeps your deployed agent sharp: weekly eval review, drift monitoring, prompt tuning, tool additions, monthly cost optimization, and a written report so you know exactly what we did and what changed. Cancel any month.',
-  price: 'from $1,500',
+  price: 'from $600',
   priceCents: 0,
   cadence: 'monthly',
   timeline: 'Monthly · cancel anytime',
@@ -2268,12 +2268,12 @@ const agentOperationsRetainer: ExtendedTier = {
     {
       name: 'Additional agent',
       description: 'Add a second agent under the same retainer scope.',
-      price: '+$900/mo',
+      price: '+$360/mo',
     },
     {
       name: 'On-call support',
       description: '24/7 pager for agent-down incidents with 1-hour response.',
-      price: '+$1,500/mo',
+      price: '+$600/mo',
     },
   ],
   caseStudySlugs: [],

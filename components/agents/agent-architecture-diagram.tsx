@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { RotateCw } from 'lucide-react'
 
 export type ArchNode = {
   id: string
@@ -59,6 +61,7 @@ export function AgentArchitectureDiagram({
   connections,
   accent = '#22D3EE',
 }: Props) {
+  const [replayKey, setReplayKey] = useState(0)
   const cols = Math.max(...nodes.map((n) => n.col)) + 1
   const rows = Math.max(...nodes.map((n) => n.row)) + 1
   const width = PAD_X * 2 + cols * COL_WIDTH - (COL_WIDTH - NODE_W)
@@ -68,8 +71,8 @@ export function AgentArchitectureDiagram({
 
   return (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0F] to-[#0F1014] p-6 sm:p-8 overflow-x-auto">
-      {(title || subtitle) && (
-        <div className="mb-5">
+      <div className="flex items-start justify-between gap-4 mb-5">
+        <div>
           {title && (
             <h3 className="text-base font-mono uppercase tracking-widest text-[#A1A1AA]">
               {title}
@@ -79,7 +82,16 @@ export function AgentArchitectureDiagram({
             <p className="mt-2 text-sm text-[#71717A] max-w-2xl">{subtitle}</p>
           )}
         </div>
-      )}
+        <button
+          type="button"
+          onClick={() => setReplayKey((k) => k + 1)}
+          className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-widest text-[#A1A1AA] hover:text-[#FAFAFA] border border-white/10 hover:border-white/30 rounded-full px-3 py-1.5 transition-colors"
+          aria-label="Replay diagram animation"
+        >
+          <RotateCw className="w-3 h-3" />
+          Replay
+        </button>
+      </div>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
@@ -123,7 +135,7 @@ export function AgentArchitectureDiagram({
           const midX = (fromRight.x + toLeft.x) / 2
           const path = `M ${fromRight.x} ${fromRight.y} C ${midX} ${fromRight.y}, ${midX} ${toLeft.y}, ${toLeft.x} ${toLeft.y}`
           return (
-            <g key={`${conn.from}-${conn.to}-${i}`}>
+            <g key={`${conn.from}-${conn.to}-${i}-${replayKey}`}>
               <motion.path
                 d={path}
                 fill="none"
@@ -135,7 +147,7 @@ export function AgentArchitectureDiagram({
                 initial={{ pathLength: 0, opacity: 0 }}
                 whileInView={{ pathLength: 1, opacity: 1 }}
                 viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.7, delay: i * 0.06 }}
+                transition={{ duration: 0.7, delay: i * 0.12 }}
               />
               {conn.label && (
                 <text
@@ -160,7 +172,7 @@ export function AgentArchitectureDiagram({
           const color = VARIANT_COLOR[node.variant ?? 'core']
           return (
             <motion.g
-              key={node.id}
+              key={`${node.id}-${replayKey}`}
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}

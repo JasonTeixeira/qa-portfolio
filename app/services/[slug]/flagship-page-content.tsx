@@ -12,6 +12,10 @@ import {
   Calendar,
   FileText,
   Plus,
+  KeyRound,
+  FlaskConical,
+  Wallet,
+  UserCheck,
 } from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
 import type { ExtendedTier } from '@/data/services/extended'
@@ -21,6 +25,31 @@ import { Button } from '@/components/ui/button'
 import { AgentArchitectureDiagram } from '@/components/agents/agent-architecture-diagram'
 import { AgentDashboardMockup } from '@/components/agents/agent-dashboard-mockup'
 import { AgentCostEstimator } from '@/components/agents/agent-cost-estimator'
+import { VoiceAgentAudioCue } from '@/components/agents/voice-agent-audio-cue'
+import { FlagshipCompare } from '@/components/agents/flagship-compare'
+
+const TRUST_BADGES = [
+  {
+    icon: KeyRound,
+    label: 'BYOK',
+    sub: 'Pay LLM providers direct',
+  },
+  {
+    icon: FlaskConical,
+    label: 'Eval harness',
+    sub: 'Regressions caught in CI',
+  },
+  {
+    icon: Wallet,
+    label: 'Spend cap',
+    sub: 'You set the ceiling',
+  },
+  {
+    icon: UserCheck,
+    label: 'Human-in-loop',
+    sub: 'Approval queue, not auto-send',
+  },
+] as const
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -175,6 +204,9 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
+        {/* Compare strip — directly under hero */}
+        <FlagshipCompare currentSlug={tier.slug} />
+
         {/* Story / positioning */}
         {visuals?.story && (
           <motion.section
@@ -196,6 +228,32 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
             <p className="mt-5 text-lg text-[#A1A1AA] leading-relaxed max-w-3xl">
               {visuals.story.body}
             </p>
+
+            {/* Trust badges row */}
+            <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl">
+              {TRUST_BADGES.map((badge) => {
+                const Icon = badge.icon
+                return (
+                  <div
+                    key={badge.label}
+                    className="rounded-xl bg-[#0F0F12] border border-[#27272A] p-4 hover:border-white/15 transition-colors"
+                  >
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+                      style={{ backgroundColor: `${accent}1A` }}
+                    >
+                      <Icon className="w-4 h-4" style={{ color: accent }} />
+                    </div>
+                    <div className="text-[#FAFAFA] font-semibold text-sm">
+                      {badge.label}
+                    </div>
+                    <div className="text-[12px] text-[#71717A] mt-0.5 leading-snug">
+                      {badge.sub}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </motion.section>
         )}
 
@@ -223,6 +281,27 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               connections={visuals.architecture.connections}
               accent={accent}
             />
+          </motion.section>
+        )}
+
+        {/* Voice agent audio cue — only on the voice agent page */}
+        {tier.slug === 'ai-voice-agent' && (
+          <motion.section
+            initial={fadeUp.initial}
+            whileInView={fadeUp.animate}
+            viewport={{ once: true }}
+            transition={fadeUp.transition}
+          >
+            <SectionLabel>Listen in</SectionLabel>
+            <h2 className="mt-3 text-3xl font-bold text-[#FAFAFA] mb-2">
+              A real call, scripted from a real deployment
+            </h2>
+            <p className="text-[#A1A1AA] mb-6 max-w-2xl">
+              No recording, no marketing voice-over. A line-by-line walk-through
+              of how the agent handles a typical inbound — including the moment
+              the caller asks if they’re talking to AI.
+            </p>
+            <VoiceAgentAudioCue accent={accent} />
           </motion.section>
         )}
 
@@ -292,6 +371,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               subtitle={visuals.dashboard.subtitle}
               kpis={visuals.dashboard.kpis}
               activity={visuals.dashboard.activity}
+              liveTickerPool={visuals.dashboard.liveTickerPool}
               evalPct={visuals.dashboard.evalPct}
               spendUsed={visuals.dashboard.spendUsed}
               spendCap={visuals.dashboard.spendCap}

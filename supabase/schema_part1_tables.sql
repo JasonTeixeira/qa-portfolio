@@ -187,3 +187,18 @@ create table if not exists service_catalog (
   active boolean default true,
   created_at timestamptz default now()
 );
+
+-- Newsletter subscribers (Phase 15)
+create table if not exists newsletter_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  source text,                         -- where they signed up (homepage, lab, etc.)
+  status text default 'active'
+    check (status in ('active','unsubscribed','bounced')),
+  ip text,
+  user_agent text,
+  created_at timestamptz default now(),
+  unsubscribed_at timestamptz
+);
+create index if not exists newsletter_subscribers_status_idx on newsletter_subscribers(status);
+create index if not exists newsletter_subscribers_created_idx on newsletter_subscribers(created_at desc);

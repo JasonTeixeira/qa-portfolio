@@ -4,6 +4,7 @@ import { ArrowRight, Gauge, Calculator } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { LabGrid } from './lab-grid'
 import { labProducts } from '@/data/lab/products'
+import { NewsletterSignup } from '@/components/newsletter-signup'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/lab' },
@@ -85,6 +86,11 @@ export default function LabPage() {
               </div>
             </Link>
           </div>
+        </section>
+
+        {/* Newsletter */}
+        <section className="mb-20">
+          <NewsletterSignup source="lab" />
         </section>
 
         {/* Product grid */}

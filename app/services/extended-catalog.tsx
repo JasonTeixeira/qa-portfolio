@@ -8,6 +8,9 @@ import {
   Compass,
   Package,
   Clock,
+  ShieldCheck,
+  TrendingUp,
+  Briefcase,
 } from 'lucide-react'
 import {
   extendedCategories,
@@ -27,6 +30,9 @@ const iconFor: Record<ExtendedCategoryMeta['icon'], IconComponent> = {
   refresh: RefreshCw,
   compass: Compass,
   package: Package,
+  shield: ShieldCheck,
+  trending: TrendingUp,
+  briefcase: Briefcase,
 }
 
 function ServiceCard({ tier, accent }: { tier: ExtendedTier; accent: string }) {

@@ -11,6 +11,7 @@
 // for free with the same component used by Audit, Ship, etc.
 
 import type { Tier } from './tiers'
+import { phase13Offers } from './phase13-offers'
 
 export type ExtendedCategory =
   | 'ai-flagship'
@@ -20,6 +21,9 @@ export type ExtendedCategory =
   | 'retainers'
   | 'diagnostics'
   | 'bundle'
+  | 'compliance'
+  | 'growth'
+  | 'fractional'
 
 export type ExtendedTier = Tier & {
   category: ExtendedCategory
@@ -2320,6 +2324,10 @@ export const extendedTiers: ExtendedTier[] = [
   // Bundle
   studioPackage,
   bespokeBuild,
+  // Phase 13 — SMB-friendly productized offers (RAG, AI SDR, support, knowledge
+  // bot, meeting notes, SOC 2, HIPAA, Stripe, auth+billing, fractional CTO,
+  // SEO foundation, churn prediction). Distributed across categories above.
+  ...phase13Offers,
 ]
 
 export const extendedTiersBySlug = Object.fromEntries(
@@ -2331,7 +2339,16 @@ export type ExtendedCategoryMeta = {
   label: string
   tagline: string
   accent: string // hex color used by the section card
-  icon: 'sparkles' | 'workflow' | 'bot' | 'refresh' | 'compass' | 'package'
+  icon:
+    | 'sparkles'
+    | 'workflow'
+    | 'bot'
+    | 'refresh'
+    | 'compass'
+    | 'package'
+    | 'shield'
+    | 'trending'
+    | 'briefcase'
 }
 
 export const extendedCategories: ExtendedCategoryMeta[] = [
@@ -2378,6 +2395,27 @@ export const extendedCategories: ExtendedCategoryMeta[] = [
     icon: 'compass',
   },
   {
+    key: 'compliance',
+    label: 'Compliance & security',
+    tagline: 'SOC 2, HIPAA, GDPR — readiness sprints that hit audit-ready milestones.',
+    accent: '#22C55E',
+    icon: 'shield',
+  },
+  {
+    key: 'growth',
+    label: 'Growth engineering',
+    tagline: 'SEO foundations, attribution, and conversion infrastructure that compounds.',
+    accent: '#F97316',
+    icon: 'trending',
+  },
+  {
+    key: 'fractional',
+    label: 'Fractional leadership',
+    tagline: 'Senior technical leadership without the $300k headcount.',
+    accent: '#A855F7',
+    icon: 'briefcase',
+  },
+  {
     key: 'bundle',
     label: 'Bundles & bespoke',
     tagline: 'One contract for the whole AI stack — or scope something custom.',
@@ -2395,6 +2433,9 @@ export const extendedTiersByCategory = (() => {
     retainers: [],
     diagnostics: [],
     bundle: [],
+    compliance: [],
+    growth: [],
+    fractional: [],
   }
   for (const t of extendedTiers) {
     byCat[t.category].push(t)

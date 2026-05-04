@@ -32,8 +32,7 @@ jobs:
       - name: Validate content (no dead refs)
         run: npm run validate
 
-      - name: Build (debug)
-        id: build
+      - name: Build
         env:
           # Build-time placeholders so Next.js doesn't fail on missing env in CI.
           # All real env values come from Vercel at runtime.
@@ -43,49 +42,10 @@ jobs:
           STRIPE_SECRET_KEY: sk_test_placeholder
           STRIPE_WEBHOOK_SECRET: whsec_placeholder
           RESEND_API_KEY: re_placeholder
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
+          # Clerk validates the publishable key format at prerender time, so a plain
+          # 'placeholder' string throws. This is a syntactically valid pk_test_ key
+          # encoding 'clerk.placeholder.dev$' — never used at runtime (real key in Vercel).
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_Y2xlcmsucGxhY2Vob2xkZXIuZGV2JA
           CLERK_SECRET_KEY: sk_test_placeholder
           NEXT_PUBLIC_APP_URL: https://www.sageideas.dev
-        run: |
-          set +e
-          {
-            echo '## Build debug'
-            echo ''
-            echo '```'
-            node --version
-            npm --version
-            npx next --version
-            echo ''
-            echo '--- env (filtered) ---'
-            env | grep -E '^(NEXT|CLERK|STRIPE|SUPABASE|RESEND)_' | sed -E 's/(KEY|SECRET)=.*/\1=***/' | sort
-            echo ''
-          } >> "$GITHUB_STEP_SUMMARY"
-          npm run build > /tmp/build.log 2>&1
-          status=$?
-          {
-            echo "--- build exit: $status ---"
-            echo ''
-            tail -300 /tmp/build.log
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-          exit $status
-
-      - name: Upload build log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: /tmp/build.log
-          if-no-files-found: ignore
-
-      - name: Post build log as commit comment
-        if: failure()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ -f /tmp/build.log ]; then
-            log=$(tail -150 /tmp/build.log)
-            body=$(printf 'CI build failed for %s\n\n```\n%s\n```\n' "$GITHUB_SHA" "$log")
-            jq -n --arg body "$body" '{body: $body}' > /tmp/comment.json
-            gh api -X POST "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" --input /tmp/comment.json || true
-          fi
+        run: npm run build

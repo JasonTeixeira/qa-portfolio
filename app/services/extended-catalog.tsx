@@ -18,6 +18,9 @@ import {
   type ExtendedCategoryMeta,
   type ExtendedTier,
 } from '@/data/services/extended'
+import { getServiceTier, tierLabel } from '@/data/services/tier-classification'
+import { getVisualMeta } from '@/data/services/visual-meta'
+import { ServiceIcon } from '@/components/services/icon'
 
 type IconComponent = React.ComponentType<
   React.SVGProps<SVGSVGElement> & { size?: string | number }
@@ -36,12 +39,32 @@ const iconFor: Record<ExtendedCategoryMeta['icon'], IconComponent> = {
 }
 
 function ServiceCard({ tier, accent }: { tier: ExtendedTier; accent: string }) {
+  const sTier = getServiceTier(tier)
+  const meta = getVisualMeta(tier.slug)
   return (
     <Link
       href={`/services/${tier.slug}`}
       className="group rounded-2xl border border-[#27272A] bg-[#0F0F12] p-5 hover:border-[#3F3F46] transition-colors flex flex-col"
       style={{ ['--accent' as string]: accent }}
     >
+      <div className="flex items-center gap-2 mb-2">
+        <span
+          className="inline-flex w-7 h-7 rounded-md items-center justify-center"
+          style={{ backgroundColor: `${accent}14`, color: accent }}
+        >
+          <ServiceIcon name={meta.icon} className="w-3.5 h-3.5" />
+        </span>
+        <span
+          className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border"
+          style={{
+            color: accent,
+            borderColor: `${accent}40`,
+            backgroundColor: `${accent}10`,
+          }}
+        >
+          {tierLabel[sTier]}
+        </span>
+      </div>
       <div className="flex items-start justify-between gap-3 mb-2">
         <h3 className="font-semibold text-[#FAFAFA] leading-snug">{tier.name}</h3>
         <span

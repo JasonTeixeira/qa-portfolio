@@ -8,6 +8,10 @@ import {
 } from '@/data/services/extended'
 import { TierPageContent } from './tier-page-content'
 import { FlagshipPageContent } from './flagship-page-content'
+import { TierAPage } from '@/components/services/templates/tier-a-page'
+import { TierBPage } from '@/components/services/templates/tier-b-page'
+import { TierCPage } from '@/components/services/templates/tier-c-page'
+import { getServiceTier } from '@/data/services/tier-classification'
 import { StickyCta } from '@/components/sticky-cta'
 
 type Params = { slug: string }
@@ -124,11 +128,16 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      {(tier as ExtendedTier).category === 'ai-flagship' ? (
-        <FlagshipPageContent tier={tier as ExtendedTier} />
-      ) : (
-        <TierPageContent tier={tier} />
-      )}
+      {(() => {
+        const serviceTier = getServiceTier(tier)
+        if (serviceTier === 'flagship') {
+          return <FlagshipPageContent tier={tier as ExtendedTier} />
+        }
+        if (serviceTier === 'A') return <TierAPage tier={tier} />
+        if (serviceTier === 'B') return <TierBPage tier={tier} />
+        if (serviceTier === 'C') return <TierCPage tier={tier} />
+        return <TierPageContent tier={tier} />
+      })()}
       <StickyCta
         pitch={`Want to scope ${tier.name}?`}
         ctaLabel="Book a 30-min call"

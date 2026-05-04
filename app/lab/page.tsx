@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Gauge, Calculator } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 import { LabGrid } from './lab-grid'
 import { labProducts } from '@/data/lab/products'
@@ -39,9 +39,63 @@ export default function LabPage() {
           </p>
         </section>
 
+        {/* Free tools */}
+        <section className="mb-20">
+          <SectionLabel>Free tools</SectionLabel>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] tracking-tight">
+            Try before you talk to us.
+          </h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <Link
+              href="/lab/ai-readiness"
+              className="group rounded-2xl border border-[#27272A] bg-[#18181B] p-6 transition-all hover:border-[#06B6D4]/50 hover:bg-[#06B6D4]/5"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#06B6D4]/10 text-[#06B6D4]">
+                  <Gauge className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-[#FAFAFA]">AI Readiness Score</h3>
+                    <ArrowRight className="h-4 w-4 text-[#52525B] transition-all group-hover:translate-x-1 group-hover:text-[#06B6D4]" />
+                  </div>
+                  <p className="mt-1 text-sm text-[#A1A1AA]">
+                    10-question diagnostic across data, infra, process, talent, and ROI clarity. Personalized next step.
+                  </p>
+                </div>
+              </div>
+            </Link>
+            <Link
+              href="/lab/calculators"
+              className="group rounded-2xl border border-[#27272A] bg-[#18181B] p-6 transition-all hover:border-[#06B6D4]/50 hover:bg-[#06B6D4]/5"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#06B6D4]/10 text-[#06B6D4]">
+                  <Calculator className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-[#FAFAFA]">ROI calculators</h3>
+                    <ArrowRight className="h-4 w-4 text-[#52525B] transition-all group-hover:translate-x-1 group-hover:text-[#06B6D4]" />
+                  </div>
+                  <p className="mt-1 text-sm text-[#A1A1AA]">
+                    Five interactive estimates: AI SDR, support agent, RAG, voice, churn prediction.
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Product grid */}
         <section>
-          <LabGrid products={labProducts} />
+          <SectionLabel>Products</SectionLabel>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-[#FAFAFA] tracking-tight">
+            Things we built and run ourselves.
+          </h2>
+          <div className="mt-8">
+            <LabGrid products={labProducts} />
+          </div>
         </section>
       </div>
     </div>

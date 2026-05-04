@@ -20,6 +20,8 @@ import {
   Users,
   Wrench,
   ShieldCheck,
+  Gauge,
+  Calculator,
   Building2,
   History,
   Mail,
@@ -165,9 +167,21 @@ const resourcesMega: MegaSection[] = [
     title: 'Use',
     items: [
       {
+        href: '/lab/ai-readiness',
+        label: 'AI Readiness Score',
+        description: '10-question diagnostic with personalized roadmap',
+        icon: Gauge,
+      },
+      {
+        href: '/lab/calculators',
+        label: 'ROI calculators',
+        description: 'SDR, support, RAG, voice, churn',
+        icon: Calculator,
+      },
+      {
         href: '/lab',
-        label: 'Lab',
-        description: 'Free templates & calculators',
+        label: 'Lab products',
+        description: 'What we built and operate ourselves',
         icon: FlaskConical,
       },
       {
@@ -216,7 +230,9 @@ const mobileFlat: { href: string; label: string; section?: string }[] = [
   { href: '/services#cat-ai-flagship', label: 'AI Flagship', section: 'PRIMARY' },
   { href: '/blog', label: 'Insights', section: 'RESOURCES' },
   { href: '/pov', label: 'POV', section: 'RESOURCES' },
-  { href: '/lab', label: 'Lab', section: 'RESOURCES' },
+  { href: '/lab/ai-readiness', label: 'AI Readiness Score', section: 'RESOURCES' },
+  { href: '/lab/calculators', label: 'ROI calculators', section: 'RESOURCES' },
+  { href: '/lab', label: 'Lab products', section: 'RESOURCES' },
   { href: '/how-it-works', label: 'How it works', section: 'RESOURCES' },
   { href: '/changelog', label: 'Changelog', section: 'RESOURCES' },
   { href: '/capabilities', label: 'Capabilities', section: 'COMPANY' },

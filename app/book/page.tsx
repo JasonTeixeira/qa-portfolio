@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CalEmbed } from '@/components/studio/cal-embed'
 import { SectionLabel } from '@/components/section-label'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Mail, Calendar } from 'lucide-react'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/book' },
@@ -81,10 +80,60 @@ export default function BookPage() {
         </div>
       </section>
 
-      {/* Cal embed */}
+      {/* Direct intake — no third-party embed */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="rounded-2xl border border-[#27272A] bg-[#0F0F12] overflow-hidden">
-          <CalEmbed calLink="sage-ideas/discovery" />
+        <div className="rounded-2xl border border-[#27272A] bg-gradient-to-br from-[#0F0F12] to-[#18181B] p-8 sm:p-12">
+          <div className="max-w-2xl">
+            <p className="text-xs font-mono text-[#06B6D4] uppercase tracking-widest mb-3">
+              Two ways to start
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#FAFAFA] tracking-tight">
+              Pick what feels lighter.
+            </h2>
+            <p className="mt-3 text-[#A1A1AA] leading-relaxed">
+              Both go to the same inbox. The structured intake is faster — you get a written reply within 24 hours with concrete next steps.
+            </p>
+          </div>
+
+          <div className="mt-8 grid sm:grid-cols-2 gap-4">
+            <Link
+              href="/contact?type=consult&source=book"
+              className="group rounded-xl border border-[#27272A] bg-[#0A0A0C] p-6 hover:border-[#06B6D4] transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/30 flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-[#06B6D4]" />
+                </div>
+                <span className="text-xs font-mono text-[#06B6D4] uppercase tracking-widest">Recommended</span>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-[#FAFAFA]">Structured intake</h3>
+              <p className="mt-2 text-sm text-[#A1A1AA] leading-relaxed">
+                A 5-minute form. You get a written reply within 24 hours with a recommended path, scope, and ballpark price. No call required to start.
+              </p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#06B6D4] group-hover:text-[#22D3EE] transition-colors">
+                Start intake <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+
+            <a
+              href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
+              className="group rounded-xl border border-[#27272A] bg-[#0A0A0C] p-6 hover:border-[#06B6D4] transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-[#8B5CF6]" />
+                </div>
+                <span className="text-xs font-mono text-[#8B5CF6] uppercase tracking-widest">Direct</span>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-[#FAFAFA]">Email Sage directly</h3>
+              <p className="mt-2 text-sm text-[#A1A1AA] leading-relaxed">
+                Prefer to skip the form? Reply with project overview, timeline, budget range, and times that work — you&apos;ll get scheduling options back same day.
+              </p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#8B5CF6] group-hover:text-[#A78BFA] transition-colors">
+                sage@sageideas.dev <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* What to expect strip */}
@@ -119,20 +168,7 @@ export default function BookPage() {
           ))}
         </div>
 
-        {/* Prefer typed intake */}
-        <div className="mt-12 text-center">
-          <p className="text-[#71717A] text-sm mb-2">Prefer to write it out?</p>
-          <Link
-            href="/contact?type=consult&source=book"
-            className="inline-flex items-center gap-1.5 text-[#06B6D4] hover:text-[#22D3EE] font-medium transition-colors text-sm"
-          >
-            Send a structured inquiry
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <p className="text-[#71717A] text-xs mt-1">
-            Same inbox, faster routing.
-          </p>
-        </div>
+
       </section>
     </div>
   )

@@ -81,7 +81,7 @@ export function SignaturePad({ documentId, signerName, signerEmail, onSigned }: 
         <div>
           <div className="font-medium text-[#fafafa]">Signed</div>
           <div className="text-xs text-[#a1a1aa]">
-            We've recorded your signature with full audit trail.
+            We&apos;ve recorded your signature with full audit trail.
           </div>
         </div>
       </div>

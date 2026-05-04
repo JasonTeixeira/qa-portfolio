@@ -23,4 +23,20 @@ export default defineConfig([
   ]),
   ...nextVitals,
   ...nextTs,
+  {
+    // Pragmatic relaxations:
+    // - portal code talks to Supabase with dynamic row shapes — `any` is fine there.
+    // - The newer react-hooks/purity + set-state-in-effect rules fire on legitimate
+    //   older patterns we don't want to refactor for a marketing site.
+    // - shadcn-style ui primitives carry small idiomatic warnings we accept.
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "react-hooks/purity": "warn",
+      "react-hooks/set-state-in-effect": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ]);

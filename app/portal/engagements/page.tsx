@@ -42,7 +42,7 @@ export default async function EngagementsPage() {
               </div>
               <h3 className="font-semibold text-[#fafafa]">No engagements yet</h3>
               <p className="text-sm text-[#71717a] mt-1.5 max-w-md mx-auto">
-                Once a project kicks off, you'll see all phases, deliverables, and progress here.
+                Once a project kicks off, you&apos;ll see all phases, deliverables, and progress here.
               </p>
               <Link
                 href="/catalog"

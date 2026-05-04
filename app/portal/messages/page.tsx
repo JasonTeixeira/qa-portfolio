@@ -30,7 +30,7 @@ export default async function MessagesPage() {
               </div>
               <h3 className="font-semibold text-[#fafafa]">No conversations yet</h3>
               <p className="text-sm text-[#71717a] mt-1.5">
-                When the team starts a thread, you'll see it here in real time.
+                When the team starts a thread, you&apos;ll see it here in real time.
               </p>
             </CardContent>
           </Card>

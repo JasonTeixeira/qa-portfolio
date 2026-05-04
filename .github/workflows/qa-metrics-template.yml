@@ -10,9 +10,10 @@ name: QA Metrics (Template)
 # Optional:
 #   - upload Playwright/Lighthouse reports
 
+# This is a TEMPLATE only — it should be copied into each project repo as
+# .github/workflows/qa-metrics.yml and customized for that repo's stack.
+# Do not auto-trigger here; manual dispatch only so it doesn't pollute CI.
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 permissions:

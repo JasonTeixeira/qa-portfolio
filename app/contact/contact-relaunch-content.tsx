@@ -154,7 +154,7 @@ function ContactInner() {
               read personally — well-matched ones get a response within 48 hours.
             </p>
             <p className="mt-3 text-sm text-[#71717A]">
-              No match? You'll still hear back. We don't ghost.
+              No match? You&apos;ll still hear back. We don&apos;t ghost.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild className="bg-[#06B6D4] text-[#09090B] hover:bg-[#22D3EE] font-semibold">
@@ -406,7 +406,7 @@ function ContactInner() {
               <div className="mt-1.5 text-base font-semibold text-[#FAFAFA]">Jason Teixeira</div>
               <div className="mt-0.5 text-sm text-[#A1A1AA]">Founder · Sage Ideas Studio</div>
               <p className="mt-3 text-sm text-[#A1A1AA] leading-relaxed">
-                Every inquiry lands in my inbox. No SDR, no triage queue. You'll talk to the person doing the work.
+                Every inquiry lands in my inbox. No SDR, no triage queue. You&apos;ll talk to the person doing the work.
               </p>
               <div className="mt-4 flex items-center gap-2 rounded-lg border border-[#27272A] bg-[#0A0A0C] p-3">
                 <Clock className="h-4 w-4 text-[#06B6D4] shrink-0" />
@@ -425,7 +425,7 @@ function ContactInner() {
               From inquiry to kickoff, in four steps.
             </h2>
             <p className="mt-3 text-[#A1A1AA] leading-relaxed max-w-2xl">
-              No black-box sales process. Here's exactly what happens after you submit.
+              No black-box sales process. Here&apos;s exactly what happens after you submit.
             </p>
             <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {[

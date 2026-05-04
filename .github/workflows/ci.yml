@@ -32,8 +32,8 @@ jobs:
       - name: Validate content (no dead refs)
         run: npm run validate
 
-      - name: Build
-        run: npm run build
+      - name: Build (debug)
+        id: build
         env:
           # Build-time placeholders so Next.js doesn't fail on missing env in CI.
           # All real env values come from Vercel at runtime.
@@ -46,3 +46,34 @@ jobs:
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
           CLERK_SECRET_KEY: sk_test_placeholder
           NEXT_PUBLIC_APP_URL: https://www.sageideas.dev
+        run: |
+          set +e
+          {
+            echo '## Build debug'
+            echo ''
+            echo '```'
+            node --version
+            npm --version
+            npx next --version
+            echo ''
+            echo '--- env (filtered) ---'
+            env | grep -E '^(NEXT|CLERK|STRIPE|SUPABASE|RESEND)_' | sed -E 's/(KEY|SECRET)=.*/\1=***/' | sort
+            echo ''
+          } >> "$GITHUB_STEP_SUMMARY"
+          npm run build > /tmp/build.log 2>&1
+          status=$?
+          {
+            echo "--- build exit: $status ---"
+            echo ''
+            tail -300 /tmp/build.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: /tmp/build.log
+          if-no-files-found: ignore

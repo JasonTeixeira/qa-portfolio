@@ -23,6 +23,8 @@ import {
 import { ServiceIcon } from '@/components/services/icon'
 import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
 import { testimonials } from '@/data/social-proof/testimonials'
+import { RiskReversal } from '@/components/services/risk-reversal'
+import { SampleDeliverable } from '@/components/services/sample-deliverable'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -239,6 +241,12 @@ export function TierAPage({ tier }: { tier: Tier | ExtendedTier }) {
           </div>
         </section>
       )}
+
+      {/* Sample deliverables */}
+      <SampleDeliverable />
+
+      {/* Risk reversal */}
+      <RiskReversal />
 
       {/* Testimonial */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

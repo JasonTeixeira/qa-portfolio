@@ -28,6 +28,8 @@ import { AgentCostEstimator } from '@/components/agents/agent-cost-estimator'
 import { VoiceAgentAudioCue } from '@/components/agents/voice-agent-audio-cue'
 import { FlagshipCompare } from '@/components/agents/flagship-compare'
 import { AgentFlowDiagrams } from '@/components/diagrams'
+import { RiskReversal } from '@/components/services/risk-reversal'
+import { SampleDeliverable } from '@/components/services/sample-deliverable'
 
 const TRUST_BADGES = [
   {
@@ -679,6 +681,12 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
             </div>
           </motion.section>
         )}
+
+        {/* Sample deliverables */}
+        <SampleDeliverable />
+
+        {/* Risk reversal */}
+        <RiskReversal />
 
         {/* FAQ */}
         {tier.faq.length > 0 && (

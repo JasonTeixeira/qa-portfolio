@@ -27,6 +27,7 @@ import { ProductRotator, type RotatorItem } from '@/components/home/product-rota
 import { TypewriterLines, Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
 import { testimonials } from '@/data/social-proof/testimonials'
+import { TrackedLink } from '@/components/analytics/tracked-link'
 
 const HERO_ROTATOR_ITEMS: RotatorItem[] = [
   {
@@ -1108,10 +1109,14 @@ export default function HomePage() {
                 size="lg"
                 className="bg-[#06B6D4] hover:bg-[#0891B2] text-[#09090B] font-medium"
               >
-                <Link href="/book">
+                <TrackedLink
+                  href="/book"
+                  event="cta_click"
+                  eventProps={{ location: 'home_final_cta', label: 'book_discovery' }}
+                >
                   Book a Discovery Call
                   <ArrowRight className="w-4 h-4 ml-1.5" />
-                </Link>
+                </TrackedLink>
               </Button>
               <Button
                 asChild
@@ -1119,7 +1124,13 @@ export default function HomePage() {
                 variant="ghost"
                 className="text-[#FAFAFA] hover:bg-[#18181B] border border-[#27272A]"
               >
-                <Link href="/pricing">See Pricing</Link>
+                <TrackedLink
+                  href="/pricing"
+                  event="cta_click"
+                  eventProps={{ location: 'home_final_cta', label: 'see_pricing' }}
+                >
+                  See Pricing
+                </TrackedLink>
               </Button>
             </div>
           </motion.div>

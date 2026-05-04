@@ -7,6 +7,7 @@ import './globals.css'
 import { MarketingChrome } from '@/components/marketing-chrome'
 import { CookieBanner } from '@/components/studio/cookie-banner'
 import { ExitIntentModal } from '@/components/exit-intent-modal'
+import { PostHogProvider } from '@/components/analytics/posthog-provider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -200,11 +201,13 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
           />
-          <MarketingChrome position="top" />
-          <MarketingChrome position="children">{children}</MarketingChrome>
-          <MarketingChrome position="bottom" />
-          <CookieBanner />
-          <ExitIntentModal />
+          <PostHogProvider>
+            <MarketingChrome position="top" />
+            <MarketingChrome position="children">{children}</MarketingChrome>
+            <MarketingChrome position="bottom" />
+            <CookieBanner />
+            <ExitIntentModal />
+          </PostHogProvider>
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </body>
       </html>

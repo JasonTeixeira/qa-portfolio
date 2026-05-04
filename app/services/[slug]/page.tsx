@@ -13,6 +13,7 @@ import { TierBPage } from '@/components/services/templates/tier-b-page'
 import { TierCPage } from '@/components/services/templates/tier-c-page'
 import { getServiceTier } from '@/data/services/tier-classification'
 import { StickyCta } from '@/components/sticky-cta'
+import { ServiceViewTracker } from '@/components/analytics/service-view-tracker'
 
 type Params = { slug: string }
 
@@ -130,13 +131,22 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
       )}
       {(() => {
         const serviceTier = getServiceTier(tier)
-        if (serviceTier === 'flagship') {
-          return <FlagshipPageContent tier={tier as ExtendedTier} />
-        }
-        if (serviceTier === 'A') return <TierAPage tier={tier} />
-        if (serviceTier === 'B') return <TierBPage tier={tier} />
-        if (serviceTier === 'C') return <TierCPage tier={tier} />
-        return <TierPageContent tier={tier} />
+        return (
+          <>
+            <ServiceViewTracker slug={tier.slug} tier={serviceTier} />
+            {serviceTier === 'flagship' ? (
+              <FlagshipPageContent tier={tier as ExtendedTier} />
+            ) : serviceTier === 'A' ? (
+              <TierAPage tier={tier} />
+            ) : serviceTier === 'B' ? (
+              <TierBPage tier={tier} />
+            ) : serviceTier === 'C' ? (
+              <TierCPage tier={tier} />
+            ) : (
+              <TierPageContent tier={tier} />
+            )}
+          </>
+        )
       })()}
       <StickyCta
         pitch={`Want to scope ${tier.name}?`}

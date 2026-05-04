@@ -10,6 +10,7 @@ import { RefreshCw, Sparkles, Layers, FlaskConical } from 'lucide-react'
 import { CapacitySignal } from '@/components/social-proof/capacity-signal'
 import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
 import { testimonials } from '@/data/social-proof/testimonials'
+import { DecisionTree } from '@/components/services/decision-tree'
 
 // Evidence pulled from real Lab products / Work case studies. No fabricated metrics.
 const evidenceItems = [
@@ -113,6 +114,11 @@ export default function ServicesPage() {
       {/* Capacity signal */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CapacitySignal />
+      </section>
+
+      {/* Decision tree */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <DecisionTree />
       </section>
 
       {/* Tier Grid — productized engagements with Stripe checkout */}

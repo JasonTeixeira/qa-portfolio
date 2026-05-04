@@ -5,6 +5,7 @@ import { pricingFaq } from '@/data/services/pricing-faq'
 import { PricingContent } from './pricing-content'
 import { ExtendedPricingMenu } from './extended-pricing-menu'
 import { JsonLd } from '@/components/json-ld'
+import { PageViewTracker } from '@/components/analytics/page-view-tracker'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -47,6 +48,7 @@ export default function PricingPage() {
   return (
     <>
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
+      <PageViewTracker event="pricing_view" />
       <PricingContent tiers={tiersOrdered} />
       <ExtendedPricingMenu extended={extendedTiers} care={careTiers} />
     </>

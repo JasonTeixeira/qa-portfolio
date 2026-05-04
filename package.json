@@ -81,6 +81,7 @@
     "remark-gfm": "^4.0.1",
     "resend": "^4.0.1",
     "sharp": "^0.34.5",
+    "shiki": "^4.0.2",
     "signature_pad": "^5.0.4",
     "sonner": "^1.7.1",
     "stripe": "^22.1.0",

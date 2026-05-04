@@ -77,3 +77,15 @@ jobs:
           name: build-log
           path: /tmp/build.log
           if-no-files-found: ignore
+
+      - name: Post build log as commit comment
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f /tmp/build.log ]; then
+            log=$(tail -150 /tmp/build.log)
+            body=$(printf 'CI build failed for %s\n\n```\n%s\n```\n' "$GITHUB_SHA" "$log")
+            jq -n --arg body "$body" '{body: $body}' > /tmp/comment.json
+            gh api -X POST "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" --input /tmp/comment.json || true
+          fi

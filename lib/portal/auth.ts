@@ -1,9 +1,11 @@
-import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
 
 export interface PortalUser {
   id: string;
+  // Stable Supabase auth user ID. Kept under the legacy `clerk_id` field name
+  // so that existing tables (app_users, signature_audits, activity, etc.) and
+  // downstream code don't need to be migrated in this phase.
   clerk_id: string;
   email: string;
   full_name: string | null;
@@ -21,34 +23,63 @@ export interface PortalContext {
 const ADMIN_EMAILS = ['sage@sageideas.dev', 'sage@sageideas.org'];
 
 /**
- * Resolves the Clerk-authenticated user, upserts them into Supabase, and
- * returns their portal context (org membership, role).
- * Use in every server component / route handler that requires auth.
+ * Resolves the Supabase-authenticated user, ensures their profile + app_users row
+ * exist, and returns their portal context (org membership, role).
+ * Use in every server component / route handler that requires an approved session.
  */
 export async function getPortalContext(): Promise<PortalContext> {
-  const { userId } = await auth();
-  if (!userId) redirect('/login');
-  const cu = await currentUser();
-  if (!cu) redirect('/login');
-
-  const email =
-    cu.primaryEmailAddress?.emailAddress ?? cu.emailAddresses?.[0]?.emailAddress ?? '';
-  const fullName =
-    [cu.firstName, cu.lastName].filter(Boolean).join(' ').trim() || cu.username || email;
-  const avatar = cu.imageUrl ?? null;
-  const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
 
   const sb = supabaseAdmin();
 
-  // Upsert user
-  const { data: upsertedUser, error: userErr } = await sb
+  let { data: profile } = await sb
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!profile) {
+    const fallbackName =
+      (user.user_metadata?.full_name as string | undefined) ??
+      (user.user_metadata?.name as string | undefined) ??
+      '';
+    const insertRes = await sb
+      .from('profiles')
+      .insert({ id: user.id, email: user.email ?? '', full_name: fallbackName })
+      .select()
+      .maybeSingle();
+    profile = insertRes.data;
+  }
+
+  if (!profile) {
+    throw new Error('Failed to load or create profile');
+  }
+
+  const email = profile.email ?? user.email ?? '';
+  const fullName = profile.full_name ?? '';
+  const isAdmin =
+    profile.app_role === 'admin' || ADMIN_EMAILS.includes(email.toLowerCase());
+
+  if (!isAdmin && profile.approval_status !== 'approved') {
+    redirect('/pending-approval');
+  }
+
+  // Bridge to existing app_users row used by other tables (engagements, activity, etc.).
+  const { data: upsertedAppUser } = await sb
     .from('app_users')
     .upsert(
       {
-        clerk_id: userId,
+        clerk_id: user.id,
         email,
         full_name: fullName,
-        avatar_url: avatar,
+        avatar_url:
+          profile.avatar_url ??
+          (user.user_metadata?.avatar_url as string | undefined) ??
+          null,
         role: isAdmin ? 'admin' : 'client',
       },
       { onConflict: 'clerk_id' },
@@ -56,32 +87,35 @@ export async function getPortalContext(): Promise<PortalContext> {
     .select()
     .single();
 
-  if (userErr || !upsertedUser) {
-    console.error('user upsert failed', userErr);
-    throw new Error('Failed to provision user');
+  if (!upsertedAppUser) {
+    throw new Error('Failed to provision app_users row');
   }
 
-  // Find their org membership
   const { data: memberships } = await sb
     .from('org_memberships')
     .select('organization_id, organizations(id, name, slug)')
-    .eq('user_id', upsertedUser.id)
+    .eq('user_id', upsertedAppUser.id)
     .limit(1);
 
   let organizationId: string | null = null;
   let organizationName: string | null = null;
 
   if (memberships && memberships.length > 0) {
-    const m = memberships[0] as any;
+    const m = memberships[0] as {
+      organization_id: string;
+      organizations?: { name?: string };
+    };
     organizationId = m.organization_id;
     organizationName = m.organizations?.name ?? null;
   } else if (!isAdmin) {
-    // First-time client login: auto-provision a stub org named after them.
-    const slug = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Math.random().toString(36).slice(2, 6);
+    const slug =
+      email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-') +
+      '-' +
+      Math.random().toString(36).slice(2, 6);
     const { data: newOrg } = await sb
       .from('organizations')
       .insert({
-        name: `${fullName.split(' ')[0]}'s Workspace`,
+        name: `${fullName.split(' ')[0] || email.split('@')[0]}'s Workspace`,
         slug,
         primary_contact_email: email,
         status: 'prospect',
@@ -91,7 +125,7 @@ export async function getPortalContext(): Promise<PortalContext> {
 
     if (newOrg) {
       await sb.from('org_memberships').insert({
-        user_id: upsertedUser.id,
+        user_id: upsertedAppUser.id,
         organization_id: newOrg.id,
         role: 'owner',
       });
@@ -101,7 +135,7 @@ export async function getPortalContext(): Promise<PortalContext> {
   }
 
   return {
-    user: upsertedUser as PortalUser,
+    user: upsertedAppUser as PortalUser,
     organizationId,
     organizationName,
     isAdmin,

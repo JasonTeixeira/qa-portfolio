@@ -1,4 +1,4 @@
-// Login uses Clerk's SignIn component which needs runtime env/context.
+// Auth pages depend on cookies + Supabase server actions — never statically render.
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 

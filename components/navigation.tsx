@@ -29,7 +29,6 @@ import {
   Mail,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -390,7 +389,7 @@ function MegaDropdown({
 
 type OpenMenu = null | 'services' | 'resources'
 
-export function Navigation() {
+export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null)
@@ -524,7 +523,19 @@ export function Navigation() {
               </kbd>
             </button>
 
-            <SignedOut>
+            {isSignedIn ? (
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="whitespace-nowrap border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+              >
+                <Link href="/auth/redirect">
+                  <LayoutDashboard className="h-4 w-4 mr-1.5" />
+                  Portal
+                </Link>
+              </Button>
+            ) : (
               <Button
                 asChild
                 variant="outline"
@@ -536,20 +547,7 @@ export function Navigation() {
                   Login
                 </Link>
               </Button>
-            </SignedOut>
-            <SignedIn>
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="whitespace-nowrap border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
-              >
-                <Link href="/portal/home">
-                  <LayoutDashboard className="h-4 w-4 mr-1.5" />
-                  Portal
-                </Link>
-              </Button>
-            </SignedIn>
+            )}
 
             <Button
               asChild
@@ -558,14 +556,6 @@ export function Navigation() {
             >
               <Link href="/book">Book a Call</Link>
             </Button>
-
-            <SignedIn>
-              <UserButton
-                appearance={{
-                  elements: { avatarBox: 'w-8 h-8 ring-1 ring-[#3F3F46]' },
-                }}
-              />
-            </SignedIn>
           </div>
 
           {/* Mobile toggle */}
@@ -640,7 +630,19 @@ export function Navigation() {
                   >
                     <Linkedin className="w-5 h-5" />
                   </Link>
-                  <SignedOut>
+                  {isSignedIn ? (
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
+                    >
+                      <Link href="/auth/redirect">
+                        <LayoutDashboard className="h-4 w-4 mr-1" />
+                        Portal
+                      </Link>
+                    </Button>
+                  ) : (
                     <Button
                       asChild
                       variant="outline"
@@ -652,20 +654,7 @@ export function Navigation() {
                         Login
                       </Link>
                     </Button>
-                  </SignedOut>
-                  <SignedIn>
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="border-[#3F3F46] text-[#A1A1AA] hover:border-[#06B6D4] hover:text-[#06B6D4] bg-transparent"
-                    >
-                      <Link href="/portal/home">
-                        <LayoutDashboard className="h-4 w-4 mr-1" />
-                        Portal
-                      </Link>
-                    </Button>
-                  </SignedIn>
+                  )}
                   <Button
                     asChild
                     size="sm"

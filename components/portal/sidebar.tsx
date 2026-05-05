@@ -1,7 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserButton } from '@clerk/nextjs';
+import { signOut } from '@/app/auth/actions';
+import { LogOut } from 'lucide-react';
 import {
   LayoutDashboard,
   Briefcase,
@@ -115,19 +116,21 @@ export function Sidebar({ isAdmin = false, orgName }: { isAdmin?: boolean; orgNa
       </nav>
 
       <div className="p-4 border-t border-[#27272a] flex items-center gap-3">
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: 'w-9 h-9 ring-1 ring-[#3f3f46]',
-            },
-          }}
-        />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="text-xs text-[#a1a1aa]">Signed in</div>
           <Link href="/portal/home" className="text-xs text-[#06b6d4] hover:text-[#22d3ee]">
             Account
           </Link>
         </div>
+        <form action={signOut}>
+          <button
+            type="submit"
+            aria-label="Sign out"
+            className="p-2 rounded-lg text-[#a1a1aa] hover:text-[#fafafa] hover:bg-[#18181b] transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </form>
       </div>
     </aside>
   );

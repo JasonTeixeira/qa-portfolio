@@ -2,7 +2,7 @@ import { getPortalContext } from '@/lib/portal/auth';
 import { Sidebar } from '@/components/portal/sidebar';
 
 // Portal is fully auth-gated and DB-backed. Skip static optimization
-// so Clerk has runtime access to env vars and request context.
+// so Supabase Auth has runtime access to cookies and the request context.
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 

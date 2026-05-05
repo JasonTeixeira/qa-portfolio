@@ -10,7 +10,7 @@ export async function GET() {
       db: error ? 'error: ' + error.message : 'connected',
       env: {
         supabase: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-        clerk: !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        supabase_auth: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       },
       ts: new Date().toISOString(),
     });

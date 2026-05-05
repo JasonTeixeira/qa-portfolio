@@ -199,7 +199,7 @@ const dataHandling = [
   {
     label: 'Sub-processors',
     body:
-      'Vercel (hosting/CDN), Supabase (database/auth), Stripe (payments), Resend (transactional email), Clerk (auth), AWS (infrastructure for client work). Full list maintained on /legal/privacy.',
+      'Vercel (hosting/CDN), Supabase (database & auth), Stripe (payments), Resend (transactional email), AWS (infrastructure for client work). Full list maintained on /legal/privacy.',
   },
   {
     label: 'Incident response',

@@ -5,6 +5,7 @@ import { BackToTop } from '@/components/back-to-top';
 import { CommandPalette } from '@/components/command-palette';
 import { SkipToContent } from '@/components/skip-to-content';
 import { PageTransition } from '@/components/motion';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 /**
  * Renders the marketing site chrome (nav, footer, command palette) only
@@ -29,11 +30,21 @@ export async function MarketingChrome({
   }
 
   if (position === 'top') {
+    let isSignedIn = false;
+    try {
+      const supabase = await createSupabaseServerClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      isSignedIn = !!user;
+    } catch {
+      isSignedIn = false;
+    }
     return (
       <>
         <SkipToContent />
         <CommandPalette />
-        <Navigation />
+        <Navigation isSignedIn={isSignedIn} />
       </>
     );
   }

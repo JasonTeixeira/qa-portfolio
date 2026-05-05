@@ -1,86 +1,119 @@
-import { SignIn } from '@clerk/nextjs';
+import Link from 'next/link';
+import { signInWithMagicLink } from '@/app/auth/actions';
+import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
+import { OAuthButtons } from '@/components/auth/oauth-buttons';
 
-export const metadata = { title: 'Sign in' };
+export const metadata = {
+  title: 'Sign in · Sage Ideas',
+  robots: { index: false, follow: false },
+};
 
-function SageLogo() {
+export const dynamic = 'force-dynamic';
+
+type Props = {
+  searchParams: Promise<{
+    sent?: string;
+    email?: string;
+    error?: string;
+    next?: string;
+  }>;
+};
+
+export default async function LoginPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const sent = sp.sent === '1';
+  const sentEmail = sp.email ?? '';
+  const error = sp.error;
+  const next = sp.next ?? '/auth/redirect';
+
   return (
-    <svg viewBox="0 0 64 64" className="w-9 h-9" fill="none" aria-label="Sage Ideas">
-      <rect x="2" y="2" width="60" height="60" rx="14" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="M20 22 L32 22 M20 32 L44 32 M20 42 L36 42"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <circle cx="44" cy="22" r="3" fill="currentColor" />
-    </svg>
-  );
-}
+    <div className="min-h-screen flex bg-[#09090B]">
+      <BrandPanel />
 
-export default function LoginPage() {
-  return (
-    <div className="min-h-screen flex">
-      {/* Left: brand panel */}
-      <div className="hidden lg:flex flex-1 relative bg-[#0f0f12] border-r border-[#27272a] overflow-hidden">
-        <div className="grid-pattern absolute inset-0 opacity-40" />
-        <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <div className="flex items-center gap-3 text-[#fafafa]">
-            <SageLogo />
-            <div>
-              <div className="font-semibold text-base tracking-tight">Sage Ideas</div>
-              <div className="text-xs text-[#71717a]">The Studio · Client Workspace</div>
-            </div>
-          </div>
-
-          <div className="space-y-8 max-w-md">
-            <h1 className="text-3xl font-semibold leading-tight tracking-tight text-[#fafafa]">
-              Your private workspace for every engagement.
-            </h1>
-            <p className="text-[#a1a1aa] leading-relaxed">
-              Real-time deliverables, signed contracts, threaded conversations, and a direct line
-              to the team — all in one place.
-            </p>
-            <div className="grid grid-cols-2 gap-4 pt-4">
-              {[
-                ['Live pipeline', 'See every phase, deliverable, and iteration in real time.'],
-                ['Inline e-sign', 'Contracts signed in-app with full audit trail.'],
-                ['Direct messaging', 'No email threads. No Slack channels. Just clarity.'],
-                ['Stripe billing', 'Invoices, subscriptions, and add-ons in one place.'],
-              ].map(([title, desc]) => (
-                <div key={title} className="space-y-1">
-                  <div className="text-sm font-medium text-[#fafafa]">{title}</div>
-                  <div className="text-xs text-[#71717a] leading-relaxed">{desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-xs text-[#52525b]">
-            © {new Date().getFullYear()} Sage Ideas Studio · sageideas.dev
-          </div>
-        </div>
-      </div>
-
-      {/* Right: sign-in */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-[#09090B]">
+      <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md">
-          <div className="lg:hidden flex items-center gap-3 text-[#fafafa] mb-8">
+          <div className="lg:hidden flex items-center gap-3 text-[#FAFAFA] mb-8">
             <SageLogo />
             <span className="font-semibold">Sage Ideas Studio</span>
           </div>
-          <SignIn
-            routing="hash"
-            signUpUrl="/login"
-            fallbackRedirectUrl="/portal/home"
-            appearance={{
-              elements: {
-                rootBox: 'mx-auto',
-                card: 'bg-transparent shadow-none border-0 p-0',
-                headerTitle: 'text-2xl font-semibold tracking-tight',
-                headerSubtitle: 'text-[#71717a]',
-              },
-            }}
-          />
+
+          <div className="space-y-1.5 mb-8">
+            <h2 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">
+              Sign in to the studio
+            </h2>
+            <p className="text-sm text-[#A1A1AA]">
+              Use the email tied to your engagement, or continue with a connected account.
+            </p>
+          </div>
+
+          {error && (
+            <div className="mb-5 rounded-lg border border-[#7F1D1D]/50 bg-[#7F1D1D]/10 px-3 py-2.5 text-sm text-[#FCA5A5]">
+              {decodeURIComponent(error)}
+            </div>
+          )}
+
+          {sent ? (
+            <div className="rounded-xl border border-[#06B6D4]/30 bg-[#06B6D4]/5 px-5 py-6 space-y-3">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4]">
+                Magic link sent
+              </div>
+              <p className="text-sm text-[#FAFAFA]">
+                Check <span className="font-medium">{sentEmail}</span> for a link from Sage Ideas.
+                Click it to finish signing in.
+              </p>
+              <p className="text-xs text-[#71717A]">
+                The link expires in 1 hour. Didn’t get it? Check spam, then{' '}
+                <Link href="/login" className="text-[#06B6D4] hover:text-[#22D3EE]">
+                  request a new one
+                </Link>
+                .
+              </p>
+            </div>
+          ) : (
+            <>
+              <form action={signInWithMagicLink} className="space-y-2.5">
+                <input type="hidden" name="next" value={next} />
+                <label
+                  htmlFor="email"
+                  className="block text-[10px] font-mono uppercase tracking-widest text-[#71717A]"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="you@company.com"
+                  className="w-full rounded-lg border border-[#27272A] bg-[#0A0A0C] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#06B6D4] focus:outline-none focus:ring-1 focus:ring-[#06B6D4]/40"
+                />
+                <button
+                  type="submit"
+                  className="w-full rounded-lg bg-[#06B6D4] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#0891B2] transition-colors"
+                >
+                  Send magic link
+                </button>
+              </form>
+
+              <div className="my-6 flex items-center gap-3">
+                <div className="flex-1 h-px bg-[#27272A]" />
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#52525B]">
+                  or continue with
+                </span>
+                <div className="flex-1 h-px bg-[#27272A]" />
+              </div>
+
+              <OAuthButtons next={next} />
+            </>
+          )}
+
+          <p className="mt-8 text-xs text-[#71717A] text-center">
+            New here?{' '}
+            <Link href="/signup" className="text-[#06B6D4] hover:text-[#22D3EE]">
+              Request access →
+            </Link>
+          </p>
         </div>
       </div>
     </div>

@@ -7,7 +7,15 @@ export interface Crumb {
   href?: string;
 }
 
-export function Topbar({ crumbs, actions }: { crumbs: Crumb[]; actions?: React.ReactNode }) {
+export function Topbar({
+  crumbs,
+  actions,
+  rightSlot,
+}: {
+  crumbs: Crumb[];
+  actions?: React.ReactNode;
+  rightSlot?: React.ReactNode;
+}) {
   return (
     <header className="sticky top-0 z-30 backdrop-blur bg-[#09090B]/80 border-b border-[#27272a]">
       <div className="flex items-center justify-between px-6 lg:px-8 h-14">
@@ -28,7 +36,10 @@ export function Topbar({ crumbs, actions }: { crumbs: Crumb[]; actions?: React.R
             </span>
           ))}
         </nav>
-        {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+        <div className="flex items-center gap-2 shrink-0">
+          {actions}
+          {rightSlot}
+        </div>
       </div>
     </header>
   );

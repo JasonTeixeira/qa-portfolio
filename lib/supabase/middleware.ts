@@ -1,5 +1,7 @@
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+
+type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
 const PUBLIC_PATHS = new Set(['/login', '/signup']);
 const PUBLIC_PREFIXES = [
@@ -43,10 +45,12 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        setAll(cookiesToSet: CookieToSet[]) {
+          cookiesToSet.forEach(({ name, value }: CookieToSet) =>
+            request.cookies.set(name, value),
+          );
           response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }: CookieToSet) =>
             response.cookies.set(name, value, options),
           );
         },
@@ -98,7 +102,7 @@ export async function updateSession(request: NextRequest) {
 
     if (needsAdmin && !isAdmin) {
       const url = request.nextUrl.clone();
-      url.pathname = isApproved ? '/portal/home' : '/pending-approval';
+      url.pathname = isApproved ? '/portal' : '/pending-approval';
       url.search = '';
       return NextResponse.redirect(url);
     }

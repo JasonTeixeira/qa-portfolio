@@ -19,6 +19,6 @@ export async function GET(request: NextRequest) {
 
   if (profile?.app_role === 'admin') return NextResponse.redirect(`${origin}/admin`);
   if (profile?.approval_status === 'approved')
-    return NextResponse.redirect(`${origin}/portal/home`);
+    return NextResponse.redirect(`${origin}/portal`);
   return NextResponse.redirect(`${origin}/pending-approval`);
 }

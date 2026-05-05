@@ -14,16 +14,19 @@ import {
   ShieldCheck,
   Users,
   Activity,
+  Calendar,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const clientNav: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: '/portal/home', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/portal/engagements', label: 'Engagements', icon: Briefcase },
-  { href: '/portal/documents', label: 'Documents', icon: FileSignature },
+  { href: '/portal', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/portal/projects', label: 'Projects', icon: Briefcase },
   { href: '/portal/messages', label: 'Messages', icon: MessageSquare },
-  { href: '/portal/billing', label: 'Billing', icon: Receipt },
+  { href: '/portal/calendar', label: 'Calendar', icon: Calendar },
+  { href: '/portal/documents', label: 'Documents', icon: FileSignature },
+  { href: '/portal/invoices', label: 'Invoices', icon: Receipt },
+  { href: '/portal/settings', label: 'Settings', icon: Settings2 },
   { href: '/portal/catalog', label: 'Add Services', icon: Sparkles },
 ];
 
@@ -70,7 +73,10 @@ export function Sidebar({ isAdmin = false, orgName }: { isAdmin?: boolean; orgNa
           Workspace
         </div>
         {clientNav.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname?.startsWith(href + '/');
+          const active =
+            href === '/portal'
+              ? pathname === '/portal'
+              : pathname === href || pathname?.startsWith(href + '/');
           return (
             <Link
               key={href}

@@ -3,6 +3,7 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
+import { sendWelcomeEmail } from '@/lib/welcomeEmail';
 
 type Provider = 'google' | 'github' | 'linkedin_oidc';
 
@@ -68,6 +69,7 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
   const fullName = String(formData.get('full_name') ?? '').trim();
   const company = String(formData.get('company') ?? '').trim();
   const roleInCompany = String(formData.get('role_in_company') ?? '').trim();
+  const goals = formData.getAll('goals').map((g) => String(g)).filter(Boolean);
   if (!email) redirect('/signup?error=missing_email');
 
   const supabase = await createSupabaseServerClient();
@@ -77,12 +79,13 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${origin}/auth/callback?next=/auth/redirect`,
+      emailRedirectTo: `${origin}/auth/callback?next=/onboarding`,
       shouldCreateUser: true,
       data: {
         full_name: fullName,
         company,
         role_in_company: roleInCompany,
+        goals,
       },
     },
   });
@@ -91,8 +94,6 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`);
   }
 
-  // Stash company/role into profiles via admin client once the auth row exists
-  // (the trigger creates the profile; we patch with intake fields now).
   try {
     const sb = supabaseAdmin();
     await sb
@@ -103,7 +104,83 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
     // Non-fatal — the next callback can still complete sign-in.
   }
 
-  redirect(`/signup?step=3&email=${encodeURIComponent(email)}`);
+  // Fire-and-forget welcome email; never block signup on send failures.
+  void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
+
+  redirect(`/onboarding?email=${encodeURIComponent(email)}&pending=1`);
+}
+
+export async function signUpWithPassword(formData: FormData): Promise<void> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  const password = String(formData.get('password') ?? '');
+  const fullName = String(formData.get('full_name') ?? '').trim();
+  const company = String(formData.get('company') ?? '').trim();
+  const roleInCompany = String(formData.get('role_in_company') ?? '').trim();
+  const goals = formData.getAll('goals').map((g) => String(g)).filter(Boolean);
+
+  if (!email) redirect('/signup?error=missing_email');
+  if (!password || password.length < 8) {
+    redirect(`/signup?step=1&email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be at least 8 characters.')}`);
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const h = await headers();
+  const origin = siteOrigin(h);
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback?next=/onboarding`,
+      data: {
+        full_name: fullName,
+        company,
+        role_in_company: roleInCompany,
+        goals,
+      },
+    },
+  });
+
+  if (error) {
+    redirect(`/signup?error=${encodeURIComponent(error.message)}`);
+  }
+
+  try {
+    const sb = supabaseAdmin();
+    await sb
+      .from('profiles')
+      .update({ full_name: fullName, company, role_in_company: roleInCompany })
+      .eq('email', email);
+  } catch {
+    // Non-fatal.
+  }
+
+  void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
+
+  redirect(`/onboarding?email=${encodeURIComponent(email)}&pending=1`);
+}
+
+export async function resendVerification(formData: FormData): Promise<void> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  if (!email) redirect('/onboarding?error=missing_email');
+
+  const supabase = await createSupabaseServerClient();
+  const h = await headers();
+  const origin = siteOrigin(h);
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback?next=/onboarding`,
+      shouldCreateUser: false,
+    },
+  });
+
+  if (error) {
+    redirect(`/onboarding?email=${encodeURIComponent(email)}&error=${encodeURIComponent(error.message)}`);
+  }
+
+  redirect(`/onboarding?email=${encodeURIComponent(email)}&resent=1`);
 }
 
 export async function signOut(): Promise<void> {

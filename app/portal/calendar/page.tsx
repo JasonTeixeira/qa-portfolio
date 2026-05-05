@@ -2,55 +2,114 @@ import { getPortalContext } from '@/lib/portal/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { Topbar } from '@/components/portal/topbar';
 import { Card, CardContent } from '@/components/portal/ui/card';
-import { Badge } from '@/components/portal/ui/badge';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
+import { CalendarView, type CalendarEventData } from '@/components/portal/calendar-view';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Calendar' };
 
-type CalendarEvent = {
+type RawEvent = {
   id: string;
   title: string;
   description: string | null;
   starts_at: string;
   ends_at: string;
-  event_type: string;
+  event_type: string | null;
   location: string | null;
+  attendees: unknown;
+  all_day: boolean | null;
+  engagement_id: string | null;
+  organization_id: string | null;
+};
+
+type RawNote = {
+  id: string;
+  calendar_event_id: string | null;
+  title: string;
+  body_md: string | null;
+  visible_to_client: boolean | null;
 };
 
 export default async function CalendarPage() {
   const ctx = await getPortalContext();
   const sb = supabaseAdmin();
 
-  let events: CalendarEvent[] = [];
-  if (ctx.organizationId) {
-    const { data: engs } = await sb
-      .from('engagements')
-      .select('id')
-      .eq('organization_id', ctx.organizationId);
-    const ids = (engs ?? []).map((e) => e.id);
-    if (ids.length > 0) {
-      const { data } = await sb
-        .from('calendar_events')
-        .select('id, title, description, starts_at, ends_at, event_type, location')
-        .in('engagement_id', ids)
-        .eq('visible_to_client', true)
-        .gte('starts_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-        .order('starts_at', { ascending: true });
-      events = data ?? [];
+  let events: CalendarEventData[] = [];
+  if (ctx.organizationId || ctx.isAdmin) {
+    const horizonStart = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const horizonEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+
+    let engagementIds: string[] = [];
+    if (ctx.organizationId) {
+      const { data: engs } = await sb
+        .from('engagements')
+        .select('id')
+        .eq('organization_id', ctx.organizationId);
+      engagementIds = (engs ?? []).map((e) => e.id);
     }
+
+    let query = sb
+      .from('calendar_events')
+      .select(
+        'id, title, description, starts_at, ends_at, event_type, location, attendees, all_day, engagement_id, organization_id',
+      )
+      .eq('visible_to_client', true)
+      .gte('starts_at', horizonStart)
+      .lte('starts_at', horizonEnd)
+      .order('starts_at', { ascending: true });
+
+    if (!ctx.isAdmin && ctx.organizationId) {
+      const filter = engagementIds.length
+        ? `organization_id.eq.${ctx.organizationId},engagement_id.in.(${engagementIds.join(',')})`
+        : `organization_id.eq.${ctx.organizationId}`;
+      query = query.or(filter);
+    }
+
+    const { data: rawEvents } = await query;
+    const eventRows: RawEvent[] = (rawEvents ?? []) as RawEvent[];
+
+    const eventIds = eventRows.map((e) => e.id);
+    const notesByEvent = new Map<string, RawNote[]>();
+    if (eventIds.length) {
+      const { data: notes } = await sb
+        .from('meeting_notes')
+        .select('id, calendar_event_id, title, body_md, visible_to_client')
+        .in('calendar_event_id', eventIds)
+        .eq('visible_to_client', true);
+      for (const n of (notes ?? []) as RawNote[]) {
+        if (!n.calendar_event_id) continue;
+        const arr = notesByEvent.get(n.calendar_event_id) ?? [];
+        arr.push(n);
+        notesByEvent.set(n.calendar_event_id, arr);
+      }
+    }
+
+    events = eventRows.map((e) => ({
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      start: e.starts_at,
+      end: e.ends_at,
+      allDay: !!e.all_day,
+      eventType: e.event_type ?? 'meeting',
+      location: e.location,
+      attendees: normalizeAttendees(e.attendees),
+      notes: (notesByEvent.get(e.id) ?? []).map((n) => ({
+        id: n.id,
+        title: n.title,
+        body: n.body_md,
+      })),
+    }));
   }
 
   return (
     <>
       <Topbar crumbs={[{ label: 'Calendar' }]} />
-      <div className="px-6 lg:px-8 py-8 max-w-4xl mx-auto">
+      <div className="px-6 lg:px-8 py-8 max-w-6xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa]">Calendar</h1>
           <p className="text-sm text-[#a1a1aa] mt-1">
-            Meetings, milestones, and deadlines for your engagements. Full calendar view
-            ships next deploy.
+            Meetings, milestones, and deadlines for your engagements.
           </p>
         </div>
 
@@ -62,45 +121,42 @@ export default async function CalendarPage() {
               </div>
               <h3 className="font-semibold text-[#fafafa]">Nothing on the books</h3>
               <p className="text-sm text-[#71717a] mt-1.5">
-                Once Sage schedules a meeting or milestone, it lands here.
+                Once a meeting or milestone is scheduled, it lands here.
               </p>
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-2">
-            {events.map((ev) => (
-              <Card key={ev.id}>
-                <CardContent className="p-4 flex items-start gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-sm font-medium text-[#fafafa]">{ev.title}</span>
-                      <Badge tone="cyan">{ev.event_type}</Badge>
-                    </div>
-                    <div className="text-xs text-[#71717a]">
-                      {new Date(ev.starts_at).toLocaleString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit',
-                      })}
-                      {ev.location ? ` · ${ev.location}` : ''}
-                    </div>
-                    {ev.description && (
-                      <p className="text-xs text-[#a1a1aa] mt-1 line-clamp-2">
-                        {ev.description}
-                      </p>
-                    )}
-                  </div>
-                  <span className="text-xs text-[#52525b] tabular-nums shrink-0">
-                    {formatDate(ev.starts_at)}
-                  </span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <CalendarView events={events} />
         )}
       </div>
     </>
   );
+}
+
+function normalizeAttendees(value: unknown): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => {
+        if (typeof v === 'string') return v;
+        if (v && typeof v === 'object') {
+          const obj = v as Record<string, unknown>;
+          return (obj.name as string) ?? (obj.email as string) ?? '';
+        }
+        return '';
+      })
+      .filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return normalizeAttendees(parsed);
+    } catch {
+      return value
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    }
+  }
+  return [];
 }

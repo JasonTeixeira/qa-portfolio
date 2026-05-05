@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getPortalContext } from '@/lib/portal/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { Topbar } from '@/components/portal/topbar';
@@ -17,6 +18,8 @@ type Invoice = {
   total: number | string | null;
   due_date: string | null;
   created_at: string;
+  engagement_id: string | null;
+  engagements: { id: string; title: string } | null;
 };
 
 const TONE: Record<string, 'cyan' | 'amber' | 'emerald' | 'rose' | 'neutral'> = {
@@ -36,20 +39,22 @@ export default async function InvoicesPage() {
   if (ctx.organizationId) {
     const { data } = await sb
       .from('invoices')
-      .select('id, number, status, amount, total, due_date, created_at')
+      .select(
+        'id, number, status, amount, total, due_date, created_at, engagement_id, engagements(id, title)',
+      )
       .eq('organization_id', ctx.organizationId)
       .order('created_at', { ascending: false });
-    invoices = (data ?? []) as Invoice[];
+    invoices = (data ?? []) as unknown as Invoice[];
   }
 
   return (
     <>
       <Topbar crumbs={[{ label: 'Invoices' }]} />
-      <div className="px-6 lg:px-8 py-8 max-w-4xl mx-auto">
+      <div className="px-6 lg:px-8 py-8 max-w-5xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa]">Invoices</h1>
           <p className="text-sm text-[#a1a1aa] mt-1">
-            All invoices, paid and pending. One-click pay ships in the next deploy.
+            All invoices, paid and pending. Click a row for line items and payment.
           </p>
         </div>
 
@@ -66,27 +71,36 @@ export default async function InvoicesPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-2">
+          <div className="rounded-xl border border-[#27272a] bg-[#0f0f12] divide-y divide-[#1f1f23]">
+            <div className="hidden md:grid md:grid-cols-12 gap-3 px-4 py-2.5 text-[10px] font-medium uppercase tracking-wider text-[#52525b]">
+              <div className="md:col-span-3">Invoice</div>
+              <div className="md:col-span-4">Project</div>
+              <div className="md:col-span-2">Status</div>
+              <div className="md:col-span-2">Due</div>
+              <div className="md:col-span-1 text-right">Amount</div>
+            </div>
             {invoices.map((i) => (
-              <Card key={i.id}>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-sm font-medium text-[#fafafa]">
-                        {i.number ?? i.id.slice(0, 8)}
-                      </span>
-                      <Badge tone={TONE[i.status] ?? 'neutral'}>{i.status}</Badge>
-                    </div>
-                    <div className="text-xs text-[#71717a]">
-                      {i.due_date ? `Due ${formatDate(i.due_date)}` : 'No due date'} · Issued{' '}
-                      {formatDate(i.created_at)}
-                    </div>
-                  </div>
-                  <div className="text-sm font-semibold text-[#fafafa] tabular-nums shrink-0">
-                    {formatCurrency(Number(i.total ?? i.amount ?? 0))}
-                  </div>
-                </CardContent>
-              </Card>
+              <Link
+                key={i.id}
+                href={`/portal/invoices/${i.id}`}
+                className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-3 px-4 py-3 items-center hover:bg-[#131316]"
+              >
+                <div className="md:col-span-3 text-sm font-medium text-[#fafafa] truncate">
+                  {i.number ?? i.id.slice(0, 8)}
+                </div>
+                <div className="md:col-span-4 text-xs text-[#a1a1aa] truncate">
+                  {i.engagements?.title ?? '—'}
+                </div>
+                <div className="md:col-span-2">
+                  <Badge tone={TONE[i.status] ?? 'neutral'}>{i.status}</Badge>
+                </div>
+                <div className="md:col-span-2 text-xs text-[#71717a]">
+                  {i.due_date ? formatDate(i.due_date) : '—'}
+                </div>
+                <div className="md:col-span-1 text-sm font-semibold text-[#fafafa] tabular-nums md:text-right">
+                  {formatCurrency(Number(i.total ?? i.amount ?? 0))}
+                </div>
+              </Link>
             ))}
           </div>
         )}

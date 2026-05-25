@@ -460,18 +460,26 @@ export default function HeroSection({
                 </span>
               </motion.div>
 
-              {/* Headline */}
-              <div className="flex flex-col gap-1" aria-label="Main headline">
+              {/* Headline — Phase 0: single h1 + 2 styled lines for SEO + a11y */}
+              <h1 className="sr-only">
+                Sage Ideas — I build AI systems, ship them to production, and keep them healthy.
+              </h1>
+              <div
+                className="flex flex-col gap-1"
+                aria-hidden="true"
+              >
                 {HEADLINE_LINES.map((line, i) => (
-                  <motion.h1
+                  <motion.div
                     key={i}
-                    className="font-serif leading-tight text-balance"
+                    role="presentation"
+                    className="leading-tight text-balance"
                     style={{
-                      fontFamily: 'Georgia, "Times New Roman", serif',
+                      fontFamily: 'var(--font-display), Georgia, serif',
                       fontSize: 'clamp(2.1rem, 4.2vw, 3.75rem)',
                       color: '#F4F2EF',
                       fontWeight: 400,
                       minHeight: '1.2em',
+                      letterSpacing: '-0.02em',
                     }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: displayed.length > i ? 1 : 0 }}
@@ -492,7 +500,7 @@ export default function HeroSection({
                         aria-hidden="true"
                       />
                     )}
-                  </motion.h1>
+                  </motion.div>
                 ))}
               </div>
 
@@ -518,7 +526,7 @@ export default function HeroSection({
               >
                 {/* Primary */}
                 <motion.a
-                  href="#"
+                  href="/book"
                   className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-lg font-medium text-sm transition-transform"
                   style={{
                     background: '#0ED3CF',
@@ -538,7 +546,7 @@ export default function HeroSection({
 
                 {/* Secondary */}
                 <motion.a
-                  href="#"
+                  href="/work"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-sm transition-colors"
                   style={{
                     color: '#F4F2EF',

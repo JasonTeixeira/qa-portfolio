@@ -8,7 +8,13 @@ const nextConfig: NextConfig = {
   // Required because we run inside a monorepo-like workspace and Turbopack
   // otherwise warns about lockfile inference.
   turbopack: { root: __dirname },
-  images: { unoptimized: true },
+  // Phase 0: Image optimization enabled. Vercel handles AVIF/WebP/resize automatically.
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536, 1920],
+    imageSizes: [16, 32, 64, 96, 128, 256, 384, 512],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   async redirects() {
     return [
       // Apex → www (canonical hostname)
@@ -84,6 +90,22 @@ const nextConfig: NextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload',
           },
           { key: cspKey, value: cspDirectives },
+        ],
+      },
+      // Phase 1: PWA service worker headers.
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+      {
+        source: '/manifest.webmanifest',
+        headers: [
+          { key: 'Content-Type', value: 'application/manifest+json; charset=utf-8' },
+          { key: 'Cache-Control', value: 'public, max-age=3600, must-revalidate' },
         ],
       },
     ]

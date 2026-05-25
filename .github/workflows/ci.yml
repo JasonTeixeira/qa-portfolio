@@ -78,3 +78,23 @@ jobs:
           CLERK_SECRET_KEY: sk_test_placeholder
           NEXT_PUBLIC_APP_URL: https://www.sageideas.dev
         run: npx --yes @lhci/cli@latest autorun
+
+  lighthouse-mobile:
+    name: Lighthouse (mobile)
+    needs: [quality]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+      - name: Run Lighthouse mobile
+        run: npx @lhci/cli@0.14.x autorun --config=lighthouserc.mobile.json
+        continue-on-error: true

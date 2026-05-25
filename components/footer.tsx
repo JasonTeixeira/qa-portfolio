@@ -161,7 +161,7 @@ function FooterColumn({
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-sm text-[#A8A29E] hover:text-[#0ED3CF] transition-colors"
+              className="flex items-center min-h-[36px] text-sm text-[#A8A29E] hover:text-[#0ED3CF] transition-colors"
             >
               {link.label}
             </Link>

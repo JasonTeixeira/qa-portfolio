@@ -144,7 +144,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT II — RECEIPTS (flagship + supporting case studies)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826]">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -155,7 +155,7 @@ export default function HomePage() {
             <AsciiRule label="// act 02 · receipts" tone="cyan" className="mb-6" />
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
               <div className="max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
                   Don&apos;t take our word. <span className="italic text-[#0ED3CF]">Audit the work.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
@@ -264,7 +264,7 @@ export default function HomePage() {
           </Stagger>
 
           {/* Inline stats row — receipts continued */}
-          <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {homepageStats.map((stat) => (
               <MetricCounter key={stat.label} value={stat.value} label={stat.label} />
             ))}
@@ -275,7 +275,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT III — RANGE (horizontal scroll-snap rail of capabilities)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] bg-gradient-to-b from-[#0B0A09] to-[#09090B]">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] bg-gradient-to-b from-[#0B0A09] to-[#09090B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -285,7 +285,7 @@ export default function HomePage() {
           >
             <AsciiRule label="// act 03 · range" tone="coral" className="mb-6" />
             <div className="max-w-2xl mb-12">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
                 Four lanes. <span className="italic text-[#E85D3A]">Done at depth.</span>
               </h2>
               <p className="text-[#B8B0AB] mt-4 text-lg">
@@ -380,7 +380,7 @@ export default function HomePage() {
           >
             <AsciiRule label="// act 04 · manifesto" tone="lime" align="center" className="mb-10" />
             <blockquote
-              className="text-[28px] sm:text-[40px] lg:text-[56px] leading-[1.05] tracking-[-0.015em] text-[#F4F2EF] text-center"
+              className="text-[24px] sm:text-[36px] lg:text-[56px] leading-[1.1] tracking-[-0.015em] text-[#F4F2EF] text-center"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               <span>The agencies sold </span>
@@ -437,7 +437,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT V — CALLABLE ROLODEX (references promoted)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] bg-[#0B0A09]/60">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] bg-[#0B0A09]/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -448,7 +448,7 @@ export default function HomePage() {
             <AsciiRule label="// act 05 · callable rolodex" tone="magenta" className="mb-6" />
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
               <div className="max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
                   Call the people <span className="italic text-[#C7236E]">who&apos;ve worked with us.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
@@ -485,7 +485,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT VI — ENGAGEMENT (final CTA with 3 offer tiles)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] overflow-hidden">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(14,211,207,0.10),transparent_70%)]" aria-hidden />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div

@@ -167,7 +167,7 @@ export function ServicesContent() {
           className="max-w-3xl"
         >
           <SectionLabel>Services</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA]">
+          <h1 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA]">
             What I Build For You
           </h1>
           <p className="mt-6 text-lg text-[#A8A29E]">

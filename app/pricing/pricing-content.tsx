@@ -47,7 +47,7 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
             className="max-w-3xl"
           >
             <SectionLabel>Pricing</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
+            <h1 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] leading-tight">
               Three lanes.{' '}
               <span className="text-[#0ED3CF]">No asterisks.</span>
             </h1>

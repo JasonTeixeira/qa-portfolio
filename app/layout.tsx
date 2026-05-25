@@ -38,6 +38,7 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 }
 
 const SITE_URL = 'https://www.sageideas.dev'

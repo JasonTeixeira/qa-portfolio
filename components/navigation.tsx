@@ -579,7 +579,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
           {/* Mobile toggle */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden p-2 text-[#FAFAFA] hover:bg-[#1A1917] rounded-lg transition-colors"
+            className="lg:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#FAFAFA] hover:bg-[#1A1917] rounded-lg transition-colors"
             aria-label="Toggle menu"
             aria-expanded={isMobileOpen}
           >
@@ -597,7 +597,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               transition={{ duration: 0.2 }}
               className="lg:hidden overflow-hidden bg-[#09090B] border-t border-[#2A2826]"
             >
-              <div className="py-4 px-2 space-y-4 max-h-[80vh] overflow-y-auto">
+              <div className="py-4 px-2 space-y-4 max-h-[85vh] overflow-y-auto overscroll-contain">
                 {(['PRIMARY', 'RESOURCES', 'COMPANY'] as const).map((sec) => (
                   <div key={sec}>
                     <p className="text-[10px] font-mono uppercase tracking-widest text-[#57534E] px-4 mb-1">
@@ -616,7 +616,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                               key={link.href}
                               href={link.href}
                               className={cn(
-                                'flex items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors',
+                                'flex items-center justify-between px-4 py-3 min-h-[44px] text-sm rounded-lg transition-colors',
                                 active
                                   ? 'text-[#0ED3CF] bg-[#1A1917]'
                                   : 'text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]'
@@ -629,7 +629,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                     </div>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-[#2A2826] mt-3 flex items-center gap-3 px-2">
+                <div className="pt-3 border-t border-[#2A2826] mt-3 flex items-center gap-3 px-2 pb-[env(safe-area-inset-bottom,8px)]">
                   <Link
                     href="https://github.com/JasonTeixeira"
                     target="_blank"
@@ -676,7 +676,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                   <Button
                     asChild
                     size="sm"
-                    className="ml-auto bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold"
+                    className="ml-auto bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold min-h-[44px]"
                   >
                     <Link href="/book">Book a Call</Link>
                   </Button>

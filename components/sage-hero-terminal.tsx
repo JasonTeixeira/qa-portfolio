@@ -154,7 +154,7 @@ export default function SageHeroTerminal({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             aria-hidden
-            className="mb-3 text-[44px] leading-[0.95] tracking-[-0.02em] text-[#F4F2EF] sm:text-[58px] lg:text-[72px]"
+            className="mb-3 text-[32px] leading-[1.0] tracking-[-0.02em] text-[#F4F2EF] sm:text-[48px] lg:text-[72px]"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             <span>Ships </span>
@@ -214,7 +214,7 @@ export default function SageHeroTerminal({
         </div>
 
         {/* Right — boot terminal */}
-        <div className="flex items-center">
+        <div className="hidden lg:flex items-center">
           <div className="w-full">
             <BootSequence
               steps={steps}

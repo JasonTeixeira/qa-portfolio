@@ -17,6 +17,9 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return
+    // Skip glow tracking on touch/coarse devices — pointer events fire but
+    // there's no persistent cursor position to track.
+    if (window.matchMedia('(pointer: coarse)').matches) return
     const rect = cardRef.current.getBoundingClientRect()
     setMousePosition({
       x: e.clientX - rect.left,
@@ -42,8 +45,8 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
         isHovered && 'border-[#0ED3CF]/50 shadow-[0_8px_32px_rgba(14,211,207,0.08)]',
         className
       )}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
     >
       {/* Glow effect following cursor */}
       {isHovered && (

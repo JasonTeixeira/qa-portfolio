@@ -1,4 +1,4 @@
-'use client'
+// Phase 10: RSC — pure anchor, no client state.
 
 export function SkipToContent() {
   return (

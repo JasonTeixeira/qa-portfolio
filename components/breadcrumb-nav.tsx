@@ -1,4 +1,4 @@
-'use client'
+// Phase 10: RSC — no client state, no event handlers, no hooks.
 
 import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'

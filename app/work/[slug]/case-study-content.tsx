@@ -10,8 +10,10 @@ import { ArtifactGallery } from '@/components/artifact-gallery'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
+import { type CaseExtras } from '@/data/work/case-extras'
 import { CaseStudyArchitecture } from '@/components/diagrams'
 import { ScreensCarousel } from '@/components/work/screens-carousel'
+import { MetricCounter } from '@/components/metric-counter'
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -21,6 +23,7 @@ const fadeIn = {
 
 interface Props {
   study: CaseStudy
+  extras?: CaseExtras
 }
 
 const categoryColors: Record<string, string> = {
@@ -31,7 +34,11 @@ const categoryColors: Record<string, string> = {
   DevTools: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
 }
 
-export function CaseStudyContent({ study }: Props) {
+export function CaseStudyContent({ study, extras: _extras }: Props) {
+  // `extras` is consumed by the parent server component (case-study-extras.tsx).
+  // Accepted here only so the page can hand both renderers the same data shape
+  // and we can later promote the prop into the client tree if needed.
+  void _extras
   const catColor = categoryColors[study.category] ?? 'text-[#A8A29E] bg-[#2A2826] border-[#2A2826]'
   const refs = referencesForCaseStudy(study.slug, 2)
 
@@ -102,15 +109,14 @@ export function CaseStudyContent({ study }: Props) {
             </>
           )}
 
-          {/* Kicker metrics row */}
-          <div className="mt-8 flex flex-wrap gap-4">
+          {/* Kicker metrics row — animated counters on the top 4 */}
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl">
             {study.metrics.slice(0, 4).map((m) => (
               <div
                 key={m.label}
-                className="px-5 py-3 rounded-xl bg-[#12110F] border border-[#2A2826] text-center"
+                className="px-5 py-4 rounded-xl bg-[#12110F] border border-[#2A2826]"
               >
-                <div className="text-2xl font-bold text-[#0ED3CF]">{m.value}</div>
-                <div className="text-xs text-[#78716C] mt-0.5 font-mono uppercase tracking-wide">{m.label}</div>
+                <MetricCounter value={m.value} label={m.label} />
               </div>
             ))}
           </div>

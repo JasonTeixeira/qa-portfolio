@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
 import { caseStudies } from '@/data/work/case-studies'
+import { caseExtras } from '@/data/work/case-extras'
 import { CaseStudyContent } from './case-study-content'
+import { CaseStudyExtras } from './case-study-extras'
 import { JsonLd } from '@/components/json-ld'
 import { StickyCta } from '@/components/sticky-cta'
 
@@ -75,10 +73,13 @@ export default async function CaseStudyPage({ params }: Props) {
     },
   }
 
+  const extras = caseExtras[study.slug]
+
   return (
     <>
       <JsonLd data={[breadcrumbSchema, creativeWorkSchema]} />
-      <CaseStudyContent study={study} />
+      <CaseStudyContent study={study} extras={extras} />
+      {extras && <CaseStudyExtras extras={extras} />}
       <StickyCta
         pitch="Want to build something like this?"
         ctaLabel="Book a 30-min call"

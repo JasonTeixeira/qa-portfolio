@@ -1,4 +1,4 @@
-'use client'
+// Phase 10: RSC — no client state, no event handlers, no hooks.
 
 import Link from 'next/link'
 import { ChevronRight, Home } from 'lucide-react'
@@ -20,12 +20,12 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
         className="text-[#78716C] hover:text-[#0ED3CF] transition-colors"
         aria-label="Home"
       >
-        <Home className="h-4 w-4" />
+        <Home className="h-4 w-4" aria-hidden="true" />
       </Link>
       
       {items.map((item, index) => (
         <div key={item.label} className="flex items-center gap-2">
-          <ChevronRight className="h-4 w-4 text-[#3D3A37]" />
+          <ChevronRight className="h-4 w-4 text-[#3D3A37]" aria-hidden="true" />
           {item.href && index < items.length - 1 ? (
             <Link
               href={item.href}

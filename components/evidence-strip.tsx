@@ -1,8 +1,5 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 
 export type EvidenceItem = {
@@ -25,6 +22,8 @@ type Props = {
  * A reusable strip of evidence SVGs/screenshots. Pulls from real artifacts
  * under /public — no fake mockups. Used on marketing pages to give every
  * claim a visual receipt.
+ *
+ * Server component — entrance animation via CSS sage-rise with staggered delays.
  */
 export function EvidenceStrip({ items, heading, blurb, linkArtifacts = false }: Props) {
   return (
@@ -45,13 +44,10 @@ export function EvidenceStrip({ items, heading, blurb, linkArtifacts = false }: 
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((item, i) => {
+          const delayClass = `sage-rise-d${Math.min(i + 1, 6)}`
           const tile = (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="group rounded-xl border border-[#2A2826] bg-[#12110F] overflow-hidden hover:border-[#0ED3CF]/30 transition-colors"
+            <div
+              className={`sage-rise ${delayClass} group rounded-xl border border-[#2A2826] bg-[#12110F] overflow-hidden hover:border-[#0ED3CF]/30 transition-colors`}
             >
               <div className="aspect-[16/10] bg-[#0B0A09] border-b border-[#2A2826] relative overflow-hidden">
                 <Image
@@ -75,7 +71,7 @@ export function EvidenceStrip({ items, heading, blurb, linkArtifacts = false }: 
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           )
           return linkArtifacts ? (
             <Link

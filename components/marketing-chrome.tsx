@@ -1,8 +1,9 @@
 import { headers } from 'next/headers';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
+import { TelemetryFooter } from '@/components/telemetry-footer';
 import { BackToTop } from '@/components/back-to-top';
-import { CommandPalette } from '@/components/command-palette';
+import { CommandPaletteMarketingLoader } from '@/components/command-palette-marketing-loader';
 import { SkipToContent } from '@/components/skip-to-content';
 import { PageTransition } from '@/components/motion';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
@@ -43,7 +44,7 @@ export async function MarketingChrome({
     return (
       <>
         <SkipToContent />
-        <CommandPalette />
+        <CommandPaletteMarketingLoader />
         <Navigation isSignedIn={isSignedIn} />
       </>
     );
@@ -52,6 +53,7 @@ export async function MarketingChrome({
     return (
       <>
         <Footer />
+        <TelemetryFooter />
         <BackToTop />
       </>
     );

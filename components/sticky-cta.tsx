@@ -1,10 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
 
 const STORAGE_KEY = 'sticky-cta-dismissed-v1'
+
+// External-store glue so we don’t setState in an effect body (React 19 strict).
+function subscribeDismissed(onChange: () => void) {
+  if (typeof window === 'undefined') return () => {}
+  const handler = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY) onChange()
+  }
+  window.addEventListener('storage', handler)
+  return () => window.removeEventListener('storage', handler)
+}
+function getDismissedSnapshot(): boolean {
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+// Hide on the server pass so the bar never flashes pre-hydration.
+function getDismissedServerSnapshot(): boolean {
+  return true
+}
 
 export function StickyCta({
   pitch = 'Ready to ship your first agent?',
@@ -16,33 +37,39 @@ export function StickyCta({
   ctaHref?: string
 }) {
   const [visible, setVisible] = useState(false)
-  const [dismissed, setDismissed] = useState(true)
+  const dismissed = useSyncExternalStore(
+    subscribeDismissed,
+    getDismissedSnapshot,
+    getDismissedServerSnapshot,
+  )
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (localStorage.getItem(STORAGE_KEY) === '1') {
-      setDismissed(true)
-      return
-    }
-    setDismissed(false)
+    if (dismissed) return
 
     const onScroll = () => {
       const scrollTop = window.scrollY
       const max = document.documentElement.scrollHeight - window.innerHeight
       const ratio = max > 0 ? scrollTop / max : 0
+      // setState inside a user event callback (scroll) is allowed by
+      // react-hooks/set-state-in-effect — only synchronous setState in the
+      // effect body itself is flagged.
       setVisible(ratio >= 0.3)
     }
 
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [dismissed])
 
   const handleDismiss = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, '1')
+      try {
+        localStorage.setItem(STORAGE_KEY, '1')
+        // Notify useSyncExternalStore subscribers in this tab.
+        window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY }))
+      } catch {}
     }
-    setDismissed(true)
   }
 
   if (dismissed || !visible) return null
@@ -64,14 +91,14 @@ export function StickyCta({
               className="inline-flex items-center gap-1.5 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
             >
               {ctaLabel}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <button
               onClick={handleDismiss}
               className="p-2 text-[#78716C] hover:text-[#FAFAFA] hover:bg-[#2A2826] rounded-lg transition-colors"
               aria-label="Dismiss"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>

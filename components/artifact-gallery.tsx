@@ -1,7 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 export type Artifact = {
@@ -56,6 +53,8 @@ type Props = {
  *
  * Use on case studies before "What shipped", on the process page between
  * phase blocks, and anywhere the wall of prose needs evidence.
+ *
+ * Server component — entrance via CSS sage-rise with staggered delays.
  */
 export function ArtifactGallery({
   eyebrow = 'Evidence',
@@ -99,14 +98,14 @@ export function ArtifactGallery({
       <div className={cn('grid gap-5', colClass)}>
         {artifacts.map((a, i) => {
           const aspect = a.aspect ?? (a.kind === 'diagram' ? 'wide' : 'video')
+          const delayClass = `sage-rise-d${Math.min(i + 1, 6)}`
           return (
-            <motion.figure
+            <figure
               key={a.src + i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="group relative bg-[#12110F] border border-[#2A2826] rounded-2xl overflow-hidden hover:border-[#3D3A37] transition-colors"
+              className={cn(
+                'sage-rise group relative bg-[#12110F] border border-[#2A2826] rounded-2xl overflow-hidden hover:border-[#3D3A37] transition-colors',
+                delayClass,
+              )}
             >
               <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-[#2A2826]">
                 <span
@@ -140,7 +139,7 @@ export function ArtifactGallery({
               <figcaption className="px-5 py-4 text-sm text-[#A8A29E] leading-relaxed border-t border-[#2A2826]">
                 {a.caption}
               </figcaption>
-            </motion.figure>
+            </figure>
           )
         })}
       </div>

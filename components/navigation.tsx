@@ -510,19 +510,36 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
 
           {/* Right cluster */}
           <div className="hidden lg:flex items-center gap-2 shrink-0">
-            {/* Compact search — icon-only with tooltip-style hint */}
+            {/* Terminal-styled command palette trigger */}
             <button
               type="button"
               onClick={triggerCommandPalette}
-              aria-label="Open search"
-              className="group inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[#78716C] hover:text-[#FAFAFA] hover:bg-[#1A1917] transition-colors"
+              aria-label="Open command palette"
+              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#0F0E11] border border-[#2A2826] text-[#78716C] hover:text-[#F4F2EF] hover:border-[#0ED3CF]/40 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             >
-              <Search className="w-4 h-4" />
-              <kbd className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono bg-[#1A1917] border border-[#2A2826] rounded text-[#78716C] group-hover:text-[#A8A29E]">
+              <span aria-hidden className="select-none text-xs">
+                <span className="text-[#A8C633]">$</span>{' '}
+                <span className="text-[#5B5751] group-hover:text-[#A8A29E]">type a verb</span>
+              </span>
+              <kbd className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[#15141A] border border-[#2A2826] rounded text-[#A8A29E]">
                 {isMac ? <Command className="h-2.5 w-2.5" /> : 'Ctrl'}
                 <span>K</span>
               </kbd>
             </button>
+
+            {/* Live status sigil */}
+            <span
+              role="status"
+              aria-label="Studio status: accepting work"
+              className="hidden xl:inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[10px] uppercase tracking-[0.18em] text-[#A8C633] [font-family:var(--font-mono),ui-monospace,monospace]"
+            >
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 rounded-full bg-[#A8C633]"
+                style={{ boxShadow: '0 0 8px #A8C633' }}
+              />
+              accepting
+            </span>
 
             {isSignedIn ? (
               <Button
@@ -553,9 +570,9 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             <Button
               asChild
               size="sm"
-              className="whitespace-nowrap bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold"
+              className="whitespace-nowrap bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold sage-bloom-cyan [font-family:var(--font-mono),ui-monospace,monospace] tracking-wide uppercase"
             >
-              <Link href="/book">Book a Call</Link>
+              <Link href="/book">./book</Link>
             </Button>
           </div>
 

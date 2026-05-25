@@ -1,9 +1,36 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { X } from 'lucide-react'
 
 const STORAGE_KEY = 'sage-capacity-signal-dismissed-2026-q3'
+
+// localStorage-backed store for the "dismissed" flag.
+// useSyncExternalStore is the React 19 / strict-mode-safe way to bridge an
+// external value into render — it satisfies react-hooks/set-state-in-effect.
+function subscribe(onChange: () => void) {
+  if (typeof window === 'undefined') return () => {}
+  const handler = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY) onChange()
+  }
+  window.addEventListener('storage', handler)
+  return () => window.removeEventListener('storage', handler)
+}
+
+function getDismissed(): boolean {
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+// SSR + first client render: pretend it is dismissed so the strip never
+// flashes on screen before localStorage is consulted. Once mounted,
+// useSyncExternalStore swaps in the real value.
+function getServerSnapshot(): boolean {
+  return true
+}
 
 type Props = {
   /** Override the default copy if the studio's capacity changes mid-quarter. */
@@ -18,16 +45,7 @@ export function CapacitySignal({
   ctaHref = '/contact',
   ctaLabel = 'Hold a slot',
 }: Props) {
-  const [dismissed, setDismissed] = useState(true)
-
-  useEffect(() => {
-    try {
-      const v = window.localStorage.getItem(STORAGE_KEY)
-      setDismissed(v === '1')
-    } catch {
-      setDismissed(false)
-    }
-  }, [])
+  const dismissed = useSyncExternalStore(subscribe, getDismissed, getServerSnapshot)
 
   if (dismissed) return null
 
@@ -54,8 +72,10 @@ export function CapacitySignal({
         onClick={() => {
           try {
             window.localStorage.setItem(STORAGE_KEY, '1')
+            // Manually fire so useSyncExternalStore subscribers in this tab
+            // re-read — storage events only fire cross-tab.
+            window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY }))
           } catch {}
-          setDismissed(true)
         }}
         className="text-[#78716C] hover:text-[#FAFAFA] transition-colors"
       >

@@ -21,8 +21,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
 import { GlowCard } from '@/components/glow-card'
-import {
 import { PageHeroBg } from '@/components/page-hero-bg'
+import {
   Accordion,
   AccordionContent,
   AccordionItem,

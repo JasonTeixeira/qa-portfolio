@@ -1,15 +1,22 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
 import { caseStudies } from '@/data/work/case-studies'
+import { caseExtras } from '@/data/work/case-extras'
 import { CaseStudyContent } from './case-study-content'
+import { CaseStudyExtras } from './case-study-extras'
 import { JsonLd } from '@/components/json-ld'
 import { StickyCta } from '@/components/sticky-cta'
 
 const SITE = 'https://www.sageideas.dev'
+
+// Map case study category → brand accent for custom OG images.
+const CATEGORY_ACCENT: Record<string, 'teal' | 'coral' | 'lime' | 'magenta'> = {
+  Fintech: 'teal',
+  'AI/ML': 'magenta',
+  Infrastructure: 'lime',
+  Product: 'coral',
+  DevTools: 'lime',
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -26,6 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const ogTitle = encodeURIComponent(study.title)
   const ogSubtitle = encodeURIComponent(study.kicker)
+  const ogEyebrow = encodeURIComponent(`${study.category.toUpperCase()} · CASE STUDY`)
+  const ogAccent = CATEGORY_ACCENT[study.category] ?? 'teal'
 
   return {
     title: study.title,
@@ -36,7 +45,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${study.title} — Sage Ideas`,
       description: study.tagline,
-      images: [`/og?title=${ogTitle}&subtitle=${ogSubtitle}`],
+      images: [
+        `/og?title=${ogTitle}&subtitle=${ogSubtitle}&eyebrow=${ogEyebrow}&accent=${ogAccent}`,
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${study.title} — Sage Ideas`,
+      description: study.tagline,
+      images: [
+        `/og?title=${ogTitle}&subtitle=${ogSubtitle}&eyebrow=${ogEyebrow}&accent=${ogAccent}`,
+      ],
     },
   }
 }
@@ -75,10 +94,13 @@ export default async function CaseStudyPage({ params }: Props) {
     },
   }
 
+  const extras = caseExtras[study.slug]
+
   return (
     <>
       <JsonLd data={[breadcrumbSchema, creativeWorkSchema]} />
-      <CaseStudyContent study={study} />
+      <CaseStudyContent study={study} extras={extras} />
+      {extras && <CaseStudyExtras extras={extras} />}
       <StickyCta
         pitch="Want to build something like this?"
         ctaLabel="Book a 30-min call"

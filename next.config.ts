@@ -1,14 +1,39 @@
+import { execSync } from 'node:child_process'
 import type { NextConfig } from 'next'
 import { withSentryConfig } from '@sentry/nextjs'
 
+// Capture build-time provenance for the telemetry footer. Both reads are
+// wrapped in try/catch so a missing .git directory (e.g. CI container without
+// full history) never breaks the build — we just fall back to 'dev'.
+function safeExec(cmd: string, fallback: string) {
+  try {
+    return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || fallback
+  } catch {
+    return fallback
+  }
+}
+const GIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7)
+  ?? safeExec('git rev-parse --short HEAD', 'dev')
+const BUILD_TIME = new Date().toISOString()
+
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  env: {
+    NEXT_PUBLIC_GIT_SHA: GIT_SHA,
+    NEXT_PUBLIC_BUILD_TIME: BUILD_TIME,
+  },
   // Build-time TS errors should not block deploys for now (we lint separately).
   typescript: { ignoreBuildErrors: true },
   // Required because we run inside a monorepo-like workspace and Turbopack
   // otherwise warns about lockfile inference.
   turbopack: { root: __dirname },
-  images: { unoptimized: true },
+  // Phase 0: Image optimization enabled. Vercel handles AVIF/WebP/resize automatically.
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536, 1920],
+    imageSizes: [16, 32, 64, 96, 128, 256, 384, 512],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   async redirects() {
     return [
       // Apex → www (canonical hostname)
@@ -84,6 +109,22 @@ const nextConfig: NextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload',
           },
           { key: cspKey, value: cspDirectives },
+        ],
+      },
+      // Phase 1: PWA service worker headers.
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+      {
+        source: '/manifest.webmanifest',
+        headers: [
+          { key: 'Content-Type', value: 'application/manifest+json; charset=utf-8' },
+          { key: 'Cache-Control', value: 'public, max-age=3600, must-revalidate' },
         ],
       },
     ]

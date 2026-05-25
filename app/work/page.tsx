@@ -63,10 +63,10 @@ export default function WorkPage() {
                 </div>
               </div>
               <Link
-                href="/work"
+                href="/lab"
                 className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#2A2826] text-[#A8A29E] text-sm font-medium hover:border-[#0ED3CF]/50 hover:text-[#FAFAFA] transition-all duration-200"
               >
-                Browse the archive <ArrowRight className="w-4 h-4" />
+                Browse the Lab <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </GlowCard>

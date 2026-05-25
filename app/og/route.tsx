@@ -5,6 +5,20 @@ export const runtime = 'edge'
 
 const SIZE = { width: 1200, height: 630 } as const
 
+// Allow-listed brand accents — never trust raw user input as a CSS color.
+const ACCENT_MAP: Record<string, { hex: string; rgb: string }> = {
+  teal:    { hex: '#0ED3CF', rgb: '14,211,207' },
+  cyan:    { hex: '#0ED3CF', rgb: '14,211,207' },
+  coral:   { hex: '#E85D3A', rgb: '232,93,58' },
+  lime:    { hex: '#A8C633', rgb: '168,198,51' },
+  magenta: { hex: '#C7236E', rgb: '199,35,110' },
+}
+
+function resolveAccent(raw: string | null) {
+  const key = (raw ?? '').toLowerCase()
+  return ACCENT_MAP[key] ?? ACCENT_MAP.teal
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const title = (searchParams.get('title') ?? 'Sage Ideas').slice(0, 80)
@@ -12,6 +26,7 @@ export async function GET(req: NextRequest) {
     searchParams.get('subtitle') ?? 'AI-Native Studio for B2B Operators'
   ).slice(0, 120)
   const eyebrow = (searchParams.get('eyebrow') ?? 'SAGE IDEAS · STUDIO').slice(0, 60)
+  const accent = resolveAccent(searchParams.get('accent'))
 
   return new ImageResponse(
     (
@@ -37,7 +52,7 @@ export async function GET(req: NextRequest) {
             width: 500,
             height: 500,
             background:
-              'radial-gradient(circle at center, rgba(14,211,207,0.14), transparent 65%)',
+              `radial-gradient(circle at center, rgba(${accent.rgb},0.18), transparent 65%)`,
             display: 'flex',
           }}
         />
@@ -63,7 +78,7 @@ export async function GET(req: NextRequest) {
             inset: 0,
             opacity: 0.04,
             backgroundImage:
-              'radial-gradient(circle, #0ED3CF 0.6px, transparent 0.6px)',
+              `radial-gradient(circle, ${accent.hex} 0.6px, transparent 0.6px)`,
             backgroundSize: '32px 32px',
             display: 'flex',
           }}
@@ -84,7 +99,7 @@ export async function GET(req: NextRequest) {
               width: 40,
               height: 40,
               borderRadius: 10,
-              background: 'linear-gradient(135deg, #E85D3A, #0ED3CF)',
+              background: `linear-gradient(135deg, #E85D3A, ${accent.hex})`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -125,7 +140,7 @@ export async function GET(req: NextRequest) {
             style={{
               display: 'flex',
               fontSize: 16,
-              color: '#0ED3CF',
+              color: accent.hex,
               letterSpacing: '0.2em',
               fontFamily: 'monospace',
               marginBottom: 20,
@@ -221,7 +236,7 @@ export async function GET(req: NextRequest) {
                 }}
               />
             </div>
-            <span style={{ color: '#0ED3CF' }}>solo studio · agency rigor</span>
+            <span style={{ color: accent.hex }}>solo studio · agency rigor</span>
           </div>
         </div>
       </div>

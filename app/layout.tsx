@@ -9,6 +9,9 @@ import { ExitIntentModal } from '@/components/exit-intent-modal'
 import { PostHogProvider } from '@/components/analytics/posthog-provider'
 import { WebVitalsReporter } from '@/components/web-vitals-reporter'
 import { ClientErrorReporter } from '@/components/client-error-reporter'
+import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration'
+import { InstallPrompt } from '@/components/pwa/install-prompt'
+import { UpdateToast } from '@/components/pwa/update-toast'
 
 const display = Instrument_Serif({
   subsets: ['latin'],
@@ -201,6 +204,9 @@ export default async function RootLayout({
           {!isPortal && <ExitIntentModal />}
           <WebVitalsReporter />
           <ClientErrorReporter />
+          <ServiceWorkerRegistration />
+          {!isPortal && <InstallPrompt />}
+          <UpdateToast />
         </PostHogProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { tiersOrdered, careTiers } from '@/data/services/tiers'
 import { extendedTiers } from '@/data/services/extended'
 import { pricingFaq } from '@/data/services/pricing-faq'
-import { PricingContent } from './pricing-content'
 import V0PricingPage from '@/components/v0-pricing/pricing-page'
 import { ExtendedPricingMenu } from './extended-pricing-menu'
+import { QuoteCalculator } from '@/components/pricing/quote-calculator'
+import { AsciiRule } from '@/components/sage'
 import { JsonLd } from '@/components/json-ld'
 import { PageViewTracker } from '@/components/analytics/page-view-tracker'
 
@@ -51,6 +52,29 @@ export default function PricingPage() {
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
       <PageViewTracker event="pricing_view" />
       <V0PricingPage heroImageSrc="/images/hero-pricing.jpg" />
+
+      {/* Phase 9 — interactive terminal-style quote calculator */}
+      <section className="relative bg-[#09090B] border-t border-[#2A2826] py-20 lg:py-28">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AsciiRule label="// scope_estimator" tone="cyan" className="mb-6" />
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10">
+            <div className="max-w-2xl">
+              <h2
+                className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Skip the spreadsheet. <span className="italic text-[#0ED3CF]">Build your quote here.</span>
+              </h2>
+              <p className="text-[#B8B0AB] mt-4 text-lg">
+                Click your way to a real estimate. The number you see is the number we&apos;ll write into the contract.
+                If your scope changes mid-flight, the kill switch refunds the unspent half.
+              </p>
+            </div>
+          </div>
+          <QuoteCalculator />
+        </div>
+      </section>
+
       <ExtendedPricingMenu extended={extendedTiers} care={careTiers} />
     </>
   )

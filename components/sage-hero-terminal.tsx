@@ -67,13 +67,13 @@ export default function SageHeroTerminal({
         text: (
           <>
             <span style={{ color: '#5B5751' }}>{'{ '}</span>
-            <span style={{ color: '#0ED3CF' }}>"ai"</span>
-            <span style={{ color: '#5B5751' }}>: </span>
-            <span style={{ color: '#A8C633' }}>"agents · voice · automation"</span>
-            <span style={{ color: '#5B5751' }}>, </span>
-            <span style={{ color: '#0ED3CF' }}>"web"</span>
-            <span style={{ color: '#5B5751' }}>: </span>
-            <span style={{ color: '#A8C633' }}>"shipped fast · cared for"</span>
+            <span style={{ color: '#0ED3CF' }}>{'"ai"'}</span>
+            <span style={{ color: '#5B5751' }}>{': '}</span>
+            <span style={{ color: '#A8C633' }}>{'"agents · voice · automation"'}</span>
+            <span style={{ color: '#5B5751' }}>{', '}</span>
+            <span style={{ color: '#0ED3CF' }}>{'"web"'}</span>
+            <span style={{ color: '#5B5751' }}>{': '}</span>
+            <span style={{ color: '#A8C633' }}>{'"shipped fast · cared for"'}</span>
             <span style={{ color: '#5B5751' }}>{' }'}</span>
           </>
         ),

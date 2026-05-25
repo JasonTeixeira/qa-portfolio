@@ -1,8 +1,27 @@
+import { execSync } from 'node:child_process'
 import type { NextConfig } from 'next'
 import { withSentryConfig } from '@sentry/nextjs'
 
+// Capture build-time provenance for the telemetry footer. Both reads are
+// wrapped in try/catch so a missing .git directory (e.g. CI container without
+// full history) never breaks the build — we just fall back to 'dev'.
+function safeExec(cmd: string, fallback: string) {
+  try {
+    return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || fallback
+  } catch {
+    return fallback
+  }
+}
+const GIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7)
+  ?? safeExec('git rev-parse --short HEAD', 'dev')
+const BUILD_TIME = new Date().toISOString()
+
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  env: {
+    NEXT_PUBLIC_GIT_SHA: GIT_SHA,
+    NEXT_PUBLIC_BUILD_TIME: BUILD_TIME,
+  },
   // Build-time TS errors should not block deploys for now (we lint separately).
   typescript: { ignoreBuildErrors: true },
   // Required because we run inside a monorepo-like workspace and Turbopack

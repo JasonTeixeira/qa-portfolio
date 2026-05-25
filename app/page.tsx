@@ -8,6 +8,7 @@ import { MetricCounter } from '@/components/metric-counter'
 import { GitHubActivity } from '@/components/github-activity'
 import { Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 import { TrackedLink } from '@/components/analytics/tracked-link'
+import { MagneticButton } from '@/components/magnetic-button'
 import HeroSection from '@/components/sage-hero-terminal'
 import { LogoStrip } from '@/components/logo-strip'
 import { TestimonialCard } from '@/components/testimonial-card'
@@ -563,15 +564,17 @@ export default function HomePage() {
 
           {/* Final CTAs */}
           <div className="mt-14 flex flex-col sm:flex-row gap-3 justify-center items-center">
-            <TrackedLink
-              href="/book"
-              event="cta_click"
-              eventProps={{ location: 'home_final_cta', label: 'book_discovery' }}
-              className="sage-neon-cta sage-bloom-cyan group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-md font-medium uppercase tracking-wide bg-[#0ED3CF] border border-[#0ED3CF] text-[#0A0A0A] [font-family:var(--font-mono),ui-monospace,monospace] text-base transition-all hover:bg-[#0AA8A5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]"
-            >
-              <span>./book</span>
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-            </TrackedLink>
+            <MagneticButton strength={0.35} maxOffset={10}>
+              <TrackedLink
+                href="/book"
+                event="cta_click"
+                eventProps={{ location: 'home_final_cta', label: 'book_discovery' }}
+                className="sage-neon-cta sage-bloom-cyan group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-md font-medium uppercase tracking-wide bg-[#0ED3CF] border border-[#0ED3CF] text-[#0A0A0A] [font-family:var(--font-mono),ui-monospace,monospace] text-base transition-all hover:bg-[#0AA8A5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]"
+              >
+                <span>./book</span>
+                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              </TrackedLink>
+            </MagneticButton>
             <TrackedLink
               href="/pricing"
               event="cta_click"

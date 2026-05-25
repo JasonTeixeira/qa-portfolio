@@ -9,6 +9,15 @@ import { StickyCta } from '@/components/sticky-cta'
 
 const SITE = 'https://www.sageideas.dev'
 
+// Map case study category → brand accent for custom OG images.
+const CATEGORY_ACCENT: Record<string, 'teal' | 'coral' | 'lime' | 'magenta'> = {
+  Fintech: 'teal',
+  'AI/ML': 'magenta',
+  Infrastructure: 'lime',
+  Product: 'coral',
+  DevTools: 'lime',
+}
+
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -24,6 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const ogTitle = encodeURIComponent(study.title)
   const ogSubtitle = encodeURIComponent(study.kicker)
+  const ogEyebrow = encodeURIComponent(`${study.category.toUpperCase()} · CASE STUDY`)
+  const ogAccent = CATEGORY_ACCENT[study.category] ?? 'teal'
 
   return {
     title: study.title,
@@ -34,7 +45,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${study.title} — Sage Ideas`,
       description: study.tagline,
-      images: [`/og?title=${ogTitle}&subtitle=${ogSubtitle}`],
+      images: [
+        `/og?title=${ogTitle}&subtitle=${ogSubtitle}&eyebrow=${ogEyebrow}&accent=${ogAccent}`,
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${study.title} — Sage Ideas`,
+      description: study.tagline,
+      images: [
+        `/og?title=${ogTitle}&subtitle=${ogSubtitle}&eyebrow=${ogEyebrow}&accent=${ogAccent}`,
+      ],
     },
   }
 }

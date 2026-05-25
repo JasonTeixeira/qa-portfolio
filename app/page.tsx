@@ -21,7 +21,7 @@ import { TypewriterLines, Stagger, StaggerItem, HoverGlow } from '@/components/m
 import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
 import { testimonials } from '@/data/social-proof/testimonials'
 import { TrackedLink } from '@/components/analytics/tracked-link'
-import HeroSection from '@/components/v0-hero-section'
+import HeroSection from '@/components/sage-hero-terminal'
 import { LogoStrip } from '@/components/logo-strip'
 
 import { TestimonialCard } from '@/components/testimonial-card'

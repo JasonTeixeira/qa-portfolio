@@ -24,34 +24,34 @@ const capabilities = [
     title: 'Ship production software',
     subtitle: 'web · platforms · internal tools',
     description:
-      'Full-stack products with CI/CD gates, typed APIs, test suites, and idempotent webhooks — production-grade from day one.',
+      'Typed APIs, idempotent webhooks, CI gates that actually block. The boring part, done right, so the rest stops breaking.',
     href: '/services',
     accent: 'cyan' as const,
   },
   {
     icon: Sparkles,
-    title: 'Build AI-native systems',
+    title: 'Wire AI into the stack',
     subtitle: 'agents · voice · automation',
     description:
-      'LLM pipelines, voice agents, classification layers, RAG-powered tools. AI as infrastructure — not a plugin.',
+      'LLM pipelines, voice agents, RAG tools. We fix the data layer first — otherwise the model is theater.',
     href: '/services/ai-development',
     accent: 'magenta' as const,
   },
   {
     icon: TrendingUp,
-    title: 'Scale organic search',
+    title: 'Compound organic search',
     subtitle: 'SEO · content engines · structured data',
     description:
-      'SEO-first content engines, programmatic page templates, and technical audits built to compound monthly.',
+      'Programmatic templates, schema that validates, audits that move the needle. Built to ship monthly, not quarterly.',
     href: '/services/content-care',
     accent: 'coral' as const,
   },
   {
     icon: Terminal,
-    title: 'Operate as fractional CTO',
+    title: 'Sit in the CTO seat',
     subtitle: 'retainers · architecture · review',
     description:
-      'Engineering leadership on retainer — architecture decisions, code review, technical roadmap, on call.',
+      'Fractional engineering leadership. Architecture calls, PR reviews, the roadmap, the on-call rotation. Senior, not senior-adjacent.',
     href: '/services/technical-consulting',
     accent: 'lime' as const,
   },
@@ -158,8 +158,8 @@ export default function HomePage() {
                   Don&apos;t take our word. <span className="italic text-[#0ED3CF]">Audit the work.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
-                  Every project below shipped production code, served real users, and went through the
-                  full engineering process. Click any to see the architecture, the trade-offs, and the receipts.
+                  Every project below ships, serves real users, and has a build log you can read.
+                  Open any one to see the architecture, the trade-offs, and what almost went wrong.
                 </p>
               </div>
               <Link
@@ -285,11 +285,11 @@ export default function HomePage() {
             <AsciiRule label="// act 03 · range" tone="coral" className="mb-6" />
             <div className="max-w-2xl mb-12">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
-                Four things. <span className="italic text-[#E85D3A]">Done at depth.</span>
+                Four lanes. <span className="italic text-[#E85D3A]">Done at depth.</span>
               </h2>
               <p className="text-[#B8B0AB] mt-4 text-lg">
-                Not a generalist agency. Four lanes the studio has shipped through repeatedly —
-                each one with its own retainer or fixed-scope offer.
+                Generalists pitch ten services and ship none of them well. We picked four. Each one has
+                a retainer, a fixed-scope offer, and a portfolio of work we&apos;d show our mothers.
               </p>
             </div>
           </motion.div>
@@ -448,11 +448,11 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
               <div className="max-w-2xl">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
-                  Talk to people <span className="italic text-[#C7236E]">we&apos;ve shipped with.</span>
+                  Call the people <span className="italic text-[#C7236E]">who&apos;ve worked with us.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
-                  Every prospective client gets the option to call past collaborators — engineers,
-                  founders, ops leads. No stock photos. No invented quotes. Real conversations.
+                  Before you sign, we hand you a list of past collaborators — engineers, founders, ops leads —
+                  and you call them. No stock photos. No invented quotes. Their words, their phones.
                 </p>
               </div>
               <Link
@@ -499,8 +499,8 @@ export default function HomePage() {
               Three lanes. <span className="italic text-[#0ED3CF]">Three slots</span> this quarter.
             </h2>
             <p className="text-[#B8B0AB] text-lg lg:text-xl mt-6 leading-relaxed">
-              Productized engagements with Stripe checkout. Monthly care plans. Or a quarter-long
-              Studio Engagement by application only.
+              Productized work, Stripe checkout, fixed scope. Monthly care on retainer. Or a full
+              quarter inside the studio — by application, three slots, no exceptions.
             </p>
           </motion.div>
 
@@ -517,7 +517,7 @@ export default function HomePage() {
                 9 fixed-price engagements
               </div>
               <div className="text-sm text-[#B8B0AB] leading-relaxed">
-                From $750 audits to $9,500+ builds. Stripe checkout, fixed scope, no surprises.
+                $750 audits to $9,500 builds. You see the scope, you click checkout, we ship.
               </div>
               <div className="mt-5 text-xs text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] opacity-60 group-hover:opacity-100 transition-opacity">
                 ls services/ →
@@ -535,7 +535,7 @@ export default function HomePage() {
                 Care plans from $300/mo
               </div>
               <div className="text-sm text-[#B8B0AB] leading-relaxed">
-                Site Care, Brand Care, Content Care. Cancel anytime. Continuous coverage.
+                Site, brand, content — kept alive every month. Cancel any time, no clawback, no drama.
               </div>
               <div className="mt-5 text-xs text-[#E85D3A] [font-family:var(--font-mono),ui-monospace,monospace] opacity-60 group-hover:opacity-100 transition-opacity">
                 cat care.md →
@@ -553,7 +553,7 @@ export default function HomePage() {
                 Studio Engagement
               </div>
               <div className="text-sm text-[#B8B0AB] leading-relaxed">
-                Quarter-long, by application only. Hybrid sprints, multi-month builds, full ownership.
+                One quarter, one team, one product owner. Application only. Three slots a year.
               </div>
               <div className="mt-5 text-xs text-[#A8C633] [font-family:var(--font-mono),ui-monospace,monospace] opacity-60 group-hover:opacity-100 transition-opacity">
                 apply →

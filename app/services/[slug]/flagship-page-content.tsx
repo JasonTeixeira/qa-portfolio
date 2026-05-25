@@ -18,6 +18,7 @@ import {
   UserCheck,
 } from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
+import { PageHeroBg } from '@/components/page-hero-bg'
 import type { ExtendedTier } from '@/data/services/extended'
 import { flagshipVisuals } from '@/data/services/flagship-visuals'
 import { SectionLabel } from '@/components/section-label'

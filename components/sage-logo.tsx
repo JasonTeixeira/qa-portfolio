@@ -28,8 +28,12 @@ const SIZE_MAP: Record<
   xl: { mark: 192, gap: 36, fontSize: 33,   letterSpacing: "0.12em", subtitleSize: 21 },
 }
 
-// Unique ID suffix so multiple logos on one page don't clash
-let _idCounter = 0
+// Unique ID suffix so multiple logos on one page don't clash.
+// Currently unused at module scope — every instance derives a stable id
+// from its size below — but kept for the historic incrementing path in
+// case we ever need it back. Marked const to satisfy prefer-const.
+const _idCounter = 0
+void _idCounter
 
 export function SageLogo({ size = "md", showText = true, className = "" }: SageLogoProps) {
   const { mark, gap, fontSize, letterSpacing, subtitleSize } = SIZE_MAP[size]

@@ -98,18 +98,19 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </span>
         </div>
         
-        {/* Hover overlay with quick actions */}
+        {/* Quick-action overlay — visible on hover OR keyboard focus */}
         <motion.div
-          className="absolute inset-0 bg-[#09090B]/80 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-[#09090B]/80 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
         >
           {project.github && (
             <Link
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${project.name} — view on GitHub`}
               className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
             >
-              <Github className="h-5 w-5" />
+              <Github className="h-5 w-5" aria-hidden="true" />
             </Link>
           )}
           {project.liveUrl && (
@@ -117,17 +118,19 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               href={project.liveUrl}
               target={project.liveUrl.startsWith('http') ? '_blank' : undefined}
               rel={project.liveUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+              aria-label={`${project.name} — visit live site`}
               className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
             >
-              <ExternalLink className="h-5 w-5" />
+              <ExternalLink className="h-5 w-5" aria-hidden="true" />
             </Link>
           )}
           {project.caseStudy && (
             <Link
               href={project.caseStudy}
+              aria-label={`${project.name} — read case study`}
               className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
             >
-              <FileText className="h-5 w-5" />
+              <FileText className="h-5 w-5" aria-hidden="true" />
             </Link>
           )}
         </motion.div>

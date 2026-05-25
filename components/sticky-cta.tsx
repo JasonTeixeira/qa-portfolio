@@ -64,14 +64,14 @@ export function StickyCta({
               className="inline-flex items-center gap-1.5 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
             >
               {ctaLabel}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <button
               onClick={handleDismiss}
               className="p-2 text-[#78716C] hover:text-[#FAFAFA] hover:bg-[#2A2826] rounded-lg transition-colors"
               aria-label="Dismiss"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>

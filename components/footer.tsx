@@ -88,7 +88,7 @@ export function Footer() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0ED3CF] text-[#09090B] text-sm font-semibold hover:bg-[#0AA8A5] transition-colors group"
             >
               Book a strategy call
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
             </Link>
             <div className="flex items-center gap-2 pt-1">
               {connect.map((item) => (
@@ -100,7 +100,7 @@ export function Footer() {
                   aria-label={item.label}
                   className="p-2 text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#1A1917] rounded-lg transition-colors"
                 >
-                  <item.icon className="w-4 h-4" />
+                  <item.icon className="w-4 h-4" aria-hidden="true" />
                 </Link>
               ))}
             </div>

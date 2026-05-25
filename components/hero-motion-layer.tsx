@@ -1,7 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
-
 /**
  * Sage Ideas Hero Motion Layer
  *
@@ -11,6 +7,9 @@ import { motion } from 'framer-motion'
  *   - architectural dot grid (precision engineering feel)
  *   - film grain texture (editorial, premium)
  *   - subtle scanline (tech/terminal aesthetic)
+ *
+ * Server component — slow-pan animations driven by CSS keyframes,
+ * automatically halted by prefers-reduced-motion.
  */
 export function HeroMotionLayer({
   intensity = 'medium',
@@ -23,24 +22,20 @@ export function HeroMotionLayer({
   return (
     <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
       {/* Slow-pan sage teal wash */}
-      <motion.div
-        className="absolute -inset-[10%]"
+      <div
+        className="absolute -inset-[10%] sage-hero-pan-teal"
         style={{
           background:
             'radial-gradient(ellipse at 25% 20%, rgba(14,211,207,0.10), transparent 55%)',
         }}
-        animate={{ x: ['0%', '3%', '0%'], y: ['0%', '-2%', '0%'] }}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* Slow-pan sage coral wash */}
-      <motion.div
-        className="absolute -inset-[10%]"
+      <div
+        className="absolute -inset-[10%] sage-hero-pan-coral"
         style={{
           background:
             'radial-gradient(ellipse at 75% 75%, rgba(232,93,58,0.06), transparent 55%)',
         }}
-        animate={{ x: ['0%', '-3%', '0%'], y: ['0%', '2%', '0%'] }}
-        transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* Architectural dot grid */}
       <div

@@ -1,11 +1,9 @@
-'use client'
-
-import { motion } from 'framer-motion'
-
 /**
  * SageAmbient — Replaces generic floating orbs with a subtle
  * architectural grid + flowing data lines that evoke systems thinking.
  * The motion is barely perceptible — ambient, not distracting.
+ *
+ * Server component — slow-pan and pulse driven by CSS keyframes.
  */
 export function FloatingOrbs() {
   return (
@@ -24,72 +22,47 @@ export function FloatingOrbs() {
       />
 
       {/* Slow ambient wash — teal top-left */}
-      <motion.div
-        className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%]"
+      <div
+        className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] sage-orb-teal"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(14,211,207,0.06), transparent 70%)',
         }}
-        animate={{ x: ['0%', '4%', '0%'], y: ['0%', '3%', '0%'] }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Warm wash — coral bottom-right */}
-      <motion.div
-        className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%]"
+      <div
+        className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] sage-orb-coral"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(232,93,58,0.04), transparent 70%)',
         }}
-        animate={{ x: ['0%', '-3%', '0%'], y: ['0%', '-4%', '0%'] }}
-        transition={{
-          duration: 26,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 4,
-        }}
       />
 
       {/* Flowing data line — horizontal, evokes pipeline */}
-      <motion.div
-        className="absolute top-[35%] left-0 w-full h-px"
+      <div
+        className="absolute top-[35%] left-0 w-full h-px sage-data-line-1"
         style={{
           background:
             'linear-gradient(90deg, transparent 0%, rgba(14,211,207,0.08) 30%, rgba(232,93,58,0.06) 70%, transparent 100%)',
         }}
-        animate={{ opacity: [0.3, 0.7, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Second data line — lower, offset timing */}
-      <motion.div
-        className="absolute top-[68%] left-0 w-full h-px"
+      <div
+        className="absolute top-[68%] left-0 w-full h-px sage-data-line-2"
         style={{
           background:
             'linear-gradient(90deg, transparent 0%, rgba(168,198,51,0.06) 40%, rgba(14,211,207,0.06) 80%, transparent 100%)',
         }}
-        animate={{ opacity: [0.2, 0.5, 0.2] }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 3,
-        }}
       />
 
       {/* Vertical accent — architectural column */}
-      <motion.div
-        className="absolute top-0 left-[72%] w-px h-full"
+      <div
+        className="absolute top-0 left-[72%] w-px h-full sage-data-line-3"
         style={{
           background:
             'linear-gradient(180deg, transparent 0%, rgba(14,211,207,0.05) 40%, rgba(199,35,110,0.04) 70%, transparent 100%)',
-        }}
-        animate={{ opacity: [0.2, 0.4, 0.2] }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 6,
         }}
       />
     </div>

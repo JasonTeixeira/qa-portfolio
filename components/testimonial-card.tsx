@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { CheckCircle2, Quote, Phone } from 'lucide-react'
 import type { Reference } from '@/data/references'
 
@@ -19,8 +16,11 @@ type Props = {
  *
  * This is the honest pattern. As named permissions arrive, flip the flag in
  * `data/references.ts` and add the quote — same component handles both.
+ *
+ * Server component — entrance via CSS sage-rise with staggered delays.
  */
 export function TestimonialCard({ reference: r, index = 0 }: Props) {
+  const delayClass = `sage-rise-d${Math.min(index + 1, 6)}`
   const initials =
     r.attributed && r.name
       ? r.name
@@ -32,12 +32,8 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
 
   if (r.attributed && r.quote && r.name) {
     return (
-      <motion.figure
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.4, delay: index * 0.06 }}
-        className="rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors"
+      <figure
+        className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors`}
       >
         <Quote className="h-5 w-5 text-[#0ED3CF] mb-3" aria-hidden />
         <blockquote className="text-[#F4F2EF] text-sm leading-relaxed mb-5">
@@ -60,18 +56,14 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
             </div>
           </div>
         </figcaption>
-      </motion.figure>
+      </figure>
     )
   }
 
   // Anonymous reference card.
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors flex flex-col"
+    <div
+      className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors flex flex-col`}
     >
       <div className="flex items-center gap-2 mb-3">
         <CheckCircle2 className="h-4 w-4 text-[#0ED3CF]" aria-hidden />
@@ -93,6 +85,6 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
           <span>Reference call shared during discovery, both consenting.</span>
         </div>
       )}
-    </motion.div>
+    </div>
   )
 }

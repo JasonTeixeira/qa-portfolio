@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 interface ProfessionalAvatarProps {
@@ -22,14 +19,12 @@ const imageSizes = {
   xl: 192,
 }
 
+/**
+ * Server component — entrance animation via CSS sage-rise.
+ */
 export function ProfessionalAvatar({ size = 'lg', showGlow = true }: ProfessionalAvatarProps) {
   return (
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative"
-    >
+    <div className="sage-rise relative">
       {/* Glow effect */}
       {showGlow && (
         <div className="absolute inset-0 bg-gradient-to-br from-[#0ED3CF]/30 to-[#E85D3A]/30 rounded-full blur-2xl animate-pulse" />
@@ -58,15 +53,10 @@ export function ProfessionalAvatar({ size = 'lg', showGlow = true }: Professiona
       </div>
 
       {/* Status indicator */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.3, type: 'spring', stiffness: 500 }}
-        className="absolute bottom-1 right-1 w-4 h-4"
-      >
+      <div className="absolute bottom-1 right-1 w-4 h-4">
         <span className="absolute inset-0 rounded-full bg-[#10B981] status-dot" />
         <span className="absolute inset-0.5 rounded-full bg-[#10B981]" />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }

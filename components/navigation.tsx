@@ -350,7 +350,7 @@ function MegaDropdown({
                                   )}
                                 </div>
                                 {item.description && (
-                                  <p className="text-[11.5px] text-[#78716C] mt-0.5 leading-snug">
+                                  <p className="text-[11.5px] text-[#A8A29E] mt-0.5 leading-snug">
                                     {item.description}
                                   </p>
                                 )}
@@ -364,7 +364,7 @@ function MegaDropdown({
                 ))}
               </div>
               <div className="border-t border-[#1A1917] px-5 py-3 flex items-center justify-between gap-3 bg-[#06070A]">
-                <p className="text-[11px] text-[#78716C]">
+                <p className="text-[11px] text-[#A8A29E]">
                   Not sure where to start? Book a free 30-min call.
                 </p>
                 <Link
@@ -515,7 +515,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               type="button"
               onClick={triggerCommandPalette}
               aria-label="Open command palette"
-              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#0F0E11] border border-[#2A2826] text-[#78716C] hover:text-[#F4F2EF] hover:border-[#0ED3CF]/40 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#0F0E11] border border-[#2A2826] text-[#A8A29E] hover:text-[#F4F2EF] hover:border-[#0ED3CF]/40 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             >
               <span aria-hidden className="select-none text-xs">
                 <span className="text-[#A8C633]">$</span>{' '}

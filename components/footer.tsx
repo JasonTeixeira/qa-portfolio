@@ -116,7 +116,7 @@ export function Footer() {
           <FooterColumn title="Studio" links={studio} className="lg:col-span-2" />
         </div>
 
-        <div className="mt-16 pt-8 border-t border-[#2A2826] flex flex-col md:flex-row md:items-center justify-between gap-6 text-xs text-[#78716C]">
+        <div className="mt-16 pt-8 border-t border-[#2A2826] flex flex-col md:flex-row md:items-center justify-between gap-6 text-xs text-[#A8A29E]">
           <p>© {year} Sage Ideas LLC · Orlando, FL · All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {legal.map((item) => (

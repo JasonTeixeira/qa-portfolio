@@ -194,7 +194,7 @@ export default function SageHeroTerminal({
           </motion.div>
 
           {/* Trust strip */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[11px] uppercase tracking-[0.18em] text-[#78716C] [font-family:var(--font-mono),ui-monospace,monospace]">
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[11px] uppercase tracking-[0.18em] text-[#A8A29E] [font-family:var(--font-mono),ui-monospace,monospace]">
             <span className="flex items-center gap-2">
               <span aria-hidden className="h-1 w-1 rounded-full bg-[#A8C633]" />
               20+ engagements shipped

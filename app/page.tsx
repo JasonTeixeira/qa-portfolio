@@ -1,11 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ArrowRight, Code2, Sparkles, TrendingUp, Terminal } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
-import { MetricCounter } from '@/components/metric-counter'
-import { GitHubActivity } from '@/components/github-activity'
 import { Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { MagneticButton } from '@/components/magnetic-button'
@@ -16,6 +15,18 @@ import { TestimonialCarousel } from '@/components/social-proof/testimonial-carou
 import { testimonials } from '@/data/social-proof/testimonials'
 import { references, trustedBy } from '@/data/references'
 import { AsciiRule, Sigil } from '@/components/sage'
+
+// ── Deferred heavy components — don't block first paint ──────────────────────
+// GitHubActivity fetches the GitHub API; MetricCounter runs count-up animations.
+// Neither is visible above the fold so we split them out of the initial bundle.
+const GitHubActivity = dynamic(
+  () => import('@/components/github-activity').then(m => ({ default: m.GitHubActivity })),
+  { ssr: false, loading: () => <div className="h-48 rounded-xl bg-[#12110F] animate-pulse" /> }
+)
+const MetricCounter = dynamic(
+  () => import('@/components/metric-counter').then(m => ({ default: m.MetricCounter })),
+  { ssr: false, loading: () => <div className="h-16 rounded bg-[#12110F] animate-pulse" /> }
+)
 
 // ────────────────────────────────────────────────────────────────────
 // Data

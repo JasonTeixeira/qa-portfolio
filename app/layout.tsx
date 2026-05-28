@@ -188,6 +188,13 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
       className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#09090B]`}
     >
+      <head>
+        {/* Preconnect to Google Fonts CDN to shave ~100–200 ms off font fetch */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS-prefetch for GitHub API (GitHubActivity widget) */}
+        <link rel="dns-prefetch" href="https://api.github.com" />
+      </head>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <script
           type="application/ld+json"

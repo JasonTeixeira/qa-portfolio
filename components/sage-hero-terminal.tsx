@@ -145,11 +145,13 @@ export default function SageHeroTerminal({
 
           <AsciiRule label="// identity 01" className="mb-6" />
 
-          {/* Visual headline — display serif */}
+          {/* Visual headline — display serif.
+              NOTE: opacity starts at 1 (not 0) so the browser can measure
+              this as LCP on first paint. y-entrance only — no fade-in. */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 1, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             aria-hidden
             className="mb-3 text-[32px] leading-[1.0] tracking-[-0.02em] text-[#F4F2EF] sm:text-[48px] lg:text-[72px]"
             style={{ fontFamily: 'var(--font-display)' }}
@@ -164,9 +166,9 @@ export default function SageHeroTerminal({
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 1, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8 max-w-[52ch] text-base leading-relaxed text-[#B8B0AB] sm:text-lg"
           >
             A two-person studio that builds AI agents, voice systems, and web platforms for
@@ -176,9 +178,9 @@ export default function SageHeroTerminal({
 
           {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 1, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-wrap items-center gap-3"
           >
             <NeonButton href="/book" tone="cyan" size="lg" bloom>

@@ -128,6 +128,16 @@ export function WorkGrid({ studies }: WorkGridProps) {
                   ))}
                 </div>
 
+                {study.outcomes && study.outcomes.length > 0 && (
+                  <div className="mt-2 mb-3 space-y-1">
+                    {study.outcomes.slice(0, 1).map((o, i) => (
+                      <p key={i} className="text-[11px] text-[#A8C633] font-mono leading-snug">
+                        ✓ {o.label}
+                      </p>
+                    ))}
+                  </div>
+                )}
+
                 <Link
                   href={`/work/${study.slug}`}
                   className="inline-flex items-center gap-1.5 text-[#0ED3CF] text-sm font-medium hover:gap-2.5 transition-all duration-200"

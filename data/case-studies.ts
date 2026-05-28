@@ -6,6 +6,7 @@ export interface CaseStudy {
   summary: string
   tags: string[]
   metrics: { label: string; value: string }[]
+  outcomes?: { label: string; detail: string }[]
   readTime: number
   publishedDate: string
   category: string
@@ -25,6 +26,11 @@ export const caseStudies: CaseStudy[] = [
       { label: 'Tests', value: '61' },
       { label: 'Phases', value: '7' }
     ],
+    outcomes: [
+      { label: 'Shipped from zero to production', detail: '7 phases, fully operational fintech platform with active subscribers' },
+      { label: 'Full-stack ownership', detail: 'One engineer architected billing, AI bot, research engine, and newsletter studio end-to-end' },
+      { label: 'Live and maintained', detail: 'Platform runs continuously with automated CI, monitoring, and on-call discipline' },
+    ],
     readTime: 12,
     publishedDate: '2024-12-01',
     category: 'FinTech'
@@ -41,6 +47,11 @@ export const caseStudies: CaseStudy[] = [
       { label: 'Models', value: '28' },
       { label: 'Symbols', value: '7' },
       { label: 'Accuracy', value: '~50%' }
+    ],
+    outcomes: [
+      { label: 'Production ML pipeline', detail: 'Walk-forward validated models across 7 symbols with zero data leakage — deployed and queryable via API' },
+      { label: 'Open-source published', detail: 'AlphaStream Python package on PyPI with documented methodology and reproducible results' },
+      { label: 'Full-stack delivery', detail: 'FastAPI backend + Next.js dashboard + Supabase Auth + Stripe billing — solo, 4 weeks' },
     ],
     readTime: 10,
     publishedDate: '2024-11-15',
@@ -59,6 +70,11 @@ export const caseStudies: CaseStudy[] = [
       { label: 'CI-Gated', value: 'Yes' },
       { label: 'SCP-Enforced', value: 'Yes' }
     ],
+    outcomes: [
+      { label: '100% infrastructure as code', detail: 'Every resource Terraform-managed — no manual console drift, reproducible in any region' },
+      { label: 'Enterprise guardrails from day one', detail: 'SCP-enforced policies, centralized audit logging, and CI gates blocking non-compliant changes' },
+      { label: 'Days to deploy, not months', detail: 'Modular design ships a compliant multi-account org in a single sprint rather than a quarter-long engagement' },
+    ],
     readTime: 8,
     publishedDate: '2024-10-20',
     category: 'Cloud'
@@ -76,6 +92,11 @@ export const caseStudies: CaseStudy[] = [
       { label: 'Languages', value: '4' },
       { label: 'Coverage', value: 'Full Stack' }
     ],
+    outcomes: [
+      { label: '13 specialized frameworks, zero flake', detail: 'Full coverage from API to mobile to security — each framework independently runnable and CI-integrated' },
+      { label: 'Production-grade quality signal', detail: 'Failing PRs catch regressions before they reach staging — not after they reach production' },
+      { label: 'Reusable across any stack', detail: 'Python, TypeScript, Java, and Appium implementations covering 4 languages and every major test layer' },
+    ],
     readTime: 15,
     publishedDate: '2024-09-10',
     category: 'QA'
@@ -92,6 +113,11 @@ export const caseStudies: CaseStudy[] = [
       { label: 'Phases', value: '12' },
       { label: 'AI-Powered', value: 'Yes' },
       { label: 'Real-Time', value: 'Yes' }
+    ],
+    outcomes: [
+      { label: '30+ commands, live community', detail: 'AI-powered trading bot serving an active Discord community with real-time market data and moderation' },
+      { label: 'GPT-4o integrated end-to-end', detail: 'Natural language Q&A, auto-moderation, and market intelligence pipelines — all wired to production Supabase' },
+      { label: 'Shipped across 12 phases', detail: 'Feature-flagged delivery kept the community live throughout development — zero downtime migrations' },
     ],
     readTime: 11,
     publishedDate: '2024-08-05',

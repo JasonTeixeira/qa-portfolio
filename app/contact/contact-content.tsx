@@ -102,6 +102,22 @@ export function ContactContent() {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      {/* Quick contact strip */}
+      <div className="border-b border-[#2A2826] bg-[#0B0A09]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <p className="text-sm text-[#A8A29E]">
+            Just want to say hello or have a quick question?
+          </p>
+          <a
+            href="mailto:sage@sageideas.org?subject=Quick hello"
+            className="inline-flex items-center gap-2 text-sm font-mono text-[#0ED3CF] hover:text-[#F4F2EF] transition-colors whitespace-nowrap"
+          >
+            <Mail className="w-4 h-4" aria-hidden />
+            sage@sageideas.org →
+          </a>
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <motion.div

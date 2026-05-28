@@ -12,6 +12,8 @@ import { MagneticButton } from '@/components/magnetic-button'
 import HeroSection from '@/components/sage-hero-terminal'
 import { LogoStrip } from '@/components/logo-strip'
 import { TestimonialCard } from '@/components/testimonial-card'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 import { references, trustedBy } from '@/data/references'
 import { AsciiRule, Sigil } from '@/components/sage'
 
@@ -52,7 +54,7 @@ const capabilities = [
     title: 'Sit in the CTO seat',
     subtitle: 'retainers · architecture · review',
     description:
-      'Fractional engineering leadership. Architecture calls, PR reviews, the roadmap, the on-call rotation. Senior, not senior-adjacent.',
+      'Fractional engineering leadership. Architecture calls, PR reviews, the roadmap, the on-call rotation. Principal-calibre, not a handoff shop.',
     href: '/services/technical-consulting',
     accent: 'lime' as const,
   },
@@ -479,6 +481,25 @@ export default function HomePage() {
             label="Industries shipped into"
             blurb="Most engagements run under NDA. Names withheld until written permission lands — no fake logos, no implied endorsements."
           />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+         SOCIAL PROOF — pull-quote carousel
+         ══════════════════════════════════════════════════════════════ */}
+      <section className="relative py-16 sm:py-20 lg:py-24 border-t border-[#2A2826] bg-[#0B0A09]/40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+                Client outcomes
+              </p>
+              <h2 className="mt-1 text-xl sm:text-2xl font-normal text-[#F4F2EF]">
+                What happens after the work ships
+              </h2>
+            </div>
+          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

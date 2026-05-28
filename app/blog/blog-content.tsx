@@ -76,11 +76,10 @@ export function BlogContent() {
         >
           <SectionLabel>Blog</SectionLabel>
           <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA]">
-            Engineering &amp; Architecture
+            The field notes.
           </h1>
           <p className="mt-6 text-lg text-[#A8A29E] max-w-2xl">
-            Technical writing on systems architecture, automation, cloud infrastructure, and
-            software engineering. {blogPosts.length} articles with real code examples.
+            {blogPosts.length} field reports on systems, automation, AI, and the craft of building production software. Written by the engineer who shipped the systems — not a content team.
           </p>
         </motion.div>
       </section>
@@ -178,10 +177,14 @@ export function BlogContent() {
       {/* Pinned / Start Here */}
       {showPinned && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <h2 className="text-lg font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full" />
-            Start Here
-          </h2>
+          <div className="mb-6">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+              Start here
+            </p>
+            <h2 className="mt-1 text-xl font-normal text-[#F4F2EF]">
+              Definitive reads
+            </h2>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pinnedPosts.map((post) => (
               <Link

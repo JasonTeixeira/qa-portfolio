@@ -12,6 +12,8 @@ import { careTiers } from '@/data/services/tiers'
 import { RefreshCw, Sparkles } from 'lucide-react'
 import { pricingFaq } from '@/data/services/pricing-faq'
 import { PageHeroBg } from '@/components/page-hero-bg'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 
 const tableColumns = [
   { label: 'Tier', key: 'name' },
@@ -47,7 +49,7 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
             className="max-w-3xl"
           >
             <SectionLabel>Pricing</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
+            <h1 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] leading-tight">
               Three lanes.{' '}
               <span className="text-[#0ED3CF]">No asterisks.</span>
             </h1>
@@ -171,6 +173,19 @@ export function PricingContent({ tiers }: { tiers: readonly Tier[] }) {
               </div>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Social proof — testimonials */}
+      <section className="border-b border-[#2A2826] bg-[#09090B]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF] mb-2">
+            In their words
+          </p>
+          <h2 className="text-xl sm:text-2xl font-normal text-[#F4F2EF] mb-8">
+            What clients say after the engagement closes
+          </h2>
+          <TestimonialCarousel testimonials={testimonials.slice(0, 4)} />
         </div>
       </section>
 

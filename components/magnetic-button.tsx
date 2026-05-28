@@ -34,11 +34,16 @@ export function MagneticButton({
 
   // Detect reduced-motion preference on mount + react to changes.
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setEnabled(!mq.matches)
+    const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const pointerMq = window.matchMedia('(pointer: coarse)')
+    const update = () => setEnabled(!motionMq.matches && !pointerMq.matches)
     update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    motionMq.addEventListener('change', update)
+    pointerMq.addEventListener('change', update)
+    return () => {
+      motionMq.removeEventListener('change', update)
+      pointerMq.removeEventListener('change', update)
+    }
   }, [])
 
   useEffect(() => {

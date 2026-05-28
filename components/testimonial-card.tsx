@@ -72,7 +72,7 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
         </span>
       </div>
       <h3 className="font-semibold text-[#FAFAFA] mb-1">{r.role}</h3>
-      <div className="text-[11px] font-mono uppercase tracking-wider text-[#78716C] mb-3">
+      <div className="text-[11px] font-mono uppercase tracking-wider text-[#A8A29E] mb-3">
         {r.industry}
         {r.duration ? ` · ${r.duration}` : ''}
       </div>
@@ -80,7 +80,7 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
         {r.context}
       </p>
       {r.callAvailable && (
-        <div className="mt-4 pt-4 border-t border-[#2A2826] flex items-center gap-2 text-xs text-[#78716C]">
+        <div className="mt-4 pt-4 border-t border-[#2A2826] flex items-center gap-2 text-xs text-[#A8A29E]">
           <Phone className="h-3.5 w-3.5 text-[#0ED3CF]/70" aria-hidden />
           <span>Reference call shared during discovery, both consenting.</span>
         </div>

@@ -1,19 +1,32 @@
 'use client'
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ArrowRight, Code2, Sparkles, TrendingUp, Terminal } from 'lucide-react'
 import { GlowCard } from '@/components/glow-card'
-import { MetricCounter } from '@/components/metric-counter'
-import { GitHubActivity } from '@/components/github-activity'
 import { Stagger, StaggerItem, HoverGlow } from '@/components/motion'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { MagneticButton } from '@/components/magnetic-button'
 import HeroSection from '@/components/sage-hero-terminal'
 import { LogoStrip } from '@/components/logo-strip'
 import { TestimonialCard } from '@/components/testimonial-card'
+import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
+import { testimonials } from '@/data/social-proof/testimonials'
 import { references, trustedBy } from '@/data/references'
 import { AsciiRule, Sigil } from '@/components/sage'
+
+// ── Deferred heavy components — don't block first paint ──────────────────────
+// GitHubActivity fetches the GitHub API; MetricCounter runs count-up animations.
+// Neither is visible above the fold so we split them out of the initial bundle.
+const GitHubActivity = dynamic(
+  () => import('@/components/github-activity').then(m => ({ default: m.GitHubActivity })),
+  { ssr: false, loading: () => <div className="h-48 rounded-xl bg-[#12110F] animate-pulse" /> }
+)
+const MetricCounter = dynamic(
+  () => import('@/components/metric-counter').then(m => ({ default: m.MetricCounter })),
+  { ssr: false, loading: () => <div className="h-16 rounded bg-[#12110F] animate-pulse" /> }
+)
 
 // ────────────────────────────────────────────────────────────────────
 // Data
@@ -52,7 +65,7 @@ const capabilities = [
     title: 'Sit in the CTO seat',
     subtitle: 'retainers · architecture · review',
     description:
-      'Fractional engineering leadership. Architecture calls, PR reviews, the roadmap, the on-call rotation. Senior, not senior-adjacent.',
+      'Fractional engineering leadership. Architecture calls, PR reviews, the roadmap, the on-call rotation. Principal-calibre, not a handoff shop.',
     href: '/services/technical-consulting',
     accent: 'lime' as const,
   },
@@ -62,7 +75,7 @@ const ACCENT_TO_HEX = {
   cyan: '#0ED3CF',
   coral: '#E85D3A',
   lime: '#A8C633',
-  magenta: '#C7236E',
+  magenta: '#E85094',
 } as const
 
 const featuredWork = [
@@ -144,7 +157,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT II — RECEIPTS (flagship + supporting case studies)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826]">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -155,7 +168,7 @@ export default function HomePage() {
             <AsciiRule label="// act 02 · receipts" tone="cyan" className="mb-6" />
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
               <div className="max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
                   Don&apos;t take our word. <span className="italic text-[#0ED3CF]">Audit the work.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
@@ -264,7 +277,7 @@ export default function HomePage() {
           </Stagger>
 
           {/* Inline stats row — receipts continued */}
-          <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="mt-12 sm:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {homepageStats.map((stat) => (
               <MetricCounter key={stat.label} value={stat.value} label={stat.label} />
             ))}
@@ -275,7 +288,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT III — RANGE (horizontal scroll-snap rail of capabilities)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] bg-gradient-to-b from-[#0B0A09] to-[#09090B]">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] bg-gradient-to-b from-[#0B0A09] to-[#09090B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -285,7 +298,7 @@ export default function HomePage() {
           >
             <AsciiRule label="// act 03 · range" tone="coral" className="mb-6" />
             <div className="max-w-2xl mb-12">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
                 Four lanes. <span className="italic text-[#E85D3A]">Done at depth.</span>
               </h2>
               <p className="text-[#B8B0AB] mt-4 text-lg">
@@ -380,7 +393,7 @@ export default function HomePage() {
           >
             <AsciiRule label="// act 04 · manifesto" tone="lime" align="center" className="mb-10" />
             <blockquote
-              className="text-[28px] sm:text-[40px] lg:text-[56px] leading-[1.05] tracking-[-0.015em] text-[#F4F2EF] text-center"
+              className="text-[24px] sm:text-[36px] lg:text-[56px] leading-[1.1] tracking-[-0.015em] text-[#F4F2EF] text-center"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               <span>The agencies sold </span>
@@ -437,7 +450,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════════════════
          ACT V — CALLABLE ROLODEX (references promoted)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] bg-[#0B0A09]/60">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] bg-[#0B0A09]/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -448,8 +461,8 @@ export default function HomePage() {
             <AsciiRule label="// act 05 · callable rolodex" tone="magenta" className="mb-6" />
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
               <div className="max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
-                  Call the people <span className="italic text-[#C7236E]">who&apos;ve worked with us.</span>
+                <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
+                  Call the people <span className="italic text-[#E85094]">who&apos;ve worked with us.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
                   Before you sign, we hand you a list of past collaborators — engineers, founders, ops leads —
@@ -458,7 +471,7 @@ export default function HomePage() {
               </div>
               <Link
                 href="/trust#references"
-                className="text-sm text-[#C7236E] hover:text-[#E0518E] inline-flex items-center gap-1.5 group whitespace-nowrap [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide"
+                className="text-sm text-[#E85094] hover:text-[#F070AA] inline-flex items-center gap-1.5 group whitespace-nowrap [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide"
               >
                 cat references/ → roster
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -483,9 +496,28 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
+         SOCIAL PROOF — pull-quote carousel
+         ══════════════════════════════════════════════════════════════ */}
+      <section className="relative py-16 sm:py-20 lg:py-24 border-t border-[#2A2826] bg-[#0B0A09]/40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+                Client outcomes
+              </p>
+              <h2 className="mt-1 text-xl sm:text-2xl font-normal text-[#F4F2EF]">
+                What happens after the work ships
+              </h2>
+            </div>
+          </div>
+          <TestimonialCarousel testimonials={testimonials} />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
          ACT VI — ENGAGEMENT (final CTA with 3 offer tiles)
          ══════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 lg:py-32 border-t border-[#2A2826] overflow-hidden">
+      <section className="relative py-16 sm:py-20 lg:py-32 border-t border-[#2A2826] overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(14,211,207,0.10),transparent_70%)]" aria-hidden />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div

@@ -415,6 +415,35 @@ export function FounderAnimations({ capabilities, principles }: Props) {
         </div>
       </section>
 
+      {/* Selected work */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <motion.div {...fadeInUp}>
+          <div className="mt-16 pt-10 border-t border-[#2A2826]">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF] mb-6">
+              Selected work
+            </p>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                { href: '/work/nexural-ecosystem', label: 'Nexural', sub: 'Fintech platform · 185 tables · 69 APIs' },
+                { href: '/work/alphastream', label: 'AlphaStream', sub: 'ML trading signals · 28 models · 7 symbols' },
+                { href: '/work', label: 'View all work →', sub: '9 case studies across AI, fintech & cloud' },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="group flex flex-col gap-1 rounded-xl border border-[#2A2826] bg-[#12110F] p-4 hover:border-[#0ED3CF]/40 transition-colors"
+                >
+                  <span className="text-sm font-semibold text-[#F4F2EF] group-hover:text-[#0ED3CF] transition-colors">
+                    {item.label}
+                  </span>
+                  <span className="text-xs text-[#78716C]">{item.sub}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Footer CTA strip */}
       <section className="bg-[#12110F] border-t border-[#2A2826]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

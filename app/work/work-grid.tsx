@@ -37,7 +37,7 @@ export function WorkGrid({ studies }: WorkGridProps) {
           <button
             key={cat}
             onClick={() => setActive(cat)}
-            className={`px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest border transition-all duration-200 ${
+            className={`px-4 py-2.5 min-h-[44px] rounded-full text-xs font-mono uppercase tracking-widest border transition-all duration-200 ${
               active === cat
                 ? 'bg-[#0ED3CF] border-[#0ED3CF] text-[#09090B]'
                 : 'border-[#2A2826] text-[#78716C] hover:border-[#0ED3CF]/50 hover:text-[#A8A29E]'
@@ -127,6 +127,16 @@ export function WorkGrid({ studies }: WorkGridProps) {
                     </span>
                   ))}
                 </div>
+
+                {study.outcomes && study.outcomes.length > 0 && (
+                  <div className="mt-2 mb-3 space-y-1">
+                    {study.outcomes.slice(0, 1).map((o, i) => (
+                      <p key={i} className="text-[11px] text-[#A8C633] font-mono leading-snug">
+                        ✓ {o.label}
+                      </p>
+                    ))}
+                  </div>
+                )}
 
                 <Link
                   href={`/work/${study.slug}`}

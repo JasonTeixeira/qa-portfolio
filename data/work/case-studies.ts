@@ -34,6 +34,7 @@ export type CaseStudy = {
   relatedLab?: string  // slug of /lab item
   ctaPrimary?: { label: string; href: string }
   ctaSecondary?: { label: string; href: string }
+  outcomes?: { label: string; detail: string }[]
 }
 
 export const caseStudies: CaseStudy[] = [

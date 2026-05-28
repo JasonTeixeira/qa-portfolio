@@ -138,11 +138,8 @@ export default function SageHeroTerminal({
             Sage Ideas — a studio that ships production AI and web systems with the receipts to prove it
           </h1>
 
-          {/* Brand + sigil row */}
+          {/* Status sigil only — wordmark lives in the nav, no dupe */}
           <div className="mb-8 flex items-center gap-3">
-            {logoMark}
-            <span className="text-[15px] font-semibold tracking-[0.08em] text-[#F4F2EF]">SAGE IDEAS</span>
-            <span className="mx-1 h-3 w-px bg-[#2A2826]" aria-hidden />
             <Sigil status="online" label="ACCEPTING" />
           </div>
 

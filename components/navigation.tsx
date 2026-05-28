@@ -514,14 +514,14 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             <button
               type="button"
               onClick={triggerCommandPalette}
-              aria-label="Open command palette"
               className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#0F0E11] border border-[#2A2826] text-[#A8A29E] hover:text-[#F4F2EF] hover:border-[#0ED3CF]/40 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             >
+              <span className="sr-only">Open command palette</span>
               <span aria-hidden className="select-none text-xs">
                 <span className="text-[#A8C633]">$</span>{' '}
-                <span className="text-[#5B5751] group-hover:text-[#A8A29E]">type a verb</span>
+                <span className="text-[#A8A29E] group-hover:text-[#F4F2EF]">type a verb</span>
               </span>
-              <kbd className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[#15141A] border border-[#2A2826] rounded text-[#A8A29E]">
+              <kbd aria-hidden className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[#15141A] border border-[#2A2826] rounded text-[#A8A29E]">
                 {isMac ? <Command className="h-2.5 w-2.5" /> : 'Ctrl'}
                 <span>K</span>
               </kbd>

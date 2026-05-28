@@ -75,7 +75,7 @@ const ACCENT_TO_HEX = {
   cyan: '#0ED3CF',
   coral: '#E85D3A',
   lime: '#A8C633',
-  magenta: '#C7236E',
+  magenta: '#E85094',
 } as const
 
 const featuredWork = [
@@ -462,7 +462,7 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
               <div className="max-w-2xl">
                 <h2 className="text-2xl sm:text-3xl lg:text-5xl font-normal tracking-tight text-[#F4F2EF]" style={{ fontFamily: 'var(--font-display)' }}>
-                  Call the people <span className="italic text-[#C7236E]">who&apos;ve worked with us.</span>
+                  Call the people <span className="italic text-[#E85094]">who&apos;ve worked with us.</span>
                 </h2>
                 <p className="text-[#B8B0AB] mt-4 text-lg">
                   Before you sign, we hand you a list of past collaborators — engineers, founders, ops leads —
@@ -471,7 +471,7 @@ export default function HomePage() {
               </div>
               <Link
                 href="/trust#references"
-                className="text-sm text-[#C7236E] hover:text-[#E0518E] inline-flex items-center gap-1.5 group whitespace-nowrap [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide"
+                className="text-sm text-[#E85094] hover:text-[#F070AA] inline-flex items-center gap-1.5 group whitespace-nowrap [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide"
               >
                 cat references/ → roster
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

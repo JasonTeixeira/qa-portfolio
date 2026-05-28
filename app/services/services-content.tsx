@@ -173,7 +173,7 @@ export function ServicesContent() {
           <p className="mt-6 text-lg text-[#A8A29E]">
             {"I help businesses, startups, and trading firms build production-grade software. From web applications to trading systems to test automation — you get working software, not slide decks."}
           </p>
-          <p className="mt-3 text-sm text-[#78716C] italic">
+          <p className="mt-3 text-sm text-[#A8A29E] italic">
             {"Sage Ideas operates as a productized studio with custom packages, monthly retainers, and bespoke engagements available on request."}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
@@ -214,7 +214,7 @@ export function ServicesContent() {
                   <p className="text-[#A8A29E] mb-6">{service.description}</p>
                   
                   <div className="mb-4">
-                    <p className="text-sm font-medium text-[#78716C] mb-2">Deliverables:</p>
+                    <p className="text-sm font-medium text-[#A8A29E] mb-2">Deliverables:</p>
                     <div className="grid grid-cols-2 gap-2">
                       {service.deliverables.map((item) => (
                         <div key={item} className="flex items-center gap-2 text-sm text-[#A8A29E]">
@@ -226,7 +226,7 @@ export function ServicesContent() {
                   </div>
                   
                   <div className="pt-4 border-t border-[#2A2826]">
-                    <p className="text-xs text-[#78716C]">
+                    <p className="text-xs text-[#A8A29E]">
                       <span className="text-[#0ED3CF]">Examples:</span> {service.examples}
                     </p>
                   </div>
@@ -334,32 +334,32 @@ export function ServicesContent() {
                 <Link href="/services/fintech" className="p-4 bg-[#1A1917] border border-[#E85D3A]/20 rounded-xl hover:border-[#E85D3A]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#E85D3A]">FinTech</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#E85D3A] transition-colors">Trading Platforms & Financial Systems</p>
-                  <p className="text-xs text-[#78716C] mt-1">Built by an active futures trader</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">Built by an active futures trader</p>
                 </Link>
                 <Link href="/services/enterprise-qa" className="p-4 bg-[#1A1917] border border-[#10B981]/20 rounded-xl hover:border-[#10B981]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#10B981]">Enterprise QA</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#10B981] transition-colors">Test Automation & Quality Engineering</p>
-                  <p className="text-xs text-[#78716C] mt-1">13 frameworks, ISTQB certified</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">13 frameworks, ISTQB certified</p>
                 </Link>
                 <Link href="/services/cloud-infrastructure" className="p-4 bg-[#1A1917] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#F59E0B]">Cloud & DevOps</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">AWS, Terraform, CI/CD Pipelines</p>
-                  <p className="text-xs text-[#78716C] mt-1">5 AWS + Cisco certified</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">5 AWS + Cisco certified</p>
                 </Link>
                 <Link href="/services/trading-systems" className="p-4 bg-[#1A1917] border border-[#0ED3CF]/20 rounded-xl hover:border-[#0ED3CF]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#0ED3CF]">Trading Systems</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#0ED3CF] transition-colors">Algorithmic Trading & Signal Engines</p>
-                  <p className="text-xs text-[#78716C] mt-1">NinjaTrader, Python, ML</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">NinjaTrader, Python, ML</p>
                 </Link>
                 <Link href="/services/ai-development" className="p-4 bg-[#1A1917] border border-[#E85D3A]/20 rounded-xl hover:border-[#E85D3A]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#E85D3A]">AI / LLM</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#E85D3A] transition-colors">AI Application Development</p>
-                  <p className="text-xs text-[#78716C] mt-1">GPT-4o, Claude, bots, ML</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">GPT-4o, Claude, bots, ML</p>
                 </Link>
                 <Link href="/services/technical-consulting" className="p-4 bg-[#1A1917] border border-[#F59E0B]/20 rounded-xl hover:border-[#F59E0B]/50 transition-colors group">
                   <span className="text-xs font-mono text-[#F59E0B]">Consulting</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium group-hover:text-[#F59E0B] transition-colors">Architecture Reviews & Technical Advisory</p>
-                  <p className="text-xs text-[#78716C] mt-1">Code audits, strategy, reviews</p>
+                  <p className="text-xs text-[#A8A29E] mt-1">Code audits, strategy, reviews</p>
                 </Link>
               </div>
             </div>
@@ -379,13 +379,13 @@ export function ServicesContent() {
                   </ul>
                 </div>
                 <div className="p-5 bg-[#1A1917] border border-[#2A2826] rounded-xl">
-                  <p className="text-sm font-semibold text-[#78716C] mb-3">Typical Agency</p>
-                  <ul className="space-y-2 text-sm text-[#78716C]">
-                    <li className="flex items-start gap-2"><span className="text-[#78716C] mt-0.5">-</span>Sales team sells, handoff team builds — knowledge gaps</li>
-                    <li className="flex items-start gap-2"><span className="text-[#78716C] mt-0.5">-</span>$200-400/hr blended rate — layers of overhead</li>
-                    <li className="flex items-start gap-2"><span className="text-[#78716C] mt-0.5">-</span>Communication through project managers — telephone game</li>
-                    <li className="flex items-start gap-2"><span className="text-[#78716C] mt-0.5">-</span>Decisions need stakeholder alignment — weeks of meetings</li>
-                    <li className="flex items-start gap-2"><span className="text-[#78716C] mt-0.5">-</span>Generalists — no domain depth in trading or fintech</li>
+                  <p className="text-sm font-semibold text-[#A8A29E] mb-3">Typical Agency</p>
+                  <ul className="space-y-2 text-sm text-[#A8A29E]">
+                    <li className="flex items-start gap-2"><span className="text-[#A8A29E] mt-0.5">-</span>Sales team sells, handoff team builds — knowledge gaps</li>
+                    <li className="flex items-start gap-2"><span className="text-[#A8A29E] mt-0.5">-</span>$200-400/hr blended rate — layers of overhead</li>
+                    <li className="flex items-start gap-2"><span className="text-[#A8A29E] mt-0.5">-</span>Communication through project managers — telephone game</li>
+                    <li className="flex items-start gap-2"><span className="text-[#A8A29E] mt-0.5">-</span>Decisions need stakeholder alignment — weeks of meetings</li>
+                    <li className="flex items-start gap-2"><span className="text-[#A8A29E] mt-0.5">-</span>Generalists — no domain depth in trading or fintech</li>
                   </ul>
                 </div>
               </div>
@@ -397,7 +397,7 @@ export function ServicesContent() {
               <p className="text-sm text-[#A8A29E] mb-4">
                 {"I'm selective about projects to ensure quality. I'm probably not the right fit if you need:"}
               </p>
-              <ul className="space-y-2 text-sm text-[#78716C]">
+              <ul className="space-y-2 text-sm text-[#A8A29E]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#EF4444] mt-1">✕</span>
                   WordPress sites, Shopify themes, or no-code customizations
@@ -424,22 +424,22 @@ export function ServicesContent() {
                 <Link href="/case-studies/nexural-ecosystem" className="p-4 bg-[#1A1917] border border-[#2A2826] rounded-xl hover:border-[#0ED3CF]/50 transition-colors">
                   <span className="text-[#0ED3CF] font-mono text-xs">Custom Software →</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium">Nexural Platform</p>
-                  <p className="text-[#78716C] mt-1">185 tables, 69 APIs, Stripe billing, 7 phases</p>
+                  <p className="text-[#A8A29E] mt-1">185 tables, 69 APIs, Stripe billing, 7 phases</p>
                 </Link>
                 <Link href="/case-studies/testing-frameworks" className="p-4 bg-[#1A1917] border border-[#2A2826] rounded-xl hover:border-[#0ED3CF]/50 transition-colors">
                   <span className="text-[#0ED3CF] font-mono text-xs">Test Automation →</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium">13 Testing Frameworks</p>
-                  <p className="text-[#78716C] mt-1">500+ tests, 82% faster pipelines, {"<1%"} flaky</p>
+                  <p className="text-[#A8A29E] mt-1">500+ tests, 82% faster pipelines, {"<1%"} flaky</p>
                 </Link>
                 <Link href="/case-studies/aws-landing-zone" className="p-4 bg-[#1A1917] border border-[#2A2826] rounded-xl hover:border-[#0ED3CF]/50 transition-colors">
                   <span className="text-[#0ED3CF] font-mono text-xs">Cloud Infrastructure →</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium">AWS Landing Zone</p>
-                  <p className="text-[#78716C] mt-1">Multi-account, Terraform, SCPs, CI gates</p>
+                  <p className="text-[#A8A29E] mt-1">Multi-account, Terraform, SCPs, CI gates</p>
                 </Link>
                 <Link href="/case-studies/alphastream" className="p-4 bg-[#1A1917] border border-[#2A2826] rounded-xl hover:border-[#0ED3CF]/50 transition-colors">
                   <span className="text-[#0ED3CF] font-mono text-xs">Trading Systems →</span>
                   <p className="text-[#FAFAFA] mt-1 font-medium">AlphaStream ML</p>
-                  <p className="text-[#78716C] mt-1">200+ indicators, 5 ML models, real-time signals</p>
+                  <p className="text-[#A8A29E] mt-1">200+ indicators, 5 ML models, real-time signals</p>
                 </Link>
               </div>
             </div>

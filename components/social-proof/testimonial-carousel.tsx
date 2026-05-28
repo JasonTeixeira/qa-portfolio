@@ -62,7 +62,7 @@ export function TestimonialCarousel({
             </blockquote>
             <figcaption className="mt-5 flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3">
               <span className="text-sm font-semibold text-[#FAFAFA]">{t.name}</span>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#78716C]">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#A8A29E]">
                 {t.role} · {t.company}
               </span>
             </figcaption>
@@ -72,17 +72,23 @@ export function TestimonialCarousel({
 
       {!single && (
         <div className="mt-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 aria-label={`Show testimonial ${i + 1}`}
                 onClick={() => setIndex(i)}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === index ? 'w-8 bg-[#0ED3CF]' : 'w-1.5 bg-[#3D3A37] hover:bg-[#57534E]'
-                }`}
-              />
+                className="group inline-flex items-center justify-center min-w-[24px] min-h-[24px] rounded-sm"
+              >
+                <span
+                  className={`block h-1.5 rounded-full transition-all ${
+                    i === index
+                      ? 'w-8 bg-[#0ED3CF]'
+                      : 'w-1.5 bg-[#3D3A37] group-hover:bg-[#57534E]'
+                  }`}
+                />
+              </button>
             ))}
           </div>
           <div className="flex items-center gap-2">

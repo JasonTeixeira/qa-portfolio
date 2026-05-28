@@ -29,7 +29,7 @@ export function TelemetryFooter() {
       role="contentinfo"
       aria-label="Build telemetry"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 text-[11px] leading-tight [font-family:var(--font-mono),ui-monospace,monospace] text-[#6B6864]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 text-[11px] leading-tight [font-family:var(--font-mono),ui-monospace,monospace] text-[#A8A29E]">
         <div className="flex items-center gap-2 min-w-0">
           <span
             aria-hidden="true"
@@ -46,7 +46,7 @@ export function TelemetryFooter() {
           <span className="text-[#2A2826]" aria-hidden="true">·</span>
           <span className="truncate">{buildDate}</span>
         </div>
-        <div className="flex items-center gap-2 text-[#4E4B47]">
+        <div className="flex items-center gap-2 text-[#857F7B]">
           <span>{`// solo studio`}</span>
           <span className="text-[#2A2826]" aria-hidden="true">·</span>
           <span>{`// no analytics resold`}</span>

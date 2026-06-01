@@ -60,7 +60,9 @@ const metricCards = [
   {
     label: "Wall clock proof",
     value: `${metrics.golden_path_wall_clock_seconds}s`,
-    detail: "local runtime proof, not a live Vercel claim",
+    detail: metrics.golden_path_deployed_url
+      ? "public Vercel proof verified"
+      : "local runtime proof, not a live Vercel claim",
   },
 ];
 
@@ -95,6 +97,7 @@ const proofLines = [
   ["packet", proof.evidence.packet_hash],
   ["golden_path", proof.evidence.golden_path_hash],
   ["run_id", proof.evidence.golden_path_run_id],
+  ["deployed", proof.evidence.golden_path_deployed_url ?? "not attached"],
   ["generated", proof.generated_at],
 ];
 

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react'
 
 // Services grouped by outcome — no prices, no menu-card vibe.
@@ -32,6 +31,7 @@ const studio = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/work', label: 'Case Studies' },
   { href: '/lab', label: 'The Lab' },
+  { href: '/engineering-os', label: 'Engineering OS' },
   { href: '/blog', label: 'Insights' },
   { href: '/how-it-works', label: 'How It Works' },
   { href: '/studio', label: 'The Studio' },
@@ -65,12 +65,8 @@ export function Footer() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
-          <motion.div
+          <div
             className="col-span-2 md:col-span-4 lg:col-span-4 space-y-5"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
             <Link
               href="/"
@@ -104,7 +100,7 @@ export function Footer() {
                 </Link>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Services — Build */}
           <FooterColumn title="Build" links={servicesBuild} className="lg:col-span-2" />
@@ -146,13 +142,7 @@ function FooterColumn({
   className?: string
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.1 }}
-      className={`space-y-4 ${className}`}
-    >
+    <div className={`space-y-4 ${className}`}>
       <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FAFAFA]">
         {title}
       </h3>
@@ -168,6 +158,6 @@ function FooterColumn({
           </li>
         ))}
       </ul>
-    </motion.div>
+    </div>
   )
 }

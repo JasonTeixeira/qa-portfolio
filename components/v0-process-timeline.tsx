@@ -20,23 +20,23 @@ interface Stage {
   body: string;
   color: string;
   glowColor: string;
-  icon: React.FC<{ className?: string }>;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   deliverables: string[];
 }
 
 /* ─── Icons ──────────────────────────────────────────────── */
-function CompassIcon({ className }: { className?: string }) {
+function CompassIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <circle cx="12" cy="12" r="10" />
       <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   );
 }
 
-function LayersIcon({ className }: { className?: string }) {
+function LayersIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <polygon points="12 2 2 7 12 12 22 7 12 2" />
       <polyline points="2 17 12 22 22 17" />
       <polyline points="2 12 12 17 22 12" />
@@ -44,44 +44,44 @@ function LayersIcon({ className }: { className?: string }) {
   );
 }
 
-function TerminalIcon({ className }: { className?: string }) {
+function TerminalIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <polyline points="4 17 10 11 4 5" />
       <line x1="12" y1="19" x2="20" y2="19" />
     </svg>
   );
 }
 
-function ShieldIcon({ className }: { className?: string }) {
+function ShieldIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <polyline points="9 12 11 14 15 10" />
     </svg>
   );
 }
 
-function ArrowRightIcon({ className }: { className?: string }) {
+function ArrowRightIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <line x1="5" y1="12" x2="19" y2="12" />
       <polyline points="12 5 19 12 12 19" />
     </svg>
   );
 }
 
-function ChevronDownIcon({ className }: { className?: string }) {
+function ChevronDownIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <polyline points="6 9 12 15 18 9" />
     </svg>
   );
 }
 
-function CheckIcon({ className }: { className?: string }) {
+function CheckIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <polyline points="20 6 9 17 4 12" />
     </svg>
   );
@@ -247,7 +247,7 @@ function StageCard({
       transition: {
         duration: 0.7,
         delay: 0.1,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     },
   };

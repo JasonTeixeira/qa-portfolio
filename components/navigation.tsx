@@ -27,6 +27,7 @@ import {
   Building2,
   History,
   Mail,
+  CircuitBoard,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -198,6 +199,12 @@ const resourcesMega: MegaSection[] = [
         icon: FlaskConical,
       },
       {
+        href: '/engineering-os',
+        label: 'Engineering OS',
+        description: 'Public proof of the internal resource factory',
+        icon: CircuitBoard,
+      },
+      {
         href: '/how-it-works',
         label: 'How it works',
         description: 'Our process, demystified',
@@ -247,6 +254,7 @@ const mobileFlat: { href: string; label: string; section?: string }[] = [
   { href: '/lab/calculators', label: 'ROI calculators', section: 'RESOURCES' },
   { href: '/lab/templates', label: 'Free templates', section: 'RESOURCES' },
   { href: '/lab', label: 'Lab products', section: 'RESOURCES' },
+  { href: '/engineering-os', label: 'Engineering OS', section: 'RESOURCES' },
   { href: '/compare', label: 'Compare', section: 'RESOURCES' },
   { href: '/how-it-works', label: 'How it works', section: 'RESOURCES' },
   { href: '/changelog', label: 'Changelog', section: 'RESOURCES' },

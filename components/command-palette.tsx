@@ -24,6 +24,7 @@ import {
   Sparkles,
   ArrowRight,
   Cpu,
+  CircuitBoard,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -147,6 +148,17 @@ export function CommandPalette() {
         keywords: ['lab', 'experiments', 'demos'],
         group: 'navigate',
         tone: 'magenta',
+      },
+      {
+        id: 'engineering-os',
+        verb: 'cat engineering-os',
+        label: 'Engineering OS',
+        description: 'Public proof of the internal resource factory',
+        icon: <CircuitBoard className="h-4 w-4" />,
+        action: () => navigate('/engineering-os'),
+        keywords: ['engineering os', 'resource factory', 'proof', 'registry', 'qa'],
+        group: 'navigate',
+        tone: 'lime',
       },
       {
         id: 'about',

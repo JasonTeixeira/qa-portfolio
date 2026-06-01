@@ -136,7 +136,7 @@ const homepageStats = [
 // ────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  const flagship = featuredWork.find((w) => w.flagship) ?? featuredWork[0]
+  const flagship = featuredWork.find((w) => w.slug === 'nexural') ?? featuredWork[0]
   const rest = featuredWork.filter((w) => w.slug !== flagship.slug)
 
   return (

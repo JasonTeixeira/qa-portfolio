@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-01T01:15:17.599Z",
+  "generated_by": "scripts/public-proof-export.mjs",
+  "privacy": "public-safe",
+  "target_surface": {
+    "repo": "JasonTeixeira/sageideas.dev",
+    "site": "https://www.sageideas.dev",
+    "recommended_route": "/engineering-os",
+    "status": "export-ready"
+  },
+  "positioning": {
+    "company": "Sage Ideas",
+    "system_name": "Sage Ideas Engineering OS",
+    "one_liner": "A private engineering resource factory that turns reusable engines, recipes, QA evidence, and product proofs into faster software delivery.",
+    "audience": ["clients", "employers", "partners"],
+    "brand_boundary": "Nexural is a trading/investment product proof, not the umbrella name for the company or engineering ecosystem."
+  },
+  "public_claims": [
+    {
+      "claim": "The ecosystem has an indexed public registry.",
+      "evidence": "136 public repositories indexed; 26 private repositories summarized without names.",
+      "source": "data/ecosystem-registry.public.json"
+    },
+    {
+      "claim": "Assets are scored before they are reused.",
+      "evidence": "136 public assets scored; public average 14/100, public load-bearing average 54/100. This is a gap map, not vanity scoring.",
+      "source": "data/ecosystem-scorecard.public.json"
+    },
+    {
+      "claim": "Build choices are mapped to reusable resources.",
+      "evidence": "7 use cases mapped for daily navigation.",
+      "source": "data/ecosystem-resource-map.public.json"
+    },
+    {
+      "claim": "The factory path has deployed public proof.",
+      "evidence": "8/8 golden-path gates passed; deployed URL verified at https://sage-client-intake-portal-vercel.vercel.app.",
+      "source": "data/golden-path-runs.public.json"
+    }
+  ],
+  "architecture": [
+    {
+      "layer": "Control plane",
+      "public_label": "Registry, scorecards, proof packets",
+      "public_detail": "Coordinates resource selection, evidence, quality gates, and safe public exports."
+    },
+    {
+      "layer": "Resource factory",
+      "public_label": "Reusable engines, kits, recipes, playbooks",
+      "public_detail": "Turns repeated project work into maintained building blocks."
+    },
+    {
+      "layer": "Quality system",
+      "public_label": "QA OS, evidence hashes, release gates",
+      "public_detail": "Captures proof before claims are made publicly."
+    },
+    {
+      "layer": "Product proofs",
+      "public_label": "Apps that demonstrate reusable patterns",
+      "public_detail": "Examples are shown as proof, not as umbrella branding."
+    }
+  ],
+  "proof_metrics": {
+    "public_repositories_indexed": 136,
+    "private_repositories_summarized": 26,
+    "public_assets_scored": 136,
+    "average_public_score": 14,
+    "load_bearing_assets": 17,
+    "load_bearing_average_score": 54,
+    "resource_use_cases": 7,
+    "golden_path_wall_clock_seconds": 113,
+    "golden_path_gates_passed": 8,
+    "golden_path_gate_count": 8,
+    "golden_path_verify_checks": {
+      "passed": 8,
+      "total": 8
+    },
+    "golden_path_deploy_status": "verified-vercel-url",
+    "golden_path_deployed_url": "https://sage-client-intake-portal-vercel.vercel.app"
+  },
+  "recommended_assets": [
+    {
+      "name": "nexural-meta",
+      "url": "https://github.com/JasonTeixeira/nexural-meta",
+      "layer": "control-plane",
+      "asset_type": "control-plane",
+      "maturity": "L4",
+      "score": 100,
+      "status": "active"
+    },
+    {
+      "name": "sageideas.dev",
+      "url": "https://github.com/JasonTeixeira/sageideas.dev",
+      "layer": "public-proof-surface",
+      "asset_type": "product-proof",
+      "maturity": "L3",
+      "score": 93,
+      "status": "active"
+    },
+    {
+      "name": "JasonTeixeira",
+      "url": "https://github.com/JasonTeixeira/JasonTeixeira",
+      "layer": "public-proof-surface",
+      "asset_type": "product-proof",
+      "maturity": "L2",
+      "score": 73,
+      "status": "active"
+    }
+  ],
+  "publishable_sections": [
+    {
+      "slug": "what-it-is",
+      "title": "What It Is",
+      "body": "Sage Ideas Engineering OS is an internal app/resource factory: a governed library of engines, recipes, QA evidence, playbooks, and product proofs."
+    },
+    {
+      "slug": "proof-metrics",
+      "title": "Proof Metrics",
+      "body": "Show registry counts, scorecard averages, use-case coverage, and golden-path gates from generated public-safe data."
+    },
+    {
+      "slug": "golden-path",
+      "title": "Golden Path",
+      "body": "Latest proof run client-intake-portal-2026-06-01T004907152Z generated, built, started, verified locally, and verified the deployed app at https://sage-client-intake-portal-vercel.vercel.app with hash sha256:b9fbd4e6187a96a67160d20ea4c55f71b86d5c288974d0b92b86e4b9d69b3f6f."
+    },
+    {
+      "slug": "redaction-boundary",
+      "title": "Redaction Boundary",
+      "body": "The public page should show architecture, evidence, and high-level metrics while keeping private repo names, secrets, customer details, and local paths out."
+    },
+    {
+      "slug": "gaps",
+      "title": "Honest Gaps",
+      "body": "Publish current limitations directly: deployed proof uses public-safe mock runtime credentials, and private asset details require local review."
+    }
+  ],
+  "evidence": {
+    "source_files": [
+      "data/ecosystem-registry.public.json",
+      "data/ecosystem-scorecard.public.json",
+      "data/ecosystem-resource-map.public.json",
+      "data/golden-path-runs.public.json"
+    ],
+    "generated_files": [
+      "data/public-proof-layer.public.json",
+      "docs/PUBLIC_PROOF_LAYER.md",
+      "evidence/public-proof/latest.json",
+      "exports/sageideas-dev/engineering-os-proof.json",
+      "exports/sageideas-dev/engineering-os-proof.md"
+    ],
+    "golden_path_hash": "sha256:b9fbd4e6187a96a67160d20ea4c55f71b86d5c288974d0b92b86e4b9d69b3f6f",
+    "golden_path_run_id": "client-intake-portal-2026-06-01T004907152Z",
+    "golden_path_deployed_url": "https://sage-client-intake-portal-vercel.vercel.app",
+    "golden_path_deploy_status": "verified-vercel-url",
+    "packet_hash": "sha256:61820a47255d17ec4d41931588cafb024363fa56d08e79374db7dec433929faa"
+  },
+  "redaction_policy": [
+    "Commit public repository metadata only.",
+    "Summarize private repositories by count, layer, maturity, and score band only.",
+    "Do not publish private repo names, descriptions, URLs, local paths, secrets, customer data, or provider tokens.",
+    "Frame product proofs as examples; do not imply Nexural is the umbrella brand.",
+    "Publish gaps honestly, including non-production mock credentials or missing hosted proof when applicable."
+  ],
+  "remaining_gaps": [
+    "sageideas.dev has not consumed this export in this commit because that repo currently has a large pre-existing dirty worktree.",
+    "Private asset maturity still needs local review before public claims can include deeper implementation detail."
+  ]
+}

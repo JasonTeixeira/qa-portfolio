@@ -26,7 +26,7 @@ export function TelemetryFooter() {
   return (
     <div
       className="border-t border-[#1F1E1C] bg-[#09090B]"
-      role="contentinfo"
+      role="region"
       aria-label="Build telemetry"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 text-[11px] leading-tight [font-family:var(--font-mono),ui-monospace,monospace] text-[#A8A29E]">

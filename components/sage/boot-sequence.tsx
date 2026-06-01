@@ -6,7 +6,7 @@ import { TerminalBlock, type TerminalLine } from "./terminal-block";
 
 export interface BootStep {
   /** Type-out command body for `prompt` lines, or full line text for others. */
-  text: string;
+  text: React.ReactNode;
   /** Line kind to render. Default: "prompt". */
   kind?: TerminalLine["kind"];
   /** Override per-step typing speed (ms per character). */
@@ -52,8 +52,10 @@ export function BootSequence({
   className,
   ...rest
 }: BootSequenceProps) {
-  const [renderedSteps, setRenderedSteps] = React.useState<number>(instant ? steps.length : 0);
-  const [currentText, setCurrentText] = React.useState<string>("");
+  const [renderedSteps, setRenderedSteps] = React.useState<number>(
+    instant ? steps.length : 0,
+  );
+  const [currentText, setCurrentText] = React.useState<React.ReactNode>("");
   const timeoutsRef = React.useRef<ReturnType<typeof setTimeout>[]>([]);
   const completeFiredRef = React.useRef(false);
 
@@ -98,6 +100,18 @@ export function BootSequence({
       // Start typing this step after `delay` ms
       const startTimeout = setTimeout(() => {
         if (cancelled) return;
+        if (typeof text !== "string") {
+          setCurrentText(text);
+          const commit = setTimeout(() => {
+            if (cancelled) return;
+            setRenderedSteps((n) => n + 1);
+            setCurrentText("");
+            runStep(idx + 1, 80);
+          }, holdMs);
+          timeouts.push(commit);
+          return;
+        }
+
         let charIdx = 0;
         const tick = () => {
           if (cancelled) return;
@@ -159,11 +173,11 @@ export function BootSequence({
   );
 }
 
-function mapStep(step: BootStep, text: string): TerminalLine {
+function mapStep(step: BootStep, text: React.ReactNode): TerminalLine {
   const kind = step.kind ?? "prompt";
   switch (kind) {
     case "prompt":
-      return { kind: "prompt", command: text };
+      return { kind: "prompt", command: typeof text === "string" ? text : "" };
     case "output":
       return { kind: "output", text };
     case "comment":

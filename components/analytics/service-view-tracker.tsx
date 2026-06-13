@@ -7,7 +7,6 @@ export function ServiceViewTracker({
   slug,
 }: {
   slug: string
-  tier: string
 }) {
   useEffect(() => {
     trackEvent('service_view', { slug })

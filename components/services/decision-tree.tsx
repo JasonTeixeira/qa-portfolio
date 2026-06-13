@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, RotateCcw, Compass } from 'lucide-react'
-import { track } from '@/components/analytics/posthog-provider'
+import { trackEvent } from '@/lib/analytics/events'
 
 type Stage = 'idea' | 'building' | 'scaling' | 'operating'
 type Pain = 'speed' | 'quality' | 'cost' | 'risk'
@@ -119,7 +119,7 @@ export function DecisionTree() {
 
   useEffect(() => {
     if (stage && pain) {
-      track('decision_tree_complete', { stage, pain })
+      trackEvent('decision_tree_complete', { stage, pain })
     }
   }, [stage, pain])
 

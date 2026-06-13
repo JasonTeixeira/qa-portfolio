@@ -179,6 +179,27 @@ test('event name registry is the closed set', async () => {
   assert.ok(EVENT_NAMES.includes('lead_magnet_complete'));
   assert.equal(isValidEvent('not_a_real_event'), false);
   assert.equal(isValidEvent('cta_click'), true);
+
+  // Exact count guard — update this when adding new events
+  assert.equal(EVENT_NAMES.length, 11);
+
+  // Every expected event must be present
+  const expected = [
+    'cta_click',
+    'contact_submit',
+    'pricing_view',
+    'service_view',
+    'checkout_start',
+    'checkout_complete',
+    'lead_magnet_start',
+    'lead_magnet_complete',
+    'booking_click',
+    'newsletter_signup',
+    'decision_tree_complete',
+  ];
+  for (const name of expected) {
+    assert.ok(EVENT_NAMES.includes(name), `EVENT_NAMES missing: ${name}`);
+  }
 });
 
 // -------------------------------------------------------------- runner

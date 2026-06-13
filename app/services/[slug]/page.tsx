@@ -134,7 +134,7 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
         const serviceTier = getServiceTier(tier)
         return (
           <>
-            <ServiceViewTracker slug={tier.slug} tier={serviceTier} />
+            <ServiceViewTracker slug={tier.slug} />
             {serviceTier === 'flagship' ? (
               <FlagshipPageContent tier={tier as ExtendedTier} />
             ) : serviceTier === 'A' ? (

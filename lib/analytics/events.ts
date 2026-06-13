@@ -11,6 +11,7 @@ export const EVENT_NAMES = [
   'lead_magnet_complete',
   'booking_click',
   'newsletter_signup',
+  'decision_tree_complete',
 ] as const
 
 export type EventName = (typeof EVENT_NAMES)[number]
@@ -30,6 +31,7 @@ type Payloads = {
   lead_magnet_complete: { tool: 'seo_audit'; score: number }
   booking_click: { location: string }
   newsletter_signup: { source: string }
+  decision_tree_complete: { stage: string; pain: string }
 }
 
 export function trackEvent<E extends EventName>(name: E, props: Payloads[E]): void {

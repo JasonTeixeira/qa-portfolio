@@ -59,15 +59,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
 
-  // Persist lead + notify — best-effort, does not affect the Resend flow below.
+  // Persist lead — best-effort, does not affect the Resend flow below.
+  // notify: false because this route already sends its own richer contact email.
   const rawData = data as Record<string, unknown>;
-  void captureLead({
+  await captureLead({
     source: 'contact',
     email: data.email,
     name: data.name,
     detail: data.message || '',
     inquiryType: typeof rawData.inquiryType === 'string' ? rawData.inquiryType : undefined,
     budget: typeof rawData.budget === 'string' ? rawData.budget : undefined,
+    notify: false,
   });
 
   const apiKey = process.env.RESEND_API_KEY;

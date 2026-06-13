@@ -53,12 +53,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Mirror to unified leads table — best-effort, never fails the response.
-    void captureLead({
+    // notify: false to avoid noisy per-subscribe operator emails.
+    await captureLead({
       source: 'newsletter',
       email: emailRaw,
       name: null,
       detail: 'Newsletter signup',
       metadata: { source },
+      notify: false,
     })
 
     return NextResponse.json({ ok: true })

@@ -12,6 +12,8 @@ export type LeadInput = {
   budget?: string;
   amountCents?: number | null;
   metadata?: Record<string, unknown>;
+  /** Set to false to skip the operator notification email (persist-only). Default: true. */
+  notify?: boolean;
 };
 
 /**
@@ -43,10 +45,10 @@ export async function captureLead(input: LeadInput): Promise<void> {
     console.error('[captureLead] persist failed:', e);
   }
 
-  // Notify — only when we have an API key and a real email address to reply to.
+  // Notify — only when enabled (default true) and we have an API key + reply-to address.
   try {
     const key = process.env.RESEND_API_KEY;
-    if (key && input.email) {
+    if ((input.notify !== false) && key && input.email) {
       const { error } = await new Resend(key).emails.send({
         from:    'Sage Ideas Leads <leads@sageideas.dev>',
         to:      'sage@sageideas.dev',

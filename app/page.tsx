@@ -124,10 +124,10 @@ const featuredWork = [
 ] as const
 
 const homepageStats = [
-  { value: '20+', label: 'Production Builds' },
-  { value: '6', label: 'Live Products' },
-  { value: '12', label: 'Active Retainers' },
-  { value: '99.97%', label: 'Uptime Delivered' },
+  { value: '6', label: 'Shipped Products' },
+  { value: '185', label: 'DB Tables (Nexural)' },
+  { value: '200+', label: 'Indicators (AlphaStream)' },
+  { value: '13', label: 'Test Frameworks' },
 ]
 
 // ────────────────────────────────────────────────────────────────────

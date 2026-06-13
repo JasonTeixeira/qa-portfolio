@@ -17,16 +17,16 @@ export type ProofGridProps = {
    * Defaults to the full `proofPoints` array.
    */
   points?: ProofPoint[]
-  /** Extra class names applied to the outer <section> wrapper. */
+  /** Extra class names applied to the outer <div> wrapper. */
   className?: string
 }
 
 // ── kind meta ─────────────────────────────────────────────────────────────────
 
 const KIND_META: Record<ProofPoint['kind'], { dot: string; label: string; accent: string }> = {
-  shipped:   { dot: '#A8C633', label: 'shipped',   accent: '#A8C633' },
-  reference: { dot: '#0ED3CF', label: 'reference', accent: '#0ED3CF' },
-  principle: { dot: '#E85D3A', label: 'principle', accent: '#E85D3A' },
+  shipped:   { dot: 'var(--sage-lime)',  label: 'shipped',   accent: 'var(--sage-lime)' },
+  reference: { dot: 'var(--sage-brand)', label: 'reference', accent: 'var(--sage-brand)' },
+  principle: { dot: 'var(--sage-coral)', label: 'principle', accent: 'var(--sage-coral)' },
 }
 
 // ── component ─────────────────────────────────────────────────────────────────
@@ -69,6 +69,7 @@ export function ProofGrid({
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
+        role="list"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 list-none p-0 m-0"
       >
         {points.map((point) => {
@@ -127,7 +128,7 @@ export function ProofGrid({
           return (
             <li key={point.label}>
               {point.href ? (
-                <Link href={point.href} className="block outline-none rounded-xl">
+                <Link href={point.href} className="block rounded-xl focus-visible:ring-2 focus-visible:ring-[#0ED3CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]">
                   {inner}
                 </Link>
               ) : inner}

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CheckoutCompleteTracker } from './checkout-complete-tracker'
+import { tiersBySlug, careTiersBySlug } from '@/data/services/tiers'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +18,14 @@ export default async function CheckoutSuccessPage({
 }: {
   searchParams: Promise<{ slug?: string; session_id?: string }>
 }) {
-  const { slug } = await searchParams
+  const { slug: rawSlug } = await searchParams
+  // Validate slug against known tiers before passing to the analytics tracker.
+  // An unrecognised slug (e.g. /checkout/success?slug=anything) must not fire
+  // a fake checkout_complete event.
+  const validSlug =
+    rawSlug && (rawSlug in tiersBySlug || rawSlug in careTiersBySlug)
+      ? rawSlug
+      : undefined
 
   return (
     <div className="min-h-screen bg-[#09090B] flex items-center justify-center px-4">
@@ -71,8 +79,8 @@ export default async function CheckoutSuccessPage({
         </p>
       </div>
 
-      {/* Fire checkout_complete analytics once on mount */}
-      {slug && <CheckoutCompleteTracker slug={slug} />}
+      {/* Fire checkout_complete analytics once on mount — only for validated slugs */}
+      {validSlug && <CheckoutCompleteTracker slug={validSlug} />}
     </div>
   )
 }

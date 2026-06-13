@@ -40,7 +40,9 @@ test.describe('Checkout flow', () => {
     await expect(consultLink.first()).toBeVisible();
   });
 
-  test('non-self-serve slug via API returns 400 with consultation message', async ({ request }) => {
+  test('non-self-serve slug (build) via API returns 400 with consultation message', async ({ request }) => {
+    // This always runs without Stripe — slug resolution + self-serve gate happens
+    // before the isStripeConfigured() 503 check.
     const res = await request.post('/api/checkout', {
       data: { slug: 'build' },
       headers: { 'content-type': 'application/json' },
@@ -51,11 +53,45 @@ test.describe('Checkout flow', () => {
     expect(body.error).toMatch(/consultation/i);
   });
 
-  test('unknown slug via API returns 400', async ({ request }) => {
+  test('unknown slug via API returns 400 (even without Stripe configured)', async ({ request }) => {
+    // Slug resolution runs before Stripe check, so unknown slugs always return 400.
     const res = await request.post('/api/checkout', {
       data: { slug: 'does-not-exist' },
       headers: { 'content-type': 'application/json' },
     });
     expect(res.status()).toBe(400);
   });
+
+  test('care slug (site-care) is recognized as a valid checkout path — returns 503 when Stripe unconfigured, not 400', async ({
+    request,
+  }) => {
+    // This always runs without Stripe. It proves the care slug gets past slug
+    // resolution (i.e., it is NOT rejected as an unknown/consultation slug)
+    // and only fails because Stripe env is absent (503), not because the slug
+    // is rejected (400). With real Stripe it would return 200 + a session URL.
+    test.skip(STRIPE, 'Stripe is configured — run the live care checkout test instead');
+
+    const res = await request.post('/api/checkout', {
+      data: { slug: 'site-care' },
+      headers: { 'content-type': 'application/json' },
+    });
+    // 503 = slug recognized, Stripe unconfigured (correct).
+    // 400 = slug rejected as unknown/consultation (regression).
+    expect(res.status()).toBe(503);
+  });
+
+  test(
+    'care slug (site-care) returns a Stripe subscription checkout URL when Stripe is configured',
+    async ({ request }) => {
+      test.skip(!STRIPE, 'Stripe not configured — set STRIPE_SECRET_KEY to run');
+
+      const res = await request.post('/api/checkout', {
+        data: { slug: 'site-care' },
+        headers: { 'content-type': 'application/json' },
+      });
+      expect(res.status()).toBe(200);
+      const body = await res.json();
+      expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com\//);
+    },
+  );
 });

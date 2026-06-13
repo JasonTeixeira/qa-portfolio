@@ -236,6 +236,40 @@ test('isSelfServe: all self-serve tiers have stripePriceId, cadence=one-time, pr
   }
 });
 
+// -------------------------------------------------------------- checkout slug routing
+
+test('checkout slug routing: care slugs exist in careTiersBySlug', async () => {
+  const { careTiersBySlug } = await import('../../data/services/tiers.ts');
+  for (const slug of ['site-care', 'brand-care', 'content-care']) {
+    assert.ok(careTiersBySlug[slug], `careTiersBySlug must contain: ${slug}`);
+    assert.equal(careTiersBySlug[slug].cadence, 'monthly', `${slug}: cadence must be monthly`);
+    assert.ok(careTiersBySlug[slug].stripePriceId, `${slug}: must have stripePriceId`);
+  }
+});
+
+test('checkout slug routing: care slugs are NOT in tiersBySlug (no collision)', async () => {
+  const { tiersBySlug } = await import('../../data/services/tiers.ts');
+  for (const slug of ['site-care', 'brand-care', 'content-care']) {
+    assert.equal(tiersBySlug[slug], undefined, `${slug} must not appear in tiersBySlug`);
+  }
+});
+
+test('checkout slug routing: build slug is in tiersBySlug but NOT self-serve', async () => {
+  const { tiersBySlug } = await import('../../data/services/tiers.ts');
+  const { isSelfServe } = await import('../../data/services/tier-classification.ts');
+  const build = tiersBySlug['build'];
+  assert.ok(build, 'build must exist in tiersBySlug');
+  assert.equal(isSelfServe(build), false, 'build must not be self-serve');
+});
+
+test('checkout slug routing: audit slug is self-serve and in tiersBySlug', async () => {
+  const { tiersBySlug } = await import('../../data/services/tiers.ts');
+  const { isSelfServe } = await import('../../data/services/tier-classification.ts');
+  const audit = tiersBySlug['audit'];
+  assert.ok(audit, 'audit must exist in tiersBySlug');
+  assert.equal(isSelfServe(audit), true, 'audit must be self-serve');
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

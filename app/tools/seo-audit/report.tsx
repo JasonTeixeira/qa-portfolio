@@ -123,8 +123,8 @@ function CheckRow({ name, check }: { name: string; check: Check }) {
             className="text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded border"
             style={{
               color: '#57534E',
-              borderColor: '#2A2826',
-              background: '#12110F',
+              borderColor: 'var(--sage-border)',
+              background: 'var(--sage-surface-raised)',
             }}
           >
             w={check.weight}

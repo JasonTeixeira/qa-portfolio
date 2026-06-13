@@ -312,6 +312,64 @@ test('ssrf: assertPublicUrl rejects plain invalid string', async () => {
   assert.throws(() => assertPublicUrl('not-a-url'), /valid URL/);
 });
 
+// ------ IPv6 SSRF vectors (should all throw "not allowed") ------
+
+test('ssrf: assertPublicUrl rejects IPv6 loopback ::1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://[::1]/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects IPv4-mapped loopback ::ffff:127.0.0.1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://[::ffff:127.0.0.1]/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects IPv4-mapped AWS metadata ::ffff:169.254.169.254', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://[::ffff:169.254.169.254]/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects ULA fc00::/7 address fd00::1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://[fd00::1]/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects link-local fe80::1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://[fe80::1]/'), /not allowed/);
+});
+
+// ------ Non-standard IPv4 notations (should all throw) ------
+
+test('ssrf: assertPublicUrl rejects octal IPv4 0177.0.0.1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://0177.0.0.1/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects decimal integer IP 2130706433', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://2130706433/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl rejects hex IP 0x7f.0.0.1', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://0x7f.0.0.1/'), /not allowed/);
+});
+
+// ------ Public cases that MUST still be accepted ------
+
+test('ssrf: assertPublicUrl still accepts https://example.com/path', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  const url = assertPublicUrl('https://example.com/path');
+  assert.equal(url.hostname, 'example.com');
+});
+
+test('ssrf: assertPublicUrl still accepts public IPv4 93.184.216.34', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  const url = assertPublicUrl('http://93.184.216.34/');
+  assert.equal(url.hostname, '93.184.216.34');
+});
+
 // -------------------------------------------------------------- seo analyzer
 
 const GOOD_HTML = `<!DOCTYPE html>

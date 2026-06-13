@@ -115,9 +115,34 @@ export async function POST(req: NextRequest) {
   let rawHtml: string;
   try {
     const res = await fetchWithSsrfCheck(target.href);
-    const buffer = await res.arrayBuffer();
-    const slice = buffer.slice(0, MAX_BODY_BYTES);
-    rawHtml = new TextDecoder('utf-8', { fatal: false }).decode(slice);
+    // Stream the body with a hard cap so a giant/slow response can't OOM
+    // the function. We cancel the reader as soon as we exceed MAX_BODY_BYTES.
+    if (!res.body) {
+      rawHtml = '';
+    } else {
+      const reader = res.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let total = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        total += value.length;
+        if (total >= MAX_BODY_BYTES) {
+          await reader.cancel();
+          break;
+        }
+      }
+      const merged = new Uint8Array(total > MAX_BODY_BYTES ? MAX_BODY_BYTES : total);
+      let offset = 0;
+      for (const chunk of chunks) {
+        const toCopy = Math.min(chunk.length, MAX_BODY_BYTES - offset);
+        merged.set(chunk.subarray(0, toCopy), offset);
+        offset += toCopy;
+        if (offset >= MAX_BODY_BYTES) break;
+      }
+      rawHtml = new TextDecoder('utf-8', { fatal: false }).decode(merged);
+    }
   } catch (err) {
     const msg = err instanceof Error ? err.message : '';
     if (msg.includes('not allowed') || msg.includes('https://')) {

@@ -22,13 +22,6 @@ export type SeoReport = {
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-function attr(tag: string, attrName: string): string | null {
-  // Match content="…" or content='…'
-  const re = new RegExp(`${attrName}=["']([^"']*)["']`, 'i');
-  const m = tag.match(re);
-  return m ? m[1] : null;
-}
-
 function getTitle(html: string): string | null {
   const m = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   return m ? m[1].replace(/\s+/g, ' ').trim() : null;
@@ -85,7 +78,7 @@ export function analyzeHtml(html: string, url: string): SeoReport {
   const title = getTitle(html);
   const titleLen = title?.length ?? 0;
   const titlePass = titleLen >= 15 && titleLen <= 65;
-  let titleDetail = title
+  const titleDetail = title
     ? titlePass
       ? `"${title.slice(0, 60)}${title.length > 60 ? '…' : ''}" (${titleLen} chars — good)`
       : `"${title.slice(0, 60)}${title.length > 60 ? '…' : ''}" (${titleLen} chars — ideal range is 15–65)`

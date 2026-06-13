@@ -15,6 +15,7 @@ export function AuditForm() {
   const emailId = useId();
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
+  const [honey, setHoney] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AuditResult | null>(null);
@@ -31,7 +32,7 @@ export function AuditForm() {
       const res = await fetch('/api/tools/seo-audit', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ url, email }),
+        body: JSON.stringify({ url, email, honey }),
       });
 
       const data = (await res.json()) as
@@ -73,7 +74,8 @@ export function AuditForm() {
             type="text"
             tabIndex={-1}
             autoComplete="off"
-            onChange={() => {/* silently tracked in body payload below */}}
+            value={honey}
+            onChange={(e) => setHoney(e.target.value)}
           />
         </div>
 

@@ -56,7 +56,7 @@ export default function SeoAuditPage() {
             <span
               className="text-transparent bg-clip-text"
               style={{
-                backgroundImage: 'linear-gradient(135deg, #0ED3CF 0%, #A8C633 100%)',
+                backgroundImage: 'linear-gradient(135deg, var(--sage-brand) 0%, var(--sage-lime) 100%)',
               }}
             >
               in under 20 seconds

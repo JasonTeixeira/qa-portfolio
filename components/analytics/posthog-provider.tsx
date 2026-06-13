@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import posthog from 'posthog-js'
+import { MotionConfig } from 'framer-motion'
 
 let initialized = false
 
@@ -20,7 +21,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     initialized = true
   }, [])
 
-  return <>{children}</>
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>
 }
 
 export function track(event: string, props?: Record<string, unknown>) {

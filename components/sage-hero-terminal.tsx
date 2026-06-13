@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { BootSequence, type BootStep, NeonButton, Sigil, AsciiRule } from '@/components/sage'
-import { slideUpVisible } from '@/lib/motion/presets'
+import { slideUpVisibleDelay } from '@/lib/motion/presets'
 
 interface Project {
   name: string
@@ -150,7 +150,7 @@ export default function SageHeroTerminal({
               NOTE: opacity stays at 1 (slideUpVisible) so the browser can
               measure this as LCP on first paint. y-entrance only — no fade-in. */}
           <motion.div
-            variants={slideUpVisible}
+            variants={slideUpVisibleDelay(0)}
             initial="hidden"
             animate="show"
             aria-hidden
@@ -167,7 +167,7 @@ export default function SageHeroTerminal({
           </motion.div>
 
           <motion.p
-            variants={slideUpVisible}
+            variants={slideUpVisibleDelay(0.1)}
             initial="hidden"
             animate="show"
             className="mb-8 max-w-[52ch] text-base leading-relaxed text-[#B8B0AB] sm:text-lg"
@@ -179,7 +179,7 @@ export default function SageHeroTerminal({
 
           {/* CTAs */}
           <motion.div
-            variants={slideUpVisible}
+            variants={slideUpVisibleDelay(0.15)}
             initial="hidden"
             animate="show"
             className="flex flex-wrap items-center gap-3"

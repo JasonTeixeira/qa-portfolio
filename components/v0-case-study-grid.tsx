@@ -223,7 +223,7 @@ function BrowserChrome({ image, imageAlt, accentColor }: { image: string; imageA
 }
 
 /* ─── Single card ───────────────────────────────────────────── */
-function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
+function CaseStudyCard({ study }: { study: CaseStudy }) {
   const ref = useRef<HTMLDivElement>(null);
   // useInView still needed to drive the Counter animation
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -524,8 +524,8 @@ export default function CaseStudyGrid() {
         whileInView="show"
         viewport={{ once: true, margin: "-10%" }}
       >
-        {CASE_STUDIES.map((study, i) => (
-          <CaseStudyCard key={study.slug} study={study} index={i} />
+        {CASE_STUDIES.map((study) => (
+          <CaseStudyCard key={study.slug} study={study} />
         ))}
       </motion.div>
 

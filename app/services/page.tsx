@@ -9,8 +9,7 @@ import { SiteStarterInlineCard } from './site-starter-inline-card'
 import { ExtendedCatalog, ExtendedCategoryNav } from './extended-catalog'
 import { RefreshCw, Sparkles, Layers, FlaskConical } from 'lucide-react'
 import { CapacitySignal } from '@/components/social-proof/capacity-signal'
-import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
-import { testimonials } from '@/data/social-proof/testimonials'
+import { ProofGrid } from '@/components/social-proof/proof-grid'
 import { DecisionTree } from '@/components/services/decision-tree'
 
 // Evidence pulled from real Lab products / Work case studies. No fabricated metrics.
@@ -259,12 +258,9 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="text-center mb-8">
-          <SectionLabel>What clients say</SectionLabel>
-        </div>
-        <TestimonialCarousel testimonials={testimonials} />
+      {/* Social proof */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <ProofGrid eyebrow="Verifiable record" heading="Proof, not promises" />
       </section>
 
       {/* Custom packages */}

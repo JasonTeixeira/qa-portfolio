@@ -12,8 +12,8 @@ import {
   accentClasses,
 } from '@/data/services/visual-meta'
 import { ServiceIcon } from '@/components/services/icon'
-import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
-import { testimonials } from '@/data/social-proof/testimonials'
+import { ProofGrid } from '@/components/social-proof/proof-grid'
+import { proofPoints } from '@/data/social-proof/testimonials'
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -140,9 +140,9 @@ export function TierBPage({ tier }: { tier: Tier | ExtendedTier }) {
         </ul>
       </section>
 
-      {/* Testimonial */}
+      {/* Social proof */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <TestimonialCarousel testimonials={[testimonials[1]]} />
+        <ProofGrid eyebrow="Verifiable record" heading="The receipts" points={proofPoints.slice(0, 3)} />
       </section>
 
       {/* FAQ (2) */}

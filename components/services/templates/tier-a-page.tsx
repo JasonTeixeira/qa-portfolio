@@ -21,8 +21,8 @@ import {
   type AccentColor,
 } from '@/data/services/visual-meta'
 import { ServiceIcon } from '@/components/services/icon'
-import { TestimonialCarousel } from '@/components/social-proof/testimonial-carousel'
-import { testimonials } from '@/data/social-proof/testimonials'
+import { ProofGrid } from '@/components/social-proof/proof-grid'
+import { proofPoints } from '@/data/social-proof/testimonials'
 import { RiskReversal } from '@/components/services/risk-reversal'
 import { SampleDeliverable } from '@/components/services/sample-deliverable'
 
@@ -248,9 +248,9 @@ export function TierAPage({ tier }: { tier: Tier | ExtendedTier }) {
       {/* Risk reversal */}
       <RiskReversal />
 
-      {/* Testimonial */}
+      {/* Social proof */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <TestimonialCarousel testimonials={[testimonials[0]]} />
+        <ProofGrid eyebrow="Verifiable record" heading="The receipts" points={proofPoints.slice(0, 3)} />
       </section>
 
       {/* FAQ */}

@@ -270,6 +270,118 @@ test('checkout slug routing: audit slug is self-serve and in tiersBySlug', async
   assert.equal(isSelfServe(audit), true, 'audit must be self-serve');
 });
 
+// -------------------------------------------------------------- ssrf guard
+
+test('ssrf: isPrivateIp — 10.x, 127.x, 169.254.x, 192.168.x, 172.16–31.x are private', async () => {
+  const { isPrivateIp } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.equal(isPrivateIp('10.0.0.5'), true);
+  assert.equal(isPrivateIp('127.0.0.1'), true);
+  assert.equal(isPrivateIp('169.254.169.254'), true);
+  assert.equal(isPrivateIp('192.168.1.1'), true);
+  assert.equal(isPrivateIp('172.16.0.1'), true);
+  assert.equal(isPrivateIp('172.31.255.255'), true);
+  assert.equal(isPrivateIp('8.8.8.8'), false);
+  assert.equal(isPrivateIp('1.1.1.1'), false);
+  assert.equal(isPrivateIp('172.15.0.1'), false);
+  assert.equal(isPrivateIp('172.32.0.1'), false);
+});
+
+test('ssrf: assertPublicUrl rejects file:// and ftp://', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('file:///etc/passwd'), /Only http\/https/);
+  assert.throws(() => assertPublicUrl('ftp://example.com'), /Only http\/https/);
+});
+
+test('ssrf: assertPublicUrl rejects localhost and private IPs', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('http://localhost/'), /not allowed/);
+  assert.throws(() => assertPublicUrl('http://127.0.0.1/'), /not allowed/);
+  assert.throws(() => assertPublicUrl('http://169.254.169.254/'), /not allowed/);
+  assert.throws(() => assertPublicUrl('http://192.168.0.1/'), /not allowed/);
+});
+
+test('ssrf: assertPublicUrl accepts a public https URL', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  const url = assertPublicUrl('https://example.com/path?q=1');
+  assert.equal(url.hostname, 'example.com');
+  assert.equal(url.protocol, 'https:');
+});
+
+test('ssrf: assertPublicUrl rejects plain invalid string', async () => {
+  const { assertPublicUrl } = await import('../../lib/seo-audit/ssrf.ts');
+  assert.throws(() => assertPublicUrl('not-a-url'), /valid URL/);
+});
+
+// -------------------------------------------------------------- seo analyzer
+
+const GOOD_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Perfect SEO Page - Sage Ideas Best Practices Guide</title>
+  <meta name="description" content="A comprehensive guide to SEO best practices that covers everything from meta tags to structured data and beyond, with actionable tips." />
+  <link rel="canonical" href="https://example.com/seo-guide" />
+  <meta property="og:title" content="Perfect SEO Page" />
+  <meta property="og:description" content="SEO guide" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","name":"SEO Guide"}</script>
+</head>
+<body>
+  <h1>Perfect SEO Page</h1>
+  <p>Content here.</p>
+  <img src="hero.jpg" alt="A hero image showing SEO concepts" />
+  <img src="chart.png" alt="Chart of rankings" />
+</body>
+</html>`;
+
+const BAD_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>First heading</h1>
+  <h1>Second heading</h1>
+  <img src="no-alt.jpg" />
+  <img src="also-no-alt.png" />
+  <p>Some content without any SEO signals.</p>
+</body>
+</html>`;
+
+test('seo-analyzer: well-optimized page passes all key checks and scores >=80', async () => {
+  const { analyzeHtml, scoreReport } = await import('../../lib/seo-audit/analyzer.ts');
+  const r = analyzeHtml(GOOD_HTML, 'https://example.com/seo-guide');
+  assert.equal(r.checks.title.pass, true, 'title should pass');
+  assert.equal(r.checks.metaDescription.pass, true, 'metaDescription should pass');
+  assert.equal(r.checks.openGraph.pass, true, 'openGraph should pass');
+  assert.equal(r.checks.structuredData.pass, true, 'structuredData should pass');
+  assert.equal(r.checks.singleH1.pass, true, 'singleH1 should pass');
+  assert.equal(r.checks.imageAlt.pass, true, 'imageAlt should pass');
+  const score = scoreReport(r);
+  assert.ok(score >= 80, `score ${score} should be >= 80`);
+});
+
+test('seo-analyzer: broken page fails title, h1, imageAlt and scores <50', async () => {
+  const { analyzeHtml, scoreReport } = await import('../../lib/seo-audit/analyzer.ts');
+  const r = analyzeHtml(BAD_HTML, 'https://example.com/bad');
+  assert.equal(r.checks.title.pass, false, 'title should fail');
+  assert.equal(r.checks.singleH1.pass, false, 'singleH1 should fail (two h1s)');
+  assert.equal(r.checks.imageAlt.pass, false, 'imageAlt should fail');
+  const score = scoreReport(r);
+  assert.ok(score < 50, `score ${score} should be < 50`);
+});
+
+test('seo-analyzer: scoreReport blends perf score when present', async () => {
+  const { analyzeHtml, scoreReport } = await import('../../lib/seo-audit/analyzer.ts');
+  const r = analyzeHtml(GOOD_HTML, 'https://example.com/');
+  r.performance = { score: 50, lcpMs: 3000 };
+  const blended = scoreReport(r);
+  const onPage = scoreReport({ ...r, performance: undefined });
+  // blended = 70% onPage + 30% * 50 — must differ from pure on-page score
+  assert.ok(blended < onPage, `blended (${blended}) should be < pure on-page (${onPage}) when perf=50`);
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

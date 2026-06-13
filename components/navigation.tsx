@@ -176,6 +176,13 @@ const resourcesMega: MegaSection[] = [
     title: 'Use',
     items: [
       {
+        href: '/tools/seo-audit',
+        label: 'Free SEO Audit',
+        description: 'Instant on-page SEO report — no account required',
+        icon: Search,
+        badge: 'FREE',
+      },
+      {
         href: '/lab/ai-readiness',
         label: 'AI Readiness Score',
         description: '10-question diagnostic with personalized roadmap',
@@ -251,6 +258,7 @@ const mobileFlat: { href: string; label: string; section?: string }[] = [
   { href: '/services#cat-ai-flagship', label: 'AI Flagship', section: 'PRIMARY' },
   { href: '/blog', label: 'Insights', section: 'RESOURCES' },
   { href: '/pov', label: 'POV', section: 'RESOURCES' },
+  { href: '/tools/seo-audit', label: 'Free SEO Audit', section: 'RESOURCES' },
   { href: '/lab/ai-readiness', label: 'AI Readiness Score', section: 'RESOURCES' },
   { href: '/lab/calculators', label: 'ROI calculators', section: 'RESOURCES' },
   { href: '/lab/templates', label: 'Free templates', section: 'RESOURCES' },

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { Mail, Linkedin, Github, MapPin, Send, Check, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SectionLabel } from '@/components/section-label'
+import { trackEvent } from '@/lib/analytics/events'
 
 const inquiryTypes = [
   { value: 'hiring', label: "I'm hiring for a role" },
@@ -66,6 +67,10 @@ export function ContactContent() {
       const data = await res.json()
 
       if (res.ok && data.success) {
+        trackEvent('contact_submit', {
+          inquiryType: formData.inquiryType || undefined,
+          budget: formData.budget || undefined,
+        })
         setIsSubmitted(true)
       } else {
         setError(data.error || 'Failed to send message. Please try again.')

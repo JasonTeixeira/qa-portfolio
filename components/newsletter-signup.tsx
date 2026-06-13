@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
-import { track } from '@/components/analytics/posthog-provider'
+import { trackEvent } from '@/lib/analytics/events'
 
 type Props = {
   source?: string
@@ -45,7 +45,7 @@ export function NewsletterSignup({
       }
       setStatus('success')
       setEmail('')
-      track('newsletter_subscribe', { source })
+      trackEvent('newsletter_signup', { source })
     } catch {
       setStatus('error')
       setErrorMsg('Could not subscribe right now. Try again in a minute.')

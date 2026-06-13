@@ -1,17 +1,16 @@
 'use client'
 
 import { useEffect } from 'react'
-import { track } from './posthog-provider'
+import { trackEvent } from '@/lib/analytics/events'
 
 export function ServiceViewTracker({
   slug,
-  tier,
 }: {
   slug: string
   tier: string
 }) {
   useEffect(() => {
-    track('service_view', { slug, tier })
-  }, [slug, tier])
+    trackEvent('service_view', { slug })
+  }, [slug])
   return null
 }

@@ -32,6 +32,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics/events'
 
 // ────────────────────────────────────────────────────────────────────────────
 // Mega-menu data
@@ -487,6 +488,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             />
             <Link
               href="/work"
+              onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Work', href: '/work' })}
               className={cn(
                 'whitespace-nowrap px-3 py-2 text-sm rounded-lg transition-colors',
                 isActive('/work')
@@ -498,6 +500,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             </Link>
             <Link
               href="/pricing"
+              onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Pricing', href: '/pricing' })}
               className={cn(
                 'whitespace-nowrap px-3 py-2 text-sm rounded-lg transition-colors',
                 isActive('/pricing')
@@ -580,7 +583,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               size="sm"
               className="whitespace-nowrap bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold sage-bloom-cyan [font-family:var(--font-mono),ui-monospace,monospace] tracking-wide uppercase"
             >
-              <Link href="/book">./book</Link>
+              <Link href="/book" onClick={() => trackEvent('booking_click', { location: 'nav' })}>./book</Link>
             </Button>
           </div>
 
@@ -686,7 +689,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                     size="sm"
                     className="ml-auto bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold min-h-[44px]"
                   >
-                    <Link href="/book">Book a Call</Link>
+                    <Link href="/book" onClick={() => trackEvent('booking_click', { location: 'nav' })}>Book a Call</Link>
                   </Button>
                 </div>
               </div>

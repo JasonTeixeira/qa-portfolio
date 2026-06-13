@@ -171,6 +171,16 @@ test('resolveActiveOrg: empty memberships -> null', async () => {
   assert.equal(out, null);
 });
 
+// -------------------------------------------------------------- events
+
+test('event name registry is the closed set', async () => {
+  const { EVENT_NAMES, isValidEvent } = await import('../../lib/analytics/events.ts');
+  assert.ok(EVENT_NAMES.includes('checkout_start'));
+  assert.ok(EVENT_NAMES.includes('lead_magnet_complete'));
+  assert.equal(isValidEvent('not_a_real_event'), false);
+  assert.equal(isValidEvent('cta_click'), true);
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

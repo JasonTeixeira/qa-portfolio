@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
 import { motion } from "framer-motion"
+import { trackEvent } from "@/lib/analytics/events"
 
 const tiers = [
   {
@@ -94,6 +96,10 @@ function CheckIcon({ color }: { color: string }) {
 }
 
 export function TierCards() {
+  useEffect(() => {
+    trackEvent('pricing_view', { surface: 'pricing' })
+  }, [])
+
   return (
     <section className="mx-auto max-w-7xl px-6 pb-8">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -264,6 +270,7 @@ export function TierCards() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => trackEvent('cta_click', { location: 'pricing', label: tier.ctaLabel })}
                   className="w-full rounded-xl py-3.5 text-sm font-semibold tracking-wide transition-all duration-200"
                   style={
                     tier.ctaVariant === "magenta"

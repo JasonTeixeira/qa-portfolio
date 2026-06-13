@@ -3,6 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { ArrowRight, X } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics/events'
 
 const STORAGE_KEY = 'sticky-cta-dismissed-v1'
 
@@ -88,6 +89,7 @@ export function StickyCta({
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href={ctaHref}
+              onClick={() => trackEvent('cta_click', { location: 'sticky', label: ctaLabel, href: ctaHref })}
               className="inline-flex items-center gap-1.5 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold text-sm px-4 py-2.5 min-h-[44px] rounded-lg transition-colors"
             >
               {ctaLabel}

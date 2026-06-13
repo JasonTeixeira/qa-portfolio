@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { BootSequence, type BootStep, NeonButton, Sigil, AsciiRule } from '@/components/sage'
 import { slideUpVisibleDelay } from '@/lib/motion/presets'
+import { trackEvent } from '@/lib/analytics/events'
 
 interface Project {
   name: string
@@ -184,11 +185,18 @@ export default function SageHeroTerminal({
             animate="show"
             className="flex flex-wrap items-center gap-3"
           >
-            <NeonButton href="/book" tone="cyan" size="lg" bloom>
+            <NeonButton
+              href="/book"
+              tone="cyan"
+              size="lg"
+              bloom
+              onClick={() => trackEvent('booking_click', { location: 'hero' })}
+            >
               ./book
             </NeonButton>
             <Link
               href="/work"
+              onClick={() => trackEvent('cta_click', { location: 'hero', label: 'ls work/', href: '/work' })}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-[#2A2826] text-[#A8A29E] hover:text-[#F4F2EF] hover:border-[#3D3A37] transition-colors text-sm [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide"
             >
               <span>ls work/</span>

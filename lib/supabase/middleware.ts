@@ -78,6 +78,20 @@ function redirectWithSessionCookies(target: URL, source: NextResponse) {
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  // Resilience: when Supabase env is absent (local dev without keys, or a prod
+  // misconfig), skip auth entirely instead of 500-ing every request. Public
+  // marketing pages still render; auth-gated zones simply won't have a user.
+  // In production with env configured, behavior is unchanged.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const { pathname, search } = request.nextUrl;
+    response.headers.set('x-pathname', pathname + (search || ''));
+    request.headers.set('x-pathname', pathname + (search || ''));
+    if (isPortalChrome(pathname)) {
+      response.headers.set('x-portal', '1');
+    }
+    return response;
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

@@ -2,7 +2,9 @@
  SAGE IDEAS — ACQUISITION, SEO, CONTENT & BRAND MASTER PLAN
  The one-person studio's plan to a 100/100 premium site that drives traffic,
  engages, and closes — honestly.
- Version 1.0 · 2026-06-13 · Owner: Jason Teixeira (solo, founder-led)
+ Version 1.1 · 2026-06-13 · Owner: Jason Teixeira (solo, founder-led)
+ v1.1 adds: Program G (Research & Baseline), Program H (Bridge Traffic & Growth
+ Loop), and a per-category PATH TO 99+ (see the addendum at the end).
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -467,7 +469,175 @@ PER-POST CHECKLIST:
     never expose secrets to the client bundle.
 
 ===============================================================================
- END — This is a living document. Update task checkboxes and the scorecard as
- you go. Next action: green-light Program D (analytics) + Program A (SEO), and
- supply the §17 dependencies.
+ ADDENDUM v1.1 — THE PATH TO 99+ IN EVERY CATEGORY (AND COMPOSITE)
+===============================================================================
+
+HONEST FRAMING (read first):
+  A 99+ COMPOSITE is not earned by shipping tasks. It is earned by OUTCOMES —
+  rankings, traffic, leads, closes — re-scored monthly against real KPIs. The
+  programs below build a 99-CAPABLE platform; the score is then PROVEN by
+  results. Anyone who promises a 99 from a build alone is selling theatre.
+  Two things gate the whole thing and only YOU can supply them: real proof
+  (named references) and live credentials. Without them the ceiling is ~85.
+
+WHAT CHANGED FROM v1.0:
+  v1.0 was a strong skeleton (~74). It would build content and HOPE. v1.1 adds
+  demand validation, a near-term traffic bridge, a real link engine, a solo
+  "lean path," money-page CRO, nurture, and baseline-first measurement — the
+  delta from "competent" to "top-1%."
+
+-------------------------------------------------------------------------------
+ NEW PROGRAM G — RESEARCH & BASELINE  (DO BEFORE ANY BUILD — gates everything)
+-------------------------------------------------------------------------------
+OBJECTIVE: Never build on faith. Validate demand, know the SERP, snapshot the
+"before," and tie effort to revenue.
+
+G1. KEYWORD & INTENT RESEARCH
+  [ ] Pull existing queries/impressions from Search Console (free, real data).
+  [ ] Build a keyword map: term | monthly volume | difficulty | intent
+      (informational/commercial/transactional) | assigned URL | cluster.
+  [ ] Only money pages and content with VALIDATED demand get produced.
+  Acceptance: a living keyword map covering every money page + content cluster.
+  99+ bar: every published page traces to a mapped keyword + intent.
+
+G2. SERP & COMPETITOR ANALYSIS
+  [ ] For each target term: who ranks top 10, why, what format, what they miss.
+  [ ] Define the "10x better / different angle" for each — your first-hand,
+      receipts-backed experience is the unfair advantage.
+  Acceptance: a SERP brief per target cluster with the differentiation angle.
+
+G3. EXISTING-CONTENT AUDIT (the ~35 posts)
+  [ ] Score each post: traffic, rankings, quality, relevance. Decide:
+      improve / merge / prune (redirect) / keep. Thin pages drag the whole site.
+  Acceptance: a content inventory with a disposition per URL; redirects mapped.
+
+G4. BASELINE SNAPSHOT (you cannot prove improvement without a "before")
+  [ ] Capture current GA4/GSC traffic, top pages, conversion rates, CWV, indexed
+      pages, referring domains, branded search — dated.
+  Acceptance: a one-page baseline doc, dated, stored in the repo.
+
+G5. REVENUE-BACKWARDS MODEL (tie effort to dollars)
+  [ ] Goal revenue -> avg deal size -> deals needed -> calls needed (close rate)
+      -> leads needed (call rate) -> traffic needed (lead rate) -> content/links
+      needed. Make the math explicit so you build the RIGHT amount.
+  Acceptance: a simple model (sheet) mapping a revenue target to traffic/content.
+
+G6. ICP & MESSAGING FOUNDATION
+  [ ] Tighten the ICP: industry, company size, role, trigger event, core pain.
+  [ ] Messaging hierarchy + brand voice guide; one-page strategy narrative.
+  Acceptance: an ICP + messaging doc every page/post is checked against.
+
+-------------------------------------------------------------------------------
+ NEW PROGRAM H — BRIDGE TRAFFIC & GROWTH LOOP  (close NOW while SEO matures)
+-------------------------------------------------------------------------------
+OBJECTIVE: Organic takes 6-12 months. This drives qualified traffic + leads in
+weeks, and turns the SEO-audit tool into a self-propelling growth loop.
+
+H1. TOOL GROWTH LOOP (turn the magnet into distribution)
+  [ ] Shareable PUBLIC report URLs for the SEO-audit tool (each report a page
+      that can rank + be linked + shared).
+  [ ] "Audited by Sage Ideas" badge users can embed (backlink loop).
+  [ ] Launch the tool: Product Hunt, LinkedIn, dev communities, relevant subs.
+  Acceptance: tool produces shareable URLs; a launch executed; referral traffic
+  tracked.
+
+H2. DIGITAL PR / LINK ENGINE (the hardest, highest-leverage lever)
+  [ ] ORIGINAL DATA REPORT from your real data (Nexural/trading/signal book) —
+      the #1 link-earning asset type; honest, specific, genuinely new.
+  [ ] HARO/Connectively responses; podcast + guest-post target list.
+  [ ] Strategic partnerships / directory listings (solo studio / fractional CTO).
+  Acceptance: a backlink pipeline with monthly referring-domain targets.
+
+H3. TARGETED OUTBOUND (value-first, honest)
+  [ ] A small, well-researched ICP list; lead with a free audit (your own tool),
+      not a pitch.
+  Acceptance: a tracked outbound cadence with reply/booking metrics.
+
+H4. AUDIENCE LEVERAGE
+  [ ] Tap existing audiences/brands (GitHub, LinkedIn, your other properties) to
+      seed the first traffic + the email list.
+  Acceptance: first 100+ email subscribers from owned channels.
+
+-------------------------------------------------------------------------------
+ SYSTEMS THAT RAISE MULTIPLE CATEGORIES (bake into the relevant programs)
+-------------------------------------------------------------------------------
+S1. EXPERIMENTATION SYSTEM (raises CRO + Analytics)
+  [ ] PostHog feature flags/experiments + session replay + heatmaps.
+  [ ] A prioritized test backlog scored by ICE/PIE; one experiment shipping per
+      2-3 weeks; a running experiment log (hypothesis -> result -> decision).
+
+S2. MONEY-PAGE CRO PLAYBOOK (raises Conversion)
+  [ ] For services + pricing + each high-intent page: objection map, risk
+      reversal/guarantee, proof density, FAQ, honest comparison, ONE clear CTA.
+  Acceptance: every conversion page CRO-audited against the playbook.
+
+S3. B2B NURTURE SYSTEM (raises Lead Engagement)
+  [ ] Sequence by intent/source: welcome -> value -> proof -> soft offer -> call
+      invite. Progressive profiling + lead scoring surfaced in /admin.
+
+S4. E-E-A-T LAYER (raises Proof + SEO)
+  [ ] Real author bios + credentials, first-hand "what I built/ran" framing,
+      reviewer signals, third-party validation (GitHub stars, reviews, press),
+      a prominent callable-references program.
+
+S5. LEAN SOLO EXECUTION (raises Execution Realism — the weakest category)
+  [ ] RICE-scored backlog; a realistic weekly time budget for one operator.
+  [ ] "Minimum effective dose" path = validated content + tool loop + money-page
+      CRO + real proof. A documented DO-NOT-DO / defer list.
+  [ ] AI-assisted drafting/repurposing WITH a human quality gate (never publish
+      unedited). Revenue work never blocks on polish.
+
+-------------------------------------------------------------------------------
+ PER-CATEGORY PATH TO 99+ (current -> what closes the gap)
+-------------------------------------------------------------------------------
+  SEO COMPLETENESS        70 -> 99 : add G1 keyword research, G2 SERP analysis,
+        G3 content audit, H2 link engine, internal-link/orphan hygiene.
+  CONTENT STRATEGY        72 -> 99 : demand-validated topics only (G1), content
+        briefs per piece, S4 E-E-A-T, quarterly original-research flagship (H2),
+        refresh schedule for decaying posts.
+  CONVERSION / CRO        70 -> 99 : S2 money-page playbook + S1 experimentation
+        + session replay + checkout trust/guarantee.
+  DISTRIBUTION / BRAND    65 -> 99 : H1 tool loop + H2 digital PR + documented
+        channel cadence + "1 post -> N assets" pipeline + branded-search growth.
+  EXECUTION REALISM       60 -> 99 : S5 lean path + RICE backlog + time budget +
+        AI-assisted production + kill-list.
+  ANALYTICS               80 -> 99 : G4 baseline-first + G5 revenue model + one
+        source-of-truth dashboard + first-touch attribution on leads.
+  LEAD ENGAGEMENT         75 -> 99 : 3+ stage-matched magnets + H1 loop + S3
+        nurture + lead scoring.
+  PROOF / CREDIBILITY     80 -> 99 : [YOU] real named proof + S4 E-E-A-T +
+        third-party validation + metrics-backed case studies.
+  DESIGN / UX             85 -> 99 : full editorial polish + design-QA rubric +
+        micro-interactions + AA audit + visual-regression on all money pages.
+  STRATEGY / POSITIONING  88 -> 99 : G6 tightened ICP + messaging guide +
+        competitive positioning map.
+  ANALYTICS-DRIVEN PROOF (composite) : re-score the §16 scorecard MONTHLY
+        against real KPIs; 99 composite = every row >=99 AND KPIs trending up
+        (traffic, leads, closes), sustained over 2-3 months. Not a one-time
+        build — a proven, repeating outcome.
+
+-------------------------------------------------------------------------------
+ REVISED SEQUENCING (v1.1)
+-------------------------------------------------------------------------------
+  STEP 0  Program G (research & baseline) + Program D (analytics) — gate.
+  STEP 1  Program A (SEO) informed by G's keyword map + SERP briefs.
+  STEP 2  Program H (bridge traffic + tool loop) — start driving leads NOW.
+  STEP 3  Program B (content) on validated topics + S4 E-E-A-T.
+  STEP 4  Program C (design + showcase) + S2 money-page CRO + S1 experiments.
+  CONTINUOUS  Programs E/F + S3 nurture + S5 lean execution + monthly re-score.
+
+-------------------------------------------------------------------------------
+ ABSOLUTE PREREQUISITES FOR A REAL 99 (no path without these)
+-------------------------------------------------------------------------------
+  [YOU] Real named proof (references/testimonials/metrics) — caps Proof at ~80
+        and Conversion lower without it.
+  [YOU] Valid Supabase + Stripe creds — revenue plumbing unproven without them.
+  [YOU] GA4 ID + Search Console access — no measurement, no provable score.
+  [YOU] Sustained weekly content + distribution — the score decays without it.
+  Honesty guardrail still governs all of it: every claim true + permissioned.
+
+===============================================================================
+ END — Living document. Tick task boxes; re-score §16 monthly against real KPIs.
+ Next action: green-light Program G + D (research + analytics), supply §17 deps,
+ then Program A (SEO) and Program H (bridge traffic).
 ===============================================================================

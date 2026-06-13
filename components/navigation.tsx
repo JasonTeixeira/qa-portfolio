@@ -93,7 +93,7 @@ const servicesMega: MegaSection[] = [
       {
         href: '/services',
         label: 'All services',
-        description: '20+ productized engagements',
+        description: 'Productized engagements, fixed scope',
         icon: Briefcase,
       },
       {

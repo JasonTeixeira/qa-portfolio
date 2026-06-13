@@ -172,9 +172,9 @@ export default function SageHeroTerminal({
             animate="show"
             className="mb-8 max-w-[52ch] text-base leading-relaxed text-[#B8B0AB] sm:text-lg"
           >
-            A two-person studio that builds AI agents, voice systems, and web platforms for
-            founders who measure outcomes — not promises. Twenty productized engagements,
-            transparent pricing, callable references.
+            A solo, founder-led studio that builds AI agents, voice systems, and web platforms for
+            founders who measure outcomes — not promises. Productized engagements, transparent
+            pricing, callable references.
           </motion.p>
 
           {/* CTAs */}
@@ -200,7 +200,7 @@ export default function SageHeroTerminal({
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[11px] uppercase tracking-[0.18em] text-[#A8A29E] [font-family:var(--font-mono),ui-monospace,monospace]">
             <span className="flex items-center gap-2">
               <span aria-hidden className="h-1 w-1 rounded-full bg-[#A8C633]" />
-              20+ engagements shipped
+              productized engagements
             </span>
             <span className="flex items-center gap-2">
               <span aria-hidden className="h-1 w-1 rounded-full bg-[#0ED3CF]" />

@@ -120,7 +120,7 @@ export function CommandPalette() {
         id: 'services',
         verb: 'ls services/',
         label: 'Services',
-        description: '20+ productized engagements',
+        description: 'Productized engagements, fixed scope',
         icon: <Briefcase className="h-4 w-4" />,
         action: () => navigate('/services'),
         keywords: ['consulting', 'engagements', 'offerings'],

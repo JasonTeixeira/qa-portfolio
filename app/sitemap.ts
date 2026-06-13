@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { tiers, careTiers } from '@/data/services/tiers'
 import { verticals } from '@/data/industries/verticals'
+import { comparisons } from '@/data/compare/comparisons'
+import { getAllBlogPosts } from '@/lib/blog-server'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -23,6 +25,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/book', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/privacy', priority: 0.4, changeFrequency: 'yearly' },
@@ -48,6 +51,7 @@ const labSlugs = ['nexural', 'jobpoise', 'trayd', 'voza', 'owly', 'alphastream']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
+  const blogPosts = getAllBlogPosts()
   return [
     ...staticRoutes.map((r) => ({
       url: `${SITE}${r.path}`,
@@ -84,6 +88,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    })),
+    ...blogPosts.map((post) => ({
+      url: `${SITE}/blog/${post.slug}`,
+      lastModified: post.date ? new Date(post.date) : now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...comparisons.map((c) => ({
+      url: `${SITE}/compare/${c.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     })),
   ]
 }

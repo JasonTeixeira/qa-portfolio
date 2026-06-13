@@ -233,9 +233,6 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
     <motion.div
       ref={ref}
       variants={slideUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
     >
       <Link href={`/work/${study.slug}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF] rounded-xl">
         <motion.div
@@ -520,11 +517,17 @@ export default function CaseStudyGrid() {
       <CategoryFilter />
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-10">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-10"
+        variants={stagger()}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-10%" }}
+      >
         {CASE_STUDIES.map((study, i) => (
           <CaseStudyCard key={study.slug} study={study} index={i} />
         ))}
-      </div>
+      </motion.div>
 
       {/* Footer */}
       <PortfolioFooter />

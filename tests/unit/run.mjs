@@ -202,6 +202,40 @@ test('event name registry is the closed set', async () => {
   }
 });
 
+// -------------------------------------------------------------- isSelfServe
+
+test('isSelfServe: audit ($750 one-time) is self-serve', async () => {
+  const { tiersOrdered } = await import('../../data/services/tiers.ts');
+  const { isSelfServe } = await import('../../data/services/tier-classification.ts');
+  const audit = tiersOrdered.find((t) => t.slug === 'audit');
+  assert.ok(audit, 'audit tier must exist');
+  assert.equal(isSelfServe(audit), true);
+});
+
+test('isSelfServe: build ($9500 custom) is NOT self-serve', async () => {
+  const { tiersOrdered } = await import('../../data/services/tiers.ts');
+  const { isSelfServe } = await import('../../data/services/tier-classification.ts');
+  const build = tiersOrdered.find((t) => t.slug === 'build');
+  assert.ok(build, 'build tier must exist');
+  assert.equal(isSelfServe(build), false);
+});
+
+test('isSelfServe: all self-serve tiers have stripePriceId, cadence=one-time, priceCents ≤ 250000', async () => {
+  const { tiersOrdered } = await import('../../data/services/tiers.ts');
+  const { isSelfServe, SELF_SERVE_PRICE_CAP_CENTS } = await import(
+    '../../data/services/tier-classification.ts'
+  );
+  for (const tier of tiersOrdered) {
+    if (!isSelfServe(tier)) continue;
+    assert.ok(tier.stripePriceId, `${tier.slug}: must have stripePriceId`);
+    assert.equal(tier.cadence, 'one-time', `${tier.slug}: cadence must be one-time`);
+    assert.ok(
+      tier.priceCents <= SELF_SERVE_PRICE_CAP_CENTS,
+      `${tier.slug}: priceCents ${tier.priceCents} exceeds cap ${SELF_SERVE_PRICE_CAP_CENTS}`,
+    );
+  }
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

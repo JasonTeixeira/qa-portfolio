@@ -41,3 +41,14 @@ export const tierOrder: Record<ServiceTier, number> = {
   B: 2,
   C: 3,
 }
+
+/** Self-serve checkout cap: one-time engagements ≤ $2,500 with a configured price. */
+export const SELF_SERVE_PRICE_CAP_CENTS = 250_000
+
+export function isSelfServe(tier: Tier): boolean {
+  return (
+    Boolean(tier.stripePriceId) &&
+    tier.cadence === 'one-time' &&
+    tier.priceCents <= SELF_SERVE_PRICE_CAP_CENTS
+  )
+}

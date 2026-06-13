@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import type { Tier } from '@/data/services/tiers'
+import { isSelfServe } from '@/data/services/tier-classification'
+import { trackEvent } from '@/lib/analytics/events'
 
 export function CheckoutButton({
   tier,
@@ -17,11 +19,9 @@ export function CheckoutButton({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Inquiry-only flow: tier has no Stripe price configured.
-  // Used by all extended catalog services (AI / automation / retainers / bundles)
-  // and the legacy 'custom' Build tier. Routes to ctaHref (/contact?engagement=… or /book).
-  const hasStripeCheckout = Boolean(tier.stripePriceId) && tier.cadence !== 'custom'
-  if (!hasStripeCheckout) {
+  // Self-serve checkout: one-time engagements ≤ $2,500 with a configured Stripe price.
+  // All other tiers (monthly, custom, or above the cap) route to inquiry/book.
+  if (!isSelfServe(tier)) {
     const href =
       tier.cadence === 'custom'
         ? `/book?tier=${tier.slug}`
@@ -46,6 +46,7 @@ export function CheckoutButton({
   const onClick = async () => {
     setLoading(true)
     setError(null)
+    trackEvent('checkout_start', { slug: tier.slug, priceCents: tier.priceCents })
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',

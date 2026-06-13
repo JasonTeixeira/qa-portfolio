@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getStripe, isStripeConfigured } from '@/lib/stripe/client';
+import { captureLead } from '@/lib/leads/capture';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -116,6 +117,20 @@ export async function dispatchEvent(sb: Sb, event: Stripe.Event): Promise<void> 
 type Sb = ReturnType<typeof supabaseAdmin>;
 
 async function handleCheckoutCompleted(sb: Sb, session: Stripe.Checkout.Session) {
+  // Service self-checkout (kind='service'): capture lead and return — no invoice to update.
+  if (session.metadata?.kind === 'service') {
+    await captureLead({
+      source: 'checkout',
+      email: session.customer_details?.email ?? null,
+      name: session.customer_details?.name ?? null,
+      detail: `Purchased service: ${session.metadata.slug ?? 'unknown'}`,
+      amountCents: session.amount_total ?? null,
+      metadata: { slug: session.metadata.slug, sessionId: session.id },
+    });
+    return;
+  }
+
+  // Invoice-linked checkout (kind=undefined / 'invoice').
   const invoiceId = session.metadata?.invoice_id;
   if (!invoiceId) return;
 

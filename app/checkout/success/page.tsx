@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { CheckoutCompleteTracker } from './checkout-complete-tracker'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Payment Confirmed',
@@ -9,7 +12,13 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
-export default function CheckoutSuccessPage() {
+export default async function CheckoutSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ slug?: string; session_id?: string }>
+}) {
+  const { slug } = await searchParams
+
   return (
     <div className="min-h-screen bg-[#09090B] flex items-center justify-center px-4">
       <div className="max-w-lg w-full text-center">
@@ -61,6 +70,9 @@ export default function CheckoutSuccessPage() {
           A receipt has been sent to your email by Stripe.
         </p>
       </div>
+
+      {/* Fire checkout_complete analytics once on mount */}
+      {slug && <CheckoutCompleteTracker slug={slug} />}
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
 import { tiersBySlug } from '@/data/services/tiers'
 import { careTiersBySlug } from '@/data/services/tiers'
 import { isSelfServe } from '@/data/services/tier-classification'
 import { rateLimit } from '@/lib/rate-limit'
+import { getStripe, isStripeConfigured } from '@/lib/stripe/client'
 
 export const runtime = 'nodejs'
 
@@ -40,11 +40,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Slug is valid and self-serve — now we need Stripe.
-    if (!process.env.STRIPE_SECRET_KEY) {
+    if (!isStripeConfigured()) {
       return NextResponse.json({ error: 'Checkout unavailable' }, { status: 503 })
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-04-22.dahlia' })
+    const stripe = getStripe()
     const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
 
     const ip =
@@ -84,13 +84,11 @@ export async function POST(req: NextRequest) {
 
   if (careTier) {
     // Care retainer subscription — monthly cadence, mode: 'subscription'.
-    // Do NOT set kind:'service' in metadata — must flow through the webhook
-    // subscription path, not the service-lead branch.
-    if (!process.env.STRIPE_SECRET_KEY) {
+    if (!isStripeConfigured()) {
       return NextResponse.json({ error: 'Checkout unavailable' }, { status: 503 })
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-04-22.dahlia' })
+    const stripe = getStripe()
     const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
 
     const ip =
@@ -111,7 +109,7 @@ export async function POST(req: NextRequest) {
           cancel_url: `${base}/checkout/cancel?slug=${careTier.slug}`,
           billing_address_collection: 'auto',
           automatic_tax: { enabled: false },
-          metadata: { tier_slug: careTier.slug, tier_name: careTier.name },
+          metadata: { kind: 'care', tier_slug: careTier.slug, tier_name: careTier.name },
         },
         { idempotencyKey },
       )

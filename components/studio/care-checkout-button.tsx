@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import type { CareTier } from '@/data/services/tiers'
+import { trackEvent } from '@/lib/analytics/events'
 
 export function CareCheckoutButton({
   care,
@@ -20,6 +21,7 @@ export function CareCheckoutButton({
   const onClick = async () => {
     setLoading(true)
     setError(null)
+    trackEvent('checkout_start', { slug: care.slug, priceCents: care.priceCents })
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',

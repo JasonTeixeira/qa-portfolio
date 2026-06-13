@@ -9,6 +9,8 @@ import { captureLead } from '@/lib/leads/capture'
 //
 // Phase 15 (Sage Ideas Studio).
 
+export const runtime = 'nodejs'
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function getClientIp(req: NextRequest): string {

@@ -130,6 +130,25 @@ async function handleCheckoutCompleted(sb: Sb, session: Stripe.Checkout.Session)
     return;
   }
 
+  // Care subscription self-checkout (kind='care'): capture lead and return.
+  // The subscription record itself is written by the customer.subscription.created event
+  // (upsertSubscription) — that fires separately and is idempotent.
+  if (session.metadata?.kind === 'care') {
+    await captureLead({
+      source: 'checkout',
+      email: session.customer_details?.email ?? null,
+      name: session.customer_details?.name ?? null,
+      detail: `Care subscription: ${session.metadata.tier_slug ?? 'unknown'}`,
+      amountCents: session.amount_total ?? null,
+      metadata: {
+        tier_slug: session.metadata.tier_slug,
+        sessionId: session.id,
+        recurring: true,
+      },
+    });
+    return;
+  }
+
   // Invoice-linked checkout (kind=undefined / 'invoice').
   const invoiceId = session.metadata?.invoice_id;
   if (!invoiceId) return;

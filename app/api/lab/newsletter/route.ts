@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
+import { captureLead } from '@/lib/leads/capture'
 
 // Lightweight newsletter signup wired to Supabase.
 // Welcome email is sent server-side via the Resend connector by a separate
@@ -50,6 +51,15 @@ export async function POST(req: NextRequest) {
       console.error('newsletter upsert error', error)
       return NextResponse.json({ ok: false, error: 'storage_error' }, { status: 500 })
     }
+
+    // Mirror to unified leads table — best-effort, never fails the response.
+    void captureLead({
+      source: 'newsletter',
+      email: emailRaw,
+      name: null,
+      detail: 'Newsletter signup',
+      metadata: { source },
+    })
 
     return NextResponse.json({ ok: true })
   } catch (e) {

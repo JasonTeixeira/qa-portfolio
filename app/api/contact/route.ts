@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { rateLimit } from '@/lib/rate-limit';
+import { captureLead } from '@/lib/leads/capture';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -57,6 +58,17 @@ export async function POST(request: NextRequest) {
   if (data.honey) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
+
+  // Persist lead + notify — best-effort, does not affect the Resend flow below.
+  const rawData = data as Record<string, unknown>;
+  void captureLead({
+    source: 'contact',
+    email: data.email,
+    name: data.name,
+    detail: data.message || '',
+    inquiryType: typeof rawData.inquiryType === 'string' ? rawData.inquiryType : undefined,
+    budget: typeof rawData.budget === 'string' ? rawData.budget : undefined,
+  });
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {

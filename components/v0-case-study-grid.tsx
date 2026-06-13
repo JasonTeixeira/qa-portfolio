@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView, useMotionValue, useSpring, animate } from "framer-motion";
+import { slideUp, stagger } from "@/lib/motion/presets";
 
 /* ─── Brand palette ─────────────────────────────────────────── */
 const COLOR = {
@@ -224,15 +225,17 @@ function BrowserChrome({ image, imageAlt, accentColor }: { image: string; imageA
 /* ─── Single card ───────────────────────────────────────────── */
 function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  // useInView still needed to drive the Counter animation
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const accentColor = CATEGORY_COLOR[study.category];
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: (index % 3) * 0.12, ease: [0.16, 1, 0.3, 1] }}
+      variants={slideUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-80px" }}
     >
       <Link href={`/work/${study.slug}`} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF] rounded-xl">
         <motion.div
@@ -378,15 +381,12 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
 
 /* ─── Header ────────────────────────────────────────────────── */
 function PortfolioHeader() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true });
-
   return (
     <motion.header
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      variants={slideUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
       className="mb-16 md:mb-20"
     >
       <div className="flex items-start justify-between gap-6 flex-wrap">

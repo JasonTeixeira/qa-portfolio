@@ -14,3 +14,10 @@ for (const route of ROUTES) {
     });
   }
 }
+
+test('hero respects reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('http://localhost:3040/', { waitUntil: 'networkidle' });
+  const h1Region = page.getByRole('region', { name: /introduction/i });
+  await expect(h1Region).toBeVisible();
+});

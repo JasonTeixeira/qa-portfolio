@@ -5,7 +5,7 @@
  *
  * This is intentionally a pure server component: no JS ships to the client.
  * The "live" dot uses Tailwind's `animate-pulse` (already respects
- * `prefers-reduced-motion` via global CSS overrides in styles/globals.css).
+ * `prefers-reduced-motion` via global CSS overrides in app/globals.css).
  */
 export function TelemetryFooter() {
   const sha = process.env.NEXT_PUBLIC_GIT_SHA ?? 'dev'

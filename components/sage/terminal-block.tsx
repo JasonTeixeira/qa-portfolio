@@ -26,7 +26,7 @@ export interface TerminalBlockProps extends React.HTMLAttributes<HTMLDivElement>
 
 /**
  * <TerminalBlock /> — declarative renderer for a terminal transcript.
- * Consumes the `.sage-prompt*` classes defined in styles/globals.css.
+ * Consumes the `.sage-prompt*` classes defined in app/globals.css.
  */
 export const TerminalBlock = React.forwardRef<HTMLDivElement, TerminalBlockProps>(
   function TerminalBlock(

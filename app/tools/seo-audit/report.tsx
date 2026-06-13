@@ -83,8 +83,8 @@ function ScoreRing({ score }: { score: number }) {
 
 // ─── Check row ────────────────────────────────────────────────────────────────
 
-function CheckRow({ name, check }: { name: string; check: Check }) {
-  const PassIcon = () => (
+function PassIcon() {
+  return (
     <span
       aria-hidden
       className="shrink-0 w-5 h-5 rounded-full bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 flex items-center justify-center"
@@ -94,8 +94,10 @@ function CheckRow({ name, check }: { name: string; check: Check }) {
       </svg>
     </span>
   );
+}
 
-  const FailIcon = () => (
+function FailIcon() {
+  return (
     <span
       aria-hidden
       className="shrink-0 w-5 h-5 rounded-full bg-[#E85D3A]/10 border border-[#E85D3A]/30 flex items-center justify-center"
@@ -105,7 +107,9 @@ function CheckRow({ name, check }: { name: string; check: Check }) {
       </svg>
     </span>
   );
+}
 
+function CheckRow({ name, check }: { name: string; check: Check }) {
   return (
     <motion.li
       variants={slideUp}

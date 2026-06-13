@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useInView, useMotionValue, useSpring, animate } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import { slideUp, stagger } from "@/lib/motion/presets";
 
 /* ─── Brand palette ─────────────────────────────────────────── */
@@ -163,7 +163,7 @@ function Counter({ value, suffix, inView }: { value: number; suffix: string; inV
 }
 
 /* ─── Browser chrome mockup ─────────────────────────────────── */
-function BrowserChrome({ image, imageAlt, accentColor }: { image: string; imageAlt: string; accentColor: string }) {
+function BrowserChrome({ image, imageAlt, accentColor: _accentColor }: { image: string; imageAlt: string; accentColor: string }) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-t-lg"

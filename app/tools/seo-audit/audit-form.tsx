@@ -108,7 +108,7 @@ export function AuditForm() {
               htmlFor={emailId}
               className="block text-[13px] font-medium text-[#A8A29E] mb-1.5"
             >
-              Email — we'll send you the report
+              Email — we&apos;ll send you the report
             </label>
             <input
               id={emailId}

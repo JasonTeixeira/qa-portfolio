@@ -1,0 +1,473 @@
+===============================================================================
+ SAGE IDEAS — ACQUISITION, SEO, CONTENT & BRAND MASTER PLAN
+ The one-person studio's plan to a 100/100 premium site that drives traffic,
+ engages, and closes — honestly.
+ Version 1.0 · 2026-06-13 · Owner: Jason Teixeira (solo, founder-led)
+===============================================================================
+
+-------------------------------------------------------------------------------
+0. HOW TO USE THIS DOCUMENT
+-------------------------------------------------------------------------------
+- This is the master roadmap. It is organized into PROGRAMS (A–F). Each program
+  has phases, itemized tasks ([ ] = todo, [x] = done), acceptance criteria,
+  KPIs, and dependencies.
+- Work top-to-bottom by priority, but Programs D (analytics) and E (proof/close)
+  run continuously alongside everything else.
+- Each task is sized to be spec'd -> built -> reviewed (the same subagent-driven
+  workflow used for Phase 0+1).
+- Anything marked [YOU] is a human/owner action that cannot be automated
+  (collecting real proof, supplying credentials, approving copy).
+- GUARDRAIL: Every claim on this site must be true and verifiable. No invented
+  metrics, no fake testimonials, no borrowed logos without permission. The brand
+  IS "receipts, not promises" — breaking that breaks the whole pitch.
+
+-------------------------------------------------------------------------------
+1. NORTH STAR & POSITIONING
+-------------------------------------------------------------------------------
+NORTH STAR:  sageideas.dev becomes the primary channel that attracts, engages,
+             and closes B2B clients for the studio — and the showcase that
+             builds Jason's personal brand as a solo operator who ships
+             production systems at agency quality.
+
+POSITIONING (honest, locked):
+  - Solo, founder-led studio. The person pitching is the person typing.
+  - Proof over promises: shipped products (Nexural, AlphaStream, Jobpoise,
+    Trayd), callable references, transparent pricing, reversible changes.
+  - Premium = disciplined, fast, confident, and TRUE — not busy, not theatrical.
+
+TARGET BUYER:
+  - Founders / eng leaders / ops leaders at B2B companies who measure outcomes.
+  - High-intent, technical or technical-adjacent, value transparency + speed.
+
+VALUE PROPS TO LEAD WITH:
+  1. "Audit the work" — everything ships, everything has receipts.
+  2. Callable references — talk to real people before you sign.
+  3. Productized + transparent pricing — see scope, click, ship.
+  4. One principal, agency rigor — no handoff to juniors.
+
+-------------------------------------------------------------------------------
+2. THE FUNNEL MODEL & STAGE KPIs
+-------------------------------------------------------------------------------
+ATTRACT  -> ENGAGE -> CAPTURE -> CLOSE -> RETAIN/REFER
+
+  ATTRACT  (get found): organic search, content, social, referrals.
+     KPIs: organic sessions, impressions, avg position, indexed pages,
+           backlinks, branded search volume.
+  ENGAGE   (earn attention): time on page, scroll depth, tool usage,
+           pages/session, return visits.
+     KPIs: tool completions, blog read-through, demo interactions.
+  CAPTURE  (get the lead): magnets, forms, newsletter, booking.
+     KPIs: lead magnet completion rate, email capture rate, booking rate.
+  CLOSE    (win the deal): checkout, calls, proposals.
+     KPIs: checkout conversion, call-booked rate, proposal win rate, revenue.
+  RETAIN   (compound): retainers, referrals, reviews.
+     KPIs: retainer MRR, referral count, repeat engagements.
+
+TARGET FUNNEL MATH (set real baselines once GA4/PostHog are live):
+  Traffic -> 2-4% to lead -> 20-30% lead-to-call -> 25-40% call-to-close.
+  Track each step; optimize the weakest link, not the vanity metric.
+
+-------------------------------------------------------------------------------
+3. PROGRAM MAP (AT A GLANCE)
+-------------------------------------------------------------------------------
+  [x] PHASE 0  Foundation & truth (tokens, motion, honesty)          SHIPPED
+  [x] PHASE 1  Conversion engine (events, checkout, SEO-audit magnet) SHIPPED
+  [ ] PROGRAM A / PHASE 2  SEO discovery engine                      NEXT
+  [ ] PROGRAM B / PHASE 3  Content engine + blog
+  [ ] PROGRAM C / PHASE 4  Premium design + interactive showcase
+  [ ] PROGRAM D  Analytics & measurement (GA4 + PostHog + GSC)       START NOW
+  [ ] PROGRAM E  Proof & close (CRO, testimonials, checkout polish)  CONTINUOUS
+  [ ] PROGRAM F  Distribution & personal brand (off-site)            CONTINUOUS
+
+SEQUENCING LOGIC:
+  Build the engine that brings people in (A), then the fuel (B), then the
+  showroom (C). Measurement (D) and Close (E) and Distribution (F) run the
+  whole time because they make A/B/C pay off.
+
+-------------------------------------------------------------------------------
+4. STATUS — WHAT IS ALREADY SHIPPED (Phase 0 + 1)
+-------------------------------------------------------------------------------
+  [x] Single canonical design-token system; restored the previously-dead
+      motion/polish layer; real fluid type/spacing/motion scales.
+  [x] Standardized, reduced-motion-safe motion presets (MotionConfig).
+  [x] Truth pass: solo positioning; removed fabricated testimonials and stats;
+      replaced with a verifiable "receipts" proof block site-wide.
+  [x] Typed conversion-event layer (PostHog) on every CTA/form/pricing/booking.
+  [x] Public Stripe checkout: low-ticket self-serve, high-ticket gated,
+      care-retainer subscriptions; webhook -> lead capture.
+  [x] Flagship lead magnet: free instant SEO-audit tool (SSRF-hardened).
+  [x] Unified lead capture into Supabase + Resend notifications.
+  Verified locally: build, lint(0 err), typecheck, 37 unit, 25 visual, E2E.
+  PENDING LIVE VERIFICATION: needs valid Supabase + Stripe creds (see §17).
+
+===============================================================================
+ PROGRAM A / PHASE 2 — SEO DISCOVERY ENGINE  (THE TRAFFIC ENGINE — DO FIRST)
+===============================================================================
+OBJECTIVE: Make Google able to find, crawl, and richly display every page.
+WHY IT CLOSES: No discovery = no traffic = nothing else matters. This is the
+top of the funnel and it compounds.
+
+A1. TECHNICAL SEO FOUNDATION
+  [ ] Blog posts INTO the sitemap (currently missing — biggest gap). Generate
+      sitemap entries for every blog post, work case study, service, industry,
+      compare, and lab page dynamically.
+  [ ] Verify robots.txt, canonical tags, and trailing-slash consistency on all
+      route types.
+  [ ] Submit sitemap to Google Search Console + Bing Webmaster.
+  [ ] Fix the PRICE CONTRADICTION: pricing page shows Audit $1,500 / Build
+      $4,900 while data says $750 / $9,500 — reconcile to ONE source of truth.
+  Acceptance: every public URL appears in sitemap.xml; GSC shows 0 critical
+  coverage errors; one consistent price per service everywhere.
+  KPIs: indexed pages, coverage errors, crawl stats.
+
+A2. STRUCTURED DATA (RICH RESULTS)
+  [ ] WebSite + SearchAction (sitelinks search box).
+  [ ] BreadcrumbList site-wide via a shared component.
+  [ ] Article / CaseStudy schema on /work/[slug] (client anonymized, outcomes,
+      datePublished).
+  [ ] Service + AggregateOffer on pricing/services.
+  [ ] FAQPage on industries + pricing FAQs.
+  [ ] Person/Organization on founder + root (already partial — complete it).
+  Acceptance: every schema validates in Google Rich Results Test; 0 errors.
+  KPIs: rich-result impressions, CTR uplift.
+
+A3. ON-PAGE OPTIMIZATION
+  [ ] Unique, keyword-mapped title + meta description on every indexable route
+      (audit and fix thin/duplicate ones).
+  [ ] One H1 per page, logical heading hierarchy, descriptive alt text.
+  [ ] Per-route OG images via the existing dynamic OG generator.
+  [ ] Keyword map: assign a primary + secondary intent to each money page
+      (services x industries) and each content cluster.
+  Acceptance: no duplicate titles/descriptions; keyword map documented.
+
+A4. PROGRAMMATIC SEO (SCALE)
+  [ ] Make services x industries matrix pages genuinely unique (real content,
+      not templated filler) with generateStaticParams + unique metadata.
+  [ ] Build/expand /compare pages (you vs HoneyBook+DocuSign+Stripe+Notion,
+      vs agencies, vs freelancers) — honest, specific comparisons.
+  [ ] Internal-linking topic clusters: pillar pages link to cluster posts and
+      back; money pages get contextual internal links from content.
+  Acceptance: each programmatic page passes a "would a human find this useful?"
+  bar; internal links form clear clusters.
+  KPIs: long-tail rankings, pages getting impressions.
+
+A5. CORE WEB VITALS / PERFORMANCE (premium signal + ranking factor)
+  [ ] LCP < 2.5s, INP < 200ms, CLS < 0.1, on key templates.
+  [ ] Image optimization (AVIF/WebP, explicit dims, lazy below the fold).
+  [ ] Font + critical CSS discipline; defer non-critical JS; dynamic-import
+      heavy libs.
+  Acceptance: Lighthouse CI budgets green on home/work/blog/pricing/services.
+  KPIs: CWV field data (GSC), Lighthouse scores.
+
+A6. LOCAL / ENTITY SEO (brand presence)
+  [ ] LocalBusiness/Organization consistency (Orlando, FL), Google Business
+      Profile, consistent NAP.
+  [ ] Build the "Jason Teixeira" entity: link sameAs (GitHub, LinkedIn),
+      knowsAbout, founder pages, so Google understands the person+brand.
+
+===============================================================================
+ PROGRAM B / PHASE 3 — CONTENT ENGINE & BLOG  (BRAND + COMPOUNDING INBOUND)
+===============================================================================
+OBJECTIVE: A blog and content system that ranks, teaches, and converts — the
+"content like no one else" flywheel that builds the personal brand daily.
+WHY IT CLOSES: Content is how strangers become believers before they ever talk
+to you. It is also the asset that earns links and rankings over time.
+
+B1. EDITORIAL BLOG REDESIGN (premium reading)
+  [ ] Best-in-class article layout: typographic scale, generous measure, TOC,
+      reading progress, estimated read time, prev/next, related posts.
+  [ ] Author block + series support; categories/tags as real taxonomy.
+  [ ] Per-post OG, canonical, BlogPosting schema (complete what exists).
+  [ ] Share + "copy link"; subtle, fast, no clutter.
+  Acceptance: a flagship post looks like it belongs in a top-tier eng blog.
+
+B2. RICH MDX COMPONENT LIBRARY (engagement, not theatre)
+  [ ] Code blocks with copy + syntax highlight; optional runnable snippets.
+  [ ] Real architecture diagrams (your systems), callouts, comparison tables.
+  [ ] Embeddable FUNCTIONAL widgets in posts (e.g. a live mini-tool, a real
+      data widget) — institutional-grade, no decorative gimmicks.
+  Acceptance: components reusable across posts; all keyboard-accessible.
+
+B3. TOPIC HUBS / PILLAR PAGES (authority architecture)
+  [ ] Cluster the existing ~35 posts into 4-6 pillars (e.g. Testing/QA,
+      AI engineering, Fintech/trading systems, Cloud/Infra, Running a solo
+      studio). Build a pillar page per cluster that links to all cluster posts.
+  [ ] Identify gaps and queue new posts to complete each cluster.
+  Acceptance: every post belongs to a hub; hubs interlink; clear site
+  information architecture.
+
+B4. CONTENT CADENCE SYSTEM (ship daily/weekly, not quarterly)
+  [ ] Post templates (teardown, how-I-built, lessons, comparison, deep-dive).
+  [ ] A content calendar + backlog (see §14 SOP) tied to the keyword map.
+  [ ] Repurposing pipeline: 1 post -> LinkedIn post + thread + newsletter blurb
+      + short video script (see Program F).
+  Acceptance: a documented, repeatable weekly shipping process.
+  KPIs: posts/week, words indexed, posts ranking in top 10/20.
+
+B5. NEWSLETTER / NURTURE LOOP
+  [ ] Strong subscribe CTA in-content + exit intent (list already wired).
+  [ ] Welcome sequence + periodic "what I shipped / learned" digest.
+  [ ] Track subscriber -> lead -> customer.
+  KPIs: list growth, open/click, subscriber-to-lead rate.
+
+===============================================================================
+ PROGRAM C / PHASE 4 — PREMIUM DESIGN & INTERACTIVE PROJECT SHOWCASE
+===============================================================================
+OBJECTIVE: 100/100 design + turn /work into deep, interactive case studies that
+double as portfolio AND proof. Make a high-end buyer feel it instantly.
+WHY IT CLOSES: This is the showroom. It converts believers into buyers and
+makes the one-person operation look (truthfully) world-class.
+
+C1. PROJECT SHOWCASE (your strongest asset)
+  [ ] Deep, interactive case studies for Nexural, AlphaStream, Jobpoise, Trayd:
+      the problem, the architecture (real diagrams), the real metrics, the
+      trade-offs, what almost broke, live links, the build log.
+  [ ] Institutional-grade data-viz of REAL numbers only (per the viz standard:
+      no theatre, no gimmicks).
+  [ ] CaseStudy schema (ties to Program A2) so they rank + show rich.
+  Acceptance: each case study could stand alone as proof in a sales call.
+
+C2. EDITORIAL-GRADE DESIGN PASS
+  [ ] Hero, work, pricing, services, founder, studio -> 100/100 editorial polish
+      using the unified token + motion system: hierarchy by scale, intentional
+      rhythm, depth/layering, designed hover/focus/active states.
+  [ ] Restraint and speed as the premium signal; remove anything that reads as
+      a default template.
+  Acceptance: passes the design-quality checklist (4+ premium qualities per
+  surface; would look believable in a real top-product screenshot).
+
+C3. FUNCTIONAL INTERACTIVITY (drives engagement honestly)
+  [ ] SEO-audit tool (done) — promote it as a hero magnet.
+  [ ] Scope/ROI/pricing calculator (already partially present — elevate).
+  [ ] Live, embedded project demos where possible.
+  [ ] Command palette (exists) — extend to a real "explore the studio" UX.
+  Acceptance: every interactive element does real work; none is decorative.
+
+C4. ACCESSIBILITY & POLISH
+  [ ] WCAG AA: contrast, focus rings, keyboard nav, reduced-motion (foundation
+      done — extend to new surfaces).
+  [ ] Cross-browser + responsive at 320/375/768/1024/1440/1920.
+  Acceptance: axe clean on key pages; manual keyboard pass.
+
+===============================================================================
+ PROGRAM D — ANALYTICS & MEASUREMENT  (GA4 + PostHog + GSC) — START NOW
+===============================================================================
+OBJECTIVE: Know exactly what works. You cannot optimize a funnel you can't see.
+WHY IT CLOSES: Every later decision (which content, which CTA, which price)
+becomes data-driven instead of guessing.
+
+D1. GA4 INSTALL + EVENT TAXONOMY
+  [ ] Install GA4 via @next/third-parties/google (gtag) or GTM, production-only,
+      consent-aware (respect the existing cookie banner).
+  [ ] Mirror the typed PostHog conversion events into GA4 as GA4 events:
+      cta_click, contact_submit, pricing_view, service_view, checkout_start,
+      checkout_complete, lead_magnet_start, lead_magnet_complete, booking_click,
+      newsletter_signup. One taxonomy, two sinks.
+  [ ] Mark key events as GA4 "key events" (conversions): contact_submit,
+      checkout_complete, lead_magnet_complete, booking_click.
+  Acceptance: GA4 realtime shows events firing; conversions configured.
+  DEP: [YOU] GA4 Measurement ID (G-XXXXXX`) + accept the cookie/consent approach.
+
+D2. SEARCH CONSOLE + BING
+  [ ] Verify domain, submit sitemap, monitor coverage + CWV + queries.
+  Acceptance: GSC verified; sitemap submitted; performance report populating.
+
+D3. POSTHOG FUNNELS + DASHBOARDS
+  [ ] Build funnels: visit -> tool/pricing -> lead -> booking -> checkout.
+  [ ] Dashboard: traffic by source, top content, conversion by CTA/price,
+      drop-off points.
+  Acceptance: a single dashboard answers "what's working this week?"
+
+D4. ATTRIBUTION + UTM DISCIPLINE
+  [ ] UTM convention for every off-site link (LinkedIn, GitHub, newsletter).
+  [ ] Capture first-touch source on leads (store in the leads table metadata).
+  Acceptance: every lead has a source; channel ROI is measurable.
+
+===============================================================================
+ PROGRAM E — PROOF & CLOSE  (CRO + TESTIMONIALS + CHECKOUT) — CONTINUOUS
+===============================================================================
+OBJECTIVE: Convert attention into signed deals. The highest-leverage program.
+
+E1. REAL SOCIAL PROOF  ***BIGGEST CLOSING LEVER***
+  [ ] [YOU] Collect 1-3 REAL, named testimonials or a metrics-backed case study
+      from actual clients/collaborators (with written permission).
+  [ ] Build the attributed-testimonial + logo component (I build; you supply
+      the content). Honest, specific, with names/roles where permitted.
+  [ ] Strengthen the callable-references program (your genuine differentiator):
+      make the "call them before you sign" offer prominent and easy.
+  Acceptance: at least one real named outcome live on the homepage + work pages.
+
+E2. /ADMIN LEADS INBOX
+  [ ] Surface the captured leads (Supabase) in /admin with source, status, and
+      quick actions, so you can actually see and work them.
+  Acceptance: every captured lead is visible + workable in admin.
+
+E3. CHECKOUT & OFFER OPTIMIZATION
+  [ ] Trust signals at checkout (guarantee, reversible, what happens next).
+  [ ] Clear, single price per service (depends on A1 fix).
+  [ ] Optional order bumps / clear upgrade path low-ticket -> retainer.
+  Acceptance: checkout has zero ambiguity; a stranger can buy without a call.
+
+E4. CONVERSION-RATE OPTIMIZATION (now possible — funnel is instrumented)
+  [ ] A/B test hero headline, primary CTA, pricing presentation.
+  [ ] Exit-intent + sticky CTA tuning based on real drop-off data.
+  [ ] Iterate the weakest funnel step monthly.
+  Acceptance: a running log of experiments + results.
+
+===============================================================================
+ PROGRAM F — DISTRIBUTION & PERSONAL BRAND  (OFF-SITE) — CONTINUOUS
+===============================================================================
+OBJECTIVE: Drive people TO the site and build Jason's brand as the solo operator
+who ships. The site is the home base; distribution is how people find it.
+
+F1. CHANNELS
+  [ ] LinkedIn: build-in-public posts, teardowns, lessons; 3-5x/week.
+  [ ] GitHub: pinned repos, strong READMEs, link back to case studies.
+  [ ] X/Twitter (optional): threads from posts.
+  [ ] Dev communities (HN, Reddit, Lobsters) for genuinely useful deep-dives.
+  [ ] YouTube/short-form (optional): build-with-me / teardown videos.
+
+F2. SYNDICATION & REPURPOSING LOOP
+  [ ] Each blog post -> LinkedIn post + thread + newsletter + (optional) video.
+  [ ] Cross-post canonical (dev.to / Medium with rel=canonical to your site).
+  Acceptance: a documented "1 post -> N assets" pipeline (ties to B4).
+
+F3. LINK BUILDING / AUTHORITY (white-hat only)
+  [ ] Make the SEO-audit tool and best deep-dives genuinely linkable assets.
+  [ ] Guest posts / podcasts / founder communities.
+  [ ] Get listed in relevant directories + "solo studio / fractional CTO" lists.
+  KPIs: referring domains, branded search growth.
+
+F4. OUTBOUND (honest, targeted)
+  [ ] A small, well-researched outbound list of ideal B2B operators.
+  [ ] Lead with value (free audit via your own tool), not a pitch.
+
+-------------------------------------------------------------------------------
+11. THE ULTIMATE MARKETING PLAN (SUMMARY)
+-------------------------------------------------------------------------------
+PILLARS (content themes that map to what you actually do + rank for):
+  1. Testing/QA & reliability   2. AI engineering (agents/voice/RAG)
+  3. Fintech & trading systems  4. Cloud/infra/IaC & cost
+  5. Running a one-person studio (brand-builder, highly shareable)
+
+ENGINE (repeatable weekly loop):
+  Pick a keyword/topic from the map -> ship a deep, honest post/case study ->
+  add structured data + internal links -> repurpose to LinkedIn/newsletter ->
+  capture leads via in-content magnets -> measure in GA4/PostHog -> double down
+  on what ranks/converts.
+
+GROWTH FLYWHEEL:
+  Useful content -> rankings + links -> more traffic -> more tool/lead-magnet
+  usage -> more leads + email list -> more proof + referrals -> more authority
+  -> better rankings. The SEO-audit tool and your real shipped projects are the
+  flywheel's most linkable, most shareable assets.
+
+-------------------------------------------------------------------------------
+12. THE ULTIMATE SEO PLAN (SUMMARY)
+-------------------------------------------------------------------------------
+  TECHNICAL: sitemap completeness (blog!), robots/canonical hygiene, CWV green,
+             clean IA, no duplicate meta.
+  STRUCTURED DATA: WebSite/SearchAction, Breadcrumb, Article/CaseStudy, Service/
+             AggregateOffer, FAQ, Person/Org — all validating.
+  ON-PAGE: keyword-mapped titles/descriptions/H1s, alt text, per-route OG.
+  PROGRAMMATIC: unique services x industries + compare pages at scale.
+  CONTENT: topic clusters/pillars; answer real buyer + practitioner questions.
+  AUTHORITY: linkable tools + deep-dives; guest posts; entity-building.
+  MEASURE: GSC + GA4; track impressions -> clicks -> leads per cluster.
+
+-------------------------------------------------------------------------------
+13. THE ULTIMATE LEAD-ENGAGEMENT & DESIGN PLAN (SUMMARY)
+-------------------------------------------------------------------------------
+  MAGNETS: free SEO audit (live), scope/ROI calculator, downloadable teardowns/
+           checklists gated by email.
+  ENGAGEMENT: interactive case studies, functional in-post widgets, command
+           palette exploration, fast premium feel.
+  FUNNEL: every page has one clear next step; magnets -> email -> nurture ->
+           booking/checkout; sticky + exit-intent tuned by data.
+  DESIGN 100/100: unified tokens (done), editorial polish, depth/motion,
+           designed states, AA accessibility, top-tier performance.
+  HONESTY: real proof only; the differentiator is verifiable truth.
+
+-------------------------------------------------------------------------------
+14. DAILY CONTENT ENGINE — STANDARD OPERATING PROCEDURE
+-------------------------------------------------------------------------------
+WEEKLY RHYTHM (adjust to capacity; consistency > volume):
+  MON  Plan: pick 1-2 topics from the keyword map + backlog.
+  TUE  Draft: write the deep post / case study (use a template).
+  WED  Enrich: diagrams, code, structured data, internal links, OG image.
+  THU  Ship + index: publish, ping GSC, add to sitemap (automatic), QA.
+  FRI  Distribute: LinkedIn post + thread + newsletter blurb (+ optional video).
+  ONGOING: reply/engage on distribution; log metrics.
+
+PER-POST CHECKLIST:
+  [ ] Mapped to a keyword + a pillar/cluster.
+  [ ] Unique title + meta + H1; one clear search intent.
+  [ ] BlogPosting/Article schema + per-post OG.
+  [ ] >=2 internal links in, >=2 out (to a money page + a related post).
+  [ ] One in-content lead magnet / CTA.
+  [ ] Honest, specific, genuinely useful (no filler, no fake claims).
+  [ ] Repurposed to >=1 off-site channel.
+
+-------------------------------------------------------------------------------
+15. 90-DAY EXECUTION CALENDAR (INDICATIVE)
+-------------------------------------------------------------------------------
+  WEEKS 1-2  Program D (GA4 + GSC + funnels) + Program A1/A2 (sitemap, schema,
+             price fix). [Unblock: Supabase + Stripe + GA4 IDs.]
+  WEEKS 3-4  Program A3/A4/A5 (on-page, programmatic, CWV) + Program E2 (admin
+             leads inbox).
+  WEEKS 5-7  Program B (blog redesign, MDX components, topic hubs) + start the
+             weekly content cadence (Program F repurposing).
+  WEEKS 8-10 Program C (project showcase + editorial design pass + interactive).
+  WEEKS 11-12 Program E (real proof live, CRO/A-B), polish to 100/100, full
+             Lighthouse/CWV/accessibility/cross-browser pass.
+  CONTINUOUS Programs D/E/F + daily/weekly content engine.
+
+-------------------------------------------------------------------------------
+16. THE 100/100 SCORECARD (EVERY CATEGORY)
+-------------------------------------------------------------------------------
+  DESIGN              ___/100  tokens, hierarchy, motion, states, premium feel
+  PERFORMANCE/CWV     ___/100  LCP/INP/CLS green, fast = premium
+  ACCESSIBILITY       ___/100  WCAG AA, keyboard, reduced-motion
+  SEO TECHNICAL       ___/100  sitemap, schema, canonical, indexability
+  SEO CONTENT         ___/100  clusters, rankings, useful depth
+  CONVERSION/CRO      ___/100  instrumented funnel, clear CTAs, checkout
+  CONTENT ENGINE      ___/100  cadence, quality, repurposing
+  ANALYTICS           ___/100  GA4 + PostHog + GSC, attribution
+  PROOF/CREDIBILITY   ___/100  real named proof, references, honesty
+  BRAND/DISTRIBUTION  ___/100  off-site presence, links, branded search
+  Re-score monthly. "100/100 everywhere" = every row green + KPIs trending up.
+
+-------------------------------------------------------------------------------
+17. WHAT YOU MUST PROVIDE (DEPENDENCIES / BLOCKERS)
+-------------------------------------------------------------------------------
+  [YOU] Valid Supabase ACCESS TOKEN (sbp_...) or the 3 runtime keys
+        (URL + anon + service-role) — to apply migrations + verify lead capture.
+        (The token sent on 2026-06-13 was rejected by the Management API.)
+  [YOU] Stripe keys (secret + webhook secret + publishable) to verify checkout
+        end-to-end in test mode.
+  [YOU] GA4 Measurement ID (G-XXXXXXXXXX) for Program D.
+  [YOU] Google Search Console + Bing verification access.
+  [YOU] 1-3 REAL, named testimonials / a metrics-backed case study (Program E1)
+        — the single biggest closing lever; cannot be automated.
+  [YOU] Approval of any new public copy/claims.
+  NOTE: Rotate any secrets shared in chat after use.
+
+-------------------------------------------------------------------------------
+18. RISKS & GUARDRAILS
+-------------------------------------------------------------------------------
+  - HONESTY IS THE MOAT: one fake claim undermines the entire "receipts" brand.
+    Every number, quote, and logo must be true + permissioned.
+  - NO THEATRE: interactivity and viz must do real work; institutional-grade
+    only; no decorative gimmicks.
+  - DON'T SHIP ON A BROKEN FOUNDATION: keep the design-token + motion system as
+    the single source of truth; no new dual systems.
+  - MEASURE BEFORE OPTIMIZING: let GA4/PostHog tell you the weakest link.
+  - PROTECT PERFORMANCE: every feature must hold CWV budgets.
+  - SECURITY: validate all inputs (the SEO-audit SSRF guard is the template);
+    never expose secrets to the client bundle.
+
+===============================================================================
+ END — This is a living document. Update task checkboxes and the scorecard as
+ you go. Next action: green-light Program D (analytics) + Program A (SEO), and
+ supply the §17 dependencies.
+===============================================================================

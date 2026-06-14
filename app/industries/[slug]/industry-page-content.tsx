@@ -224,9 +224,11 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
                       <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed mb-3">
                         {cs.tagline}
                       </p>
-                      <CtaLink href={`/work/${cs.slug}`} variant="text" arrow>
-                        Read case study
-                      </CtaLink>
+                      {/* span — not a link; the wrapping <Link> already covers navigation */}
+                      <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] group-hover:text-[#0ED3CF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]">
+                        <span>Read case study</span>
+                        <span aria-hidden>→</span>
+                      </span>
                     </Surface>
                   </Link>
                 </Reveal>

@@ -12,6 +12,9 @@ export const EVENT_NAMES = [
   'booking_click',
   'newsletter_signup',
   'decision_tree_complete',
+  'work_archive_lab_click',
+  'case_study_cta_primary',
+  'case_study_cta_secondary',
 ] as const
 
 export type EventName = (typeof EVENT_NAMES)[number]
@@ -32,6 +35,9 @@ type Payloads = {
   booking_click: { location: string }
   newsletter_signup: { source: string }
   decision_tree_complete: { stage: string; pain: string }
+  work_archive_lab_click: Record<string, never>
+  case_study_cta_primary: { slug?: string }
+  case_study_cta_secondary: { slug?: string }
 }
 
 export function trackEvent<E extends EventName>(name: E, props: Payloads[E]): void {

@@ -3,6 +3,7 @@ import { createHash } from 'crypto'
 import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
+import { captureLead } from '@/lib/leads/capture'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -125,6 +126,18 @@ export async function POST(request: NextRequest) {
     } catch (e) {
       console.error('[inquiry] supabase exception', e)
     }
+
+    // Persist lead — best-effort, does not affect the Resend flow below.
+    // notify: false because this route already sends its own richer emails.
+    await captureLead({
+      source: 'contact',
+      email,
+      name,
+      detail: scope,
+      inquiryType: engagement_type,
+      budget: budget_band || undefined,
+      notify: false,
+    })
 
     // Resend: notification to studio + confirmation to inquirer
     const resendKey = process.env.RESEND_API_KEY

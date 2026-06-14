@@ -181,7 +181,7 @@ test('event name registry is the closed set', async () => {
   assert.equal(isValidEvent('cta_click'), true);
 
   // Exact count guard — update this when adding new events
-  assert.equal(EVENT_NAMES.length, 11);
+  assert.equal(EVENT_NAMES.length, 14);
 
   // Every expected event must be present
   const expected = [

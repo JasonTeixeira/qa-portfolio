@@ -6,11 +6,8 @@ import {
   extendedTiersBySlug,
   type ExtendedTier,
 } from '@/data/services/extended'
-import { TierPageContent } from './tier-page-content'
 import { FlagshipPageContent } from './flagship-page-content'
-import { TierAPage } from '@/components/services/templates/tier-a-page'
-import { TierBPage } from '@/components/services/templates/tier-b-page'
-import { TierCPage } from '@/components/services/templates/tier-c-page'
+import { ServiceDetail } from '@/components/el/services'
 import { getServiceTier } from '@/data/services/tier-classification'
 import { StickyCta } from '@/components/sticky-cta'
 import { ServiceViewTracker } from '@/components/analytics/service-view-tracker'
@@ -137,14 +134,8 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
             <ServiceViewTracker slug={tier.slug} />
             {serviceTier === 'flagship' ? (
               <FlagshipPageContent tier={tier as ExtendedTier} />
-            ) : serviceTier === 'A' ? (
-              <TierAPage tier={tier} />
-            ) : serviceTier === 'B' ? (
-              <TierBPage tier={tier} />
-            ) : serviceTier === 'C' ? (
-              <TierCPage tier={tier} />
             ) : (
-              <TierPageContent tier={tier} />
+              <ServiceDetail tier={tier} />
             )}
           </>
         )

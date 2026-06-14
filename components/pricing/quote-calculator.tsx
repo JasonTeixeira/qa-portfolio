@@ -1,16 +1,16 @@
 'use client'
 
-// Phase 9: Terminal-style interactive quote calculator.
-// Lives at the top of /pricing. Lets a prospect type or click their way to a
-// real-time estimate — no spreadsheet, no "request a quote", just a number.
+// Interactive scope estimator, restyled to Engineered Luxury.
+// Lives on /pricing. Lets a prospect click their way to a real-time estimate.
+// The pricing rules are unchanged from the prior version — derived from real
+// engagement averages over the last 18 months.
 
 import { useState, useMemo } from 'react'
-import { ArrowRight, Check } from 'lucide-react'
 import Link from 'next/link'
+import { Surface, MonoLabel, Hairline } from '@/components/el'
 
 // ────────────────────────────────────────────────────────────────────
 // Scope parameters & pricing rules
-// All numbers are derived from real engagement averages over the last 18 months.
 // ────────────────────────────────────────────────────────────────────
 
 type Engagement = 'audit' | 'sprint' | 'build' | 'retainer'
@@ -73,199 +73,181 @@ export function QuoteCalculator() {
   const totalLabel = isRetainer ? `$${total.toLocaleString()}/mo` : `$${total.toLocaleString()}`
 
   return (
-    <section className="relative">
-      <div className="rounded-2xl border border-[#2A2826] bg-[#0B0A09] overflow-hidden">
-        {/* Terminal header */}
-        <header className="flex items-center justify-between px-4 sm:px-5 py-2.5 border-b border-[#2A2826] bg-[#12110F]">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#E85D3A]/70" aria-hidden />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#A8C633]/60" aria-hidden />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#0ED3CF]/70" aria-hidden />
-            <span className="ml-3 text-[11px] font-mono text-[#A8A29E]">~/sage/scope.sh</span>
-          </div>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#57534E]">interactive</span>
-        </header>
+    <Surface level={2} className="overflow-hidden">
+      <div className="grid lg:grid-cols-[1.2fr_1fr]">
+        {/* Inputs */}
+        <div className="space-y-6 border-b border-[var(--sage-border)] p-6 sm:p-8 lg:border-b-0 lg:border-r">
+          <FieldSet label="engagement_type">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {(Object.keys(ENGAGEMENT_BASE) as Engagement[]).map((e) => (
+                <Pill
+                  key={e}
+                  active={scope.engagement === e}
+                  onClick={() => setScope({ ...scope, engagement: e, weeks: ENGAGEMENT_BASE[e].min })}
+                  label={ENGAGEMENT_BASE[e].label}
+                />
+              ))}
+            </div>
+            <Caption>
+              {'// '}
+              {eng.verb}() · from ${eng.base.toLocaleString()}
+            </Caption>
+          </FieldSet>
 
-        <div className="grid lg:grid-cols-[1.2fr_1fr]">
-          {/* Inputs */}
-          <div className="p-5 sm:p-7 space-y-6 border-r border-[#2A2826]">
-            {/* Engagement type */}
-            <FieldSet label="engagement_type">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(Object.keys(ENGAGEMENT_BASE) as Engagement[]).map((e) => (
-                  <Pill
-                    key={e}
-                    active={scope.engagement === e}
-                    onClick={() => setScope({ ...scope, engagement: e, weeks: ENGAGEMENT_BASE[e].min })}
-                    label={ENGAGEMENT_BASE[e].label}
-                  />
-                ))}
-              </div>
-              <Caption>
-                {'// '}
-                {eng.verb}() · from ${eng.base.toLocaleString()}
-              </Caption>
-            </FieldSet>
-
-            {/* Weeks (only when not retainer) */}
-            {!isRetainer && (
-              <FieldSet label={`scope_weeks (${eng.min}–${eng.max})`}>
-                <div className="flex items-center gap-4">
-                  <input
-                    type="range"
-                    min={eng.min}
-                    max={eng.max}
-                    value={scope.weeks}
-                    onChange={(e) => setScope({ ...scope, weeks: Number(e.target.value) })}
-                    className="flex-1 accent-[#0ED3CF] h-1.5"
-                    aria-label="Scope in weeks"
-                  />
-                  <span className="text-[#0ED3CF] font-mono text-sm w-16 text-right">
-                    {scope.weeks} {scope.weeks === 1 ? 'wk' : 'wks'}
-                  </span>
-                </div>
-              </FieldSet>
-            )}
-
-            {/* Timeline */}
-            <FieldSet label="timeline">
-              <div className="grid grid-cols-3 gap-2">
-                {(Object.keys(TIMELINE_MULT) as Timeline[]).map((t) => (
-                  <Pill
-                    key={t}
-                    active={scope.timeline === t}
-                    onClick={() => setScope({ ...scope, timeline: t })}
-                    label={TIMELINE_MULT[t].label}
-                  />
-                ))}
-              </div>
-              <Caption>
-                {'// '}
-                {TIMELINE_MULT[scope.timeline].note}
-              </Caption>
-            </FieldSet>
-
-            {/* AI need */}
-            <FieldSet label="ai_surface">
-              <div className="grid grid-cols-3 gap-2">
-                {(Object.keys(AI_ADD) as AiNeed[]).map((a) => (
-                  <Pill
-                    key={a}
-                    active={scope.ai === a}
-                    onClick={() => setScope({ ...scope, ai: a })}
-                    label={AI_ADD[a].label}
-                  />
-                ))}
-              </div>
-              <Caption>
-                {'// '}
-                {AI_ADD[scope.ai].note}
-              </Caption>
-            </FieldSet>
-
-            {/* Integrations */}
-            <FieldSet label="integrations (Stripe, Supabase, OAuth, etc.)">
+          {!isRetainer && (
+            <FieldSet label={`scope_weeks (${eng.min}–${eng.max})`}>
               <div className="flex items-center gap-4">
                 <input
                   type="range"
-                  min={0}
-                  max={8}
-                  value={scope.integrations}
-                  onChange={(e) => setScope({ ...scope, integrations: Number(e.target.value) })}
-                  className="flex-1 accent-[#0ED3CF] h-1.5"
-                  aria-label="Number of third-party integrations"
+                  min={eng.min}
+                  max={eng.max}
+                  value={scope.weeks}
+                  onChange={(e) => setScope({ ...scope, weeks: Number(e.target.value) })}
+                  className="h-1.5 flex-1 accent-[#0ED3CF]"
+                  aria-label="Scope in weeks"
                 />
-                <span className="text-[#0ED3CF] font-mono text-sm w-16 text-right">
-                  {scope.integrations} svc
+                <span className="w-16 text-right text-sm text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  {scope.weeks} {scope.weeks === 1 ? 'wk' : 'wks'}
                 </span>
               </div>
             </FieldSet>
+          )}
 
-            {/* QA */}
-            <FieldSet label="qa_coverage">
-              <button
-                type="button"
-                onClick={() => setScope({ ...scope, withQa: !scope.withQa })}
-                aria-pressed={scope.withQa}
-                className={`w-full flex items-center justify-between rounded-lg border px-4 py-2.5 text-left transition-colors ${
-                  scope.withQa
-                    ? 'border-[#0ED3CF]/60 bg-[#0ED3CF]/10 text-[#0ED3CF]'
-                    : 'border-[#2A2826] bg-[#12110F] text-[#A8A29E] hover:border-[#3D3A37]'
-                }`}
-              >
-                <span className="text-sm font-mono">
-                  {scope.withQa ? '[x]' : '[ ]'} include full QA suite (+12%)
-                </span>
-                {scope.withQa && <Check className="h-4 w-4" />}
-              </button>
-              <Caption>{'// playwright, contract tests, lighthouse, axe, pact'}</Caption>
-            </FieldSet>
-          </div>
-
-          {/* Output */}
-          <div className="p-5 sm:p-7 bg-gradient-to-br from-[#0B0A09] via-[#0F0E0D] to-[#0B0A09] flex flex-col">
-            <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#0ED3CF] mb-2">
-              {'// scope.estimate()'}
+          <FieldSet label="timeline">
+            <div className="grid grid-cols-3 gap-2">
+              {(Object.keys(TIMELINE_MULT) as Timeline[]).map((t) => (
+                <Pill
+                  key={t}
+                  active={scope.timeline === t}
+                  onClick={() => setScope({ ...scope, timeline: t })}
+                  label={TIMELINE_MULT[t].label}
+                />
+              ))}
             </div>
-            <div
-              className="text-5xl sm:text-6xl font-normal text-[#F4F2EF] leading-none tracking-tight sage-text-bloom-cyan"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              {totalLabel}
+            <Caption>
+              {'// '}
+              {TIMELINE_MULT[scope.timeline].note}
+            </Caption>
+          </FieldSet>
+
+          <FieldSet label="ai_surface">
+            <div className="grid grid-cols-3 gap-2">
+              {(Object.keys(AI_ADD) as AiNeed[]).map((a) => (
+                <Pill
+                  key={a}
+                  active={scope.ai === a}
+                  onClick={() => setScope({ ...scope, ai: a })}
+                  label={AI_ADD[a].label}
+                />
+              ))}
             </div>
-            <p className="mt-3 text-xs text-[#A8A29E] leading-relaxed">
-              Estimate based on real engagements. Final number is fixed on signature, with a written kill switch
-              if anything changes.
-            </p>
+            <Caption>
+              {'// '}
+              {AI_ADD[scope.ai].note}
+            </Caption>
+          </FieldSet>
 
-            {/* Breakdown */}
-            <ul className="mt-6 space-y-1.5 text-[12px] font-mono text-[#A8A29E]">
-              <li className="flex justify-between">
-                <span>base · {eng.label}</span>
-                <span className="text-[#D4D4D8]">${eng.base.toLocaleString()}</span>
-              </li>
-              {!isRetainer && (
-                <li className="flex justify-between">
-                  <span>scope · {scope.weeks} wk</span>
-                  <span className="text-[#D4D4D8]">×{(scope.weeks / Math.max(1, eng.min)).toFixed(1)}</span>
-                </li>
-              )}
-              <li className="flex justify-between">
-                <span>timeline · {TIMELINE_MULT[scope.timeline].label}</span>
-                <span className="text-[#D4D4D8]">×{TIMELINE_MULT[scope.timeline].mult.toFixed(2)}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>ai · {AI_ADD[scope.ai].label}</span>
-                <span className="text-[#D4D4D8]">+${AI_ADD[scope.ai].add.toLocaleString()}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>integrations · {scope.integrations}</span>
-                <span className="text-[#D4D4D8]">+${(scope.integrations * 600).toLocaleString()}</span>
-              </li>
-              {scope.withQa && (
-                <li className="flex justify-between">
-                  <span>qa_suite</span>
-                  <span className="text-[#D4D4D8]">+12%</span>
-                </li>
-              )}
-            </ul>
-
-            <div className="mt-auto pt-6 flex flex-col gap-2">
-              <Link
-                href={`/contact?engagement=${scope.engagement}&estimate=${total}`}
-                className="sage-neon-cta sage-bloom-cyan inline-flex items-center justify-center gap-2 h-11 px-5 rounded-md bg-[#0ED3CF] text-[#09090B] font-semibold uppercase tracking-wide [font-family:var(--font-mono),ui-monospace,monospace] text-sm hover:bg-[#0AA8A5] transition-colors"
-              >
-                ./book --estimate
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <span className="text-[10px] font-mono text-[#57534E] text-center">
-                {'// the number above is what you pay. fixed at signature.'}
+          <FieldSet label="integrations (Stripe, Supabase, OAuth, etc.)">
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min={0}
+                max={8}
+                value={scope.integrations}
+                onChange={(e) => setScope({ ...scope, integrations: Number(e.target.value) })}
+                className="h-1.5 flex-1 accent-[#0ED3CF]"
+                aria-label="Number of third-party integrations"
+              />
+              <span className="w-16 text-right text-sm text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                {scope.integrations} svc
               </span>
             </div>
+          </FieldSet>
+
+          <FieldSet label="qa_coverage">
+            <button
+              type="button"
+              onClick={() => setScope({ ...scope, withQa: !scope.withQa })}
+              aria-pressed={scope.withQa}
+              className={`flex w-full items-center justify-between rounded-[3px] border px-4 py-2.5 text-left transition-colors ${
+                scope.withQa
+                  ? 'border-[#0ED3CF]/50 bg-[#0ED3CF]/[0.08] text-[#0ED3CF]'
+                  : 'border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] hover:border-[var(--sage-border-hover)]'
+              }`}
+            >
+              <span className="text-sm [font-family:var(--font-mono),ui-monospace,monospace]">
+                {scope.withQa ? '[x]' : '[ ]'} include full QA suite (+12%)
+              </span>
+            </button>
+            <Caption>{'// playwright, contract tests, lighthouse, axe, pact'}</Caption>
+          </FieldSet>
+        </div>
+
+        {/* Output */}
+        <div className="flex flex-col bg-[var(--sage-surface-1)] p-6 sm:p-8">
+          <MonoLabel tone="accent">{'// scope.estimate()'}</MonoLabel>
+          <div
+            className="mt-3 text-[clamp(2.5rem,1.5rem+3vw,3.75rem)] leading-none tabular-nums tracking-tight text-[var(--sage-ink)]"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {totalLabel}
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-[var(--sage-ink-muted)]">
+            Estimate based on real engagements. The final number is fixed on signature, with a
+            written kill switch if scope changes mid-flight.
+          </p>
+
+          <Hairline className="my-5" />
+
+          {/* Breakdown */}
+          <ul className="space-y-1.5 text-[12px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
+            <li className="flex justify-between">
+              <span>base · {eng.label}</span>
+              <span className="text-[var(--sage-ink)]">${eng.base.toLocaleString()}</span>
+            </li>
+            {!isRetainer && (
+              <li className="flex justify-between">
+                <span>scope · {scope.weeks} wk</span>
+                <span className="text-[var(--sage-ink)]">×{(scope.weeks / Math.max(1, eng.min)).toFixed(1)}</span>
+              </li>
+            )}
+            <li className="flex justify-between">
+              <span>timeline · {TIMELINE_MULT[scope.timeline].label}</span>
+              <span className="text-[var(--sage-ink)]">×{TIMELINE_MULT[scope.timeline].mult.toFixed(2)}</span>
+            </li>
+            <li className="flex justify-between">
+              <span>ai · {AI_ADD[scope.ai].label}</span>
+              <span className="text-[var(--sage-ink)]">+${AI_ADD[scope.ai].add.toLocaleString()}</span>
+            </li>
+            <li className="flex justify-between">
+              <span>integrations · {scope.integrations}</span>
+              <span className="text-[var(--sage-ink)]">+${(scope.integrations * 600).toLocaleString()}</span>
+            </li>
+            {scope.withQa && (
+              <li className="flex justify-between">
+                <span>qa_suite</span>
+                <span className="text-[var(--sage-ink)]">+12%</span>
+              </li>
+            )}
+          </ul>
+
+          <div className="mt-auto flex flex-col gap-2 pt-6">
+            <Link
+              href={`/contact?engagement=${scope.engagement}&estimate=${total}`}
+              className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] active:translate-y-px"
+            >
+              <span>./book --estimate</span>
+              <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">
+                →
+              </span>
+            </Link>
+            <span className="text-center text-[10px] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
+              {'// the number above is what you pay. fixed at signature.'}
+            </span>
           </div>
         </div>
       </div>
-    </section>
+    </Surface>
   )
 }
 
@@ -276,10 +258,10 @@ export function QuoteCalculator() {
 function FieldSet({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#57534E] mb-2">
+      <MonoLabel tone="faint" as="div" className="mb-2.5">
         {'// '}
         {label}
-      </div>
+      </MonoLabel>
       {children}
     </div>
   )
@@ -291,10 +273,10 @@ function Pill({ active, label, onClick }: { active: boolean; label: string; onCl
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-md border px-3 py-2 text-sm [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide transition-colors ${
+      className={`rounded-[3px] border px-3 py-2 text-sm uppercase tracking-wide transition-colors [font-family:var(--font-mono),ui-monospace,monospace] ${
         active
-          ? 'border-[#0ED3CF]/60 bg-[#0ED3CF]/10 text-[#0ED3CF]'
-          : 'border-[#2A2826] bg-[#12110F] text-[#A8A29E] hover:border-[#3D3A37] hover:text-[#F4F2EF]'
+          ? 'border-[#0ED3CF]/50 bg-[#0ED3CF]/[0.08] text-[#0ED3CF]'
+          : 'border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]'
       }`}
     >
       {label}
@@ -303,5 +285,9 @@ function Pill({ active, label, onClick }: { active: boolean; label: string; onCl
 }
 
 function Caption({ children }: { children: React.ReactNode }) {
-  return <div className="mt-1.5 text-[11px] font-mono text-[#57534E]">{children}</div>
+  return (
+    <div className="mt-1.5 text-[11px] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
+      {children}
+    </div>
+  )
 }

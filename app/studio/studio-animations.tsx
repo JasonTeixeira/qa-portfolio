@@ -44,10 +44,13 @@ const nonServices = [
   'Support-only retainers (helpdesk, ticketing, on-call without a build component)',
 ]
 
+// Every value here must be true + verifiable (honesty guardrail).
+// Live products: see /work. Public repos: github.com/JasonTeixeira (130+ today).
+// Shipping since: GitHub account opened 2020. Certs: see /founder.
 const metrics = [
   { value: '6', label: 'Live products' },
-  { value: '106', label: 'GitHub repos' },
-  { value: '1,438', label: 'Commits / year' },
+  { value: '130+', label: 'Public repos' },
+  { value: '2020', label: 'Shipping since' },
   { value: '9', label: 'Active certs' },
 ]
 

@@ -175,11 +175,13 @@ const honestyItems = [
   },
 ]
 
+// Verifiable, point-in-time facts only (honesty guardrail).
+// github.com/JasonTeixeira: 130+ public repos, 30 followers, account since 2020.
 const openSourceStats = [
-  { value: '106', label: 'Public repositories' },
-  { value: '1,438', label: 'Commits (last 12 months)' },
-  { value: '57', label: 'Pull requests (last 12 months)' },
-  { value: '27', label: 'GitHub followers' },
+  { value: '130+', label: 'Public repositories' },
+  { value: '30', label: 'GitHub followers' },
+  { value: '6', label: 'Live products' },
+  { value: '2020', label: 'Shipping since' },
 ]
 
 // ── Reusable ruled checklist ──────────────────────────────────────────────────

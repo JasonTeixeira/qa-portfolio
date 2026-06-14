@@ -8,11 +8,12 @@ import { GitCommit, GitPullRequest, Star, FolderGit2 } from 'lucide-react'
  * Data is sourced from data/github-stats.ts at build time — not API calls.
  * The animated counters and green dot create a "live system" feeling.
  */
+// Verifiable facts only (honesty guardrail). github.com/JasonTeixeira.
 const stats = [
-  { icon: FolderGit2, value: '106+', label: 'Public Repos' },
-  { icon: GitCommit, value: '1,438', label: 'Commits This Year' },
-  { icon: Star, value: '6', label: 'Live Products' },
-  { icon: GitPullRequest, value: '20+', label: 'Production Builds' },
+  { icon: FolderGit2, value: '130+', label: 'Public repos' },
+  { icon: Star, value: '6', label: 'Live products' },
+  { icon: GitPullRequest, value: '8', label: 'Case studies' },
+  { icon: GitCommit, value: '2020', label: 'Shipping since' },
 ]
 
 export function GitHubActivity() {
@@ -21,11 +22,11 @@ export function GitHubActivity() {
       {/* Live indicator */}
       <div className="flex items-center gap-2">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A8C633] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#A8C633]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0ED3CF] opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0ED3CF]" />
         </span>
         <span className="text-[10px] font-mono uppercase tracking-widest text-[#78716C]">
-          Shipping daily
+          Open on GitHub
         </span>
       </div>
 

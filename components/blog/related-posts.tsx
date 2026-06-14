@@ -41,7 +41,7 @@ export function RelatedPosts({ currentSlug, posts }: RelatedPostsProps) {
   return (
     <div>
       <div className="flex items-center gap-4 mb-8">
-        <MonoLabel tone="accent">// related reading</MonoLabel>
+        <MonoLabel tone="accent">{'// related reading'}</MonoLabel>
         <Hairline className="flex-1" />
         <Link href="/blog">
           <MonoLabel tone="faint" className="hover:text-[var(--sage-ink-muted)] transition-colors">

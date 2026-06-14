@@ -221,7 +221,7 @@ export function TrustContent() {
           >
             <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
             <Hairline className="w-16" />
-            <MonoLabel tone="muted">// evidence</MonoLabel>
+            <MonoLabel tone="muted">{'// evidence'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </motion.div>
 

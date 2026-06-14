@@ -146,7 +146,7 @@ export function StackContent() {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">01</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// stack</MonoLabel>
+            <MonoLabel tone="muted">{'// stack'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h1
@@ -170,7 +170,7 @@ export function StackContent() {
                 <div className="mb-6 flex items-center gap-4 border-t border-[var(--sage-border)] pt-6">
                   <MonoLabel tone="accent">{String(categoryIndex + 1).padStart(2, '0')}</MonoLabel>
                   <Hairline className="flex-1" />
-                  <MonoLabel tone="muted">// {category.name.toLowerCase()}</MonoLabel>
+                  <MonoLabel tone="muted">{'// '}{category.name.toLowerCase()}</MonoLabel>
                   <Hairline className="flex-1" strong />
                 </div>
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

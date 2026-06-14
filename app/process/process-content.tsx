@@ -98,7 +98,7 @@ export function ProcessContent() {
             <div className="mb-7 flex items-center gap-4">
               <MonoLabel tone="accent">01</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// process</MonoLabel>
+              <MonoLabel tone="muted">{'// process'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
             <h1
@@ -184,7 +184,7 @@ export function ProcessContent() {
                     {/* Deliverables */}
                     <Surface level={2} className="p-5">
                       <MonoLabel tone="faint" as="p" className="mb-3">
-                        // deliverables
+                        {'// deliverables'}
                       </MonoLabel>
                       <ul className="space-y-2">
                         {stage.deliverables.map((d) => (

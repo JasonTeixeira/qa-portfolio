@@ -68,7 +68,7 @@ function FooterColumn({
   return (
     <div className={`space-y-4 ${className}`}>
       <MonoLabel tone="faint" as="p" className="text-[10px]">
-        // {title}
+        {'// '}{title}
       </MonoLabel>
       <Hairline />
       <ul className="space-y-1.5">

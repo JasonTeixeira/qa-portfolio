@@ -76,7 +76,7 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
           </span>
           <span className="h-px flex-1 bg-[var(--sage-border)]" aria-hidden />
           <span className="text-[10px] uppercase tracking-[0.24em] text-[var(--sage-ink-faint)]">
-            // sage ideas · studio
+            {'// sage ideas · studio'}
           </span>
         </motion.div>
 

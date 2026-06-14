@@ -64,7 +64,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
             <div className="mb-7 flex items-center gap-4">
               <MonoLabel tone="accent">01</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// industry</MonoLabel>
+              <MonoLabel tone="muted">{'// industry'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
 

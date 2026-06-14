@@ -224,7 +224,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         >
           <div className="mx-auto max-w-3xl px-5 sm:px-8 py-14 sm:py-16">
             <div className="flex items-center gap-4 mb-8">
-              <MonoLabel tone="accent">// next step</MonoLabel>
+              <MonoLabel tone="accent">{'// next step'}</MonoLabel>
               <Hairline className="flex-1" />
             </div>
             <h3

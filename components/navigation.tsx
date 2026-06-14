@@ -344,7 +344,7 @@ function MegaDropdown({
                   <div key={section.title} className="p-5">
                     {/* Mono section label */}
                     <p className="text-[10px] font-[family-name:var(--font-mono)] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)] mb-3.5">
-                      // {section.title}
+                      {'// '}{section.title}
                     </p>
                     <ul className="space-y-0.5">
                       {section.items.map((item) => {
@@ -645,7 +645,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                   <div key={sec}>
                     {/* Mono section label */}
                     <p className="text-[10px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)] px-4 mb-1.5">
-                      // {sec === 'PRIMARY' ? 'Explore' : sec.charAt(0) + sec.slice(1).toLowerCase()}
+                      {'// '}{sec === 'PRIMARY' ? 'Explore' : sec.charAt(0) + sec.slice(1).toLowerCase()}
                     </p>
                     {/* Hairline under label */}
                     <div className="h-px mx-4 bg-[var(--sage-border)] mb-2" />

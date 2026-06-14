@@ -70,7 +70,7 @@ export default async function CompareDetailPage({ params }: Props) {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">01</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// comparison</MonoLabel>
+            <MonoLabel tone="muted">{'// comparison'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h1
@@ -101,7 +101,7 @@ export default async function CompareDetailPage({ params }: Props) {
         <section aria-label="Side by side comparison" className="mb-12">
           <div className="mb-7 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// side by side</MonoLabel>
+            <MonoLabel tone="muted">{'// side by side'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <div className="overflow-hidden rounded-[3px] border border-[var(--sage-border)]">
@@ -171,7 +171,7 @@ export default async function CompareDetailPage({ params }: Props) {
         >
           <div className="mb-7 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// still not sure?</MonoLabel>
+            <MonoLabel tone="muted">{'// still not sure?'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h3 className="text-xl text-[var(--sage-ink)] mb-2" style={HEADING_STYLE}>

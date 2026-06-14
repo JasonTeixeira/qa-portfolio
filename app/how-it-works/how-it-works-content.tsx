@@ -50,7 +50,7 @@ export function HowItWorksContent() {
             <div className="mb-7 flex items-center gap-4">
               <MonoLabel tone="accent">01</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// pipelines</MonoLabel>
+              <MonoLabel tone="muted">{'// pipelines'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
             <h1
@@ -85,7 +85,7 @@ export function HowItWorksContent() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Surface level={1} ticks className="p-6 md:p-10">
             <div className="mb-6 flex items-center gap-3">
-              <MonoLabel tone="accent">// the sage ideas studio journey</MonoLabel>
+              <MonoLabel tone="accent">{'// the sage ideas studio journey'}</MonoLabel>
             </div>
             <Pipeline pipeline={studioJourney} />
           </Surface>

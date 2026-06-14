@@ -35,7 +35,7 @@ export default function LabPage() {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">01</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// products</MonoLabel>
+            <MonoLabel tone="muted">{'// products'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h1
@@ -60,7 +60,7 @@ export default function LabPage() {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">02</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// free tools</MonoLabel>
+            <MonoLabel tone="muted">{'// free tools'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h2
@@ -125,7 +125,7 @@ export default function LabPage() {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">03</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// products</MonoLabel>
+            <MonoLabel tone="muted">{'// products'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h2

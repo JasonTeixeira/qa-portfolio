@@ -318,7 +318,7 @@ function ContactInner() {
         >
           {/* Mono eyebrow */}
           <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
-            // contact · sage ideas studio
+            {'// contact · sage ideas studio'}
           </MonoLabel>
 
           {/* Fraunces display heading */}
@@ -563,7 +563,7 @@ function ContactInner() {
             />
             {/* Privacy note */}
             <Surface level={1} bordered className="p-5">
-              <MonoLabel tone="faint" className="text-[10px] block mb-2">// Privacy</MonoLabel>
+              <MonoLabel tone="faint" className="text-[10px] block mb-2">{'// Privacy'}</MonoLabel>
               <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed">
                 Your info is handled per our{' '}
                 <Link
@@ -604,7 +604,7 @@ function ContactInner() {
               </div>
               <div className="p-5 space-y-3">
                 <Hairline />
-                <MonoLabel tone="faint" className="text-[10px] block">// Who replies</MonoLabel>
+                <MonoLabel tone="faint" className="text-[10px] block">{'// Who replies'}</MonoLabel>
                 <div className="text-[15px] font-medium text-[var(--sage-ink)]">Jason Teixeira</div>
                 <div className="text-[13px] text-[var(--sage-ink-faint)]">Founder · Sage Ideas Studio</div>
                 <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed pt-1">
@@ -632,7 +632,7 @@ function ContactInner() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
-              // what to expect
+              {'// what to expect'}
             </MonoLabel>
             <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
               From inquiry to kickoff,<br />in four steps.
@@ -725,7 +725,7 @@ function SidebarCard({
         <div className="p-1.5 bg-[#0ED3CF]/[0.08] rounded-[2px] border border-[#0ED3CF]/20">
           <Icon className="h-3.5 w-3.5 text-[#0ED3CF]" />
         </div>
-        <MonoLabel tone="faint" className="text-[10px]">// {label}</MonoLabel>
+        <MonoLabel tone="faint" className="text-[10px]">{'// '}{label}</MonoLabel>
       </div>
       <div className="text-[14px] font-medium text-[var(--sage-ink)] mb-2">{title}</div>
       <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed mb-4">{body}</p>

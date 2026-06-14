@@ -71,7 +71,7 @@ export default function ChangelogPage() {
           <div className="mb-7 flex items-center gap-4">
             <MonoLabel tone="accent">01</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// changelog</MonoLabel>
+            <MonoLabel tone="muted">{'// changelog'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h1

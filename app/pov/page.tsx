@@ -144,7 +144,7 @@ export default function POVPage() {
             <div className="mt-4 mb-2 flex items-center gap-4">
               <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// what it means in practice</MonoLabel>
+              <MonoLabel tone="muted">{'// what it means in practice'}</MonoLabel>
             </div>
             <h2
               className="mt-6 text-2xl font-normal text-[var(--sage-ink)] sm:text-3xl"
@@ -189,7 +189,7 @@ export default function POVPage() {
             <div className="mt-8 mb-2 flex items-center gap-4">
               <MonoLabel tone="accent" className="tabular-nums">02</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// the real cost</MonoLabel>
+              <MonoLabel tone="muted">{'// the real cost'}</MonoLabel>
             </div>
             <h2
               className="mt-6 text-2xl font-normal text-[var(--sage-ink)] sm:text-3xl"
@@ -227,7 +227,7 @@ export default function POVPage() {
             <div className="mt-8 mb-2 flex items-center gap-4">
               <MonoLabel tone="accent" className="tabular-nums">03</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// why it matters to you</MonoLabel>
+              <MonoLabel tone="muted">{'// why it matters to you'}</MonoLabel>
             </div>
             <h2
               className="mt-6 text-2xl font-normal text-[var(--sage-ink)] sm:text-3xl"
@@ -262,7 +262,7 @@ export default function POVPage() {
             <div className="mt-8 mb-2 flex items-center gap-4">
               <MonoLabel tone="accent" className="tabular-nums">04</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// on an engagement</MonoLabel>
+              <MonoLabel tone="muted">{'// on an engagement'}</MonoLabel>
             </div>
             <h2
               className="mt-6 text-2xl font-normal text-[var(--sage-ink)] sm:text-3xl"
@@ -292,7 +292,7 @@ export default function POVPage() {
             <div className="mt-8 mb-2 flex items-center gap-4">
               <MonoLabel tone="accent" className="tabular-nums">05</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// the bet</MonoLabel>
+              <MonoLabel tone="muted">{'// the bet'}</MonoLabel>
             </div>
             <h2
               className="mt-6 text-2xl font-normal text-[var(--sage-ink)] sm:text-3xl"
@@ -363,7 +363,7 @@ export default function POVPage() {
         <div className="mx-auto max-w-5xl px-5 sm:px-8">
           <Reveal>
             <div className="mb-7 flex items-center gap-4">
-              <MonoLabel tone="muted">// where this rule shows up in the work</MonoLabel>
+              <MonoLabel tone="muted">{'// where this rule shows up in the work'}</MonoLabel>
               <Hairline className="flex-1" />
             </div>
           </Reveal>

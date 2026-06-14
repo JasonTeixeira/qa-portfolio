@@ -40,7 +40,7 @@ export function InlineNewsletterCTA() {
       aria-label="Newsletter subscription"
     >
       <div className="flex items-center gap-4 mb-6">
-        <MonoLabel tone="accent">// field notes</MonoLabel>
+        <MonoLabel tone="accent">{'// field notes'}</MonoLabel>
         <Hairline className="flex-1" />
       </div>
       <p

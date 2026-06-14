@@ -67,7 +67,7 @@ export function TearsheetContent({ product }: Props) {
 
           <div className="mb-7 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// tearsheet</MonoLabel>
+            <MonoLabel tone="muted">{'// tearsheet'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
 
@@ -112,7 +112,7 @@ export function TearsheetContent({ product }: Props) {
           <Reveal className="mb-16">
             <div className="mb-6 flex items-center gap-4">
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// metrics</MonoLabel>
+              <MonoLabel tone="muted">{'// metrics'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
             <StatDisplay
@@ -126,7 +126,7 @@ export function TearsheetContent({ product }: Props) {
         <Reveal className="mb-14">
           <div className="mb-5 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// why we built it</MonoLabel>
+            <MonoLabel tone="muted">{'// why we built it'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <p className="text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] max-w-3xl">{product.thesis}</p>
@@ -136,7 +136,7 @@ export function TearsheetContent({ product }: Props) {
         <Reveal className="mb-14">
           <div className="mb-5 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// what it does</MonoLabel>
+            <MonoLabel tone="muted">{'// what it does'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <ul className="space-y-3" role="list">
@@ -153,7 +153,7 @@ export function TearsheetContent({ product }: Props) {
         <Reveal className="mb-14">
           <div className="mb-5 flex items-center gap-4">
             <Hairline className="flex-1" />
-            <MonoLabel tone="muted">// stack</MonoLabel>
+            <MonoLabel tone="muted">{'// stack'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -173,7 +173,7 @@ export function TearsheetContent({ product }: Props) {
           <Reveal className="mb-14">
             <div className="mb-5 flex items-center gap-4">
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">// related work</MonoLabel>
+              <MonoLabel tone="muted">{'// related work'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
             <Link

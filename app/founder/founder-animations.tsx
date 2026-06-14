@@ -121,7 +121,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
           >
             <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
             <Hairline className="w-16" />
-            <MonoLabel tone="muted">// principal</MonoLabel>
+            <MonoLabel tone="muted">{'// principal'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </motion.div>
 
@@ -361,7 +361,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
         {/* Education */}
         <Reveal delay={0.1} className="mt-10 max-w-3xl">
           <div className="flex items-center gap-4 mb-5">
-            <MonoLabel tone="muted">// education</MonoLabel>
+            <MonoLabel tone="muted">{'// education'}</MonoLabel>
             <Hairline className="flex-1" />
           </div>
           <div className="flex flex-wrap gap-3">

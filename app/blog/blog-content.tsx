@@ -71,7 +71,7 @@ export function BlogContent() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal>
             <div className="flex items-center gap-4 mb-8">
-              <MonoLabel tone="accent">// field notes</MonoLabel>
+              <MonoLabel tone="accent">{'// field notes'}</MonoLabel>
               <Hairline className="flex-1" />
               <MonoLabel tone="faint">{blogPosts.length} dispatches</MonoLabel>
             </div>
@@ -143,7 +143,7 @@ export function BlogContent() {
                   <span className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[var(--sage-border-strong)]" aria-hidden />
                   <span className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[var(--sage-border-strong)]" aria-hidden />
                   <div>
-                    <MonoLabel tone="faint" className="block mb-5">// tags</MonoLabel>
+                    <MonoLabel tone="faint" className="block mb-5">{'// tags'}</MonoLabel>
                     <div className="flex flex-wrap gap-2">
                       {featuredPost.tags.slice(0, 6).map((tag) => (
                         <span

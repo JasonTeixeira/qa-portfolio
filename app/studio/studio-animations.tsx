@@ -103,7 +103,7 @@ export function StudioAnimations() {
           >
             <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
             <Hairline className="w-16" />
-            <MonoLabel tone="muted">// about the studio</MonoLabel>
+            <MonoLabel tone="muted">{'// about the studio'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </motion.div>
 

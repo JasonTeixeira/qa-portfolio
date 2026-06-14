@@ -101,20 +101,7 @@ export function AgentCostEstimator({
             value={value}
             onChange={(e) => setValue(Number(e.target.value))}
             aria-label={`Volume in ${unitLabel}`}
-            className="w-full h-2 rounded-full appearance-none bg-white/10 outline-none cursor-pointer
-              [&::-webkit-slider-thumb]:appearance-none
-              [&::-webkit-slider-thumb]:w-5
-              [&::-webkit-slider-thumb]:h-5
-              [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-white
-              [&::-webkit-slider-thumb]:shadow-lg
-              [&::-webkit-slider-thumb]:cursor-grab
-              [&::-moz-range-thumb]:w-5
-              [&::-moz-range-thumb]:h-5
-              [&::-moz-range-thumb]:rounded-full
-              [&::-moz-range-thumb]:bg-white
-              [&::-moz-range-thumb]:border-0
-              [&::-moz-range-thumb]:cursor-grab"
+            className="w-full h-2 rounded-full appearance-none bg-white/10 outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-grab [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-grab"
             style={{
               background: `linear-gradient(90deg, ${accent} 0%, ${accent} ${pct}%, rgba(255,255,255,0.08) ${pct}%, rgba(255,255,255,0.08) 100%)`,
             }}

@@ -29,6 +29,12 @@ export async function POST(req: Request) {
   }
   const body = parsed.data;
 
+  // Persistence needs Supabase env. When it's absent (local dev / misconfig),
+  // the beacon is a best-effort no-op — never 500 the Web-Vitals reporter.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return new NextResponse(null, { status: 204 });
+  }
+
   // Authenticated client respects RLS; if no session, fall back to admin
   // since the table has anyone-insert policy (RLS guards reads only).
   let userId: string | null = null;

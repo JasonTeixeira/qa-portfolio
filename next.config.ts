@@ -84,7 +84,7 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://*.sentry.io https://o*.ingest.sentry.io https://va.vercel-scripts.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://*.sentry.io https://*.ingest.sentry.io https://va.vercel-scripts.com",
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "frame-ancestors 'self'",
       "form-action 'self' https://checkout.stripe.com",

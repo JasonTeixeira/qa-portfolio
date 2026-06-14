@@ -78,10 +78,7 @@ export function ProofGrid({
           const inner = (
             <motion.div
               variants={slideUp}
-              className="group relative flex flex-col gap-3 rounded-xl border border-[#2A2826] bg-[#12110F] p-6
-                         transition-colors duration-200
-                         hover:border-[#3D3A37] hover:bg-[#1A1917]
-                         focus-within:border-[#3D3A37]"
+              className="group relative flex flex-col gap-3 rounded-xl border border-[#2A2826] bg-[#12110F] p-6 transition-colors duration-200 hover:border-[#3D3A37] hover:bg-[#1A1917] focus-within:border-[#3D3A37]"
             >
               {/* kind badge */}
               <span className="inline-flex items-center gap-1.5 self-start">
@@ -100,8 +97,7 @@ export function ProofGrid({
 
               {/* label */}
               <p
-                className="text-base font-normal text-[#F4F2EF] leading-snug
-                           group-hover:text-white transition-colors duration-150"
+                className="text-base font-normal text-[#F4F2EF] leading-snug group-hover:text-white transition-colors duration-150"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 {point.label}
@@ -116,8 +112,7 @@ export function ProofGrid({
               {point.href && (
                 <span
                   aria-hidden
-                  className="absolute right-5 bottom-5 text-[#3D3A37] text-xs font-mono
-                             transition-all duration-150 group-hover:text-[#0ED3CF] group-hover:translate-x-0.5"
+                  className="absolute right-5 bottom-5 text-[#3D3A37] text-xs font-mono transition-all duration-150 group-hover:text-[#0ED3CF] group-hover:translate-x-0.5"
                 >
                   →
                 </span>

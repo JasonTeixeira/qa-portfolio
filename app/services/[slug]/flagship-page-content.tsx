@@ -1,28 +1,24 @@
 'use client'
 
+import * as React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { FileText, KeyRound, FlaskConical, Wallet, UserCheck } from 'lucide-react'
 import {
-  ArrowRight,
-  Check,
-  X,
-  Clock,
-  Sparkles,
-  ShieldCheck,
-  Calendar,
-  FileText,
-  Plus,
-  KeyRound,
-  FlaskConical,
-  Wallet,
-  UserCheck,
-} from 'lucide-react'
-import type { Tier } from '@/data/services/tiers'
-import { PageHeroBg } from '@/components/page-hero-bg'
+  Section,
+  Surface,
+  MonoLabel,
+  Hairline,
+  Reveal,
+  CtaLink,
+  StatDisplay,
+  RegistrationTicks,
+} from '@/components/el'
+import { FaqAccordion } from '@/components/el/services/FaqAccordion'
+import { CheckoutButton } from '@/components/studio/checkout-button'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import type { ExtendedTier } from '@/data/services/extended'
 import { flagshipVisuals } from '@/data/services/flagship-visuals'
-import { SectionLabel } from '@/components/section-label'
-import { Button } from '@/components/ui/button'
 import { AgentArchitectureDiagram } from '@/components/agents/agent-architecture-diagram'
 import { AgentDashboardMockup } from '@/components/agents/agent-dashboard-mockup'
 import { AgentCostEstimator } from '@/components/agents/agent-cost-estimator'
@@ -32,345 +28,391 @@ import { AgentFlowDiagrams } from '@/components/diagrams'
 import { RiskReversal } from '@/components/services/risk-reversal'
 import { SampleDeliverable } from '@/components/services/sample-deliverable'
 
-const TRUST_BADGES = [
+// ── Trust signals ──────────────────────────────────────────────────────────
+
+const TRUST_SIGNALS = [
   {
     icon: KeyRound,
     label: 'BYOK',
-    sub: 'Pay LLM providers direct',
+    sub: 'Pay LLM providers direct — no markup on tokens',
   },
   {
     icon: FlaskConical,
     label: 'Eval harness',
-    sub: 'Regressions caught in CI',
+    sub: 'Regressions caught in CI before they reach production',
   },
   {
     icon: Wallet,
     label: 'Spend cap',
-    sub: 'You set the ceiling',
+    sub: 'Hard ceiling you set — no surprise OpenAI invoices',
   },
   {
     icon: UserCheck,
     label: 'Human-in-loop',
-    sub: 'Approval queue, not auto-send',
+    sub: 'Approval queue on every action that touches money or customers',
   },
 ] as const
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.55 },
+// ── Cadence + mode labels ──────────────────────────────────────────────────
+
+const CADENCE_NOTE: Record<string, string> = {
+  'one-time': 'One-time · fixed scope',
+  monthly: 'Monthly retainer · cancel anytime',
+  custom: 'Custom — scoped after discovery',
 }
 
-const cadenceLabel: Record<Tier['cadence'], string> = {
-  'one-time': 'One-time payment',
-  monthly: 'Monthly subscription',
-  custom: 'Custom \u2014 starts after discovery',
+const MODE_NOTE: Record<string, string> = {
+  audit: 'Audit engagement',
+  sprint: 'Sprint engagement',
+  build: 'Build engagement',
+  operate: 'Operate retainer',
 }
 
-const modeLabel: Record<Tier['mode'], string> = {
-  audit: 'Audit',
-  sprint: 'Sprint',
-  build: 'Build',
-  operate: 'Operate',
-}
+// ── Main component ─────────────────────────────────────────────────────────
 
 export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
   const visuals = flagshipVisuals[tier.slug]
-  const accent = visuals?.accent ?? '#22D3EE'
+  const stack = tier.stackChips ?? []
+  const hasAddOns = tier.addOns && tier.addOns.length > 0
+  const showMonthlySuffix = tier.cadence === 'monthly' && !tier.price.includes('/mo')
 
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      {/* Hero */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <PageHeroBg src="/images/services/hero-automate.jpg" />
-        {/* Accent glow */}
+    <div className="overflow-hidden bg-[var(--sage-bg)]">
+
+      {/* ── Identity hero ─────────────────────────────────────────────── */}
+      <section
+        aria-label={`${tier.name} overview`}
+        className="sage-grain relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-28"
+      >
+        {/* Layered depth atmospheres — no flat slab */}
+        <div aria-hidden className="sage-depth pointer-events-none absolute inset-0" />
+        {/* Ruled grid overlay — instrument-panel atmosphere */}
         <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full blur-3xl opacity-20"
-          style={{ backgroundColor: accent }}
-        />
-        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full blur-3xl opacity-10"
-          style={{ backgroundColor: accent }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'linear-gradient(var(--sage-border) 1px, transparent 1px), linear-gradient(90deg, var(--sage-border) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+          }}
         />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
           <motion.div
-            initial={fadeUp.initial}
-            animate={fadeUp.animate}
-            transition={fadeUp.transition}
-            className="max-w-3xl"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
           >
-            <div className="flex items-center gap-2 mb-4 text-xs font-mono uppercase tracking-widest text-[#78716C]">
+            {/* Breadcrumb */}
+            <div className="mb-7 flex items-center gap-3 [font-family:var(--font-mono),ui-monospace,monospace]">
               <Link
                 href="/services"
-                className="hover:text-[#FAFAFA] transition-colors"
+                className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF]"
               >
-                Services
+                services
               </Link>
-              <span>·</span>
-              <span style={{ color: accent }}>AI Flagship</span>
-              <span>·</span>
-              <span className="text-[#A8A29E]">{modeLabel[tier.mode]}</span>
+              <span aria-hidden className="text-[var(--sage-ink-faint)]">/</span>
+              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)]">
+                {tier.capability}
+              </span>
             </div>
 
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-mono uppercase tracking-widest mb-5"
+            {/* Flagship badge row */}
+            <div className="mb-6 flex items-center gap-4">
+              <MonoLabel
+                tone="accent"
+                className="rounded-[3px] border border-[#0ED3CF]/25 bg-[#0ED3CF]/[0.07] px-2.5 py-1"
+              >
+                {'// flagship'}
+              </MonoLabel>
+              <MonoLabel tone="faint">{MODE_NOTE[tier.mode] ?? tier.mode}</MonoLabel>
+              <Hairline className="hidden flex-1 sm:block" strong />
+              <MonoLabel tone="faint" className="hidden sm:inline">
+                01
+              </MonoLabel>
+            </div>
+
+            {/* Heading */}
+            <h1
+              className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(2.5rem,1.4rem+4.2vw,5rem)]"
               style={{
-                borderColor: `${accent}55`,
-                color: accent,
-                backgroundColor: `${accent}10`,
+                fontFamily: 'var(--font-display)',
+                fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                letterSpacing: '-0.026em',
+                lineHeight: 1.0,
               }}
             >
-              <Sparkles className="w-3 h-3" />
-              Flagship engagement
-            </div>
-
-            <h1 className="text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight tracking-tight">
               {tier.name}
             </h1>
+
+            {/* Tagline — Fraunces italic teal */}
             <p
-              className="mt-3 text-xl font-medium"
-              style={{ color: accent }}
+              className="mt-4 max-w-3xl text-xl italic text-[#0ED3CF]"
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               {tier.tagline}
             </p>
-            <p className="mt-5 text-lg text-[#A8A29E] leading-relaxed max-w-2xl">
+
+            {/* Description */}
+            <p className="mt-5 max-w-[64ch] text-[15px] leading-[1.8] text-[var(--sage-ink-muted)] sm:text-base">
               {tier.description}
             </p>
 
-            {/* Price + chips */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-normal text-[#FAFAFA]">
+            {/* Price + meta strip */}
+            <div className="mt-10 flex flex-wrap items-end gap-x-10 gap-y-4">
+              <div className="flex items-baseline gap-2">
+                <span
+                  className="text-[clamp(3rem,1.6rem+3.5vw,4.5rem)] leading-none tabular-nums text-[var(--sage-ink)]"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
                   {tier.price}
                 </span>
-                {tier.cadence === 'monthly' && (
-                  <span className="text-[#78716C] text-base">/mo</span>
+                {showMonthlySuffix && (
+                  <span className="text-lg text-[var(--sage-ink-faint)]">/mo</span>
                 )}
               </div>
-              <span className="inline-flex items-center gap-1.5 text-sm font-mono text-[#A8A29E] bg-[#1A1917] border border-[#2A2826] px-3 py-1 rounded-full">
-                <Clock className="w-3.5 h-3.5" style={{ color: accent }} />
-                {tier.timeline}
-              </span>
-              <span className="text-xs font-mono text-[#78716C] bg-[#2A2826] px-3 py-1 rounded-full">
-                {cadenceLabel[tier.cadence]}
-              </span>
-              <span
-                className="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-full border"
-                style={{
-                  borderColor: `${accent}55`,
-                  color: accent,
-                  backgroundColor: `${accent}10`,
-                }}
-              >
-                Custom pricing on request
-              </span>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="text-[#09090B] font-semibold border-0"
-                style={{ backgroundColor: accent }}
-              >
-                <Link href={tier.ctaHref}>
-                  {tier.cta}
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-[#3D3A37] text-[#A8A29E] hover:border-[#FAFAFA] hover:text-[#FAFAFA] bg-transparent"
-              >
-                <Link href={`/contact?engagement=${tier.slug}&mode=custom`}>
-                  Request custom scope
-                </Link>
-              </Button>
+              <div className="flex flex-col gap-2 pb-1">
+                <MonoLabel tone="muted">{tier.timeline}</MonoLabel>
+                <MonoLabel tone="faint">{CADENCE_NOTE[tier.cadence] ?? tier.cadence}</MonoLabel>
+              </div>
             </div>
 
             {/* Stack chips */}
-            {tier.stackChips && tier.stackChips.length > 0 && (
-              <div className="mt-8 flex flex-wrap gap-1.5">
-                {tier.stackChips.map((chip) => (
+            {stack.length > 0 && (
+              <div className="mt-7 flex flex-wrap gap-2">
+                {stack.map((chip) => (
                   <span
                     key={chip}
-                    className="text-[10.5px] font-mono uppercase tracking-widest text-[#78716C] bg-[#12110F] border border-[#2A2826] px-2.5 py-1 rounded"
+                    className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-2.5 py-1 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]"
                   >
                     {chip}
                   </span>
                 ))}
               </div>
             )}
+
+            {/* Primary CTA */}
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <CheckoutButton tier={tier} variant="primary" />
+              <CtaLink variant="ghost" href={`/contact?engagement=${tier.slug}&mode=custom`}>
+                Request custom scope
+              </CtaLink>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
-        {/* Compare strip — directly under hero */}
-        <FlagshipCompare currentSlug={tier.slug} />
+      {/* ── Flagship comparison strip ──────────────────────────────────── */}
+      <div className="border-t border-[var(--sage-border)]">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 py-12 sm:py-16">
+          <Reveal>
+            <MonoLabel tone="muted" as="div" className="mb-6">
+              {'// compare the flagship suite'}
+            </MonoLabel>
+            <FlagshipCompare currentSlug={tier.slug} />
+          </Reveal>
+        </div>
+      </div>
 
-        {/* Story / positioning */}
-        {visuals?.story && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Why this exists</SectionLabel>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-normal text-[#FAFAFA] max-w-3xl leading-tight">
-              {visuals.story.headline}
-            </h2>
-            <p
-              className="mt-3 text-sm font-mono uppercase tracking-widest"
-              style={{ color: accent }}
-            >
-              {visuals.story.eyebrow}
-            </p>
-            <p className="mt-5 text-lg text-[#A8A29E] leading-relaxed max-w-3xl">
-              {visuals.story.body}
-            </p>
-
-            {/* Trust badges row */}
-            <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl">
-              {TRUST_BADGES.map((badge) => {
-                const Icon = badge.icon
-                return (
-                  <div
-                    key={badge.label}
-                    className="rounded-xl bg-[#12110F] border border-[#2A2826] p-4 hover:border-white/15 transition-colors"
-                  >
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
-                      style={{ backgroundColor: `${accent}1A` }}
-                    >
-                      <Icon className="w-4 h-4" style={{ color: accent }} />
-                    </div>
-                    <div className="text-[#FAFAFA] font-semibold text-sm">
-                      {badge.label}
-                    </div>
-                    <div className="text-[12px] text-[#78716C] mt-0.5 leading-snug">
-                      {badge.sub}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Architecture diagram */}
-        {visuals?.architecture && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>How it works</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              The architecture, end to end
-            </h2>
-            <p className="text-[#A8A29E] mb-6 max-w-2xl">
-              No black boxes. Here\u2019s the actual shape of the system you get \u2014
-              with the guardrails, eval loops, and human approvals where they
-              belong.
-            </p>
-            <AgentArchitectureDiagram
-              title={visuals.architecture.title}
-              subtitle={visuals.architecture.subtitle}
-              nodes={visuals.architecture.nodes}
-              connections={visuals.architecture.connections}
-              accent={accent}
-            />
-          </motion.section>
-        )}
-
-        {/* Voice agent audio cue — only on the voice agent page */}
-        {tier.slug === 'ai-voice-agent' && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Listen in</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              A real call, scripted from a real deployment
-            </h2>
-            <p className="text-[#A8A29E] mb-6 max-w-2xl">
-              No recording, no marketing voice-over. A line-by-line walk-through
-              of how the agent handles a typical inbound — including the moment
-              the caller asks if they’re talking to AI.
-            </p>
-            <VoiceAgentAudioCue accent={accent} />
-          </motion.section>
-        )}
-
-        {/* Use cases grid */}
-        {visuals?.useCases && visuals.useCases.length > 0 && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Where this fits</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-              Real use cases we ship
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {visuals.useCases.map((uc, i) => (
-                <motion.div
-                  key={uc.title}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-5 hover:border-white/20 transition-colors"
+      {/* ── Story / positioning ────────────────────────────────────────── */}
+      {visuals?.story && (
+        <Section
+          index="01"
+          eyebrow="why this exists"
+          ariaLabel="Positioning"
+          heading={
+            <>
+              {visuals.story.headline.split(' ').slice(0, -2).join(' ')}{' '}
+              <span className="italic text-[#0ED3CF]">
+                {visuals.story.headline.split(' ').slice(-2).join(' ')}
+              </span>
+            </>
+          }
+          lede={visuals.story.body}
+          width="max-w-6xl"
+          grain
+        >
+          {/* Trust signals grid */}
+          <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2 lg:grid-cols-4">
+            {TRUST_SIGNALS.map((signal) => {
+              const Icon = signal.icon
+              return (
+                <div
+                  key={signal.label}
+                  className="flex flex-col gap-3 bg-[var(--sage-surface-1)] px-6 py-7"
                 >
-                  <div className="flex items-start gap-2.5">
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: `${accent}1A` }}
-                    >
-                      <Check className="w-4 h-4" style={{ color: accent }} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-[#FAFAFA] mb-1.5 leading-snug">
-                        {uc.title}
-                      </h3>
-                      <p className="text-[13.5px] text-[#A8A29E] leading-snug">
-                        {uc.description}
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-2.5">
+                    <Icon
+                      className="h-4 w-4 shrink-0 text-[#0ED3CF]"
+                      aria-hidden
+                    />
+                    <MonoLabel tone="ink" className="text-[11px]">
+                      {signal.label}
+                    </MonoLabel>
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        )}
+                  <p className="text-[13px] leading-[1.55] text-[var(--sage-ink-muted)]">
+                    {signal.sub}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        </Section>
+      )}
 
-        {/* Dashboard mockup */}
-        {visuals?.dashboard && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Your command center</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              The dashboard you actually use
-            </h2>
-            <p className="text-[#A8A29E] mb-6 max-w-2xl">
-              Every flagship engagement ships with a stylized control panel \u2014
-              live activity, eval pass rate, spend cap, and an approval queue you
-              can act on from your phone.
-            </p>
+      {/* ── Architecture diagram ───────────────────────────────────────── */}
+      {visuals?.architecture && (
+        <Section
+          index="02"
+          eyebrow="how it works"
+          ariaLabel="Architecture"
+          heading={
+            <>
+              The architecture,{' '}
+              <span className="italic text-[#0ED3CF]">end to end.</span>
+            </>
+          }
+          lede="No black boxes. Here's the actual shape of the system you get — with the guardrails, eval loops, and human approvals where they belong."
+          width="max-w-6xl"
+        >
+          <Reveal>
+            <Surface level={1} ticks className="overflow-hidden p-0">
+              <AgentArchitectureDiagram
+                title={visuals.architecture.title}
+                subtitle={visuals.architecture.subtitle}
+                nodes={visuals.architecture.nodes}
+                connections={visuals.architecture.connections}
+                accent="#0ED3CF"
+              />
+            </Surface>
+          </Reveal>
+        </Section>
+      )}
+
+      {/* ── Voice agent demo — slug-gated ─────────────────────────────── */}
+      {tier.slug === 'ai-voice-agent' && (
+        <Section
+          index="03"
+          eyebrow="listen in"
+          ariaLabel="Voice demo"
+          heading={
+            <>
+              A real call,{' '}
+              <span className="italic text-[#0ED3CF]">scripted from a deployment.</span>
+            </>
+          }
+          lede="No recording, no marketing voice-over. A line-by-line walk-through of how the agent handles a typical inbound — including the moment the caller asks if they're talking to AI."
+          width="max-w-6xl"
+        >
+          <Reveal>
+            <VoiceAgentAudioCue accent="#0ED3CF" />
+          </Reveal>
+        </Section>
+      )}
+
+      {/* ── Use cases grid ────────────────────────────────────────────── */}
+      {visuals?.useCases && visuals.useCases.length > 0 && (
+        <Section
+          eyebrow="where this fits"
+          ariaLabel="Use cases"
+          heading={
+            <>
+              Real use cases{' '}
+              <span className="italic text-[#0ED3CF]">we ship.</span>
+            </>
+          }
+          width="max-w-6xl"
+          grain
+        >
+          <ul className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2 lg:grid-cols-3">
+            {visuals.useCases.map((uc, i) => (
+              <Reveal key={uc.title} delay={i * 0.04} className="contents">
+                <li className="flex flex-col gap-3 bg-[var(--sage-surface-1)] px-6 py-7">
+                  <MonoLabel tone="accent" className="tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </MonoLabel>
+                  <h3 className="text-[15px] font-medium text-[var(--sage-ink)] leading-snug">
+                    {uc.title}
+                  </h3>
+                  <p className="text-[13px] leading-[1.6] text-[var(--sage-ink-muted)]">
+                    {uc.description}
+                  </p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {/* ── Outcomes ledger ───────────────────────────────────────────── */}
+      <Section
+        index="04"
+        eyebrow="what you walk away with"
+        ariaLabel="Outcomes"
+        heading={
+          <>
+            The outcome,{' '}
+            <span className="italic text-[#0ED3CF]">not just the output.</span>
+          </>
+        }
+        width="max-w-6xl"
+      >
+        <ul className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2">
+          {tier.outcomes.map((o, i) => (
+            <li
+              key={o}
+              className="flex items-start gap-4 bg-[var(--sage-surface-1)] px-6 py-7"
+            >
+              <MonoLabel tone="accent" className="mt-0.5 shrink-0 tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </MonoLabel>
+              <span className="text-[15px] leading-[1.65] text-[var(--sage-ink)]">{o}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* ── Agent flow diagram ────────────────────────────────────────── */}
+      {AgentFlowDiagrams[tier.slug] && (
+        <Section
+          eyebrow="agent flow"
+          ariaLabel="Agent decision graph"
+          heading={
+            <>
+              How the agent{' '}
+              <span className="italic text-[#0ED3CF]">thinks.</span>
+            </>
+          }
+          lede="The decision graph behind the engagement. Inputs, branches, and the point where a human stays in the loop."
+          width="max-w-6xl"
+          grain
+        >
+          <Reveal>
+            <Surface level={1} ticks className="overflow-hidden p-6 sm:p-8">
+              {(() => {
+                const Flow = AgentFlowDiagrams[tier.slug]
+                return Flow ? <Flow /> : null
+              })()}
+            </Surface>
+          </Reveal>
+        </Section>
+      )}
+
+      {/* ── Dashboard mockup ──────────────────────────────────────────── */}
+      {visuals?.dashboard && (
+        <Section
+          eyebrow="your command center"
+          ariaLabel="Dashboard"
+          heading={
+            <>
+              The dashboard{' '}
+              <span className="italic text-[#0ED3CF]">you actually use.</span>
+            </>
+          }
+          lede="Every flagship engagement ships with a control panel — live activity, eval pass rate, spend cap, and an approval queue you can act on from your phone."
+          width="max-w-6xl"
+        >
+          <Reveal>
             <AgentDashboardMockup
               title={visuals.dashboard.title}
               subtitle={visuals.dashboard.subtitle}
@@ -381,23 +423,27 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               spendUsed={visuals.dashboard.spendUsed}
               spendCap={visuals.dashboard.spendCap}
               pendingApprovals={visuals.dashboard.pendingApprovals}
-              accent={accent}
+              accent="#0ED3CF"
             />
-          </motion.section>
-        )}
+          </Reveal>
+        </Section>
+      )}
 
-        {/* Cost estimator */}
-        {visuals?.costEstimator && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Cost forecast</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-6">
-              Estimate your monthly run cost
-            </h2>
+      {/* ── Cost estimator ────────────────────────────────────────────── */}
+      {visuals?.costEstimator && (
+        <Section
+          eyebrow="cost forecast"
+          ariaLabel="Cost estimator"
+          heading={
+            <>
+              Estimate your{' '}
+              <span className="italic text-[#0ED3CF]">monthly run cost.</span>
+            </>
+          }
+          width="max-w-6xl"
+          grain
+        >
+          <Reveal>
             <AgentCostEstimator
               unitLabel={visuals.costEstimator.unitLabel}
               min={visuals.costEstimator.min}
@@ -408,377 +454,272 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               baseCost={visuals.costEstimator.baseCost}
               title={visuals.costEstimator.title}
               subtitle={visuals.costEstimator.subtitle}
-              accent={accent}
+              accent="#0ED3CF"
             />
-          </motion.section>
-        )}
+          </Reveal>
+        </Section>
+      )}
 
-        {/* What you get */}
-        <motion.section
-          initial={fadeUp.initial}
-          whileInView={fadeUp.animate}
-          viewport={{ once: true }}
-          transition={fadeUp.transition}
+      {/* ── Phases timeline ───────────────────────────────────────────── */}
+      {tier.phases.length > 0 && (
+        <Section
+          index="05"
+          eyebrow="methodology"
+          ariaLabel="Engagement timeline"
+          heading={
+            <>
+              How the engagement{' '}
+              <span className="italic text-[#0ED3CF]">actually runs.</span>
+            </>
+          }
+          lede="Concrete phases, concrete artifacts. You always know where we are and what comes next."
+          width="max-w-6xl"
         >
-          <SectionLabel>Outcomes</SectionLabel>
-          <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-            What you get
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {tier.outcomes.map((outcome, i) => (
-              <motion.div
-                key={outcome}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="flex items-start gap-3 p-4 rounded-xl bg-[#12110F] border border-[#2A2826]"
+          <ol className="space-y-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)]">
+            {tier.phases.map((phase, i) => (
+              <li
+                key={phase.title}
+                className="flex flex-col gap-4 bg-[var(--sage-surface-1)] px-6 py-7 sm:flex-row sm:gap-8"
               >
-                <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ backgroundColor: `${accent}26` }}
-                >
-                  <Check className="w-3.5 h-3.5" style={{ color: accent }} />
-                </div>
-                <span className="text-[#A8A29E] leading-snug">{outcome}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Agent flow diagram */}
-        {AgentFlowDiagrams[tier.slug] && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Agent flow</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              How the agent thinks
-            </h2>
-            <p className="text-[#A8A29E] mb-6 max-w-2xl">
-              The decision graph behind the engagement. Inputs, branches, and the
-              point where a human stays in the loop.
-            </p>
-            <div className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-4 sm:p-6 overflow-hidden">
-              {(() => {
-                const Flow = AgentFlowDiagrams[tier.slug]
-                return Flow ? <Flow /> : null
-              })()}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Phases timeline */}
-        {tier.phases.length > 0 && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Methodology</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              How we run this engagement
-            </h2>
-            <p className="text-[#A8A29E] mb-8 max-w-2xl">
-              Concrete phases, concrete artifacts. You always know where we are
-              and what comes next.
-            </p>
-            <div className="space-y-6">
-              {tier.phases.map((phase, i) => (
-                <motion.div
-                  key={phase.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
-                  className="relative"
-                >
-                  {i < tier.phases.length - 1 && (
-                    <div
-                      className="absolute left-[27px] top-14 bottom-[-24px] w-px"
-                      style={{
-                        background: `linear-gradient(to bottom, ${accent}66, #2A2826)`,
-                      }}
-                    />
-                  )}
-                  <div className="flex gap-4 sm:gap-6">
-                    <div
-                      className="shrink-0 w-14 h-14 rounded-xl bg-[#12110F] border flex flex-col items-center justify-center"
-                      style={{ borderColor: `${accent}4D` }}
-                    >
-                      <Calendar className="w-4 h-4 mb-0.5" style={{ color: accent }} />
-                      <span className="text-[9px] font-mono text-[#78716C] uppercase tracking-tight">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <div className="flex-1 rounded-xl bg-[#12110F] border border-[#2A2826] p-5 sm:p-6">
-                      <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <span
-                          className="text-xs font-mono uppercase tracking-widest px-2 py-0.5 rounded"
-                          style={{
-                            color: accent,
-                            backgroundColor: `${accent}1A`,
-                          }}
-                        >
-                          {phase.label}
-                        </span>
-                        <h3 className="text-lg font-semibold text-[#FAFAFA]">
-                          {phase.title}
-                        </h3>
-                      </div>
-                      <p className="text-[#A8A29E] text-sm leading-relaxed mb-3">
-                        {phase.description}
-                      </p>
-                      {phase.artifacts && phase.artifacts.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[#2A2826]">
-                          {phase.artifacts.map((a) => (
-                            <span
-                              key={a}
-                              className="inline-flex items-center gap-1 text-xs font-mono text-[#78716C] bg-[#1A1917] border border-[#2A2826] px-2 py-0.5 rounded"
-                            >
-                              <FileText className="w-3 h-3" />
-                              {a}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Result metrics */}
-        {tier.resultMetrics.length > 0 && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>By the numbers</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-              Typical results
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tier.resultMetrics.map((m, i) => (
-                <motion.div
-                  key={m.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-6"
-                  style={{
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
-                  }}
-                >
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#78716C]">
-                    {m.context ?? 'Result'}
-                  </div>
-                  <div
-                    className="mt-2 text-3xl font-normal tabular-nums"
-                    style={{ color: '#FAFAFA' }}
+                {/* Phase index + label column */}
+                <div className="flex items-center gap-4 sm:w-52 sm:shrink-0">
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-sm tabular-nums text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                    aria-hidden
                   >
-                    {m.value}
-                  </div>
-                  <div className="text-sm text-[#A8A29E] mt-1">{m.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        )}
+                    {i + 1}
+                  </span>
+                  <MonoLabel tone="muted">{phase.label}</MonoLabel>
+                </div>
 
-        {/* Deliverables / Not Included split */}
-        <motion.section
-          initial={fadeUp.initial}
-          whileInView={fadeUp.animate}
-          viewport={{ once: true }}
-          transition={fadeUp.transition}
-          className="grid lg:grid-cols-2 gap-6"
+                {/* Phase content */}
+                <div className="flex-1">
+                  <h3 className="text-base font-medium text-[var(--sage-ink)]">
+                    {phase.title}
+                  </h3>
+                  <p className="mt-1.5 text-[14px] leading-[1.65] text-[var(--sage-ink-muted)]">
+                    {phase.description}
+                  </p>
+                  {phase.artifacts && phase.artifacts.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2 pt-3 border-t border-[var(--sage-border)]">
+                      {phase.artifacts.map((a) => (
+                        <span
+                          key={a}
+                          className="inline-flex items-center gap-1.5 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                        >
+                          <FileText className="h-3 w-3 shrink-0" aria-hidden />
+                          {a}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Section>
+      )}
+
+      {/* ── Result metrics ────────────────────────────────────────────── */}
+      {tier.resultMetrics.length > 0 && (
+        <Section
+          eyebrow="track record"
+          ariaLabel="Result metrics"
+          heading="Receipts, not promises."
+          width="max-w-6xl"
+          grain
         >
-          <div>
-            <SectionLabel>Deliverables</SectionLabel>
-            <h3 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-5">
-              What ships
-            </h3>
-            <ul className="space-y-2">
+          <StatDisplay
+            stats={tier.resultMetrics.map((m) => ({
+              value: m.value,
+              label: m.context ? `${m.label} · ${m.context}` : m.label,
+            }))}
+          />
+        </Section>
+      )}
+
+      {/* ── Deliverables + Not included ───────────────────────────────── */}
+      <Section
+        index="06"
+        eyebrow="scope"
+        ariaLabel="Deliverables and scope"
+        heading={
+          <>
+            Concrete artifacts you keep —{' '}
+            <span className="italic text-[#0ED3CF]">and what we leave out.</span>
+          </>
+        }
+        lede="Working code, written docs, dashboards your team owns. We also list what this engagement deliberately does not cover, so scope is honest before you sign."
+        width="max-w-6xl"
+      >
+        <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+          {/* Deliverables */}
+          <Surface level={2} ticks className="p-7 sm:p-8">
+            <MonoLabel tone="muted" as="div">
+              {'// deliverables'}
+            </MonoLabel>
+            <ul className="mt-5 space-y-4">
               {tier.deliverables.map((d) => (
-                <li
-                  key={d}
-                  className="flex items-start gap-2.5 text-[#A8A29E] text-[15px] leading-snug"
-                >
-                  <Check
-                    className="w-4 h-4 mt-1 shrink-0"
-                    style={{ color: accent }}
+                <li key={d} className="flex gap-3.5">
+                  <span
+                    aria-hidden
+                    className="mt-[9px] h-px w-4 shrink-0 bg-[#0ED3CF]"
                   />
-                  <span>{d}</span>
+                  <span className="text-[14px] leading-[1.65] text-[var(--sage-ink)]">
+                    {d}
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
+          </Surface>
+
+          {/* Not included */}
           {tier.notIncluded.length > 0 && (
-            <div>
-              <SectionLabel>Not included</SectionLabel>
-              <h3 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-5">
-                Out of scope
-              </h3>
-              <ul className="space-y-2">
-                {tier.notIncluded.map((d) => (
+            <Surface level={1} className="p-7 sm:p-8">
+              <MonoLabel tone="muted" as="div">
+                {'// not included'}
+              </MonoLabel>
+              <ul className="mt-5 space-y-3">
+                {tier.notIncluded.map((n) => (
                   <li
-                    key={d}
-                    className="flex items-start gap-2.5 text-[#78716C] text-[15px] leading-snug"
+                    key={n}
+                    className="flex gap-3.5 text-[13px] leading-[1.55] text-[var(--sage-ink-muted)]"
                   >
-                    <X className="w-4 h-4 mt-1 shrink-0 text-[#57534E]" />
-                    <span>{d}</span>
+                    <span
+                      aria-hidden
+                      className="mt-[8px] h-px w-3 shrink-0 bg-[var(--sage-border-hover)]"
+                    />
+                    <span>{n}</span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </Surface>
           )}
-        </motion.section>
+        </div>
+      </Section>
 
-        {/* Add-ons */}
-        {tier.addOns && tier.addOns.length > 0 && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>Add-ons</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-6">
-              Extend the engagement
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {tier.addOns.map((a, i) => (
-                <motion.div
-                  key={a.name}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-5"
-                >
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <h3 className="font-semibold text-[#FAFAFA]">{a.name}</h3>
-                    <span
-                      className="text-sm font-mono whitespace-nowrap"
-                      style={{ color: accent }}
-                    >
-                      {a.price}
-                    </span>
-                  </div>
-                  <p className="text-sm text-[#A8A29E] leading-snug">
-                    {a.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Sample deliverables */}
-        <SampleDeliverable />
-
-        {/* Risk reversal */}
-        <RiskReversal />
-
-        {/* FAQ */}
-        {tier.faq.length > 0 && (
-          <motion.section
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={{ once: true }}
-            transition={fadeUp.transition}
-          >
-            <SectionLabel>FAQ</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-6">
-              Honest answers
-            </h2>
-            <div className="space-y-3 max-w-3xl">
-              {tier.faq.map((q, i) => (
-                <motion.details
-                  key={q.q}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className="group rounded-xl bg-[#12110F] border border-[#2A2826] p-5 open:border-[#3D3A37]"
-                >
-                  <summary className="flex items-center justify-between gap-3 cursor-pointer list-none">
-                    <span className="font-semibold text-[#FAFAFA]">{q.q}</span>
-                    <Plus className="w-4 h-4 text-[#78716C] shrink-0 transition-transform group-open:rotate-45" />
-                  </summary>
-                  <p className="mt-3 text-[#A8A29E] text-[15px] leading-relaxed">
-                    {q.a}
-                  </p>
-                </motion.details>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Final CTA */}
-        <motion.section
-          initial={fadeUp.initial}
-          whileInView={fadeUp.animate}
-          viewport={{ once: true }}
-          transition={fadeUp.transition}
+      {/* ── Add-ons ───────────────────────────────────────────────────── */}
+      {hasAddOns && (
+        <Section
+          eyebrow="add-ons"
+          ariaLabel="Extend the engagement"
+          heading={
+            <>
+              Extend the{' '}
+              <span className="italic text-[#0ED3CF]">engagement.</span>
+            </>
+          }
+          width="max-w-6xl"
+          grain
         >
-          <div
-            className="rounded-2xl border p-8 sm:p-12 text-center relative overflow-hidden"
-            style={{
-              borderColor: `${accent}33`,
-              background: `radial-gradient(circle at 50% 0%, ${accent}1A, transparent 70%)`,
-            }}
-          >
-            <div className="relative">
-              <ShieldCheck
-                className="w-10 h-10 mx-auto mb-4"
-                style={{ color: accent }}
-              />
-              <h2 className="text-3xl sm:text-4xl font-normal text-[#FAFAFA] max-w-2xl mx-auto leading-tight">
-                Ready to scope this for your business?
-              </h2>
-              <p className="mt-4 text-[#A8A29E] max-w-xl mx-auto">
-                Book a 30-minute discovery call. No pitch deck. We&apos;ll either
-                confirm fit and send a proposal, or tell you straight that this
-                isn&apos;t the right move.
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="text-[#09090B] font-semibold border-0"
-                  style={{ backgroundColor: accent }}
-                >
-                  <Link href={tier.ctaHref}>
-                    {tier.cta}
-                    <ArrowRight className="ml-1 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-[#3D3A37] text-[#A8A29E] hover:border-[#FAFAFA] hover:text-[#FAFAFA] bg-transparent"
-                >
-                  <Link href={`/contact?engagement=${tier.slug}&mode=custom`}>
-                    Request custom pricing
-                  </Link>
-                </Button>
-              </div>
-            </div>
+          <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2">
+            {tier.addOns!.map((addon, i) => (
+              <Reveal key={addon.name} delay={i * 0.05} className="contents">
+                <div className="flex flex-col gap-2.5 bg-[var(--sage-surface-1)] px-6 py-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-[15px] font-medium text-[var(--sage-ink)] leading-snug">
+                      {addon.name}
+                    </h3>
+                    <MonoLabel tone="accent" className="shrink-0 text-[11px]">
+                      {addon.price}
+                    </MonoLabel>
+                  </div>
+                  <p className="text-[13px] leading-[1.55] text-[var(--sage-ink-muted)]">
+                    {addon.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </motion.section>
+        </Section>
+      )}
+
+      {/* ── Sample deliverables ───────────────────────────────────────── */}
+      <div className="border-t border-[var(--sage-border)]">
+        <SampleDeliverable />
       </div>
+
+      {/* ── Risk reversal ─────────────────────────────────────────────── */}
+      <div className="border-t border-[var(--sage-border)]">
+        <RiskReversal />
+      </div>
+
+      {/* ── FAQ ───────────────────────────────────────────────────────── */}
+      {tier.faq.length > 0 && (
+        <Section
+          index="07"
+          eyebrow="questions"
+          ariaLabel="Frequently asked questions"
+          heading="Honest answers."
+          width="max-w-4xl"
+        >
+          <FaqAccordion items={tier.faq} />
+        </Section>
+      )}
+
+      {/* ── Close ─────────────────────────────────────────────────────── */}
+      <section
+        aria-label={`Start ${tier.shortName}`}
+        className="relative isolate overflow-hidden border-t border-[var(--sage-border)] py-24 sm:py-32 sage-grain"
+      >
+        {/* Ruled-grid accent layer */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage:
+              'linear-gradient(var(--sage-border) 1px, transparent 1px), linear-gradient(90deg, var(--sage-border) 1px, transparent 1px)',
+            backgroundSize: '80px 80px',
+          }}
+        />
+        {/* Corner ticks — precision framing */}
+        <div aria-hidden className="pointer-events-none absolute inset-6 sm:inset-10">
+          <RegistrationTicks size={16} color="rgba(14,211,207,0.3)" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-8 text-center">
+          <Reveal>
+            {/* Eyebrow */}
+            <div className="mb-8 flex items-center justify-center gap-4">
+              <Hairline className="hidden w-12 sm:block" />
+              <MonoLabel tone="muted">{'// engage'}</MonoLabel>
+              <Hairline className="hidden w-12 sm:block" />
+            </div>
+
+            <h2
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2rem,1rem+3.5vw,3.5rem)]"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                letterSpacing: '-0.024em',
+                lineHeight: 1.02,
+              }}
+            >
+              Ready to scope{' '}
+              <span className="italic text-[#0ED3CF]">{tier.shortName}?</span>
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-[52ch] text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
+              Book a 30-minute discovery call. No pitch deck. We&apos;ll either confirm fit
+              and send a proposal, or tell you straight that this isn&apos;t the right move.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center gap-4">
+              <CheckoutButton tier={tier} variant="primary" />
+              <CtaLink
+                variant="ghost"
+                href={`/contact?engagement=${tier.slug}&mode=custom`}
+              >
+                Request custom pricing
+              </CtaLink>
+              <CtaLink variant="text" href="/services">
+                ls services/
+              </CtaLink>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
     </div>
   )
 }

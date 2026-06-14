@@ -2,27 +2,31 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Mail, Github, CheckCircle2, Building2, GraduationCap, Award, Calendar } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
-import { Button } from '@/components/ui/button'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+import {
+  Section,
+  Surface,
+  Hairline,
+  MonoLabel,
+  CtaLink,
+  Reveal,
+  StatDisplay,
+} from '@/components/el'
 import { FounderPortrait } from '@/components/founder-portrait'
 import { SocialBadges } from '@/components/founder/social-badges'
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5 },
-}
+// ── Types ────────────────────────────────────────────────────────────────────
 
 interface Props {
   capabilities: string[]
   principles: string[]
 }
 
+// ── Data (inlined so we never cross the server/client boundary with JSX) ─────
+
 const experience = [
   {
+    index: '01',
     role: 'Founder & Principal',
     company: 'Sage Ideas LLC',
     period: '2024–Present',
@@ -30,6 +34,7 @@ const experience = [
       'Founded and operate the studio. Engagements span audits, sprints, builds, and operate retainers across fintech, trades tech, edtech, and developer tooling. Every engagement runs on fixed scope, fixed price, with the deliverable artifacts named before kickoff.',
   },
   {
+    index: '02',
     role: 'Fintech Engineer',
     company: 'HighStrike',
     period: '2021–2026',
@@ -45,10 +50,16 @@ const education = [
 
 const certGroups = [
   {
+    index: 'A',
     provider: 'ISTQB',
-    certs: ['Certified Tester Foundation Level (CTFL)', 'Test Automation Engineer (TAE)', 'Certified Tester AI Testing (CT-AI)'],
+    certs: [
+      'Certified Tester Foundation Level (CTFL)',
+      'Test Automation Engineer (TAE)',
+      'Certified Tester AI Testing (CT-AI)',
+    ],
   },
   {
+    index: 'B',
     provider: 'Amazon Web Services',
     certs: [
       'Cloud Practitioner',
@@ -59,437 +70,434 @@ const certGroups = [
     ],
   },
   {
+    index: 'C',
     provider: 'Cisco',
     certs: ['CCNA (Routing & Switching)'],
   },
 ]
 
+const founderStats = [
+  { value: '5 yr', label: 'Fintech engineering' },
+  { value: '9', label: 'Active certifications' },
+  { value: '2', label: 'B.S. degrees' },
+  { value: '1', label: 'Person on your build' },
+]
+
+const quickFacts = [
+  { label: 'Based', value: 'Orlando, Florida', sub: 'Remote-first, U.S. business hours' },
+  { label: 'Languages', value: 'English · Portuguese · Spanish', sub: 'Native English; fluent in others' },
+  { label: 'Experience', value: '5 yr fintech · 2 yr studio', sub: 'Production systems and operating businesses' },
+  {
+    label: 'Reach',
+    value: 'sage@sageideas.dev',
+    sub: 'Replies within 48 business hours',
+    email: 'sage@sageideas.dev',
+  },
+]
+
+const selectedWork = [
+  { href: '/work/nexural-ecosystem', label: 'Nexural', sub: 'Fintech platform · 185 tables · 69 APIs' },
+  { href: '/work/alphastream', label: 'AlphaStream', sub: 'ML trading signals · 28 models · 7 symbols' },
+  { href: '/work', label: 'View all work', sub: '9 case studies across AI, fintech & cloud' },
+]
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export function FounderAnimations({ capabilities, principles }: Props) {
   return (
     <div>
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <motion.div {...fadeInUp} className="max-w-3xl">
-          <SectionLabel>Founder</SectionLabel>
-          <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-normal text-[#FAFAFA] leading-tight">
-            Jason Teixeira.
-          </h1>
-          <p className="mt-6 text-xl text-[#A8A29E] leading-relaxed font-medium">
-            Fintech engineer. Studio founder. The person on every Sage Ideas engagement — first
-            call, last commit, signed handoff.
-          </p>
-          <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed">
-            Five years inside fintech engineering taught me one thing well: the gap between a
-            product that works in a demo and a product that survives a Stripe webhook retry
-            storm at 2 a.m. is the entire job. Most agencies sell you the demo. The studio that
-            grew out of that experience sells you the part nobody likes building — the
-            idempotency keys, the row-level security, the migrations that don’t lose data, the
-            CI gates that catch the bug before the customer does.
-          </p>
-          <p className="mt-4 text-lg text-[#A8A29E] leading-relaxed">
-            Sage Ideas is one operator by design, not by accident. The person who scopes the
-            work is the person who builds it. There is no offshore bench, no account manager,
-            no “lead consultant” who disappears after the kickoff. You buy the keyboard. That is
-            the whole proposition.
-          </p>
-        </motion.div>
-
-        {/* Headshot + quick facts */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-16 grid md:grid-cols-[320px_1fr] gap-10 lg:gap-14 max-w-5xl items-start"
-        >
-          <div>
-            <FounderPortrait size="lg" priority />
-            <SocialBadges className="mt-5" />
-          </div>
-
-          {/* Quick facts */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="p-4 bg-[#12110F] border border-[#2A2826] rounded-xl">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] mb-2">Based</p>
-              <p className="text-sm text-[#FAFAFA] font-medium">Orlando, Florida</p>
-              <p className="text-xs text-[#78716C] mt-1">Remote-first, U.S. business hours</p>
-            </div>
-            <div className="p-4 bg-[#12110F] border border-[#2A2826] rounded-xl">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] mb-2">Languages</p>
-              <p className="text-sm text-[#FAFAFA] font-medium">English · Portuguese · Spanish</p>
-              <p className="text-xs text-[#78716C] mt-1">Native English; fluent in others</p>
-            </div>
-            <div className="p-4 bg-[#12110F] border border-[#2A2826] rounded-xl">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] mb-2">Experience</p>
-              <p className="text-sm text-[#FAFAFA] font-medium">5 years fintech · 2 years studio</p>
-              <p className="text-xs text-[#78716C] mt-1">Production systems and operating businesses</p>
-            </div>
-            <div className="p-4 bg-[#12110F] border border-[#2A2826] rounded-xl">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] mb-2">Reach</p>
-              <p className="text-sm text-[#FAFAFA] font-medium">
-                <a href="mailto:sage@sageideas.dev" className="text-[#0ED3CF] hover:text-[#22D3EE]">
-                  sage@sageideas.dev
-                </a>
-              </p>
-              <p className="text-xs text-[#78716C] mt-1">Replies within 48 business hours</p>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* The studio approach */}
-      <section className="bg-[#12110F] border-y border-[#2A2826]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <motion.div {...fadeInUp}>
-            <SectionLabel>The Studio Approach</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-8">
-              Why a one-person studio is the offer, not the limitation.
-            </h2>
-            <p className="text-[#A8A29E] text-lg leading-relaxed max-w-3xl mb-10">
-              Most agencies sell you a lead practitioner on the call and hand the work off the moment the contract
-              signs. Sage Ideas does the opposite. The work is the deliverable, and the work is built by the same person
-              who pitched it. That is the whole proposition. Productized tiers exist so engagements start fast, but
-              custom engagements, retainers, and ongoing care are always available.
-            </p>
-          </motion.div>
-
-          <div className="max-w-3xl space-y-3">
-            {principles.map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex items-start gap-3 p-4 bg-[#09090B] border border-[#2A2826] rounded-xl"
-              >
-                <CheckCircle2 className="h-5 w-5 text-[#0ED3CF] mt-0.5 flex-shrink-0" />
-                <span className="text-[#A8A29E]">{p}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Two-track frame */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <motion.div {...fadeInUp}>
-          <SectionLabel>Two Tracks</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-8">
-            How engagements work.
-          </h2>
-        </motion.div>
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+      {/* ── Hero ────────────────────────────────────────────────────────────── */}
+      <section
+        aria-label="Founder"
+        className="relative border-b border-[var(--sage-border)] py-20 sm:py-28 lg:py-36"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          {/* Eyebrow row */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE_OUT_QUINT }}
+            className="mb-8 flex items-center gap-4"
           >
-            <GlowCard className="h-full border-l-2 border-l-[#0ED3CF]">
-              <div className="p-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Building2 className="h-5 w-5 text-[#0ED3CF]" />
-                  <span className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF]">Productized</span>
-                </div>
-                <h3 className="text-xl font-semibold text-[#FAFAFA] mb-3">Audit, Sprint, Build, Operate</h3>
-                <p className="text-[#A8A29E] text-sm leading-relaxed">
-                  Nine fixed-price tiers from $750 audits to multi-month builds. Scope is named, deliverables are
-                  itemized, and timelines are written in. Pick a tier, sign the SOW, ship.
-                </p>
-                <Link
-                  href="/services"
-                  className="mt-4 inline-flex items-center text-[#0ED3CF] hover:text-[#22D3EE] text-sm font-medium transition-colors group"
-                >
-                  See all tiers
-                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </GlowCard>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <GlowCard className="h-full border-l-2 border-l-[#E85D3A]" glowColor="violet">
-              <div className="p-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="h-5 w-5 text-[#E85D3A]" />
-                  <span className="text-xs font-mono uppercase tracking-widest text-[#E85D3A]">Custom & Care</span>
-                </div>
-                <h3 className="text-xl font-semibold text-[#FAFAFA] mb-3">Retainers, custom packages, ongoing care</h3>
-                <p className="text-[#A8A29E] text-sm leading-relaxed">
-                  When the productized tiers don&apos;t fit, we build a custom engagement. Site Care, Brand Care, and
-                  Content Care retainers keep work moving month over month. Open to bespoke scopes — just ask.
-                </p>
-                <Link
-                  href="/contact"
-                  className="mt-4 inline-flex items-center text-[#E85D3A] hover:text-[#A78BFA] text-sm font-medium transition-colors group"
-                >
-                  Start a conversation
-                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </GlowCard>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Background */}
-      <section className="bg-[#12110F] border-y border-[#2A2826]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <motion.div {...fadeInUp}>
-            <SectionLabel>Background</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-10">The background.</h2>
+            <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
+            <Hairline className="w-16" />
+            <MonoLabel tone="muted">// principal</MonoLabel>
+            <Hairline className="flex-1" strong />
           </motion.div>
 
-          {/* Experience */}
-          <div className="space-y-6 max-w-3xl mb-12">
-            {experience.map((exp, i) => (
-              <motion.div
-                key={exp.company}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+          {/* Two-column layout: copy left, portrait right */}
+          <div className="grid gap-16 lg:grid-cols-[1fr_340px] lg:items-start lg:gap-24">
+            {/* Left: headline + bio */}
+            <div>
+              <motion.h1
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
+                className="font-normal text-[var(--sage-ink)] leading-[1.02]"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                  letterSpacing: '-0.024em',
+                  fontSize: 'clamp(3rem, 2rem + 4vw, 5.5rem)',
+                }}
               >
-                <GlowCard>
-                  <div className="p-6">
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <div>
-                        <p className="font-semibold text-[#FAFAFA]">{exp.role}</p>
-                        <p className="text-sm text-[#0ED3CF]">{exp.company}</p>
-                      </div>
-                      <span className="text-xs font-mono text-[#78716C] bg-[#2A2826] px-3 py-1 rounded-full whitespace-nowrap">
-                        {exp.period}
-                      </span>
-                    </div>
-                    <p className="text-sm text-[#A8A29E] leading-relaxed">{exp.summary}</p>
-                  </div>
-                </GlowCard>
+                Jason Teixeira.
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.15 }}
+                className="mt-6 text-lg leading-[1.75] text-[var(--sage-ink-muted)] sm:text-xl"
+              >
+                Fintech engineer. Studio founder. The person on every Sage Ideas
+                engagement — first call, last commit, signed handoff.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.22 }}
+                className="mt-8 space-y-5 text-base leading-[1.75] text-[var(--sage-ink-muted)]"
+              >
+                <p>
+                  Five years inside fintech engineering taught me one thing well: the gap between
+                  a product that works in a demo and a product that survives a Stripe webhook
+                  retry storm at 2 a.m. is the entire job. Most agencies sell you the demo. The
+                  studio that grew out of that experience sells you the part nobody likes
+                  building — the idempotency keys, the row-level security, the migrations that
+                  don&apos;t lose data, the CI gates that catch the bug before the customer does.
+                </p>
+                <p>
+                  Sage Ideas is one operator by design, not by accident. The person who scopes
+                  the work is the person who builds it. There is no offshore bench, no account
+                  manager, no &ldquo;lead consultant&rdquo; who disappears after the kickoff.
+                  You buy the keyboard. That is the whole proposition.
+                </p>
               </motion.div>
-            ))}
-          </div>
 
-          {/* Education */}
-          <motion.div {...fadeInUp}>
-            <div className="flex items-center gap-2 mb-4">
-              <GraduationCap className="h-5 w-5 text-[#0ED3CF]" />
-              <h3 className="text-lg font-semibold text-[#FAFAFA]">Education</h3>
-            </div>
-            <div className="flex flex-wrap gap-3 max-w-3xl">
-              {education.map((edu) => (
-                <div
-                  key={edu.degree}
-                  className="px-4 py-2 bg-[#09090B] border border-[#2A2826] rounded-xl"
-                >
-                  <p className="text-sm font-medium text-[#FAFAFA]">{edu.degree}</p>
-                  <p className="text-xs text-[#78716C]">{edu.school}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.30 }}
+                className="mt-10 flex flex-wrap items-center gap-4"
+              >
+                <CtaLink href="/book" variant="solid" event="founder_book_cta">
+                  Book a call
+                </CtaLink>
+                <CtaLink href="/contact?source=founder" variant="ghost" event="founder_contact_cta">
+                  Send a message
+                </CtaLink>
+              </motion.div>
 
-      {/* Certifications */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <motion.div {...fadeInUp}>
-          <SectionLabel>Certifications</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-3">9 active certifications.</h2>
-          <p className="text-[#A8A29E] mb-10 max-w-2xl">
-            Each one reflects a domain where the studio works. All active and maintained.
-          </p>
-        </motion.div>
-        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl">
-          {certGroups.map((group, i) => (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, ease: EASE_OUT_QUINT, delay: 0.42 }}
+                className="mt-10"
+              >
+                <SocialBadges />
+              </motion.div>
+            </div>
+
+            {/* Right: portrait */}
             <motion.div
-              key={group.provider}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="p-5 bg-[#12110F] border border-[#2A2826] rounded-xl"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.12 }}
+              className="relative lg:sticky lg:top-8"
             >
-              <p className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF] mb-4">{group.provider}</p>
-              <ul className="space-y-2">
-                {group.certs.map((cert) => (
-                  <li key={cert} className="flex items-start gap-2 text-sm text-[#A8A29E]">
-                    <CheckCircle2 className="h-4 w-4 text-[#10B981] mt-0.5 flex-shrink-0" />
-                    {cert}
-                  </li>
-                ))}
-              </ul>
+              <FounderPortrait size="xl" priority />
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Quick facts grid ─────────────────────────────────────────────────── */}
+      <Section
+        index="02"
+        eyebrow="quick facts"
+        heading="The numbers behind the studio."
+        ariaLabel="Quick facts"
+        grain
+      >
+        <div className="space-y-12">
+          {/* Stats instrument panel */}
+          <Reveal>
+            <StatDisplay stats={founderStats} columns={4} />
+          </Reveal>
+
+          {/* Quick fact cards */}
+          <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2 lg:grid-cols-4">
+            {quickFacts.map((f) => (
+              <div key={f.label} className="flex flex-col gap-2 bg-[var(--sage-surface-1)] px-5 py-6">
+                <MonoLabel tone="faint" as="p">{f.label}</MonoLabel>
+                {f.email ? (
+                  <a
+                    href={`mailto:${f.email}`}
+                    className="text-sm font-medium text-[#0ED3CF] hover:text-[#33EBE8] transition-colors"
+                  >
+                    {f.value}
+                  </a>
+                ) : (
+                  <p className="text-sm font-medium text-[var(--sage-ink)]">{f.value}</p>
+                )}
+                <p className="text-xs text-[var(--sage-ink-faint)]">{f.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ── The studio approach ───────────────────────────────────────────────── */}
+      <Section
+        index="03"
+        eyebrow="studio approach"
+        heading={
+          <>
+            Why a one-person studio is the{' '}
+            <em style={{ fontStyle: 'italic' }}>offer</em>, not the limitation.
+          </>
+        }
+        lede="Most agencies sell you a lead practitioner on the call and hand the work off the moment the contract signs. Sage Ideas does the opposite."
+        ariaLabel="Studio approach"
+      >
+        <div className="space-y-3 max-w-3xl">
+          {principles.map((p, i) => (
+            <Reveal key={i} delay={i * 0.06}>
+              <div className="flex items-start gap-5 border-b border-[var(--sage-border)] py-5 last:border-b-0">
+                <MonoLabel tone="accent" className="mt-0.5 shrink-0 tabular-nums">
+                  {String(i + 1).padStart(2, '0')}
+                </MonoLabel>
+                <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)] sm:text-base">
+                  {p}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* What you get on every engagement */}
-      <section className="bg-[#12110F] border-y border-[#2A2826]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <motion.div {...fadeInUp}>
-            <SectionLabel>Capabilities</SectionLabel>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-3">What lands on every engagement.</h2>
-            <p className="text-[#A8A29E] mb-10 max-w-2xl">
-              The studio is intentionally narrow on offer surface and broad on capability. Whatever the engagement —
-              audit, sprint, build, or operate — these are the disciplines on the table.
-            </p>
-          </motion.div>
-          <div className="max-w-3xl space-y-3">
-            {capabilities.map((cap, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex items-start gap-3 p-4 bg-[#09090B] border border-[#2A2826] rounded-xl"
+      {/* ── How engagements work ─────────────────────────────────────────────── */}
+      <Section
+        index="04"
+        eyebrow="engagement tracks"
+        heading="Two ways to start."
+        lede="Nine fixed-price productized tiers for discrete scopes. Custom engagements, retainers, and ongoing care for everything else."
+        ariaLabel="Engagement tracks"
+        grain
+      >
+        <div className="grid gap-4 sm:grid-cols-2 max-w-4xl">
+          <Reveal>
+            <Surface level={2} ticks interactive className="h-full p-8">
+              <MonoLabel tone="accent" as="p" className="mb-5">Track A — Productized</MonoLabel>
+              <h3
+                className="text-xl font-normal text-[var(--sage-ink)] mb-4"
+                style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.015em' }}
               >
-                <CheckCircle2 className="h-5 w-5 text-[#0ED3CF] mt-0.5 flex-shrink-0" />
-                <span className="text-[#A8A29E]">{cap}</span>
-              </motion.div>
+                Audit, Sprint, Build, Operate
+              </h3>
+              <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)] mb-6">
+                Nine fixed-price tiers from $750 audits to multi-month builds. Scope is
+                named, deliverables are itemized, timelines are written in. Pick a tier,
+                sign the SOW, ship.
+              </p>
+              <CtaLink href="/services" variant="text">See all tiers</CtaLink>
+            </Surface>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Surface level={2} ticks interactive className="h-full p-8">
+              <MonoLabel tone="muted" as="p" className="mb-5">Track B — Custom & Care</MonoLabel>
+              <h3
+                className="text-xl font-normal text-[var(--sage-ink)] mb-4"
+                style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.015em' }}
+              >
+                Retainers, custom packages, ongoing care
+              </h3>
+              <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)] mb-6">
+                When the productized tiers don&apos;t fit, we build a custom engagement. Site
+                Care, Brand Care, and Content Care retainers keep work moving month over
+                month. Open to bespoke scopes — just ask.
+              </p>
+              <CtaLink href="/contact" variant="text">Start a conversation</CtaLink>
+            </Surface>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* ── Background / Experience ───────────────────────────────────────────── */}
+      <Section
+        index="05"
+        eyebrow="background"
+        heading="The experience register."
+        ariaLabel="Professional background"
+      >
+        <div className="space-y-4 max-w-3xl">
+          {experience.map((exp) => (
+            <Reveal key={exp.company}>
+              <Surface level={2} className="p-6 sm:p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <div className="min-w-0">
+                    <div className="flex items-baseline gap-3 mb-1">
+                      <MonoLabel tone="accent" className="tabular-nums shrink-0">{exp.index}</MonoLabel>
+                      <h3
+                        className="text-lg font-normal text-[var(--sage-ink)] truncate"
+                        style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}
+                      >
+                        {exp.role}
+                      </h3>
+                    </div>
+                    <MonoLabel tone="muted" as="p">{exp.company}</MonoLabel>
+                  </div>
+                  <MonoLabel tone="faint" className="shrink-0 tabular-nums">{exp.period}</MonoLabel>
+                </div>
+                <Hairline className="my-5" />
+                <p className="text-sm leading-[1.75] text-[var(--sage-ink-muted)]">{exp.summary}</p>
+              </Surface>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Education */}
+        <Reveal delay={0.1} className="mt-10 max-w-3xl">
+          <div className="flex items-center gap-4 mb-5">
+            <MonoLabel tone="muted">// education</MonoLabel>
+            <Hairline className="flex-1" />
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {education.map((edu) => (
+              <Surface key={edu.degree} level={2} className="px-5 py-4">
+                <p className="text-sm font-medium text-[var(--sage-ink)]">{edu.degree}</p>
+                <MonoLabel tone="faint" as="p" className="mt-1">{edu.school}</MonoLabel>
+              </Surface>
             ))}
           </div>
-        </div>
-      </section>
+        </Reveal>
+      </Section>
 
-      {/* How to start */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <motion.div {...fadeInUp}>
-          <SectionLabel>Get Started</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-normal text-[#FAFAFA] mb-10">How to start a conversation.</h2>
-        </motion.div>
-        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl">
-          {[
-            {
-              step: '01',
-              title: 'Send a quick note',
-              body: 'Send a structured inquiry — what you are working on, where it is stuck, what success would look like. Most replies land within 48 business hours.',
-              cta: 'Send a message',
-              href: '/contact?source=founder',
-              external: false,
-              icon: Mail,
-            },
-            {
-              step: '02',
-              title: 'Book a 30-minute intro',
-              body: 'Or skip the email. The intro call is a focused conversation about the problem, the constraints, and which engagement type fits — productized tier, custom scope, or retainer.',
-              cta: 'Book a call',
-              href: '/book',
-              external: false,
-              icon: Calendar,
-            },
-          ].map((step, i) => {
-            const Icon = step.icon
-            return (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+      {/* ── Certifications ────────────────────────────────────────────────────── */}
+      <Section
+        index="06"
+        eyebrow="certifications"
+        heading={<>9 active certifications.</>}
+        lede="Each one reflects a domain where the studio works. All active and maintained."
+        ariaLabel="Certifications"
+        grain
+      >
+        <div className="grid gap-4 sm:grid-cols-3 max-w-4xl">
+          {certGroups.map((group) => (
+            <Reveal key={group.provider}>
+              <Surface level={2} className="p-6 h-full">
+                <div className="flex items-center gap-3 mb-5">
+                  <MonoLabel tone="accent" className="tabular-nums">{group.index}</MonoLabel>
+                  <Hairline className="flex-1" />
+                  <MonoLabel tone="muted">{group.provider}</MonoLabel>
+                </div>
+                <ul className="space-y-3">
+                  {group.certs.map((cert) => (
+                    <li key={cert} className="flex items-start gap-2.5">
+                      <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0ED3CF]" />
+                      <span className="text-sm leading-[1.6] text-[var(--sage-ink-muted)]">{cert}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Surface>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* ── Capabilities ──────────────────────────────────────────────────────── */}
+      <Section
+        index="07"
+        eyebrow="capabilities"
+        heading="What lands on every engagement."
+        lede="The studio is intentionally narrow on offer surface and broad on capability. Whatever the engagement — audit, sprint, build, or operate — these disciplines are on the table."
+        ariaLabel="Capabilities"
+      >
+        <div className="max-w-3xl">
+          {capabilities.map((cap, i) => (
+            <Reveal key={i} delay={i * 0.05}>
+              <div className="flex items-start gap-5 border-b border-[var(--sage-border)] py-4 last:border-b-0">
+                <MonoLabel tone="faint" className="mt-0.5 shrink-0 tabular-nums">
+                  {String(i + 1).padStart(2, '0')}
+                </MonoLabel>
+                <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)]">{cap}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* ── Selected work ────────────────────────────────────────────────────── */}
+      <Section
+        index="08"
+        eyebrow="selected work"
+        heading="Shipped projects."
+        ariaLabel="Selected work"
+        grain
+      >
+        <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-3 max-w-4xl">
+          {selectedWork.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group flex flex-col gap-2 bg-[var(--sage-surface-1)] px-6 py-7 transition-colors hover:bg-[var(--sage-surface-2)]"
+            >
+              <span
+                className="text-base font-normal text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors"
+                style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}
               >
-                <GlowCard className="h-full">
-                  <div className="p-8">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-4xl font-normal text-[#2A2826] font-mono">{step.step}</span>
-                      <Icon className="h-5 w-5 text-[#0ED3CF]" />
-                    </div>
-                    <h3 className="mt-3 text-xl font-semibold text-[#FAFAFA] mb-3">{step.title}</h3>
-                    <p className="text-sm text-[#A8A29E] leading-relaxed mb-6">{step.body}</p>
-                    <Link
-                      href={step.href}
-                      className="inline-flex items-center text-[#0ED3CF] hover:text-[#22D3EE] text-sm font-medium transition-colors group"
-                    >
-                      {step.cta}
-                      <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            )
-          })}
+                {item.label}
+              </span>
+              <MonoLabel tone="faint" as="p">{item.sub}</MonoLabel>
+              <span
+                aria-hidden
+                className="mt-2 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+              >
+                →
+              </span>
+            </Link>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Selected work */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <motion.div {...fadeInUp}>
-          <div className="mt-16 pt-10 border-t border-[#2A2826]">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF] mb-6">
-              Selected work
-            </p>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {[
-                { href: '/work/nexural-ecosystem', label: 'Nexural', sub: 'Fintech platform · 185 tables · 69 APIs' },
-                { href: '/work/alphastream', label: 'AlphaStream', sub: 'ML trading signals · 28 models · 7 symbols' },
-                { href: '/work', label: 'View all work →', sub: '9 case studies across AI, fintech & cloud' },
-              ].map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="group flex flex-col gap-1 rounded-xl border border-[#2A2826] bg-[#12110F] p-4 hover:border-[#0ED3CF]/40 transition-colors"
+      {/* ── Footer CTA ────────────────────────────────────────────────────────── */}
+      <section
+        aria-label="Start a conversation"
+        className="border-t border-[var(--sage-border)] bg-[var(--sage-surface-1)] py-16 sm:py-20"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <Reveal>
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2
+                  className="text-2xl font-normal text-[var(--sage-ink)]"
+                  style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}
                 >
-                  <span className="text-sm font-semibold text-[#F4F2EF] group-hover:text-[#0ED3CF] transition-colors">
-                    {item.label}
-                  </span>
-                  <span className="text-xs text-[#78716C]">{item.sub}</span>
-                </a>
-              ))}
+                  Ready to start?
+                </h2>
+                <p className="mt-2 text-sm text-[var(--sage-ink-muted)]">
+                  Send a note or book a 30-minute intro call. Both work.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <CtaLink href="/contact?source=founder-footer" variant="solid" event="founder_footer_contact">
+                  Send an inquiry
+                </CtaLink>
+                <CtaLink href="/book" variant="ghost" event="founder_footer_book">
+                  Book a call
+                </CtaLink>
+                <CtaLink
+                  href="https://github.com/JasonTeixeira"
+                  variant="text"
+                  event="founder_github"
+                >
+                  GitHub
+                </CtaLink>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Footer CTA strip */}
-      <section className="bg-[#12110F] border-t border-[#2A2826]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap gap-4 items-center"
-          >
-            <Button
-              asChild
-              className="bg-[#0ED3CF] text-[#09090B] hover:bg-[#22D3EE] font-semibold"
-            >
-              <Link href="/contact?source=founder-footer">
-                <Mail className="mr-2 h-4 w-4" />
-                Send an inquiry
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
-            >
-              <Link href="/book">
-                <Calendar className="mr-2 h-4 w-4" />
-                Book a call
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
-            >
-              <a href="https://github.com/JasonTeixeira" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-            <span className="text-[#78716C] text-sm ml-auto hidden sm:block">
-              See the work:{' '}
-              <Link href="/work" className="text-[#0ED3CF] hover:text-[#22D3EE]">
-                Case studies →
-              </Link>
-            </span>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
     </div>

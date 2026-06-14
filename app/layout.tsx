@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Serif, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import { Fraunces, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { headers } from 'next/headers'
@@ -13,21 +13,25 @@ import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-regis
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { UpdateToast } from '@/components/pwa/update-toast'
 
-const display = Instrument_Serif({
+// DISPLAY — Fraunces: a high-contrast variable serif with optical-sizing.
+// Opsz pushed high for big headlines; SOFT/WONK nudged for warm character.
+const display = Fraunces({
   subsets: ['latin'],
-  weight: '400',
   style: ['normal', 'italic'],
+  axes: ['opsz', 'SOFT', 'WONK'],
   variable: '--font-display',
   display: 'swap',
 })
 
-const sans = Plus_Jakarta_Sans({
+// BODY — Geist: Vercel's engineered grotesque. Neutral, precise, modern.
+const sans = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 })
 
-const mono = JetBrains_Mono({
+// MONO — Geist Mono: the "receipts" system — eyebrows, labels, metadata, status.
+const mono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',

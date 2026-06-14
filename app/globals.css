@@ -17,16 +17,36 @@
   --sage-magenta: #C7236E;
   --sage-magenta-dim: #9E1C58;
 
-  /* Warm-tinted neutrals (not pure zinc) */
-  --sage-ink: #F4F2EF;
-  --sage-ink-muted: #A8A29E;
-  --sage-ink-subtle: #B8B0AB; /* Phase 0 contrast lift (was #78716C; failed AA at small sizes) */
-  --sage-ink-faint: #78716C;  /* legacy ultra-subtle, decorative only */
-  --sage-surface: #09090B;
-  --sage-surface-raised: #12110F;
-  --sage-surface-overlay: #1A1917;
-  --sage-border: #2A2826;
-  --sage-border-hover: #3D3A37;
+  /* Warm-tinted neutrals (not pure zinc) — Engineered Luxury ivory ramp */
+  --sage-ink: #F4F2EF;          /* warm ivory — AAA on near-black */
+  --sage-ink-muted: #A8A29E;    /* muted stone — AA body on near-black */
+  --sage-ink-subtle: #B8B0AB;   /* lifted subtle (kept for AA at small sizes) */
+  --sage-ink-faint: #6B6660;    /* faint metadata — decorative / large only */
+
+  /* ── Layered surface ramp (real elevation, never one flat slab) ── */
+  --sage-bg: #0A0A0B;           /* page base — near-black */
+  --sage-surface: #0A0A0B;      /* alias of bg (legacy callers) */
+  --sage-surface-1: #0E0E10;    /* first lift — sections, rails */
+  --sage-surface-2: #141416;    /* card / panel */
+  --sage-surface-3: #1A1A1D;    /* raised / hover, inset chrome */
+  --sage-surface-raised: #141416; /* legacy alias → surface-2 */
+  --sage-surface-overlay: #1A1A1D; /* legacy alias → surface-3 */
+
+  /* ── Hairline borders ── */
+  --sage-border: #1E1E22;       /* default hairline */
+  --sage-border-strong: #2A2A2F;
+  --sage-border-hover: #34343A;
+
+  /* ── Depth + atmosphere (NO gradient blobs) ── */
+  /* Soft radial vignette that lifts the upper-center off the base — barely there */
+  --sage-depth-radial:
+    radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%);
+  /* Single accent depth- wash, near-imperceptible, top-right anchored */
+  --sage-depth-accent:
+    radial-gradient(60% 50% at 88% 8%, rgba(14, 211, 207, 0.06) 0%, transparent 60%);
+  /* Fine engineered noise — fractal turbulence, low alpha (grain overlay) */
+  --sage-grain:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 
   /* Neon bloom shadow tokens */
   --sage-bloom-cyan: 0 0 16px rgba(14, 211, 207, 0.35), 0 0 36px rgba(14, 211, 207, 0.18);
@@ -41,25 +61,27 @@
   --sage-scanline-period: 8s;
   --sage-flicker-period: 6.2s;
 
-  /* shadcn / Tailwind compatibility tokens — OKLCh palette */
-  --background: oklch(0.145 0.005 60);
-  --foreground: oklch(0.96 0.005 80);
-  --card: oklch(0.16 0.005 60);
-  --card-foreground: oklch(0.96 0.005 80);
-  --popover: oklch(0.16 0.005 60);
-  --popover-foreground: oklch(0.96 0.005 80);
+  /* shadcn / Tailwind compatibility tokens — OKLCh palette
+     Refined to the Engineered Luxury near-black + layered surface ramp.
+     Lightness values map to the hex ramp above (#0A0A0B → #1A1A1D). */
+  --background: oklch(0.135 0.003 280);  /* ~#0A0A0B near-black */
+  --foreground: oklch(0.955 0.006 80);   /* warm ivory */
+  --card: oklch(0.165 0.003 280);        /* ~#141416 surface-2 */
+  --card-foreground: oklch(0.955 0.006 80);
+  --popover: oklch(0.165 0.003 280);
+  --popover-foreground: oklch(0.955 0.006 80);
   --primary: oklch(0.78 0.14 185);
-  --primary-foreground: oklch(0.15 0.005 60);
-  --secondary: oklch(0.22 0.005 60);
-  --secondary-foreground: oklch(0.96 0.005 80);
-  --muted: oklch(0.22 0.005 60);
-  --muted-foreground: oklch(0.63 0.01 60);
-  --accent: oklch(0.22 0.005 60);
-  --accent-foreground: oklch(0.96 0.005 80);
+  --primary-foreground: oklch(0.135 0.003 280);
+  --secondary: oklch(0.195 0.003 280);   /* ~#1A1A1D surface-3 */
+  --secondary-foreground: oklch(0.955 0.006 80);
+  --muted: oklch(0.195 0.003 280);
+  --muted-foreground: oklch(0.72 0.008 70); /* lifted for AA */
+  --accent: oklch(0.195 0.003 280);
+  --accent-foreground: oklch(0.955 0.006 80);
   --destructive: oklch(0.60 0.20 25);
-  --destructive-foreground: oklch(0.96 0.005 80);
-  --border: oklch(0.25 0.005 50);
-  --input: oklch(0.25 0.005 50);
+  --destructive-foreground: oklch(0.955 0.006 80);
+  --border: oklch(0.225 0.004 280);      /* ~#1E1E22 hairline */
+  --input: oklch(0.225 0.004 280);
   --ring: oklch(0.78 0.14 185);
   --chart-1: #0ED3CF;
   --chart-2: #E85D3A;
@@ -79,20 +101,21 @@
   --sidebar-ring: oklch(0.78 0.14 185);
 
   /* Legacy surface aliases (used in ad-hoc Tailwind classes in components) */
-  --surface: oklch(0.16 0.005 60);
-  --surface-elevated: oklch(0.20 0.005 60);
-  --text-secondary: oklch(0.63 0.01 60);
-  --text-muted: oklch(0.50 0.01 60);
+  --surface: oklch(0.165 0.003 280);
+  --surface-elevated: oklch(0.195 0.003 280);
+  --text-secondary: oklch(0.72 0.008 70);
+  --text-muted: oklch(0.58 0.008 70);
 }
 
 /* .dark {} block removed — site is permanently dark-only (colorScheme: 'dark',
    no next-themes toggling). :root values always apply; the duplicate block was dead. */
 
 @theme inline {
-  /* Fonts — CSS variable vars injected by Next.js font loader */
-  --font-sans: var(--font-sans), 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-mono: var(--font-mono), 'JetBrains Mono', monospace;
-  --font-display: var(--font-display), 'Instrument Serif', Georgia, serif;
+  /* Fonts — CSS variable vars injected by Next.js font loader.
+     Display: Fraunces (variable, optical-sizing). Body: Geist. Mono: Geist Mono. */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, 'SFMono-Regular', monospace;
+  --font-display: var(--font-display), 'Fraunces', Georgia, 'Times New Roman', serif;
 
   /* Color aliases into Tailwind utility namespace */
   --color-background: var(--background);
@@ -178,11 +201,20 @@
     @apply bg-background text-foreground antialiased;
   }
 
-  /* Heading typography — Instrument Serif for editorial feel */
+  /* Heading typography — Fraunces, high optical size for editorial display.
+     opsz pinned high + WONK/SOFT for warm character; tight tracking. */
   h1, h2, h3 {
     font-family: var(--font-display), Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-weight: 460;
+    letter-spacing: -0.022em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+  }
+
+  /* Body — Geist, comfortable measure + line-height */
+  body {
+    font-feature-settings: 'ss01', 'cv01';
+    text-rendering: optimizeLegibility;
   }
 
   /* Cursor pointer on all interactive elements */
@@ -522,6 +554,47 @@ a[class*="text-[#0ED3CF]"]:hover {
   background-size: 24px 24px;
 }
 
+/* ── Engineered Luxury atmosphere ────────────────────────────────────────────
+   Grain + soft radial depth. NOT gradient blobs. Layered, subtle, expensive.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* Fine fractal grain overlay — sits above surfaces, below content. */
+.sage-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--sage-grain);
+  background-size: 160px 160px;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  z-index: 0;
+}
+
+/* Soft radial depth wash — lifts the composition off the flat base. */
+.sage-depth {
+  background-image: var(--sage-depth-radial), var(--sage-depth-accent);
+}
+
+/* Precision baseline grid — hairline ruled lines, very faint. For the hero frame. */
+.sage-baseline {
+  background-image:
+    linear-gradient(to right, rgba(244, 242, 239, 0.025) 1px, transparent 1px);
+  background-size: clamp(64px, 8vw, 120px) 100%;
+}
+
+/* Engineered measure ticks — a single column of hairline marks. */
+.sage-tick-rule {
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      var(--sage-border) 0,
+      var(--sage-border) 1px,
+      transparent 1px,
+      transparent 7px
+    );
+}
+
 /* ── Sweeping scanline ───────────────────────────────────────────────────── */
 @keyframes sage-sweep {
   0% { transform: translateY(-10%); }
@@ -728,6 +801,12 @@ a[class*="text-[#0ED3CF]"]:hover {
 
 .status-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Hero manifest live-dot — expanding hairline ring, restrained */
+@keyframes status-dot {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(2.6); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .status-dot {

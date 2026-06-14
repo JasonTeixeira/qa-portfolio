@@ -11,7 +11,6 @@ import {
   LogIn,
   LayoutDashboard,
   ChevronDown,
-  Search,
   Command,
   Sparkles,
   Briefcase,
@@ -28,11 +27,12 @@ import {
   History,
   Mail,
   CircuitBoard,
+  Search,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { trackEvent } from '@/lib/analytics/events'
+import { CtaLink } from '@/components/el'
 
 // ────────────────────────────────────────────────────────────────────────────
 // Mega-menu data
@@ -276,7 +276,7 @@ const mobileFlat: { href: string; label: string; section?: string }[] = [
 ]
 
 // ────────────────────────────────────────────────────────────────────────────
-// Mega-menu dropdown
+// EL Mega-menu dropdown
 // ────────────────────────────────────────────────────────────────────────────
 
 function MegaDropdown({
@@ -304,16 +304,16 @@ function MegaDropdown({
         aria-expanded={isOpen}
         aria-haspopup="true"
         className={cn(
-          'whitespace-nowrap inline-flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors',
+          'whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
           isOpen
-            ? 'text-[#FAFAFA] bg-[#1A1917]'
-            : 'text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]'
+            ? 'text-[var(--sage-ink)] bg-[var(--sage-surface-3)]'
+            : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
         )}
       >
         {label}
         <ChevronDown
           className={cn(
-            'w-3.5 h-3.5 transition-transform',
+            'w-3 h-3 transition-transform duration-200',
             isOpen && 'rotate-180'
           )}
         />
@@ -322,23 +322,31 @@ function MegaDropdown({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.15 }}
-            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50"
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.13, ease: 'easeOut' }}
+            className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
           >
+            {/* EL surface: --sage-surface-2 base, hairline border, sharp radius */}
             <div
-              className="rounded-2xl bg-[#0B0A09] border border-[#2A2826] shadow-2xl shadow-black/40 overflow-hidden"
-              style={{ width: 'min(880px, 92vw)' }}
+              className="rounded-[3px] bg-[var(--sage-surface-2)] border border-[var(--sage-border-strong)] shadow-2xl shadow-black/60 overflow-hidden"
+              style={{ width: 'min(860px, 92vw)' }}
             >
-              <div className="grid grid-cols-3 divide-x divide-[#1A1917]">
+              {/* Grain overlay */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-[0.03]"
+                style={{ backgroundImage: 'var(--sage-grain)', backgroundSize: '160px 160px' }}
+              />
+              <div className="relative grid grid-cols-3 divide-x divide-[var(--sage-border)]">
                 {sections.map((section) => (
                   <div key={section.title} className="p-5">
-                    <p className="text-[10px] font-mono uppercase tracking-widest text-[#57534E] mb-3">
-                      {section.title}
+                    {/* Mono section label */}
+                    <p className="text-[10px] font-[family-name:var(--font-mono)] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)] mb-3.5">
+                      // {section.title}
                     </p>
-                    <ul className="space-y-1">
+                    <ul className="space-y-0.5">
                       {section.items.map((item) => {
                         const Icon = item.icon
                         return (
@@ -346,28 +354,28 @@ function MegaDropdown({
                             <Link
                               href={item.href}
                               onClick={onClose}
-                              className="group flex items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-[#141418] transition-colors"
+                              className="group flex items-start gap-2.5 rounded-[2px] px-2 py-2 hover:bg-[var(--sage-surface-3)] transition-colors duration-150"
                             >
                               {Icon && (
                                 <span
-                                  className="shrink-0 w-7 h-7 rounded-md bg-[#1A1917] border border-[#2A2826] flex items-center justify-center group-hover:border-[#0ED3CF]/40 transition-colors"
+                                  className="shrink-0 w-6 h-6 rounded-[2px] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] flex items-center justify-center group-hover:border-[var(--sage-border-hover)] transition-colors"
                                 >
-                                  <Icon className="w-3.5 h-3.5 text-[#A8A29E] group-hover:text-[#0ED3CF] transition-colors" />
+                                  <Icon className="w-3 h-3 text-[var(--sage-ink-faint)] group-hover:text-[#0ED3CF] transition-colors" />
                                 </span>
                               )}
                               <div className="min-w-0">
                                 <div className="flex items-center gap-1.5">
-                                  <span className="text-[13.5px] font-medium text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors whitespace-nowrap">
+                                  <span className="text-[13px] text-[var(--sage-ink-muted)] group-hover:text-[var(--sage-ink)] transition-colors whitespace-nowrap">
                                     {item.label}
                                   </span>
                                   {item.badge && (
-                                    <span className="text-[9px] font-mono tracking-widest px-1.5 py-0.5 rounded bg-[#0ED3CF]/15 text-[#0ED3CF] border border-[#0ED3CF]/30">
+                                    <span className="text-[9px] [font-family:var(--font-mono),ui-monospace,monospace] tracking-[0.16em] px-1.5 py-px rounded-[2px] bg-[#0ED3CF]/10 text-[#0ED3CF] border border-[#0ED3CF]/25">
                                       {item.badge}
                                     </span>
                                   )}
                                 </div>
                                 {item.description && (
-                                  <p className="text-[11.5px] text-[#A8A29E] mt-0.5 leading-snug">
+                                  <p className="text-[11px] text-[var(--sage-ink-faint)] mt-0.5 leading-snug">
                                     {item.description}
                                   </p>
                                 )}
@@ -380,16 +388,20 @@ function MegaDropdown({
                   </div>
                 ))}
               </div>
-              <div className="border-t border-[#1A1917] px-5 py-3 flex items-center justify-between gap-3 bg-[#06070A]">
-                <p className="text-[11px] text-[#A8A29E]">
-                  Not sure where to start? Book a free 30-min call.
+              {/* Footer strip */}
+              <div className="relative border-t border-[var(--sage-border)] px-5 py-3 flex items-center justify-between gap-4 bg-[var(--sage-surface-1)]">
+                <p className="text-[11px] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  Not sure where to start? Book a free 30-min call →
                 </p>
                 <Link
                   href="/book"
-                  onClick={onClose}
-                  className="text-[11px] font-mono uppercase tracking-widest text-[#0ED3CF] hover:text-[#FAFAFA] transition-colors whitespace-nowrap"
+                  onClick={() => {
+                    onClose()
+                    trackEvent('booking_click', { location: 'nav_mega' })
+                  }}
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.14em] text-[#0ED3CF] hover:text-[var(--sage-ink)] transition-colors whitespace-nowrap"
                 >
-                  Book a Call →
+                  ./book
                 </Link>
               </div>
             </div>
@@ -401,7 +413,7 @@ function MegaDropdown({
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Top-level nav
+// Top-level Navigation
 // ────────────────────────────────────────────────────────────────────────────
 
 type OpenMenu = null | 'services' | 'resources'
@@ -448,7 +460,6 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
     setOpenMenu(menu)
   }
 
-  // Active state for top-level pills
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
     return pathname === path || pathname.startsWith(path + '/')
@@ -468,25 +479,32 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled || openMenu
-          ? 'bg-[#09090B]/92 backdrop-blur-md border-b border-[#2A2826] shadow-lg shadow-black/10'
-          : 'bg-transparent border-b border-transparent'
+        scrolled || openMenu || isMobileOpen
+          ? 'bg-[var(--sage-surface-1)]/90 backdrop-blur-xl border-b border-[var(--sage-border-strong)]'
+          : 'bg-[var(--sage-bg)]/0 border-b border-transparent'
       )}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
+      <nav
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className="flex items-center justify-between h-[60px] gap-4">
+
           {/* Wordmark — left */}
           <Link
             href="/"
-            className="shrink-0 flex items-center gap-2.5 hover:opacity-90 transition-opacity"
+            className="shrink-0 flex items-center gap-2.5 group"
             aria-label="Sage Ideas — Home"
           >
-            <img src="/brand/sage-logo.png" alt="" className="h-7 w-auto" aria-hidden />
-            <span className="text-[15px] font-semibold tracking-[0.08em] text-[#F4F2EF]">SAGE IDEAS</span>
+            <img src="/brand/sage-logo.png" alt="" className="h-6 w-auto" aria-hidden />
+            <span className="text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#0ED3CF] transition-colors duration-200">
+              SAGE IDEAS
+            </span>
           </Link>
 
           {/* Center cluster — primary nav */}
-          <div className="hidden lg:flex items-center gap-0.5">
+          <div className="hidden lg:flex items-center gap-0.5" role="menubar">
             <MegaDropdown
               label="Services"
               sections={servicesMega}
@@ -496,24 +514,26 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             />
             <Link
               href="/work"
+              role="menuitem"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Work', href: '/work' })}
               className={cn(
-                'whitespace-nowrap px-3 py-2 text-sm rounded-lg transition-colors',
+                'whitespace-nowrap px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/work')
-                  ? 'text-[#0ED3CF] bg-[#1A1917]'
-                  : 'text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]'
+                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                  : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
               Work
             </Link>
             <Link
               href="/pricing"
+              role="menuitem"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Pricing', href: '/pricing' })}
               className={cn(
-                'whitespace-nowrap px-3 py-2 text-sm rounded-lg transition-colors',
+                'whitespace-nowrap px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/pricing')
-                  ? 'text-[#0ED3CF] bg-[#1A1917]'
-                  : 'text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]'
+                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                  : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
               Pricing
@@ -529,18 +549,20 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
 
           {/* Right cluster */}
           <div className="hidden lg:flex items-center gap-2 shrink-0">
-            {/* Terminal-styled command palette trigger */}
+
+            {/* Command palette trigger — terminal-styled, hairline-bordered */}
             <button
               type="button"
               onClick={triggerCommandPalette}
-              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#0F0E11] border border-[#2A2826] text-[#A8A29E] hover:text-[#F4F2EF] hover:border-[#0ED3CF]/40 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+              aria-label="Open command palette"
+              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] bg-[var(--sage-surface-2)] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:border-[var(--sage-border-hover)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             >
               <span className="sr-only">Open command palette</span>
-              <span aria-hidden className="select-none text-xs">
-                <span className="text-[#A8C633]">$</span>{' '}
-                <span className="text-[#A8A29E] group-hover:text-[#F4F2EF]">type a verb</span>
+              <span aria-hidden className="select-none text-[11px]">
+                <span className="text-[var(--sage-lime)]">$</span>{' '}
+                <span className="text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-ink-muted)] transition-colors">type a verb</span>
               </span>
-              <kbd aria-hidden className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[#15141A] border border-[#2A2826] rounded text-[#A8A29E]">
+              <kbd aria-hidden className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] rounded-[2px] text-[var(--sage-ink-faint)]">
                 {isMac ? <Command className="h-2.5 w-2.5" /> : 'Ctrl'}
                 <span>K</span>
               </kbd>
@@ -550,57 +572,58 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             <span
               role="status"
               aria-label="Studio status: accepting work"
-              className="hidden xl:inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[10px] uppercase tracking-[0.18em] text-[#A8C633] [font-family:var(--font-mono),ui-monospace,monospace]"
+              className="hidden xl:inline-flex items-center gap-2 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.18em] text-[var(--sage-lime)] [font-family:var(--font-mono),ui-monospace,monospace]"
             >
               <span
                 aria-hidden
-                className="h-1.5 w-1.5 rounded-full bg-[#A8C633]"
-                style={{ boxShadow: '0 0 8px #A8C633' }}
+                className="h-1.5 w-1.5 rounded-full bg-[var(--sage-lime)]"
+                style={{ boxShadow: '0 0 6px var(--sage-lime)' }}
               />
               accepting
             </span>
 
+            {/* Login / Portal — ghost link styled to EL */}
             {isSignedIn ? (
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="whitespace-nowrap border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
+              <Link
+                href="/auth/redirect"
+                className={cn(
+                  'inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] uppercase tracking-[0.10em] rounded-[3px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:border-[var(--sage-border-hover)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]'
+                )}
               >
-                <Link href="/auth/redirect">
-                  <LayoutDashboard className="h-4 w-4 mr-1.5" />
-                  Portal
-                </Link>
-              </Button>
+                <LayoutDashboard className="h-3.5 w-3.5" />
+                Portal
+              </Link>
             ) : (
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="whitespace-nowrap border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
+              <Link
+                href="/login"
+                className={cn(
+                  'inline-flex items-center gap-1.5 px-3 py-1.5 text-[12px] uppercase tracking-[0.10em] rounded-[3px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:border-[var(--sage-border-hover)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]'
+                )}
               >
-                <Link href="/login">
-                  <LogIn className="h-4 w-4 mr-1.5" />
-                  Login
-                </Link>
-              </Button>
+                <LogIn className="h-3.5 w-3.5" />
+                Login
+              </Link>
             )}
 
-            <Button
-              asChild
-              size="sm"
-              className="whitespace-nowrap bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold sage-bloom-cyan [font-family:var(--font-mono),ui-monospace,monospace] tracking-wide uppercase"
+            {/* Primary CTA — solid teal from kit */}
+            <CtaLink
+              href="/book"
+              variant="solid"
+              event="booking_click"
+              eventProps={{ location: 'nav' }}
+              className="h-9 text-[12px] px-5"
             >
-              <Link href="/book" onClick={() => trackEvent('booking_click', { location: 'nav' })}>./book</Link>
-            </Button>
+              ./book
+            </CtaLink>
           </div>
 
           {/* Mobile toggle */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#FAFAFA] hover:bg-[#1A1917] rounded-lg transition-colors"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)] rounded-[3px] transition-colors"
+            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileOpen}
+            aria-controls="mobile-nav"
           >
             {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -610,19 +633,23 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
         <AnimatePresence>
           {isMobileOpen && (
             <motion.div
+              id="mobile-nav"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden overflow-hidden bg-[#09090B] border-t border-[#2A2826]"
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+              className="lg:hidden overflow-hidden border-t border-[var(--sage-border)]"
             >
-              <div className="py-4 px-2 space-y-4 max-h-[85vh] overflow-y-auto overscroll-contain">
+              <div className="py-4 px-2 space-y-5 max-h-[85vh] overflow-y-auto overscroll-contain">
                 {(['PRIMARY', 'RESOURCES', 'COMPANY'] as const).map((sec) => (
                   <div key={sec}>
-                    <p className="text-[10px] font-mono uppercase tracking-widest text-[#57534E] px-4 mb-1">
-                      {sec === 'PRIMARY' ? 'Explore' : sec.charAt(0) + sec.slice(1).toLowerCase()}
+                    {/* Mono section label */}
+                    <p className="text-[10px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)] px-4 mb-1.5">
+                      // {sec === 'PRIMARY' ? 'Explore' : sec.charAt(0) + sec.slice(1).toLowerCase()}
                     </p>
-                    <div className="space-y-0.5">
+                    {/* Hairline under label */}
+                    <div className="h-px mx-4 bg-[var(--sage-border)] mb-2" />
+                    <div className="space-y-px">
                       {mobileFlat
                         .filter((l) => l.section === sec)
                         .map((link) => {
@@ -635,70 +662,69 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                               key={link.href}
                               href={link.href}
                               className={cn(
-                                'flex items-center justify-between px-4 py-3 min-h-[44px] text-sm rounded-lg transition-colors',
+                                'flex items-center justify-between px-4 py-3 min-h-[44px] text-[13px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.08em] rounded-[3px] transition-colors',
                                 active
-                                  ? 'text-[#0ED3CF] bg-[#1A1917]'
-                                  : 'text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]'
+                                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                                  : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
                               )}
                             >
                               <span>{link.label}</span>
+                              {active && (
+                                <span aria-hidden className="h-1 w-1 rounded-full bg-[#0ED3CF]" />
+                              )}
                             </Link>
                           )
                         })}
                     </div>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-[#2A2826] mt-3 flex items-center gap-3 px-2 pb-[env(safe-area-inset-bottom,8px)]">
+
+                {/* Mobile footer actions */}
+                <div className="pt-4 border-t border-[var(--sage-border)] flex items-center gap-3 px-2 pb-[env(safe-area-inset-bottom,8px)]">
                   <Link
                     href="https://github.com/JasonTeixeira"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 text-[#A8A29E] hover:text-[#FAFAFA]"
+                    className="p-2 text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink-muted)] transition-colors"
                     aria-label="GitHub"
                   >
-                    <Github className="w-5 h-5" />
+                    <Github className="w-4 h-4" />
                   </Link>
                   <Link
                     href="https://linkedin.com/in/jason-teixeira"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 text-[#A8A29E] hover:text-[#FAFAFA]"
+                    className="p-2 text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink-muted)] transition-colors"
                     aria-label="LinkedIn"
                   >
-                    <Linkedin className="w-5 h-5" />
+                    <Linkedin className="w-4 h-4" />
                   </Link>
                   {isSignedIn ? (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
+                    <Link
+                      href="/auth/redirect"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 text-[12px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.10em] rounded-[3px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] transition-colors"
                     >
-                      <Link href="/auth/redirect">
-                        <LayoutDashboard className="h-4 w-4 mr-1" />
-                        Portal
-                      </Link>
-                    </Button>
+                      <LayoutDashboard className="h-3.5 w-3.5" />
+                      Portal
+                    </Link>
                   ) : (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
+                    <Link
+                      href="/login"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 text-[12px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.10em] rounded-[3px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] transition-colors"
                     >
-                      <Link href="/login">
-                        <LogIn className="h-4 w-4 mr-1" />
-                        Login
-                      </Link>
-                    </Button>
+                      <LogIn className="h-3.5 w-3.5" />
+                      Login
+                    </Link>
                   )}
-                  <Button
-                    asChild
-                    size="sm"
-                    className="ml-auto bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold min-h-[44px]"
+                  <CtaLink
+                    href="/book"
+                    variant="solid"
+                    event="booking_click"
+                    eventProps={{ location: 'nav_mobile' }}
+                    className="ml-auto h-11 text-[12px] px-5"
                   >
-                    <Link href="/book" onClick={() => trackEvent('booking_click', { location: 'nav' })}>Book a Call</Link>
-                  </Button>
+                    Book a Call
+                  </CtaLink>
                 </div>
               </div>
             </motion.div>

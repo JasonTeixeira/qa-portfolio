@@ -4,22 +4,26 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, CheckCircle2, Clock, Loader2, MessageSquare, Rocket, Search, UserCheck } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
-import { Button } from '@/components/ui/button'
-import { PageHeroBg } from '@/components/page-hero-bg'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  ArrowRight,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Loader2,
+  MessageSquare,
+  Rocket,
+  Search,
+  UserCheck,
+} from 'lucide-react'
 import { extendedTiersBySlug } from '@/data/services/extended'
 import { tiersBySlug, careTiers } from '@/data/services/tiers'
 import { CapacitySignal } from '@/components/social-proof/capacity-signal'
+import { Hairline, MonoLabel, Surface, CtaLink } from '@/components/el'
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5 },
-}
+// ────────────────────────────────────────────────────────────────────────────
+// Config
+// ────────────────────────────────────────────────────────────────────────────
 
 type EngagementType = 'studio' | 'project' | 'consult'
 
@@ -73,9 +77,6 @@ function readType(raw: string | null): EngagementType {
   return 'studio'
 }
 
-// Map engagement slug → default tab + prefilled context.
-// Sources: extendedTiersBySlug (22 AI/automation services), tiersBySlug (9 productized),
-// careTiers (3 retainers), plus custom keywords.
 function resolveEngagementContext(slug: string | null): {
   type: EngagementType
   prefill: string
@@ -87,19 +88,11 @@ function resolveEngagementContext(slug: string | null): {
     const isRetainer = ext.category === 'retainers'
     const isDiagnostic = ext.category === 'diagnostics'
     const isFlagship = ext.category === 'ai-flagship'
-    const type: EngagementType = isRetainer
-      ? 'studio'
-      : isDiagnostic
-        ? 'consult'
-        : 'project'
+    const type: EngagementType = isRetainer ? 'studio' : isDiagnostic ? 'consult' : 'project'
     const prefill = isFlagship
       ? `Interested in: ${ext.name} (${ext.price}, ${ext.timeline}).\n\nMy business / use case: \n\nWhat I want the agent to handle: \n\nTools we already use: \n\nAnything custom or out-of-scope to discuss: `
       : `Interested in: ${ext.name} (${ext.price}). \n\nContext: `
-    return {
-      type,
-      badge: ext.name,
-      prefill,
-    }
+    return { type, badge: ext.name, prefill }
   }
   const prod = tiersBySlug[slug]
   if (prod) {
@@ -121,8 +114,7 @@ function resolveEngagementContext(slug: string | null): {
     return {
       type: 'project',
       badge: 'Custom scope',
-      prefill:
-        'Looking for a custom-scoped engagement. \n\nWhat we need: ',
+      prefill: 'Looking for a custom-scoped engagement. \n\nWhat we need: ',
     }
   }
   if (slug === 'studio-package') {
@@ -136,12 +128,55 @@ function resolveEngagementContext(slug: string | null): {
   return null
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// EL form primitives
+// ────────────────────────────────────────────────────────────────────────────
+
+const inputClass =
+  'w-full rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-4 py-2.5 text-[13px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#0ED3CF] focus:outline-none focus:ring-1 focus:ring-[#0ED3CF]/30 transition-colors duration-150'
+
+const selectClass = `${inputClass} appearance-none cursor-pointer pr-10`
+
+function Field({
+  label,
+  required,
+  hint,
+  children,
+}: {
+  label: string
+  required?: boolean
+  hint?: string
+  children: React.ReactNode
+}) {
+  return (
+    <label className="block">
+      <div className="flex items-center gap-2 mb-2">
+        <MonoLabel tone="muted" className="text-[10px]">
+          {label}
+        </MonoLabel>
+        {required && (
+          <MonoLabel tone="accent" className="text-[10px]">
+            required
+          </MonoLabel>
+        )}
+      </div>
+      {children}
+      {hint && (
+        <p className="mt-1.5 text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-faint)]">
+          {hint}
+        </p>
+      )}
+    </label>
+  )
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// Contact inner (needs useSearchParams → client)
+// ────────────────────────────────────────────────────────────────────────────
+
 function ContactInner() {
   const params = useSearchParams()
-  const engagementCtx = useMemo(
-    () => resolveEngagementContext(params.get('engagement')),
-    [params]
-  )
+  const engagementCtx = useMemo(() => resolveEngagementContext(params.get('engagement')), [params])
   const initialType = useMemo(
     () => engagementCtx?.type ?? readType(params.get('type')),
     [engagementCtx, params]
@@ -177,7 +212,6 @@ function ContactInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPrefill])
 
-  // Reset budget when type changes if current value isn't valid
   useEffect(() => {
     const allowed = BUDGET_OPTS[engagementType].map((b) => b.value)
     if (budget && !allowed.includes(budget)) setBudget('')
@@ -224,30 +258,45 @@ function ContactInner() {
     }
   }
 
+  // ── Success state ──
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#09090B]">
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 mb-6">
-              <CheckCircle2 className="h-4 w-4 text-[#10B981]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#10B981]">Inquiry received</span>
+      <div className="min-h-screen bg-[var(--sage-bg)] flex items-center">
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Accent badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06] mb-8">
+              <CheckCircle2 className="h-3.5 w-3.5 text-[#0ED3CF]" />
+              <MonoLabel tone="accent" className="text-[10px]">Inquiry received</MonoLabel>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-normal text-[#FAFAFA] leading-tight">Got it. Check your inbox.</h1>
-            <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed">
-              A confirmation just landed at <span className="text-[#FAFAFA] font-mono">{email}</span>. Every inquiry is
-              read personally — well-matched ones get a response within 48 hours.
+
+            <h1 className="text-4xl sm:text-5xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
+              Got it. Check your inbox.
+            </h1>
+            <p className="mt-6 text-[15px] text-[var(--sage-ink-muted)] leading-relaxed">
+              A confirmation just landed at{' '}
+              <span className="text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
+                {email}
+              </span>
+              . Every inquiry is read personally — well-matched ones get a response within 48 hours.
             </p>
-            <p className="mt-3 text-sm text-[#78716C]">
+            <p className="mt-3 text-[13px] text-[var(--sage-ink-faint)]">
               No match? You&apos;ll still hear back. We don&apos;t ghost.
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild className="bg-[#0ED3CF] text-[#09090B] hover:bg-[#22D3EE] font-semibold">
-                <Link href="/work">See recent work</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-[#2A2826] text-[#FAFAFA] hover:bg-[#1A1917]">
-                <Link href="/process">How engagements run</Link>
-              </Button>
+
+            <Hairline className="mt-10 mb-8" />
+
+            <div className="flex flex-wrap gap-3">
+              <CtaLink href="/work" variant="solid" arrow>
+                See recent work
+              </CtaLink>
+              <CtaLink href="/process" variant="ghost" arrow>
+                How engagements run
+              </CtaLink>
             </div>
           </motion.div>
         </section>
@@ -255,73 +304,98 @@ function ContactInner() {
     )
   }
 
+  // ── Main form ──
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-        <motion.div {...fadeInUp} className="max-w-3xl">
-          <SectionLabel>Contact</SectionLabel>
-          <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-normal text-[#FAFAFA] leading-tight">
+    <div className="min-h-screen bg-[var(--sage-bg)]">
+
+      {/* ── Hero ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl"
+        >
+          {/* Mono eyebrow */}
+          <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
+            // contact · sage ideas studio
+          </MonoLabel>
+
+          {/* Fraunces display heading */}
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
             Start a conversation.
           </h1>
-          <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed">
-            Pick the engagement type that fits. The more specific you are about scope and timeline, the faster the
-            reply — and the better the fit assessment.
+
+          {/* Accent lead hairline */}
+          <Hairline accentLead className="mt-6 mb-6" />
+
+          <p className="text-[15px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">
+            Pick the engagement type that fits. The more specific you are about scope and timeline,
+            the faster the reply — and the better the fit assessment.
           </p>
+
+          {/* Pre-selected badge */}
           {engagementCtx?.badge && (
-            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0ED3CF]/10 border border-[#0ED3CF]/30">
+            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06]">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#0ED3CF]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF]">
+              <MonoLabel tone="accent" className="text-[10px]">
                 Pre-selected: {engagementCtx.badge}
-              </span>
+              </MonoLabel>
             </div>
           )}
         </motion.div>
       </section>
 
-      {/* Capacity signal */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2">
+      {/* ── Capacity signal ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-3">
         <CapacitySignal />
       </section>
 
-      {/* Type tabs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="grid sm:grid-cols-3 gap-3">
+      {/* ── Engagement type tabs ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+        <div className="grid sm:grid-cols-3 gap-3" role="tablist" aria-label="Engagement type">
           {TYPE_TABS.map((tab) => {
             const active = engagementType === tab.value
             return (
               <button
                 key={tab.value}
                 type="button"
+                role="tab"
+                aria-selected={active}
                 onClick={() => setEngagementType(tab.value)}
                 className={[
-                  'text-left rounded-xl border p-5 transition',
+                  'text-left rounded-[3px] border p-5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/50',
                   active
-                    ? 'border-[#0ED3CF] bg-[#0ED3CF]/[0.06] ring-1 ring-[#0ED3CF]/40'
-                    : 'border-[#2A2826] bg-[#12110F] hover:border-[#3D3A37]',
+                    ? 'border-[#0ED3CF]/40 bg-[#0ED3CF]/[0.05]'
+                    : 'border-[var(--sage-border)] bg-[var(--sage-surface-1)] hover:border-[var(--sage-border-strong)]',
                 ].join(' ')}
               >
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-2.5">
                   <span
                     className={[
-                      'h-2 w-2 rounded-full',
-                      active ? 'bg-[#0ED3CF]' : 'bg-[#3D3A37]',
+                      'h-1.5 w-1.5 rounded-full transition-colors',
+                      active ? 'bg-[#0ED3CF]' : 'bg-[var(--sage-border-strong)]',
                     ].join(' ')}
+                    aria-hidden
                   />
-                  <span className="text-xs font-mono uppercase tracking-widest text-[#78716C]">{tab.value}</span>
+                  <MonoLabel tone={active ? 'accent' : 'faint'} className="text-[10px]">
+                    {tab.value}
+                  </MonoLabel>
                 </div>
-                <div className="text-base font-semibold text-[#FAFAFA]">{tab.label}</div>
-                <div className="mt-1 text-sm text-[#A8A29E]">{tab.tagline}</div>
+                <div className="text-[14px] font-medium text-[var(--sage-ink)] mb-1">{tab.label}</div>
+                <div className="text-[12px] text-[var(--sage-ink-faint)]">{tab.tagline}</div>
               </button>
             )
           })}
         </div>
       </section>
 
-      {/* Form + sidebar */}
+      {/* ── Form + sidebar ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="grid lg:grid-cols-[1fr_360px] gap-8">
-          <GlowCard glowColor="cyan" className="">
+        <div className="grid lg:grid-cols-[1fr_340px] gap-8 items-start">
+
+          {/* Form surface */}
+          <Surface level={2} bordered ticks className="overflow-hidden">
             <form onSubmit={onSubmit} className="p-6 sm:p-8 space-y-6">
               {/* Honeypot */}
               <input
@@ -398,7 +472,11 @@ function ContactInner() {
                   </select>
                 </Field>
                 <Field label="Budget band">
-                  <select value={budget} onChange={(e) => setBudget(e.target.value)} className={selectClass}>
+                  <select
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    className={selectClass}
+                  >
                     <option value="">Select budget…</option>
                     {BUDGET_OPTS[engagementType].map((o) => (
                       <option key={o.value} value={o.value}>
@@ -419,42 +497,54 @@ function ContactInner() {
                   required
                   maxLength={5000}
                 />
-                <div className="mt-1.5 text-xs text-[#57534E] font-mono">
-                  {scope.length}/5000
+                <div className="mt-1.5 text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-faint)] tabular-nums">
+                  {scope.length} / 5000
                 </div>
               </Field>
 
-              {error && (
-                <div className="rounded-lg border border-[#EF4444]/40 bg-[#EF4444]/[0.06] px-4 py-3 text-sm text-[#FCA5A5]">
-                  {error}
-                </div>
-              )}
+              {/* Error */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="rounded-[3px] border border-red-500/30 bg-red-500/[0.06] px-4 py-3 text-[13px] text-red-300"
+                  >
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
-                <Button
+              <Hairline />
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+                <button
                   type="submit"
                   disabled={submitting}
-                  className="bg-[#0ED3CF] text-[#09090B] hover:bg-[#22D3EE] font-semibold w-full sm:w-auto"
+                  className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] focus-visible:outline-none active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending…
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending…
                     </>
                   ) : (
                     <>
-                      Send inquiry <ArrowRight className="ml-2 h-4 w-4" />
+                      Send inquiry
+                      <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
                     </>
                   )}
-                </Button>
-                <p className="text-xs text-[#78716C]">
-                  We respond to well-matched inquiries within 48 hours.
+                </button>
+                <p className="text-[12px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-faint)]">
+                  Well-matched inquiries get a reply within 48h.
                 </p>
               </div>
             </form>
-          </GlowCard>
+          </Surface>
 
           {/* Sidebar */}
-          <aside className="space-y-4">
+          <aside className="space-y-3">
             <SidebarCard
               icon={Calendar}
               label="Book"
@@ -471,107 +561,136 @@ function ContactInner() {
               href="/founder"
               cta="Visit founder page"
             />
-            <div className="rounded-xl border border-[#2A2826] bg-[#12110F] p-5">
-              <div className="text-xs font-mono uppercase tracking-widest text-[#78716C] mb-2">Privacy</div>
-              <p className="text-sm text-[#A8A29E] leading-relaxed">
+            {/* Privacy note */}
+            <Surface level={1} bordered className="p-5">
+              <MonoLabel tone="faint" className="text-[10px] block mb-2">// Privacy</MonoLabel>
+              <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed">
                 Your info is handled per our{' '}
-                <Link href="/legal/privacy" className="text-[#0ED3CF] hover:text-[#22D3EE] underline underline-offset-2">
+                <Link
+                  href="/legal/privacy"
+                  className="text-[#0ED3CF] hover:text-[var(--sage-ink)] underline underline-offset-2 transition-colors"
+                >
                   Privacy Policy
                 </Link>
                 . We collect only what we need to respond and never sell personal data.
               </p>
-            </div>
+            </Surface>
           </aside>
         </div>
       </section>
 
-      {/* Who you're talking to + What to expect */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="grid lg:grid-cols-[360px_1fr] gap-8 items-start">
+      {/* ── Who + What to expect ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
+        <Hairline className="mb-16" />
+
+        <div className="grid lg:grid-cols-[320px_1fr] gap-12 items-start">
+
           {/* Face card */}
-          <motion.div {...fadeInUp} className="rounded-2xl border border-[#2A2826] bg-[#12110F] overflow-hidden">
-            <div className="relative aspect-[4/5] bg-[#0B0A09]">
-              <Image
-                src="/images/headshot.jpg"
-                alt="Jason Teixeira, founder of Sage Ideas"
-                fill
-                sizes="360px"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-5">
-              <div className="text-xs font-mono uppercase tracking-widest text-[#78716C]">Who replies</div>
-              <div className="mt-1.5 text-base font-semibold text-[#FAFAFA]">Jason Teixeira</div>
-              <div className="mt-0.5 text-sm text-[#A8A29E]">Founder · Sage Ideas Studio</div>
-              <p className="mt-3 text-sm text-[#A8A29E] leading-relaxed">
-                Every inquiry lands in my inbox. No SDR, no triage queue. You&apos;ll talk to the person doing the work.
-              </p>
-              <div className="mt-4 flex items-center gap-2 rounded-lg border border-[#2A2826] bg-[#0B0A09] p-3">
-                <Clock className="h-4 w-4 text-[#0ED3CF] shrink-0" />
-                <div>
-                  <div className="text-xs text-[#78716C]">Typical response</div>
-                  <div className="text-sm font-semibold text-[#FAFAFA]">Within 1 business day</div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5 }}
+          >
+            <Surface level={2} bordered className="overflow-hidden">
+              <div className="relative aspect-[4/5] bg-[var(--sage-surface-1)]">
+                <Image
+                  src="/images/headshot.jpg"
+                  alt="Jason Teixeira, founder of Sage Ideas"
+                  fill
+                  sizes="320px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-5 space-y-3">
+                <Hairline />
+                <MonoLabel tone="faint" className="text-[10px] block">// Who replies</MonoLabel>
+                <div className="text-[15px] font-medium text-[var(--sage-ink)]">Jason Teixeira</div>
+                <div className="text-[13px] text-[var(--sage-ink-faint)]">Founder · Sage Ideas Studio</div>
+                <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed pt-1">
+                  Every inquiry lands in my inbox. No SDR, no triage queue. You&apos;ll talk to the
+                  person doing the work.
+                </p>
+                <div className="flex items-center gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-3 mt-2">
+                  <Clock className="h-4 w-4 text-[#0ED3CF] shrink-0" />
+                  <div>
+                    <MonoLabel tone="faint" className="text-[10px] block">Typical response</MonoLabel>
+                    <div className="text-[13px] font-medium text-[var(--sage-ink)] mt-0.5">
+                      Within 1 business day
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Surface>
           </motion.div>
 
-          {/* What to expect timeline */}
-          <motion.div {...fadeInUp}>
-            <SectionLabel>What to expect</SectionLabel>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-normal text-[#FAFAFA] tracking-tight">
-              From inquiry to kickoff, in four steps.
+          {/* What to expect */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
+              // what to expect
+            </MonoLabel>
+            <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
+              From inquiry to kickoff,<br />in four steps.
             </h2>
-            <p className="mt-3 text-[#A8A29E] leading-relaxed max-w-2xl">
+            <p className="mt-4 text-[14px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">
               No black-box sales process. Here&apos;s exactly what happens after you submit.
             </p>
-            <div className="mt-8 grid sm:grid-cols-2 gap-4">
+
+            <div className="mt-8 grid sm:grid-cols-2 gap-3">
               {[
                 {
                   icon: MessageSquare,
-                  step: 'Step 1',
+                  step: '01',
                   title: 'Reply within 1 business day',
-                  body: 'A real response from me — not an autoresponder. Either we book a call or I tell you it\'s not a fit and point you somewhere better.',
+                  body: "A real response from me — not an autoresponder. Either we book a call or I tell you it's not a fit.",
                   duration: '< 24h',
                 },
                 {
                   icon: Search,
-                  step: 'Step 2',
+                  step: '02',
                   title: 'Discovery call (30–45 min)',
-                  body: 'I dig into the actual problem, current state, and what "done" looks like. You leave with a clearer picture even if we don\'t work together.',
+                  body: "I dig into the actual problem, current state, and what \"done\" looks like. You leave clearer either way.",
                   duration: 'Week 1',
                 },
                 {
                   icon: CheckCircle2,
-                  step: 'Step 3',
+                  step: '03',
                   title: 'Written scope + fixed quote',
-                  body: 'A short written proposal: scope, milestones, price, timeline, and what\'s explicitly out of scope. No surprises later.',
+                  body: "A short written proposal: scope, milestones, price, timeline, and what's explicitly out of scope.",
                   duration: 'Week 1–2',
                 },
                 {
                   icon: Rocket,
-                  step: 'Step 4',
+                  step: '04',
                   title: 'Kickoff and first artifact',
                   body: 'On signing, we set up the shared workspace and ship the first deliverable inside the first week.',
                   duration: 'Week 2–3',
                 },
               ].map((item) => (
-                <div
+                <Surface
                   key={item.step}
-                  className="rounded-xl border border-[#2A2826] bg-[#12110F] p-5 hover:border-[#3D3A37] transition"
+                  level={1}
+                  bordered
+                  interactive
+                  className="p-5"
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 bg-[#0ED3CF]/10 rounded-lg">
-                        <item.icon className="h-4 w-4 text-[#0ED3CF]" />
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-1.5 bg-[#0ED3CF]/[0.08] rounded-[2px] border border-[#0ED3CF]/20">
+                        <item.icon className="h-3.5 w-3.5 text-[#0ED3CF]" />
                       </div>
-                      <span className="text-xs font-mono uppercase tracking-widest text-[#78716C]">{item.step}</span>
+                      <MonoLabel tone="faint" className="text-[10px]">Step {item.step}</MonoLabel>
                     </div>
-                    <span className="text-xs font-mono text-[#0ED3CF]">{item.duration}</span>
+                    <MonoLabel tone="accent" className="text-[10px]">{item.duration}</MonoLabel>
                   </div>
-                  <div className="text-base font-semibold text-[#FAFAFA] mb-2">{item.title}</div>
-                  <p className="text-sm text-[#A8A29E] leading-relaxed">{item.body}</p>
-                </div>
+                  <div className="text-[14px] font-medium text-[var(--sage-ink)] mb-2">{item.title}</div>
+                  <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed">{item.body}</p>
+                </Surface>
               ))}
             </div>
           </motion.div>
@@ -581,32 +700,9 @@ function ContactInner() {
   )
 }
 
-const inputClass =
-  'w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#57534E] focus:border-[#0ED3CF] focus:outline-none focus:ring-1 focus:ring-[#0ED3CF] transition'
-const selectClass = `${inputClass} appearance-none cursor-pointer pr-10`
-
-function Field({
-  label,
-  required,
-  hint,
-  children,
-}: {
-  label: string
-  required?: boolean
-  hint?: string
-  children: React.ReactNode
-}) {
-  return (
-    <label className="block">
-      <div className="flex items-center gap-2 mb-1.5">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#A8A29E]">{label}</span>
-        {required && <span className="text-xs font-mono text-[#0ED3CF]">required</span>}
-      </div>
-      {children}
-      {hint && <div className="mt-1.5 text-xs text-[#78716C]">{hint}</div>}
-    </label>
-  )
-}
+// ────────────────────────────────────────────────────────────────────────────
+// Sidebar card
+// ────────────────────────────────────────────────────────────────────────────
 
 function SidebarCard({
   icon: Icon,
@@ -624,28 +720,29 @@ function SidebarCard({
   cta: string
 }) {
   return (
-    <div className="rounded-xl border border-[#2A2826] bg-[#12110F] p-5">
+    <Surface level={1} bordered className="p-5">
       <div className="flex items-center gap-2 mb-3">
-        <div className="p-2 bg-[#0ED3CF]/10 rounded-lg">
-          <Icon className="h-4 w-4 text-[#0ED3CF]" />
+        <div className="p-1.5 bg-[#0ED3CF]/[0.08] rounded-[2px] border border-[#0ED3CF]/20">
+          <Icon className="h-3.5 w-3.5 text-[#0ED3CF]" />
         </div>
-        <span className="text-xs font-mono uppercase tracking-widest text-[#78716C]">{label}</span>
+        <MonoLabel tone="faint" className="text-[10px]">// {label}</MonoLabel>
       </div>
-      <div className="text-base font-semibold text-[#FAFAFA] mb-2">{title}</div>
-      <p className="text-sm text-[#A8A29E] leading-relaxed mb-4">{body}</p>
-      <Link
-        href={href}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0ED3CF] hover:text-[#22D3EE]"
-      >
-        {cta} <ArrowRight className="h-3.5 w-3.5" />
-      </Link>
-    </div>
+      <div className="text-[14px] font-medium text-[var(--sage-ink)] mb-2">{title}</div>
+      <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed mb-4">{body}</p>
+      <CtaLink href={href} variant="text" arrow>
+        {cta}
+      </CtaLink>
+    </Surface>
   )
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// Export (Suspense wrapper for useSearchParams)
+// ────────────────────────────────────────────────────────────────────────────
+
 export function ContactRelaunchContent() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#09090B]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[var(--sage-bg)]" />}>
       <ContactInner />
     </Suspense>
   )

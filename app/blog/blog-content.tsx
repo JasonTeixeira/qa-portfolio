@@ -2,12 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Clock, ArrowRight, Search } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
+import { MonoLabel, Hairline, Surface, Reveal } from '@/components/el'
 import { blogPosts } from '@/lib/blogData'
-import { Stagger, StaggerItem } from '@/components/motion'
-import { PostCover } from '@/components/blog/post-cover'
 
 const ALL_CATEGORIES = [
   'All',
@@ -22,267 +18,279 @@ const ALL_CATEGORIES = [
   'AI',
 ]
 
-const PINNED_SLUGS = [
-  'building-a-fintech-platform-solo-185-tables-69-apis-7-systems',
-  'building-a-production-ready-api-testing-framework',
-  'what-trading-futures-taught-me-about-writing-software',
-  'github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way',
-  'i-read-50-senior-engineer-job-descriptions-here',
-]
+const DISPLAY_HEADING_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+  letterSpacing: '-0.024em',
+  lineHeight: 1.06,
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
 
 export function BlogContent() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Sort posts by date desc once for stable ordering
-  const sortedPosts = useMemo(() => {
-    return [...blogPosts].sort((a, b) => (a.date < b.date ? 1 : -1))
-  }, [])
+  const sortedPosts = useMemo(
+    () => [...blogPosts].sort((a, b) => (a.date < b.date ? 1 : -1)),
+    [],
+  )
 
   const featuredPost = sortedPosts[0]
 
   const filteredPosts = useMemo(() => {
     return sortedPosts.filter((post) => {
       const matchesCategory = activeCategory === 'All' || post.category === activeCategory
+      const q = searchQuery.toLowerCase()
       const matchesSearch =
-        searchQuery === '' ||
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        q === '' ||
+        post.title.toLowerCase().includes(q) ||
+        post.excerpt.toLowerCase().includes(q) ||
+        post.tags.some((t) => t.toLowerCase().includes(q))
       return matchesCategory && matchesSearch
     })
   }, [activeCategory, searchQuery, sortedPosts])
 
-  const pinnedPosts = useMemo(() => {
-    return blogPosts.filter((post) => PINNED_SLUGS.includes(post.slug))
-  }, [])
+  const showFeatured =
+    activeCategory === 'All' && searchQuery === '' && featuredPost
 
-  const showPinned = activeCategory === 'All' && searchQuery === ''
-  const showFeatured = showPinned && featuredPost
-
-  // Filter out the featured post from the grid only when displayed
-  const gridPosts = showFeatured
+  const listPosts = showFeatured
     ? filteredPosts.filter((p) => p.slug !== featuredPost.slug)
     : filteredPosts
 
   return (
-    <div className="min-h-screen bg-[#09090B] pt-24 pb-20">
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionLabel>Blog</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA]">
-            The field notes.
-          </h1>
-          <p className="mt-6 text-lg text-[#A8A29E] max-w-2xl">
-            {blogPosts.length} field reports on systems, automation, AI, and the craft of building production software. Written by the engineer who shipped the systems — not a content team.
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Featured */}
-      {showFeatured && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <Link
-              href={`/blog/${featuredPost.slug}`}
-              className="group block rounded-3xl overflow-hidden border border-[#2A2826] bg-[#12110F] hover:border-[#0ED3CF]/50 transition-all"
+    <div className="min-h-screen" style={{ background: 'var(--sage-bg)' }}>
+      {/* ── Page header ────────────────────────────────────────────────── */}
+      <header className="relative border-b border-[var(--sage-border)] pt-28 pb-14 sm:pt-32 sm:pb-16">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <Reveal>
+            <div className="flex items-center gap-4 mb-8">
+              <MonoLabel tone="accent">// field notes</MonoLabel>
+              <Hairline className="flex-1" />
+              <MonoLabel tone="faint">{blogPosts.length} dispatches</MonoLabel>
+            </div>
+            <h1
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2.6rem,1.4rem+4.8vw,5.5rem)]"
+              style={DISPLAY_HEADING_STYLE}
             >
-              <div className="grid lg:grid-cols-2 gap-0">
-                <PostCover
-                  src={featuredPost.coverImage}
-                  alt={featuredPost.title}
-                  category={featuredPost.category}
-                  className="aspect-[16/9] lg:aspect-auto lg:h-full w-full"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-                <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 px-2.5 py-1 rounded-full">
-                      Featured
-                    </span>
-                    <span className="text-xs font-mono text-[#0ED3CF]">
-                      {featuredPost.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-[#78716C]">
-                      <Clock className="h-3 w-3" />
-                      {featuredPost.readTime}
-                    </span>
+              The engineering <br className="hidden sm:block" />
+              <em
+                style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 100, 'WONK' 0" }}
+                className="not-italic"
+              >
+                record.
+              </em>
+            </h1>
+            <p className="mt-6 max-w-[54ch] text-[15px] leading-[1.75] text-[var(--sage-ink-muted)]">
+              Production reports on systems, automation, AI, and the craft of
+              building software that ships. Written by the engineer who built
+              it — not a content team.
+            </p>
+          </Reveal>
+        </div>
+      </header>
+
+      {/* ── Featured / lead post ────────────────────────────────────────── */}
+      {showFeatured && (
+        <section
+          aria-label="Featured post"
+          className="border-b border-[var(--sage-border)]"
+        >
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 py-12 sm:py-14">
+            <Reveal>
+              <Link
+                href={`/blog/${featuredPost.slug}`}
+                className="group grid lg:grid-cols-[5fr_4fr] gap-0 rounded-[3px] overflow-hidden border border-[var(--sage-border)] bg-[var(--sage-surface-1)] hover:border-[var(--sage-border-hover)] transition-[border-color] duration-200"
+              >
+                {/* Left: text column */}
+                <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-12 border-b lg:border-b-0 lg:border-r border-[var(--sage-border)]">
+                  <div>
+                    <div className="flex items-center gap-4 mb-7">
+                      <MonoLabel tone="accent">FEATURED</MonoLabel>
+                      <span className="h-px flex-1 bg-[var(--sage-border)]" aria-hidden />
+                      <MonoLabel tone="faint">{featuredPost.category}</MonoLabel>
+                    </div>
+                    <h2
+                      className="text-[var(--sage-ink)] font-normal text-[clamp(1.75rem,1rem+2.2vw,2.75rem)] group-hover:text-[#0ED3CF] transition-colors duration-200"
+                      style={DISPLAY_HEADING_STYLE}
+                    >
+                      {featuredPost.title}
+                    </h2>
+                    <p className="mt-5 text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] max-w-[56ch]">
+                      {featuredPost.excerpt}
+                    </p>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl font-normal text-[#FAFAFA] leading-tight group-hover:text-[#0ED3CF] transition-colors">
-                    {featuredPost.title}
-                  </h2>
-                  <p className="mt-5 text-[#A8A29E] leading-relaxed line-clamp-3">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-[#0ED3CF] group-hover:gap-2.5 transition-all">
-                    Read article
-                    <ArrowRight className="w-4 h-4" />
+                  <div className="mt-8 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <MonoLabel tone="faint">{formatDate(featuredPost.date)}</MonoLabel>
+                      <span className="h-3 w-px bg-[var(--sage-border-strong)]" aria-hidden />
+                      <MonoLabel tone="faint">{featuredPost.readTime}</MonoLabel>
+                    </div>
+                    <span className="text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:translate-x-0.5 transition-transform duration-200 inline-flex items-center gap-2">
+                      Read <span aria-hidden>→</span>
+                    </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </motion.div>
-        </section>
-      )}
-
-      {/* Search + Filters */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        {/* Search Bar */}
-        <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#78716C]" />
-          <input
-            type="text"
-            placeholder="Search articles by title, topic, or tag..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] text-sm placeholder:text-[#57534E] focus:outline-none focus:border-[#0ED3CF]/50 focus:ring-1 focus:ring-[#0ED3CF]/20 transition-colors"
-          />
-        </div>
-
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2">
-          {ALL_CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`text-xs font-mono px-3 py-1.5 rounded-lg transition-colors ${
-                activeCategory === category
-                  ? 'bg-[#0ED3CF] text-[#09090B] font-semibold'
-                  : 'bg-[#1A1917] border border-[#2A2826] text-[#A8A29E] hover:border-[#0ED3CF]/50 hover:text-[#0ED3CF]'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Results count */}
-        <p className="mt-4 text-xs text-[#78716C]">
-          {searchQuery || activeCategory !== 'All'
-            ? `${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} found`
-            : `${blogPosts.length} articles`}
-        </p>
-      </section>
-
-      {/* Pinned / Start Here */}
-      {showPinned && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <div className="mb-6">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
-              Start here
-            </p>
-            <h2 className="mt-1 text-xl font-normal text-[#F4F2EF]">
-              Definitive reads
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {pinnedPosts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="group p-4 bg-[#10B981]/5 border border-[#10B981]/20 rounded-xl hover:border-[#10B981]/50 transition-colors"
-              >
-                <span className="text-xs font-mono text-[#10B981] mb-2 block">
-                  {post.category}
-                </span>
-                <h3 className="text-sm font-semibold text-[#FAFAFA] group-hover:text-[#10B981] transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                <span className="text-xs text-[#78716C] mt-2 block">{post.readTime}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Posts Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {gridPosts.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-[#78716C] text-lg">No articles found matching your search.</p>
-            <button
-              onClick={() => {
-                setSearchQuery('')
-                setActiveCategory('All')
-              }}
-              className="mt-4 text-[#0ED3CF] hover:text-[#22D3EE] text-sm transition-colors"
-            >
-              Clear filters
-            </button>
-          </div>
-        ) : (
-          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" gap={0.05}>
-            {gridPosts.map((post) => (
-              <StaggerItem key={post.id} className="h-full">
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group block h-full bg-[#1A1917] border border-[#2A2826] rounded-2xl hover:border-[#0ED3CF]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden"
-                >
-                  <PostCover
-                    src={post.coverImage}
-                    alt={post.title}
-                    category={post.category}
-                    className="aspect-[16/9] w-full"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-xs font-mono text-[#0ED3CF] bg-[#0ED3CF]/10 px-2 py-1 rounded">
-                        {post.category}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-[#78716C]">
-                        <Clock className="h-3 w-3" />
-                        {post.readTime}
-                      </span>
-                    </div>
-
-                    <h2 className="text-xl font-semibold text-[#FAFAFA] mb-3 group-hover:text-[#0ED3CF] transition-colors">
-                      {post.title}
-                    </h2>
-
-                    <p className="text-sm text-[#A8A29E] mb-4 line-clamp-3">{post.excerpt}</p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {post.tags.slice(0, 4).map((tag) => (
+                {/* Right: accent panel */}
+                <div className="relative hidden lg:flex flex-col justify-between p-10 lg:p-12 bg-[var(--sage-surface-2)]">
+                  {/* Registration ticks */}
+                  <span className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[var(--sage-border-strong)]" aria-hidden />
+                  <span className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[var(--sage-border-strong)]" aria-hidden />
+                  <div>
+                    <MonoLabel tone="faint" className="block mb-5">// tags</MonoLabel>
+                    <div className="flex flex-wrap gap-2">
+                      {featuredPost.tags.slice(0, 6).map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs font-mono text-[#78716C] bg-[#2A2826] px-2 py-0.5 rounded"
+                          className="text-[11px] font-mono text-[var(--sage-ink-faint)] bg-[var(--sage-surface-3)] border border-[var(--sage-border)] px-2.5 py-1 rounded-[2px]"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-
-                    <div className="flex items-center justify-between pt-4 border-t border-[#2A2826]">
-                      <span className="text-xs text-[#78716C]">
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </span>
-                      <span className="inline-flex items-center text-sm font-medium text-[#0ED3CF] group-hover:text-[#22D3EE] transition-colors">
-                        Read Article
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </span>
+                  </div>
+                  <div className="mt-auto pt-8">
+                    <div className="text-[11px] font-mono text-[var(--sage-ink-faint)] uppercase tracking-[0.18em] mb-2">Category</div>
+                    <div className="text-[28px] font-normal text-[var(--sage-ink-muted)]" style={DISPLAY_HEADING_STYLE}>
+                      {featuredPost.category}
                     </div>
                   </div>
-                </Link>
-              </StaggerItem>
+                </div>
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* ── Filter bar ──────────────────────────────────────────────────── */}
+      <section
+        aria-label="Filter articles"
+        className="sticky top-0 z-30 border-b border-[var(--sage-border)] bg-[var(--sage-bg)]/90 backdrop-blur-md"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-3 flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap gap-1.5">
+            {ALL_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={
+                  activeCategory === cat
+                    ? 'text-[11px] font-mono uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] bg-[#0ED3CF] text-[#08110F] transition-colors'
+                    : 'text-[11px] font-mono uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink-muted)] transition-colors'
+                }
+              >
+                {cat}
+              </button>
             ))}
-          </Stagger>
-        )}
+          </div>
+          <div className="ml-auto">
+            <input
+              type="search"
+              placeholder="Search…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="h-8 w-48 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-3 text-[12px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:outline-none focus:border-[#0ED3CF]/50 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+              aria-label="Search articles"
+            />
+          </div>
+        </div>
       </section>
+
+      {/* ── Indexed post list ────────────────────────────────────────────── */}
+      <main aria-label="All articles">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          {listPosts.length === 0 ? (
+            <div className="py-24 text-center">
+              <MonoLabel tone="faint" as="p" className="mb-4">No matches</MonoLabel>
+              <button
+                type="button"
+                onClick={() => { setSearchQuery(''); setActiveCategory('All') }}
+                className="text-[12px] font-mono uppercase tracking-[0.12em] text-[#0ED3CF] hover:text-[var(--sage-ink-muted)] transition-colors"
+              >
+                Clear filters →
+              </button>
+            </div>
+          ) : (
+            <ol className="divide-y divide-[var(--sage-border)]" aria-label="Article list">
+              {listPosts.map((post, i) => (
+                <li key={post.id} className="sage-rise" style={{ animationDelay: `${Math.min(i, 6) * 0.04}s` }}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group grid grid-cols-[auto_1fr_auto] sm:grid-cols-[5rem_1fr_auto] lg:grid-cols-[5.5rem_1fr_auto_7rem] gap-x-5 sm:gap-x-8 items-start py-6 hover:bg-[var(--sage-surface-1)] -mx-5 px-5 sm:-mx-8 sm:px-8 transition-colors duration-150"
+                  >
+                    {/* Index number */}
+                    <span className="hidden sm:block pt-0.5 tabular-nums text-[11px] font-mono text-[var(--sage-ink-faint)] tracking-[0.12em]">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {/* Title + excerpt */}
+                    <div className="min-w-0">
+                      <h2
+                        className="text-[var(--sage-ink)] font-normal text-[clamp(1.05rem,0.9rem+0.5vw,1.25rem)] leading-[1.3] group-hover:text-[#0ED3CF] transition-colors duration-200"
+                        style={{
+                          fontFamily: 'var(--font-display)',
+                          fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                          letterSpacing: '-0.018em',
+                        }}
+                      >
+                        {post.title}
+                      </h2>
+                      <p className="mt-1.5 text-[13px] leading-[1.6] text-[var(--sage-ink-faint)] line-clamp-2 max-w-[68ch]">
+                        {post.excerpt}
+                      </p>
+                      {/* Tags — mobile visible */}
+                      <div className="mt-3 flex flex-wrap gap-1.5 lg:hidden">
+                        <MonoLabel tone="accent">{post.category}</MonoLabel>
+                        <span className="text-[var(--sage-ink-faint)]">·</span>
+                        <MonoLabel tone="faint">{post.readTime}</MonoLabel>
+                        <span className="text-[var(--sage-ink-faint)]">·</span>
+                        <MonoLabel tone="faint">{formatDate(post.date)}</MonoLabel>
+                      </div>
+                    </div>
+                    {/* Metadata column: category + read time (desktop) */}
+                    <div className="hidden lg:flex flex-col items-end gap-1 pt-0.5 text-right shrink-0">
+                      <MonoLabel tone="accent">{post.category}</MonoLabel>
+                      <MonoLabel tone="faint">{post.readTime}</MonoLabel>
+                    </div>
+                    {/* Date (desktop) */}
+                    <div className="hidden lg:block pt-0.5 text-right shrink-0">
+                      <MonoLabel tone="faint" className="tabular-nums">{formatDate(post.date)}</MonoLabel>
+                    </div>
+                    {/* Arrow (always) */}
+                    <span
+                      aria-hidden
+                      className="col-start-3 row-start-1 sm:col-start-auto pt-0.5 text-[var(--sage-ink-faint)] text-sm group-hover:text-[#0ED3CF] group-hover:translate-x-0.5 transition-all duration-200"
+                    >
+                      →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+
+        {/* ── Footer count ─────────────────────────────────────────────── */}
+        {listPosts.length > 0 && (
+          <div className="border-t border-[var(--sage-border)] mt-0 py-6">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8 flex items-center gap-4">
+              <MonoLabel tone="faint">
+                {searchQuery || activeCategory !== 'All'
+                  ? `${listPosts.length} article${listPosts.length !== 1 ? 's' : ''} found`
+                  : `${blogPosts.length} articles in the archive`}
+              </MonoLabel>
+              <Hairline className="flex-1" />
+              <MonoLabel tone="faint">sageideas.dev</MonoLabel>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   )
 }

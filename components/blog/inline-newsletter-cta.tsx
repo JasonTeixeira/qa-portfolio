@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { MonoLabel, Hairline } from '@/components/el'
 
 export function InlineNewsletterCTA() {
   const [email, setEmail] = useState('')
@@ -26,7 +26,7 @@ export function InlineNewsletterCTA() {
       } else {
         const data = await res.json().catch(() => ({}))
         setStatus('error')
-        setMessage(data?.error || 'Something went wrong. Try again.')
+        setMessage((data as { error?: string })?.error || 'Something went wrong. Try again.')
       }
     } catch {
       setStatus('error')
@@ -35,42 +35,58 @@ export function InlineNewsletterCTA() {
   }
 
   return (
-    <aside className="my-12 rounded-2xl border border-[#0ED3CF]/40 bg-gradient-to-br from-[#0ED3CF]/[0.05] via-[#12110F] to-[#E85D3A]/[0.05] p-6 sm:p-8">
-      <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#0ED3CF] mb-2">
-        Field notes from the keyboard
+    <aside
+      className="my-12 border border-[var(--sage-border)] rounded-[3px] bg-[var(--sage-surface-1)] p-6 sm:p-8"
+      aria-label="Newsletter subscription"
+    >
+      <div className="flex items-center gap-4 mb-6">
+        <MonoLabel tone="accent">// field notes</MonoLabel>
+        <Hairline className="flex-1" />
       </div>
-      <h3 className="text-2xl font-bold text-[#FAFAFA]">Get more like this.</h3>
-      <p className="text-sm text-[#A8A29E] mt-2 leading-relaxed">
-        Production engineering, AI systems, and architecture writing — once or twice a month, no fluff.
+      <p
+        className="text-[var(--sage-ink)] font-normal text-[1.25rem] mb-2"
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+          letterSpacing: '-0.018em',
+          lineHeight: 1.2,
+        }}
+      >
+        Get more like this.
       </p>
+      <p className="text-[14px] leading-[1.7] text-[var(--sage-ink-muted)] mb-6 max-w-[52ch]">
+        Production engineering, AI systems, and architecture writing — once or twice
+        a month, no fluff.
+      </p>
+
       {status === 'success' ? (
-        <div className="mt-5 flex items-center gap-2 text-sm text-[#10B981]">
-          <CheckCircle2 className="w-4 h-4" />
-          {message}
+        <div className="flex items-center gap-2 text-[13px] font-mono text-[#0ED3CF]">
+          <span aria-hidden>✓</span>
+          <span>{message}</span>
         </div>
       ) : (
-        <form onSubmit={onSubmit} className="mt-5 flex flex-col sm:flex-row gap-2">
+        <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-2">
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@company.com"
-            className="flex-1 px-4 py-2.5 bg-[#09090B] border border-[#2A2826] rounded-lg text-[#FAFAFA] text-sm placeholder:text-[#57534E] focus:outline-none focus:border-[#0ED3CF]/60 focus:ring-1 focus:ring-[#0ED3CF]/30 transition-colors"
+            className="flex-1 h-10 px-4 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-bg)] text-[13px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:outline-none focus:border-[#0ED3CF]/50 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             aria-label="Email address"
           />
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#0ED3CF] hover:bg-[#0AA8A5] disabled:opacity-60 disabled:cursor-not-allowed text-[#09090B] text-sm font-semibold transition-colors"
+            className="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-[2px] bg-[#0ED3CF] text-[#08110F] text-[12px] font-medium uppercase tracking-[0.08em] [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
-            {status === 'loading' ? 'Subscribing…' : 'Subscribe'}
-            <ArrowRight className="w-4 h-4" />
+            {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
           </button>
         </form>
       )}
+
       {status === 'error' && message && (
-        <p className="mt-3 text-xs text-[#F87171]">{message}</p>
+        <p className="mt-3 text-[12px] font-mono text-red-400">{message}</p>
       )}
     </aside>
   )

@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
-  ArrowRight,
   Banknote,
   Cloud,
   ShoppingBag,
@@ -11,8 +10,15 @@ import {
   Sparkles,
 } from 'lucide-react'
 import type { Vertical } from '@/data/industries/verticals'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
+import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+
+const HEADING_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+  letterSpacing: '-0.024em',
+  lineHeight: 1.02,
+}
 
 const verticalIcons: Record<string, typeof Banknote> = {
   fintech: Banknote,
@@ -28,113 +34,99 @@ export function IndustriesIndexContent({
   verticals: readonly Vertical[]
 }) {
   return (
-    <div className="min-h-screen bg-[#09090B]">
+    <div className="min-h-screen bg-[var(--sage-bg)]">
       {/* Hero */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-25" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <section
+        aria-label="Industries overview"
+        className="relative pt-28 pb-16 sm:pt-32 lg:pt-36 border-b border-[var(--sage-border)]"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
+            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
             className="max-w-3xl"
           >
-            <SectionLabel>Industries</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
+            <div className="mb-7 flex items-center gap-4">
+              <MonoLabel tone="accent">01</MonoLabel>
+              <Hairline className="flex-1" />
+              <MonoLabel tone="muted">// industries</MonoLabel>
+              <Hairline className="flex-1" strong />
+            </div>
+            <h1
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
+              style={HEADING_STYLE}
+            >
               Five verticals.{' '}
-              <span className="text-[#0ED3CF]">Operator-grade execution.</span>
+              <em className="not-italic text-[#0ED3CF]">Operator-grade execution.</em>
             </h1>
-            <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed max-w-2xl">
-              {
-                'Sage Ideas works deepest where we have shipped real software — fintech, SaaS, ecommerce, healthcare, and AI-native startups. Each industry page maps our productized tiers to the operational realities of the vertical: compliance, integration depth, regulatory edges, and the specific failure modes we have already debugged.'
-              }
+            <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
+              Sage Ideas works deepest where we have shipped real software — fintech, SaaS,
+              ecommerce, healthcare, and AI-native startups. Each industry page maps our
+              productized tiers to the operational realities of the vertical: compliance,
+              integration depth, regulatory edges, and the specific failure modes we have
+              already debugged.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Vertical grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-        >
-          <SectionLabel>Where we go deep</SectionLabel>
-          <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-8">
-            Pick your industry
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {verticals.map((v, i) => {
-              const Icon = verticalIcons[v.slug] ?? Sparkles
-              return (
-                <motion.div
-                  key={v.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.07 }}
+      <Section
+        eyebrow="where we go deep"
+        heading="Pick your industry"
+        ariaLabel="Industry verticals"
+      >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {verticals.map((v, i) => {
+            const Icon = verticalIcons[v.slug] ?? Sparkles
+            return (
+              <Reveal key={v.slug} delay={i * 0.07}>
+                <Link
+                  href={`/industries/${v.slug}`}
+                  className="group block h-full"
                 >
-                  <GlowCard glowColor="cyan" className="h-full">
-                    <Link
-                      href={`/industries/${v.slug}`}
-                      className="block p-6 h-full flex flex-col group"
-                    >
-                      <div className="flex items-start gap-3 mb-4">
-                        <div className="w-11 h-11 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                          <Icon className="w-5 h-5 text-[#0ED3CF]" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-lg font-bold text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors leading-tight">
-                            {v.name}
-                          </h3>
-                          <p className="text-sm text-[#0ED3CF]/80 mt-0.5">
-                            {v.tagline}
-                          </p>
-                        </div>
+                  <Surface level={2} interactive ticks className="p-6 h-full flex flex-col">
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className="w-11 h-11 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
+                        <Icon className="w-5 h-5 text-[#0ED3CF]" aria-hidden />
                       </div>
-                      <p className="text-sm text-[#A8A29E] leading-relaxed mb-4 flex-1">
-                        {v.intro.length > 220
-                          ? v.intro.slice(0, 220).trimEnd() + '…'
-                          : v.intro}
-                      </p>
-                      <span className="inline-flex items-center gap-1.5 text-sm text-[#0ED3CF] font-medium mt-auto">
-                        Explore {v.shortName}
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                      </span>
-                    </Link>
-                  </GlowCard>
-                </motion.div>
-              )
-            })}
-          </div>
-        </motion.div>
+                      <div className="flex-1">
+                        <h3 className="text-base text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors leading-tight">
+                          {v.name}
+                        </h3>
+                        <MonoLabel tone="accent" as="p" className="mt-0.5">{v.tagline}</MonoLabel>
+                      </div>
+                    </div>
+                    <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed mb-4 flex-1">
+                      {v.intro.length > 220
+                        ? v.intro.slice(0, 220).trimEnd() + '…'
+                        : v.intro}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
+                      Explore {v.shortName} →
+                    </span>
+                  </Surface>
+                </Link>
+              </Reveal>
+            )
+          })}
+        </div>
+      </Section>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="rounded-2xl bg-gradient-to-br from-[#0ED3CF]/10 via-[#12110F] to-[#E85D3A]/10 border border-[#0ED3CF]/20 p-8 sm:p-12 text-center"
-        >
-          <h2 className="text-2xl sm:text-3xl font-normal text-[#FAFAFA] mb-3">
-            Industry not listed?
-          </h2>
-          <p className="text-[#A8A29E] mb-8 max-w-lg mx-auto">
-            Sage Ideas works with most B2B verticals. Book a 30-minute call and we
-            will tell you directly whether we&apos;re the right fit — or who is.
-          </p>
-          <Link
-            href="/book"
-            className="inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold py-2.5 px-6 rounded-lg transition-colors"
-          >
+      {/* CTA */}
+      <Section
+        eyebrow="fit check"
+        heading={<>Industry not listed?<br /><em className="not-italic text-[#0ED3CF]">We still might fit.</em></>}
+        lede="Sage Ideas works with most B2B verticals. Book a 30-minute call and we will tell you directly whether we're the right fit — or who is."
+        centered
+        grain
+        action={
+          <CtaLink href="/book" variant="solid" event="cta_industries_index_footer">
             Book a Discovery Call
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
-      </section>
+          </CtaLink>
+        }
+      />
     </div>
   )
 }

@@ -1,17 +1,21 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { ArrowRight, Check, AlertTriangle, Briefcase, Tag } from 'lucide-react'
 import type { Vertical } from '@/data/industries/verticals'
 import { tiersBySlug } from '@/data/services/tiers'
 import { caseStudies } from '@/data/work/case-studies'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
-import { Button } from '@/components/ui/button'
+import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+import { motion } from 'framer-motion'
 
-// Maps vertical slug → lowercase phrase used in body copy (e.g. "the SaaS stack").
-// Kept here so /toLowerCase()/ doesn't garble proper nouns like "SaaS" or compound names.
+const HEADING_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+  letterSpacing: '-0.024em',
+  lineHeight: 1.02,
+}
+
 const STACK_PHRASE: Record<string, string> = {
   fintech: 'fintech',
   saas: 'SaaS',
@@ -32,342 +36,261 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const stackPhrase = STACK_PHRASE[v.slug] ?? v.shortName
 
   return (
-    <div className="min-h-screen bg-[#09090B]">
+    <div className="min-h-screen bg-[var(--sage-bg)]">
       {/* Hero */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <section
+        aria-label={`${v.name} industry`}
+        className="relative pt-28 pb-16 sm:pt-32 lg:pt-36 border-b border-[var(--sage-border)]"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
+            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-2 mb-4 text-xs font-mono uppercase tracking-widest text-[#78716C]">
+            {/* Breadcrumb */}
+            <div className="mb-6 flex items-center gap-2">
               <Link
                 href="/industries"
-                className="hover:text-[#0ED3CF] transition-colors"
+                className="text-[11px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 Industries
               </Link>
-              <span>·</span>
-              <span className="text-[#0ED3CF]">{v.shortName}</span>
+              <span className="text-[var(--sage-ink-faint)]">·</span>
+              <MonoLabel tone="accent">{v.shortName}</MonoLabel>
             </div>
 
-            <SectionLabel>Industry</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
+            <div className="mb-7 flex items-center gap-4">
+              <MonoLabel tone="accent">01</MonoLabel>
+              <Hairline className="flex-1" />
+              <MonoLabel tone="muted">// industry</MonoLabel>
+              <Hairline className="flex-1" strong />
+            </div>
+
+            <h1
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
+              style={HEADING_STYLE}
+            >
               {v.heroH1}
             </h1>
-            <p className="mt-3 text-xl text-[#0ED3CF] font-medium">{v.tagline}</p>
-            <p className="mt-4 text-lg text-[#A8A29E] leading-relaxed max-w-2xl">
+            <p className="mt-3 text-base text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.08em]">{v.tagline}</p>
+            <p className="mt-5 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
               {v.intro}
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold"
-              >
-                <Link href={`/book?industry=${v.slug}`}>
-                  Book a Discovery Call
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-[#3D3A37] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
-              >
-                <Link href="/services">
-                  Browse all services
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <CtaLink href={`/book?industry=${v.slug}`} variant="solid" event={`cta_industry_${v.slug}_hero`}>
+                Book a Discovery Call
+              </CtaLink>
+              <CtaLink href="/services" variant="ghost" arrow={false}>
+                Browse all services
+              </CtaLink>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-24 space-y-0">
         {/* Why us */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
+        <Section
+          eyebrow="why us"
+          heading={`Why Sage Ideas for ${v.shortName}`}
+          ariaLabel="Why choose us"
         >
-          <SectionLabel>Why us</SectionLabel>
-          <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-            Why Sage Ideas for {v.shortName}
-          </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {v.whyUs.map((bullet, i) => (
-              <motion.div
-                key={bullet}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="flex items-start gap-3 p-5 rounded-xl bg-[#12110F] border border-[#2A2826]"
-              >
-                <div className="w-6 h-6 rounded-full bg-[#0ED3CF]/15 flex items-center justify-center shrink-0 mt-0.5">
-                  <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
-                </div>
-                <span className="text-[#A8A29E] leading-relaxed text-sm">
-                  {bullet}
-                </span>
-              </motion.div>
+              <Reveal key={bullet} delay={i * 0.06}>
+                <Surface level={2} className="flex items-start gap-3 p-5">
+                  <div className="w-6 h-6 rounded-full bg-[#0ED3CF]/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-[#0ED3CF]" aria-hidden />
+                  </div>
+                  <span className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">
+                    {bullet}
+                  </span>
+                </Surface>
+              </Reveal>
             ))}
           </div>
-        </motion.section>
+        </Section>
 
         {/* Challenges */}
         {v.challenges.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
+          <Section
+            eyebrow="challenges"
+            heading="What we solve"
+            lede={`The specific operational challenges we've already debugged in the ${stackPhrase} stack.`}
+            ariaLabel="Challenges we solve"
           >
-            <SectionLabel>Challenges</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              What we solve
-            </h2>
-            <p className="text-[#A8A29E] mb-8 max-w-2xl">
-              The specific operational challenges we&apos;ve already debugged in the{' '}
-              {stackPhrase} stack.
-            </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {v.challenges.map((c, i) => (
-                <motion.div
-                  key={c.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.07 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-5 hover:border-[#E85D3A]/30 transition-colors"
-                >
-                  <div className="flex items-start gap-3 mb-2">
-                    <div className="w-9 h-9 rounded-lg bg-[#E85D3A]/10 border border-[#E85D3A]/20 flex items-center justify-center shrink-0">
-                      <AlertTriangle className="w-4 h-4 text-[#E85D3A]" />
+                <Reveal key={c.title} delay={i * 0.07}>
+                  <Surface level={2} className="p-5 group hover:border-[#E85D3A]/30 transition-colors">
+                    <div className="flex items-start gap-3 mb-2">
+                      <div className="w-9 h-9 rounded-[3px] bg-[#E85D3A]/10 border border-[#E85D3A]/20 flex items-center justify-center shrink-0">
+                        <AlertTriangle className="w-4 h-4 text-[#E85D3A]" aria-hidden />
+                      </div>
+                      <h3 className="text-sm text-[var(--sage-ink)] leading-tight pt-2">
+                        {c.title}
+                      </h3>
                     </div>
-                    <h3 className="font-semibold text-[#FAFAFA] leading-tight pt-1">
-                      {c.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-[#A8A29E] leading-relaxed">
-                    {c.description}
-                  </p>
-                </motion.div>
+                    <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">
+                      {c.description}
+                    </p>
+                  </Surface>
+                </Reveal>
               ))}
             </div>
-          </motion.section>
+          </Section>
         )}
 
         {/* Recommended tiers */}
         {tiers.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
+          <Section
+            eyebrow="engagements"
+            heading="Recommended tiers"
+            lede={`Productized engagements ordered by relevance to ${v.shortName.toLowerCase()} workloads.`}
+            ariaLabel="Recommended service tiers"
           >
-            <SectionLabel>Engagements</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-2">
-              Recommended tiers
-            </h2>
-            <p className="text-[#A8A29E] mb-8 max-w-2xl">
-              Productized engagements ordered by relevance to{' '}
-              {v.shortName.toLowerCase()} workloads.
-            </p>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {tiers.map((tier, i) => (
-                <motion.div
-                  key={tier.slug}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.06 }}
-                >
-                  <GlowCard
-                    glowColor={tier.highlight ? 'gradient' : 'cyan'}
-                    className="h-full"
+                <Reveal key={tier.slug} delay={i * 0.06}>
+                  <Link
+                    href={`/services/${tier.slug}`}
+                    className="group block h-full"
                   >
-                    <Link
-                      href={`/services/${tier.slug}`}
-                      className="block p-5 h-full flex flex-col group"
-                    >
+                    <Surface level={2} interactive ticks className="p-5 h-full flex flex-col">
                       <div className="flex items-start justify-between mb-2 gap-2">
-                        <h3 className="font-bold text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors">
+                        <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors">
                           {tier.name}
                         </h3>
                         {tier.highlight && (
-                          <span className="text-[10px] font-mono text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 px-1.5 py-0.5 rounded shrink-0">
+                          <MonoLabel tone="accent" className="shrink-0 px-1.5 py-0.5 border border-[#0ED3CF]/30 bg-[#0ED3CF]/10 rounded-[3px]">
                             POPULAR
-                          </span>
+                          </MonoLabel>
                         )}
                       </div>
-                      <p className="text-sm text-[#A8A29E] leading-snug mb-4 flex-1">
+                      <p className="text-sm text-[var(--sage-ink-muted)] leading-snug mb-4 flex-1">
                         {tier.tagline}
                       </p>
                       <div className="flex items-baseline gap-2 mb-1">
-                        <span className="text-2xl font-bold text-[#FAFAFA]">
+                        <span className="text-2xl text-[var(--sage-ink)]" style={{ fontFamily: 'var(--font-display)' }}>
                           {tier.price}
                         </span>
                         {tier.cadence === 'monthly' && (
-                          <span className="text-[#78716C] text-xs">/mo</span>
+                          <MonoLabel tone="faint">/mo</MonoLabel>
                         )}
                       </div>
-                      <div className="text-xs font-mono text-[#78716C] mb-3">
+                      <MonoLabel tone="faint" as="p" className="mb-3">
                         {tier.timeline}
-                      </div>
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-[#0ED3CF] mt-auto">
-                        View tier
-                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </MonoLabel>
+                      <span className="inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
+                        View tier →
                       </span>
-                    </Link>
-                  </GlowCard>
-                </motion.div>
+                    </Surface>
+                  </Link>
+                </Reveal>
               ))}
             </div>
-          </motion.section>
+          </Section>
         )}
 
         {/* Related case studies */}
         {studies.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
+          <Section
+            eyebrow="proof"
+            heading="Relevant work"
+            ariaLabel="Related case studies"
           >
-            <SectionLabel>Proof</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-              Relevant work
-            </h2>
             <div className="grid md:grid-cols-2 gap-4">
               {studies.map((cs, i) => (
-                <motion.div
-                  key={cs.slug}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.07 }}
-                >
+                <Reveal key={cs.slug} delay={i * 0.07}>
                   <Link
                     href={`/work/${cs.slug}`}
-                    className="block h-full rounded-xl bg-[#12110F] border border-[#2A2826] p-6 hover:border-[#0ED3CF]/40 transition-all group"
+                    className="group block h-full"
                   >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                        <Briefcase className="w-4 h-4 text-[#0ED3CF]" />
+                    <Surface level={2} interactive className="p-6 h-full">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
+                          <Briefcase className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                        </div>
+                        <div className="flex-1">
+                          <MonoLabel tone="faint" as="p">{cs.category}</MonoLabel>
+                          <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors mt-0.5 leading-tight">
+                            {cs.title}
+                          </h3>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs font-mono uppercase tracking-widest text-[#78716C]">
-                          {cs.category}
-                        </span>
-                        <h3 className="font-semibold text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors mt-0.5 leading-tight">
-                          {cs.title}
-                        </h3>
-                      </div>
-                    </div>
-                    <p className="text-sm text-[#A8A29E] leading-relaxed mb-3">
-                      {cs.tagline}
-                    </p>
-                    <span className="inline-flex items-center gap-1 text-xs font-mono text-[#0ED3CF]">
-                      Read case study
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
+                      <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed mb-3">
+                        {cs.tagline}
+                      </p>
+                      <CtaLink href={`/work/${cs.slug}`} variant="text" arrow>
+                        Read case study
+                      </CtaLink>
+                    </Surface>
                   </Link>
-                </motion.div>
+                </Reveal>
               ))}
             </div>
-          </motion.section>
+          </Section>
         )}
 
         {/* FAQ */}
         {v.faq.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
+          <Section
+            eyebrow="faq"
+            heading={`${v.shortName} questions`}
+            ariaLabel="Frequently asked questions"
           >
-            <SectionLabel>FAQ</SectionLabel>
-            <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA] mb-8">
-              {v.shortName} questions
-            </h2>
             <div className="space-y-4">
               {v.faq.map((item, i) => (
-                <motion.div
-                  key={item.q}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-6"
-                >
-                  <h3 className="text-[#FAFAFA] font-semibold mb-2">{item.q}</h3>
-                  <p className="text-[#A8A29E] leading-relaxed text-sm">
-                    {item.a}
-                  </p>
-                </motion.div>
+                <Reveal key={item.q} delay={i * 0.06}>
+                  <Surface level={2} className="p-6">
+                    <h3 className="text-sm text-[var(--sage-ink)] mb-2">{item.q}</h3>
+                    <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">
+                      {item.a}
+                    </p>
+                  </Surface>
+                </Reveal>
               ))}
             </div>
-          </motion.section>
+          </Section>
         )}
 
-        {/* Keywords (subtle, for SEO + trust) */}
+        {/* Keywords */}
         {v.keywords.length > 0 && (
-          <motion.section
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-          >
-            <div className="flex flex-wrap items-center gap-2">
-              <Tag className="w-3.5 h-3.5 text-[#78716C]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#78716C] mr-2">
-                Topics
-              </span>
+          <Reveal>
+            <section
+              aria-label="Topics"
+              className="py-8 border-t border-[var(--sage-border)] flex flex-wrap items-center gap-2"
+            >
+              <Tag className="w-3.5 h-3.5 text-[var(--sage-ink-faint)]" aria-hidden />
+              <MonoLabel tone="faint" className="mr-2">Topics</MonoLabel>
               {v.keywords.map((kw) => (
                 <span
                   key={kw}
-                  className="text-xs font-mono text-[#A8A29E] bg-[#1A1917] border border-[#2A2826] px-2 py-0.5 rounded"
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-muted)] bg-[var(--sage-surface-2)] border border-[var(--sage-border)] px-2 py-0.5 rounded-[3px]"
                 >
                   {kw}
                 </span>
               ))}
-            </div>
-          </motion.section>
+            </section>
+          </Reveal>
         )}
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="rounded-2xl bg-gradient-to-br from-[#0ED3CF]/10 via-[#12110F] to-[#E85D3A]/10 border border-[#0ED3CF]/20 p-8 sm:p-12 text-center"
-        >
-          <h2 className="text-2xl sm:text-3xl font-normal text-[#FAFAFA] mb-3">
-            {v.ctaLine}
-          </h2>
-          <p className="text-[#A8A29E] mb-8 max-w-lg mx-auto">
-            Book a 30-minute discovery call. We&apos;ll talk through your{' '}
-            {stackPhrase} stack and tell you directly which engagement
-            — if any — is the right fit.
-          </p>
-          <Link
-            href={`/book?industry=${v.slug}`}
-            className="inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold py-2.5 px-6 rounded-lg transition-colors"
-          >
-            Book a Discovery Call
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
+        <Section
+          eyebrow="discovery"
+          heading={<>{v.ctaLine}</>}
+          lede={`Book a 30-minute discovery call. We'll talk through your ${stackPhrase} stack and tell you directly which engagement — if any — is the right fit.`}
+          centered
+          grain
+          action={
+            <CtaLink href={`/book?industry=${v.slug}`} variant="solid" event={`cta_industry_${v.slug}_footer`}>
+              Book a Discovery Call
+            </CtaLink>
+          }
+        />
       </div>
     </div>
   )

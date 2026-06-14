@@ -1,7 +1,15 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { SectionLabel } from '@/components/section-label'
+import { Section, Surface, Hairline, MonoLabel, Reveal } from '@/components/el'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+
+const HEADING_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+  letterSpacing: '-0.024em',
+  lineHeight: 1.02,
+}
 
 type Proficiency = 'Expert' | 'Advanced' | 'Intermediate'
 
@@ -119,78 +127,81 @@ const techStack: TechCategory[] = [
   },
 ]
 
-const proficiencyWidth: Record<Proficiency, string> = {
+const proficiencyBarWidth: Record<Proficiency, string> = {
   Expert: 'w-full',
   Advanced: 'w-3/4',
   Intermediate: 'w-1/2',
 }
 
-const proficiencyColor: Record<Proficiency, string> = {
-  Expert: 'bg-[#0ED3CF]',
-  Advanced: 'bg-[#0ED3CF]/70',
-  Intermediate: 'bg-[#0ED3CF]/40',
-}
-
 export function StackContent() {
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-28 pb-20 bg-[var(--sage-bg)]">
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <section aria-label="Technology stack" className="max-w-7xl mx-auto px-5 sm:px-8 mb-16 border-b border-[var(--sage-border)] pb-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
         >
-          <SectionLabel>Stack</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA]">
+          <div className="mb-7 flex items-center gap-4">
+            <MonoLabel tone="accent">01</MonoLabel>
+            <Hairline className="flex-1" />
+            <MonoLabel tone="muted">// stack</MonoLabel>
+            <Hairline className="flex-1" strong />
+          </div>
+          <h1
+            className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
+            style={HEADING_STYLE}
+          >
             Technologies I Work With
           </h1>
-          <p className="mt-6 text-lg text-[#A8A29E] max-w-2xl">
+          <p className="mt-6 text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] max-w-2xl sm:text-base">
             50+ technologies across the full stack — from frontend to infrastructure to trading systems.
           </p>
         </motion.div>
       </section>
 
       {/* Tech Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="space-y-16">
           {techStack.map((category, categoryIndex) => (
-            <motion.div
-              key={category.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-            >
-              <h2 className="text-2xl font-bold text-[#FAFAFA] mb-6">{category.name}</h2>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {category.items.map((tech, techIndex) => (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: techIndex * 0.05 }}
-                    className="p-4 bg-[#1A1917] border border-[#2A2826] rounded-xl hover:border-[#0ED3CF]/50 transition-colors group"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors">
-                        {tech.name}
-                      </span>
-                      <span className="text-xs text-[#78716C]">{tech.proficiency}</span>
-                    </div>
-                    <div className="h-1.5 bg-[#2A2826] rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${proficiencyWidth[tech.proficiency]} ${proficiencyColor[tech.proficiency]} rounded-full transition-all duration-500`}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+            <Reveal key={category.name} delay={0}>
+              <section aria-label={category.name}>
+                <div className="mb-6 flex items-center gap-4 border-t border-[var(--sage-border)] pt-6">
+                  <MonoLabel tone="accent">{String(categoryIndex + 1).padStart(2, '0')}</MonoLabel>
+                  <Hairline className="flex-1" />
+                  <MonoLabel tone="muted">// {category.name.toLowerCase()}</MonoLabel>
+                  <Hairline className="flex-1" strong />
+                </div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {category.items.map((tech, techIndex) => (
+                    <motion.div
+                      key={tech.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: techIndex * 0.04, ease: EASE_OUT_QUINT }}
+                    >
+                      <Surface level={2} interactive className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm text-[var(--sage-ink)]">{tech.name}</span>
+                          <MonoLabel tone="faint">{tech.proficiency}</MonoLabel>
+                        </div>
+                        <div className="h-px bg-[var(--sage-border)] overflow-hidden rounded-full">
+                          <div
+                            className={`h-full ${proficiencyBarWidth[tech.proficiency]} bg-[#0ED3CF] transition-all duration-500`}
+                            style={{ opacity: tech.proficiency === 'Expert' ? 1 : tech.proficiency === 'Advanced' ? 0.7 : 0.4 }}
+                          />
+                        </div>
+                      </Surface>
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+            </Reveal>
           ))}
         </div>
-      </section>
+      </div>
     </div>
   )
 }

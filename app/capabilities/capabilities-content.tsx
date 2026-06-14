@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
-  ArrowRight,
   Brain,
   Globe,
   Workflow,
@@ -31,8 +30,15 @@ import {
   type Mode,
   type MatrixCell,
 } from '@/data/services/tiers'
-import { SectionLabel } from '@/components/section-label'
-import { GlowCard } from '@/components/glow-card'
+import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+
+const HEADING_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+  letterSpacing: '-0.024em',
+  lineHeight: 1.02,
+}
 
 const modeIcons: Record<Mode, typeof Eye> = {
   audit: Eye,
@@ -89,10 +95,10 @@ const toneClasses: Record<
     badge: 'Retainer',
   },
   custom: {
-    border: 'border-dashed border-[#57534E]/60 hover:border-[#A8A29E]/60',
-    bg: 'bg-transparent hover:bg-[#FAFAFA]/[0.03]',
-    label: 'text-[#A8A29E]',
-    iconBg: 'bg-[#2A2826] border-[#3D3A37]',
+    border: 'border-dashed border-[var(--sage-border-strong)] hover:border-[var(--sage-border-hover)]',
+    bg: 'bg-transparent hover:bg-[var(--sage-surface-3)]',
+    label: 'text-[var(--sage-ink-muted)]',
+    iconBg: 'bg-[var(--sage-surface-2)] border-[var(--sage-border-strong)]',
     Icon: Sparkles,
     badge: 'Custom',
   },
@@ -100,114 +106,104 @@ const toneClasses: Record<
 
 export function CapabilitiesContent() {
   return (
-    <div className="min-h-screen bg-[#09090B]">
+    <div className="min-h-screen bg-[var(--sage-bg)]">
       {/* Hero */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-pattern opacity-25" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <section
+        aria-label="Capabilities overview"
+        className="relative pt-28 pb-16 sm:pt-32 lg:pt-36 border-b border-[var(--sage-border)]"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
+            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
             className="max-w-3xl"
           >
-            <SectionLabel>Capabilities</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
+            <div className="mb-7 flex items-center gap-4">
+              <MonoLabel tone="accent">01</MonoLabel>
+              <Hairline className="flex-1" />
+              <MonoLabel tone="muted">// capabilities</MonoLabel>
+              <Hairline className="flex-1" strong />
+            </div>
+            <h1
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
+              style={HEADING_STYLE}
+            >
               Eight capabilities.{' '}
-              <span className="text-[#0ED3CF]">Four modes.</span>{' '}
-              <span className="text-[#E85D3A]">Every cell filled.</span>
+              <em className="not-italic text-[#0ED3CF]">Four modes.</em>{' '}
+              <em className="not-italic text-[#E85D3A]">Every cell filled.</em>
             </h1>
-            <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed max-w-2xl">
+            <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
               {
                 "Each capability has a productized engagement, a custom option, and an ongoing retainer. Pick what fits — fixed-price tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime. Don't see your shape? Every engagement can be custom-scoped."
               }
             </p>
-            <div className="mt-8 flex flex-wrap gap-2 text-xs font-mono">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 text-[#0ED3CF]">
-                <CheckCircle2 className="w-3 h-3" /> Productized · instant checkout
+            <div className="mt-8 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 text-[#0ED3CF] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <CheckCircle2 className="w-3 h-3" aria-hidden /> Productized · instant checkout
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#E85D3A]/10 border border-[#E85D3A]/30 text-[#E85D3A]">
-                <RefreshCw className="w-3 h-3" /> Retainer · monthly
+              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#E85D3A]/10 border border-[#E85D3A]/30 text-[#E85D3A] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <RefreshCw className="w-3 h-3" aria-hidden /> Retainer · monthly
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#2A2826] border border-[#3D3A37] text-[#A8A29E]">
-                <Sparkles className="w-3 h-3" /> Custom · talk to Sage
+              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[var(--sage-surface-2)] border border-[var(--sage-border-strong)] text-[var(--sage-ink-muted)] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <Sparkles className="w-3 h-3" aria-hidden /> Custom · talk to Sage
               </span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-24 space-y-20">
         {/* Mode legend */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
+        <Section
+          eyebrow="modes"
+          heading="How engagements run"
+          topRule={false}
+          className="pt-16 sm:pt-20"
         >
-          <SectionLabel>Modes</SectionLabel>
-          <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-6">
-            How engagements run
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px rounded-[3px] overflow-hidden border border-[var(--sage-border)] bg-[var(--sage-border)]">
             {modeMeta.map((m, i) => {
               const Icon = modeIcons[m.key]
               return (
-                <motion.div
-                  key={m.key}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.06 }}
-                  className="rounded-xl bg-[#12110F] border border-[#2A2826] p-5"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-9 h-9 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-[#0ED3CF]" />
+                <Reveal key={m.key} delay={i * 0.06}>
+                  <div className="bg-[var(--sage-surface-1)] p-5">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                      </div>
+                      <MonoLabel tone="ink">{m.label}</MonoLabel>
                     </div>
-                    <span className="font-semibold text-[#FAFAFA]">{m.label}</span>
+                    <p className="text-sm text-[var(--sage-ink-muted)]">{m.tagline}</p>
                   </div>
-                  <p className="text-sm text-[#A8A29E]">{m.tagline}</p>
-                </motion.div>
+                </Reveal>
               )
             })}
           </div>
-        </motion.section>
+        </Section>
 
-        {/* Matrix — desktop */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
+        {/* Matrix */}
+        <Section
+          eyebrow="matrix"
+          heading={<>Capability × Mode —<br /><em className="not-italic text-[#0ED3CF]">every cell filled</em></>}
+          lede="Find your row (capability) and column (mode). Every intersection has a real offering — productized tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime."
         >
-          <SectionLabel>Matrix</SectionLabel>
-          <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-2">
-            Capability × Mode — every cell filled
-          </h2>
-          <p className="text-[#A8A29E] mb-8 max-w-2xl">
-            Find your row (capability) and column (mode). Every intersection has a real
-            offering — productized tiers checkout instantly, custom engagements get a
-            same-day quote, retainers cancel anytime.
-          </p>
-
-          <div className="hidden lg:block overflow-hidden rounded-2xl border border-[#2A2826] bg-[#12110F]">
+          {/* Desktop matrix */}
+          <div className="hidden lg:block overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)]">
             {/* Header row */}
-            <div className="grid grid-cols-[1.4fr_repeat(4,1fr)] border-b border-[#2A2826] bg-[#0a0a0d]">
-              <div className="px-4 py-3 text-xs font-mono uppercase tracking-widest text-[#78716C]">
-                Capability
+            <div className="grid grid-cols-[1.4fr_repeat(4,1fr)] border-b border-[var(--sage-border)] bg-[var(--sage-bg)]">
+              <div className="px-4 py-3">
+                <MonoLabel tone="faint">Capability</MonoLabel>
               </div>
               {modeMeta.map((m) => (
                 <div
                   key={m.key}
-                  className="px-4 py-3 text-xs font-mono uppercase tracking-widest text-[#78716C] border-l border-[#2A2826]"
+                  className="px-4 py-3 border-l border-[var(--sage-border)]"
                 >
-                  {m.label}
+                  <MonoLabel tone="faint">{m.label}</MonoLabel>
                 </div>
               ))}
             </div>
 
-            {/* Capability rows */}
             {capabilityOrder.map((capKey, idx) => {
               const cap = capabilities[capKey]
               const Icon = capabilityIcons[capKey]
@@ -216,26 +212,20 @@ export function CapabilitiesContent() {
                   key={capKey}
                   className={`grid grid-cols-[1.4fr_repeat(4,1fr)] ${
                     idx < capabilityOrder.length - 1
-                      ? 'border-b border-[#2A2826]/60'
+                      ? 'border-b border-[var(--sage-border)]'
                       : ''
                   }`}
                 >
-                  {/* Capability cell */}
                   <div className="px-4 py-5 flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#0ED3CF]" />
+                    <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
                     </div>
                     <div>
-                      <div className="font-semibold text-[#FAFAFA] leading-tight">
-                        {cap.label}
-                      </div>
-                      <div className="text-xs text-[#78716C] mt-1 leading-snug">
-                        {cap.tagline}
-                      </div>
+                      <div className="text-sm font-normal text-[var(--sage-ink)] leading-tight">{cap.label}</div>
+                      <div className="text-xs text-[var(--sage-ink-faint)] mt-1 leading-snug">{cap.tagline}</div>
                     </div>
                   </div>
 
-                  {/* Mode cells */}
                   {modeMeta.map((m) => {
                     const cell = capabilityMatrix[capKey][m.key]
                     const tone = toneFor(cell)
@@ -244,29 +234,19 @@ export function CapabilitiesContent() {
                     return (
                       <div
                         key={m.key}
-                        className="border-l border-[#2A2826]/60 p-3"
+                        className="border-l border-[var(--sage-border)] p-3"
                       >
                         <Link
                           href={cell.href}
-                          className={`block h-full rounded-lg border ${styles.border} ${styles.bg} p-3 transition-all group min-h-[100px]`}
+                          className={`block h-full rounded-[3px] border ${styles.border} ${styles.bg} p-3 transition-all group min-h-[100px]`}
                         >
                           <div className="flex items-center gap-1.5 mb-1">
-                            <ToneIcon className={`w-3.5 h-3.5 ${styles.label}`} />
-                            <span
-                              className={`text-[10px] font-mono uppercase tracking-widest ${styles.label}`}
-                            >
-                              {styles.badge}
-                            </span>
+                            <ToneIcon className={`w-3.5 h-3.5 ${styles.label}`} aria-hidden />
+                            <MonoLabel tone="faint" className={styles.label}>{styles.badge}</MonoLabel>
                           </div>
-                          <div className="text-sm font-semibold text-[#FAFAFA] leading-tight mb-1">
-                            {cell.label}
-                          </div>
-                          <div className="text-[13px] text-[#FAFAFA]/90 font-medium">
-                            {cell.price}
-                          </div>
-                          <div className="text-xs text-[#78716C] mt-0.5">
-                            {cell.timeline}
-                          </div>
+                          <div className="text-sm text-[var(--sage-ink)] leading-tight mb-1">{cell.label}</div>
+                          <div className="text-[13px] text-[var(--sage-ink)] font-normal [font-family:var(--font-mono),ui-monospace,monospace]">{cell.price}</div>
+                          <div className="text-xs text-[var(--sage-ink-faint)] mt-0.5">{cell.timeline}</div>
                         </Link>
                       </div>
                     )
@@ -276,141 +256,111 @@ export function CapabilitiesContent() {
             })}
           </div>
 
-          {/* Mobile: capability cards with stacked mode pills */}
+          {/* Mobile: capability cards */}
           <div className="lg:hidden space-y-4">
             {capabilityOrder.map((capKey, i) => {
               const cap = capabilities[capKey]
               const Icon = capabilityIcons[capKey]
               return (
-                <motion.div
-                  key={capKey}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="rounded-xl border border-[#2A2826] bg-[#12110F] p-5"
-                >
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#0ED3CF]" />
+                <Reveal key={capKey} delay={i * 0.05}>
+                  <Surface level={2} className="p-5">
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                      </div>
+                      <div>
+                        <h3 className="text-sm text-[var(--sage-ink)]">{cap.label}</h3>
+                        <p className="text-xs text-[var(--sage-ink-faint)] mt-0.5 leading-snug">{cap.tagline}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-[#FAFAFA]">{cap.label}</h3>
-                      <p className="text-xs text-[#78716C] mt-0.5 leading-snug">
-                        {cap.tagline}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {modeMeta.map((m) => {
-                      const cell = capabilityMatrix[capKey][m.key]
-                      const tone = toneFor(cell)
-                      const styles = toneClasses[tone]
-                      return (
-                        <Link
-                          key={m.key}
-                          href={cell.href}
-                          className={`rounded-lg border ${styles.border} ${styles.bg} p-2.5 transition-colors`}
-                        >
-                          <div
-                            className={`text-[10px] font-mono uppercase tracking-widest ${styles.label} mb-0.5`}
+                    <div className="grid grid-cols-2 gap-2">
+                      {modeMeta.map((m) => {
+                        const cell = capabilityMatrix[capKey][m.key]
+                        const tone = toneFor(cell)
+                        const styles = toneClasses[tone]
+                        return (
+                          <Link
+                            key={m.key}
+                            href={cell.href}
+                            className={`rounded-[3px] border ${styles.border} ${styles.bg} p-2.5 transition-colors`}
                           >
-                            {m.label} · {styles.badge}
-                          </div>
-                          <div className="text-sm font-semibold text-[#FAFAFA] leading-tight">
-                            {cell.label}
-                          </div>
-                          <div className="text-xs text-[#A8A29E] mt-0.5">
-                            {cell.price}
-                          </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </motion.div>
+                            <MonoLabel tone="faint" className={`${styles.label} mb-0.5 block`}>
+                              {m.label} · {styles.badge}
+                            </MonoLabel>
+                            <div className="text-sm text-[var(--sage-ink)] leading-tight">{cell.label}</div>
+                            <div className="text-xs text-[var(--sage-ink-muted)] mt-0.5 [font-family:var(--font-mono),ui-monospace,monospace]">{cell.price}</div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </Surface>
+                </Reveal>
               )
             })}
           </div>
-        </motion.section>
+        </Section>
 
         {/* Custom + retainer messaging */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="grid md:grid-cols-2 gap-6"
-        >
-          <div className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-[#A8A29E]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#A8A29E]">
-                Custom packages
-              </span>
+        <Reveal>
+          <div className="grid md:grid-cols-2 gap-px rounded-[3px] overflow-hidden border border-[var(--sage-border)] bg-[var(--sage-border)]">
+            <div className="bg-[var(--sage-surface-1)] p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-[var(--sage-ink-muted)]" aria-hidden />
+                <MonoLabel tone="muted">Custom packages</MonoLabel>
+              </div>
+              <h3 className="text-xl font-normal text-[var(--sage-ink)] mb-2" style={HEADING_STYLE}>
+                Don&apos;t see what you need?
+              </h3>
+              <p className="text-sm text-[var(--sage-ink-muted)] mb-4 leading-relaxed">
+                Every engagement can be custom-scoped — combine capabilities, adjust the
+                timeline, set your own deliverables. Every quote is transparent and
+                fixed-price.
+              </p>
+              <CtaLink href="/contact?engagement=custom" variant="text">
+                Talk to Sage
+              </CtaLink>
             </div>
-            <h3 className="text-xl font-bold text-[#FAFAFA] mb-2">
-              Don&apos;t see what you need?
-            </h3>
-            <p className="text-sm text-[#A8A29E] mb-4 leading-relaxed">
-              Every engagement can be custom-scoped — combine capabilities, adjust the
-              timeline, set your own deliverables. Every quote is transparent and
-              fixed-price.
-            </p>
-            <Link
-              href="/contact?engagement=custom"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#FAFAFA] hover:text-[#0ED3CF] transition-colors"
-            >
-              Talk to Sage <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-          <div className="rounded-2xl border border-[#E85D3A]/20 bg-gradient-to-br from-[#E85D3A]/[0.06] to-transparent p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <RefreshCw className="w-4 h-4 text-[#E85D3A]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-[#E85D3A]">
-                Monthly retainers
-              </span>
-            </div>
-            <h3 className="text-xl font-bold text-[#FAFAFA] mb-2">
-              Already shipped? Keep it healthy.
-            </h3>
-            <p className="text-sm text-[#A8A29E] mb-4 leading-relaxed">
-              Site Care, Brand Care, and Content Care are lightweight monthly retainers
-              for teams who already have something in market. Cancel anytime.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href="/services/site-care"
-                className="text-xs font-mono text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded hover:bg-[#E85D3A]/20 transition-colors"
-              >
-                Site Care · $300/mo
-              </Link>
-              <Link
-                href="/services/brand-care"
-                className="text-xs font-mono text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded hover:bg-[#E85D3A]/20 transition-colors"
-              >
-                Brand Care · $400/mo
-              </Link>
-              <Link
-                href="/services/content-care"
-                className="text-xs font-mono text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded hover:bg-[#E85D3A]/20 transition-colors"
-              >
-                Content Care · $800/mo
-              </Link>
+            <div className="bg-[var(--sage-surface-1)] p-6 border-l border-[var(--sage-border)]">
+              <div className="flex items-center gap-2 mb-3">
+                <RefreshCw className="w-4 h-4 text-[#E85D3A]" aria-hidden />
+                <MonoLabel tone="muted" className="text-[#E85D3A]">Monthly retainers</MonoLabel>
+              </div>
+              <h3 className="text-xl font-normal text-[var(--sage-ink)] mb-2" style={HEADING_STYLE}>
+                Already shipped? Keep it healthy.
+              </h3>
+              <p className="text-sm text-[var(--sage-ink-muted)] mb-4 leading-relaxed">
+                Site Care, Brand Care, and Content Care are lightweight monthly retainers
+                for teams who already have something in market. Cancel anytime.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href="/services/site-care"
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded-[3px] hover:bg-[#E85D3A]/20 transition-colors uppercase tracking-[0.1em]"
+                >
+                  Site Care · $300/mo
+                </Link>
+                <Link
+                  href="/services/brand-care"
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded-[3px] hover:bg-[#E85D3A]/20 transition-colors uppercase tracking-[0.1em]"
+                >
+                  Brand Care · $400/mo
+                </Link>
+                <Link
+                  href="/services/content-care"
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#E85D3A] bg-[#E85D3A]/10 border border-[#E85D3A]/20 px-2.5 py-1 rounded-[3px] hover:bg-[#E85D3A]/20 transition-colors uppercase tracking-[0.1em]"
+                >
+                  Content Care · $800/mo
+                </Link>
+              </div>
             </div>
           </div>
-        </motion.section>
+        </Reveal>
 
         {/* Capability deep links */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
+        <Section
+          eyebrow="by capability"
+          heading="Explore by service line"
         >
-          <SectionLabel>By capability</SectionLabel>
-          <h2 className="mt-3 text-2xl font-bold text-[#FAFAFA] mb-8">
-            Explore by service line
-          </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {capabilityOrder.map((capKey, i) => {
               const cap = capabilities[capKey]
@@ -418,77 +368,51 @@ export function CapabilitiesContent() {
               const tierCount = cap.tierSlugs.length
               const firstSlug = cap.tierSlugs[0]
               return (
-                <motion.div
-                  key={capKey}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.05 }}
-                >
-                  <GlowCard glowColor="cyan" className="h-full">
-                    <div className="p-5 h-full flex flex-col">
-                      <div className="w-10 h-10 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center mb-3">
-                        <Icon className="w-4 h-4 text-[#0ED3CF]" />
-                      </div>
-                      <h3 className="font-semibold text-[#FAFAFA] mb-1">
-                        {cap.label}
-                      </h3>
-                      <p className="text-sm text-[#A8A29E] leading-snug mb-4 flex-1">
-                        {cap.tagline}
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {cap.tierSlugs.map((slug) => {
-                          const t = tiersBySlug[slug]
-                          const label = t ? t.shortName : slug.replace(/-/g, ' ')
-                          return (
-                            <Link
-                              key={slug}
-                              href={`/services/${slug}`}
-                              className="text-xs font-mono text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 px-2 py-0.5 rounded hover:bg-[#0ED3CF]/20 transition-colors capitalize"
-                            >
-                              {label}
-                            </Link>
-                          )
-                        })}
-                      </div>
-                      <Link
-                        href={`/services/${firstSlug}`}
-                        className="inline-flex items-center gap-1 text-xs font-mono text-[#78716C] hover:text-[#0ED3CF] transition-colors"
-                      >
-                        {tierCount} {tierCount === 1 ? 'option' : 'options'} · explore
-                        <ArrowRight className="w-3 h-3" />
-                      </Link>
+                <Reveal key={capKey} delay={i * 0.05}>
+                  <Surface level={2} interactive className="p-5 h-full flex flex-col">
+                    <div className="w-10 h-10 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center mb-3">
+                      <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
                     </div>
-                  </GlowCard>
-                </motion.div>
+                    <h3 className="text-sm text-[var(--sage-ink)] mb-1">{cap.label}</h3>
+                    <p className="text-sm text-[var(--sage-ink-muted)] leading-snug mb-4 flex-1">{cap.tagline}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {cap.tierSlugs.map((slug) => {
+                        const t = tiersBySlug[slug]
+                        const label = t ? t.shortName : slug.replace(/-/g, ' ')
+                        return (
+                          <Link
+                            key={slug}
+                            href={`/services/${slug}`}
+                            className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 px-2 py-0.5 rounded-[3px] hover:bg-[#0ED3CF]/20 transition-colors capitalize"
+                          >
+                            {label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                    <CtaLink href={`/services/${firstSlug}`} variant="text">
+                      {tierCount} {tierCount === 1 ? 'option' : 'options'} · explore
+                    </CtaLink>
+                  </Surface>
+                </Reveal>
               )
             })}
           </div>
-        </motion.section>
+        </Section>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="rounded-2xl bg-gradient-to-br from-[#0ED3CF]/10 via-[#12110F] to-[#E85D3A]/10 border border-[#0ED3CF]/20 p-8 sm:p-12 text-center"
-        >
-          <h2 className="text-2xl sm:text-3xl font-normal text-[#FAFAFA] mb-3">
-            Not sure which capability you need?
-          </h2>
-          <p className="text-[#A8A29E] mb-8 max-w-lg mx-auto">
-            Book a 30-minute discovery call. We&apos;ll talk through what you&apos;re
-            building and which row + column fits — or scope something custom together.
-          </p>
-          <Link
-            href="/book"
-            className="inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold py-2.5 px-6 rounded-lg transition-colors"
-          >
-            Book a Discovery Call
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
+        <Section
+          eyebrow="discovery"
+          heading={<>Not sure which<br /><em className="not-italic text-[#0ED3CF]">capability you need?</em></>}
+          lede="Book a 30-minute discovery call. We'll talk through what you're building and which row + column fits — or scope something custom together."
+          centered
+          grain
+          action={
+            <CtaLink href="/book" variant="solid" event="cta_capabilities_footer">
+              Book a Discovery Call
+            </CtaLink>
+          }
+        />
       </div>
     </div>
   )

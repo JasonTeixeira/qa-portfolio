@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { HeroManifest } from '@/components/hero/HeroManifest'
+import { HeroManifest, HeroManifestMobile } from '@/components/hero/HeroManifest'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import { trackEvent } from '@/lib/analytics/events'
 
@@ -176,10 +176,18 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
               </Link>
             </motion.div>
 
+            {/* ── Mobile condensed manifest — shown below copy on small screens ── */}
+            <motion.div
+              {...reveal(0.42)}
+              className="mt-10 lg:hidden"
+            >
+              <HeroManifestMobile />
+            </motion.div>
+
             {/* ── Trust strip — small-caps mono, numbered + ruled "receipts" ── */}
             <motion.dl
               {...reveal(0.46)}
-              className="mt-14 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-border)] [font-family:var(--font-mono),ui-monospace,monospace]"
+              className="mt-8 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-border)] [font-family:var(--font-mono),ui-monospace,monospace]"
             >
               {[
                 { k: 'productized', v: 'engagements' },

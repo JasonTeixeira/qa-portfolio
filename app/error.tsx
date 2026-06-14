@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { ArrowRight, Home, RotateCcw } from 'lucide-react'
+import { RotateCcw, Home, ArrowRight } from 'lucide-react'
 import { reportError } from '@/components/client-error-reporter'
+import { Hairline, MonoLabel, Surface } from '@/components/el'
 
 export default function ErrorBoundary({
   error,
@@ -24,57 +25,86 @@ export default function ErrorBoundary({
   }, [error])
 
   return (
-    <div className="min-h-[80vh] bg-[#09090B] flex items-center">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E85D3A]/10 border border-[#E85D3A]/30 mb-6">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#E85D3A] animate-pulse" />
-          <span className="text-xs font-mono uppercase tracking-widest text-[#E85D3A]">
+    <div className="flex min-h-[80vh] items-center bg-[var(--sage-bg)]">
+      <div className="mx-auto w-full max-w-3xl px-5 py-24 sm:px-8">
+
+        {/* Eyebrow */}
+        <div className="mb-8 flex items-center gap-4 [font-family:var(--font-mono),ui-monospace,monospace]">
+          <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--sage-coral)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--sage-coral)]" aria-hidden />
             exit 1 · unhandled exception
           </span>
+          <Hairline className="flex-1" />
         </div>
-        <div className="font-mono text-[11px] leading-relaxed text-[#78716C] mb-6 space-y-0.5">
-          <div><span className="text-[#0ED3CF]">$</span> render(page)</div>
-          <div className="text-[#E85D3A]">Error: runtime exception</div>
-          <div>at server.tsx:?:?</div>
-          <div>x-sage-status: logged · alert sent</div>
-        </div>
-        <h1 className="text-6xl sm:text-7xl font-normal text-[#FAFAFA] leading-none tracking-tight">
+
+        {/* Stack trace surface */}
+        <Surface level={1} className="mb-8 [font-family:var(--font-mono),ui-monospace,monospace]">
+          <div className="border-b border-[var(--sage-border)] px-5 py-3">
+            <MonoLabel tone="faint">{'// runtime log'}</MonoLabel>
+          </div>
+          <div className="space-y-0.5 px-5 py-4 text-[11px] leading-relaxed">
+            <div><span className="text-[#0ED3CF]">$</span> <span className="text-[var(--sage-ink-muted)]">render(page)</span></div>
+            <div className="text-[var(--sage-coral)]">Error: runtime exception</div>
+            <div className="text-[var(--sage-ink-faint)]">at server.tsx:?:?</div>
+            <div className="text-[var(--sage-ink-faint)]">x-sage-status: logged · alert sent</div>
+          </div>
+        </Surface>
+
+        {/* Heading */}
+        <h1
+          className="font-normal text-[var(--sage-ink)]"
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+            fontSize: 'clamp(2.5rem, 1.5rem + 4vw, 4.5rem)',
+            lineHeight: 1.0,
+            letterSpacing: '-0.024em',
+          }}
+        >
           Something broke.
         </h1>
-        <p className="mt-6 text-lg text-[#A8A29E] leading-relaxed max-w-xl">
-          The server threw. We were paged. If you hit retry and it still fails, send the digest below to
-          {' '}<a href="mailto:sage@sageideas.dev" className="text-[#0ED3CF] hover:text-[#33EBE8] underline underline-offset-2">sage@sageideas.dev</a>
+
+        <Hairline accentLead className="mt-7 max-w-xs" />
+
+        <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-[var(--sage-ink-muted)]">
+          The server threw. We were paged. If you hit retry and it still fails, send the digest below to{' '}
+          <a
+            href="mailto:sage@sageideas.dev"
+            className="text-[#0ED3CF] underline underline-offset-2 hover:text-[#33EBE8]"
+          >
+            sage@sageideas.dev
+          </a>
           {' '}— we read every report.
         </p>
 
-        {error.digest && (
-          <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-[#2A2826] bg-[#12110F] px-3 py-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#78716C]">Digest</span>
-            <span className="text-xs font-mono text-[#A8A29E]">{error.digest}</span>
+        {error.digest ? (
+          <div className="mt-6 inline-flex items-center gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5 [font-family:var(--font-mono),ui-monospace,monospace]">
+            <MonoLabel tone="faint" as="span">digest</MonoLabel>
+            <span className="text-[11px] text-[var(--sage-ink-muted)]">{error.digest}</span>
           </div>
-        )}
+        ) : null}
 
         <div className="mt-10 flex flex-wrap gap-3">
           <button
             onClick={reset}
-            className="sage-neon-cta sage-bloom-cyan inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold px-5 py-2.5 rounded-md transition-colors [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide text-sm"
+            className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] focus-visible:outline-none active:translate-y-px"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="h-3.5 w-3.5" aria-hidden />
             retry
           </button>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 border border-[#2A2826] hover:border-[#3D3A37] text-[#FAFAFA] font-medium px-5 py-2.5 rounded-md transition-colors [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide text-sm"
+            className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
           >
-            <Home className="h-4 w-4" />
+            <Home className="h-3.5 w-3.5" aria-hidden />
             cd ~
           </Link>
           <Link
             href="/contact?subject=error-report"
-            className="inline-flex items-center gap-2 border border-[#2A2826] hover:border-[#3D3A37] text-[#FAFAFA] font-medium px-5 py-2.5 rounded-md transition-colors [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-wide text-sm"
+            className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
           >
             report --bug
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </Link>
         </div>
       </div>

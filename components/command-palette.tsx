@@ -477,52 +477,49 @@ export function CommandPalette() {
             aria-modal="true"
             className="fixed top-[14%] left-1/2 -translate-x-1/2 w-full max-w-xl z-[101] px-4"
           >
-            <div className="sage-scanlines relative overflow-hidden rounded-xl border border-[#0ED3CF]/40 bg-[#0C0C0E] shadow-[0_0_0_1px_rgba(14,211,207,0.08),0_28px_60px_-20px_rgba(0,0,0,0.9),0_0_40px_-10px_rgba(14,211,207,0.25)]">
-              {/* Chrome bar */}
-              <div className="flex items-center gap-2 border-b border-[#1F1E1B] bg-[#0A0A0B] px-3 py-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#E85D3A]" aria-hidden />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#E5C341]" aria-hidden />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#A8C633]" aria-hidden />
-                <span className="ml-2 truncate text-[11px] font-medium text-[#78716C] [font-family:var(--font-mono),ui-monospace,monospace]">
-                  ~/sage — sageshell — {flatOrdered.length} cmd{flatOrdered.length === 1 ? '' : 's'}
+            {/* EL surface: near-black bg, hairline border, no neon glow */}
+            <div className="relative overflow-hidden rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-bg)] shadow-[0_28px_60px_-20px_rgba(0,0,0,0.92),0_0_0_1px_rgba(255,255,255,0.03)]">
+              {/* Chrome bar — EL instrument header */}
+              <div className="flex items-center gap-2 border-b border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5 [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span className="relative inline-flex h-1.5 w-1.5">
+                  <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden />
+                  <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" aria-hidden />
                 </span>
-                <span className="ml-auto inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-[#A8C633] [font-family:var(--font-mono),ui-monospace,monospace]">
-                  <span
-                    className="h-1.5 w-1.5 rounded-full bg-[#A8C633]"
-                    style={{ boxShadow: '0 0 8px #A8C633' }}
-                    aria-hidden
-                  />
+                <span className="ml-1 truncate text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
+                  sageshell&nbsp;·&nbsp;{flatOrdered.length}&nbsp;cmd{flatOrdered.length === 1 ? '' : 's'}
+                </span>
+                <span className="ml-auto text-[10px] uppercase tracking-[0.18em] text-[#0ED3CF]/80">
                   online
                 </span>
               </div>
 
               {/* Prompt + input */}
-              <div className="flex items-center gap-2 border-b border-[#1F1E1B] px-4 py-3 [font-family:var(--font-mono),ui-monospace,monospace]">
-                <span aria-hidden className="select-none text-sm">
-                  <span className="text-[#A8C633]">sage@ideas</span>
-                  <span className="text-[#78716C]">:</span>
+              <div className="flex items-center gap-2 border-b border-[var(--sage-border)] px-4 py-3 [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span aria-hidden className="select-none text-[13px]">
+                  <span className="text-[var(--sage-ink-muted)]">sage@ideas</span>
+                  <span className="text-[var(--sage-ink-faint)]">:</span>
                   <span className="text-[#0ED3CF]">~</span>
-                  <span className="text-[#78716C]">$ </span>
+                  <span className="text-[var(--sage-ink-faint)]">$ </span>
                 </span>
                 <input
                   type="text"
                   placeholder="type a verb… book, case fintech, view source"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="flex-1 bg-transparent text-sm text-[#F4F2EF] placeholder:text-[#5B5751] outline-none"
+                  className="flex-1 bg-transparent text-[13px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] outline-none"
                   autoFocus
                   aria-label="Search commands"
                 />
                 {search ? (
                   <button
                     onClick={() => setSearch('')}
-                    className="text-[#5B5751] transition-colors hover:text-[#F4F2EF]"
+                    className="text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-ink)]"
                     aria-label="Clear search"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 ) : (
-                  <kbd className="hidden items-center gap-0.5 rounded border border-[#2A2826] bg-[#15141A] px-1.5 py-0.5 text-[10px] text-[#78716C] sm:flex">
+                  <kbd className="hidden items-center gap-0.5 rounded-[2px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-1.5 py-0.5 text-[10px] text-[var(--sage-ink-faint)] sm:flex">
                     {isMac ? <Command className="h-3 w-3" /> : 'Ctrl'}
                     <span>K</span>
                   </kbd>
@@ -532,10 +529,10 @@ export function CommandPalette() {
               {/* Results */}
               <div ref={listRef} className="max-h-[58vh] overflow-y-auto p-2">
                 {flatOrdered.length === 0 ? (
-                  <div className="px-3 py-10 text-center [font-family:var(--font-mono),ui-monospace,monospace] text-sm text-[#78716C]">
-                    <span className="text-[#E85D3A]">command not found:</span>{' '}
-                    <span className="text-[#F4F2EF]">{search}</span>
-                    <div className="mt-2 text-xs text-[#5B5751]">try `book`, `work`, or `references`</div>
+                  <div className="px-3 py-10 text-center [font-family:var(--font-mono),ui-monospace,monospace] text-[13px] text-[var(--sage-ink-muted)]">
+                    <span className="text-[var(--sage-coral)]">command not found:</span>{' '}
+                    <span className="text-[var(--sage-ink)]">{search}</span>
+                    <div className="mt-2 text-[11px] text-[var(--sage-ink-faint)]">try `book`, `work`, or `references`</div>
                   </div>
                 ) : (
                   (Object.keys(GROUP_LABELS) as Array<CommandItem['group']>).map((group) => {
@@ -543,7 +540,7 @@ export function CommandPalette() {
                     if (items.length === 0) return null
                     return (
                       <div key={group} className="mb-2 last:mb-0">
-                        <div className="px-3 pt-2 pb-1 text-[10px] uppercase tracking-[0.18em] text-[#5B5751] [font-family:var(--font-mono),ui-monospace,monospace]">
+                        <div className="px-3 pb-1 pt-2 text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
                           {GROUP_LABELS[group]}
                         </div>
                         {items.map((command) => {
@@ -558,50 +555,54 @@ export function CommandPalette() {
                               onClick={command.action}
                               onMouseEnter={() => setSelectedIndex(i)}
                               className={cn(
-                                'group/cmd relative w-full rounded-md px-3 py-2 text-left transition-colors',
-                                isActive ? 'bg-[#15141A]' : 'hover:bg-[#15141A]/60',
+                                'group/cmd relative w-full rounded-[2px] px-3 py-2 text-left transition-colors',
+                                isActive
+                                  ? 'bg-[var(--sage-surface-2)]'
+                                  : 'hover:bg-[var(--sage-surface-1)]',
                               )}
                             >
                               {isActive ? (
                                 <span
                                   aria-hidden
                                   className="absolute left-0 top-1/2 h-5 w-[2px] -translate-y-1/2 rounded-full"
-                                  style={{ backgroundColor: toneHex, boxShadow: `0 0 8px ${toneHex}` }}
+                                  style={{ backgroundColor: toneHex }}
                                 />
                               ) : null}
                               <div className="flex items-center gap-3">
                                 <span
                                   className={cn(
-                                    'flex h-7 w-7 shrink-0 items-center justify-center rounded-md border transition-colors',
-                                    isActive ? 'border-transparent' : 'border-[#2A2826] bg-[#0F0E11]',
+                                    'flex h-7 w-7 shrink-0 items-center justify-center rounded-[2px] border transition-colors',
+                                    isActive
+                                      ? 'border-transparent'
+                                      : 'border-[var(--sage-border)] bg-[var(--sage-surface-1)]',
                                   )}
                                   style={
                                     isActive
                                       ? {
-                                          backgroundColor: `${toneHex}22`,
-                                          borderColor: `${toneHex}55`,
+                                          backgroundColor: `${toneHex}1a`,
+                                          borderColor: `${toneHex}40`,
                                           color: toneHex,
                                         }
-                                      : { color: '#A8A29E' }
+                                      : { color: 'var(--sage-ink-muted)' }
                                   }
                                 >
                                   {command.icon}
                                 </span>
                                 <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-2 text-sm [font-family:var(--font-mono),ui-monospace,monospace]">
+                                  <div className="flex items-center gap-2 text-[13px] [font-family:var(--font-mono),ui-monospace,monospace]">
                                     <span
                                       className="font-medium"
-                                      style={{ color: isActive ? toneHex : '#F4F2EF' }}
+                                      style={{ color: isActive ? toneHex : 'var(--sage-ink)' }}
                                     >
                                       {command.verb}
                                     </span>
-                                    <span className="text-[#3D3A37]">·</span>
-                                    <span className="truncate text-xs text-[#A8A29E]">
+                                    <span className="text-[var(--sage-border-hover)]">·</span>
+                                    <span className="truncate text-[11px] text-[var(--sage-ink-muted)]">
                                       {command.label}
                                     </span>
                                   </div>
                                   {command.description ? (
-                                    <div className="mt-0.5 truncate text-xs text-[#78716C]">
+                                    <div className="mt-0.5 truncate text-[11px] text-[var(--sage-ink-faint)]">
                                       {command.description}
                                     </div>
                                   ) : null}
@@ -624,28 +625,28 @@ export function CommandPalette() {
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between gap-3 border-t border-[#1F1E1B] bg-[#0A0A0B] px-4 py-2.5 text-[11px] text-[#78716C] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <div className="flex items-center justify-between gap-3 border-t border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5 text-[11px] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-[#2A2826] bg-[#15141A] px-1.5 py-0.5 text-[10px] text-[#A8A29E]">
+                    <kbd className="rounded-[2px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-1.5 py-0.5 text-[10px] text-[var(--sage-ink-muted)]">
                       ↑↓
                     </kbd>
                     nav
                   </span>
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-[#2A2826] bg-[#15141A] px-1.5 py-0.5 text-[10px] text-[#A8A29E]">
+                    <kbd className="rounded-[2px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-1.5 py-0.5 text-[10px] text-[var(--sage-ink-muted)]">
                       ↵
                     </kbd>
                     exec
                   </span>
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded border border-[#2A2826] bg-[#15141A] px-1.5 py-0.5 text-[10px] text-[#A8A29E]">
+                    <kbd className="rounded-[2px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-1.5 py-0.5 text-[10px] text-[var(--sage-ink-muted)]">
                       esc
                     </kbd>
                     quit
                   </span>
                 </div>
-                <span className="hidden items-center gap-1.5 text-[#5B5751] sm:flex">
+                <span className="hidden items-center gap-1.5 sm:flex">
                   <ExternalLink className="h-3 w-3" />
                   enter to execute
                 </span>
@@ -677,12 +678,12 @@ export function CommandPaletteHint() {
         })
         document.dispatchEvent(event)
       }}
-      className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 text-sm text-[#78716C] bg-[#0F0E11] border border-[#2A2826] rounded-lg hover:border-[#0ED3CF]/40 hover:text-[#F4F2EF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+      className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 text-[12px] text-[var(--sage-ink-faint)] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] rounded-[3px] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink-muted)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
       aria-label="Open command palette"
     >
       <Search className="h-3.5 w-3.5" />
       <span>search</span>
-      <kbd className="flex items-center gap-0.5 px-1.5 py-0.5 text-xs bg-[#15141A] border border-[#2A2826] rounded">
+      <kbd className="flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[var(--sage-surface-2)] border border-[var(--sage-border-strong)] rounded-[2px] text-[var(--sage-ink-faint)]">
         {isMac ? <Command className="h-3 w-3" /> : 'Ctrl'}
         <span>K</span>
       </kbd>

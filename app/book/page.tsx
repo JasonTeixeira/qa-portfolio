@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { SectionLabel } from '@/components/section-label'
-import { ArrowRight, Mail, Calendar } from 'lucide-react'
+import { Mail, ArrowRight } from 'lucide-react'
 import { FounderPortrait } from '@/components/founder-portrait'
-import { PageHeroBg } from '@/components/page-hero-bg'
+import { Hairline, MonoLabel, Surface, CtaLink } from '@/components/el'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/book' },
@@ -21,173 +20,297 @@ export const metadata: Metadata = {
   },
 }
 
+const PROCESS_STEPS = [
+  {
+    step: '01',
+    label: 'Discovery',
+    desc: 'A 30-minute working conversation — not a sales call. We talk through your problem, your constraints, and what success looks like.',
+  },
+  {
+    step: '02',
+    label: 'Proposal',
+    desc: 'Within 48 hours, you receive a written scope and fixed-price proposal. No ambiguity. You know exactly what you\'re getting.',
+  },
+  {
+    step: '03',
+    label: 'Decision',
+    desc: 'You sign, we kick off. Or you don\'t — no pressure, no follow-up sequence. If it\'s not the right fit, we\'ll say that directly.',
+  },
+]
+
+const INTAKE_TOPICS = [
+  "What you're trying to build or fix",
+  "What you've already tried",
+  "Your timeline and constraints",
+  "Whether a tier is the right fit",
+]
+
+const COME_PREPARED = [
+  "What success looks like in 30–90 days",
+  "An approximate budget range",
+  "Your timeline (any hard deadlines?)",
+  "A few sentences about your project",
+]
+
 export default function BookPage() {
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <PageHeroBg src="/images/hero-abstract.jpg" />
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-          <div className="max-w-2xl">
-            <SectionLabel>Discovery Call</SectionLabel>
-            <h1 className="mt-4 text-5xl sm:text-6xl font-normal text-[#FAFAFA] leading-tight">
-              Book a 30-minute
-              <br />
-              <span className="text-[#0ED3CF]">discovery call.</span>
-            </h1>
-            <p className="mt-5 text-lg text-[#A8A29E] leading-relaxed">
-              30 minutes. No pitch deck. No obligation. Just a direct conversation.
-            </p>
+    <div className="min-h-screen bg-[var(--sage-bg)]">
+
+      {/* ── Hero band ── */}
+      <section
+        aria-labelledby="book-heading"
+        className="relative border-b border-[var(--sage-border)] py-20 sm:py-28 lg:py-36"
+      >
+        {/* Hairline frame rule beneath nav */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[var(--sage-border)]"
+        />
+
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          {/* Eyebrow row */}
+          <div className="mb-8 flex items-center gap-4 [font-family:var(--font-mono),ui-monospace,monospace]">
+            <MonoLabel tone="accent">book</MonoLabel>
+            <Hairline className="flex-1" />
+            <MonoLabel tone="faint">{'// discovery call'}</MonoLabel>
           </div>
 
-          {/* What to expect */}
-          <div className="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl">
-            <div className="rounded-xl bg-[#12110F] border border-[#2A2826] p-4">
-              <p className="text-xs font-mono text-[#0ED3CF] uppercase tracking-widest mb-2">
-                We&apos;ll cover
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)] lg:items-start">
+            {/* Left — headline */}
+            <div>
+              <h1
+                id="book-heading"
+                className="font-normal text-[var(--sage-ink)]"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                  fontSize: 'clamp(2.4rem, 1.2rem + 5vw, 5rem)',
+                  lineHeight: 1.0,
+                  letterSpacing: '-0.024em',
+                }}
+              >
+                Book a 30-minute
+                <br />
+                <span
+                  className="italic text-[#0ED3CF]"
+                  style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 40, 'WONK' 1" }}
+                >
+                  discovery call.
+                </span>
+              </h1>
+
+              <div className="mt-7 flex items-center gap-4" aria-hidden>
+                <span className="h-px w-12 bg-[#0ED3CF]" />
+                <span className="h-px flex-1 bg-[var(--sage-border-strong)]" />
+              </div>
+
+              <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-[var(--sage-ink-muted)]">
+                30 minutes. No pitch deck. No obligation. Just a direct conversation about your project — what you&apos;re building, what&apos;s broken, and whether we&apos;re the right fit.
               </p>
-              <ul className="space-y-1.5">
-                {[
-                  "What you're trying to build or fix",
-                  "What you've already tried",
-                  "Your timeline and constraints",
-                  "Whether a tier is the right fit",
-                ].map((item) => (
-                  <li key={item} className="text-sm text-[#A8A29E] flex items-start gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#0ED3CF] mt-2 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+
+              {/* Primary CTA */}
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <CtaLink
+                  variant="solid"
+                  href="/contact?type=consult&source=book"
+                  event="booking_click"
+                  eventProps={{ location: 'book_hero', label: 'structured_intake' }}
+                >
+                  structured intake
+                </CtaLink>
+                <a
+                  href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
+                  className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
+                >
+                  <span>email directly</span>
+                  <span aria-hidden className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+                </a>
+              </div>
             </div>
-            <div className="rounded-xl bg-[#12110F] border border-[#2A2826] p-4">
-              <p className="text-xs font-mono text-[#0ED3CF] uppercase tracking-widest mb-2">
-                Come prepared with
-              </p>
-              <ul className="space-y-1.5">
-                {[
-                  "What success looks like in 30–90 days",
-                  "An approximate budget range",
-                  "Your timeline (any hard deadlines?)",
-                  "A few sentences about your project",
-                ].map((item) => (
-                  <li key={item} className="text-sm text-[#A8A29E] flex items-start gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#78716C] mt-2 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+
+            {/* Right — prep spec sheet */}
+            <Surface level={1} bordered ticks className="[font-family:var(--font-mono),ui-monospace,monospace]">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-[var(--sage-border)] px-5 py-3">
+                <MonoLabel tone="muted">{'// agenda'}</MonoLabel>
+                <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-faint)]">
+                  <span className="relative inline-flex h-1.5 w-1.5">
+                    <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+                    <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
+                  </span>
+                  <span className="text-[#0ED3CF]/80">accepting Q3</span>
+                </span>
+              </div>
+
+              {/* We&apos;ll cover */}
+              <div className="border-b border-[var(--sage-border)] px-5 py-4">
+                <p className="mb-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-muted)]">we&apos;ll cover</p>
+                <ul className="space-y-2">
+                  {INTAKE_TOPICS.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-[11px] text-[var(--sage-ink-muted)]">
+                      <span aria-hidden className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-[#0ED3CF]/60" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Come prepared */}
+              <div className="px-5 py-4">
+                <p className="mb-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-muted)]">come prepared with</p>
+                <ul className="space-y-2">
+                  {COME_PREPARED.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-[11px] text-[var(--sage-ink-muted)]">
+                      <span aria-hidden className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-[var(--sage-border-strong)]" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Footer */}
+              <div className="border-t border-[var(--sage-border)] px-5 py-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-faint)]">
+                duration&nbsp;<span className="text-[var(--sage-ink-muted)]">30 min</span>
+                &nbsp;·&nbsp;response&nbsp;
+                <span className="text-[var(--sage-ink-muted)]">&lt; 24h</span>
+              </div>
+            </Surface>
           </div>
         </div>
       </section>
 
-      {/* Direct intake — no third-party embed */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="rounded-2xl border border-[#2A2826] bg-gradient-to-br from-[#12110F] to-[#1A1917] p-8 sm:p-12">
-          <div className="max-w-2xl">
-            <p className="text-xs font-mono text-[#0ED3CF] uppercase tracking-widest mb-3">
-              Two ways to start
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-normal text-[#FAFAFA] tracking-tight">
-              Pick what feels lighter.
-            </h2>
-            <p className="mt-3 text-[#A8A29E] leading-relaxed">
-              Both go to the same inbox. The structured intake is faster — you get a written reply within 24 hours with concrete next steps.
-            </p>
+      {/* ── Two ways to start ── */}
+      <section aria-label="Ways to engage" className="border-b border-[var(--sage-border)] py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+          <div className="mb-10 flex items-center gap-4">
+            <Hairline className="hidden flex-1 sm:block" />
+            <MonoLabel tone="muted">{'// two ways to start'}</MonoLabel>
+            <Hairline className="flex-1" strong />
           </div>
 
-          <div className="mt-8 grid sm:grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {/* Option A — structured intake */}
             <Link
               href="/contact?type=consult&source=book"
-              className="group rounded-xl border border-[#2A2826] bg-[#0B0A09] p-6 hover:border-[#0ED3CF] transition-colors"
+              className="group relative rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-6 transition-[border-color,background-color] duration-200 hover:border-[var(--sage-border-hover)] hover:bg-[var(--sage-surface-2)]"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-[#0ED3CF]" />
-                </div>
-                <span className="text-xs font-mono text-[#0ED3CF] uppercase tracking-widest">Recommended</span>
+              <div className="mb-5 flex items-center gap-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)]">
+                  <Mail className="h-4 w-4 text-[#0ED3CF]" />
+                </span>
+                <MonoLabel tone="accent" className="text-[#0ED3CF]">recommended</MonoLabel>
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[#FAFAFA]">Structured intake</h3>
-              <p className="mt-2 text-sm text-[#A8A29E] leading-relaxed">
+              <h2
+                className="mb-2 text-[1.15rem] font-normal text-[var(--sage-ink)]"
+                style={{ fontFamily: 'var(--font-display)', fontVariationSettings: "'opsz' 64" }}
+              >
+                Structured intake
+              </h2>
+              <p className="text-[13px] leading-relaxed text-[var(--sage-ink-muted)]">
                 A 5-minute form. You get a written reply within 24 hours with a recommended path, scope, and ballpark price. No call required to start.
               </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#0ED3CF] group-hover:text-[#22D3EE] transition-colors">
-                Start intake <ArrowRight className="w-3.5 h-3.5" />
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                Start intake
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </span>
             </Link>
 
+            {/* Option B — direct email */}
             <a
               href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
-              className="group rounded-xl border border-[#2A2826] bg-[#0B0A09] p-6 hover:border-[#0ED3CF] transition-colors"
+              className="group relative rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-6 transition-[border-color,background-color] duration-200 hover:border-[var(--sage-border-hover)] hover:bg-[var(--sage-surface-2)]"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#E85D3A]/10 border border-[#E85D3A]/30 flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-[#E85D3A]" />
-                </div>
-                <span className="text-xs font-mono text-[#E85D3A] uppercase tracking-widest">Direct</span>
+              <div className="mb-5 flex items-center gap-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)]">
+                  <ArrowRight className="h-4 w-4 text-[var(--sage-ink-muted)]" />
+                </span>
+                <MonoLabel tone="faint">direct</MonoLabel>
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[#FAFAFA]">Email Sage directly</h3>
-              <p className="mt-2 text-sm text-[#A8A29E] leading-relaxed">
+              <h2
+                className="mb-2 text-[1.15rem] font-normal text-[var(--sage-ink)]"
+                style={{ fontFamily: 'var(--font-display)', fontVariationSettings: "'opsz' 64" }}
+              >
+                Email Sage directly
+              </h2>
+              <p className="text-[13px] leading-relaxed text-[var(--sage-ink-muted)]">
                 Prefer to skip the form? Reply with project overview, timeline, budget range, and times that work — you&apos;ll get scheduling options back same day.
               </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[#E85D3A] group-hover:text-[#A78BFA] transition-colors">
-                sage@sageideas.dev <ArrowRight className="w-3.5 h-3.5" />
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
+                sage@sageideas.dev
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </span>
             </a>
           </div>
         </div>
-
-        {/* Founder sidebar */}
-        <div className="mt-16 flex flex-col lg:flex-row gap-8 items-start">
-          <div className="lg:w-48 shrink-0">
-            <FounderPortrait size="md" caption={false} />
-            <p className="mt-3 text-center text-xs text-[#78716C] font-mono">Jason Teixeira</p>
-          </div>
-          <div className="flex-1 rounded-xl border border-[#2A2826] bg-[#12110F] p-6">
-            <p className="text-sm text-[#A8A29E] leading-relaxed">
-              &ldquo;I take these calls myself. No sales rep, no account manager. If we&rsquo;re a fit,
-              I&rsquo;ll tell you exactly what I&rsquo;d build, how long it takes, and what it costs.
-              If we&rsquo;re not, I&rsquo;ll tell you that too.&rdquo;
-            </p>
-          </div>
-        </div>
-
-        {/* What to expect strip */}
-        <div className="mt-16 grid sm:grid-cols-3 gap-6">
-          {[
-            {
-              step: '01',
-              label: 'Discovery',
-              desc: 'A 30-minute working conversation — not a sales call. We talk through your problem, your constraints, and what success looks like.',
-            },
-            {
-              step: '02',
-              label: 'Proposal',
-              desc: 'Within 48 hours, you receive a written scope and fixed-price proposal. No ambiguity. You know exactly what you\'re getting.',
-            },
-            {
-              step: '03',
-              label: 'Decision',
-              desc: 'You sign, we kick off. Or you don\'t — no pressure, no follow-up sequence. If it\'s not the right fit, we\'ll say that directly.',
-            },
-          ].map((item) => (
-            <div
-              key={item.step}
-              className="rounded-xl border border-[#2A2826] bg-[#12110F] p-6"
-            >
-              <span className="text-xs font-mono text-[#0ED3CF] uppercase tracking-widest">
-                {item.step}
-              </span>
-              <h3 className="mt-2 text-lg font-semibold text-[#FAFAFA]">{item.label}</h3>
-              <p className="mt-2 text-sm text-[#A8A29E] leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-
-
       </section>
+
+      {/* ── Founder + process ── */}
+      <section aria-label="Process and founder" className="py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+          {/* Founder block */}
+          <div className="mb-14 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+            <div className="shrink-0">
+              <FounderPortrait size="md" caption={false} />
+              <p className="mt-3 text-center text-[10px] uppercase tracking-[0.2em] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
+                Jason Teixeira
+              </p>
+            </div>
+            <Surface level={2} className="flex-1 px-6 py-5">
+              <MonoLabel tone="muted" className="mb-3">{'// from the founder'}</MonoLabel>
+              <p className="text-[15px] leading-relaxed text-[var(--sage-ink-muted)]">
+                &ldquo;I take these calls myself. No sales rep, no account manager. If we&rsquo;re a fit,
+                I&rsquo;ll tell you exactly what I&rsquo;d build, how long it takes, and what it costs.
+                If we&rsquo;re not, I&rsquo;ll tell you that too.&rdquo;
+              </p>
+            </Surface>
+          </div>
+
+          <Hairline accentLead className="mb-12" />
+
+          {/* Process steps */}
+          <div className="mb-8 flex items-center gap-4">
+            <Hairline className="hidden flex-1 sm:block" />
+            <MonoLabel tone="muted">{'// what happens next'}</MonoLabel>
+            <Hairline className="flex-1" strong />
+          </div>
+
+          <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-3">
+            {PROCESS_STEPS.map((item) => (
+              <div
+                key={item.step}
+                className="flex flex-col gap-3 bg-[var(--sage-surface-1)] px-5 py-6 [font-family:var(--font-mono),ui-monospace,monospace]"
+              >
+                <MonoLabel tone="accent" as="p">{`// ${item.step}`}</MonoLabel>
+                <p
+                  className="text-base font-normal text-[var(--sage-ink)]"
+                  style={{ fontFamily: 'var(--font-display)', fontVariationSettings: "'opsz' 64" }}
+                >
+                  {item.label}
+                </p>
+                <p className="text-[13px] leading-relaxed text-[var(--sage-ink-muted)]">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Final CTA */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+            <CtaLink
+              variant="solid"
+              href="/contact?type=consult&source=book"
+              event="booking_click"
+              eventProps={{ location: 'book_footer', label: 'structured_intake' }}
+            >
+              start intake
+            </CtaLink>
+            <CtaLink variant="ghost" href="/pricing">
+              cat pricing.md
+            </CtaLink>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }

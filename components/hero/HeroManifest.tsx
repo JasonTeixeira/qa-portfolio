@@ -9,6 +9,11 @@ import * as React from 'react'
  *
  * Decorative for screen readers (the H1 + trust strip carry the real content),
  * so the whole panel is aria-hidden; the visible data mirrors page copy.
+ *
+ * Responsive:
+ * - Desktop (lg+): full panel rendered by the parent (hidden on mobile there).
+ * - Mobile: HeroManifestMobile exports a condensed 2-row strip shown below
+ *   the hero copy on small screens.
  */
 
 interface ManifestRow {
@@ -83,6 +88,65 @@ export function HeroManifest() {
             build&nbsp;<span className="text-[#0ED3CF]/80">2026.5</span>
           </span>
         </footer>
+      </div>
+    </aside>
+  )
+}
+
+/**
+ * HeroManifestMobile — condensed receipts strip for small screens.
+ *
+ * Two ruled rows (flagship + count) + a single "06 shipped" stat, all inline.
+ * Sits below the hero copy block; hidden on lg+ where the full panel takes over.
+ * Keeps the hairline-ruled, mono-label aesthetic without the full panel height.
+ */
+export function HeroManifestMobile() {
+  return (
+    <aside
+      aria-hidden
+      className="w-full select-none [font-family:var(--font-mono),ui-monospace,monospace]"
+    >
+      <div className="rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)]/70">
+        {/* Single header row: eyebrow + live indicator */}
+        <div className="flex items-center justify-between border-b border-[var(--sage-border)] px-4 py-2.5">
+          <span className="text-[9px] uppercase tracking-[0.22em] text-[var(--sage-ink-muted)]">
+            manifest&nbsp;·&nbsp;receipts
+          </span>
+          <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
+            <span className="relative inline-flex h-1.5 w-1.5">
+              <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+              <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
+            </span>
+            <span className="text-[#0ED3CF]/90">live</span>
+          </span>
+        </div>
+
+        {/* Two condensed rows — flagship + second */}
+        <ul>
+          {ROWS.slice(0, 2).map((row, i) => (
+            <li
+              key={row.index}
+              className={`grid grid-cols-[auto_1fr_auto] items-center gap-x-3 px-4 py-2.5${i === 0 ? ' border-b border-[var(--sage-border)]' : ''}`}
+            >
+              <span className="text-[9px] tabular-nums text-[var(--sage-ink-faint)]">{row.index}</span>
+              <span className="flex min-w-0 items-baseline gap-2 overflow-hidden">
+                <span className="shrink-0 text-[11px] tracking-tight text-[var(--sage-ink)]">{row.name}</span>
+                <span className="truncate text-[9px] tracking-[0.04em] text-[var(--sage-ink-muted)]">{row.meta}</span>
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.18em] text-[#0ED3CF]/70">{row.status}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Footer: compact stat line */}
+        <div className="flex items-center justify-between border-t border-[var(--sage-border)] px-4 py-2 text-[9px] uppercase tracking-[0.18em]">
+          <span className="text-[var(--sage-ink-muted)]">
+            <span className="text-[var(--sage-ink)]">06</span>&nbsp;products shipped
+          </span>
+          <span className="text-[var(--sage-ink-faint)]">
+            build&nbsp;<span className="text-[#0ED3CF]/70">2026.5</span>
+          </span>
+        </div>
       </div>
     </aside>
   )

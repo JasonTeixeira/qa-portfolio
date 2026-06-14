@@ -621,30 +621,6 @@ a[class*="text-[#0ED3CF]"]:hover {
   .sage-sweep::after { animation: none; opacity: 0; }
 }
 
-/* ── Glitch text ─────────────────────────────────────────────────────────── */
-@keyframes sage-glitch-1 {
-  0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-  20% { clip-path: inset(10% 0 60% 0); transform: translate(-1px, 0); }
-  40% { clip-path: inset(40% 0 40% 0); transform: translate(1px, 0); }
-  60% { clip-path: inset(60% 0 20% 0); transform: translate(-1px, 0); }
-  80% { clip-path: inset(20% 0 70% 0); transform: translate(1px, 0); }
-}
-.sage-glitch {
-  position: relative;
-  display: inline-block;
-}
-.sage-glitch::before,
-.sage-glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.sage-glitch::before { color: var(--sage-brand); animation: sage-glitch-1 2.2s steps(2) infinite; transform: translate(-1px, 0); }
-.sage-glitch::after  { color: var(--sage-coral); animation: sage-glitch-1 1.7s steps(2) reverse infinite; transform: translate(1px, 0); }
-@media (prefers-reduced-motion: reduce) {
-  .sage-glitch::before, .sage-glitch::after { animation: none; opacity: 0; }
-}
 
 /* ── Neon glow utilities ─────────────────────────────────────────────────── */
 .sage-bloom-cyan { box-shadow: var(--sage-bloom-cyan); }

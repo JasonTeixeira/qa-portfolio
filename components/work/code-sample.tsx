@@ -27,8 +27,8 @@ export async function CodeSample({ sample }: Props) {
       {
         pre(node) {
           node.properties.style = [
-            'background-color: #0B0A09',
-            'border-radius: 0 0 0.75rem 0.75rem',
+            'background-color: var(--sage-bg)',
+            'border-radius: 0 0 3px 3px',
             'padding: 1.25rem',
             'overflow-x: auto',
             'font-size: 12.5px',
@@ -42,16 +42,18 @@ export async function CodeSample({ sample }: Props) {
   })
 
   return (
-    <figure className="rounded-xl border border-[#2A2826] bg-[#0B0A09] overflow-hidden my-6">
+    <figure className="my-6 overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-bg)]">
       {/* Terminal chrome */}
-      <header className="flex items-center justify-between px-4 py-2 border-b border-[#2A2826] bg-[#12110F]">
+      <header className="flex items-center justify-between border-b border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#E85D3A]/70" aria-hidden />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#A8C633]/60" aria-hidden />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#0ED3CF]/70" aria-hidden />
-          <span className="ml-3 text-[11px] font-mono text-[#A8A29E]">{sample.title}</span>
+          <span className="h-2 w-2 rounded-full bg-[var(--sage-coral)]/70" aria-hidden />
+          <span className="h-2 w-2 rounded-full bg-[var(--sage-lime)]/60" aria-hidden />
+          <span className="h-2 w-2 rounded-full bg-[#0ED3CF]/70" aria-hidden />
+          <span className="ml-3 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
+            {sample.title}
+          </span>
         </div>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-[#57534E]">
+        <span className="text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
           {langLabel[sample.lang]}
         </span>
       </header>
@@ -59,7 +61,7 @@ export async function CodeSample({ sample }: Props) {
       <div dangerouslySetInnerHTML={{ __html: html }} />
 
       {sample.caption && (
-        <figcaption className="px-4 py-2.5 text-xs text-[#A8A29E] border-t border-[#2A2826] bg-[#0F0E0D] [font-family:var(--font-mono),ui-monospace,monospace]">
+        <figcaption className="border-t border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5 text-xs text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
           {'// '}
           {sample.caption}
         </figcaption>

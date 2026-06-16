@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Sage Ideas — AI-native studio. I build the product, the brand, and the AI that runs it." />
+<title>Sage Ideas — AI-native studio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="data:,">
+</head>
+<body>
+<!-- ====================== LOADER ====================== -->
+<div class="loader" data-loader aria-hidden="true">
+  <span class="loader__mark">
+    <svg viewBox="0 0 24 24" width="54" height="54" fill="none">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#3D5AFE"/><stop offset="0.5" stop-color="#7C3AED"/><stop offset="1" stop-color="#FF2D9B"/>
+        </linearGradient>
+      </defs>
+      <path class="l-stroke" pathLength="1" d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z"/>
+      <path class="l-stroke" pathLength="1" d="M12 2 V22 M3 7 L21 17 M21 7 L3 17"/>
+    </svg>
+  </span>
+  <span class="loader__bar"><i></i></span>
+  <span class="loader__txt" data-loader-pct>Initializing system · 00</span>
+</div>
+
+<!-- ====================== SCROLL PROGRESS + CHAPTERS ====================== -->
+<nav class="scrollbar" data-scrollbar aria-label="Page progress">
+  <span class="scrollbar__rail" aria-hidden="true"><span class="scrollbar__fill" data-scrollbar-fill></span></span>
+  <ul class="scrollbar__chapters">
+    <li><a class="chapter" href="#top"     data-chapter="hero"><span class="chapter__dot"></span><span class="chapter__txt">Intro</span></a></li>
+    <li><a class="chapter" href="#work"     data-chapter="work"><span class="chapter__dot"></span><span class="chapter__txt">Work</span></a></li>
+    <li><a class="chapter" href="#services" data-chapter="services"><span class="chapter__dot"></span><span class="chapter__txt">Services</span></a></li>
+    <li><a class="chapter" href="#proof"    data-chapter="proof"><span class="chapter__dot"></span><span class="chapter__txt">Proof</span></a></li>
+    <li><a class="chapter" href="#operator" data-chapter="operator"><span class="chapter__dot"></span><span class="chapter__txt">Operator</span></a></li>
+    <li><a class="chapter" href="#build"    data-chapter="build"><span class="chapter__dot"></span><span class="chapter__txt">Build</span></a></li>
+  </ul>
+</nav>
+
+<!-- ====================== COLOR GRADE ====================== -->
+<div class="grade" aria-hidden="true"></div>
+
+<!-- ====================== CUSTOM CURSOR ====================== -->
+<div class="cursor" aria-hidden="true" data-cursor>
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"></div>
+  <span class="cursor__label" data-cursor-label></span>
+</div>
+
+<!-- shared SVG defs for living-diagram edges/packets (gradient strokes) -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false">
+  <defs>
+    <linearGradient id="edgeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3D5AFE"/><stop offset="0.5" stop-color="#7C3AED"/><stop offset="1" stop-color="#FF2D9B"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ====================== GRAIN OVERLAY ====================== -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ====================== TOP BAR ====================== -->
+<header class="topbar" data-reveal-group>
+  <div class="topbar__inner">
+    <a class="brand" href="#top" aria-label="Sage Ideas home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M12 2 V22 M3 7 L21 17 M21 7 L3 17" stroke="currentColor" stroke-width="0.6" opacity="0.5"/>
+        </svg>
+      </span>
+      <span class="brand__name">Sage&nbsp;Ideas</span>
+    </a>
+
+    <div class="topbar__meta">
+      <span class="meta-chip" data-clock>
+        <span class="meta-chip__label">Orlando</span>
+        <span class="meta-chip__val" data-clock-time>—:—</span>
+      </span>
+      <span class="meta-chip meta-chip--status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Accepting 2 projects · 2026
+      </span>
+      <span class="meta-chip meta-chip--index" aria-hidden="true">001 — 100</span>
+      <button class="sound-toggle" type="button" data-sound aria-pressed="false" aria-label="Toggle ambient sound">
+        <span class="sound-toggle__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-toggle__txt">Sound</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ====================== HERO ====================== -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__grid" aria-hidden="true" data-parallax="0.18"></div>
+
+    <p class="eyebrow" data-reveal>
+      <span class="eyebrow__dot"></span>
+      Sage Ideas · AI-native studio · since 2020
+    </p>
+
+    <h1 id="hero-heading" class="hero__title">
+      <span class="mask"><span class="mask__inner" data-mask>I build the product,</span></span>
+      <span class="mask"><span class="mask__inner" data-mask>the brand, and the</span></span>
+      <span class="mask"><span class="mask__inner" data-mask><em>AI</em> that runs it.</span></span>
+    </h1>
+
+    <div class="hero__lower">
+      <p class="hero__sub" data-reveal>
+        A solo, AI-native studio. I run my own products every day — and put the same
+        system (AI, apps, SaaS, brand, growth) to work for yours. From someone who
+        <span class="accent-word">builds</span>, not someone who just pitches.
+      </p>
+
+      <div class="hero__cta" data-reveal>
+        <a class="btn btn--primary" href="#work" data-magnetic>
+          <span>Start a project</span>
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn--ghost" href="#work" data-magnetic>
+          <span>See the work</span>
+          <span class="btn__arrow" aria-hidden="true">↘</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Capability strip -->
+    <div class="cap-strip" data-reveal aria-label="Capabilities">
+      <div class="cap-strip__track">
+        <span>AI Systems</span><span class="cap-dot">·</span>
+        <span>Applications</span><span class="cap-dot">·</span>
+        <span>SaaS</span><span class="cap-dot">·</span>
+        <span>Brand &amp; Web</span><span class="cap-dot">·</span>
+        <span>Growth &amp; SEO</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== WORK / FULL-SCREEN IMMERSIVE PROJECT REEL ====================== -->
+  <!--
+    v4: a PINNED, scroll-driven sequence. Each project is a FULL-VIEWPORT SCENE.
+    .work is the tall scroll-driver. .reel is pinned (GSAP, sticky fallback) and
+    holds the absolutely-stacked .scene elements — exactly one visible at a time.
+    Markup stays content-visible by default; the "from"/stack states only arm
+    under body.is-reel (set by JS once GSAP+ScrollTrigger confirmed). Reduced-motion
+    or lib-failure → the same scenes render as a clean static vertical stack.
+  -->
+  <section class="work" id="work" aria-labelledby="work-heading" data-work>
+    <span class="band-seam" data-seam aria-hidden="true"></span>
+    <div class="section-head">
+      <div class="section-head__lead">
+        <span class="section-kicker" data-reveal>002 — Selected work</span>
+        <h2 id="work-heading" class="section-title" data-reveal>
+          I run my own products.<br />Then I build yours.
+        </h2>
+      </div>
+      <p class="section-head__sub" data-reveal>
+        Four live products. Each one fills the screen with the full system underneath.
+        <span class="hint-pill"><span class="hint-pill__dot"></span><span>Scroll — each scene x-rays into its architecture</span></span>
+      </p>
+    </div>
+
+    <!-- The pinned full-viewport reel. data-reel-track is the scroll length driver. -->
+    <div class="reel" data-reel-track>
+      <div class="reel__stage" data-reel-stage>
+
+        <!-- cinematic project index + morphing progress rail (overlay, fixed in stage) -->
+        <div class="reel__hud" aria-hidden="true">
+          <div class="reel__index" data-reel-index>
+            <span class="reel__index-cur" data-reel-cur>01</span><span class="reel__index-sep">/</span><span class="reel__index-tot" data-reel-tot>04</span>
+          </div>
+          <div class="reel__rail" data-reel-rail>
+            <span class="reel__rail-fill" data-reel-railfill></span>
+            <span class="reel__rail-ticks" data-reel-ticks></span>
+          </div>
+          <div class="reel__hint" data-reel-hint>Scroll</div>
+        </div>
+
+        <div class="reel__scenes" data-reel-scenes>
+
+      <!-- ===== SCENE 01 — NEXURAL ===== -->
+      <article class="scene card" data-card data-scene style="--brand: #5B8DEF;">
+        <div class="scene__bg" data-scene-bg aria-hidden="true"></div>
+        <div class="scene__inner project-block__body project-block__body--ltr">
+          <!-- title + spec column (kinetic) -->
+          <div class="scene__lead" data-scene-lead>
+            <div class="project-block__meta">
+              <span class="project-block__index">01</span>
+              <div>
+                <h3 class="project-block__name scene__name" data-scene-name>Nexural</h3>
+                <p class="project-block__cap">Fintech SaaS · 185 tables · 69 APIs</p>
+              </div>
+              <button class="card__peel" type="button" data-peel aria-label="Reveal system view">
+                <span class="card__peel-txt" data-peel-label>System</span>
+                <span class="card__peel-ico" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+                </span>
+              </button>
+            </div>
+            <div class="project-block__spec scene__spec">
+              <div class="spec-accent" style="background: var(--brand);"></div>
+              <dl class="spec-list">
+                <dt>Stack</dt><dd>Next.js · Supabase · 185-table schema</dd>
+                <dt>Infra</dt><dd>69 REST routes · WebSocket feeds</dd>
+                <dt>Category</dt><dd>Fintech SaaS · Treasury &amp; Signals</dd>
+              </dl>
+              <div class="spec-metrics">
+                <div class="spec-metric"><span class="spec-metric__val" data-count="185">0</span><span class="spec-metric__key">Tables</span></div>
+                <div class="spec-metric"><span class="spec-metric__val" data-count="69">0</span><span class="spec-metric__key">APIs</span></div>
+                <div class="spec-metric"><span class="spec-metric__val" data-count="4">0</span><span class="spec-metric__key">Modules</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- the big product frame: surface ⇄ system x-ray -->
+          <div class="scene__device project-block__device device" data-device data-scene-device>
+            <div class="surface" data-surface>
+              <div class="ui ui--nexural">
+                <aside class="ui-nav">
+                  <div class="ui-nav__brand"><span class="ui-nav__logo"></span>Nexural</div>
+                  <a class="ui-nav__item is-active"><i></i>Overview</a>
+                  <a class="ui-nav__item"><i></i>Markets</a>
+                  <a class="ui-nav__item"><i></i>Ledger</a>
+                  <a class="ui-nav__item"><i></i>Signals</a>
+                  <a class="ui-nav__item"><i></i>Reports</a>
+                  <div class="ui-nav__foot"><span class="ui-nav__avatar"></span><span>Treasury</span></div>
+                </aside>
+                <div class="ui-main">
+                  <div class="ui-topbar">
+                    <div class="ui-topbar__title">Treasury Overview</div>
+                    <div class="ui-topbar__pill">Live · USD</div>
+                  </div>
+                  <div class="ui-metrics">
+                    <div class="metric"><span class="metric__k">Net AUM</span><span class="metric__v">$48.2M</span><span class="metric__d metric__d--up">+3.4%</span></div>
+                    <div class="metric"><span class="metric__k">Flows 24h</span><span class="metric__v">$1.18M</span><span class="metric__d metric__d--up">+0.9%</span></div>
+                    <div class="metric"><span class="metric__k">Active APIs</span><span class="metric__v">69</span><span class="metric__d">stable</span></div>
+                  </div>
+                  <div class="ui-chartcard">
+                    <div class="ui-chartcard__head"><span>Capital flow</span><span class="ui-chartcard__legend"><i class="dotA"></i>Inflow<i class="dotB"></i>Net</span></div>
+                    <svg class="chart-area" viewBox="0 0 320 110" preserveAspectRatio="none" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="nxFill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0" stop-color="var(--brand)" stop-opacity="0.30"/>
+                          <stop offset="1" stop-color="var(--brand)" stop-opacity="0"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M0,86 L26,80 L52,84 L78,62 L104,70 L130,48 L156,54 L182,34 L208,44 L234,26 L260,32 L286,18 L320,24 L320,110 L0,110 Z" fill="url(#nxFill)"/>
+                      <path d="M0,86 L26,80 L52,84 L78,62 L104,70 L130,48 L156,54 L182,34 L208,44 L234,26 L260,32 L286,18 L320,24" fill="none" stroke="var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                      <path d="M0,96 L52,92 L104,90 L156,82 L208,80 L260,70 L320,66" fill="none" stroke="#9C988E" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke" opacity="0.6"/>
+                    </svg>
+                  </div>
+                  <div class="ui-table">
+                    <div class="ui-table__row ui-table__row--head"><span>Counterparty</span><span>Class</span><span>Amount</span><span>Status</span></div>
+                    <div class="ui-table__row"><span>Meridian Cap</span><span>Equity</span><span>$420K</span><span class="tag tag--ok">Cleared</span></div>
+                    <div class="ui-table__row"><span>Halcyon LP</span><span>Credit</span><span>$1.02M</span><span class="tag tag--pend">Pending</span></div>
+                    <div class="ui-table__row"><span>Oriel Fund</span><span>FX</span><span>$318K</span><span class="tag tag--ok">Cleared</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="system" data-system aria-hidden="true">
+              <div class="sys sys--nexural">
+                <div class="sys__head"><span class="sys__tag">schema.sql</span><span class="sys__meta">185 tables · 69 routes</span></div>
+                <svg class="sys-graph" viewBox="0 0 360 200" aria-hidden="true">
+                  <g stroke="var(--brand)" stroke-width="1" opacity="0.55" fill="none">
+                    <path d="M70 56 L170 48"/><path d="M70 56 L150 110"/>
+                    <path d="M170 48 L280 60"/><path d="M150 110 L260 130"/>
+                    <path d="M170 48 L150 110"/><path d="M280 60 L260 130"/>
+                    <path d="M150 110 L120 168"/><path d="M260 130 L300 168"/>
+                  </g>
+                  <g class="sys-node"><rect x="36" y="42" width="68" height="28" rx="4"/><text x="70" y="60">accounts</text></g>
+                  <g class="sys-node"><rect x="136" y="34" width="68" height="28" rx="4"/><text x="170" y="52">ledger</text></g>
+                  <g class="sys-node"><rect x="246" y="46" width="68" height="28" rx="4"/><text x="280" y="64">flows</text></g>
+                  <g class="sys-node"><rect x="116" y="96" width="68" height="28" rx="4"/><text x="150" y="114">positions</text></g>
+                  <g class="sys-node"><rect x="226" y="116" width="68" height="28" rx="4"/><text x="260" y="134">signals</text></g>
+                  <g class="sys-node sys-node--leaf"><rect x="86" y="154" width="68" height="26" rx="4"/><text x="120" y="171">audit_log</text></g>
+                  <g class="sys-node sys-node--leaf"><rect x="266" y="154" width="68" height="26" rx="4"/><text x="300" y="171">webhooks</text></g>
+                </svg>
+                <pre class="sys-code"><span class="c-key">create table</span> <span class="c-fn">ledger</span> (
+  id        <span class="c-type">uuid</span> primary key,
+  account   <span class="c-type">uuid</span> <span class="c-key">references</span> accounts,
+  amount    <span class="c-type">numeric</span>(18,2),
+  posted_at <span class="c-type">timestamptz</span>
+);</pre>
+              </div>
+            </div>
+          </div>
+        </div><!-- /scene__inner -->
+      </article>
+
+      <!-- ===== SCENE 02 — ALPHASTREAM ===== -->
+      <article class="scene card" data-card data-scene style="--brand: #38B98C;">
+        <div class="scene__bg" data-scene-bg aria-hidden="true"></div>
+        <div class="scene__inner project-block__body project-block__body--rtl">
+          <div class="scene__lead" data-scene-lead>
+            <div class="project-block__meta">
+              <span class="project-block__index">02</span>
+              <div>
+                <h3 class="project-block__name scene__name" data-scene-name>AlphaStream</h3>
+                <p class="project-block__cap">ML trading · 200+ indicators · 5 models</p>
+              </div>
+              <button class="card__peel" type="button" data-peel aria-label="Reveal system view">
+                <span class="card__peel-txt" data-peel-label>System</span>
+                <span class="card__peel-ico" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+                </span>
+              </button>
+            </div>
+            <div class="project-block__spec scene__spec">
+              <div class="spec-accent" style="background: var(--brand);"></div>
+              <dl class="spec-list">
+                <dt>Stack</dt><dd>Python · DuckDB · NinjaTrader 8</dd>
+                <dt>ML</dt><dd>5-model ensemble · 214 features</dd>
+                <dt>Category</dt><dd>Quant trading · Signal generation</dd>
+              </dl>
+              <div class="spec-metrics">
+                <div class="spec-metric"><span class="spec-metric__val" data-count="200" data-suffix="+">0</span><span class="spec-metric__key">Indicators</span></div>
+                <div class="spec-metric"><span class="spec-metric__val" data-count="5">0</span><span class="spec-metric__key">Models</span></div>
+                <div class="spec-metric"><span class="spec-metric__val">4h</span><span class="spec-metric__key">Timeframe</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="scene__device project-block__device device" data-device data-scene-device>
+            <div class="surface" data-surface>
+              <div class="ui ui--alpha">
+                <div class="ui-alpha__top">
+                  <div class="ui-alpha__sym"><strong>NDX</strong><span>4h · live</span></div>
+                  <div class="ui-alpha__price">18,442.<small>10</small><span class="metric__d metric__d--up">+1.27%</span></div>
+                </div>
+                <div class="ui-alpha__chart">
+                  <svg class="chart-candles" viewBox="0 0 320 120" aria-hidden="true">
+                    <line x1="0" y1="30" x2="320" y2="30" class="grid"/>
+                    <line x1="0" y1="60" x2="320" y2="60" class="grid"/>
+                    <line x1="0" y1="90" x2="320" y2="90" class="grid"/>
+                    <g class="candles">
+                      <g class="up"><line x1="16" y1="70" x2="16" y2="96"/><rect x="11" y="78" width="10" height="14"/></g>
+                      <g class="dn"><line x1="40" y1="62" x2="40" y2="90"/><rect x="35" y="70" width="10" height="14"/></g>
+                      <g class="up"><line x1="64" y1="58" x2="64" y2="86"/><rect x="59" y="64" width="10" height="16"/></g>
+                      <g class="up"><line x1="88" y1="50" x2="88" y2="74"/><rect x="83" y="54" width="10" height="14"/></g>
+                      <g class="dn"><line x1="112" y1="56" x2="112" y2="80"/><rect x="107" y="60" width="10" height="14"/></g>
+                      <g class="up"><line x1="136" y1="42" x2="136" y2="66"/><rect x="131" y="46" width="10" height="14"/></g>
+                      <g class="up"><line x1="160" y1="36" x2="160" y2="58"/><rect x="155" y="40" width="10" height="12"/></g>
+                      <g class="dn"><line x1="184" y1="40" x2="184" y2="62"/><rect x="179" y="44" width="10" height="12"/></g>
+                      <g class="up"><line x1="208" y1="28" x2="208" y2="52"/><rect x="203" y="32" width="10" height="14"/></g>
+                      <g class="up"><line x1="232" y1="22" x2="232" y2="44"/><rect x="227" y="26" width="10" height="12"/></g>
+                      <g class="dn"><line x1="256" y1="26" x2="256" y2="48"/><rect x="251" y="30" width="10" height="12"/></g>
+                      <g class="up"><line x1="280" y1="18" x2="280" y2="40"/><rect x="275" y="22" width="10" height="12"/></g>
+                      <g class="up"><line x1="304" y1="14" x2="304" y2="34"/><rect x="299" y="18" width="10" height="10"/></g>
+                    </g>
+                    <g class="signals">
+                      <path d="M136 32 l-5 -8 l10 0 Z" class="buy"/>
+                      <path d="M184 70 l-5 8 l10 0 Z" class="sell"/>
+                      <path d="M280 8 l-5 -8 l10 0 Z" class="buy"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="ui-alpha__panels">
+                  <div class="ui-alpha__ind">
+                    <div class="ind-row"><span>RSI (14)</span><span class="ind-bar"><b style="width:62%"></b></span><span>62</span></div>
+                    <div class="ind-row"><span>MACD</span><span class="ind-bar"><b style="width:71%"></b></span><span>+</span></div>
+                    <div class="ind-row"><span>ATR</span><span class="ind-bar"><b style="width:38%"></b></span><span>0.9</span></div>
+                    <div class="ind-row"><span>Vol Z</span><span class="ind-bar"><b style="width:54%"></b></span><span>1.4σ</span></div>
+                  </div>
+                  <div class="ui-alpha__signals">
+                    <div class="sig"><span class="sig__dot sig__dot--buy"></span>BUY · NDX <span class="sig__c">0.91</span></div>
+                    <div class="sig"><span class="sig__dot sig__dot--sell"></span>SELL · RTY <span class="sig__c">0.78</span></div>
+                    <div class="sig"><span class="sig__dot sig__dot--buy"></span>BUY · ES <span class="sig__c">0.84</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="system" data-system aria-hidden="true">
+              <div class="sys sys--alpha">
+                <div class="sys__head"><span class="sys__tag">pipeline.py</span><span class="sys__meta">5 models · 200+ features</span></div>
+                <div class="sys-pipe">
+                  <div class="pipe-node">Market<br/>feed</div>
+                  <span class="pipe-arrow"></span>
+                  <div class="pipe-node">Feature<br/>engine</div>
+                  <span class="pipe-arrow"></span>
+                  <div class="pipe-node pipe-node--hot">Ensemble<br/>x5</div>
+                  <span class="pipe-arrow"></span>
+                  <div class="pipe-node">Signal<br/>book</div>
+                </div>
+                <pre class="sys-code"><span class="c-key">def</span> <span class="c-fn">score</span>(frame):
+    feats = featurize(frame)   <span class="c-cm"># 214 cols</span>
+    p = ensemble.predict(feats)
+    <span class="c-key">return</span> Signal(
+        side=<span class="c-str">"long"</span> <span class="c-key">if</span> p &gt; .6 <span class="c-key">else</span> <span class="c-str">"flat"</span>,
+        conf=<span class="c-fn">round</span>(p, 2),
+    )</pre>
+              </div>
+            </div>
+          </div>
+        </div><!-- /scene__inner -->
+      </article>
+
+      <!-- ===== SCENE 03 — JOBPOISE ===== -->
+      <article class="scene card" data-card data-scene style="--brand: #C879F0;">
+        <div class="scene__bg" data-scene-bg aria-hidden="true"></div>
+        <div class="scene__inner project-block__body project-block__body--ltr">
+          <div class="scene__lead" data-scene-lead>
+            <div class="project-block__meta">
+              <span class="project-block__index">03</span>
+              <div>
+                <h3 class="project-block__name scene__name" data-scene-name>Jobpoise</h3>
+                <p class="project-block__cap">AI copilot · Stripe · 3 tiers</p>
+              </div>
+              <button class="card__peel" type="button" data-peel aria-label="Reveal system view">
+                <span class="card__peel-txt" data-peel-label>System</span>
+                <span class="card__peel-ico" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+                </span>
+              </button>
+            </div>
+            <div class="project-block__spec scene__spec">
+              <div class="spec-accent" style="background: var(--brand);"></div>
+              <dl class="spec-list">
+                <dt>Stack</dt><dd>TypeScript · Claude API · Stripe</dd>
+                <dt>Billing</dt><dd>3-tier subscription · usage gates</dd>
+                <dt>Category</dt><dd>AI SaaS · Career tools</dd>
+              </dl>
+              <div class="spec-metrics">
+                <div class="spec-metric"><span class="spec-metric__val" data-count="3">0</span><span class="spec-metric__key">Tiers</span></div>
+                <div class="spec-metric"><span class="spec-metric__val" data-count="3">0</span><span class="spec-metric__key">AI tools</span></div>
+                <div class="spec-metric"><span class="spec-metric__val">∞</span><span class="spec-metric__key">Iterations</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="scene__device project-block__device device" data-device data-scene-device>
+            <div class="surface" data-surface>
+              <div class="ui ui--job">
+                <div class="ui-job__chat">
+                  <div class="chat-head"><span class="chat-ava"></span><span>Copilot</span><span class="chat-live">online</span></div>
+                  <div class="chat-body">
+                    <div class="msg msg--ai">Tailored your résumé for the Staff PM role — matched 14 of 16 keywords.</div>
+                    <div class="msg msg--me">Draft a follow-up to Meridian.</div>
+                    <div class="msg msg--ai">Done. Warm, 3 sentences, references their Q2 launch. <span class="msg__chip">Review →</span></div>
+                    <div class="msg msg--typing"><i></i><i></i><i></i></div>
+                  </div>
+                </div>
+                <div class="ui-job__board">
+                  <div class="board-col">
+                    <span class="board-col__h">Applied <em>6</em></span>
+                    <div class="board-card"><span class="board-card__co">Meridian</span><span class="board-card__role">Staff PM</span></div>
+                    <div class="board-card"><span class="board-card__co">Northwind</span><span class="board-card__role">Sr PM</span></div>
+                  </div>
+                  <div class="board-col">
+                    <span class="board-col__h">Interview <em>3</em></span>
+                    <div class="board-card board-card--hot"><span class="board-card__co">Oriel</span><span class="board-card__role">Lead PM</span></div>
+                    <div class="board-card"><span class="board-card__co">Halcyon</span><span class="board-card__role">PM II</span></div>
+                  </div>
+                  <div class="board-col">
+                    <span class="board-col__h">Offer <em>1</em></span>
+                    <div class="board-card board-card--win"><span class="board-card__co">Lyra Labs</span><span class="board-card__role">Group PM</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="system" data-system aria-hidden="true">
+              <div class="sys sys--job">
+                <div class="sys__head"><span class="sys__tag">agent.ts</span><span class="sys__meta">tools · Stripe · 3 tiers</span></div>
+                <div class="sys-pipe sys-pipe--vert">
+                  <div class="pipe-node">User intent</div>
+                  <span class="pipe-arrow pipe-arrow--down"></span>
+                  <div class="pipe-node pipe-node--hot">LLM router</div>
+                  <span class="pipe-arrow pipe-arrow--down"></span>
+                  <div class="pipe-row">
+                    <div class="pipe-node pipe-node--sm">résumé.tool</div>
+                    <div class="pipe-node pipe-node--sm">email.tool</div>
+                    <div class="pipe-node pipe-node--sm">track.tool</div>
+                  </div>
+                </div>
+                <pre class="sys-code"><span class="c-key">const</span> agent = createAgent({
+  model: <span class="c-str">"claude"</span>,
+  tools: [resume, outreach, tracker],
+  billing: stripe.tier(user),  <span class="c-cm">// free|pro|max</span>
+});</pre>
+              </div>
+            </div>
+          </div>
+        </div><!-- /scene__inner -->
+      </article>
+
+      <!-- ===== SCENE 04 — TRAYD ===== -->
+      <article class="scene card" data-card data-scene style="--brand: #E8923A;">
+        <div class="scene__bg" data-scene-bg aria-hidden="true"></div>
+        <div class="scene__inner project-block__body project-block__body--rtl">
+          <div class="scene__lead" data-scene-lead>
+            <div class="project-block__meta">
+              <span class="project-block__index">04</span>
+              <div>
+                <h3 class="project-block__name scene__name" data-scene-name>Trayd</h3>
+                <p class="project-block__cap">Bilingual trades AI · EN / ES</p>
+              </div>
+              <button class="card__peel" type="button" data-peel aria-label="Reveal system view">
+                <span class="card__peel-txt" data-peel-label>System</span>
+                <span class="card__peel-ico" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+                </span>
+              </button>
+            </div>
+            <div class="project-block__spec scene__spec">
+              <div class="spec-accent" style="background: var(--brand);"></div>
+              <dl class="spec-list">
+                <dt>Stack</dt><dd>Next.js · Voice AI · HouseCall Pro</dd>
+                <dt>i18n</dt><dd>EN / ES bilingual voice agent</dd>
+                <dt>Category</dt><dd>Field service · Trade operations</dd>
+              </dl>
+              <div class="spec-metrics">
+                <div class="spec-metric"><span class="spec-metric__val" data-count="2">0</span><span class="spec-metric__key">Languages</span></div>
+                <div class="spec-metric"><span class="spec-metric__val">AI</span><span class="spec-metric__key">Dispatch</span></div>
+                <div class="spec-metric"><span class="spec-metric__val" data-count="0">0</span><span class="spec-metric__key">Missed calls</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="scene__device project-block__device device" data-device data-scene-device>
+            <div class="surface" data-surface>
+              <div class="ui ui--trayd">
+                <div class="ui-trayd__top">
+                  <div class="ui-trayd__loc">Today · Orlando</div>
+                  <div class="lang-toggle" aria-hidden="true"><span class="is-on">EN</span><span>ES</span></div>
+                </div>
+                <div class="ui-trayd__jobs">
+                  <div class="job-card">
+                    <div class="job-card__time">8:00<small>am</small></div>
+                    <div class="job-card__body"><strong>AC tune-up</strong><span>1420 Palm Ave · Reyes</span></div>
+                    <span class="job-card__pill job-card__pill--done">Done</span>
+                  </div>
+                  <div class="job-card job-card--now">
+                    <div class="job-card__time">10:30<small>am</small></div>
+                    <div class="job-card__body"><strong>Compressor swap</strong><span>88 Lake Dr · Okafor</span></div>
+                    <span class="job-card__pill job-card__pill--now">En route</span>
+                  </div>
+                  <div class="job-card">
+                    <div class="job-card__time">1:15<small>pm</small></div>
+                    <div class="job-card__body"><strong>Duct inspection</strong><span>3 Cedar Ct · Núñez</span></div>
+                    <span class="job-card__pill">Booked</span>
+                  </div>
+                </div>
+                <div class="ui-trayd__sched">
+                  <div class="sched-h">Schedule</div>
+                  <div class="sched-bars">
+                    <span style="--h:40%"></span><span style="--h:70%"></span><span class="is-now" style="--h:90%"></span><span style="--h:55%"></span><span style="--h:65%"></span><span style="--h:30%"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="system" data-system aria-hidden="true">
+              <div class="sys sys--trayd">
+                <div class="sys__head"><span class="sys__tag">i18n + voice</span><span class="sys__meta">EN / ES · dispatch</span></div>
+                <div class="sys-pipe sys-pipe--vert">
+                  <div class="pipe-node">Inbound call</div>
+                  <span class="pipe-arrow pipe-arrow--down"></span>
+                  <div class="pipe-node pipe-node--hot">Voice agent<br/>EN · ES</div>
+                  <span class="pipe-arrow pipe-arrow--down"></span>
+                  <div class="pipe-node">Auto-dispatch</div>
+                </div>
+                <pre class="sys-code"><span class="c-key">match</span> caller.lang {
+  <span class="c-str">"es"</span> =&gt; respond(es.greeting),
+  <span class="c-str">"en"</span> =&gt; respond(en.greeting),
+}
+dispatch.book(job, nearest_tech)</pre>
+              </div>
+            </div>
+          </div>
+        </div><!-- /scene__inner -->
+      </article>
+
+        </div><!-- /reel__scenes -->
+      </div><!-- /reel__stage -->
+    </div><!-- /reel (scroll-driver) -->
+  </section>
+
+  <!-- ====================== SERVICES ====================== -->
+  <section class="services" id="services" aria-labelledby="services-heading">
+    <span class="band-seam" data-seam aria-hidden="true"></span>
+    <div class="section-head">
+      <span class="section-kicker" data-reveal>003 — Services</span>
+      <h2 id="services-heading" class="section-title" data-reveal>The piece,<br/>or the whole business.</h2>
+    </div>
+    <ol class="svc-list" data-reveal-group>
+      <li class="svc" data-reveal>
+        <span class="svc__no">S—01</span>
+        <h3 class="svc__title">AI Systems</h3>
+        <p class="svc__desc">Agents, copilots, retrieval, pipelines. The intelligence that actually runs the business — not a demo.</p>
+        <span class="svc__arrow" aria-hidden="true">→</span>
+      </li>
+      <li class="svc" data-reveal>
+        <span class="svc__no">S—02</span>
+        <h3 class="svc__title">Applications &amp; SaaS</h3>
+        <p class="svc__desc">Full-stack products: schema to interface, auth to billing. Shipped, observable, maintained.</p>
+        <span class="svc__arrow" aria-hidden="true">→</span>
+      </li>
+      <li class="svc" data-reveal>
+        <span class="svc__no">S—03</span>
+        <h3 class="svc__title">Brand &amp; Web</h3>
+        <p class="svc__desc">Identity, narrative, and a site that looks like the work behind it. Surgical, not templated.</p>
+        <span class="svc__arrow" aria-hidden="true">→</span>
+      </li>
+      <li class="svc" data-reveal>
+        <span class="svc__no">S—04</span>
+        <h3 class="svc__title">Growth &amp; SEO</h3>
+        <p class="svc__desc">Technical SEO, content systems, and the measurement to know what's working. Compounding, not spray.</p>
+        <span class="svc__arrow" aria-hidden="true">→</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ====================== PROOF ====================== -->
+  <section class="proof" id="proof" aria-labelledby="proof-heading">
+    <span class="band-seam" data-seam aria-hidden="true"></span>
+    <div class="section-head section-head--center">
+      <span class="section-kicker" data-reveal>004 — Proof</span>
+      <h2 id="proof-heading" class="section-title" data-reveal>The receipts.</h2>
+    </div>
+    <div class="proof__grid" data-reveal-group>
+      <div class="stat" data-reveal>
+        <span class="stat__num"><span data-count="4" data-suffix="">0</span></span>
+        <span class="stat__label">Live products in market</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__num"><span data-count="130" data-suffix="+">0</span></span>
+        <span class="stat__label">Public repositories</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__num"><span data-count="100" data-suffix="%">0</span></span>
+        <span class="stat__label">Callable references</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__num">2020</span>
+        <span class="stat__label">Building since</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== OPERATOR ====================== -->
+  <section class="operator" id="operator" aria-labelledby="operator-heading">
+    <span class="band-seam" data-seam aria-hidden="true"></span>
+    <div class="operator__inner">
+      <div class="operator__text">
+        <span class="section-kicker" data-reveal>005 — The operator</span>
+        <h2 id="operator-heading" class="section-title" data-reveal>One person.<br/>Principal-level.<br/>The whole stack.</h2>
+        <p class="operator__body" data-reveal>
+          No account managers, no handoffs, no offshore mystery. You talk to the person
+          writing the schema, training the model, and shipping the brand. The same hands
+          that run my own products run yours.
+        </p>
+        <ul class="operator__caps" data-reveal>
+          <li>Architecture</li><li>Backend</li><li>Frontend</li><li>ML / AI</li><li>Design</li><li>Growth</li>
+        </ul>
+      </div>
+      <figure class="operator__photo" data-reveal aria-hidden="true">
+        <div class="photo-frame">
+          <span class="photo-frame__label">[ Your photo ]</span>
+          <span class="photo-frame__corner photo-frame__corner--tl"></span>
+          <span class="photo-frame__corner photo-frame__corner--tr"></span>
+          <span class="photo-frame__corner photo-frame__corner--bl"></span>
+          <span class="photo-frame__corner photo-frame__corner--br"></span>
+        </div>
+        <figcaption class="photo-frame__cap">Sage · Founder &amp; sole operator · Orlando, FL</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ====================== FINAL CTA ====================== -->
+  <section class="final" id="build" aria-labelledby="final-heading">
+    <span class="band-seam" data-seam aria-hidden="true"></span>
+    <div class="final__grid" aria-hidden="true" data-parallax="0.12"></div>
+    <span class="section-kicker" data-reveal>006 — Let's build</span>
+    <h2 id="final-heading" class="final__title">
+      <span class="mask"><span class="mask__inner" data-mask>Bring me</span></span>
+      <span class="mask"><span class="mask__inner" data-mask>the <em>hard</em> one.</span></span>
+    </h2>
+    <a class="btn btn--primary btn--xl" href="mailto:hello@sageideas.dev" data-magnetic>
+      <span>Start a project</span>
+      <span class="btn__arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">Sage&nbsp;Ideas</span>
+    <span class="footer__meta">AI-native studio · since 2020 · Orlando, FL</span>
+    <span class="footer__copy">© 2026 · 001 — 100</span>
+  </div>
+</footer>
+
+<!-- GSAP core + ScrollTrigger (the engine) + Draggable. All optional:
+     the page is fully functional and visible without any of them. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

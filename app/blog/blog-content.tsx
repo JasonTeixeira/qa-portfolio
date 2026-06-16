@@ -220,7 +220,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
           ) : (
             <ol className="divide-y divide-[var(--sage-border)]" aria-label="Article list">
               {listPosts.map((post, i) => (
-                <li key={post.id} className="sage-rise" style={{ animationDelay: `${Math.min(i, 6) * 0.04}s` }}>
+                <li key={post.slug} className="sage-rise" style={{ animationDelay: `${Math.min(i, 6) * 0.04}s` }}>
                   <Link
                     href={`/blog/${post.slug}`}
                     className="group grid grid-cols-[auto_1fr_auto] sm:grid-cols-[5rem_1fr_auto] lg:grid-cols-[5.5rem_1fr_auto_7rem] gap-x-5 sm:gap-x-8 items-start py-6 hover:bg-[var(--sage-surface-1)] -mx-5 px-5 sm:-mx-8 sm:px-8 transition-colors duration-150"

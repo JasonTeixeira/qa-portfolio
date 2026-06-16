@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Mail, ArrowRight } from 'lucide-react'
 import { FounderPortrait } from '@/components/founder-portrait'
 import { Hairline, MonoLabel, Surface, CtaLink } from '@/components/el'
+import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/book' },
@@ -45,13 +46,6 @@ const INTAKE_TOPICS = [
   "Whether a tier is the right fit",
 ]
 
-const COME_PREPARED = [
-  "What success looks like in 30–90 days",
-  "An approximate budget range",
-  "Your timeline (any hard deadlines?)",
-  "A few sentences about your project",
-]
-
 export default function BookPage() {
   return (
     <div className="min-h-screen bg-[var(--sage-bg)]">
@@ -75,7 +69,7 @@ export default function BookPage() {
             <MonoLabel tone="faint">{'// discovery call'}</MonoLabel>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.6fr)] lg:items-start">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-start">
             {/* Left — headline */}
             <div>
               <h1
@@ -128,54 +122,44 @@ export default function BookPage() {
               </div>
             </div>
 
-            {/* Right — prep spec sheet */}
-            <Surface level={1} bordered ticks className="[font-family:var(--font-mono),ui-monospace,monospace]">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-[var(--sage-border)] px-5 py-3">
-                <MonoLabel tone="muted">{'// agenda'}</MonoLabel>
-                <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-faint)]">
-                  <span className="relative inline-flex h-1.5 w-1.5">
-                    <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
-                    <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
-                  </span>
-                  <span className="text-[#0ED3CF]/80">accepting Q3</span>
-                </span>
-              </div>
-
-              {/* We&apos;ll cover */}
-              <div className="border-b border-[var(--sage-border)] px-5 py-4">
-                <p className="mb-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-muted)]">we&apos;ll cover</p>
-                <ul className="space-y-2">
-                  {INTAKE_TOPICS.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-[11px] text-[var(--sage-ink-muted)]">
-                      <span aria-hidden className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-[#0ED3CF]/60" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Come prepared */}
-              <div className="px-5 py-4">
-                <p className="mb-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-muted)]">come prepared with</p>
-                <ul className="space-y-2">
-                  {COME_PREPARED.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-[11px] text-[var(--sage-ink-muted)]">
-                      <span aria-hidden className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-[var(--sage-border-strong)]" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Footer */}
-              <div className="border-t border-[var(--sage-border)] px-5 py-3 text-[9px] uppercase tracking-[0.2em] text-[var(--sage-ink-faint)]">
-                duration&nbsp;<span className="text-[var(--sage-ink-muted)]">30 min</span>
-                &nbsp;·&nbsp;response&nbsp;
-                <span className="text-[var(--sage-ink-muted)]">&lt; 24h</span>
-              </div>
-            </Surface>
+            <SystemHeroPanel
+              eyebrow="booking graph"
+              title="Call decision map"
+              nodes={['Context', 'Fit', 'Scope', 'Proposal']}
+              stats={[
+                { label: 'duration', value: '30m' },
+                { label: 'proposal', value: '48h' },
+                { label: 'pitch deck', value: '0' },
+              ]}
+            />
           </div>
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'call length', value: '30 min' },
+                { label: 'written proposal', value: '48h' },
+                { label: 'sales pressure', value: '0' },
+                { label: 'builder on call', value: 'Jason' },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="mb-10 flex items-center gap-4">
+            <MonoLabel tone="muted">{'// decision route'}</MonoLabel>
+            <Hairline className="flex-1" strong />
+          </div>
+          <ConversionMap
+            steps={[
+              { label: 'Bring context', detail: INTAKE_TOPICS.join(', ') + '.' },
+              { label: 'Pressure-test fit', detail: 'We decide whether a productized tier, custom scope, academy route, or no engagement is right.' },
+              { label: 'Define next step', detail: 'If there is a fit, the next step is written: scope, price, timeline, and owner.' },
+              { label: 'Move cleanly', detail: 'You either get a proposal or a clear reason not to proceed. No drip campaign.' },
+            ]}
+          />
         </div>
       </section>
 

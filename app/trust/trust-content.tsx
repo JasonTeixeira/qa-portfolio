@@ -12,6 +12,7 @@ import {
   StatDisplay,
 } from '@/components/el'
 import { ReferenceRoster } from '@/components/el/home/ReferenceRoster'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { references, trustedBy } from '@/data/references'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -226,36 +227,72 @@ export function TrustContent() {
             <Hairline className="flex-1" strong />
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
-            className="font-normal text-[var(--sage-ink)] leading-[1.02] max-w-3xl"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
-              letterSpacing: '-0.024em',
-              fontSize: 'clamp(2.5rem, 1.5rem + 4vw, 5rem)',
-            }}
-          >
-            Why teams trust<br />the studio.
-          </motion.h1>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              {/* Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
+                className="font-normal text-[var(--sage-ink)] leading-[1.02] max-w-3xl"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                  letterSpacing: '-0.024em',
+                  fontSize: 'clamp(3rem, 1.5rem + 5vw, 6.3rem)',
+                }}
+              >
+                Why teams trust<br />the studio.
+              </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.12 }}
+                className="mt-8 max-w-3xl space-y-4 text-base leading-[1.75] text-[var(--sage-ink-muted)]"
+              >
+                <p className="text-lg font-normal text-[var(--sage-ink-muted)]">
+                  We don&apos;t ask you to take our word for it. Here&apos;s the evidence.
+                </p>
+                <p>
+                  Trust in a software engagement comes from verifiable evidence, not assertions.
+                  Every claim on this page is backed by something you can check: a public GitHub
+                  repo, a certification verification link, a methodology document, a test suite count.
+                </p>
+              </motion.div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.16 }}
+            >
+              <SystemHeroPanel
+                eyebrow="trust graph"
+                title="Evidence system map"
+                nodes={['Certs', 'Repos', 'CI', 'Policies']}
+                stats={[
+                  { label: 'certs', value: '9' },
+                  { label: 'repos', value: '130+' },
+                  { label: 'followers', value: '30' },
+                ]}
+              />
+            </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.12 }}
-            className="mt-8 max-w-3xl space-y-4 text-base leading-[1.75] text-[var(--sage-ink-muted)]"
+            transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.2 }}
+            className="mt-12"
           >
-            <p className="text-lg font-normal text-[var(--sage-ink-muted)]">
-              We don&apos;t ask you to take our word for it. Here&apos;s the evidence.
-            </p>
-            <p>
-              Trust in a software engagement comes from verifiable evidence, not assertions.
-              Every claim on this page is backed by something you can check: a public GitHub
-              repo, a certification verification link, a methodology document, a test suite count.
-            </p>
+            <MotionProofStrip
+              items={[
+                { label: 'certifications', value: '9' },
+                { label: 'testing layers', value: '13' },
+                { label: 'public repos', value: '130+' },
+                { label: 'shipping since', value: '2020' },
+              ]}
+            />
           </motion.div>
 
           {/* Quick nav — hairline chip rail */}
@@ -278,6 +315,25 @@ export function TrustContent() {
           </motion.nav>
         </div>
       </section>
+
+      <Section
+        index="01B"
+        eyebrow="trust architecture"
+        heading="Trust is an operating system."
+        ariaLabel="Trust architecture"
+      >
+        <SurfaceSystemPanel
+          title="Claim ⇄ Receipt"
+          body="The trust page turns claims into artifacts: certifications, process, data handling, guarantees, open-source record, and clear wrong-fit boundaries."
+          cta={{ label: 'See the work', href: '/work' }}
+          steps={[
+            { label: 'Credentials', detail: 'Certifications and training explain the technical operating baseline.' },
+            { label: 'Process', detail: 'Testing, CI/CD, security, infrastructure, and data handling show the work discipline.' },
+            { label: 'Boundaries', detail: 'Wrong-fit notes and guarantees remove ambiguity before a buyer reaches out.' },
+            { label: 'Receipts', detail: 'Public repositories, references, and verifiable stats carry the credibility.' },
+          ]}
+        />
+      </Section>
 
       {/* ── Live receipts ─────────────────────────────────────────────────────── */}
       <Section

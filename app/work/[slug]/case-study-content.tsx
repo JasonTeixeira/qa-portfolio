@@ -10,6 +10,7 @@ import { EvidenceGallery } from '@/components/el/work/EvidenceGallery'
 import { ScreenViewer } from '@/components/el/work/ScreenViewer'
 import { BuildLog } from '@/components/el/work/BuildLog'
 import { TestimonialCard } from '@/components/testimonial-card'
+import { MotionProofStrip, SurfaceSystemPanel } from '@/components/living/LivingPageSystem'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { type CaseExtras } from '@/data/work/case-extras'
@@ -162,8 +163,53 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
               </div>
             </Reveal>
           )}
+
+          <Reveal delay={0.22}>
+            <div className="mt-10">
+              <MotionProofStrip
+                items={study.metrics.slice(0, 4).map((metric) => ({
+                  label: metric.label,
+                  value: metric.value,
+                }))}
+              />
+            </div>
+          </Reveal>
         </div>
       </header>
+
+      <section className="border-t border-[var(--sage-border)]">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-16">
+          <Reveal>
+            <SurfaceSystemPanel
+              title="Surface ⇄ System"
+              body={`${study.title.split('—')[0].trim()} is presented as both the product people touch and the operating system underneath it: UI, data model, integration path, evidence, and outcome.`}
+              cta={study.ctaSecondary ?? { label: 'Build something like this', href: '/services/build' }}
+              steps={[
+                {
+                  label: 'Visible product',
+                  detail: study.screens?.length
+                    ? 'Screenshots and product frames show the user-facing surface without pretending concept art is production proof.'
+                    : 'The product surface is explained through shipped flows, artifacts, and real constraints.',
+                },
+                {
+                  label: 'Operating architecture',
+                  detail: Diagram
+                    ? 'The case includes a system map so the architecture is visible, not buried in prose.'
+                    : 'The case names the backend, data, deployment, and operational decisions that made the build work.',
+                },
+                {
+                  label: 'Evidence register',
+                  detail: 'Metrics, build logs, diagrams, CI artifacts, and links separate actual work from agency theater.',
+                },
+                {
+                  label: 'Commercial path',
+                  detail: 'The page routes qualified buyers toward a matching build, automation, or lab entry.',
+                },
+              ]}
+            />
+          </Reveal>
+        </div>
+      </section>
 
       {/* ════════════ BODY — two-column with sticky sidebar ════════════ */}
       <div className="border-t border-[var(--sage-border)]">

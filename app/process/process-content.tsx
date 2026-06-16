@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
+import { MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 
 const HEADING_STYLE: React.CSSProperties = {
@@ -92,31 +93,53 @@ export function ProcessContent() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-            className="max-w-3xl"
+            className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end"
           >
-            <div className="mb-7 flex items-center gap-4">
-              <MonoLabel tone="accent">01</MonoLabel>
-              <Hairline className="flex-1" />
-              <MonoLabel tone="muted">{'// process'}</MonoLabel>
-              <Hairline className="flex-1" strong />
+            <div className="max-w-3xl">
+              <div className="mb-7 flex items-center gap-4">
+                <MonoLabel tone="accent">01</MonoLabel>
+                <Hairline className="flex-1" />
+                <MonoLabel tone="muted">{'// process'}</MonoLabel>
+                <Hairline className="flex-1" strong />
+              </div>
+              <h1
+                className="text-[var(--sage-ink)] font-normal text-[clamp(3rem,1.2rem+5vw,6.2rem)]"
+                style={HEADING_STYLE}
+              >
+                Four stages.{' '}
+                <em className="not-italic text-[#0ED3CF]">No ghost-mode.</em>
+              </h1>
+              <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
+                Every Sage Ideas engagement runs the same four-stage process regardless of scope. You always know where we are, what was decided, and what ships next.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <CtaLink href="/contact" variant="solid" event="cta_process_hero">
+                  Book a free intro chat
+                </CtaLink>
+                <CtaLink href="/how-it-works" variant="ghost" arrow={false}>
+                  See service pipelines
+                </CtaLink>
+              </div>
             </div>
-            <h1
-              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-              style={HEADING_STYLE}
-            >
-              Four stages.{' '}
-              <em className="not-italic text-[#0ED3CF]">No ghost-mode.</em>
-            </h1>
-            <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-              Every Sage Ideas engagement runs the same four-stage process regardless of scope. You always know where we are, what was decided, and what ships next.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <CtaLink href="/contact" variant="solid" event="cta_process_hero">
-                Book a free intro chat
-              </CtaLink>
-              <CtaLink href="/how-it-works" variant="ghost" arrow={false}>
-                See service pipelines
-              </CtaLink>
+            <SystemHeroPanel
+              eyebrow="process graph"
+              title="Delivery system"
+              nodes={STAGES.map((stage) => stage.title)}
+              stats={[
+                { label: 'stages', value: String(STAGES.length).padStart(2, '0') },
+                { label: 'proposal', value: '48h' },
+                { label: 'ghost mode', value: '0' },
+              ]}
+            />
+            <div className="lg:col-span-2">
+              <MotionProofStrip
+                items={[
+                  { label: 'discover', value: 'scope' },
+                  { label: 'architect', value: 'map' },
+                  { label: 'build', value: 'ship' },
+                  { label: 'operate', value: 'handoff' },
+                ]}
+              />
             </div>
           </motion.div>
         </div>

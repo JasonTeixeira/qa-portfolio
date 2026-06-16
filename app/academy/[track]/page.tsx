@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/json-ld'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { academyTracks, getAcademyTrack } from '@/data/academy/tracks'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
@@ -114,7 +115,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
             <span>{track.label}</span>
           </nav>
 
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.72fr)] lg:items-end">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.72fr)] lg:items-end">
             <div>
               <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
                 {track.label} · {track.status === 'forming' ? 'Forming now' : 'Opening soon'}
@@ -144,29 +145,43 @@ export default async function AcademyTrackPage({ params }: PageProps) {
               </div>
             </div>
 
-            <aside className="border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-6 sm:p-7">
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-ink-subtle)]">
-                Track promise
-              </p>
-              <p className="mt-6 text-xl font-semibold leading-[1.35] text-[var(--sage-ink)]">
-                {track.outcome}
-              </p>
-              <dl className="mt-8 space-y-5 border-t border-[var(--sage-border)] pt-6">
-                <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-accent-readable)]">
-                    For
-                  </dt>
-                  <dd className="mt-2 text-sm leading-6 text-[var(--sage-ink-muted)]">{track.audience}</dd>
-                </div>
-                <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-accent-readable)]">
-                    Format
-                  </dt>
-                  <dd className="mt-2 text-sm leading-6 text-[var(--sage-ink-muted)]">{track.format}</dd>
-                </div>
-              </dl>
-            </aside>
+            <SystemHeroPanel
+              eyebrow="track graph"
+              title={`${track.title} curriculum map`}
+              nodes={track.lessons}
+              stats={[
+                { label: 'modules', value: String(track.lessons.length).padStart(2, '0') },
+                { label: 'mode', value: 'online' },
+                { label: 'source', value: 'studio' },
+              ]}
+            />
           </div>
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'track promise', value: 'clear' },
+                { label: 'format', value: track.lessons.length + ' modules' },
+                { label: 'status', value: track.status === 'forming' ? 'forming' : 'soon' },
+                { label: 'sales style', value: 'honest' },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] px-5 py-16 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <SurfaceSystemPanel
+            title="Course ⇄ Practice"
+            body={track.outcome}
+            cta={{ label: track.cta, href: '#join' }}
+            steps={[
+              { label: 'Who it is for', detail: track.audience },
+              { label: 'How it ships', detail: track.format },
+              { label: 'What you get', detail: track.outcome },
+              { label: 'Where it leads', detail: 'Apply it yourself, or route into the studio when you want the system built with you.' },
+            ]}
+          />
         </div>
       </section>
 

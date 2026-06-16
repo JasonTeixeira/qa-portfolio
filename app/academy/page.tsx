@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { academyPrinciples, academyTracks } from '@/data/academy/tracks'
 
 const SITE = 'https://www.sageideas.dev'
@@ -42,7 +43,7 @@ export default function AcademyPage() {
             maskImage: 'radial-gradient(120% 90% at 28% 20%, #000 20%, transparent 74%)',
           }}
         />
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.72fr)] lg:items-end">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.72fr)] lg:items-end">
           <div>
             <p className="mb-7 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               Sage Academy · forming now
@@ -73,26 +74,51 @@ export default function AcademyPage() {
               </Link>
             </div>
           </div>
-          <div className="border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-5 sm:p-7">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-ink-subtle)]">
-              Launch shape
+          <SystemHeroPanel
+            eyebrow="academy engine"
+            title="Academy funnel map"
+            nodes={['Build notes', 'Courses', 'Templates', 'Studio']}
+            stats={[
+              { label: 'tracks', value: String(academyTracks.length).padStart(2, '0') },
+              { label: 'format', value: 'cohort' },
+              { label: 'scarcity', value: 'none' },
+            ]}
+          />
+        </div>
+        <div className="mx-auto mt-12 max-w-7xl">
+          <MotionProofStrip
+            items={[
+              { label: 'academy tracks', value: String(academyTracks.length) },
+              { label: 'source material', value: 'real builds' },
+              { label: 'content engine', value: 'weekly' },
+              { label: 'upsell path', value: 'studio' },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              Learning funnel
             </p>
-            <div className="mt-8 grid gap-1">
-              {['Free build notes', 'Mini-courses', 'Templates', 'Live workshops', 'Studio upsell'].map(
-                (item, index) => (
-                  <div
-                    className="grid grid-cols-[auto_1fr] gap-4 border-t border-[var(--sage-border)] py-4"
-                    key={item}
-                  >
-                    <span className="font-mono text-xs text-[var(--sage-accent-readable)]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-sm text-[var(--sage-ink-muted)]">{item}</span>
-                  </div>
-                ),
-              )}
-            </div>
+            <h2 className="text-[clamp(2.3rem,1.2rem+4vw,5rem)] font-extrabold" style={displayStyle}>
+              Learn the build. Then choose your path.
+            </h2>
+            <p className="mt-6 text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
+              The academy should feed the content machine, help DIY builders, and create a clean
+              route into higher-touch studio work when someone needs implementation.
+            </p>
           </div>
+          <ConversionMap
+            steps={[
+              { label: 'Read', detail: 'Build notes and topic hubs capture search intent and founder voice.' },
+              { label: 'Learn', detail: 'Course tracks turn repeated studio patterns into teachable systems.' },
+              { label: 'Apply', detail: 'Templates and checklists give DIY builders a concrete next step.' },
+              { label: 'Hire', detail: 'Qualified buyers route into services when they need the system built for them.' },
+            ]}
+          />
         </div>
       </section>
 

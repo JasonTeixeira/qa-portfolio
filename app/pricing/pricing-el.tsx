@@ -9,6 +9,7 @@ import {
   type CatalogRowItem,
 } from '@/components/el/services'
 import { QuoteCalculator } from '@/components/pricing/quote-calculator'
+import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { tiersOrdered, careTiers } from '@/data/services/tiers'
 import {
   extendedCategories,
@@ -52,30 +53,71 @@ export function PricingEl() {
             <MonoLabel tone="accent">{'// pricing'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
-          <h1
-            className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(2.5rem,1.3rem+4.2vw,5rem)]"
-            style={{
-              fontFamily: 'var(--font-display)',
-              letterSpacing: '-0.026em',
-              lineHeight: 1.0,
-            }}
-          >
-            One price per engagement.{' '}
-            <span className="italic text-[#0ED3CF]">Written before we start.</span>
-          </h1>
-          <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
-            No “starting from”, no discovery-call price reveal. Every productized tier below has a
-            fixed scope and a fixed number. The self-serve ones take a card on this page; the larger
-            builds get scoped on a call. The number you see is the number in the contract.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-            <CtaLink variant="text" href="#compare">compare every tier</CtaLink>
-            <CtaLink variant="text" href="#care">care plans</CtaLink>
-            <CtaLink variant="text" href="#catalog">ai &amp; automation</CtaLink>
-            <CtaLink variant="text" href="#faq">faq</CtaLink>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <h1
+                className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(3.2rem,1.3rem+5.2vw,6.4rem)]"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '-0.026em',
+                  lineHeight: 1.0,
+                }}
+              >
+                One price per engagement.{' '}
+                <span className="italic text-[#0ED3CF]">Written before we start.</span>
+              </h1>
+              <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
+                No “starting from”, no discovery-call price reveal. Every productized tier below has a
+                fixed scope and a fixed number. The self-serve ones take a card on this page; the larger
+                builds get scoped on a call. The number you see is the number in the contract.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
+                <CtaLink variant="text" href="#compare">compare every tier</CtaLink>
+                <CtaLink variant="text" href="#care">care plans</CtaLink>
+                <CtaLink variant="text" href="#catalog">ai &amp; automation</CtaLink>
+                <CtaLink variant="text" href="#faq">faq</CtaLink>
+              </div>
+            </div>
+            <SystemHeroPanel
+              eyebrow="price engine"
+              title="Pricing system map"
+              nodes={['Scope', 'Price', 'Checkout', 'Handoff']}
+              stats={[
+                { label: 'self serve', value: 'yes' },
+                { label: 'surprise fees', value: '0' },
+                { label: 'refund rule', value: 'clear' },
+              ]}
+            />
+          </div>
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'fixed scope', value: 'written' },
+                { label: 'audit', value: '$750' },
+                { label: 'platform build', value: '$9.5k' },
+                { label: 'care plans', value: 'monthly' },
+              ]}
+            />
           </div>
         </div>
       </section>
+
+      <Section
+        index="00"
+        eyebrow="pricing logic"
+        ariaLabel="Pricing logic"
+        heading="The page should make the buying decision obvious."
+        lede="A premium pricing page earns trust by showing the route, the constraints, and the next action. No pressure tricks; just clear commercial architecture."
+      >
+        <ConversionMap
+          steps={[
+            { label: 'Audit', detail: 'Best when you need clarity before committing to a larger build.' },
+            { label: 'Ship', detail: 'Best when the surface, launch, or conversion system is the bottleneck.' },
+            { label: 'Automate', detail: 'Best when AI, ops, or workflow leverage creates measurable lift.' },
+            { label: 'Build / Operate', detail: 'Best when the product needs a principal builder and an operating cadence.' },
+          ]}
+        />
+      </Section>
 
       {/* ── Productized tiers ──────────────────────────────────────── */}
       <Section

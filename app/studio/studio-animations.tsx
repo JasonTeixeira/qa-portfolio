@@ -11,6 +11,7 @@ import {
   Reveal,
   StatDisplay,
 } from '@/components/el'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -109,47 +110,74 @@ export function StudioAnimations() {
             <Hairline className="flex-1" strong />
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
-            className="font-normal text-[var(--sage-ink)] leading-[1.02] max-w-3xl"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
-              letterSpacing: '-0.024em',
-              fontSize: 'clamp(2.5rem, 1.5rem + 4vw, 5rem)',
-            }}
-          >
-            The studio.
-          </motion.h1>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <motion.h1
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
+                className="font-normal text-[var(--sage-ink)] leading-[1.02] max-w-3xl"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+                  letterSpacing: '-0.024em',
+                  fontSize: 'clamp(3.2rem, 1.5rem + 5.2vw, 6.6rem)',
+                }}
+              >
+                The studio.
+              </motion.h1>
 
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.12 }}
+                className="mt-8 max-w-3xl space-y-5 text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg"
+              >
+                <p className="text-xl text-[var(--sage-ink-muted)] font-normal">
+                  One engineer. One LLC. Years of compounded decisions and shipped systems.
+                </p>
+                <p>
+                  Sage Ideas LLC was founded in 2024 with a specific thesis: that the right process,
+                  the right infrastructure, and AI-native development practices allow a single
+                  practitioner to build and ship software at a quality level that matches a small
+                  agency — with the added benefit of direct accountability.
+                </p>
+                <p>
+                  Before the studio, Jason Teixeira spent five years as a fintech engineer at
+                  HighStrike (2021–2026) — building trading infrastructure, market data systems, and
+                  real-time financial applications that handled production load. That&apos;s where
+                  the engineering discipline came from: systems that don&apos;t fail on a volatile
+                  trading day demand a level of rigor that carries over into everything since.
+                </p>
+                <p className="text-[var(--sage-ink-faint)]">
+                  The studio operates out of Orlando, FL. Remote-first by default.
+                </p>
+              </motion.div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.16 }}
+            >
+              <SystemHeroPanel
+                eyebrow="studio graph"
+                title="Studio operating system"
+                nodes={['Products', 'AI', 'Brand', 'Growth']}
+                stats={[
+                  { label: 'live products', value: '6' },
+                  { label: 'since', value: '2020' },
+                  { label: 'model', value: 'solo' },
+                ]}
+              />
+            </motion.div>
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.12 }}
-            className="mt-8 max-w-3xl space-y-5 text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg"
+            transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.24 }}
+            className="mt-12"
           >
-            <p className="text-xl text-[var(--sage-ink-muted)] font-normal">
-              One engineer. One LLC. Years of compounded decisions and shipped systems.
-            </p>
-            <p>
-              Sage Ideas LLC was founded in 2024 with a specific thesis: that the right process,
-              the right infrastructure, and AI-native development practices allow a single
-              practitioner to build and ship software at a quality level that matches a small
-              agency — with the added benefit of direct accountability.
-            </p>
-            <p>
-              Before the studio, Jason Teixeira spent five years as a fintech engineer at
-              HighStrike (2021–2026) — building trading infrastructure, market data systems, and
-              real-time financial applications that handled production load. That&apos;s where
-              the engineering discipline came from: systems that don&apos;t fail on a volatile
-              trading day demand a level of rigor that carries over into everything since.
-            </p>
-            <p className="text-[var(--sage-ink-faint)]">
-              The studio operates out of Orlando, FL. Remote-first by default.
-            </p>
+            <MotionProofStrip items={metrics} />
           </motion.div>
         </div>
       </section>
@@ -165,6 +193,25 @@ export function StudioAnimations() {
         <Reveal>
           <StatDisplay stats={metrics} columns={4} />
         </Reveal>
+      </Section>
+
+      <Section
+        index="02B"
+        eyebrow="studio system"
+        heading="Small by design. Systematic by necessity."
+        ariaLabel="Studio system"
+      >
+        <SurfaceSystemPanel
+          title="Build ⇄ Operate"
+          body="The studio is intentionally small, so the operating system has to be serious: repeatable scope, production gates, clear handoff, and content that compounds."
+          cta={{ label: 'See the work', href: '/work' }}
+          steps={[
+            { label: 'Product', detail: 'Applications, SaaS, dashboards, workflows, and tools that can survive real users.' },
+            { label: 'Architecture', detail: 'Data models, APIs, auth, billing, automation, deployment, observability, and docs.' },
+            { label: 'Brand', detail: 'Positioning, interface craft, site systems, offer clarity, and conversion routes.' },
+            { label: 'Growth', detail: 'SEO, content engine, analytics, lead capture, and academy paths around the product.' },
+          ]}
+        />
       </Section>
 
       {/* ── Pillars ────────────────────────────────────────────────────────────── */}

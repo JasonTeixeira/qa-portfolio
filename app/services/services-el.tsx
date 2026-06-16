@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Section, Hairline, MonoLabel, Surface, Reveal, CtaLink } from '@/components/el'
 import { ProofLedger } from '@/components/el/home/ProofLedger'
+import { ConversionMap, MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import {
   TierGrid,
   CareCard,
@@ -72,31 +73,84 @@ export function ServicesEl() {
             <MonoLabel tone="accent">{'// engagements'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
-          <h1
-            className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(2.5rem,1.3rem+4.2vw,5rem)]"
-            style={{
-              fontFamily: 'var(--font-display)',
-              letterSpacing: '-0.026em',
-              lineHeight: 1.0,
-            }}
-          >
-            Engineering. AI. Automation.{' '}
-            <span className="italic text-[#0ED3CF]">Custom welcome.</span>
-          </h1>
-          <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
-            Productized engagements with fixed scope — AI reliability audits, RAG and agent ops,
-            automation pipelines, customer-facing AI products, retainers, diagnostic on-ramps, and
-            full done-for-you bundles. Or scope something custom: free 30-minute call, 48-hour
-            proposal, no asterisks.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-            <CtaLink variant="text" href="#ai-and-automation">jump to ai &amp; automation</CtaLink>
-            <CtaLink variant="text" href="/pricing">compare every tier</CtaLink>
-            <CtaLink variant="text" href="/capabilities">capability matrix</CtaLink>
-            <CtaLink variant="text" href="/industries">browse by industry</CtaLink>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <h1
+                className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(3.2rem,1.3rem+5.4vw,6.6rem)]"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '-0.026em',
+                  lineHeight: 1.0,
+                }}
+              >
+                Engineering. AI. Automation.{' '}
+                <span className="italic text-[#0ED3CF]">Custom welcome.</span>
+              </h1>
+              <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
+                Productized engagements with fixed scope — AI reliability audits, RAG and agent ops,
+                automation pipelines, customer-facing AI products, retainers, diagnostic on-ramps, and
+                full done-for-you bundles. Or scope something custom: free 30-minute call, 48-hour
+                proposal, no asterisks.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
+                <CtaLink variant="text" href="#ai-and-automation">jump to ai &amp; automation</CtaLink>
+                <CtaLink variant="text" href="/pricing">compare every tier</CtaLink>
+                <CtaLink variant="text" href="/capabilities">capability matrix</CtaLink>
+                <CtaLink variant="text" href="/industries">browse by industry</CtaLink>
+              </div>
+            </div>
+            <SystemHeroPanel
+              eyebrow="offer router"
+              title="Services system map"
+              nodes={['Diagnose', 'Build', 'Automate', 'Operate']}
+              stats={[
+                { label: 'on-ramp', value: '$750' },
+                { label: 'proposal', value: '48h' },
+                { label: 'model', value: 'fixed' },
+              ]}
+            />
+          </div>
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'audit entry', value: '$750' },
+                { label: 'self serve', value: 'Stripe' },
+                { label: 'proposal window', value: '48h' },
+                { label: 'operator model', value: '1:1' },
+              ]}
+            />
           </div>
         </div>
       </section>
+
+      <Section
+        index="00"
+        eyebrow="engagement routing"
+        ariaLabel="Engagement routing map"
+        heading="Every buyer path gets a system."
+        lede="The services page now behaves less like a menu and more like an offer router: diagnose the situation, choose the right motion, then route into checkout or a scoped call."
+      >
+        <ConversionMap
+          steps={[
+            {
+              label: 'Need clarity',
+              detail: 'Start with Audit: focused findings, prioritized roadmap, and credit toward a bigger build.',
+            },
+            {
+              label: 'Need a launch',
+              detail: 'Use Site Starter, Ship, or Brand work when the surface and story are the bottleneck.',
+            },
+            {
+              label: 'Need leverage',
+              detail: 'Use Automate, AI reliability, RAG, agents, or customer-facing AI when operations need lift.',
+            },
+            {
+              label: 'Need a partner',
+              detail: 'Use Build, Scale, Operate, or Studio Engagement when the business needs a principal builder.',
+            },
+          ]}
+        />
+      </Section>
 
       {/* ── Productized engagements ────────────────────────────────── */}
       <Section
@@ -225,6 +279,26 @@ export function ServicesEl() {
         width="max-w-5xl"
       >
         <ProofLedger />
+      </Section>
+
+      <Section
+        index="04B"
+        eyebrow="service architecture"
+        ariaLabel="Service architecture"
+        heading="The offer is a pipeline, not a menu."
+        lede="Premium services pages should reveal the operating model behind the work. This section sets the pattern for every individual service page we upgrade next."
+      >
+        <SurfaceSystemPanel
+          title="Scope → Ship → Operate"
+          body="Every serious engagement moves through the same production path: diagnosis, architecture, build, validation, handoff, and operating loop."
+          cta={{ label: 'Book the right path', href: '/book' }}
+          steps={[
+            { label: 'Scope', detail: 'Written deliverables, constraints, acceptance criteria, and price before work begins.' },
+            { label: 'Build', detail: 'Production code, real integrations, analytics, SEO, checkout, or AI workflows depending on the route.' },
+            { label: 'Verify', detail: 'Lint, typecheck, tests, build, visual QA, browser smoke, and launch gates.' },
+            { label: 'Operate', detail: 'Documentation, handoff, care plan, or continued studio engagement when the system needs stewardship.' },
+          ]}
+        />
       </Section>
 
       {/* ── Custom / close ─────────────────────────────────────────── */}

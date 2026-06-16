@@ -14,6 +14,7 @@ import {
 } from '@/components/el'
 import { FounderPortrait } from '@/components/founder-portrait'
 import { SocialBadges } from '@/components/founder/social-badges'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -126,7 +127,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
           </motion.div>
 
           {/* Two-column layout: copy left, portrait right */}
-          <div className="grid gap-16 lg:grid-cols-[1fr_340px] lg:items-start lg:gap-24">
+          <div className="grid gap-16 lg:grid-cols-[1fr_380px] lg:items-start lg:gap-24">
             {/* Left: headline + bio */}
             <div>
               <motion.h1
@@ -200,18 +201,69 @@ export function FounderAnimations({ capabilities, principles }: Props) {
               </motion.div>
             </div>
 
-            {/* Right: portrait */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.12 }}
-              className="relative lg:sticky lg:top-8"
-            >
-              <FounderPortrait size="xl" priority />
-            </motion.div>
+            <div className="space-y-5 lg:sticky lg:top-8">
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.12 }}
+                className="relative"
+              >
+                <FounderPortrait size="xl" priority />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.2 }}
+              >
+                <SystemHeroPanel
+                  eyebrow="operator graph"
+                  title="Founder operating system"
+                  nodes={['Scope', 'Build', 'Verify', 'Operate']}
+                  stats={[
+                    { label: 'public repos', value: '130+' },
+                    { label: 'certs', value: '9' },
+                    { label: 'fintech', value: '5 yr' },
+                  ]}
+                />
+              </motion.div>
+            </div>
           </div>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.34 }}
+            className="mt-12"
+          >
+            <MotionProofStrip
+              items={[
+                { label: 'fintech engineering', value: '5 yr' },
+                { label: 'active certs', value: '9' },
+                { label: 'degrees', value: '2' },
+                { label: 'handoff chain', value: 'none' },
+              ]}
+            />
+          </motion.div>
         </div>
       </section>
+
+      <Section
+        index="01B"
+        eyebrow="operating system"
+        heading="The founder page should prove the operating model."
+        ariaLabel="Founder operating system"
+      >
+        <SurfaceSystemPanel
+          title="Principal ⇄ Product"
+          body="The founder story is not decoration. It explains why clients get senior judgment, production engineering, brand thinking, and AI-native execution from the same operator."
+          cta={{ label: 'Talk directly', href: '/contact?source=founder' }}
+          steps={[
+            { label: 'Technical depth', detail: 'Fintech systems, cloud infrastructure, full-stack product work, QA gates, and AI workflows.' },
+            { label: 'Commercial clarity', detail: 'Fixed scope, fixed price, clear handoff, and no account-manager handoff chain.' },
+            { label: 'Brand leverage', detail: 'The same person who builds the product shapes the story, offer, and conversion path.' },
+            { label: 'Operating discipline', detail: 'Documentation, tests, deployment gates, and maintenance posture are treated as product features.' },
+          ]}
+        />
+      </Section>
 
       {/* ── Quick facts grid ─────────────────────────────────────────────────── */}
       <Section

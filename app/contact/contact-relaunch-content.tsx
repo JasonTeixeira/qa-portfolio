@@ -19,6 +19,7 @@ import { extendedTiersBySlug } from '@/data/services/extended'
 import { tiersBySlug, careTiers } from '@/data/services/tiers'
 import { CapacitySignal } from '@/components/social-proof/capacity-signal'
 import { Hairline, MonoLabel, Surface, CtaLink } from '@/components/el'
+import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 
 // ────────────────────────────────────────────────────────────────────────────
 // Config
@@ -313,36 +314,69 @@ function ContactInner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-3xl"
+          className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end"
         >
-          {/* Mono eyebrow */}
-          <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
-            {'// contact · sage ideas studio'}
-          </MonoLabel>
+          <div className="max-w-3xl">
+            {/* Mono eyebrow */}
+            <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
+              {'// contact · sage ideas studio'}
+            </MonoLabel>
 
-          {/* Fraunces display heading */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
-            Start a conversation.
-          </h1>
+            {/* Fraunces display heading */}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
+              Start a conversation.
+            </h1>
 
-          {/* Accent lead hairline */}
-          <Hairline accentLead className="mt-6 mb-6" />
+            {/* Accent lead hairline */}
+            <Hairline accentLead className="mt-6 mb-6" />
 
-          <p className="text-[15px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">
-            Pick the engagement type that fits. The more specific you are about scope and timeline,
-            the faster the reply — and the better the fit assessment.
-          </p>
+            <p className="text-[15px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">
+              Pick the engagement type that fits. The more specific you are about scope and timeline,
+              the faster the reply — and the better the fit assessment.
+            </p>
 
-          {/* Pre-selected badge */}
-          {engagementCtx?.badge && (
-            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06]">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#0ED3CF]" />
-              <MonoLabel tone="accent" className="text-[10px]">
-                Pre-selected: {engagementCtx.badge}
-              </MonoLabel>
-            </div>
-          )}
+            {/* Pre-selected badge */}
+            {engagementCtx?.badge && (
+              <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06]">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                <MonoLabel tone="accent" className="text-[10px]">
+                  Pre-selected: {engagementCtx.badge}
+                </MonoLabel>
+              </div>
+            )}
+          </div>
+          <SystemHeroPanel
+            eyebrow="inquiry router"
+            title="Contact decision map"
+            nodes={['Need', 'Scope', 'Fit', 'Next']}
+            stats={[
+              { label: 'reply window', value: '<48h' },
+              { label: 'handoff', value: 'none' },
+              { label: 'source', value: 'direct' },
+            ]}
+          />
         </motion.div>
+        <div className="mt-12">
+          <MotionProofStrip
+            items={[
+              { label: 'well matched reply', value: '<48h' },
+              { label: 'operator', value: 'Jason' },
+              { label: 'sales team', value: 'none' },
+              { label: 'fit check', value: 'direct' },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+        <ConversionMap
+          steps={[
+            { label: 'Studio', detail: 'Use this when you need principal-level product, AI, brand, or growth help over months.' },
+            { label: 'Project', detail: 'Use this when there is a fixed outcome: site, app, automation, audit, or system build.' },
+            { label: 'Consult', detail: 'Use this when you need a decision, teardown, scope review, or technical second opinion.' },
+            { label: 'Wrong fit', detail: 'If the studio is not the right shape, the response will say that clearly.' },
+          ]}
+        />
       </section>
 
       {/* ── Capacity signal ── */}

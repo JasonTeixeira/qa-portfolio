@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Section, MonoLabel, Hairline, CtaLink, Reveal } from '@/components/el'
 import { WorkIndex } from '@/components/el/work/WorkIndex'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { caseStudies } from '@/data/work/case-studies'
 
 export const metadata: Metadata = {
@@ -42,28 +43,57 @@ export default function WorkPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.05}>
-            <h1
-              className="max-w-4xl text-[clamp(2.5rem,1.4rem+5vw,5.5rem)] font-normal text-[var(--sage-ink)]"
-              style={DISPLAY_STYLE}
-            >
-              The work speaks.
-            </h1>
-          </Reveal>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <Reveal delay={0.05}>
+                <h1
+                  className="max-w-4xl text-[clamp(3.4rem,1.4rem+6vw,7.4rem)] font-normal text-[var(--sage-ink)]"
+                  style={DISPLAY_STYLE}
+                >
+                  The work speaks.
+                </h1>
+              </Reveal>
 
-          <Reveal delay={0.1}>
-            <p className="mt-7 max-w-[60ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
-              Selected engagements across fintech, trades tech, developer tooling, and cloud
-              infrastructure. Each shipped production code, served real users, and went through a
-              complete engineering lifecycle.
-            </p>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <p className="mt-4 max-w-[60ch] text-[15px] leading-[1.7] text-[var(--sage-ink-faint)]">
-              Not redesigns or MVPs handed to another team. These are products the studio built,
-              launched, and continues to operate — architecture decisions, test suites, CI
-              pipelines, deployment playbooks, all of it.
-            </p>
+              <Reveal delay={0.1}>
+                <p className="mt-7 max-w-[60ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
+                  Selected engagements across fintech, trades tech, developer tooling, and cloud
+                  infrastructure. Each shipped production code, served real users, and went through a
+                  complete engineering lifecycle.
+                </p>
+              </Reveal>
+              <Reveal delay={0.14}>
+                <p className="mt-4 max-w-[60ch] text-[15px] leading-[1.7] text-[var(--sage-ink-faint)]">
+                  Not redesigns or MVPs handed to another team. These are products the studio built,
+                  launched, and continues to operate: architecture decisions, test suites, CI
+                  pipelines, deployment playbooks, all of it.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={0.18}>
+              <SystemHeroPanel
+                eyebrow="work graph"
+                title="Case study system map"
+                nodes={['Product UI', 'Architecture', 'Evidence', 'Outcome']}
+                stats={[
+                  { label: 'case studies', value: String(caseStudies.length).padStart(2, '0') },
+                  { label: 'real products', value: '6' },
+                  { label: 'public repos', value: '130+' },
+                ]}
+              />
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.22}>
+            <div className="mt-12">
+              <MotionProofStrip
+                items={[
+                  { label: 'fintech systems', value: '185 tables' },
+                  { label: 'ai/ml pipelines', value: '200+ indicators' },
+                  { label: 'quality gates', value: '61 suites' },
+                  { label: 'studio model', value: '1 operator' },
+                ]}
+              />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -110,6 +140,38 @@ export default function WorkPage() {
         }
         ariaLabel="Project archive"
       />
+
+      <Section
+        index="03"
+        eyebrow="surface to system"
+        heading="A case study should show the thing and the engine."
+        lede="This is the new standard for the work pages: product surface, system topology, evidence, tradeoffs, and conversion path in one coherent story."
+        ariaLabel="Surface to system case study model"
+      >
+        <SurfaceSystemPanel
+          title="Surface ⇄ System"
+          body="The premium layer is not decoration. It exists to prove the studio can ship both the interface people use and the architecture that keeps it alive."
+          cta={{ label: 'Open the flagship case', href: '/work/nexural' }}
+          steps={[
+            {
+              label: 'Product surface',
+              detail: 'Real dashboards, flows, and screenshots replace generic cards wherever assets exist.',
+            },
+            {
+              label: 'System map',
+              detail: 'Animated architecture diagrams explain how data, AI, billing, and ops move through the product.',
+            },
+            {
+              label: 'Evidence layer',
+              detail: 'CI runs, screenshots, diagrams, build logs, and verified numbers carry the claim.',
+            },
+            {
+              label: 'Buyer path',
+              detail: 'Each case routes to the matching service, academy lesson, or project-start CTA.',
+            },
+          ]}
+        />
+      </Section>
     </main>
   )
 }

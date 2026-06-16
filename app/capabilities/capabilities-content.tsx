@@ -31,6 +31,7 @@ import {
   type MatrixCell,
 } from '@/data/services/tiers'
 import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
+import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 
 const HEADING_STYLE: React.CSSProperties = {
@@ -117,43 +118,81 @@ export function CapabilitiesContent() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-            className="max-w-3xl"
+            className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end"
           >
-            <div className="mb-7 flex items-center gap-4">
-              <MonoLabel tone="accent">01</MonoLabel>
-              <Hairline className="flex-1" />
-              <MonoLabel tone="muted">{'// capabilities'}</MonoLabel>
-              <Hairline className="flex-1" strong />
+            <div className="max-w-3xl">
+              <div className="mb-7 flex items-center gap-4">
+                <MonoLabel tone="accent">01</MonoLabel>
+                <Hairline className="flex-1" />
+                <MonoLabel tone="muted">{'// capabilities'}</MonoLabel>
+                <Hairline className="flex-1" strong />
+              </div>
+              <h1
+                className="text-[var(--sage-ink)] font-normal text-[clamp(3rem,1.2rem+5vw,6.2rem)]"
+                style={HEADING_STYLE}
+              >
+                Eight capabilities.{' '}
+                <em className="not-italic text-[#0ED3CF]">Four modes.</em>{' '}
+                <em className="not-italic text-[#E85D3A]">Every cell filled.</em>
+              </h1>
+              <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
+                {
+                  "Each capability has a productized engagement, a custom option, and an ongoing retainer. Pick what fits — fixed-price tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime. Don't see your shape? Every engagement can be custom-scoped."
+                }
+              </p>
+              <div className="mt-8 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 text-[#0ED3CF] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  <CheckCircle2 className="w-3 h-3" aria-hidden /> Productized · instant checkout
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#E85D3A]/10 border border-[#E85D3A]/30 text-[#E85D3A] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  <RefreshCw className="w-3 h-3" aria-hidden /> Retainer · monthly
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[var(--sage-surface-2)] border border-[var(--sage-border-strong)] text-[var(--sage-ink-muted)] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  <Sparkles className="w-3 h-3" aria-hidden /> Custom · talk to Sage
+                </span>
+              </div>
             </div>
-            <h1
-              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-              style={HEADING_STYLE}
-            >
-              Eight capabilities.{' '}
-              <em className="not-italic text-[#0ED3CF]">Four modes.</em>{' '}
-              <em className="not-italic text-[#E85D3A]">Every cell filled.</em>
-            </h1>
-            <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-              {
-                "Each capability has a productized engagement, a custom option, and an ongoing retainer. Pick what fits — fixed-price tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime. Don't see your shape? Every engagement can be custom-scoped."
-              }
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 text-[#0ED3CF] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
-                <CheckCircle2 className="w-3 h-3" aria-hidden /> Productized · instant checkout
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#E85D3A]/10 border border-[#E85D3A]/30 text-[#E85D3A] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
-                <RefreshCw className="w-3 h-3" aria-hidden /> Retainer · monthly
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[var(--sage-surface-2)] border border-[var(--sage-border-strong)] text-[var(--sage-ink-muted)] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
-                <Sparkles className="w-3 h-3" aria-hidden /> Custom · talk to Sage
-              </span>
+            <SystemHeroPanel
+              eyebrow="capability graph"
+              title="Capability matrix"
+              nodes={['Strategy', 'AI', 'Product', 'Growth']}
+              stats={[
+                { label: 'capabilities', value: String(capabilityOrder.length).padStart(2, '0') },
+                { label: 'modes', value: String(modeMeta.length).padStart(2, '0') },
+                { label: 'cells', value: 'filled' },
+              ]}
+            />
+            <div className="lg:col-span-2">
+              <MotionProofStrip
+                items={[
+                  { label: 'capability rows', value: String(capabilityOrder.length) },
+                  { label: 'engagement modes', value: String(modeMeta.length) },
+                  { label: 'checkout routes', value: 'live' },
+                  { label: 'custom path', value: 'open' },
+                ]}
+              />
             </div>
           </motion.div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-24 space-y-20">
+        <Section
+          eyebrow="how to read it"
+          heading="Pick the capability. Then pick the mode."
+          topRule={false}
+          className="pt-16 sm:pt-20"
+        >
+          <ConversionMap
+            steps={[
+              { label: 'Audit', detail: 'Use when you need clarity, risk finding, SEO/AI/product teardown, or a roadmap.' },
+              { label: 'Sprint', detail: 'Use when the surface or system needs a focused launch in weeks.' },
+              { label: 'Build', detail: 'Use when the product, app, automation, or platform needs real engineering.' },
+              { label: 'Operate', detail: 'Use when the system needs ongoing stewardship after launch.' },
+            ]}
+          />
+        </Section>
+
         {/* Mode legend */}
         <Section
           eyebrow="modes"

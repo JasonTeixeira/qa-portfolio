@@ -1,0 +1,233 @@
+===============================================================================
+ SAGE IDEAS — CODEX HANDOFF (continue exactly from here)
+ Goal: port the LOCKED "Living Systems" landing design into the live Next.js
+ site and polish the whole agency site to world-class in code.
+ Date: 2026-06-16
+===============================================================================
+
+-------------------------------------------------------------------------------
+0) TL;DR — THE IMMEDIATE NEXT TASK
+-------------------------------------------------------------------------------
+A standalone HTML/CSS/JS mock of the new homepage is DONE and APPROVED. It lives at:
+  ~/code/active/sageideas.dev/.design-review/proof-v4/  (index.html, styles.css, app.js)
+It is the source of truth for the look + motion. YOUR JOB in Codex:
+  1. Port proof-v4 into the live Next.js app as real components (reuse the real
+     backend/routes/SEO/checkout/lead-capture — port the LOOK, not a fork of logic).
+  2. Re-skin the rest of the site to match (it was on an older "Engineered Luxury"
+     dark theme; unify to the new "Living Gradient" system).
+  3. Swap concept assets for REAL ones (product screenshots, founder photo) when available.
+  4. Continue the program roadmap in docs/MASTER_BUILD_TRACKER.md.
+
+To view the approved design right now:
+  cd ~/code/active/sageideas.dev && python3 -m http.server 8207 --directory .design-review/proof-v4
+  open http://localhost:8207/index.html
+
+-------------------------------------------------------------------------------
+1) REPO / BRANCH / PATHS
+-------------------------------------------------------------------------------
+- GitHub:        https://github.com/JasonTeixeira/sageideas.dev.git
+- Live site:     https://www.sageideas.dev
+- Local clone:   ~/code/active/sageideas.dev
+- Working branch: feat/acquisition-engine-phase-0-1   (all session work is here)
+- Stack: Next.js 16 (App Router/RSC), React 19, Tailwind 4 (CSS-first, no tailwind.config),
+  Supabase (Postgres + RLS), Stripe, PostHog, Vercel Analytics, Resend + AWS SES,
+  Sentry, Playwright + Lighthouse CI. ~105 routes (marketing + /admin + /portal).
+- Dev server: `npm run dev` (port 3040). Build: `npm run build`. Typecheck: `npm run typecheck`.
+  Lint: `npm run lint`. Unit: `npm run test:unit`. Visual: `npm run test:visual`. E2E: `npm run test:e2e`.
+- NOTE: `.design-review/` (the mocks) is local/untracked. If you want the mock in
+  git/Codex history, copy `.design-review/proof-v4/` into a tracked dir first.
+
+-------------------------------------------------------------------------------
+2) THE LOCKED DESIGN — "LIVING SYSTEMS" (exact spec)
+-------------------------------------------------------------------------------
+CONCEPT (the unique fingerprint): the site presents Jason's products as
+code-built product UIs (real-looking dashboards/app screens) that X-RAY into their
+LIVING ANIMATED ARCHITECTURE DIAGRAMS (nodes draw, gradient edges, magenta data
+packets flow). "Surface ⇄ System" = shows he builds the gorgeous thing AND the
+engine. No agency does animated diagrams of real systems — that's the moat.
+
+PALETTE — "Living Gradient":
+  --base       #0B0B0E   (near-black canvas)
+  --text       #F2EFE9   (warm cream)
+  --muted      #8A8A94
+  --hairline   #1E1E24
+  --surface    #141418
+  SIGNATURE GRADIENT: #3D5AFE -> #7C3AED -> #FF2D9B   (electric blue->violet->magenta)
+     ** used ONLY on the data-viz + living diagrams (NEVER as a background/hero
+        gradient — that's the AI-slop cliche we explicitly banned) **
+  --cta/accent #3D5AFE   (solid electric blue for buttons/key accents)
+
+TYPOGRAPHY (all Google Fonts):
+  Display: Bricolage Grotesque, weight 800 (huge headlines ~120-136px @1440)
+  Body:    Hanken Grotesk
+  Mono:    JetBrains Mono (a.k.a. instrument/spec labels). (Geist Mono is an acceptable alt.)
+  Big scale contrast; mono used for eyebrows/spec captions/coordinates.
+
+POSITIONING / COPY (honest, verbatim from the mock):
+  - Eyebrow: "Sage Ideas · AI-native studio · since 2020"
+  - H1: "I build the product, the brand, and the AI that runs it."
+  - Subhead: "A solo, AI-native studio. I run my own products every day — and put
+    the same system (AI, apps, SaaS, brand, growth) to work for yours. From someone
+    who builds, not someone who just pitches."
+  - Capability strip: "AI Systems · Applications · SaaS · Brand & Web · Growth & SEO"
+  - CTAs: primary "Start a project →", secondary "See the work ↘"
+  - Work: "I run my own products. Then I build yours."
+  - Services: "The piece, or the whole business."
+  - Proof: "The receipts."  Operator: "One person. Principal-level. The whole stack."
+  - Final CTA: "Bring me the hard one."
+  Lead with technical seriousness (AI engineer / app + SaaS builder, proven by shipped
+  products); frame brand/web/growth as what he wraps AROUND the product. Operator-not-
+  presenter angle. Reference site that nailed the energy: voltz-rocha.vercel.app/v3
+  (same Bricolage+Hanken stack, dark+warm, operator positioning).
+
+MOTION (the approved system):
+  - Libraries: GSAP 3.12.5 + ScrollTrigger + Draggable, via CDN. NATIVE scroll.
+  - Cinematic intro (branded loader -> headline mask-reveal -> brand mark ignite), skippable.
+  - Scroll-coupled parallax depth; kinetic typography (split/mask reveals); gradient
+    section transitions; custom morphing cursor (label changes contextually) + magnetic CTAs;
+    honest count-ups of REAL numbers; left scroll-progress rail + chapter markers (in the
+    GUTTER, hover-labels only, hidden on mobile).
+  - WORK SECTION = full-screen immersive project reel: GSAP-pinned, each project FILLS
+    the viewport one at a time (NOT a row of cut-off cards), tight pin = (N-1) viewport-
+    heights so there is NO dead space; per-project entrance choreography; the Surface⇄System
+    x-ray is SCRUBBED to scroll (UI morphs into the living diagram with flowing packets);
+    3D mouse-tilt on the product frame; cinematic 01/04 index + progress. Data-driven
+    (add more projects = add another <article data-scene>).
+  Products featured (concept UIs, code-built): Nexural (fintech SaaS · 185 tables · 69 APIs),
+  AlphaStream (ML trading · 200+ indicators · 5 models), Jobpoise (AI copilot · Stripe · 3 tiers),
+  Trayd (bilingual trades AI · EN/ES).
+
+-------------------------------------------------------------------------------
+3) CRITICAL ENGINEERING RULES (we hit ALL of these — DO NOT repeat)
+-------------------------------------------------------------------------------
+- clamp()/calc() math MUST have SPACES around + and − operators
+  (e.g. `clamp(3rem, 1.5rem + 6vw, 7rem)`). Without spaces the expression is INVALID
+  and silently dropped -> tiny text + broken spacing. This bug burned hours.
+- NO Lenis / smooth-scroll hijack — it caused bad lag and felt "annoying." Native scroll only.
+- NO `content-visibility:auto` — it broke rendering / left blank sections.
+- NO AI-generated decorative illustrations — they read as slop. Everything is code/SVG/canvas
+  or REAL screenshots. (fal/Recraft vector icons were tried; the code-built UIs won.)
+- Progressive enhancement: content VISIBLE by default; "animate-from"/hidden states arm ONLY
+  after GSAP+ScrollTrigger confirm loaded (a `body.is-ready`/`is-reel` flag). reduced-motion
+  OR lib-failure -> everything static + visible. A timeout catch-all reveals everything.
+  Verify 0 CONTENT elements stuck at opacity:0 after a full scroll.
+- Hero H1 must render LARGE (>90px @1440) and LEAD the composition (not bottom-jammed/tiny).
+- prefers-reduced-motion: disable intro/pin/scrub/parallax/cursor; show everything static.
+- Mobile 390px: NO horizontal overflow; disable the heavy pin/scrub; the work reel becomes a
+  clean snap/tap full-screen-per-project sequence; everything visible/usable.
+- Performance: GPU-only animations (transform/opacity/clip-path) + narrow will-change; PAUSE all
+  loops/diagram/packet animations when offscreen (IntersectionObserver); throttle rAF; CLS ~0.
+- 0 console errors (include `<link rel="icon" href="data:,">` to avoid the favicon 404).
+- VERIFY THE FULL RENDER VISUALLY AT REAL SCALE (not thumbnails). Screenshot tip on this Mac:
+  `npm exec -- playwright screenshot --full-page --viewport-size="1440,900" URL out.png`
+  (run `npm exec -- playwright install chromium-headless-shell` once if it complains).
+
+-------------------------------------------------------------------------------
+4) DESIGN / STRATEGY DOCS IN THE REPO (all committed on the branch)
+-------------------------------------------------------------------------------
+docs/CODEX_HANDOFF.txt ............... this file
+docs/MASTER_BUILD_TRACKER.md ......... the program board (phases G/A/B/C/D/E/H) — THE roadmap
+docs/DESIGN_BRIEF_V2.md .............. definitive brand/positioning/creative brief (provable
+                                       positioning, ICP, offer model, final copy, asset spec)
+docs/BRAND_CREATIVE_BRIEF.md ......... earlier brand brief (superseded by V2)
+docs/DESIGN_LABS_MASTER_PROMPT.md .... a paste-ready design-gen prompt (Surface⇄System)
+docs/ACQUISITION_MASTER_PLAN.txt ..... full marketing/SEO/content/brand program (v1.1)
+docs/specs/README.md + program-*.md .. engineering specs per program (G research, A SEO,
+                                       B content engine, C design, D analytics/GA4, E
+                                       conversion/proof, H growth) — buildable, file-level
+docs/superpowers/specs/2026-06-13-acquisition-engine-phase-0-1-design.md  (Phase 0+1 spec)
+docs/superpowers/plans/2026-06-13-acquisition-engine-phase-0-1.md         (Phase 0+1 plan)
+
+-------------------------------------------------------------------------------
+5) THE MOCKUP ITERATIONS (local, .design-review/ — context only)
+-------------------------------------------------------------------------------
+.design-review/proof-v4/   <-- ** THE APPROVED, LOCKED DESIGN. Port THIS. **
+.design-review/proof-v3/   prior (had a working pinned-horizontal that was tweaked)
+.design-review/proof-v2/   first "Living Gradient" palette + living diagrams
+.design-review/proof/      first code-built product-UI version (coral accent — pre-palette-lock)
+.design-review/dark-kinetic*, system-v5/, redesign-port/  earlier explorations (reference only)
+.design-review/*.png       reference screenshots
+(Note: proof-v4 is code-built — no image assets needed. Earlier folders' img/ hold
+ fal/Recraft vector experiments not used in the final.)
+
+ALSO ALREADY SHIPPED ON THE BRANCH (the live Next.js site got a big pass this session):
+  Phase 0+1 "acquisition engine": unified design tokens, motion presets, honesty/truth pass
+  (solo positioning, removed fabricated testimonials/stats, real GitHub stats), typed PostHog
+  conversion events (lib/analytics/events.ts), public Stripe checkout (app/api/checkout +
+  isSelfServe in data/services/tier-classification.ts), SEO-audit lead magnet
+  (lib/seo-audit/* + app/tools/seo-audit + app/api/tools/seo-audit), unified lead capture
+  (lib/leads/capture.ts -> Supabase leads table migration supabase/migrations/0028_leads.sql,
+  wired into app/api/inquiry + app/api/lab/newsletter), and an "Engineered Luxury" re-skin of
+  most marketing pages (components/el/* kit). The NEW "Living Systems" homepage (proof-v4)
+  SUPERSEDES that homepage look — unify the site to proof-v4's Living Gradient system.
+  Key fixed bugs this session: blog+compare missing from app/sitemap.ts (fixed); pricing price
+  contradiction $1,500/$4,900 vs data/services/tiers.ts $750/$9,500 (fixed -> single source);
+  contact lead-capture on wrong route (now /api/inquiry); a hydration <a>-in-<a> bug.
+
+-------------------------------------------------------------------------------
+6) [YOU] DEPENDENCIES — needed to finish to a real 95+/world-class
+-------------------------------------------------------------------------------
+- REAL product screenshots: Nexural, AlphaStream, Jobpoise, Trayd — >=1600px PNG each,
+  + live URL + brand color (hex) + one-line verifiable outcome. (Swap the concept UIs.)
+- REAL founder photo (high-res, simple bg) -> editorial duotone treatment for the Operator section.
+- REAL named testimonials / client logos (+ written permission) — biggest conversion lever.
+- Valid SUPABASE access token (sbp_…) or the 3 runtime keys (URL + anon + service-role).
+  (Tokens shared in chat were rejected/invalid.)
+- STRIPE test keys (secret + webhook secret + publishable) for live checkout verification.
+- GA4 Measurement ID (G-…) + Google Search Console + Bing verification (Program D).
+- 🔒 SECURITY: ROTATE every key shared in chat (fal.ai keys, Google Gemini key, Resend key,
+  the Supabase token). Use your OWN keys in Codex; never commit keys.
+
+-------------------------------------------------------------------------------
+7) HONESTY GUARDRAIL (the brand moat — non-negotiable)
+-------------------------------------------------------------------------------
+Every claim must be TRUE + verifiable. No fabricated metrics, no invented testimonials,
+no fake product screenshots presented as real, no AI illustration slop. Verified stats in use:
+130+ public repos, 30 GitHub followers, building since 2020, real shipped products
+(Nexural/AlphaStream/Jobpoise/Trayd). "Receipts, not promises."
+
+===============================================================================
+ 8) READY-TO-PASTE CODEX HANDOFF PROMPT  (copy everything between the lines)
+===============================================================================
+You are continuing a premium web project in this repo (Next.js 16 / React 19 /
+Tailwind 4 CSS-first / Supabase / Stripe / PostHog). Repo root: the current directory
+(github.com/JasonTeixeira/sageideas.dev), working branch feat/acquisition-engine-phase-0-1.
+
+A standalone, APPROVED homepage design mock exists at `.design-review/proof-v4/`
+(index.html, styles.css, app.js). It is the LOCKED source of truth for look + motion:
+the "Living Systems" concept — code-built product UIs that scroll-x-ray into living
+animated architecture diagrams (Surface ⇄ System). Read it first.
+
+DESIGN SYSTEM (match exactly): base #0B0B0E, text #F2EFE9, muted #8A8A94, hairline
+#1E1E24, surface #141418; signature gradient #3D5AFE→#7C3AED→#FF2D9B used ONLY on
+data-viz/diagrams (never as a background gradient); solid accent/CTA #3D5AFE. Fonts:
+Bricolage Grotesque (800) display, Hanken Grotesk body, JetBrains Mono for instrument
+labels (Google Fonts). Motion: GSAP + ScrollTrigger + Draggable on NATIVE scroll (NO
+Lenis). Positioning: solo AI-native studio, "I build the product, the brand, and the
+AI that runs it" — lead with AI/app/SaaS engineering, brand/growth wraps the product.
+
+TASK: Port proof-v4 into the live Next.js app as real, componentized code — reuse the
+real backend, routes, SEO, checkout, and lead-capture (port the LOOK, not a fork of the
+logic). Replace the current homepage; then unify the rest of the marketing site to this
+"Living Gradient" system. Keep the work section as the full-screen, pinned, scroll-driven
+project reel (each project fills the viewport, tight pin = no dead space, Surface⇄System
+x-ray scrubbed with flowing gradient packets). Make it data-driven so more projects are
+easy to add. Swap concept UIs for real product screenshots + the founder photo when provided.
+
+HARD RULES (these caused real bugs — obey): clamp()/calc() math MUST have spaces around
++/−; NO Lenis; NO content-visibility:auto; NO AI-illustration decoration; progressive
+enhancement so content is visible by default and animations only arm after GSAP+ScrollTrigger
+load (reduced-motion / lib-failure = fully static + visible, 0 content stuck at opacity:0);
+hero H1 renders large (>90px @1440) and leads; mobile 390px has no horizontal overflow and
+disables the heavy pin (clean snap sequence); GPU-only animations, pause loops offscreen,
+CLS ~0; 0 console errors. Every claim on the site must be TRUE/verifiable (honesty is the
+brand) — no fabricated metrics or fake testimonials. ALWAYS verify the full render visually
+at real scale (1440 + 390), not thumbnails, before claiming done.
+
+After the homepage ports cleanly, continue the program roadmap in
+docs/MASTER_BUILD_TRACKER.md (SEO, content engine, analytics/GA4, conversion/proof, growth)
+and consult docs/DESIGN_BRIEF_V2.md + docs/specs/*. Run build, typecheck, lint, unit,
+visual, and Lighthouse gates before shipping. Branch first; commit only when asked.
+===============================================================================
+ END OF HANDOFF
+===============================================================================

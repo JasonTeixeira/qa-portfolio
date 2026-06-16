@@ -23,6 +23,8 @@ type ProofAsset = {
   detail: string
   status?: 'ready' | 'needed'
   href?: string
+  image?: string
+  imageAlt?: string
 }
 
 type DynamicRouteDeepeningProps = {
@@ -65,6 +67,16 @@ export function ProofAssetRail({ assets = defaultAssets }: { assets?: ProofAsset
         const content = (
           <div className="group flex min-h-[230px] flex-col justify-between bg-[var(--sage-surface-1)] p-5 transition-colors hover:bg-[var(--sage-surface-2)]">
             <div>
+              {asset.image ? (
+                <div className="mb-5 overflow-hidden border border-[var(--sage-border)] bg-[var(--sage-bg)]">
+                  <img
+                    src={asset.image}
+                    alt={asset.imageAlt ?? asset.label}
+                    className="aspect-[16/10] w-full object-cover opacity-90 transition duration-300 group-hover:scale-[1.02] group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
                 {isReady ? 'Verified asset' : 'Asset slot'}
               </p>

@@ -7,7 +7,7 @@ const publisher = {
   '@type': 'Organization',
   name: 'Sage Ideas LLC',
   url: SITE,
-  logo: `${SITE}/brand/logo.svg`,
+  logo: `${SITE}/brand/sage-mark.svg`,
 }
 
 const author = {
@@ -37,7 +37,7 @@ export function buildOrganization(): LdObject {
     name: 'Sage Ideas',
     legalName: 'Sage Ideas LLC',
     url: SITE,
-    logo: `${SITE}/brand/logo.svg`,
+    logo: `${SITE}/brand/sage-mark.svg`,
     description:
       'Solo AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.',
     founder: author,

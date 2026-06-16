@@ -29,6 +29,13 @@ const statusDot: Record<string, string> = {
   'Pre-launch': 'bg-[#0ED3CF]',
 }
 
+const PRODUCT_SCREENSHOTS: Record<string, string> = {
+  nexural: '/work/screens/nexural-1.png',
+  jobpoise: '/work/screens/jobpoise-1.png',
+  trayd: '/work/screens/trayd-1.png',
+  alphastream: '/work/screens/alphastream-1.png',
+}
+
 interface Props {
   product: LabProduct
 }
@@ -245,7 +252,12 @@ export function TearsheetContent({ product }: Props) {
           assets={[
             {
               label: `${product.name} screenshot`,
-              detail: 'Replace this slot with a real verified product screenshot. Do not present mockups as production screenshots.',
+              detail: PRODUCT_SCREENSHOTS[product.slug]
+                ? `Verified product/case-study screenshot for ${product.name}.`
+                : 'Replace this slot with a real verified product screenshot. Do not present mockups as production screenshots.',
+              status: PRODUCT_SCREENSHOTS[product.slug] ? 'ready' : 'needed',
+              image: PRODUCT_SCREENSHOTS[product.slug],
+              imageAlt: `${product.name} product screenshot`,
             },
             {
               label: 'Architecture visual',

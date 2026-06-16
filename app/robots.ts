@@ -6,7 +6,16 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+        disallow: [
+          '/api/',
+          '/admin/',
+          '/portal/',
+          '/login',
+          '/signup',
+          '/checkout/',
+          '/onboarding',
+          '/pending-approval',
+        ],
       },
     ],
     sitemap: 'https://www.sageideas.dev/sitemap.xml',

@@ -181,10 +181,15 @@ export default async function TierPage({ params }: { params: Promise<Params> }) 
           {
             label: 'Service proof visual',
             detail: 'Add a real screenshot, deliverable preview, or dashboard capture from a shipped engagement when approved.',
+            image: '/images/services/hero-audit.jpg',
+            imageAlt: `${tier.name} service visual`,
           },
           {
             label: 'Founder/operator photo',
-            detail: 'Use the real founder photo to reinforce principal-led delivery. No generated replacement.',
+            detail: 'Real founder photo reinforcing principal-led delivery.',
+            status: 'ready',
+            image: '/founder/portrait.jpg',
+            imageAlt: 'Jason Teixeira, founder of Sage Ideas',
           },
           {
             label: 'Client quote or logo',

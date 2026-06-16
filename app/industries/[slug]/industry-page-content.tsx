@@ -33,6 +33,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const studies = caseStudies.filter((cs) =>
     v.relevantCaseStudySlugs.includes(cs.slug)
   )
+  const primaryStudy = studies[0]
 
   const stackPhrase = STACK_PHRASE[v.slug] ?? v.shortName
 
@@ -288,7 +289,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
           nodes={[
             v.shortName,
             tiers[0]?.shortName ?? 'Service',
-            studies[0]?.title ?? 'Proof',
+            primaryStudy?.title ?? 'Proof',
             'Discovery',
           ]}
           stats={[
@@ -340,9 +341,12 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
             },
             {
               label: 'Case study visual',
-              detail: studies[0]
-                ? `Connect this slot to real visuals from ${studies[0].title}.`
+              detail: primaryStudy
+                ? `Real case-study visual from ${primaryStudy.title}.`
                 : 'Hold for a verified case-study image.',
+              status: primaryStudy ? 'ready' : 'needed',
+              image: primaryStudy ? `/work/heroes/${primaryStudy.slug}.png` : undefined,
+              imageAlt: primaryStudy ? `${primaryStudy.title} case study visual` : undefined,
             },
             {
               label: 'Permissioned proof',

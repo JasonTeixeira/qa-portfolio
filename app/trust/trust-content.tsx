@@ -14,6 +14,9 @@ import {
 import { ReferenceRoster } from '@/components/el/home/ReferenceRoster'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { references, trustedBy } from '@/data/references'
+import { AttributedTestimonial } from '@/components/social-proof/AttributedTestimonial'
+import { LogoBar } from '@/components/social-proof/LogoBar'
+import { attributedTestimonials, permissionedLogos } from '@/data/social-proof/attributed'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -578,6 +581,19 @@ export function TrustContent() {
         ariaLabel="References"
         grain
       >
+        <LogoBar logos={permissionedLogos} />
+
+        {attributedTestimonials.length > 0 && (
+          <div className="mb-10 grid gap-px bg-[var(--sage-border)] md:grid-cols-2">
+            {attributedTestimonials.map((testimonial) => (
+              <AttributedTestimonial
+                key={testimonial.id}
+                testimonial={testimonial}
+              />
+            ))}
+          </div>
+        )}
+
         <ReferenceRoster references={references} trustedBy={trustedBy} />
 
         <Reveal delay={0.2}>

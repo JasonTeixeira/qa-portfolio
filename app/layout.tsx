@@ -122,7 +122,7 @@ const organizationSchema = {
   name: 'Sage Ideas',
   legalName: 'Sage Ideas LLC',
   url: SITE_URL,
-  logo: `${SITE_URL}/brand/logo.svg`,
+  logo: `${SITE_URL}/brand/sage-mark.svg`,
   description:
     'Solo AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.',
   founder: {

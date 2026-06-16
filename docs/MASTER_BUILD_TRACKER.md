@@ -15,11 +15,11 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 |---|---|
 | Phase 0 — Foundation & truth | ✅ shipped |
 | Phase 1 — Conversion engine | ✅ shipped (live verify pending creds) |
-| Program G — Research & Baseline | ☐ not started |
-| Program D — Analytics | ◐ installed; creds/dashboards pending |
-| Program A — SEO Discovery | ☐ not started |
+| Program G — Research & Baseline | ◐ Wave 3 repo baseline shipped; API data pending |
+| Program D — Analytics | ◐ GA4/GSC installed + verified; dashboards pending |
+| Program A — SEO Discovery | ◐ Wave 3 technical SEO/content hubs shipped |
 | Program H — Bridge Traffic & Growth Loop | ☐ not started |
-| Program B — Content Engine & Blog | ☐ not started |
+| Program B — Content Engine & Blog | ◐ Wave 3 article shell + hubs shipped |
 | Program C — Design & Showcase | ☐ not started |
 | Program E — Conversion & Proof (continuous) | ◐ lead scoring shipped; proof/inbox pending |
 
@@ -47,10 +47,10 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 
 ## ☐ PROGRAM G — Research & Baseline  · spec: [program-g](specs/program-g-research-baseline.md)
 *Gates all SEO/content work. ⏳ needs GA4 ID + Search Console access.*
-- [ ] G1 — Typed **keyword map** (`data/seo/keyword-map.ts`) + loader; populated from Search Console
+- [x] G1 — Typed **keyword map** (`data/seo/keyword-map.ts`) + loader; seeded now, GSC enrichment pending
 - [ ] G2 — **SERP/competitor briefs** per target cluster (the "10x / different angle")
-- [ ] G3 — **Content audit** tool (`scripts/seo/content-audit.mjs`) → inventory + disposition per post (improve/merge/prune/keep)
-- [ ] G4 — **Baseline snapshot** script (`scripts/seo/baseline.mjs`) → dated `docs/baselines/<date>.json` (traffic/CWV/indexed/referring domains)
+- [x] G3 — **Content audit** tool (`scripts/seo/content-audit.mjs`) → inventory + disposition per post (improve/merge/prune/keep)
+- [x] G4 — **Baseline snapshot** script (`scripts/seo/baseline.mjs`) → dated `docs/baselines/<date>.json` (traffic/CWV/indexed/referring domains)
 - [ ] G5 — **Revenue-backwards model** (`docs/seo/revenue-model.md`)
 - [ ] G6 — **ICP + messaging** foundation (`docs/brand/icp-messaging.md`)
 
@@ -59,18 +59,18 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [x] D1 — **GA4 install** (`components/analytics/google-analytics.tsx`, consent-gated, prod-only) + CSP *(activates when `NEXT_PUBLIC_GA4_MEASUREMENT_ID` is set)*
 - [x] D2 — ⭐ **Event bridge**: extend `trackEvent` to also emit GA4 gtag; mark 4 key events as conversions
 - [x] D3 — ⭐ **First-touch attribution** (`lib/analytics/attribution.ts`) → stored on lead `metadata`
-- [ ] D4 — **GSC + Bing** verification + sitemap submission
+- [ ] D4 — **GSC + Bing** verification + sitemap submission *(Google verified; Bing still pending)*
 - [ ] D5 — PostHog **funnels + dashboard** (5 funnels, ~10 insights)
 
 ## ☐ PROGRAM A — SEO Discovery Engine  · spec: [program-a](specs/program-a-seo.md)
 *Get found. Uses G's keyword map. Several ⭐ quick wins need no creds.*
-- [ ] A1 — ⭐ **Sitemap fix**: add 51 blog posts + `/compare` pages to `app/sitemap.ts` (currently invisible to Google)
-- [ ] A2 — ⭐ **Price reconciliation**: make `v0-pricing/tier-cards.tsx` + `pricing-table.tsx` read from `data/services/tiers.ts` (kill the $1,500/$4,900 vs $750/$9,500 contradiction)
-- [ ] A3 — **JSON-LD builder library** (`lib/seo/jsonld.ts`): Organization, WebSite+SearchAction, Article, CaseStudy, Service, AggregateOffer, FAQPage (reuse `components/json-ld.tsx`)
+- [x] A1 — ⭐ **Sitemap fix**: add 51 blog posts + `/compare` pages to `app/sitemap.ts` (currently invisible to Google)
+- [x] A2 — ⭐ **Price reconciliation**: make `v0-pricing/tier-cards.tsx` + `pricing-table.tsx` read from `data/services/tiers.ts` (kill the $1,500/$4,900 vs $750/$9,500 contradiction)
+- [x] A3 — **JSON-LD builder library** (`lib/seo/jsonld.ts`): Organization, WebSite+SearchAction, Article, CaseStudy, Service, AggregateOffer, FAQPage (reuse `components/json-ld.tsx`)
 - [ ] A4 — **Breadcrumbs** component (visible + BreadcrumbList JSON-LD) applied site-wide
 - [ ] A5 — On-page audit: fix duplicate/missing titles/descriptions/H1/alt + per-route OG
 - [ ] A6 — Programmatic services×industries unique content + `generateStaticParams`
-- [ ] A7 — Blog `generateStaticParams` (static-render posts)
+- [x] A7 — Blog `generateStaticParams` (static-render posts)
 - [ ] A8 — CWV/Lighthouse budgets green on template pages (`/work/[slug]`, `/services/[slug]`, `/industries/[slug]`)
 
 ## ☐ PROGRAM H — Bridge Traffic & Growth Loop  · spec: [program-h](specs/program-h-growth-distribution.md)
@@ -83,13 +83,13 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 
 ## ☐ PROGRAM B — Content Engine & Blog  · spec: [program-b](specs/program-b-content-engine.md)
 *Fuel + brand. Validated topics + E-E-A-T.*
-- [ ] B1 — **Editorial article shell** (`components/blog/article-shell.tsx`): TOC, reading progress, read time, prev/next, related, author, share
+- [x] B1 — **Editorial article shell** (`components/blog/article-shell.tsx`): TOC, reading progress, read time, prev/next, related, author, share
 - [ ] B2 — **MDX component library** (`components/mdx/*`: Code, Callout, Diagram, Table, Figure, Embed) — institutional, no theatre
-- [ ] B3 — **Frontmatter zod schema** + validator (extend `scripts/validate-content.mjs`); `cluster` required
-- [ ] B4 — **Topic hubs/pillar pages** (`app/topics/[hub]` + `data/content/clusters.ts`)
+- [x] B3 — **Frontmatter zod schema** + validator (extend `scripts/validate-content.mjs`); `cluster` required
+- [x] B4 — **Topic hubs/pillar pages** (`app/topics/[hub]` + `data/content/clusters.ts`)
 - [ ] B5 — **Content cadence**: post templates + calendar + per-post checklist
 - [ ] B6 — **Standardize the two newsletter routes**; in-content capture + nurture hook
-- [ ] B7 — RSS + **Atom feed** + `<head>` auto-discovery
+- [x] B7 — RSS + **Atom feed** + `<head>` auto-discovery
 
 ## ☐ PROGRAM C — Premium Design & Interactive Showcase  · spec: [program-c](specs/program-c-design-showcase.md)
 *Showroom. ⏳ deep case studies need real per-project assets.*

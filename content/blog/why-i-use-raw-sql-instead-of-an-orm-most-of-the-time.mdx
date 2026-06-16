@@ -1,21 +1,33 @@
 ---
-title: "Why I Use Raw SQL Instead of an ORM (Most of the Time)"
-slug: "why-i-use-raw-sql-instead-of-an-orm-most-of-the-time"
-date: "2026-01-18"
-category: "Architecture"
-readTime: "10 min read"
-excerpt: "ORMs are great until they're not. After debugging generated queries that took 30 seconds on a 185-table database, I switched to raw SQL for the hot paths. Here's when each makes sense."
+title: Why I Use Raw SQL Instead of an ORM (Most of the Time)
+slug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
+date: '2026-01-18'
+category: Architecture
+readTime: 10 min read
+excerpt: 'ORMs are great until they''re not. After debugging generated queries that took 30 seconds on a 185-table database, I switched to raw SQL for the hot paths. Here''s when each makes sense.'
 tags:
-  - "SQL"
-  - "PostgreSQL"
-  - "ORM"
-  - "Prisma"
-  - "Database"
-  - "Performance"
-coverImage: "/blog/covers/why-i-use-raw-sql-instead-of-an-orm-most-of-the-time.png"
+  - SQL
+  - PostgreSQL
+  - ORM
+  - Prisma
+  - Database
+  - Performance
+coverImage: /blog/covers/why-i-use-raw-sql-instead-of-an-orm-most-of-the-time.png
 id: 28
+description: 'ORMs are great until they''re not. After debugging generated queries that took 30 seconds on a 185-table database, I switched to raw SQL for the hot paths. Here''s when each makes sense.'
+cluster: product-systems
+keywords:
+  - SQL
+  - PostgreSQL
+  - ORM
+  - Prisma
+  - Database
+  - Performance
+  - Architecture
+  - product systems
+  - instead
+canonical: 'https://www.sageideas.dev/blog/why-i-use-raw-sql-instead-of-an-orm-most-of-the-time'
 ---
-
 # Why I Use Raw SQL Instead of an ORM (Most of the Time)
 
 This is going to be controversial, so let me start with the disclaimer: ORMs are fine. Prisma, SQLAlchemy, Drizzle — they're all good tools built by smart people. I use them.

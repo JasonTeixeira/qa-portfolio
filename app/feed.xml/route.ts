@@ -13,7 +13,7 @@ export async function GET() {
       <guid isPermaLink="true">${baseUrl}/blog/${post.slug}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <category>${post.category}</category>
-      <author>sage@sageideas.org (Jason Teixeira)</author>
+      <author>sage@sageideas.dev (Jason Teixeira)</author>
     </item>`)
     .join('')
 
@@ -25,7 +25,7 @@ export async function GET() {
     <link>${baseUrl}/blog</link>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
-    <managingEditor>sage@sageideas.org (Jason Teixeira)</managingEditor>
+    <managingEditor>sage@sageideas.dev (Jason Teixeira)</managingEditor>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <ttl>60</ttl>
     ${items}

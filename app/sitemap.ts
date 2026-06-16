@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { tiers, careTiers } from '@/data/services/tiers'
 import { verticals } from '@/data/industries/verticals'
 import { comparisons } from '@/data/compare/comparisons'
+import { academyTracks } from '@/data/academy/tracks'
+import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
 
 const SITE = 'https://www.sageideas.dev'
@@ -26,6 +28,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/book', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/topics', priority: 0.72, changeFrequency: 'weekly' },
   { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
@@ -90,11 +93,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
+    ...academyTracks.map((track) => ({
+      url: `${SITE}/academy/${track.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.78,
+    })),
     ...blogPosts.map((post) => ({
       url: `${SITE}/blog/${post.slug}`,
       lastModified: post.date ? new Date(post.date) : now,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+    })),
+    ...clusterList.map((cluster) => ({
+      url: `${SITE}/topics/${cluster.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.72,
     })),
     ...comparisons.map((c) => ({
       url: `${SITE}/compare/${c.slug}`,

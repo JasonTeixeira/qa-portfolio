@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-06-16T19:29:46.694Z",
+  "sources": {
+    "searchConsole": "https://developers.google.com/webmaster-tools/v1/searchanalytics/query",
+    "ga4DataApi": "https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport"
+  },
+  "gsc": {
+    "status": "skipped",
+    "reason": "Set GSC_ACCESS_TOKEN or GOOGLE_ACCESS_TOKEN to pull Search Console query data.",
+    "siteUrl": "sc-domain:sageideas.dev",
+    "rows": []
+  },
+  "ga4": {
+    "status": "skipped",
+    "reason": "Set GA4_PROPERTY_ID and GA4_ACCESS_TOKEN, or GOOGLE_ACCESS_TOKEN, to pull GA4 landing-page data.",
+    "propertyId": null,
+    "rows": []
+  },
+  "summary": {
+    "organicPages": [],
+    "landingPages": []
+  },
+  "nextActions": [
+    "Create OAuth access with Search Console and GA4 Data API scopes.",
+    "Add the authenticated user or service account to Search Console and GA4.",
+    "Rerun npm run seo:google-enrichment with the required environment variables."
+  ]
+}

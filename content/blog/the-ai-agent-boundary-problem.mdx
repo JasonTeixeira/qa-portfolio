@@ -1,0 +1,112 @@
+---
+title: The AI Agent Boundary Problem
+slug: the-ai-agent-boundary-problem
+date: '2026-06-16'
+category: AI
+readTime: 8 min read
+excerpt: 'The hard part of AI agents is not giving them tools. It is deciding where the agent stops, where software starts, and where a human must stay accountable.'
+description: 'A practical guide to AI agent boundaries: tool permissions, human approval gates, audit logs, and when regular software is the better answer.'
+tags:
+  - AI Agents
+  - Automation
+  - Product Systems
+  - Safety
+  - Workflow Design
+cluster: ai-engineering
+keywords:
+  - AI agents
+  - agent boundaries
+  - AI automation
+  - workflow design
+  - human in the loop
+  - ai engineering
+canonical: 'https://www.sageideas.dev/blog/the-ai-agent-boundary-problem'
+---
+# The AI Agent Boundary Problem
+
+The easiest way to make an AI agent look powerful is to give it too much authority.
+
+Let it read everything. Let it write everywhere. Let it call the API, send the email, update the CRM, refund the invoice, and explain itself afterward in a confident paragraph.
+
+That is not a product. That is a permissions incident waiting for a calendar invite.
+
+The hard part of agents is not tool use. The hard part is the boundary.
+
+## An agent is not a job title
+
+"Sales agent" is not a spec.
+
+Neither is "support agent," "research agent," or "ops agent." Those phrases describe a fantasy employee, not a software boundary.
+
+A useful agent spec names the actual loop:
+
+- read these inputs
+- choose from these actions
+- ask for approval under these conditions
+- write to these systems
+- log these decisions
+- stop when this happens
+
+The smaller the loop, the better the agent.
+
+The agent should own one decision surface. Routing. Drafting. Extracting. Checking. Reconciling. Not "run operations."
+
+## Tools should be narrow, not impressive
+
+Most agent demos show a tool list like a trophy case.
+
+The better production pattern is boring:
+
+- one search tool
+- one structured read tool
+- one draft tool
+- one write tool with an approval gate
+- one escalation path
+
+Each tool should do less than the model wants it to do. The model can ask. The system decides.
+
+If a tool can mutate data, it needs constraints outside the prompt. Schema validation. Allow lists. Rate limits. Idempotency keys. Audit logs. Human approval when money, access, or reputation is involved.
+
+The prompt is not the permission model.
+
+## Humans are not a fallback for bad design
+
+"Human in the loop" gets used as a decorative phrase.
+
+It should mean a real control point. A human sees the proposed action, the source evidence, the reason, the risk, and the exact diff. They can approve, edit, reject, or route it somewhere else.
+
+If the review screen only shows the final answer, the reviewer is not reviewing. They are guessing with better typography.
+
+A good approval screen shows:
+
+- what changed
+- why the agent thinks it should change
+- which sources it used
+- what it could not verify
+- what happens if the reviewer says yes
+
+That is the difference between a workflow and a magic trick.
+
+## Regular software is still allowed
+
+Not every workflow needs an agent.
+
+If the decision tree is stable, write software. If the output must be exact, write software. If the input is structured and the action is deterministic, write software.
+
+Use an agent where language, ambiguity, and judgment are the actual problem.
+
+That usually means the agent sits at the edge of a system, translating messy human input into structured work. It does not replace the system. It feeds it.
+
+## The boundary checklist
+
+Before building an agent, I want five sentences:
+
+1. The agent is allowed to decide ___.
+2. The agent is not allowed to decide ___.
+3. The agent can call these tools: ___.
+4. The agent must ask a human before ___.
+5. Every action is logged in ___.
+
+If those sentences are hard to write, the agent is not ready to build.
+
+The boundary is the product.

@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-06-16T19:09:24.041Z",
+  "capturedBy": "scripts/seo/baseline.mjs v1",
+  "notes": "API credentials are not connected yet. This is a technical baseline scaffold using live sitemap/crawl data; fill GSC, GA4, CWV, and referring-domain sections after service-account access is added.",
+  "gsc": {
+    "property": "sc-domain:sageideas.dev",
+    "periodDays": 28,
+    "impressions": 0,
+    "clicks": 0,
+    "avgPosition": 0,
+    "indexedPagesApprox": 117,
+    "topPages": [],
+    "topQueries": []
+  },
+  "ga4": {
+    "propertyId": "",
+    "periodDays": 28,
+    "organicSessions": 0,
+    "totalSessions": 0,
+    "topOrganicPages": [],
+    "conversionEvents": {}
+  },
+  "cwv": {
+    "measuredAt": "2026-06-16T19:09:24.041Z",
+    "source": "manual",
+    "pages": []
+  },
+  "referringDomains": {
+    "count": 0,
+    "source": "manual",
+    "capturedAt": "2026-06-16T19:09:24.041Z",
+    "notes": "Pending Ahrefs/Majestic/GSC link export."
+  },
+  "brandedSearch": {
+    "impressions28d": 0,
+    "clicks28d": 0,
+    "avgPosition": 0
+  }
+}

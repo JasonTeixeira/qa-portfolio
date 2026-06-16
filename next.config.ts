@@ -47,7 +47,6 @@ const nextConfig: NextConfig = {
       { source: '/insights', destination: '/blog', permanent: true },
       { source: '/insights/:slug*', destination: '/blog/:slug*', permanent: true },
       { source: '/rss.xml', destination: '/feed.xml', permanent: true },
-      { source: '/atom.xml', destination: '/feed.xml', permanent: true },
       // Studio relaunch IA migration
       { source: '/hire', destination: '/founder', permanent: true },
       { source: '/start', destination: '/contact', permanent: true },

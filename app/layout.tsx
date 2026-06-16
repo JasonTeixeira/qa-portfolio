@@ -88,7 +88,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
-    types: { 'application/rss+xml': `${SITE_URL}/feed.xml` },
+    types: {
+      'application/rss+xml': `${SITE_URL}/feed.xml`,
+      'application/atom+xml': `${SITE_URL}/atom.xml`,
+    },
   },
   keywords: [
     'AI automation agency',

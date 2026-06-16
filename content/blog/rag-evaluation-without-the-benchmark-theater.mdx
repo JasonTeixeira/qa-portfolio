@@ -1,0 +1,108 @@
+---
+title: RAG Evaluation Without the Benchmark Theater
+slug: rag-evaluation-without-the-benchmark-theater
+date: '2026-06-16'
+category: AI
+readTime: 10 min read
+excerpt: 'A grounded way to evaluate retrieval-augmented generation: source coverage, citation faithfulness, refusal behavior, and task-level usefulness.'
+description: 'A practical RAG evaluation framework focused on source coverage, citation faithfulness, refusal behavior, and task-level usefulness.'
+tags:
+  - RAG
+  - AI Evaluation
+  - Search
+  - LLMs
+  - Knowledge Systems
+cluster: ai-engineering
+keywords:
+  - RAG evaluation
+  - retrieval augmented generation
+  - citation faithfulness
+  - AI search
+  - LLM evaluation
+  - ai engineering
+canonical: 'https://www.sageideas.dev/blog/rag-evaluation-without-the-benchmark-theater'
+---
+# RAG Evaluation Without the Benchmark Theater
+
+The first RAG demo always works.
+
+You upload the clean PDF. You ask the obvious question. The model finds the obvious paragraph and answers in the tone of a well-funded consultant.
+
+Then a user asks the question with the wrong acronym, the policy changed three weeks ago, the answer lives across two docs, and the system cites a paragraph that sounds related but does not actually support the claim.
+
+That is when the product starts.
+
+## Retrieval is the first product decision
+
+RAG quality starts before the model sees anything.
+
+The retrieval layer decides what the model is allowed to know. If the wrong chunks come back, the answer is already compromised. A better prompt might hide the problem. It will not fix it.
+
+I evaluate retrieval with boring questions:
+
+- Did the right document appear in the top results?
+- Did the right section appear, not just the right file?
+- Did newer material outrank older material?
+- Did the query work when phrased like a real user would phrase it?
+- Did the system return nothing when nothing was the honest answer?
+
+That last one matters. A search system that always returns something teaches the model to always say something.
+
+## Citation faithfulness beats answer confidence
+
+The answer is not enough.
+
+For any knowledge system, I want to know whether the cited source actually supports the sentence being claimed.
+
+That means evaluating at the claim level, not just the response level. If the answer has four claims and only two are supported, the answer is not "mostly right." It is dangerous in a way that looks polished.
+
+A simple rubric works:
+
+- Supported: the citation directly proves the claim.
+- Partial: the citation is related but does not fully prove it.
+- Unsupported: the citation does not prove the claim.
+- Contradicted: the citation says the opposite.
+
+You do not need an elaborate benchmark to start. You need 30 real questions and the discipline to mark the misses honestly.
+
+## Refusal is a feature
+
+RAG systems need to know when not to answer.
+
+That means testing questions where the corpus does not contain the answer. It also means testing questions where the answer is sensitive, outdated, or depends on context the user did not provide.
+
+Good refusal behavior sounds like:
+
+"I do not see that in the available sources. The closest related document is X, but it does not answer the question directly."
+
+Bad refusal behavior sounds like:
+
+"Based on the available information, it appears..."
+
+That phrase is where hallucinations put on a blazer.
+
+## The useful scorecard
+
+For an internal RAG system, I would rather track five grounded metrics than one impressive benchmark score:
+
+1. Retrieval hit rate: did the right source appear?
+2. Citation faithfulness: did the source support the answer?
+3. Refusal accuracy: did it decline unsupported questions?
+4. Answer usefulness: could the user take the next step?
+5. Edit distance: how much did a human need to change?
+
+The last metric is the most honest one. If users keep rewriting the answer, the system is not saving them time. It is creating a polite first draft they have to supervise.
+
+## Start small enough to measure
+
+The right first RAG system is usually not "company brain."
+
+It is one corpus, one workflow, one user type, and one clear action after the answer. Support macros. Sales enablement. Policy lookup. Internal engineering docs. Contract clause search.
+
+Narrow scope makes evaluation possible.
+
+Evaluation makes trust possible.
+
+Trust makes expansion possible.
+
+That order matters.

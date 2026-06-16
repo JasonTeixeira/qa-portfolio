@@ -1,8 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import { Linkedin, Twitter, Link as LinkIcon } from 'lucide-react'
 
 export function ShareRow({ url, title }: { url: string; title: string }) {
+  const [copied, setCopied] = useState(false)
+
+  async function copyLink() {
+    await navigator.clipboard.writeText(url)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div className="mt-6 flex items-center gap-3">
       <span className="text-xs text-[#78716C]">Share:</span>
@@ -26,11 +35,17 @@ export function ShareRow({ url, title }: { url: string; title: string }) {
       </a>
       <button
         type="button"
-        onClick={() => navigator.clipboard.writeText(url)}
+        onClick={copyLink}
         className="p-2 bg-[#1A1917] border border-[#2A2826] rounded-lg text-[#78716C] hover:text-[#0ED3CF] hover:border-[#0ED3CF]/50 transition-colors"
-        aria-label="Copy link"
+        aria-label={copied ? 'Copied link' : 'Copy link'}
       >
-        <LinkIcon className="h-4 w-4" />
+        {copied ? (
+          <span className="block min-w-12 px-1 text-center font-mono text-[10px] uppercase tracking-[0.12em]">
+            Copied
+          </span>
+        ) : (
+          <LinkIcon className="h-4 w-4" />
+        )}
       </button>
     </div>
   )

@@ -1,0 +1,391 @@
+{
+  "inventoriedAt": "2026-06-16T19:09:24.078Z",
+  "sourceRoot": "/Users/Sage/code/active/sage-after-dark",
+  "policy": "Use as source material only. Rewrite or canonicalize before publishing on sageideas.dev to avoid duplicate thin content.",
+  "summary": {
+    "posts": 23,
+    "drafts": 4,
+    "importCandidates": 5
+  },
+  "posts": [
+    {
+      "source": "src/content/posts/30-second-rollback.mdx",
+      "slug": "30-second-rollback",
+      "title": "How to ship a rollback in under 30 seconds",
+      "published": "2026-04-29",
+      "status": "published",
+      "pillar": "teach",
+      "tags": [
+        "deploys",
+        "devops",
+        "vercel",
+        "reliability"
+      ],
+      "wordCount": 538,
+      "recommendation": "import-outline"
+    },
+    {
+      "source": "src/content/posts/annual-2025.mdx",
+      "slug": "annual-2025",
+      "title": "Annual: 2025",
+      "published": "2025-12-31",
+      "status": "published",
+      "pillar": "mind",
+      "tags": [
+        "retro",
+        "annual",
+        "2025"
+      ],
+      "wordCount": 815,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/dispatch-the-five-line-spec.mdx",
+      "slug": "dispatch-the-five-line-spec",
+      "title": "The five-line spec",
+      "published": "2026-04-15",
+      "status": "published",
+      "pillar": "build",
+      "tags": [
+        "specs",
+        "focus",
+        "principles"
+      ],
+      "wordCount": 238,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/dispatch-when-to-quit-a-tool.mdx",
+      "slug": "dispatch-when-to-quit-a-tool",
+      "title": "When to quit a tool",
+      "published": "2026-04-22",
+      "status": "published",
+      "pillar": "world",
+      "tags": [
+        "tools",
+        "sunk-cost",
+        "principles"
+      ],
+      "wordCount": 252,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/field-note-april-2026.mdx",
+      "slug": "field-note-april-2026",
+      "title": "Field note: April",
+      "published": "2026-04-30",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "retro",
+        "monthly"
+      ],
+      "wordCount": 341,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/field-note-february-2026.mdx",
+      "slug": "field-note-february-2026",
+      "title": "Field note: February",
+      "published": "2026-02-28",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "retro",
+        "monthly",
+        "incidents"
+      ],
+      "wordCount": 626,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/field-note-january-2026.mdx",
+      "slug": "field-note-january-2026",
+      "title": "Field note: January",
+      "published": "2026-01-31",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "retro",
+        "monthly",
+        "planning"
+      ],
+      "wordCount": 661,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/field-note-march-2026.mdx",
+      "slug": "field-note-march-2026",
+      "title": "Field note: March",
+      "published": "2026-03-31",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "retro",
+        "monthly",
+        "writing"
+      ],
+      "wordCount": 555,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/field-note-may-2026.mdx",
+      "slug": "field-note-may-2026",
+      "title": "Field note: May",
+      "published": "2026-05-31",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "retro",
+        "monthly",
+        "focus"
+      ],
+      "wordCount": 700,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/latency-is-a-worldview.mdx",
+      "slug": "latency-is-a-worldview",
+      "title": "Latency is a worldview",
+      "published": "2026-05-06",
+      "status": "published",
+      "pillar": "build",
+      "tags": [
+        "systems",
+        "architecture",
+        "thinking",
+        "productivity"
+      ],
+      "wordCount": 2707,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/learning-by-shipping.mdx",
+      "slug": "learning-by-shipping",
+      "title": "Learning by shipping",
+      "published": "2026-05-04",
+      "status": "published",
+      "pillar": "learning",
+      "tags": [
+        "learning",
+        "shipping",
+        "feedback"
+      ],
+      "wordCount": 1279,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/taste-as-a-deploy-gate.mdx",
+      "slug": "taste-as-a-deploy-gate",
+      "title": "Taste as a deploy gate",
+      "published": "2026-05-04",
+      "status": "published",
+      "pillar": "taste",
+      "tags": [
+        "taste",
+        "shipping",
+        "craft"
+      ],
+      "wordCount": 987,
+      "recommendation": "import-outline"
+    },
+    {
+      "source": "src/content/posts/taste-is-the-last-moat.mdx",
+      "slug": "taste-is-the-last-moat",
+      "title": "Taste is the last moat",
+      "published": "2026-05-07",
+      "status": "published",
+      "pillar": "taste",
+      "tags": [
+        "taste",
+        "judgment",
+        "ai",
+        "craft",
+        "career"
+      ],
+      "wordCount": 3100,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/the-30-second-rollback-rule.mdx",
+      "slug": "the-30-second-rollback-rule",
+      "title": "The 30-second rollback rule",
+      "published": "2026-04-30",
+      "status": "published",
+      "pillar": "signal",
+      "tags": [
+        "reliability",
+        "principles"
+      ],
+      "wordCount": 123,
+      "recommendation": "import-outline"
+    },
+    {
+      "source": "src/content/posts/the-cost-of-being-available.mdx",
+      "slug": "the-cost-of-being-available",
+      "title": "The cost of being available",
+      "published": "2026-05-07",
+      "status": "published",
+      "pillar": "mind",
+      "tags": [
+        "mind",
+        "availability",
+        "attention",
+        "career",
+        "boundaries"
+      ],
+      "wordCount": 3218,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/the-half-life-of-a-good-tool.mdx",
+      "slug": "the-half-life-of-a-good-tool",
+      "title": "The half-life of a good tool",
+      "published": "2026-05-07",
+      "status": "published",
+      "pillar": "build",
+      "tags": [
+        "tools",
+        "craft",
+        "compounding",
+        "build",
+        "engineering"
+      ],
+      "wordCount": 3793,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/the-half-life-of-a-skill.mdx",
+      "slug": "the-half-life-of-a-skill",
+      "title": "The half-life of a skill",
+      "published": "2026-05-06",
+      "status": "published",
+      "pillar": "learning",
+      "tags": [
+        "learning",
+        "career",
+        "compounding",
+        "taste"
+      ],
+      "wordCount": 2526,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/the-second-brain-trap.mdx",
+      "slug": "the-second-brain-trap",
+      "title": "The second-brain trap",
+      "published": "2026-05-06",
+      "status": "published",
+      "pillar": "mind",
+      "tags": [
+        "productivity",
+        "notes",
+        "systems",
+        "thinking"
+      ],
+      "wordCount": 2306,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/the-system-i-actually-use.mdx",
+      "slug": "the-system-i-actually-use",
+      "title": "The system I actually use",
+      "published": "2026-05-04",
+      "status": "published",
+      "pillar": "teach",
+      "tags": [
+        "systems",
+        "productivity",
+        "tools"
+      ],
+      "wordCount": 737,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/the-thirty-second-half-life.mdx",
+      "slug": "the-thirty-second-half-life",
+      "title": "The 30-second version of a skill's half-life",
+      "published": "2026-05-06",
+      "status": "published",
+      "pillar": "learning",
+      "tags": [
+        "learning",
+        "career",
+        "compounding"
+      ],
+      "wordCount": 667,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "src/content/posts/trayd-ep-01-the-decision.mdx",
+      "slug": "trayd-ep-01-the-decision",
+      "title": "EP 01 · The decision to build in public",
+      "published": "2026-05-01",
+      "status": "published",
+      "pillar": "build",
+      "tags": [
+        "trayd",
+        "founders",
+        "building-in-public"
+      ],
+      "wordCount": 400,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/tutorial-shipping-a-killable-feature.mdx",
+      "slug": "tutorial-shipping-a-killable-feature",
+      "title": "Shipping a killable feature",
+      "published": "2026-04-08",
+      "status": "published",
+      "pillar": "build",
+      "tags": [
+        "tutorial",
+        "deploys",
+        "reliability"
+      ],
+      "wordCount": 835,
+      "recommendation": "review"
+    },
+    {
+      "source": "src/content/posts/why-we-roll-back.mdx",
+      "slug": "why-we-roll-back",
+      "title": "Why we refuse to ship anything that can't be rolled back in 30 seconds",
+      "published": "2026-04-22",
+      "status": "published",
+      "pillar": "mind",
+      "tags": [
+        "reliability",
+        "principles",
+        "deploys"
+      ],
+      "wordCount": 685,
+      "recommendation": "review"
+    }
+  ],
+  "drafts": [
+    {
+      "source": "_drafts/content-backlog.md",
+      "title": "Content backlog — Sage After Dark",
+      "wordCount": 1061,
+      "recommendation": "import-backlog"
+    },
+    {
+      "source": "_drafts/content-system.md",
+      "title": "Content system — Sage After Dark",
+      "wordCount": 938,
+      "recommendation": "import-backlog"
+    },
+    {
+      "source": "_drafts/linkedin-launch.md",
+      "title": "LinkedIn launch — Sage After Dark",
+      "wordCount": 174,
+      "recommendation": "voice-reference"
+    },
+    {
+      "source": "_drafts/show-hn.md",
+      "title": "Show HN: Sage After Dark — a tactical-editorial publication, built solo",
+      "wordCount": 376,
+      "recommendation": "voice-reference"
+    }
+  ]
+}

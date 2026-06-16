@@ -1,0 +1,112 @@
+---
+title: How to Evaluate AI Features Before You Ship Them
+slug: how-to-evaluate-ai-features-before-you-ship-them
+date: '2026-06-16'
+category: AI
+readTime: 9 min read
+excerpt: 'A practical evaluation loop for AI features: define the promise, build a failure set, test the boring cases, and keep a human in the loop until the system earns trust.'
+description: 'A practical evaluation loop for AI features: define the promise, build a failure set, test boring cases, and keep a human in the loop.'
+tags:
+  - AI Evaluation
+  - Product Engineering
+  - QA
+  - LLMs
+  - Reliability
+cluster: ai-engineering
+keywords:
+  - AI evaluation
+  - AI feature testing
+  - LLM QA
+  - product engineering
+  - reliability
+  - ai engineering
+canonical: 'https://www.sageideas.dev/blog/how-to-evaluate-ai-features-before-you-ship-them'
+---
+# How to Evaluate AI Features Before You Ship Them
+
+An AI feature is not done when it works in the demo.
+
+That is the trap. You ask it three friendly questions, it answers two and a half of them, everyone sees the shape of the future, and suddenly the product roadmap has a feature called "AI assistant" sitting where a spec should be.
+
+I do not trust that version of the process. I trust the slower one: name the promise, write the failure cases, test the boring path, and keep a human close until the system proves it can behave.
+
+## Start with the promise
+
+The first question is not "Which model should we use?"
+
+The first question is: what is the user allowed to believe after this feature responds?
+
+That sentence matters. If the feature summarizes a document, the user believes the summary is faithful. If it drafts a support reply, the user believes it will not invent a refund policy. If it explains a trading signal, the user believes it is not financial advice wearing a friendly tone.
+
+Write the promise in one line:
+
+- "This feature classifies the request and routes it to the right workflow."
+- "This feature drafts a response that a human approves before sending."
+- "This feature searches internal docs and cites the source it used."
+
+If the promise takes a paragraph, the feature is not scoped yet.
+
+## Build the failure set before the happy path
+
+Most AI demos are trained by accident to pass the demo.
+
+The real evaluation set should include the inputs that make the product uncomfortable:
+
+- vague requests
+- conflicting instructions
+- missing context
+- malicious prompt injection
+- old policy docs
+- duplicate records
+- customer messages with anger in them
+- edge cases that cost money if mishandled
+
+For a client-facing AI workflow, I want at least 25 examples before I trust the shape of the system. Not 25 perfect benchmark rows. Twenty-five ugly examples that represent the actual work.
+
+The evaluation set is not paperwork. It is the boundary of the product.
+
+## Separate model quality from product quality
+
+A model can be good and the product can still be bad.
+
+The model might produce a correct answer with no citation. The workflow might cite the right document but bury the important warning. The UI might make the answer look final when it is only a draft.
+
+I score AI features in layers:
+
+1. Did it understand the task?
+2. Did it use the right source or tool?
+3. Did it avoid making claims outside the source?
+4. Did it return the result in a shape the user can act on?
+5. Did the UI make the system's confidence and limits clear?
+
+Only the first two are mostly model questions. The rest are product questions.
+
+## Keep a human in the loop longer than feels convenient
+
+The first production version of an AI workflow should usually be draft-first, not send-first.
+
+That sounds less magical. Good.
+
+Draft-first gives you review data. It shows where users edit the output, where they reject it, which fields they correct, and which tasks should never have been automated in the first place.
+
+The human review step is not a permanent crutch. It is instrumentation.
+
+When the edits become predictable, automate the edit. When the rejects cluster around one input type, change the router. When the reviewer keeps checking the same source manually, add retrieval and citation.
+
+You do not remove the human because the demo worked. You remove the human when the review log says the system has earned it.
+
+## The shipping checklist
+
+Before I ship an AI feature, I want these in place:
+
+- a one-sentence promise
+- an evaluation set with ugly examples
+- pass/fail criteria for each example
+- logging for prompt, tool calls, sources, and outcome
+- a human-review path for high-risk outputs
+- a fallback when the model is unavailable
+- a way to report bad output from the UI
+
+None of this makes the feature less impressive.
+
+It makes the feature real.

@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { MonoLabel, Hairline, Reveal } from '@/components/el'
-import { blogPosts } from '@/lib/blogData'
+import type { BlogPost } from '@/lib/blog-server'
 
 const ALL_CATEGORIES = [
   'All',
@@ -33,13 +33,13 @@ function formatDate(iso: string): string {
   })
 }
 
-export function BlogContent() {
+export function BlogContent({ posts }: { posts: BlogPost[] }) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
   const sortedPosts = useMemo(
-    () => [...blogPosts].sort((a, b) => (a.date < b.date ? 1 : -1)),
-    [],
+    () => [...posts].sort((a, b) => (a.date < b.date ? 1 : -1)),
+    [posts],
   )
 
   const featuredPost = sortedPosts[0]
@@ -73,7 +73,7 @@ export function BlogContent() {
             <div className="flex items-center gap-4 mb-8">
               <MonoLabel tone="accent">{'// field notes'}</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="faint">{blogPosts.length} dispatches</MonoLabel>
+              <MonoLabel tone="faint">{posts.length} dispatches</MonoLabel>
             </div>
             <h1
               className="text-[var(--sage-ink)] font-normal text-[clamp(2.6rem,1.4rem+4.8vw,5.5rem)]"
@@ -283,7 +283,7 @@ export function BlogContent() {
               <MonoLabel tone="faint">
                 {searchQuery || activeCategory !== 'All'
                   ? `${listPosts.length} article${listPosts.length !== 1 ? 's' : ''} found`
-                  : `${blogPosts.length} articles in the archive`}
+                  : `${posts.length} articles in the archive`}
               </MonoLabel>
               <Hairline className="flex-1" />
               <MonoLabel tone="faint">sageideas.dev</MonoLabel>

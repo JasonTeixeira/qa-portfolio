@@ -109,7 +109,11 @@ export default function AcademyPage() {
             </div>
             <div className="grid gap-px bg-[var(--sage-border)] sm:grid-cols-2">
               {academyTracks.map((track) => (
-                <article className="bg-[var(--sage-surface-1)] p-6" key={track.slug}>
+                <Link
+                  className="group bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)]"
+                  href={`/academy/${track.slug}`}
+                  key={track.slug}
+                >
                   <div className="mb-8 flex items-center justify-between gap-4">
                     <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--sage-accent-readable)]">
                       {track.label}
@@ -124,6 +128,9 @@ export default function AcademyPage() {
                   <p className="mt-4 text-sm leading-[1.65] text-[var(--sage-ink-muted)]">
                     {track.description}
                   </p>
+                  <p className="mt-4 text-sm leading-[1.65] text-[var(--sage-ink)]">
+                    {track.outcome}
+                  </p>
                   <ul className="mt-6 space-y-2">
                     {track.lessons.map((lesson) => (
                       <li
@@ -134,7 +141,10 @@ export default function AcademyPage() {
                       </li>
                     ))}
                   </ul>
-                </article>
+                  <span className="mt-7 inline-flex font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-accent-readable)] group-hover:text-white">
+                    View track -&gt;
+                  </span>
+                </Link>
               ))}
             </div>
           </div>

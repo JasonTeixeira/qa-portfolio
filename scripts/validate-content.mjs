@@ -12,6 +12,7 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import matter from 'gray-matter';
 // NOTE: Keep this script dependency-free (Node-only).
 
 const ROOT = process.cwd();
@@ -153,6 +154,39 @@ async function main() {
     }
   }
 
+  // 4) blog frontmatter minimum viable SEO fields
+  const blogDir = path.join(ROOT, 'content', 'blog');
+  const blogFiles = (await fs.readdir(blogDir)).filter((file) => file.endsWith('.mdx'));
+  for (const file of blogFiles) {
+    const raw = await fs.readFile(path.join(blogDir, file), 'utf8');
+    const { data } = matter(raw);
+    const required = [
+      'slug',
+      'title',
+      'excerpt',
+      'description',
+      'date',
+      'category',
+      'cluster',
+      'keywords',
+      'canonical',
+      'tags',
+      'readTime',
+    ];
+    for (const field of required) {
+      const value = data[field];
+      const missingArray = Array.isArray(value) && value.length === 0;
+      if (value === undefined || value === null || value === '' || missingArray) {
+        failures.push({
+          kind: 'blog-frontmatter',
+          item: file,
+          field,
+          reason: 'Missing required blog metadata',
+        });
+      }
+    }
+  }
+
   if (failures.length) {
     console.error('\nContent validation failures:');
     for (const f of failures) {
@@ -162,7 +196,7 @@ async function main() {
     return;
   }
 
-  console.log('OK: content validated (artifacts, downloads, proof paths).');
+  console.log('OK: content validated (artifacts, downloads, proof paths, blog frontmatter).');
 }
 
 main().catch((e) => {

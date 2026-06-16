@@ -249,6 +249,35 @@ test('lead scoring: high-intent studio inquiry outranks newsletter signup', asyn
   assert.ok(newsletter.reasons.includes('newsletter signup'));
 });
 
+// -------------------------------------------------------------- content / seo
+
+test('blog toc: injects stable ids for h2 and h3 headings', async () => {
+  const { injectHeadingIds } = await import('../../lib/blog-toc.ts');
+  const out = injectHeadingIds('<h2>First section</h2><p>x</p><h3>Nested & useful</h3><h2>First section</h2>');
+  assert.equal(out.toc.length, 3);
+  assert.deepEqual(out.toc.map((node) => node.id), [
+    'first-section',
+    'nested-and-useful',
+    'first-section-2',
+  ]);
+  assert.ok(out.html.includes('id="first-section"'));
+  assert.ok(out.html.includes('id="nested-and-useful"'));
+});
+
+test('keyword map: primary keywords are unique per URL', async () => {
+  const { keywordMap, getPrimaryKeyword, getKeywordsByUrl } = await import('../../data/seo/keyword-map.ts');
+  const primaryByUrl = new Map();
+  for (const entry of keywordMap.filter((item) => item.isPrimary)) {
+    const count = primaryByUrl.get(entry.assignedUrl) ?? 0;
+    primaryByUrl.set(entry.assignedUrl, count + 1);
+  }
+  for (const [url, count] of primaryByUrl) {
+    assert.equal(count, 1, `${url} should have exactly one primary keyword`);
+    assert.equal(getPrimaryKeyword(url)?.assignedUrl, url);
+    assert.ok(getKeywordsByUrl(url).length >= 1);
+  }
+});
+
 // -------------------------------------------------------------- isSelfServe
 
 test('isSelfServe: audit ($750 one-time) is self-serve', async () => {

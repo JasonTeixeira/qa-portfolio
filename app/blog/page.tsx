@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { BlogContent } from './blog-content'
+import { getAllBlogPosts } from '@/lib/blog-server'
 
 export const metadata: Metadata = {
   title: 'Blog | Jason Teixeira — Engineering & Architecture',
@@ -11,5 +12,5 @@ export const metadata: Metadata = {
 }
 
 export default function BlogPage() {
-  return <BlogContent />
+  return <BlogContent posts={getAllBlogPosts()} />
 }

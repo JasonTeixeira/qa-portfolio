@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { MonoLabel, Hairline } from '@/components/el'
-import type { BlogPost } from '@/lib/blogData'
+import type { BlogPost } from '@/lib/blog-server'
 
 interface RelatedPostsProps {
   currentSlug: string

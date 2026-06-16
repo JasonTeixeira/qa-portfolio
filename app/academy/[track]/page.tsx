@@ -131,7 +131,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="#join"
+                  href={`/academy/${track.slug}/enroll`}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--sage-accent)] px-6 text-sm font-semibold text-white transition hover:bg-[#5670ff]"
                 >
                   {track.cta} -&gt;
@@ -174,7 +174,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
           <SurfaceSystemPanel
             title="Course ⇄ Practice"
             body={track.outcome}
-            cta={{ label: track.cta, href: '#join' }}
+            cta={{ label: track.cta, href: `/academy/${track.slug}/enroll` }}
             steps={[
               { label: 'Who it is for', detail: track.audience },
               { label: 'How it ships', detail: track.format },

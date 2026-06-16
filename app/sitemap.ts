@@ -99,6 +99,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.78,
     })),
+    ...academyTracks.map((track) => ({
+      url: `${SITE}/academy/${track.slug}/enroll`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.74,
+    })),
     ...blogPosts.map((post) => ({
       url: `${SITE}/blog/${post.slug}`,
       lastModified: post.date ? new Date(post.date) : now,

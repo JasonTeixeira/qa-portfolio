@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, Check, Minus, X } from 'lucide-react'
 import { comparisons } from '@/data/compare/comparisons'
 import { Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
+import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
 
 const HEADING_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-display)',
@@ -163,6 +164,50 @@ export default async function CompareDetailPage({ params }: Props) {
             <p className="text-sm text-[var(--sage-ink)] leading-relaxed">{c.whenWeWin}</p>
           </div>
         </section>
+
+        <DynamicRouteDeepening
+          eyebrow="decision system"
+          title="Tradeoffs before the sales call."
+          body={`This comparison page is designed for buyers who are already choosing between Sage Ideas and ${c.competitorShort.toLowerCase()}. The goal is a clear decision, not a strawman.`}
+          nodes={['Sage Ideas', c.competitorShort, 'Tradeoffs', 'Fit call']}
+          stats={[
+            { label: 'sage wins', value: String(sageWins).padStart(2, '0') },
+            { label: 'depends', value: String(ties).padStart(2, '0') },
+            { label: 'other wins', value: String(compWins).padStart(2, '0') },
+          ]}
+          architectureTitle="Compare ⇄ Qualify"
+          architectureBody="The page turns a high-intent SEO visit into a qualified next step by saying where each option wins."
+          architectureSteps={[
+            { label: 'State the real alternative', detail: c.intro },
+            { label: `Where ${c.competitorShort} wins`, detail: c.whenTheyWin },
+            { label: 'Where Sage wins', detail: c.whenWeWin },
+            {
+              label: 'Route the buyer',
+              detail: `The page points to /services/${c.ctaSlug} when Sage is the better fit.`,
+            },
+          ]}
+          conversionSteps={[
+            { label: 'Search intent', detail: `Buyer compares Sage Ideas against ${c.competitorShort}.` },
+            { label: 'Honest table', detail: `${c.rows.length} dimensions show wins, losses, and ties.` },
+            { label: 'Fit decision', detail: 'The buyer sees when to choose each path without a sales call.' },
+            { label: 'Service route', detail: `Qualified traffic moves into the ${c.ctaSlug} engagement page.` },
+          ]}
+          assets={[
+            {
+              label: 'Decision diagram',
+              detail: 'Use a custom comparison visual for this exact alternative, not a generic agency graphic.',
+            },
+            {
+              label: 'Proof screenshot',
+              detail: 'Add a real product, dashboard, or case-study screenshot connected to the recommended engagement.',
+            },
+            {
+              label: 'Permissioned proof',
+              detail: 'Use real testimonials or logos only after permission. No synthetic social proof.',
+            },
+          ]}
+          cta={{ label: 'See the recommended engagement', href: `/services/${c.ctaSlug}` }}
+        />
 
         {/* CTA */}
         <section

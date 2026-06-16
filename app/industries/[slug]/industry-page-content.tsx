@@ -8,6 +8,7 @@ import { caseStudies } from '@/data/work/case-studies'
 import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import { motion } from 'framer-motion'
+import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
 
 const HEADING_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-display)',
@@ -279,6 +280,77 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
             </section>
           </Reveal>
         )}
+
+        <DynamicRouteDeepening
+          eyebrow={`${v.shortName} growth system`}
+          title="Market pain into shipped leverage."
+          body={`This ${v.shortName.toLowerCase()} page now shows the actual system behind the offer: the pain pattern, recommended engagement, proof path, and conversion route for teams comparing options.`}
+          nodes={[
+            v.shortName,
+            tiers[0]?.shortName ?? 'Service',
+            studies[0]?.title ?? 'Proof',
+            'Discovery',
+          ]}
+          stats={[
+            { label: 'challenges', value: String(v.challenges.length).padStart(2, '0') },
+            { label: 'services', value: String(tiers.length).padStart(2, '0') },
+            { label: 'proof links', value: String(studies.length).padStart(2, '0') },
+          ]}
+          architectureTitle="Vertical ⇄ System"
+          architectureBody={`The page connects ${v.shortName.toLowerCase()} pain to the service architecture, not just generic agency claims.`}
+          architectureSteps={[
+            {
+              label: 'Read the market constraint',
+              detail: v.challenges[0]?.description ?? v.intro,
+            },
+            {
+              label: 'Map the stack',
+              detail: `Use the recommended ${stackPhrase} engagements to connect the business problem to a buildable product, automation, or growth system.`,
+            },
+            {
+              label: 'Show adjacent proof',
+              detail:
+                studies.length > 0
+                  ? `Route the visitor into ${studies.map((study) => study.title).join(', ')} for shipped context.`
+                  : 'Hold this slot for real screenshots, permitted logos, and case visuals as they become available.',
+            },
+            {
+              label: 'Qualify the next step',
+              detail: `Send serious buyers to a ${v.shortName.toLowerCase()} discovery call with the page context preserved.`,
+            },
+          ]}
+          conversionSteps={[
+            { label: 'Industry signal', detail: v.tagline },
+            {
+              label: 'Pain fit',
+              detail: v.challenges[0]?.title ?? 'Confirm the operational problem before selling an engagement.',
+            },
+            {
+              label: 'Engagement route',
+              detail: tiers[0]
+                ? `${tiers[0].name} is the first recommended path for this vertical.`
+                : 'Route the buyer to the most relevant studio engagement.',
+            },
+            { label: 'Discovery', detail: v.ctaLine },
+          ]}
+          assets={[
+            {
+              label: `${v.shortName} screenshot`,
+              detail: 'Add a real industry-relevant product screenshot or workflow visual when approved.',
+            },
+            {
+              label: 'Case study visual',
+              detail: studies[0]
+                ? `Connect this slot to real visuals from ${studies[0].title}.`
+                : 'Hold for a verified case-study image.',
+            },
+            {
+              label: 'Permissioned proof',
+              detail: 'Only show client logos, quotes, or outcomes after explicit permission.',
+            },
+          ]}
+          cta={{ label: `Book ${v.shortName} discovery`, href: `/book?industry=${v.slug}` }}
+        />
 
         {/* CTA */}
         <Section

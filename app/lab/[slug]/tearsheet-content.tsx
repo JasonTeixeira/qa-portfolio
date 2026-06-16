@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Github, ExternalLink, Briefcase } from 'lucide-r
 import { Surface, Hairline, MonoLabel, CtaLink, StatDisplay, Reveal } from '@/components/el'
 import { type LabProduct } from '@/data/lab/products'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
+import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
 
 const HEADING_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-display)',
@@ -191,6 +192,78 @@ export function TearsheetContent({ product }: Props) {
             </Link>
           </Reveal>
         )}
+
+        <DynamicRouteDeepening
+          eyebrow={`${product.category} system`}
+          title="Surface proof, system proof."
+          body={`${product.name} is a studio proof object: not just a concept page, but a real product with a problem, stack, operating thesis, and route into deeper case-study proof when available.`}
+          nodes={[
+            product.name,
+            product.stack[0] ?? 'App',
+            product.stack[1] ?? 'Data',
+            product.status,
+          ]}
+          stats={[
+            { label: 'status', value: product.status },
+            { label: 'stack', value: String(product.stack.length).padStart(2, '0') },
+            { label: 'metrics', value: String(product.metrics.length).padStart(2, '0') },
+          ]}
+          architectureTitle="Product ⇄ Engine"
+          architectureBody={product.problem}
+          architectureSteps={[
+            { label: 'Problem', detail: product.problem },
+            {
+              label: 'Product surface',
+              detail: product.whatItDoes[0] ?? product.description,
+            },
+            {
+              label: 'System architecture',
+              detail: `Built across ${product.stack.slice(0, 5).join(', ')}${product.stack.length > 5 ? ', and more' : ''}.`,
+            },
+            {
+              label: 'Studio learning',
+              detail: product.thesis,
+            },
+          ]}
+          conversionSteps={[
+            { label: 'Inspect the product', detail: product.description },
+            {
+              label: 'Read the mechanics',
+              detail: product.whatItDoes.slice(0, 2).join(' '),
+            },
+            {
+              label: 'See related proof',
+              detail: product.relatedWork
+                ? `Route into the ${product.name} case study for the fuller architecture story.`
+                : 'Hold this path until a related case study is published.',
+            },
+            {
+              label: 'Start a similar build',
+              detail: 'Use the product as evidence for a focused app, AI system, or SaaS engagement.',
+            },
+          ]}
+          assets={[
+            {
+              label: `${product.name} screenshot`,
+              detail: 'Replace this slot with a real verified product screenshot. Do not present mockups as production screenshots.',
+            },
+            {
+              label: 'Architecture visual',
+              detail: `Use this slot for a richer custom ${product.name} system diagram or case-study architecture frame.`,
+            },
+            {
+              label: 'Live proof link',
+              detail: product.links?.site
+                ? `Verified live product URL is available for ${product.name}.`
+                : product.links?.github
+                  ? `Verified GitHub repository is available for ${product.name}.`
+                  : 'Hold for a verified URL, repository, or permissioned proof asset.',
+              status: product.links?.site || product.links?.github ? 'ready' : 'needed',
+              href: product.links?.site ?? product.links?.github,
+            },
+          ]}
+          cta={{ label: `Build like ${product.name}`, href: '/contact?type=project&source=lab' }}
+        />
 
         {/* Bottom CTA */}
         <Reveal>

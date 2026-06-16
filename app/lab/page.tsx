@@ -5,6 +5,11 @@ import { Surface, Hairline, MonoLabel } from '@/components/el'
 import { LabGrid } from './lab-grid'
 import { labProducts } from '@/data/lab/products'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import {
+  ConversionMap,
+  MotionProofStrip,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/lab' },
@@ -28,32 +33,56 @@ const HEADING_STYLE: React.CSSProperties = {
 
 export default function LabPage() {
   return (
-    <div className="min-h-screen bg-[var(--sage-bg)]">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-28">
-        {/* Hero */}
-        <section aria-label="The Lab" className="mb-20 border-b border-[var(--sage-border)] pb-16">
-          <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">01</MonoLabel>
-            <Hairline className="flex-1" />
-            <MonoLabel tone="muted">{'// products'}</MonoLabel>
-            <Hairline className="flex-1" strong />
+    <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+      <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                The Lab · built here first
+              </p>
+              <h1
+                className="max-w-[10ch] text-[clamp(3.2rem,_1.2rem_+_8vw,_7.6rem)] font-extrabold"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '-0.03em',
+                  lineHeight: 0.98,
+                }}
+              >
+                Products that prove the system.
+              </h1>
+              <p className="mt-8 max-w-[58ch] text-lg leading-[1.6] text-[var(--sage-ink-muted)] sm:text-xl">
+                Live software built, maintained, and operated by the studio. Not concepts.
+                Not decorative mockups. Every product here feeds the product, AI, brand,
+                and growth systems Sage Ideas ships for clients.
+              </p>
+            </div>
+            <SystemHeroPanel
+              eyebrow="product graph"
+              title="The Lab"
+              nodes={['Nexural', 'Jobpoise', 'Trayd', 'AlphaStream']}
+              stats={[
+                { label: 'products', value: String(labProducts.length).padStart(2, '0') },
+                { label: 'mode', value: 'owned' },
+                { label: 'proof', value: 'live' },
+              ]}
+            />
           </div>
-          <h1
-            className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-            style={HEADING_STYLE}
-          >
-            The Lab.
-          </h1>
-          <p className="mt-4 text-base text-[var(--sage-ink-muted)] max-w-2xl">
-            Where we build the things we&apos;d want to use.
-          </p>
-          <p className="mt-4 text-sm text-[var(--sage-ink-faint)] max-w-2xl leading-relaxed">
-            The Lab is Sage Ideas&apos; product portfolio — not client work, not concept pieces, but live software built, maintained, and operated by the studio. Every product here started as a genuine itch. Every one of them has influenced a service offering or infrastructure pattern.
-          </p>
-          <p className="mt-3 text-sm text-[var(--sage-ink-faint)] max-w-2xl leading-relaxed">
-            When we say &ldquo;we build what we operate,&rdquo; the Lab is the proof.
-          </p>
-        </section>
+
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'live portfolio', value: String(labProducts.length) },
+                { label: 'source', value: 'studio' },
+                { label: 'status', value: 'operated' },
+                { label: 'role', value: 'proof' },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
 
         {/* Free tools */}
         <section aria-label="Free tools" className="mb-20 border-b border-[var(--sage-border)] pb-16">
@@ -64,7 +93,7 @@ export default function LabPage() {
             <Hairline className="flex-1" strong />
           </div>
           <h2
-            className="text-[clamp(1.6rem,1rem+2vw,2.5rem)] font-normal text-[var(--sage-ink)] mb-8"
+            className="mb-8 text-[clamp(1.6rem,_1rem_+_2vw,_2.5rem)] font-normal text-[var(--sage-ink)]"
             style={HEADING_STYLE}
           >
             Try before you talk to us.
@@ -120,16 +149,33 @@ export default function LabPage() {
           <NewsletterSignup source="lab" />
         </section>
 
+        <section aria-label="Lab conversion map" className="mb-20 border-b border-[var(--sage-border)] pb-16">
+          <div className="mb-7 flex items-center gap-4">
+            <MonoLabel tone="accent">03</MonoLabel>
+            <Hairline className="flex-1" />
+            <MonoLabel tone="muted">{'// system'}</MonoLabel>
+            <Hairline className="flex-1" strong />
+          </div>
+          <ConversionMap
+            steps={[
+              { label: 'Build in public', detail: 'Owned products expose the actual systems behind the studio.' },
+              { label: 'Extract patterns', detail: 'Reusable data models, AI boundaries, and launch paths become client capabilities.' },
+              { label: 'Teach the method', detail: 'Academy tracks turn real builds into practical builder education.' },
+              { label: 'Scope the next build', detail: 'Qualified visitors route into services with proof already established.' },
+            ]}
+          />
+        </section>
+
         {/* Product grid */}
         <section aria-label="Lab products">
           <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">03</MonoLabel>
+            <MonoLabel tone="accent">04</MonoLabel>
             <Hairline className="flex-1" />
             <MonoLabel tone="muted">{'// products'}</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <h2
-            className="text-[clamp(1.6rem,1rem+2vw,2.5rem)] font-normal text-[var(--sage-ink)] mb-8"
+            className="mb-8 text-[clamp(1.6rem,_1rem_+_2vw,_2.5rem)] font-normal text-[var(--sage-ink)]"
             style={HEADING_STYLE}
           >
             Things we built and run ourselves.
@@ -137,6 +183,6 @@ export default function LabPage() {
           <LabGrid products={labProducts} />
         </section>
       </div>
-    </div>
+    </main>
   )
 }

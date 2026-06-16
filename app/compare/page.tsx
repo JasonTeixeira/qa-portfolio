@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Check, Minus } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
-import { PageHeroBg } from '@/components/page-hero-bg'
+import {
+  ConversionMap,
+  MotionProofStrip,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 import { comparisons } from '@/data/compare/comparisons'
 
 export const metadata: Metadata = {
@@ -20,74 +23,124 @@ export const metadata: Metadata = {
 
 export default function CompareIndexPage() {
   return (
-    <div className="relative min-h-screen bg-[#09090B]">
-      <PageHeroBg src="/images/hero-trust.jpg" />
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <header className="mb-16">
-          <SectionLabel>Compare</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] tracking-tight">
-            Sage Ideas vs the alternatives.
-          </h1>
-          <p className="mt-4 text-xl text-[#A8A29E] max-w-2xl">
-            We are not the right fit for everyone. Here is who is.
-          </p>
-          <p className="mt-4 text-[#78716C] max-w-2xl leading-relaxed">
-            Three honest comparisons against the alternatives most teams actually evaluate. Where
-            the other side wins, we say so. The goal is not to convince you — it is to make sure
-            you pick the right shape of help for your problem.
-          </p>
-        </header>
+    <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+      <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+            <div>
+              <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                Compare · honest tradeoffs
+              </p>
+              <h1
+                className="max-w-[11ch] text-[clamp(3.2rem,_1.2rem_+_8vw,_7.6rem)] font-extrabold"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '-0.03em',
+                  lineHeight: 0.98,
+                }}
+              >
+                Sage Ideas vs the alternatives.
+              </h1>
+              <p className="mt-8 max-w-[58ch] text-lg leading-[1.6] text-[var(--sage-ink-muted)] sm:text-xl">
+                We are not the right fit for everyone. These pages compare the studio
+                against the alternatives buyers actually consider, including where the
+                other side wins.
+              </p>
+            </div>
+            <SystemHeroPanel
+              eyebrow="decision graph"
+              title="Compare Sage Ideas"
+              nodes={['Sage', 'Hire', 'Platform', 'Fit']}
+              stats={[
+                { label: 'comparisons', value: String(comparisons.length).padStart(2, '0') },
+                { label: 'posture', value: 'honest' },
+                { label: 'route', value: 'fit' },
+              ]}
+            />
+          </div>
 
-        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="mt-12">
+            <MotionProofStrip
+              items={[
+                { label: 'comparison pages', value: String(comparisons.length) },
+                { label: 'buyer mode', value: 'research' },
+                { label: 'sales posture', value: 'clear' },
+                { label: 'next action', value: 'route' },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] px-5 py-16 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              Decision paths
+            </p>
+            <p className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)] sm:block">
+              No strawmen
+            </p>
+          </div>
+          <div className="grid gap-px bg-[var(--sage-border)] lg:grid-cols-3">
           {comparisons.map((c) => (
             <Link
               key={c.slug}
               href={`/compare/${c.slug}`}
-              className="group flex flex-col rounded-2xl border border-[#2A2826] bg-[#12110F] overflow-hidden transition-all hover:border-[#0ED3CF]/50 hover:shadow-[0_8px_32px_rgba(14,211,207,0.06)]"
+              className="group flex min-h-[430px] flex-col bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)]"
             >
-              {/* Header */}
-              <div className="p-6 pb-4">
-                <span className="text-xs font-mono uppercase tracking-wider text-[#0ED3CF]">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
                   vs
                 </span>
-                <h2 className="mt-3 text-xl font-semibold text-[#FAFAFA] leading-snug">
+                <h2 className="mt-6 text-2xl font-semibold leading-tight text-[var(--sage-ink)]">
                   {c.competitorShort}
                 </h2>
-                <p className="mt-2 text-sm text-[#A8A29E] leading-relaxed">{c.tagline}</p>
+                <p className="mt-4 text-sm leading-6 text-[var(--sage-ink-muted)]">{c.tagline}</p>
               </div>
 
-              {/* Mini comparison preview — first 3 rows */}
-              <div className="mx-6 mb-4 rounded-lg border border-[#2A2826] overflow-hidden">
-                {c.rows.slice(0, 3).map((row, i) => (
+              <div className="my-8 overflow-hidden border border-[var(--sage-border)]">
+                {c.rows.slice(0, 3).map((row) => (
                   <div
                     key={row.dimension}
-                    className={`flex items-center justify-between px-3 py-2 text-xs ${
-                      i % 2 === 0 ? 'bg-[#09090B]' : 'bg-[#0B0A09]'
-                    }`}
+                    className="flex items-center justify-between gap-3 border-b border-[var(--sage-border)] bg-[var(--sage-bg)] px-3 py-2 text-xs last:border-b-0"
                   >
-                    <span className="text-[#78716C] truncate flex-1">{row.dimension}</span>
+                    <span className="min-w-0 flex-1 truncate text-[var(--sage-ink-muted)]">{row.dimension}</span>
                     <div className="flex items-center gap-3 shrink-0 ml-2">
                       {row.edge === 'sage' ? (
-                        <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                        <Check className="h-3.5 w-3.5 text-[var(--sage-accent-readable)]" />
                       ) : row.edge === 'tie' ? (
-                        <Minus className="w-3.5 h-3.5 text-[#78716C]" />
+                        <Minus className="h-3.5 w-3.5 text-[var(--sage-ink-faint)]" />
                       ) : (
-                        <Minus className="w-3.5 h-3.5 text-[#E85D3A]" />
+                        <Minus className="h-3.5 w-3.5 text-[#FF2D9B]" />
                       )}
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* CTA */}
-              <div className="mt-auto px-6 pb-6 flex items-center gap-2 text-sm text-[#0ED3CF]">
+              <div className="mt-auto flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sage-accent-readable)]">
                 Read full comparison
                 <ArrowRight className="h-3.5 w-3.5 transition-all group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section className="px-5 py-16 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <ConversionMap
+            steps={[
+              { label: 'Compare', detail: 'Read the actual alternative instead of a strawman.' },
+              { label: 'Fit', detail: 'See where Sage wins and where another option is better.' },
+              { label: 'Route', detail: 'Move into the matching service page only when the shape fits.' },
+              { label: 'Decide', detail: 'Book a call with the comparison context already handled.' },
+            ]}
+          />
+        </div>
+      </section>
+    </main>
   )
 }

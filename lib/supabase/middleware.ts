@@ -76,16 +76,21 @@ function redirectWithSessionCookies(target: URL, source: NextResponse) {
 }
 
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  const { pathname, search } = request.nextUrl;
+  const forwardedHeaders = new Headers(request.headers);
+  forwardedHeaders.set('x-pathname', pathname + (search || ''));
+  if (isPortalChrome(pathname)) {
+    forwardedHeaders.set('x-portal', '1');
+  }
+
+  let response = NextResponse.next({ request: { headers: forwardedHeaders } });
 
   // Resilience: when Supabase env is absent (local dev without keys, or a prod
   // misconfig), skip auth entirely instead of 500-ing every request. Public
   // marketing pages still render; auth-gated zones simply won't have a user.
   // In production with env configured, behavior is unchanged.
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    const { pathname, search } = request.nextUrl;
     response.headers.set('x-pathname', pathname + (search || ''));
-    request.headers.set('x-pathname', pathname + (search || ''));
     if (isPortalChrome(pathname)) {
       response.headers.set('x-portal', '1');
     }
@@ -104,7 +109,7 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }: CookieToSet) =>
             request.cookies.set(name, value),
           );
-          response = NextResponse.next({ request });
+          response = NextResponse.next({ request: { headers: forwardedHeaders } });
           cookiesToSet.forEach(({ name, value, options }: CookieToSet) =>
             response.cookies.set(name, value, options),
           );
@@ -118,12 +123,9 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { pathname, search } = request.nextUrl;
-
   // Expose the request pathname to server components / layouts so that
   // auth-gated server code can build a `?next=` redirect target.
   response.headers.set('x-pathname', pathname + (search || ''));
-  request.headers.set('x-pathname', pathname + (search || ''));
 
   // Tag portal/auth routes so the marketing chrome stays out of their way.
   if (isPortalChrome(pathname)) {

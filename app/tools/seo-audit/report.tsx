@@ -109,7 +109,7 @@ function FailIcon() {
   );
 }
 
-function CheckRow({ name, check }: { name: string; check: Check }) {
+function CheckRow({ name: _name, check }: { name: string; check: Check }) {
   return (
     <motion.li
       variants={slideUp}

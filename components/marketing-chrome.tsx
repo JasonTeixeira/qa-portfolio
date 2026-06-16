@@ -24,9 +24,15 @@ export async function MarketingChrome({
 }) {
   const h = await headers();
   const isPortal = h.get('x-portal') === '1';
+  const pathname = (h.get('x-pathname') ?? '').split('?')[0];
+  const isLivingHomepage = pathname === '/';
 
   if (isPortal) {
     if (position === 'children') return <>{children}</>;
+    return null;
+  }
+
+  if (isLivingHomepage && position !== 'children') {
     return null;
   }
 

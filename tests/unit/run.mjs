@@ -174,11 +174,17 @@ test('resolveActiveOrg: empty memberships -> null', async () => {
 // -------------------------------------------------------------- events
 
 test('event name registry is the closed set', async () => {
-  const { EVENT_NAMES, isValidEvent } = await import('../../lib/analytics/events.ts');
+  const { EVENT_NAMES, GA4_CONVERSION_EVENTS, isValidEvent } = await import('../../lib/analytics/events.ts');
   assert.ok(EVENT_NAMES.includes('checkout_start'));
   assert.ok(EVENT_NAMES.includes('lead_magnet_complete'));
   assert.equal(isValidEvent('not_a_real_event'), false);
   assert.equal(isValidEvent('cta_click'), true);
+  assert.deepEqual([...GA4_CONVERSION_EVENTS], [
+    'contact_submit',
+    'checkout_start',
+    'lead_magnet_complete',
+    'newsletter_signup',
+  ]);
 
   // Exact count guard — update this when adding new events
   assert.equal(EVENT_NAMES.length, 14);
@@ -200,6 +206,47 @@ test('event name registry is the closed set', async () => {
   for (const name of expected) {
     assert.ok(EVENT_NAMES.includes(name), `EVENT_NAMES missing: ${name}`);
   }
+});
+
+test('attribution: extracts first-touch campaign metadata from a URL', async () => {
+  const { extractAttributionFromUrl, parseAttributionCookie, serializeAttribution } = await import(
+    '../../lib/analytics/attribution.ts'
+  );
+  const attribution = extractAttributionFromUrl(
+    'https://www.sageideas.dev/academy?utm_source=linkedin&utm_medium=social&utm_campaign=wave-2&gclid=abc123',
+    'https://linkedin.com/feed',
+    new Date('2026-06-16T12:00:00.000Z'),
+  );
+
+  assert.equal(attribution.landingPage, '/academy?utm_source=linkedin&utm_medium=social&utm_campaign=wave-2&gclid=abc123');
+  assert.equal(attribution.referrer, 'https://linkedin.com/feed');
+  assert.equal(attribution.utmSource, 'linkedin');
+  assert.equal(attribution.utmMedium, 'social');
+  assert.equal(attribution.utmCampaign, 'wave-2');
+  assert.equal(attribution.gclid, 'abc123');
+  assert.deepEqual(parseAttributionCookie(serializeAttribution(attribution)), attribution);
+});
+
+test('lead scoring: high-intent studio inquiry outranks newsletter signup', async () => {
+  const { scoreLead } = await import('../../lib/leads/scoring.ts');
+  const studio = scoreLead({
+    source: 'contact',
+    email: 'founder@company.com',
+    name: 'Founder',
+    detail: 'We need a full AI product, brand system, checkout funnel, and content engine built this quarter.',
+    inquiryType: 'studio',
+    budget: '50-100k',
+  });
+  const newsletter = scoreLead({
+    source: 'newsletter',
+    email: 'reader@gmail.com',
+    name: null,
+    detail: 'Newsletter signup',
+  });
+
+  assert.ok(studio.score > newsletter.score);
+  assert.ok(studio.reasons.includes('studio engagement selected'));
+  assert.ok(newsletter.reasons.includes('newsletter signup'));
 });
 
 // -------------------------------------------------------------- isSelfServe

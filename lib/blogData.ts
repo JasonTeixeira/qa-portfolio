@@ -12,15 +12,6 @@ export interface BlogPost {
   coverImage?: string;
 }
 
-// Helper to generate slug from title
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 80);
-}
-
 export const blogPosts: BlogPost[] = [
   {
     id: 100,

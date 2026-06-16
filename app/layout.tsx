@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Fraunces, Geist, Geist_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { headers } from 'next/headers'
@@ -7,38 +7,37 @@ import { MarketingChrome } from '@/components/marketing-chrome'
 import { CookieBanner } from '@/components/studio/cookie-banner'
 import { ExitIntentModal } from '@/components/exit-intent-modal'
 import { PostHogProvider } from '@/components/analytics/posthog-provider'
+import { AttributionCapture } from '@/components/analytics/attribution-capture'
+import { GoogleAnalytics } from '@/components/analytics/google-analytics'
 import { WebVitalsReporter } from '@/components/web-vitals-reporter'
 import { ClientErrorReporter } from '@/components/client-error-reporter'
 import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration'
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { UpdateToast } from '@/components/pwa/update-toast'
 
-// DISPLAY — Fraunces: a high-contrast variable serif with optical-sizing.
-// Opsz pushed high for big headlines; SOFT/WONK nudged for warm character.
-const display = Fraunces({
+const display = Bricolage_Grotesque({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
-  axes: ['opsz', 'SOFT', 'WONK'],
+  weight: ['400', '600', '800'],
   variable: '--font-display',
   display: 'swap',
 })
 
-// BODY — Geist: Vercel's engineered grotesque. Neutral, precise, modern.
-const sans = Geist({
+const sans = Hanken_Grotesk({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
   variable: '--font-sans',
   display: 'swap',
 })
 
-// MONO — Geist Mono: the "receipts" system — eyebrows, labels, metadata, status.
-const mono = Geist_Mono({
+const mono = JetBrains_Mono({
   subsets: ['latin'],
+  weight: ['400', '500'],
   variable: '--font-mono',
   display: 'swap',
 })
 
 export const viewport: Viewport = {
-  themeColor: '#09090B',
+  themeColor: '#0B0B0E',
   colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
@@ -53,12 +52,12 @@ export const metadata: Metadata = {
     template: '%s — Sage Ideas',
   },
   description:
-    'Sage Ideas is an AI-native studio that builds, automates, and scales B2B businesses. From $1,500 audits to flagship business sprints — we ship the same stack we run our own products on.',
+    'Sage Ideas is a solo, AI-native studio. I build the product, the brand, and the AI that runs it.',
   metadataBase: new URL(SITE_URL),
   openGraph: {
     title: 'Sage Ideas — AI-Native Studio for B2B Operators',
     description:
-      'AI-native studio. We build the businesses we’d want to run. Studio craft, agency rigor, productized engagements.',
+      'A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.',
     url: SITE_URL,
     siteName: 'Sage Ideas',
     locale: 'en_US',
@@ -76,13 +75,16 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sage Ideas — AI-Native Studio for B2B Operators',
     description:
-      'We build the businesses we’d want to run. AI products, internal tools, and full builds for B2B operators.',
+      'I build the product, the brand, and the AI that runs it.',
     images: [`${SITE_URL}/og?title=Sage%20Ideas&subtitle=AI-Native%20Studio%20for%20B2B%20Operators`],
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
+  verification: {
+    google: 'FSkeMXEvQz0bdu-hz9pQVnZ9zN5rsMv7yk2xk9B26TU',
   },
   alternates: {
     canonical: SITE_URL,
@@ -119,13 +121,13 @@ const organizationSchema = {
   url: SITE_URL,
   logo: `${SITE_URL}/brand/logo.svg`,
   description:
-    'AI-native studio for B2B operators. We design, build, automate, and operate production businesses.',
+    'Solo AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.',
   founder: {
     '@type': 'Person',
     name: 'Jason Teixeira',
     url: `${SITE_URL}/founder`,
   },
-  foundingDate: '2024',
+  foundingDate: '2020',
   email: 'sage@sageideas.dev',
   sameAs: [
     'https://github.com/JasonTeixeira',
@@ -154,7 +156,7 @@ const professionalServiceSchema = {
   name: 'Sage Ideas LLC',
   url: SITE_URL,
   description:
-    'AI-native studio. Productized engagements: audit, ship, automate, scale, build, operate. Solo studio, agency rigor.',
+    'Solo AI-native studio. Product, brand, AI systems, applications, SaaS, growth, and SEO.',
   founder: { '@type': 'Person', name: 'Jason Teixeira' },
   address: {
     '@type': 'PostalAddress',
@@ -186,16 +188,20 @@ export default async function RootLayout({
 }>) {
   const h = await headers()
   const isPortal = h.get('x-portal') === '1'
+  const pathname = (h.get('x-pathname') ?? '').split('?')[0]
+  const isLivingHomepage = pathname === '/'
+  const isPremiumLanding = isLivingHomepage || pathname === '/academy'
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#09090B]`}
+      className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#0B0B0E]`}
     >
       <head>
         {/* Preconnect to Google Fonts CDN to shave ~100–200 ms off font fetch */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="icon" href="data:," />
         {/* DNS-prefetch for GitHub API (GitHubActivity widget) */}
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>
@@ -209,18 +215,20 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
         />
         <PostHogProvider>
+          {!isPortal && <AttributionCapture />}
           <MarketingChrome position="top" />
           <MarketingChrome position="children">{children}</MarketingChrome>
           <MarketingChrome position="bottom" />
-          {!isPortal && <CookieBanner />}
-          {!isPortal && <ExitIntentModal />}
+          {!isPortal && !isPremiumLanding && <CookieBanner />}
+          {!isPortal && !isPremiumLanding && <ExitIntentModal />}
           <WebVitalsReporter />
           <ClientErrorReporter />
           <ServiceWorkerRegistration />
-          {!isPortal && <InstallPrompt />}
+          {!isPortal && !isPremiumLanding && <InstallPrompt />}
           <UpdateToast />
         </PostHogProvider>
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <GoogleAnalytics />
+        {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
       </body>
     </html>
   )

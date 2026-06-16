@@ -5,7 +5,6 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { AdminTopbar } from '@/components/admin/topbar';
 import { Card, CardContent } from '@/components/portal/ui/card';
 import { Badge } from '@/components/portal/ui/badge';
-import { Button } from '@/components/portal/ui/button';
 import { ProposalAdminActions } from '@/components/admin/proposal-admin-actions';
 import { formatCurrency, formatDate } from '@/lib/utils';
 

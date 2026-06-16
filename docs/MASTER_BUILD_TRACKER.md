@@ -16,12 +16,12 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 | Phase 0 — Foundation & truth | ✅ shipped |
 | Phase 1 — Conversion engine | ✅ shipped (live verify pending creds) |
 | Program G — Research & Baseline | ☐ not started |
-| Program D — Analytics | ☐ not started |
+| Program D — Analytics | ◐ installed; creds/dashboards pending |
 | Program A — SEO Discovery | ☐ not started |
 | Program H — Bridge Traffic & Growth Loop | ☐ not started |
 | Program B — Content Engine & Blog | ☐ not started |
 | Program C — Design & Showcase | ☐ not started |
-| Program E — Conversion & Proof (continuous) | ☐ not started |
+| Program E — Conversion & Proof (continuous) | ◐ lead scoring shipped; proof/inbox pending |
 
 **Build order:** G + D (gates) → A → H → B → C, with **E** running continuously.
 
@@ -35,7 +35,7 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [x] Honest `ProofGrid` site-wide (home/pricing/services/tier pages)
 
 ## ✅ PHASE 1 — Conversion Engine (SHIPPED)
-- [x] Typed conversion-event layer (`lib/analytics/events.ts`, 11 events) on all CTAs/forms/pricing/booking
+- [x] Typed conversion-event layer (`lib/analytics/events.ts`, 14 events) on all CTAs/forms/pricing/booking
 - [x] Public Stripe checkout: low-ticket self-serve, high-ticket gated, care subscriptions restored
 - [x] Webhook → lead capture (service + care branches, idempotent)
 - [x] SEO-audit lead magnet (analyzer, SSRF-hardened, PSI, report UI)
@@ -55,10 +55,10 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [ ] G6 — **ICP + messaging** foundation (`docs/brand/icp-messaging.md`)
 
 ## ☐ PROGRAM D — Analytics & Measurement  · spec: [program-d](specs/program-d-analytics.md)
-*Measure before optimizing. ⏳ needs GA4 ID + GSC. D2/D3 can land before the ID exists.*
-- [ ] D1 — **GA4 install** (`components/analytics/google-analytics.tsx`, consent-gated, prod-only) + CSP
-- [ ] D2 — ⭐ **Event bridge**: extend `trackEvent` to also emit GA4 gtag; mark 4 key events as conversions
-- [ ] D3 — ⭐ **First-touch attribution** (`lib/analytics/attribution.ts`) → stored on lead `metadata`
+*Measure before optimizing. ⏳ needs GA4 ID + GSC.*
+- [x] D1 — **GA4 install** (`components/analytics/google-analytics.tsx`, consent-gated, prod-only) + CSP *(activates when `NEXT_PUBLIC_GA4_MEASUREMENT_ID` is set)*
+- [x] D2 — ⭐ **Event bridge**: extend `trackEvent` to also emit GA4 gtag; mark 4 key events as conversions
+- [x] D3 — ⭐ **First-touch attribution** (`lib/analytics/attribution.ts`) → stored on lead `metadata`
 - [ ] D4 — **GSC + Bing** verification + sitemap submission
 - [ ] D5 — PostHog **funnels + dashboard** (5 funnels, ~10 insights)
 
@@ -106,7 +106,7 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [ ] E2 — **/admin leads inbox** (migration `0029` adds `status`+`score`) — see + work leads
 - [ ] E3 — **Money-page CRO** components (`components/cro/*`) + playbook (`docs/cro/money-page-playbook.md`)
 - [ ] E4 — **Experiments + session replay** (PostHog) + ICE-scored test backlog
-- [ ] E5 — **Lead scoring** (`lib/leads/scoring.ts`) wired into capture
+- [x] E5 — **Lead scoring** (`lib/leads/scoring.ts`) wired into capture metadata
 - [ ] E6 — **B2B nurture** (migration `0030` sequences/steps/enrollments + Resend + cron `/api/cron/nurture`)
 - [ ] E7 — **E-E-A-T** components (`components/eeat/*`: author bio, credentials, first-hand, third-party validation)
 

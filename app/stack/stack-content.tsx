@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Section, Surface, Hairline, MonoLabel, Reveal } from '@/components/el'
+import { Surface, Hairline, MonoLabel, Reveal } from '@/components/el'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 
 const HEADING_STYLE: React.CSSProperties = {

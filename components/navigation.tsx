@@ -148,9 +148,16 @@ const resourcesMega: MegaSection[] = [
     items: [
       {
         href: '/blog',
-        label: 'Insights',
-        description: '50+ field-reports & playbooks',
+        label: 'Journal',
+        description: 'Field reports, build logs, and playbooks',
         icon: BookOpen,
+      },
+      {
+        href: '/academy',
+        label: 'Academy',
+        description: 'Courses and practical builder systems',
+        icon: BookOpen,
+        badge: 'FORMING',
       },
       {
         href: '/pov',
@@ -254,9 +261,10 @@ const resourcesMega: MegaSection[] = [
 const mobileFlat: { href: string; label: string; section?: string }[] = [
   { href: '/services', label: 'Services', section: 'PRIMARY' },
   { href: '/work', label: 'Work', section: 'PRIMARY' },
+  { href: '/academy', label: 'Academy', section: 'PRIMARY' },
   { href: '/pricing', label: 'Pricing', section: 'PRIMARY' },
   { href: '/services#cat-ai-flagship', label: 'AI Flagship', section: 'PRIMARY' },
-  { href: '/blog', label: 'Insights', section: 'RESOURCES' },
+  { href: '/blog', label: 'Journal', section: 'RESOURCES' },
   { href: '/pov', label: 'POV', section: 'RESOURCES' },
   { href: '/tools/seo-audit', label: 'Free SEO Audit', section: 'RESOURCES' },
   { href: '/lab/ai-readiness', label: 'AI Readiness Score', section: 'RESOURCES' },
@@ -360,7 +368,7 @@ function MegaDropdown({
                                 <span
                                   className="shrink-0 w-6 h-6 rounded-[2px] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] flex items-center justify-center group-hover:border-[var(--sage-border-hover)] transition-colors"
                                 >
-                                  <Icon className="w-3 h-3 text-[var(--sage-ink-faint)] group-hover:text-[#0ED3CF] transition-colors" />
+                                  <Icon className="w-3 h-3 text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-brand)] transition-colors" />
                                 </span>
                               )}
                               <div className="min-w-0">
@@ -369,7 +377,7 @@ function MegaDropdown({
                                     {item.label}
                                   </span>
                                   {item.badge && (
-                                    <span className="text-[9px] [font-family:var(--font-mono),ui-monospace,monospace] tracking-[0.16em] px-1.5 py-px rounded-[2px] bg-[#0ED3CF]/10 text-[#0ED3CF] border border-[#0ED3CF]/25">
+                                    <span className="text-[9px] [font-family:var(--font-mono),ui-monospace,monospace] tracking-[0.16em] px-1.5 py-px rounded-[2px] bg-[var(--sage-brand)]/10 text-[var(--sage-brand)] border border-[var(--sage-brand)]/25">
                                       {item.badge}
                                     </span>
                                   )}
@@ -399,7 +407,7 @@ function MegaDropdown({
                     onClose()
                     trackEvent('booking_click', { location: 'nav_mega' })
                   }}
-                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.14em] text-[#0ED3CF] hover:text-[var(--sage-ink)] transition-colors whitespace-nowrap"
+                  className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.14em] text-[var(--sage-brand)] hover:text-[var(--sage-ink)] transition-colors whitespace-nowrap"
                 >
                   ./book
                 </Link>
@@ -497,14 +505,14 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             className="shrink-0 flex items-center gap-2.5 group"
             aria-label="Sage Ideas — Home"
           >
-            <img src="/brand/sage-logo.png" alt="" className="h-6 w-auto" aria-hidden />
-            <span className="text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#0ED3CF] transition-colors duration-200">
+            <img src="/brand/sage-logo.png" alt="" width="16" height="24" className="h-6 w-auto" aria-hidden />
+            <span className="text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[var(--sage-brand)] transition-colors duration-200">
               SAGE IDEAS
             </span>
           </Link>
 
           {/* Center cluster — primary nav */}
-          <div className="hidden lg:flex items-center gap-0.5" role="menubar">
+          <div className="hidden lg:flex items-center gap-0.5">
             <MegaDropdown
               label="Services"
               sections={servicesMega}
@@ -514,12 +522,11 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             />
             <Link
               href="/work"
-              role="menuitem"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Work', href: '/work' })}
               className={cn(
                 'whitespace-nowrap px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/work')
-                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                  ? 'text-[var(--sage-brand)] bg-[var(--sage-surface-3)]'
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
@@ -527,12 +534,11 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
             </Link>
             <Link
               href="/pricing"
-              role="menuitem"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Pricing', href: '/pricing' })}
               className={cn(
                 'whitespace-nowrap px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/pricing')
-                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                  ? 'text-[var(--sage-brand)] bg-[var(--sage-surface-3)]'
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
@@ -560,7 +566,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               <span className="sr-only">Open command palette</span>
               <span aria-hidden className="select-none text-[11px]">
                 <span className="text-[var(--sage-lime)]">$</span>{' '}
-                <span className="text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-ink-muted)] transition-colors">type a verb</span>
+                <span className="text-[var(--sage-ink-muted)] transition-colors">type a verb</span>
               </span>
               <kbd aria-hidden className="hidden xl:flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] rounded-[2px] text-[var(--sage-ink-faint)]">
                 {isMac ? <Command className="h-2.5 w-2.5" /> : 'Ctrl'}
@@ -664,13 +670,13 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                               className={cn(
                                 'flex items-center justify-between px-4 py-3 min-h-[44px] text-[13px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.08em] rounded-[3px] transition-colors',
                                 active
-                                  ? 'text-[#0ED3CF] bg-[var(--sage-surface-3)]'
+                                  ? 'text-[var(--sage-brand)] bg-[var(--sage-surface-3)]'
                                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
                               )}
                             >
                               <span>{link.label}</span>
                               {active && (
-                                <span aria-hidden className="h-1 w-1 rounded-full bg-[#0ED3CF]" />
+                                <span aria-hidden className="h-1 w-1 rounded-full bg-[var(--sage-brand)]" />
                               )}
                             </Link>
                           )

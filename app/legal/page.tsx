@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { FileText, ArrowRight, Shield, Handshake, Cookie, FileSignature, FileCheck, ScrollText } from 'lucide-react'
+import { ArrowRight, Shield, Handshake, Cookie, FileSignature, FileCheck, ScrollText } from 'lucide-react'
 import { SectionLabel } from '@/components/section-label'
 
 export const metadata: Metadata = {

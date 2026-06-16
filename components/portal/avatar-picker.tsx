@@ -149,7 +149,7 @@ export function AvatarPicker({ initialPath, fullName, email }: Props) {
     <div className="space-y-4" data-testid="avatar-picker">
       <div className="flex items-center gap-4">
         {display ? (
-          // eslint-disable-next-line @next/next/no-img-element
+
           <img
             src={display}
             alt={fullName || email}
@@ -210,7 +210,7 @@ export function AvatarPicker({ initialPath, fullName, email }: Props) {
               circularCrop
               keepSelection
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img
                 ref={imgRef}
                 src={previewUrl}

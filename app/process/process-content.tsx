@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 

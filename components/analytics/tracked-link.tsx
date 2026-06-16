@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import type { ComponentProps } from 'react'
-import { track } from './posthog-provider'
+import { trackEvent, type EventName } from '@/lib/analytics/events'
 
 type Props = ComponentProps<typeof Link> & {
-  event: string
+  event: EventName
   eventProps?: Record<string, unknown>
 }
 
@@ -14,7 +14,7 @@ export function TrackedLink({ event, eventProps, onClick, ...rest }: Props) {
     <Link
       {...rest}
       onClick={(e) => {
-        track(event, eventProps)
+        trackEvent(event, eventProps as never)
         onClick?.(e)
       }}
     />

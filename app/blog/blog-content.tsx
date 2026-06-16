@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { MonoLabel, Hairline, Surface, Reveal } from '@/components/el'
+import { MonoLabel, Hairline, Reveal } from '@/components/el'
 import { blogPosts } from '@/lib/blogData'
 
 const ALL_CATEGORIES = [

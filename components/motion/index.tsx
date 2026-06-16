@@ -148,7 +148,7 @@ export function CountUp({
 
   useEffect(() => {
     if (reduced) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setDisplay(to)
       return
     }
@@ -216,7 +216,7 @@ export function TypewriterLines({
 }: TypewriterLinesProps) {
   const reduced = useReducedMotion()
   const [rendered, setRendered] = useState<string[]>(reduced ? lines : [])
-  const [activeChar, setActiveChar] = useState(0)
+  const [, setActiveChar] = useState(0)
   const [activeLine, setActiveLine] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
   const [done, setDone] = useState(reduced)

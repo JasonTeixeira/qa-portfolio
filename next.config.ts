@@ -80,11 +80,11 @@ const nextConfig: NextConfig = {
   async headers() {
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://js.stripe.com https://*.sentry.io https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-inline' https://js.stripe.com https://*.sentry.io https://va.vercel-scripts.com https://cdnjs.cloudflare.com https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://*.sentry.io https://*.ingest.sentry.io https://va.vercel-scripts.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://*.sentry.io https://*.ingest.sentry.io https://va.vercel-scripts.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com",
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "frame-ancestors 'self'",
       "form-action 'self' https://checkout.stripe.com",

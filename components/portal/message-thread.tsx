@@ -18,7 +18,6 @@ import {
   Pencil,
   Trash2,
   Smile,
-  Loader2,
   CheckCircle2,
 } from 'lucide-react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -373,7 +372,7 @@ export function MessageThread({
     return () => {
       void supabase.removeChannel(channel);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [supabase, threadId, currentUserAuthId, scrollToBottom]);
 
   // Aggregate reactions per message + emoji.
@@ -821,7 +820,6 @@ export function MessageThread({
                     msg={m}
                     isReply={false}
                     currentUserId={currentUserId}
-                    currentUserAuthId={currentUserAuthId}
                     currentUserIsAdmin={currentUserIsAdmin}
                     reactions={reactionAggByMessage.get(m.id) ?? []}
                     onReply={() => startReply(m)}
@@ -870,7 +868,6 @@ export function MessageThread({
                                 msg={r}
                                 isReply
                                 currentUserId={currentUserId}
-                                currentUserAuthId={currentUserAuthId}
                                 currentUserIsAdmin={currentUserIsAdmin}
                                 reactions={reactionAggByMessage.get(r.id) ?? []}
                                 onReply={() => startReply(r)}
@@ -1044,7 +1041,6 @@ function Bubble({
   msg,
   isReply,
   currentUserId,
-  currentUserAuthId,
   currentUserIsAdmin,
   reactions,
   onReply,
@@ -1064,7 +1060,6 @@ function Bubble({
   msg: ThreadMessage;
   isReply: boolean;
   currentUserId: string;
-  currentUserAuthId: string;
   currentUserIsAdmin: boolean;
   reactions: ReactionAggregate[];
   onReply: () => void;
@@ -1274,7 +1269,7 @@ function Bubble({
 
 function Avatar({ name, url }: { name: string; url: string | null }) {
   if (url) {
-    // eslint-disable-next-line @next/next/no-img-element
+
     return (
       <img
         src={url}
@@ -1322,7 +1317,7 @@ function MessageAttachment({
 
   if (isImage) {
     return signedUrl ? (
-      // eslint-disable-next-line @next/next/no-img-element
+
       <a
         href={signedUrl}
         target="_blank"

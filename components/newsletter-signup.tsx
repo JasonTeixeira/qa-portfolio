@@ -54,7 +54,7 @@ export function NewsletterSignup({
 
   const containerClass =
     variant === 'card'
-      ? 'rounded-2xl border border-[#2A2826] bg-[#1A1917] p-6 sm:p-8'
+      ? 'rounded-[8px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-6 sm:p-8'
       : ''
 
   return (
@@ -62,13 +62,19 @@ export function NewsletterSignup({
       {variant === 'card' && (
         <>
           <h3 className="text-2xl font-bold text-[#FAFAFA] tracking-tight">{headline}</h3>
-          <p className="mt-2 text-[#A8A29E] leading-relaxed">{blurb}</p>
+          <p className="mt-2 text-[var(--sage-ink-muted)] leading-relaxed">{blurb}</p>
         </>
+      )}
+      {variant === 'inline' && (headline || blurb) && (
+        <div className="mb-4">
+          {headline ? <h3 className="text-lg font-bold text-[var(--sage-ink)]">{headline}</h3> : null}
+          {blurb ? <p className="mt-1 text-sm leading-relaxed text-[var(--sage-ink-muted)]">{blurb}</p> : null}
+        </div>
       )}
 
       {status === 'success' ? (
-        <div className="flex items-center gap-3 rounded-lg border border-[#0ED3CF]/30 bg-[#0ED3CF]/10 px-4 py-3 mt-4 text-sm text-[#FAFAFA]">
-          <Check className="h-4 w-4 text-[#0ED3CF]" />
+        <div className="flex items-center gap-3 rounded-[8px] border border-[var(--sage-brand)]/30 bg-[var(--sage-brand)]/10 px-4 py-3 mt-4 text-sm text-[var(--sage-ink)]">
+          <Check className="h-4 w-4 text-[var(--sage-brand)]" />
           You are in. First note hits your inbox soon.
         </div>
       ) : (
@@ -85,12 +91,12 @@ export function NewsletterSignup({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className="flex-1 rounded-lg border border-[#2A2826] bg-[#09090B] px-4 py-3 text-sm text-[#FAFAFA] placeholder:text-[#57534E] focus:border-[#0ED3CF] focus:outline-none focus:ring-1 focus:ring-[#0ED3CF]"
+              className="flex-1 rounded-[8px] border border-[var(--sage-border)] bg-[#09090D] px-4 py-3 text-sm text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[var(--sage-brand)] focus:outline-none focus:ring-1 focus:ring-[var(--sage-brand)]"
             />
             <button
               type="submit"
               disabled={status === 'submitting'}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0ED3CF] px-5 py-3 text-sm font-medium text-[#09090B] transition-all hover:bg-[#0AA8A5] disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 rounded-[8px] bg-[var(--sage-brand)] px-5 py-3 text-sm font-medium text-white transition-all hover:bg-[#5670ff] disabled:opacity-50"
             >
               {status === 'submitting' ? 'Subscribing…' : 'Subscribe'}
               {status !== 'submitting' && <ArrowRight className="h-4 w-4" />}
@@ -99,7 +105,7 @@ export function NewsletterSignup({
           {status === 'error' && errorMsg && (
             <p className="mt-3 text-sm text-red-400">{errorMsg}</p>
           )}
-          <p className="mt-3 text-xs text-[#57534E]">
+          <p className="mt-3 text-xs text-[var(--sage-ink-faint)]">
             No spam. Unsubscribe in one click. We never share your email.
           </p>
         </form>

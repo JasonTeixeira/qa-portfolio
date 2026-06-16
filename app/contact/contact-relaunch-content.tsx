@@ -6,7 +6,6 @@ import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  ArrowRight,
   Calendar,
   CheckCircle2,
   Clock,

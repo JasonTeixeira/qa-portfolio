@@ -1,17 +1,17 @@
 'use client'
 
 import { useEffect } from 'react'
-import { track } from './posthog-provider'
+import { trackEvent, type EventName } from '@/lib/analytics/events'
 
 export function PageViewTracker({
   event,
   props,
 }: {
-  event: string
+  event: EventName
   props?: Record<string, unknown>
 }) {
   useEffect(() => {
-    track(event, props)
+    trackEvent(event, props as never)
     // intentionally only on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Check, Minus, X } from 'lucide-react'
 import { comparisons } from '@/data/compare/comparisons'
-import { Section, Surface, Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
+import { Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
 
 const HEADING_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-display)',

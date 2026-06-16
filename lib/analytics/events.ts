@@ -19,6 +19,13 @@ export const EVENT_NAMES = [
 
 export type EventName = (typeof EVENT_NAMES)[number]
 
+export const GA4_CONVERSION_EVENTS = [
+  'contact_submit',
+  'checkout_start',
+  'lead_magnet_complete',
+  'newsletter_signup',
+] as const satisfies readonly EventName[]
+
 export function isValidEvent(name: string): name is EventName {
   return (EVENT_NAMES as readonly string[]).includes(name)
 }
@@ -42,4 +49,18 @@ type Payloads = {
 
 export function trackEvent<E extends EventName>(name: E, props: Payloads[E]): void {
   track(name, props as Record<string, unknown>)
+  trackGa4Event(name, props as Record<string, unknown>)
+}
+
+function trackGa4Event(name: EventName, props: Record<string, unknown>) {
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
+
+  try {
+    window.gtag('event', name, {
+      ...props,
+      conversion: (GA4_CONVERSION_EVENTS as readonly string[]).includes(name),
+    })
+  } catch {
+    // Analytics should never interfere with conversion actions.
+  }
 }

@@ -95,7 +95,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
                     fig.01 · interface
                   </span>
                   {flagshipImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
+
                     <img
                       src={flagshipImage}
                       alt=""

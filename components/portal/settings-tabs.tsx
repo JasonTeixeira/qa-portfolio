@@ -544,7 +544,7 @@ function MfaCard() {
         ) : enroll.phase === 'pending' ? (
           <div className="space-y-4 pt-2 border-t border-[#1f1f23]">
             <div className="flex flex-col sm:flex-row gap-4 items-start">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img
                 src={enroll.qrDataUrl}
                 alt="Scan with your authenticator app"

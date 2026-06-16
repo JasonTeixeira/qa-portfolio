@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
 import { captureLead } from '@/lib/leads/capture'
+import { readAttributionFromRequest } from '@/lib/analytics/server-attribution'
+import { mergeAttributionMetadata } from '@/lib/analytics/attribution'
 
 // Lightweight newsletter signup wired to Supabase.
 // Welcome email is sent server-side via the Resend connector by a separate
@@ -61,7 +63,7 @@ export async function POST(req: NextRequest) {
       email: emailRaw,
       name: null,
       detail: 'Newsletter signup',
-      metadata: { source },
+      metadata: mergeAttributionMetadata({ source }, readAttributionFromRequest(req)),
       notify: false,
     })
 

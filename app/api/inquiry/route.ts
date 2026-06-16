@@ -4,6 +4,8 @@ import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { rateLimit } from '@/lib/rate-limit'
 import { captureLead } from '@/lib/leads/capture'
+import { readAttributionFromRequest } from '@/lib/analytics/server-attribution'
+import { mergeAttributionMetadata } from '@/lib/analytics/attribution'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -95,6 +97,7 @@ export async function POST(request: NextRequest) {
 
     const ip_hash = createHash('sha256').update(`${ip}::sageideas`).digest('hex').slice(0, 32)
     const userAgent = sanitize(request.headers.get('user-agent') || '', 500)
+    const attribution = readAttributionFromRequest(request)
 
     // Insert into Supabase (service role bypasses RLS)
     let inquiryId: string | null = null
@@ -136,6 +139,7 @@ export async function POST(request: NextRequest) {
       detail: scope,
       inquiryType: engagement_type,
       budget: budget_band || undefined,
+      metadata: mergeAttributionMetadata({ source, referrer, company, role, timeline }, attribution),
       notify: false,
     })
 

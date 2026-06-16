@@ -126,7 +126,7 @@ export function Footer() {
               className="inline-flex items-center gap-2.5 group"
               aria-label="Sage Ideas — Home"
             >
-              <img src="/brand/sage-logo.png" alt="" className="h-7 w-auto" aria-hidden />
+              <img src="/brand/sage-logo.png" alt="" width="18" height="28" className="h-7 w-auto" aria-hidden />
               <span className="text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#0ED3CF] transition-colors">
                 SAGE IDEAS
               </span>
@@ -155,7 +155,7 @@ export function Footer() {
               <Link
                 href="mailto:sage@sageideas.dev"
                 aria-label="Email Sage Ideas"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] hover:border-[var(--sage-border-hover)] transition-colors"
+                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" aria-hidden />
               </Link>
@@ -164,7 +164,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Sage Ideas on LinkedIn"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] hover:border-[var(--sage-border-hover)] transition-colors"
+                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
               >
                 <Linkedin className="w-3.5 h-3.5" aria-hidden />
               </Link>
@@ -173,7 +173,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Sage Ideas on GitHub"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] hover:border-[var(--sage-border-hover)] transition-colors"
+                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
               >
                 <Github className="w-3.5 h-3.5" aria-hidden />
               </Link>

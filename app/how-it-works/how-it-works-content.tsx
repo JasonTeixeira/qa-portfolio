@@ -12,7 +12,7 @@ import {
 } from '@/data/pipelines'
 import { tiersBySlug, careTiersBySlug } from '@/data/services/tiers'
 import { cn } from '@/lib/utils'
-import { Section, SectionHeader, Surface, Hairline, MonoLabel, CtaLink } from '@/components/el'
+import { Section, Surface, Hairline, MonoLabel, CtaLink } from '@/components/el'
 import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 
 type Group = 'all' | 'productized' | 'care'

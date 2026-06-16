@@ -3,6 +3,8 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 import { rateLimit } from '@/lib/rate-limit';
 import { captureLead } from '@/lib/leads/capture';
+import { readAttributionFromRequest } from '@/lib/analytics/server-attribution';
+import { mergeAttributionMetadata } from '@/lib/analytics/attribution';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -69,6 +71,7 @@ export async function POST(request: NextRequest) {
     detail: data.message || '',
     inquiryType: typeof rawData.inquiryType === 'string' ? rawData.inquiryType : undefined,
     budget: typeof rawData.budget === 'string' ? rawData.budget : undefined,
+    metadata: mergeAttributionMetadata(undefined, readAttributionFromRequest(request)),
     notify: false,
   });
 

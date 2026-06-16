@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { Resend } from 'resend';
+import { scoreLead } from './scoring';
 
 export type LeadSource = 'contact' | 'newsletter' | 'seo_audit' | 'checkout';
 
@@ -23,6 +24,13 @@ export type LeadInput = {
  * signup, checkout, etc.) without worrying about degrading the happy path.
  */
 export async function captureLead(input: LeadInput): Promise<void> {
+  const scoring = scoreLead(input);
+  const metadata = {
+    ...(input.metadata ?? {}),
+    lead_score: scoring.score,
+    lead_score_reasons: scoring.reasons,
+  };
+
   // Persist — supabaseAdmin() uses service-role key and bypasses RLS.
   // It throws if env vars are absent; that throw is caught here so the
   // caller's happy path is never affected.
@@ -36,7 +44,7 @@ export async function captureLead(input: LeadInput): Promise<void> {
       inquiry_type: input.inquiryType ?? null,
       budget:       input.budget ?? null,
       amount_cents: input.amountCents ?? null,
-      metadata:     input.metadata ?? {},
+      metadata,
     });
     if (error) {
       console.error('[captureLead] persist error:', error.message);

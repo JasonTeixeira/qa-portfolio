@@ -285,7 +285,7 @@ function BrandingTab({ initial }: { initial: StudioSettings }) {
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 rounded-lg border border-[#27272a] bg-[#131316] flex items-center justify-center overflow-hidden">
             {logo ? (
-              // eslint-disable-next-line @next/next/no-img-element
+
               <img src={logo} alt="Logo" className="max-h-full max-w-full object-contain" />
             ) : (
               <span className="text-[10px] text-[#52525b]">No logo</span>

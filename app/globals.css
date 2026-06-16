@@ -1213,3 +1213,78 @@ a[class*="text-[#0ED3CF]"]:hover {
   font-size: 0.875rem;
   color: var(--sage-ink-faint);
 }
+
+/* Final Living Gradient override: intentionally last so older Engineered Luxury
+   declarations remain compatible but no longer define the marketing surface. */
+:root {
+  --sage-brand: #3D5AFE;
+  --sage-accent: #3D5AFE;
+  --sage-accent-readable: #8FA0FF;
+  --sage-brand-dim: #3047C8;
+  --sage-brand-bright: #6E83FF;
+  --sage-coral: #FF2D9B;
+  --sage-lime: #7C3AED;
+  --sage-magenta: #FF2D9B;
+  --sage-ink: #F2EFE9;
+  --sage-ink-muted: #8A8A94;
+  --sage-ink-subtle: #A8A8B2;
+  --sage-ink-faint: #5C5C66;
+  --sage-bg: #0B0B0E;
+  --sage-surface: #0B0B0E;
+  --sage-surface-1: #111115;
+  --sage-surface-2: #141418;
+  --sage-surface-3: #1A1A20;
+  --sage-surface-raised: #141418;
+  --sage-surface-overlay: #1A1A20;
+  --sage-border: #1E1E24;
+  --sage-border-strong: #2A2A33;
+  --sage-border-hover: #343440;
+  --background: #0B0B0E;
+  --foreground: #F2EFE9;
+  --card: #141418;
+  --card-foreground: #F2EFE9;
+  --popover: #141418;
+  --popover-foreground: #F2EFE9;
+  --primary: #3D5AFE;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1A1A20;
+  --secondary-foreground: #F2EFE9;
+  --muted: #1A1A20;
+  --muted-foreground: #8A8A94;
+  --accent: #1A1A20;
+  --accent-foreground: #F2EFE9;
+  --border: #1E1E24;
+  --input: #1E1E24;
+  --ring: #3D5AFE;
+  --chart-1: #3D5AFE;
+  --chart-2: #7C3AED;
+  --chart-3: #FF2D9B;
+  --chart-4: #8A8A94;
+  --chart-5: #F2EFE9;
+  --surface: #141418;
+  --surface-elevated: #1A1A20;
+  --text-secondary: #A8A8B2;
+  --text-muted: #8A8A94;
+  --sage-bloom-cyan: 0 0 16px rgba(61, 90, 254, 0.35), 0 0 36px rgba(61, 90, 254, 0.18);
+  --sage-bloom-cyan-strong: 0 0 24px rgba(61, 90, 254, 0.55), 0 0 64px rgba(61, 90, 254, 0.25);
+  --sage-bloom-soft: 0 0 24px rgba(61, 90, 254, 0.10);
+}
+
+body {
+  background: #0B0B0E;
+  color: #F2EFE9;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display), 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-variation-settings: normal;
+}
+
+*:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline-color: #3D5AFE;
+  box-shadow: 0 0 0 4px rgba(61, 90, 254, 0.16);
+}

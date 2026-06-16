@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 
 const STORAGE_KEY = 'sage-cookie-consent-v1'
+const CONSENT_EVENT = 'sage:cookie-consent'
 
 type Consent = 'accepted' | 'essential' | null
 
@@ -23,7 +24,7 @@ export function CookieBanner() {
         // localStorage unavailable — show banner on every load.
       }
       setHydrated(true)
-    }, 1500)
+    }, 5500)
     return () => window.clearTimeout(timer)
   }, [])
 
@@ -33,6 +34,7 @@ export function CookieBanner() {
     } catch {
       // Ignore — privacy-mode browsers may block storage.
     }
+    window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: { consent: value } }))
     setConsent(value)
   }
 
@@ -48,33 +50,35 @@ export function CookieBanner() {
         role="dialog"
         aria-live="polite"
         aria-label="Cookie consent"
-        className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-[40] pointer-events-none"
+        className="fixed bottom-3 left-3 right-3 z-[40] pointer-events-none sm:bottom-5 sm:left-auto sm:right-5 sm:max-w-[360px]"
       >
-        <div className="bg-[#12110F] border border-[#2A2826] rounded-2xl p-5 shadow-2xl shadow-black/40 backdrop-blur-md pointer-events-auto">
-          <h2 className="text-sm font-semibold text-[#FAFAFA] mb-1">We use a few cookies.</h2>
-          <p className="text-xs text-[#A8A29E] leading-relaxed">
+        <div className="border border-[var(--sage-border)] bg-[var(--sage-surface-1)]/92 p-4 shadow-2xl shadow-black/50 backdrop-blur-md pointer-events-auto">
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
+            Cookies
+          </h2>
+          <p className="text-[11px] leading-relaxed text-[var(--sage-ink-muted)]">
             Essential cookies keep the site working. Analytics cookies help us understand which
             content is useful. You can change your mind anytime in our{' '}
             <Link
               href="/legal/cookies"
-              className="text-[#0ED3CF] hover:text-[#33EBE8] underline underline-offset-2"
+              className="text-[var(--sage-brand)] hover:text-[#6E83FF] underline underline-offset-2"
             >
               Cookie Policy
             </Link>
             .
           </p>
-          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-2 mt-4">
+          <div className="mt-3 flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center">
             <Button
               variant="ghost"
               size="sm"
-              className="text-[#A8A29E] hover:text-[#FAFAFA] hover:bg-[#1A1917]"
+              className="h-8 rounded-[6px] text-xs text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]"
               onClick={() => persist('essential')}
             >
               Essential only
             </Button>
             <Button
               size="sm"
-              className="bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-medium"
+              className="h-8 rounded-[6px] bg-[var(--sage-brand)] text-xs font-medium text-white hover:bg-[#5670ff]"
               onClick={() => persist('accepted')}
             >
               Accept all

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Gauge, Calculator } from 'lucide-react'
-import { Section, Surface, Hairline, MonoLabel, CtaLink } from '@/components/el'
+import { Surface, Hairline, MonoLabel } from '@/components/el'
 import { LabGrid } from './lab-grid'
 import { labProducts } from '@/data/lab/products'
 import { NewsletterSignup } from '@/components/newsletter-signup'

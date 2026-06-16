@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { Section, Surface, Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
 import { changelog, type ChangelogEntry } from '@/lib/changelogData'
 

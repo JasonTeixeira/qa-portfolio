@@ -13,6 +13,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { rateLimit } from '@/lib/rate-limit';
 import { captureLead } from '@/lib/leads/capture';
+import { readAttributionFromRequest } from '@/lib/analytics/server-attribution';
+import { mergeAttributionMetadata } from '@/lib/analytics/attribution';
 import { assertPublicUrl } from '@/lib/seo-audit/ssrf';
 import { analyzeHtml, scoreReport } from '@/lib/seo-audit/analyzer';
 import { fetchPsi } from '@/lib/seo-audit/psi';
@@ -165,7 +167,7 @@ export async function POST(req: NextRequest) {
     email,
     name: null,
     detail: `SEO audit of ${url} — score ${score}`,
-    metadata: { url, score },
+    metadata: mergeAttributionMetadata({ url, score }, readAttributionFromRequest(req)),
   });
 
   return NextResponse.json({ score, report });

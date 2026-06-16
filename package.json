@@ -16,6 +16,7 @@
     "test:rls": "node tests/rls/run.mjs && node tests/rls/signed-in.mjs && node tests/rls/audit-log.mjs && node tests/rls/uploads.mjs",
     "test:unit": "tsx tests/unit/run.mjs",
     "typecheck": "tsc --noEmit",
+    "verify:google": "node scripts/seo/verify-google.mjs",
     "test:lh": "npm run build && lhci autorun",
     "test:all": "npm run test:links && npm run test:ui && npm run test:lh",
     "validate": "node scripts/validate-content.mjs",

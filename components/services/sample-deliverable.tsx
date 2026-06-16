@@ -114,7 +114,7 @@ export function SampleDeliverable({ tabs = DEFAULT_TABS }: { tabs?: SampleTab[] 
           {/* Preview thumbnail */}
           <div className="aspect-[3/4] rounded-lg border border-[#2A2826] bg-[#1A1917] overflow-hidden flex items-center justify-center">
             {tab.preview ? (
-              // eslint-disable-next-line @next/next/no-img-element
+
               <img
                 src={tab.preview}
                 alt={`${tab.label} preview`}

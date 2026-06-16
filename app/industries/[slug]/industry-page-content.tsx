@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Check, AlertTriangle, Briefcase, Tag } from 'lucide-react'
+import { Check, AlertTriangle, Briefcase, Tag } from 'lucide-react'
 import type { Vertical } from '@/data/industries/verticals'
 import { tiersBySlug } from '@/data/services/tiers'
 import { caseStudies } from '@/data/work/case-studies'

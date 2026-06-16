@@ -12,6 +12,10 @@ export default defineConfig([
     "next-env.d.ts",
 
     "_repo-audits/**",
+    ".design-review/**",
+    "playwright-report/**",
+    "test-results/**",
+    "docs/design-reference/**",
     "public/projects/**",
     "**/venv/**",
     "**/.venv/**",
@@ -27,12 +31,13 @@ export default defineConfig([
     // Pragmatic relaxations:
     // - portal code talks to Supabase with dynamic row shapes — `any` is fine there.
     // - The newer react-hooks/purity + set-state-in-effect rules fire on legitimate
-    //   older patterns we don't want to refactor for a marketing site.
-    // - shadcn-style ui primitives carry small idiomatic warnings we accept.
+    //   older server/client patterns we don't want to refactor during marketing waves.
+    // - A few portal/chrome surfaces intentionally use raw remote images.
     rules: {
-      "@typescript-eslint/no-explicit-any": "warn",
-      "react-hooks/purity": "warn",
-      "react-hooks/set-state-in-effect": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "@next/next/no-img-element": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },

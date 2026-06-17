@@ -11,7 +11,7 @@ export function AuthorByline() {
           alt="Jason Teixeira"
           width={56}
           height={56}
-          className="rounded-full border border-[var(--sage-border-strong)] shrink-0"
+          className="h-14 w-14 rounded-full border border-[var(--sage-border-strong)] shrink-0"
         />
         <div className="flex-1 min-w-0">
           <MonoLabel tone="faint" as="div" className="mb-1.5">Written by</MonoLabel>

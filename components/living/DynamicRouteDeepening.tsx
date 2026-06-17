@@ -134,7 +134,7 @@ export function DynamicRouteDeepening({
               {eyebrow}
             </p>
             <h2
-              className="max-w-[12ch] text-[clamp(2.7rem,1.25rem+5.8vw,6.7rem)] font-extrabold text-[var(--sage-ink)]"
+              className="max-w-[12ch] text-[clamp(2.7rem,_1.25rem_+_5.8vw,_6.7rem)] font-extrabold text-[var(--sage-ink)]"
               style={{
                 fontFamily: 'var(--font-display)',
                 letterSpacing: '-0.03em',

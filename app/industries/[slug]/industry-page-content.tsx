@@ -5,17 +5,14 @@ import { Check, AlertTriangle, Briefcase, Tag } from 'lucide-react'
 import type { Vertical } from '@/data/industries/verticals'
 import { tiersBySlug } from '@/data/services/tiers'
 import { caseStudies } from '@/data/work/case-studies'
-import { Section, Surface, Hairline, MonoLabel, CtaLink, Reveal } from '@/components/el'
-import { EASE_OUT_QUINT } from '@/lib/motion/presets'
-import { motion } from 'framer-motion'
+import { Section, Surface, MonoLabel, CtaLink, Reveal } from '@/components/el'
 import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
-
-const HEADING_STYLE: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
-  letterSpacing: '-0.024em',
-  lineHeight: 1.02,
-}
+import {
+  LivingDiagram,
+  LivingHero,
+  LivingPageShell,
+  LivingCTA,
+} from '@/components/living/LivingPageSystem'
 
 const STACK_PHRASE: Record<string, string> = {
   fintech: 'fintech',
@@ -38,60 +35,49 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const stackPhrase = STACK_PHRASE[v.slug] ?? v.shortName
 
   return (
-    <div className="min-h-screen bg-[var(--sage-bg)]">
-      {/* Hero */}
-      <section
-        aria-label={`${v.name} industry`}
-        className="relative pt-28 pb-16 sm:pt-32 lg:pt-36 border-b border-[var(--sage-border)]"
-      >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-            className="max-w-3xl"
-          >
-            {/* Breadcrumb */}
-            <div className="mb-6 flex items-center gap-2">
-              <Link
-                href="/industries"
-                className="text-[11px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
-              >
-                Industries
-              </Link>
-              <span className="text-[var(--sage-ink-faint)]">·</span>
-              <MonoLabel tone="accent">{v.shortName}</MonoLabel>
-            </div>
-
-            <div className="mb-7 flex items-center gap-4">
-              <MonoLabel tone="accent">01</MonoLabel>
-              <Hairline className="flex-1" />
-              <MonoLabel tone="muted">{'// industry'}</MonoLabel>
-              <Hairline className="flex-1" strong />
-            </div>
-
-            <h1
-              className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-              style={HEADING_STYLE}
-            >
-              {v.heroH1}
-            </h1>
-            <p className="mt-3 text-base text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.08em]">{v.tagline}</p>
-            <p className="mt-5 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-              {v.intro}
-            </p>
-
-            <div className="mt-9 flex flex-wrap gap-3">
-              <CtaLink href={`/book?industry=${v.slug}`} variant="solid" event={`cta_industry_${v.slug}_hero`}>
-                Book a Discovery Call
-              </CtaLink>
-              <CtaLink href="/services" variant="ghost" arrow={false}>
-                Browse all services
-              </CtaLink>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+    <LivingPageShell>
+      <LivingHero
+        eyebrow={`Industries / ${v.shortName}`}
+        title={v.heroH1}
+        lede={
+          <>
+            <span className="block font-mono text-sm uppercase tracking-[0.08em] text-[var(--sage-accent-readable)]">
+              {v.tagline}
+            </span>
+            <span className="mt-4 block">{v.intro}</span>
+          </>
+        }
+        panel={
+          <LivingDiagram
+            eyebrow="industry graph"
+            title={v.name}
+            nodes={[
+              v.shortName,
+              tiers[0]?.shortName ?? 'Audit',
+              primaryStudy?.title ?? 'Proof',
+              'Discovery',
+            ]}
+            stats={[
+              { label: 'challenges', value: String(v.challenges.length).padStart(2, '0') },
+              { label: 'services', value: String(tiers.length).padStart(2, '0') },
+              { label: 'proof', value: String(studies.length).padStart(2, '0') },
+            ]}
+          />
+        }
+        proof={[
+          { label: 'vertical', value: v.shortName },
+          { label: 'first route', value: tiers[0]?.shortName ?? 'Audit' },
+          { label: 'proof links', value: String(studies.length) },
+          { label: 'motion', value: 'build' },
+        ]}
+        actions={
+          <>
+            <LivingCTA href={`/book?industry=${v.slug}`}>Book a discovery call</LivingCTA>
+            <LivingCTA href="/services" variant="secondary">Browse all services</LivingCTA>
+            <LivingCTA href="/industries" variant="text">Industries index</LivingCTA>
+          </>
+        }
+      />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-24 space-y-0">
         {/* Why us */}
@@ -370,6 +356,6 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
           }
         />
       </div>
-    </div>
+    </LivingPageShell>
   )
 }

@@ -18,7 +18,7 @@ Scoring:
 | `/work` | 94 | Done | Living hero, proof strip, Surface/System panel. | Complete |
 | `/work/[slug]` | 92 | Done | Case study pages have Living System panels and architecture sections. | Complete |
 | `/services` | 92 | Done | Living hero, conversion map, service catalog. | Complete |
-| `/services/[slug]` | 88 | Needs polish | Deepening layer added; upper service template still uses older EL styling. | Batch 2 |
+| `/services/[slug]` | 91 | Done | Dynamic standard and flagship service heroes now use Living shell, hero, diagram, proof strip, and preserved checkout/contact paths. | Complete |
 | `/pricing` | 92 | Done | Living hero, proof strip, conversion map, checkout paths. | Complete |
 | `/academy` | 92 | Done | Living hero and academy funnel. | Complete |
 | `/academy/[track]` | 90 | Done | Track pages aligned. | Complete |
@@ -31,11 +31,11 @@ Scoring:
 | `/capabilities` | 90 | Done | Living capability matrix. | Complete |
 | `/process` | 89 | Done | Living proof/system layer. | Complete |
 | `/compare` | 88 | Done | Converted this pass to Living decision graph. | Complete |
-| `/compare/[slug]` | 87 | Needs polish | Deepening layer added; table section still older EL. | Batch 2 |
+| `/compare/[slug]` | 90 | Done | Dynamic comparison heroes now use Living decision graph and proof strip while preserving the honest tradeoff table. | Complete |
 | `/industries` | 90 | Done | Converted to canonical Living shell, hero, diagram, proof strip, and conversion map. | Complete |
-| `/industries/[slug]` | 86 | Needs polish | Deepening layer added; upper sections still older EL. | Batch 2 |
+| `/industries/[slug]` | 90 | Done | Dynamic industry heroes now use Living shell, industry graph, proof strip, and conversion actions. | Complete |
 | `/lab` | 89 | Done | Converted this pass to Living product proof system. | Complete |
-| `/lab/[slug]` | 86 | Needs polish | Deepening layer + screenshots added; upper tearsheet still older EL. | Batch 2 |
+| `/lab/[slug]` | 90 | Done | Dynamic lab tearsheets now use Living product graph, proof strip, and product/site actions. | Complete |
 
 ## Content / SEO Machine
 
@@ -108,8 +108,9 @@ These routes are older SEO/service pages and should either redirect into canonic
    - Remaining cleanup: decide whether old content-only helpers in `app/services/services-content.tsx` should be archived.
 
 2. **Batch 2: dynamic page upper sections**
-   - Bring `/services/[slug]`, `/industries/[slug]`, `/lab/[slug]`, `/compare/[slug]` upper sections fully into Living typography/palette.
-   - Keep data-driven deepening layer.
+   - Completed `/services/[slug]` standard and flagship heroes.
+   - Completed `/industries/[slug]`, `/lab/[slug]`, and `/compare/[slug]` upper sections.
+   - Kept data-driven deepening layer and existing conversion paths.
 
 3. **Batch 3: editorial/content system polish**
    - Living cluster diagrams on `/topics` and `/topics/[hub]`.
@@ -133,4 +134,4 @@ Immediate fix completed:
 - `/industries` and six legacy service aliases converted to the Living system.
 
 Next page to clean:
-- Dynamic upper sections: `/services/[slug]`, `/industries/[slug]`, `/lab/[slug]`, `/compare/[slug]`.
+- Editorial/content system polish: `/blog`, `/blog/[slug]`, `/topics`, `/topics/[hub]`, `/pov`.

@@ -25,6 +25,7 @@ type LivingHeroProps = {
   proof?: Stat[]
   primaryCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
+  actions?: ReactNode
 }
 
 type LivingSectionProps = {
@@ -90,6 +91,7 @@ export function LivingHero({
   proof,
   primaryCta,
   secondaryCta,
+  actions,
 }: LivingHeroProps) {
   return (
     <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
@@ -112,7 +114,9 @@ export function LivingHero({
             <p className="mt-8 max-w-[62ch] text-lg leading-[1.6] text-[var(--sage-ink-muted)] sm:text-xl">
               {lede}
             </p>
-            {primaryCta || secondaryCta ? (
+            {actions ? (
+              <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
+            ) : primaryCta || secondaryCta ? (
               <div className="mt-8 flex flex-wrap gap-3">
                 {primaryCta ? <LivingCTA href={primaryCta.href}>{primaryCta.label}</LivingCTA> : null}
                 {secondaryCta ? (

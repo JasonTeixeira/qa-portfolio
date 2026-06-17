@@ -20,10 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogSubtitle = encodeURIComponent(product.tagline)
 
   return {
-    title: `${product.name} — The Lab | Sage Ideas`,
+    title: `${product.name} — The Lab`,
     description: product.description,
     openGraph: {
-      title: `${product.name} — The Lab | Sage Ideas`,
+      title: `${product.name} — The Lab`,
       description: product.description,
       images: [`/og?title=${ogTitle}&subtitle=${ogSubtitle}`],
     },

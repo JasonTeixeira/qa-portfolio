@@ -1,27 +1,29 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
 import {
   Section,
   Surface,
   MonoLabel,
-  Hairline,
   Reveal,
   CtaLink,
 } from '@/components/el'
-import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import { CheckoutButton } from '@/components/studio/checkout-button'
 import type { Tier } from '@/data/services/tiers'
 import type { ExtendedTier } from '@/data/services/extended'
 import { isSelfServe } from '@/data/services/tier-classification'
 import { FaqAccordion } from './FaqAccordion'
+import {
+  LivingDiagram,
+  LivingHero,
+  LivingPageShell,
+  LivingCTA,
+} from '@/components/living/LivingPageSystem'
 
 const CADENCE_NOTE: Record<Tier['cadence'], string> = {
-  'one-time': 'One-time · fixed scope',
-  monthly: 'Monthly retainer · cancel anytime',
-  custom: 'Custom — scoped after discovery',
+  'one-time': 'One-time / fixed scope',
+  monthly: 'Monthly retainer / cancel anytime',
+  custom: 'Custom / scoped after discovery',
 }
 
 export interface ServiceDetailProps {
@@ -42,97 +44,63 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
   const showMonthlySuffix = tier.cadence === 'monthly' && !tier.price.includes('/mo')
 
   return (
-    <div className="overflow-hidden bg-[var(--sage-bg)]">
-      {/* ── Identity hero ──────────────────────────────────────────── */}
-      <section
-        aria-label={`${tier.name} overview`}
-        className="sage-grain relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24"
-      >
-        <div aria-hidden className="sage-depth pointer-events-none absolute inset-0" />
-        <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-          >
-            {/* Breadcrumb */}
-            <div className="mb-7 flex items-center gap-3 [font-family:var(--font-mono),ui-monospace,monospace]">
-              <Link
-                href="/services"
-                className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF]"
-              >
-                services
-              </Link>
-              <span aria-hidden className="text-[var(--sage-ink-faint)]">/</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)]">
-                {tier.capability}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <MonoLabel tone="accent">{`// ${tier.mode}`}</MonoLabel>
-              <Hairline className="hidden flex-1 sm:block" strong />
-            </div>
-
-            <h1
-              className="mt-6 max-w-3xl text-[var(--sage-ink)] font-normal text-[clamp(2.25rem,1.3rem+3.6vw,4rem)]"
-              style={{
-                fontFamily: 'var(--font-display)',
-                letterSpacing: '-0.024em',
-                lineHeight: 1.02,
-              }}
-            >
-              {tier.name}
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg italic text-[#0ED3CF] [font-family:var(--font-display)]">
+    <LivingPageShell>
+      <LivingHero
+        eyebrow={`Services / ${tier.mode} / ${tier.capability}`}
+        title={tier.name}
+        lede={
+          <>
+            <span className="block font-semibold text-[var(--sage-accent-readable)]">
               {tier.tagline}
-            </p>
-            <p className="mt-5 max-w-[60ch] text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-              {tier.description}
-            </p>
+            </span>
+            <span className="mt-4 block">{tier.description}</span>
+          </>
+        }
+        panel={
+          <LivingDiagram
+            eyebrow="service graph"
+            title={tier.name}
+            nodes={[tier.shortName, tier.capability, tier.mode, tier.cadence]}
+            stats={[
+              { label: 'price', value: tier.price },
+              { label: 'timeline', value: tier.timeline },
+              { label: 'cadence', value: tier.cadence },
+            ]}
+          />
+        }
+        proof={[
+          { label: 'price', value: tier.price },
+          { label: 'timeline', value: tier.timeline },
+          { label: 'cadence', value: showMonthlySuffix ? `${tier.cadence}/mo` : tier.cadence },
+          { label: 'scope', value: CADENCE_NOTE[tier.cadence] },
+        ]}
+        actions={
+          <>
+            <CheckoutButton tier={tier} variant="primary" />
+            <LivingCTA href={`/contact?engagement=${tier.slug}`} variant="secondary">
+              {selfServe ? 'questions first?' : 'scope a call'}
+            </LivingCTA>
+            <LivingCTA href="/services" variant="text">
+              services index
+            </LivingCTA>
+          </>
+        }
+      />
 
-            {/* Price + meta strip */}
-            <div className="mt-9 flex flex-wrap items-end gap-x-8 gap-y-4">
-              <div className="flex items-baseline gap-2">
-                <span
-                  className="text-[clamp(2.5rem,1.5rem+2.5vw,3.5rem)] leading-none tabular-nums text-[var(--sage-ink)]"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  {tier.price}
-                </span>
-                {showMonthlySuffix && (
-                  <span className="text-base text-[var(--sage-ink-faint)]">/mo</span>
-                )}
-              </div>
-              <div className="flex flex-col gap-1.5 pb-1">
-                <MonoLabel tone="muted">{tier.timeline}</MonoLabel>
-                <MonoLabel tone="faint">{CADENCE_NOTE[tier.cadence]}</MonoLabel>
-              </div>
-            </div>
-
-            {stack && stack.length > 0 && (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {stack.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-2.5 py-1 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Primary CTA */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <CheckoutButton tier={tier} variant="primary" />
-              <CtaLink variant="ghost" href={`/contact?engagement=${tier.slug}`}>
-                {selfServe ? 'questions first?' : 'scope a call'}
-              </CtaLink>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {stack && stack.length > 0 && (
+        <section className="border-b border-[var(--sage-border)] px-5 py-6 sm:px-8 lg:px-12">
+          <div className="mx-auto flex max-w-7xl flex-wrap gap-2">
+            {stack.map((chip) => (
+              <span
+                key={chip}
+                className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-2.5 py-1 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]"
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── Outcomes ───────────────────────────────────────────────── */}
       <Section
@@ -282,7 +250,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
           <dl className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-3 [font-family:var(--font-mono),ui-monospace,monospace]">
             {tier.resultMetrics.map((m) => (
               <div key={m.label} className="flex flex-col gap-2 bg-[var(--sage-surface-1)] px-6 py-7">
-                <dt className="text-[clamp(1.75rem,1rem+2vw,2.5rem)] leading-none tabular-nums text-[var(--sage-ink)]">
+                <dt className="text-[clamp(1.75rem,_1rem_+_2vw,_2.5rem)] leading-none tabular-nums text-[var(--sage-ink)]">
                   {m.value}
                 </dt>
                 <dd className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)]">
@@ -337,6 +305,6 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
           </CtaLink>
         </Reveal>
       </Section>
-    </div>
+    </LivingPageShell>
   )
 }

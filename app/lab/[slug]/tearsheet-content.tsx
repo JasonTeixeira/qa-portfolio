@@ -1,19 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Github, ExternalLink, Briefcase } from 'lucide-react'
+import { ArrowRight, Github, ExternalLink, Briefcase } from 'lucide-react'
 import { Surface, Hairline, MonoLabel, CtaLink, StatDisplay, Reveal } from '@/components/el'
 import { type LabProduct } from '@/data/lab/products'
-import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
-
-const HEADING_STYLE: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
-  letterSpacing: '-0.024em',
-  lineHeight: 1.02,
-}
+import {
+  LivingDiagram,
+  LivingHero,
+  LivingPageShell,
+  LivingCTA,
+} from '@/components/living/LivingPageSystem'
 
 const statusStyles: Record<string, string> = {
   Production: 'text-[#A8C633] bg-[#A8C633]/10 border-[#A8C633]/30',
@@ -42,26 +39,72 @@ interface Props {
 
 export function TearsheetContent({ product }: Props) {
   return (
-    <div className="min-h-screen bg-[var(--sage-bg)]">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-24">
-        {/* Back */}
-        <div className="mb-10">
-          <Link
-            href="/lab"
-            className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink-muted)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
-          >
-            <ArrowLeft className="w-3 h-3" aria-hidden /> The Lab
-          </Link>
-        </div>
+    <LivingPageShell>
+      <LivingHero
+        eyebrow={`The Lab / ${product.category}`}
+        title={product.name}
+        lede={
+          <>
+            <span className="block font-semibold text-[var(--sage-accent-readable)]">
+              {product.tagline}
+            </span>
+            <span className="mt-4 block">{product.description}</span>
+          </>
+        }
+        panel={
+          <LivingDiagram
+            eyebrow="product graph"
+            title={product.name}
+            nodes={[
+              product.name,
+              product.stack[0] ?? 'App',
+              product.stack[1] ?? 'Data',
+              product.status,
+            ]}
+            stats={[
+              { label: 'status', value: product.status },
+              { label: 'stack', value: String(product.stack.length).padStart(2, '0') },
+              { label: 'metrics', value: String(product.metrics.length).padStart(2, '0') },
+            ]}
+          />
+        }
+        proof={[
+          { label: 'status', value: product.status },
+          { label: 'category', value: product.category.split(' ')[0] ?? product.category },
+          { label: 'stack', value: String(product.stack.length) },
+          { label: 'metrics', value: String(product.metrics.length) },
+        ]}
+        actions={
+          <>
+            <LivingCTA href="/contact?type=project&source=lab">Start a similar build</LivingCTA>
+            <LivingCTA href="/lab" variant="secondary">Back to Lab</LivingCTA>
+            {product.links?.site ? (
+              <a
+                href={product.links.site}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.58)] px-5 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)]"
+              >
+                Live site <ExternalLink className="h-4 w-4" aria-hidden />
+              </a>
+            ) : null}
+            {product.links?.github ? (
+              <a
+                href={product.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.58)] px-5 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)]"
+              >
+                GitHub <Github className="h-4 w-4" aria-hidden />
+              </a>
+            ) : null}
+          </>
+        }
+      />
 
-        {/* Hero */}
-        <motion.section
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-          className="mb-16 border-b border-[var(--sage-border)] pb-16"
-        >
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+        <section className="mb-16 border-b border-[var(--sage-border)] pb-8">
+          <div className="flex flex-wrap items-center gap-3">
             <span
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.18em] border ${
                 statusStyles[product.status] ?? statusStyles['Pre-launch']
@@ -72,48 +115,7 @@ export function TearsheetContent({ product }: Props) {
             </span>
             <MonoLabel tone="faint">{product.category}</MonoLabel>
           </div>
-
-          <div className="mb-7 flex items-center gap-4">
-            <Hairline className="flex-1" />
-            <MonoLabel tone="muted">{'// tearsheet'}</MonoLabel>
-            <Hairline className="flex-1" strong />
-          </div>
-
-          <h1
-            className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-            style={HEADING_STYLE}
-          >
-            {product.name}
-          </h1>
-          <p className="mt-4 text-base text-[var(--sage-ink-muted)] max-w-2xl">{product.tagline}</p>
-          <p className="mt-4 text-sm text-[var(--sage-ink-faint)] max-w-2xl leading-relaxed">{product.description}</p>
-
-          {/* Links */}
-          {product.links && (
-            <div className="mt-6 flex flex-wrap gap-3">
-              {product.links.github && (
-                <a
-                  href={product.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 h-10 px-4 rounded-[3px] border border-[var(--sage-border-strong)] text-[var(--sage-ink-muted)] text-[13px] uppercase tracking-[0.08em] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)] transition-all duration-200 [font-family:var(--font-mono),ui-monospace,monospace]"
-                >
-                  <Github className="w-4 h-4" aria-hidden /> GitHub
-                </a>
-              )}
-              {product.links.site && (
-                <a
-                  href={product.links.site}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 h-10 px-4 rounded-[3px] border border-[var(--sage-border-strong)] text-[var(--sage-ink-muted)] text-[13px] uppercase tracking-[0.08em] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)] transition-all duration-200 [font-family:var(--font-mono),ui-monospace,monospace]"
-                >
-                  <ExternalLink className="w-4 h-4" aria-hidden /> Live site
-                </a>
-              )}
-            </div>
-          )}
-        </motion.section>
+        </section>
 
         {/* Metrics grid */}
         {product.metrics && product.metrics.length > 0 && (
@@ -300,6 +302,6 @@ export function TearsheetContent({ product }: Props) {
           </section>
         </Reveal>
       </div>
-    </div>
+    </LivingPageShell>
   )
 }

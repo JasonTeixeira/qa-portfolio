@@ -20,7 +20,7 @@ export async function generateMetadata({
   const v = verticalsBySlug[slug]
   if (!v) return { title: 'Not Found' }
 
-  const title = `${v.name} — Sage Ideas`
+  const title = v.name
   const description = v.intro.length > 160 ? v.intro.slice(0, 157) + '…' : v.intro
   const ogTitle = encodeURIComponent(v.name)
   const ogSubtitle = encodeURIComponent(v.tagline)

@@ -1,8 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { FileText, KeyRound, FlaskConical, Wallet, UserCheck } from 'lucide-react'
 import {
   Section,
@@ -16,7 +14,6 @@ import {
 } from '@/components/el'
 import { FaqAccordion } from '@/components/el/services/FaqAccordion'
 import { CheckoutButton } from '@/components/studio/checkout-button'
-import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 import type { ExtendedTier } from '@/data/services/extended'
 import { flagshipVisuals } from '@/data/services/flagship-visuals'
 import { AgentArchitectureDiagram } from '@/components/agents/agent-architecture-diagram'
@@ -27,6 +24,12 @@ import { FlagshipCompare } from '@/components/agents/flagship-compare'
 import { AgentFlowDiagrams } from '@/components/diagrams'
 import { RiskReversal } from '@/components/services/risk-reversal'
 import { SampleDeliverable } from '@/components/services/sample-deliverable'
+import {
+  LivingDiagram,
+  LivingHero,
+  LivingPageShell,
+  LivingCTA,
+} from '@/components/living/LivingPageSystem'
 
 // ── Trust signals ──────────────────────────────────────────────────────────
 
@@ -56,9 +59,9 @@ const TRUST_SIGNALS = [
 // ── Cadence + mode labels ──────────────────────────────────────────────────
 
 const CADENCE_NOTE: Record<string, string> = {
-  'one-time': 'One-time · fixed scope',
-  monthly: 'Monthly retainer · cancel anytime',
-  custom: 'Custom — scoped after discovery',
+  'one-time': 'One-time / fixed scope',
+  monthly: 'Monthly retainer / cancel anytime',
+  custom: 'Custom / scoped after discovery',
 }
 
 const MODE_NOTE: Record<string, string> = {
@@ -77,130 +80,61 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
   const showMonthlySuffix = tier.cadence === 'monthly' && !tier.price.includes('/mo')
 
   return (
-    <div className="overflow-hidden bg-[var(--sage-bg)]">
-
-      {/* ── Identity hero ─────────────────────────────────────────────── */}
-      <section
-        aria-label={`${tier.name} overview`}
-        className="sage-grain relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-28"
-      >
-        {/* Layered depth atmospheres — no flat slab */}
-        <div aria-hidden className="sage-depth pointer-events-none absolute inset-0" />
-        {/* Ruled grid overlay — instrument-panel atmosphere */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              'linear-gradient(var(--sage-border) 1px, transparent 1px), linear-gradient(90deg, var(--sage-border) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
-          }}
-        />
-
-        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE_OUT_QUINT }}
-          >
-            {/* Breadcrumb */}
-            <div className="mb-7 flex items-center gap-3 [font-family:var(--font-mono),ui-monospace,monospace]">
-              <Link
-                href="/services"
-                className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF]"
-              >
-                services
-              </Link>
-              <span aria-hidden className="text-[var(--sage-ink-faint)]">/</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)]">
-                {tier.capability}
-              </span>
-            </div>
-
-            {/* Flagship badge row */}
-            <div className="mb-6 flex items-center gap-4">
-              <MonoLabel
-                tone="accent"
-                className="rounded-[3px] border border-[#0ED3CF]/25 bg-[#0ED3CF]/[0.07] px-2.5 py-1"
-              >
-                {'// flagship'}
-              </MonoLabel>
-              <MonoLabel tone="faint">{MODE_NOTE[tier.mode] ?? tier.mode}</MonoLabel>
-              <Hairline className="hidden flex-1 sm:block" strong />
-              <MonoLabel tone="faint" className="hidden sm:inline">
-                01
-              </MonoLabel>
-            </div>
-
-            {/* Heading */}
-            <h1
-              className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(2.5rem,1.4rem+4.2vw,5rem)]"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
-                letterSpacing: '-0.026em',
-                lineHeight: 1.0,
-              }}
-            >
-              {tier.name}
-            </h1>
-
-            {/* Tagline — Fraunces italic teal */}
-            <p
-              className="mt-4 max-w-3xl text-xl italic text-[#0ED3CF]"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+    <LivingPageShell>
+      <LivingHero
+        eyebrow={`Services / flagship / ${MODE_NOTE[tier.mode] ?? tier.mode}`}
+        title={tier.name}
+        lede={
+          <>
+            <span className="block font-semibold text-[var(--sage-accent-readable)]">
               {tier.tagline}
-            </p>
-
-            {/* Description */}
-            <p className="mt-5 max-w-[64ch] text-[15px] leading-[1.8] text-[var(--sage-ink-muted)] sm:text-base">
-              {tier.description}
-            </p>
-
-            {/* Price + meta strip */}
-            <div className="mt-10 flex flex-wrap items-end gap-x-10 gap-y-4">
-              <div className="flex items-baseline gap-2">
-                <span
-                  className="text-[clamp(3rem,1.6rem+3.5vw,4.5rem)] leading-none tabular-nums text-[var(--sage-ink)]"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  {tier.price}
-                </span>
-                {showMonthlySuffix && (
-                  <span className="text-lg text-[var(--sage-ink-faint)]">/mo</span>
-                )}
-              </div>
-              <div className="flex flex-col gap-2 pb-1">
-                <MonoLabel tone="muted">{tier.timeline}</MonoLabel>
-                <MonoLabel tone="faint">{CADENCE_NOTE[tier.cadence] ?? tier.cadence}</MonoLabel>
-              </div>
-            </div>
-
-            {/* Stack chips */}
-            {stack.length > 0 && (
-              <div className="mt-7 flex flex-wrap gap-2">
-                {stack.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-2.5 py-1 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Primary CTA */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            </span>
+            <span className="mt-4 block">{tier.description}</span>
+          </>
+        }
+        panel={
+          <LivingDiagram
+            eyebrow="flagship graph"
+            title={tier.name}
+            nodes={[tier.shortName, 'Eval', 'Agent', 'Ops']}
+            stats={[
+              { label: 'price', value: tier.price },
+              { label: 'timeline', value: tier.timeline },
+              { label: 'mode', value: tier.mode },
+            ]}
+          />
+        }
+        proof={[
+          { label: 'price', value: tier.price },
+          { label: 'timeline', value: tier.timeline },
+          { label: 'cadence', value: showMonthlySuffix ? `${tier.cadence}/mo` : tier.cadence },
+          { label: 'scope', value: CADENCE_NOTE[tier.cadence] ?? tier.cadence },
+        ]}
+        actions={
+          <>
               <CheckoutButton tier={tier} variant="primary" />
-              <CtaLink variant="ghost" href={`/contact?engagement=${tier.slug}&mode=custom`}>
+              <LivingCTA href={`/contact?engagement=${tier.slug}&mode=custom`} variant="secondary">
                 Request custom scope
-              </CtaLink>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              </LivingCTA>
+              <LivingCTA href="/services" variant="text">services index</LivingCTA>
+          </>
+        }
+      />
+
+      {stack.length > 0 && (
+        <section className="border-b border-[var(--sage-border)] px-5 py-6 sm:px-8 lg:px-12">
+          <div className="mx-auto flex max-w-7xl flex-wrap gap-2">
+            {stack.map((chip) => (
+              <span
+                key={chip}
+                className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-2.5 py-1 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]"
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── Flagship comparison strip ──────────────────────────────────── */}
       <div className="border-t border-[var(--sage-border)]">
@@ -687,7 +621,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
             </div>
 
             <h2
-              className="text-[var(--sage-ink)] font-normal text-[clamp(2rem,1rem+3.5vw,3.5rem)]"
+              className="text-[var(--sage-ink)] font-normal text-[clamp(2rem,_1rem_+_3.5vw,_3.5rem)]"
               style={{
                 fontFamily: 'var(--font-display)',
                 fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
@@ -720,6 +654,6 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
         </div>
       </section>
 
-    </div>
+    </LivingPageShell>
   )
 }

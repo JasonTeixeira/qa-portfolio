@@ -5,6 +5,11 @@ import { ArrowLeft, Check, Minus, X } from 'lucide-react'
 import { comparisons } from '@/data/compare/comparisons'
 import { Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
 import { DynamicRouteDeepening } from '@/components/living/DynamicRouteDeepening'
+import {
+  LivingDiagram,
+  LivingHero,
+  LivingPageShell,
+} from '@/components/living/LivingPageSystem'
 
 const HEADING_STYLE: React.CSSProperties = {
   fontFamily: 'var(--font-display)',
@@ -27,10 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!c) return {}
   return {
     alternates: { canonical: `https://www.sageideas.dev/compare/${c.slug}` },
-    title: `Sage Ideas vs ${c.competitorShort} — honest comparison`,
+    title: `Vs ${c.competitorShort} — honest comparison`,
     description: c.tagline,
     openGraph: {
-      title: `Sage Ideas vs ${c.competitorShort} | Sage Ideas`,
+      title: `Sage Ideas vs ${c.competitorShort}`,
       description: c.tagline,
       images: [
         `/og?title=${encodeURIComponent(`vs ${c.competitorShort}.`)}&subtitle=${encodeURIComponent('Honest tradeoffs.')}`,
@@ -41,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function EdgeIcon({ edge, side }: { edge: 'sage' | 'competitor' | 'tie'; side: 'sage' | 'competitor' }) {
   if (edge === 'tie') return <Minus className="h-3.5 w-3.5 text-[var(--sage-ink-faint)]" aria-hidden />
-  if (edge === side) return <Check className="h-3.5 w-3.5 text-[#0ED3CF]" aria-hidden />
+  if (edge === side) return <Check className="h-3.5 w-3.5 text-[var(--sage-accent-readable)]" aria-hidden />
   return <X className="h-3.5 w-3.5 text-[var(--sage-ink-faint)]" aria-hidden />
 }
 
@@ -55,8 +60,45 @@ export default async function CompareDetailPage({ params }: Props) {
   const ties = c.rows.filter((r) => r.edge === 'tie').length
 
   return (
-    <div className="min-h-screen bg-[var(--sage-bg)]">
-      <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+    <LivingPageShell>
+      <LivingHero
+        eyebrow="Compare / honest tradeoffs"
+        title={
+          <>
+            Sage Ideas <span className="text-[var(--sage-ink-faint)]">vs</span> {c.competitorShort}.
+          </>
+        }
+        lede={
+          <>
+            <span className="block font-semibold text-[var(--sage-accent-readable)]">
+              {c.tagline}
+            </span>
+            <span className="mt-4 block">{c.intro}</span>
+          </>
+        }
+        panel={
+          <LivingDiagram
+            eyebrow="decision graph"
+            title={`Sage Ideas vs ${c.competitorShort}`}
+            nodes={['Sage', c.competitorShort, 'Tradeoffs', 'Fit']}
+            stats={[
+              { label: 'sage wins', value: String(sageWins).padStart(2, '0') },
+              { label: 'depends', value: String(ties).padStart(2, '0') },
+              { label: 'other wins', value: String(compWins).padStart(2, '0') },
+            ]}
+          />
+        }
+        proof={[
+          { label: 'sage wins', value: String(sageWins) },
+          { label: 'tied / depends', value: String(ties) },
+          { label: 'other wins', value: String(compWins) },
+          { label: 'next route', value: 'service' },
+        ]}
+        primaryCta={{ label: 'See the engagement', href: `/services/${c.ctaSlug}` }}
+        secondaryCta={{ label: 'All comparisons', href: '/compare' }}
+      />
+
+      <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16">
         {/* Back nav */}
         <Link
           href="/compare"
@@ -65,26 +107,6 @@ export default async function CompareDetailPage({ params }: Props) {
           <ArrowLeft className="h-3 w-3" aria-hidden />
           All comparisons
         </Link>
-
-        {/* Hero header */}
-        <header className="mb-12 border-t border-[var(--sage-border)] pt-8">
-          <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">01</MonoLabel>
-            <Hairline className="flex-1" />
-            <MonoLabel tone="muted">{'// comparison'}</MonoLabel>
-            <Hairline className="flex-1" strong />
-          </div>
-          <h1
-            className="text-[var(--sage-ink)] font-normal text-[clamp(2rem,1rem+3.5vw,4rem)]"
-            style={HEADING_STYLE}
-          >
-            Sage Ideas{' '}
-            <span className="text-[var(--sage-ink-faint)]">vs</span>{' '}
-            <em className="not-italic text-[#0ED3CF]">{c.competitorShort}.</em>
-          </h1>
-          <p className="mt-4 text-base text-[var(--sage-ink-muted)] leading-relaxed">{c.tagline}</p>
-          <p className="mt-3 text-sm text-[var(--sage-ink-faint)] leading-relaxed max-w-2xl">{c.intro}</p>
-        </header>
 
         {/* Tally strip */}
         <section aria-label="Comparison tally" className="mb-10">
@@ -236,6 +258,6 @@ export default async function CompareDetailPage({ params }: Props) {
           </div>
         </section>
       </div>
-    </div>
+    </LivingPageShell>
   )
 }

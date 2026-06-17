@@ -67,7 +67,7 @@ test.describe('Admin Acquisition OS', () => {
 
     await row.locator('[data-testid="acquisition-audit-button"]').click();
     await adminPage.waitForLoadState('networkidle');
-    await expect(row).toContainText('Weak conversion path', { timeout: 30_000 });
+    await expect(row).toContainText('Live SEO audit evidence stored', { timeout: 30_000 });
 
     await row.locator('[data-testid="acquisition-enrich-button"]').click();
     await adminPage.waitForLoadState('networkidle');

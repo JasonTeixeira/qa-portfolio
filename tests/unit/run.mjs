@@ -358,6 +358,30 @@ test('acquisition enrichment: extracts domains and recommends verification', asy
   assert.equal(nextFollowUpDate(3, new Date('2026-06-17T12:00:00Z')), '2026-06-20T14:00:00.000Z');
 });
 
+test('live SEO audit runner: fetches HTML and builds evidence', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalKey = process.env.PAGESPEED_API_KEY;
+  delete process.env.PAGESPEED_API_KEY;
+  globalThis.fetch = async () =>
+    new Response(
+      '<html lang="en"><head><title>Useful test page title</title><meta name="description" content="This is a useful test page description for the live SEO audit runner."><link rel="canonical" href="https://example.com/"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><h1>One heading</h1><img src="/x.png"></body></html>',
+      { status: 200, headers: { 'content-type': 'text/html' } },
+    );
+
+  try {
+    const { runLiveSeoAudit } = await import('../../lib/seo-audit/run.ts');
+    const audit = await runLiveSeoAudit('https://example.com/');
+    assert.equal(audit.target.href, 'https://example.com/');
+    assert.ok(audit.score > 50);
+    assert.equal(audit.evidence.httpStatus, 200);
+    assert.ok(audit.evidence.bytesRead > 100);
+    assert.ok(audit.evidence.failedChecks.some((check) => check.key === 'imageAlt'));
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey) process.env.PAGESPEED_API_KEY = originalKey;
+  }
+});
+
 // -------------------------------------------------------------- content / seo
 
 test('blog toc: injects stable ids for h2 and h3 headings', async () => {

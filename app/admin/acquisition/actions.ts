@@ -15,6 +15,8 @@ import {
 import { parseAcquisitionLeadList } from '@/lib/acquisition/import';
 import { buildOutreachDraft } from '@/lib/acquisition/outreach';
 import { scoreAcquisitionAccount } from '@/lib/acquisition/scoring';
+import { persistAuditReport } from '@/lib/seo-audit/reports';
+import { runLiveSeoAudit } from '@/lib/seo-audit/run';
 import type { AcquisitionSignalInput } from '@/lib/acquisition/types';
 
 const BUSINESS_MODELS = [
@@ -485,6 +487,102 @@ export async function generateWebsiteAudit(formData: FormData): Promise<void> {
   if (!account) return;
 
   const signals = (account.metadata?.signals ?? {}) as AcquisitionSignalInput;
+  if (account.website_url) {
+    let audit: Awaited<ReturnType<typeof runLiveSeoAudit>>;
+    try {
+      audit = await runLiveSeoAudit(account.website_url);
+    } catch {
+      await sb
+        .from('acquisition_accounts')
+        .update({
+          next_action: 'Live audit failed. Verify the website is public and reachable, then retry.',
+        })
+        .eq('id', account.id);
+      revalidatePath('/admin/acquisition');
+      return;
+    }
+
+    const persisted = await persistAuditReport({
+      url: audit.target.href,
+      score: audit.score,
+      report: audit.report,
+      metadata: {
+        source: 'acquisition_os',
+        accountId: account.id,
+        evidence: audit.evidence,
+      },
+    });
+    const failed = audit.evidence.failedChecks;
+    const passed = audit.evidence.passedChecks;
+    const issues = failed.length
+      ? failed.map((check) => ({
+          check: check.label,
+          detail: check.detail,
+          weight: check.weight,
+        }))
+      : [{ check: 'No critical on-page issues found', detail: 'The audited page passed the weighted checks.', weight: 0 }];
+    const opportunities = failed.length
+      ? failed.map((check) => ({
+          title: `Fix ${check.label.toLowerCase()}`,
+          detail: check.detail,
+        }))
+      : [{ title: 'Improve conversion proof', detail: 'Use the clean audit as a trust-building entry point.' }];
+
+    const { data: created, error } = await sb
+      .from('acquisition_website_audits')
+      .insert({
+        account_id: account.id,
+        url: audit.target.href,
+        overall_score: audit.score,
+        performance_score: audit.report.performance?.score ?? null,
+        seo_score: audit.score,
+        accessibility_score: passed.some((check) => check.key === 'langAttr') ? 90 : 55,
+        conversion_score: failed.some((check) => ['openGraph', 'metaDescription', 'singleH1'].includes(check.key)) ? 55 : 80,
+        brand_score: failed.some((check) => ['openGraph', 'twitter'].includes(check.key)) ? 60 : 82,
+        issues,
+        opportunities,
+        recommended_offer: 'seo_conversion_audit',
+        audit_source: 'seo_audit_tool',
+        raw_report: audit.report,
+        evidence: audit.evidence,
+        public_report_share_id: persisted?.shareId ?? null,
+      })
+      .select('id')
+      .maybeSingle();
+    if (error || !created) return;
+
+    const issueSummary = failed.length
+      ? failed.slice(0, 3).map((check) => check.label).join('; ')
+      : `Live audit score ${audit.score}/100`;
+
+    await sb
+      .from('acquisition_accounts')
+      .update({
+        stage: 'qualified',
+        recommended_offer: 'seo_conversion_audit',
+        pain_summary: issueSummary,
+        next_action: 'Live SEO audit evidence stored. Use the failed checks to draft specific outreach.',
+      })
+      .eq('id', account.id);
+
+    await logAudit({
+      actorId: user.id,
+      actorEmail: profile.email,
+      action: 'acquisition.audit.generate_live',
+      entityType: 'acquisition_website_audit',
+      entityId: created.id,
+      after: {
+        score: audit.score,
+        url: audit.target.href,
+        failedChecks: failed.length,
+        shareId: persisted?.shareId ?? null,
+      },
+    });
+
+    revalidatePath('/admin/acquisition');
+    return;
+  }
+
   const audit = buildWebsiteAuditDraft({ ...signals, websiteUrl: account.website_url });
   const { data: created, error } = await sb
     .from('acquisition_website_audits')

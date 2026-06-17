@@ -1,4 +1,5 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { buildInboundAcquisitionCandidate } from '@/lib/acquisition/inbound';
 import { Resend } from 'resend';
 import { scoreLead } from './scoring';
 
@@ -23,20 +24,108 @@ export type LeadInput = {
  * caller. Wire this into any lead-generating route (contact form, newsletter
  * signup, checkout, etc.) without worrying about degrading the happy path.
  */
-export async function captureLead(input: LeadInput): Promise<void> {
+async function incrementAcquisitionDailyMetrics(patch: Record<string, number>) {
+  const sb = supabaseAdmin();
+  const metricDate = new Date().toISOString().slice(0, 10);
+  const { data } = await sb
+    .from('acquisition_daily_metrics')
+    .select('*')
+    .eq('metric_date', metricDate)
+    .maybeSingle();
+
+  const next: Record<string, unknown> = { metric_date: metricDate, updated_at: new Date().toISOString() };
+  for (const [key, value] of Object.entries(patch)) {
+    next[key] = Number(data?.[key] ?? 0) + value;
+  }
+
+  await sb.from('acquisition_daily_metrics').upsert(next, { onConflict: 'metric_date' });
+}
+
+async function acquisitionAccountExists(args: {
+  leadId?: string | null;
+  websiteUrl?: string | null;
+  email?: string | null;
+  domain?: string | null;
+}) {
+  const sb = supabaseAdmin();
+
+  if (args.leadId) {
+    const { data } = await sb.from('acquisition_accounts').select('id').eq('lead_id', args.leadId).limit(1);
+    if (data?.length) return true;
+  }
+
+  if (args.websiteUrl) {
+    const { data } = await sb
+      .from('acquisition_accounts')
+      .select('id')
+      .eq('website_url', args.websiteUrl)
+      .limit(1);
+    if (data?.length) return true;
+  }
+
+  if (args.email) {
+    const { data } = await sb
+      .from('acquisition_contacts')
+      .select('account_id')
+      .eq('email', args.email.toLowerCase())
+      .limit(1);
+    if (data?.length) return true;
+  }
+
+  if (args.domain) {
+    const { data } = await sb
+      .from('acquisition_accounts')
+      .select('id')
+      .ilike('website_url', `%://${args.domain}%`)
+      .limit(1);
+    if (data?.length) return true;
+  }
+
+  return false;
+}
+
+async function mirrorLeadToAcquisition(input: LeadInput, leadId: string | null) {
+  const candidate = buildInboundAcquisitionCandidate({ ...input, leadId });
+  if (!candidate) return;
+  if (await acquisitionAccountExists({ leadId, ...candidate.lookup })) return;
+
+  const sb = supabaseAdmin();
+  const { data: account, error } = await sb
+    .from('acquisition_accounts')
+    .insert(candidate.account)
+    .select('id')
+    .maybeSingle();
+  if (error || !account) {
+    if (error) console.error('[captureLead] acquisition account mirror error:', error.message);
+    return;
+  }
+
+  if (candidate.contact.email || candidate.contact.full_name || candidate.contact.title) {
+    const { error: contactError } = await sb.from('acquisition_contacts').insert({
+      ...candidate.contact,
+      account_id: account.id,
+    });
+    if (contactError) console.error('[captureLead] acquisition contact mirror error:', contactError.message);
+  }
+
+  await incrementAcquisitionDailyMetrics(candidate.metrics);
+}
+
+export async function captureLead(input: LeadInput): Promise<string | null> {
   const scoring = scoreLead(input);
   const metadata = {
     ...(input.metadata ?? {}),
     lead_score: scoring.score,
     lead_score_reasons: scoring.reasons,
   };
+  let leadId: string | null = null;
 
   // Persist — supabaseAdmin() uses service-role key and bypasses RLS.
   // It throws if env vars are absent; that throw is caught here so the
   // caller's happy path is never affected.
   try {
     const sb = supabaseAdmin();
-    const { error } = await sb.from('leads').insert({
+    const { data, error } = await sb.from('leads').insert({
       source:       input.source,
       email:        input.email,
       name:         input.name,
@@ -45,9 +134,12 @@ export async function captureLead(input: LeadInput): Promise<void> {
       budget:       input.budget ?? null,
       amount_cents: input.amountCents ?? null,
       metadata,
-    });
+    }).select('id').maybeSingle();
     if (error) {
       console.error('[captureLead] persist error:', error.message);
+    } else {
+      leadId = data?.id ?? null;
+      await mirrorLeadToAcquisition({ ...input, metadata }, leadId);
     }
   } catch (e) {
     console.error('[captureLead] persist failed:', e);
@@ -79,4 +171,6 @@ export async function captureLead(input: LeadInput): Promise<void> {
   } catch (e) {
     console.error('[captureLead] notify failed:', e);
   }
+
+  return leadId;
 }

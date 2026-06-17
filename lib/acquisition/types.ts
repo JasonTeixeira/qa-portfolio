@@ -39,6 +39,8 @@ export type BusinessModel =
 export type AcquisitionSignalInput = {
   businessModel?: BusinessModel;
   websiteUrl?: string | null;
+  source?: 'manual' | 'bulk_import' | 'directory' | 'referral' | 'github' | 'linkedin' | 'job_board' | 'inbound' | 'seo_audit' | 'other';
+  industry?: string | null;
   hasBrokenWebsite?: boolean;
   hasOutdatedBrand?: boolean;
   hasWeakSeo?: boolean;
@@ -50,16 +52,29 @@ export type AcquisitionSignalInput = {
   contactConfidence?: number;
   estimatedBudget?: 'under_2k' | '2k_5k' | '5k_10k' | '10k_25k' | '25k_plus' | 'unknown';
   location?: string | null;
+  companySize?: string | null;
+  sourceConfidence?: number;
   notes?: string | null;
 };
 
 export type AcquisitionScore = {
+  modelVersion: 'v2';
   fitScore: number;
   urgencyScore: number;
   revenueScore: number;
   totalScore: number;
+  closeProbability: number;
+  confidence: number;
   priority: AcquisitionPriority;
   recommendedOffer: AcquisitionOffer;
   reasons: string[];
+  warnings: string[];
+  segments: {
+    market: number;
+    problem: number;
+    access: number;
+    timing: number;
+    value: number;
+  };
   nextAction: string;
 };

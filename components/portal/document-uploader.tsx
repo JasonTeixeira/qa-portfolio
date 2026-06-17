@@ -71,7 +71,21 @@ export function DocumentUploader({
     ? Math.min(100, (quota.bytesUsed / quota.quotaBytes) * 100)
     : 0;
 
-  async function refresh() {
+  function upsertLatestFile(row: UploadedFileRow) {
+    setFiles((prev) => [
+      row,
+      ...prev.filter(
+        (file) =>
+          file.id !== row.id &&
+          !(file.name === row.name && file.is_latest !== false),
+      ),
+    ]);
+  }
+
+  async function refresh(options?: {
+    preserveCurrentFilesOnEmpty?: boolean;
+    skipRouterRefresh?: boolean;
+  }) {
     const url = engagementId
       ? `/api/portal/files/list?engagement_id=${engagementId}`
       : '/api/portal/files/list';
@@ -79,9 +93,15 @@ export function DocumentUploader({
       const res = await fetch(url);
       if (!res.ok) return;
       const json = (await res.json()) as { files?: UploadedFileRow[]; quota?: Quota };
-      if (json.files) setFiles(json.files);
+      if (json.files) {
+        setFiles((current) =>
+          options?.preserveCurrentFilesOnEmpty && json.files?.length === 0 && current.length > 0
+            ? current
+            : (json.files ?? []),
+        );
+      }
       if (json.quota) setQuota(json.quota);
-      router.refresh();
+      if (!options?.skipRouterRefresh) router.refresh();
     } catch {
       // non-fatal
     }
@@ -117,12 +137,22 @@ export function DocumentUploader({
       };
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
+          let uploadedRow: UploadedFileRow | null = null;
+          try {
+            const json = JSON.parse(xhr.responseText) as { row?: UploadedFileRow };
+            uploadedRow = json.row ?? null;
+          } catch {
+            // Refresh below remains the fallback.
+          }
+          if (uploadedRow) {
+            upsertLatestFile(uploadedRow);
+          }
           setItems((prev) =>
             prev.map((p) =>
               p.id === item.id ? { ...p, progress: 100, status: 'done' } : p,
             ),
           );
-          void refresh();
+          void refresh({ preserveCurrentFilesOnEmpty: true, skipRouterRefresh: true });
         } else {
           let msg = 'Upload failed';
           try {
@@ -306,7 +336,12 @@ export function DocumentUploader({
         </div>
       ) : null}
 
-      <FilesList files={files} onChanged={refresh} testIdSuffix={suffix} />
+      <FilesList
+        files={files}
+        onChanged={refresh}
+        onFileChanged={upsertLatestFile}
+        testIdSuffix={suffix}
+      />
     </div>
   );
 }
@@ -314,10 +349,15 @@ export function DocumentUploader({
 function FilesList({
   files,
   onChanged,
+  onFileChanged,
   testIdSuffix,
 }: {
   files: UploadedFileRow[];
-  onChanged: () => void;
+  onChanged: (options?: {
+    preserveCurrentFilesOnEmpty?: boolean;
+    skipRouterRefresh?: boolean;
+  }) => void;
+  onFileChanged: (row: UploadedFileRow) => void;
   testIdSuffix: string;
 }) {
   if (files.length === 0) {
@@ -332,7 +372,13 @@ function FilesList({
   return (
     <div className="rounded-xl border border-[#27272a] bg-[#0f0f12] divide-y divide-[#1f1f23]">
       {files.map((f) => (
-        <FileRow key={f.id} file={f} onChanged={onChanged} testIdSuffix={testIdSuffix} />
+        <FileRow
+          key={f.id}
+          file={f}
+          onChanged={onChanged}
+          onFileChanged={onFileChanged}
+          testIdSuffix={testIdSuffix}
+        />
       ))}
     </div>
   );
@@ -341,10 +387,15 @@ function FilesList({
 function FileRow({
   file,
   onChanged,
+  onFileChanged,
   testIdSuffix,
 }: {
   file: UploadedFileRow;
-  onChanged: () => void;
+  onChanged: (options?: {
+    preserveCurrentFilesOnEmpty?: boolean;
+    skipRouterRefresh?: boolean;
+  }) => void;
+  onFileChanged: (row: UploadedFileRow) => void;
   testIdSuffix: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -383,13 +434,18 @@ function FileRow({
   async function restoreVersion(versionId: string) {
     setBusy(true);
     try {
-      await fetch(`/api/portal/files/${versionId}`, {
+      const res = await fetch(`/api/portal/files/${versionId}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ action: 'restore' }),
       });
+      if (res.ok) {
+        const json = (await res.json()) as { row?: UploadedFileRow };
+        if (json.row) onFileChanged(json.row);
+      }
+      setOpen(false);
       setVersions(null);
-      onChanged();
+      onChanged({ preserveCurrentFilesOnEmpty: true, skipRouterRefresh: true });
     } finally {
       setBusy(false);
     }

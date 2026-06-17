@@ -297,15 +297,6 @@ export async function restoreProjectFileVersion(input: {
 
   const rootId = (prior.parent_id as string | null) ?? (prior.id as string);
 
-  const { data: latestRow } = await supabase
-    .from('files')
-    .select('id, version')
-    .or(`id.eq.${rootId},parent_id.eq.${rootId}`)
-    .eq('is_latest', true)
-    .limit(1)
-    .maybeSingle();
-  const latestId = (latestRow?.id as string | undefined) ?? rootId;
-
   const { data: chain } = await supabase
     .from('files')
     .select('version')
@@ -326,10 +317,19 @@ export async function restoreProjectFileVersion(input: {
     .copy(prior.storage_path as string, newPath);
   if (copyErr) throw copyErr;
 
+  const { data: latestRows } = await supabase
+    .from('files')
+    .select('id')
+    .or(`id.eq.${rootId},parent_id.eq.${rootId}`)
+    .eq('is_latest', true);
+  const latestIds =
+    latestRows?.map((row) => row.id as string).filter((id): id is string => Boolean(id)) ?? [];
+
   const { error: flipErr } = await supabase
     .from('files')
     .update({ is_latest: false })
-    .eq('id', latestId);
+    .or(`id.eq.${rootId},parent_id.eq.${rootId}`)
+    .eq('is_latest', true);
   if (flipErr) throw flipErr;
 
   const { data: row, error: insErr } = await supabase
@@ -359,7 +359,9 @@ export async function restoreProjectFileVersion(input: {
       // best-effort cleanup
     }
     try {
-      await supabase.from('files').update({ is_latest: true }).eq('id', latestId);
+      if (latestIds.length > 0) {
+        await supabase.from('files').update({ is_latest: true }).in('id', latestIds);
+      }
     } catch {
       // best-effort revert
     }

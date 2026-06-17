@@ -18,6 +18,13 @@ test.describe('API routes', () => {
     expect([405, 400]).toContain(res.status());
   });
 
+  test('GET /api/cron/revenue-os/daily without bearer token → protected', async ({ request }) => {
+    const res = await request.get('/api/cron/revenue-os/daily');
+    expect([401, 503]).toContain(res.status());
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
   test('POST /api/welcome-email with bad body → 4xx (not 500)', async ({ request }) => {
     const res = await request.post('/api/welcome-email', {
       data: { invalid: 'payload' },

@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
     const email = sanitize(body.email, 200)
     const company = sanitize(body.company, 200)
     const role = sanitize(body.role, 120)
+    const website_url = sanitize(body.website_url ?? body.website ?? body.url, 500)
     const timeline = sanitize(body.timeline, 20)
     const budget_band = sanitize(body.budget_band, 20)
     const scope = sanitize(body.scope, 5000)
@@ -139,7 +140,7 @@ export async function POST(request: NextRequest) {
       detail: scope,
       inquiryType: engagement_type,
       budget: budget_band || undefined,
-      metadata: mergeAttributionMetadata({ source, referrer, company, role, timeline }, attribution),
+      metadata: mergeAttributionMetadata({ source, referrer, company, role, websiteUrl: website_url, timeline }, attribution),
       notify: false,
     })
 
@@ -161,6 +162,7 @@ export async function POST(request: NextRequest) {
     ${row('Email', email)}
     ${row('Company', company)}
     ${row('Role', role)}
+    ${row('Website', website_url)}
     ${row('Timeline', timeline)}
     ${row('Budget', budget_band)}
     ${row('Source', source)}

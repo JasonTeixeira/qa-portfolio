@@ -10,7 +10,6 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    continue-on-error: true
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +35,6 @@ jobs:
           # project URL so PR e2e remains deterministic.
           echo "url=https://qa-portfolio-sage-ideas.vercel.app" >> "$GITHUB_OUTPUT"
       - name: PR public smoke
-        if: github.event_name == 'pull_request'
         run: |
           node <<'NODE'
           const baseUrl = process.env.PW_BASE_URL;
@@ -67,7 +65,6 @@ jobs:
         env:
           PW_BASE_URL: ${{ steps.preview.outputs.url || 'https://www.sageideas.dev' }}
       - name: Playwright E2E
-        if: github.event_name != 'pull_request'
         run: npm run test:e2e
         env:
           PW_BASE_URL: ${{ steps.preview.outputs.url || 'https://www.sageideas.dev' }}

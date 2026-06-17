@@ -61,6 +61,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
 
+  // Collect any extra fields that came along (subject, company, website, etc.)
+  // for inclusion in the email body and CRM metadata, while keeping the typed
+  // required fields.
+  const known = new Set(['name', 'email', 'message', 'honey']);
+  const extras: Array<[string, string]> = [];
+  const extraMetadata: Record<string, string> = {};
+  for (const [k, v] of Object.entries(data as Record<string, unknown>)) {
+    if (known.has(k)) continue;
+    if (v == null) continue;
+    const s = String(v).trim();
+    if (!s) continue;
+    const value = s.slice(0, 2000);
+    extras.push([k, value]);
+    extraMetadata[k] = value;
+  }
+
   // Persist lead — best-effort, does not affect the Resend flow below.
   // notify: false because this route already sends its own richer contact email.
   const rawData = data as Record<string, unknown>;
@@ -71,7 +87,7 @@ export async function POST(request: NextRequest) {
     detail: data.message || '',
     inquiryType: typeof rawData.inquiryType === 'string' ? rawData.inquiryType : undefined,
     budget: typeof rawData.budget === 'string' ? rawData.budget : undefined,
-    metadata: mergeAttributionMetadata(undefined, readAttributionFromRequest(request)),
+    metadata: mergeAttributionMetadata(extraMetadata, readAttributionFromRequest(request)),
     notify: false,
   });
 
@@ -79,18 +95,6 @@ export async function POST(request: NextRequest) {
   if (!apiKey) {
     console.error('[contact] RESEND_API_KEY missing');
     return NextResponse.json({ ok: false, error: 'Email service unavailable' }, { status: 502 });
-  }
-
-  // Collect any extra fields that came along (subject, company, website, etc.)
-  // for inclusion in the email body, while keeping the typed required fields.
-  const known = new Set(['name', 'email', 'message', 'honey']);
-  const extras: Array<[string, string]> = [];
-  for (const [k, v] of Object.entries(data as Record<string, unknown>)) {
-    if (known.has(k)) continue;
-    if (v == null) continue;
-    const s = String(v).trim();
-    if (!s) continue;
-    extras.push([k, s.slice(0, 2000)]);
   }
 
   const displayName = data.name || data.email;

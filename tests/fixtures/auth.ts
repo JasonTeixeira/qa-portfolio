@@ -44,22 +44,23 @@ interface SupabaseAuthSession {
   user?: unknown;
 }
 
-/**
- * Mint a Supabase session by signing in with email+password against the public auth API.
- * We hit the REST endpoint directly so we don't import @supabase/ssr (which requires Next cookies).
- */
-async function mintSession(email: string, password: string): Promise<SupabaseAuthSession> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anon) {
-    throw new Error(
-      'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY — run `vercel env pull` first.',
-    );
-  }
+const sessionCache = new Map<string, Promise<SupabaseAuthSession>>();
+const userExistsCache = new Map<string, Promise<void>>();
 
-  // Ensure the user exists / password is current via the service role.
-  const service = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (service) {
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function sessionStillFresh(session: SupabaseAuthSession) {
+  const expiresAt = session.expires_at ?? 0;
+  return expiresAt > Math.floor(Date.now() / 1000) + 300;
+}
+
+async function assertTestUserExists(url: string, service: string, email: string) {
+  const cached = userExistsCache.get(email);
+  if (cached) return cached;
+
+  const lookup = (async () => {
     const admin = createClient(url, service, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
@@ -79,18 +80,65 @@ async function mintSession(email: string, password: string): Promise<SupabaseAut
         `Test user ${email} not found in Supabase — run \`npm run seed:test-data\` before tests.`,
       );
     }
+  })();
+
+  userExistsCache.set(email, lookup);
+  return lookup;
+}
+
+/**
+ * Mint a Supabase session by signing in with email+password against the public auth API.
+ * We hit the REST endpoint directly so we don't import @supabase/ssr (which requires Next cookies).
+ */
+async function mintSession(email: string, password: string): Promise<SupabaseAuthSession> {
+  const cached = sessionCache.get(email);
+  if (cached) {
+    const session = await cached;
+    if (sessionStillFresh(session)) return session;
+    sessionCache.delete(email);
   }
 
-  const res = await fetch(`${url}/auth/v1/token?grant_type=password`, {
-    method: 'POST',
-    headers: { apikey: anon, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Failed to mint session for ${email}: ${res.status} ${body}`);
+  const minted = mintSessionUncached(email, password);
+  sessionCache.set(email, minted);
+  try {
+    return await minted;
+  } catch (error) {
+    sessionCache.delete(email);
+    throw error;
   }
-  return (await res.json()) as SupabaseAuthSession;
+}
+
+async function mintSessionUncached(email: string, password: string): Promise<SupabaseAuthSession> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anon) {
+    throw new Error(
+      'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY — run `vercel env pull` first.',
+    );
+  }
+
+  // Ensure the user exists / password is current via the service role.
+  const service = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (service) {
+    await assertTestUserExists(url, service, email);
+  }
+
+  let lastBody = '';
+  let lastStatus = 0;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const res = await fetch(`${url}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { apikey: anon, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    if (res.ok) return (await res.json()) as SupabaseAuthSession;
+
+    lastStatus = res.status;
+    lastBody = await res.text();
+    if (res.status !== 429) break;
+    await sleep(1_000 * (attempt + 1));
+  }
+  throw new Error(`Failed to mint session for ${email}: ${lastStatus} ${lastBody}`);
 }
 
 /**

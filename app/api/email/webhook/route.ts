@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import crypto from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { mapResendWebhookToRevenueEmailEvent } from '@/lib/revenue-os/email-delivery';
+import {
+  buildResendWebhookEventId,
+  verifyResendWebhookSignature,
+} from '@/lib/revenue-os/webhook-security';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -22,32 +26,8 @@ const STATUS_MAP: Record<string, string> = {
   'email.complained': 'complained',
   'email.opened': 'opened',
   'email.clicked': 'clicked',
+  'email.unsubscribed': 'complained',
 };
-
-function verifySignature(secret: string, headers: Headers, rawBody: string): boolean {
-  // Resend uses Svix-style headers: svix-id, svix-timestamp, svix-signature
-  const svixId = headers.get('svix-id') ?? '';
-  const svixTimestamp = headers.get('svix-timestamp') ?? '';
-  const svixSignature = headers.get('svix-signature') ?? '';
-  if (!svixId || !svixTimestamp || !svixSignature) return false;
-
-  const signedContent = `${svixId}.${svixTimestamp}.${rawBody}`;
-  // Secret format from Svix is `whsec_<base64>`
-  const secretBytes = secret.startsWith('whsec_')
-    ? Buffer.from(secret.slice(6), 'base64')
-    : Buffer.from(secret);
-  const expected = crypto.createHmac('sha256', secretBytes).update(signedContent).digest('base64');
-
-  // svix-signature format: "v1,<base64sig> v1,<base64sig2>"
-  const signatures = svixSignature.split(' ').map((s) => s.split(',')[1]).filter(Boolean);
-  return signatures.some((sig) => {
-    try {
-      return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
-    } catch {
-      return false;
-    }
-  });
-}
 
 export async function POST(req: NextRequest) {
   const secret = process.env.RESEND_WEBHOOK_SECRET;
@@ -57,9 +37,16 @@ export async function POST(req: NextRequest) {
   }
 
   const rawBody = await req.text();
-  if (!verifySignature(secret, req.headers, rawBody)) {
-    console.warn('[email-webhook] invalid signature');
-    return NextResponse.json({ error: 'invalid_signature' }, { status: 401 });
+  const signature = verifyResendWebhookSignature({
+    secret,
+    svixId: req.headers.get('svix-id'),
+    svixTimestamp: req.headers.get('svix-timestamp'),
+    svixSignature: req.headers.get('svix-signature'),
+    rawBody,
+  });
+  if (!signature.ok) {
+    console.warn('[email-webhook] invalid signature', signature.reason);
+    return NextResponse.json({ error: signature.reason }, { status: 401 });
   }
 
   let event: ResendEvent;
@@ -111,6 +98,73 @@ export async function POST(req: NextRequest) {
       provider_message_id: messageId,
       metadata: merged,
     });
+  }
+
+  const revenueEvent = mapResendWebhookToRevenueEmailEvent(event);
+  if (revenueEvent) {
+    const providerEventId = buildResendWebhookEventId({
+      svixId: req.headers.get('svix-id') ?? 'missing',
+      eventType: event.type,
+      providerMessageId: revenueEvent.providerMessageId,
+    });
+    const { data: duplicate } = await sb
+      .from('revenue_email_events')
+      .select('id')
+      .eq('provider_event_id', providerEventId)
+      .maybeSingle();
+    if (duplicate?.id) {
+      return NextResponse.json({ ok: true, duplicate: true });
+    }
+
+    const { data: queueItem } = await sb
+      .from('revenue_email_queue')
+      .select('id, metadata')
+      .eq('provider_message_id', revenueEvent.providerMessageId)
+      .maybeSingle();
+
+    if (queueItem?.id) {
+      await sb.from('revenue_email_events').insert({
+        email_queue_id: queueItem.id,
+        provider_event_id: providerEventId,
+        event_type: revenueEvent.eventType,
+        occurred_at: revenueEvent.occurredAt,
+        requires_suppression: revenueEvent.requiresSuppression,
+        metadata: {
+          provider: 'resend',
+          providerMessageId: revenueEvent.providerMessageId,
+          recipientEmail: revenueEvent.recipientEmail,
+          raw: revenueEvent.raw,
+        },
+      });
+
+      const patch: Record<string, unknown> = {
+        metadata: {
+          ...(((queueItem.metadata as Record<string, unknown> | null) ?? {}) as Record<string, unknown>),
+          lastProviderEvent: {
+            type: revenueEvent.eventType,
+            occurredAt: revenueEvent.occurredAt,
+            requiresSuppression: revenueEvent.requiresSuppression,
+          },
+        },
+      };
+      if (revenueEvent.queueStatus) patch.status = revenueEvent.queueStatus;
+      if (revenueEvent.queueStatus === 'sent') patch.sent_at = revenueEvent.occurredAt;
+      await sb.from('revenue_email_queue').update(patch).eq('id', queueItem.id);
+    }
+
+    if (revenueEvent.suppression) {
+      const { data: existingSuppression } = await sb
+        .from('acquisition_suppression_list')
+        .select('id')
+        .eq('email', revenueEvent.suppression.email)
+        .maybeSingle();
+      if (!existingSuppression?.id) {
+        await sb.from('acquisition_suppression_list').insert({
+            email: revenueEvent.suppression.email,
+            reason: revenueEvent.suppression.reason,
+        });
+      }
+    }
   }
 
   return NextResponse.json({ ok: true });

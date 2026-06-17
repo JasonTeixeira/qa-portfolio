@@ -22,8 +22,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_GIT_SHA: GIT_SHA,
     NEXT_PUBLIC_BUILD_TIME: BUILD_TIME,
   },
-  // Build-time TS errors should not block deploys for now (we lint separately).
-  typescript: { ignoreBuildErrors: true },
+  typescript: { ignoreBuildErrors: false },
   // Required because we run inside a monorepo-like workspace and Turbopack
   // otherwise warns about lockfile inference.
   turbopack: { root: __dirname },

@@ -41,11 +41,11 @@ Scoring:
 
 | Route | Grade | Status | Notes | Batch |
 | --- | ---: | --- | --- | --- |
-| `/blog` | 86 | Needs polish | Strong content index; still more editorial than Living. React key warning fixed. | Batch 3 |
+| `/blog` | 87 | Needs polish | Strong content index; old cyan accents replaced with Living accent. Still needs richer cluster CTAs and diagrams. | Batch 3 |
 | `/blog/[slug]` | 86 | Needs polish | Articles are readable and indexed; can add richer diagrams/CTAs by cluster. | Batch 3 |
-| `/topics` | 82 | Needs polish | Useful hub index; needs Living hero/proof strip. | Batch 3 |
-| `/topics/[hub]` | 84 | Needs polish | Hub pages work; need stronger cluster diagrams and academy/service routing. | Batch 3 |
-| `/pov` | 84 | Needs polish | On-brand editorial, older composition. | Batch 3 |
+| `/topics` | 91 | Done | Converted to Living content-map hero, diagram panel, proof strip, cluster cards, and reader-routing CTAs. | Complete |
+| `/topics/[hub]` | 90 | Done | Converted to Living cluster hero, diagram panel, money-route sidebar, open-gap roadmap, and conversion map. | Complete |
+| `/pov` | 87 | Needs polish | Editorial page is palette-aligned to Living accent; still needs a custom system diagram / article CTA layer. | Batch 3 |
 | `/changelog` | 78 | Needs polish | Functional; should get living release ledger treatment. | Batch 4 |
 | `/engineering-os` | 82 | Needs polish | Strong evidence page; custom older proof-console style. | Batch 4 |
 | `/stack` | 76 | Needs polish | Useful but still older tech-grid page. | Batch 4 |
@@ -113,9 +113,9 @@ These routes are older SEO/service pages and should either redirect into canonic
    - Kept data-driven deepening layer and existing conversion paths.
 
 3. **Batch 3: editorial/content system polish**
-   - Living cluster diagrams on `/topics` and `/topics/[hub]`.
-   - Stronger article CTAs by cluster.
-   - Academy/internal-link modules in articles.
+   - Completed Living cluster diagrams and routing on `/topics` and `/topics/[hub]`.
+   - Replaced old content-scope cyan accents on `/blog` and `/pov`.
+   - Remaining: stronger article CTAs by cluster and academy/internal-link modules in `/blog/[slug]`.
 
 4. **Batch 4: tools and proof utilities**
    - Reskin SEO audit, readiness score, calculators, templates, engineering OS, stack, changelog.
@@ -134,4 +134,4 @@ Immediate fix completed:
 - `/industries` and six legacy service aliases converted to the Living system.
 
 Next page to clean:
-- Editorial/content system polish: `/blog`, `/blog/[slug]`, `/topics`, `/topics/[hub]`, `/pov`.
+- Editorial/content system polish: `/blog/[slug]` article template CTAs, then `/pov` custom diagram/CTA layer.

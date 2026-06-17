@@ -117,7 +117,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                       <MonoLabel tone="faint">{featuredPost.category}</MonoLabel>
                     </div>
                     <h2
-                      className="text-[var(--sage-ink)] font-normal text-[clamp(1.75rem,1rem+2.2vw,2.75rem)] group-hover:text-[#0ED3CF] transition-colors duration-200"
+                      className="text-[var(--sage-ink)] font-normal text-[clamp(1.75rem,1rem+2.2vw,2.75rem)] group-hover:text-[var(--sage-accent-readable)] transition-colors duration-200"
                       style={DISPLAY_HEADING_STYLE}
                     >
                       {featuredPost.title}
@@ -132,7 +132,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                       <span className="h-3 w-px bg-[var(--sage-border-strong)]" aria-hidden />
                       <MonoLabel tone="faint">{featuredPost.readTime}</MonoLabel>
                     </div>
-                    <span className="text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:translate-x-0.5 transition-transform duration-200 inline-flex items-center gap-2">
+                    <span className="text-[12px] uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:translate-x-0.5 transition-transform duration-200 inline-flex items-center gap-2">
                       Read <span aria-hidden>→</span>
                     </span>
                   </div>
@@ -182,7 +182,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                 onClick={() => setActiveCategory(cat)}
                 className={
                   activeCategory === cat
-                    ? 'text-[11px] font-mono uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] bg-[#0ED3CF] text-[#08110F] transition-colors'
+                    ? 'text-[11px] font-mono uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] bg-[var(--sage-accent)] text-white transition-colors'
                     : 'text-[11px] font-mono uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink-muted)] transition-colors'
                 }
               >
@@ -196,7 +196,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
               placeholder="Search…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 w-48 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-3 text-[12px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:outline-none focus:border-[#0ED3CF]/50 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+              className="h-8 w-48 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-3 text-[12px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:border-[rgba(61,90,254,0.55)] focus:outline-none transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
               aria-label="Search articles"
             />
           </div>
@@ -212,7 +212,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
               <button
                 type="button"
                 onClick={() => { setSearchQuery(''); setActiveCategory('All') }}
-                className="text-[12px] font-mono uppercase tracking-[0.12em] text-[#0ED3CF] hover:text-[var(--sage-ink-muted)] transition-colors"
+                className="text-[12px] font-mono uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] hover:text-[var(--sage-ink-muted)] transition-colors"
               >
                 Clear filters →
               </button>
@@ -232,7 +232,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                     {/* Title + excerpt */}
                     <div className="min-w-0">
                       <h2
-                        className="text-[var(--sage-ink)] font-normal text-[clamp(1.05rem,0.9rem+0.5vw,1.25rem)] leading-[1.3] group-hover:text-[#0ED3CF] transition-colors duration-200"
+                        className="text-[var(--sage-ink)] font-normal text-[clamp(1.05rem,0.9rem+0.5vw,1.25rem)] leading-[1.3] group-hover:text-[var(--sage-accent-readable)] transition-colors duration-200"
                         style={{
                           fontFamily: 'var(--font-display)',
                           fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
@@ -265,7 +265,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                     {/* Arrow (always) */}
                     <span
                       aria-hidden
-                      className="col-start-3 row-start-1 sm:col-start-auto pt-0.5 text-[var(--sage-ink-faint)] text-sm group-hover:text-[#0ED3CF] group-hover:translate-x-0.5 transition-all duration-200"
+                      className="col-start-3 row-start-1 sm:col-start-auto pt-0.5 text-[var(--sage-ink-faint)] text-sm group-hover:text-[var(--sage-accent-readable)] group-hover:translate-x-0.5 transition-all duration-200"
                     >
                       →
                     </span>

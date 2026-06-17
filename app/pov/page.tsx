@@ -44,7 +44,7 @@ export default function POVPage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'radial-gradient(60% 50% at 50% 0%, rgba(14,211,207,0.045) 0%, transparent 70%)',
+              'radial-gradient(60% 50% at 50% 0%, rgba(61,90,254,0.07) 0%, transparent 70%)',
           }}
         />
 
@@ -125,7 +125,7 @@ export default function POVPage() {
           <Reveal delay={0.05}>
             <blockquote className="relative my-12 py-10 border-y border-[var(--sage-border)]">
               {/* Accent lead rule */}
-              <div className="absolute left-0 top-0 h-px w-16 bg-[#0ED3CF]" aria-hidden />
+              <div className="absolute left-0 top-0 h-px w-16 bg-[var(--sage-accent-readable)]" aria-hidden />
               <p
                 className="text-xl font-normal text-[var(--sage-ink)] leading-[1.5] sm:text-2xl"
                 style={DISPLAY_STYLE}
@@ -391,7 +391,7 @@ export default function POVPage() {
                   </div>
                   <span
                     aria-hidden
-                    className="shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+                    className="shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[var(--sage-accent-readable)]"
                   >
                     →
                   </span>

@@ -25,15 +25,66 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      - name: Resolve Vercel preview URL (PRs only)
-        id: preview
-        if: github.event_name == 'pull_request'
+      - name: Resolve Playwright base URL
+        id: base-url
         run: |
           set -e
-          # Vercel status contexts are reliable in this repo, but deployment
-          # metadata can hang or omit environment_url. Use the stable Vercel
-          # project URL so PR e2e remains deterministic.
-          echo "url=https://qa-portfolio-sage-ideas.vercel.app" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "url=http://127.0.0.1:3041" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Vercel status contexts are reliable in this repo, but deployment
+            # metadata can hang or omit environment_url. Use the stable Vercel
+            # project URL so PR e2e remains deterministic.
+            echo "url=https://qa-portfolio-sage-ideas.vercel.app" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=https://www.sageideas.dev" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build local app for manual E2E
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          STRIPE_SECRET_KEY: sk_test_placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_placeholder
+          RESEND_API_KEY: re_placeholder
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_Y2xlcmsucGxhY2Vob2xkZXIuZGV2JA
+          CLERK_SECRET_KEY: sk_test_placeholder
+          NEXT_PUBLIC_APP_URL: http://127.0.0.1:3041
+      - name: Start local app for manual E2E
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          npm run start -- -p 3041 > /tmp/sageideas-next.log 2>&1 &
+          node <<'NODE'
+          const deadline = Date.now() + 60000;
+          async function wait() {
+            while (Date.now() < deadline) {
+              try {
+                const res = await fetch('http://127.0.0.1:3041/api/health');
+                if (res.ok) return;
+              } catch {
+                // retry
+              }
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+            }
+            throw new Error('Timed out waiting for local Next.js server');
+          }
+          wait().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          STRIPE_SECRET_KEY: sk_test_placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_placeholder
+          RESEND_API_KEY: re_placeholder
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_Y2xlcmsucGxhY2Vob2xkZXIuZGV2JA
+          CLERK_SECRET_KEY: sk_test_placeholder
+          NEXT_PUBLIC_APP_URL: http://127.0.0.1:3041
       - name: PR public smoke
         run: |
           node <<'NODE'
@@ -63,11 +114,11 @@ jobs:
           });
           NODE
         env:
-          PW_BASE_URL: ${{ steps.preview.outputs.url || 'https://www.sageideas.dev' }}
+          PW_BASE_URL: ${{ steps.base-url.outputs.url }}
       - name: Playwright E2E
         run: npm run test:e2e
         env:
-          PW_BASE_URL: ${{ steps.preview.outputs.url || 'https://www.sageideas.dev' }}
+          PW_BASE_URL: ${{ steps.base-url.outputs.url }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

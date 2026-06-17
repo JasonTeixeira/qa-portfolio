@@ -7,6 +7,7 @@ import { GradientMesh } from '@/components/auth/gradient-mesh';
 
 export const metadata = {
   title: 'Request access · Sage Ideas',
+  description: 'Request access to the Sage Ideas client workspace and project portal.',
   robots: { index: false, follow: false },
 };
 

@@ -8,6 +8,7 @@ import type { SeoReport } from '@/lib/seo-audit/analyzer';
 type AuditResult = {
   score: number;
   report: SeoReport;
+  shareId?: string | null;
 };
 
 export function AuditForm() {
@@ -62,7 +63,8 @@ export function AuditForm() {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="rounded-2xl bg-[#12110F] border border-[#2A2826] p-6 sm:p-8"
+        data-testid="seo-audit-form"
+        className="border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.72)] p-6 sm:p-8"
         aria-label="SEO audit form"
       >
         {/* Honeypot — hidden from real users */}
@@ -84,7 +86,7 @@ export function AuditForm() {
           <div>
             <label
               htmlFor={urlId}
-              className="block text-[13px] font-medium text-[#A8A29E] mb-1.5"
+              className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-muted)]"
             >
               URL to audit
             </label>
@@ -98,7 +100,7 @@ export function AuditForm() {
               placeholder="https://yoursite.com/page"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="w-full rounded-xl bg-[#09090B] border border-[#2A2826] text-[#F4F2EF] placeholder-[#57534E] px-4 py-3 text-sm font-mono focus:outline-none focus:border-[#0ED3CF] focus:ring-1 focus:ring-[#0ED3CF]/30 disabled:opacity-50 transition-colors"
+              className="w-full border border-[var(--sage-border-strong)] bg-[var(--sage-bg)] px-4 py-3 font-mono text-sm text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] transition-colors focus:border-[var(--sage-accent)] focus:outline-none focus:ring-1 focus:ring-[rgba(61,90,254,0.35)] disabled:opacity-50"
             />
           </div>
 
@@ -106,7 +108,7 @@ export function AuditForm() {
           <div>
             <label
               htmlFor={emailId}
-              className="block text-[13px] font-medium text-[#A8A29E] mb-1.5"
+              className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-muted)]"
             >
               Email — we&apos;ll send you the report
             </label>
@@ -120,7 +122,7 @@ export function AuditForm() {
               placeholder="you@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl bg-[#09090B] border border-[#2A2826] text-[#F4F2EF] placeholder-[#57534E] px-4 py-3 text-sm focus:outline-none focus:border-[#0ED3CF] focus:ring-1 focus:ring-[#0ED3CF]/30 disabled:opacity-50 transition-colors"
+              className="w-full border border-[var(--sage-border-strong)] bg-[var(--sage-bg)] px-4 py-3 text-sm text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] transition-colors focus:border-[var(--sage-accent)] focus:outline-none focus:ring-1 focus:ring-[rgba(61,90,254,0.35)] disabled:opacity-50"
             />
           </div>
 
@@ -128,7 +130,7 @@ export function AuditForm() {
           {error && (
             <div
               role="alert"
-              className="rounded-lg bg-[#E85D3A]/10 border border-[#E85D3A]/30 px-4 py-3 text-[13px] text-[#E85D3A]"
+              className="border border-[#E85D3A]/30 bg-[#E85D3A]/10 px-4 py-3 text-[13px] text-[#FF8A72]"
             >
               {error}
             </div>
@@ -138,10 +140,11 @@ export function AuditForm() {
           <button
             type="submit"
             disabled={loading || !url || !email}
-            className="w-full flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 bg-[#0ED3CF] text-[#09090B] text-sm font-semibold font-mono uppercase tracking-wide hover:bg-[#0AA8A5] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            data-testid="seo-audit-submit"
+            className="flex w-full items-center justify-center gap-2 bg-[var(--sage-accent)] px-6 py-3.5 font-mono text-sm font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#5670ff] disabled:cursor-not-allowed disabled:opacity-50"
             style={
               !loading && url && email
-                ? { boxShadow: '0 0 16px rgba(14,211,207,0.35)' }
+                ? { boxShadow: '0 0 18px rgba(61,90,254,0.32)' }
                 : undefined
             }
           >
@@ -149,7 +152,7 @@ export function AuditForm() {
               <>
                 <span
                   aria-hidden
-                  className="h-4 w-4 rounded-full border-2 border-[#09090B]/30 border-t-[#09090B] animate-spin"
+                  className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
                 />
                 Analyzing…
               </>
@@ -158,14 +161,14 @@ export function AuditForm() {
             )}
           </button>
 
-          <p className="text-[11px] text-[#57534E] text-center">
+          <p className="text-center font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)]">
             Free · No spam · No account required
           </p>
         </div>
       </form>
 
       {/* Report */}
-      {result && <Report score={result.score} report={result.report} />}
+      {result && <Report score={result.score} report={result.report} shareId={result.shareId} />}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Users,
   KanbanSquare,
+  Radar,
   Calendar,
   Clock,
   Receipt,
@@ -23,6 +24,7 @@ import { cn } from '@/lib/utils';
 
 const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/acquisition', label: 'Acquisition OS', icon: Radar },
   { href: '/admin/crm', label: 'CRM', icon: Users },
   { href: '/admin/pipeline', label: 'Pipeline', icon: KanbanSquare },
   { href: '/admin/calendar', label: 'Calendar', icon: Calendar },

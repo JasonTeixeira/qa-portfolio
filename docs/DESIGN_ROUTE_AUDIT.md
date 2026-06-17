@@ -46,19 +46,19 @@ Scoring:
 | `/topics` | 91 | Done | Converted to Living content-map hero, diagram panel, proof strip, cluster cards, and reader-routing CTAs. | Complete |
 | `/topics/[hub]` | 90 | Done | Converted to Living cluster hero, diagram panel, money-route sidebar, open-gap roadmap, and conversion map. | Complete |
 | `/pov` | 87 | Needs polish | Editorial page is palette-aligned to Living accent; still needs a custom system diagram / article CTA layer. | Batch 3 |
-| `/changelog` | 78 | Needs polish | Functional; should get living release ledger treatment. | Batch 4 |
-| `/engineering-os` | 82 | Needs polish | Strong evidence page; custom older proof-console style. | Batch 4 |
-| `/stack` | 76 | Needs polish | Useful but still older tech-grid page. | Batch 4 |
+| `/changelog` | 90 | Done | Living release ledger with proof hero, dated feed, and conversion CTAs. | Complete |
+| `/engineering-os` | 89 | Done | Proof-console page palette-locked to Living accent with blue CTAs and evidence cards. | Complete |
+| `/stack` | 89 | Done | Living stack matrix with capability proof panel and build-fit CTA. | Complete |
 
 ## Tools / Lead Magnets
 
 | Route | Grade | Status | Notes | Batch |
 | --- | ---: | --- | --- | --- |
-| `/tools/seo-audit` | 78 | Needs polish | Functional lead magnet; needs Living visual system and stronger conversion bridge. | Batch 4 |
-| `/lab/ai-readiness` | 76 | Needs polish | Useful diagnostic; needs premium result surface and Living wrapper. | Batch 4 |
-| `/lab/calculators` | 74 | Needs polish | Useful calculators; older utility presentation. | Batch 4 |
-| `/lab/templates` | 74 | Needs polish | Utility library; needs stronger academy/content funnel design. | Batch 4 |
-| `/lab/templates/[slug]` | 72 | Needs polish | Template details need stronger visual and CTA treatment. | Batch 4 |
+| `/tools/seo-audit` | 91 | Done | Converted to Living hero, audit diagram, proof strip, deterministic conversion bridge, and premium report surface. | Complete |
+| `/lab/ai-readiness` | 90 | Done | Living diagnostic hero, premium local scoring UI, result panel, and sequence map. | Complete |
+| `/lab/calculators` | 90 | Done | Living calculator route plus shared calculator shell palette cleanup. | Complete |
+| `/lab/templates` | 90 | Done | Living template library with artifact cards and no-gate proof strip. | Complete |
+| `/lab/templates/[slug]` | 89 | Done | Living template detail pages with architecture panel, copy/download actions, and booking CTA. | Complete |
 
 ## Legacy Service Alias Pages
 
@@ -119,8 +119,9 @@ These routes are older SEO/service pages and should either redirect into canonic
    - Remaining: richer `/blog` top-level cluster diagram and selective custom diagrams inside the highest-value articles.
 
 4. **Batch 4: tools and proof utilities**
-   - Reskin SEO audit, readiness score, calculators, templates, engineering OS, stack, changelog.
-   - Make each tool route a conversion route.
+   - Completed `/tools/seo-audit` as a Living conversion route with hardened E2E coverage.
+   - Completed `/lab/ai-readiness`, `/lab/calculators`, `/lab/templates`, `/lab/templates/[slug]`, `/engineering-os`, `/stack`, and `/changelog`.
+   - Remaining: custom diagrams can still deepen the highest-value calculator and template pages after Batch 5.
 
 5. **Batch 5: utility states**
    - Legal/auth/checkout/offline/unsubscribe cleanup.
@@ -135,4 +136,4 @@ Immediate fix completed:
 - `/industries` and six legacy service aliases converted to the Living system.
 
 Next page to clean:
-- Editorial/content system polish: `/blog` top-level cluster diagram, then `/pov` custom diagram/CTA layer.
+- Batch 5 utility states: legal docs, checkout success/cancel, auth utility states, offline, unsubscribe, and low-priority recruiter/onboarding routes.

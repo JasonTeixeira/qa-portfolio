@@ -37,7 +37,7 @@ export function TemplateActions({ body, filename }: Props) {
       <button
         type="button"
         onClick={copy}
-        className="inline-flex items-center gap-2 rounded-lg bg-[#0ED3CF] px-4 py-2 text-sm font-medium text-[#09090B] transition-all hover:bg-[#0AA8A5]"
+        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--sage-accent)] px-5 text-sm font-semibold text-white transition hover:bg-[#5670ff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sage-accent)]"
       >
         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
         {copied ? 'Copied' : 'Copy to clipboard'}
@@ -45,7 +45,7 @@ export function TemplateActions({ body, filename }: Props) {
       <button
         type="button"
         onClick={download}
-        className="inline-flex items-center gap-2 rounded-lg border border-[#2A2826] bg-[#1A1917] px-4 py-2 text-sm font-medium text-[#FAFAFA] transition-all hover:border-[#3D3A37]"
+        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.58)] px-5 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sage-accent)]"
       >
         <Download className="h-4 w-4" />
         Download

@@ -102,10 +102,8 @@ test.describe('Phase 2B PR-B — command palette', () => {
     await openWithModK(clientPage);
     const input = clientPage.locator('[data-testid="cmdk-input"]');
     await expect(input).toBeFocused();
-    // Type the first 4 chars of the title — enough to filter.
-    await input.fill(eng!.title.slice(0, 4));
-    await clientPage.keyboard.press('ArrowDown');
-    await clientPage.keyboard.press('Enter');
+    await input.fill(eng!.title);
+    await clientPage.locator(`[data-project-id="${eng!.id}"]`).click();
 
     await clientPage.waitForURL(/\/portal\/projects\//);
     expect(clientPage.url()).toContain(`/portal/projects/${eng!.id}`);

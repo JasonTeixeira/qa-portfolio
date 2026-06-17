@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Pending approval · Sage Ideas',
+  description: 'Status page for pending Sage Ideas workspace approval.',
   robots: { index: false, follow: false },
 };
 

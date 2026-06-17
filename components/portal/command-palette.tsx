@@ -151,6 +151,7 @@ export function CommandPalette({ index }: { index: CommandIndex }) {
               {index.projects.map((p) => (
                 <Command.Item
                   key={p.id}
+                  data-project-id={p.id}
                   data-testid="cmdk-item"
                   value={`project ${p.title} ${p.status ?? ''}`}
                   onSelect={() => go(`/portal/projects/${p.id}`)}

@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
+import {
+  ConversionMap,
+  LivingHero,
+  LivingPageShell,
+  LivingSection,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 import { CalculatorsTabs } from './calculators-tabs'
 
 export const metadata: Metadata = {
@@ -19,33 +23,57 @@ export const metadata: Metadata = {
 
 export default function CalculatorsPage() {
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <Link
-          href="/lab"
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#78716C] hover:text-[#FAFAFA] transition-colors mb-8"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          The Lab
-        </Link>
-
-        <header className="mb-12">
-          <SectionLabel>Tools</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] tracking-tight">
-            ROI Calculators.
-          </h1>
-          <p className="mt-4 text-xl text-[#A8A29E] max-w-2xl">
-            Five interactive estimates for the engagements clients ask about most.
-          </p>
-          <p className="mt-4 text-[#78716C] max-w-2xl leading-relaxed">
-            These are conservative back-of-envelope models. Real ROI depends on data quality,
-            workflow design, and how much process you have around the AI. Use the numbers as a
+    <LivingPageShell>
+      <LivingHero
+        eyebrow="Lab · calculators"
+        title={<>Run the math before the build.</>}
+        lede={
+          <>
+            Conservative models for the engagements clients ask about most. Use them as a
             starting hypothesis, not a forecast.
-          </p>
-        </header>
+          </>
+        }
+        primaryCta={{ label: 'Open calculators', href: '#calculators' }}
+        secondaryCta={{ label: 'Back to the lab', href: '/lab' }}
+        proof={[
+          { label: 'models', value: '5' },
+          { label: 'signup', value: 'none' },
+          { label: 'claims', value: 'conservative' },
+          { label: 'output', value: 'scenario' },
+        ]}
+        panel={
+          <SystemHeroPanel
+            eyebrow="ROI model"
+            title="Conversion and savings model"
+            nodes={['Volume', 'Cost', 'Lift', 'Payback']}
+            stats={[
+              { label: 'AI SDR', value: 'leads' },
+              { label: 'support', value: 'tickets' },
+              { label: 'voice', value: 'calls' },
+            ]}
+          />
+        }
+      />
 
+      <LivingSection
+        id="calculators"
+        eyebrow="interactive models"
+        title="Five ways to pressure-test the idea."
+        lede="Real ROI depends on data quality, workflow design, and adoption. These calculators force the assumptions into view."
+      >
         <CalculatorsTabs />
-      </div>
-    </div>
+      </LivingSection>
+
+      <LivingSection eyebrow="decision path" title="Math is only the first filter.">
+        <ConversionMap
+          steps={[
+            { label: 'Estimate', detail: 'Model the potential upside using your real volume and cost assumptions.' },
+            { label: 'Stress test', detail: 'Change adoption, quality, and operating assumptions before calling it ROI.' },
+            { label: 'Scope', detail: 'Convert the best scenario into a fixed pilot with measurable acceptance criteria.' },
+            { label: 'Instrument', detail: 'Ship with analytics, evals, and a feedback loop so the model can be proven or killed.' },
+          ]}
+        />
+      </LivingSection>
+    </LivingPageShell>
   )
 }

@@ -24,10 +24,10 @@ export function CalculatorShell({
   footnote,
 }: Props) {
   return (
-    <div className="rounded-2xl border border-[#2A2826] bg-[#1A1917] p-6 sm:p-8">
+    <div className="border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.76)] p-6 sm:p-8">
       <header className="mb-6">
-        <h3 className="text-2xl font-bold text-[#FAFAFA] tracking-tight">{title}</h3>
-        <p className="mt-1 text-sm text-[#A8A29E]">{subtitle}</p>
+        <h3 className="text-2xl font-bold tracking-tight text-[var(--sage-ink)]">{title}</h3>
+        <p className="mt-1 text-sm text-[var(--sage-ink-muted)]">{subtitle}</p>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-2">
@@ -36,13 +36,13 @@ export function CalculatorShell({
 
         {/* Results */}
         <div className="space-y-4">
-          <div className="rounded-lg border border-[#2A2826] bg-[#09090B] p-5">
+          <div className="border border-[var(--sage-border)] bg-[rgba(11,11,14,0.76)] p-5">
             <div className="space-y-3">
               {results.map((r) => (
                 <div key={r.label} className="flex items-baseline justify-between gap-4">
                   <span
                     className={`text-sm ${
-                      r.emphasis ? 'text-[#FAFAFA] font-medium' : 'text-[#A8A29E]'
+                      r.emphasis ? 'font-medium text-[var(--sage-ink)]' : 'text-[var(--sage-ink-muted)]'
                     }`}
                   >
                     {r.label}
@@ -50,8 +50,8 @@ export function CalculatorShell({
                   <span
                     className={`tabular-nums font-mono ${
                       r.emphasis
-                        ? 'text-2xl text-[#0ED3CF] font-bold'
-                        : 'text-base text-[#FAFAFA]'
+                        ? 'text-2xl font-bold text-[var(--sage-accent-readable)]'
+                        : 'text-base text-[var(--sage-ink)]'
                     }`}
                   >
                     {r.value}
@@ -62,12 +62,12 @@ export function CalculatorShell({
           </div>
 
           {footnote && (
-            <p className="text-xs text-[#57534E] leading-relaxed">{footnote}</p>
+            <p className="text-xs leading-relaxed text-[var(--sage-ink-faint)]">{footnote}</p>
           )}
 
           <Link
-            href={`/contact?engagement=${ctaSlug}`}
-            className="inline-flex items-center gap-2 rounded-lg bg-[#0ED3CF] px-5 py-3 text-sm font-medium text-[#09090B] transition-all hover:bg-[#0AA8A5]"
+            href={`/book?context=${ctaSlug}`}
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--sage-accent)] px-5 text-sm font-semibold text-white transition hover:bg-[#5670ff]"
           >
             {ctaLabel}
             <ArrowRight className="h-4 w-4" />
@@ -104,8 +104,8 @@ export function RangeInput({
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between">
-        <label className="text-sm text-[#A8A29E]">{label}</label>
-        <span className="text-sm font-mono tabular-nums text-[#FAFAFA]">{display}</span>
+        <label className="text-sm text-[var(--sage-ink-muted)]">{label}</label>
+        <span className="font-mono text-sm text-[var(--sage-ink)] tabular-nums">{display}</span>
       </div>
       <input
         type="range"
@@ -114,7 +114,7 @@ export function RangeInput({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full accent-[#0ED3CF]"
+        className="w-full accent-[var(--sage-accent)]"
       />
     </div>
   )

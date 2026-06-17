@@ -6,6 +6,7 @@ import { GradientMesh } from '@/components/auth/gradient-mesh';
 
 export const metadata = {
   title: 'Sign in · Sage Ideas',
+  description: 'Secure client and studio access for Sage Ideas engagements.',
   robots: { index: false, follow: false },
 };
 

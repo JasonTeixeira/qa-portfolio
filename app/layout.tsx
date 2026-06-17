@@ -14,6 +14,7 @@ import { ClientErrorReporter } from '@/components/client-error-reporter'
 import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration'
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { UpdateToast } from '@/components/pwa/update-toast'
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -220,6 +221,7 @@ export default async function RootLayout({
         <PostHogProvider>
           {!isPortal && <AttributionCapture />}
           <MarketingChrome position="top" />
+          {!isPortal && <Breadcrumbs pathname={pathname} />}
           <MarketingChrome position="children">{children}</MarketingChrome>
           <MarketingChrome position="bottom" />
           {!isPortal && !isPremiumLanding && <CookieBanner />}

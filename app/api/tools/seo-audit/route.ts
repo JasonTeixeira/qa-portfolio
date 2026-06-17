@@ -18,6 +18,7 @@ import { mergeAttributionMetadata } from '@/lib/analytics/attribution';
 import { assertPublicUrl } from '@/lib/seo-audit/ssrf';
 import { analyzeHtml, scoreReport } from '@/lib/seo-audit/analyzer';
 import { fetchPsi } from '@/lib/seo-audit/psi';
+import { persistAuditReport } from '@/lib/seo-audit/reports';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -162,13 +163,25 @@ export async function POST(req: NextRequest) {
   const score = scoreReport(report);
 
   // Capture lead — best-effort, never throws
+  const attribution = readAttributionFromRequest(req);
+  const metadata = mergeAttributionMetadata({ url, score }, attribution);
   await captureLead({
     source: 'seo_audit',
     email,
     name: null,
     detail: `SEO audit of ${url} — score ${score}`,
-    metadata: mergeAttributionMetadata({ url, score }, readAttributionFromRequest(req)),
+    metadata,
   });
 
-  return NextResponse.json({ score, report });
+  const persisted = await persistAuditReport({
+    url: target.href,
+    score,
+    report,
+    metadata: {
+      source: 'seo_audit_tool',
+      ...metadata,
+    },
+  });
+
+  return NextResponse.json({ score, report, shareId: persisted?.shareId ?? null });
 }

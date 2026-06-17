@@ -6,6 +6,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export const metadata = {
   title: 'Welcome · Sage Ideas',
+  description: 'Verify your email and finish setting up Sage Ideas studio access.',
   robots: { index: false, follow: false },
 };
 

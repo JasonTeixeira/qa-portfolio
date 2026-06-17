@@ -5,6 +5,7 @@ import { comparisons } from '@/data/compare/comparisons'
 import { academyTracks } from '@/data/academy/tracks'
 import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
+import { getServiceIndustryPages } from '@/lib/seo/service-industry-pages'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -31,6 +32,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/topics', priority: 0.72, changeFrequency: 'weekly' },
   { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/reports/ai-search-readiness-2026', priority: 0.74, changeFrequency: 'monthly' },
   { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/privacy', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/terms', priority: 0.4, changeFrequency: 'yearly' },
@@ -56,6 +58,7 @@ const labSlugs = ['nexural', 'jobpoise', 'trayd', 'voza', 'owly', 'alphastream']
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
   const blogPosts = getAllBlogPosts()
+  const serviceIndustryPages = getServiceIndustryPages()
   return [
     ...staticRoutes.map((r) => ({
       url: `${SITE}${r.path}`,
@@ -122,6 +125,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.5,
+    })),
+    ...serviceIndustryPages.map((page) => ({
+      url: `${SITE}${page.path}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.62,
     })),
   ]
 }

@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
+import {
+  ConversionMap,
+  LivingHero,
+  LivingPageShell,
+  LivingSection,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 import { ReadinessForm } from './readiness-form'
 
 export const metadata: Metadata = {
@@ -19,37 +23,63 @@ export const metadata: Metadata = {
 
 export default function AiReadinessPage() {
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        {/* Back link */}
-        <Link
-          href="/lab"
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#78716C] hover:text-[#FAFAFA] transition-colors mb-8"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          The Lab
-        </Link>
+    <LivingPageShell>
+      <LivingHero
+        eyebrow="Lab · diagnostic"
+        title={<>Know if AI is ready to ship.</>}
+        lede={
+          <>
+            Ten questions across data, infrastructure, process, talent, and ROI clarity. The
+            output tells you whether to pilot, scale, or fix the foundation first.
+          </>
+        }
+        primaryCta={{ label: 'Start the diagnostic', href: '#diagnostic' }}
+        secondaryCta={{ label: 'Back to the lab', href: '/lab' }}
+        proof={[
+          { label: 'questions', value: '10' },
+          { label: 'dimensions', value: '5' },
+          { label: 'email gate', value: 'none' },
+          { label: 'data kept', value: 'browser' },
+        ]}
+        panel={
+          <SystemHeroPanel
+            eyebrow="Readiness engine"
+            title="AI readiness diagnostic architecture"
+            nodes={['Data', 'Infra', 'Process', 'ROI']}
+            stats={[
+              { label: 'inputs', value: '10' },
+              { label: 'scoring', value: 'local' },
+              { label: 'output', value: 'roadmap' },
+            ]}
+          />
+        }
+      />
 
-        {/* Hero */}
-        <header className="mb-12">
-          <SectionLabel>Diagnostic</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] tracking-tight">
-            AI Readiness Score.
-          </h1>
-          <p className="mt-4 text-xl text-[#A8A29E] max-w-2xl">
-            10 questions. An honest answer about where to start.
-          </p>
-          <p className="mt-4 text-[#78716C] max-w-2xl leading-relaxed">
-            Most teams skip readiness and burn budget on agents they cannot operate. This
-            diagnostic scores your team across data, infrastructure, process, talent, and ROI
-            clarity — and tells you whether to pilot, scale, or fix the foundation first. Free,
-            no email required, results stay in your browser.
-          </p>
-        </header>
+      <LivingSection
+        id="diagnostic"
+        eyebrow="honest score"
+        title="Answer from where the business is today."
+        lede="No inflated maturity language. No signup wall. The diagnostic only works if the answers are blunt."
+      >
+        <div className="max-w-4xl">
+          <ReadinessForm />
+        </div>
+      </LivingSection>
 
-        {/* Form */}
-        <ReadinessForm />
-      </div>
-    </div>
+      <LivingSection
+        eyebrow="how to use it"
+        title="The score becomes a sequence."
+        lede="Most AI failures are sequencing failures. This frames the first move before budget gets burned."
+      >
+        <ConversionMap
+          steps={[
+            { label: 'Measure readiness', detail: 'Score the five areas that determine if AI will survive real use.' },
+            { label: 'Find the bottleneck', detail: 'Identify whether data, workflow, ownership, or ROI clarity is the constraint.' },
+            { label: 'Choose the first build', detail: 'Route to the right audit, pilot, agent, or operating-system fix.' },
+            { label: 'Ship with proof', detail: 'Move only when the system has acceptance criteria, evals, and a human owner.' },
+          ]}
+        />
+      </LivingSection>
+    </LivingPageShell>
   )
 }

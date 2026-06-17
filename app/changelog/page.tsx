@@ -1,5 +1,11 @@
 import type { Metadata } from 'next'
-import { Section, Surface, Hairline, MonoLabel, CtaLink, StatDisplay } from '@/components/el'
+import {
+  LivingCTA,
+  LivingHero,
+  LivingPageShell,
+  LivingSection,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 import { changelog, type ChangelogEntry } from '@/lib/changelogData'
 
 export const metadata: Metadata = {
@@ -23,7 +29,7 @@ const HEADING_STYLE: React.CSSProperties = {
 }
 
 const TAG_STYLE: Record<ChangelogEntry['tag'], { label: string; cls: string }> = {
-  feat: { label: 'feat', cls: 'border-[#0ED3CF]/40 bg-[#0ED3CF]/[0.06] text-[#0ED3CF]' },
+  feat: { label: 'feat', cls: 'border-[rgba(61,90,254,0.42)] bg-[rgba(61,90,254,0.10)] text-[var(--sage-accent-readable)]' },
   fix: { label: 'fix', cls: 'border-[#F59E0B]/40 bg-[#F59E0B]/[0.06] text-[#F59E0B]' },
   refactor: { label: 'refactor', cls: 'border-[var(--sage-border-hover)] bg-[var(--sage-surface-3)] text-[var(--sage-ink-muted)]' },
   content: { label: 'content', cls: 'border-[#A8C633]/40 bg-[#A8C633]/[0.06] text-[#A8C633]' },
@@ -60,58 +66,55 @@ export default function ChangelogPage() {
   const totalShipped = changelog.length
 
   return (
-    <div className="min-h-screen bg-[var(--sage-bg)]">
-      {/* Hero */}
-      <section
-        aria-label="Changelog"
-        className="max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-16 border-b border-[var(--sage-border)]"
-      >
-        <div className="max-w-3xl">
-          <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">01</MonoLabel>
-            <Hairline className="flex-1" />
-            <MonoLabel tone="muted">{'// changelog'}</MonoLabel>
-            <Hairline className="flex-1" strong />
-          </div>
-          <h1
-            className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
-            style={HEADING_STYLE}
-          >
-            What we&apos;ve shipped.
-          </h1>
-          <p className="mt-6 text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-            A real, dated feed pulled straight from the repo. Features, fixes, content, infrastructure — grouped by month,
-            most recent first.
-          </p>
+    <LivingPageShell>
+      <LivingHero
+        eyebrow="Studio · changelog"
+        title={<>Everything shipped, dated.</>}
+        lede={
+          <>
+            A real release feed for the studio: features, fixes, content, and infrastructure,
+            grouped by month and ordered most recent first.
+          </>
+        }
+        primaryCta={{ label: 'Read the feed', href: '#feed' }}
+        secondaryCta={{ label: 'Read the blog', href: '/blog' }}
+        proof={[
+          { label: 'shipped', value: String(totalShipped) },
+          { label: 'months', value: String(groups.length) },
+          { label: 'cadence', value: 'weekly' },
+          { label: 'source', value: 'repo' },
+        ]}
+        panel={
+          <SystemHeroPanel
+            eyebrow="Release ledger"
+            title="Visible shipping system"
+            nodes={['Feature', 'Fix', 'Content', 'Infra']}
+            stats={[
+              { label: 'feed', value: 'dated' },
+              { label: 'order', value: 'recent' },
+              { label: 'claim', value: 'real' },
+            ]}
+          />
+        }
+      />
 
-          <div className="mt-8 max-w-md">
-            <StatDisplay
-              stats={[
-                { value: String(totalShipped), label: 'Shipped' },
-                { value: String(groups.length), label: 'Months' },
-                { value: 'Weekly', label: 'Cadence' },
-              ]}
-              columns={3}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Feed */}
-      <section
-        aria-label="Changelog feed"
-        className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20"
+      <LivingSection
+        id="feed"
+        eyebrow="release feed"
+        title="The work has a trail."
+        lede="This page exists to make momentum inspectable. No vague claims about shipping speed, just dated entries."
       >
-        <div className="grid lg:grid-cols-[200px_1fr] gap-8">
-          {/* Sticky month nav (desktop) */}
+        <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
           <aside className="hidden lg:block" aria-label="Jump to month">
             <div className="sticky top-24 space-y-1">
-              <MonoLabel tone="faint" as="div" className="mb-3">Jump to</MonoLabel>
+              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
+                Jump to
+              </div>
               {groups.map((g) => (
                 <a
                   key={g.key}
                   href={`#${g.key}`}
-                  className="block text-sm text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] transition py-1"
+                  className="block py-1 text-sm text-[var(--sage-ink-muted)] transition hover:text-[var(--sage-ink)]"
                 >
                   {g.label}
                 </a>
@@ -119,27 +122,25 @@ export default function ChangelogPage() {
             </div>
           </aside>
 
-          {/* Entries */}
           <div className="space-y-16">
             {groups.map((g) => (
               <section key={g.key} id={g.key} className="scroll-mt-24">
-                <div className="flex items-baseline gap-3 mb-6 border-t border-[var(--sage-border)] pt-6">
+                <div className="mb-6 flex items-baseline gap-3 border-t border-[var(--sage-border)] pt-6">
                   <h2
-                    className="text-xl font-normal text-[var(--sage-ink)]"
+                    className="text-2xl font-semibold text-[var(--sage-ink)]"
                     style={HEADING_STYLE}
                   >
                     {g.label}
                   </h2>
-                  <MonoLabel tone="faint">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
                     {g.items.length} {g.items.length === 1 ? 'entry' : 'entries'}
-                  </MonoLabel>
+                  </span>
                 </div>
 
                 <ol className="relative space-y-4">
-                  {/* Vertical line */}
                   <span
                     aria-hidden="true"
-                    className="absolute left-[7px] top-2 bottom-2 w-px bg-[var(--sage-border)]"
+                    className="absolute bottom-2 left-[7px] top-2 w-px bg-[var(--sage-border)]"
                   />
 
                   {g.items.map((e, idx) => {
@@ -150,27 +151,29 @@ export default function ChangelogPage() {
                           aria-hidden="true"
                           className="absolute left-0 top-3 h-3.5 w-3.5 rounded-full border border-[var(--sage-border)] bg-[var(--sage-surface-1)]"
                         >
-                          <span className="absolute inset-1 rounded-full bg-[#0ED3CF]/60" />
+                          <span className="absolute inset-1 rounded-full bg-[var(--sage-accent)]" />
                         </span>
 
-                        <Surface level={2} className="p-5 hover:border-[var(--sage-border-hover)] transition">
-                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <article className="border border-[var(--sage-border)] bg-[rgba(20,20,24,0.70)] p-5 transition hover:border-[rgba(61,90,254,0.46)]">
+                          <div className="mb-2 flex flex-wrap items-center gap-2">
                             <span
                               className={[
-                                'inline-flex items-center text-[10px] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.18em] px-2 py-0.5 rounded-[3px] border',
+                                'inline-flex items-center border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em]',
                                 tag.cls,
                               ].join(' ')}
                             >
                               {tag.label}
                               {e.scope && <span className="ml-1 text-[var(--sage-ink-faint)]">({e.scope})</span>}
                             </span>
-                            <MonoLabel tone="faint">{formatDay(e.date)}</MonoLabel>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
+                              {formatDay(e.date)}
+                            </span>
                           </div>
-                          <div className="text-sm text-[var(--sage-ink)] leading-snug">{e.title}</div>
+                          <div className="text-sm leading-snug text-[var(--sage-ink)]">{e.title}</div>
                           {e.body && (
-                            <p className="mt-2 text-sm text-[var(--sage-ink-muted)] leading-relaxed">{e.body}</p>
+                            <p className="mt-2 text-sm leading-relaxed text-[var(--sage-ink-muted)]">{e.body}</p>
                           )}
-                        </Surface>
+                        </article>
                       </li>
                     )
                   })}
@@ -179,29 +182,19 @@ export default function ChangelogPage() {
             ))}
           </div>
         </div>
-      </section>
+      </LivingSection>
 
-      {/* Footer CTA */}
-      <Section
+      <LivingSection
         eyebrow="what's next"
-        heading={<>New work ships<br /><em className="not-italic text-[#0ED3CF]">every week.</em></>}
-        lede="Studio engagements, lab products, blog posts, and platform receipts all show up here. Want a thread?"
-        centered
-        grain
-        action={
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <CtaLink href="/blog" variant="ghost">
-              Read the blog
-            </CtaLink>
-            <CtaLink href="/lab" variant="ghost">
-              See lab products
-            </CtaLink>
-            <CtaLink href="/contact" variant="solid" event="cta_changelog_footer">
-              Start a conversation
-            </CtaLink>
-          </div>
-        }
-      />
-    </div>
+        title={<>New work ships every week.</>}
+        lede="Studio engagements, lab products, blog posts, and platform receipts all show up here."
+      >
+        <div className="flex flex-wrap gap-3">
+          <LivingCTA href="/blog" variant="secondary">Read the blog</LivingCTA>
+          <LivingCTA href="/lab" variant="secondary">See lab products</LivingCTA>
+          <LivingCTA href="/book?context=changelog">Start a conversation</LivingCTA>
+        </div>
+      </LivingSection>
+    </LivingPageShell>
   )
 }

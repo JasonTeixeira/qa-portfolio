@@ -249,6 +249,115 @@ test('lead scoring: high-intent studio inquiry outranks newsletter signup', asyn
   assert.ok(newsletter.reasons.includes('newsletter signup'));
 });
 
+test('acquisition scoring: urgent website prospect gets audit-led next action', async () => {
+  const { scoreAcquisitionAccount } = await import('../../lib/acquisition/scoring.ts');
+  const score = scoreAcquisitionAccount({
+    businessModel: 'local_service',
+    websiteUrl: 'https://example.com',
+    hasBrokenWebsite: true,
+    hasWeakSeo: true,
+    hasWeakConversionPath: true,
+    hasBookingOrCheckoutGap: true,
+    isOwnerOperated: true,
+    contactConfidence: 90,
+    estimatedBudget: '10k_25k',
+  });
+
+  assert.equal(score.priority, 'urgent');
+  assert.equal(score.recommendedOffer, 'seo_conversion_audit');
+  assert.ok(score.totalScore >= 74);
+  assert.ok(score.reasons.includes('conversion path can be improved'));
+  assert.match(score.nextAction, /Draft/);
+});
+
+test('acquisition scoring: low-signal account stays low priority', async () => {
+  const { scoreAcquisitionAccount } = await import('../../lib/acquisition/scoring.ts');
+  const score = scoreAcquisitionAccount({
+    businessModel: 'unknown',
+    contactConfidence: 10,
+    estimatedBudget: 'unknown',
+  });
+
+  assert.equal(score.priority, 'low');
+  assert.equal(score.recommendedOffer, 'seo_conversion_audit');
+  assert.ok(score.totalScore < 45);
+  assert.equal(score.nextAction, 'Collect one more proof point before outreach.');
+});
+
+test('acquisition audit: visible website gaps lower scores and create opportunities', async () => {
+  const { buildWebsiteAuditDraft } = await import('../../lib/acquisition/audit.ts');
+  const audit = buildWebsiteAuditDraft({
+    websiteUrl: 'https://example.com',
+    hasBrokenWebsite: true,
+    hasWeakSeo: true,
+    hasWeakConversionPath: true,
+    hasBookingOrCheckoutGap: true,
+  });
+
+  assert.ok(audit.overallScore < 75);
+  assert.ok(audit.issues.includes('Weak conversion path'));
+  assert.ok(audit.opportunities.some((item) => item.includes('booking')));
+  assert.equal(audit.recommendedOffer, 'seo_conversion_audit');
+});
+
+test('acquisition outreach: draft is specific and does not pretend to send', async () => {
+  const { buildOutreachDraft } = await import('../../lib/acquisition/outreach.ts');
+  const draft = buildOutreachDraft({
+    accountName: 'Acme Dental',
+    websiteUrl: 'https://acmedental.example',
+    contactName: 'Jordan Smith',
+    contactTitle: 'Owner',
+    industry: 'Dental',
+    recommendedOffer: 'seo_conversion_audit',
+    auditIssues: ['Weak conversion path'],
+    auditOpportunities: ['Add a clear booking CTA for new patients.'],
+  });
+
+  assert.equal(draft.subject, 'Acme Dental website opportunity');
+  assert.ok(draft.body.startsWith('Hi Jordan,'));
+  assert.ok(draft.body.includes('https://acmedental.example'));
+  assert.ok(draft.body.includes('15-minute call'));
+  assert.ok(draft.personalizationNotes.includes('Dental'));
+});
+
+test('acquisition import: parses CSV rows, normalizes URLs, and dedupes', async () => {
+  const { parseAcquisitionLeadList } = await import('../../lib/acquisition/import.ts');
+  const rows = parseAcquisitionLeadList(`company,website,industry,location,contact,title,email
+Acme Dental, acme.example, Dental, Boston, Jordan Smith, Owner, Jordan@Acme.example
+Acme Dental, acme.example, Dental, Boston, Jordan Smith, Owner, Jordan@Acme.example
+"Bright, Co", https://bright.example, Agency, NYC, Sam Lee, Founder, sam@bright.example`);
+
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].websiteUrl, 'https://acme.example');
+  assert.equal(rows[0].contactEmail, 'jordan@acme.example');
+  assert.equal(rows[0].signals.hasWeakSeo, true);
+  assert.equal(rows[1].name, 'Bright, Co');
+});
+
+test('acquisition enrichment: extracts domains and recommends verification', async () => {
+  const { buildAcquisitionEnrichment, nextFollowUpDate } = await import(
+    '../../lib/acquisition/enrichment.ts'
+  );
+  const matched = buildAcquisitionEnrichment({
+    websiteUrl: 'https://www.acme.example/services',
+    contactEmail: 'owner@acme.example',
+    industry: 'Dental',
+    location: 'Boston',
+  });
+  assert.equal(matched.domain, 'acme.example');
+  assert.equal(matched.emailDomainMatchesWebsite, true);
+  assert.ok(matched.signals.includes('business email captured'));
+
+  const freeEmail = buildAcquisitionEnrichment({
+    websiteUrl: 'https://acme.example',
+    contactEmail: 'owner@gmail.com',
+  });
+  assert.equal(freeEmail.emailDomainMatchesWebsite, false);
+  assert.match(freeEmail.recommendedNextAction, /Verify/);
+
+  assert.equal(nextFollowUpDate(3, new Date('2026-06-17T12:00:00Z')), '2026-06-20T14:00:00.000Z');
+});
+
 // -------------------------------------------------------------- content / seo
 
 test('blog toc: injects stable ids for h2 and h3 headings', async () => {
@@ -514,6 +623,31 @@ test('seo-analyzer: scoreReport blends perf score when present', async () => {
   const onPage = scoreReport({ ...r, performance: undefined });
   // blended = 70% onPage + 30% * 50 — must differ from pure on-page score
   assert.ok(blended < onPage, `blended (${blended}) should be < pure on-page (${onPage}) when perf=50`);
+});
+
+// -------------------------------------------------------------- growth SEO
+
+test('service-industry pages: generate unique programmatic URLs', async () => {
+  const { getServiceIndustryPage, getServiceIndustryPages } = await import(
+    '../../lib/seo/service-industry-pages.ts'
+  );
+  const pages = getServiceIndustryPages();
+  const paths = new Set(pages.map((page) => page.path));
+
+  assert.ok(pages.length > 0, 'expected service x industry pages');
+  assert.equal(paths.size, pages.length, 'service x industry paths must be unique');
+  assert.ok(
+    getServiceIndustryPage('audit', 'fintech')?.path === '/services/audit/for/fintech',
+    'expected fintech audit route to be generated',
+  );
+});
+
+test('audit reports: share ids are URL-safe and compact', async () => {
+  const { createShareId } = await import('../../lib/seo-audit/reports.ts');
+  const shareId = createShareId();
+
+  assert.match(shareId, /^[A-Za-z0-9_-]+$/);
+  assert.ok(shareId.length >= 10 && shareId.length <= 16);
 });
 
 // -------------------------------------------------------------- runner

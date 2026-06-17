@@ -23,16 +23,16 @@ export function CalculatorsTabs() {
   return (
     <div>
       {/* Tab bar */}
-      <div className="flex flex-wrap gap-2 mb-8 border-b border-[#2A2826] pb-4">
+      <div className="mb-8 flex flex-wrap gap-2 border-b border-[var(--sage-border)] pb-4">
         {tabs.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => setActive(t.id)}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+            className={`min-h-10 whitespace-nowrap rounded-full px-4 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sage-accent)] ${
               active === t.id
-                ? 'bg-[#0ED3CF] text-[#09090B]'
-                : 'bg-[#1A1917] text-[#A8A29E] hover:bg-[#2A2826] hover:text-[#FAFAFA]'
+                ? 'bg-[var(--sage-accent)] text-white'
+                : 'border border-[var(--sage-border)] bg-[rgba(20,20,24,0.58)] text-[var(--sage-ink-muted)] hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)]'
             }`}
           >
             {t.label}

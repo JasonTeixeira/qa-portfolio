@@ -4,6 +4,7 @@ import { SageLogo } from '@/components/auth/brand-panel';
 
 export const metadata = {
   title: 'Unsubscribed · Sage Ideas',
+  description: 'Confirmation that your Sage Ideas marketing email subscription was updated.',
   robots: { index: false, follow: false },
 };
 

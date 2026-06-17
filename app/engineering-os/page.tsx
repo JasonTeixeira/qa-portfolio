@@ -71,7 +71,7 @@ const systemNodes = [
     icon: CircuitBoard,
     title: "Control plane",
     body: "Registry, scorecards, proof packets",
-    tone: "text-[#0ED3CF]",
+    tone: "text-[var(--sage-accent-readable)]",
   },
   {
     icon: Boxes,
@@ -124,7 +124,7 @@ export default function EngineeringOsPage() {
               style={{ fontFamily: "var(--font-display)" }}
             >
               <span className="block">Sage Ideas</span>
-              <span className="block italic text-[#0ED3CF]">Engineering OS</span>
+              <span className="block italic text-[var(--sage-accent-readable)]">Engineering OS</span>
             </h1>
 
             <p className="mt-7 max-w-2xl text-base leading-8 text-[var(--sage-ink-muted)] sm:text-lg">
@@ -138,14 +138,14 @@ export default function EngineeringOsPage() {
                 href="https://github.com/JasonTeixeira/nexural-meta"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-[3px] bg-[#0ED3CF] px-5 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-colors hover:bg-[#33EBE8] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="group inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-[var(--sage-accent)] px-5 text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#5670ff] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 inspect control plane
                 <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </Link>
               <Link
                 href="/work"
-                className="group inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-[3px] border border-[var(--sage-border-strong)] px-5 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="group inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-[var(--sage-border-strong)] px-5 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-accent)] hover:text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 view product proofs
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
@@ -218,10 +218,10 @@ export default function EngineeringOsPage() {
             {proof.public_claims.map((claim) => (
               <article
                 key={claim.claim}
-                className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-5 transition-colors hover:border-[#0ED3CF]/45"
+                className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-5 transition-colors hover:border-[rgba(61,90,254,0.45)]"
               >
                 <FileCheck2
-                  className="mb-5 h-5 w-5 text-[#0ED3CF]"
+                  className="mb-5 h-5 w-5 text-[var(--sage-accent-readable)]"
                   aria-hidden
                 />
                 <h3 className="text-base font-semibold leading-6 text-[var(--sage-ink)]">
@@ -254,10 +254,10 @@ export default function EngineeringOsPage() {
                   href={asset.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group grid cursor-pointer gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-4 transition-colors hover:border-[#0ED3CF]/45 sm:grid-cols-[1fr_auto]"
+                  className="group grid cursor-pointer gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-4 transition-colors hover:border-[rgba(61,90,254,0.45)] sm:grid-cols-[1fr_auto]"
                 >
                   <span>
-                    <span className="block text-lg font-semibold text-[var(--sage-ink)] group-hover:text-[#0ED3CF]">
+                    <span className="block text-lg font-semibold text-[var(--sage-ink)] group-hover:text-[var(--sage-accent-readable)]">
                       {asset.name}
                     </span>
                     <span className="mt-1 block text-sm text-[var(--sage-ink-muted)]">
@@ -361,7 +361,7 @@ function ProofConsole() {
 
       <div className="space-y-5 p-5 sm:p-6">
         <div className="rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-bg)] p-4">
-          <div className="mb-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+          <div className="mb-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace]">
             <DatabaseZap className="h-4 w-4" aria-hidden />
             packet status
           </div>

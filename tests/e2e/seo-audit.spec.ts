@@ -1,56 +1,138 @@
-/**
- * E2E smoke test for the free SEO audit lead magnet.
- *
- * Uses https://example.com — a stable IANA domain with reliable uptime.
- * PSI degrades gracefully to null (no PAGESPEED_API_KEY in CI).
- * captureLead is best-effort and fails silently without DB env vars.
- *
- * Timeout: 20s for the audit result to appear (network fetch + analysis).
- */
+import { expect, test, type Page } from '@playwright/test';
 
-import { test, expect } from '@playwright/test';
+const mockReport = {
+  url: 'https://example.com/',
+  checks: {
+    title: {
+      pass: true,
+      weight: 15,
+      label: 'Page title',
+      detail: '"Example Domain" (14 chars — ideal range is 15-65)',
+    },
+    metaDescription: {
+      pass: false,
+      weight: 12,
+      label: 'Meta description',
+      detail: 'No meta description found',
+    },
+    canonical: {
+      pass: false,
+      weight: 8,
+      label: 'Canonical tag',
+      detail: 'No canonical tag found',
+    },
+    openGraph: {
+      pass: true,
+      weight: 10,
+      label: 'Open Graph tags',
+      detail: 'og:title is "Example Domain"',
+    },
+    structuredData: {
+      pass: false,
+      weight: 12,
+      label: 'Structured data (JSON-LD)',
+      detail: 'No application/ld+json found',
+    },
+  },
+  performance: {
+    score: 91,
+    lcpMs: 1260,
+    cls: 0.01,
+  },
+};
+
+async function collectConsoleErrors(page: Page) {
+  const errors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(message.text());
+    }
+  });
+  page.on('pageerror', (error) => {
+    errors.push(error.message);
+  });
+  return errors;
+}
+
+async function mockSuccessfulAudit(page: Page) {
+  await page.route('**/api/tools/seo-audit', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ score: 82, report: mockReport }),
+    });
+  });
+}
+
+async function assertNoHorizontalOverflow(page: Page) {
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(1);
+}
 
 test.describe('SEO audit tool', () => {
-  test('submits https://example.com and renders a score', async ({ page }) => {
+  test('renders the premium audit funnel and submits successfully', async ({ page }) => {
+    const consoleErrors = await collectConsoleErrors(page);
+    await mockSuccessfulAudit(page);
+
     await page.goto('/tools/seo-audit');
 
-    // Page must have a visible heading
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-
-    // Fill URL field (label: "URL to audit")
-    await page.getByLabel(/url/i).fill('https://example.com');
-
-    // Fill email field
-    await page.getByLabel(/email/i).fill('e2e-test@sageideas.dev');
-
-    // Submit — match button text containing audit|analyze|run
-    await page.getByRole('button', { name: /audit|analyze|run/i }).click();
-
-    // Wait up to 20s for the score to render (score ring shows a number 0-100)
     await expect(
-      page.locator('[aria-label="SEO audit report"]'),
-    ).toBeVisible({ timeout: 20_000 });
+      page.getByRole('heading', { level: 1, name: /find the leaks/i }),
+    ).toBeVisible();
+    await expect(page.getByTestId('seo-audit-form')).toBeVisible();
+    await expect(page.getByText('What gets checked')).toBeVisible();
 
-    // The report section must contain a number between 0 and 100
-    const reportText = await page
-      .locator('[aria-label="SEO audit report"]')
-      .textContent();
+    await page.getByLabel(/url to audit/i).fill('https://example.com/');
+    await page.getByRole('textbox', { name: /email/i }).fill('e2e-test@sageideas.dev');
+    await page.getByTestId('seo-audit-submit').click();
 
-    expect(reportText).toBeTruthy();
-    // Verify at least one digit is present in the report (the score)
-    expect(reportText).toMatch(/\d/);
+    const report = page.getByTestId('seo-audit-report');
+    await expect(report).toBeVisible();
+    await expect(report).toContainText('82');
+    await expect(report).toContainText('Priority fixes');
+    await expect(report).toContainText('Passing');
+    await expect(report.getByRole('link', { name: /fix these issues/i })).toHaveAttribute(
+      'href',
+      '/book?context=seo-audit',
+    );
+
+    await assertNoHorizontalOverflow(page);
+    expect(consoleErrors).toEqual([]);
   });
 
-  test('shows an error for an unreachable private URL', async ({ page }) => {
+  test('shows a clear error for blocked private URLs', async ({ page }) => {
+    await page.route('**/api/tools/seo-audit', async (route) => {
+      await route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Private network URLs are blocked.' }),
+      });
+    });
+
     await page.goto('/tools/seo-audit');
+    await page.getByLabel(/url to audit/i).fill('http://192.168.0.1/');
+    await page.getByRole('textbox', { name: /email/i }).fill('e2e-test@sageideas.dev');
+    await page.getByTestId('seo-audit-submit').click();
 
-    await page.getByLabel(/url/i).fill('http://192.168.0.1/');
-    await page.getByLabel(/email/i).fill('e2e-test@sageideas.dev');
-    await page.getByRole('button', { name: /audit|analyze|run/i }).click();
+    await expect(page.locator('[role="alert"]:not([aria-live])')).toContainText(
+      'Private network URLs are blocked.',
+    );
+  });
 
-    // Should show an error message (our custom alert div, not the Next.js route announcer)
-    await expect(
-      page.locator('[role="alert"]:not([aria-live])'),
-    ).toBeVisible({ timeout: 10_000 });
+  test('stays usable without horizontal overflow on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await mockSuccessfulAudit(page);
+
+    await page.goto('/tools/seo-audit');
+    await assertNoHorizontalOverflow(page);
+
+    await page.getByLabel(/url to audit/i).fill('https://example.com/');
+    await page.getByRole('textbox', { name: /email/i }).fill('e2e-test@sageideas.dev');
+    await page.getByTestId('seo-audit-submit').click();
+
+    await expect(page.getByTestId('seo-audit-report')).toBeVisible();
+    await assertNoHorizontalOverflow(page);
   });
 });

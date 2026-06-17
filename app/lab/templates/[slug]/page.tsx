@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
-import { SectionLabel } from '@/components/section-label'
+import {
+  LivingCTA,
+  LivingHero,
+  LivingPageShell,
+  LivingSection,
+  SystemHeroPanel,
+} from '@/components/living/LivingPageSystem'
 import { templates, categoryLabels } from '@/data/lab/templates'
 import { TemplateActions } from './template-actions'
 
@@ -38,57 +42,75 @@ export default async function TemplateDetailPage({ params }: Props) {
   if (!t) notFound()
 
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <Link
-          href="/lab/templates"
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#78716C] hover:text-[#FAFAFA] transition-colors mb-8"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          All templates
-        </Link>
+    <LivingPageShell>
+      <LivingHero
+        eyebrow={`Template · ${categoryLabels[t.category]}`}
+        title={t.name}
+        lede={
+          <>
+            {t.tagline} {t.description}
+          </>
+        }
+        actions={
+          <>
+            <LivingCTA href="#template">Open artifact</LivingCTA>
+            <LivingCTA href="/lab/templates" variant="secondary">
+              All templates
+            </LivingCTA>
+          </>
+        }
+        proof={[
+          { label: 'format', value: t.format.toUpperCase() },
+          { label: 'audience', value: t.audience },
+          { label: 'email gate', value: 'none' },
+          { label: 'actions', value: 'copy/download' },
+        ]}
+        panel={
+          <SystemHeroPanel
+            eyebrow="Artifact preview"
+            title={`${t.name} implementation artifact`}
+            nodes={['Brief', 'Rules', 'Run', 'Review']}
+            stats={[
+              { label: 'file', value: t.filename.split('/').pop() ?? t.filename },
+              { label: 'category', value: t.category },
+              { label: 'use', value: 'drop-in' },
+            ]}
+          />
+        }
+      />
 
-        <header className="mb-10">
-          <SectionLabel>{categoryLabels[t.category]}</SectionLabel>
-          <h1 className="mt-4 text-4xl sm:text-5xl font-normal text-[#FAFAFA] tracking-tight">
-            {t.name}
-          </h1>
-          <p className="mt-4 text-xl text-[#A8A29E]">{t.tagline}</p>
-          <p className="mt-4 text-[#78716C] leading-relaxed">{t.description}</p>
-          <p className="mt-3 text-sm text-[#78716C]">
-            <span className="font-mono">For:</span> {t.audience}
-          </p>
-        </header>
-
-        <div className="mb-8">
+      <LivingSection
+        id="template"
+        eyebrow="template body"
+        title="Copy it, adapt it, version it."
+        lede="This is intentionally plain text so it can land in a repo, Notion doc, or operating playbook without ceremony."
+      >
+        <div className="mb-6">
           <TemplateActions body={t.body} filename={t.filename} />
         </div>
 
-        <article className="rounded-2xl border border-[#2A2826] bg-[#1A1917] p-6 sm:p-8">
-          <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#2A2826]">
-            <span className="text-xs font-mono text-[#78716C]">{t.filename}</span>
-            <span className="text-xs font-mono uppercase tracking-wider text-[#57534E]">
+        <article className="border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.76)] p-5 sm:p-8">
+          <div className="mb-5 flex items-center justify-between gap-4 border-b border-[var(--sage-border)] pb-4">
+            <span className="font-mono text-xs text-[var(--sage-ink-muted)]">{t.filename}</span>
+            <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
               {t.format}
             </span>
           </div>
-          <pre className="text-sm text-[#E4E4E7] font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto">
+          <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-sm leading-7 text-[var(--sage-ink)]">
             {t.body}
           </pre>
         </article>
+      </LivingSection>
 
-        <div className="mt-12 rounded-2xl border border-[#0ED3CF]/30 bg-gradient-to-br from-[#0ED3CF]/10 to-transparent p-6 sm:p-8">
-          <p className="text-[#FAFAFA] leading-relaxed">
-            Need help applying this to your stack? We will scope it in a 30-minute call and tell
-            you whether it is the right starting point.
+      <LivingSection eyebrow="application help" title="Need this wired into your stack?">
+        <div className="grid gap-6 border border-[rgba(61,90,254,0.34)] bg-[rgba(61,90,254,0.08)] p-6 sm:grid-cols-[1fr_auto] sm:items-center">
+          <p className="max-w-2xl text-sm leading-7 text-[var(--sage-ink-muted)]">
+            We can scope it in a 30-minute call and tell you whether this is the right
+            starting point for your product, AI workflow, or operating system.
           </p>
-          <Link
-            href="/contact?engagement=ai-readiness-assessment"
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#0ED3CF] px-5 py-3 text-sm font-medium text-[#09090B] transition-all hover:bg-[#0AA8A5]"
-          >
-            Talk to Sage
-          </Link>
+          <LivingCTA href="/book?context=template">Talk to Sage</LivingCTA>
         </div>
-      </div>
-    </div>
+      </LivingSection>
+    </LivingPageShell>
   )
 }

@@ -1,49 +1,66 @@
 import Link from 'next/link'
-import { Mail, Linkedin, Github } from 'lucide-react'
-import { Hairline, MonoLabel } from '@/components/el'
+import {
+  ArrowUpRight,
+  Github,
+  Linkedin,
+  Mail,
+  RadioTower,
+  Route,
+  ShieldCheck,
+} from 'lucide-react'
 
-// ────────────────────────────────────────────────────────────────────────────
-// Link data — same content as before, EL presentation
-// ────────────────────────────────────────────────────────────────────────────
+type FooterLink = {
+  href: string
+  label: string
+  note?: string
+  external?: boolean
+}
 
-const servicesBuild = [
-  { href: '/services/build', label: 'Build' },
-  { href: '/services/ship', label: 'Ship' },
-  { href: '/services/app-development', label: 'App Development' },
-  { href: '/services/automate', label: 'Automate' },
-  { href: '/services/brand-sprint', label: 'Brand Sprint' },
+type FooterColumn = {
+  title: string
+  links: FooterLink[]
+}
+
+const footerColumns: FooterColumn[] = [
+  {
+    title: 'Engage',
+    links: [
+      { href: '/services', label: 'Services', note: 'fixed-scope builds' },
+      { href: '/pricing', label: 'Pricing', note: 'tiers + retainers' },
+      { href: '/book', label: 'Book a call', note: 'start here' },
+      { href: '/contact', label: 'Contact', note: 'direct line' },
+    ],
+  },
+  {
+    title: 'Proof',
+    links: [
+      { href: '/work', label: 'Work', note: 'case studies' },
+      { href: '/lab', label: 'Lab', note: 'owned products' },
+      { href: '/trust', label: 'Trust center', note: 'security + process' },
+      { href: '/engineering-os', label: 'Engineering OS', note: 'how it ships' },
+    ],
+  },
+  {
+    title: 'Learn',
+    links: [
+      { href: '/academy', label: 'Academy', note: 'courses forming' },
+      { href: '/blog', label: 'Journal', note: 'build notes' },
+      { href: '/topics', label: 'Topic hubs', note: 'SEO library' },
+      { href: '/tools/seo-audit', label: 'SEO audit', note: 'free tool' },
+    ],
+  },
+  {
+    title: 'Studio',
+    links: [
+      { href: '/founder', label: 'Founder', note: 'operator profile' },
+      { href: '/studio', label: 'Studio', note: 'how this works' },
+      { href: '/industries', label: 'Industries', note: 'vertical routes' },
+      { href: '/compare', label: 'Compare', note: 'buying paths' },
+    ],
+  },
 ]
 
-const servicesGrow = [
-  { href: '/services/audit', label: 'Sage Audit' },
-  { href: '/services/seo-sprint', label: 'SEO Sprint' },
-  { href: '/services/content-engine', label: 'Content Engine' },
-  { href: '/services/scale', label: 'Scale' },
-]
-
-const servicesOperate = [
-  { href: '/services/operate', label: 'Operate' },
-  { href: '/services/site-care', label: 'Site Care' },
-  { href: '/services/brand-care', label: 'Brand Care' },
-  { href: '/services/content-care', label: 'Content Care' },
-]
-
-const studio = [
-  { href: '/services', label: 'All Services' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/work', label: 'Case Studies' },
-  { href: '/lab', label: 'The Lab' },
-  { href: '/engineering-os', label: 'Engineering OS' },
-  { href: '/blog', label: 'Insights' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/studio', label: 'The Studio' },
-  { href: '/founder', label: 'Founder' },
-  { href: '/process', label: 'Process' },
-  { href: '/trust', label: 'Trust' },
-  { href: '/contact', label: 'Contact' },
-]
-
-const legal = [
+const legalLinks: FooterLink[] = [
   { href: '/legal/privacy', label: 'Privacy' },
   { href: '/legal/terms', label: 'Terms' },
   { href: '/legal/cookies', label: 'Cookies' },
@@ -52,163 +69,240 @@ const legal = [
   { href: '/legal/sow-template', label: 'SOW' },
 ]
 
-// ────────────────────────────────────────────────────────────────────────────
-// Footer column — EL presentation
-// ────────────────────────────────────────────────────────────────────────────
+const socialLinks: FooterLink[] = [
+  { href: 'mailto:sage@sageideas.dev', label: 'Email', external: true },
+  { href: 'https://linkedin.com/in/jason-teixeira', label: 'LinkedIn', external: true },
+  { href: 'https://github.com/JasonTeixeira', label: 'GitHub', external: true },
+]
 
-function FooterColumn({
-  title,
-  links,
-  className = '',
-}: {
-  title: string
-  links: { href: string; label: string }[]
-  className?: string
-}) {
+const socialIcons = {
+  Email: Mail,
+  LinkedIn: Linkedin,
+  GitHub: Github,
+}
+
+function FooterLinkItem({ item }: { item: FooterLink }) {
+  const externalProps = item.external
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : undefined
+
   return (
-    <div className={`space-y-4 ${className}`}>
-      <MonoLabel tone="faint" as="p" className="text-[10px]">
-        {'// '}{title}
-      </MonoLabel>
-      <Hairline />
-      <ul className="space-y-1.5">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={link.href}
-              className="flex items-center min-h-[32px] text-[13px] text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink-muted)] transition-colors duration-150"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Link
+      href={item.href}
+      {...externalProps}
+      className="group flex min-h-[42px] items-center justify-between gap-4 rounded-[6px] border border-transparent px-2.5 py-2 transition-colors duration-150 hover:border-[rgba(61,90,254,0.32)] hover:bg-[rgba(61,90,254,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)]"
+    >
+      <span className="min-w-0">
+        <span className="block text-[13px] font-semibold text-[var(--sage-ink-muted)] transition-colors group-hover:text-[var(--sage-ink)]">
+          {item.label}
+        </span>
+        {item.note ? (
+          <span className="mt-0.5 block truncate text-[11px] text-[var(--sage-ink-faint)]">
+            {item.note}
+          </span>
+        ) : null}
+      </span>
+      <ArrowUpRight
+        aria-hidden
+        className="h-3.5 w-3.5 shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--sage-accent-readable)]"
+      />
+    </Link>
   )
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// EL Footer — server component (no 'use client')
-// ────────────────────────────────────────────────────────────────────────────
+function FooterColumn({ column }: { column: FooterColumn }) {
+  return (
+    <section>
+      <div className="mb-4 flex items-center gap-3">
+        <span
+          aria-hidden
+          className="h-px flex-1 bg-[linear-gradient(90deg,rgba(61,90,254,0.72),rgba(124,58,237,0.28),transparent)]"
+        />
+        <h2 className="[font-family:var(--font-mono),ui-monospace,monospace] text-[10px] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)]">
+          {column.title}
+        </h2>
+      </div>
+      <ul className="space-y-1">
+        {column.links.map((item) => (
+          <li key={item.href}>
+            <FooterLinkItem item={item} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
 
 export function Footer() {
   const year = new Date().getFullYear()
 
   return (
     <footer
-      className="relative w-full bg-[var(--sage-surface-1)] border-t border-[var(--sage-border)] overflow-hidden"
+      className="relative overflow-hidden border-t border-[var(--sage-border)] bg-[#0B0B0E] text-[var(--sage-ink)]"
       aria-label="Site footer"
     >
-      {/* Grain atmosphere */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.025]"
-        style={{ backgroundImage: 'var(--sage-grain)', backgroundSize: '160px 160px' }}
+        className="pointer-events-none absolute inset-0 opacity-40"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(242,239,233,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,233,0.028) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
       />
-
-      {/* Accent depth — barely-there top-right wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ background: 'var(--sage-depth-accent)' }}
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(61,90,254,0.9),rgba(124,58,237,0.62),rgba(255,45,155,0.52),transparent)]"
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-
-        {/* Main grid */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-[2.5fr_1fr_1fr_1fr_1fr]">
-
-          {/* Brand column */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-1 space-y-6">
-            {/* Wordmark */}
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2.5 group"
-              aria-label="Sage Ideas — Home"
-            >
-              <img src="/brand/sage-logo.png" alt="" width="18" height="28" className="h-7 w-auto" aria-hidden />
-              <span className="text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#0ED3CF] transition-colors">
-                SAGE IDEAS
-              </span>
-            </Link>
-
-            {/* Hairline accent lead */}
-            <Hairline accentLead />
-
-            {/* Studio blurb */}
-            <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed max-w-[24ch]">
-              AI-native studio that builds, automates, and scales B2B businesses. We ship
-              the same stack we run our own products on.
-            </p>
-
-            {/* Book CTA — ghost variant */}
-            <Link
-              href="/book"
-              className="inline-flex items-center gap-2 px-5 h-10 rounded-[3px] border border-[var(--sage-border-strong)] text-[12px] uppercase tracking-[0.10em] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)] transition-colors duration-200 group"
-            >
-              Book a strategy call
-              <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
-            </Link>
-
-            {/* Social icons */}
-            <div className="flex items-center gap-2 pt-1">
+      <div className="relative mx-auto max-w-[1500px] px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
+        <div className="grid gap-6 lg:grid-cols-[minmax(320px,0.9fr)_minmax(0,1.55fr)]">
+          <section className="relative overflow-hidden rounded-[8px] border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.72)] p-6 sm:p-8">
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-50"
+              style={{
+                background:
+                  'radial-gradient(circle at 16% 0%, rgba(61,90,254,0.18), transparent 34%), radial-gradient(circle at 88% 18%, rgba(255,45,155,0.09), transparent 30%)',
+              }}
+            />
+            <div className="relative">
               <Link
-                href="mailto:sage@sageideas.dev"
-                aria-label="Email Sage Ideas"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
+                href="/"
+                className="group inline-flex items-center gap-3"
+                aria-label="Sage Ideas home"
               >
-                <Mail className="w-3.5 h-3.5" aria-hidden />
+                <span className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-[var(--sage-border)] bg-[#0B0B0E]">
+                  <img
+                    src="/brand/sage-logo.png"
+                    alt=""
+                    width="18"
+                    height="28"
+                    className="h-7 w-auto"
+                    aria-hidden
+                  />
+                </span>
+                <span className="[font-family:var(--font-mono),ui-monospace,monospace] text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] transition-colors group-hover:text-[var(--sage-accent-readable)]">
+                  Sage Ideas
+                </span>
+              </Link>
+
+              <p className="mt-8 max-w-[12ch] text-[clamp(2.45rem,1.55rem_+_3vw,4.9rem)] font-extrabold leading-[0.92] tracking-[-0.03em] text-[var(--sage-ink)] [font-family:var(--font-display),var(--font-sans),sans-serif]">
+                Build the system.
+              </p>
+              <p className="mt-6 max-w-[42ch] text-base leading-7 text-[var(--sage-ink-muted)]">
+                A solo AI-native studio for product, brand, automation, and growth.
+                Real shipped systems, honest proof, and a direct path to the operator.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                {[
+                  { icon: Route, label: 'Route', value: 'Audit -> build' },
+                  { icon: RadioTower, label: 'Signal', value: 'Content -> lead' },
+                  { icon: ShieldCheck, label: 'Proof', value: 'Public receipts' },
+                ].map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <div
+                      key={item.label}
+                      className="rounded-[6px] border border-[var(--sage-border)] bg-[#0B0B0E]/70 p-3"
+                    >
+                      <Icon
+                        aria-hidden
+                        className="mb-3 h-4 w-4 text-[var(--sage-accent-readable)]"
+                      />
+                      <p className="[font-family:var(--font-mono),ui-monospace,monospace] text-[9px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 text-[13px] font-semibold text-[var(--sage-ink-muted)]">
+                        {item.value}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/book"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-[var(--sage-accent)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                >
+                  ./book
+                </Link>
+                <Link
+                  href="/work"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-[var(--sage-border-strong)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                >
+                  View work
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          <div className="rounded-[8px] border border-[var(--sage-border)] bg-[rgba(20,20,24,0.52)] p-4 sm:p-6">
+            <div className="grid gap-x-6 gap-y-9 sm:grid-cols-2 xl:grid-cols-4">
+              {footerColumns.map((column) => (
+                <FooterColumn key={column.title} column={column} />
+              ))}
+            </div>
+            <div className="mt-8 grid gap-3 border-t border-[var(--sage-border)] pt-5 md:grid-cols-[1fr_auto_auto] md:items-center">
+              <p className="[font-family:var(--font-mono),ui-monospace,monospace] text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
+                Not sure where to route the build?
+              </p>
+              <Link
+                href="/tools/seo-audit"
+                className="inline-flex h-10 items-center justify-center rounded-full border border-[var(--sage-border)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
+              >
+                Run audit
               </Link>
               <Link
-                href="https://linkedin.com/in/jason-teixeira"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Sage Ideas on LinkedIn"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
+                href="/book"
+                className="inline-flex h-10 items-center justify-center rounded-full bg-[var(--sage-accent)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
-                <Linkedin className="w-3.5 h-3.5" aria-hidden />
-              </Link>
-              <Link
-                href="https://github.com/JasonTeixeira"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Sage Ideas on GitHub"
-                className="p-2 rounded-[2px] border border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:text-[var(--sage-brand)] hover:border-[var(--sage-border-hover)] transition-colors"
-              >
-                <Github className="w-3.5 h-3.5" aria-hidden />
+                Book call
               </Link>
             </div>
           </div>
-
-          {/* Service columns */}
-          <FooterColumn title="Build" links={servicesBuild} />
-          <FooterColumn title="Grow" links={servicesGrow} />
-          <FooterColumn title="Operate" links={servicesOperate} />
-          <FooterColumn title="Studio" links={studio} />
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-16">
-          <Hairline />
-          <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <MonoLabel tone="faint" as="p" className="text-[11px]">
+        <div className="mt-8 flex flex-col gap-5 border-t border-[var(--sage-border)] pt-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+            <p className="[font-family:var(--font-mono),ui-monospace,monospace] text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
               © {year} Sage Ideas LLC · Orlando, FL
-            </MonoLabel>
-            <nav aria-label="Legal links">
-              <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                {legal.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink-muted)] transition-colors"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            </p>
+            <nav aria-label="Social links" className="flex items-center gap-2">
+              {socialLinks.map((item) => {
+                const Icon = socialIcons[item.label as keyof typeof socialIcons]
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    target={item.external && item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.external && item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    aria-label={item.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sage-border)] bg-[rgba(20,20,24,0.72)] text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.52)] hover:text-[var(--sage-accent-readable)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)]"
+                  >
+                    <Icon aria-hidden className="h-4 w-4" />
+                  </Link>
+                )
+              })}
             </nav>
           </div>
+
+          <nav aria-label="Legal links">
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {legalLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="[font-family:var(--font-mono),ui-monospace,monospace] text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-ink-muted)]"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
     </footer>

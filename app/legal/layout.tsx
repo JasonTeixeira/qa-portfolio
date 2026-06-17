@@ -1,42 +1,52 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { ChevronRight, Scale } from 'lucide-react'
+import { ChevronRight, FileText } from 'lucide-react'
 
 export default function LegalLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#09090B]">
-      {/* Subtle brand header strip */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#0ED3CF]/20 to-transparent" />
+    <div className="relative min-h-screen overflow-hidden bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-35"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(242,239,233,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,233,0.028) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(61,90,254,0.82),rgba(124,58,237,0.44),transparent)]"
+      />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        {/* Breadcrumb with icon */}
+      <div className="relative mx-auto max-w-3xl px-4 py-28 sm:px-6 lg:px-8">
         <nav
-          className="flex items-center gap-2 text-sm text-[#78716C] mb-8"
+          className="mb-8 flex items-center gap-2 text-sm text-[var(--sage-ink-faint)]"
           aria-label="Breadcrumb"
         >
-          <Scale className="w-4 h-4 text-[#0ED3CF]" />
-          <Link href="/" className="hover:text-[#A8A29E] transition-colors">
+          <FileText className="h-4 w-4 text-[var(--sage-accent-readable)]" />
+          <Link href="/" className="transition-colors hover:text-[var(--sage-ink-muted)]">
             Home
           </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link href="/legal" className="hover:text-[#A8A29E] transition-colors">
+          <Link href="/legal" className="transition-colors hover:text-[var(--sage-ink-muted)]">
             Legal
           </Link>
         </nav>
 
-        {/* Article with prose styling */}
-        <article className="prose-sage">{children}</article>
+        <article className="prose-sage rounded-[8px] border border-[var(--sage-border)] bg-[rgba(20,20,24,0.58)] p-6 sm:p-8">
+          {children}
+        </article>
 
-        {/* Back link */}
-        <div className="mt-16 pt-8 border-t border-[#2A2826]">
-          <div className="flex items-center justify-between">
+        <div className="mt-10 border-t border-[var(--sage-border)] pt-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Link
               href="/legal"
-              className="text-sm text-[#0ED3CF] hover:text-[#33EBE8] transition-colors"
+              className="[font-family:var(--font-mono),ui-monospace,monospace] text-[12px] uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] transition-colors hover:text-[var(--sage-ink)]"
             >
-              &larr; Back to Legal Documents
+              &larr; Back to legal documents
             </Link>
-            <span className="text-xs text-[#57534E] font-mono">
+            <span className="[font-family:var(--font-mono),ui-monospace,monospace] text-xs text-[var(--sage-ink-faint)]">
               sage@sageideas.dev
             </span>
           </div>

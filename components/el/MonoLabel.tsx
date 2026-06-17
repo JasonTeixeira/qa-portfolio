@@ -7,7 +7,7 @@ const TONE_TO_CLASS: Record<MonoLabelTone, string> = {
   muted: 'text-[var(--sage-ink-muted)]',
   faint: 'text-[var(--sage-ink-faint)]',
   ink: 'text-[var(--sage-ink)]',
-  accent: 'text-[#0ED3CF]',
+  accent: 'text-[var(--sage-accent-readable)]',
 }
 
 export interface MonoLabelProps

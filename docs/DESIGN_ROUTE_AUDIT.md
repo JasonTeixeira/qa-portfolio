@@ -32,7 +32,7 @@ Scoring:
 | `/process` | 89 | Done | Living proof/system layer. | Complete |
 | `/compare` | 88 | Done | Converted this pass to Living decision graph. | Complete |
 | `/compare/[slug]` | 87 | Needs polish | Deepening layer added; table section still older EL. | Batch 2 |
-| `/industries` | 82 | Needs polish | Good EL page; should get Living hero/proof strip like `/lab`. | Batch 1 |
+| `/industries` | 90 | Done | Converted to canonical Living shell, hero, diagram, proof strip, and conversion map. | Complete |
 | `/industries/[slug]` | 86 | Needs polish | Deepening layer added; upper sections still older EL. | Batch 2 |
 | `/lab` | 89 | Done | Converted this pass to Living product proof system. | Complete |
 | `/lab/[slug]` | 86 | Needs polish | Deepening layer + screenshots added; upper tearsheet still older EL. | Batch 2 |
@@ -66,12 +66,12 @@ These routes are older SEO/service pages and should either redirect into canonic
 
 | Route | Grade | Status | Notes | Batch |
 | --- | ---: | --- | --- | --- |
-| `/services/ai-development` | 62 | Old system | Legacy alias page. | Batch 1 |
-| `/services/cloud-infrastructure` | 62 | Old system | Legacy alias page. | Batch 1 |
-| `/services/enterprise-qa` | 60 | Old system | Legacy alias page. | Batch 1 |
-| `/services/fintech` | 62 | Old system | Legacy alias page. | Batch 1 |
-| `/services/technical-consulting` | 62 | Old system | Legacy alias page. | Batch 1 |
-| `/services/trading-systems` | 62 | Old system | Legacy alias page. | Batch 1 |
+| `/services/ai-development` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
+| `/services/cloud-infrastructure` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
+| `/services/enterprise-qa` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
+| `/services/fintech` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
+| `/services/technical-consulting` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
+| `/services/trading-systems` | 88 | Done | Converted to shared Living legacy-service alias template while preserving SEO route intent. | Complete |
 | `/services/site-starter` | 70 | Needs polish | Productized legacy page; either canonicalize or reskin. | Batch 2 |
 | `/services/studio-engagement` | 70 | Needs polish | Important custom-scope page; should be converted, not removed. | Batch 2 |
 | `/services/site-care` | 72 | Needs polish | Care template; reskin after alias decision. | Batch 2 |
@@ -103,9 +103,9 @@ These routes are older SEO/service pages and should either redirect into canonic
 ## Batch Plan
 
 1. **Batch 1: old public aliases and indexes**
-   - Finish `/industries`.
-   - Decide redirects vs reskins for legacy service aliases.
-   - Convert or canonicalize old aliases that compete with `/services/[slug]`.
+   - Completed `/industries`.
+   - Completed shared Living reskin for legacy service aliases while preserving their SEO entry routes.
+   - Remaining cleanup: decide whether old content-only helpers in `app/services/services-content.tsx` should be archived.
 
 2. **Batch 2: dynamic page upper sections**
    - Bring `/services/[slug]`, `/industries/[slug]`, `/lab/[slug]`, `/compare/[slug]` upper sections fully into Living typography/palette.
@@ -129,6 +129,8 @@ These routes are older SEO/service pages and should either redirect into canonic
 Immediate fix completed:
 - Homepage duplicate nav removed by forwarding `x-pathname` through middleware.
 - `/compare` and `/lab` converted to Living-style page shells in this pass.
+- Batch 1 global cohesion pass added canonical Living shell/hero/section/diagram/CTA/proof components.
+- `/industries` and six legacy service aliases converted to the Living system.
 
 Next page to clean:
-- `/industries` index, then legacy service aliases.
+- Dynamic upper sections: `/services/[slug]`, `/industries/[slug]`, `/lab/[slug]`, `/compare/[slug]`.

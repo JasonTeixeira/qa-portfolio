@@ -22,7 +22,7 @@ export interface CtaLinkProps {
 /**
  * CtaLink — the kit's call-to-action link, derived from the hero CTAs.
  *
- * - solid: electric-teal fill, the primary "./book" action (used sparingly).
+ * - solid: Living accent fill, the primary "./book" action (used sparingly).
  * - ghost: hairline-bordered, the secondary action.
  * - text:  bare mono link with a hover arrow, for "view all" affordances.
  *
@@ -46,7 +46,7 @@ export function CtaLink({
         href={href}
         onClick={onClick}
         className={cn(
-          'group inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] transition-colors hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]',
+          'group inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] transition-colors hover:text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace]',
           className,
         )}
       >
@@ -54,7 +54,7 @@ export function CtaLink({
         {arrow ? (
           <span
             aria-hidden
-            className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+            className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[var(--sage-accent-readable)]"
           >
             →
           </span>
@@ -69,7 +69,7 @@ export function CtaLink({
         href={href}
         onClick={onClick}
         className={cn(
-          'group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] focus-visible:outline-none active:translate-y-px',
+          'group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[var(--sage-accent)] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-white transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[var(--sage-brand-bright)] hover:shadow-[0_0_28px_-4px_rgba(61,90,254,0.45)] focus-visible:outline-none active:translate-y-px',
           className,
         )}
       >

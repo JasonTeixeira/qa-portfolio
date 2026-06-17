@@ -123,7 +123,7 @@ const servicesMega: MegaSection[] = [
       {
         href: '/industries',
         label: 'Browse by industry',
-        description: 'Bundles for 16 verticals',
+        description: 'Five verticals, routed by problem',
         icon: Building2,
       },
       {
@@ -531,6 +531,18 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               )}
             >
               Work
+            </Link>
+            <Link
+              href="/academy"
+              onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Academy', href: '/academy' })}
+              className={cn(
+                'whitespace-nowrap px-3 py-2 text-[12px] uppercase tracking-[0.10em] rounded-[3px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
+                isActive('/academy')
+                  ? 'text-[var(--sage-brand)] bg-[var(--sage-surface-3)]'
+                  : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
+              )}
+            >
+              Academy
             </Link>
             <Link
               href="/pricing"

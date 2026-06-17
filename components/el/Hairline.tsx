@@ -8,7 +8,7 @@ export interface HairlineProps
   /** Stronger hairline (border-strong) instead of the default. */
   strong?: boolean
   /**
-   * Lead the rule with a short teal accent segment — the hero's signature
+   * Lead the rule with a short accent segment — the hero's signature
    * "one sharp signal" device. Horizontal only.
    */
   accentLead?: boolean
@@ -16,7 +16,7 @@ export interface HairlineProps
 
 /**
  * Hairline — the kit's ruling primitive. A 1px divider on the surface ramp's
- * border token. Optionally led by a short teal accent segment, mirroring the
+ * border token. Optionally led by a short accent segment, mirroring the
  * hero's headline underline.
  */
 export function Hairline({
@@ -47,7 +47,7 @@ export function Hairline({
         className={cn('flex items-center gap-4', className)}
         {...rest}
       >
-        <span className="h-px w-16 bg-[#0ED3CF]" />
+        <span className="h-px w-16 bg-[var(--sage-accent)]" />
         <span className={cn('h-px flex-1', lineColor)} />
       </div>
     )

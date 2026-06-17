@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import styles from './LivingPageSystem.module.css'
 
 type Stat = {
@@ -11,6 +12,30 @@ type Step = {
   detail: string
 }
 
+type LivingPageShellProps = {
+  children: ReactNode
+  className?: string
+}
+
+type LivingHeroProps = {
+  eyebrow: string
+  title: ReactNode
+  lede: ReactNode
+  panel?: ReactNode
+  proof?: Stat[]
+  primaryCta?: { label: string; href: string }
+  secondaryCta?: { label: string; href: string }
+}
+
+type LivingSectionProps = {
+  eyebrow?: string
+  title?: ReactNode
+  lede?: ReactNode
+  children: ReactNode
+  className?: string
+  id?: string
+}
+
 type SystemHeroPanelProps = {
   eyebrow: string
   title: string
@@ -19,6 +44,140 @@ type SystemHeroPanelProps = {
 }
 
 const defaultNodes = ['Surface', 'Data', 'AI', 'Ops']
+
+export function LivingPageShell({ children, className = '' }: LivingPageShellProps) {
+  return (
+    <main className={`min-h-screen overflow-hidden bg-[var(--sage-bg)] text-[var(--sage-ink)] ${className}`}>
+      {children}
+    </main>
+  )
+}
+
+export function LivingCTA({
+  href,
+  children,
+  variant = 'primary',
+  className = '',
+}: {
+  href: string
+  children: ReactNode
+  variant?: 'primary' | 'secondary' | 'text'
+  className?: string
+}) {
+  const base =
+    'inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--sage-accent)]'
+  const variants = {
+    primary: 'bg-[var(--sage-accent)] text-white hover:bg-[#5670ff]',
+    secondary:
+      'border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.58)] text-[var(--sage-ink)] hover:border-[var(--sage-accent)]',
+    text:
+      'min-h-0 rounded-none px-0 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] hover:text-[var(--sage-ink)]',
+  }
+
+  return (
+    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+      {children}
+      <span aria-hidden>-&gt;</span>
+    </Link>
+  )
+}
+
+export function LivingHero({
+  eyebrow,
+  title,
+  lede,
+  panel,
+  proof,
+  primaryCta,
+  secondaryCta,
+}: LivingHeroProps) {
+  return (
+    <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
+          <div>
+            <p className="mb-6 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              {eyebrow}
+            </p>
+            <h1
+              className="max-w-[11ch] text-[clamp(3.2rem,_1.2rem_+_8vw,_7.6rem)] font-extrabold"
+              style={{
+                fontFamily: 'var(--font-display)',
+                letterSpacing: '-0.03em',
+                lineHeight: 0.98,
+              }}
+            >
+              {title}
+            </h1>
+            <p className="mt-8 max-w-[62ch] text-lg leading-[1.6] text-[var(--sage-ink-muted)] sm:text-xl">
+              {lede}
+            </p>
+            {primaryCta || secondaryCta ? (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {primaryCta ? <LivingCTA href={primaryCta.href}>{primaryCta.label}</LivingCTA> : null}
+                {secondaryCta ? (
+                  <LivingCTA href={secondaryCta.href} variant="secondary">
+                    {secondaryCta.label}
+                  </LivingCTA>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+          {panel ?? null}
+        </div>
+
+        {proof ? (
+          <div className="mt-12">
+            <LivingProofStrip items={proof} />
+          </div>
+        ) : null}
+      </div>
+    </section>
+  )
+}
+
+export function LivingSection({
+  eyebrow,
+  title,
+  lede,
+  children,
+  className = '',
+  id,
+}: LivingSectionProps) {
+  return (
+    <section id={id} className={`border-b border-[var(--sage-border)] px-5 py-16 sm:px-8 lg:px-12 ${className}`}>
+      <div className="mx-auto max-w-7xl">
+        {eyebrow || title || lede ? (
+          <div className="mb-10 max-w-3xl">
+            {eyebrow ? (
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                {eyebrow}
+              </p>
+            ) : null}
+            {title ? (
+              <h2
+                className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold text-[var(--sage-ink)]"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  letterSpacing: '-0.03em',
+                  lineHeight: 0.98,
+                }}
+              >
+                {title}
+              </h2>
+            ) : null}
+            {lede ? (
+              <p className="mt-5 text-base leading-7 text-[var(--sage-ink-muted)] sm:text-lg">
+                {lede}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        {children}
+      </div>
+    </section>
+  )
+}
 
 export function SystemHeroPanel({
   eyebrow,
@@ -140,6 +299,12 @@ export function MotionProofStrip({ items }: { items: Stat[] }) {
   )
 }
 
+export const LivingProofStrip = MotionProofStrip
+
+export function LivingDiagram(props: SystemHeroPanelProps) {
+  return <SystemHeroPanel {...props} />
+}
+
 export function SurfaceSystemPanel({
   title,
   body,
@@ -160,7 +325,7 @@ export function SurfaceSystemPanel({
             Living architecture
           </p>
           <h2
-            className="mt-8 max-w-[11ch] text-[clamp(2.4rem,1.2rem+4vw,5rem)] font-extrabold text-[var(--sage-ink)]"
+            className="mt-8 max-w-[11ch] text-[clamp(2.4rem,_1.2rem_+_4vw,_5rem)] font-extrabold text-[var(--sage-ink)]"
             style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.03em', lineHeight: 0.98 }}
           >
             {title}

@@ -94,25 +94,6 @@ export function LivingSystemsHome() {
       <div className={styles.grade} aria-hidden="true" />
       <div className={styles.grain} aria-hidden="true" />
 
-      <header className={styles.topbar} data-living-reveal>
-        <Link className={styles.brand} href="/" aria-label="Sage Ideas home">
-          <span className={styles.brandMark} aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-              <path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" stroke="currentColor" strokeWidth="1.4" />
-              <path d="M12 2 V22 M3 7 L21 17 M21 7 L3 17" stroke="currentColor" strokeWidth="0.6" opacity="0.5" />
-            </svg>
-          </span>
-          <span>Sage Ideas</span>
-        </Link>
-        <div className={styles.topMeta}>
-          <span><b>Orlando</b> <span data-living-clock>--:--</span></span>
-          <span><i /> Selective 2026 projects</span>
-          <Link href="/work">Work</Link>
-          <Link href="/academy">Academy</Link>
-          <Link href="/pricing">Pricing</Link>
-        </div>
-      </header>
-
       <section className={styles.hero} id="top" aria-label="Introduction">
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
         <p className={styles.eyebrow} data-living-reveal>

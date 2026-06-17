@@ -197,7 +197,6 @@ export function SystemHeroPanel({
 
   return (
     <aside className={`${styles.systemPanel} min-h-[360px] p-5 sm:p-6`} aria-label={title}>
-      <div className={styles.scan} aria-hidden />
       <div className="relative z-10 flex h-full min-h-[320px] flex-col justify-between">
         <div className="flex items-center justify-between gap-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--sage-accent-readable)]">

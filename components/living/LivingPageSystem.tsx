@@ -254,7 +254,7 @@ export function SystemHeroPanel({
             [584, 118],
           ].map(([x, y], index) => (
             <g key={`${x}-${y}`} className={index % 2 ? styles.floatTwo : styles.float}>
-              <circle className={styles.pulse} cx={x} cy={y} r="30" fill="rgba(61,90,254,0.08)" />
+              <circle cx={x} cy={y} r="24" fill="rgba(61,90,254,0.04)" />
               <circle cx={x} cy={y} r="8" fill="#0B0B0E" stroke="url(#living-line)" strokeWidth="2" />
               <text
                 x={x}

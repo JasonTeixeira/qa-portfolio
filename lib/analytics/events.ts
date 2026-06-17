@@ -15,6 +15,16 @@ export const EVENT_NAMES = [
   'work_archive_lab_click',
   'case_study_cta_primary',
   'case_study_cta_secondary',
+  'route_finder_start',
+  'route_finder_step',
+  'route_finder_complete',
+  'route_finder_cta_click',
+  'route_console_open',
+  'route_console_click',
+  'sound_enabled',
+  'splash_skipped',
+  'academy_track_selected',
+  'experiment_viewed',
 ] as const
 
 export type EventName = (typeof EVENT_NAMES)[number]
@@ -24,6 +34,7 @@ export const GA4_CONVERSION_EVENTS = [
   'checkout_start',
   'lead_magnet_complete',
   'newsletter_signup',
+  'route_finder_complete',
 ] as const satisfies readonly EventName[]
 
 export function isValidEvent(name: string): name is EventName {
@@ -45,6 +56,16 @@ type Payloads = {
   work_archive_lab_click: Record<string, never>
   case_study_cta_primary: { slug?: string }
   case_study_cta_secondary: { slug?: string }
+  route_finder_start: { source?: string }
+  route_finder_step: { field: 'goal' | 'stage' | 'budget' | 'timeline'; value: string; route: string }
+  route_finder_complete: { route: string; score: number; goal: string; stage: string; budget: string; timeline: string }
+  route_finder_cta_click: { route: string; label: string; href: string; location: 'result' | 'form' }
+  route_console_open: { mode: 'services' | 'resources' | 'mobile'; trigger: 'hover' | 'click' | 'mobile_toggle' }
+  route_console_click: { mode: 'services' | 'resources' | 'mobile'; label: string; href: string; lane?: string }
+  sound_enabled: { location: 'home'; state: 'on' | 'off' }
+  splash_skipped: { reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' }
+  academy_track_selected: { slug: string; title: string; location: 'academy_index' | 'academy_track' | 'article' }
+  experiment_viewed: { flag: string; variant: 'control' | 'treatment' }
 }
 
 export function trackEvent<E extends EventName>(name: E, props: Payloads[E]): void {

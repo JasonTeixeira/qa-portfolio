@@ -66,7 +66,7 @@ export function RelatedPosts({ currentSlug, posts }: RelatedPostsProps) {
                   <MonoLabel tone="faint">{p.readTime}</MonoLabel>
                 </div>
                 <h4
-                  className="text-[var(--sage-ink)] font-normal text-[1.0625rem] group-hover:text-[#0ED3CF] transition-colors duration-200 line-clamp-2"
+                  className="text-[var(--sage-ink)] font-normal text-[1.0625rem] group-hover:text-[var(--sage-accent-readable)] transition-colors duration-200 line-clamp-2"
                   style={DISPLAY_STYLE}
                 >
                   {p.title}
@@ -74,7 +74,7 @@ export function RelatedPosts({ currentSlug, posts }: RelatedPostsProps) {
               </div>
               <span
                 aria-hidden
-                className="shrink-0 pt-0.5 text-[var(--sage-ink-faint)] group-hover:text-[#0ED3CF] group-hover:translate-x-0.5 transition-all duration-200"
+                className="shrink-0 pt-0.5 text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-accent-readable)] group-hover:translate-x-0.5 transition-all duration-200"
               >
                 →
               </span>

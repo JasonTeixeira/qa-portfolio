@@ -34,7 +34,7 @@ export function PostCover({
 }: PostCoverProps) {
   const [errored, setErrored] = useState(false)
   const showImage = src && !errored
-  const gradient = CATEGORY_GRADIENTS[category] ?? 'from-[#0ED3CF]/25 via-[#12110F] to-[#E85D3A]/25'
+  const gradient = CATEGORY_GRADIENTS[category] ?? 'from-[#3D5AFE]/25 via-[#12110F] to-[#FF2D9B]/20'
 
   return (
     <div className={`relative overflow-hidden bg-[#0B0A09] ${className}`}>

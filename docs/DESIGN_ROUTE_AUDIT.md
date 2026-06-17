@@ -41,8 +41,8 @@ Scoring:
 
 | Route | Grade | Status | Notes | Batch |
 | --- | ---: | --- | --- | --- |
-| `/blog` | 87 | Needs polish | Strong content index; old cyan accents replaced with Living accent. Still needs richer cluster CTAs and diagrams. | Batch 3 |
-| `/blog/[slug]` | 86 | Needs polish | Articles are readable and indexed; can add richer diagrams/CTAs by cluster. | Batch 3 |
+| `/blog` | 87 | Needs polish | Strong content index; old cyan accents replaced with Living accent. Still needs richer top-level cluster diagram and academy routing. | Batch 3 |
+| `/blog/[slug]` | 91 | Done | Article template now includes cluster-aware conversion system, route diagram, academy/service CTAs, Living markdown accents, and palette-clean article support components. | Complete |
 | `/topics` | 91 | Done | Converted to Living content-map hero, diagram panel, proof strip, cluster cards, and reader-routing CTAs. | Complete |
 | `/topics/[hub]` | 90 | Done | Converted to Living cluster hero, diagram panel, money-route sidebar, open-gap roadmap, and conversion map. | Complete |
 | `/pov` | 87 | Needs polish | Editorial page is palette-aligned to Living accent; still needs a custom system diagram / article CTA layer. | Batch 3 |
@@ -115,7 +115,8 @@ These routes are older SEO/service pages and should either redirect into canonic
 3. **Batch 3: editorial/content system polish**
    - Completed Living cluster diagrams and routing on `/topics` and `/topics/[hub]`.
    - Replaced old content-scope cyan accents on `/blog` and `/pov`.
-   - Remaining: stronger article CTAs by cluster and academy/internal-link modules in `/blog/[slug]`.
+   - Completed cluster-aware article CTAs and academy/service routing in `/blog/[slug]`.
+   - Remaining: richer `/blog` top-level cluster diagram and selective custom diagrams inside the highest-value articles.
 
 4. **Batch 4: tools and proof utilities**
    - Reskin SEO audit, readiness score, calculators, templates, engineering OS, stack, changelog.
@@ -134,4 +135,4 @@ Immediate fix completed:
 - `/industries` and six legacy service aliases converted to the Living system.
 
 Next page to clean:
-- Editorial/content system polish: `/blog/[slug]` article template CTAs, then `/pov` custom diagram/CTA layer.
+- Editorial/content system polish: `/blog` top-level cluster diagram, then `/pov` custom diagram/CTA layer.

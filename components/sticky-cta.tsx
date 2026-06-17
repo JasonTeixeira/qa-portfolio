@@ -81,23 +81,23 @@ export function StickyCta({
       role="region"
       aria-label="Call to action"
     >
-      <div className="bg-[#1A1917]/95 backdrop-blur border-t border-[#2A2826] py-3 px-4">
+      <div className="border-t border-[var(--sage-border-strong)] bg-[rgba(11,11,14,0.94)] px-4 py-3 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          <p className="text-[#FAFAFA] text-sm sm:text-base font-medium truncate">
+          <p className="text-[var(--sage-ink)] text-sm sm:text-base font-medium truncate">
             {pitch}
           </p>
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href={ctaHref}
               onClick={() => trackEvent('cta_click', { location: 'sticky', label: ctaLabel, href: ctaHref })}
-              className="inline-flex items-center gap-1.5 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold text-sm px-4 py-2.5 min-h-[44px] rounded-lg transition-colors"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-[var(--sage-accent)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5670ff]"
             >
               {ctaLabel}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <button
               onClick={handleDismiss}
-              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-[#78716C] hover:text-[#FAFAFA] hover:bg-[#2A2826] rounded-lg transition-colors"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full p-2 text-[var(--sage-ink-faint)] transition-colors hover:bg-[var(--sage-surface-2)] hover:text-[var(--sage-ink)]"
               aria-label="Dismiss"
             >
               <X className="w-4 h-4" aria-hidden="true" />

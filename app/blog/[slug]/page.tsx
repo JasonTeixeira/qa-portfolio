@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getBlogPostBySlug, getAllBlogPosts, getAdjacentBlogPosts } from '@/lib/blog-server'
+import { getBlogPostBySlug, getAllBlogPosts, getAdjacentBlogPosts, getBlogPostsByCluster } from '@/lib/blog-server'
 import { renderMarkdownToHtml } from '@/lib/blogMarkdown'
 import { StickyCta } from '@/components/sticky-cta'
 import { ArticleBody } from '@/components/blog/article-body'
@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/json-ld'
 import { injectHeadingIds } from '@/lib/blog-toc'
 import { buildArticle, buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { CLUSTERS } from '@/data/content/clusters'
+import { ArticleConversionSystem } from '@/components/blog/article-conversion-system'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -58,6 +59,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const postUrl = `${SITE}/blog/${post.slug}`
   const adjacent = getAdjacentBlogPosts(post.slug)
   const cluster = CLUSTERS[post.cluster]
+  const clusterPosts = getBlogPostsByCluster(post.cluster)
 
   return (
     <>
@@ -101,7 +103,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         prev={adjacent.prev}
         next={adjacent.next}
       >
-          <ArticleBody html={html} />
+        <ArticleBody html={html} />
+        <ArticleConversionSystem
+          cluster={cluster}
+          currentPost={post}
+          clusterPosts={clusterPosts}
+        />
       </ArticleShell>
 
       <section
@@ -114,9 +121,9 @@ export default async function BlogPostPage({ params }: PageProps) {
       </section>
 
       <StickyCta
-        pitch="Like what you read? Let's build something."
+        pitch={`Reading ${cluster.title}? Route it into a real build.`}
         ctaLabel="Book a 30-min call"
-        ctaHref="/contact"
+        ctaHref="/book"
       />
     </>
   )

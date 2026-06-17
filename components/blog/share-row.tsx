@@ -14,12 +14,12 @@ export function ShareRow({ url, title }: { url: string; title: string }) {
 
   return (
     <div className="mt-6 flex items-center gap-3">
-      <span className="text-xs text-[#78716C]">Share:</span>
+      <span className="text-xs text-[var(--sage-ink-faint)]">Share:</span>
       <a
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 bg-[#1A1917] border border-[#2A2826] rounded-lg text-[#78716C] hover:text-[#0ED3CF] hover:border-[#0ED3CF]/50 transition-colors"
+        className="rounded-full border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-2 text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.5)] hover:text-[var(--sage-accent-readable)]"
         aria-label="Share on LinkedIn"
       >
         <Linkedin className="h-4 w-4" />
@@ -28,7 +28,7 @@ export function ShareRow({ url, title }: { url: string; title: string }) {
         href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 bg-[#1A1917] border border-[#2A2826] rounded-lg text-[#78716C] hover:text-[#0ED3CF] hover:border-[#0ED3CF]/50 transition-colors"
+        className="rounded-full border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-2 text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.5)] hover:text-[var(--sage-accent-readable)]"
         aria-label="Share on X"
       >
         <Twitter className="h-4 w-4" />
@@ -36,7 +36,7 @@ export function ShareRow({ url, title }: { url: string; title: string }) {
       <button
         type="button"
         onClick={copyLink}
-        className="p-2 bg-[#1A1917] border border-[#2A2826] rounded-lg text-[#78716C] hover:text-[#0ED3CF] hover:border-[#0ED3CF]/50 transition-colors"
+        className="rounded-full border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-2 text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.5)] hover:text-[var(--sage-accent-readable)]"
         aria-label={copied ? 'Copied link' : 'Copy link'}
       >
         {copied ? (

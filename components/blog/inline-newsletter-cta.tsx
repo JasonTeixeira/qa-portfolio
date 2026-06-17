@@ -60,7 +60,7 @@ export function InlineNewsletterCTA() {
       </p>
 
       {status === 'success' ? (
-        <div className="flex items-center gap-2 text-[13px] font-mono text-[#0ED3CF]">
+        <div className="flex items-center gap-2 text-[13px] font-mono text-[var(--sage-accent-readable)]">
           <span aria-hidden>✓</span>
           <span>{message}</span>
         </div>
@@ -72,13 +72,13 @@ export function InlineNewsletterCTA() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@company.com"
-            className="flex-1 h-10 px-4 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-bg)] text-[13px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:outline-none focus:border-[#0ED3CF]/50 transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+            className="flex-1 h-10 px-4 rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-bg)] text-[13px] text-[var(--sage-ink-muted)] placeholder:text-[var(--sage-ink-faint)] focus:border-[rgba(61,90,254,0.55)] focus:outline-none transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
             aria-label="Email address"
           />
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-[2px] bg-[#0ED3CF] text-[#08110F] text-[12px] font-medium uppercase tracking-[0.08em] [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-[2px] bg-[var(--sage-accent)] text-white text-[12px] font-medium uppercase tracking-[0.08em] [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#5670ff] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
             {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
           </button>

@@ -893,10 +893,10 @@ a[class*="text-[#0ED3CF]"]:hover {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Engineered Luxury reading column — .markdown-body
-   Philosophy: Fraunces headings for hierarchy, Geist body for readability,
-   generous measure (~68ch), refined vertical rhythm, restrained teal accent.
-   Near-black surface ramp for code blocks. No neon. No purple.
+   Living reading column — .markdown-body
+   Philosophy: display headings for hierarchy, generous measure (~68ch),
+   refined vertical rhythm, electric-blue interaction accents, and restrained
+   near-black surfaces for code blocks.
 ───────────────────────────────────────────────────────────────────────────── */
 .markdown-body {
   /* Reading column: comfortable measure, generous line-height, warm stone body */
@@ -995,9 +995,9 @@ a[class*="text-[#0ED3CF]"]:hover {
   font-style: italic;
 }
 
-/* ── Links: teal underline, no neon bloom ───────────────────────────────── */
+/* ── Links: Living underline, no neon bloom ─────────────────────────────── */
 .markdown-body a {
-  color: #0ED3CF;
+  color: var(--sage-accent-readable);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -1005,8 +1005,8 @@ a[class*="text-[#0ED3CF]"]:hover {
 }
 
 .markdown-body a:hover {
-  color: #33EBE8;
-  text-decoration-color: #33EBE8;
+  color: var(--sage-ink);
+  text-decoration-color: var(--sage-accent);
 }
 
 /* ── Lists ──────────────────────────────────────────────────────────────── */
@@ -1025,7 +1025,7 @@ a[class*="text-[#0ED3CF]"]:hover {
 }
 
 .markdown-body li::marker {
-  color: #0ED3CF;
+  color: var(--sage-accent-readable);
 }
 
 .markdown-body li > p {
@@ -1045,7 +1045,7 @@ a[class*="text-[#0ED3CF]"]:hover {
 .markdown-body blockquote {
   margin: 2rem 0;
   padding: 1.25rem 1.5rem;
-  border-left: 1px solid #0ED3CF;
+  border-left: 1px solid var(--sage-accent);
   background: var(--sage-surface-1);
   color: var(--sage-ink-muted);
   font-style: italic;
@@ -1060,7 +1060,7 @@ a[class*="text-[#0ED3CF]"]:hover {
   left: -1px;
   width: 1px;
   height: 40%;
-  background: #0ED3CF;
+  background: var(--sage-accent);
   opacity: 0.6;
 }
 
@@ -1077,7 +1077,7 @@ a[class*="text-[#0ED3CF]"]:hover {
   position: relative;
 }
 
-/* Accent lead — a short teal segment before the rule */
+/* Accent lead — a short Living segment before the rule */
 .markdown-body hr::before {
   content: '';
   position: absolute;
@@ -1085,13 +1085,13 @@ a[class*="text-[#0ED3CF]"]:hover {
   top: 0;
   width: 2.5rem;
   height: 1px;
-  background: #0ED3CF;
+  background: var(--sage-accent);
   opacity: 0.7;
 }
 
 /* ── Inline code ────────────────────────────────────────────────────────── */
 .markdown-body :not(pre) > code {
-  color: #0ED3CF;
+  color: var(--sage-accent-readable);
   background: var(--sage-surface-2);
   border: 1px solid var(--sage-border);
   border-radius: 3px;

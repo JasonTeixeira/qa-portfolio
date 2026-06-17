@@ -32,7 +32,7 @@ export function AuthorByline() {
             <Hairline className="mb-4" />
             <Link
               href="/founder"
-              className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] hover:text-[#0ED3CF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]"
+              className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace]"
             >
               <span>More about Jason</span>
               <span aria-hidden className="group-hover:translate-x-0.5 transition-transform duration-200">→</span>

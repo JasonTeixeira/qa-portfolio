@@ -1,6 +1,6 @@
 -- Phase 2G PR-2 — Stripe webhook idempotency + status tracking.
 --
--- The legacy stripe_event_log table (phase32_stripe_fields.sql) used
+-- The legacy stripe_event_log table (supabase/legacy_migrations/phase32_stripe_fields.sql) used
 -- columns (id, type, payload, processed_at) but the current webhook
 -- handler inserts (event_id, event_type, payload) — silently failing
 -- on every delivery. This migration introduces a richer events table

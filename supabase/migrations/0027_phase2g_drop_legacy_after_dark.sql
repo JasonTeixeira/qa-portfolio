@@ -3,7 +3,7 @@
 -- These tables, view, and SECURITY DEFINER functions predate the current
 -- codebase and have zero references in application code (verified via
 -- repo-wide grep). RLS lines for these tables in
--- phase26c_advisor_hardening.sql and an index drop in
+-- supabase/legacy_migrations/phase26c_advisor_hardening.sql and an index drop in
 -- 0018_phase2f_perf_indexes.sql are the only mentions, and they are
 -- defensive — both use `if exists`, so they remain no-ops after this
 -- migration.

@@ -6,7 +6,7 @@ manual — these are dashboards and consoles, not Terraform.
 
 ## 1. Database migration
 
-Apply `supabase/migrations/phase25_profiles_and_auth.sql` once, in the Supabase
+Apply `supabase/legacy_migrations/phase25_profiles_and_auth.sql` once, in the Supabase
 Dashboard → SQL Editor (project `hocrntqhgvmeaxwlhzwl`). It creates the
 `public.profiles` table with the admin-approval gate, RLS policies, and the
 trigger that auto-creates a profile row each time a user lands in `auth.users`.
@@ -115,7 +115,7 @@ After deploy:
 
 ## 9. Files this phase added or rewrote
 
-- `supabase/migrations/phase25_profiles_and_auth.sql`
+- `supabase/legacy_migrations/phase25_profiles_and_auth.sql`
 - `lib/supabase/client.ts`
 - `lib/supabase/server.ts`
 - `lib/supabase/middleware.ts`

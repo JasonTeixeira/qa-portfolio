@@ -12,7 +12,6 @@ import {
   LayoutDashboard,
   ChevronDown,
   Command,
-  Sparkles,
   Briefcase,
   BookOpen,
   FlaskConical,
@@ -59,32 +58,32 @@ const servicesMega: MegaSection[] = [
         href: '/services/ai-implementation-consulting',
         label: 'AI Implementation Consulting',
         description: 'From $1,000 · 2 weeks · Audit',
-        icon: Sparkles,
+        icon: CircuitBoard,
       },
       {
         href: '/services/ai-agent-development',
         label: 'AI Agent Development',
         description: 'From $2,600 · 4 weeks · Build',
-        icon: Sparkles,
+        icon: CircuitBoard,
         badge: 'POPULAR',
       },
       {
         href: '/services/ai-voice-agent',
         label: 'AI Voice Agent',
         description: 'From $1,800 · 3 weeks · Build',
-        icon: Sparkles,
+        icon: CircuitBoard,
       },
       {
         href: '/services/ai-lead-engine',
         label: 'AI Lead Engine',
         description: 'From $2,200 · 4 weeks · Build',
-        icon: Sparkles,
+        icon: CircuitBoard,
       },
       {
         href: '/services/agent-operations-retainer',
         label: 'Agent Operations Retainer',
         description: 'From $600/mo · Operate',
-        icon: Sparkles,
+        icon: CircuitBoard,
       },
     ],
   },
@@ -329,29 +328,53 @@ function MegaDropdown({
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.13, ease: 'easeOut' }}
-            className="fixed left-1/2 top-[68px] z-50 w-[min(1040px,calc(100vw-32px))] -translate-x-1/2"
-          >
-            <div
-              className="relative overflow-hidden rounded-[8px] border border-[var(--sage-border-strong)] bg-[rgba(20,20,24,0.96)] shadow-[0_30px_100px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
+          <>
+            <motion.div
+              aria-hidden="true"
+              className="fixed inset-0 top-[68px] z-40 bg-[rgba(11,11,14,0.58)] backdrop-blur-[2px]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.16, ease: 'easeOut' }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.992 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.992 }}
+              transition={{ duration: 0.16, ease: 'easeOut' }}
+              className="fixed left-1/2 top-[76px] z-50 w-[min(1120px,calc(100vw-32px))] -translate-x-1/2"
             >
+              <div className="relative overflow-hidden rounded-[8px] border border-[var(--sage-border-strong)] bg-[#101014] shadow-[0_32px_120px_rgba(0,0,0,0.82)]">
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-70"
+                className="pointer-events-none absolute inset-0 opacity-55"
                 style={{
                   backgroundImage:
-                    'linear-gradient(rgba(242,239,233,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,233,0.035) 1px, transparent 1px)',
+                    'linear-gradient(rgba(242,239,233,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,233,0.028) 1px, transparent 1px)',
                   backgroundSize: '54px 54px',
                 }}
               />
-              <div className="relative border-b border-[var(--sage-border)] px-5 py-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--sage-accent-readable)]">
-                  {label === 'Services' ? 'Choose the build path' : 'Browse the operating system'}
-                </p>
+              <div className="relative grid border-b border-[var(--sage-border)] lg:grid-cols-[0.82fr_1fr]">
+                <div className="border-b border-[var(--sage-border)] px-5 py-5 lg:border-b-0 lg:border-r">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--sage-accent-readable)]">
+                    {label === 'Services' ? 'route the engagement' : 'open the system'}
+                  </p>
+                  <p className="mt-3 max-w-[46ch] text-sm leading-6 text-[var(--sage-ink-muted)]">
+                    {label === 'Services'
+                      ? 'Start with the business motion: audit, sprint, build, operate. Every route keeps the buyer moving.'
+                      : 'Content, tools, proof, and product notes. The site map is built for discovery, not decoration.'}
+                  </p>
+                </div>
+                <div className="grid grid-cols-3 divide-x divide-[var(--sage-border)]">
+                  {['Surface', 'System', 'Signal'].map((item, index) => (
+                    <div className="px-5 py-5" key={item}>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
+                        0{index + 1}
+                      </span>
+                      <p className="mt-2 text-sm font-semibold text-[var(--sage-ink)]">{item}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="relative grid grid-cols-3 divide-x divide-[var(--sage-border)]">
                 {sections.map((section) => (
@@ -368,13 +391,13 @@ function MegaDropdown({
                             <Link
                               href={item.href}
                               onClick={onClose}
-                              className="group flex items-start gap-2.5 rounded-[6px] border border-transparent px-2.5 py-2.5 transition-colors duration-150 hover:border-[var(--sage-border)] hover:bg-[rgba(61,90,254,0.08)]"
+                              className="group flex items-start gap-3 rounded-[6px] border border-transparent px-2.5 py-2.5 transition-colors duration-150 hover:border-[rgba(61,90,254,0.38)] hover:bg-[rgba(61,90,254,0.09)]"
                             >
                               {Icon && (
                                 <span
-                                  className="shrink-0 w-6 h-6 rounded-[2px] bg-[var(--sage-surface-1)] border border-[var(--sage-border)] flex items-center justify-center group-hover:border-[var(--sage-border-hover)] transition-colors"
+                                  className="shrink-0 w-7 h-7 rounded-[4px] bg-[#0B0B0E] border border-[var(--sage-border)] flex items-center justify-center group-hover:border-[rgba(61,90,254,0.58)] transition-colors"
                                 >
-                                  <Icon className="w-3 h-3 text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-brand)] transition-colors" />
+                                  <Icon className="w-3.5 h-3.5 text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-accent-readable)] transition-colors" />
                                 </span>
                               )}
                               <div className="min-w-0">
@@ -383,7 +406,7 @@ function MegaDropdown({
                                     {item.label}
                                   </span>
                                   {item.badge && (
-                                    <span className="text-[9px] [font-family:var(--font-mono),ui-monospace,monospace] tracking-[0.16em] px-1.5 py-px rounded-[2px] bg-[var(--sage-brand)]/10 text-[var(--sage-brand)] border border-[var(--sage-brand)]/25">
+                                    <span className="text-[9px] [font-family:var(--font-mono),ui-monospace,monospace] tracking-[0.16em] px-1.5 py-px rounded-[2px] bg-[rgba(61,90,254,0.12)] text-[var(--sage-accent-readable)] border border-[rgba(61,90,254,0.32)]">
                                       {item.badge}
                                     </span>
                                   )}
@@ -403,7 +426,7 @@ function MegaDropdown({
                 ))}
               </div>
               {/* Footer strip */}
-              <div className="relative border-t border-[var(--sage-border)] px-5 py-3 flex items-center justify-between gap-4 bg-[rgba(11,11,14,0.72)]">
+              <div className="relative border-t border-[var(--sage-border)] px-5 py-4 flex items-center justify-between gap-4 bg-[#0B0B0E]">
                 <p className="text-[11px] text-[var(--sage-ink-faint)] [font-family:var(--font-mono),ui-monospace,monospace]">
                   Not sure where to start? Book a free 30-min call →
                 </p>
@@ -418,8 +441,9 @@ function MegaDropdown({
                   ./book
                 </Link>
               </div>
-            </div>
+              </div>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>

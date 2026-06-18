@@ -22,6 +22,7 @@
     "typecheck": "tsc --noEmit",
     "verify:google": "node scripts/seo/verify-google.mjs",
     "verify:academy-commerce": "node scripts/academy-commerce-verify.mjs",
+    "discord:register": "node --env-file-if-exists=.env.local scripts/discord/register-sage-commands.mjs",
     "seo:baseline": "node scripts/seo/baseline.mjs",
     "seo:content-audit": "node scripts/seo/content-audit.mjs",
     "seo:metadata-audit": "node scripts/seo/metadata-audit.mjs",

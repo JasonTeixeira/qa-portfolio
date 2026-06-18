@@ -19,6 +19,7 @@ import {
   TrendingUp,
   UserCog,
   GraduationCap,
+  MessageCircle,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -37,6 +38,7 @@ const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: '/admin/invoices', label: 'Invoices', icon: Receipt },
   { href: '/admin/payments', label: 'Payments', icon: Receipt },
   { href: '/admin/academy', label: 'Academy', icon: GraduationCap },
+  { href: '/admin/discord', label: 'Discord', icon: MessageCircle },
   { href: '/admin/documents', label: 'Documents', icon: FolderOpen },
   { href: '/admin/templates', label: 'Templates', icon: FileText },
   { href: '/admin/project-templates', label: 'Project templates', icon: KanbanSquare },

@@ -4,6 +4,10 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { getStripe, isStripeConfigured } from '@/lib/stripe/client';
 import { captureLead } from '@/lib/leads/capture';
 import { fulfillAcademyCheckout } from '@/lib/academy/fulfillment';
+import {
+  syncDiscordPremiumFromCheckout,
+  syncDiscordPremiumFromSubscription,
+} from '@/lib/discord/premium';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -155,6 +159,11 @@ async function handleCheckoutCompleted(sb: Sb, session: Stripe.Checkout.Session)
     return;
   }
 
+  if (session.metadata?.kind === 'discord_premium') {
+    await syncDiscordPremiumFromCheckout(session);
+    return;
+  }
+
   // Invoice-linked checkout (kind=undefined / 'invoice').
   const invoiceId = session.metadata?.invoice_id;
   if (!invoiceId) return;
@@ -271,6 +280,8 @@ async function handleInvoicePaymentFailed(sb: Sb, invoice: Stripe.Invoice) {
 }
 
 async function upsertSubscription(sb: Sb, sub: Stripe.Subscription) {
+  await syncDiscordPremiumFromSubscription(sub);
+
   const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
   const item = sub.items.data[0];
   const price = item?.price;
@@ -317,6 +328,8 @@ async function upsertSubscription(sb: Sb, sub: Stripe.Subscription) {
 }
 
 async function markSubscriptionCanceled(sb: Sb, sub: Stripe.Subscription) {
+  await syncDiscordPremiumFromSubscription(sub);
+
   await sb
     .from('stripe_subscriptions')
     .update({

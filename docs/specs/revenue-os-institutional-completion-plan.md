@@ -259,6 +259,108 @@ Verified evidence:
 - Tests: unit tests for suppression/sequence stops; E2E provider webhook simulation.
 - E2E proof: enqueue 50 messages, suppress 5, bounce 3, reply 2, verify only safe emails remain active.
 
+## Programs 13-21: Institutional Production Hardening
+
+Status: implemented as an integrated local/staging proof layer on 2026-06-18.
+
+Verified local deliverables:
+
+- Added migration `0048_revenue_os_institutional_hardening.sql`.
+- Added durable evidence tables for institutional program runs, live integration checks, worker runtime executions, observability SLO snapshots, privacy workflow jobs, client SaaS surface proofs, deliverability audits, load/scale proofs, and AI/ML eval harness runs.
+- Added typed builders in `lib/revenue-os/institutional-hardening.ts`.
+- Added admin action and dashboard panel for Programs 13-21.
+- Added unit coverage, RLS coverage, and focused E2E coverage.
+
+Important truth boundary:
+
+- Remote GitHub Actions proof still requires pushing the branch and capturing real workflow artifacts.
+- Google Places, Exa, Gmail, OpenAI, and Resend live verification requires staging/live credentials and provider probes.
+- DNS deliverability proof requires real SPF/DKIM/DMARC checks against the sending domain.
+- The load/scale proof uses deterministic targets and persisted evidence; final institutional proof should run against seeded staging data and captured timing artifacts.
+
+### Program 13: Clean PR + Remote CI Proof
+
+Outcome: persistent program evidence now tracks local gates and flags remote CI proof as requiring external GitHub Actions activation.
+
+Remaining external proof:
+
+- Push a clean Revenue OS branch.
+- Run GitHub Actions.
+- Store run ID, logs, artifacts, and status in `revenue_institutional_program_runs`.
+
+### Program 14: Real Worker Runtime
+
+Outcome: worker runtime proof now persists leases, claimed jobs, completed attempts, retryable failures, concurrency, and replay evidence.
+
+Remaining production proof:
+
+- Run a deployed scheduled worker continuously.
+- Add replay UI for dead letters.
+- Capture real provider handler traces.
+
+### Program 15: Live Integration Activation
+
+Outcome: provider checks persist configured/live-verified/missing state for Google Places, Exa, Gmail, OpenAI, and Resend without exposing secrets.
+
+Remaining production proof:
+
+- Run staging probes for each provider.
+- Store provider response metadata, quota state, and last successful sync/send timestamps.
+
+### Program 16: Observability + SLOs
+
+Outcome: SLO snapshots now persist queue depth, queue age, provider p95 latency, webhook freshness, cost estimate, and alerts.
+
+Remaining production proof:
+
+- Wire Sentry spans and alert delivery.
+- Add dashboards for rolling SLO windows and cost by tenant/provider.
+
+### Program 17: Compliance Workflow Productization
+
+Outcome: export, delete, suppress, and anonymize workflow jobs are now durable with required/completed steps.
+
+Remaining production proof:
+
+- Add operator UI to complete export/delete/anonymize actions.
+- Add retention cron and evidence attachments.
+
+### Program 18: Client SaaS Surface
+
+Outcome: client/admin surfaces now persist allowed actions, blocked actions, quota state, and tenant proof.
+
+Remaining production proof:
+
+- Build dedicated client Revenue OS dashboard routes.
+- Add API key management UI, billing limits, and tenant-scoped E2E coverage.
+
+### Program 19: Deliverability Operations
+
+Outcome: deliverability audits now persist domain status, SPF/DKIM/DMARC state, warmup, caps, bounce/complaint/reply rates, and automatic stops.
+
+Remaining production proof:
+
+- Add DNS probes.
+- Add automatic pause rules tied to real webhook rates.
+
+### Program 20: Real Load + Scale Proof
+
+Outcome: load proof now persists 5-tenant, 1k-lead, 10k-job targets and latency budgets.
+
+Remaining production proof:
+
+- Seed staging with actual rows.
+- Capture dashboard/API/export p95 from measured test runs.
+
+### Program 21: AI/ML Eval Harness
+
+Outcome: eval harness now persists suite, model version, prompt version, score, hallucination/spam/evidence failures, cost, and results.
+
+Remaining production proof:
+
+- Add real structured LLM replay once live credentials are configured.
+- Add drift reports against actual outcomes over time.
+
 ## Program 6: Inbox and Reply Intelligence
 
 Objective: Connect real replies to CRM stages and next best actions.
@@ -345,6 +447,8 @@ Objective: Make the system usable for Sage Ideas and future SMB/B2B clients with
 
 ## Program 8: Public API and Productization Layer
 
+Status: **completed and verified locally against the remote Supabase database.**
+
 Objective: Let the system accept APIs, datasets, webhooks, and exports like a real product.
 
 ### Phases
@@ -367,6 +471,18 @@ Objective: Let the system accept APIs, datasets, webhooks, and exports like a re
 
 5. **API docs and examples**
    - Add local docs, request/response schemas, curl examples, and error codes.
+
+### Verified Deliverables
+
+- Migration: `0044_revenue_os_public_api.sql` adds hashed API keys, request logs, ingestion events, and webhook event storage.
+- API keys: tenant-bound key records store hashes, prefixes, last-four display, scopes, status, expiry, and last-used timestamps.
+- Auth: bearer API key validation uses constant-time hash comparison and per-endpoint scope checks.
+- Ingestion endpoints: `POST /api/revenue-os/v1/leads`, `/jobs`, `/events`, `/audits`, and `/outcomes`.
+- Exports: `GET /api/revenue-os/v1/exports?resource=accounts|jobs|ingestions&format=json|csv`.
+- Webhooks: `POST /api/revenue-os/v1/webhooks` requires HMAC signature over `timestamp.rawBody`.
+- Security: RLS protects all Program 8 tables; anon read/write checks are covered in the RLS suite.
+- Docs: `docs/revenue-os-public-api.md` documents auth, scopes, ingestion, exports, and signed webhook examples.
+- E2E proof: seeded tenant API key successfully ingests lead/job/event/outcome, exports tenant data, records signed webhook, and persists request/ingestion audit rows.
    - Outcome: productized developer surface.
 
 ### Verified Deliverables
@@ -378,6 +494,12 @@ Objective: Let the system accept APIs, datasets, webhooks, and exports like a re
 - E2E proof: external script imports leads, records outcomes, exports metrics, and fails correctly with invalid keys.
 
 ## Program 9: ML Scoring and Learning Loop
+
+Status: Completed in implementation. Program 9 now persists feature snapshots, outcome labels,
+model versions, scored decisions, legacy score compatibility rows, calibration reports, and an
+admin proof action/dashboard panel. The deterministic proof trains a local baseline model, scores
+fresh leads, compares rule and learned scores, stores calibration bands, and logs low-sample drift
+warnings for operator review.
 
 Objective: Move from hand-tuned rules to measured, improving prioritization.
 
@@ -413,6 +535,11 @@ Objective: Move from hand-tuned rules to measured, improving prioritization.
 
 ## Program 10: Revenue Intelligence Dashboard
 
+Status: Completed in implementation. Program 10 now has a dedicated dashboard aggregation layer,
+operator panel, proof action, KPI grid, conversion dimensions, trend deltas, working/failing
+insights, priority queue, and client-report summary. The proof seeds real CRM accounts, daily
+metrics, email queue rows, and a job application so the dashboard can be verified end to end.
+
 Objective: Give the operator and future clients a real command center, not scattered panels.
 
 ### Phases
@@ -445,6 +572,11 @@ Objective: Give the operator and future clients a real command center, not scatt
 - E2E proof: import/send/reply/book/win events update metrics and insights correctly.
 
 ## Program 11: Compliance, Privacy, and Governance
+
+Status: Completed in implementation. Program 11 now stores compliance records,
+privacy requests, governance reports, source provenance, consent basis, business
+context, unsubscribe proof, retention dates, suppression evidence, and tenant
+governance scorecards with admin proof and E2E coverage.
 
 Objective: Make the system professionally defensible for B2B outreach and client use.
 
@@ -479,6 +611,11 @@ Objective: Make the system professionally defensible for B2B outreach and client
 - E2E proof: delete/suppress/export request changes data and blocks future sends.
 
 ## Program 12: Production Operations and CI Proof
+
+Status: Completed in implementation. Program 12 now exposes `/api/health/revenue-os`,
+stores ops health snapshots, CI proof, load smoke evidence, and ships a production
+runbook covering worker failures, connector credentials, bounce rates, migration
+failures, and tenant incidents. CI includes a high-severity audit gate.
 
 Objective: Prove the system can run daily without silent breakage.
 
@@ -561,11 +698,11 @@ The Revenue OS is institutional-grade only when all of these are true:
 5. Program 5: Email Safety, Deliverability, and Sequences
 6. Program 6: Inbox and Reply Intelligence
 7. Program 7: Multi-Tenant SaaS Foundation — completed
-8. Program 8: Public API and Productization Layer — next
-9. Program 9: ML Scoring and Learning Loop
-10. Program 10: Revenue Intelligence Dashboard
-11. Program 11: Compliance, Privacy, and Governance
-12. Program 12: Production Operations and CI Proof
+8. Program 8: Public API and Productization Layer — completed
+9. Program 9: ML Scoring and Learning Loop — completed
+10. Program 10: Revenue Intelligence Dashboard — completed
+11. Program 11: Compliance, Privacy, and Governance — completed
+12. Program 12: Production Operations and CI Proof — completed
 
 This order is intentional. Durable execution comes before more integrations. Live data comes before AI/ML optimization. Safety and tenancy come before client-facing SaaS. Observability and CI proof come last as the institutional lock.
 

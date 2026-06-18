@@ -30,26 +30,37 @@ import {
   OPERATOR_SAVED_VIEWS,
   type OperatorAccountFilters,
 } from '@/lib/revenue-os/operator-dashboard';
+import { buildRevenueIntelligenceDashboard } from '@/lib/revenue-os/revenue-intelligence-dashboard';
 import {
   draftOutreachMessage,
   enrichAcquisitionAccount,
   generateWebsiteAudit,
   bulkImportAcquisitionAccounts,
+  createRevenueOsApiKey,
   createRevenueOsPersistenceProof,
   importAcquisitionAccount,
   recordOutreachOutcome,
   recordLeadSourceHealthProof,
+  replayRevenueOsDeadLetter,
+  revokeRevenueOsApiKey,
   rescoreAcquisitionAccount,
+  runRevenueOsDeliverabilityDnsProbe,
+  runRevenueOsGovernanceProof,
   runRevenueOsAiPersonalizationProof,
   runRevenueOsEmailSafetyProof,
   runRevenueOsInboxReplyIntelligenceProof,
+  runRevenueOsInstitutionalHardeningProof,
   runRevenueOsIntelligenceProof,
+  runRevenueOsMlLearningLoopProof,
+  runRevenueOsProductionOpsProof,
+  runRevenueOsRevenueIntelligenceDashboardProof,
   runRevenueOsTenantSaasFoundationProof,
   runRevenueOsConnectorOutreachProof,
   runJobAutomationProof,
   scheduleAcquisitionFollowUp,
   sendRevenueEmailQueueItem,
   suppressAcquisitionAccount,
+  updateRevenueOsPrivacyWorkflowJob,
 } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -153,7 +164,10 @@ type RevenueEmailQueueRow = {
   provider_message_id: string | null;
   scheduled_at: string | null;
   sent_at: string | null;
+  sequence_key: string | null;
   metadata: {
+    tenantId?: string;
+    persona?: string;
     delivery?: {
       mode?: string;
       reason?: string;
@@ -178,6 +192,65 @@ type RevenueJobApplicationRow = {
       atsKeywordCoverage?: number;
     };
   } | null;
+  created_at: string;
+};
+
+type RevenueWorkerDeadLetterRow = {
+  id: string;
+  run_key: string;
+  job_kind: string;
+  target: string;
+  error_code: string;
+  error_message: string;
+  attempts_used: number;
+  retryable: boolean;
+  resolved_at: string | null;
+  created_at: string;
+};
+
+type RevenuePrivacyWorkflowJobRow = {
+  id: string;
+  run_key: string;
+  tenant_key: string;
+  request_type: string;
+  subject_email: string;
+  status: string;
+  required_steps: string[] | null;
+  completed_steps: string[] | null;
+  created_at: string;
+};
+
+type RevenueWorkspaceRow = {
+  id: string;
+  run_key: string | null;
+  tenant_key: string;
+  business_name: string;
+  owner_email: string;
+  status: string;
+  created_at: string;
+};
+
+type RevenueApiKeyRow = {
+  id: string;
+  tenant_key: string;
+  name: string;
+  key_prefix: string;
+  last_four: string;
+  scopes: string[] | null;
+  status: string;
+  last_used_at: string | null;
+  created_at: string;
+};
+
+type RevenueDeliverabilityAuditRow = {
+  id: string;
+  run_key: string;
+  sending_domain: string;
+  status: string;
+  spf_status: string;
+  dkim_status: string;
+  dmarc_status: string;
+  daily_cap: number;
   created_at: string;
 };
 
@@ -383,6 +456,26 @@ export default async function AdminAcquisitionPage({
     inboxMessagesRes,
     inboxClassificationsRes,
     inboxActionSuggestionsRes,
+    mlFeatureSnapshotsRes,
+    mlOutcomeLabelsRes,
+    mlModelVersionsRes,
+    mlScoringDecisionsRes,
+    mlCalibrationReportsRes,
+    complianceRecordsRes,
+    privacyRequestsRes,
+    governanceReportsRes,
+    opsHealthSnapshotsRes,
+    opsCiProofsRes,
+    opsLoadSmokesRes,
+    institutionalProgramRunsRes,
+    liveIntegrationChecksRes,
+    workerRuntimeExecutionsRes,
+    observabilitySloSnapshotsRes,
+    privacyWorkflowJobsRes,
+    clientSurfaceProofsRes,
+    deliverabilityAuditsRes,
+    loadScaleProofsRes,
+    aiMlEvalHarnessRunsRes,
     workspaceRes,
     workspaceMembersRes,
     workspaceConfigsRes,
@@ -461,9 +554,9 @@ export default async function AdminAcquisitionPage({
       sb.from('revenue_eval_runs').select('id', { count: 'exact', head: true }),
       sb
         .from('revenue_email_queue')
-        .select('id, recipient_email, subject, status, provider_message_id, scheduled_at, sent_at, metadata, created_at')
+        .select('id, recipient_email, subject, status, provider_message_id, scheduled_at, sent_at, sequence_key, metadata, created_at')
         .order('created_at', { ascending: false })
-        .limit(8),
+        .limit(50),
       sb.from('revenue_email_safety_reports').select('id', { count: 'exact', head: true }),
       sb.from('revenue_email_domain_health').select('id', { count: 'exact', head: true }),
       sb.from('revenue_suppression_events').select('id', { count: 'exact', head: true }),
@@ -473,6 +566,26 @@ export default async function AdminAcquisitionPage({
       sb.from('revenue_inbox_messages').select('id', { count: 'exact', head: true }),
       sb.from('revenue_inbox_classifications').select('id', { count: 'exact', head: true }),
       sb.from('revenue_inbox_action_suggestions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_feature_snapshots').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_outcome_labels').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_model_versions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_scoring_decisions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_calibration_reports').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_compliance_records').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_privacy_requests').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_governance_reports').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ops_health_snapshots').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ops_ci_proofs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ops_load_smokes').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_institutional_program_runs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_live_integration_checks').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_worker_runtime_executions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_observability_slo_snapshots').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_privacy_workflow_jobs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_client_surface_proofs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_deliverability_audits').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_load_scale_proofs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ai_ml_eval_harness_runs').select('id', { count: 'exact', head: true }),
       sb.from('revenue_workspaces').select('id', { count: 'exact', head: true }),
       sb.from('revenue_workspace_members').select('id', { count: 'exact', head: true }),
       sb.from('revenue_workspace_configs').select('id', { count: 'exact', head: true }),
@@ -508,6 +621,45 @@ export default async function AdminAcquisitionPage({
   const outreachStatuses = (outreachStatusRes.data ?? []) as OutreachStatusRow[];
   const revenueEmailQueueRows = (revenueEmailQueueRowsRes.data ?? []) as RevenueEmailQueueRow[];
   const recentJobApplications = (recentJobApplicationsRes.data ?? []) as unknown as RevenueJobApplicationRow[];
+  const [
+    recentDeadLettersRes,
+    recentPrivacyJobsRes,
+    recentWorkspacesRes,
+    recentApiKeysRes,
+    recentDeliverabilityAuditsRes,
+  ] = await Promise.all([
+    sb
+      .from('revenue_worker_dead_letters')
+      .select('id, run_key, job_kind, target, error_code, error_message, attempts_used, retryable, resolved_at, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6),
+    sb
+      .from('revenue_privacy_workflow_jobs')
+      .select('id, run_key, tenant_key, request_type, subject_email, status, required_steps, completed_steps, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6),
+    sb
+      .from('revenue_workspaces')
+      .select('id, run_key, tenant_key, business_name, owner_email, status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6),
+    sb
+      .from('revenue_api_keys')
+      .select('id, tenant_key, name, key_prefix, last_four, scopes, status, last_used_at, created_at')
+      .order('created_at', { ascending: false })
+      .limit(8),
+    sb
+      .from('revenue_deliverability_audits')
+      .select('id, run_key, sending_domain, status, spf_status, dkim_status, dmarc_status, daily_cap, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6),
+  ]);
+  const recentDeadLetters = (recentDeadLettersRes.data ?? []) as RevenueWorkerDeadLetterRow[];
+  const recentPrivacyJobs = (recentPrivacyJobsRes.data ?? []) as RevenuePrivacyWorkflowJobRow[];
+  const recentWorkspaces = (recentWorkspacesRes.data ?? []) as RevenueWorkspaceRow[];
+  const recentApiKeys = (recentApiKeysRes.data ?? []) as RevenueApiKeyRow[];
+  const recentDeliverabilityAudits = (recentDeliverabilityAuditsRes.data ?? []) as RevenueDeliverabilityAuditRow[];
+  const defaultWorkspace = recentWorkspaces[0];
   const outreachCounts = outreachStatuses.reduce<Record<string, number>>((acc, row) => {
     acc[row.status] = (acc[row.status] ?? 0) + 1;
     return acc;
@@ -602,6 +754,35 @@ export default async function AdminAcquisitionPage({
     productionReadiness,
     metrics,
   });
+  const revenueIntelligenceDashboard = buildRevenueIntelligenceDashboard({
+    totals: intelligence.totals,
+    breakdowns: intelligence.breakdowns,
+    metricRows,
+    accounts: accounts.map((account) => ({
+      id: account.id,
+      name: account.name,
+      priority: account.priority,
+      stage: account.stage,
+      totalScore: account.total_score,
+      nextAction: account.next_action,
+      metadata: account.metadata,
+    })),
+    emailRows: revenueEmailQueueRows.map((email) => ({
+      id: email.id,
+      recipientEmail: email.recipient_email,
+      status: email.status,
+      sequenceKey: email.sequence_key,
+      metadata: email.metadata,
+    })),
+    jobApplications: recentJobApplications.map((application) => ({
+      id: application.id,
+      stage: application.stage,
+      resumeVariant: application.resume_variant,
+    })),
+    dailyActions: dailyRun.actions,
+    blockedEmailCount: emailQueue.summary.blocked + revenueEmailQueueRows.filter((email) => email.status === 'blocked').length,
+    deadLetterCount: workerDeadLettersRes.count ?? 0,
+  });
 
   const urgentCount = accounts.filter((account) => account.priority === 'urgent').length;
   const qualifiedCount = accounts.filter((account) =>
@@ -618,6 +799,11 @@ export default async function AdminAcquisitionPage({
   const emailSafetyRunKey = `email-safe-${Date.now()}`;
   const inboxReplyRunKey = `inbox-reply-${Date.now()}`;
   const tenantSaasRunKey = `tenant-saas-${Date.now()}`;
+  const mlLearningRunKey = `ml-learning-${Date.now()}`;
+  const revenueIntelligenceRunKey = `revenue-intel-${Date.now()}`;
+  const governanceRunKey = `governance-${Date.now()}`;
+  const productionOpsRunKey = `ops-proof-${Date.now()}`;
+  const institutionalRunKey = `institutional-${Date.now()}`;
   const leadSourceHealth = buildLeadSourceCredentialHealth();
   const leadSourceDecisions = [
     buildLeadSourceRunDecision({
@@ -704,6 +890,37 @@ export default async function AdminAcquisitionPage({
     ['Usage', workspaceUsageRes.count ?? 0],
     ['Billing', workspaceBillingRes.count ?? 0],
     ['Audit logs', workspaceAuditLogsRes.count ?? 0],
+  ];
+  const mlLearningCounts = [
+    ['Features', mlFeatureSnapshotsRes.count ?? 0],
+    ['Labels', mlOutcomeLabelsRes.count ?? 0],
+    ['Models', mlModelVersionsRes.count ?? 0],
+    ['Decisions', mlScoringDecisionsRes.count ?? 0],
+    ['Calibration', mlCalibrationReportsRes.count ?? 0],
+    ['Legacy scores', mlScoresRes.count ?? 0],
+  ];
+  const governanceCounts = [
+    ['Compliance records', complianceRecordsRes.count ?? 0],
+    ['Privacy requests', privacyRequestsRes.count ?? 0],
+    ['Governance reports', governanceReportsRes.count ?? 0],
+    ['Suppression events', suppressionEventsRes.count ?? 0],
+  ];
+  const productionOpsCounts = [
+    ['Health snapshots', opsHealthSnapshotsRes.count ?? 0],
+    ['CI proofs', opsCiProofsRes.count ?? 0],
+    ['Load smokes', opsLoadSmokesRes.count ?? 0],
+    ['Dead letters', workerDeadLettersRes.count ?? 0],
+  ];
+  const institutionalCounts = [
+    ['Program runs', institutionalProgramRunsRes.count ?? 0],
+    ['Live checks', liveIntegrationChecksRes.count ?? 0],
+    ['Worker executions', workerRuntimeExecutionsRes.count ?? 0],
+    ['SLO snapshots', observabilitySloSnapshotsRes.count ?? 0],
+    ['Privacy jobs', privacyWorkflowJobsRes.count ?? 0],
+    ['Client surfaces', clientSurfaceProofsRes.count ?? 0],
+    ['Deliverability audits', deliverabilityAuditsRes.count ?? 0],
+    ['Load proofs', loadScaleProofsRes.count ?? 0],
+    ['AI/ML evals', aiMlEvalHarnessRunsRes.count ?? 0],
   ];
 
   return (
@@ -1270,6 +1487,419 @@ export default async function AdminAcquisitionPage({
                 <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-9">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 9: ML Scoring + Learning Loop</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Feature snapshots, outcome labels, model versions, scored decisions, calibration bands,
+                drift warnings, and rule-vs-learned decision logging.
+              </p>
+            </div>
+            <form action={runRevenueOsMlLearningLoopProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-ml-learning-form">
+              <input
+                name="runKey"
+                defaultValue={mlLearningRunKey}
+                aria-label="Revenue OS ML learning proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-ml-learning"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run ML proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-6">
+            {mlLearningCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-10">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 10: Revenue Intelligence Dashboard</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Unified KPIs, conversion rates by channel and tenant, daily trend deltas,
+                what-is-working insights, priority queue, and client-ready report summary.
+              </p>
+            </div>
+            <form action={runRevenueOsRevenueIntelligenceDashboardProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-revenue-intelligence-form">
+              <input
+                name="runKey"
+                defaultValue={revenueIntelligenceRunKey}
+                aria-label="Revenue OS intelligence dashboard proof run key"
+                className="w-60 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-revenue-intelligence"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run dashboard proof
+              </button>
+            </form>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5" data-testid="revenue-intelligence-kpis">
+            {revenueIntelligenceDashboard.kpis.map((kpi) => (
+              <div key={kpi.label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{kpi.label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">
+                  {kpi.label === 'Pipeline' ? formatCurrency(Number(kpi.value)) : kpi.value}
+                </div>
+                <div className="mt-1 truncate text-[11px] text-[#52525b]">{kpi.detail}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-intelligence-insights">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#67e8f9]">Health</div>
+                  <div className="mt-1 text-lg font-semibold text-[#fafafa]">{revenueIntelligenceDashboard.health.score}/100</div>
+                </div>
+                <div className="text-right text-xs text-[#a1a1aa]">
+                  {revenueIntelligenceDashboard.health.blockers} blocker{revenueIntelligenceDashboard.health.blockers === 1 ? '' : 's'}
+                </div>
+              </div>
+              <div className="mt-3 space-y-2 text-xs leading-relaxed text-[#a1a1aa]">
+                {[...revenueIntelligenceDashboard.insights.whatChanged, ...revenueIntelligenceDashboard.insights.whatIsWorking, revenueIntelligenceDashboard.insights.nextExperiment]
+                  .slice(0, 6)
+                  .map((item) => (
+                    <div key={item} className="rounded-md border border-[#27272a] bg-[#0f0f12] p-2">
+                      {item}
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-intelligence-priority-queue">
+              <div className="mb-3 text-[10px] font-mono uppercase tracking-widest text-[#67e8f9]">Today priority queue</div>
+              <div className="space-y-2">
+                {revenueIntelligenceDashboard.priorityQueue.map((item) => (
+                  <div key={`${item.lane}-${item.title}`} className="rounded-md border border-[#27272a] bg-[#0f0f12] p-2">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="truncate text-xs font-semibold text-[#fafafa]">{item.title}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{item.lane}</div>
+                    </div>
+                    <div className="mt-1 text-xs leading-relaxed text-[#a1a1aa]">{item.detail}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <BreakdownList title="Email domain" rows={revenueIntelligenceDashboard.conversion.byEmailDomain.slice(0, 5)} />
+            <BreakdownList title="Sequence" rows={revenueIntelligenceDashboard.conversion.bySequence.slice(0, 5)} />
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-intelligence-client-report">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#67e8f9]">Client report</div>
+              <div className="mt-2 text-sm font-semibold text-[#fafafa]">{revenueIntelligenceDashboard.clientReport.summary}</div>
+              <div className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
+                Recommended focus: {revenueIntelligenceDashboard.clientReport.recommendedFocus}
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {revenueIntelligenceDashboard.clientReport.exportRows.map((row) => (
+                  <div key={row.metric} className="rounded-md border border-[#27272a] bg-[#0f0f12] p-2">
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{row.metric.replaceAll('_', ' ')}</div>
+                    <div className="mt-1 text-sm font-semibold tabular-nums text-[#fafafa]">{row.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-11">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 11: Compliance, Privacy + Governance</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Consent basis, source provenance, unsubscribe proof, retention dates,
+                privacy workflows, suppression evidence, and governance reporting.
+              </p>
+            </div>
+            <form action={runRevenueOsGovernanceProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-governance-form">
+              <input
+                name="runKey"
+                defaultValue={governanceRunKey}
+                aria-label="Revenue OS governance proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-governance"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run governance proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {governanceCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-12">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 12: Production Operations + CI Proof</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Revenue OS health snapshots, CI quality gates, load smoke evidence,
+                provider degradation visibility, and incident runbook coverage.
+              </p>
+            </div>
+            <form action={runRevenueOsProductionOpsProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-production-ops-form">
+              <input
+                name="runKey"
+                defaultValue={productionOpsRunKey}
+                aria-label="Revenue OS production ops proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-production-ops"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run ops proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {productionOpsCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+            <a
+              href="/api/health/revenue-os"
+              className="rounded-lg border border-[#27272a] bg-[#09090B] p-3 text-xs text-[#a1a1aa] transition-colors hover:border-[#06b6d4]/60 hover:text-[#67e8f9]"
+            >
+              Health endpoint · /api/health/revenue-os
+            </a>
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-3 text-xs text-[#a1a1aa]">
+              Required gates · lint, typecheck, unit, RLS, build, E2E, prod verify, audit
+            </div>
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-3 text-xs text-[#a1a1aa]">
+              Runbooks · workers, connectors, bounce rate, migrations, tenant incident
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-13-21">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Programs 13-21: Institutional Production Hardening</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Clean CI proof, live integrations, worker runtime, observability, compliance jobs,
+                client SaaS controls, deliverability operations, load scale proof, and AI/ML eval gates.
+              </p>
+            </div>
+            <form action={runRevenueOsInstitutionalHardeningProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-institutional-hardening-form">
+              <input
+                name="runKey"
+                defaultValue={institutionalRunKey}
+                aria-label="Revenue OS institutional hardening proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-institutional-hardening"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run institutional proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-9">
+            {institutionalCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-os-dead-letter-replay">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-xs font-semibold text-[#fafafa]">Dead-letter replay</h3>
+                  <p className="mt-1 text-[11px] text-[#71717a]">Retry failed worker jobs only after inspecting the error.</p>
+                </div>
+                <span className="rounded-md border border-[#27272a] px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa]">
+                  {recentDeadLetters.filter((item) => !item.resolved_at).length} open
+                </span>
+              </div>
+              {recentDeadLetters.length === 0 ? (
+                <div className="text-xs text-[#71717a]">No dead letters recorded.</div>
+              ) : (
+                <div className="space-y-2">
+                  {recentDeadLetters.map((item) => (
+                    <div key={item.id} className="grid gap-3 rounded-lg border border-[#1f1f23] bg-[#0f0f12] p-3 lg:grid-cols-[1fr_120px]">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-xs font-semibold text-[#fafafa]">{item.job_kind}</span>
+                          <span className="rounded-md border border-[#27272a] px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa]">{item.error_code}</span>
+                          {item.resolved_at ? <span className="text-[10px] text-emerald-300">resolved</span> : null}
+                        </div>
+                        <div className="mt-1 truncate text-xs text-[#a1a1aa]">{item.target}</div>
+                        <div className="mt-1 line-clamp-2 text-[11px] text-[#71717a]">{item.error_message}</div>
+                      </div>
+                      <form action={replayRevenueOsDeadLetter}>
+                        <input type="hidden" name="id" value={item.id} />
+                        <button
+                          disabled={Boolean(item.resolved_at)}
+                          className="w-full rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] hover:bg-[#06b6d4]/15 disabled:cursor-not-allowed disabled:border-[#27272a] disabled:bg-transparent disabled:text-[#52525b]"
+                        >
+                          Replay
+                        </button>
+                      </form>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-os-deliverability-dns">
+              <h3 className="text-xs font-semibold text-[#fafafa]">DNS deliverability probe</h3>
+              <p className="mt-1 text-[11px] text-[#71717a]">Checks SPF, DMARC, and common DKIM TXT records, then stores a deliverability audit row.</p>
+              <form action={runRevenueOsDeliverabilityDnsProbe} className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
+                <input
+                  name="domain"
+                  defaultValue="sageideas.dev"
+                  aria-label="Sending domain"
+                  className="rounded-lg border border-[#27272a] bg-[#0f0f12] px-3 py-2 text-xs text-[#fafafa] focus:border-[#06b6d4]/60 focus:outline-none"
+                />
+                <input
+                  name="runKey"
+                  defaultValue={`dns-${Date.now()}`}
+                  aria-label="DNS probe run key"
+                  className="rounded-lg border border-[#27272a] bg-[#0f0f12] px-3 py-2 text-xs text-[#fafafa] focus:border-[#06b6d4]/60 focus:outline-none"
+                />
+                <button className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] hover:bg-[#06b6d4]/15">
+                  Probe DNS
+                </button>
+              </form>
+              <div className="mt-3 space-y-2">
+                {recentDeliverabilityAudits.map((audit) => (
+                  <div key={audit.id} className="rounded-lg border border-[#1f1f23] bg-[#0f0f12] p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-semibold text-[#fafafa]">{audit.sending_domain}</span>
+                      <span className="rounded-md border border-[#27272a] px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa]">{audit.status}</span>
+                    </div>
+                    <div className="mt-2 grid grid-cols-4 gap-2 text-[10px] font-mono uppercase tracking-widest text-[#71717a]">
+                      <span>SPF {audit.spf_status}</span>
+                      <span>DKIM {audit.dkim_status}</span>
+                      <span>DMARC {audit.dmarc_status}</span>
+                      <span>CAP {audit.daily_cap}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-os-privacy-workflows">
+              <h3 className="text-xs font-semibold text-[#fafafa]">Privacy workflow operations</h3>
+              <p className="mt-1 text-[11px] text-[#71717a]">Export, delete, suppress, and anonymize jobs with operator evidence.</p>
+              <div className="mt-3 space-y-2">
+                {recentPrivacyJobs.length === 0 ? (
+                  <div className="text-xs text-[#71717a]">No privacy workflow jobs yet.</div>
+                ) : recentPrivacyJobs.map((job) => (
+                  <div key={job.id} className="rounded-lg border border-[#1f1f23] bg-[#0f0f12] p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-semibold text-[#fafafa]">{job.request_type}</span>
+                      <span className="rounded-md border border-[#27272a] px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa]">{job.status}</span>
+                    </div>
+                    <div className="mt-1 truncate text-xs text-[#a1a1aa]">{job.subject_email}</div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {(['verify', 'complete', 'block'] as const).map((action) => (
+                        <form key={action} action={updateRevenueOsPrivacyWorkflowJob}>
+                          <input type="hidden" name="id" value={job.id} />
+                          <input type="hidden" name="action" value={action} />
+                          <button className="rounded-md border border-[#27272a] px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa] hover:border-[#06b6d4]/60 hover:text-[#67e8f9]">
+                            {action}
+                          </button>
+                        </form>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-[#27272a] bg-[#09090B] p-4" data-testid="revenue-os-api-key-management">
+              <h3 className="text-xs font-semibold text-[#fafafa]">Client SaaS + API keys</h3>
+              <p className="mt-1 text-[11px] text-[#71717a]">Tenant-bound API keys with scopes, revocation, usage state, and workspace context.</p>
+              <form action={createRevenueOsApiKey} className="mt-3 grid gap-2">
+                <input type="hidden" name="workspaceId" value={defaultWorkspace?.id ?? ''} />
+                <input
+                  name="tenantKey"
+                  defaultValue={defaultWorkspace?.tenant_key ?? 'tenant-sageideas-dev'}
+                  aria-label="Tenant key"
+                  className="rounded-lg border border-[#27272a] bg-[#0f0f12] px-3 py-2 text-xs text-[#fafafa] focus:border-[#06b6d4]/60 focus:outline-none"
+                />
+                <input
+                  name="name"
+                  defaultValue="Operator generated API key"
+                  aria-label="API key name"
+                  className="rounded-lg border border-[#27272a] bg-[#0f0f12] px-3 py-2 text-xs text-[#fafafa] focus:border-[#06b6d4]/60 focus:outline-none"
+                />
+                <div className="grid gap-2 text-[11px] text-[#a1a1aa] sm:grid-cols-3">
+                  {['leads:write', 'jobs:write', 'events:write', 'outcomes:write', 'exports:read', 'webhooks:write'].map((scope) => (
+                    <label key={scope} className="flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                      <input name="scopes" type="checkbox" value={scope} defaultChecked={['leads:write', 'jobs:write', 'events:write', 'outcomes:write', 'exports:read'].includes(scope)} />
+                      {scope}
+                    </label>
+                  ))}
+                </div>
+                <button className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] hover:bg-[#06b6d4]/15">
+                  Create scoped key
+                </button>
+              </form>
+              <div className="mt-3 space-y-2">
+                {recentApiKeys.map((key) => (
+                  <div key={key.id} className="grid gap-3 rounded-lg border border-[#1f1f23] bg-[#0f0f12] p-3 lg:grid-cols-[1fr_100px]">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="truncate text-xs font-semibold text-[#fafafa]">{key.name}</span>
+                        <span className="rounded-md border border-[#27272a] px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-[#a1a1aa]">{key.status}</span>
+                      </div>
+                      <div className="mt-1 text-[11px] text-[#71717a]">{key.tenant_key} · {key.key_prefix}...{key.last_four}</div>
+                      <div className="mt-1 truncate text-[10px] font-mono uppercase tracking-widest text-[#52525b]">{(key.scopes ?? []).join(' · ') || 'no scopes'}</div>
+                    </div>
+                    <form action={revokeRevenueOsApiKey}>
+                      <input type="hidden" name="id" value={key.id} />
+                      <button
+                        disabled={key.status !== 'active'}
+                        className="w-full rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-xs font-semibold text-rose-200 hover:bg-rose-500/15 disabled:cursor-not-allowed disabled:border-[#27272a] disabled:bg-transparent disabled:text-[#52525b]"
+                      >
+                        Revoke
+                      </button>
+                    </form>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 

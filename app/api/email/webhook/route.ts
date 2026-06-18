@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
 
     const { data: queueItem } = await sb
       .from('revenue_email_queue')
-      .select('id, metadata')
+      .select('id, sequence_key, metadata')
       .eq('provider_message_id', revenueEvent.providerMessageId)
       .maybeSingle();
 
@@ -150,6 +150,33 @@ export async function POST(req: NextRequest) {
       if (revenueEvent.queueStatus) patch.status = revenueEvent.queueStatus;
       if (revenueEvent.queueStatus === 'sent') patch.sent_at = revenueEvent.occurredAt;
       await sb.from('revenue_email_queue').update(patch).eq('id', queueItem.id);
+
+      if (revenueEvent.requiresSuppression && queueItem.sequence_key) {
+        const reason = revenueEvent.eventType === 'bounced'
+          ? 'bounce_received'
+          : revenueEvent.eventType === 'complained'
+            ? 'complaint_received'
+            : revenueEvent.eventType === 'unsubscribed'
+              ? 'unsubscribe_received'
+              : null;
+        if (reason) {
+          await sb.from('revenue_sequence_stop_events').insert({
+            run_key: ((queueItem.metadata as Record<string, unknown> | null)?.runKey as string | undefined)
+              ?? `webhook-${new Date().toISOString().slice(0, 10)}`,
+            sequence_key: queueItem.sequence_key,
+            reason,
+            message_id: queueItem.id,
+            occurred_at: revenueEvent.occurredAt,
+            metadata: {
+              provider: 'resend',
+              providerMessageId: revenueEvent.providerMessageId,
+              providerEventId,
+              recipientEmail: revenueEvent.recipientEmail,
+              source: 'resend_webhook',
+            },
+          });
+        }
+      }
     }
 
     if (revenueEvent.suppression) {

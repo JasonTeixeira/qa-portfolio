@@ -50,6 +50,30 @@ const READ_TABLES = [
   'revenue_workspace_usage',
   'revenue_workspace_billing_boundaries',
   'revenue_workspace_audit_logs',
+  'revenue_api_keys',
+  'revenue_api_requests',
+  'revenue_api_ingestion_events',
+  'revenue_api_webhook_events',
+  'revenue_ml_feature_snapshots',
+  'revenue_ml_outcome_labels',
+  'revenue_ml_model_versions',
+  'revenue_ml_scoring_decisions',
+  'revenue_ml_calibration_reports',
+  'revenue_compliance_records',
+  'revenue_privacy_requests',
+  'revenue_governance_reports',
+  'revenue_ops_health_snapshots',
+  'revenue_ops_ci_proofs',
+  'revenue_ops_load_smokes',
+  'revenue_institutional_program_runs',
+  'revenue_live_integration_checks',
+  'revenue_worker_runtime_executions',
+  'revenue_observability_slo_snapshots',
+  'revenue_privacy_workflow_jobs',
+  'revenue_client_surface_proofs',
+  'revenue_deliverability_audits',
+  'revenue_load_scale_proofs',
+  'revenue_ai_ml_eval_harness_runs',
 ];
 
 const WRITE_TABLES = [
@@ -289,6 +313,220 @@ const WRITE_TABLES = [
       tenant_key: 'anon-blocked',
       action: 'blocked',
       entity_type: 'workspace',
+    },
+  },
+  {
+    table: 'revenue_api_keys',
+    payload: {
+      tenant_key: 'anon-blocked',
+      name: 'Blocked API key',
+      key_hash: 'blocked',
+      key_prefix: 'blocked',
+      last_four: '0000',
+      scopes: ['leads:write'],
+    },
+  },
+  {
+    table: 'revenue_api_requests',
+    payload: {
+      tenant_key: 'anon-blocked',
+      endpoint: '/api/revenue-os/v1/leads',
+      method: 'POST',
+      status_code: 202,
+    },
+  },
+  {
+    table: 'revenue_api_ingestion_events',
+    payload: {
+      tenant_key: 'anon-blocked',
+      resource_type: 'lead',
+      payload: { blocked: true },
+    },
+  },
+  {
+    table: 'revenue_api_webhook_events',
+    payload: {
+      tenant_key: 'anon-blocked',
+      provider: 'blocked',
+      event_type: 'blocked',
+      signature_status: 'missing',
+    },
+  },
+  {
+    table: 'revenue_ml_feature_snapshots',
+    payload: {
+      tenant_id: 'anon-blocked',
+      source: 'blocked',
+      industry: 'blocked',
+      offer: 'blocked',
+      rule_score: 50,
+      features: { blocked: true },
+    },
+  },
+  {
+    table: 'revenue_ml_outcome_labels',
+    payload: {
+      tenant_id: 'anon-blocked',
+      outcome: 'no_reply',
+    },
+  },
+  {
+    table: 'revenue_ml_model_versions',
+    payload: {
+      tenant_id: 'anon-blocked',
+      model_version: 'blocked-v1',
+      sample_size: 1,
+    },
+  },
+  {
+    table: 'revenue_ml_scoring_decisions',
+    payload: {
+      tenant_id: 'anon-blocked',
+      model_version: 'blocked-v1',
+      rule_score: 50,
+      learned_score: 50,
+      blended_score: 50,
+      calibrated_probability: 0.5,
+      decision: 'review',
+    },
+  },
+  {
+    table: 'revenue_ml_calibration_reports',
+    payload: {
+      tenant_id: 'anon-blocked',
+      model_version: 'blocked-v1',
+      brier_score: 0.25,
+    },
+  },
+  {
+    table: 'revenue_compliance_records',
+    payload: {
+      tenant_key: 'anon-blocked',
+      contact_email: 'blocked@example.com',
+      source: 'blocked',
+      consent_basis: 'legitimate_interest',
+      business_context: 'anon write should be blocked',
+    },
+  },
+  {
+    table: 'revenue_privacy_requests',
+    payload: {
+      tenant_key: 'anon-blocked',
+      request_type: 'suppress',
+      subject_email: 'blocked@example.com',
+      due_at: new Date().toISOString(),
+    },
+  },
+  {
+    table: 'revenue_governance_reports',
+    payload: {
+      tenant_key: 'anon-blocked',
+      status: 'blocked',
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_ops_health_snapshots',
+    payload: {
+      run_key: 'anon-rls-test',
+      status: 'fail',
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_ops_ci_proofs',
+    payload: {
+      run_key: 'anon-rls-test',
+      ready: false,
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_ops_load_smokes',
+    payload: {
+      run_key: 'anon-rls-test',
+      passed: false,
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_institutional_program_runs',
+    payload: {
+      run_key: 'anon-rls-test',
+      program_key: '13_clean_pr_remote_ci',
+      program_name: 'Clean PR + Remote CI Proof',
+      status: 'blocked',
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_live_integration_checks',
+    payload: {
+      run_key: 'anon-rls-test',
+      provider: 'resend',
+      mode: 'missing',
+    },
+  },
+  {
+    table: 'revenue_worker_runtime_executions',
+    payload: {
+      run_key: 'anon-rls-test',
+      worker_id: 'blocked-worker',
+      status: 'blocked',
+    },
+  },
+  {
+    table: 'revenue_observability_slo_snapshots',
+    payload: {
+      run_key: 'anon-rls-test',
+      status: 'blocked',
+      score: 0,
+    },
+  },
+  {
+    table: 'revenue_privacy_workflow_jobs',
+    payload: {
+      run_key: 'anon-rls-test',
+      tenant_key: 'anon-blocked',
+      request_type: 'suppress',
+      subject_email: 'blocked@example.com',
+      status: 'queued',
+    },
+  },
+  {
+    table: 'revenue_client_surface_proofs',
+    payload: {
+      run_key: 'anon-rls-test',
+      tenant_key: 'anon-blocked',
+      surface: 'client_dashboard',
+      role: 'client_admin',
+      status: 'blocked',
+    },
+  },
+  {
+    table: 'revenue_deliverability_audits',
+    payload: {
+      run_key: 'anon-rls-test',
+      sending_domain: 'blocked.example',
+      status: 'not_configured',
+    },
+  },
+  {
+    table: 'revenue_load_scale_proofs',
+    payload: {
+      run_key: 'anon-rls-test',
+      status: 'blocked',
+    },
+  },
+  {
+    table: 'revenue_ai_ml_eval_harness_runs',
+    payload: {
+      run_key: 'anon-rls-test',
+      eval_suite: 'blocked',
+      model_version: 'blocked',
+      prompt_version: 'blocked',
+      status: 'blocked',
+      score: 0,
     },
   },
 ];

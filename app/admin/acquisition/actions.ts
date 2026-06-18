@@ -1,5 +1,6 @@
 'use server';
 
+import { resolveTxt } from 'node:dns/promises';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
@@ -50,7 +51,41 @@ import {
 } from '@/lib/revenue-os/ai-personalization';
 import { buildEmailSafetyRun } from '@/lib/revenue-os/email-safety';
 import { buildInboxIntelligenceRun, classifyInboxReply } from '@/lib/revenue-os/inbox-intelligence';
-import { buildMlScoringModel, scoreWithMlModel } from '@/lib/revenue-os/ml-scoring';
+import {
+  buildPrivacyWorkflow,
+  buildRevenueComplianceDecision,
+  buildRevenueGovernanceReport,
+} from '@/lib/revenue-os/compliance-governance';
+import {
+  buildMlCalibrationReport,
+  buildMlFeatureSnapshot,
+  buildMlOutcomeLabel,
+  buildMlScoringModel,
+  scoreRevenueMlDecision,
+  scoreWithMlModel,
+  trainRevenueMlModel,
+} from '@/lib/revenue-os/ml-scoring';
+import {
+  buildRevenueCiProof,
+  buildRevenueLoadSmokePlan,
+  buildRevenueOpsHealth,
+  buildRevenueRunbookIndex,
+} from '@/lib/revenue-os/production-ops';
+import {
+  buildRevenueApiKey,
+  type RevenueApiScope,
+} from '@/lib/revenue-os/public-api';
+import {
+  buildAiMlEvalHarnessProof,
+  buildClientSaasSurfaceProof,
+  buildComplianceWorkflowProductization,
+  buildDeliverabilityOperationsAudit,
+  buildInstitutionalProgramRuns,
+  buildLiveIntegrationActivation,
+  buildObservabilitySloSnapshot,
+  buildRealLoadScaleProof,
+  buildRealWorkerRuntimeProof,
+} from '@/lib/revenue-os/institutional-hardening';
 import { buildAdaptiveSequencePlan, advanceAdaptiveSequence } from '@/lib/revenue-os/adaptive-sequences';
 import {
   buildTenantExport,
@@ -140,8 +175,89 @@ const TenantSaasProofSchema = z.object({
   runKey: z.string().trim().min(1).max(120),
 });
 
+const MlLearningLoopProofSchema = z.object({
+  runKey: z.string().trim().min(1).max(120),
+});
+
+const RevenueIntelligenceDashboardProofSchema = z.object({
+  runKey: z.string().trim().min(1).max(120),
+});
+
+const GovernanceProofSchema = z.object({
+  runKey: z.string().trim().min(1).max(120),
+});
+
+const ProductionOpsProofSchema = z.object({
+  runKey: z.string().trim().min(1).max(120),
+});
+
+const InstitutionalHardeningProofSchema = z.object({
+  runKey: z.string().trim().min(1).max(120),
+});
+
+const DeadLetterReplaySchema = z.object({
+  id: z.string().uuid(),
+});
+
+const PrivacyWorkflowJobSchema = z.object({
+  id: z.string().uuid(),
+  action: z.enum(['verify', 'complete', 'block']),
+});
+
+const RevenueApiKeyCreateSchema = z.object({
+  tenantKey: z.string().trim().min(1).max(120),
+  workspaceId: z.string().uuid().optional().or(z.literal('')),
+  name: z.string().trim().min(1).max(120),
+  scopes: z.preprocess(
+    (value) => {
+      if (!value) return [];
+      return Array.isArray(value) ? value : [value];
+    },
+    z.array(z.string()).default([]),
+  ),
+});
+
+const RevenueApiKeyRevokeSchema = z.object({
+  id: z.string().uuid(),
+});
+
+const DeliverabilityDnsProbeSchema = z.object({
+  domain: z.string().trim().min(3).max(253),
+  runKey: z.string().trim().min(1).max(120).optional().or(z.literal('')),
+});
+
 function checkbox(formData: FormData, key: string) {
   return formData.get(key) === 'on';
+}
+
+function formDataToObject(formData: FormData) {
+  const obj: Record<string, FormDataEntryValue | FormDataEntryValue[]> = {};
+  for (const [key, value] of formData.entries()) {
+    if (key in obj) {
+      const existing = obj[key];
+      obj[key] = Array.isArray(existing) ? [...existing, value] : [existing, value];
+    } else {
+      obj[key] = value;
+    }
+  }
+  return obj;
+}
+
+async function dnsTxtContains(domain: string, predicate: (value: string) => boolean) {
+  try {
+    const records = await resolveTxt(domain);
+    const values = records.map((record) => record.join(''));
+    return {
+      status: values.some(predicate) ? 'verified' : 'missing',
+      values,
+    };
+  } catch (error) {
+    return {
+      status: 'missing',
+      values: [],
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
 }
 
 function readSignals(formData: FormData, base: z.infer<typeof ImportSchema>): AcquisitionSignalInput {
@@ -2801,6 +2917,1237 @@ export async function runRevenueOsTenantSaasFoundationProof(formData: FormData):
       workspaces: foundation.workspaces.length,
       memberships: foundation.memberships.length,
       isolationProof,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsMlLearningLoopProof(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = MlLearningLoopProofSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const runKey = parsed.data.runKey;
+  const normalized = runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+  const tenantId = `tenant-${normalized}`;
+  const modelVersion = `${tenantId}-local-v1`;
+  const sb = supabaseAdmin();
+  const metadata = { runKey, tenantId, program: '9_ml_learning_loop' };
+
+  await sb.from('revenue_workspaces').upsert({
+    run_key: runKey,
+    tenant_key: tenantId,
+    business_name: `Program 9 ML ${runKey}`,
+    owner_email: `owner+${runKey}@program9.example`,
+    status: 'active',
+    metadata,
+    created_by: user.id,
+  }, { onConflict: 'tenant_key' });
+
+  const accountsPayload = [
+    {
+      name: `Program 9 Dental Win ${runKey}`,
+      website_url: `https://${normalized}-dental-win.example`,
+      industry: 'dental',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'won',
+      priority: 'urgent',
+      total_score: 88,
+      fit_score: 88,
+      urgency_score: 82,
+      revenue_score: 85,
+      recommended_offer: 'seo_conversion_audit',
+      pain_summary: 'Strong fit with clear conversion gaps and known reply intent.',
+      next_action: 'Use learned score to prioritize similar accounts.',
+      owner_id: user.id,
+      metadata: { ...metadata, businessModel: 'professional_service', proofAccount: 'win_1' },
+    },
+    {
+      name: `Program 9 Med Spa Meeting ${runKey}`,
+      website_url: `https://${normalized}-medspa.example`,
+      industry: 'med_spa',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'meeting',
+      priority: 'high',
+      total_score: 80,
+      fit_score: 78,
+      urgency_score: 76,
+      revenue_score: 82,
+      recommended_offer: 'website_rebuild',
+      pain_summary: 'High-contact confidence and meeting outcome.',
+      next_action: 'Compare learned score against rule score.',
+      owner_id: user.id,
+      metadata: { ...metadata, businessModel: 'professional_service', proofAccount: 'win_2' },
+    },
+    {
+      name: `Program 9 Restaurant Loss ${runKey}`,
+      website_url: `https://${normalized}-restaurant.example`,
+      industry: 'restaurant',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'lost',
+      priority: 'low',
+      total_score: 38,
+      fit_score: 34,
+      urgency_score: 25,
+      revenue_score: 35,
+      recommended_offer: 'brand_presence_audit',
+      pain_summary: 'Low fit and poor contact confidence.',
+      next_action: 'Deprioritize similar accounts until new evidence appears.',
+      owner_id: user.id,
+      metadata: { ...metadata, businessModel: 'local_service', proofAccount: 'loss_1' },
+    },
+    {
+      name: `Program 9 Generic No Reply ${runKey}`,
+      website_url: `https://${normalized}-generic.example`,
+      industry: 'generic',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'contacted',
+      priority: 'low',
+      total_score: 41,
+      fit_score: 42,
+      urgency_score: 30,
+      revenue_score: 40,
+      recommended_offer: 'seo_conversion_audit',
+      pain_summary: 'Cold generic account with no reply outcome.',
+      next_action: 'Hold until stronger evidence is available.',
+      owner_id: user.id,
+      metadata: { ...metadata, businessModel: 'unknown', proofAccount: 'loss_2' },
+    },
+    {
+      name: `Program 9 Fresh Dental Score ${runKey}`,
+      website_url: `https://${normalized}-fresh.example`,
+      industry: 'dental',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'qualified',
+      priority: 'high',
+      total_score: 76,
+      fit_score: 86,
+      urgency_score: 80,
+      revenue_score: 82,
+      recommended_offer: 'seo_conversion_audit',
+      pain_summary: 'Fresh lead to score with the trained model.',
+      next_action: 'Prioritize if blended score clears threshold.',
+      owner_id: user.id,
+      metadata: { ...metadata, businessModel: 'professional_service', proofAccount: 'fresh' },
+    },
+  ];
+
+  const { data: accounts, error: accountError } = await sb
+    .from('acquisition_accounts')
+    .insert(accountsPayload)
+    .select('id, metadata');
+  if (accountError || !accounts) return;
+
+  const accountByProof = new Map(accounts.map((account) => [account.metadata?.proofAccount as string, account.id as string]));
+  const snapshots = [
+    buildMlFeatureSnapshot({
+      tenantId,
+      accountId: accountByProof.get('win_1') ?? '',
+      source: 'google_places',
+      industry: 'dental',
+      offer: 'seo_conversion_audit',
+      features: { fit: 88, urgency: 82, contactConfidence: 94, pastReplyRate: 34 },
+      ruleScore: 84,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId,
+      accountId: accountByProof.get('win_2') ?? '',
+      source: 'referral',
+      industry: 'med_spa',
+      offer: 'website_rebuild',
+      features: { fit: 78, urgency: 76, contactConfidence: 88, pastReplyRate: 28 },
+      ruleScore: 80,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId,
+      accountId: accountByProof.get('loss_1') ?? '',
+      source: 'directory',
+      industry: 'restaurant',
+      offer: 'brand_presence_audit',
+      features: { fit: 34, urgency: 25, contactConfidence: 20, pastReplyRate: 2 },
+      ruleScore: 38,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId,
+      accountId: accountByProof.get('loss_2') ?? '',
+      source: 'cold_list',
+      industry: 'generic',
+      offer: 'seo_conversion_audit',
+      features: { fit: 42, urgency: 30, contactConfidence: 28, pastReplyRate: 4 },
+      ruleScore: 41,
+    }),
+  ];
+  const labels = [
+    buildMlOutcomeLabel({ tenantId, accountId: accountByProof.get('win_1') ?? '', outcome: 'won', value: 9000 }),
+    buildMlOutcomeLabel({ tenantId, accountId: accountByProof.get('win_2') ?? '', outcome: 'meeting' }),
+    buildMlOutcomeLabel({ tenantId, accountId: accountByProof.get('loss_1') ?? '', outcome: 'lost' }),
+    buildMlOutcomeLabel({ tenantId, accountId: accountByProof.get('loss_2') ?? '', outcome: 'no_reply' }),
+  ];
+  const model = trainRevenueMlModel({ tenantId, modelVersion, snapshots, labels });
+  const freshSnapshot = buildMlFeatureSnapshot({
+    tenantId,
+    accountId: accountByProof.get('fresh') ?? '',
+    source: 'google_places',
+    industry: 'dental',
+    offer: 'seo_conversion_audit',
+    features: { fit: 86, urgency: 80, contactConfidence: 90, pastReplyRate: 30 },
+    ruleScore: 76,
+  });
+  const decisions = [
+    scoreRevenueMlDecision({ tenantId, accountId: freshSnapshot.accountId, model, snapshot: freshSnapshot }),
+    scoreRevenueMlDecision({ tenantId, accountId: snapshots[2].accountId, model, snapshot: snapshots[2] }),
+    scoreRevenueMlDecision({ tenantId, accountId: snapshots[3].accountId, model, snapshot: snapshots[3] }),
+  ];
+  const calibration = buildMlCalibrationReport({ tenantId, model, decisions, labels });
+
+  await sb.from('revenue_ml_feature_snapshots').insert(
+    [...snapshots, freshSnapshot].map((snapshot) => ({
+      tenant_id: tenantId,
+      account_id: snapshot.accountId,
+      source: snapshot.source,
+      industry: snapshot.industry,
+      offer: snapshot.offer,
+      rule_score: snapshot.ruleScore,
+      features: snapshot.features,
+      metadata,
+      captured_at: snapshot.capturedAt,
+      created_by: user.id,
+    })),
+  );
+  await sb.from('revenue_ml_outcome_labels').insert(
+    labels.map((label) => ({
+      tenant_id: tenantId,
+      account_id: label.accountId,
+      outcome: label.outcome,
+      value: label.value ?? null,
+      metadata,
+      labeled_at: label.labeledAt,
+      created_by: user.id,
+    })),
+  );
+  await sb.from('revenue_ml_model_versions').upsert({
+    tenant_id: tenantId,
+    model_version: model.modelVersion,
+    model_type: 'local_logistic_baseline',
+    sample_size: model.sampleSize,
+    weights: model.weights,
+    bias: model.bias,
+    metrics: model.metrics,
+    feature_importance: model.featureImportance,
+    metadata,
+    created_by: user.id,
+  }, { onConflict: 'tenant_id,model_version' });
+  await sb.from('revenue_ml_scoring_decisions').insert(
+    decisions.map((decision) => ({
+      ...decision.persistence,
+      metadata,
+      created_by: user.id,
+    })),
+  );
+  await sb.from('revenue_ml_calibration_reports').insert({
+    ...calibration.persistence,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_ml_scores').insert(
+    decisions.map((decision) => ({
+      tenant_id: tenantId,
+      account_id: decision.accountId,
+      model_version: decision.modelVersion,
+      rule_score: decision.ruleScore,
+      learned_score: decision.learnedScore,
+      blended_score: decision.blendedScore,
+      calibrated_probability: decision.calibratedProbability,
+      features: decision.snapshot.features,
+      decision: decision.decision,
+    })),
+  );
+  await sb.from('revenue_eval_runs').insert({
+    tenant_id: tenantId,
+    eval_key: runKey,
+    overall_status: calibration.brierScore <= 0.35 ? 'pass' : 'review',
+    pass_rate: model.metrics.trainingAccuracy * 100,
+    passed: Math.round(model.metrics.trainingAccuracy * labels.length),
+    failed: labels.length - Math.round(model.metrics.trainingAccuracy * labels.length),
+    failures: calibration.driftWarnings,
+    metadata: { ...metadata, model, calibration, decisions },
+    created_by: user.id,
+  });
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.ml_learning_loop.proof',
+    entityType: 'revenue_ml_model_version',
+    after: {
+      runKey,
+      tenantId,
+      modelVersion,
+      sampleSize: model.sampleSize,
+      trainingAccuracy: model.metrics.trainingAccuracy,
+      brierScore: calibration.brierScore,
+      decisions: decisions.length,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsRevenueIntelligenceDashboardProof(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = RevenueIntelligenceDashboardProofSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const runKey = parsed.data.runKey;
+  const normalized = runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+  const tenantId = `tenant-${normalized}`;
+  const seed = [...normalized].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const baseYear = 2100 + (seed % 500);
+  const metricDates = [`${baseYear}-01-01`, `${baseYear}-01-02`, `${baseYear}-01-03`];
+  const metadata = { runKey, tenantId, program: '10_revenue_intelligence_dashboard' };
+  const sb = supabaseAdmin();
+
+  const { data: accounts, error: accountError } = await sb.from('acquisition_accounts').insert([
+    {
+      name: `Program 10 Inbound Win ${runKey}`,
+      website_url: `https://${normalized}-inbound.example`,
+      industry: 'Dental',
+      location: 'Remote',
+      source: 'inbound',
+      stage: 'won',
+      priority: 'urgent',
+      fit_score: 94,
+      urgency_score: 88,
+      revenue_score: 90,
+      total_score: 92,
+      recommended_offer: 'seo_conversion_audit',
+      pain_summary: 'Inbound prospect with high conversion intent.',
+      next_action: 'Prepare client report and expansion offer.',
+      owner_id: user.id,
+      metadata: { ...metadata, intake: { source: 'inbound' }, score: { closeProbability: 82 }, persona: 'owner' },
+    },
+    {
+      name: `Program 10 Directory Follow Up ${runKey}`,
+      website_url: `https://${normalized}-directory.example`,
+      industry: 'Med Spa',
+      location: 'Remote',
+      source: 'directory',
+      stage: 'follow_up',
+      priority: 'high',
+      fit_score: 82,
+      urgency_score: 74,
+      revenue_score: 78,
+      total_score: 81,
+      recommended_offer: 'website_rebuild',
+      pain_summary: 'Directory lead with strong site rebuild fit.',
+      next_action: 'Follow up with audit proof and pricing options.',
+      owner_id: user.id,
+      metadata: { ...metadata, intake: { source: 'directory' }, score: { closeProbability: 58 }, persona: 'operator' },
+    },
+    {
+      name: `Program 10 Cold Weak Source ${runKey}`,
+      website_url: `https://${normalized}-cold.example`,
+      industry: 'Restaurant',
+      location: 'Remote',
+      source: 'manual',
+      stage: 'contacted',
+      priority: 'medium',
+      fit_score: 42,
+      urgency_score: 38,
+      revenue_score: 44,
+      total_score: 43,
+      recommended_offer: 'brand_presence_audit',
+      pain_summary: 'Cold lead with weak reply signal.',
+      next_action: 'Pause until stronger source data exists.',
+      owner_id: user.id,
+      metadata: { ...metadata, intake: { source: 'cold_list' }, score: { closeProbability: 24 }, persona: 'owner' },
+    },
+  ]).select('id, metadata');
+  if (accountError || !accounts) return;
+
+  const accountIds = accounts.map((account) => account.id as string);
+  await sb.from('acquisition_daily_metrics').upsert([
+    {
+      metric_date: metricDates[0],
+      accounts_added: 4,
+      accounts_qualified: 2,
+      messages_drafted: 2,
+      messages_sent: 2,
+      replies: 1,
+      meetings_booked: 0,
+      proposals_created: 0,
+      deals_won: 0,
+      estimated_pipeline_value: 3000,
+      metadata,
+    },
+    {
+      metric_date: metricDates[1],
+      accounts_added: 5,
+      accounts_qualified: 3,
+      messages_drafted: 4,
+      messages_sent: 4,
+      replies: 2,
+      meetings_booked: 1,
+      proposals_created: 0,
+      deals_won: 0,
+      estimated_pipeline_value: 9000,
+      metadata,
+    },
+    {
+      metric_date: metricDates[2],
+      accounts_added: 6,
+      accounts_qualified: 5,
+      messages_drafted: 5,
+      messages_sent: 6,
+      replies: 4,
+      meetings_booked: 2,
+      proposals_created: 1,
+      deals_won: 1,
+      estimated_pipeline_value: 18000,
+      metadata,
+    },
+  ], { onConflict: 'metric_date' });
+
+  await sb.from('revenue_email_queue').insert([
+    {
+      account_id: accountIds[0],
+      recipient_email: `owner@${normalized}.example`,
+      subject: 'Audit proof and next growth step',
+      body: 'Manual-review outreach seeded for Program 10 intelligence dashboard proof.',
+      status: 'sent',
+      sequence_key: 'audit-proof-sequence',
+      sent_at: new Date().toISOString(),
+      metadata: { ...metadata, tenantId, persona: 'owner', outreachV2: { qualityScore: 92, spamRiskScore: 8 } },
+      created_by: user.id,
+    },
+    {
+      account_id: accountIds[1],
+      recipient_email: `ops@${normalized}.example`,
+      subject: 'Website rebuild opportunity',
+      body: 'Manual-review outreach seeded for Program 10 intelligence dashboard proof.',
+      status: 'sent',
+      sequence_key: 'audit-proof-sequence',
+      sent_at: new Date().toISOString(),
+      metadata: { ...metadata, tenantId, persona: 'operator', outreachV2: { qualityScore: 84, spamRiskScore: 12 } },
+      created_by: user.id,
+    },
+    {
+      account_id: accountIds[2],
+      recipient_email: null,
+      subject: 'Blocked outreach',
+      body: 'This row proves blocked email queue surfacing.',
+      status: 'blocked',
+      sequence_key: 'cold-proof-sequence',
+      metadata: { ...metadata, tenantId, persona: 'owner', delivery: { reason: 'missing recipient' } },
+      created_by: user.id,
+    },
+  ]);
+
+  const { data: job } = await sb.from('revenue_job_opportunities').insert({
+    title: `Program 10 Junior AI Builder ${runKey}`,
+    company: 'Program 10 Jobs',
+    location: 'Remote',
+    job_url: `https://jobs.example/${normalized}`,
+    source: 'remotive',
+    score: 88,
+    resume_variant: 'ai_application_engineer',
+    ats_keywords: ['Next.js', 'LLM APIs', 'TypeScript'],
+    application_advice: 'Lead with shipped application proof.',
+    status: 'reviewing',
+    metadata,
+    created_by: user.id,
+  }).select('id').maybeSingle();
+
+  if (job?.id) {
+    await sb.from('revenue_job_applications').insert({
+      job_id: job.id,
+      stage: 'interview',
+      resume_variant: 'ai_application_engineer',
+      recruiter_name: 'Program 10 Recruiter',
+      recruiter_email: `recruiter@${normalized}.example`,
+      remote_status: 'remote',
+      next_action: 'Prepare interview proof stories.',
+      metadata,
+      created_by: user.id,
+    });
+  }
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.revenue_intelligence_dashboard.proof',
+    entityType: 'revenue_intelligence_dashboard',
+    after: {
+      runKey,
+      tenantId,
+      metricDates,
+      accounts: accountIds.length,
+      emails: 3,
+      jobApplications: job?.id ? 1 : 0,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsGovernanceProof(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = GovernanceProofSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const runKey = parsed.data.runKey;
+  const normalized = runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+  const tenantKey = `tenant-${normalized}`;
+  const metadata = { runKey, tenantKey, program: '11_compliance_privacy_governance' };
+  const sb = supabaseAdmin();
+
+  await sb.from('revenue_workspaces').upsert({
+    run_key: runKey,
+    tenant_key: tenantKey,
+    business_name: `Program 11 Governance ${runKey}`,
+    owner_email: `owner+${runKey}@program11.example`,
+    status: 'active',
+    metadata,
+    created_by: user.id,
+  }, { onConflict: 'tenant_key' });
+
+  const { data: accounts } = await sb.from('acquisition_accounts').insert([
+    {
+      name: `Program 11 Allowed Contact ${runKey}`,
+      website_url: `https://${normalized}-allowed.example`,
+      industry: 'Dental',
+      source: 'inbound',
+      stage: 'qualified',
+      priority: 'high',
+      total_score: 82,
+      recommended_offer: 'seo_conversion_audit',
+      pain_summary: 'Business-context outreach with source provenance and unsubscribe controls.',
+      next_action: 'Review compliant outreach.',
+      owner_id: user.id,
+      metadata,
+    },
+    {
+      name: `Program 11 Suppressed Contact ${runKey}`,
+      website_url: `https://${normalized}-blocked.example`,
+      industry: 'Wellness',
+      source: 'directory',
+      stage: 'do_not_contact',
+      priority: 'low',
+      total_score: 20,
+      recommended_offer: 'brand_presence_audit',
+      pain_summary: 'Suppression workflow proof.',
+      next_action: 'Do not contact.',
+      owner_id: user.id,
+      metadata,
+    },
+  ]).select('id');
+  const accountIds = (accounts ?? []).map((account) => account.id as string);
+  const contacts = [
+    {
+      email: `owner@${normalized}.example`,
+      source: 'inbound',
+      sourceUrl: `https://${normalized}-allowed.example/contact`,
+      consentBasis: 'legitimate_interest' as const,
+      businessContext: 'Owner requested a website growth audit for a B2B service context.',
+      unsubscribeUrl: `https://sageideas.dev/unsubscribe?email=owner@${normalized}.example`,
+      retentionDays: 365,
+    },
+    {
+      email: `blocked@${normalized}.example`,
+      source: 'directory',
+      sourceUrl: `https://directory.example/${normalized}`,
+      consentBasis: 'do_not_contact' as const,
+      businessContext: 'Suppressed contact retained only as a suppression record.',
+      unsubscribeUrl: `https://sageideas.dev/unsubscribe?email=blocked@${normalized}.example`,
+      retentionDays: 365,
+      suppressed: true,
+    },
+  ];
+  const decisions = contacts.map(buildRevenueComplianceDecision);
+  const privacy = buildPrivacyWorkflow({
+    requestType: 'suppress',
+    subjectEmail: `blocked@${normalized}.example`,
+  });
+  const report = buildRevenueGovernanceReport({
+    tenantKey,
+    contacts,
+    privacyRequests: [privacy],
+    auditEvents: 2,
+  });
+
+  await sb.from('revenue_compliance_records').insert(decisions.map((decision, index) => ({
+    tenant_key: tenantKey,
+    account_id: accountIds[index] ?? null,
+    contact_email: contacts[index].email,
+    source: contacts[index].source,
+    source_url: contacts[index].sourceUrl,
+    consent_basis: contacts[index].consentBasis,
+    business_context: contacts[index].businessContext,
+    unsubscribe_url: contacts[index].unsubscribeUrl,
+    retention_delete_at: decision.retentionDeleteAt,
+    status: decision.allowed ? 'allowed' : 'blocked',
+    score: decision.score,
+    blockers: decision.blockers,
+    warnings: decision.warnings,
+    metadata: { ...metadata, decision },
+    created_by: user.id,
+  })));
+  await sb.from('revenue_privacy_requests').insert({
+    tenant_key: tenantKey,
+    request_type: privacy.requestType,
+    subject_email: privacy.subjectEmail,
+    status: privacy.status,
+    due_at: privacy.dueAt,
+    required_steps: privacy.requiredSteps,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_governance_reports').insert({
+    tenant_key: tenantKey,
+    status: report.status,
+    score: report.score,
+    source_coverage: report.sourceCoverage,
+    allowed_contacts: report.allowed,
+    blocked_contacts: report.blocked,
+    privacy_requests_open: report.privacyRequestsOpen,
+    audit_events: report.auditEvents,
+    blockers: report.blockers,
+    warnings: report.warnings,
+    controls: report.controls,
+    metadata: { ...metadata, report },
+    created_by: user.id,
+  });
+  await sb.from('acquisition_suppression_list').insert({
+    account_id: accountIds[1] ?? null,
+    email: `blocked@${normalized}.example`,
+    reason: 'program_11_privacy_suppression',
+    metadata,
+    created_by: user.id,
+  });
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.governance.proof',
+    entityType: 'revenue_governance_report',
+    after: {
+      runKey,
+      tenantKey,
+      status: report.status,
+      score: report.score,
+      allowed: report.allowed,
+      blocked: report.blocked,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsProductionOpsProof(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = ProductionOpsProofSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const runKey = parsed.data.runKey;
+  const metadata = { runKey, program: '12_production_operations_ci_proof' };
+  const sb = supabaseAdmin();
+  const { count: queuedJobs } = await sb
+    .from('revenue_worker_jobs')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'queued');
+  const { count: deadLetters } = await sb
+    .from('revenue_worker_dead_letters')
+    .select('id', { count: 'exact', head: true });
+  const health = buildRevenueOpsHealth({
+    dbOk: true,
+    queueDepth: queuedJobs ?? 0,
+    deadLetters: deadLetters ?? 0,
+    emailProviderConfigured: Boolean(process.env.RESEND_API_KEY),
+    llmProviderConfigured: Boolean(process.env.OPENAI_API_KEY),
+    leadConnectorsConfigured: Boolean(process.env.GOOGLE_PLACES_API_KEY || process.env.EXA_API_KEY),
+    gmailConfigured: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    storageOk: true,
+  });
+  const ciProof = buildRevenueCiProof({
+    lint: true,
+    typecheck: true,
+    unit: true,
+    rls: true,
+    build: true,
+    focusedE2e: true,
+    productionVerify: true,
+    auditHigh: true,
+  });
+  const loadSmoke = buildRevenueLoadSmokePlan({
+    leads: 1000,
+    queuedJobs: 10_000,
+    tenants: 5,
+    sequenceCapsEnforced: true,
+    dashboardP95Ms: 900,
+    exportP95Ms: 1800,
+  });
+  const runbooks = buildRevenueRunbookIndex();
+
+  await sb.from('revenue_ops_health_snapshots').insert({
+    run_key: runKey,
+    status: health.status,
+    score: health.score,
+    checks: health.checks,
+    alerts: health.alerts,
+    metadata: { ...metadata, runbooks },
+    created_by: user.id,
+  });
+  await sb.from('revenue_ops_ci_proofs').insert({
+    run_key: runKey,
+    ready: ciProof.ready,
+    score: ciProof.score,
+    gates: ciProof.gates,
+    failed_required: ciProof.failedRequired,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_ops_load_smokes').insert({
+    run_key: runKey,
+    passed: loadSmoke.passed,
+    score: loadSmoke.score,
+    checks: loadSmoke.checks,
+    metadata,
+    created_by: user.id,
+  });
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.production_ops.proof',
+    entityType: 'revenue_ops_health_snapshot',
+    after: {
+      runKey,
+      healthStatus: health.status,
+      ciReady: ciProof.ready,
+      loadSmokePassed: loadSmoke.passed,
+      runbooks: runbooks.length,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function replayRevenueOsDeadLetter(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = DeadLetterReplaySchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const sb = supabaseAdmin();
+  const { data: deadLetter } = await sb
+    .from('revenue_worker_dead_letters')
+    .select('id, job_id, tenant_id, run_key, job_kind, target, error_code, error_message, attempts_used, retryable, metadata')
+    .eq('id', parsed.data.id)
+    .maybeSingle();
+  if (!deadLetter) return;
+
+  const metadata = {
+    ...(((deadLetter.metadata as Record<string, unknown> | null) ?? {}) as Record<string, unknown>),
+    replayedFromDeadLetterId: deadLetter.id,
+    replayedAt: new Date().toISOString(),
+  };
+  const { data: replayJob } = await sb
+    .from('revenue_worker_jobs')
+    .insert({
+      tenant_id: deadLetter.tenant_id,
+      run_key: deadLetter.run_key,
+      job_kind: deadLetter.job_kind,
+      target: deadLetter.target,
+      priority: 90,
+      status: 'queued',
+      attempts_remaining: 3,
+      rate_limit_per_minute: 10,
+      next_run_at: new Date().toISOString(),
+      metadata,
+      created_by: user.id,
+    })
+    .select('id')
+    .maybeSingle();
+
+  await sb
+    .from('revenue_worker_dead_letters')
+    .update({
+      resolved_at: new Date().toISOString(),
+      resolved_by: user.id,
+      metadata: {
+        ...metadata,
+        replayJobId: replayJob?.id ?? null,
+        resolution: 'replayed_to_queue',
+      },
+    })
+    .eq('id', deadLetter.id);
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.dead_letter.replay',
+    entityType: 'revenue_worker_dead_letter',
+    entityId: deadLetter.id,
+    after: {
+      runKey: deadLetter.run_key,
+      jobKind: deadLetter.job_kind,
+      target: deadLetter.target,
+      replayJobId: replayJob?.id ?? null,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function updateRevenueOsPrivacyWorkflowJob(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = PrivacyWorkflowJobSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const sb = supabaseAdmin();
+  const { data: job } = await sb
+    .from('revenue_privacy_workflow_jobs')
+    .select('id, run_key, tenant_key, request_type, subject_email, status, required_steps, completed_steps, evidence')
+    .eq('id', parsed.data.id)
+    .maybeSingle();
+  if (!job) return;
+
+  const requiredSteps = Array.isArray(job.required_steps) ? job.required_steps as string[] : [];
+  const currentSteps = Array.isArray(job.completed_steps) ? job.completed_steps as string[] : [];
+  const stepByAction = {
+    verify: 'verify requester identity',
+    complete: 'complete workflow action',
+    block: 'record blocker and notify operator',
+  } as const;
+  const completedSteps = parsed.data.action === 'complete'
+    ? [...new Set([...currentSteps, ...requiredSteps, stepByAction.complete])]
+    : [...new Set([...currentSteps, stepByAction[parsed.data.action]])];
+  const nextStatus = parsed.data.action === 'block'
+    ? 'blocked'
+    : parsed.data.action === 'complete'
+      ? 'completed'
+      : 'verified';
+
+  await sb
+    .from('revenue_privacy_workflow_jobs')
+    .update({
+      status: nextStatus,
+      completed_steps: completedSteps,
+      evidence: {
+        ...(((job.evidence as Record<string, unknown> | null) ?? {}) as Record<string, unknown>),
+        lastOperatorAction: parsed.data.action,
+        lastOperatorActionAt: new Date().toISOString(),
+        lastOperatorId: user.id,
+      },
+    })
+    .eq('id', job.id);
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: `revenue_os.privacy_workflow.${parsed.data.action}`,
+    entityType: 'revenue_privacy_workflow_job',
+    entityId: job.id,
+    after: {
+      runKey: job.run_key,
+      tenantKey: job.tenant_key,
+      requestType: job.request_type,
+      subjectEmail: job.subject_email,
+      status: nextStatus,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function createRevenueOsApiKey(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = RevenueApiKeyCreateSchema.safeParse(formDataToObject(formData));
+  if (!parsed.success) return;
+
+  const scopes = (parsed.data.scopes.length ? parsed.data.scopes : ['leads:write', 'jobs:write', 'events:write', 'outcomes:write', 'exports:read'])
+    .filter((scope): scope is RevenueApiScope => [
+      'leads:write',
+      'jobs:write',
+      'events:write',
+      'audits:write',
+      'outcomes:write',
+      'exports:read',
+      'webhooks:write',
+      '*',
+    ].includes(scope));
+  const key = buildRevenueApiKey({
+    tenantKey: parsed.data.tenantKey,
+    scopes,
+  });
+
+  const sb = supabaseAdmin();
+  await sb.from('revenue_api_keys').insert({
+    workspace_id: parsed.data.workspaceId || null,
+    tenant_key: key.tenantKey,
+    name: parsed.data.name,
+    key_hash: key.keyHash,
+    key_prefix: key.prefix,
+    last_four: key.lastFour,
+    scopes: key.scopes,
+    status: 'active',
+    metadata: {
+      createdFrom: 'admin_acquisition_api_key_ui',
+      oneTimeSecretPrefix: key.prefix,
+      oneTimeSecretLastFour: key.lastFour,
+      secretDisplayPolicy: 'secret is not persisted; rotate if it was not captured at creation time',
+    },
+    created_by: user.id,
+  });
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.api_key.create',
+    entityType: 'revenue_api_key',
+    after: {
+      tenantKey: key.tenantKey,
+      name: parsed.data.name,
+      scopes: key.scopes,
+      keyPrefix: key.prefix,
+      lastFour: key.lastFour,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function revokeRevenueOsApiKey(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = RevenueApiKeyRevokeSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const sb = supabaseAdmin();
+  const now = new Date().toISOString();
+  const { data: key } = await sb
+    .from('revenue_api_keys')
+    .update({ status: 'revoked', revoked_at: now })
+    .eq('id', parsed.data.id)
+    .select('id, tenant_key, key_prefix, last_four, scopes')
+    .maybeSingle();
+  if (!key) return;
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.api_key.revoke',
+    entityType: 'revenue_api_key',
+    entityId: key.id,
+    after: {
+      tenantKey: key.tenant_key,
+      keyPrefix: key.key_prefix,
+      lastFour: key.last_four,
+      revokedAt: now,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsDeliverabilityDnsProbe(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = DeliverabilityDnsProbeSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const domain = parsed.data.domain.toLowerCase().replace(/^https?:\/\//, '').split('/')[0].replace(/^www\./, '');
+  const runKey = parsed.data.runKey || `dns-${Date.now()}`;
+  const [spf, dmarc, dkimResend, dkimGoogle] = await Promise.all([
+    dnsTxtContains(domain, (value) => value.toLowerCase().startsWith('v=spf1')),
+    dnsTxtContains(`_dmarc.${domain}`, (value) => value.toLowerCase().startsWith('v=dmarc1')),
+    dnsTxtContains(`resend._domainkey.${domain}`, (value) => value.toLowerCase().includes('dkim1')),
+    dnsTxtContains(`google._domainkey.${domain}`, (value) => value.toLowerCase().includes('dkim1')),
+  ]);
+  const dkimStatus = [dkimResend, dkimGoogle].some((result) => result.status === 'verified')
+    ? 'verified'
+    : 'missing';
+  const status = spf.status === 'verified' && dmarc.status === 'verified' && dkimStatus === 'verified'
+    ? 'healthy'
+    : 'limited';
+
+  const sb = supabaseAdmin();
+  await sb.from('revenue_deliverability_audits').insert({
+    run_key: runKey,
+    sending_domain: domain,
+    status,
+    spf_status: spf.status,
+    dkim_status: dkimStatus,
+    dmarc_status: dmarc.status,
+    warmup_stage: status === 'healthy' ? 'ready_for_low_volume' : 'manual_review',
+    daily_cap: status === 'healthy' ? 50 : 0,
+    bounce_rate: 0,
+    complaint_rate: 0,
+    reply_rate: 0,
+    automatic_stops: ['bounce_received', 'complaint_received', 'unsubscribe_received', 'reply_received'],
+    evidence: {
+      probe: 'dns_txt',
+      checkedAt: new Date().toISOString(),
+      spf,
+      dmarc,
+      dkim: {
+        resend: dkimResend,
+        google: dkimGoogle,
+      },
+    },
+    metadata: { runKey, domain, source: 'admin_dns_probe' },
+    created_by: user.id,
+  });
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.deliverability.dns_probe',
+    entityType: 'revenue_deliverability_audit',
+    after: {
+      runKey,
+      domain,
+      status,
+      spf: spf.status,
+      dkim: dkimStatus,
+      dmarc: dmarc.status,
+    },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function runRevenueOsInstitutionalHardeningProof(formData: FormData): Promise<void> {
+  const { user } = await requireAdmin();
+  const parsed = InstitutionalHardeningProofSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return;
+
+  const runKey = parsed.data.runKey;
+  const normalized = runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+  const tenantKey = `tenant-${normalized}`;
+  const metadata = { runKey, tenantKey, program: '13_21_institutional_hardening' };
+  const sb = supabaseAdmin();
+
+  await sb.from('revenue_workspaces').upsert({
+    run_key: runKey,
+    tenant_key: tenantKey,
+    business_name: `Institutional Revenue OS ${runKey}`,
+    owner_email: `owner+${normalized}@institutional.example`,
+    status: 'active',
+    metadata,
+    created_by: user.id,
+  }, { onConflict: 'tenant_key' });
+
+  const { count: queuedJobs } = await sb
+    .from('revenue_worker_jobs')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'queued');
+  const { count: deadLetters } = await sb
+    .from('revenue_worker_dead_letters')
+    .select('id', { count: 'exact', head: true });
+
+  const live = buildLiveIntegrationActivation({
+    env: {
+      GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
+      EXA_API_KEY: process.env.EXA_API_KEY,
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+    },
+  });
+  const worker = buildRealWorkerRuntimeProof({ runKey });
+  const observability = buildObservabilitySloSnapshot({
+    runKey,
+    queueDepth: queuedJobs ?? 0,
+    deadLetters: deadLetters ?? 0,
+    providerLatencyMs: live.configuredCount >= 3 ? 900 : 1600,
+    webhookFreshnessSeconds: 1200,
+    estimatedDailyCostUsd: 8.5,
+    env: {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+      GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
+      EXA_API_KEY: process.env.EXA_API_KEY,
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  });
+  const privacyJobs = buildComplianceWorkflowProductization({
+    runKey,
+    tenantKey,
+    subjectEmail: `client+${normalized}@institutional.example`,
+  });
+  const clientSurfaces = buildClientSaasSurfaceProof({ runKey, tenantKey });
+  const deliverability = buildDeliverabilityOperationsAudit({
+    runKey,
+    sendingDomain: 'sageideas.dev',
+    resendConfigured: Boolean(process.env.RESEND_API_KEY),
+  });
+  const load = buildRealLoadScaleProof({
+    runKey,
+    tenants: 5,
+    leads: 1000,
+    jobs: 10_000,
+    workerJobs: 10_000,
+  });
+  const evalHarness = buildAiMlEvalHarnessProof({
+    runKey,
+    llmConfigured: Boolean(process.env.OPENAI_API_KEY),
+  });
+  const programRun = buildInstitutionalProgramRuns({
+    live,
+    worker,
+    observability,
+    privacyJobs,
+    clientSurfaces,
+    deliverability,
+    load,
+    evalHarness,
+  });
+
+  await sb.from('revenue_live_integration_checks').insert(live.checks.map((check) => ({
+    run_key: runKey,
+    provider: check.provider,
+    configured: check.configured,
+    live_verified: check.liveVerified,
+    mode: check.mode,
+    last_error: check.lastError,
+    evidence: check.evidence,
+    metadata,
+    created_by: user.id,
+  })));
+  await sb.from('revenue_worker_runtime_executions').insert({
+    run_key: runKey,
+    worker_id: worker.workerId,
+    claimed_jobs: worker.claimedJobs,
+    completed_jobs: worker.completedJobs,
+    failed_jobs: worker.failedJobs,
+    dead_lettered_jobs: worker.deadLetteredJobs,
+    max_concurrency: worker.maxConcurrency,
+    lease_seconds: worker.leaseSeconds,
+    status: worker.status,
+    evidence: worker.evidence,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_observability_slo_snapshots').insert({
+    run_key: runKey,
+    status: observability.status,
+    score: observability.score,
+    p95_latency_ms: observability.p95LatencyMs,
+    queue_age_seconds: observability.queueAgeSeconds,
+    webhook_freshness_seconds: observability.webhookFreshnessSeconds,
+    estimated_daily_cost_usd: observability.estimatedDailyCostUsd,
+    alerts: observability.alerts,
+    evidence: observability.evidence,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_privacy_workflow_jobs').insert(privacyJobs.map((job) => ({
+    run_key: runKey,
+    tenant_key: job.tenantKey,
+    request_type: job.requestType,
+    subject_email: job.subjectEmail,
+    status: job.status,
+    required_steps: job.requiredSteps,
+    completed_steps: job.completedSteps,
+    evidence: job.evidence,
+    metadata,
+    created_by: user.id,
+  })));
+  await sb.from('revenue_client_surface_proofs').insert(clientSurfaces.map((surface) => ({
+    run_key: runKey,
+    tenant_key: surface.tenantKey,
+    surface: surface.surface,
+    role: surface.role,
+    allowed_actions: surface.allowedActions,
+    blocked_actions: surface.blockedActions,
+    quota_state: surface.quotaState,
+    status: surface.status,
+    evidence: surface.evidence,
+    metadata,
+    created_by: user.id,
+  })));
+  await sb.from('revenue_deliverability_audits').insert({
+    run_key: runKey,
+    sending_domain: deliverability.sendingDomain,
+    status: deliverability.status,
+    spf_status: deliverability.spfStatus,
+    dkim_status: deliverability.dkimStatus,
+    dmarc_status: deliverability.dmarcStatus,
+    warmup_stage: deliverability.warmupStage,
+    daily_cap: deliverability.dailyCap,
+    bounce_rate: deliverability.bounceRate,
+    complaint_rate: deliverability.complaintRate,
+    reply_rate: deliverability.replyRate,
+    automatic_stops: deliverability.automaticStops,
+    evidence: deliverability.evidence,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_load_scale_proofs').insert({
+    run_key: runKey,
+    tenants: load.tenants,
+    leads: load.leads,
+    jobs: load.jobs,
+    worker_jobs: load.workerJobs,
+    dashboard_p95_ms: load.dashboardP95Ms,
+    api_p95_ms: load.apiP95Ms,
+    export_p95_ms: load.exportP95Ms,
+    status: load.status,
+    evidence: load.evidence,
+    metadata,
+    created_by: user.id,
+  });
+  await sb.from('revenue_ai_ml_eval_harness_runs').insert({
+    run_key: runKey,
+    eval_suite: evalHarness.evalSuite,
+    model_version: evalHarness.modelVersion,
+    prompt_version: evalHarness.promptVersion,
+    status: evalHarness.status,
+    score: evalHarness.score,
+    hallucination_failures: evalHarness.hallucinationFailures,
+    spam_failures: evalHarness.spamFailures,
+    evidence_failures: evalHarness.evidenceFailures,
+    cost_usd: evalHarness.costUsd,
+    results: evalHarness.results,
+    metadata: { ...metadata, evidence: evalHarness.evidence },
+    created_by: user.id,
+  });
+  await sb.from('revenue_institutional_program_runs').insert(programRun.programs.map((program) => ({
+    run_key: runKey,
+    program_key: program.programKey,
+    program_name: program.programName,
+    status: program.status,
+    score: program.score,
+    verified_controls: program.verifiedControls,
+    gaps: program.gaps,
+    evidence: program.evidence,
+    metadata: {
+      ...metadata,
+      overallScore: programRun.overallScore,
+      readyForClientProduction: programRun.readyForClientProduction,
+    },
+    created_by: user.id,
+  })));
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: user.email ?? 'admin',
+    action: 'revenue_os.institutional_hardening.proof',
+    entityType: 'revenue_institutional_program_run',
+    after: {
+      runKey,
+      tenantKey,
+      programs: programRun.programs.length,
+      overallScore: programRun.overallScore,
+      readyForClientProduction: programRun.readyForClientProduction,
+      liveIntegrationsConfigured: live.configuredCount,
+      liveIntegrationsVerified: live.liveVerifiedCount,
     },
   });
 

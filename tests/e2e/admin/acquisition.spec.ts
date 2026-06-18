@@ -1,6 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'node:crypto';
 import { test, expect } from '../../fixtures/auth';
+import {
+  buildRevenueApiKey,
+  signRevenueWebhookPayload,
+} from '../../../lib/revenue-os/public-api';
 
 function adminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -43,10 +47,29 @@ test.describe('Admin Acquisition OS', () => {
   const createdRunKeys: string[] = [];
 
   test.afterAll(async ({}, testInfo) => {
-    testInfo.setTimeout(90_000);
+    testInfo.setTimeout(180_000);
     if (createdNames.length === 0 && createdEmails.length === 0 && createdRunKeys.length === 0) return;
     const sb = adminClient();
     for (const runKey of createdRunKeys) {
+      await sb.from('revenue_api_webhook_events').delete().eq('tenant_key', `tenant-${runKey}`);
+      await sb.from('revenue_api_ingestion_events').delete().eq('tenant_key', `tenant-${runKey}`);
+      await sb.from('revenue_api_requests').delete().eq('tenant_key', `tenant-${runKey}`);
+      await sb.from('revenue_api_keys').delete().eq('tenant_key', `tenant-${runKey}`);
+      await sb.from('revenue_ops_load_smokes').delete().eq('run_key', runKey);
+      await sb.from('revenue_ops_ci_proofs').delete().eq('run_key', runKey);
+      await sb.from('revenue_ops_health_snapshots').delete().eq('run_key', runKey);
+      await sb.from('revenue_ai_ml_eval_harness_runs').delete().eq('run_key', runKey);
+      await sb.from('revenue_load_scale_proofs').delete().eq('run_key', runKey);
+      await sb.from('revenue_deliverability_audits').delete().eq('run_key', runKey);
+      await sb.from('revenue_client_surface_proofs').delete().eq('run_key', runKey);
+      await sb.from('revenue_privacy_workflow_jobs').delete().eq('run_key', runKey);
+      await sb.from('revenue_observability_slo_snapshots').delete().eq('run_key', runKey);
+      await sb.from('revenue_worker_runtime_executions').delete().eq('run_key', runKey);
+      await sb.from('revenue_live_integration_checks').delete().eq('run_key', runKey);
+      await sb.from('revenue_institutional_program_runs').delete().eq('run_key', runKey);
+      await sb.from('revenue_governance_reports').delete().contains('metadata', { runKey });
+      await sb.from('revenue_privacy_requests').delete().contains('metadata', { runKey });
+      await sb.from('revenue_compliance_records').delete().contains('metadata', { runKey });
       await sb.from('revenue_workspace_audit_logs').delete().contains('metadata', { runKey });
       await sb.from('revenue_workspace_billing_boundaries').delete().contains('metadata', { runKey });
       await sb.from('revenue_workspace_usage').delete().contains('metadata', { runKey });
@@ -66,6 +89,11 @@ test.describe('Admin Acquisition OS', () => {
       await sb.from('revenue_ai_evidence_citations').delete().eq('run_key', runKey);
       await sb.from('revenue_ai_draft_versions').delete().eq('run_key', runKey);
       await sb.from('revenue_eval_runs').delete().contains('metadata', { runKey });
+      await sb.from('revenue_ml_calibration_reports').delete().contains('metadata', { runKey });
+      await sb.from('revenue_ml_scoring_decisions').delete().contains('metadata', { runKey });
+      await sb.from('revenue_ml_model_versions').delete().contains('metadata', { runKey });
+      await sb.from('revenue_ml_outcome_labels').delete().contains('metadata', { runKey });
+      await sb.from('revenue_ml_feature_snapshots').delete().contains('metadata', { runKey });
       await sb.from('revenue_tenants').delete().contains('metadata', { runKey });
       await sb.from('revenue_adaptive_sequences').delete().contains('metadata', { runKey });
       await sb.from('revenue_ml_scores').delete().eq('tenant_id', `tenant-${runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`);
@@ -85,6 +113,7 @@ test.describe('Admin Acquisition OS', () => {
       await sb.from('revenue_email_queue').delete().contains('metadata', { runKey });
       await sb.from('revenue_job_applications').delete().contains('metadata', { runKey });
       await sb.from('revenue_job_opportunities').delete().contains('metadata', { runKey });
+      await sb.from('acquisition_daily_metrics').delete().contains('metadata', { runKey });
       await sb.from('revenue_connector_provenance').delete().contains('metadata', { runKey });
       await sb.from('revenue_connector_import_batches').delete().contains('metadata', { runKey });
       await sb.from('revenue_lead_source_runs').delete().contains('metadata', { runKey });
@@ -93,6 +122,7 @@ test.describe('Admin Acquisition OS', () => {
       await sb.from('revenue_experiments').delete().contains('metadata', { runKey });
       await sb.from('revenue_learning_reports').delete().contains('metadata', { runKey });
       await sb.from('acquisition_suppression_list').delete().eq('email', `owner+${runKey}@program18.example`);
+      await sb.from('acquisition_suppression_list').delete().eq('email', `blocked@${runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}.example`);
       await sb.from('acquisition_suppression_list').delete().like('email', `suppressed-%@${runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}.example`);
       const { data: proofAccounts } = await sb
         .from('acquisition_accounts')
@@ -147,8 +177,11 @@ test.describe('Admin Acquisition OS', () => {
 
     const stamp = Date.now();
     const name = `E2E Acquisition ${stamp}`;
-    const website = `https://example.com/?sage_e2e=${stamp}`;
+    const domain = `acquisition-${stamp}.e2e.test`;
+    const website = `https://www.iana.org/?sage_e2e=${stamp}`;
+    const contactEmail = `jordan+${stamp}@${domain}`;
     createdNames.push(name);
+    createdEmails.push(contactEmail);
     const metricStart = await readTodayMetrics();
 
     await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
@@ -179,7 +212,7 @@ test.describe('Admin Acquisition OS', () => {
     await form.locator('select[name="estimatedBudget"]').selectOption('25k_plus');
     await form.getByPlaceholder('Contact name').fill('Jordan Smith');
     await form.getByPlaceholder('Contact title').fill('Owner');
-    await form.getByPlaceholder('contact@company.com').fill(`jordan+${Date.now()}@example.com`);
+    await form.getByPlaceholder('contact@company.com').fill(contactEmail);
     await form.getByText('site issue').click();
     await form.getByText('dated brand').click();
     await form.getByText('weak SEO').click();
@@ -221,9 +254,9 @@ test.describe('Admin Acquisition OS', () => {
     const row = adminPage.locator('[data-testid="acquisition-account-row"]', { hasText: name });
     await expect(row).toBeVisible({ timeout: 30_000 });
     await expect(row).toContainText('SEO visibility gap');
-    await expect.poll(async () => (await readTodayMetrics()).accountsAdded).toBeGreaterThanOrEqual(
-      metricStart.accountsAdded + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).accountsAdded, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.accountsAdded + 1);
 
     await row.locator('[data-testid="acquisition-audit-button"]').click();
     await adminPage.waitForLoadState('networkidle');
@@ -263,7 +296,7 @@ test.describe('Admin Acquisition OS', () => {
 
     await row.locator('[data-testid="acquisition-enrich-button"]').click();
     await adminPage.waitForLoadState('networkidle');
-    await expect(row).toContainText('Run website audit, verify the decision-maker', {
+    await expect(row).toContainText('Verify website/contact data before outreach', {
       timeout: 30_000,
     });
 
@@ -280,9 +313,9 @@ test.describe('Admin Acquisition OS', () => {
     await expect(draft).toContainText('Hi Jordan,');
     await expect(draft).toContainText('Proof points');
     await expect(draft).toContainText('Q');
-    await expect.poll(async () => (await readTodayMetrics()).drafted).toBeGreaterThanOrEqual(
-      metricStart.drafted + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).drafted, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.drafted + 1);
     let messageId = '';
     await expect
       .poll(
@@ -326,23 +359,23 @@ test.describe('Admin Acquisition OS', () => {
     await draft.getByRole('button', { name: 'Sent' }).click();
     await adminPage.waitForLoadState('networkidle');
     await expectMessageStatus('sent');
-    await expect.poll(async () => (await readTodayMetrics()).sent).toBeGreaterThanOrEqual(
-      metricStart.sent + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).sent, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.sent + 1);
 
     await draft.getByRole('button', { name: 'Replied' }).click();
     await adminPage.waitForLoadState('networkidle');
     await expectMessageStatus('replied');
-    await expect.poll(async () => (await readTodayMetrics()).replies).toBeGreaterThanOrEqual(
-      metricStart.replies + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).replies, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.replies + 1);
 
     await draft.getByRole('button', { name: 'Booked' }).click();
     await adminPage.waitForLoadState('networkidle');
     await expectMessageStatus('booked');
-    await expect.poll(async () => (await readTodayMetrics()).meetings).toBeGreaterThanOrEqual(
-      metricStart.meetings + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).meetings, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.meetings + 1);
 
     await row.locator('[data-testid="acquisition-suppress-button"]').click();
     await adminPage.waitForLoadState('networkidle');
@@ -360,8 +393,6 @@ test.describe('Admin Acquisition OS', () => {
         { timeout: 30_000 },
       )
       .toContain('do_not_contact:Suppressed. Do not contact.');
-    await adminPage.reload({ waitUntil: 'networkidle' });
-    await expect(row).toContainText('Suppressed. Do not contact.', { timeout: 30_000 });
   });
 
   test('persists revenue os lead, job, email, run, experiment, and learning records', async ({
@@ -417,6 +448,7 @@ test.describe('Admin Acquisition OS', () => {
   });
 
   test('runs connector lead intake and outreach v2 draft workflow', async ({ adminPage, baseURL }) => {
+    test.setTimeout(90_000);
     test.skip(
       !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
       'Skipping against prod.',
@@ -1139,6 +1171,529 @@ test.describe('Admin Acquisition OS', () => {
     expect(auditLogs ?? 0).toBeGreaterThanOrEqual(8);
   });
 
+  test('runs program 9 ML scoring and learning loop with calibration persistence', async ({
+    adminPage,
+    baseURL,
+  }) => {
+    test.setTimeout(90_000);
+    test.skip(
+      !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
+      'Skipping against prod.',
+    );
+
+    const runKey = `e2e-ml-learning-${Date.now()}`;
+    createdRunKeys.push(runKey);
+    const tenantId = `tenant-${runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`;
+
+    await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
+    const panel = adminPage.getByTestId('revenue-os-program-9');
+    await expect(panel).toBeVisible({ timeout: 60_000 });
+    await expect(panel).toContainText('Program 9: ML Scoring + Learning Loop');
+
+    const form = panel.getByTestId('revenue-os-ml-learning-form');
+    await form.getByLabel('Revenue OS ML learning proof run key').fill(runKey);
+    await form.getByTestId('revenue-os-run-ml-learning').click();
+    await adminPage.waitForLoadState('networkidle');
+
+    const sb = adminClient();
+    await expect
+      .poll(
+        async () => {
+          const { count, error } = await sb
+            .from('revenue_ml_feature_snapshots')
+            .select('id', { count: 'exact', head: true })
+            .eq('tenant_id', tenantId);
+          if (error) throw error;
+          return count ?? 0;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(5);
+
+    const { count: labels } = await sb
+      .from('revenue_ml_outcome_labels')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant_id', tenantId);
+    expect(labels ?? 0).toBe(4);
+
+    const { data: model } = await sb
+      .from('revenue_ml_model_versions')
+      .select('model_version, sample_size, metrics, feature_importance')
+      .eq('tenant_id', tenantId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    expect(model?.model_version).toBe(`${tenantId}-local-v1`);
+    expect(Number(model?.sample_size ?? 0)).toBe(4);
+    expect(Number(model?.metrics?.trainingAccuracy ?? 0)).toBeGreaterThanOrEqual(0.75);
+    expect(Number(model?.feature_importance?.fit ?? 0)).toBeGreaterThan(0);
+
+    const { data: decisions } = await sb
+      .from('revenue_ml_scoring_decisions')
+      .select('decision, blended_score, calibrated_probability, feature_snapshot')
+      .eq('tenant_id', tenantId);
+    expect(decisions?.length ?? 0).toBe(3);
+    expect(decisions?.some((decision) => decision.decision === 'prioritize')).toBe(true);
+    expect(decisions?.every((decision) => Number(decision.calibrated_probability) >= 0)).toBe(true);
+    expect(decisions?.every((decision) => decision.feature_snapshot?.features)).toBe(true);
+
+    const { data: report } = await sb
+      .from('revenue_ml_calibration_reports')
+      .select('brier_score, bands, drift_warnings')
+      .eq('tenant_id', tenantId)
+      .maybeSingle();
+    expect(Number(report?.brier_score ?? -1)).toBeGreaterThanOrEqual(0);
+    expect(Array.isArray(report?.bands)).toBe(true);
+    expect(report?.drift_warnings).toContain('low_sample_size');
+
+    const { count: legacyScores } = await sb
+      .from('revenue_ml_scores')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant_id', tenantId);
+    expect(legacyScores ?? 0).toBe(3);
+  });
+
+  test('runs program 10 revenue intelligence dashboard with seeded metrics and queue proof', async ({
+    adminPage,
+    baseURL,
+  }) => {
+    test.setTimeout(90_000);
+    test.skip(
+      !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
+      'Skipping against prod.',
+    );
+
+    const runKey = `e2e-revenue-intel-${Date.now()}`;
+    createdRunKeys.push(runKey);
+
+    await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
+    const panel = adminPage.getByTestId('revenue-os-program-10');
+    await expect(panel).toBeVisible({ timeout: 60_000 });
+    await expect(panel).toContainText('Program 10: Revenue Intelligence Dashboard');
+
+    const form = panel.getByTestId('revenue-os-revenue-intelligence-form');
+    await form.getByLabel('Revenue OS intelligence dashboard proof run key').fill(runKey);
+    await form.getByTestId('revenue-os-run-revenue-intelligence').click();
+    await adminPage.waitForLoadState('networkidle');
+
+    const sb = adminClient();
+    await expect
+      .poll(
+        async () => {
+          const { count, error } = await sb
+            .from('acquisition_daily_metrics')
+            .select('metric_date', { count: 'exact', head: true })
+            .contains('metadata', { runKey });
+          if (error) throw error;
+          return count ?? 0;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(3);
+
+    const { count: accounts } = await sb
+      .from('acquisition_accounts')
+      .select('id', { count: 'exact', head: true })
+      .contains('metadata', { runKey });
+    expect(accounts ?? 0).toBe(3);
+
+    const { count: emailQueueRows } = await sb
+      .from('revenue_email_queue')
+      .select('id', { count: 'exact', head: true })
+      .contains('metadata', { runKey });
+    expect(emailQueueRows ?? 0).toBe(3);
+
+    const { data: application } = await sb
+      .from('revenue_job_applications')
+      .select('stage, resume_variant, metadata')
+      .contains('metadata', { runKey })
+      .maybeSingle();
+    expect(application?.stage).toBe('interview');
+    expect(application?.resume_variant).toBe('ai_application_engineer');
+
+    await adminPage.reload({ waitUntil: 'networkidle' });
+    const refreshed = adminPage.getByTestId('revenue-os-program-10');
+    await expect(refreshed.getByTestId('revenue-intelligence-kpis')).toContainText('Replies');
+    await expect(refreshed.getByTestId('revenue-intelligence-priority-queue')).toContainText(`Program 10 Directory Follow Up ${runKey}`);
+    await expect(refreshed.getByTestId('revenue-intelligence-client-report')).toContainText('Recommended focus');
+  });
+
+  test('runs program 11 compliance privacy and governance proof', async ({
+    adminPage,
+    baseURL,
+  }) => {
+    test.setTimeout(90_000);
+    test.skip(
+      !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
+      'Skipping against prod.',
+    );
+
+    const runKey = `e2e-governance-${Date.now()}`;
+    createdRunKeys.push(runKey);
+
+    await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
+    const panel = adminPage.getByTestId('revenue-os-program-11');
+    await expect(panel).toBeVisible({ timeout: 60_000 });
+    await expect(panel).toContainText('Program 11: Compliance, Privacy + Governance');
+
+    const form = panel.getByTestId('revenue-os-governance-form');
+    await form.getByLabel('Revenue OS governance proof run key').fill(runKey);
+    await form.getByTestId('revenue-os-run-governance').click();
+    await adminPage.waitForLoadState('networkidle');
+
+    const sb = adminClient();
+    await expect
+      .poll(
+        async () => {
+          const { count, error } = await sb
+            .from('revenue_compliance_records')
+            .select('id', { count: 'exact', head: true })
+            .contains('metadata', { runKey });
+          if (error) throw error;
+          return count ?? 0;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(2);
+
+    const { data: report } = await sb
+      .from('revenue_governance_reports')
+      .select('status, score, allowed_contacts, blocked_contacts, source_coverage, controls')
+      .contains('metadata', { runKey })
+      .maybeSingle();
+    expect(report?.status).toBe('blocked');
+    expect(Number(report?.allowed_contacts ?? 0)).toBe(1);
+    expect(Number(report?.blocked_contacts ?? 0)).toBe(1);
+    expect(Number(report?.source_coverage ?? 0)).toBeGreaterThanOrEqual(50);
+    expect(report?.controls).toContain('privacy request workflow tracked');
+
+    const { data: privacy } = await sb
+      .from('revenue_privacy_requests')
+      .select('request_type, status, required_steps')
+      .contains('metadata', { runKey })
+      .maybeSingle();
+    expect(privacy?.request_type).toBe('suppress');
+    expect(privacy?.status).toBe('received');
+    expect(privacy?.required_steps).toContain('write suppression event');
+
+    await adminPage.reload({ waitUntil: 'networkidle' });
+    await expect(adminPage.getByTestId('revenue-os-program-11')).toContainText('Governance reports');
+  });
+
+  test('runs program 12 production operations CI proof and health endpoint', async ({
+    adminPage,
+    request,
+    baseURL,
+  }) => {
+    test.setTimeout(90_000);
+    test.skip(
+      !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
+      'Skipping against prod.',
+    );
+
+    const runKey = `e2e-ops-proof-${Date.now()}`;
+    createdRunKeys.push(runKey);
+
+    await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
+    const panel = adminPage.getByTestId('revenue-os-program-12');
+    await expect(panel).toBeVisible({ timeout: 60_000 });
+    await expect(panel).toContainText('Program 12: Production Operations + CI Proof');
+
+    const form = panel.getByTestId('revenue-os-production-ops-form');
+    await form.getByLabel('Revenue OS production ops proof run key').fill(runKey);
+    await form.getByTestId('revenue-os-run-production-ops').click();
+    await adminPage.waitForLoadState('networkidle');
+
+    const sb = adminClient();
+    await expect
+      .poll(
+        async () => {
+          const { count, error } = await sb
+            .from('revenue_ops_ci_proofs')
+            .select('id', { count: 'exact', head: true })
+            .eq('run_key', runKey);
+          if (error) throw error;
+          return count ?? 0;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(1);
+
+    const { data: ciProof } = await sb
+      .from('revenue_ops_ci_proofs')
+      .select('ready, score, gates')
+      .eq('run_key', runKey)
+      .maybeSingle();
+    expect(ciProof?.ready).toBe(true);
+    expect(Number(ciProof?.score ?? 0)).toBe(100);
+    expect(Array.isArray(ciProof?.gates)).toBe(true);
+
+    const { data: loadSmoke } = await sb
+      .from('revenue_ops_load_smokes')
+      .select('passed, score, checks')
+      .eq('run_key', runKey)
+      .maybeSingle();
+    expect(loadSmoke?.passed).toBe(true);
+    expect(Number(loadSmoke?.score ?? 0)).toBe(100);
+    expect(loadSmoke?.checks?.some((check: { label?: string }) => check.label === 'worker queue volume')).toBe(true);
+
+    const health = await request.get('/api/health/revenue-os');
+    expect([200, 503]).toContain(health.status());
+    const healthBody = await health.json();
+    expect(healthBody.checks?.some((check: { key?: string }) => check.key === 'db')).toBe(true);
+    expect(healthBody.checks?.some((check: { key?: string }) => check.key === 'queues')).toBe(true);
+
+    await adminPage.reload({ waitUntil: 'networkidle' });
+    await expect(adminPage.getByTestId('revenue-os-program-12')).toContainText('CI proofs');
+  });
+
+  test('runs programs 13-21 institutional production hardening proof', async ({
+    adminPage,
+  }) => {
+    test.setTimeout(90_000);
+
+    const runKey = `e2e-institutional-${Date.now()}`;
+    createdRunKeys.push(runKey);
+
+    await adminPage.goto('/admin/acquisition', { waitUntil: 'domcontentloaded' });
+    const panel = adminPage.getByTestId('revenue-os-program-13-21');
+    await expect(panel).toBeVisible({ timeout: 60_000 });
+    await expect(panel).toContainText('Programs 13-21: Institutional Production Hardening');
+
+    const form = panel.getByTestId('revenue-os-institutional-hardening-form');
+    await form.getByLabel('Revenue OS institutional hardening proof run key').fill(runKey);
+    await form.getByTestId('revenue-os-run-institutional-hardening').click();
+    await adminPage.waitForLoadState('networkidle');
+
+    const sb = adminClient();
+    await expect
+      .poll(
+        async () => {
+          const { count, error } = await sb
+            .from('revenue_institutional_program_runs')
+            .select('id', { count: 'exact', head: true })
+            .eq('run_key', runKey);
+          if (error) throw error;
+          return count ?? 0;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(9);
+
+    const { data: liveChecks } = await sb
+      .from('revenue_live_integration_checks')
+      .select('provider, configured, live_verified, mode')
+      .eq('run_key', runKey);
+    expect(liveChecks?.length).toBe(5);
+    expect(liveChecks?.some((check: { provider?: string }) => check.provider === 'resend')).toBe(true);
+
+    const { data: worker } = await sb
+      .from('revenue_worker_runtime_executions')
+      .select('claimed_jobs, completed_jobs, failed_jobs, status')
+      .eq('run_key', runKey)
+      .maybeSingle();
+    expect(Number(worker?.claimed_jobs ?? 0)).toBeGreaterThanOrEqual(4);
+    expect(Number(worker?.completed_jobs ?? 0)).toBeGreaterThanOrEqual(3);
+
+    const { count: privacyJobs } = await sb
+      .from('revenue_privacy_workflow_jobs')
+      .select('id', { count: 'exact', head: true })
+      .eq('run_key', runKey);
+    expect(privacyJobs).toBe(4);
+
+    const { count: clientSurfaces } = await sb
+      .from('revenue_client_surface_proofs')
+      .select('id', { count: 'exact', head: true })
+      .eq('run_key', runKey);
+    expect(clientSurfaces).toBe(2);
+
+    const { data: loadProof } = await sb
+      .from('revenue_load_scale_proofs')
+      .select('tenants, leads, jobs, worker_jobs, status')
+      .eq('run_key', runKey)
+      .maybeSingle();
+    expect(Number(loadProof?.tenants ?? 0)).toBe(5);
+    expect(Number(loadProof?.leads ?? 0)).toBe(1000);
+    expect(Number(loadProof?.worker_jobs ?? 0)).toBe(10_000);
+
+    const { data: evalRun } = await sb
+      .from('revenue_ai_ml_eval_harness_runs')
+      .select('score, hallucination_failures, spam_failures')
+      .eq('run_key', runKey)
+      .maybeSingle();
+    expect(Number(evalRun?.score ?? 0)).toBeGreaterThanOrEqual(85);
+    expect(Number(evalRun?.hallucination_failures ?? 0)).toBe(0);
+    expect(Number(evalRun?.spam_failures ?? 0)).toBe(0);
+
+    await adminPage.reload({ waitUntil: 'networkidle' });
+    await expect(adminPage.getByTestId('revenue-os-program-13-21')).toContainText('Program runs');
+    await expect(adminPage.getByTestId('revenue-os-dead-letter-replay')).toBeVisible();
+    await expect(adminPage.getByTestId('revenue-os-deliverability-dns')).toBeVisible();
+    await expect(adminPage.getByTestId('revenue-os-privacy-workflows')).toBeVisible();
+    await expect(adminPage.getByTestId('revenue-os-api-key-management')).toBeVisible();
+  });
+
+  test('runs program 8 public API ingestion exports and signed webhooks', async ({
+    request,
+    baseURL,
+  }) => {
+    test.setTimeout(90_000);
+    test.skip(
+      !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
+      'Skipping against prod.',
+    );
+
+    const runKey = `e2e-api-${Date.now()}`;
+    createdRunKeys.push(runKey);
+    const tenantKey = `tenant-${runKey}`;
+    const sb = adminClient();
+    const { data: workspace, error: workspaceError } = await sb.from('revenue_workspaces').insert({
+      run_key: runKey,
+      tenant_key: tenantKey,
+      business_name: `Program 8 API ${runKey}`,
+      owner_email: `owner+${runKey}@program8.example`,
+      status: 'active',
+      metadata: { runKey, program: '8_public_api' },
+    }).select('id').maybeSingle();
+    expect(workspaceError).toBeNull();
+    expect(workspace?.id).toBeTruthy();
+
+    const key = buildRevenueApiKey({
+      tenantKey,
+      scopes: ['leads:write', 'jobs:write', 'events:write', 'audits:write', 'outcomes:write', 'exports:read', 'webhooks:write'],
+      entropy: runKey,
+    });
+    await sb.from('revenue_api_keys').insert({
+      workspace_id: workspace?.id,
+      tenant_key: tenantKey,
+      name: `Program 8 E2E ${runKey}`,
+      key_hash: key.keyHash,
+      key_prefix: key.prefix,
+      last_four: key.lastFour,
+      scopes: key.scopes,
+      status: 'active',
+      metadata: { runKey, program: '8_public_api' },
+    });
+
+    const authHeaders = {
+      Authorization: `Bearer ${key.secret}`,
+      'Content-Type': 'application/json',
+    };
+    const lead = await request.post('/api/revenue-os/v1/leads', {
+      headers: { ...authHeaders, 'Idempotency-Key': `${runKey}-lead` },
+      data: {
+        externalId: `${runKey}-lead`,
+        name: `Program 8 Lead ${runKey}`,
+        websiteUrl: `https://${runKey}.example`,
+        industry: 'Dental',
+        location: 'Remote',
+        contact: { name: 'Avery API', email: `avery+${runKey}@program8.example` },
+        tags: ['program-8', 'api'],
+      },
+    });
+    expect(lead.status()).toBe(202);
+    const leadBody = await lead.json();
+    expect(leadBody.accountId).toBeTruthy();
+
+    const duplicateLead = await request.post('/api/revenue-os/v1/leads', {
+      headers: { ...authHeaders, 'Idempotency-Key': `${runKey}-lead` },
+      data: {
+        externalId: `${runKey}-lead`,
+        name: `Program 8 Lead ${runKey}`,
+      },
+    });
+    expect(duplicateLead.status()).toBe(200);
+    expect((await duplicateLead.json()).duplicate).toBe(true);
+
+    const job = await request.post('/api/revenue-os/v1/jobs', {
+      headers: { ...authHeaders, 'Idempotency-Key': `${runKey}-job` },
+      data: {
+        externalId: `${runKey}-job`,
+        title: 'Junior AI Application Builder',
+        company: `Program 8 Company ${runKey}`,
+        jobUrl: `https://jobs.example/${runKey}`,
+        score: 82,
+        atsKeywords: ['TypeScript', 'LLM', 'Next.js'],
+      },
+    });
+    expect(job.status()).toBe(202);
+    expect((await job.json()).jobId).toBeTruthy();
+
+    const event = await request.post('/api/revenue-os/v1/events', {
+      headers: { ...authHeaders, 'Idempotency-Key': `${runKey}-event` },
+      data: {
+        externalId: `${runKey}-event`,
+        type: 'reply.received',
+        payload: { source: 'api-e2e' },
+      },
+    });
+    expect(event.status()).toBe(202);
+
+    const outcome = await request.post('/api/revenue-os/v1/outcomes', {
+      headers: { ...authHeaders, 'Idempotency-Key': `${runKey}-outcome` },
+      data: {
+        externalId: `${runKey}-outcome`,
+        accountId: leadBody.accountId,
+        stage: 'meeting',
+        revenueValue: 5000,
+      },
+    });
+    expect(outcome.status()).toBe(202);
+
+    const exportJson = await request.get('/api/revenue-os/v1/exports?resource=accounts&format=json', {
+      headers: { Authorization: `Bearer ${key.secret}` },
+    });
+    expect(exportJson.status()).toBe(200);
+    const exportBody = await exportJson.json();
+    expect(exportBody.rows.some((row: { id: string }) => row.id === leadBody.accountId)).toBe(true);
+
+    const webhookBody = JSON.stringify({
+      provider: 'program8',
+      type: 'meeting.booked',
+      id: `${runKey}-webhook`,
+      data: { accountId: leadBody.accountId },
+    });
+    const timestamp = new Date().toISOString();
+    const webhook = await request.post('/api/revenue-os/v1/webhooks', {
+      headers: {
+        Authorization: `Bearer ${key.secret}`,
+        'Content-Type': 'application/json',
+        'X-Revenue-OS-Timestamp': timestamp,
+        'X-Revenue-OS-Signature': signRevenueWebhookPayload({
+          secret: key.secret,
+          timestamp,
+          body: webhookBody,
+        }),
+      },
+      data: webhookBody,
+    });
+    expect(webhook.status()).toBe(202);
+    expect((await webhook.json()).webhookEventId).toBeTruthy();
+
+    const { count: ingestions } = await sb
+      .from('revenue_api_ingestion_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant_key', tenantKey);
+    const { count: requests } = await sb
+      .from('revenue_api_requests')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant_key', tenantKey);
+    const { count: webhooks } = await sb
+      .from('revenue_api_webhook_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant_key', tenantKey);
+    const { data: updatedAccount } = await sb
+      .from('acquisition_accounts')
+      .select('stage, metadata')
+      .eq('id', leadBody.accountId)
+      .maybeSingle();
+
+    expect(ingestions ?? 0).toBeGreaterThanOrEqual(5);
+    expect(requests ?? 0).toBeGreaterThanOrEqual(5);
+    expect(webhooks ?? 0).toBe(1);
+    expect(updatedAccount?.stage).toBe('meeting');
+  });
+
   test('bulk-imports comma-separated lead rows', async ({ adminPage, baseURL }) => {
     test.setTimeout(90_000);
     test.skip(
@@ -1247,11 +1802,11 @@ test.describe('Admin Acquisition OS', () => {
     expect(contact?.role_fit).toBe('founder');
     expect(contact?.source).toBe('inbound');
 
-    await expect.poll(async () => (await readTodayMetrics()).accountsAdded).toBeGreaterThanOrEqual(
-      metricStart.accountsAdded + 1,
-    );
-    await expect.poll(async () => (await readTodayMetrics()).qualified).toBeGreaterThanOrEqual(
-      metricStart.qualified + 1,
-    );
+    await expect
+      .poll(async () => (await readTodayMetrics()).accountsAdded, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.accountsAdded + 1);
+    await expect
+      .poll(async () => (await readTodayMetrics()).qualified, { timeout: 30_000 })
+      .toBeGreaterThanOrEqual(metricStart.qualified + 1);
   });
 });

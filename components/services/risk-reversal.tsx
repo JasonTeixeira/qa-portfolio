@@ -21,8 +21,8 @@ const pillars = [
 export function RiskReversal() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="rounded-2xl border border-[#0ED3CF]/20 bg-gradient-to-br from-[#0ED3CF]/[0.04] to-transparent p-6 sm:p-8">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF]">
+      <div className="rounded-2xl border border-[#3D5AFE]/20 bg-gradient-to-br from-[#3D5AFE]/[0.04] to-transparent p-6 sm:p-8">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#3D5AFE]">
           How we reduce risk
         </span>
         <div className="mt-6 grid md:grid-cols-3 gap-4">
@@ -31,7 +31,7 @@ export function RiskReversal() {
               key={p.title}
               className="rounded-xl border border-[#2A2826] bg-[#12110F] p-5"
             >
-              <p.icon className="w-5 h-5 text-[#0ED3CF] mb-3" />
+              <p.icon className="w-5 h-5 text-[#3D5AFE] mb-3" />
               <h3 className="text-sm font-semibold text-[#FAFAFA] leading-snug">
                 {p.title}
               </h3>

@@ -1,12 +1,12 @@
 import fs from 'fs'
 import path from 'path'
-import matter from 'gray-matter'
 import {
   PostFrontmatterSchema,
   deriveClusterKey,
   deriveKeywords,
   type ClusterKey,
 } from '@/lib/blog-schema'
+import { parseFrontmatter } from '@/lib/frontmatter'
 
 export interface BlogPost {
   id: number
@@ -35,42 +35,73 @@ function parseMdxFile(filename: string): BlogPost | null {
   const filepath = path.join(BLOG_DIR, filename)
   try {
     const raw = fs.readFileSync(filepath, 'utf-8')
-    const { data, content } = matter(raw)
+    const { data, content } = parseFrontmatter(raw)
     const parsed = PostFrontmatterSchema.safeParse(data)
     if (!parsed.success && process.env.CI) {
       throw new Error(`Invalid frontmatter in ${filename}: ${parsed.error.message}`)
     }
     const fm = parsed.success ? parsed.data : data
-    const slug = fm.slug ?? filename.replace(/\.mdx?$/, '')
-    const title = fm.title ?? ''
-    const category = fm.category ?? 'Engineering'
-    const tags = Array.isArray(fm.tags) ? fm.tags : []
-    const cluster = fm.cluster ?? deriveClusterKey({ title, category, tags, slug })
-    const excerpt = fm.excerpt ?? fm.description ?? ''
+    const slug = stringValue(fm.slug) ?? filename.replace(/\.mdx?$/, '')
+    const title = stringValue(fm.title) ?? ''
+    const category = stringValue(fm.category) ?? 'Engineering'
+    const tags = stringArray(fm.tags)
+    const cluster = clusterValue(fm.cluster) ?? deriveClusterKey({ title, category, tags, slug })
+    const excerpt = stringValue(fm.excerpt) ?? stringValue(fm.description) ?? ''
     return {
-      id: fm.id ?? 0,
+      id: numberValue(fm.id) ?? 0,
       slug,
       title,
       excerpt,
-      description: fm.description ?? excerpt,
+      description: stringValue(fm.description) ?? excerpt,
       content: content.slice(0, 200),
       fullContent: content,
       category,
       cluster,
-      keywords: fm.keywords ?? deriveKeywords({ title, category, tags, cluster }),
+      keywords: nonEmptyStringArray(fm.keywords) ?? deriveKeywords({ title, category, tags, cluster }),
       tags,
-      date: fm.datePublished ?? fm.date ?? '2025-01-01',
-      dateUpdated: fm.dateUpdated,
-      readTime: fm.readTime ?? '5 min read',
-      coverImage: fm.coverImage,
-      canonical: fm.canonical,
-      series: fm.series,
-      seriesIndex: fm.seriesIndex,
+      date: stringValue(fm.datePublished) ?? stringValue(fm.date) ?? '2025-01-01',
+      dateUpdated: stringValue(fm.dateUpdated),
+      readTime: stringValue(fm.readTime) ?? '5 min read',
+      coverImage: stringValue(fm.coverImage),
+      canonical: stringValue(fm.canonical),
+      series: stringValue(fm.series),
+      seriesIndex: numberValue(fm.seriesIndex),
     }
   } catch (error) {
     if (process.env.CI) throw error
     return null
   }
+}
+
+function stringValue(value: unknown): string | undefined {
+  return typeof value === 'string' ? value : undefined
+}
+
+function numberValue(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined
+}
+
+function stringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+}
+
+function nonEmptyStringArray(value: unknown): string[] | undefined {
+  const items = stringArray(value)
+  return items.length > 0 ? items : undefined
+}
+
+function clusterValue(value: unknown): ClusterKey | undefined {
+  const clusters: readonly ClusterKey[] = [
+    'testing-qa',
+    'ai-engineering',
+    'fintech-trading',
+    'cloud-infra',
+    'solo-studio',
+    'product-systems',
+  ]
+  return typeof value === 'string' && clusters.includes(value as ClusterKey)
+    ? (value as ClusterKey)
+    : undefined
 }
 
 export function getAllBlogPosts(): BlogPost[] {

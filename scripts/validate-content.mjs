@@ -12,7 +12,7 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import matter from 'gray-matter';
+import { parseFrontmatter } from './lib/frontmatter.mjs';
 // NOTE: Keep this script dependency-free (Node-only).
 
 const ROOT = process.cwd();
@@ -159,7 +159,7 @@ async function main() {
   const blogFiles = (await fs.readdir(blogDir)).filter((file) => file.endsWith('.mdx'));
   for (const file of blogFiles) {
     const raw = await fs.readFile(path.join(blogDir, file), 'utf8');
-    const { data } = matter(raw);
+    const { data } = parseFrontmatter(raw);
     const required = [
       'slug',
       'title',

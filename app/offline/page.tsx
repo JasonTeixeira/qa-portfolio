@@ -13,7 +13,7 @@ export default function OfflinePage() {
     <div className="min-h-[80vh] bg-[#09090B] flex items-center justify-center px-6">
       <div className="max-w-md text-center">
         <div
-          className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-[#0ED3CF] mb-6"
+          className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-[#3D5AFE] mb-6"
           aria-hidden
         >
           <span className="inline-block w-2 h-2 rounded-full bg-[#E85D3A] animate-pulse" />
@@ -42,7 +42,7 @@ export default function OfflinePage() {
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="block rounded-lg border border-[#2A2826] bg-[#12110F] px-3 py-2 text-sm text-[#F4F2EF] hover:border-[#0ED3CF]/40 hover:text-[#0ED3CF] transition-colors"
+                className="block rounded-lg border border-[#2A2826] bg-[#12110F] px-3 py-2 text-sm text-[#F4F2EF] hover:border-[#3D5AFE]/40 hover:text-[#3D5AFE] transition-colors"
               >
                 {l.label}
               </Link>

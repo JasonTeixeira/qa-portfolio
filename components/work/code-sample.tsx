@@ -48,7 +48,7 @@ export async function CodeSample({ sample }: Props) {
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-[var(--sage-coral)]/70" aria-hidden />
           <span className="h-2 w-2 rounded-full bg-[var(--sage-lime)]/60" aria-hidden />
-          <span className="h-2 w-2 rounded-full bg-[#0ED3CF]/70" aria-hidden />
+          <span className="h-2 w-2 rounded-full bg-[#3D5AFE]/70" aria-hidden />
           <span className="ml-3 text-[11px] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
             {sample.title}
           </span>

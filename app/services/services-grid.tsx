@@ -49,7 +49,7 @@ export function ServicesGrid({
             <HoverGlow className="h-full rounded-2xl">
               <GlowCard
                 glowColor={tier.highlight ? 'gradient' : 'cyan'}
-                className={`h-full flex flex-col border-l-2 ${accent.borderStrong} ${tier.highlight ? 'border-[#0ED3CF]/50' : ''}`}
+                className={`h-full flex flex-col border-l-2 ${accent.borderStrong} ${tier.highlight ? 'border-[#3D5AFE]/50' : ''}`}
               >
                 <div className="p-6 flex flex-col h-full">
                   {/* Header */}
@@ -65,7 +65,7 @@ export function ServicesGrid({
                           {tierLabel[serviceTier]}
                         </span>
                         {tier.highlight && (
-                          <span className="text-[10px] font-mono text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-mono text-[#3D5AFE] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 px-2 py-0.5 rounded-full">
                             Popular
                           </span>
                         )}
@@ -109,7 +109,7 @@ export function ServicesGrid({
                   {/* CTA */}
                   <Link
                     href={`/services/${tier.slug}`}
-                    className="inline-flex items-center justify-center w-full rounded-lg border border-[#2A2826] bg-[#1A1917] hover:border-[#0ED3CF]/60 hover:text-[#0ED3CF] text-[#FAFAFA] text-sm font-medium py-2.5 px-4 transition-all duration-200 gap-2 group"
+                    className="inline-flex items-center justify-center w-full rounded-lg border border-[#2A2826] bg-[#1A1917] hover:border-[#3D5AFE]/60 hover:text-[#3D5AFE] text-[#FAFAFA] text-sm font-medium py-2.5 px-4 transition-all duration-200 gap-2 group"
                   >
                     View {tier.shortName}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

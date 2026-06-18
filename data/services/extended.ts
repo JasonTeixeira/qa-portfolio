@@ -2356,7 +2356,7 @@ export const extendedCategories: ExtendedCategoryMeta[] = [
     key: 'ai-flagship',
     label: 'AI Flagship',
     tagline: 'Custom AI agents, voice agents, and lead engines — built on your business.',
-    accent: '#22D3EE',
+    accent: '#5670ff',
     icon: 'sparkles',
   },
   {

@@ -1,8 +1,13 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import { ChevronRight, FileText } from 'lucide-react'
 
-export default function LegalLayout({ children }: { children: ReactNode }) {
+export default async function LegalLayout({ children }: { children: ReactNode }) {
+  const h = await headers()
+  const pathname = (h.get('x-pathname') ?? '').split('?')[0]
+  if (pathname === '/legal') return <>{children}</>
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[var(--sage-bg)] text-[var(--sage-ink)]">
       <div

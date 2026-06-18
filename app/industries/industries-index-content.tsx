@@ -58,7 +58,7 @@ export function IndustriesIndexContent({
               style={HEADING_STYLE}
             >
               Five verticals.{' '}
-              <em className="not-italic text-[#0ED3CF]">Operator-grade execution.</em>
+              <em className="not-italic text-[#3D5AFE]">Operator-grade execution.</em>
             </h1>
             <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
               Sage Ideas works deepest where we have shipped real software — fintech, SaaS,
@@ -88,11 +88,11 @@ export function IndustriesIndexContent({
                 >
                   <Surface level={2} interactive ticks className="p-6 h-full flex flex-col">
                     <div className="flex items-start gap-3 mb-4">
-                      <div className="w-11 h-11 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                        <Icon className="w-5 h-5 text-[#0ED3CF]" aria-hidden />
+                      <div className="w-11 h-11 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center shrink-0">
+                        <Icon className="w-5 h-5 text-[#3D5AFE]" aria-hidden />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-base text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors leading-tight">
+                        <h3 className="text-base text-[var(--sage-ink)] group-hover:text-[#3D5AFE] transition-colors leading-tight">
                           {v.name}
                         </h3>
                         <MonoLabel tone="accent" as="p" className="mt-0.5">{v.tagline}</MonoLabel>
@@ -103,7 +103,7 @@ export function IndustriesIndexContent({
                         ? v.intro.slice(0, 220).trimEnd() + '…'
                         : v.intro}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
+                    <span className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
                       Explore {v.shortName} →
                     </span>
                   </Surface>
@@ -117,7 +117,7 @@ export function IndustriesIndexContent({
       {/* CTA */}
       <Section
         eyebrow="fit check"
-        heading={<>Industry not listed?<br /><em className="not-italic text-[#0ED3CF]">We still might fit.</em></>}
+        heading={<>Industry not listed?<br /><em className="not-italic text-[#3D5AFE]">We still might fit.</em></>}
         lede="Sage Ideas works with most B2B verticals. Book a 30-minute call and we will tell you directly whether we're the right fit — or who is."
         centered
         grain

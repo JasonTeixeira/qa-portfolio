@@ -349,7 +349,7 @@ jobs:
         code: `// tokens/brand.ts
 export const brand = {
   color: {
-    cyan: '#0ED3CF',
+    cyan: '#3D5AFE',
     coral: '#E85D3A',
     lime: '#A8C633',
     magenta: '#C7236E',

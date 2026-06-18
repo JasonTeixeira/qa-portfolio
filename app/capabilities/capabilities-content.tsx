@@ -80,10 +80,10 @@ const toneClasses: Record<
   }
 > = {
   productized: {
-    border: 'border-[#0ED3CF]/25 hover:border-[#0ED3CF]/60',
-    bg: 'bg-[#0ED3CF]/[0.04] hover:bg-[#0ED3CF]/[0.08]',
-    label: 'text-[#0ED3CF]',
-    iconBg: 'bg-[#0ED3CF]/10 border-[#0ED3CF]/20',
+    border: 'border-[#3D5AFE]/25 hover:border-[#3D5AFE]/60',
+    bg: 'bg-[#3D5AFE]/[0.04] hover:bg-[#3D5AFE]/[0.08]',
+    label: 'text-[#3D5AFE]',
+    iconBg: 'bg-[#3D5AFE]/10 border-[#3D5AFE]/20',
     Icon: CheckCircle2,
     badge: 'Productized',
   },
@@ -132,7 +132,7 @@ export function CapabilitiesContent() {
                 style={HEADING_STYLE}
               >
                 Eight capabilities.{' '}
-                <em className="not-italic text-[#0ED3CF]">Four modes.</em>{' '}
+                <em className="not-italic text-[#3D5AFE]">Four modes.</em>{' '}
                 <em className="not-italic text-[#E85D3A]">Every cell filled.</em>
               </h1>
               <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
@@ -141,7 +141,7 @@ export function CapabilitiesContent() {
                 }
               </p>
               <div className="mt-8 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 text-[#0ED3CF] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#3D5AFE]/10 border border-[#3D5AFE]/30 text-[#3D5AFE] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
                   <CheckCircle2 className="w-3 h-3" aria-hidden /> Productized · instant checkout
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-[3px] px-3 py-1 bg-[#E85D3A]/10 border border-[#E85D3A]/30 text-[#E85D3A] text-[11px] uppercase tracking-[0.12em] [font-family:var(--font-mono),ui-monospace,monospace]">
@@ -207,8 +207,8 @@ export function CapabilitiesContent() {
                 <Reveal key={m.key} delay={i * 0.06}>
                   <div className="bg-[var(--sage-surface-1)] p-5">
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                      <div className="w-9 h-9 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-[#3D5AFE]" aria-hidden />
                       </div>
                       <MonoLabel tone="ink">{m.label}</MonoLabel>
                     </div>
@@ -223,7 +223,7 @@ export function CapabilitiesContent() {
         {/* Matrix */}
         <Section
           eyebrow="matrix"
-          heading={<>Capability × Mode —<br /><em className="not-italic text-[#0ED3CF]">every cell filled</em></>}
+          heading={<>Capability × Mode —<br /><em className="not-italic text-[#3D5AFE]">every cell filled</em></>}
           lede="Find your row (capability) and column (mode). Every intersection has a real offering — productized tiers checkout instantly, custom engagements get a same-day quote, retainers cancel anytime."
         >
           {/* Desktop matrix */}
@@ -256,8 +256,8 @@ export function CapabilitiesContent() {
                   }`}
                 >
                   <div className="px-4 py-5 flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                    <div className="w-9 h-9 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-[#3D5AFE]" aria-hidden />
                     </div>
                     <div>
                       <div className="text-sm font-normal text-[var(--sage-ink)] leading-tight">{cap.label}</div>
@@ -304,8 +304,8 @@ export function CapabilitiesContent() {
                 <Reveal key={capKey} delay={i * 0.05}>
                   <Surface level={2} className="p-5">
                     <div className="flex items-start gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                      <div className="w-10 h-10 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-[#3D5AFE]" aria-hidden />
                       </div>
                       <div>
                         <h3 className="text-sm text-[var(--sage-ink)]">{cap.label}</h3>
@@ -409,8 +409,8 @@ export function CapabilitiesContent() {
               return (
                 <Reveal key={capKey} delay={i * 0.05}>
                   <Surface level={2} interactive className="p-5 h-full flex flex-col">
-                    <div className="w-10 h-10 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center mb-3">
-                      <Icon className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                    <div className="w-10 h-10 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center mb-3">
+                      <Icon className="w-4 h-4 text-[#3D5AFE]" aria-hidden />
                     </div>
                     <h3 className="text-sm text-[var(--sage-ink)] mb-1">{cap.label}</h3>
                     <p className="text-sm text-[var(--sage-ink-muted)] leading-snug mb-4 flex-1">{cap.tagline}</p>
@@ -422,7 +422,7 @@ export function CapabilitiesContent() {
                           <Link
                             key={slug}
                             href={`/services/${slug}`}
-                            className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#0ED3CF] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 px-2 py-0.5 rounded-[3px] hover:bg-[#0ED3CF]/20 transition-colors capitalize"
+                            className="text-[11px] [font-family:var(--font-mono),ui-monospace,monospace] text-[#3D5AFE] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 px-2 py-0.5 rounded-[3px] hover:bg-[#3D5AFE]/20 transition-colors capitalize"
                           >
                             {label}
                           </Link>
@@ -442,7 +442,7 @@ export function CapabilitiesContent() {
         {/* CTA */}
         <Section
           eyebrow="discovery"
-          heading={<>Not sure which<br /><em className="not-italic text-[#0ED3CF]">capability you need?</em></>}
+          heading={<>Not sure which<br /><em className="not-italic text-[#3D5AFE]">capability you need?</em></>}
           lede="Book a 30-minute discovery call. We'll talk through what you're building and which row + column fits — or scope something custom together."
           centered
           grain

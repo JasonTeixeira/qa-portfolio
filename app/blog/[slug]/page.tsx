@@ -12,6 +12,7 @@ import { injectHeadingIds } from '@/lib/blog-toc'
 import { buildArticle, buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { CLUSTERS } from '@/data/content/clusters'
 import { ArticleConversionSystem } from '@/components/blog/article-conversion-system'
+import { ArticleRouteCards } from '@/components/blog/article-route-cards'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -103,7 +104,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         prev={adjacent.prev}
         next={adjacent.next}
       >
-        <ArticleBody html={html} />
+        <ArticleBody html={html} cluster={cluster} currentPost={post} />
+        <ArticleRouteCards
+          cluster={cluster}
+          currentPost={post}
+          clusterPosts={clusterPosts}
+        />
         <ArticleConversionSystem
           cluster={cluster}
           currentPost={post}

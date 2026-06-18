@@ -7,8 +7,8 @@ const SIZE = { width: 1200, height: 630 } as const
 
 // Allow-listed brand accents — never trust raw user input as a CSS color.
 const ACCENT_MAP: Record<string, { hex: string; rgb: string }> = {
-  teal:    { hex: '#0ED3CF', rgb: '14,211,207' },
-  cyan:    { hex: '#0ED3CF', rgb: '14,211,207' },
+  teal:    { hex: '#3D5AFE', rgb: '61,90,254' },
+  cyan:    { hex: '#3D5AFE', rgb: '61,90,254' },
   coral:   { hex: '#E85D3A', rgb: '232,93,58' },
   lime:    { hex: '#A8C633', rgb: '168,198,51' },
   magenta: { hex: '#C7236E', rgb: '199,35,110' },
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
           overflow: 'hidden',
         }}
       >
-        {/* Ambient brand gradient — teal top-left */}
+        {/* Ambient brand gradient — blue top-left */}
         <div
           style={{
             position: 'absolute',
@@ -204,7 +204,7 @@ export async function GET(req: NextRequest) {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  background: '#0ED3CF',
+                  background: '#3D5AFE',
                   display: 'flex',
                 }}
               />

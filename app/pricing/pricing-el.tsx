@@ -10,6 +10,7 @@ import {
 } from '@/components/el/services'
 import { QuoteCalculator } from '@/components/pricing/quote-calculator'
 import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { RouteConversionCta } from '@/components/living/RouteConversionCta'
 import { tiersOrdered, careTiers } from '@/data/services/tiers'
 import {
   extendedCategories,
@@ -18,7 +19,7 @@ import {
 import { pricingFaq } from '@/data/services/pricing-faq'
 
 // Recommended on-ramp: the cheapest self-serve productized tier (Audit).
-// It earns the single teal accent — the entry point, not every card.
+// It earns the single accent — the entry point, not every card.
 const RECOMMENDED_SLUG = 'audit'
 
 // Extended catalog categories that are inquiry-first; prices flow from the
@@ -56,7 +57,7 @@ export function PricingEl() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
             <div>
               <h1
-                className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(3.2rem,1.3rem+5.2vw,6.4rem)]"
+                className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(3.2rem,_1.3rem_+_5.2vw,_6.4rem)]"
                 style={{
                   fontFamily: 'var(--font-display)',
                   letterSpacing: '-0.026em',
@@ -64,7 +65,7 @@ export function PricingEl() {
                 }}
               >
                 One price per engagement.{' '}
-                <span className="italic text-[#0ED3CF]">Written before we start.</span>
+                <span className="italic text-[#3D5AFE]">Written before we start.</span>
               </h1>
               <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
                 No “starting from”, no discovery-call price reveal. Every productized tier below has a
@@ -127,7 +128,7 @@ export function PricingEl() {
         heading={
           <>
             Fixed scope. Fixed price.{' '}
-            <span className="italic text-[#0ED3CF]">Click to start.</span>
+            <span className="italic text-[#3D5AFE]">Click to start.</span>
           </>
         }
         lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, automation, brand work, and platform builds. Audit is the self-serve on-ramp; most of it credits toward a larger engagement."
@@ -143,7 +144,7 @@ export function PricingEl() {
         heading={
           <>
             Skip the spreadsheet.{' '}
-            <span className="italic text-[#0ED3CF]">Build your quote here.</span>
+            <span className="italic text-[#3D5AFE]">Build your quote here.</span>
           </>
         }
         lede="Click your way to a real estimate. The number you see is the number we’ll write into the contract — and if scope changes mid-flight, the kill switch refunds the unspent half."
@@ -162,7 +163,7 @@ export function PricingEl() {
         heading={
           <>
             Kept alive every month.{' '}
-            <span className="italic text-[#0ED3CF]">Cancel anytime.</span>
+            <span className="italic text-[#3D5AFE]">Cancel anytime.</span>
           </>
         }
         lede="Lightweight retainers for teams who already shipped. Real subscriptions through Stripe — no clawback, no minimum term, no drama."
@@ -201,7 +202,7 @@ export function PricingEl() {
         heading={
           <>
             More ways we can help —{' '}
-            <span className="italic text-[#0ED3CF]">scoped before you commit.</span>
+            <span className="italic text-[#3D5AFE]">scoped before you commit.</span>
           </>
         }
         lede="AI reliability, automation pipelines, customer-facing AI, retainers, diagnostics, and full bundles. Inquiry-first: every engagement is scoped and priced in writing before any commitment."
@@ -235,6 +236,20 @@ export function PricingEl() {
         <FaqAccordion items={pricingFaq} />
       </Section>
 
+      <RouteConversionCta
+        eyebrow="price to route"
+        title="Still comparing? Get routed."
+        body="If the matrix is close but not obvious, answer four questions. The diagnostic points you toward audit, studio build, automation, or academy instead of forcing a generic sales call."
+        primary={{ label: 'Run the route finder', href: '/tools/route-finder?source=pricing_final' }}
+        secondary={{ label: 'Book a call', href: '/book' }}
+        variant="growth"
+        proof={[
+          { label: 'self-serve on-ramp', value: 'Audit' },
+          { label: 'pricing model', value: 'fixed' },
+          { label: 'route options', value: '04' },
+        ]}
+      />
+
       {/* ── Close ──────────────────────────────────────────────────── */}
       <Section
         eyebrow="not sure which fits?"
@@ -243,7 +258,7 @@ export function PricingEl() {
         heading={
           <>
             Start with{' '}
-            <span className="italic text-[#0ED3CF]">a conversation.</span>
+            <span className="italic text-[#3D5AFE]">a conversation.</span>
           </>
         }
         lede="A free 30-minute discovery call. We talk through what you’re building, what you’ve tried, and which engagement — if any — is the right fit."

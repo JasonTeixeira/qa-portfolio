@@ -51,9 +51,9 @@ function Stepper({ step }: { step: 1 | 2 | 3 }) {
               aria-current={active ? 'step' : undefined}
               className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-mono border ${
                 done
-                  ? 'bg-[#0ED3CF] border-[#0ED3CF] text-[#09090B]'
+                  ? 'bg-[#3D5AFE] border-[#3D5AFE] text-[#09090B]'
                   : active
-                    ? 'border-[#0ED3CF] text-[#0ED3CF]'
+                    ? 'border-[#3D5AFE] text-[#3D5AFE]'
                     : 'border-[#2A2826] text-[#52525B]'
               }`}
             >
@@ -142,7 +142,7 @@ export default async function SignupPage({ searchParams }: Props) {
               Already have an account?{' '}
               <Link
                 href="/login"
-                className="text-[#0ED3CF] hover:text-[#22D3EE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 rounded-sm"
+                className="text-[#3D5AFE] hover:text-[#5670ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 rounded-sm"
               >
                 Sign in →
               </Link>
@@ -158,7 +158,7 @@ function StepAccount({ email }: { email: string }) {
   return (
     <>
       <div className="space-y-2 mb-6">
-        <div className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+        <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
           Studio access. Built for clients and craft.
         </div>
         <h2 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">
@@ -187,7 +187,7 @@ function StepAccount({ email }: { email: string }) {
             defaultValue={email}
             autoComplete="email"
             placeholder="you@company.com"
-            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
           />
         </div>
 
@@ -206,13 +206,13 @@ function StepAccount({ email }: { email: string }) {
             minLength={8}
             autoComplete="new-password"
             placeholder="••••••••"
-            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full rounded-lg bg-[#0ED3CF] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#0AA8A5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
+          className="w-full rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
         >
           Continue
         </button>
@@ -274,7 +274,7 @@ function StepIntake({
             required
             defaultValue={fullName}
             placeholder="Jane Operator"
-            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
           />
         </div>
 
@@ -286,7 +286,7 @@ function StepIntake({
             {ROLE_OPTIONS.map((opt) => (
               <label
                 key={opt.value}
-                className="flex items-center gap-3 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] hover:border-[#0ED3CF]/40 cursor-pointer has-[:checked]:border-[#0ED3CF] has-[:checked]:bg-[#0ED3CF]/5"
+                className="flex items-center gap-3 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] hover:border-[#3D5AFE]/40 cursor-pointer has-[:checked]:border-[#3D5AFE] has-[:checked]:bg-[#3D5AFE]/5"
               >
                 <input
                   type="radio"
@@ -294,7 +294,7 @@ function StepIntake({
                   value={opt.value}
                   required
                   defaultChecked={role === opt.value}
-                  className="accent-[#0ED3CF] h-4 w-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+                  className="accent-[#3D5AFE] h-4 w-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
                 />
                 <span>{opt.label}</span>
               </label>
@@ -315,20 +315,20 @@ function StepIntake({
             type="text"
             defaultValue={company}
             placeholder="Acme Inc."
-            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+            className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
           />
         </div>
 
         <div className="flex gap-2 pt-2">
           <Link
             href={`/signup?step=1&email=${encodeURIComponent(email)}`}
-            className="flex-1 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-center text-sm font-medium text-[#FAFAFA] hover:border-[#3F3F46] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+            className="flex-1 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-center text-sm font-medium text-[#FAFAFA] hover:border-[#3F3F46] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
           >
             Back
           </Link>
           <button
             type="submit"
-            className="flex-[2] rounded-lg bg-[#0ED3CF] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#0AA8A5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
+            className="flex-[2] rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
           >
             Continue
           </button>
@@ -372,13 +372,13 @@ function StepGoals({
           {GOAL_OPTIONS.map((opt) => (
             <label
               key={opt.value}
-              className="flex items-center gap-3 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-3 text-sm text-[#FAFAFA] hover:border-[#0ED3CF]/40 cursor-pointer has-[:checked]:border-[#0ED3CF] has-[:checked]:bg-[#0ED3CF]/5"
+              className="flex items-center gap-3 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-3 text-sm text-[#FAFAFA] hover:border-[#3D5AFE]/40 cursor-pointer has-[:checked]:border-[#3D5AFE] has-[:checked]:bg-[#3D5AFE]/5"
             >
               <input
                 type="checkbox"
                 name="goals"
                 value={opt.value}
-                className="accent-[#0ED3CF] h-4 w-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+                className="accent-[#3D5AFE] h-4 w-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
               />
               <span>{opt.label}</span>
             </label>
@@ -388,13 +388,13 @@ function StepGoals({
         <div className="flex gap-2 pt-2">
           <Link
             href={`/signup?step=2&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&full_name=${encodeURIComponent(fullName)}&role=${encodeURIComponent(role)}&company=${encodeURIComponent(company)}`}
-            className="flex-1 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-center text-sm font-medium text-[#FAFAFA] hover:border-[#3F3F46] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+            className="flex-1 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-center text-sm font-medium text-[#FAFAFA] hover:border-[#3F3F46] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
           >
             Back
           </Link>
           <button
             type="submit"
-            className="flex-[2] rounded-lg bg-[#0ED3CF] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#0AA8A5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
+            className="flex-[2] rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
           >
             Create account
           </button>

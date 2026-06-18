@@ -20,7 +20,7 @@ export function BrandPanel() {
         className="absolute inset-0 opacity-60"
         style={{
           backgroundImage:
-            'radial-gradient(60% 50% at 20% 20%, rgba(6,182,212,0.12), transparent 60%), radial-gradient(50% 60% at 80% 70%, rgba(139,92,246,0.10), transparent 60%)',
+            'radial-gradient(60% 50% at 20% 20%, rgba(61,90,254,0.12), transparent 60%), radial-gradient(50% 60% at 80% 70%, rgba(139,92,246,0.10), transparent 60%)',
         }}
       />
       <div

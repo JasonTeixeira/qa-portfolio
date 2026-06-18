@@ -8,7 +8,7 @@ import type { Project } from '@/data/projects'
 
 const statusColors = {
   production: 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20',
-  active: 'bg-[#0ED3CF]/10 text-[#0ED3CF] border-[#0ED3CF]/20',
+  active: 'bg-[#3D5AFE]/10 text-[#3D5AFE] border-[#3D5AFE]/20',
   'open-source': 'bg-[#E85D3A]/10 text-[#E85D3A] border-[#E85D3A]/20',
   archived: 'bg-[#78716C]/10 text-[#78716C] border-[#78716C]/20',
 }
@@ -77,7 +77,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         className={`absolute inset-0 rounded-2xl transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
         style={{
           padding: '1px',
-          background: 'linear-gradient(135deg, #0ED3CF, transparent 50%, #E85D3A)',
+          background: 'linear-gradient(135deg, #3D5AFE, transparent 50%, #E85D3A)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude'
@@ -86,7 +86,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
       {/* Image Placeholder */}
       <div className="aspect-video bg-[#2A2826] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0ED3CF]/5 to-[#E85D3A]/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3D5AFE]/5 to-[#E85D3A]/5" />
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-[#78716C] font-mono text-sm">{project.name}</span>
         </div>
@@ -108,7 +108,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${project.name} — view on GitHub`}
-              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
+              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#3D5AFE] hover:bg-[#2A2826] transition-all"
             >
               <Github className="h-5 w-5" aria-hidden="true" />
             </Link>
@@ -119,7 +119,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               target={project.liveUrl.startsWith('http') ? '_blank' : undefined}
               rel={project.liveUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
               aria-label={`${project.name} — visit live site`}
-              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
+              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#3D5AFE] hover:bg-[#2A2826] transition-all"
             >
               <ExternalLink className="h-5 w-5" aria-hidden="true" />
             </Link>
@@ -128,7 +128,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             <Link
               href={project.caseStudy}
               aria-label={`${project.name} — read case study`}
-              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#0ED3CF] hover:bg-[#2A2826] transition-all"
+              className="p-3 bg-[#1A1917] rounded-full text-[#A8A29E] hover:text-[#3D5AFE] hover:bg-[#2A2826] transition-all"
             >
               <FileText className="h-5 w-5" aria-hidden="true" />
             </Link>
@@ -139,7 +139,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       {/* Content */}
       <div className="p-6 relative z-10">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="text-lg font-semibold text-[#FAFAFA] group-hover:text-[#0ED3CF] transition-colors">
+          <h3 className="text-lg font-semibold text-[#FAFAFA] group-hover:text-[#3D5AFE] transition-colors">
             {project.name}
           </h3>
           {project.isPrivate && (

@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Section, Hairline, MonoLabel, Surface, Reveal, CtaLink } from '@/components/el'
 import { ProofLedger } from '@/components/el/home/ProofLedger'
-import { ConversionMap, MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import {
   TierGrid,
   CareCard,
@@ -14,8 +15,77 @@ import {
   extendedTiersByCategory,
 } from '@/data/services/extended'
 
-// Recommended on-ramp — the one teal accent across the productized grid.
+// Recommended on-ramp — the primary accent across the productized grid.
 const RECOMMENDED_SLUG = 'audit'
+
+const serviceMatrix = [
+  {
+    code: '01',
+    signal: 'I know something is leaking, but not exactly what.',
+    route: 'Sage Audit',
+    price: '$750',
+    timeline: '1 week',
+    mode: 'diagnose',
+    href: '/services/audit',
+    cta: 'Start with audit',
+    detail: 'A focused findings report, priority map, and credit toward a larger build.',
+  },
+  {
+    code: '02',
+    signal: 'I need a premium site, offer, or launch surface.',
+    route: 'Site / Brand sprint',
+    price: '$3.5k+',
+    timeline: 'days-weeks',
+    mode: 'launch',
+    href: '/services/site-starter',
+    cta: 'Shape the launch',
+    detail: 'Positioning, site architecture, conversion flow, and a production-ready surface.',
+  },
+  {
+    code: '03',
+    signal: 'I need AI inside the business, not a toy demo.',
+    route: 'AI automation build',
+    price: '$2.6k+',
+    timeline: '3-4 weeks',
+    mode: 'automate',
+    href: '/services/ai-agent-development',
+    cta: 'Build the workflow',
+    detail: 'Agents, retrieval, workflow automation, internal tools, and measurable operating lift.',
+  },
+  {
+    code: '04',
+    signal: 'I need a real app, SaaS, or product system built.',
+    route: 'Product build',
+    price: 'scoped',
+    timeline: '4-12 weeks',
+    mode: 'build',
+    href: '/services/studio-engagement',
+    cta: 'Scope the product',
+    detail: 'Database, auth, billing, product UI, observability, launch, and iteration loop.',
+  },
+  {
+    code: '05',
+    signal: 'I already shipped and need care, content, or operations.',
+    route: 'Care plan',
+    price: '$600/mo+',
+    timeline: 'monthly',
+    mode: 'operate',
+    href: '/services/site-care',
+    cta: 'Keep it running',
+    detail: 'Maintenance, measurement, fixes, content support, and steady improvement.',
+  },
+  {
+    code: '06',
+    signal: 'I want to learn the system before hiring or building.',
+    route: 'Academy path',
+    price: 'forming',
+    timeline: 'self-paced',
+    mode: 'learn',
+    href: '/academy',
+    cta: 'Enter academy',
+    detail: 'Courses, build notes, templates, and practical lessons from the same studio system.',
+  },
+] as const
 
 // Real evidence from shipped Lab products / Work case studies. No fabricated
 // metrics — kept verbatim from the prior services page.
@@ -84,7 +154,7 @@ export function ServicesEl() {
                 }}
               >
                 Engineering. AI. Automation.{' '}
-                <span className="italic text-[#0ED3CF]">Custom welcome.</span>
+                <span className="italic text-[var(--sage-accent)]">Clear route.</span>
               </h1>
               <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
                 Productized engagements with fixed scope — AI reliability audits, RAG and agent ops,
@@ -125,31 +195,68 @@ export function ServicesEl() {
 
       <Section
         index="00"
-        eyebrow="engagement routing"
-        ariaLabel="Engagement routing map"
-        heading="Every buyer path gets a system."
-        lede="The services page now behaves less like a menu and more like an offer router: diagnose the situation, choose the right motion, then route into checkout or a scoped call."
+        eyebrow="service router"
+        ariaLabel="Service decision matrix"
+        heading="Choose by situation, not by guessing."
+        lede="The services page should answer the buyer's real question fast: what do I need, what does it cost, how long does it take, and what should I click next?"
       >
-        <ConversionMap
-          steps={[
-            {
-              label: 'Need clarity',
-              detail: 'Start with Audit: focused findings, prioritized roadmap, and credit toward a bigger build.',
-            },
-            {
-              label: 'Need a launch',
-              detail: 'Use Site Starter, Ship, or Brand work when the surface and story are the bottleneck.',
-            },
-            {
-              label: 'Need leverage',
-              detail: 'Use Automate, AI reliability, RAG, agents, or customer-facing AI when operations need lift.',
-            },
-            {
-              label: 'Need a partner',
-              detail: 'Use Build, Scale, Operate, or Studio Engagement when the business needs a principal builder.',
-            },
-          ]}
-        />
+        <div className="grid gap-px overflow-hidden rounded-[6px] border border-[var(--sage-border)] bg-[var(--sage-border)] lg:grid-cols-2">
+          {serviceMatrix.map((item) => (
+            <Link
+              key={item.code}
+              href={item.href}
+              className="group relative min-h-[310px] overflow-hidden bg-[var(--sage-surface-1)] p-5 transition-colors hover:bg-[var(--sage-surface-2)] sm:p-6"
+            >
+              <SystemFlowOverlay
+                variant={item.mode === 'learn' ? 'academy' : item.mode === 'diagnose' ? 'growth' : 'systems'}
+                intensity={item.mode === 'diagnose' ? 'normal' : 'quiet'}
+              />
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                      {item.code} · {item.mode}
+                    </p>
+                    <h3
+                      className="mt-4 max-w-[18ch] text-3xl font-extrabold leading-none tracking-[-0.03em] text-[var(--sage-ink)] sm:text-4xl"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {item.route}
+                    </h3>
+                  </div>
+                  <span className="rounded-full border border-[rgba(61,90,254,0.36)] bg-[rgba(61,90,254,0.1)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-accent-readable)]">
+                    {item.timeline}
+                  </span>
+                </div>
+
+                <p className="mt-5 max-w-[50ch] text-sm leading-6 text-[var(--sage-ink-muted)]">
+                  <span className="text-[var(--sage-ink)]">{item.signal}</span>
+                  <br />
+                  {item.detail}
+                </p>
+
+                <div className="mt-auto grid gap-px bg-[var(--sage-border)] sm:grid-cols-[0.8fr_1fr_auto]">
+                  <div className="bg-[rgba(11,11,14,0.74)] p-3">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
+                      starts
+                    </p>
+                    <p className="mt-2 font-mono text-sm text-[var(--sage-ink)]">{item.price}</p>
+                  </div>
+                  <div className="bg-[rgba(11,11,14,0.74)] p-3">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
+                      best when
+                    </p>
+                    <p className="mt-2 text-sm text-[var(--sage-ink-muted)]">{item.signal}</p>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 bg-[rgba(11,11,14,0.74)] p-3 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] sm:justify-center">
+                    <span>{item.cta}</span>
+                    <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </Section>
 
       {/* ── Productized engagements ────────────────────────────────── */}
@@ -160,7 +267,7 @@ export function ServicesEl() {
         heading={
           <>
             Fixed scope, fixed price,{' '}
-            <span className="italic text-[#0ED3CF]">Stripe checkout.</span>
+            <span className="italic text-[var(--sage-accent)]">Stripe checkout.</span>
           </>
         }
         lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, brand work, and platform builds. Audit is the self-serve on-ramp and credits toward a larger engagement."
@@ -177,7 +284,7 @@ export function ServicesEl() {
         heading={
           <>
             Twenty-plus more ways{' '}
-            <span className="italic text-[#0ED3CF]">we can help.</span>
+            <span className="italic text-[var(--sage-accent)]">we can help.</span>
           </>
         }
         lede="AI reliability, automation pipelines, customer-facing AI products, productized retainers, diagnostics, and full bundles. Inquiry-first — every engagement is scoped and priced in writing before you commit."
@@ -202,7 +309,7 @@ export function ServicesEl() {
         heading={
           <>
             We ship these patterns{' '}
-            <span className="italic text-[#0ED3CF]">ourselves first.</span>
+            <span className="italic text-[var(--sage-accent)]">ourselves first.</span>
           </>
         }
         lede="Every offer above is built on a pattern already running in production — in our Lab or in shipped client work. Three concrete examples:"
@@ -233,7 +340,7 @@ export function ServicesEl() {
                     ))}
                   </div>
                   <Hairline className="mt-5" />
-                  <span className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  <span className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace]">
                     see it in the lab
                     <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
                   </span>
@@ -256,7 +363,7 @@ export function ServicesEl() {
         heading={
           <>
             Care plans for teams{' '}
-            <span className="italic text-[#0ED3CF]">who already shipped.</span>
+            <span className="italic text-[var(--sage-accent)]">who already shipped.</span>
           </>
         }
         lede="Lightweight monthly retainers — upkeep on something you already launched. Real Stripe subscriptions, cancel anytime."
@@ -309,7 +416,7 @@ export function ServicesEl() {
         heading={
           <>
             Or scope{' '}
-            <span className="italic text-[#0ED3CF]">something custom.</span>
+            <span className="italic text-[var(--sage-accent)]">something custom.</span>
           </>
         }
         lede="A hybrid engagement, a multi-month build, a retainer with a specific deliverable list — every engagement can be custom-scoped. Transparent quote, fixed price, no asterisks."

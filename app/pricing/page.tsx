@@ -3,6 +3,7 @@ import { pricingFaq } from '@/data/services/pricing-faq'
 import { PricingEl } from './pricing-el'
 import { JsonLd } from '@/components/json-ld'
 import { PageViewTracker } from '@/components/analytics/page-view-tracker'
+import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -46,6 +47,9 @@ export default function PricingPage() {
     <>
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
       <PageViewTracker event="pricing_view" />
+      <div className="px-5 pt-28 sm:px-8 lg:px-12">
+        <RouteFinderHeroExperiment surface="pricing" />
+      </div>
       <PricingEl />
     </>
   )

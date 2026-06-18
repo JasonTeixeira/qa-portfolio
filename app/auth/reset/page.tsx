@@ -42,7 +42,7 @@ export default async function ResetPasswordPage({ searchParams }: Props) {
             </div>
 
             <div className="space-y-2 mb-8">
-              <div className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
                 Account recovery
               </div>
               <h2 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">
@@ -80,7 +80,7 @@ export default async function ResetPasswordPage({ searchParams }: Props) {
                   required
                   minLength={8}
                   autoComplete="new-password"
-                  className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+                  className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
                 />
               </div>
               <div>
@@ -97,12 +97,12 @@ export default async function ResetPasswordPage({ searchParams }: Props) {
                   required
                   minLength={8}
                   autoComplete="new-password"
-                  className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#0ED3CF] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/40"
+                  className="w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full rounded-lg bg-[#0ED3CF] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#0AA8A5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
+                className="w-full rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
               >
                 Update password
               </button>
@@ -111,7 +111,7 @@ export default async function ResetPasswordPage({ searchParams }: Props) {
             <p className="mt-8 text-center text-sm text-[#A8A29E]">
               <Link
                 href="/login"
-                className="text-[#0ED3CF] hover:text-[#22D3EE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 rounded-sm"
+                className="text-[#3D5AFE] hover:text-[#5670ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 rounded-sm"
               >
                 ← Back to sign in
               </Link>

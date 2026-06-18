@@ -24,7 +24,7 @@ export function BuildLog({ entries }: BuildLogProps) {
           {/* Node */}
           <span aria-hidden className="relative mt-1 flex h-[15px] w-[15px] items-center justify-center">
             <span className="h-[15px] w-[15px] rounded-full border border-[var(--sage-border-strong)] bg-[var(--sage-bg)]" />
-            <span className="absolute h-1.5 w-1.5 rounded-full bg-[#0ED3CF]" />
+            <span className="absolute h-1.5 w-1.5 rounded-full bg-[#3D5AFE]" />
           </span>
 
           <div className="min-w-0">

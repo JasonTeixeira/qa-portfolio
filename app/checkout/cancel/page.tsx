@@ -31,7 +31,7 @@ export default function CheckoutCancelPage() {
           <Button
             asChild
             size="lg"
-            className="bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold"
+            className="bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-semibold"
           >
             <Link href="/book">
               Book a Discovery Call
@@ -42,7 +42,7 @@ export default function CheckoutCancelPage() {
             asChild
             variant="outline"
             size="lg"
-            className="border-[#3F3F46] text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] bg-transparent"
+            className="border-[#3F3F46] text-[#A8A29E] hover:border-[#3D5AFE] hover:text-[#3D5AFE] bg-transparent"
           >
             <Link href="/pricing">View Pricing</Link>
           </Button>
@@ -52,7 +52,7 @@ export default function CheckoutCancelPage() {
           Have a question?{' '}
           <a
             href="mailto:sage@sageideas.dev"
-            className="text-[#0ED3CF] hover:text-[#22D3EE] transition-colors"
+            className="text-[#3D5AFE] hover:text-[#5670ff] transition-colors"
           >
             sage@sageideas.dev
           </a>

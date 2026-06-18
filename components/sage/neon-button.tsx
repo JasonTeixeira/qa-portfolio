@@ -16,7 +16,7 @@ const toneToBloom: Record<Tone, string> = {
 };
 
 const toneToVar: Record<Tone, string> = {
-  cyan: "var(--sage-brand, #0ED3CF)",
+  cyan: "var(--sage-brand, #3D5AFE)",
   coral: "var(--sage-coral, #E85D3A)",
   lime: "var(--sage-lime, #A8C633)",
   magenta: "var(--sage-magenta, #C7236E)",
@@ -81,7 +81,7 @@ export const NeonButton = React.forwardRef<HTMLElement, NeonButtonProps>(functio
     sizeClasses[size],
     variant === "solid"
       ? "text-[#0A0A0A]"
-      : "text-[var(--sage-ink,#F4F2EF)] bg-transparent hover:bg-[rgba(14,211,207,0.06)]",
+      : "text-[var(--sage-ink,#F4F2EF)] bg-transparent hover:bg-[rgba(61,90,254,0.06)]",
     bloom && toneToBloom[tone],
     className,
   );

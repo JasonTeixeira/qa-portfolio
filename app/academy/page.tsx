@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import { TrackedLink } from '@/components/analytics/tracked-link'
 import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { RouteConversionCta } from '@/components/living/RouteConversionCta'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { academyPrinciples, academyTracks } from '@/data/academy/tracks'
 
 const SITE = 'https://www.sageideas.dev'
@@ -29,6 +32,36 @@ const displayStyle = {
   lineHeight: 0.98,
 } as const
 
+const academyPathMeta: Record<
+  string,
+  { bestFor: string; studioPath: string; studioHref: string; proof: string }
+> = {
+  'ai-native-product-building': {
+    bestFor: 'Founders who want to ship AI-native software without confusing demos for products.',
+    studioPath: 'Product / SaaS build',
+    studioHref: '/services/app-development',
+    proof: 'real product architecture',
+  },
+  'premium-conversion-sites': {
+    bestFor: 'Operators who need a site that explains the offer, captures demand, and feels premium.',
+    studioPath: 'Conversion site sprint',
+    studioHref: '/services/site-starter-marketing',
+    proof: 'offer + page system',
+  },
+  'content-engine': {
+    bestFor: 'Builders turning expertise, proof, and operating notes into a durable media engine.',
+    studioPath: 'Growth / SEO system',
+    studioHref: '/services/content-engine',
+    proof: 'topic clusters',
+  },
+  'ai-automation-systems': {
+    bestFor: 'Teams turning repeated work into AI workflows, agents, and internal systems.',
+    studioPath: 'AI automation build',
+    studioHref: '/services/ai-agent-development',
+    proof: 'workflow map',
+  },
+}
+
 export default function AcademyPage() {
   return (
     <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
@@ -49,7 +82,7 @@ export default function AcademyPage() {
               Sage Academy · forming now
             </p>
             <h1
-              className="max-w-[11ch] text-[clamp(3.5rem,1.2rem+9vw,8rem)] font-extrabold"
+              className="max-w-[11ch] text-[clamp(3.5rem,_1.2rem_+_9vw,_8rem)] font-extrabold"
               style={displayStyle}
             >
               Learn the system behind the builds.
@@ -103,7 +136,7 @@ export default function AcademyPage() {
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               Learning funnel
             </p>
-            <h2 className="text-[clamp(2.3rem,1.2rem+4vw,5rem)] font-extrabold" style={displayStyle}>
+            <h2 className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold" style={displayStyle}>
               Learn the build. Then choose your path.
             </h2>
             <p className="mt-6 text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
@@ -124,20 +157,107 @@ export default function AcademyPage() {
 
       <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              Track comparison
+            </p>
+            <h2 className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold" style={displayStyle}>
+              Pick the lesson. Keep the studio path visible.
+            </h2>
+            <p className="mt-6 text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
+              The academy is the DIY path. Every track also shows the matching studio offer for
+              people who want the system built instead of studying the blueprint.
+            </p>
+          </div>
+          <div className="grid gap-px bg-[var(--sage-border)] lg:grid-cols-4">
+            {academyTracks.map((track, index) => {
+              const meta = academyPathMeta[track.slug]
+              return (
+                <div
+                  className="relative min-h-[360px] overflow-hidden bg-[var(--sage-surface-1)] p-5 sm:p-6"
+                  key={track.slug}
+                >
+                  <SystemFlowOverlay
+                    variant={index % 2 === 0 ? 'academy' : 'systems'}
+                    intensity="quiet"
+                  />
+                  <div className="relative z-10">
+                    <div className="mb-8 flex items-center justify-between gap-4">
+                      <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--sage-accent-readable)]">
+                        {track.label}
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
+                        {track.status}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-extrabold" style={displayStyle}>
+                      {track.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-6 text-[var(--sage-ink-muted)]">
+                      {meta?.bestFor ?? track.audience}
+                    </p>
+                    <dl className="mt-6 grid gap-px bg-[var(--sage-border)]">
+                      <div className="bg-[rgba(11,11,14,0.74)] p-3">
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
+                          format
+                        </dt>
+                        <dd className="mt-2 text-sm text-[var(--sage-ink)]">{track.format}</dd>
+                      </div>
+                      <div className="bg-[rgba(11,11,14,0.74)] p-3">
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
+                          studio path
+                        </dt>
+                        <dd className="mt-2 text-sm text-[var(--sage-ink)]">
+                          {meta?.studioPath ?? 'Studio diagnostic'}
+                        </dd>
+                      </div>
+                    </dl>
+                    <div className="mt-6 flex flex-col gap-3">
+                      <TrackedLink
+                        href={`/academy/${track.slug}`}
+                        event="academy_track_selected"
+                        eventProps={{ slug: track.slug, location: 'academy_comparison' }}
+                        className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--sage-accent)] px-5 text-sm font-semibold text-white transition hover:bg-[#5670ff]"
+                      >
+                        View course path -&gt;
+                      </TrackedLink>
+                      <Link
+                        href={meta?.studioHref ?? '/tools/route-finder?source=academy_comparison'}
+                        className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--sage-border-strong)] px-5 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)]"
+                      >
+                        Hire this system -&gt;
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.2fr)]">
             <div>
               <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
                 Curriculum
               </p>
-              <h2 className="text-[clamp(2.3rem,1.2rem+4vw,5rem)] font-extrabold" style={displayStyle}>
+              <h2 className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold" style={displayStyle}>
                 Built as the studio builds.
               </h2>
             </div>
             <div className="grid gap-px bg-[var(--sage-border)] sm:grid-cols-2">
               {academyTracks.map((track) => (
-                <Link
+                <TrackedLink
                   className="group bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)]"
                   href={`/academy/${track.slug}`}
+                  event="academy_track_selected"
+                  eventProps={{
+                    slug: track.slug,
+                    title: track.title,
+                    location: 'academy_index',
+                  }}
                   key={track.slug}
                 >
                   <div className="mb-8 flex items-center justify-between gap-4">
@@ -170,7 +290,7 @@ export default function AcademyPage() {
                   <span className="mt-7 inline-flex font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-accent-readable)] group-hover:text-white">
                     View track -&gt;
                   </span>
-                </Link>
+                </TrackedLink>
               ))}
             </div>
           </div>
@@ -183,7 +303,7 @@ export default function AcademyPage() {
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               The rule
             </p>
-            <h2 className="text-[clamp(2.3rem,1.2rem+4vw,5rem)] font-extrabold" style={displayStyle}>
+            <h2 className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold" style={displayStyle}>
               No guru theater.
             </h2>
             <p className="mt-6 max-w-[52ch] text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
@@ -207,13 +327,27 @@ export default function AcademyPage() {
         </div>
       </section>
 
+      <RouteConversionCta
+        eyebrow="academy to studio"
+        title="Learn the system, or have it built."
+        body="Readers can stay on the DIY path, use the diagnostic to choose a route, or bring the project straight into the studio when implementation matters more than curriculum."
+        primary={{ label: 'Find your route', href: '/tools/route-finder?source=academy_final' }}
+        secondary={{ label: 'Book the studio', href: '/book' }}
+        variant="academy"
+        proof={[
+          { label: 'academy tracks', value: String(academyTracks.length) },
+          { label: 'source', value: 'real builds' },
+          { label: 'studio path', value: 'visible' },
+        ]}
+      />
+
       <section id="join" className="px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(320px,0.7fr)] lg:items-center">
           <div>
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               First cohort
             </p>
-            <h2 className="text-[clamp(2.5rem,1.2rem+5vw,6rem)] font-extrabold" style={displayStyle}>
+            <h2 className="text-[clamp(2.5rem,_1.2rem_+_5vw,_6rem)] font-extrabold" style={displayStyle}>
               Get the first lessons as they ship.
             </h2>
             <p className="mt-6 max-w-[56ch] text-lg leading-[1.55] text-[var(--sage-ink-muted)]">

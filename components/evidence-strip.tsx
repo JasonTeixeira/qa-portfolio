@@ -47,7 +47,7 @@ export function EvidenceStrip({ items, heading, blurb, linkArtifacts = false }: 
           const delayClass = `sage-rise-d${Math.min(i + 1, 6)}`
           const tile = (
             <div
-              className={`sage-rise ${delayClass} group rounded-xl border border-[#2A2826] bg-[#12110F] overflow-hidden hover:border-[#0ED3CF]/30 transition-colors`}
+              className={`sage-rise ${delayClass} group rounded-xl border border-[#2A2826] bg-[#12110F] overflow-hidden hover:border-[#3D5AFE]/30 transition-colors`}
             >
               <div className="aspect-[16/10] bg-[#0B0A09] border-b border-[#2A2826] relative overflow-hidden">
                 <Image
@@ -60,7 +60,7 @@ export function EvidenceStrip({ items, heading, blurb, linkArtifacts = false }: 
               </div>
               <div className="p-4">
                 {item.label && (
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF] mb-1.5">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE] mb-1.5">
                     {item.label}
                   </div>
                 )}

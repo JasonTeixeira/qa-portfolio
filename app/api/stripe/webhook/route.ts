@@ -3,6 +3,7 @@ import type Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { getStripe, isStripeConfigured } from '@/lib/stripe/client';
 import { captureLead } from '@/lib/leads/capture';
+import { fulfillAcademyCheckout } from '@/lib/academy/fulfillment';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -146,6 +147,11 @@ async function handleCheckoutCompleted(sb: Sb, session: Stripe.Checkout.Session)
         recurring: true,
       },
     });
+    return;
+  }
+
+  if (session.metadata?.kind === 'academy') {
+    await fulfillAcademyCheckout(sb, session);
     return;
   }
 

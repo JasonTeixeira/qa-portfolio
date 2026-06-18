@@ -10,7 +10,7 @@ const statusToColor: Record<SigilStatus, string> = {
   warn: "#E5C341",
   error: "var(--sage-coral, #E85D3A)",
   idle: "var(--sage-ink-muted, #A8A29E)",
-  secure: "var(--sage-brand, #0ED3CF)",
+  secure: "var(--sage-brand, #3D5AFE)",
 };
 
 const statusToLabel: Record<SigilStatus, string> = {

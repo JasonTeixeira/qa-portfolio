@@ -14,7 +14,7 @@ export default async function LegalDocPage() {
   return (
     <>
       <header className="mb-12 pb-8 border-b border-[#2A2826]">
-        <p className="text-xs font-mono uppercase tracking-[0.18em] text-[#0ED3CF] mb-3">
+        <p className="text-xs font-mono uppercase tracking-[0.18em] text-[#3D5AFE] mb-3">
           Legal Document
         </p>
         <h1 className="text-4xl sm:text-5xl font-normal tracking-tight text-[#FAFAFA] leading-tight">

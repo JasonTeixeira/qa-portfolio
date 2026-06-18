@@ -68,7 +68,7 @@ export function MetricRegister({ metrics }: MetricRegisterProps) {
                 {row.mag !== null ? (
                   <div className="h-2 w-full overflow-hidden rounded-[1px] bg-[var(--sage-surface-3)]">
                     <div
-                      className="h-full rounded-[1px] bg-gradient-to-r from-[#0ED3CF]/70 to-[#0ED3CF]"
+                      className="h-full rounded-[1px] bg-gradient-to-r from-[#3D5AFE]/70 to-[#3D5AFE]"
                       style={{ width: `${pct}%` }}
                     />
                   </div>

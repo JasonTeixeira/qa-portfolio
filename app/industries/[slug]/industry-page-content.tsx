@@ -90,8 +90,8 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
             {v.whyUs.map((bullet, i) => (
               <Reveal key={bullet} delay={i * 0.06}>
                 <Surface level={2} className="flex items-start gap-3 p-5">
-                  <div className="w-6 h-6 rounded-full bg-[#0ED3CF]/15 flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#0ED3CF]" aria-hidden />
+                  <div className="w-6 h-6 rounded-full bg-[#3D5AFE]/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-[#3D5AFE]" aria-hidden />
                   </div>
                   <span className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">
                     {bullet}
@@ -149,11 +149,11 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
                   >
                     <Surface level={2} interactive ticks className="p-5 h-full flex flex-col">
                       <div className="flex items-start justify-between mb-2 gap-2">
-                        <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors">
+                        <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#3D5AFE] transition-colors">
                           {tier.name}
                         </h3>
                         {tier.highlight && (
-                          <MonoLabel tone="accent" className="shrink-0 px-1.5 py-0.5 border border-[#0ED3CF]/30 bg-[#0ED3CF]/10 rounded-[3px]">
+                          <MonoLabel tone="accent" className="shrink-0 px-1.5 py-0.5 border border-[#3D5AFE]/30 bg-[#3D5AFE]/10 rounded-[3px]">
                             POPULAR
                           </MonoLabel>
                         )}
@@ -172,7 +172,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
                       <MonoLabel tone="faint" as="p" className="mb-3">
                         {tier.timeline}
                       </MonoLabel>
-                      <span className="inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
+                      <span className="inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.12em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace] mt-auto">
                         View tier →
                       </span>
                     </Surface>
@@ -199,12 +199,12 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
                   >
                     <Surface level={2} interactive className="p-6 h-full">
                       <div className="flex items-start gap-3 mb-3">
-                        <div className="w-9 h-9 rounded-[3px] bg-[#0ED3CF]/10 border border-[#0ED3CF]/20 flex items-center justify-center shrink-0">
-                          <Briefcase className="w-4 h-4 text-[#0ED3CF]" aria-hidden />
+                        <div className="w-9 h-9 rounded-[3px] bg-[#3D5AFE]/10 border border-[#3D5AFE]/20 flex items-center justify-center shrink-0">
+                          <Briefcase className="w-4 h-4 text-[#3D5AFE]" aria-hidden />
                         </div>
                         <div className="flex-1">
                           <MonoLabel tone="faint" as="p">{cs.category}</MonoLabel>
-                          <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors mt-0.5 leading-tight">
+                          <h3 className="text-sm text-[var(--sage-ink)] group-hover:text-[#3D5AFE] transition-colors mt-0.5 leading-tight">
                             {cs.title}
                           </h3>
                         </div>
@@ -213,7 +213,7 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
                         {cs.tagline}
                       </p>
                       {/* span — not a link; the wrapping <Link> already covers navigation */}
-                      <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] group-hover:text-[#0ED3CF] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]">
+                      <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] group-hover:text-[#3D5AFE] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]">
                         <span>Read case study</span>
                         <span aria-hidden>→</span>
                       </span>

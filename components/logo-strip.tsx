@@ -26,7 +26,7 @@ export function LogoStrip({ entries, label, blurb }: Props) {
       {(label || blurb) && (
         <div className="mb-6 flex flex-col sm:flex-row sm:items-baseline gap-x-4 gap-y-2">
           {label && (
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF] shrink-0">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE] shrink-0">
               {label}
             </span>
           )}
@@ -58,7 +58,7 @@ export function LogoStrip({ entries, label, blurb }: Props) {
                 ) : (
                   <div
                     className={`text-2xl font-mono font-semibold tracking-tight ${
-                      e.accent ?? 'text-[#0ED3CF]'
+                      e.accent ?? 'text-[#3D5AFE]'
                     } opacity-90`}
                     aria-hidden
                   >

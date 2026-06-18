@@ -27,17 +27,17 @@ export function ProfessionalAvatar({ size = 'lg', showGlow = true }: Professiona
     <div className="sage-rise relative">
       {/* Glow effect */}
       {showGlow && (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0ED3CF]/30 to-[#E85D3A]/30 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3D5AFE]/30 to-[#E85D3A]/30 rounded-full blur-2xl animate-pulse" />
       )}
 
       {/* Avatar container */}
       <div
         className={`
           relative ${sizeClasses[size]} rounded-full
-          bg-gradient-to-br from-[#0ED3CF] to-[#E85D3A]
+          bg-gradient-to-br from-[#3D5AFE] to-[#E85D3A]
           flex items-center justify-center
           ring-4 ring-[#2A2826]
-          shadow-xl shadow-[#0ED3CF]/20
+          shadow-xl shadow-[#3D5AFE]/20
           overflow-hidden
         `}
       >

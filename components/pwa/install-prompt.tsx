@@ -69,20 +69,20 @@ export function InstallPrompt() {
       role="dialog"
       aria-live="polite"
       aria-label="Install Sage Ideas as an app"
-      className="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl border border-[#2A2826] bg-[#0B0A09]/95 backdrop-blur shadow-2xl shadow-[#0ED3CF]/10 p-4"
+      className="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl border border-[#2A2826] bg-[#0B0A09]/95 backdrop-blur shadow-2xl shadow-[#3D5AFE]/10 p-4"
       style={{
         boxShadow:
-          '0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(14,211,207,0.08), 0 0 40px rgba(14,211,207,0.08)',
+          '0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(61,90,254,0.08), 0 0 40px rgba(61,90,254,0.08)',
       }}
     >
       <div className="flex items-start gap-3">
-        <div className="shrink-0 w-9 h-9 rounded-lg bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 flex items-center justify-center">
-          <span className="font-mono text-[#0ED3CF] text-sm" aria-hidden>
+        <div className="shrink-0 w-9 h-9 rounded-lg bg-[#3D5AFE]/10 border border-[#3D5AFE]/30 flex items-center justify-center">
+          <span className="font-mono text-[#3D5AFE] text-sm" aria-hidden>
             ⌘
           </span>
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#0ED3CF]">
+          <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#3D5AFE]">
             Install
           </div>
           <p className="text-sm text-[#F4F2EF] mt-1 font-medium">
@@ -95,7 +95,7 @@ export function InstallPrompt() {
             <button
               type="button"
               onClick={install}
-              className="text-xs font-semibold px-3 py-1.5 rounded-md bg-[#0ED3CF] text-[#09090B] hover:bg-[#33EBE8] transition-colors"
+              className="text-xs font-semibold px-3 py-1.5 rounded-md bg-[#3D5AFE] text-[#09090B] hover:bg-[#5670ff] transition-colors"
             >
               Install
             </button>

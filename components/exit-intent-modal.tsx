@@ -64,8 +64,8 @@ export function ExitIntentModal() {
           <X className="w-4 h-4" />
         </button>
 
-        <div className="w-10 h-10 rounded-lg bg-[#0ED3CF]/10 flex items-center justify-center mb-4">
-          <Sparkles className="w-5 h-5 text-[#0ED3CF]" />
+        <div className="w-10 h-10 rounded-lg bg-[#3D5AFE]/10 flex items-center justify-center mb-4">
+          <Sparkles className="w-5 h-5 text-[#3D5AFE]" />
         </div>
 
         <h2
@@ -84,7 +84,7 @@ export function ExitIntentModal() {
             ref={ctaRef}
             href="/lab/ai-readiness"
             onClick={() => setOpen(false)}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
           >
             Take the AI Readiness Score
           </Link>

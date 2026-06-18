@@ -125,7 +125,7 @@ export function SageLogo({ size = "md", showText = true, className = "" }: SageL
           <stop offset="0%"   stopColor="#E85D3A" />
           <stop offset="38%"  stopColor="#CC8C28" />
           <stop offset="58%"  stopColor="#A8C633" />
-          <stop offset="100%" stopColor="#0ED3CF" />
+          <stop offset="100%" stopColor="#3D5AFE" />
         </linearGradient>
 
         {/* ── Sheen gradient: bright → transparent ── */}
@@ -155,7 +155,7 @@ export function SageLogo({ size = "md", showText = true, className = "" }: SageL
         {/* ── Drop shadow under ribbon for depth ── */}
         <filter id={`${uid}-shadow`} x="-20%" y="-10%" width="150%" height="140%">
           <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#E85D3A" floodOpacity="0.15" />
-          <feDropShadow dx="1" dy="2" stdDeviation="3" floodColor="#0ED3CF" floodOpacity="0.12" />
+          <feDropShadow dx="1" dy="2" stdDeviation="3" floodColor="#3D5AFE" floodOpacity="0.12" />
         </filter>
       </defs>
 
@@ -167,7 +167,7 @@ export function SageLogo({ size = "md", showText = true, className = "" }: SageL
         {/* Ambient chromatic atmospheres */}
         <ellipse cx="68" cy="22"  rx="34" ry="22" fill="#E85D3A" opacity="0.14" filter={`url(#${uid}-ambient)`} />
         <ellipse cx="50" cy="80"  rx="26" ry="20" fill="#A8C633" opacity="0.10" filter={`url(#${uid}-ambient)`} />
-        <ellipse cx="42" cy="140" rx="32" ry="22" fill="#0ED3CF" opacity="0.14" filter={`url(#${uid}-ambient)`} />
+        <ellipse cx="42" cy="140" rx="32" ry="22" fill="#3D5AFE" opacity="0.14" filter={`url(#${uid}-ambient)`} />
 
         {/* Drop shadow layer */}
         <path

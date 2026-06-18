@@ -287,7 +287,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                 {f.email ? (
                   <a
                     href={`mailto:${f.email}`}
-                    className="text-sm font-medium text-[#0ED3CF] hover:text-[#33EBE8] transition-colors"
+                    className="text-sm font-medium text-[#3D5AFE] hover:text-[#5670ff] transition-colors"
                   >
                     {f.value}
                   </a>
@@ -448,7 +448,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                 <ul className="space-y-3">
                   {group.certs.map((cert) => (
                     <li key={cert} className="flex items-start gap-2.5">
-                      <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0ED3CF]" />
+                      <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#3D5AFE]" />
                       <span className="text-sm leading-[1.6] text-[var(--sage-ink-muted)]">{cert}</span>
                     </li>
                   ))}
@@ -497,7 +497,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
               className="group flex flex-col gap-2 bg-[var(--sage-surface-1)] px-6 py-7 transition-colors hover:bg-[var(--sage-surface-2)]"
             >
               <span
-                className="text-base font-normal text-[var(--sage-ink)] group-hover:text-[#0ED3CF] transition-colors"
+                className="text-base font-normal text-[var(--sage-ink)] group-hover:text-[#3D5AFE] transition-colors"
                 style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}
               >
                 {item.label}
@@ -505,7 +505,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
               <MonoLabel tone="faint" as="p">{item.sub}</MonoLabel>
               <span
                 aria-hidden
-                className="mt-2 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+                className="mt-2 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#3D5AFE]"
               >
                 →
               </span>

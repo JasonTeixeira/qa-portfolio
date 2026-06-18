@@ -7,7 +7,7 @@ import { proofPoints, type ProofPoint } from '@/data/social-proof/testimonials'
 
 const KIND_META: Record<ProofPoint['kind'], { dot: string; label: string }> = {
   shipped: { dot: 'var(--sage-lime)', label: 'shipped' },
-  reference: { dot: '#0ED3CF', label: 'reference' },
+  reference: { dot: '#3D5AFE', label: 'reference' },
   principle: { dot: 'var(--sage-coral)', label: 'principle' },
 }
 
@@ -56,7 +56,7 @@ export function ProofLedger({ points = proofPoints }: { points?: ProofPoint[] })
             {point.href && (
               <span
                 aria-hidden
-                className="mt-auto self-end text-xs text-[var(--sage-ink-faint)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#0ED3CF]"
+                className="mt-auto self-end text-xs text-[var(--sage-ink-faint)] transition-colors [font-family:var(--font-mono),ui-monospace,monospace] group-hover:text-[#3D5AFE]"
               >
                 →
               </span>

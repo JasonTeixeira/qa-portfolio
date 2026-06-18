@@ -69,8 +69,8 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
         >
           <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--sage-ink-muted)]">
             <span className="relative inline-flex h-1.5 w-1.5">
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.6s_ease-in-out_infinite] motion-reduce:animate-none" />
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE] [animation:status-dot_2.6s_ease-in-out_infinite] motion-reduce:animate-none" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE]" />
             </span>
             accepting Q3
           </span>
@@ -109,12 +109,12 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
               <br />
               the{' '}
               <span
-                className="italic text-[#0ED3CF]"
+                className="italic text-[#3D5AFE]"
                 style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 40, 'WONK' 1" }}
               >
                 receipts
               </span>
-              <span className="text-[#0ED3CF]">.</span>
+              <span className="text-[#3D5AFE]">.</span>
             </motion.p>
 
             {/* Accent hairline — single sharp signal beneath the headline. */}
@@ -123,7 +123,7 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
               aria-hidden
               className="mt-9 flex items-center gap-4"
             >
-              <span className="h-px w-16 bg-[#0ED3CF]" />
+              <span className="h-px w-16 bg-[#3D5AFE]" />
               <span className="h-px flex-1 bg-[var(--sage-border-strong)]" />
             </motion.div>
 
@@ -145,7 +145,7 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
               <Link
                 href="/book"
                 onClick={() => trackEvent('booking_click', { location: 'hero' })}
-                className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] focus-visible:outline-none active:translate-y-px"
+                className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#3D5AFE] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#5670ff] hover:shadow-[0_0_28px_-4px_rgba(61,90,254,0.55)] focus-visible:outline-none active:translate-y-px"
               >
                 <span>./book</span>
                 <span

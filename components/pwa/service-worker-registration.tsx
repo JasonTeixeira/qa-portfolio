@@ -10,6 +10,7 @@ export function ServiceWorkerRegistration() {
     if (typeof window === 'undefined') return
     if (!('serviceWorker' in navigator)) return
     if (process.env.NODE_ENV !== 'production') return
+    if (window.location.hostname === '127.0.0.1' && window.location.port === '4173') return
 
     const onLoad = async () => {
       try {

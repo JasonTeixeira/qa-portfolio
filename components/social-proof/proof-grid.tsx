@@ -49,7 +49,7 @@ export function ProofGrid({
       {(eyebrow || heading) && (
         <div className="mb-10">
           {eyebrow && (
-            <p className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
               {eyebrow}
             </p>
           )}
@@ -112,7 +112,7 @@ export function ProofGrid({
               {point.href && (
                 <span
                   aria-hidden
-                  className="absolute right-5 bottom-5 text-[#3D3A37] text-xs font-mono transition-all duration-150 group-hover:text-[#0ED3CF] group-hover:translate-x-0.5"
+                  className="absolute right-5 bottom-5 text-[#3D3A37] text-xs font-mono transition-all duration-150 group-hover:text-[#3D5AFE] group-hover:translate-x-0.5"
                 >
                   →
                 </span>
@@ -123,7 +123,7 @@ export function ProofGrid({
           return (
             <li key={point.label}>
               {point.href ? (
-                <Link href={point.href} className="block rounded-xl focus-visible:ring-2 focus-visible:ring-[#0ED3CF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]">
+                <Link href={point.href} className="block rounded-xl focus-visible:ring-2 focus-visible:ring-[#3D5AFE] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]">
                   {inner}
                 </Link>
               ) : inner}

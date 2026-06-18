@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL = process.env.PW_BASE_URL || 'https://www.sageideas.dev';
+const baseURL = process.env.PW_BASE_URL || process.env.BASE_URL || 'https://www.sageideas.dev';
 
 export default defineConfig({
   testDir: './tests/e2e',

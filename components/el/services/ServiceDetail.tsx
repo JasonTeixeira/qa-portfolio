@@ -19,11 +19,205 @@ import {
   LivingPageShell,
   LivingCTA,
 } from '@/components/living/LivingPageSystem'
+import { DeepSystemDiagram } from '@/components/living/DeepSystemDiagram'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 
 const CADENCE_NOTE: Record<Tier['cadence'], string> = {
   'one-time': 'One-time / fixed scope',
   monthly: 'Monthly retainer / cancel anytime',
   custom: 'Custom / scoped after discovery',
+}
+
+type ServiceDiagramSpec = {
+  eyebrow: string
+  title: string
+  lede: string
+  description: string
+  nodes: Array<{ label: string; detail?: string }>
+  stats: Array<{ label: string; value: string }>
+}
+
+const BESPOKE_SERVICE_DIAGRAMS: Record<string, ServiceDiagramSpec> = {
+  'studio-package': {
+    eyebrow: 'studio operating system',
+    title: 'Full-stack studio engine',
+    lede:
+      'The Studio Package is the highest-leverage path: offer, product surface, AI system, growth loop, and operating cadence built as one system.',
+    description:
+      'This is scoped as an integrated business system, not a stack of disconnected agency deliverables. Strategy becomes product architecture, the product becomes proof, and the proof feeds content, SEO, and sales routing.',
+    nodes: [
+      { label: 'Offer', detail: 'positioning' },
+      { label: 'Product', detail: 'surface' },
+      { label: 'AI', detail: 'workflows' },
+      { label: 'Growth', detail: 'content' },
+      { label: 'Ops', detail: 'handoff' },
+    ],
+    stats: [
+      { label: 'mode', value: 'end-to-end' },
+      { label: 'motion', value: 'surface ⇄ system' },
+      { label: 'handoff', value: 'operator-ready' },
+    ],
+  },
+  'bespoke-build': {
+    eyebrow: 'bespoke build architecture',
+    title: 'Custom product system',
+    lede:
+      'Bespoke Build is for high-complexity work where the real value is deciding the right architecture before production code starts.',
+    description:
+      'The engagement moves from discovery and constraints into architecture, implementation, instrumentation, and operational handoff so the product can survive beyond launch week.',
+    nodes: [
+      { label: 'Discover', detail: 'constraints' },
+      { label: 'Model', detail: 'data' },
+      { label: 'Build', detail: 'product' },
+      { label: 'Wire', detail: 'systems' },
+      { label: 'Run', detail: 'ops' },
+    ],
+    stats: [
+      { label: 'scope', value: 'custom' },
+      { label: 'risk', value: 'mapped first' },
+      { label: 'handoff', value: 'documented' },
+    ],
+  },
+  build: {
+    eyebrow: 'build engagement map',
+    title: 'Launchable product path',
+    lede:
+      'Build turns a validated need into a working app, SaaS surface, or internal system with the core product mechanics in place.',
+    description:
+      'The path keeps decisions visible: scope, interface, data, integrations, billing or workflow logic, and a launch handoff that makes the result usable.',
+    nodes: [
+      { label: 'Scope', detail: 'MVP' },
+      { label: 'UI', detail: 'product' },
+      { label: 'Data', detail: 'model' },
+      { label: 'Integrate', detail: 'APIs' },
+      { label: 'Launch', detail: 'handoff' },
+    ],
+    stats: [
+      { label: 'surface', value: 'app/SaaS' },
+      { label: 'stack', value: 'production' },
+      { label: 'handoff', value: 'usable' },
+    ],
+  },
+  'app-development': {
+    eyebrow: 'application system',
+    title: 'App build pipeline',
+    lede:
+      'App Development needs more than screens. It needs auth, data, workflows, integration paths, QA, and a clear deployment loop.',
+    description:
+      'This diagram shows the application as a product system: a user-facing surface backed by state, business rules, integrations, analytics, and supportable release mechanics.',
+    nodes: [
+      { label: 'Spec', detail: 'flows' },
+      { label: 'Surface', detail: 'UI' },
+      { label: 'State', detail: 'data' },
+      { label: 'Connect', detail: 'APIs' },
+      { label: 'Ship', detail: 'release' },
+    ],
+    stats: [
+      { label: 'surface', value: 'web app' },
+      { label: 'quality', value: 'tested' },
+      { label: 'release', value: 'deployable' },
+    ],
+  },
+  'rag-engineering': {
+    eyebrow: 'retrieval system',
+    title: 'RAG reliability loop',
+    lede:
+      'RAG work is only valuable when the answers can be trusted, evaluated, and improved as the underlying knowledge changes.',
+    description:
+      'The system starts with source discipline, then chunking, retrieval, answer composition, evaluation, and iteration. The diagram stays honest about where failures usually happen.',
+    nodes: [
+      { label: 'Sources', detail: 'truth' },
+      { label: 'Chunk', detail: 'context' },
+      { label: 'Retrieve', detail: 'rank' },
+      { label: 'Answer', detail: 'guarded' },
+      { label: 'Eval', detail: 'score' },
+    ],
+    stats: [
+      { label: 'failure mode', value: 'measured' },
+      { label: 'outputs', value: 'cited' },
+      { label: 'ops', value: 'retrain loop' },
+    ],
+  },
+  'internal-ai-copilot': {
+    eyebrow: 'copilot system',
+    title: 'Internal copilot loop',
+    lede:
+      'An internal copilot has to fit the way the team actually works: knowledge, permissions, tools, adoption, and measurement.',
+    description:
+      'This path keeps the assistant inside useful boundaries. It maps source material, allowed actions, user workflows, escalation points, and adoption telemetry before the copilot is treated as production.',
+    nodes: [
+      { label: 'SOPs', detail: 'source' },
+      { label: 'Roles', detail: 'access' },
+      { label: 'Agent', detail: 'tools' },
+      { label: 'Use', detail: 'adopt' },
+      { label: 'Measure', detail: 'impact' },
+    ],
+    stats: [
+      { label: 'boundary', value: 'role-aware' },
+      { label: 'tools', value: 'approved' },
+      { label: 'adoption', value: 'tracked' },
+    ],
+  },
+  'support-deflection': {
+    eyebrow: 'support automation',
+    title: 'Support deflection system',
+    lede:
+      'Support deflection works when the AI answers routine questions, escalates edge cases, and teaches the business what customers keep asking.',
+    description:
+      'The system routes tickets through knowledge, intent detection, answer confidence, escalation, and insight capture. The goal is fewer repetitive tickets without hiding real customer problems.',
+    nodes: [
+      { label: 'Ticket', detail: 'intent' },
+      { label: 'Know', detail: 'KB' },
+      { label: 'Answer', detail: 'confidence' },
+      { label: 'Escalate', detail: 'human' },
+      { label: 'Learn', detail: 'insight' },
+    ],
+    stats: [
+      { label: 'risk', value: 'escalated' },
+      { label: 'source', value: 'owned KB' },
+      { label: 'feedback', value: 'closed loop' },
+    ],
+  },
+  'ai-onboarding-concierge': {
+    eyebrow: 'activation system',
+    title: 'AI onboarding concierge',
+    lede:
+      'Onboarding AI should reduce confusion at the exact moment a user is trying to activate, not become another chatbot parked in the corner.',
+    description:
+      'The concierge maps onboarding friction, user intent, product education, guided next actions, and activation analytics so the system can improve instead of guessing.',
+    nodes: [
+      { label: 'Intent', detail: 'user' },
+      { label: 'Guide', detail: 'steps' },
+      { label: 'Teach', detail: 'context' },
+      { label: 'Activate', detail: 'moment' },
+      { label: 'Track', detail: 'signal' },
+    ],
+    stats: [
+      { label: 'goal', value: 'activation' },
+      { label: 'tone', value: 'guided' },
+      { label: 'feedback', value: 'instrumented' },
+    ],
+  },
+  'agent-ops': {
+    eyebrow: 'agent operations',
+    title: 'Agent operations loop',
+    lede:
+      'Agent work needs monitoring, evals, escalation paths, and maintenance. Otherwise the demo becomes an operational liability.',
+    description:
+      'This diagram treats agents like production systems: tool permissions, live traces, regression evals, drift checks, incident review, and a clear patch loop.',
+    nodes: [
+      { label: 'Trace', detail: 'runs' },
+      { label: 'Eval', detail: 'quality' },
+      { label: 'Guard', detail: 'risk' },
+      { label: 'Patch', detail: 'fix' },
+      { label: 'Report', detail: 'ops' },
+    ],
+    stats: [
+      { label: 'mode', value: 'operate' },
+      { label: 'quality', value: 'eval-gated' },
+      { label: 'risk', value: 'visible' },
+    ],
+  },
 }
 
 export interface ServiceDetailProps {
@@ -42,6 +236,29 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
   const selfServe = isSelfServe(tier)
   const stack = (tier as ExtendedTier).stackChips
   const showMonthlySuffix = tier.cadence === 'monthly' && !tier.price.includes('/mo')
+  const routeFinderHref = `/tools/route-finder?source=service_detail&service=${tier.slug}`
+  const bespokeDiagram = BESPOKE_SERVICE_DIAGRAMS[tier.slug]
+  const matrixRows = [
+    {
+      label: 'best fit',
+      value:
+        tier.cadence === 'monthly'
+          ? 'Operate and improve an existing system every month.'
+          : selfServe
+            ? 'Find the leak before you buy a larger build.'
+            : `Build ${tier.capability.toLowerCase()} with a fixed scope and written handoff.`,
+    },
+    {
+      label: 'commercial shape',
+      value: `${tier.price}${showMonthlySuffix ? '/mo' : ''} · ${tier.timeline} · ${CADENCE_NOTE[tier.cadence]}`,
+    },
+    {
+      label: 'route logic',
+      value: selfServe
+        ? 'Start directly, then credit the useful work into a larger engagement if needed.'
+        : 'Use the diagnostic or book a call to confirm fit before scope is written.',
+    },
+  ]
 
   return (
     <LivingPageShell>
@@ -102,6 +319,92 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
         </section>
       )}
 
+      <Section
+        index="00"
+        eyebrow="matrix position"
+        ariaLabel="Where this service fits"
+        heading={
+          <>
+            Where this fits in{' '}
+            <span className="italic text-[#3D5AFE]">the services matrix.</span>
+          </>
+        }
+        lede="Every service page now names the buyer state, the commercial shape, and the next route. That keeps the catalog navigable instead of feeling like disconnected offers."
+        width="max-w-6xl"
+        grain
+      >
+        <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] lg:grid-cols-[1fr_1fr_1fr_0.9fr]">
+          {matrixRows.map((row, index) => (
+            <div className="relative min-h-[210px] overflow-hidden bg-[var(--sage-surface-1)] p-5" key={row.label}>
+              <SystemFlowOverlay variant={index === 1 ? 'growth' : 'systems'} intensity="quiet" />
+              <div className="relative z-10">
+                <MonoLabel tone="accent">{String(index + 1).padStart(2, '0')} · {row.label}</MonoLabel>
+                <p className="mt-8 text-sm leading-6 text-[var(--sage-ink-muted)]">{row.value}</p>
+              </div>
+            </div>
+          ))}
+          <div className="relative min-h-[210px] overflow-hidden bg-[var(--sage-surface-2)] p-5">
+            <SystemFlowOverlay variant="academy" intensity="quiet" />
+            <div className="relative z-10 flex h-full flex-col">
+              <MonoLabel tone="accent">04 · decide</MonoLabel>
+              <p className="mt-8 text-sm leading-6 text-[var(--sage-ink-muted)]">
+                Not sure this is the right service? Run the route finder and get the matching path.
+              </p>
+              <div className="mt-auto pt-6">
+                <LivingCTA href={routeFinderHref}>find my route</LivingCTA>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        index="00B"
+        eyebrow={bespokeDiagram ? bespokeDiagram.eyebrow : 'system flow'}
+        ariaLabel="Service system flow"
+        heading={
+          bespokeDiagram ? (
+            <>
+              Bespoke architecture for{' '}
+              <span className="italic text-[#3D5AFE]">{tier.shortName}.</span>
+            </>
+          ) : (
+            <>
+              The offer is a route,{' '}
+              <span className="italic text-[#3D5AFE]">not a loose task list.</span>
+            </>
+          )
+        }
+        lede={
+          bespokeDiagram?.lede ??
+          'This diagram gives every service page a concrete operating model: intake, system design, implementation, proof, and handoff.'
+        }
+        width="max-w-6xl"
+      >
+        <DeepSystemDiagram
+          eyebrow={bespokeDiagram?.eyebrow ?? 'service operating path'}
+          title={bespokeDiagram?.title ?? `${tier.shortName} flow`}
+          description={
+            bespokeDiagram?.description ??
+            `${tier.name} moves from fit check to scoped work, then into build/proof/handoff so the buyer can understand how the engagement actually runs.`
+          }
+          nodes={
+            bespokeDiagram?.nodes ?? [
+              { label: 'Fit', detail: tier.mode },
+              { label: 'Scope', detail: tier.price },
+              { label: 'Build', detail: tier.timeline },
+              { label: 'Proof', detail: `${tier.outcomes.length} outcomes` },
+              { label: 'Handoff', detail: tier.cadence },
+            ]
+          }
+          stats={[
+            { label: 'price', value: tier.price },
+            { label: 'timeline', value: tier.timeline },
+            ...(bespokeDiagram?.stats ?? [{ label: 'cadence', value: tier.cadence }]),
+          ].slice(0, 4)}
+        />
+      </Section>
+
       {/* ── Outcomes ───────────────────────────────────────────────── */}
       <Section
         index="01"
@@ -110,7 +413,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
         heading={
           <>
             The outcome,{' '}
-            <span className="italic text-[#0ED3CF]">not just the output.</span>
+            <span className="italic text-[#3D5AFE]">not just the output.</span>
           </>
         }
         width="max-w-5xl"
@@ -140,7 +443,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
         heading={
           <>
             Concrete artifacts you keep —{' '}
-            <span className="italic text-[#0ED3CF]">and what we leave out.</span>
+            <span className="italic text-[#3D5AFE]">and what we leave out.</span>
           </>
         }
         lede="Working code, written docs, dashboards your team owns. We also list what this engagement deliberately does not cover, so scope is honest before you click."
@@ -155,7 +458,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
             <ul className="mt-5 space-y-3.5">
               {tier.deliverables.map((d) => (
                 <li key={d} className="flex gap-3.5">
-                  <span aria-hidden className="mt-[9px] h-px w-3.5 shrink-0 bg-[#0ED3CF]" />
+                  <span aria-hidden className="mt-[9px] h-px w-3.5 shrink-0 bg-[#3D5AFE]" />
                   <span className="text-[14px] leading-[1.6] text-[var(--sage-ink)]">
                     {d}
                   </span>
@@ -194,7 +497,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
           heading={
             <>
               How the engagement{' '}
-              <span className="italic text-[#0ED3CF]">actually runs.</span>
+              <span className="italic text-[#3D5AFE]">actually runs.</span>
             </>
           }
           width="max-w-5xl"
@@ -207,7 +510,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
               >
                 <div className="flex items-center gap-4 sm:w-48 sm:shrink-0">
                   <span
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-sm tabular-nums text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-sm tabular-nums text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
                   >
                     {i + 1}
                   </span>
@@ -288,7 +591,7 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
         heading={
           <>
             Ready to start{' '}
-            <span className="italic text-[#0ED3CF]">{tier.shortName}?</span>
+            <span className="italic text-[#3D5AFE]">{tier.shortName}?</span>
           </>
         }
         lede={

@@ -42,7 +42,7 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         'relative bg-[#1A1917] border border-[#2A2826] rounded-2xl overflow-hidden transition-all duration-300 shadow-[0_2px_12px_rgba(0,0,0,0.2)]',
-        isHovered && 'border-[#0ED3CF]/50 shadow-[0_8px_32px_rgba(14,211,207,0.08)]',
+        isHovered && 'border-[#3D5AFE]/50 shadow-[0_8px_32px_rgba(61,90,254,0.08)]',
         className
       )}
       whileHover={{ y: -2 }}
@@ -70,7 +70,7 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
             ? 'linear-gradient(135deg, #E85D3A, transparent, #E85D3A)'
             : glowColor === 'violet'
             ? 'linear-gradient(135deg, #C7236E, transparent, #C7236E)'
-            : 'linear-gradient(135deg, #0ED3CF, transparent, #E85D3A)',
+            : 'linear-gradient(135deg, #3D5AFE, transparent, #E85D3A)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude'

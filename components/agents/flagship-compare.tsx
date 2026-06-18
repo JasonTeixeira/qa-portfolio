@@ -24,7 +24,7 @@ const ROWS: CompareRow[] = [
     mode: 'Audit',
     bestFor: 'Don’t know where AI fits',
     href: '/services/ai-implementation-consulting',
-    accent: '#22D3EE',
+    accent: '#5670ff',
   },
   {
     slug: 'ai-agent-development',
@@ -99,12 +99,12 @@ export function FlagshipCompare({ currentSlug }: { currentSlug: string }) {
         <table className="w-full text-sm min-w-[720px]">
           <thead>
             <tr className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] bg-[#0B0A09]">
-              <th className="text-left px-5 py-3 font-medium">Engagement</th>
-              <th className="text-left px-3 py-3 font-medium">Price</th>
-              <th className="text-left px-3 py-3 font-medium">Timeline</th>
-              <th className="text-left px-3 py-3 font-medium">Mode</th>
-              <th className="text-left px-3 py-3 font-medium">Best for</th>
-              <th className="text-right px-5 py-3 font-medium" />
+              <th scope="col" className="text-left px-5 py-3 font-medium">Engagement</th>
+              <th scope="col" className="text-left px-3 py-3 font-medium">Price</th>
+              <th scope="col" className="text-left px-3 py-3 font-medium">Timeline</th>
+              <th scope="col" className="text-left px-3 py-3 font-medium">Mode</th>
+              <th scope="col" className="text-left px-3 py-3 font-medium">Best for</th>
+              <th scope="col" className="text-right px-5 py-3 font-medium">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -126,7 +126,7 @@ export function FlagshipCompare({ currentSlug }: { currentSlug: string }) {
                       : undefined
                   }
                 >
-                  <td className="px-5 py-3.5">
+                  <th scope="row" className="px-5 py-3.5 text-left">
                     <div className="flex items-center gap-2">
                       <span
                         className="w-1.5 h-1.5 rounded-full shrink-0"
@@ -148,7 +148,7 @@ export function FlagshipCompare({ currentSlug }: { currentSlug: string }) {
                         </span>
                       )}
                     </div>
-                  </td>
+                  </th>
                   <td className="px-3 py-3.5 text-[#FAFAFA] font-mono text-[13px] whitespace-nowrap">
                     {row.price}
                   </td>

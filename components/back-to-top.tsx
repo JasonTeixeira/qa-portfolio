@@ -22,7 +22,7 @@ export function BackToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 z-50 p-3 bg-[#1A1917] border border-[#2A2826] rounded-full shadow-lg hover:border-[#0ED3CF] hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-all duration-300 group ${
+      className={`fixed bottom-8 right-8 z-50 p-3 bg-[#1A1917] border border-[#2A2826] rounded-full shadow-lg hover:border-[#3D5AFE] hover:shadow-[0_0_20px_rgba(61,90,254,0.2)] transition-all duration-300 group ${
         isVisible
           ? 'opacity-100 scale-100 pointer-events-auto'
           : 'opacity-0 scale-75 pointer-events-none'
@@ -31,7 +31,7 @@ export function BackToTop() {
       aria-hidden={!isVisible}
       tabIndex={isVisible ? 0 : -1}
     >
-      <ArrowUp className="h-5 w-5 text-[#78716C] group-hover:text-[#0ED3CF] transition-colors" />
+      <ArrowUp className="h-5 w-5 text-[#78716C] group-hover:text-[#3D5AFE] transition-colors" />
     </button>
   )
 }

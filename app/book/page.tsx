@@ -86,7 +86,7 @@ export default function BookPage() {
                 Book a 30-minute
                 <br />
                 <span
-                  className="italic text-[#0ED3CF]"
+                  className="italic text-[#3D5AFE]"
                   style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 40, 'WONK' 1" }}
                 >
                   discovery call.
@@ -94,7 +94,7 @@ export default function BookPage() {
               </h1>
 
               <div className="mt-7 flex items-center gap-4" aria-hidden>
-                <span className="h-px w-12 bg-[#0ED3CF]" />
+                <span className="h-px w-12 bg-[#3D5AFE]" />
                 <span className="h-px flex-1 bg-[var(--sage-border-strong)]" />
               </div>
 
@@ -181,9 +181,9 @@ export default function BookPage() {
             >
               <div className="mb-5 flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)]">
-                  <Mail className="h-4 w-4 text-[#0ED3CF]" />
+                  <Mail className="h-4 w-4 text-[#3D5AFE]" />
                 </span>
-                <MonoLabel tone="accent" className="text-[#0ED3CF]">recommended</MonoLabel>
+                <MonoLabel tone="accent" className="text-[#3D5AFE]">recommended</MonoLabel>
               </div>
               <h2
                 className="mb-2 text-[1.15rem] font-normal text-[var(--sage-ink)]"
@@ -194,7 +194,7 @@ export default function BookPage() {
               <p className="text-[13px] leading-relaxed text-[var(--sage-ink-muted)]">
                 A 5-minute form. You get a written reply within 24 hours with a recommended path, scope, and ballpark price. No call required to start.
               </p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                 Start intake
                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </span>

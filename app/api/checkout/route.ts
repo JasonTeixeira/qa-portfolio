@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { getAcademyProductBySlug } from '@/data/academy/products'
 import { tiersBySlug } from '@/data/services/tiers'
 import { careTiersBySlug } from '@/data/services/tiers'
 import { isSelfServe } from '@/data/services/tier-classification'
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   if (limited) return limited
 
   // Parse + validate body first — these steps need no Stripe env.
-  let body: { slug?: string }
+  let body: { slug?: string; kind?: string }
   try {
     body = await req.json()
   } catch {
@@ -24,6 +25,67 @@ export async function POST(req: NextRequest) {
   const slug = typeof body?.slug === 'string' ? body.slug.trim() : ''
   if (!slug || slug.length > 64) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+  }
+
+  const kind = typeof body?.kind === 'string' ? body.kind.trim() : ''
+
+  if (kind === 'academy') {
+    const product = getAcademyProductBySlug(slug)
+    if (!product) {
+      return NextResponse.json({ error: 'Unknown academy product' }, { status: 400 })
+    }
+    if (!product.stripePriceId || product.status !== 'checkout_ready') {
+      return NextResponse.json(
+        { error: 'Academy checkout is not live yet. Join early access instead.' },
+        { status: 409 },
+      )
+    }
+    if (!isStripeConfigured()) {
+      return NextResponse.json({ error: 'Checkout unavailable' }, { status: 503 })
+    }
+
+    const stripe = getStripe()
+    const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
+
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.headers.get('x-real-ip') ||
+      'unknown'
+    const dayBucket = new Date().toISOString().slice(0, 10)
+    const idempotencyKey = createHash('sha256')
+      .update(`academy:${product.trackSlug}:${ip}:${dayBucket}`)
+      .digest('hex')
+
+    try {
+      const session = await stripe.checkout.sessions.create(
+        {
+          mode: 'payment',
+          line_items: [{ price: product.stripePriceId, quantity: 1 }],
+          success_url: `${base}/academy/${product.trackSlug}/enroll?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${base}/academy/${product.trackSlug}/enroll?checkout=cancelled`,
+          billing_address_collection: 'auto',
+          customer_creation: 'always',
+          automatic_tax: { enabled: false },
+          allow_promotion_codes: true,
+          metadata: {
+            kind: 'academy',
+            track_slug: product.trackSlug,
+            product_name: product.name,
+          },
+          payment_intent_data: {
+            metadata: { kind: 'academy', track_slug: product.trackSlug },
+          },
+        },
+        { idempotencyKey },
+      )
+      return NextResponse.json({ url: session.url })
+    } catch (err) {
+      console.error('[checkout] academy stripe error:', err)
+      return NextResponse.json(
+        { error: "Couldn't start checkout. Please try again." },
+        { status: 502 },
+      )
+    }
   }
 
   // Resolve the slug to either a one-time service tier or a care retainer.

@@ -40,6 +40,11 @@ import {
   recordOutreachOutcome,
   recordLeadSourceHealthProof,
   rescoreAcquisitionAccount,
+  runRevenueOsAiPersonalizationProof,
+  runRevenueOsEmailSafetyProof,
+  runRevenueOsInboxReplyIntelligenceProof,
+  runRevenueOsIntelligenceProof,
+  runRevenueOsTenantSaasFoundationProof,
   runRevenueOsConnectorOutreachProof,
   runJobAutomationProof,
   scheduleAcquisitionFollowUp,
@@ -339,11 +344,15 @@ export default async function AdminAcquisitionPage({
     contactsRes,
     outreachRes,
     auditsRes,
+    auditEvidenceRes,
+    auditOfferMappingsRes,
     draftMessagesRes,
     queueRes,
     outreachStatusRes,
     leadSourcesRes,
     leadSourceRunsRes,
+    connectorBatchesRes,
+    connectorProvenanceRes,
     jobOpportunitiesRes,
     jobApplicationsRes,
     emailQueueRes,
@@ -351,7 +360,35 @@ export default async function AdminAcquisitionPage({
     dailyRunsRes,
     experimentsRes,
     learningReportsRes,
+    agentRunsRes,
+    workerJobsRes,
+    workerAttemptsRes,
+    workerDeadLettersRes,
+    aiDraftReviewsRes,
+    aiDraftVersionsRes,
+    aiEvidenceCitationsRes,
+    aiQualityGatesRes,
+    inboxEventsRes,
+    mlScoresRes,
+    adaptiveSequencesRes,
+    tenantsRes,
+    evalRunsRes,
     revenueEmailQueueRowsRes,
+    emailSafetyReportsRes,
+    emailDomainHealthRes,
+    suppressionEventsRes,
+    sequenceStopEventsRes,
+    inboxRunsRes,
+    inboxThreadsRes,
+    inboxMessagesRes,
+    inboxClassificationsRes,
+    inboxActionSuggestionsRes,
+    workspaceRes,
+    workspaceMembersRes,
+    workspaceConfigsRes,
+    workspaceUsageRes,
+    workspaceBillingRes,
+    workspaceAuditLogsRes,
     recentJobApplicationsRes,
   ] = await Promise.all([
       sb
@@ -378,6 +415,8 @@ export default async function AdminAcquisitionPage({
         .select('id', { count: 'exact', head: true })
         .in('status', ['draft', 'ready', 'queued']),
       sb.from('acquisition_website_audits').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_website_audit_evidence').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_website_audit_offer_mappings').select('id', { count: 'exact', head: true }),
       sb
         .from('acquisition_outreach_messages')
         .select('id, account_id, status, channel, subject, body, personalization_notes, metadata, created_at, acquisition_accounts(name)')
@@ -398,6 +437,8 @@ export default async function AdminAcquisitionPage({
         .limit(500),
       sb.from('revenue_lead_sources').select('id', { count: 'exact', head: true }),
       sb.from('revenue_lead_source_runs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_connector_import_batches').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_connector_provenance').select('id', { count: 'exact', head: true }),
       sb.from('revenue_job_opportunities').select('id', { count: 'exact', head: true }),
       sb.from('revenue_job_applications').select('id', { count: 'exact', head: true }),
       sb.from('revenue_email_queue').select('id', { count: 'exact', head: true }),
@@ -405,11 +446,39 @@ export default async function AdminAcquisitionPage({
       sb.from('revenue_daily_runs').select('id', { count: 'exact', head: true }),
       sb.from('revenue_experiments').select('id', { count: 'exact', head: true }),
       sb.from('revenue_learning_reports').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_agent_runs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_worker_jobs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_worker_attempts').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_worker_dead_letters').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ai_draft_reviews').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ai_draft_versions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ai_evidence_citations').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ai_quality_gates').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_events').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_ml_scores').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_adaptive_sequences').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_tenants').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_eval_runs').select('id', { count: 'exact', head: true }),
       sb
         .from('revenue_email_queue')
         .select('id, recipient_email, subject, status, provider_message_id, scheduled_at, sent_at, metadata, created_at')
         .order('created_at', { ascending: false })
         .limit(8),
+      sb.from('revenue_email_safety_reports').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_email_domain_health').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_suppression_events').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_sequence_stop_events').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_runs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_threads').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_messages').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_classifications').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_inbox_action_suggestions').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspaces').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspace_members').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspace_configs').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspace_usage').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspace_billing_boundaries').select('id', { count: 'exact', head: true }),
+      sb.from('revenue_workspace_audit_logs').select('id', { count: 'exact', head: true }),
       sb
         .from('revenue_job_applications')
         .select('id, resume_variant, stage, metadata, created_at')
@@ -544,6 +613,11 @@ export default async function AdminAcquisitionPage({
   const connectorProofRunKey = `connector-${Date.now()}`;
   const leadSourceHealthRunKey = `lead-health-${Date.now()}`;
   const jobAutomationRunKey = `job-auto-${Date.now()}`;
+  const intelligenceProofRunKey = `intel-${Date.now()}`;
+  const aiPersonalizationRunKey = `ai-lock-${Date.now()}`;
+  const emailSafetyRunKey = `email-safe-${Date.now()}`;
+  const inboxReplyRunKey = `inbox-reply-${Date.now()}`;
+  const tenantSaasRunKey = `tenant-saas-${Date.now()}`;
   const leadSourceHealth = buildLeadSourceCredentialHealth();
   const leadSourceDecisions = [
     buildLeadSourceRunDecision({
@@ -577,6 +651,8 @@ export default async function AdminAcquisitionPage({
   const persistenceCounts = [
     ['Lead sources', leadSourcesRes.count ?? 0],
     ['Lead runs', leadSourceRunsRes.count ?? 0],
+    ['Connector batches', connectorBatchesRes.count ?? 0],
+    ['Provenance', connectorProvenanceRes.count ?? 0],
     ['Job opportunities', jobOpportunitiesRes.count ?? 0],
     ['Job applications', jobApplicationsRes.count ?? 0],
     ['Email queue', emailQueueRes.count ?? 0],
@@ -584,6 +660,50 @@ export default async function AdminAcquisitionPage({
     ['Daily runs', dailyRunsRes.count ?? 0],
     ['Experiments', experimentsRes.count ?? 0],
     ['Learning reports', learningReportsRes.count ?? 0],
+  ];
+  const intelligenceCounts = [
+    ['Agent runs', agentRunsRes.count ?? 0],
+    ['Worker jobs', workerJobsRes.count ?? 0],
+    ['Attempts', workerAttemptsRes.count ?? 0],
+    ['Dead letters', workerDeadLettersRes.count ?? 0],
+    ['AI reviews', aiDraftReviewsRes.count ?? 0],
+    ['Inbox events', inboxEventsRes.count ?? 0],
+    ['ML scores', mlScoresRes.count ?? 0],
+    ['Sequences', adaptiveSequencesRes.count ?? 0],
+    ['Tenants', tenantsRes.count ?? 0],
+    ['Eval runs', evalRunsRes.count ?? 0],
+  ];
+  const auditAutomationCounts = [
+    ['Website audits', auditsRes.count ?? 0],
+    ['Audit evidence', auditEvidenceRes.count ?? 0],
+    ['Offer mappings', auditOfferMappingsRes.count ?? 0],
+  ];
+  const aiPersonalizationCounts = [
+    ['Draft versions', aiDraftVersionsRes.count ?? 0],
+    ['Citations', aiEvidenceCitationsRes.count ?? 0],
+    ['Quality gates', aiQualityGatesRes.count ?? 0],
+    ['Reviews', aiDraftReviewsRes.count ?? 0],
+  ];
+  const emailSafetyCounts = [
+    ['Safety reports', emailSafetyReportsRes.count ?? 0],
+    ['Domain health', emailDomainHealthRes.count ?? 0],
+    ['Suppression events', suppressionEventsRes.count ?? 0],
+    ['Sequence stops', sequenceStopEventsRes.count ?? 0],
+  ];
+  const inboxReplyCounts = [
+    ['Inbox runs', inboxRunsRes.count ?? 0],
+    ['Threads', inboxThreadsRes.count ?? 0],
+    ['Messages', inboxMessagesRes.count ?? 0],
+    ['Classifications', inboxClassificationsRes.count ?? 0],
+    ['Actions', inboxActionSuggestionsRes.count ?? 0],
+  ];
+  const tenantSaasCounts = [
+    ['Workspaces', workspaceRes.count ?? 0],
+    ['Members', workspaceMembersRes.count ?? 0],
+    ['Configs', workspaceConfigsRes.count ?? 0],
+    ['Usage', workspaceUsageRes.count ?? 0],
+    ['Billing', workspaceBillingRes.count ?? 0],
+    ['Audit logs', workspaceAuditLogsRes.count ?? 0],
   ];
 
   return (
@@ -988,6 +1108,198 @@ export default async function AdminAcquisitionPage({
           </div>
           <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-9">
             {persistenceCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-3">
+          <div className="mb-4">
+            <h2 className="text-sm font-semibold text-[#fafafa]">Program 3: Website Audit Automation</h2>
+            <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+              Live SEO/PageSpeed evidence, structured findings, offer mapping, and worker-ready audit follow-up.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {auditAutomationCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-4">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 4: AI Personalization Evidence Locks</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Structured draft versions, stored evidence citations, spam and hallucination gates, prompt-injection checks,
+                and manual-review enforcement before any outreach can move forward.
+              </p>
+            </div>
+            <form action={runRevenueOsAiPersonalizationProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-ai-personalization-form">
+              <input
+                name="runKey"
+                defaultValue={aiPersonalizationRunKey}
+                aria-label="Revenue OS AI personalization proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-ai-personalization"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run AI lock proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {aiPersonalizationCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-5">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 5: Email Safety + Sequences</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Suppression enforcement, unsubscribe and bounce proof, domain health caps,
+                sequence stops, and manual-review send safety before any outreach dispatch.
+              </p>
+            </div>
+            <form action={runRevenueOsEmailSafetyProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-email-safety-form">
+              <input
+                name="runKey"
+                defaultValue={emailSafetyRunKey}
+                aria-label="Revenue OS email safety proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-email-safety"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run safety proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {emailSafetyCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-6">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 6: Inbox + Reply Intelligence</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Gmail-style reply ingest, thread matching, reply classification, CRM stage updates,
+                sequence stopping, and operator next-action suggestions.
+              </p>
+            </div>
+            <form action={runRevenueOsInboxReplyIntelligenceProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-inbox-reply-form">
+              <input
+                name="runKey"
+                defaultValue={inboxReplyRunKey}
+                aria-label="Revenue OS inbox reply proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-inbox-reply"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run inbox proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-5">
+            {inboxReplyCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-7">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Program 7: Multi-Tenant SaaS Foundation</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Client workspaces, tenant memberships, isolated configs, usage limits, billing boundaries,
+                audit logs, and tenant-scoped read policies.
+              </p>
+            </div>
+            <form action={runRevenueOsTenantSaasFoundationProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-tenant-saas-form">
+              <input
+                name="runKey"
+                defaultValue={tenantSaasRunKey}
+                aria-label="Revenue OS tenant SaaS proof run key"
+                className="w-56 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-tenant-saas"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run tenant proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-6">
+            {tenantSaasCounts.map(([label, value]) => (
+              <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
+                <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-[#27272a] bg-[#0f0f12] p-5" data-testid="revenue-os-program-1-8">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#fafafa]">Programs 1-8: Intelligence OS</h2>
+              <p className="mt-1 max-w-3xl text-xs text-[#71717a]">
+                Agent runtime, worker queue planning, grounded AI personalization, inbox intelligence,
+                ML scoring, adaptive sequences, tenant workspaces, and evaluation gates.
+              </p>
+            </div>
+            <form action={runRevenueOsIntelligenceProof} className="flex flex-wrap items-center gap-2" data-testid="revenue-os-intelligence-proof-form">
+              <input
+                name="runKey"
+                defaultValue={intelligenceProofRunKey}
+                aria-label="Revenue OS intelligence proof run key"
+                className="w-52 rounded-lg border border-[#27272a] bg-[#09090B] px-3 py-2 text-xs text-[#fafafa] placeholder:text-[#52525b] focus:border-[#06b6d4]/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                data-testid="revenue-os-run-intelligence-proof"
+                className="rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15"
+              >
+                Run intelligence proof
+              </button>
+            </form>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-4 lg:grid-cols-8">
+            {intelligenceCounts.map(([label, value]) => (
               <div key={label} className="rounded-lg border border-[#27272a] bg-[#09090B] p-3">
                 <div className="text-[10px] font-mono uppercase tracking-widest text-[#71717a]">{label}</div>
                 <div className="mt-1 text-xl font-semibold tabular-nums text-[#fafafa]">{value}</div>

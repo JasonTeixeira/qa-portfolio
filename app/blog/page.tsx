@@ -3,11 +3,14 @@ import { BlogContent } from './blog-content'
 import { getAllBlogPosts } from '@/lib/blog-server'
 
 export const metadata: Metadata = {
-  title: 'Blog | Jason Teixeira — Engineering & Architecture',
-  description: 'Technical articles on systems architecture, automation, trading systems, cloud infrastructure, and software engineering. 50 in-depth posts with real code examples.',
+  title: 'Blog | Sage Ideas — Build Notes, AI Systems & Product Architecture',
+  description:
+    'Sage Ideas build notes on AI systems, product architecture, automation, trading platforms, cloud infrastructure, QA, and the solo studio operating model.',
+  alternates: { canonical: 'https://www.sageideas.dev/blog' },
   openGraph: {
-    title: 'Engineering Blog — Jason Teixeira',
-    description: 'Technical writing on building fintech platforms, AI bots, testing frameworks, and cloud infrastructure.',
+    title: 'Sage Ideas Journal',
+    description:
+      'A content engine for builders, buyers, and future academy students: real notes from products, AI systems, infrastructure, and studio operations.',
   },
 }
 

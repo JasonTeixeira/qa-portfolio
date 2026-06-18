@@ -33,15 +33,15 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
   if (r.attributed && r.quote && r.name) {
     return (
       <figure
-        className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors`}
+        className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#3D5AFE]/30 transition-colors`}
       >
-        <Quote className="h-5 w-5 text-[#0ED3CF] mb-3" aria-hidden />
+        <Quote className="h-5 w-5 text-[#3D5AFE] mb-3" aria-hidden />
         <blockquote className="text-[#F4F2EF] text-sm leading-relaxed mb-5">
           &ldquo;{r.quote}&rdquo;
         </blockquote>
         <figcaption className="flex items-center gap-3 pt-4 border-t border-[#2A2826]">
           <div
-            className="h-9 w-9 rounded-md border border-[#2A2826] bg-[#0B0A09] flex items-center justify-center text-[11px] font-mono font-semibold text-[#0ED3CF] shrink-0"
+            className="h-9 w-9 rounded-md border border-[#2A2826] bg-[#0B0A09] flex items-center justify-center text-[11px] font-mono font-semibold text-[#3D5AFE] shrink-0"
             aria-hidden
           >
             {initials}
@@ -63,11 +63,11 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
   // Anonymous reference card.
   return (
     <div
-      className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors flex flex-col`}
+      className={`sage-rise ${delayClass} rounded-xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#3D5AFE]/30 transition-colors flex flex-col`}
     >
       <div className="flex items-center gap-2 mb-3">
-        <CheckCircle2 className="h-4 w-4 text-[#0ED3CF]" aria-hidden />
-        <span className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+        <CheckCircle2 className="h-4 w-4 text-[#3D5AFE]" aria-hidden />
+        <span className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
           Reference available
         </span>
       </div>
@@ -81,7 +81,7 @@ export function TestimonialCard({ reference: r, index = 0 }: Props) {
       </p>
       {r.callAvailable && (
         <div className="mt-4 pt-4 border-t border-[#2A2826] flex items-center gap-2 text-xs text-[#A8A29E]">
-          <Phone className="h-3.5 w-3.5 text-[#0ED3CF]/70" aria-hidden />
+          <Phone className="h-3.5 w-3.5 text-[#3D5AFE]/70" aria-hidden />
           <span>Reference call shared during discovery, both consenting.</span>
         </div>
       )}

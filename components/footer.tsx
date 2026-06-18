@@ -8,6 +8,7 @@ import {
   Route,
   ShieldCheck,
 } from 'lucide-react'
+import { SageLivingMark } from '@/components/brand/sage-living-mark'
 
 type FooterLink = {
   href: string
@@ -46,6 +47,7 @@ const footerColumns: FooterColumn[] = [
       { href: '/academy', label: 'Academy', note: 'courses forming' },
       { href: '/blog', label: 'Journal', note: 'build notes' },
       { href: '/topics', label: 'Topic hubs', note: 'SEO library' },
+      { href: '/tools/route-finder', label: 'Route finder', note: 'diagnostic' },
       { href: '/tools/seo-audit', label: 'SEO audit', note: 'free tool' },
     ],
   },
@@ -162,8 +164,9 @@ export function Footer() {
               aria-hidden
               className="absolute inset-0 opacity-50"
               style={{
-                background:
-                  'radial-gradient(circle at 16% 0%, rgba(61,90,254,0.18), transparent 34%), radial-gradient(circle at 88% 18%, rgba(255,45,155,0.09), transparent 30%)',
+                backgroundImage:
+                  'linear-gradient(rgba(242,239,233,0.032) 1px, transparent 1px), linear-gradient(90deg, rgba(242,239,233,0.032) 1px, transparent 1px)',
+                backgroundSize: '42px 42px',
               }}
             />
             <div className="relative">
@@ -172,16 +175,7 @@ export function Footer() {
                 className="group inline-flex items-center gap-3"
                 aria-label="Sage Ideas home"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-[var(--sage-border)] bg-[#0B0B0E]">
-                  <img
-                    src="/brand/sage-logo.png"
-                    alt=""
-                    width="18"
-                    height="28"
-                    className="h-7 w-auto"
-                    aria-hidden
-                  />
-                </span>
+                <SageLivingMark size="lg" />
                 <span className="[font-family:var(--font-mono),ui-monospace,monospace] text-[13px] uppercase tracking-[0.18em] text-[var(--sage-ink)] transition-colors group-hover:text-[var(--sage-accent-readable)]">
                   Sage Ideas
                 </span>
@@ -225,13 +219,13 @@ export function Footer() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/book"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-[var(--sage-accent)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                  className="inline-flex h-11 items-center justify-center rounded-[14px] bg-[var(--sage-accent)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
                 >
                   ./book
                 </Link>
                 <Link
                   href="/work"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-[var(--sage-border-strong)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                  className="inline-flex h-11 items-center justify-center rounded-[14px] border border-[var(--sage-border-strong)] px-5 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
                 >
                   View work
                 </Link>
@@ -251,13 +245,13 @@ export function Footer() {
               </p>
               <Link
                 href="/tools/seo-audit"
-                className="inline-flex h-10 items-center justify-center rounded-full border border-[var(--sage-border)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="inline-flex h-10 items-center justify-center rounded-[14px] border border-[var(--sage-border)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] transition-colors hover:border-[rgba(61,90,254,0.46)] hover:text-[var(--sage-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 Run audit
               </Link>
               <Link
                 href="/book"
-                className="inline-flex h-10 items-center justify-center rounded-full bg-[var(--sage-accent)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="inline-flex h-10 items-center justify-center rounded-[14px] bg-[var(--sage-accent)] px-4 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.72)] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 Book call
               </Link>

@@ -43,7 +43,7 @@ export function SampleDeliverable({ tabs = DEFAULT_TABS }: { tabs?: SampleTab[] 
 
   return (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <span className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF]">
+      <span className="text-xs font-mono uppercase tracking-widest text-[#3D5AFE]">
         Sample deliverables
       </span>
       <h2 className="mt-3 text-3xl font-normal text-[#FAFAFA]">
@@ -67,7 +67,7 @@ export function SampleDeliverable({ tabs = DEFAULT_TABS }: { tabs?: SampleTab[] 
                 onClick={() => setActive(t.id)}
                 className={`px-4 py-3 text-xs font-mono uppercase tracking-widest transition-colors border-b-2 ${
                   isActive
-                    ? 'text-[#0ED3CF] border-[#0ED3CF] bg-[#0ED3CF]/5'
+                    ? 'text-[#3D5AFE] border-[#3D5AFE] bg-[#3D5AFE]/5'
                     : 'text-[#78716C] border-transparent hover:text-[#FAFAFA]'
                 }`}
               >
@@ -80,7 +80,7 @@ export function SampleDeliverable({ tabs = DEFAULT_TABS }: { tabs?: SampleTab[] 
         {/* Tab body */}
         <div className="p-6 sm:p-8 grid md:grid-cols-[1fr_280px] gap-6 items-start">
           <div>
-            <div className="flex items-center gap-2 mb-3 text-[#0ED3CF]">
+            <div className="flex items-center gap-2 mb-3 text-[#3D5AFE]">
               <FileText className="w-4 h-4" />
               <span className="text-sm font-semibold">{tab.label}</span>
             </div>
@@ -91,14 +91,14 @@ export function SampleDeliverable({ tabs = DEFAULT_TABS }: { tabs?: SampleTab[] 
                   href={tab.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-[#0ED3CF]/40 bg-[#0ED3CF]/10 text-[#0ED3CF] px-3.5 py-2 text-sm font-medium hover:bg-[#0ED3CF]/20 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#3D5AFE]/40 bg-[#3D5AFE]/10 text-[#3D5AFE] px-3.5 py-2 text-sm font-medium hover:bg-[#3D5AFE]/20 transition-colors"
                 >
                   <Download className="w-4 h-4" /> Download preview
                 </a>
               ) : (
                 <a
                   href="mailto:sage@sageideas.dev?subject=Sample%20deliverable%20request"
-                  className="inline-flex items-center gap-2 rounded-lg border border-[#2A2826] bg-[#1A1917] text-[#FAFAFA] px-3.5 py-2 text-sm font-medium hover:border-[#0ED3CF]/50 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#2A2826] bg-[#1A1917] text-[#FAFAFA] px-3.5 py-2 text-sm font-medium hover:border-[#3D5AFE]/50 transition-colors"
                 >
                   <Mail className="w-4 h-4" /> Request after intro call
                 </a>
@@ -159,7 +159,7 @@ function PlaceholderPreview({ label }: { label: string }) {
         <rect x="20" y="257" width="180" height="4" rx="2" />
         <rect x="20" y="269" width="160" height="4" rx="2" />
       </g>
-      <rect x="20" y="170" width="200" height="60" fill="#0ED3CF" opacity="0.08" />
+      <rect x="20" y="170" width="200" height="60" fill="#3D5AFE" opacity="0.08" />
       <text x="120" y="305" textAnchor="middle" fontSize="9" fill="#57534E" fontFamily="monospace">
         SAMPLE · REDACTED
       </text>

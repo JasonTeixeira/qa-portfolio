@@ -224,7 +224,7 @@ export default async function RootLayout({
           {!isPortal && <Breadcrumbs pathname={pathname} />}
           <MarketingChrome position="children">{children}</MarketingChrome>
           <MarketingChrome position="bottom" />
-          {!isPortal && !isPremiumLanding && <CookieBanner />}
+          {!isPortal && <CookieBanner />}
           {!isPortal && !isPremiumLanding && <ExitIntentModal />}
           <WebVitalsReporter />
           <ClientErrorReporter />

@@ -32,7 +32,7 @@ export function CheckoutButton({
         size="lg"
         className={
           variant === 'primary'
-            ? 'bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-medium'
+            ? 'bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-medium'
             : ''
         }
       >
@@ -74,7 +74,7 @@ export function CheckoutButton({
         onClick={onClick}
         className={
           variant === 'primary'
-            ? 'bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-medium'
+            ? 'bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-medium'
             : ''
         }
       >

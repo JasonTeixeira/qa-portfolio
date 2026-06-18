@@ -18,7 +18,7 @@ export interface AsciiRuleProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const toneToColor: Record<NonNullable<AsciiRuleProps["tone"]>, string> = {
   default: "var(--sage-border, #2A2826)",
-  cyan: "var(--sage-brand, #0ED3CF)",
+  cyan: "var(--sage-brand, #3D5AFE)",
   coral: "var(--sage-coral, #E85D3A)",
   lime: "var(--sage-lime, #A8C633)",
   magenta: "var(--sage-magenta, #C7236E)",

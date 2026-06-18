@@ -21,6 +21,7 @@ import {
 import { getServiceTier, tierLabel } from '@/data/services/tier-classification'
 import { getVisualMeta } from '@/data/services/visual-meta'
 import { ServiceIcon } from '@/components/services/icon'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 
 type IconComponent = React.ComponentType<
   React.SVGProps<SVGSVGElement> & { size?: string | number }
@@ -44,9 +45,10 @@ function ServiceCard({ tier, accent }: { tier: ExtendedTier; accent: string }) {
   return (
     <Link
       href={`/services/${tier.slug}`}
-      className="group rounded-2xl border border-[#2A2826] bg-[#12110F] p-5 hover:border-[#3D3A37] transition-colors flex flex-col"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#2A2826] bg-[#12110F] p-5 transition-colors hover:border-[#3D3A37]"
       style={{ ['--accent' as string]: accent }}
     >
+      <SystemFlowOverlay variant="systems" intensity="quiet" />
       <div className="flex items-center gap-2 mb-2">
         <span
           className="inline-flex w-7 h-7 rounded-md items-center justify-center"

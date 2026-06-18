@@ -11,14 +11,14 @@ const statusStyles: Record<string, string> = {
   Production: 'text-[#A8C633] bg-[#A8C633]/10 border-[#A8C633]/30',
   Beta: 'text-[#F59E0B] bg-[#F59E0B]/10 border-[#F59E0B]/30',
   Alpha: 'text-[var(--sage-ink-muted)] bg-[var(--sage-surface-3)] border-[var(--sage-border-strong)]',
-  'Pre-launch': 'text-[#0ED3CF] bg-[#0ED3CF]/10 border-[#0ED3CF]/30',
+  'Pre-launch': 'text-[#3D5AFE] bg-[#3D5AFE]/10 border-[#3D5AFE]/30',
 }
 
 const statusDot: Record<string, string> = {
   Production: 'bg-[#A8C633]',
   Beta: 'bg-[#F59E0B]',
   Alpha: 'bg-[var(--sage-ink-faint)]',
-  'Pre-launch': 'bg-[#0ED3CF]',
+  'Pre-launch': 'bg-[#3D5AFE]',
 }
 
 interface LabGridProps {
@@ -67,7 +67,7 @@ export function LabGrid({ products }: LabGridProps) {
               <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-[var(--sage-border)]">
                 {product.metrics.slice(0, 3).map((m) => (
                   <div key={m.label} className="min-w-0">
-                    <div className="text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] text-sm tabular-nums truncate">
+                    <div className="text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace] text-sm tabular-nums truncate">
                       {m.value}
                     </div>
                     <MonoLabel tone="faint" className="truncate block">{m.label}</MonoLabel>
@@ -96,7 +96,7 @@ export function LabGrid({ products }: LabGridProps) {
             {/* CTA */}
             <Link
               href={`/lab/${product.slug}`}
-              className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] hover:gap-2.5 transition-all duration-200 mt-auto"
+              className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace] hover:gap-2.5 transition-all duration-200 mt-auto"
             >
               View tearsheet <ArrowRight className="w-3.5 h-3.5" aria-hidden />
             </Link>

@@ -4,15 +4,15 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
-  Architecture: 'from-cyan-500/30 via-blue-500/20 to-violet-500/20',
-  Engineering: 'from-cyan-500/30 via-cyan-700/20 to-zinc-800/30',
-  Career: 'from-emerald-500/30 via-teal-500/20 to-cyan-500/20',
+  Architecture: 'from-blue-500/30 via-blue-500/20 to-violet-500/20',
+  Engineering: 'from-blue-500/30 via-blue-700/20 to-zinc-800/30',
+  Career: 'from-emerald-500/30 via-blue-500/20 to-blue-500/20',
   'Cloud Automation': 'from-amber-500/30 via-orange-500/20 to-rose-500/20',
   Trading: 'from-violet-500/30 via-fuchsia-500/20 to-rose-500/20',
   Testing: 'from-rose-500/30 via-pink-500/20 to-orange-500/20',
   Security: 'from-red-500/30 via-amber-500/20 to-yellow-500/20',
   DevOps: 'from-sky-500/30 via-indigo-500/20 to-violet-500/20',
-  AI: 'from-fuchsia-500/30 via-violet-500/20 to-cyan-500/20',
+  AI: 'from-fuchsia-500/30 via-violet-500/20 to-blue-500/20',
 }
 
 interface PostCoverProps {

@@ -671,6 +671,101 @@ test('revenue os external connectors: executes google places search with enrichm
   assert.ok(result.costEstimateUsd > 0);
 });
 
+test('revenue os live connector engine: builds quota-safe import batches with provenance and worker jobs', async () => {
+  const {
+    buildLiveConnectorImportBatch,
+    summarizeLiveConnectorImportBatch,
+  } = await import('../../lib/revenue-os/live-connector-engine.ts');
+
+  const batch = buildLiveConnectorImportBatch({
+    runKey: 'program-2-live-connectors',
+    connectorKey: 'google_places:dentists-orlando',
+    connectorLabel: 'Google Places dentists Orlando',
+    connectorType: 'lead',
+    sourceType: 'google_places',
+    dailyLimit: 2,
+    existingDedupeKeys: ['lead:skip.example'],
+    discoveredAt: '2026-06-17T12:00:00.000Z',
+    records: [
+      {
+        recordType: 'lead',
+        name: 'Bright Dental',
+        websiteUrl: 'https://bright.example',
+        sourceUrl: 'https://maps.google.com/?cid=bright',
+        dedupeKey: 'lead:bright.example',
+        fields: { industry: 'dentist', location: 'Orlando, FL', contactEmail: 'owner@bright.example' },
+        enrichment: [{ provider: 'hunter_style', fieldsAdded: ['contactEmail'], confidence: 92 }],
+      },
+      {
+        recordType: 'lead',
+        name: 'Skip Dental',
+        websiteUrl: 'https://skip.example',
+        sourceUrl: 'https://maps.google.com/?cid=skip',
+        dedupeKey: 'lead:skip.example',
+        fields: { industry: 'dentist', location: 'Orlando, FL' },
+      },
+      {
+        recordType: 'lead',
+        name: 'Quota Dental',
+        websiteUrl: 'https://quota.example',
+        sourceUrl: 'https://maps.google.com/?cid=quota',
+        dedupeKey: 'lead:quota.example',
+        fields: { industry: 'dentist', location: 'Orlando, FL' },
+      },
+    ],
+  });
+  const summary = summarizeLiveConnectorImportBatch(batch);
+
+  assert.equal(batch.status, 'completed');
+  assert.equal(batch.found, 3);
+  assert.equal(batch.importable.length, 2);
+  assert.equal(batch.skipped.length, 1);
+  assert.equal(batch.provenance.length, 2);
+  assert.equal(batch.provenance[0].legalBasis, 'business_context_outreach');
+  assert.deepEqual(batch.provenance[0].fieldsCollected.sort(), ['contactEmail', 'industry', 'location'].sort());
+  assert.equal(batch.importable[0].enrichmentChain[0].provider, 'hunter_style');
+  assert.equal(batch.workerJobs.length, 2);
+  assert.ok(batch.workerJobs.every((job) => job.kind === 'website_audit' || job.kind === 'enrichment'));
+  assert.equal(summary.imported, 2);
+  assert.equal(summary.deduped, 1);
+  assert.equal(summary.quotaRemaining, 0);
+  assert.equal(summary.provenanceComplete, true);
+});
+
+test('revenue os live connector engine: normalizes job connector records with source provenance', async () => {
+  const { buildLiveConnectorImportBatch } = await import('../../lib/revenue-os/live-connector-engine.ts');
+
+  const batch = buildLiveConnectorImportBatch({
+    runKey: 'program-2-job-connectors',
+    connectorKey: 'remotive:junior-ai',
+    connectorLabel: 'Remotive junior AI roles',
+    connectorType: 'job',
+    sourceType: 'remotive',
+    dailyLimit: 10,
+    discoveredAt: '2026-06-17T12:30:00.000Z',
+    records: [
+      {
+        recordType: 'job',
+        name: 'Junior AI Application Engineer',
+        sourceUrl: 'https://remotive.com/remote-jobs/software-dev/junior-ai',
+        dedupeKey: 'job:remotive:junior-ai',
+        fields: {
+          company: 'Remote Apps Studio',
+          location: 'Remote',
+          resumeVariant: 'ai_app_engineer',
+          atsKeywords: ['TypeScript', 'LLM APIs', 'Next.js'],
+        },
+      },
+    ],
+  });
+
+  assert.equal(batch.connectorType, 'job');
+  assert.equal(batch.importable[0].recordType, 'job');
+  assert.equal(batch.provenance[0].sourceUrl, 'https://remotive.com/remote-jobs/software-dev/junior-ai');
+  assert.ok(batch.provenance[0].fieldsCollected.includes('atsKeywords'));
+  assert.equal(batch.workerJobs[0].kind, 'job_source');
+});
+
 test('revenue os outreach v2: scores human personalization and spam risk from evidence', async () => {
   const { composePersonalizedOutreachV2 } = await import('../../lib/revenue-os/outreach-v2.ts');
   const draft = composePersonalizedOutreachV2({
@@ -775,6 +870,153 @@ test('revenue os email delivery: maps resend webhooks to queue events and suppre
   assert.equal(delivered?.eventType, 'delivered');
   assert.equal(delivered?.queueStatus, 'sent');
   assert.equal(delivered?.requiresSuppression, false);
+});
+
+test('revenue os email safety: enforces suppression, events, caps, and sequence stops', async () => {
+  const { buildEmailSafetyRun } = await import('../../lib/revenue-os/email-safety.ts');
+  const run = buildEmailSafetyRun({
+    runKey: 'unit-email-safety',
+    domain: 'sageideas.dev',
+    dailyCap: 50,
+    sentToday: 45,
+    bounceRate: 3,
+    complaintRate: 0.2,
+    messages: Array.from({ length: 10 }, (_, index) => ({
+      id: `msg-${index + 1}`,
+      recipientEmail: index === 1 ? 'blocked@example.com' : `owner${index + 1}@example.com`,
+      sequenceKey: index < 5 ? 'seq-a' : 'seq-b',
+      status: 'approved',
+    })),
+    suppressions: [
+      { email: 'blocked@example.com', reason: 'manual do not contact' },
+      { domain: 'blocked-domain.example', reason: 'domain do not contact' },
+    ],
+    providerEvents: [
+      { messageId: 'msg-3', type: 'bounced', recipientEmail: 'owner3@example.com', occurredAt: '2026-06-17T12:00:00.000Z' },
+      { messageId: 'msg-4', type: 'complained', recipientEmail: 'owner4@example.com', occurredAt: '2026-06-17T12:01:00.000Z' },
+      { messageId: 'msg-6', type: 'replied', recipientEmail: 'owner6@example.com', occurredAt: '2026-06-17T12:02:00.000Z' },
+    ],
+  });
+
+  assert.equal(run.domainHealth.status, 'healthy');
+  assert.equal(run.safeToSend.length, 3);
+  assert.equal(run.blocked.length, 7);
+  assert.equal(run.suppressionEvents.length, 3);
+  assert.ok(run.sequenceStops.some((stop) => stop.sequenceKey === 'seq-a' && stop.reason === 'bounce_received'));
+  assert.ok(run.sequenceStops.some((stop) => stop.sequenceKey === 'seq-b' && stop.reason === 'reply_received'));
+  assert.equal(run.persistence.safetyReport.scorecard.safeToSend, 3);
+});
+
+test('revenue os inbox intelligence: matches replies, classifies intent, updates crm, and stops sequences', async () => {
+  const { buildInboxIntelligenceRun } = await import('../../lib/revenue-os/inbox-intelligence.ts');
+  const run = buildInboxIntelligenceRun({
+    runKey: 'unit-inbox-intelligence',
+    tenantId: 'tenant-unit',
+    account: {
+      id: 'account-1',
+      name: 'Bright Dental',
+      stage: 'contacted',
+    },
+    contact: {
+      id: 'contact-1',
+      email: 'owner@bright.example',
+      fullName: 'Avery Bright',
+    },
+    emailQueue: [
+      {
+        id: 'email-1',
+        recipientEmail: 'owner@bright.example',
+        subject: 'Bright Dental booking flow',
+        sequenceKey: 'seq-bright',
+        providerMessageId: 'provider-email-1',
+      },
+    ],
+    replies: [
+      {
+        externalMessageId: 'gmail-1',
+        threadId: 'thread-1',
+        from: 'owner@bright.example',
+        subject: 'Re: Bright Dental booking flow',
+        body: 'Can you send times for Thursday? We need a better website booking flow.',
+        receivedAt: '2026-06-18T14:00:00.000Z',
+      },
+      {
+        externalMessageId: 'gmail-2',
+        threadId: 'thread-2',
+        from: 'wrong@bright.example',
+        subject: 'Re: Bright Dental booking flow',
+        body: 'Wrong person, please talk to Avery.',
+        receivedAt: '2026-06-18T14:03:00.000Z',
+      },
+    ],
+  });
+
+  assert.equal(run.threads.length, 2);
+  assert.equal(run.messages.length, 2);
+  assert.equal(run.classifications.length, 2);
+  assert.equal(run.classifications[0].intent, 'meeting_intent');
+  assert.equal(run.classifications[0].matchedAccountId, 'account-1');
+  assert.equal(run.classifications[0].matchedQueueId, 'email-1');
+  assert.equal(run.classifications[0].crmPatch.stage, 'meeting');
+  assert.equal(run.actionSuggestions[0].actionType, 'book_meeting');
+  assert.equal(run.sequenceStops.length, 1);
+  assert.equal(run.sequenceStops[0].reason, 'reply_received');
+  assert.equal(run.crmUpdates.length, 1);
+  assert.equal(run.crmUpdates[0].nextAction, 'Send meeting times and booking link.');
+  assert.equal(run.persistence.inboxRun.scorecard.totalReplies, 2);
+  assert.equal(run.persistence.inboxRun.scorecard.matchedReplies, 1);
+  assert.equal(run.persistence.inboxRun.scorecard.meetingIntent, 1);
+});
+
+test('revenue os gmail sync: plans and normalizes Gmail API replies', async () => {
+  const { buildGmailReplySyncPlan, normalizeGmailMessageToInboxReply, fetchGmailInboxReplies } = await import('../../lib/revenue-os/gmail-sync.ts');
+  const dryRun = buildGmailReplySyncPlan({ accessToken: '', newerThanDays: 7, maxResults: 500 });
+  assert.equal(dryRun.configured, false);
+  assert.equal(dryRun.maxResults, 100);
+  assert.ok(dryRun.listUrl.includes('newer_than%3A7d'));
+
+  const encodedBody = Buffer.from('Can you send times for Thursday?', 'utf8')
+    .toString('base64')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replaceAll('=', '');
+  const message = {
+    id: 'gmail-message-1',
+    threadId: 'gmail-thread-1',
+    internalDate: '1781791200000',
+    payload: {
+      headers: [
+        { name: 'From', value: 'Avery <owner@bright.example>' },
+        { name: 'Subject', value: 'Re: Bright Dental audit' },
+      ],
+      parts: [
+        { mimeType: 'text/plain', body: { data: encodedBody } },
+      ],
+    },
+  };
+  const normalized = normalizeGmailMessageToInboxReply(message);
+  assert.equal(normalized.externalMessageId, 'gmail-message-1');
+  assert.equal(normalized.threadId, 'gmail-thread-1');
+  assert.equal(normalized.from, 'Avery <owner@bright.example>');
+  assert.equal(normalized.body, 'Can you send times for Thursday?');
+
+  const calls = [];
+  const result = await fetchGmailInboxReplies({
+    accessToken: 'ya29.test',
+    newerThanDays: 3,
+    maxResults: 1,
+    fetchImpl: async (url, init) => {
+      calls.push({ url: String(url), auth: init?.headers?.Authorization });
+      if (String(url).includes('/messages?')) {
+        return Response.json({ messages: [{ id: 'gmail-message-1' }] });
+      }
+      return Response.json(message);
+    },
+  });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].auth, 'Bearer ya29.test');
+  assert.equal(result.replies.length, 1);
+  assert.equal(result.replies[0].subject, 'Re: Bright Dental audit');
 });
 
 test('revenue os lead source health: reports redacted credentials and quota readiness', async () => {
@@ -1346,6 +1588,53 @@ test('live SEO audit runner: fetches HTML and builds evidence', async () => {
   }
 });
 
+test('revenue os website audit automation: stores structured evidence and maps offers', async () => {
+  const { buildRealWebsiteAuditAutomation } = await import('../../lib/revenue-os/website-audit-automation.ts');
+  const automation = buildRealWebsiteAuditAutomation({
+    runKey: 'program-3-audit',
+    accountId: 'acct_123',
+    accountName: 'Bright Dental',
+    audit: {
+      target: new URL('https://bright.example/'),
+      score: 63,
+      report: {
+        url: 'https://bright.example/',
+        performance: { score: 48, lcpMs: 4100, cls: 0.19 },
+        checks: {
+          title: { pass: true, label: 'Page title', detail: 'Good title', weight: 15 },
+          metaDescription: { pass: false, label: 'Meta description', detail: 'No meta description found', weight: 12 },
+          openGraph: { pass: false, label: 'Open Graph tags', detail: 'No og:title found', weight: 10 },
+          singleH1: { pass: true, label: 'Single H1 heading', detail: 'Exactly one H1', weight: 10 },
+        },
+      },
+      evidence: {
+        fetchedAt: '2026-06-17T12:00:00.000Z',
+        httpStatus: 200,
+        finalUrl: 'https://bright.example/',
+        bytesRead: 12345,
+        failedChecks: [
+          { key: 'metaDescription', label: 'Meta description', detail: 'No meta description found', weight: 12 },
+          { key: 'openGraph', label: 'Open Graph tags', detail: 'No og:title found', weight: 10 },
+        ],
+        passedChecks: [
+          { key: 'title', label: 'Page title', detail: 'Good title', weight: 15 },
+          { key: 'singleH1', label: 'Single H1 heading', detail: 'Exactly one H1', weight: 10 },
+        ],
+        performance: { score: 48, lcpMs: 4100, cls: 0.19 },
+      },
+    },
+  });
+
+  assert.equal(automation.auditScore, 63);
+  assert.equal(automation.evidence.length, 6);
+  assert.ok(automation.evidence.some((item) => item.evidenceType === 'performance' && item.severity === 'high'));
+  assert.ok(automation.findings.some((item) => item.checkKey === 'metaDescription' && item.status === 'failed'));
+  assert.equal(automation.offerMapping.recommendedOffer, 'seo_conversion_audit');
+  assert.ok(automation.offerMapping.reasons.some((reason) => /meta description/i.test(reason)));
+  assert.equal(automation.workerJobs[0].kind, 'enrichment');
+  assert.equal(automation.persistence.auditEvidence[0].source_url, 'https://bright.example/');
+});
+
 // -------------------------------------------------------------- content / seo
 
 test('blog toc: injects stable ids for h2 and h3 headings', async () => {
@@ -1441,6 +1730,31 @@ test('checkout slug routing: audit slug is self-serve and in tiersBySlug', async
   const audit = tiersBySlug['audit'];
   assert.ok(audit, 'audit must exist in tiersBySlug');
   assert.equal(isSelfServe(audit), true, 'audit must be self-serve');
+});
+
+test('academy products: packages are priced and gated behind Stripe price env vars', async () => {
+  const { academyProducts } = await import('../../data/academy/products.ts');
+  assert.equal(academyProducts.length, 4);
+
+  for (const product of academyProducts) {
+    assert.ok(product.trackSlug, 'track slug is required');
+    assert.ok(product.name.includes('Founding Access'), `${product.trackSlug}: product name`);
+    assert.ok(product.priceCents >= 30000, `${product.trackSlug}: price is too low`);
+    assert.match(product.priceLabel, /^\$\d+$/, `${product.trackSlug}: price label`);
+    assert.ok(product.stripeEnvVar.startsWith('STRIPE_PRICE_ACADEMY_'));
+    assert.ok(product.packageIncludes.length >= 4, `${product.trackSlug}: package includes`);
+    assert.match(product.refundPolicy, /14-day/i);
+    assert.match(product.accessPolicy, /12 months/i);
+
+    if (!product.stripePriceId) {
+      assert.equal(product.status, 'early_access');
+      assert.equal(product.checkoutLabel, 'early access');
+      assert.ok(
+        product.requirements.some((requirement) => requirement.includes(product.stripeEnvVar)),
+        `${product.trackSlug}: env var requirement`,
+      );
+    }
+  }
 });
 
 // -------------------------------------------------------------- ssrf guard
@@ -1817,6 +2131,419 @@ test('revenue os daily runner v2: creates idempotent persistence payloads', asyn
   assert.equal(record.idempotency_key, 'cron:daily-2026-06-17:2026-06-17');
   assert.equal(record.scorecard.jobsToApply, 2);
   assert.equal(record.metadata.runKey, 'daily-2026-06-17');
+});
+
+test('revenue os agent runtime: plans typed tasks, traces tools, approvals, and failures', async () => {
+  const { buildAgentRun, recordAgentToolTrace, completeAgentTask, failAgentTask } = await import('../../lib/revenue-os/agent-runtime.ts');
+  const run = buildAgentRun({
+    runKey: 'agent-run-1',
+    tenantId: 'tenant_sage',
+    objective: 'Find qualified local-service leads and draft useful outreach.',
+    tasks: [
+      { type: 'lead_research', title: 'Find high-fit dentists', priority: 90, requiresApproval: false },
+      { type: 'outreach_review', title: 'Review first touch', priority: 80, requiresApproval: true },
+    ],
+  });
+  const traced = recordAgentToolTrace(run, {
+    taskId: run.tasks[0].id,
+    toolName: 'google_places.search',
+    inputSummary: 'dentists Orlando weak booking path',
+    outputSummary: '3 candidate accounts',
+    status: 'success',
+  });
+  const completed = completeAgentTask(traced, run.tasks[0].id, {
+    summary: 'Qualified two leads.',
+    artifacts: ['lead:orlando-dental'],
+  });
+  const failed = failAgentTask(completed, run.tasks[1].id, {
+    code: 'approval_required',
+    message: 'Human approval required before outreach.',
+    retryable: false,
+  });
+
+  assert.equal(failed.status, 'needs_attention');
+  assert.equal(failed.tasks[0].status, 'completed');
+  assert.equal(failed.tasks[1].status, 'failed');
+  assert.equal(failed.traces[0].toolName, 'google_places.search');
+  assert.equal(failed.decisions[0].requiresApproval, true);
+  assert.equal(failed.failures[0].code, 'approval_required');
+});
+
+test('revenue os connector worker: builds queued parallel work with retries and rate limits', async () => {
+  const { buildConnectorWorkerBatch, summarizeWorkerBatch } = await import('../../lib/revenue-os/worker-engine.ts');
+  const batch = buildConnectorWorkerBatch({
+    runKey: 'worker-1',
+    concurrency: 3,
+    now: '2026-06-17T12:00:00.000Z',
+    jobs: [
+      { kind: 'lead_source', target: 'google_places:dentists', priority: 90, requestedUnits: 20, rateLimitPerMinute: 10 },
+      { kind: 'website_audit', target: 'https://example.com', priority: 75, requestedUnits: 1, rateLimitPerMinute: 30 },
+      { kind: 'inbox_sync', target: 'gmail:sage', priority: 60, requestedUnits: 50, rateLimitPerMinute: 25 },
+      { kind: 'job_source', target: 'remotive:junior-ai', priority: 80, requestedUnits: 10, rateLimitPerMinute: 10 },
+    ],
+  });
+  const summary = summarizeWorkerBatch(batch);
+
+  assert.equal(batch.executionLanes.length, 3);
+  assert.equal(batch.jobs[0].status, 'queued');
+  assert.equal(batch.jobs[0].attemptsRemaining, 3);
+  assert.ok(batch.jobs.some((job) => job.nextRunAt > '2026-06-17T12:00:00.000Z'));
+  assert.equal(summary.totalQueued, 4);
+  assert.equal(summary.highestPriorityKind, 'lead_source');
+});
+
+test('revenue os durable worker: claims due jobs with leases and leaves future jobs queued', async () => {
+  const { claimDueWorkerJobs } = await import('../../lib/revenue-os/worker-engine.ts');
+  const result = claimDueWorkerJobs({
+    now: '2026-06-17T12:00:00.000Z',
+    workerId: 'worker-a',
+    leaseSeconds: 120,
+    maxJobs: 2,
+    jobs: [
+      {
+        id: 'due-high',
+        kind: 'lead_source',
+        target: 'google_places:dentists',
+        priority: 90,
+        requestedUnits: 20,
+        rateLimitPerMinute: 10,
+        attemptsRemaining: 3,
+        status: 'queued',
+        nextRunAt: '2026-06-17T11:59:00.000Z',
+      },
+      {
+        id: 'future',
+        kind: 'website_audit',
+        target: 'https://future.example',
+        priority: 95,
+        requestedUnits: 1,
+        rateLimitPerMinute: 30,
+        attemptsRemaining: 3,
+        status: 'queued',
+        nextRunAt: '2026-06-17T12:30:00.000Z',
+      },
+      {
+        id: 'due-low',
+        kind: 'inbox_sync',
+        target: 'gmail:sage',
+        priority: 50,
+        requestedUnits: 10,
+        rateLimitPerMinute: 20,
+        attemptsRemaining: 2,
+        status: 'queued',
+        nextRunAt: '2026-06-17T12:00:00.000Z',
+      },
+    ],
+  });
+
+  assert.deepEqual(result.claimed.map((job) => job.id), ['due-high', 'due-low']);
+  assert.equal(result.claimed[0].status, 'running');
+  assert.equal(result.claimed[0].lockedBy, 'worker-a');
+  assert.equal(result.claimed[0].leaseExpiresAt, '2026-06-17T12:02:00.000Z');
+  assert.equal(result.claimed[0].attemptNumber, 1);
+  assert.equal(result.remaining.find((job) => job.id === 'future')?.status, 'queued');
+});
+
+test('revenue os durable worker: completes, retries, and dead-letters jobs with attempt records', async () => {
+  const {
+    completeWorkerJob,
+    failWorkerJob,
+    buildWorkerOperationsSummary,
+  } = await import('../../lib/revenue-os/worker-engine.ts');
+
+  const runningJob = {
+    id: 'job-1',
+    kind: 'website_audit',
+    target: 'https://apex.example',
+    priority: 80,
+    requestedUnits: 1,
+    rateLimitPerMinute: 30,
+    attemptsRemaining: 2,
+    status: 'running',
+    nextRunAt: '2026-06-17T12:00:00.000Z',
+    lockedBy: 'worker-a',
+    leaseExpiresAt: '2026-06-17T12:02:00.000Z',
+    attemptNumber: 1,
+  };
+
+  const completed = completeWorkerJob(runningJob, {
+    now: '2026-06-17T12:01:00.000Z',
+    result: { audited: true },
+  });
+  assert.equal(completed.job.status, 'completed');
+  assert.equal(completed.job.lockedBy, null);
+  assert.equal(completed.attempt.status, 'completed');
+  assert.equal(completed.attempt.durationMs, 60_000);
+
+  const retry = failWorkerJob(runningJob, {
+    now: '2026-06-17T12:01:00.000Z',
+    errorCode: 'rate_limited',
+    errorMessage: 'Provider quota temporarily exhausted.',
+    retryable: true,
+    backoffSeconds: 300,
+  });
+  assert.equal(retry.job.status, 'queued');
+  assert.equal(retry.job.attemptsRemaining, 1);
+  assert.equal(retry.job.nextRunAt, '2026-06-17T12:06:00.000Z');
+  assert.equal(retry.deadLetter, null);
+  assert.equal(retry.attempt.status, 'failed');
+
+  const dead = failWorkerJob({ ...runningJob, id: 'job-2', attemptsRemaining: 1 }, {
+    now: '2026-06-17T12:01:00.000Z',
+    errorCode: 'invalid_payload',
+    errorMessage: 'Connector returned an unusable payload.',
+    retryable: false,
+  });
+  assert.equal(dead.job.status, 'failed');
+  assert.equal(dead.job.attemptsRemaining, 0);
+  assert.equal(dead.deadLetter?.jobId, 'job-2');
+  assert.equal(dead.deadLetter?.errorCode, 'invalid_payload');
+
+  const summary = buildWorkerOperationsSummary([
+    completed.job,
+    retry.job,
+    dead.job,
+  ]);
+  assert.equal(summary.completed, 1);
+  assert.equal(summary.queued, 1);
+  assert.equal(summary.failed, 1);
+  assert.equal(summary.deadLettered, 1);
+});
+
+test('revenue os ai personalization: grounds drafts in evidence and blocks hallucinated claims', async () => {
+  const { buildAiPersonalizationDraft, reviewAiPersonalizationDraft } = await import('../../lib/revenue-os/ai-personalization.ts');
+  const draft = buildAiPersonalizationDraft({
+    accountName: 'Apex Dental',
+    contactName: 'Jordan',
+    offer: 'seo_conversion_audit',
+    brandVoice: 'direct, specific, useful, no hype',
+    evidence: [
+      { id: 'audit-cta', claim: 'Booking CTA is below the fold', sourceUrl: 'https://apex.example' },
+      { id: 'audit-proof', claim: 'No patient proof near the booking path', sourceUrl: 'https://apex.example' },
+    ],
+  });
+  const review = reviewAiPersonalizationDraft({
+    draft,
+    evidenceIds: ['audit-cta', 'audit-proof'],
+    bannedClaims: ['guaranteed revenue', 'risk free'],
+  });
+
+  assert.equal(draft.sendMode, 'manual_review');
+  assert.ok(draft.body.includes('[audit-cta]'));
+  assert.equal(review.approved, true);
+  assert.equal(review.hallucinationRisk, 0);
+  assert.ok(review.checks.includes('all claims cite supplied evidence'));
+});
+
+test('revenue os ai personalization v2: creates evidence-locked draft versions and quality gates', async () => {
+  const { buildEvidenceLockedPersonalizationDraft } = await import('../../lib/revenue-os/ai-personalization.ts');
+  const result = buildEvidenceLockedPersonalizationDraft({
+    runKey: 'unit-ai-lock',
+    accountId: 'acct-ai-lock',
+    accountName: 'Apex Dental',
+    contactName: 'Jordan',
+    offer: 'seo_conversion_audit',
+    brandVoice: 'direct, specific, useful, no hype',
+    evidence: [
+      {
+        id: 'audit-cta',
+        claim: 'Booking CTA is below the fold',
+        sourceUrl: 'https://apex.example',
+        evidenceType: 'conversion_check',
+        observedAt: '2026-06-17T12:00:00.000Z',
+      },
+      {
+        id: 'audit-proof',
+        claim: 'No patient proof appears near the booking path',
+        sourceUrl: 'https://apex.example',
+        evidenceType: 'brand_check',
+        observedAt: '2026-06-17T12:00:00.000Z',
+      },
+    ],
+  });
+
+  assert.equal(result.review.approved, true);
+  assert.equal(result.draftVersion.sendMode, 'manual_review');
+  assert.equal(result.draftVersion.structuredOutput.claims.length, 2);
+  assert.deepEqual(result.draftVersion.structuredOutput.claims.map((claim) => claim.evidenceId), ['audit-cta', 'audit-proof']);
+  assert.equal(result.qualityGates.every((gate) => gate.status === 'pass'), true);
+  assert.ok(result.persistence.draftVersion.metadata.evidenceLocked);
+  assert.equal(result.persistence.evidenceCitations.length, 2);
+  assert.equal(result.persistence.evidenceCitations[0].evidence_id, 'audit-cta');
+});
+
+test('revenue os inbox intelligence: classifies replies and recommends CRM transitions', async () => {
+  const { classifyInboxReply } = await import('../../lib/revenue-os/inbox-intelligence.ts');
+  const reply = classifyInboxReply({
+    from: 'owner@apex.example',
+    subject: 'Re: Apex Dental SEO conversion audit',
+    body: 'This is relevant. Can you send times for Thursday? Budget is not huge but we need the booking flow fixed.',
+    receivedAt: '2026-06-17T13:00:00.000Z',
+  });
+
+  assert.equal(reply.intent, 'meeting_intent');
+  assert.equal(reply.sentiment, 'positive');
+  assert.equal(reply.crmPatch.stage, 'meeting');
+  assert.ok(reply.followUpSuggestion.includes('Thursday'));
+  assert.ok(reply.extractedSignals.includes('budget constraint'));
+});
+
+test('revenue os ml scoring: compares rule score with calibrated learned score', async () => {
+  const { buildMlScoringModel, scoreWithMlModel } = await import('../../lib/revenue-os/ml-scoring.ts');
+  const model = buildMlScoringModel({
+    modelVersion: 'local-logistic-v1',
+    outcomes: [
+      { features: { fit: 80, urgency: 75, contactConfidence: 90, pastReplyRate: 30 }, won: true },
+      { features: { fit: 35, urgency: 20, contactConfidence: 10, pastReplyRate: 0 }, won: false },
+      { features: { fit: 70, urgency: 60, contactConfidence: 80, pastReplyRate: 20 }, won: true },
+    ],
+  });
+  const scored = scoreWithMlModel({
+    model,
+    ruleScore: 62,
+    features: { fit: 82, urgency: 70, contactConfidence: 88, pastReplyRate: 25 },
+  });
+
+  assert.equal(scored.modelVersion, 'local-logistic-v1');
+  assert.ok(scored.learnedScore > scored.ruleScore);
+  assert.ok(scored.calibratedProbability > 0.5);
+  assert.equal(scored.decision, 'prioritize');
+});
+
+test('revenue os adaptive sequences: branches from events and stops on reply or suppression', async () => {
+  const { buildAdaptiveSequencePlan, advanceAdaptiveSequence } = await import('../../lib/revenue-os/adaptive-sequences.ts');
+  const plan = buildAdaptiveSequencePlan({
+    accountName: 'Apex Dental',
+    persona: 'owner',
+    industry: 'dental',
+    offer: 'seo_conversion_audit',
+    startAt: '2026-06-17T12:00:00.000Z',
+  });
+  const opened = advanceAdaptiveSequence(plan, { type: 'opened', occurredAt: '2026-06-18T12:00:00.000Z' });
+  const replied = advanceAdaptiveSequence(opened, { type: 'replied', occurredAt: '2026-06-18T13:00:00.000Z' });
+
+  assert.equal(plan.steps.length, 3);
+  assert.equal(opened.nextStep?.branchReason, 'opened_no_reply');
+  assert.equal(replied.status, 'stopped');
+  assert.equal(replied.stopReason, 'reply_received');
+});
+
+test('revenue os tenant os: isolates client configs, sources, sending domains, and exports', async () => {
+  const { buildTenantWorkspace, buildTenantExport } = await import('../../lib/revenue-os/tenant-os.ts');
+  const workspace = buildTenantWorkspace({
+    tenantId: 'tenant_apex',
+    businessName: 'Apex Dental Group',
+    ownerEmail: 'owner@apex.example',
+    sendingDomain: 'mail.apex.example',
+    leadSources: ['google_places', 'inbound', 'csv'],
+    monthlyLeadLimit: 500,
+  });
+  const exported = buildTenantExport(workspace);
+
+  assert.equal(workspace.permissions[0].role, 'owner');
+  assert.equal(workspace.sendingDomains[0].status, 'pending_dns');
+  assert.equal(workspace.limits.monthlyLeadLimit, 500);
+  assert.equal(exported.redactedConfig.ownerEmail, 'o***@apex.example');
+});
+
+test('revenue os tenant os: builds multi-tenant SaaS foundation with scoped access and persistence rows', async () => {
+  const { buildTenantSaasFoundation, canAccessTenant, buildTenantIsolationProof } = await import('../../lib/revenue-os/tenant-os.ts');
+  const foundation = buildTenantSaasFoundation({
+    runKey: 'unit-program-7',
+    workspaces: [
+      {
+        tenantKey: 'apex-dental',
+        businessName: 'Apex Shared Brand',
+        ownerEmail: 'owner@apex.example',
+        members: [
+          { email: 'ops@apex.example', role: 'operator' },
+          { email: 'viewer@apex.example', role: 'viewer' },
+        ],
+        leadSources: ['google_places', 'csv', 'inbound'],
+        sendingDomains: ['mail.apex.example'],
+        monthlyLeadLimit: 600,
+        dailyEmailLimit: 45,
+        config: {
+          icp: { targetSegment: 'owner-led dental offices', regions: ['US'], minimumBudget: '5000' },
+          offers: ['seo_conversion_audit', 'website_rebuild'],
+          brandVoice: { tone: 'direct helpful evidence-grounded' },
+          compliance: { consentBasis: 'legitimate_interest', unsubscribeRequired: true },
+        },
+      },
+      {
+        tenantKey: 'apex-dental-clone',
+        businessName: 'Apex Shared Brand',
+        ownerEmail: 'owner@clone.example',
+        members: [{ email: 'ops@clone.example', role: 'operator' }],
+        leadSources: ['csv', 'referral'],
+        sendingDomains: ['mail.clone.example'],
+        monthlyLeadLimit: 350,
+        dailyEmailLimit: 30,
+        config: {
+          icp: { targetSegment: 'boutique med spas', regions: ['US', 'Canada'], minimumBudget: '3000' },
+          offers: ['brand_presence_audit'],
+          brandVoice: { tone: 'warm concise operator-focused' },
+          compliance: { consentBasis: 'manual_review', unsubscribeRequired: true },
+        },
+      },
+    ],
+  });
+  const proof = buildTenantIsolationProof(foundation);
+
+  assert.equal(foundation.workspaces.length, 2);
+  assert.equal(new Set(foundation.workspaces.map((workspace) => workspace.tenantKey)).size, 2);
+  assert.equal(foundation.memberships.length, 5);
+  assert.equal(foundation.configs[0].icp.targetSegment, 'owner-led dental offices');
+  assert.equal(foundation.configs[1].icp.targetSegment, 'boutique med spas');
+  assert.equal(foundation.usageRecords.length, 2);
+  assert.equal(foundation.billingBoundaries.length, 2);
+  assert.ok(foundation.auditLogs.length >= 8);
+  assert.equal(foundation.persistence.workspaces.length, 2);
+  assert.equal(foundation.persistence.memberships.length, 5);
+  assert.equal(canAccessTenant(foundation, 'ops@apex.example', 'apex-dental'), true);
+  assert.equal(canAccessTenant(foundation, 'ops@apex.example', 'apex-dental-clone'), false);
+  assert.equal(proof.crossTenantAccessBlocked, true);
+  assert.equal(proof.duplicateBusinessNamesAllowedWithTenantKeys, true);
+  assert.equal(proof.hasPerTenantUsageAndBilling, true);
+});
+
+test('revenue os eval gates: scores lead, draft, spam, deliverability, hallucination, and conversion quality', async () => {
+  const { runRevenueOsEvalSuite } = await import('../../lib/revenue-os/eval-gates.ts');
+  const result = runRevenueOsEvalSuite({
+    cases: [
+      {
+        id: 'qualified-dental',
+        leadScore: 82,
+        draftQuality: 91,
+        spamRisk: 12,
+        deliverabilityRisk: 18,
+        hallucinationRisk: 0,
+        conversionPrediction: 64,
+      },
+      {
+        id: 'weak-generic',
+        leadScore: 35,
+        draftQuality: 50,
+        spamRisk: 45,
+        deliverabilityRisk: 40,
+        hallucinationRisk: 25,
+        conversionPrediction: 18,
+      },
+    ],
+    thresholds: {
+      leadQuality: 70,
+      draftQuality: 80,
+      maxSpamRisk: 25,
+      maxDeliverabilityRisk: 30,
+      maxHallucinationRisk: 5,
+      conversionPrediction: 50,
+    },
+  });
+
+  assert.equal(result.overallStatus, 'fail');
+  assert.equal(result.passed, 1);
+  assert.equal(result.failed, 1);
+  assert.ok(result.failures[0].reasons.includes('lead quality below threshold'));
 });
 
 // -------------------------------------------------------------- runner

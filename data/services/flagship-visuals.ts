@@ -55,7 +55,7 @@ export type FlagshipVisuals = {
 export const flagshipVisuals: Record<string, FlagshipVisuals> = {
   // ─────────────────────────────────────────────────────────────────────
   'ai-implementation-consulting': {
-    accent: '#22D3EE',
+    accent: '#5670ff',
     story: {
       eyebrow: 'Two weeks. One opinion. Zero fluff.',
       headline: 'Most AI consulting hands you a deck. We hand you a build plan.',
@@ -99,7 +99,7 @@ export const flagshipVisuals: Record<string, FlagshipVisuals> = {
 
   // ─────────────────────────────────────────────────────────────────────
   'ai-agent-development': {
-    accent: '#22D3EE',
+    accent: '#5670ff',
     story: {
       eyebrow: 'Custom-built. Not off-the-shelf.',
       headline: 'A trained agent that knows your business \u2014 working 24/7 with humans in the loop.',

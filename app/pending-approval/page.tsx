@@ -62,7 +62,7 @@ export default async function PendingApprovalPage() {
               Email{' '}
               <a
                 href="mailto:sage@sageideas.dev"
-                className="text-[#0ED3CF] hover:text-[#22D3EE]"
+                className="text-[#3D5AFE] hover:text-[#5670ff]"
               >
                 sage@sageideas.dev
               </a>{' '}
@@ -80,7 +80,7 @@ export default async function PendingApprovalPage() {
             <form action={signOut}>
               <button
                 type="submit"
-                className="rounded-lg border border-[#2A2826] px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-[#A8A29E] hover:border-[#0ED3CF] hover:text-[#0ED3CF] transition-colors"
+                className="rounded-lg border border-[#2A2826] px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-[#A8A29E] hover:border-[#3D5AFE] hover:text-[#3D5AFE] transition-colors"
               >
                 Sign out
               </button>

@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/json-ld'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import { TrackedLink } from '@/components/analytics/tracked-link'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { RouteConversionCta } from '@/components/living/RouteConversionCta'
 import { academyTracks, getAcademyTrack } from '@/data/academy/tracks'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
@@ -121,7 +123,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
                 {track.label} · {track.status === 'forming' ? 'Forming now' : 'Opening soon'}
               </p>
               <h1
-                className="max-w-[12ch] text-[clamp(3.2rem,1.2rem+8vw,7.6rem)] font-extrabold"
+                className="max-w-[12ch] text-[clamp(3.2rem,_1.2rem_+_8vw,_7.6rem)] font-extrabold"
                 style={displayStyle}
               >
                 {track.title}
@@ -130,12 +132,18 @@ export default async function AcademyTrackPage({ params }: PageProps) {
                 {track.description}
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link
+                <TrackedLink
                   href={`/academy/${track.slug}/enroll`}
+                  event="academy_track_selected"
+                  eventProps={{
+                    slug: track.slug,
+                    title: track.title,
+                    location: 'academy_track',
+                  }}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--sage-accent)] px-6 text-sm font-semibold text-white transition hover:bg-[#5670ff]"
                 >
                   {track.cta} -&gt;
-                </Link>
+                </TrackedLink>
                 <Link
                   href="/blog"
                   className="inline-flex min-h-12 items-center justify-center rounded-full border border-[var(--sage-border)] px-6 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)]"
@@ -191,7 +199,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               Modules
             </p>
-            <h2 className="text-[clamp(2.3rem,1.2rem+4vw,5rem)] font-extrabold" style={displayStyle}>
+            <h2 className="text-[clamp(2.3rem,_1.2rem_+_4vw,_5rem)] font-extrabold" style={displayStyle}>
               Built from the studio record.
             </h2>
           </div>
@@ -240,7 +248,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
               Early access
             </p>
-            <h2 className="text-[clamp(2.5rem,1.2rem+5vw,6rem)] font-extrabold" style={displayStyle}>
+            <h2 className="text-[clamp(2.5rem,_1.2rem_+_5vw,_6rem)] font-extrabold" style={displayStyle}>
               Join before the paid track opens.
             </h2>
             <p className="mt-6 max-w-[56ch] text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
@@ -255,6 +263,20 @@ export default async function AcademyTrackPage({ params }: PageProps) {
           />
         </div>
       </section>
+
+      <RouteConversionCta
+        eyebrow="course to build"
+        title="Learn it first, or route the build now."
+        body={`This track is for ${track.audience.toLowerCase()} If the timeline is too tight for DIY, use the diagnostic and route the work into the right studio offer.`}
+        primary={{ label: 'Run the diagnostic', href: `/tools/route-finder?source=academy_track&track=${track.slug}` }}
+        secondary={{ label: 'Book the studio', href: '/book' }}
+        variant="academy"
+        proof={[
+          { label: 'track', value: track.label },
+          { label: 'format', value: track.format },
+          { label: 'status', value: track.status },
+        ]}
+      />
     </main>
   )
 }

@@ -61,7 +61,7 @@ export function AgentDashboardMockup({
   spendUsed = '$182',
   spendCap = '$500',
   pendingApprovals = 3,
-  accent = '#22D3EE',
+  accent = '#5670ff',
   liveTickerPool,
 }: Props) {
   const [feed, setFeed] = useState<DashboardActivity[]>(activity)

@@ -44,7 +44,7 @@ export function AgentCostEstimator({
   baseCost = 0,
   title = 'Forecast your monthly run cost',
   subtitle = 'Honest math. No surprise bills. Cap is enforced in production.',
-  accent = '#22D3EE',
+  accent = '#5670ff',
 }: Props) {
   const [value, setValue] = useState(defaultValue)
   const variableCost = value * costPerUnit

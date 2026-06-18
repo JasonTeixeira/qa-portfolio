@@ -53,7 +53,7 @@ const GROUP_LABELS: Record<CommandItem['group'], string> = {
 }
 
 const TONE_TO_HEX: Record<NonNullable<CommandItem['tone']>, string> = {
-  cyan: '#0ED3CF',
+  cyan: '#3D5AFE',
   coral: '#E85D3A',
   lime: '#A8C633',
   magenta: '#C7236E',
@@ -482,13 +482,13 @@ export function CommandPalette() {
               {/* Chrome bar — EL instrument header */}
               <div className="flex items-center gap-2 border-b border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-4 py-2.5 [font-family:var(--font-mono),ui-monospace,monospace]">
                 <span className="relative inline-flex h-1.5 w-1.5">
-                  <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden />
-                  <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" aria-hidden />
+                  <span className="absolute inset-0 rounded-full bg-[#3D5AFE] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" aria-hidden />
+                  <span className="absolute inset-0 rounded-full bg-[#3D5AFE]" aria-hidden />
                 </span>
                 <span className="ml-1 truncate text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
                   sageshell&nbsp;·&nbsp;{flatOrdered.length}&nbsp;cmd{flatOrdered.length === 1 ? '' : 's'}
                 </span>
-                <span className="ml-auto text-[10px] uppercase tracking-[0.18em] text-[#0ED3CF]/80">
+                <span className="ml-auto text-[10px] uppercase tracking-[0.18em] text-[#3D5AFE]/80">
                   online
                 </span>
               </div>
@@ -498,7 +498,7 @@ export function CommandPalette() {
                 <span aria-hidden className="select-none text-[13px]">
                   <span className="text-[var(--sage-ink-muted)]">sage@ideas</span>
                   <span className="text-[var(--sage-ink-faint)]">:</span>
-                  <span className="text-[#0ED3CF]">~</span>
+                  <span className="text-[#3D5AFE]">~</span>
                   <span className="text-[var(--sage-ink-faint)]">$ </span>
                 </span>
                 <input
@@ -547,7 +547,7 @@ export function CommandPalette() {
                           renderIdx += 1
                           const i = renderIdx
                           const isActive = selectedIndex === i
-                          const toneHex = command.tone ? TONE_TO_HEX[command.tone] : '#0ED3CF'
+                          const toneHex = command.tone ? TONE_TO_HEX[command.tone] : '#3D5AFE'
                           return (
                             <button
                               key={command.id}

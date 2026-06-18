@@ -27,7 +27,7 @@ const kindLabel: Record<Artifact['kind'], string> = {
 }
 
 const kindAccent: Record<Artifact['kind'], string> = {
-  diagram: 'text-[#0ED3CF] border-[#0ED3CF]/30',
+  diagram: 'text-[#3D5AFE] border-[#3D5AFE]/30',
   screenshot: 'text-[#E85D3A] border-[#E85D3A]/30',
   terminal: 'text-[#10B981] border-[#10B981]/30',
   dashboard: 'text-[#F59E0B] border-[#F59E0B]/30',
@@ -78,7 +78,7 @@ export function ArtifactGallery({
       {(eyebrow || title || description) && (
         <div className="mb-8">
           {eyebrow && (
-            <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#0ED3CF] mb-3">
+            <div className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#3D5AFE] mb-3">
               {eyebrow}
             </div>
           )}

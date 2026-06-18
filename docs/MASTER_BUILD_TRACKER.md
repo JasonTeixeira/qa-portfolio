@@ -60,7 +60,7 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [x] D2 — ⭐ **Event bridge**: extend `trackEvent` to also emit GA4 gtag; mark 4 key events as conversions
 - [x] D3 — ⭐ **First-touch attribution** (`lib/analytics/attribution.ts`) → stored on lead `metadata`
 - [ ] D4 — **GSC + Bing** verification + sitemap submission *(Google verified; Bing still pending; checklist in `docs/seo/search-console-bing-submit.md`)*
-- [ ] D5 — PostHog **funnels + dashboard** (5 funnels, ~10 insights) — build spec in `docs/analytics/posthog-funnels-dashboard.md`
+- [ ] D5 — PostHog **funnels + dashboard** (5 funnels, ~10 insights) — spec/code ready in `docs/analytics/posthog-funnels-dashboard.md`; workspace creation pending
 
 ## ☐ PROGRAM A — SEO Discovery Engine  · spec: [program-a](specs/program-a-seo.md)
 *Get found. Uses G's keyword map. Several ⭐ quick wins need no creds.*
@@ -105,7 +105,7 @@ top-to-bottom; tick a box as each deliverable ships (spec → build → review).
 - [ ] E1 — ⏳ **Attributed testimonials + logos** (`data/social-proof/attributed.ts` + component) — populate when you supply real, permissioned proof
 - [ ] E2 — **/admin leads inbox** (migration `0029` adds `status`+`score`) — see + work leads
 - [ ] E3 — **Money-page CRO** components (`components/cro/*`) + playbook (`docs/cro/money-page-playbook.md`)
-- [ ] E4 — **Experiments + session replay** (PostHog) + ICE-scored test backlog
+- [ ] E4 — **Experiments + session replay** (PostHog) + ICE-scored test backlog — code/spec ready; PostHog flag + replay enablement pending
 - [x] E5 — **Lead scoring** (`lib/leads/scoring.ts`) wired into capture metadata
 - [ ] E6 — **B2B nurture** (migration `0030` sequences/steps/enrollments + Resend + cron `/api/cron/nurture`)
 - [ ] E7 — **E-E-A-T** components (`components/eeat/*`: author bio, credentials, first-hand, third-party validation)

@@ -57,6 +57,81 @@
   opacity: 0.8;
 }
 
+.scrollDiagram {
+  --diagram-progress: 1;
+}
+
+.scrollDiagram::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 38%, rgba(61, 90, 254, 0.14), transparent 22%),
+    radial-gradient(circle at 78% 42%, rgba(255, 45, 155, 0.1), transparent 24%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.scrollDiagram::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(242, 239, 233, 0.035),
+    transparent
+  );
+  opacity: 0;
+  transform: translate3d(calc((var(--diagram-progress) * 120%) - 60%), 0, 0);
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+.scrollDiagram[data-diagram-active="true"]::after {
+  opacity: 1;
+}
+
+.diagramPathPrimary,
+.diagramPathSecondary,
+.diagramPathTertiary {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--diagram-progress));
+  transition: stroke-dashoffset 180ms linear;
+}
+
+.diagramPathSecondary {
+  stroke-dashoffset: calc(1 - (var(--diagram-progress) * 0.86));
+}
+
+.diagramPathTertiary {
+  stroke-dashoffset: calc(1 - (var(--diagram-progress) * 0.72));
+}
+
+.diagramNode {
+  opacity: calc(0.22 + (var(--diagram-progress) * 0.78));
+  transform: translate3d(0, calc((1 - var(--diagram-progress)) * 10px), 0);
+  transition:
+    opacity 180ms linear,
+    transform 180ms linear;
+}
+
+.diagramPacket,
+.diagramPacketTwo {
+  opacity: 0;
+  filter: drop-shadow(0 0 12px rgba(255, 45, 155, 0.42));
+  transition: opacity 200ms ease;
+}
+
+.diagramPacketTwo {
+  filter: drop-shadow(0 0 12px rgba(61, 90, 254, 0.42));
+}
+
+.scrollDiagram[data-diagram-active="true"] .diagramPacket,
+.scrollDiagram[data-diagram-active="true"] .diagramPacketTwo {
+  opacity: 1;
+}
+
 @keyframes packet {
   0% {
     offset-distance: 0%;
@@ -101,5 +176,28 @@
   .drawTwo,
   .drawThree {
     stroke-dashoffset: 0;
+  }
+
+  .scrollDiagram {
+    --diagram-progress: 1;
+  }
+
+  .scrollDiagram::after,
+  .diagramPacket,
+  .diagramPacketTwo {
+    display: none;
+  }
+
+  .diagramPathPrimary,
+  .diagramPathSecondary,
+  .diagramPathTertiary {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .diagramNode {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

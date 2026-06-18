@@ -47,10 +47,10 @@ export function HeroManifest() {
           </span>
           <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)]">
             <span className="relative inline-flex h-1.5 w-1.5">
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE]" />
             </span>
-            <span className="text-[#0ED3CF]/90">live</span>
+            <span className="text-[#3D5AFE]/90">live</span>
           </span>
         </header>
 
@@ -85,7 +85,7 @@ export function HeroManifest() {
             <span className="text-[var(--sage-ink)]">06</span> products shipped
           </span>
           <span className="text-[var(--sage-ink-faint)]">
-            build&nbsp;<span className="text-[#0ED3CF]/80">2026.5</span>
+            build&nbsp;<span className="text-[#3D5AFE]/80">2026.5</span>
           </span>
         </footer>
       </div>
@@ -114,10 +114,10 @@ export function HeroManifestMobile() {
           </span>
           <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
             <span className="relative inline-flex h-1.5 w-1.5">
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
-              <span className="absolute inset-0 rounded-full bg-[#0ED3CF]" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE] [animation:status-dot_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+              <span className="absolute inset-0 rounded-full bg-[#3D5AFE]" />
             </span>
-            <span className="text-[#0ED3CF]/90">live</span>
+            <span className="text-[#3D5AFE]/90">live</span>
           </span>
         </div>
 
@@ -133,7 +133,7 @@ export function HeroManifestMobile() {
                 <span className="shrink-0 text-[11px] tracking-tight text-[var(--sage-ink)]">{row.name}</span>
                 <span className="truncate text-[9px] tracking-[0.04em] text-[var(--sage-ink-muted)]">{row.meta}</span>
               </span>
-              <span className="text-[9px] uppercase tracking-[0.18em] text-[#0ED3CF]/70">{row.status}</span>
+              <span className="text-[9px] uppercase tracking-[0.18em] text-[#3D5AFE]/70">{row.status}</span>
             </li>
           ))}
         </ul>
@@ -144,7 +144,7 @@ export function HeroManifestMobile() {
             <span className="text-[var(--sage-ink)]">06</span>&nbsp;products shipped
           </span>
           <span className="text-[var(--sage-ink-faint)]">
-            build&nbsp;<span className="text-[#0ED3CF]/70">2026.5</span>
+            build&nbsp;<span className="text-[#3D5AFE]/70">2026.5</span>
           </span>
         </div>
       </div>
@@ -154,7 +154,7 @@ export function HeroManifestMobile() {
 
 function CornerTicks() {
   // Four L-shaped hairline ticks at the panel corners — precision-instrument cue.
-  const base = 'pointer-events-none absolute h-3 w-3 border-[#0ED3CF]/40'
+  const base = 'pointer-events-none absolute h-3 w-3 border-[#3D5AFE]/40'
   return (
     <>
       <span className={`${base} -left-px -top-px border-l border-t`} aria-hidden />

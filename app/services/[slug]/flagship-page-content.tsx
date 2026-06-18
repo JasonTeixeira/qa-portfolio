@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { motion } from 'framer-motion'
 import { FileText, KeyRound, FlaskConical, Wallet, UserCheck } from 'lucide-react'
 import {
   Section,
@@ -30,6 +31,7 @@ import {
   LivingPageShell,
   LivingCTA,
 } from '@/components/living/LivingPageSystem'
+import { EASE_OUT_QUINT } from '@/lib/motion/presets'
 
 // ── Trust signals ──────────────────────────────────────────────────────────
 
@@ -157,7 +159,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               {visuals.story.headline.split(' ').slice(0, -2).join(' ')}{' '}
-              <span className="italic text-[#0ED3CF]">
+              <span className="italic text-[#3D5AFE]">
                 {visuals.story.headline.split(' ').slice(-2).join(' ')}
               </span>
             </>
@@ -177,7 +179,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon
-                      className="h-4 w-4 shrink-0 text-[#0ED3CF]"
+                      className="h-4 w-4 shrink-0 text-[#3D5AFE]"
                       aria-hidden
                     />
                     <MonoLabel tone="ink" className="text-[11px]">
@@ -203,7 +205,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               The architecture,{' '}
-              <span className="italic text-[#0ED3CF]">end to end.</span>
+              <span className="italic text-[#3D5AFE]">end to end.</span>
             </>
           }
           lede="No black boxes. Here's the actual shape of the system you get — with the guardrails, eval loops, and human approvals where they belong."
@@ -216,7 +218,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
                 subtitle={visuals.architecture.subtitle}
                 nodes={visuals.architecture.nodes}
                 connections={visuals.architecture.connections}
-                accent="#0ED3CF"
+                accent="#3D5AFE"
               />
             </Surface>
           </Reveal>
@@ -232,14 +234,14 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               A real call,{' '}
-              <span className="italic text-[#0ED3CF]">scripted from a deployment.</span>
+              <span className="italic text-[#3D5AFE]">scripted from a deployment.</span>
             </>
           }
           lede="No recording, no marketing voice-over. A line-by-line walk-through of how the agent handles a typical inbound — including the moment the caller asks if they're talking to AI."
           width="max-w-6xl"
         >
           <Reveal>
-            <VoiceAgentAudioCue accent="#0ED3CF" />
+            <VoiceAgentAudioCue accent="#3D5AFE" />
           </Reveal>
         </Section>
       )}
@@ -252,7 +254,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               Real use cases{' '}
-              <span className="italic text-[#0ED3CF]">we ship.</span>
+              <span className="italic text-[#3D5AFE]">we ship.</span>
             </>
           }
           width="max-w-6xl"
@@ -260,19 +262,24 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
         >
           <ul className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2 lg:grid-cols-3">
             {visuals.useCases.map((uc, i) => (
-              <Reveal key={uc.title} delay={i * 0.04} className="contents">
-                <li className="flex flex-col gap-3 bg-[var(--sage-surface-1)] px-6 py-7">
-                  <MonoLabel tone="accent" className="tabular-nums">
-                    {String(i + 1).padStart(2, '0')}
-                  </MonoLabel>
-                  <h3 className="text-[15px] font-medium text-[var(--sage-ink)] leading-snug">
-                    {uc.title}
-                  </h3>
-                  <p className="text-[13px] leading-[1.6] text-[var(--sage-ink-muted)]">
-                    {uc.description}
-                  </p>
-                </li>
-              </Reveal>
+              <motion.li
+                key={uc.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: i * 0.04 }}
+                className="flex flex-col gap-3 bg-[var(--sage-surface-1)] px-6 py-7"
+              >
+                <MonoLabel tone="accent" className="tabular-nums">
+                  {String(i + 1).padStart(2, '0')}
+                </MonoLabel>
+                <h3 className="text-[15px] font-medium text-[var(--sage-ink)] leading-snug">
+                  {uc.title}
+                </h3>
+                <p className="text-[13px] leading-[1.6] text-[var(--sage-ink-muted)]">
+                  {uc.description}
+                </p>
+              </motion.li>
             ))}
           </ul>
         </Section>
@@ -286,7 +293,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
         heading={
           <>
             The outcome,{' '}
-            <span className="italic text-[#0ED3CF]">not just the output.</span>
+            <span className="italic text-[#3D5AFE]">not just the output.</span>
           </>
         }
         width="max-w-6xl"
@@ -314,7 +321,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               How the agent{' '}
-              <span className="italic text-[#0ED3CF]">thinks.</span>
+              <span className="italic text-[#3D5AFE]">thinks.</span>
             </>
           }
           lede="The decision graph behind the engagement. Inputs, branches, and the point where a human stays in the loop."
@@ -340,7 +347,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               The dashboard{' '}
-              <span className="italic text-[#0ED3CF]">you actually use.</span>
+              <span className="italic text-[#3D5AFE]">you actually use.</span>
             </>
           }
           lede="Every flagship engagement ships with a control panel — live activity, eval pass rate, spend cap, and an approval queue you can act on from your phone."
@@ -357,7 +364,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               spendUsed={visuals.dashboard.spendUsed}
               spendCap={visuals.dashboard.spendCap}
               pendingApprovals={visuals.dashboard.pendingApprovals}
-              accent="#0ED3CF"
+              accent="#3D5AFE"
             />
           </Reveal>
         </Section>
@@ -371,7 +378,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               Estimate your{' '}
-              <span className="italic text-[#0ED3CF]">monthly run cost.</span>
+              <span className="italic text-[#3D5AFE]">monthly run cost.</span>
             </>
           }
           width="max-w-6xl"
@@ -388,7 +395,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               baseCost={visuals.costEstimator.baseCost}
               title={visuals.costEstimator.title}
               subtitle={visuals.costEstimator.subtitle}
-              accent="#0ED3CF"
+              accent="#3D5AFE"
             />
           </Reveal>
         </Section>
@@ -403,7 +410,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               How the engagement{' '}
-              <span className="italic text-[#0ED3CF]">actually runs.</span>
+              <span className="italic text-[#3D5AFE]">actually runs.</span>
             </>
           }
           lede="Concrete phases, concrete artifacts. You always know where we are and what comes next."
@@ -418,7 +425,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
                 {/* Phase index + label column */}
                 <div className="flex items-center gap-4 sm:w-52 sm:shrink-0">
                   <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-sm tabular-nums text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-sm tabular-nums text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
                     aria-hidden
                   >
                     {i + 1}
@@ -480,7 +487,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
         heading={
           <>
             Concrete artifacts you keep —{' '}
-            <span className="italic text-[#0ED3CF]">and what we leave out.</span>
+            <span className="italic text-[#3D5AFE]">and what we leave out.</span>
           </>
         }
         lede="Working code, written docs, dashboards your team owns. We also list what this engagement deliberately does not cover, so scope is honest before you sign."
@@ -497,7 +504,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
                 <li key={d} className="flex gap-3.5">
                   <span
                     aria-hidden
-                    className="mt-[9px] h-px w-4 shrink-0 bg-[#0ED3CF]"
+                    className="mt-[9px] h-px w-4 shrink-0 bg-[#3D5AFE]"
                   />
                   <span className="text-[14px] leading-[1.65] text-[var(--sage-ink)]">
                     {d}
@@ -540,7 +547,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
           heading={
             <>
               Extend the{' '}
-              <span className="italic text-[#0ED3CF]">engagement.</span>
+              <span className="italic text-[#3D5AFE]">engagement.</span>
             </>
           }
           width="max-w-6xl"
@@ -608,7 +615,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
         />
         {/* Corner ticks — precision framing */}
         <div aria-hidden className="pointer-events-none absolute inset-6 sm:inset-10">
-          <RegistrationTicks size={16} color="rgba(14,211,207,0.3)" />
+          <RegistrationTicks size={16} color="rgba(61,90,254,0.3)" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-8 text-center">
@@ -630,7 +637,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
               }}
             >
               Ready to scope{' '}
-              <span className="italic text-[#0ED3CF]">{tier.shortName}?</span>
+              <span className="italic text-[#3D5AFE]">{tier.shortName}?</span>
             </h2>
 
             <p className="mx-auto mt-5 max-w-[52ch] text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">

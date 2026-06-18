@@ -1,3 +1,5 @@
+import type { ClusterKey } from '@/lib/blog-schema'
+
 export type AcademyTrack = {
   slug: string
   label: string
@@ -9,6 +11,15 @@ export type AcademyTrack = {
   format: string
   cta: string
   lessons: string[]
+}
+
+export const academyTrackByCluster: Record<ClusterKey, string> = {
+  'testing-qa': 'premium-conversion-sites',
+  'ai-engineering': 'ai-automation-systems',
+  'fintech-trading': 'ai-native-product-building',
+  'cloud-infra': 'ai-native-product-building',
+  'solo-studio': 'content-engine',
+  'product-systems': 'ai-native-product-building',
 }
 
 export const academyTracks: AcademyTrack[] = [
@@ -68,6 +79,10 @@ export const academyTracks: AcademyTrack[] = [
 
 export function getAcademyTrack(slug: string): AcademyTrack | undefined {
   return academyTracks.find((track) => track.slug === slug)
+}
+
+export function getAcademyTrackForCluster(cluster: ClusterKey): AcademyTrack {
+  return getAcademyTrack(academyTrackByCluster[cluster]) ?? academyTracks[0]
 }
 
 export const academyPrinciples = [

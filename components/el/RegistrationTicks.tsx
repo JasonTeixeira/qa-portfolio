@@ -15,7 +15,7 @@ export interface RegistrationTicksProps {
  * parent must be `position: relative`.
  */
 export function RegistrationTicks({
-  color = 'rgba(14,211,207,0.4)',
+  color = 'rgba(61,90,254,0.4)',
   size = 12,
   className,
 }: RegistrationTicksProps) {

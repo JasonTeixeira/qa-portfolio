@@ -2,7 +2,7 @@
 
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import matter from 'gray-matter'
+import { parseFrontmatter } from '../lib/frontmatter.mjs'
 
 const ROOT = process.cwd()
 const SOURCE_ROOT = process.env.SAGE_AFTER_DARK_ROOT || '/Users/Sage/code/active/sage-after-dark'
@@ -26,7 +26,7 @@ async function readMdxPosts() {
   return Promise.all(
     files.map(async (file) => {
       const raw = await fs.readFile(path.join(POSTS_DIR, file), 'utf8')
-      const { data, content } = matter(raw)
+      const { data, content } = parseFrontmatter(raw)
       const slug = data.slug ?? file.replace(/\.mdx$/, '')
       return {
         source: `src/content/posts/${file}`,

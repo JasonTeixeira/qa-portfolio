@@ -43,7 +43,7 @@ export default function NotFound() {
               </div>
               <div className="space-y-0.5 px-5 py-4 text-[11px] leading-relaxed">
                 <div>
-                  <span className="text-[#0ED3CF]">$</span>{' '}
+                  <span className="text-[#3D5AFE]">$</span>{' '}
                   <span className="text-[var(--sage-ink-muted)]">curl -I sageideas.dev/&lt;requested-route&gt;</span>
                 </div>
                 <div className="text-[var(--sage-coral)]">HTTP/2 404</div>
@@ -62,14 +62,14 @@ export default function NotFound() {
                 letterSpacing: '-0.03em',
               }}
             >
-              404<span className="text-[#0ED3CF]">.</span>
+              404<span className="text-[#3D5AFE]">.</span>
             </h1>
 
             <Hairline accentLead className="mt-6 max-w-xs" />
 
             <p className="mt-5 max-w-[42ch] text-base leading-relaxed text-[var(--sage-ink-muted)]">
               Route not on the map. Either it moved, never existed, or it failed its own smoke test.
-              Either way — not your fault. The doors that <em className="not-italic text-[#0ED3CF]">do</em> open are on the right.
+              Either way — not your fault. The doors that <em className="not-italic text-[#3D5AFE]">do</em> open are on the right.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -107,7 +107,7 @@ export default function NotFound() {
                       {l.label}
                     </span>
                     <ArrowRight
-                      className="h-3 w-3 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+                      className="h-3 w-3 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#3D5AFE]"
                       aria-hidden
                     />
                   </div>

@@ -36,7 +36,7 @@ export function ReferenceRoster({ references, trustedBy }: ReferenceRosterProps)
                 <div className="mt-5 flex items-center gap-3">
                   <span
                     aria-hidden
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] text-[11px] font-medium text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[2px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] text-[11px] font-medium text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
                   >
                     {initials}
                   </span>
@@ -62,7 +62,7 @@ export function ReferenceRoster({ references, trustedBy }: ReferenceRosterProps)
                   <>
                     <Hairline className="mt-5" />
                     <div className="mt-4 flex items-center gap-2 text-xs text-[var(--sage-ink-faint)]">
-                      <Phone className="h-3.5 w-3.5 text-[#0ED3CF]/70" aria-hidden />
+                      <Phone className="h-3.5 w-3.5 text-[#3D5AFE]/70" aria-hidden />
                       <span>
                         Reference call shared during discovery, both consenting.
                       </span>

@@ -28,4 +28,185 @@ canonical: 'https://www.sageideas.dev/blog/fixing-docker-compose-connection-erro
 ---
 # Fixing Docker Compose Connection Errors in CI/CD
 
-Picture this: Your Docker Compose setup works perfectly on your local machine. You push to Jenkins, and suddenly: \
+Picture this: your Docker Compose setup works perfectly on your local machine. You push to CI, and suddenly every integration test fails with `Connection refused`.
+
+The database container is "running." The API container is "healthy." The test process starts. Then it cannot connect to the service it needs.
+
+This failure looks random until you remember one thing: local Docker networking and CI Docker networking are not the same environment.
+
+:::proof-note title="The actual lesson" label="ci note"
+Most Docker Compose connection errors in CI are not Docker problems. They are timing, hostname, port, or network-boundary problems that local development hides.
+:::
+
+## The local setup lies to you
+
+On your machine, you might connect to Postgres at `localhost:5432`.
+
+Inside a Compose network, another container should usually connect to `postgres:5432`, where `postgres` is the service name.
+
+In CI, the test runner may be:
+
+- inside the Compose network
+- outside the Compose network on the host
+- inside a CI service container
+- inside a nested Docker executor
+
+Those four cases use different hostnames.
+
+That is why a connection string can be "correct" locally and wrong in the pipeline.
+
+## First, identify where the test process runs
+
+Before changing ports, ask one question:
+
+> Is the test command running inside a Compose service or on the CI host?
+
+If tests run inside Compose:
+
+```txt
+DATABASE_URL=postgres://user:pass@postgres:5432/app
+```
+
+If tests run on the CI host and Compose published the port:
+
+```txt
+DATABASE_URL=postgres://user:pass@127.0.0.1:5432/app
+```
+
+If tests run in a separate CI container, neither may work until the CI platform's service networking is configured.
+
+:::system-diagram title="CI networking decision" label="compose -> tests" nodes="Compose service,Network,Test runner,Database"
+The right hostname depends on where the test runner lives. Service names work inside the Compose network. Published localhost ports work from the host.
+:::
+
+## Do not trust `depends_on` as readiness
+
+`depends_on` can control start order. It does not guarantee that Postgres, Redis, or your app is ready to accept connections.
+
+The common bad version:
+
+```yaml
+services:
+  api:
+    depends_on:
+      - postgres
+```
+
+That only means the `postgres` container starts before `api`. It does not mean migrations ran. It does not mean TCP is ready. It does not mean the database accepted authentication.
+
+Use health checks or an explicit wait script.
+
+```yaml
+services:
+  postgres:
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  api:
+    depends_on:
+      postgres:
+        condition: service_healthy
+```
+
+That still does not solve every CI platform, but it removes the most common race.
+
+## Check the four failure classes
+
+When I see `Connection refused`, I work through this order.
+
+:::checklist title="Docker Compose CI checklist" label="debug order"
+- Confirm the test runner location: host, Compose service, or CI service container
+- Confirm the hostname: service name vs 127.0.0.1 vs platform service alias
+- Confirm the published port is actually mapped
+- Confirm the dependency is healthy before tests start
+- Print the resolved environment variables in CI without leaking secrets
+- Run a tiny TCP check before the full test suite
+:::
+
+The TCP check is boring but useful:
+
+```bash
+node -e "require('net').connect(5432, process.env.DB_HOST).on('connect', () => { console.log('ok'); process.exit(0) }).on('error', e => { console.error(e.message); process.exit(1) })"
+```
+
+If that fails, your application test suite is not the thing to debug yet.
+
+## Use different connection strings for different boundaries
+
+One clean pattern is to make the boundary explicit:
+
+```env
+DATABASE_URL_INTERNAL=postgres://app:app@postgres:5432/app
+DATABASE_URL_HOST=postgres://app:app@127.0.0.1:5432/app
+```
+
+Then your CI job chooses the right one based on where the command runs.
+
+This is less magical than trying to make one URL work everywhere.
+
+:::scorecard title="Connection-string sanity check" label="scorecard"
+Runner location | Hostname | Port source
+Inside Compose | postgres | Container port
+CI host | 127.0.0.1 | Published port
+CI service container | Service alias | Platform service config
+Remote DB | Public/private DB host | Network allowlist
+:::
+
+## Keep migrations separate from readiness
+
+A database can be healthy before the schema is ready.
+
+If your app needs migrations, make that an explicit pipeline step:
+
+```bash
+docker compose up -d postgres
+docker compose run --rm migrate
+docker compose run --rm test
+```
+
+Or run tests inside a service that waits for both:
+
+- database health
+- migrations complete
+- seed data loaded
+
+Otherwise you get a worse class of failure: intermittent test errors that look like app bugs but are really setup races.
+
+## The debug output I want in every CI failure
+
+Do not dump secrets. Do print the shape of the environment.
+
+Useful output:
+
+- Docker Compose services and status
+- container logs for the dependency
+- resolved host and port, with password redacted
+- network names
+- health-check status
+- migration status
+
+Example:
+
+```bash
+docker compose ps
+docker compose logs --tail=80 postgres
+docker network ls
+```
+
+The goal is to make the next failure diagnosable in one pass.
+
+## The production lesson
+
+CI networking pain is a preview of production integration pain.
+
+If your tests depend on hope, your deployments probably do too. Make service boundaries explicit. Add health checks. Split readiness from migrations. Log the right facts.
+
+That is how you turn "works on my machine" into something a pipeline can prove.
+
+:::offer-cta title="Need the pipeline cleaned up?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the diagnostic to decide whether this is a focused audit sprint, a platform build, or an academy path you can work through yourself.
+:::

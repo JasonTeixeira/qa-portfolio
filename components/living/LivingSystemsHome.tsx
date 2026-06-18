@@ -4,8 +4,50 @@ import type { CSSProperties, ReactNode } from 'react'
 import { livingProjects, type LivingProject } from '@/data/home/living-projects'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
+import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
+import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import styles from './LivingSystemsHome.module.css'
+
+const offerMatrix = [
+  {
+    code: '01',
+    label: 'Studio',
+    title: 'Hire the build system',
+    text: 'Product, app, AI, brand, site, checkout, analytics, and growth loops built as one operating system.',
+    href: '/services',
+    fit: 'Done-for-you',
+    cta: 'Studio',
+  },
+  {
+    code: '02',
+    label: 'Academy',
+    title: 'Learn the build system',
+    text: 'Courses, templates, teardown lessons, and operating notes for founders who want to build the system themselves.',
+    href: '/academy',
+    fit: 'Courses',
+    cta: 'Academy',
+  },
+  {
+    code: '03',
+    label: 'Resources',
+    title: 'Use the free system',
+    text: 'SEO audits, calculators, field notes, reports, templates, and public receipts that compound search demand.',
+    href: '/blog',
+    fit: 'Proof + tools',
+    cta: 'Resources',
+  },
+  {
+    code: '04',
+    label: 'Diagnostic',
+    title: 'Find the right route',
+    text: 'Answer four questions and get routed to studio, audit, automation, academy, or the next best free resource.',
+    href: '/tools/route-finder?source=home_matrix',
+    fit: 'Start here',
+    cta: 'Route finder',
+  },
+] as const
 
 const services = [
   ['S-01', 'AI Systems', 'Agents, copilots, retrieval, voice, and workflow automation that run inside the real business.'],
@@ -65,15 +107,43 @@ export function LivingSystemsHome() {
   return (
     <div className={styles.page}>
       <LivingSystemsMotion />
-      <div className={styles.loader} data-living-loader aria-hidden="true">
-        <span className={styles.loaderMark}>
-          <svg viewBox="0 0 24 24" width="54" height="54" fill="none">
-            <path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" />
-            <path d="M12 2 V22 M3 7 L21 17 M21 7 L3 17" />
-          </svg>
-        </span>
-        <span className={styles.loaderBar}><i /></span>
-        <span className={styles.loaderText}>Initializing system · 100</span>
+      <div className={styles.loader} data-living-loader role="status" aria-live="polite" aria-label="Sage Living OS boot sequence">
+        <div className={styles.bootFrame}>
+          <div className={styles.bootHeader}>
+            <span>Sage Living OS</span>
+            <button type="button" data-living-splash-skip aria-label="Skip intro">Skip</button>
+          </div>
+          <div className={styles.bootCore}>
+            <span className={styles.loaderMark}>
+              <svg viewBox="0 0 42 42" width="72" height="72" fill="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="living-loader-mark" x1="4" x2="38" y1="8" y2="34" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stopColor="#3D5AFE" />
+                    <stop offset="0.55" stopColor="#7C3AED" />
+                    <stop offset="1" stopColor="#FF2D9B" />
+                  </linearGradient>
+                </defs>
+                <path d="M28.8 7.6c-7.8 1.2-16.3 7-17.5 12.1-.8 3.4 2.2 5.1 8.2 6.7 5.8 1.5 8.8 2.8 8.4 5.3-.5 3.3-7.1 5.1-14.9 4.3" />
+                <circle cx="30" cy="8" r="3.8" />
+                <circle cx="13.5" cy="35.7" r="2.8" />
+              </svg>
+            </span>
+            <div>
+              <p className={styles.loaderText}>Booting product, brand, and AI system</p>
+              <p className={styles.bootSubcopy}>Surface to system. Studio to academy. Content to qualified demand.</p>
+            </div>
+          </div>
+          <div className={styles.bootModules} aria-hidden="true">
+            {['Studio', 'Academy', 'Proof', 'Tools', 'Content'].map((label) => (
+              <span key={label} data-living-boot-module>{label}</span>
+            ))}
+          </div>
+          <span className={styles.loaderBar}><i data-living-boot-progress /></span>
+          <div className={styles.bootFooter}>
+            <span data-living-boot-status>Initializing modules</span>
+            <span>Native scroll · reduced-motion safe</span>
+          </div>
+        </div>
       </div>
 
       <nav className={styles.progress} aria-label="Page progress">
@@ -91,6 +161,7 @@ export function LivingSystemsHome() {
       <div className={styles.cursor} data-living-cursor aria-hidden="true">
         <span />
       </div>
+      <LivingSoundControl />
       <div className={styles.grade} aria-hidden="true" />
       <div className={styles.grain} aria-hidden="true" />
 
@@ -110,23 +181,106 @@ export function LivingSystemsHome() {
             system (AI, apps, SaaS, brand, growth) to work for yours. From someone who
             <strong> builds</strong>, not someone who just pitches.
           </p>
-          <div className={styles.ctas}>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonPrimary}`}
-              href="/contact?source=home_hero"
-              event="cta_click"
-              eventProps={{ location: 'living_hero', label: 'start_project' }}
-            >
-              <span>Start a project</span><span aria-hidden="true">→</span>
-            </TrackedLink>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonGhost}`}
-              href="#work"
-              event="cta_click"
-              eventProps={{ location: 'living_hero', label: 'see_work' }}
-            >
-              <span>See the work</span><span aria-hidden="true">↘</span>
-            </TrackedLink>
+          <div className={styles.heroActions}>
+            <div className={styles.ctas}>
+              <TrackedLink
+                className={`${styles.button} ${styles.buttonPrimary}`}
+                href="/contact?source=home_hero"
+                event="cta_click"
+                eventProps={{ location: 'living_hero', label: 'start_project' }}
+              >
+                <span>Start a project</span><span aria-hidden="true">→</span>
+              </TrackedLink>
+              <TrackedLink
+                className={`${styles.button} ${styles.buttonGhost}`}
+                href="#work"
+                event="cta_click"
+                eventProps={{ location: 'living_hero', label: 'see_work' }}
+              >
+                <span>See the work</span><span aria-hidden="true">↘</span>
+              </TrackedLink>
+            </div>
+            <div className={styles.pathMatrix} aria-label="Choose your Sage Ideas path">
+              <div className={styles.pathMatrixHeader}>
+                <span>Choose your path</span>
+                <b>Studio ⇄ Academy</b>
+              </div>
+              <div className={styles.pathTiles}>
+                {offerMatrix.map((item) => (
+                  <TrackedLink
+                    className={styles.pathTile}
+                    href={item.href}
+                    key={item.label}
+                    event="cta_click"
+                    eventProps={{ location: 'home_first_viewport_matrix', label: item.label, href: item.href }}
+                  >
+                    <SystemFlowOverlay variant={item.label === 'Academy' ? 'academy' : item.label === 'Resources' ? 'growth' : 'systems'} intensity="quiet" />
+                    <span>{item.code}</span>
+                    <strong>{item.label}</strong>
+                    <small>{item.fit}</small>
+                  </TrackedLink>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <RouteFinderHeroExperiment surface="home" />
+        <div className={styles.offerSystem} data-living-reveal aria-label="Sage Ideas offer system">
+          <div className={styles.offerDiagram} aria-hidden="true">
+            <svg viewBox="0 0 620 260">
+              <defs>
+                <linearGradient id="offer-flow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#3D5AFE" />
+                  <stop offset="0.55" stopColor="#7C3AED" />
+                  <stop offset="1" stopColor="#FF2D9B" />
+                </linearGradient>
+              </defs>
+              <path
+                className={styles.offerGhost}
+                d="M92 136 C184 28 319 28 406 118 C456 170 506 193 572 134"
+                fill="none"
+                stroke="rgba(242,239,233,0.16)"
+                strokeLinecap="round"
+                strokeWidth="1"
+              />
+              <path
+                className={styles.offerFlow}
+                d="M92 136 C184 28 319 28 406 118 C456 170 506 193 572 134"
+                fill="none"
+                stroke="url(#offer-flow)"
+                strokeLinecap="round"
+                strokeWidth="3"
+              />
+              {[
+                [92, 136, 'Studio'],
+                [306, 66, 'Product'],
+                [406, 118, 'Academy'],
+                [572, 134, 'Resources'],
+              ].map(([x, y, label]) => (
+                <g key={label}>
+                  <circle cx={x} cy={y} r="9" />
+                  <text x={x} y={Number(y) + 30}>{label}</text>
+                </g>
+              ))}
+            </svg>
+          </div>
+          <div className={styles.offerCards}>
+            {offerMatrix.map((item) => (
+              <TrackedLink
+                href={item.href}
+                className={styles.offerCard}
+                key={item.label}
+                event="cta_click"
+                eventProps={{ location: 'home_offer_system', label: item.label, href: item.href }}
+              >
+                <SystemFlowOverlay variant={item.label === 'Academy' ? 'academy' : item.label === 'Resources' ? 'growth' : 'systems'} intensity="quiet" />
+                <span>{item.code}</span>
+                <b>{item.label}</b>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+                <small>{item.cta} →</small>
+              </TrackedLink>
+            ))}
           </div>
         </div>
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">

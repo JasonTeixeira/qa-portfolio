@@ -2,7 +2,7 @@
 
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import matter from 'gray-matter'
+import { parseFrontmatter } from '../lib/frontmatter.mjs'
 
 const ROOT = process.cwd()
 const BLOG_DIR = path.join(ROOT, 'content', 'blog')
@@ -53,7 +53,7 @@ async function main() {
   for (const file of files) {
     const slug = file.replace(/\.mdx$/, '')
     const raw = await fs.readFile(path.join(BLOG_DIR, file), 'utf8')
-    const { data, content } = matter(raw)
+    const { data, content } = parseFrontmatter(raw)
     const cluster = data.cluster ?? deriveCluster(data, slug)
     const score = scorePost({ data, content, cluster })
     items.push({

@@ -35,7 +35,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
             </span>
             <span
               aria-hidden
-              className="mt-0.5 shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-open:rotate-45 group-open:text-[#0ED3CF]"
+              className="mt-0.5 shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-open:rotate-45 group-open:text-[#3D5AFE]"
             >
               +
             </span>

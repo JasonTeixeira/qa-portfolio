@@ -105,13 +105,13 @@ export default function LabPage() {
             >
               <Surface level={2} interactive className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-[#0ED3CF]/20 bg-[#0ED3CF]/10 shrink-0">
-                    <Gauge className="h-5 w-5 text-[#0ED3CF]" aria-hidden />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-[#3D5AFE]/20 bg-[#3D5AFE]/10 shrink-0">
+                    <Gauge className="h-5 w-5 text-[#3D5AFE]" aria-hidden />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm text-[var(--sage-ink)]">AI Readiness Score</h3>
-                      <ArrowRight className="h-4 w-4 text-[var(--sage-ink-faint)] transition-all group-hover:translate-x-1 group-hover:text-[#0ED3CF]" aria-hidden />
+                      <ArrowRight className="h-4 w-4 text-[var(--sage-ink-faint)] transition-all group-hover:translate-x-1 group-hover:text-[#3D5AFE]" aria-hidden />
                     </div>
                     <p className="mt-1 text-sm text-[var(--sage-ink-muted)]">
                       10-question diagnostic across data, infra, process, talent, and ROI clarity. Personalized next step.
@@ -126,13 +126,13 @@ export default function LabPage() {
             >
               <Surface level={2} interactive className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-[#0ED3CF]/20 bg-[#0ED3CF]/10 shrink-0">
-                    <Calculator className="h-5 w-5 text-[#0ED3CF]" aria-hidden />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-[#3D5AFE]/20 bg-[#3D5AFE]/10 shrink-0">
+                    <Calculator className="h-5 w-5 text-[#3D5AFE]" aria-hidden />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm text-[var(--sage-ink)]">ROI calculators</h3>
-                      <ArrowRight className="h-4 w-4 text-[var(--sage-ink-faint)] transition-all group-hover:translate-x-1 group-hover:text-[#0ED3CF]" aria-hidden />
+                      <ArrowRight className="h-4 w-4 text-[var(--sage-ink-faint)] transition-all group-hover:translate-x-1 group-hover:text-[#3D5AFE]" aria-hidden />
                     </div>
                     <p className="mt-1 text-sm text-[var(--sage-ink-muted)]">
                       Five interactive estimates: AI SDR, support agent, RAG, voice, churn prediction.

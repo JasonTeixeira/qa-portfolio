@@ -29,9 +29,9 @@ export function CaseStudyExtras({ extras }: Props) {
       <div className="mx-auto max-w-4xl space-y-16 px-5 py-16 sm:px-8 lg:py-24">
         {/* Pull quote */}
         {extras.pullQuote && (
-          <figure className="border-l border-[#0ED3CF] pl-6 sm:pl-8">
+          <figure className="border-l border-[#3D5AFE] pl-6 sm:pl-8">
             <blockquote
-              className="text-[clamp(1.5rem,1.1rem+1.6vw,2.5rem)] font-normal leading-[1.18] tracking-[-0.018em] text-[var(--sage-ink)]"
+              className="text-[clamp(1.5rem,_1.1rem_+_1.6vw,_2.5rem)] font-normal leading-[1.18] tracking-[-0.018em] text-[var(--sage-ink)]"
               style={DISPLAY_STYLE}
             >
               <span className="italic">&ldquo;{extras.pullQuote}&rdquo;</span>
@@ -50,7 +50,7 @@ export function CaseStudyExtras({ extras }: Props) {
               <Hairline className="flex-1" />
             </div>
             <h2
-              className="text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] font-normal tracking-[-0.018em] text-[var(--sage-ink)]"
+              className="text-[clamp(1.6rem,_1.2rem_+_1.4vw,_2.25rem)] font-normal tracking-[-0.018em] text-[var(--sage-ink)]"
               style={DISPLAY_STYLE}
             >
               What almost happened.
@@ -74,7 +74,7 @@ export function CaseStudyExtras({ extras }: Props) {
               <Hairline className="flex-1" />
             </div>
             <h2
-              className="text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] font-normal tracking-[-0.018em] text-[var(--sage-ink)]"
+              className="text-[clamp(1.6rem,_1.2rem_+_1.4vw,_2.25rem)] font-normal tracking-[-0.018em] text-[var(--sage-ink)]"
               style={DISPLAY_STYLE}
             >
               Inline excerpts.

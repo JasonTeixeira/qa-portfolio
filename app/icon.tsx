@@ -28,7 +28,7 @@ export default function Icon() {
             fontWeight: 800,
             fontFamily: 'Georgia, serif',
             fontStyle: 'italic',
-            background: 'linear-gradient(180deg, #E85D3A 0%, #C7236E 35%, #A8C633 65%, #0ED3CF 100%)',
+            background: 'linear-gradient(180deg, #E85D3A 0%, #C7236E 35%, #A8C633 65%, #3D5AFE 100%)',
             backgroundClip: 'text',
             color: 'transparent',
             WebkitBackgroundClip: 'text',

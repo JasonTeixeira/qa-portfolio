@@ -97,7 +97,7 @@ export function ContactContent() {
           <p className="text-[#A8A29E] mb-8">
             {"Thanks for reaching out. I'll get back to you within 24 hours."}
           </p>
-          <Button asChild className="bg-[#0ED3CF] text-[#09090B] hover:bg-[#22D3EE]">
+          <Button asChild className="bg-[#3D5AFE] text-[#09090B] hover:bg-[#5670ff]">
             <Link href="/">Back to Home</Link>
           </Button>
         </motion.div>
@@ -115,7 +115,7 @@ export function ContactContent() {
           </p>
           <a
             href="mailto:sage@sageideas.org?subject=Quick hello"
-            className="inline-flex items-center gap-2 text-sm font-mono text-[#0ED3CF] hover:text-[#F4F2EF] transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-2 text-sm font-mono text-[#3D5AFE] hover:text-[#F4F2EF] transition-colors whitespace-nowrap"
           >
             <Mail className="w-4 h-4" aria-hidden />
             sage@sageideas.org →
@@ -162,7 +162,7 @@ export function ContactContent() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#0ED3CF] transition-colors"
+                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#3D5AFE] transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -176,7 +176,7 @@ export function ContactContent() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#0ED3CF] transition-colors"
+                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#3D5AFE] transition-colors"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -191,7 +191,7 @@ export function ContactContent() {
                   id="company"
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#0ED3CF] transition-colors"
+                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#3D5AFE] transition-colors"
                   placeholder="Your company (optional)"
                 />
               </div>
@@ -205,7 +205,7 @@ export function ContactContent() {
                   required
                   value={formData.inquiryType}
                   onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#0ED3CF] transition-colors"
+                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#3D5AFE] transition-colors"
                 >
                   <option value="" className="text-[#78716C]">Select an option</option>
                   {inquiryTypes.map((type) => (
@@ -229,7 +229,7 @@ export function ContactContent() {
                     id="budget"
                     value={formData.budget}
                     onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#0ED3CF] transition-colors"
+                    className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#3D5AFE] transition-colors"
                   >
                     <option value="">Select a range</option>
                     {budgetRanges.map((range) => (
@@ -251,7 +251,7 @@ export function ContactContent() {
                   rows={6}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#0ED3CF] transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-[#1A1917] border border-[#2A2826] rounded-xl text-[#FAFAFA] placeholder-[#78716C] focus:outline-none focus:border-[#3D5AFE] transition-colors resize-none"
                   placeholder="Tell me about your project, role, or question..."
                 />
               </div>
@@ -274,7 +274,7 @@ export function ContactContent() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#0ED3CF] text-[#09090B] hover:bg-[#22D3EE] font-semibold py-6 text-lg btn-glow disabled:opacity-50"
+                className="w-full bg-[#3D5AFE] text-[#09090B] hover:bg-[#5670ff] font-semibold py-6 text-lg btn-glow disabled:opacity-50"
               >
                 {isSubmitting ? (
                   'Sending...'
@@ -304,7 +304,7 @@ export function ContactContent() {
               <h3 className="font-semibold text-[#FAFAFA] mb-4">Contact Information</h3>
               <Link
                 href="mailto:sage@sageideas.org"
-                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#0ED3CF] transition-colors"
+                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#3D5AFE] transition-colors"
               >
                 <Mail className="h-5 w-5" />
                 sage@sageideas.org
@@ -313,7 +313,7 @@ export function ContactContent() {
                 href="https://linkedin.com/in/jason-teixeira"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#0ED3CF] transition-colors"
+                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#3D5AFE] transition-colors"
               >
                 <Linkedin className="h-5 w-5" />
                 linkedin.com/in/jason-teixeira
@@ -322,7 +322,7 @@ export function ContactContent() {
                 href="https://github.com/JasonTeixeira"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#0ED3CF] transition-colors"
+                className="flex items-center gap-3 text-[#A8A29E] hover:text-[#3D5AFE] transition-colors"
               >
                 <Github className="h-5 w-5" />
                 github.com/JasonTeixeira
@@ -353,7 +353,7 @@ export function ContactContent() {
             </div>
 
             {/* Book a Call */}
-            <div className="p-6 bg-gradient-to-br from-[#0ED3CF]/10 to-[#E85D3A]/10 border border-[#0ED3CF]/20 rounded-2xl">
+            <div className="p-6 bg-gradient-to-br from-[#3D5AFE]/10 to-[#E85D3A]/10 border border-[#3D5AFE]/20 rounded-2xl">
               <h3 className="font-semibold text-[#FAFAFA] mb-2">Prefer to Talk?</h3>
               <p className="text-sm text-[#A8A29E] mb-4">
                 Book a free 30-minute discovery call. No pressure — just a conversation about what you need.
@@ -362,7 +362,7 @@ export function ContactContent() {
                 href="https://cal.com/jason-teixeira-8elz3z"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full px-4 py-3 bg-[#0ED3CF] text-[#09090B] font-semibold rounded-xl hover:bg-[#22D3EE] transition-colors btn-glow"
+                className="inline-flex items-center justify-center w-full px-4 py-3 bg-[#3D5AFE] text-[#09090B] font-semibold rounded-xl hover:bg-[#5670ff] transition-colors btn-glow"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Book a Call

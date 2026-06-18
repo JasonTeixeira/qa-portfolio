@@ -153,14 +153,14 @@ function studioEngagementContent() {
       <section className="relative overflow-hidden border-b border-[#2A2826]">
         <HeroMotionLayer intensity="low" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06] px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#0ED3CF] mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#3D5AFE]/30 bg-[#3D5AFE]/[0.06] px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#3D5AFE] mb-6">
             <Lock className="w-3 h-3" /> By application only
           </div>
           <SectionLabel>Studio Engagement</SectionLabel>
           <h1 className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-normal text-[#FAFAFA] tracking-tight leading-[1.05]">
             One quarter. One keyboard.
             <br />
-            <span className="text-[#0ED3CF]">Production-grade software</span>
+            <span className="text-[#3D5AFE]">Production-grade software</span>
             <br /> shipped end-to-end.
           </h1>
           <p className="mt-6 text-lg lg:text-xl text-[#A8A29E] leading-relaxed max-w-2xl">
@@ -202,14 +202,14 @@ function studioEngagementContent() {
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href="/contact?type=studio&source=studio-engagement"
-              className="inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
             >
               Apply for a quarter
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/book"
-              className="inline-flex items-center gap-2 border border-[#2A2826] hover:border-[#0ED3CF]/50 text-[#FAFAFA] px-6 py-3 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 border border-[#2A2826] hover:border-[#3D5AFE]/50 text-[#FAFAFA] px-6 py-3 rounded-lg transition-colors"
             >
               Book a discovery call first
             </Link>
@@ -234,7 +234,7 @@ function studioEngagementContent() {
                   key={line}
                   className="flex items-start gap-3 text-[#D4D4D8] leading-relaxed"
                 >
-                  <Check className="w-4 h-4 text-[#0ED3CF] mt-1 shrink-0" />
+                  <Check className="w-4 h-4 text-[#3D5AFE] mt-1 shrink-0" />
                   <span>{line}</span>
                 </li>
               ))}
@@ -262,7 +262,7 @@ function studioEngagementContent() {
               For one-shot work, see the{' '}
               <Link
                 href="/pricing"
-                className="text-[#0ED3CF] hover:text-[#22D3EE] underline-offset-4 hover:underline"
+                className="text-[#3D5AFE] hover:text-[#5670ff] underline-offset-4 hover:underline"
               >
                 productized tiers
               </Link>
@@ -283,7 +283,7 @@ function studioEngagementContent() {
             {includes.map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#0ED3CF]/30 transition-colors"
+                className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-6 hover:border-[#3D5AFE]/30 transition-colors"
               >
                 <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">
                   {item.title}
@@ -310,7 +310,7 @@ function studioEngagementContent() {
               className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-6 grid md:grid-cols-[180px_1fr] gap-4 items-start"
             >
               <div className="flex md:flex-col items-center md:items-start gap-3 md:gap-1">
-                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#0ED3CF]">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#3D5AFE]">
                   Phase {String(i + 1).padStart(2, '0')}
                 </div>
                 <div className="text-sm font-mono text-[#A8A29E]">{p.label}</div>
@@ -369,7 +369,7 @@ function studioEngagementContent() {
                 className="rounded-2xl border border-[#2A2826] bg-[#12110F] p-6"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="text-xs font-mono text-[#0ED3CF]">{step.n}</div>
+                  <div className="text-xs font-mono text-[#3D5AFE]">{step.n}</div>
                   <step.icon className="w-4 h-4 text-[#A8A29E]" />
                 </div>
                 <h3 className="text-base font-semibold text-[#FAFAFA] mb-2">
@@ -386,7 +386,7 @@ function studioEngagementContent() {
 
       {/* Final CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.08),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(61,90,254,0.08),transparent_70%)]" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <SectionLabel>Three slots open this year</SectionLabel>
           <h2 className="mt-4 text-4xl sm:text-5xl font-normal text-[#FAFAFA] tracking-tight leading-tight">
@@ -400,7 +400,7 @@ function studioEngagementContent() {
           <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/contact?type=studio&source=studio-engagement"
-              className="inline-flex items-center justify-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-semibold px-6 py-3 rounded-lg transition-colors"
             >
               Apply for a quarter <ArrowRight className="w-4 h-4" />
             </Link>

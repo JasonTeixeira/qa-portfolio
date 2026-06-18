@@ -95,7 +95,7 @@ export function ScreensCarousel({ screens }: ScreensCarouselProps) {
               type="button"
               onClick={prev}
               aria-label="Previous screen"
-              className="absolute left-3 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-full border border-[#3F3F46] bg-[#09090B]/70 text-[#FAFAFA] hover:bg-[#1A1917] hover:border-[#0ED3CF]/60 backdrop-blur-sm transition-colors"
+              className="absolute left-3 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-full border border-[#3F3F46] bg-[#09090B]/70 text-[#FAFAFA] hover:bg-[#1A1917] hover:border-[#3D5AFE]/60 backdrop-blur-sm transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -103,7 +103,7 @@ export function ScreensCarousel({ screens }: ScreensCarouselProps) {
               type="button"
               onClick={next}
               aria-label="Next screen"
-              className="absolute right-3 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-full border border-[#3F3F46] bg-[#09090B]/70 text-[#FAFAFA] hover:bg-[#1A1917] hover:border-[#0ED3CF]/60 backdrop-blur-sm transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-full border border-[#3F3F46] bg-[#09090B]/70 text-[#FAFAFA] hover:bg-[#1A1917] hover:border-[#3D5AFE]/60 backdrop-blur-sm transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -133,7 +133,7 @@ export function ScreensCarousel({ screens }: ScreensCarouselProps) {
               aria-current={i === index}
               className={`relative shrink-0 w-32 aspect-video rounded-md overflow-hidden border transition-all duration-200 ${
                 i === index
-                  ? 'border-[#0ED3CF] ring-2 ring-[#0ED3CF]/40'
+                  ? 'border-[#3D5AFE] ring-2 ring-[#3D5AFE]/40'
                   : 'border-[#2A2826] hover:border-[#3F3F46] opacity-70 hover:opacity-100'
               }`}
             >

@@ -11,6 +11,7 @@ import { ScreenViewer } from '@/components/el/work/ScreenViewer'
 import { BuildLog } from '@/components/el/work/BuildLog'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { MotionProofStrip, SurfaceSystemPanel } from '@/components/living/LivingPageSystem'
+import { DeepSystemDiagram } from '@/components/living/DeepSystemDiagram'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { type CaseExtras } from '@/data/work/case-extras'
@@ -55,7 +56,7 @@ function SubHead({
         <Hairline className="flex-1" />
       </div>
       <h2
-        className="text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] font-normal text-[var(--sage-ink)]"
+        className="text-[clamp(1.6rem,_1.2rem_+_1.4vw,_2.25rem)] font-normal text-[var(--sage-ink)]"
         style={H2_STYLE}
       >
         {heading}
@@ -90,7 +91,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
           {/* Back link */}
           <Link
             href="/work"
-            className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+            className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
             all case studies
@@ -111,7 +112,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
               {study.title}
             </p>
             <h1
-              className="mt-3 max-w-4xl text-[clamp(2.25rem,1.3rem+4.5vw,4.75rem)] font-normal text-[var(--sage-ink)]"
+              className="mt-3 max-w-4xl text-[clamp(2.25rem,_1.3rem_+_4.5vw,_4.75rem)] font-normal text-[var(--sage-ink)]"
               style={DISPLAY_STYLE}
             >
               {study.posterTitle ?? study.title}
@@ -211,6 +212,30 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
         </div>
       </section>
 
+      <section className="border-t border-[var(--sage-border)]">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-16">
+          <Reveal>
+            <DeepSystemDiagram
+              eyebrow="case flow"
+              title={`${study.title.split('—')[0].trim()} operating map`}
+              description="A case study should prove both layers: the surface people see, and the system that keeps the product alive after launch."
+              nodes={[
+                { label: 'Problem', detail: study.category },
+                { label: 'Surface', detail: study.screens?.length ? `${study.screens.length} screens` : 'flows' },
+                { label: 'System', detail: Diagram ? 'mapped' : 'named' },
+                { label: 'Proof', detail: `${study.metrics.length} metrics` },
+                { label: 'Route', detail: study.ctaSecondary ? 'service' : 'lab' },
+              ]}
+              stats={[
+                { label: 'client', value: study.client },
+                { label: 'category', value: study.category },
+                { label: 'evidence', value: study.gallery?.length ? `${study.gallery.length} assets` : 'metrics' },
+              ]}
+            />
+          </Reveal>
+        </div>
+      </section>
+
       {/* ════════════ BODY — two-column with sticky sidebar ════════════ */}
       <div className="border-t border-[var(--sage-border)]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
@@ -249,7 +274,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                     {study.metrics.map((m) => (
                       <div key={m.label} className="flex items-baseline justify-between gap-3">
                         <dt className="text-xs text-[var(--sage-ink-faint)]">{m.label}</dt>
-                        <dd className="text-sm tabular-nums text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                        <dd className="text-sm tabular-nums text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                           {m.value}
                         </dd>
                       </div>
@@ -263,7 +288,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                       <MonoLabel tone="faint" className="block">
                         lab entry
                       </MonoLabel>
-                      <span className="mt-2 inline-flex items-center gap-1.5 text-sm text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                      <span className="mt-2 inline-flex items-center gap-1.5 text-sm text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                         view tearsheet <span aria-hidden>→</span>
                       </span>
                     </Link>
@@ -405,7 +430,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                         >
                           <span
                             aria-hidden
-                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0ED3CF]"
+                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#3D5AFE]"
                           />
                           {a}
                         </li>
@@ -426,7 +451,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                   <Hairline className="flex-1" />
                 </div>
                 <h2
-                  className="text-[clamp(1.6rem,1.2rem+1.4vw,2.25rem)] font-normal text-[var(--sage-ink)]"
+                  className="text-[clamp(1.6rem,_1.2rem_+_1.4vw,_2.25rem)] font-normal text-[var(--sage-ink)]"
                   style={H2_STYLE}
                 >
                   Talk to people on this work.

@@ -48,7 +48,7 @@ export function ProductRotator({ items, intervalMs = 4000 }: ProductRotatorProps
       onMouseLeave={() => setPaused(false)}
     >
       {/* Browser chrome frame */}
-      <div className="relative rounded-2xl overflow-hidden border border-[#2A2826] bg-[#1A1917] shadow-[0_24px_48px_-24px_rgba(6,182,212,0.25)]">
+      <div className="relative rounded-2xl overflow-hidden border border-[#2A2826] bg-[#1A1917] shadow-[0_24px_48px_-24px_rgba(61,90,254,0.25)]">
         {/* Top bar */}
         <div className="flex items-center gap-2 px-4 py-3 bg-[#12110F] border-b border-[#2A2826]">
           <span className="w-3 h-3 rounded-full bg-[#EF4444]" />
@@ -91,7 +91,7 @@ export function ProductRotator({ items, intervalMs = 4000 }: ProductRotatorProps
                   onClick={() => setIndex(i)}
                   aria-label={`Show ${it.project}`}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === index ? 'w-6 bg-[#0ED3CF]' : 'w-1.5 bg-[#3D3A37] hover:bg-[#57534E]'
+                    i === index ? 'w-6 bg-[#3D5AFE]' : 'w-1.5 bg-[#3D3A37] hover:bg-[#57534E]'
                   }`}
                 />
               ))}

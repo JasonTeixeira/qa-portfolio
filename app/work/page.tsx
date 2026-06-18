@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Section, MonoLabel, Hairline, CtaLink, Reveal } from '@/components/el'
 import { WorkIndex } from '@/components/el/work/WorkIndex'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { RouteConversionCta } from '@/components/living/RouteConversionCta'
 import { caseStudies } from '@/data/work/case-studies'
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export default function WorkPage() {
             <div>
               <Reveal delay={0.05}>
                 <h1
-                  className="max-w-4xl text-[clamp(3.4rem,1.4rem+6vw,7.4rem)] font-normal text-[var(--sage-ink)]"
+                  className="max-w-4xl text-[clamp(3.4rem,_1.4rem_+_6vw,_7.4rem)] font-normal text-[var(--sage-ink)]"
                   style={DISPLAY_STYLE}
                 >
                   The work speaks.
@@ -105,7 +106,7 @@ export default function WorkPage() {
         heading={
           <>
             Every build,{' '}
-            <span className="italic text-[#0ED3CF]" style={{ fontFamily: 'var(--font-display)' }}>
+            <span className="italic text-[#3D5AFE]" style={{ fontFamily: 'var(--font-display)' }}>
               on the record.
             </span>
           </>
@@ -172,6 +173,20 @@ export default function WorkPage() {
           ]}
         />
       </Section>
+
+      <RouteConversionCta
+        eyebrow="work to route"
+        title="Seen enough proof? Choose the build path."
+        body="Use the diagnostic if you need routing, or book the studio if the work already maps to the thing you need built. The next step should be specific, not a vague contact form."
+        primary={{ label: 'Find your route', href: '/tools/route-finder?source=work_final' }}
+        secondary={{ label: 'Book the studio', href: '/book' }}
+        variant="studio"
+        proof={[
+          { label: 'case studies', value: String(caseStudies.length).padStart(2, '0') },
+          { label: 'source', value: 'real work' },
+          { label: 'route', value: 'studio' },
+        ]}
+      />
     </main>
   )
 }

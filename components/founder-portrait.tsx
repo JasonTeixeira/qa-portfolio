@@ -23,7 +23,7 @@ type Props = {
 }
 
 /**
- * Branded portrait of the founder. Cyan/violet duotone wash, subtle grain,
+ * Branded portrait of the founder. Blue/violet/magenta duotone wash, subtle grain,
  * mono kicker frame. The photo desaturates slightly until hover so the brand
  * tone reads first and the human face reads on intent.
  */
@@ -44,16 +44,16 @@ export function FounderPortrait({
   return (
     <div className={cn('relative', wrapperLayout, className)}>
       {framed && (
-        <div className="absolute -top-3 -left-3 right-3 -bottom-3 border border-[#2A2826] rounded-3xl pointer-events-none" />
+        <div className="pointer-events-none absolute -left-3 -top-3 -bottom-3 right-3 rounded-3xl border border-[var(--sage-border)]" />
       )}
       <div
         className={cn(
-          'relative overflow-hidden rounded-2xl bg-[#12110F] border border-[#2A2826] group',
+          'group relative overflow-hidden rounded-2xl border border-[var(--sage-border)] bg-[var(--sage-surface-1)]',
           dim,
         )}
       >
         <Image
-          src="/images/headshot.jpg"
+          src="/founder/portrait.jpg"
           alt="Jason Teixeira — Founder, Sage Ideas Studio"
           fill
           priority={priority}
@@ -65,18 +65,18 @@ export function FounderPortrait({
             {/* Cyan wash from top-left */}
             <div
               aria-hidden
-              className="absolute inset-0 mix-blend-color pointer-events-none opacity-70 group-hover:opacity-30 transition-opacity duration-700"
+              className="pointer-events-none absolute inset-0 opacity-70 mix-blend-color transition-opacity duration-700 group-hover:opacity-30"
               style={{
                 background:
-                  'radial-gradient(circle at 25% 20%, rgba(14,211,207,0.55), transparent 60%), radial-gradient(circle at 80% 90%, rgba(232,93,58,0.45), transparent 60%)',
+                  'radial-gradient(circle at 25% 20%, rgba(61,90,254,0.55), transparent 60%), radial-gradient(circle at 80% 90%, rgba(255,45,155,0.42), transparent 60%)',
               }}
             />
             {/* Bottom darken for legend */}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#09090B]/80 via-[#09090B]/20 to-transparent pointer-events-none" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#09090B]/80 via-[#09090B]/20 to-transparent" />
             {/* Grain */}
             <div
               aria-hidden
-              className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none"
+              className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-overlay"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
@@ -85,7 +85,7 @@ export function FounderPortrait({
             {/* Scanline */}
             <div
               aria-hidden
-              className="absolute inset-0 opacity-[0.06] pointer-events-none"
+              className="pointer-events-none absolute inset-0 opacity-[0.06]"
               style={{
                 backgroundImage:
                   'repeating-linear-gradient(0deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 3px)',
@@ -96,8 +96,8 @@ export function FounderPortrait({
       </div>
       {caption && (
         <div className="mt-4 flex items-center gap-3">
-          <span className="block w-6 h-px bg-[#0ED3CF]" />
-          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#78716C]">
+          <span className="block w-6 h-px bg-[#3D5AFE]" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--sage-ink-faint)]">
             Founder · Principal Engineer
           </span>
         </div>

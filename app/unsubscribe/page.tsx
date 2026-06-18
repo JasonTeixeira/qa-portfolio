@@ -28,7 +28,7 @@ export default async function UnsubscribePage({ searchParams }: Props) {
         </div>
 
         <div className="space-y-2">
-          <div className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+          <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
             Unsubscribed
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">
@@ -56,7 +56,7 @@ export default async function UnsubscribePage({ searchParams }: Props) {
 
         <Link
           href="/"
-          className="inline-flex items-center text-xs font-mono uppercase tracking-widest text-[#0ED3CF] hover:text-[#22D3EE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 rounded-sm"
+          className="inline-flex items-center text-xs font-mono uppercase tracking-widest text-[#3D5AFE] hover:text-[#5670ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 rounded-sm"
         >
           ← Back to sageideas.dev
         </Link>

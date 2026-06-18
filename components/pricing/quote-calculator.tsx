@@ -103,10 +103,10 @@ export function QuoteCalculator() {
                   max={eng.max}
                   value={scope.weeks}
                   onChange={(e) => setScope({ ...scope, weeks: Number(e.target.value) })}
-                  className="h-1.5 flex-1 accent-[#0ED3CF]"
+                  className="h-1.5 flex-1 accent-[#3D5AFE]"
                   aria-label="Scope in weeks"
                 />
-                <span className="w-16 text-right text-sm text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span className="w-16 text-right text-sm text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                   {scope.weeks} {scope.weeks === 1 ? 'wk' : 'wks'}
                 </span>
               </div>
@@ -155,10 +155,10 @@ export function QuoteCalculator() {
                 max={8}
                 value={scope.integrations}
                 onChange={(e) => setScope({ ...scope, integrations: Number(e.target.value) })}
-                className="h-1.5 flex-1 accent-[#0ED3CF]"
+                className="h-1.5 flex-1 accent-[#3D5AFE]"
                 aria-label="Number of third-party integrations"
               />
-              <span className="w-16 text-right text-sm text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <span className="w-16 text-right text-sm text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {scope.integrations} svc
               </span>
             </div>
@@ -171,7 +171,7 @@ export function QuoteCalculator() {
               aria-pressed={scope.withQa}
               className={`flex w-full items-center justify-between rounded-[3px] border px-4 py-2.5 text-left transition-colors ${
                 scope.withQa
-                  ? 'border-[#0ED3CF]/50 bg-[#0ED3CF]/[0.08] text-[#0ED3CF]'
+                  ? 'border-[#3D5AFE]/50 bg-[#3D5AFE]/[0.08] text-[#3D5AFE]'
                   : 'border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] hover:border-[var(--sage-border-hover)]'
               }`}
             >
@@ -234,7 +234,7 @@ export function QuoteCalculator() {
           <div className="mt-auto flex flex-col gap-2 pt-6">
             <Link
               href={`/contact?engagement=${scope.engagement}&estimate=${total}`}
-              className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] active:translate-y-px"
+              className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-[3px] bg-[#3D5AFE] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#5670ff] hover:shadow-[0_0_28px_-4px_rgba(61,90,254,0.55)] active:translate-y-px"
             >
               <span>./book --estimate</span>
               <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -275,7 +275,7 @@ function Pill({ active, label, onClick }: { active: boolean; label: string; onCl
       aria-pressed={active}
       className={`rounded-[3px] border px-3 py-2 text-sm uppercase tracking-wide transition-colors [font-family:var(--font-mono),ui-monospace,monospace] ${
         active
-          ? 'border-[#0ED3CF]/50 bg-[#0ED3CF]/[0.08] text-[#0ED3CF]'
+          ? 'border-[#3D5AFE]/50 bg-[#3D5AFE]/[0.08] text-[#3D5AFE]'
           : 'border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]'
       }`}
     >

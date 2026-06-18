@@ -19,7 +19,7 @@ export function CalEmbed({ calLink = CAL_LINK }: { calLink?: string }) {
         const cal = await getCalApi()
         cal('ui', {
           theme: 'dark',
-          styles: { branding: { brandColor: '#0ED3CF' } },
+          styles: { branding: { brandColor: '#3D5AFE' } },
           hideEventTypeDetails: false,
         })
 
@@ -71,7 +71,7 @@ function EmbedSkeleton() {
   return (
     <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#12110F] pointer-events-none">
       <div className="flex flex-col items-center gap-3">
-        <div className="h-10 w-10 rounded-full border-2 border-[#2A2826] border-t-[#0ED3CF] animate-spin" />
+        <div className="h-10 w-10 rounded-full border-2 border-[#2A2826] border-t-[#3D5AFE] animate-spin" />
         <p className="text-xs font-mono uppercase tracking-widest text-[#78716C]">
           Loading scheduler
         </p>
@@ -83,8 +83,8 @@ function EmbedSkeleton() {
 function ManualBookingFallback() {
   return (
     <div className="px-6 py-12 sm:py-16 text-center">
-      <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[#0ED3CF]/10 border border-[#0ED3CF]/30 mb-5">
-        <Calendar className="h-5 w-5 text-[#0ED3CF]" />
+      <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[#3D5AFE]/10 border border-[#3D5AFE]/30 mb-5">
+        <Calendar className="h-5 w-5 text-[#3D5AFE]" />
       </div>
       <h3 className="text-2xl font-bold text-[#FAFAFA]">
         Schedule directly with the founder
@@ -97,7 +97,7 @@ function ManualBookingFallback() {
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <Link
           href="/contact?type=consult&source=cal-embed"
-          className="inline-flex items-center gap-2 bg-[#0ED3CF] hover:bg-[#0AA8A5] text-[#09090B] font-semibold py-3 px-6 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-semibold py-3 px-6 rounded-lg transition-colors"
         >
           <Mail className="h-4 w-4" />
           Request a call
@@ -105,7 +105,7 @@ function ManualBookingFallback() {
         </Link>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 border border-[#3D3A37] text-[#FAFAFA] hover:border-[#0ED3CF] hover:text-[#0ED3CF] font-medium py-3 px-6 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 border border-[#3D3A37] text-[#FAFAFA] hover:border-[#3D5AFE] hover:text-[#3D5AFE] font-medium py-3 px-6 rounded-lg transition-colors"
         >
           Use the contact form
         </Link>

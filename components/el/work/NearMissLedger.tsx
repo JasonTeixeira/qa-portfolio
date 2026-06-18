@@ -67,11 +67,11 @@ export function NearMissLedger({ items }: NearMissLedgerProps) {
             <div className="flex gap-4 bg-[var(--sage-surface-1)] px-5 py-3">
               <span
                 aria-hidden
-                className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[2px] border border-[#0ED3CF]/40 bg-[#0ED3CF]/10 text-[11px] leading-none text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[2px] border border-[#3D5AFE]/40 bg-[#3D5AFE]/10 text-[11px] leading-none text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 $
               </span>
-              <p className="text-xs leading-relaxed text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <p className="text-xs leading-relaxed text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                 <span className="mr-2 uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">
                   cost
                 </span>

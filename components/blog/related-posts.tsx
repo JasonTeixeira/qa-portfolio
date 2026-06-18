@@ -18,6 +18,7 @@ function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC',
   })
 }
 

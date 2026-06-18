@@ -21,6 +21,12 @@ const READ_TABLES = [
   'messages',
   'audit_log',
   'time_entries',
+  'revenue_workspaces',
+  'revenue_workspace_members',
+  'revenue_workspace_configs',
+  'revenue_workspace_usage',
+  'revenue_workspace_billing_boundaries',
+  'revenue_workspace_audit_logs',
 ];
 
 for (const table of READ_TABLES) {
@@ -44,6 +50,12 @@ const WRITE_CASES: Array<{ table: string; payload: Record<string, unknown> }> = 
   { table: 'engagements', payload: { name: 'Fake', client_id: '00000000-0000-0000-0000-000000000000' } },
   { table: 'invoices', payload: { engagement_id: '00000000-0000-0000-0000-000000000000', amount_cents: 1 } },
   { table: 'contracts', payload: { engagement_id: '00000000-0000-0000-0000-000000000000', body: 'fake' } },
+  { table: 'revenue_workspaces', payload: { run_key: 'anon-rls-test', tenant_key: 'anon-blocked', business_name: 'Blocked', owner_email: 'owner@blocked.example' } },
+  { table: 'revenue_workspace_members', payload: { tenant_key: 'anon-blocked', email: 'member@blocked.example', role: 'owner' } },
+  { table: 'revenue_workspace_configs', payload: { tenant_key: 'anon-blocked', icp: { blocked: true } } },
+  { table: 'revenue_workspace_usage', payload: { tenant_key: 'anon-blocked', period_start: '2026-06-01', period_end: '2026-06-30' } },
+  { table: 'revenue_workspace_billing_boundaries', payload: { tenant_key: 'anon-blocked', billing_status: 'trial' } },
+  { table: 'revenue_workspace_audit_logs', payload: { tenant_key: 'anon-blocked', action: 'blocked', entity_type: 'workspace' } },
 ];
 
 for (const { table, payload } of WRITE_CASES) {

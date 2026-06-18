@@ -133,7 +133,7 @@ function resolveEngagementContext(slug: string | null): {
 // ────────────────────────────────────────────────────────────────────────────
 
 const inputClass =
-  'w-full rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-4 py-2.5 text-[13px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#0ED3CF] focus:outline-none focus:ring-1 focus:ring-[#0ED3CF]/30 transition-colors duration-150'
+  'w-full rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-4 py-2.5 text-[13px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none focus:ring-1 focus:ring-[#3D5AFE]/30 transition-colors duration-150'
 
 const selectClass = `${inputClass} appearance-none cursor-pointer pr-10`
 
@@ -269,8 +269,8 @@ function ContactInner() {
             transition={{ duration: 0.4 }}
           >
             {/* Accent badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06] mb-8">
-              <CheckCircle2 className="h-3.5 w-3.5 text-[#0ED3CF]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#3D5AFE]/30 bg-[#3D5AFE]/[0.06] mb-8">
+              <CheckCircle2 className="h-3.5 w-3.5 text-[#3D5AFE]" />
               <MonoLabel tone="accent" className="text-[10px]">Inquiry received</MonoLabel>
             </div>
 
@@ -337,8 +337,8 @@ function ContactInner() {
 
             {/* Pre-selected badge */}
             {engagementCtx?.badge && (
-              <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.06]">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#0ED3CF]" />
+              <div className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-[3px] border border-[#3D5AFE]/30 bg-[#3D5AFE]/[0.06]">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#3D5AFE]" />
                 <MonoLabel tone="accent" className="text-[10px]">
                   Pre-selected: {engagementCtx.badge}
                 </MonoLabel>
@@ -397,9 +397,9 @@ function ContactInner() {
                 aria-selected={active}
                 onClick={() => setEngagementType(tab.value)}
                 className={[
-                  'text-left rounded-[3px] border p-5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/50',
+                  'text-left rounded-[3px] border p-5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/50',
                   active
-                    ? 'border-[#0ED3CF]/40 bg-[#0ED3CF]/[0.05]'
+                    ? 'border-[#3D5AFE]/40 bg-[#3D5AFE]/[0.05]'
                     : 'border-[var(--sage-border)] bg-[var(--sage-surface-1)] hover:border-[var(--sage-border-strong)]',
                 ].join(' ')}
               >
@@ -407,7 +407,7 @@ function ContactInner() {
                   <span
                     className={[
                       'h-1.5 w-1.5 rounded-full transition-colors',
-                      active ? 'bg-[#0ED3CF]' : 'bg-[var(--sage-border-strong)]',
+                      active ? 'bg-[#3D5AFE]' : 'bg-[var(--sage-border-strong)]',
                     ].join(' ')}
                     aria-hidden
                   />
@@ -555,7 +555,7 @@ function ContactInner() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] hover:shadow-[0_0_28px_-4px_rgba(14,211,207,0.55)] focus-visible:outline-none active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+                  className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#3D5AFE] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,box-shadow,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#5670ff] hover:shadow-[0_0_28px_-4px_rgba(61,90,254,0.55)] focus-visible:outline-none active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {submitting ? (
                     <>
@@ -601,7 +601,7 @@ function ContactInner() {
                 Your info is handled per our{' '}
                 <Link
                   href="/legal/privacy"
-                  className="text-[#0ED3CF] hover:text-[var(--sage-ink)] underline underline-offset-2 transition-colors"
+                  className="text-[#3D5AFE] hover:text-[var(--sage-ink)] underline underline-offset-2 transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -645,7 +645,7 @@ function ContactInner() {
                   person doing the work.
                 </p>
                 <div className="flex items-center gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-3 mt-2">
-                  <Clock className="h-4 w-4 text-[#0ED3CF] shrink-0" />
+                  <Clock className="h-4 w-4 text-[#3D5AFE] shrink-0" />
                   <div>
                     <MonoLabel tone="faint" className="text-[10px] block">Typical response</MonoLabel>
                     <div className="text-[13px] font-medium text-[var(--sage-ink)] mt-0.5">
@@ -714,8 +714,8 @@ function ContactInner() {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-1.5 bg-[#0ED3CF]/[0.08] rounded-[2px] border border-[#0ED3CF]/20">
-                        <item.icon className="h-3.5 w-3.5 text-[#0ED3CF]" />
+                      <div className="p-1.5 bg-[#3D5AFE]/[0.08] rounded-[2px] border border-[#3D5AFE]/20">
+                        <item.icon className="h-3.5 w-3.5 text-[#3D5AFE]" />
                       </div>
                       <MonoLabel tone="faint" className="text-[10px]">Step {item.step}</MonoLabel>
                     </div>
@@ -755,8 +755,8 @@ function SidebarCard({
   return (
     <Surface level={1} bordered className="p-5">
       <div className="flex items-center gap-2 mb-3">
-        <div className="p-1.5 bg-[#0ED3CF]/[0.08] rounded-[2px] border border-[#0ED3CF]/20">
-          <Icon className="h-3.5 w-3.5 text-[#0ED3CF]" />
+        <div className="p-1.5 bg-[#3D5AFE]/[0.08] rounded-[2px] border border-[#3D5AFE]/20">
+          <Icon className="h-3.5 w-3.5 text-[#3D5AFE]" />
         </div>
         <MonoLabel tone="faint" className="text-[10px]">{'// '}{label}</MonoLabel>
       </div>

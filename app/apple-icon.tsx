@@ -14,7 +14,7 @@ export default function AppleIcon() {
           alignItems: 'center',
           justifyContent: 'center',
           background:
-            'radial-gradient(circle at 30% 25%, rgba(14,211,207,0.15), transparent 55%), radial-gradient(circle at 75% 80%, rgba(232,93,58,0.12), transparent 60%), #09090B',
+            'radial-gradient(circle at 30% 25%, rgba(61,90,254,0.15), transparent 55%), radial-gradient(circle at 75% 80%, rgba(232,93,58,0.12), transparent 60%), #09090B',
           borderRadius: 36,
         }}
       >
@@ -33,7 +33,7 @@ export default function AppleIcon() {
               justifyContent: 'center',
               width: 100,
               height: 100,
-              background: 'linear-gradient(135deg, #E85D3A, #A8C633, #0ED3CF)',
+              background: 'linear-gradient(135deg, #E85D3A, #A8C633, #3D5AFE)',
               borderRadius: 22,
               color: '#09090B',
               fontSize: 72,

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import matter from 'gray-matter'
+import { parseFrontmatter } from '@/lib/frontmatter'
 
 export interface BlogPost {
   id: number
@@ -25,7 +25,7 @@ function parseMdxFile(filename: string): BlogPost | null {
   const filepath = path.join(BLOG_DIR, filename)
   try {
     const raw = fs.readFileSync(filepath, 'utf-8')
-    const { data, content } = matter(raw)
+    const { data, content } = parseFrontmatter(raw)
 
     return {
       id: data.id ?? 0,

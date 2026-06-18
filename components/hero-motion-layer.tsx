@@ -3,7 +3,7 @@
  *
  * Sits absolutely-positioned inside a `relative overflow-hidden` parent.
  * Brand-aligned layers:
- *   - slow-pan teal/coral radial washes (logo palette)
+ *   - slow-pan blue/violet radial washes (Living OS palette)
  *   - architectural dot grid (precision engineering feel)
  *   - film grain texture (editorial, premium)
  *   - subtle scanline (tech/terminal aesthetic)
@@ -21,12 +21,12 @@ export function HeroMotionLayer({
 
   return (
     <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Slow-pan sage teal wash */}
+      {/* Slow-pan sage blue wash */}
       <div
         className="absolute -inset-[10%] sage-hero-pan-teal"
         style={{
           background:
-            'radial-gradient(ellipse at 25% 20%, rgba(14,211,207,0.10), transparent 55%)',
+            'radial-gradient(ellipse at 25% 20%, rgba(61,90,254,0.10), transparent 55%)',
         }}
       />
       {/* Slow-pan sage coral wash */}

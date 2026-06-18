@@ -78,7 +78,7 @@ export const TerminalBlock = React.forwardRef<HTMLDivElement, TerminalBlockProps
                         {user}@{host}
                       </span>
                       <span className="text-[var(--sage-ink-muted,#A8A29E)]">:</span>
-                      <span className="text-[var(--sage-brand,#0ED3CF)]">{cwd}</span>
+                      <span className="text-[var(--sage-brand,#3D5AFE)]">{cwd}</span>
                       <span className="text-[var(--sage-ink-muted,#A8A29E)]">$ </span>
                     </span>
                     <span className="text-[var(--sage-ink,#F4F2EF)]">{line.command}</span>

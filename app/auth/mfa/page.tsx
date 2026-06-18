@@ -46,7 +46,7 @@ export default async function MfaStepUpPage({ searchParams }: Props) {
             </div>
 
             <div className="space-y-2 mb-8">
-              <div className="text-[10px] font-mono uppercase tracking-widest text-[#0ED3CF]">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
                 Two-factor verification
               </div>
               <h2 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">

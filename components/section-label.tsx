@@ -5,7 +5,7 @@ interface SectionLabelProps {
 
 export function SectionLabel({ children, color = 'cyan' }: SectionLabelProps) {
   const colorClasses = {
-    cyan: 'text-[#0ED3CF]',
+    cyan: 'text-[#3D5AFE]',
     violet: 'text-[#E85D3A]',
   }
 

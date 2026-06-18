@@ -289,7 +289,7 @@ export function TypewriterLines({
             {showCursor && (
               <span
                 aria-hidden
-                className="inline-block ml-0.5 text-[#0ED3CF]"
+                className="inline-block ml-0.5 text-[#3D5AFE]"
                 style={{ opacity: cursorOn ? 1 : 0 }}
               >
                 {cursorChar}
@@ -315,7 +315,7 @@ interface HoverGlowProps {
 export function HoverGlow({
   children,
   className = '',
-  color = 'rgba(6,182,212,0.18)',
+  color = 'rgba(61,90,254,0.18)',
   size = 380,
 }: HoverGlowProps) {
   const reduced = useReducedMotion()
@@ -375,21 +375,81 @@ export function PageReveal({ children }: { children: ReactNode }) {
 export function PageTransition({ children }: { children: ReactNode }) {
   const reduced = useReducedMotion()
   const pathname = usePathname()
+  const [label, setLabel] = useState('Index')
+
+  useEffect(() => {
+    if (!pathname) return
+    const next =
+      pathname === '/'
+        ? 'Index'
+        : pathname
+            .split('/')
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) =>
+              part
+                .split('-')
+                .map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
+                .join(' '),
+            )
+            .join(' / ')
+    setLabel(next)
+  }, [pathname])
 
   if (reduced) return <>{children}</>
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.18, ease: 'easeInOut' }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className="relative isolate">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`route-overlay-${pathname}`}
+          className="pointer-events-none fixed inset-x-0 top-0 z-[95] h-[100svh] overflow-hidden"
+          aria-hidden="true"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.72, times: [0, 0.12, 0.72, 1], ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div
+            className="absolute left-0 top-0 h-px bg-[linear-gradient(90deg,#3D5AFE,#7C3AED,#FF2D9B)]"
+            initial={{ width: '0%' }}
+            animate={{ width: ['0%', '62%', '100%'] }}
+            transition={{ duration: 0.66, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <motion.div
+            className="absolute left-0 top-0 h-full w-[34vw] border-r border-[rgba(242,239,233,0.08)] bg-[rgba(11,11,14,0.74)] backdrop-blur-md"
+            initial={{ x: '-105%' }}
+            animate={{ x: ['-105%', '0%', '105%'] }}
+            transition={{ duration: 0.74, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <motion.div
+            className="absolute right-0 top-0 h-full w-[26vw] border-l border-[rgba(242,239,233,0.07)] bg-[rgba(20,20,24,0.62)] backdrop-blur-md"
+            initial={{ x: '105%' }}
+            animate={{ x: ['105%', '0%', '-105%'] }}
+            transition={{ duration: 0.74, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <motion.div
+            className="absolute right-5 top-24 hidden rounded-full border border-[rgba(242,239,233,0.12)] bg-[rgba(11,11,14,0.7)] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-muted)] backdrop-blur-md [font-family:var(--font-mono),ui-monospace,monospace] md:block"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: [0, 1, 1, 0], y: [-6, 0, 0, -3] }}
+            transition={{ duration: 0.7, times: [0, 0.18, 0.74, 1], ease: 'easeOut' }}
+          >
+            Routing / {label}
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -6, filter: 'blur(4px)' }}
+          transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   )
 }
 

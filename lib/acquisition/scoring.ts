@@ -204,7 +204,7 @@ export function scoreAcquisitionAccount(input: AcquisitionSignalInput): Acquisit
     nextAction:
       totalScore >= 60
         ? 'Draft a specific audit-led email with one concrete fix and a call booking CTA.'
-        : totalScore >= 60
+        : totalScore >= 45
           ? 'Run a live audit, verify the primary contact, then draft a specific outreach message.'
           : 'Collect one more proof point before outreach.',
   };

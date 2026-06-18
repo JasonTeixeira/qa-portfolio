@@ -37,7 +37,7 @@ export function CapabilityLanes({ capabilities }: CapabilityLanesProps) {
                 <div className="flex items-start justify-between">
                   <span
                     aria-hidden
-                    className="flex h-11 w-11 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] transition-colors duration-200 group-hover:border-[#0ED3CF]/50 group-hover:text-[#0ED3CF]"
+                    className="flex h-11 w-11 items-center justify-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] text-[var(--sage-ink-muted)] transition-colors duration-200 group-hover:border-[#3D5AFE]/50 group-hover:text-[#3D5AFE]"
                   >
                     <Icon className="h-5 w-5" />
                   </span>
@@ -60,7 +60,7 @@ export function CapabilityLanes({ capabilities }: CapabilityLanesProps) {
                 </p>
 
                 <Hairline className="mt-6" />
-                <span className="mt-4 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span className="mt-4 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                   engage
                   <span
                     aria-hidden

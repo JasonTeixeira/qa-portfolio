@@ -1,9 +1,9 @@
 /**
- * Engineered Luxury kit — the shared design system extracted from the hero.
+ * Sage Living OS kit — shared primitives for the marketing surface.
  *
- * Near-black layered surfaces, hairline borders, Fraunces display headings,
- * Geist-Mono eyebrows/metadata, one restrained teal accent. Every homepage
- * act composes from these primitives so the whole site reads as one system.
+ * Near-black layered surfaces, hairline borders, Bricolage display headings,
+ * Hanken body text, mono instrument labels, and one solid electric-blue CTA.
+ * The blue/violet/magenta gradient is reserved for diagrams and data-viz.
  */
 
 export { Section, SectionHeader } from './Section'

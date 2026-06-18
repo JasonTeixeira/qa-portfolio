@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
 import { ServicesEl } from './services-el'
 
 const SITE = 'https://www.sageideas.dev'
@@ -20,5 +21,12 @@ export const metadata: Metadata = {
 }
 
 export default function ServicesPage() {
-  return <ServicesEl />
+  return (
+    <>
+      <div className="px-5 pt-28 sm:px-8 lg:px-12">
+        <RouteFinderHeroExperiment surface="services" />
+      </div>
+      <ServicesEl />
+    </>
+  )
 }

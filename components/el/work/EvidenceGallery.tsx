@@ -55,7 +55,7 @@ export function EvidenceGallery({ items, columns = 2, className }: EvidenceGalle
             <RegistrationTicks />
             {/* Chrome */}
             <div className="flex items-center justify-between border-b border-[var(--sage-border)] px-4 py-3">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {KIND_LABEL[item.kind]}
               </span>
               {item.label && (

@@ -28,7 +28,7 @@ export function GradientMesh({ className = '' }: { className?: string }) {
         className="sage-mesh-blob absolute inset-0 mix-blend-screen opacity-60"
         style={{
           background:
-            'radial-gradient(40% 40% at 30% 30%, rgba(6,182,212,0.55), transparent 60%)',
+            'radial-gradient(40% 40% at 30% 30%, rgba(61,90,254,0.55), transparent 60%)',
           animation: 'sage-drift-a 22s ease-in-out infinite',
           willChange: 'transform',
         }}
@@ -46,7 +46,7 @@ export function GradientMesh({ className = '' }: { className?: string }) {
         className="sage-mesh-blob absolute inset-0 mix-blend-screen opacity-40"
         style={{
           background:
-            'radial-gradient(30% 30% at 50% 80%, rgba(34,211,238,0.35), transparent 60%)',
+            'radial-gradient(30% 30% at 50% 80%, rgba(86,112,255,0.35), transparent 60%)',
           animation: 'sage-drift-c 34s ease-in-out infinite',
           willChange: 'transform',
         }}

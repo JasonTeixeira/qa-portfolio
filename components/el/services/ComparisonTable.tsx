@@ -55,18 +55,18 @@ export function ComparisonTable({ tiers, recommendedSlug }: ComparisonTableProps
               <tr
                 key={tier.slug}
                 className={`border-b border-[var(--sage-border)] last:border-b-0 transition-colors hover:bg-[var(--sage-surface-2)] ${
-                  isRec ? 'bg-[#0ED3CF]/[0.04]' : 'bg-[var(--sage-surface-1)]'
+                  isRec ? 'bg-[#3D5AFE]/[0.04]' : 'bg-[var(--sage-surface-1)]'
                 }`}
               >
                 <th scope="row" className="px-5 py-4 align-top">
                   <Link
                     href={`/services/${tier.slug}`}
-                    className="text-sm font-medium text-[var(--sage-ink)] underline-offset-4 hover:text-[#0ED3CF] hover:underline [font-family:var(--font-display)]"
+                    className="text-sm font-medium text-[var(--sage-ink)] underline-offset-4 hover:text-[#3D5AFE] hover:underline [font-family:var(--font-display)]"
                   >
                     {tier.name}
                   </Link>
                   {isRec && (
-                    <span className="ml-2 align-middle text-[9px] uppercase tracking-[0.18em] text-[#0ED3CF]">
+                    <span className="ml-2 align-middle text-[9px] uppercase tracking-[0.18em] text-[#3D5AFE]">
                       recommended
                     </span>
                   )}
@@ -84,7 +84,7 @@ export function ComparisonTable({ tiers, recommendedSlug }: ComparisonTableProps
                   {CADENCE_LABEL[tier.cadence]} · {MODE_LABEL[tier.mode]}
                 </td>
                 <td className="px-5 py-4 align-top text-[13px]">
-                  <span className={selfServe ? 'text-[#0ED3CF]' : 'text-[var(--sage-ink-muted)]'}>
+                  <span className={selfServe ? 'text-[#3D5AFE]' : 'text-[var(--sage-ink-muted)]'}>
                     {selfServe ? 'Instant checkout' : 'Scope on a call'}
                   </span>
                 </td>

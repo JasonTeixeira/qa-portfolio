@@ -16,14 +16,14 @@ const statusStyles: Record<string, string> = {
   Production: 'text-[#A8C633] bg-[#A8C633]/10 border-[#A8C633]/30',
   Beta: 'text-[#F59E0B] bg-[#F59E0B]/10 border-[#F59E0B]/30',
   Alpha: 'text-[var(--sage-ink-muted)] bg-[var(--sage-surface-3)] border-[var(--sage-border-strong)]',
-  'Pre-launch': 'text-[#0ED3CF] bg-[#0ED3CF]/10 border-[#0ED3CF]/30',
+  'Pre-launch': 'text-[#3D5AFE] bg-[#3D5AFE]/10 border-[#3D5AFE]/30',
 }
 
 const statusDot: Record<string, string> = {
   Production: 'bg-[#A8C633]',
   Beta: 'bg-[#F59E0B]',
   Alpha: 'bg-[var(--sage-ink-faint)]',
-  'Pre-launch': 'bg-[#0ED3CF]',
+  'Pre-launch': 'bg-[#3D5AFE]',
 }
 
 const PRODUCT_SCREENSHOTS: Record<string, string> = {
@@ -152,7 +152,7 @@ export function TearsheetContent({ product }: Props) {
           <ul className="space-y-3" role="list">
             {product.whatItDoes.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
-                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#0ED3CF] shrink-0" aria-hidden />
+                <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#3D5AFE] shrink-0" aria-hidden />
                 <span className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">{item}</span>
               </li>
             ))}
@@ -191,12 +191,12 @@ export function TearsheetContent({ product }: Props) {
               className="group inline-flex items-center gap-3 w-full"
             >
               <Surface level={2} interactive className="p-5 w-full flex items-center gap-3">
-                <Briefcase className="w-5 h-5 text-[#0ED3CF] shrink-0" aria-hidden />
+                <Briefcase className="w-5 h-5 text-[#3D5AFE] shrink-0" aria-hidden />
                 <div className="flex-1">
                   <MonoLabel tone="faint" as="p">Case study</MonoLabel>
                   <div className="text-sm text-[var(--sage-ink)] mt-0.5">Read the full case study</div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-[#0ED3CF] shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden />
+                <ArrowRight className="w-4 h-4 text-[#3D5AFE] shrink-0 group-hover:translate-x-1 transition-transform" aria-hidden />
               </Surface>
             </Link>
           </Reveal>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { trackEvent } from '@/lib/analytics/events'
 
 declare global {
   interface Window {
@@ -41,17 +42,91 @@ export function LivingSystemsMotion() {
     const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches
     let cleanupFns: Array<() => void> = []
     let raf = 0
+    let splashTracked = false
+    let splashDone = false
+    const splashStorageKey = 'sage_living_os_boot_seen'
+    const splashEligible = (() => {
+      if (reduced) return false
+      try {
+        return window.sessionStorage.getItem(splashStorageKey) !== 'true'
+      } catch {
+        return true
+      }
+    })()
 
-    const showEverything = () => {
+    const trackSplash = (reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' | 'skipped') => {
+      if (splashTracked) return
+      splashTracked = true
+      trackEvent('splash_skipped', { reason })
+    }
+
+    const showEverything = (reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' | 'skipped') => {
+      splashDone = true
+      body.classList.remove('living-intro')
       body.classList.add('living-visible')
       document.querySelectorAll('[data-living-reveal]').forEach((el) => {
         el.classList.add('is-in')
       })
       const loader = document.querySelector('[data-living-loader]')
       loader?.classList.add('is-done')
+      trackSplash(reason)
     }
 
-    const timeout = window.setTimeout(showEverything, 3600)
+    if (splashEligible) {
+      body.classList.add('living-intro')
+    }
+
+    const timeout = window.setTimeout(() => {
+      if (!splashDone) showEverything('timeout')
+    }, 4200)
+
+    const setBootProgress = (progress: number, status: string, activeIndex: number) => {
+      const bar = document.querySelector<HTMLElement>('[data-living-boot-progress]')
+      const statusEl = document.querySelector<HTMLElement>('[data-living-boot-status]')
+      const modules = Array.from(document.querySelectorAll<HTMLElement>('[data-living-boot-module]'))
+      bar?.style.setProperty('transform', `scaleX(${progress})`)
+      if (statusEl) statusEl.textContent = status
+      modules.forEach((module, index) => {
+        module.classList.toggle('is-live', index <= activeIndex)
+      })
+    }
+
+    const playSplash = () => new Promise<'loaded' | 'skipped'>((resolve) => {
+      if (!splashEligible) {
+        resolve('loaded')
+        return
+      }
+
+      const skip = document.querySelector<HTMLButtonElement>('[data-living-splash-skip]')
+      const done = (reason: 'loaded' | 'skipped') => {
+        try {
+          window.sessionStorage.setItem(splashStorageKey, 'true')
+        } catch {
+          // Non-critical: private mode or storage-denied browsers still get a safe boot.
+        }
+        skip?.removeEventListener('click', onSkip)
+        resolve(reason)
+      }
+      const onSkip = () => done('skipped')
+      skip?.addEventListener('click', onSkip)
+      cleanupFns.push(() => skip?.removeEventListener('click', onSkip))
+
+      const steps: Array<[number, number, string, number]> = [
+        [90, 0.22, 'Mounting studio route', 0],
+        [420, 0.42, 'Loading academy path', 1],
+        [780, 0.62, 'Indexing proof layer', 2],
+        [1120, 0.8, 'Priming diagnostic tools', 3],
+        [1520, 1, 'Opening content engine', 4],
+      ]
+      const timers = steps.map(([delay, progress, status, activeIndex]) =>
+        window.setTimeout(() => setBootProgress(progress, status, activeIndex), delay),
+      )
+      const finish = window.setTimeout(() => done('loaded'), 2180)
+      cleanupFns.push(() => {
+        timers.forEach((timer) => window.clearTimeout(timer))
+        window.clearTimeout(finish)
+      })
+    })
 
     const tickClock = () => {
       const clock = document.querySelector<HTMLElement>('[data-living-clock]')
@@ -129,7 +204,7 @@ export function LivingSystemsMotion() {
     cleanupFns.push(() => observer.disconnect())
 
     const initStatic = () => {
-      showEverything()
+      showEverything(reduced ? 'reduced_motion' : 'library_failure')
       document.querySelectorAll<HTMLElement>('[data-count]').forEach(countUp)
     }
 
@@ -154,11 +229,8 @@ export function LivingSystemsMotion() {
 
       gsap.registerPlugin(ScrollTrigger)
       body.classList.add('living-ready')
-      showEverything()
-
-      const loader = document.querySelector('[data-living-loader]')
-      loader?.classList.add('is-arm')
-      window.setTimeout(() => loader?.classList.add('is-done'), 900)
+      const splashReason = await playSplash()
+      showEverything(splashReason)
 
       const progress = document.querySelector('[data-living-progress]')
       if (progress) {

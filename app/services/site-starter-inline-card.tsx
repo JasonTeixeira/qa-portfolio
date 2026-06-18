@@ -17,19 +17,19 @@ export function SiteStarterInlineCard() {
       <HoverGlow className="h-full rounded-2xl">
         <GlowCard
           glowColor="gradient"
-          className="h-full flex flex-col border-l-2 border-[#0ED3CF]/60"
+          className="h-full flex flex-col border-l-2 border-[#3D5AFE]/60"
         >
           <div className="p-6 flex flex-col h-full">
             <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-[#0ED3CF]/10 flex items-center justify-center shrink-0">
-                <Globe className="w-5 h-5 text-[#0ED3CF]" />
+              <div className="w-10 h-10 rounded-lg bg-[#3D5AFE]/10 flex items-center justify-center shrink-0">
+                <Globe className="w-5 h-5 text-[#3D5AFE]" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#0ED3CF]/40 text-[#0ED3CF] bg-[#0ED3CF]/10">
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#3D5AFE]/40 text-[#3D5AFE] bg-[#3D5AFE]/10">
                     PRODUCTIZED
                   </span>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#09090B] bg-[#0ED3CF] px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#09090B] bg-[#3D5AFE] px-2 py-0.5 rounded-full">
                     NEW
                   </span>
                 </div>
@@ -57,18 +57,18 @@ export function SiteStarterInlineCard() {
 
             <ul className="space-y-1.5 mb-6 flex-1">
               <li className="flex items-start gap-2 text-sm text-[#A8A29E]">
-                <Check className="w-4 h-4 text-[#0ED3CF] shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-[#3D5AFE] shrink-0 mt-0.5" />
                 Stripe checkout, fixed price, no scope creep
               </li>
               <li className="flex items-start gap-2 text-sm text-[#A8A29E]">
-                <Check className="w-4 h-4 text-[#0ED3CF] shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-[#3D5AFE] shrink-0 mt-0.5" />
                 Pro tier ships with CMS-backed blog
               </li>
             </ul>
 
             <Link
               href="/services/site-starter"
-              className="inline-flex items-center justify-center w-full rounded-lg border border-[#2A2826] bg-[#1A1917] hover:border-[#0ED3CF]/60 hover:text-[#0ED3CF] text-[#FAFAFA] text-sm font-medium py-2.5 px-4 transition-all duration-200 gap-2 group"
+              className="inline-flex items-center justify-center w-full rounded-lg border border-[#2A2826] bg-[#1A1917] hover:border-[#3D5AFE]/60 hover:text-[#3D5AFE] text-[#FAFAFA] text-sm font-medium py-2.5 px-4 transition-all duration-200 gap-2 group"
             >
               View Site Starter
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

@@ -2,7 +2,9 @@
   "ci": {
     "collect": {
       "numberOfRuns": 1,
-      "startServerCommand": "npm run build && node scripts/serve-prod.mjs",
+      "startServerCommand": "node scripts/serve-prod.mjs",
+      "startServerReadyPattern": "ready - serving Next.js",
+      "startServerReadyTimeout": 60000,
       "url": [
         "http://127.0.0.1:4173/",
         "http://127.0.0.1:4173/services",

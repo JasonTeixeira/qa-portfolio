@@ -50,19 +50,19 @@ export function CapacitySignal({
   if (dismissed) return null
 
   return (
-    <div className="relative rounded-xl border border-[#0ED3CF]/30 bg-[#0ED3CF]/5 px-4 py-2.5 mb-8 flex flex-wrap items-center gap-3">
+    <div className="relative rounded-xl border border-[#3D5AFE]/30 bg-[#3D5AFE]/5 px-4 py-2.5 mb-8 flex flex-wrap items-center gap-3">
       <span
-        className="inline-block w-2 h-2 rounded-full bg-[#0ED3CF] shrink-0"
+        className="inline-block w-2 h-2 rounded-full bg-[#3D5AFE] shrink-0"
         aria-hidden
       >
-        <span className="block w-2 h-2 rounded-full bg-[#0ED3CF] animate-ping" />
+        <span className="block w-2 h-2 rounded-full bg-[#3D5AFE] animate-ping" />
       </span>
       <span className="text-xs font-mono uppercase tracking-widest text-[#A8A29E] flex-1">
-        <span className="text-[#0ED3CF]">{message}</span>
+        <span className="text-[#3D5AFE]">{message}</span>
       </span>
       <a
         href={ctaHref}
-        className="text-xs font-mono uppercase tracking-widest text-[#0ED3CF] hover:text-[#FAFAFA] transition-colors"
+        className="text-xs font-mono uppercase tracking-widest text-[#3D5AFE] hover:text-[#FAFAFA] transition-colors"
       >
         {ctaLabel} →
       </a>

@@ -27,7 +27,7 @@ const STAGES: Stage[] = [
     title: 'Discover',
     tagline: 'Map the problem space',
     body: 'Map the problem, define scope, agree on outcomes before code. You get a scope document, not a sales pitch.',
-    accentColor: '#0ED3CF',
+    accentColor: '#3D5AFE',
     deliverables: [
       'Problem statement & success criteria',
       'Stakeholder alignment doc',
@@ -107,7 +107,7 @@ export function ProcessContent() {
                 style={HEADING_STYLE}
               >
                 Four stages.{' '}
-                <em className="not-italic text-[#0ED3CF]">No ghost-mode.</em>
+                <em className="not-italic text-[#3D5AFE]">No ghost-mode.</em>
               </h1>
               <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
                 Every Sage Ideas engagement runs the same four-stage process regardless of scope. You always know where we are, what was decided, and what ships next.
@@ -231,7 +231,7 @@ export function ProcessContent() {
         {/* CTA */}
         <Section
           eyebrow="ready to start"
-          heading={<>Let&apos;s map your<br /><em className="not-italic text-[#0ED3CF]">scope together.</em></>}
+          heading={<>Let&apos;s map your<br /><em className="not-italic text-[#3D5AFE]">scope together.</em></>}
           lede="The first step is a free 20-minute intro chat. No pitch, no obligation — just an honest scope and fit check."
           centered
           grain

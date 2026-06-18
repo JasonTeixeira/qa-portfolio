@@ -36,7 +36,7 @@ export function UpdateToast() {
       </span>
       <button
         onClick={refresh}
-        className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#0ED3CF] text-[#09090B] hover:bg-[#33EBE8]"
+        className="text-xs font-semibold px-2.5 py-1 rounded-md bg-[#3D5AFE] text-[#09090B] hover:bg-[#5670ff]"
       >
         Refresh
       </button>

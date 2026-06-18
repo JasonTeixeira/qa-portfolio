@@ -179,7 +179,7 @@ export default async function CompareDetailPage({ params }: Props) {
             </MonoLabel>
             <p className="text-sm text-[var(--sage-ink-muted)] leading-relaxed">{c.whenTheyWin}</p>
           </div>
-          <div className="bg-[#0ED3CF]/[0.04] border-l border-[var(--sage-border)] p-6">
+          <div className="bg-[#3D5AFE]/[0.04] border-l border-[var(--sage-border)] p-6">
             <MonoLabel tone="accent" as="p" className="mb-3">
               Pick Sage Ideas when
             </MonoLabel>
@@ -234,7 +234,7 @@ export default async function CompareDetailPage({ params }: Props) {
         {/* CTA */}
         <section
           aria-label="Next step"
-          className="rounded-[3px] border border-[#0ED3CF]/30 bg-[#0ED3CF]/[0.04] p-8"
+          className="rounded-[3px] border border-[#3D5AFE]/30 bg-[#3D5AFE]/[0.04] p-8"
         >
           <div className="mb-7 flex items-center gap-4">
             <Hairline className="flex-1" />

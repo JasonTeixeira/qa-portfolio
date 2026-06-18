@@ -62,7 +62,7 @@ export default function SiteStarterPage() {
             <div className="max-w-3xl">
               <SectionLabel>Site Starter</SectionLabel>
               <h1 className="mt-3 text-3xl sm:text-4xl font-normal text-[#FAFAFA] leading-tight">
-                A real site, live in days. <span className="text-[#0ED3CF]">Pick a tier.</span>
+                A real site, live in days. <span className="text-[#3D5AFE]">Pick a tier.</span>
               </h1>
               <p className="mt-3 text-base text-[#A8A29E] leading-relaxed max-w-2xl">
                 Three fixed-scope site builds with Stripe checkout. Mobile-first, SEO-ready,
@@ -70,19 +70,19 @@ export default function SiteStarterPage() {
               </p>
               <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#78716C]">
                 <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                  <Check className="w-3.5 h-3.5 text-[#3D5AFE]" />
                   Next.js 15 + Tailwind
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                  <Check className="w-3.5 h-3.5 text-[#3D5AFE]" />
                   Vercel deploy + DNS
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                  <Check className="w-3.5 h-3.5 text-[#3D5AFE]" />
                   Mobile-first responsive
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#0ED3CF]" />
+                  <Check className="w-3.5 h-3.5 text-[#3D5AFE]" />
                   SEO foundation
                 </span>
               </div>
@@ -98,12 +98,12 @@ export default function SiteStarterPage() {
                 key={tier.slug}
                 className={`relative rounded-2xl border bg-[#12110F] p-6 flex flex-col ${
                   tier.highlight
-                    ? 'border-[#0ED3CF]/50 shadow-[0_0_60px_rgba(6,182,212,0.15)]'
+                    ? 'border-[#3D5AFE]/50 shadow-[0_0_60px_rgba(61,90,254,0.15)]'
                     : 'border-[#2A2826]'
                 }`}
               >
                 {tier.highlight && (
-                  <span className="absolute -top-3 left-6 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#0ED3CF]/30 bg-[#0ED3CF]/10 text-[#0ED3CF]">
+                  <span className="absolute -top-3 left-6 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#3D5AFE]/30 bg-[#3D5AFE]/10 text-[#3D5AFE]">
                     Most popular
                   </span>
                 )}
@@ -122,7 +122,7 @@ export default function SiteStarterPage() {
                 <ul className="space-y-2 mb-6 flex-1">
                   {tier.deliverables.slice(0, 5).map((d) => (
                     <li key={d} className="flex items-start gap-2 text-sm text-[#D4D4D8]">
-                      <Check className="w-4 h-4 text-[#0ED3CF] shrink-0 mt-0.5" />
+                      <Check className="w-4 h-4 text-[#3D5AFE] shrink-0 mt-0.5" />
                       <span>{d}</span>
                     </li>
                   ))}
@@ -154,7 +154,7 @@ export default function SiteStarterPage() {
               'Source code in your GitHub org if you want it',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 text-sm text-[#D4D4D8]">
-                <Check className="w-5 h-5 text-[#0ED3CF] shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-[#3D5AFE] shrink-0 mt-0.5" />
                 <span>{item}</span>
               </div>
             ))}
@@ -177,7 +177,7 @@ export default function SiteStarterPage() {
                   <th className="px-4 py-3 text-left text-[#A8A29E] font-mono uppercase tracking-wider text-xs">
                     Marketing
                   </th>
-                  <th className="px-4 py-3 text-left text-[#0ED3CF] font-mono uppercase tracking-wider text-xs">
+                  <th className="px-4 py-3 text-left text-[#3D5AFE] font-mono uppercase tracking-wider text-xs">
                     Pro
                   </th>
                 </tr>
@@ -193,7 +193,7 @@ export default function SiteStarterPage() {
                   <td className="px-4 py-3 text-[#A8A29E]">CMS-backed blog</td>
                   <td className="px-4 py-3 text-[#78716C]">—</td>
                   <td className="px-4 py-3 text-[#78716C]">—</td>
-                  <td className="px-4 py-3 text-[#0ED3CF]">Yes</td>
+                  <td className="px-4 py-3 text-[#3D5AFE]">Yes</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3 text-[#A8A29E]">SEO foundation</td>
@@ -223,7 +223,7 @@ export default function SiteStarterPage() {
                   <td className="px-4 py-3 text-[#A8A29E]">Price</td>
                   <td className="px-4 py-3 text-[#FAFAFA] font-bold">$1,500</td>
                   <td className="px-4 py-3 text-[#FAFAFA] font-bold">$2,500</td>
-                  <td className="px-4 py-3 text-[#0ED3CF] font-bold">$3,500</td>
+                  <td className="px-4 py-3 text-[#3D5AFE] font-bold">$3,500</td>
                 </tr>
               </tbody>
             </table>

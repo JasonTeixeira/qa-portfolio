@@ -43,7 +43,7 @@ export default function ErrorBoundary({
             <MonoLabel tone="faint">{'// runtime log'}</MonoLabel>
           </div>
           <div className="space-y-0.5 px-5 py-4 text-[11px] leading-relaxed">
-            <div><span className="text-[#0ED3CF]">$</span> <span className="text-[var(--sage-ink-muted)]">render(page)</span></div>
+            <div><span className="text-[#3D5AFE]">$</span> <span className="text-[var(--sage-ink-muted)]">render(page)</span></div>
             <div className="text-[var(--sage-coral)]">Error: runtime exception</div>
             <div className="text-[var(--sage-ink-faint)]">at server.tsx:?:?</div>
             <div className="text-[var(--sage-ink-faint)]">x-sage-status: logged · alert sent</div>
@@ -70,7 +70,7 @@ export default function ErrorBoundary({
           The server threw. We were paged. If you hit retry and it still fails, send the digest below to{' '}
           <a
             href="mailto:sage@sageideas.dev"
-            className="text-[#0ED3CF] underline underline-offset-2 hover:text-[#33EBE8]"
+            className="text-[#3D5AFE] underline underline-offset-2 hover:text-[#5670ff]"
           >
             sage@sageideas.dev
           </a>
@@ -87,7 +87,7 @@ export default function ErrorBoundary({
         <div className="mt-10 flex flex-wrap gap-3">
           <button
             onClick={reset}
-            className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#0ED3CF] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#33EBE8] focus-visible:outline-none active:translate-y-px"
+            className="group relative inline-flex h-12 items-center gap-2.5 rounded-[3px] bg-[#3D5AFE] px-6 text-[13px] font-medium uppercase tracking-[0.08em] text-[#08110F] transition-[background-color,transform] duration-200 ease-out [font-family:var(--font-mono),ui-monospace,monospace] hover:bg-[#5670ff] focus-visible:outline-none active:translate-y-px"
           >
             <RotateCcw className="h-3.5 w-3.5" aria-hidden />
             retry

@@ -86,7 +86,7 @@ export function ScreenViewer({ screens }: ScreenViewerProps) {
               type="button"
               onClick={prev}
               aria-label="Previous screen"
-              className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-bg)]/80 text-[var(--sage-ink)] backdrop-blur-sm transition-colors hover:border-[#0ED3CF]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+              className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-bg)]/80 text-[var(--sage-ink)] backdrop-blur-sm transition-colors hover:border-[#3D5AFE]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -94,7 +94,7 @@ export function ScreenViewer({ screens }: ScreenViewerProps) {
               type="button"
               onClick={next}
               aria-label="Next screen"
-              className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-bg)]/80 text-[var(--sage-ink)] backdrop-blur-sm transition-colors hover:border-[#0ED3CF]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60"
+              className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-bg)]/80 text-[var(--sage-ink)] backdrop-blur-sm transition-colors hover:border-[#3D5AFE]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -121,9 +121,9 @@ export function ScreenViewer({ screens }: ScreenViewerProps) {
               onClick={() => goTo(i)}
               aria-label={`Show screen ${i + 1}`}
               aria-current={i === index}
-              className={`relative aspect-video w-32 shrink-0 overflow-hidden rounded-[2px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 ${
+              className={`relative aspect-video w-32 shrink-0 overflow-hidden rounded-[2px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 ${
                 i === index
-                  ? 'border-[#0ED3CF] ring-1 ring-[#0ED3CF]/40'
+                  ? 'border-[#3D5AFE] ring-1 ring-[#3D5AFE]/40'
                   : 'border-[var(--sage-border)] opacity-60 hover:opacity-100'
               }`}
             >

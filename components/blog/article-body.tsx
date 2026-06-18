@@ -1,7 +1,11 @@
-import { InlineNewsletterCTA } from './inline-newsletter-cta'
+import { ArticleLeadMagnet } from './article-route-cards'
+import type { BlogPost } from '@/lib/blog-server'
+import type { HubMeta } from '@/data/content/clusters'
 
 interface ArticleBodyProps {
   html: string
+  cluster: HubMeta
+  currentPost: BlogPost
 }
 
 /**
@@ -9,17 +13,16 @@ interface ArticleBodyProps {
  * newsletter CTA after the middle H2. Renders inside #article-body so the
  * reading-progress bar can compute scroll progress against this element.
  */
-export function ArticleBody({ html }: ArticleBodyProps) {
+export function ArticleBody({ html, cluster, currentPost }: ArticleBodyProps) {
   // Split by H2 tags (preserve them on the trailing chunk)
   const parts = html.split(/(?=<h2[\s>])/i)
 
   if (parts.length <= 1) {
     return (
-      <div
-        id="article-body"
-        className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <div id="article-body" className="markdown-body">
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+        <ArticleLeadMagnet cluster={cluster} currentPost={currentPost} />
+      </div>
     )
   }
 
@@ -30,7 +33,7 @@ export function ArticleBody({ html }: ArticleBodyProps) {
   return (
     <div id="article-body" className="markdown-body">
       <div dangerouslySetInnerHTML={{ __html: before }} />
-      <InlineNewsletterCTA />
+      <ArticleLeadMagnet cluster={cluster} currentPost={currentPost} />
       <div dangerouslySetInnerHTML={{ __html: after }} />
     </div>
   )

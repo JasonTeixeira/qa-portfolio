@@ -152,9 +152,9 @@ export const accentClasses: Record<
     bg: 'bg-[#06B6D4]/10',
     border: 'border-[#06B6D4]/20',
     borderStrong: 'border-[#06B6D4]/40',
-    gradient: 'from-[#06B6D4]/20 via-[#0891B2]/10 to-transparent',
+    gradient: 'from-[#06B6D4]/20 via-[#2F46D8]/10 to-transparent',
     iconBg: 'bg-[#06B6D4]/10 ring-1 ring-[#06B6D4]/30',
-    glow: 'shadow-[0_0_60px_rgba(6,182,212,0.15)]',
+    glow: 'shadow-[0_0_60px_rgba(61,90,254,0.15)]',
   },
   violet: {
     text: 'text-[#8B5CF6]',

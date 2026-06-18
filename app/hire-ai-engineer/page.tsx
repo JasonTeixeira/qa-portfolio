@@ -246,7 +246,7 @@ export default function HireAiEngineerPage() {
             <div>
               <h1 className="max-w-4xl text-[clamp(2.5rem,1.4rem+5vw,5.7rem)] font-normal leading-[0.98] text-[var(--sage-ink)]">
                 Jason Teixeira
-                <span className="block italic text-[#0ED3CF]">AI Applications Engineer</span>
+                <span className="block italic text-[#3D5AFE]">AI Applications Engineer</span>
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--sage-ink-muted)] sm:text-lg">
                 Full-stack builder focused on AI products, LLM workflows, RAG systems, evaluation
@@ -288,7 +288,7 @@ export default function HireAiEngineerPage() {
                       <h2 className="font-mono text-sm uppercase tracking-[0.08em] text-[var(--sage-ink)]">
                         {role.title}
                       </h2>
-                      <span className="rounded-[3px] border border-[var(--sage-border-strong)] px-2 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[#0ED3CF]">
+                      <span className="rounded-[3px] border border-[var(--sage-border-strong)] px-2 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[#3D5AFE]">
                         {role.fit}
                       </span>
                     </div>
@@ -309,7 +309,7 @@ export default function HireAiEngineerPage() {
         ariaLabel="Recruiter proof"
         heading={
           <>
-            Concrete build evidence, <span className="italic text-[#0ED3CF]">not loose claims.</span>
+            Concrete build evidence, <span className="italic text-[#3D5AFE]">not loose claims.</span>
           </>
         }
         lede="The fastest hiring-manager scan should show production systems, AI workflows, test coverage, deployment experience, and real repositories."
@@ -329,7 +329,7 @@ export default function HireAiEngineerPage() {
             return (
               <Surface key={project.name} level={2} interactive className="p-5 sm:p-6">
                 <div className="flex items-start gap-4">
-                  <div className="grid size-11 shrink-0 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-3)] text-[#0ED3CF]">
+                  <div className="grid size-11 shrink-0 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-3)] text-[#3D5AFE]">
                     <Icon size={21} aria-hidden />
                   </div>
                   <div>
@@ -347,7 +347,7 @@ export default function HireAiEngineerPage() {
                     </ul>
                     <Link
                       href={project.href}
-                      className="mt-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[#0ED3CF] hover:text-[#33EBE8]"
+                      className="mt-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[#3D5AFE] hover:text-[#5670ff]"
                     >
                       View repo <ArrowUpRight size={14} aria-hidden />
                     </Link>
@@ -365,7 +365,7 @@ export default function HireAiEngineerPage() {
         ariaLabel="Operating signals"
         heading={
           <>
-            Why this profile matches <span className="italic text-[#0ED3CF]">AI application teams.</span>
+            Why this profile matches <span className="italic text-[#3D5AFE]">AI application teams.</span>
           </>
         }
         lede="The strongest angle is not generic machine learning research. It is applied AI engineering: product surfaces, integration work, evaluation loops, and deployment."
@@ -376,7 +376,7 @@ export default function HireAiEngineerPage() {
             const Icon = signal.icon
             return (
               <Surface key={signal.title} level={2} className="p-6">
-                <Icon className="size-7 text-[#0ED3CF]" aria-hidden />
+                <Icon className="size-7 text-[#3D5AFE]" aria-hidden />
                 <h3 className="mt-5 text-xl font-normal text-[var(--sage-ink)]">{signal.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--sage-ink-muted)]">{signal.text}</p>
               </Surface>
@@ -391,7 +391,7 @@ export default function HireAiEngineerPage() {
         ariaLabel="Resume variants"
         heading={
           <>
-            ATS-safe resumes for <span className="italic text-[#0ED3CF]">multiple hiring funnels.</span>
+            ATS-safe resumes for <span className="italic text-[#3D5AFE]">multiple hiring funnels.</span>
           </>
         }
         lede="Each PDF is plain-text parseable and tuned to a different role family: AI engineering, QA/testing, AI evaluation, support, implementation, solutions, data, and junior web/full-stack."
@@ -409,10 +409,10 @@ export default function HireAiEngineerPage() {
               className="group flex items-center justify-between gap-4 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-2)] p-4 transition-colors hover:border-[var(--sage-border-hover)] hover:bg-[var(--sage-surface-3)]"
             >
               <span className="flex items-center gap-3 text-sm font-medium text-[var(--sage-ink)]">
-                <FileDown className="size-4 text-[#0ED3CF]" aria-hidden />
+                <FileDown className="size-4 text-[#3D5AFE]" aria-hidden />
                 {resume.label}
               </span>
-              <ArrowUpRight className="size-4 shrink-0 text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#0ED3CF]" aria-hidden />
+              <ArrowUpRight className="size-4 shrink-0 text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#3D5AFE]" aria-hidden />
             </Link>
           ))}
         </div>
@@ -421,13 +421,13 @@ export default function HireAiEngineerPage() {
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="https://github.com/JasonTeixeira"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] hover:text-[#0ED3CF]"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] hover:text-[#3D5AFE]"
             >
               <Github size={16} aria-hidden /> github.com/JasonTeixeira
             </Link>
             <Link
               href="https://www.linkedin.com/in/jason-teixeira"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] hover:text-[#0ED3CF]"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] hover:text-[#3D5AFE]"
             >
               <Linkedin size={16} aria-hidden /> linkedin.com/in/jason-teixeira
             </Link>

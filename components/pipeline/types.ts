@@ -80,13 +80,13 @@ export type PipelineIcon =
 
 export const PIPELINE_TONES = {
   cyan: {
-    border: 'border-cyan-400/40',
-    glow: 'shadow-[0_0_40px_rgba(6,182,212,0.25)]',
-    text: 'text-cyan-300',
-    bg: 'bg-cyan-500/10',
-    dot: 'bg-cyan-400',
+    border: 'border-blue-500/40',
+    glow: 'shadow-[0_0_40px_rgba(61,90,254,0.25)]',
+    text: 'text-blue-300',
+    bg: 'bg-blue-500/10',
+    dot: 'bg-blue-500',
     line: 'rgba(6, 182, 212, 0.85)',
-    gradient: 'from-cyan-400 to-cyan-300',
+    gradient: 'from-blue-500 to-blue-300',
   },
   violet: {
     border: 'border-violet-400/40',

@@ -34,7 +34,7 @@ type Props = {
 
 const VARIANT_COLOR: Record<NonNullable<ArchNode['variant']>, string> = {
   input: '#A78BFA',
-  core: '#22D3EE',
+  core: '#5670ff',
   tool: '#F59E0B',
   output: '#34D399',
   guard: '#F472B6',
@@ -59,7 +59,7 @@ export function AgentArchitectureDiagram({
   subtitle,
   nodes,
   connections,
-  accent = '#22D3EE',
+  accent = '#5670ff',
 }: Props) {
   const [replayKey, setReplayKey] = useState(0)
   const cols = Math.max(...nodes.map((n) => n.col)) + 1

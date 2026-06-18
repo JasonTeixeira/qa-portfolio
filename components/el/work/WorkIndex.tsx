@@ -60,9 +60,9 @@ export function WorkIndex({ studies }: WorkIndexProps) {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActive(cat)}
-                className={`min-h-[40px] rounded-[3px] border px-4 text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0ED3CF]/60 ${
+                className={`min-h-[40px] rounded-[3px] border px-4 text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 ${
                   isActive
-                    ? 'border-[#0ED3CF] bg-[#0ED3CF]/10 text-[#0ED3CF]'
+                    ? 'border-[#3D5AFE] bg-[#3D5AFE]/10 text-[#3D5AFE]'
                     : 'border-[var(--sage-border)] text-[var(--sage-ink-faint)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink-muted)]'
                 }`}
               >
@@ -80,7 +80,7 @@ export function WorkIndex({ studies }: WorkIndexProps) {
             <Surface level={2} ticks interactive className="overflow-hidden">
               <span
                 aria-hidden
-                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#0ED3CF] via-[#0ED3CF]/30 to-transparent"
+                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#3D5AFE] via-[#3D5AFE]/30 to-transparent"
               />
               <div className="grid gap-8 p-7 sm:p-9 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
                 <div className="flex flex-col">
@@ -90,7 +90,7 @@ export function WorkIndex({ studies }: WorkIndexProps) {
                   </div>
 
                   <h3
-                    className="mt-4 text-[clamp(2rem,1.2rem+3vw,3.5rem)] font-normal leading-[1.0] tracking-[-0.024em] text-[var(--sage-ink)] transition-colors group-hover:text-[#0ED3CF]"
+                    className="mt-4 text-[clamp(2rem,1.2rem+3vw,3.5rem)] font-normal leading-[1.0] tracking-[-0.024em] text-[var(--sage-ink)] transition-colors group-hover:text-[#3D5AFE]"
                     style={DISPLAY_STYLE}
                   >
                     {flagship.posterTitle ?? flagship.title}
@@ -127,7 +127,7 @@ export function WorkIndex({ studies }: WorkIndexProps) {
                   </div>
 
                   <div className="mt-auto pt-8">
-                    <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                    <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                       open case_studies/{flagship.slug}
                       <span
                         aria-hidden
@@ -197,7 +197,7 @@ export function WorkIndex({ studies }: WorkIndexProps) {
                         {study.category}
                       </MonoLabel>
                       <h3
-                        className="mt-1.5 text-xl font-normal leading-tight tracking-[-0.02em] text-[var(--sage-ink)] transition-colors group-hover:text-[#0ED3CF] sm:text-2xl"
+                        className="mt-1.5 text-xl font-normal leading-tight tracking-[-0.02em] text-[var(--sage-ink)] transition-colors group-hover:text-[#3D5AFE] sm:text-2xl"
                         style={DISPLAY_STYLE}
                       >
                         {study.title.split('—')[0].trim()}
@@ -230,7 +230,7 @@ export function WorkIndex({ studies }: WorkIndexProps) {
                       )}
                       <span
                         aria-hidden
-                        className="text-[var(--sage-ink-faint)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+                        className="text-[var(--sage-ink-faint)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-[#3D5AFE]"
                       >
                         →
                       </span>

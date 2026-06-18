@@ -32,6 +32,10 @@ That is not a product. That is a permissions incident waiting for a calendar inv
 
 The hard part of agents is not tool use. The hard part is the boundary.
 
+:::proof-note title="The boundary is the product" label="field note"
+An AI agent is not safer because the prompt sounds careful. It is safer when the surrounding system controls tools, permissions, approvals, logs, and stop conditions.
+:::
+
 ## An agent is not a job title
 
 "Sales agent" is not a spec.
@@ -50,6 +54,10 @@ A useful agent spec names the actual loop:
 The smaller the loop, the better the agent.
 
 The agent should own one decision surface. Routing. Drafting. Extracting. Checking. Reconciling. Not "run operations."
+
+:::system-diagram title="Agent boundary map" label="surface -> system" nodes="Input,Policy,Approval,Audit"
+The visible agent is only the surface. The durable product is the system around it: policy, tool boundaries, approval gates, and an audit trail.
+:::
 
 ## Tools should be narrow, not impressive
 
@@ -101,6 +109,14 @@ That usually means the agent sits at the edge of a system, translating messy hum
 
 Before building an agent, I want five sentences:
 
+:::checklist title="Agent boundary checklist" label="checklist"
+- The agent is allowed to decide one narrow thing.
+- The agent is not allowed to mutate money, access, or reputation without review.
+- Every write action has schema validation outside the prompt.
+- Human approval shows evidence, reason, risk, and exact diff.
+- Every action lands in an audit log.
+:::
+
 1. The agent is allowed to decide ___.
 2. The agent is not allowed to decide ___.
 3. The agent can call these tools: ___.
@@ -110,3 +126,7 @@ Before building an agent, I want five sentences:
 If those sentences are hard to write, the agent is not ready to build.
 
 The boundary is the product.
+
+:::offer-cta title="Need an AI workflow scoped safely?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the Route Finder to decide whether this should be an automation audit, a full studio build, or an academy learning path.
+:::

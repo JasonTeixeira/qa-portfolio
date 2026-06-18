@@ -15,6 +15,12 @@ shipped Phase 0+1.
 
 ## The specs
 
+### Revenue OS institutional roadmap
+
+- [revenue-os-institutional-completion-plan.md](revenue-os-institutional-completion-plan.md) — the 12-program completion plan for taking the current Acquisition/Revenue OS from proof-mode to real data, real workers, real dashboards, multi-tenant SaaS readiness, and production operations.
+
+### Growth-site specs
+
 | Program | Spec | Owns | 99+ categories it raises |
 |---|---|---|---|
 | **G** | [program-g-research-baseline.md](program-g-research-baseline.md) | Keyword map, SERP/competitor briefs, content audit, dated baseline, revenue model, ICP/messaging | Analytics, Content, SEO, Strategy |

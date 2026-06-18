@@ -242,7 +242,7 @@ export function CarePageContent({ care }: { care: CareTier }) {
 
             <div className="mt-8 flex flex-wrap gap-2 text-xs font-mono text-[#78716C]">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#12110F] border border-[#2A2826]">
-                <ShieldCheck className="w-3 h-3 text-[#0ED3CF]" /> Secure Stripe checkout
+                <ShieldCheck className="w-3 h-3 text-[#3D5AFE]" /> Secure Stripe checkout
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#12110F] border border-[#2A2826]">
                 {care.price}/mo · billed monthly
@@ -263,7 +263,7 @@ export function CarePageContent({ care }: { care: CareTier }) {
             <ul className="space-y-3">
               {(detail?.included ?? care.outcomes).map((line) => (
                 <li key={line} className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-[#0ED3CF] mt-0.5 shrink-0" />
+                  <Check className="w-4 h-4 text-[#3D5AFE] mt-0.5 shrink-0" />
                   <span className="text-sm text-[#FAFAFA]/90 leading-snug">{line}</span>
                 </li>
               ))}
@@ -286,7 +286,7 @@ export function CarePageContent({ care }: { care: CareTier }) {
               Need something bigger? Scope a custom engagement —{' '}
               <Link
                 href="/contact?engagement=custom"
-                className="text-[#0ED3CF] hover:underline"
+                className="text-[#3D5AFE] hover:underline"
               >
                 talk to Sage
               </Link>
@@ -360,7 +360,7 @@ export function CarePageContent({ care }: { care: CareTier }) {
         {/* CTA */}
         <motion.div
           {...fadeUp}
-          className="rounded-2xl bg-gradient-to-br from-[#E85D3A]/10 via-[#12110F] to-[#0ED3CF]/10 border border-[#E85D3A]/20 p-8 sm:p-12 text-center"
+          className="rounded-2xl bg-gradient-to-br from-[#E85D3A]/10 via-[#12110F] to-[#3D5AFE]/10 border border-[#E85D3A]/20 p-8 sm:p-12 text-center"
         >
           <h2 className="text-2xl sm:text-3xl font-normal text-[#FAFAFA] mb-3">
             Ready for steady upkeep?

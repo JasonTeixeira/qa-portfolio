@@ -33,7 +33,7 @@ export const legalMdxComponents: MDXComponents = {
   ),
   a: (props: ComponentPropsWithoutRef<'a'>) => (
     <a
-      className="text-[#0ED3CF] hover:text-[#22D3EE] underline underline-offset-4 transition-colors"
+      className="text-[#3D5AFE] hover:text-[#5670ff] underline underline-offset-4 transition-colors"
       {...props}
     />
   ),
@@ -44,7 +44,7 @@ export const legalMdxComponents: MDXComponents = {
     <em className="text-[#FAFAFA] not-italic font-medium" {...props} />
   ),
   ul: (props: ComponentPropsWithoutRef<'ul'>) => (
-    <ul className="list-disc pl-6 space-y-1.5 my-4 text-[#A8A29E] marker:text-[#0ED3CF]" {...props} />
+    <ul className="list-disc pl-6 space-y-1.5 my-4 text-[#A8A29E] marker:text-[#3D5AFE]" {...props} />
   ),
   ol: (props: ComponentPropsWithoutRef<'ol'>) => (
     <ol
@@ -60,13 +60,13 @@ export const legalMdxComponents: MDXComponents = {
   ),
   blockquote: (props: ComponentPropsWithoutRef<'blockquote'>) => (
     <blockquote
-      className="border-l-2 border-[#0ED3CF] pl-4 my-6 text-[#A8A29E] italic"
+      className="border-l-2 border-[#3D5AFE] pl-4 my-6 text-[#A8A29E] italic"
       {...props}
     />
   ),
   code: (props: ComponentPropsWithoutRef<'code'>) => (
     <code
-      className="text-[#0ED3CF] bg-[#12110F] border border-[#2A2826] px-1.5 py-0.5 rounded text-[13px] font-mono"
+      className="text-[#3D5AFE] bg-[#12110F] border border-[#2A2826] px-1.5 py-0.5 rounded text-[13px] font-mono"
       {...props}
     />
   ),

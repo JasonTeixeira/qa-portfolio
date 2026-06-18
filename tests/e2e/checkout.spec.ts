@@ -62,6 +62,24 @@ test.describe('Checkout flow', () => {
     expect(res.status()).toBe(400);
   });
 
+  test('academy checkout is recognized but gated until Stripe price IDs are configured', async ({
+    request,
+  }) => {
+    const res = await request.post('/api/checkout', {
+      data: { kind: 'academy', slug: 'ai-native-product-building' },
+      headers: { 'content-type': 'application/json' },
+    });
+    expect([200, 409, 503]).toContain(res.status());
+    const body = await res.json();
+    if (res.status() === 200) {
+      expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com\//);
+    } else if (res.status() === 503) {
+      expect(body.error).toMatch(/unavailable/i);
+    } else {
+      expect(body.error).toMatch(/not live|early access/i);
+    }
+  });
+
   test('care slug (site-care) is recognized as a valid checkout path — returns 503 when Stripe unconfigured, not 400', async ({
     request,
   }) => {

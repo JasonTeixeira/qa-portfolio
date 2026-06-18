@@ -63,7 +63,7 @@ type Payloads = {
   route_console_open: { mode: 'services' | 'resources' | 'mobile'; trigger: 'hover' | 'click' | 'mobile_toggle' }
   route_console_click: { mode: 'services' | 'resources' | 'mobile'; label: string; href: string; lane?: string }
   sound_enabled: { location: 'home'; state: 'on' | 'off' }
-  splash_skipped: { reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' }
+  splash_skipped: { reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' | 'skipped' }
   academy_track_selected: { slug: string; title: string; location: 'academy_index' | 'academy_track' | 'article' }
   experiment_viewed: { flag: string; variant: 'control' | 'treatment' }
 }

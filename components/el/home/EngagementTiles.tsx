@@ -39,7 +39,7 @@ export function EngagementTiles({ tiles }: EngagementTilesProps) {
                 {primary && (
                   <span
                     aria-hidden
-                    className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#0ED3CF] via-[#0ED3CF]/30 to-transparent"
+                    className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#3D5AFE] via-[#3D5AFE]/30 to-transparent"
                   />
                 )}
                 <div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ export function EngagementTiles({ tiles }: EngagementTilesProps) {
                 </p>
 
                 <Hairline className="mt-6" />
-                <span className="mt-4 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                <span className="mt-4 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors group-hover:text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                   {tile.cta}
                   <span
                     aria-hidden

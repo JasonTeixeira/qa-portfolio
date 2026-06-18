@@ -3,6 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { MonoLabel } from '@/components/el'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 
 export interface CatalogRowItem {
   slug: string
@@ -41,10 +42,11 @@ export function CatalogRow({ label, items }: CatalogRowProps) {
           <li key={item.slug}>
             <Link
               href={item.href}
-              className="group flex items-center gap-4 border-b border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-5 py-4 transition-colors last:border-b-0 hover:bg-[var(--sage-surface-2)]"
+              className="group relative flex items-center gap-4 overflow-hidden border-b border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-5 py-4 transition-colors last:border-b-0 hover:bg-[var(--sage-surface-2)]"
             >
+              <SystemFlowOverlay variant="systems" intensity="quiet" />
               <div className="min-w-0 flex-1">
-                <span className="text-[15px] font-medium text-[var(--sage-ink)] transition-colors group-hover:text-[#0ED3CF] [font-family:var(--font-display)]">
+                <span className="text-[15px] font-medium text-[var(--sage-ink)] transition-colors group-hover:text-[var(--sage-accent-readable)] [font-family:var(--font-display)]">
                   {item.name}
                 </span>
                 <p className="mt-0.5 truncate text-[13px] text-[var(--sage-ink-muted)]">
@@ -59,7 +61,7 @@ export function CatalogRow({ label, items }: CatalogRowProps) {
               </div>
               <span
                 aria-hidden
-                className="shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#0ED3CF]"
+                className="shrink-0 text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[var(--sage-accent-readable)]"
               >
                 →
               </span>

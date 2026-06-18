@@ -30,4 +30,151 @@ canonical: 'https://www.sageideas.dev/blog/error-handling-that-respects-your-use
 ---
 # Error Handling That Respects Your Users
 
-\\\
+Most error handling is written for the engineer who already knows the system.
+
+That is backwards.
+
+The user does not care that a Stripe webhook timed out, a Supabase policy rejected the row, or a model provider returned a 429. They care about three things:
+
+- what happened
+- whether their work is safe
+- what they can do next
+
+If the interface cannot answer those questions, the error message is not helping. It is just leaking implementation detail.
+
+:::proof-note title="The standard I use" label="operator rule"
+An error state is part of the product surface. It should be designed with the same care as the happy path because it is often the moment when trust is either protected or lost.
+:::
+
+## Start with the user's job, not the exception
+
+The first draft of an error message usually sounds like the code path:
+
+> Failed to create checkout session.
+
+That may be true, but it is not useful. A better version starts with the user intent:
+
+> We could not open checkout. Your project details were saved. Try again, or book a call and we will finish it manually.
+
+That message does four jobs:
+
+- names the failed action
+- confirms whether data was saved
+- gives a next step
+- avoids blaming the user
+
+The internal error can still be logged with the provider, status code, request id, and stack trace. The user does not need all of that.
+
+## Separate user copy from engineering telemetry
+
+The product surface and the observability surface should not carry the same payload.
+
+:::system-diagram title="Respectful error flow" label="surface -> telemetry" nodes="User action,Error boundary,User copy,Telemetry"
+The user sees a clear recovery path. The system keeps the stack trace, request id, provider response, and alert routing for the operator.
+:::
+
+In production, I want two outputs from the same failure:
+
+- a human-readable message on the page
+- a machine-readable event in logs, analytics, and alerting
+
+The user copy should be calm and specific. The telemetry should be dense and ugly if needed. Mixing those two creates either useless logs or hostile interfaces.
+
+## Good error states answer five questions
+
+When I review an error state, I run it through this checklist.
+
+:::checklist title="Error-state checklist" label="ux qa"
+- Does it say what action failed?
+- Does it say whether the user's data is safe?
+- Does it offer a realistic next step?
+- Does it avoid exposing secrets, stack traces, or provider internals?
+- Does telemetry capture enough detail for the operator to debug it?
+:::
+
+If the answer is no, the state is not done.
+
+For example, a lead form failure should not say `500 Internal Server Error`. It should say something closer to:
+
+> We could not send the message. Your browser stayed on this page, so nothing was lost. Try again or email the project details directly.
+
+Then the server logs should carry the actual cause: validation failure, Resend timeout, Supabase insert failure, or webhook rejection.
+
+## Design the fallback before the system fails
+
+Teams usually add fallback states after the first production incident. That is expensive because the failure is already public.
+
+For important flows, I like to define the fallback while building the feature:
+
+| Flow | User fallback | Operator signal |
+|---|---|---|
+| Checkout | Save route, offer booking link | payment provider error with session metadata |
+| Contact form | Keep message on screen, show direct email | lead capture error with source and payload shape |
+| AI generation | Preserve prompt, offer retry | provider, model, latency, and token metadata |
+| File upload | Show file limit and retry path | storage error, size, MIME type, org id |
+
+The fallback does not need to be fancy. It needs to preserve momentum.
+
+## Do not make every error sound the same
+
+Generic messages make the product feel careless:
+
+- Something went wrong.
+- Try again later.
+- An unexpected error occurred.
+
+Sometimes those are acceptable as final catch-alls, but they should not be the only error language in the product.
+
+Different failures need different recovery paths:
+
+- validation error: show the exact field and expected format
+- permission error: explain what role or account is required
+- rate limit: say when to retry or offer a lighter action
+- dependency failure: preserve the user's work and show an alternate path
+- destructive-action failure: clearly state what did not change
+
+The goal is not to make the system look perfect. The goal is to make the user feel oriented when it is not.
+
+:::scorecard title="Error copy quality" label="scorecard"
+Pattern | Weak | Strong
+Validation | Invalid input | Use a work email or remove unsupported characters
+Provider failure | Checkout failed | Checkout did not open. Your project details are saved.
+Permission | Unauthorized | You need admin access to change billing settings
+Rate limit | Too many requests | Wait 60 seconds before running another audit
+Unknown | Something went wrong | We could not complete this action. Your draft is still here.
+:::
+
+## The operator needs a different interface
+
+Respectful user-facing copy only works if the operator still gets the real evidence.
+
+That means logging:
+
+- route and action
+- request id or trace id
+- user/org id when available
+- provider and status code
+- safe payload shape
+- timing
+- retry count
+
+It also means not logging secrets, raw tokens, payment card details, private documents, or full prompts when those prompts may contain customer data.
+
+Good error handling is not softer logging. It is sharper separation.
+
+## The pattern I try to ship
+
+For every important action, I want this shape:
+
+1. Validate early and show field-level guidance.
+2. Wrap the server action/API route in structured error handling.
+3. Return a stable user message and a stable machine code.
+4. Log the full operator-safe context.
+5. Track the failure as a product event if it affects conversion.
+6. Preserve user input wherever possible.
+
+That is not glamorous work, but it is part of the premium feel. The site that saves your work and tells you what to do next feels more trustworthy than the site that flashes a red box and makes you start over.
+
+:::offer-cta title="Want the failure paths audited?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the Route Finder to decide whether your product needs a studio build, an audit sprint, an automation scope, or an academy path.
+:::

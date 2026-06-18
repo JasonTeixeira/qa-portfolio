@@ -30,6 +30,10 @@ That is the trap. You ask it three friendly questions, it answers two and a half
 
 I do not trust that version of the process. I trust the slower one: name the promise, write the failure cases, test the boring path, and keep a human close until the system proves it can behave.
 
+:::system-diagram title="AI evaluation loop" label="promise -> proof" nodes="Promise,Failures,Review,Ship"
+The feature is not evaluated once. It moves through a loop: define the promise, build the failure set, review real outputs, and only then decide what can ship.
+:::
+
 ## Start with the promise
 
 The first question is not "Which model should we use?"
@@ -99,6 +103,16 @@ You do not remove the human because the demo worked. You remove the human when t
 
 Before I ship an AI feature, I want these in place:
 
+:::checklist title="AI feature shipping checklist" label="checklist"
+- A one-sentence promise.
+- An evaluation set with ugly examples.
+- Pass/fail criteria for each example.
+- Logging for prompt, tool calls, sources, and outcome.
+- A human-review path for high-risk outputs.
+- A fallback when the model is unavailable.
+- A way to report bad output from the UI.
+:::
+
 - a one-sentence promise
 - an evaluation set with ugly examples
 - pass/fail criteria for each example
@@ -110,3 +124,7 @@ Before I ship an AI feature, I want these in place:
 None of this makes the feature less impressive.
 
 It makes the feature real.
+
+:::offer-cta title="Need an AI feature evaluated before launch?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the Route Finder to decide whether this needs an AI audit, automation scope, academy path, or full product build.
+:::

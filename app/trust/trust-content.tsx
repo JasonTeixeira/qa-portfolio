@@ -53,7 +53,7 @@ const certifications = [
 ]
 
 const TAG_TONE: Record<string, string> = {
-  testing: 'text-[#0ED3CF]',
+  testing: 'text-[#3D5AFE]',
   cloud: 'text-[var(--sage-ink-muted)]',
   networking: 'text-[var(--sage-ink-faint)]',
 }
@@ -310,7 +310,7 @@ export function TrustContent() {
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="inline-flex items-center rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-3.5 py-1.5 text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-muted)] transition-colors hover:border-[#0ED3CF] hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+                className="inline-flex items-center rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] px-3.5 py-1.5 text-[10px] uppercase tracking-[0.18em] text-[var(--sage-ink-muted)] transition-colors hover:border-[#3D5AFE] hover:text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
               >
                 {s.label}
               </a>
@@ -527,7 +527,7 @@ export function TrustContent() {
             <Reveal key={g.title} delay={i * 0.07}>
               <Surface level={2} className="h-full p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#0ED3CF]" />
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#3D5AFE]" />
                   <h3
                     className="text-base font-normal text-[var(--sage-ink)]"
                     style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}

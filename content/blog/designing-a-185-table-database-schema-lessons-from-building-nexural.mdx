@@ -35,9 +35,24 @@ When people hear "185 database tables," they assume complexity for complexity's 
 
 Here's how I designed the Nexural schema — the decisions that worked, the ones I'd change, and the patterns that scale.
 
+:::system-diagram title="Nexural schema growth" label="schema -> systems" nodes="Auth,Billing,Trading,Ops"
+The database did not start as a giant schema. It grew as product domains became real: users, subscriptions, trading workflows, community features, analytics, research, and operations.
+:::
+
 ## Phase-Based Schema Design
 
 I didn't design 185 tables on day one. The schema grew across 7 phases, each adding a domain:
+
+:::scorecard title="Schema build phases" label="scorecard"
+Phase | Domain | Tables | Key decision
+1 | Auth & Users | 12 | Supabase Auth + custom profiles
+2 | Subscriptions | 8 | Stripe webhook-driven state machine
+3 | Trading | 35 | Instruments, positions, signals, watchlists
+4 | Community | 25 | Discord sync, moderation logs, reputation
+5 | Analytics | 30 | Metrics, reports, telemetry events
+6 | Research | 40 | Strategies, indicators, backtest results
+7 | Operations | 35 | Alerts, newsletters, audit logs
+:::
 
 | Phase | Domain | Tables | Key Decision |
 |-------|--------|--------|-------------|

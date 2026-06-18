@@ -32,4 +32,180 @@ canonical: 'https://www.sageideas.dev/blog/why-most-api-documentation-is-useless
 
 Your API docs have 47 endpoints listed. Each one has the HTTP method, the path, the request body, and the response schema. It's complete, accurate, and thoroughly useless.
 
-Why? Because when I land on your docs, I don't want to know that \\\
+Why? Because when I land on your docs, I usually do not want an endpoint inventory.
+
+I want to complete a task.
+
+I want to know how to create the customer, attach the payment method, start the subscription, handle the webhook, recover from failure, and test it safely.
+
+Endpoint reference is necessary. It is not the product.
+
+:::proof-note title="The mistake" label="docs diagnosis"
+Most API docs are organized around the backend's file structure. Good API docs are organized around the developer's job.
+:::
+
+## Reference is not onboarding
+
+A reference page answers:
+
+- what path exists
+- what method it accepts
+- what fields are allowed
+- what the response looks like
+
+Onboarding answers:
+
+- what should I do first?
+- what order do these calls happen in?
+- what can fail?
+- what should I store?
+- how do I test this without breaking production?
+
+If your docs only have reference pages, the developer has to reverse-engineer the workflow from raw parts.
+
+That is why "complete" docs can still feel unusable.
+
+## Start with the jobs developers actually have
+
+For most APIs, the real docs should start with task paths:
+
+- authenticate a request
+- create the first resource
+- update the resource safely
+- listen for a webhook
+- retry a failed operation
+- move from test mode to production
+
+Then each task can link down into the endpoint reference.
+
+:::system-diagram title="Useful API docs structure" label="job -> reference" nodes="Goal,Guide,Example,Reference"
+The guide starts with the developer goal, shows a working path, includes examples, then links to exact endpoint details.
+:::
+
+The order matters. If the first page is a giant reference table, you are asking the reader to build the mental model alone.
+
+## Show a complete path, not isolated calls
+
+Bad docs show one perfect request:
+
+```http
+POST /customers
+```
+
+Better docs show the sequence:
+
+1. Create the customer.
+2. Create the subscription.
+3. Store the returned ids.
+4. Listen for the confirmation webhook.
+5. Handle failure and cancellation states.
+
+The sequence is what developers need to ship the integration.
+
+Even better, include the shape of the state machine:
+
+:::scorecard title="Docs completeness scorecard" label="scorecard"
+Layer | Weak docs | Strong docs
+Authentication | Token field only | Setup, rotation, scopes, local testing
+Workflow | Endpoint list | Ordered task path with expected states
+Errors | Status code table | Recovery guidance and retry rules
+Examples | One request body | Full request/response lifecycle
+Production | Not mentioned | Go-live checklist and observability
+:::
+
+## Error docs are part of the integration
+
+A serious API tells developers what to do when things fail.
+
+Do not stop at:
+
+```json
+{ "error": "invalid_request" }
+```
+
+Document:
+
+- whether the request is safe to retry
+- whether the operation may have partially succeeded
+- which errors require user action
+- which errors require operator action
+- what id to send support
+- whether the webhook is authoritative
+
+This is where API docs become trust infrastructure.
+
+## Use examples that match production reality
+
+The example should not be a toy if the production workflow is not a toy.
+
+Bad:
+
+```json
+{ "name": "John" }
+```
+
+Better:
+
+```json
+{
+  "externalId": "acct_123",
+  "email": "operator@example.com",
+  "plan": "studio-audit",
+  "metadata": {
+    "source": "route-finder",
+    "campaign": "content-engine"
+  }
+}
+```
+
+The better example teaches naming, metadata, idempotency, and attribution. It helps the developer build the real thing.
+
+## Add a checklist before production
+
+Every API with real business impact should include a go-live checklist.
+
+:::checklist title="API go-live checklist" label="production docs"
+- Auth scopes are minimal and documented
+- Idempotency keys are used for create/payment-like actions
+- Webhook signatures are verified
+- Retry rules are implemented for transient failures
+- Error responses are logged with request ids
+- Test-mode data cannot leak into production reporting
+- Rate limits are visible before launch
+:::
+
+This checklist does not replace the reference. It makes the reference usable.
+
+## Make the docs testable
+
+The best API docs are close enough to the system that they can fail when the system changes.
+
+That can mean:
+
+- examples generated from typed schemas
+- request examples validated in CI
+- OpenAPI output checked against route handlers
+- docs links checked on every build
+- contract tests for the public workflow
+
+If docs are manually maintained far away from the code, they will drift. When they drift, developers stop trusting them.
+
+## The structure I like
+
+For a serious API, I would ship this IA:
+
+1. Start here: what the API does and what you can build.
+2. Quickstart: one complete happy path.
+3. Auth: keys, scopes, rotation, local setup.
+4. Core workflows: task-based guides.
+5. Webhooks/events: delivery, retries, signatures, replay.
+6. Errors/retries: what failed and what to do.
+7. Reference: endpoint-level detail.
+8. Production checklist: go-live guardrails.
+9. Changelog: breaking changes and migration notes.
+
+That is not overkill. That is what lets someone integrate without a sales engineer sitting next to them.
+
+:::offer-cta title="Want your product docs turned into a conversion asset?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the diagnostic to route the work into an audit sprint, product build, automation system, or academy path.
+:::

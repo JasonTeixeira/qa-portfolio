@@ -33,6 +33,8 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/reports/ai-search-readiness-2026', priority: 0.74, changeFrequency: 'monthly' },
+  { path: '/tools/route-finder', priority: 0.76, changeFrequency: 'weekly' },
+  { path: '/tools/seo-audit', priority: 0.76, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/privacy', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/terms', priority: 0.4, changeFrequency: 'yearly' },

@@ -58,7 +58,7 @@ export function HowItWorksContent() {
               style={HEADING_STYLE}
             >
               Every service, end to end —{' '}
-              <em className="not-italic text-[#0ED3CF]">visualized stage by stage.</em>
+              <em className="not-italic text-[#3D5AFE]">visualized stage by stage.</em>
             </h1>
             <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
               No more guessing what you are paying for. Each engagement is mapped
@@ -138,7 +138,7 @@ export function HowItWorksContent() {
                 className={cn(
                   'rounded-[3px] border px-4 py-1.5 text-[11px] uppercase tracking-[0.12em] font-normal transition-all [font-family:var(--font-mono),ui-monospace,monospace]',
                   group === g.id
-                    ? 'border-[#0ED3CF] bg-[#0ED3CF]/10 text-[#0ED3CF]'
+                    ? 'border-[#3D5AFE] bg-[#3D5AFE]/10 text-[#3D5AFE]'
                     : 'border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] text-[var(--sage-ink-muted)] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]',
                 )}
               >
@@ -176,7 +176,7 @@ export function HowItWorksContent() {
                       <p className="mt-1 text-base text-[var(--sage-ink)]" style={{ fontFamily: 'var(--font-display)' }}>
                         {tier?.name ?? pipeline.title}
                         {tier && (
-                          <span className="ml-2 [font-family:var(--font-mono),ui-monospace,monospace] text-sm text-[#0ED3CF]">
+                          <span className="ml-2 [font-family:var(--font-mono),ui-monospace,monospace] text-sm text-[#3D5AFE]">
                             {('price' in (tier ?? {}) ? tier.price : '')}
                           </span>
                         )}
@@ -201,7 +201,7 @@ export function HowItWorksContent() {
       {/* CTA footer */}
       <Section
         eyebrow="custom & retainers"
-        heading={<>Not sure which<br /><em className="not-italic text-[#0ED3CF]">pipeline fits?</em></>}
+        heading={<>Not sure which<br /><em className="not-italic text-[#3D5AFE]">pipeline fits?</em></>}
         lede="If your project does not slot into a productized tier — bigger scope, hybrid engagement, or ongoing monthly work — we run a custom proposal off a 20-minute intro chat. No pressure, no pitch deck, just an honest fit check."
         centered
         grain
@@ -228,7 +228,7 @@ function PromiseCard({
     <div className="bg-[var(--sage-surface-1)] px-6 py-8">
       <div className="flex items-center gap-3 mb-4">
         <span className="grid h-9 w-9 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)]">
-          <Icon className="h-4 w-4 text-[#0ED3CF]" aria-hidden />
+          <Icon className="h-4 w-4 text-[#3D5AFE]" aria-hidden />
         </span>
         <h3 className="text-sm font-normal text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.1em]">{title}</h3>
       </div>

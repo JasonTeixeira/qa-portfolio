@@ -64,7 +64,7 @@ export function CareCard({ care, index }: CareCardProps) {
         <CareCheckoutButton care={care} variant="secondary" />
         <Link
           href={`/services/${care.slug}`}
-          className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+          className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]"
         >
           <span>details</span>
           <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">

@@ -149,7 +149,7 @@ function PipelineHeader({
     <div className="mb-8 flex flex-col gap-4 md:mb-12 md:flex-row md:items-end md:justify-between">
       <div>
         {pipeline.eyebrow && (
-          <div className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-cyan-400/80">
+          <div className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-blue-400/80">
             {pipeline.eyebrow}
           </div>
         )}
@@ -167,7 +167,7 @@ function PipelineHeader({
         className={cn(
           'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium transition-all',
           autoplayActive
-            ? 'border-cyan-400/60 bg-cyan-500/10 text-cyan-200 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
+            ? 'border-blue-500/60 bg-blue-500/10 text-blue-200 shadow-[0_0_24px_rgba(61,90,254,0.25)]'
             : 'border-zinc-700 bg-zinc-900/40 text-zinc-300 hover:border-zinc-500 hover:text-white',
         )}
         aria-label={autoplayActive ? 'Pause auto-play' : 'Play the journey'}
@@ -242,9 +242,9 @@ function DesktopPipeline({
       >
         <defs>
           <linearGradient id={`pipeline-line-${pipeline.slug}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(6,182,212,0.85)" />
+            <stop offset="0%" stopColor="rgba(61,90,254,0.85)" />
             <stop offset="50%" stopColor="rgba(139,92,246,0.85)" />
-            <stop offset="100%" stopColor="rgba(6,182,212,0.85)" />
+            <stop offset="100%" stopColor="rgba(61,90,254,0.85)" />
           </linearGradient>
           <filter id={`pipeline-glow-${pipeline.slug}`} x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -412,7 +412,7 @@ function PipelineNode({
             <p className="mt-1 text-xs leading-relaxed text-zinc-300">{stage.tagline}</p>
             <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-wider text-zinc-500">
               <span>{stage.duration}</span>
-              <span className="inline-flex items-center gap-1 text-cyan-300">
+              <span className="inline-flex items-center gap-1 text-blue-300">
                 Click to expand <ArrowRight className="h-3 w-3" />
               </span>
             </div>
@@ -476,7 +476,7 @@ function ParticleDot({
       cy={p.y}
       r={2.4}
       fill="rgba(255,255,255,0.95)"
-      style={{ filter: 'drop-shadow(0 0 6px rgba(6,182,212,0.85))' }}
+      style={{ filter: 'drop-shadow(0 0 6px rgba(61,90,254,0.85))' }}
     />
   )
 }
@@ -519,7 +519,7 @@ function MobilePipeline({
       {/* Vertical accent line */}
       <span
         aria-hidden
-        className="absolute left-2 top-0 h-full w-px bg-gradient-to-b from-cyan-400/60 via-violet-400/40 to-cyan-400/0"
+        className="absolute left-2 top-0 h-full w-px bg-gradient-to-b from-blue-500/60 via-violet-400/40 to-blue-500/0"
       />
       {pipeline.stages.map((stage, i) => {
         const tone = PIPELINE_TONES[stage.tone ?? 'cyan']

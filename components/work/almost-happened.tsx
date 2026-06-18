@@ -52,10 +52,10 @@ export function AlmostHappenedBlock({ items }: Props) {
 
             {/* Cost */}
             <div className="px-5 py-3 flex gap-4 bg-[#0B0A09]">
-              <span className="shrink-0 inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#0ED3CF]/15 border border-[#0ED3CF]/40 text-[#0ED3CF] text-[10px] font-mono leading-none mt-0.5">
+              <span className="shrink-0 inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#3D5AFE]/15 border border-[#3D5AFE]/40 text-[#3D5AFE] text-[10px] font-mono leading-none mt-0.5">
                 $
               </span>
-              <div className="text-xs leading-relaxed text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <div className="text-xs leading-relaxed text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                 <span className="text-[10px] uppercase tracking-[0.18em] text-[#57534E] mr-2">cost</span>
                 {item.cost}
               </div>

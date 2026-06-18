@@ -38,7 +38,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
             {/* Top accent hairline — single teal signal */}
             <span
               aria-hidden
-              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#0ED3CF] via-[#0ED3CF]/30 to-transparent"
+              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#3D5AFE] via-[#3D5AFE]/30 to-transparent"
             />
             <div className="grid gap-8 p-7 sm:p-9 lg:grid-cols-[1.35fr_1fr] lg:gap-10">
               <div className="flex flex-col">
@@ -48,7 +48,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
                 </div>
 
                 <h3
-                  className="mt-4 text-[clamp(2rem,1.2rem+3vw,3.5rem)] font-normal leading-[1.0] tracking-[-0.024em] text-[var(--sage-ink)] transition-colors group-hover:text-[#0ED3CF]"
+                  className="mt-4 text-[clamp(2rem,1.2rem+3vw,3.5rem)] font-normal leading-[1.0] tracking-[-0.024em] text-[var(--sage-ink)] transition-colors group-hover:text-[#3D5AFE]"
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
@@ -73,7 +73,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
                 </div>
 
                 <div className="mt-auto pt-8">
-                  <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]">
+                  <span className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                     open case_studies/{flagship.slug}
                     <span
                       aria-hidden
@@ -127,7 +127,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
                 </div>
 
                 <h3
-                  className="mt-3 text-xl font-normal tracking-[-0.02em] text-[var(--sage-ink)] transition-colors group-hover:text-[#0ED3CF]"
+                  className="mt-3 text-xl font-normal tracking-[-0.02em] text-[var(--sage-ink)] transition-colors group-hover:text-[#3D5AFE]"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
                   {work.name}

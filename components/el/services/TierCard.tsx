@@ -4,6 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { Surface, MonoLabel, Hairline } from '@/components/el'
 import { CheckoutButton } from '@/components/studio/checkout-button'
+import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import type { Tier } from '@/data/services/tiers'
 import { isSelfServe } from '@/data/services/tier-classification'
 
@@ -11,7 +12,7 @@ export interface TierCardProps {
   tier: Tier
   /** Two-digit index marker, e.g. "01". */
   index: string
-  /** Mark this card as the recommended/primary lane — the single teal accent. */
+  /** Mark this card as the recommended/primary lane. */
   recommended?: boolean
 }
 
@@ -21,7 +22,7 @@ export interface TierCardProps {
  * self-serve path renders the live Stripe CheckoutButton; everything else
  * routes to book/inquiry inside CheckoutButton's own logic.
  *
- * Exactly one card per surface is `recommended` — that card gets the teal
+ * Exactly one card per surface is `recommended` — that card gets the accent
  * top-rule + corner ticks. The rest stay quiet on the near-black ramp.
  */
 export function TierCard({ tier, index, recommended = false }: TierCardProps) {
@@ -39,10 +40,11 @@ export function TierCard({ tier, index, recommended = false }: TierCardProps) {
       ticks={recommended}
       className="relative flex h-full flex-col p-7 sm:p-8"
     >
+      <SystemFlowOverlay variant={recommended ? 'growth' : 'studio'} intensity={recommended ? 'normal' : 'quiet'} />
       {recommended && (
         <span
           aria-hidden
-          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[#0ED3CF] via-[#0ED3CF]/30 to-transparent"
+          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[var(--sage-accent)] via-[rgba(124,58,237,0.45)] to-transparent"
         />
       )}
 
@@ -97,7 +99,7 @@ export function TierCard({ tier, index, recommended = false }: TierCardProps) {
             key={o}
             className="flex gap-3 text-[13px] leading-[1.55] text-[var(--sage-ink-muted)]"
           >
-            <span aria-hidden className="mt-[7px] h-px w-3 shrink-0 bg-[#0ED3CF]" />
+            <span aria-hidden className="mt-[7px] h-px w-3 shrink-0 bg-[var(--sage-accent)]" />
             <span>{o}</span>
           </li>
         ))}
@@ -111,7 +113,7 @@ export function TierCard({ tier, index, recommended = false }: TierCardProps) {
         />
         <Link
           href={`/services/${tier.slug}`}
-          className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[#0ED3CF] [font-family:var(--font-mono),ui-monospace,monospace]"
+          className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-accent-readable)] [font-family:var(--font-mono),ui-monospace,monospace]"
         >
           <span>{selfServe ? 'full scope + deliverables' : 'full scope + what’s included'}</span>
           <span

@@ -35,6 +35,10 @@ Most developer portfolios are static sites. Mine has SLOs.
 
 This isn't about over-engineering. It's about demonstrating a specific skill that's hard to show in interviews: **operational maturity**.
 
+:::proof-note title="A portfolio can prove operational maturity" label="receipt"
+The point is not visual polish alone. The point is showing monitoring, fallbacks, evidence, and failure behavior in the same surface a hiring manager or buyer can inspect.
+:::
+
 ## What "Production-Grade Portfolio" Means
 
 My portfolio site (sageideas.dev) has:
@@ -62,6 +66,14 @@ By treating my portfolio like production, I'm showing:
 ## The Incident Drill Pattern
 
 Every quarter, I run through 4 scenarios:
+
+:::scorecard title="Portfolio incident drill" label="scorecard"
+Scenario | Response | Status
+GitHub API rate limits | Fall back to snapshot mode | Tested
+Missing CI artifact | Scan recent runs, degrade gracefully | Tested
+AWS proxy token mismatch | CloudWatch alarm, auto-degrade | Tested
+S3 object missing | Fail closed, no secrets leak | Tested
+:::
 
 | Scenario | Response | Status |
 |---|---|---|
@@ -94,3 +106,7 @@ You don't need AWS. Start small:
 4. **Run one incident drill** — Actually break something intentionally and practice the response.
 
 The goal isn't perfection. It's demonstrating that you think about production, not just development.
+
+:::offer-cta title="Need this kind of proof layer?" label="next step" href="/tools/route-finder" cta="Find your route"
+Use the Route Finder to decide whether your site needs an audit, a proof system, academy support, or a full rebuild.
+:::

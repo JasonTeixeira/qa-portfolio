@@ -18,21 +18,6 @@ declare global {
   }
 }
 
-function loadScript(src: string) {
-  return new Promise<void>((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-      resolve()
-      return
-    }
-    const script = document.createElement('script')
-    script.src = src
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error(`Failed to load ${src}`))
-    document.head.appendChild(script)
-  })
-}
-
 export function LivingSystemsMotion() {
   useEffect(() => {
     const root = document.documentElement
@@ -213,15 +198,17 @@ export function LivingSystemsMotion() {
         initStatic()
         return
       }
+      let gsap: typeof import('gsap')['gsap']
+      let ScrollTrigger: typeof import('gsap/ScrollTrigger')['ScrollTrigger']
       try {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js')
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js')
+        // Bundled locally (code-split), not a runtime CDN — motion never depends
+        // on an external host being reachable.
+        gsap = (await import('gsap')).gsap
+        ScrollTrigger = (await import('gsap/ScrollTrigger')).ScrollTrigger
       } catch {
         initStatic()
         return
       }
-      const gsap = window.gsap
-      const ScrollTrigger = window.ScrollTrigger
       if (!gsap || !ScrollTrigger) {
         initStatic()
         return

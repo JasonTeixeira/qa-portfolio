@@ -13,6 +13,8 @@ interface SurfaceSystemXrayProps {
   surfaceAlt?: string
   systemAlt?: string
   caption?: string
+  /** Scroll travel for the pinned scrub, in vh. Lower = quicker wipe. */
+  travelVh?: number
 }
 
 /**
@@ -27,6 +29,7 @@ export function SurfaceSystemXray({
   surfaceAlt = '',
   systemAlt = '',
   caption,
+  travelVh = 240,
 }: SurfaceSystemXrayProps) {
   const [enhanced, setEnhanced] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -90,7 +93,7 @@ export function SurfaceSystemXray({
 
   // Enhanced — scroll-scrubbed x-ray.
   return (
-    <div ref={wrapRef} className="relative" style={{ height: '240vh' }}>
+    <div ref={wrapRef} className="relative" style={{ height: `${travelVh}vh` }}>
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center gap-4 py-[7vh]">
         <div
           ref={stageRef}

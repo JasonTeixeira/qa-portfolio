@@ -9,6 +9,7 @@ import {
 } from '@/lib/leads/route-finder'
 import { trackEvent } from '@/lib/analytics/events'
 import { SystemFlowLayer, SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
+import { NewsletterSignup } from '@/components/newsletter-signup'
 
 const goals: Array<{ value: RouteFinderInput['goal']; label: string; detail: string }> = [
   { value: 'build', label: 'Build product', detail: 'App, SaaS, product surface, system architecture.' },
@@ -312,6 +313,15 @@ export function RouteFinderContent() {
               <li key={reason}>{reason}</li>
             ))}
           </ul>
+        </div>
+        <div className="mt-6 border-t border-[var(--sage-border)] pt-5">
+          <p className={`${mono} mb-3 text-[var(--sage-ink-faint)]`}>save your route</p>
+          <NewsletterSignup
+            source="route_finder"
+            variant="inline"
+            headline=""
+            blurb="Get the weekly build notes while you decide — one email, unsubscribe in a click."
+          />
         </div>
       </SystemFlowLayer>
     </div>

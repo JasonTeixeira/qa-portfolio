@@ -9,6 +9,7 @@ import {
   MotionProofStrip,
 } from '@/components/living/LivingPageSystem'
 import { RouteConversionCta } from '@/components/living/RouteConversionCta'
+import { NewsletterSignup } from '@/components/newsletter-signup'
 import { clusterList } from '@/data/content/clusters'
 import type { BlogPost } from '@/lib/blog-server'
 
@@ -237,6 +238,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
 
   const shownPosts = archivePosts.slice(0, visibleCount)
   const hasMore = archivePosts.length > shownPosts.length
+  const activeTopic = clusterList.find((cluster) => cluster.key === activeCluster)
 
   return (
     <LivingPageShell>
@@ -510,6 +512,21 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
               </span>
             </Link>
           ))}
+        </div>
+      </LivingSection>
+
+      <LivingSection
+        eyebrow="build notes"
+        title={activeTopic ? `Get ${activeTopic.title} in your inbox.` : 'Get the build notes in your inbox.'}
+        lede="One short note a week — what shipped, what worked, what broke. Subscribe to the whole journal, or just the lane you filtered to."
+      >
+        <div className="max-w-2xl">
+          <NewsletterSignup
+            source={activeCluster === 'all' ? 'blog' : `blog_${activeCluster}`}
+            variant="inline"
+            headline=""
+            blurb=""
+          />
         </div>
       </LivingSection>
 

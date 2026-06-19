@@ -9,6 +9,7 @@ import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import { CountUp } from '@/components/motion/CountUp'
+import { LivingNetworkHero } from '@/components/motion/LivingNetworkHero'
 import styles from './LivingSystemsHome.module.css'
 
 const offerMatrix = [
@@ -168,6 +169,7 @@ export function LivingSystemsHome() {
 
       <section className={styles.hero} id="top" aria-label="Introduction">
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
+        <LivingNetworkHero className="pointer-events-none absolute inset-0 z-[-1]" />
         <p className={styles.eyebrow} data-living-reveal>
           <span /> Sage Ideas · AI-native studio · since 2020
         </p>

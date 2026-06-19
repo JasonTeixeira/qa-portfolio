@@ -1,0 +1,268 @@
+/* Dark-editorial flagship article — image-forward, big type, slow scroll reveals.
+   Inspired by the editorial scroll kit, rendered in Sage's dark identity. */
+
+.article {
+  background: var(--sage-bg);
+  color: var(--sage-ink);
+  overflow-x: clip;
+}
+
+/* ── Reveal: elements rise + fade as they enter view (JS-toggled .in) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(52px);
+  transition:
+    opacity 0.9s var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 1s var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1));
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Full-bleed hero ── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.heroImg {
+  object-fit: cover;
+  filter: brightness(0.5) saturate(1.05) contrast(1.05);
+}
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 11, 14, 0.55) 0%, transparent 26%, transparent 44%, rgba(11, 11, 14, 0.82) 86%, var(--sage-bg) 100%),
+    linear-gradient(90deg, rgba(11, 11, 14, 0.6) 0%, transparent 60%);
+}
+.heroInner {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 4.5rem) clamp(3rem, 8vh, 7rem);
+}
+
+.kicker {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(0.62rem, 0.55rem + 0.3vw, 0.75rem);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--sage-accent-readable);
+}
+
+/* Coconat editorial display */
+.display {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  color: var(--sage-ink);
+}
+.heroTitle {
+  margin: 1.2rem 0 0;
+  font-size: clamp(2.9rem, 1.2rem + 7vw, 7.5rem);
+  max-width: 16ch;
+}
+.heroTitle em {
+  font-style: italic;
+  color: var(--sage-accent-readable);
+}
+.lede {
+  margin-top: clamp(1.4rem, 2vw, 2.2rem);
+  max-width: 56ch;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+  line-height: 1.6;
+  color: var(--sage-ink-subtle);
+}
+
+/* ── Editorial column ── */
+.column {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(4rem, 12vh, 11rem) clamp(1.25rem, 5vw, 2rem);
+}
+.columnWide {
+  max-width: 1180px;
+}
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sage-ink-faint);
+  margin-bottom: 1.6rem;
+}
+.sectionTitle {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  font-size: clamp(2.2rem, 1.3rem + 3.4vw, 4rem);
+  max-width: 18ch;
+}
+.body {
+  margin-top: 1.6rem;
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem);
+  line-height: 1.72;
+  color: var(--sage-ink-muted);
+}
+.body + .body {
+  margin-top: 1.3rem;
+}
+.body strong {
+  color: var(--sage-ink);
+  font-weight: 600;
+}
+
+/* ── Giant stat moment ── */
+.statBlock {
+  text-align: center;
+  padding: clamp(5rem, 16vh, 13rem) 1.25rem;
+  border-top: 1px solid var(--sage-border);
+  border-bottom: 1px solid var(--sage-border);
+}
+.statNum {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  line-height: 0.9;
+  font-size: clamp(6rem, 3rem + 22vw, 22rem);
+  background: linear-gradient(180deg, var(--sage-ink) 0%, var(--sage-accent-readable) 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.statCaption {
+  margin: 1.5rem auto 0;
+  max-width: 44ch;
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--sage-ink-subtle);
+}
+
+/* ── Pull quote ── */
+.pullQuote {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.6rem);
+  color: var(--sage-ink);
+  max-width: 20ch;
+}
+.pullCite {
+  margin-top: 1.6rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage-ink-faint);
+}
+
+/* ── Receipts grid ── */
+.receipts {
+  display: grid;
+  gap: 1px;
+  background: var(--sage-border);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 760px) {
+  .receipts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.receiptCell {
+  background: var(--sage-surface-1);
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+}
+.receiptValue {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 1.6rem + 3vw, 4.4rem);
+  line-height: 1;
+  color: var(--sage-ink);
+  font-variant-numeric: tabular-nums;
+}
+.receiptLabel {
+  margin-top: 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sage-ink-faint);
+}
+
+/* ── Image band ── */
+.imageBand {
+  position: relative;
+  margin: clamp(2rem, 6vh, 5rem) 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-top: 1px solid var(--sage-border);
+  border-bottom: 1px solid var(--sage-border);
+}
+.imageBand :global(img) {
+  object-fit: cover;
+}
+.figcaption {
+  margin-top: 0.9rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--sage-ink-faint);
+}
+
+/* ── Close / CTA ── */
+.close {
+  text-align: center;
+  padding: clamp(5rem, 14vh, 12rem) 1.25rem clamp(6rem, 16vh, 14rem);
+}
+.ctaRow {
+  margin-top: 2.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+}
+.ctaPrimary,
+.ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: transform 0.3s var(--ease-out-quint), background 0.3s, border-color 0.3s;
+}
+.ctaPrimary {
+  background: var(--sage-accent);
+  color: #fff;
+}
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  background: #5670ff;
+}
+.ctaGhost {
+  border: 1px solid var(--sage-border-strong);
+  color: var(--sage-ink);
+}
+.ctaGhost:hover {
+  transform: translateY(-2px);
+  border-color: var(--sage-accent);
+}

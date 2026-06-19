@@ -45,13 +45,49 @@ export function LivingSystemsMotion() {
       trackEvent('splash_skipped', { reason })
     }
 
+    // Per-element scroll-reveal: each [data-living-reveal] rises + fades in as it
+    // enters the viewport, staggered among siblings. This is the agency scroll-in
+    // — content arrives as you scroll, instead of the whole page appearing at once.
+    const revealObserver = reduced
+      ? null
+      : new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in')
+                revealObserver?.unobserve(entry.target)
+              }
+            })
+          },
+          // Huge top margin: anything scrolled past (above the viewport) still
+          // counts as intersecting, so fast scrolls and anchor jumps never strand
+          // an element hidden. Bottom -12% delays the trigger to feel deliberate.
+          { rootMargin: '9999px 0px -12% 0px', threshold: 0 },
+        )
+    if (revealObserver) cleanupFns.push(() => revealObserver.disconnect())
+
+    const armReveals = () => {
+      const els = Array.from(document.querySelectorAll<HTMLElement>('[data-living-reveal]'))
+      if (!revealObserver) {
+        els.forEach((el) => el.classList.add('is-in'))
+        return
+      }
+      els.forEach((el) => {
+        const parent = el.parentElement
+        const sibs = parent
+          ? Array.from(parent.querySelectorAll<HTMLElement>('[data-living-reveal]'))
+          : [el]
+        const idx = Math.max(0, sibs.indexOf(el))
+        el.style.transitionDelay = `${Math.min(idx, 6) * 0.07}s`
+        revealObserver.observe(el)
+      })
+    }
+
     const showEverything = (reason: 'timeout' | 'reduced_motion' | 'loaded' | 'library_failure' | 'skipped') => {
       splashDone = true
       body.classList.remove('living-intro')
       body.classList.add('living-visible')
-      document.querySelectorAll('[data-living-reveal]').forEach((el) => {
-        el.classList.add('is-in')
-      })
+      armReveals()
       const loader = document.querySelector('[data-living-loader]')
       loader?.classList.add('is-done')
       trackSplash(reason)

@@ -15,6 +15,7 @@ import { DeepSystemDiagram } from '@/components/living/DeepSystemDiagram'
 import { CaseProofBoard } from '@/components/work/CaseProofBoard'
 import { CaseMotionStoryboard } from '@/components/work/CaseMotionStoryboard'
 import { CaseStudyToc } from '@/components/work/CaseStudyToc'
+import { SurfaceSystemXray } from '@/components/work/SurfaceSystemXray'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { type CaseExtras } from '@/data/work/case-extras'
@@ -76,6 +77,8 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
   void _extras
   const refs = referencesForCaseStudy(study.slug, 2)
   const Diagram = CaseStudyArchitecture[study.slug]
+  // The first diagram in the gallery is the system map for the Surface→System x-ray.
+  const systemDiagram = study.gallery?.find((asset) => asset.kind === 'diagram')
 
   // Metadata register printed in the title block.
   const status = study.metrics.find((m) => m.label.toLowerCase() === 'status')?.value
@@ -214,6 +217,23 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
           </Reveal>
         </div>
       </section>
+
+      {study.heroImage && systemDiagram ? (
+        <section className="border-t border-[var(--sage-border)]">
+          <div className="mx-auto max-w-6xl px-5 pt-12 sm:px-8 lg:pt-16">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              {`// scroll to x-ray the build`}
+            </p>
+          </div>
+          <SurfaceSystemXray
+            surfaceSrc={study.heroImage}
+            systemSrc={systemDiagram.src}
+            surfaceAlt={`${study.title.split('—')[0].trim()} product surface`}
+            systemAlt={systemDiagram.label ?? 'System architecture map'}
+            caption={systemDiagram.caption}
+          />
+        </section>
+      ) : null}
 
       <section className="border-t border-[var(--sage-border)]">
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-16">

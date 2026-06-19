@@ -13,6 +13,7 @@ import {
   StatDisplay,
 } from '@/components/el'
 import { FounderPortrait } from '@/components/founder-portrait'
+import { NewsletterSignup } from '@/components/newsletter-signup'
 import { SocialBadges } from '@/components/founder/social-badges'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 
@@ -521,7 +522,14 @@ export function FounderAnimations({ capabilities, principles }: Props) {
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal>
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <NewsletterSignup
+              source="founder"
+              headline="Follow the operator."
+              blurb="One note a week from inside the studio — builds, decisions, and the occasional scar. No drip campaigns, no spam."
+            />
+          </Reveal>
+          <Reveal>
+            <div className="mt-8 flex flex-col gap-6 border-t border-[var(--sage-border)] pt-8 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2
                   className="text-2xl font-normal text-[var(--sage-ink)]"

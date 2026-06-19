@@ -12,6 +12,7 @@ import {
   StatDisplay,
 } from '@/components/el'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { NewsletterSignup } from '@/components/newsletter-signup'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -376,16 +377,23 @@ export function StudioAnimations() {
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal>
-            <div className="flex flex-wrap gap-4 items-center">
-              <CtaLink href="/founder" variant="solid" event="studio_founder_cta">
-                Read the founder story
-              </CtaLink>
-              <CtaLink href="/work" variant="ghost" event="studio_work_cta">
-                See the work
-              </CtaLink>
-              <CtaLink href="/services" variant="text" event="studio_services_cta">
-                View all tiers
-              </CtaLink>
+            <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+              <NewsletterSignup
+                source="studio"
+                headline="Watch the studio ship."
+                blurb="One note a week — what shipped, what worked, what broke. The build record in real time, no drip campaigns."
+              />
+              <div className="flex flex-wrap items-center gap-4 lg:justify-end">
+                <CtaLink href="/founder" variant="solid" event="studio_founder_cta">
+                  Read the founder story
+                </CtaLink>
+                <CtaLink href="/work" variant="ghost" event="studio_work_cta">
+                  See the work
+                </CtaLink>
+                <CtaLink href="/services" variant="text" event="studio_services_cta">
+                  View all tiers
+                </CtaLink>
+              </div>
             </div>
           </Reveal>
         </div>

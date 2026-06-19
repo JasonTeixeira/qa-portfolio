@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import {
   LivingCTA,
@@ -194,6 +194,7 @@ function ContentFlowDiagram({ librarySize }: { librarySize: number }) {
 export function BlogContent({ posts }: { posts: BlogPost[] }) {
   const [activeCluster, setActiveCluster] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(12)
 
   const sortedPosts = useMemo(
     () => [...posts].sort((a, b) => (a.date < b.date ? 1 : -1)),
@@ -227,6 +228,15 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
     activeCluster === 'all' && searchQuery.trim() === ''
       ? filteredPosts.slice(1)
       : filteredPosts
+
+  // Reset the visible window whenever the filter or search changes so a
+  // narrowed result set always reads from the top.
+  useEffect(() => {
+    setVisibleCount(12)
+  }, [activeCluster, searchQuery])
+
+  const shownPosts = archivePosts.slice(0, visibleCount)
+  const hasMore = archivePosts.length > shownPosts.length
 
   return (
     <LivingPageShell>
@@ -430,8 +440,9 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
             </button>
           </div>
         ) : (
-          <ol className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 xl:grid-cols-3">
-            {archivePosts.map((post, index) => (
+          <>
+            <ol className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 xl:grid-cols-3">
+            {shownPosts.map((post, index) => (
               <li className="bg-[var(--sage-surface-1)]" key={post.slug}>
                 <Link
                   className="group flex min-h-[280px] flex-col p-5 transition-colors hover:bg-[var(--sage-surface-2)] sm:p-6"
@@ -458,7 +469,22 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                 </Link>
               </li>
             ))}
-          </ol>
+            </ol>
+            <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+              <p className={`${mono} text-[var(--sage-ink-faint)]`}>
+                Showing {shownPosts.length} of {archivePosts.length}
+              </p>
+              {hasMore ? (
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((value) => value + 12)}
+                  className={`min-h-11 border border-[var(--sage-border-strong)] bg-transparent px-6 ${mono} text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)] hover:bg-[rgba(61,90,254,0.1)]`}
+                >
+                  Load more dispatches -&gt;
+                </button>
+              ) : null}
+            </div>
+          </>
         )}
       </LivingSection>
 

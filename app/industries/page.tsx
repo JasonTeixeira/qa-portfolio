@@ -67,12 +67,12 @@ export default function IndustriesPage() {
         title="Pick the operating context."
         lede="The work is not one-size-fits-all. Money-moving products, multi-tenant SaaS, DTC storefronts, healthcare workflows, and AI-native startups all break in different places."
       >
-        <div className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 xl:grid-cols-5">
-          {verticals.map((vertical) => (
+        <div className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 lg:grid-cols-3">
+          {verticals.map((vertical, index) => (
             <Link
               key={vertical.slug}
               href={`/industries/${vertical.slug}`}
-              className="group flex min-h-[360px] flex-col bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)]"
+              className={`group flex min-h-[360px] flex-col bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)] sm:p-7 ${index === 0 ? 'lg:col-span-2' : ''}`}
             >
               <div className="flex items-start justify-between gap-4">
                 <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">

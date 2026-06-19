@@ -335,9 +335,11 @@ export function StudioAnimations() {
         <div className="max-w-3xl space-y-px overflow-hidden rounded-[3px] border border-[var(--sage-border)]">
           {nonServices.map((item, i) => (
             <Reveal key={i} delay={i * 0.05}>
-              <div className="flex items-start gap-5 bg-[var(--sage-surface-1)] px-6 py-5">
-                <span aria-hidden className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--sage-border-strong)]" />
-                <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)]">{item}</p>
+              <div className="flex items-start gap-5 bg-[var(--sage-surface-1)] px-6 py-6 transition-colors hover:bg-[var(--sage-surface-2)]">
+                <span aria-hidden className="mt-0.5 shrink-0 font-mono text-[11px] tabular-nums text-[var(--sage-ink-faint)]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <p className="text-[15px] leading-[1.7] text-[var(--sage-ink-muted)]">{item}</p>
               </div>
             </Reveal>
           ))}
@@ -355,7 +357,7 @@ export function StudioAnimations() {
         <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] sm:grid-cols-2 lg:grid-cols-3 max-w-5xl">
           {stackCategories.map((cat, i) => (
             <Reveal key={cat.label} delay={i * 0.05}>
-              <div className="bg-[var(--sage-surface-1)] px-6 py-7 h-full">
+              <div className="h-full bg-[var(--sage-surface-1)] px-7 py-8 transition-colors hover:bg-[var(--sage-surface-2)]">
                 <MonoLabel tone="accent" as="p" className="mb-3">{cat.label}</MonoLabel>
                 <p className="text-sm leading-[1.7] text-[var(--sage-ink-muted)]">{cat.items}</p>
               </div>

@@ -33,7 +33,7 @@ export function CheckoutButton({
         className={
           variant === 'primary'
             ? 'bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-medium'
-            : ''
+            : 'border border-[var(--sage-border-strong)] bg-transparent text-[var(--sage-ink)] hover:border-[var(--sage-accent)] hover:bg-[rgba(61,90,254,0.10)] hover:text-[var(--sage-ink)]'
         }
       >
         <a href={href}>
@@ -75,7 +75,7 @@ export function CheckoutButton({
         className={
           variant === 'primary'
             ? 'bg-[#3D5AFE] hover:bg-[#2F46D8] text-[#09090B] font-medium'
-            : ''
+            : 'border border-[var(--sage-border-strong)] bg-transparent text-[var(--sage-ink)] hover:border-[var(--sage-accent)] hover:bg-[rgba(61,90,254,0.10)] hover:text-[var(--sage-ink)]'
         }
       >
         {loading ? 'Loading…' : (label ?? tier.cta)}{' '}

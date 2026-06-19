@@ -28,10 +28,10 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
   }
 
   const glowColors = {
-    cyan: 'rgba(14, 211, 207, 0.15)',
+    cyan: 'rgba(61, 90, 254, 0.15)',
     coral: 'rgba(232, 93, 58, 0.15)',
     violet: 'rgba(199, 35, 110, 0.15)',
-    gradient: 'rgba(14, 211, 207, 0.12)'
+    gradient: 'rgba(61, 90, 254, 0.12)'
   }
 
   return (
@@ -70,7 +70,7 @@ export function GlowCard({ children, className, glowColor = 'cyan' }: GlowCardPr
             ? 'linear-gradient(135deg, #E85D3A, transparent, #E85D3A)'
             : glowColor === 'violet'
             ? 'linear-gradient(135deg, #C7236E, transparent, #C7236E)'
-            : 'linear-gradient(135deg, #3D5AFE, transparent, #E85D3A)',
+            : 'linear-gradient(135deg, #3D5AFE, transparent, #6E83FF)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude'

@@ -120,25 +120,9 @@ export function PricingEl() {
         />
       </Section>
 
-      {/* ── Productized tiers ──────────────────────────────────────── */}
+      {/* ── Quote calculator (primary scope object) ────────────────── */}
       <Section
         index="01"
-        eyebrow="productized engagements"
-        ariaLabel="Productized engagement tiers"
-        heading={
-          <>
-            Fixed scope. Fixed price.{' '}
-            <span className="italic text-[#3D5AFE]">Click to start.</span>
-          </>
-        }
-        lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, automation, brand work, and platform builds. Audit is the self-serve on-ramp; most of it credits toward a larger engagement."
-      >
-        <TierGrid tiers={tiersOrdered} recommendedSlug={RECOMMENDED_SLUG} />
-      </Section>
-
-      {/* ── Quote calculator ───────────────────────────────────────── */}
-      <Section
-        index="02"
         eyebrow="scope estimator"
         ariaLabel="Scope estimator"
         heading={
@@ -152,6 +136,22 @@ export function PricingEl() {
         grain
       >
         <QuoteCalculator />
+      </Section>
+
+      {/* ── Productized tiers ──────────────────────────────────────── */}
+      <Section
+        index="02"
+        eyebrow="productized engagements"
+        ariaLabel="Productized engagement tiers"
+        heading={
+          <>
+            Fixed scope. Fixed price.{' '}
+            <span className="italic text-[#3D5AFE]">Click to start.</span>
+          </>
+        }
+        lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, automation, brand work, and platform builds. Audit is the self-serve on-ramp; most of it credits toward a larger engagement."
+      >
+        <TierGrid tiers={tiersOrdered} recommendedSlug={RECOMMENDED_SLUG} />
       </Section>
 
       {/* ── Care plans ─────────────────────────────────────────────── */}

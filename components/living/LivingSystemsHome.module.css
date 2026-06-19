@@ -1823,10 +1823,10 @@
 }
 @media (max-width: 430px) {
   .page {
-    --text-hero: clamp(3rem, 2.3rem + 5vw, 4rem);
+    --text-hero: clamp(2.7rem, 2.05rem + 4.2vw, 3.5rem);
   }
   .heroTitle {
-    max-width: 11ch;
+    max-width: 13ch;
   }
   .ctas,
   .finalCtas {

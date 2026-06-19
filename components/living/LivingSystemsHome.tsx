@@ -200,28 +200,6 @@ export function LivingSystemsHome() {
                 <span>See the work</span><span aria-hidden="true">↘</span>
               </TrackedLink>
             </div>
-            <div className={styles.pathMatrix} aria-label="Choose your Sage Ideas path">
-              <div className={styles.pathMatrixHeader}>
-                <span>Choose your path</span>
-                <b>Studio ⇄ Academy</b>
-              </div>
-              <div className={styles.pathTiles}>
-                {offerMatrix.map((item) => (
-                  <TrackedLink
-                    className={styles.pathTile}
-                    href={item.href}
-                    key={item.label}
-                    event="cta_click"
-                    eventProps={{ location: 'home_first_viewport_matrix', label: item.label, href: item.href }}
-                  >
-                    <SystemFlowOverlay variant={item.label === 'Academy' ? 'academy' : item.label === 'Resources' ? 'growth' : 'systems'} intensity="quiet" />
-                    <span>{item.code}</span>
-                    <strong>{item.label}</strong>
-                    <small>{item.fit}</small>
-                  </TrackedLink>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
         <RouteFinderHeroExperiment surface="home" />

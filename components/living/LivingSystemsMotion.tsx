@@ -236,6 +236,26 @@ export function LivingSystemsMotion() {
         })
       })
 
+      // Hero "push-through" — the headline scales up, blurs, and dissolves
+      // forward as you scroll out of the first screen. Cinematic camera move.
+      const heroSection = document.querySelector<HTMLElement>('#top')
+      const heroHeading = document.querySelector<HTMLElement>('#hero-heading')
+      if (heroSection && heroHeading) {
+        gsap.to(heroHeading, {
+          scale: 1.16,
+          opacity: 0,
+          y: -28,
+          filter: 'blur(9px)',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: () => `+=${Math.round(window.innerHeight * 0.72)}`,
+            scrub: 0.4,
+          },
+        })
+      }
+
       if (!narrow && !coarse) {
         const reel = document.querySelector<HTMLElement>('[data-living-reel]')
         const stage = document.querySelector<HTMLElement>('[data-living-stage]')

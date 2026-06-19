@@ -12,6 +12,9 @@ import { BuildLog } from '@/components/el/work/BuildLog'
 import { TestimonialCard } from '@/components/testimonial-card'
 import { MotionProofStrip, SurfaceSystemPanel } from '@/components/living/LivingPageSystem'
 import { DeepSystemDiagram } from '@/components/living/DeepSystemDiagram'
+import { CaseProofBoard } from '@/components/work/CaseProofBoard'
+import { CaseMotionStoryboard } from '@/components/work/CaseMotionStoryboard'
+import { CaseStudyToc } from '@/components/work/CaseStudyToc'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { type CaseExtras } from '@/data/work/case-extras'
@@ -236,6 +239,9 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
         </div>
       </section>
 
+      <CaseProofBoard study={study} />
+      <CaseMotionStoryboard study={study} />
+
       {/* ════════════ BODY — two-column with sticky sidebar ════════════ */}
       <div className="border-t border-[var(--sage-border)]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
@@ -243,6 +249,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
             {/* ── Sticky sidebar ── */}
             <aside className="mb-12 hidden lg:sticky lg:top-24 lg:mb-0 lg:block lg:self-start">
               <div className="space-y-4">
+                <CaseStudyToc />
                 <Surface level={1} className="p-5">
                   <MonoLabel tone="faint" className="block">
                     client
@@ -298,7 +305,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
             </aside>
 
             {/* ── Main column ── */}
-            <main className="space-y-16 lg:space-y-20">
+            <main data-cs-main className="space-y-16 lg:space-y-20">
               {/* Problem */}
               <Reveal>
                 <section className="space-y-5">

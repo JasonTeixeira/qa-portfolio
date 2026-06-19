@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ScrollDrawDiagram } from './ScrollDrawDiagram'
 import { SystemFlowOverlay } from './SystemFlowLayer'
+import { CountUp } from '@/components/motion/CountUp'
 import styles from './LivingPageSystem.module.css'
 
 type Stat = {
@@ -224,7 +225,7 @@ export function MotionProofStrip({ items }: { items: Stat[] }) {
             {item.label}
           </p>
           <p className="mt-4 text-2xl font-semibold leading-none text-[var(--sage-ink)] sm:text-3xl">
-            {item.value}
+            <CountUp value={item.value} />
           </p>
         </div>
       ))}

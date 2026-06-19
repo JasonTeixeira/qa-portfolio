@@ -8,6 +8,7 @@ import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExper
 import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
+import { CountUp } from '@/components/motion/CountUp'
 import styles from './LivingSystemsHome.module.css'
 
 const offerMatrix = [
@@ -386,7 +387,7 @@ export function LivingSystemsHome() {
         <div className={styles.receipts} data-living-reveal>
           {receipts.map(([value, label]) => (
             <div key={label}>
-              <strong>{value}</strong>
+              <strong><CountUp value={value} /></strong>
               <span>{label}</span>
             </div>
           ))}

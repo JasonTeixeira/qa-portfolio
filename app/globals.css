@@ -1626,3 +1626,28 @@ a:focus-visible {
   outline-color: #3D5AFE;
   box-shadow: 0 0 0 4px rgba(61, 90, 254, 0.16);
 }
+
+/* ─── Editorial display faces (from the Figma Animations kit) ───
+   Coconat: high-contrast elegant serif for expressive headlines.
+   Aesthetic: stylized display for kinetic/feature type.
+   Self-hosted from /public/fonts. Use via var(--font-editorial). */
+@font-face {
+  font-family: 'Coconat';
+  src: url('/fonts/Coconat-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Aesthetic';
+  src: url('/fonts/Aesthetic-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --font-editorial: 'Coconat', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-aesthetic: 'Aesthetic', var(--font-display), system-ui, sans-serif;
+}
+.font-editorial { font-family: var(--font-editorial); }
+.font-aesthetic { font-family: var(--font-aesthetic); }

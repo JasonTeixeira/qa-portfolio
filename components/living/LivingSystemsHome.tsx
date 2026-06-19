@@ -9,7 +9,7 @@ import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import { CountUp } from '@/components/motion/CountUp'
-import { LivingNetworkHero } from '@/components/motion/LivingNetworkHero'
+import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
 import styles from './LivingSystemsHome.module.css'
 
 const offerMatrix = [
@@ -168,8 +168,15 @@ export function LivingSystemsHome() {
       <div className={styles.grain} aria-hidden="true" />
 
       <section className={styles.hero} id="top" aria-label="Introduction">
+        <CinematicBackdrop
+          src="/art/inkwash-cliffs.png"
+          alt=""
+          brightness={0.46}
+          parallax={70}
+          textAnchor="bottom-left"
+          className="z-[-2]"
+        />
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
-        <LivingNetworkHero className="pointer-events-none absolute inset-0 z-[-1]" />
         <p className={styles.eyebrow} data-living-reveal>
           <span /> Sage Ideas · AI-native studio · since 2020
         </p>

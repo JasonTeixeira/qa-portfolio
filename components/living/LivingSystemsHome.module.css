@@ -1005,39 +1005,31 @@
 .system {
   position: absolute;
   inset: 0;
-  transition: clip-path 0.7s var(--ease), opacity 0.5s ease, filter 0.7s ease, transform 0.7s var(--ease);
 }
+/* Surface dims + recedes as the x-ray progresses (driven by --xray on the scene). */
+.surface {
+  filter: brightness(calc(1 - var(--xray, 0) * 0.55)) saturate(calc(1 - var(--xray, 0) * 0.28));
+  transform: scale(calc(1 - var(--xray, 0) * 0.02));
+  transition: filter 0.18s linear, transform 0.18s linear;
+}
+/* System revealed from the right, wiping in as --xray goes 0 -> 1. */
 .system {
   opacity: 1;
-  clip-path: inset(0 0 0 100%);
+  clip-path: inset(0 0 0 calc((1 - var(--xray, 0)) * 100%));
 }
-.scene:global(.is-system) .system {
-  clip-path: inset(0 0 0 0);
-}
-.scene:global(.is-system) .surface {
-  filter: brightness(0.48) saturate(0.75);
-  transform: scale(0.985);
-}
+/* The electric seam tracks the wipe boundary; brightest mid-reveal. */
 .device::after {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: calc((1 - var(--xray, 0)) * 100%);
   z-index: 4;
   width: 2px;
-  opacity: 0;
   background: #3D5AFE;
-  box-shadow: 0 0 24px 3px rgba(61, 90, 254, 0.9);
+  box-shadow: 0 0 26px 3px rgba(61, 90, 254, 0.95);
+  opacity: calc(min(var(--xray, 0) * 6, 1) * min((1 - var(--xray, 0)) * 6, 1));
   pointer-events: none;
-}
-.scene:global(.is-system) .device::after {
-  animation: scan 0.7s var(--ease) forwards;
-}
-@keyframes scan {
-  0% { left: 100%; opacity: 0; }
-  15%, 85% { opacity: 1; }
-  100% { left: 0%; opacity: 0; }
 }
 .ui {
   position: absolute;

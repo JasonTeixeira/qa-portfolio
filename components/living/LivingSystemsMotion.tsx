@@ -320,6 +320,12 @@ export function LivingSystemsMotion() {
               scene.style.pointerEvents = isActive ? 'auto' : 'none'
               scene.classList.toggle('is-system', xray)
               scene.classList.toggle('is-live-scene', isActive)
+              // Continuous surface->system x-ray, scrubbed by scroll within the
+              // active scene (local 0.28 -> 0.74 maps to 0 -> 1).
+              scene.style.setProperty(
+                '--xray',
+                isActive ? Math.max(0, Math.min(1, (local - 0.28) / 0.46)).toFixed(3) : '0',
+              )
               scene.style.setProperty('--scene-y', `${isActive ? (1 - Math.min(local / 0.2, 1)) * 28 : 18}px`)
               scene.querySelectorAll<HTMLElement>('[data-count]').forEach((count) => {
                 if (isActive && local > 0.08) countUp(count)
@@ -327,7 +333,10 @@ export function LivingSystemsMotion() {
             })
           }
           const updateReel = () => {
-            const stageTop = stage.getBoundingClientRect().top + window.scrollY
+            // Measure the reel SECTION (constant document offset), not the sticky
+            // stage — the stage's rect drifts to 0 once pinned, which froze progress
+            // near 0 and stranded the reel on scene 1's surface (the "void" bug).
+            const stageTop = reel.getBoundingClientRect().top + window.scrollY
             const end = reel.getBoundingClientRect().top + window.scrollY + reel.offsetHeight - window.innerHeight
             const span = Math.max(end - stageTop, 1)
             render(Math.min(Math.max((window.scrollY - stageTop) / span, 0), 1))

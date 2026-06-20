@@ -6,6 +6,7 @@ import { FoundingMeter } from './founding-meter'
 import { CodeLab } from './code-lab'
 import { RevealOnScroll } from './reveal'
 import { SoundToggle } from './sound-toggle'
+import { Splash } from './splash'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -64,6 +65,7 @@ const FAQS = [
 export default function WaitlistPage() {
   return (
     <div className={styles.page} data-reveal-scope>
+      <Splash />
       <RevealOnScroll />
       <SoundToggle />
       <header className={styles.nav}>

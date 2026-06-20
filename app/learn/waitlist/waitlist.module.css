@@ -40,6 +40,95 @@
   color: transparent;
 }
 
+/* ── Splash intro ── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(var(--ac-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ac-line) 1px, transparent 1px),
+    #0b0b0e;
+  background-size: clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px);
+  transition: transform 0.8s var(--ac-ease), opacity 0.8s var(--ac-ease);
+}
+.splashOut {
+  transform: translateY(-101%);
+  opacity: 0;
+  pointer-events: none;
+}
+.splashInner {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  animation: splashIn 0.8s var(--ac-ease) both;
+}
+@keyframes splashIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.splashMark {
+  display: grid;
+  place-items: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
+  color: #fff;
+  font-family: var(--ac-display);
+  font-weight: 800;
+  font-size: 2rem;
+  box-shadow: 0 20px 50px -20px rgba(124, 58, 237, 0.7);
+}
+.splashWord {
+  font-family: var(--ac-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  color: var(--ac-ink);
+}
+.splashBar {
+  display: block;
+  width: 140px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--ac-surface-2);
+  overflow: hidden;
+}
+.splashBar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ac-g1), var(--ac-g3));
+  animation: splashBar 1.5s var(--ac-ease) forwards;
+}
+@keyframes splashBar {
+  to { width: 100%; }
+}
+.splashSkip {
+  position: absolute;
+  top: clamp(1.2rem, 3vw, 2.2rem);
+  right: clamp(1.2rem, 4vw, 3rem);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--ac-line-strong);
+  background: rgba(11, 11, 14, 0.5);
+  color: var(--ac-ink-muted);
+  font-family: var(--ac-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.splashSkip:hover {
+  color: var(--ac-ink);
+  border-color: var(--ac-accent);
+}
+
 /* ── Minimal nav ── */
 .nav {
   display: flex;

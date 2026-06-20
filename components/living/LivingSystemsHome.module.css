@@ -35,9 +35,10 @@
   inset: 0;
   z-index: -2;
   pointer-events: none;
+  /* Subtle global temperature journey: warm ember arrival (top) → cool ink (base) */
   background:
-    radial-gradient(120% 80% at 82% -10%, rgba(61, 90, 254, 0.06), transparent 56%),
-    radial-gradient(100% 70% at 4% 104%, rgba(255, 45, 155, 0.04), transparent 60%);
+    radial-gradient(120% 80% at 82% -10%, rgba(255, 84, 54, 0.05), transparent 56%),
+    radial-gradient(100% 70% at 4% 104%, rgba(27, 42, 58, 0.4), transparent 60%);
 }
 .page a { text-decoration: none; }
 .grade,
@@ -51,7 +52,7 @@
   opacity: 0.45;
   mix-blend-mode: soft-light;
   background:
-    radial-gradient(140% 120% at 50% 0%, rgba(124, 58, 237, 0.1), transparent 55%),
+    radial-gradient(140% 120% at 50% 0%, rgba(232, 183, 90, 0.06), transparent 55%),
     radial-gradient(120% 120% at 50% 120%, rgba(0, 0, 0, 0.55), transparent 60%);
 }
 .grain {
@@ -170,9 +171,10 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Hero arrival: faint warm ember + the single reserved electric hint near the system layer */
   background:
-    radial-gradient(70% 60% at 50% 0%, rgba(61, 90, 254, 0.14), transparent 64%),
-    radial-gradient(52% 48% at 78% 74%, rgba(255, 45, 155, 0.08), transparent 68%),
+    radial-gradient(64% 54% at 24% 8%, rgba(255, 84, 54, 0.06), transparent 64%),
+    radial-gradient(58% 52% at 86% 96%, rgba(61, 90, 254, 0.1), transparent 66%),
     radial-gradient(100% 100% at 50% 100%, rgba(0, 0, 0, 0.7), transparent 56%);
 }
 :global(body.living-intro) .loader {
@@ -1124,9 +1126,11 @@
   font-weight: 300;
   line-height: 1.4;
 }
+/* Cool "the work / system" grade (ART_DIRECTION §3) */
 .work {
   position: relative;
   padding: clamp(3rem, 2rem + 2.5vw, 5rem) 0 var(--section);
+  background: radial-gradient(80% 60% at 12% 0%, rgba(27, 42, 58, 0.4), transparent 56%);
 }
 /* ── Selected work: honest build-record bento (no fake screenshots) ── */
 .workGrid {
@@ -1925,13 +1929,14 @@
   letter-spacing: 0.04em;
 }
 /* ── Contrasting full-bleed product showcase (breaks the type monotony) ── */
+/* Cool "work / system" temperature grade per ART_DIRECTION — not electric chrome */
 .showcase {
   position: relative;
   padding: var(--section) 0;
   border-top: 1px solid var(--line-soft);
   background:
-    radial-gradient(120% 80% at 72% -10%, rgba(61, 90, 254, 0.14), transparent 58%),
-    linear-gradient(180deg, #101019, #0b0b0e);
+    radial-gradient(120% 80% at 72% -10%, rgba(27, 42, 58, 0.6), transparent 60%),
+    linear-gradient(180deg, #0e1218, #0b0b0e);
 }
 .showcaseInner {
   display: grid;
@@ -1992,10 +1997,9 @@
   margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) var(--pad-x) 0;
   padding: clamp(1.6rem, 1.2rem + 2vw, 2.6rem);
   border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
   border-radius: 18px;
-  background:
-    linear-gradient(120deg, rgba(61, 90, 254, 0.1), transparent 56%),
-    var(--surface);
+  background: var(--surface);
 }
 .references > div {
   max-width: 60ch;
@@ -2043,10 +2047,37 @@
     grid-template-columns: 1fr;
   }
 }
+/* 道 hanko seal — the recurring signature motif (ART_DIRECTION §4), warm red */
+.seal {
+  position: absolute;
+  top: clamp(2rem, 1rem + 3vw, 4rem);
+  right: var(--pad-x);
+  display: grid;
+  place-items: center;
+  width: clamp(46px, 5vw, 62px);
+  height: clamp(46px, 5vw, 62px);
+  border: 1.5px solid var(--warm-red, #b3170e);
+  border-radius: 10px;
+  color: var(--warm-red, #b3170e);
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.1rem);
+  line-height: 1;
+  opacity: 0.85;
+  rotate: 3deg;
+}
+/* Warm "resolve / dawn" temperature grade — the end of the journey (ART_DIRECTION §3) */
 .final {
   position: relative;
   padding: var(--section) 0;
   border-top: 1px solid var(--line-soft);
+  background:
+    radial-gradient(90% 70% at 18% 0%, rgba(232, 183, 90, 0.07), transparent 58%),
+    radial-gradient(80% 70% at 90% 110%, rgba(255, 84, 54, 0.05), transparent 62%);
+}
+/* Editorial voice (Coconat) for the one emotional resolve beat */
+.final h2 {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 .serviceList {
   margin: 0;
@@ -2241,12 +2272,16 @@
   color: var(--muted);
   line-height: 1.55;
 }
+/* Warm "teaching / warmth" grade (ART_DIRECTION §3) */
 .academy {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.8fr);
   align-items: center;
   gap: clamp(2rem, 1rem + 5vw, 7rem);
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
   padding-inline: var(--pad-x);
+  background: radial-gradient(72% 70% at 10% 50%, rgba(232, 183, 90, 0.05), transparent 58%);
 }
 .academyActions {
   display: flex;
@@ -2326,12 +2361,16 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+/* Warm "human face" grade — the operator is the forge (ART_DIRECTION §3) */
 .operator {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.65fr);
   align-items: center;
   gap: clamp(2rem, 1rem + 5vw, 7rem);
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
   padding-inline: var(--pad-x);
+  background: radial-gradient(70% 80% at 88% 50%, rgba(232, 183, 90, 0.06), transparent 60%);
 }
 .operator p {
   max-width: 54ch;

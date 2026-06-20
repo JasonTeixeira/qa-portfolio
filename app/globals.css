@@ -19,6 +19,16 @@
   --sage-magenta: #FF2D9B;
   --sage-magenta-dim: #C12674;
 
+  /* ART_DIRECTION temperature palette — the forge (warm) and the system (cool).
+     Warm = arrival/resolve/human warmth; cool = work/system/focus.
+     Electric #3D5AFE stays reserved for CTA + the system seam only. */
+  --warm-red: #B3170E;
+  --warm-ember: #FF5436;
+  --warm-gold: #E8B75A;
+  --cool-slate: #1B2A3A;
+  --cool-mist: #8FA0B8;
+  --cool-moon: #BCD2FF;
+
   /* Warm Living neutrals */
   --sage-ink: #F2EFE9;
   --sage-ink-muted: #9C9CA6;

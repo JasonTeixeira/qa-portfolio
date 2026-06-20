@@ -92,8 +92,7 @@ export function LivingSystemsHome() {
               <defs>
                 <linearGradient id="living-loader-mark" x1="4" x2="38" y1="8" y2="34" gradientUnits="userSpaceOnUse">
                   <stop offset="0" stopColor="#3D5AFE" />
-                  <stop offset="0.55" stopColor="#7C3AED" />
-                  <stop offset="1" stopColor="#FF2D9B" />
+                  <stop offset="1" stopColor="#BCD2FF" />
                 </linearGradient>
               </defs>
               <path d="M28.8 7.6c-7.8 1.2-16.3 7-17.5 12.1-.8 3.4 2.2 5.1 8.2 6.7 5.8 1.5 8.8 2.8 8.4 5.3-.5 3.3-7.1 5.1-14.9 4.3" />
@@ -195,8 +194,7 @@ export function LivingSystemsHome() {
             <defs>
               <linearGradient id="system-flow" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0" stopColor="#3D5AFE" />
-                <stop offset="0.5" stopColor="#7C3AED" />
-                <stop offset="1" stopColor="#FF2D9B" />
+                <stop offset="1" stopColor="#BCD2FF" />
               </linearGradient>
             </defs>
             <path className={styles.systemTrack} d="M60 56 H860" />
@@ -479,6 +477,7 @@ export function LivingSystemsHome() {
       </section>
 
       <section className={styles.final} id="build" aria-labelledby="build-heading">
+        <span className={styles.seal} aria-hidden="true">道</span>
         <span className={styles.kicker} data-living-reveal>009 — Build</span>
         <h2 id="build-heading">Bring me the hard one.</h2>
         <p data-living-reveal>An app, a brand, a SaaS, or all of it. Every engagement starts with a real conversation, not a contract.</p>

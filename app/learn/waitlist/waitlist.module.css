@@ -302,6 +302,100 @@
   border-color: var(--ac-accent);
   color: var(--ac-accent-ink);
 }
+.position {
+  margin: 0.7rem 0 0;
+  font-family: var(--ac-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
+}
+.position strong {
+  display: block;
+  margin-top: 0.1rem;
+  font-family: var(--ac-display);
+  font-size: clamp(2.4rem, 2rem + 2vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--ac-g1), var(--ac-g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.refBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.2rem 0 0;
+  padding: 0.4rem 0.4rem 0.4rem 0.9rem;
+  border: 1px solid var(--ac-line-strong);
+  border-radius: 999px;
+  background: var(--ac-surface-2);
+}
+.refLink {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font-family: var(--ac-mono);
+  font-size: 0.76rem;
+  color: var(--ac-ink-muted);
+}
+.refCopy {
+  flex-shrink: 0;
+  padding: 0.5rem 0.95rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(100deg, var(--ac-g1), var(--ac-g3));
+  color: #fff;
+  font-family: var(--ac-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.tiers {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1.3rem 0 0;
+  text-align: left;
+}
+.tiers li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--ac-ink-faint);
+}
+.tiers li b {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--ac-line);
+  background: var(--ac-surface-2);
+  font-family: var(--ac-mono);
+  font-size: 0.66rem;
+  color: var(--ac-ink-muted);
+}
+.tierDone {
+  color: var(--ac-ink);
+}
+.tierDone b {
+  background: linear-gradient(135deg, var(--ac-g1), var(--ac-g3));
+  border-color: transparent;
+  color: #fff;
+}
+.refCount {
+  margin-top: 0.9rem;
+  font-family: var(--ac-mono);
+  font-size: 0.78rem;
+  color: var(--ac-accent-ink);
+}
 
 /* ── Founding perks ── */
 .section {

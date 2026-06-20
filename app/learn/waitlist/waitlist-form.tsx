@@ -1,20 +1,41 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { trackEvent } from '@/lib/analytics/events'
 import styles from './waitlist.module.css'
 
-const SHARE_URL = 'https://www.sageideas.dev/learn/waitlist'
+const BASE_URL = 'https://www.sageideas.dev/learn/waitlist'
 const SHARE_TEXT =
   'Sage Academy is coming — project-based courses + labs to learn code & AI, $20/mo. Founding spots are open:'
 
+const TIERS = [
+  { n: 1, label: 'Move up the list' },
+  { n: 3, label: 'First month free' },
+  { n: 10, label: 'Founding price locked for life' },
+  { n: 25, label: 'A 1:1 build session with the founder' },
+]
+
+type Result = { refCode: string; position: number; referrals: number; total: number }
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 export function WaitlistForm({ id }: { id?: string }) {
   const [email, setEmail] = useState('')
+  const [ref, setRef] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [result, setResult] = useState<Result | null>(null)
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    try {
+      const r = new URLSearchParams(window.location.search).get('ref')
+      if (r) setRef(r)
+    } catch {
+      // No URL access — referral attribution simply won't apply.
+    }
+  }, [])
+
+  const shareUrl = result ? `${BASE_URL}?ref=${result.refCode}` : BASE_URL
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -22,10 +43,10 @@ export function WaitlistForm({ id }: { id?: string }) {
     setStatus('submitting')
     setErrorMsg('')
     try {
-      const res = await fetch('/api/lab/newsletter', {
+      const res = await fetch('/api/academy/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'academy_waitlist' }),
+        body: JSON.stringify({ email, ref }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data?.ok) {
@@ -37,6 +58,7 @@ export function WaitlistForm({ id }: { id?: string }) {
         )
         return
       }
+      setResult({ refCode: data.refCode, position: data.position, referrals: data.referrals, total: data.total })
       setStatus('success')
       trackEvent('newsletter_signup', { source: 'academy_waitlist' })
     } catch {
@@ -47,7 +69,7 @@ export function WaitlistForm({ id }: { id?: string }) {
 
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(SHARE_URL)
+      await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -55,29 +77,45 @@ export function WaitlistForm({ id }: { id?: string }) {
     }
   }
 
-  if (status === 'success') {
+  if (status === 'success' && result) {
     return (
       <div className={styles.success} role="status" aria-live="polite">
         <div className={styles.successCheck} aria-hidden="true">✓</div>
-        <h2>You’re on the founding list.</h2>
-        <p>
-          Watch your inbox — you’ll be first through the door when the academy opens, with founding
-          pricing locked in. Want to bump a friend up the list?
+        <h2>You’re in line.</h2>
+        <p className={styles.position}>
+          Position <strong>#{result.position.toLocaleString()}</strong>
         </p>
+        <p>
+          Move up by inviting builders — <strong>every friend who joins with your link jumps you 5 spots.</strong>
+        </p>
+        <div className={styles.refBox}>
+          <span className={styles.refLink}>{shareUrl.replace('https://', '')}</span>
+          <button type="button" className={styles.refCopy} onClick={copyLink}>
+            {copied ? 'Copied ✓' : 'Copy link'}
+          </button>
+        </div>
         <div className={styles.share}>
           <a
             className={styles.shareBtn}
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(shareUrl)}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent('cta_click', { location: 'waitlist_success', label: 'share_x' } as never)}
           >
             Share on X
           </a>
-          <button type="button" className={styles.shareBtn} onClick={copyLink}>
-            {copied ? 'Link copied ✓' : 'Copy link'}
-          </button>
         </div>
+        <ul className={styles.tiers}>
+          {TIERS.map((t) => (
+            <li key={t.n} className={result.referrals >= t.n ? styles.tierDone : undefined}>
+              <b>{t.n}</b> {t.label}
+              {result.referrals >= t.n ? ' ✓' : ''}
+            </li>
+          ))}
+        </ul>
+        {result.referrals > 0 && (
+          <p className={styles.refCount}>{result.referrals} referred so far — keep going.</p>
+        )}
       </div>
     )
   }

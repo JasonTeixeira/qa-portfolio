@@ -601,9 +601,45 @@
   display: block;
   overflow-wrap: anywhere;
 }
+/* Line-mask reveal: each headline line rises out of its clip as the splash
+   lifts. Hidden only while the splash plays, so it never strands the headline
+   (no-JS / no-splash loads show it normally). */
+.heroLine {
+  overflow: hidden;
+}
+:global(body.living-intro) .heroLine > span {
+  transform: translateY(116%);
+}
+:global(body.living-visible) .heroLine > span {
+  transform: translateY(0);
+  transition: transform 1s var(--ease);
+}
+:global(body.living-visible) .heroTitle .heroLine:nth-child(1) > span {
+  transition-delay: 0.05s;
+}
+:global(body.living-visible) .heroTitle .heroLine:nth-child(2) > span {
+  transition-delay: 0.15s;
+}
+:global(body.living-visible) .heroTitle .heroLine:nth-child(3) > span {
+  transition-delay: 0.25s;
+}
+.heroAtmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
 .heroTitle em {
   color: var(--accent);
   font-style: normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(body.living-intro) .heroLine > span {
+    transform: none;
+  }
+  :global(body.living-visible) .heroLine > span {
+    transition: none;
+  }
 }
 .heroLower {
   display: grid;

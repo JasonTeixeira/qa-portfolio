@@ -180,25 +180,36 @@ export function LivingSystemsHome() {
             system (AI, apps, SaaS, brand, growth) to work for yours. From someone who
             <strong> builds</strong>, not someone who just pitches.
           </p>
-          <div className={styles.heroActions}>
-            <div className={styles.ctas}>
-              <TrackedLink
-                className={`${styles.button} ${styles.buttonPrimary}`}
-                href="/contact?source=home_hero"
-                event="cta_click"
-                eventProps={{ location: 'living_hero', label: 'start_project' }}
-              >
-                <span>Start a project</span><span aria-hidden="true">→</span>
-              </TrackedLink>
-              <TrackedLink
-                className={`${styles.button} ${styles.buttonGhost}`}
-                href="#work"
-                event="cta_click"
-                eventProps={{ location: 'living_hero', label: 'see_work' }}
-              >
-                <span>See the work</span><span aria-hidden="true">↘</span>
-              </TrackedLink>
-            </div>
+          <div className={styles.heroFork}>
+            <p className={styles.forkPrompt}>Pick your door</p>
+            <TrackedLink
+              className={`${styles.door} ${styles.doorPrimary}`}
+              href="/contact?source=home_hero_fork"
+              event="cta_click"
+              eventProps={{ location: 'living_hero_fork', label: 'work_with_me' }}
+            >
+              <span className={styles.doorLabel}>Work with me</span>
+              <span className={styles.doorSub}>Product, brand &amp; AI systems — built for you</span>
+              <span className={styles.doorArrow} aria-hidden="true">→</span>
+            </TrackedLink>
+            <TrackedLink
+              className={`${styles.door} ${styles.doorGhost}`}
+              href="/academy?source=home_hero_fork"
+              event="cta_click"
+              eventProps={{ location: 'living_hero_fork', label: 'learn_the_system' }}
+            >
+              <span className={styles.doorLabel}>Learn the system</span>
+              <span className={styles.doorSub}>Courses, templates &amp; the build method</span>
+              <span className={styles.doorArrow} aria-hidden="true">↗</span>
+            </TrackedLink>
+            <TrackedLink
+              className={styles.forkHint}
+              href="/tools/route-finder?source=home_hero_fork"
+              event="cta_click"
+              eventProps={{ location: 'living_hero_fork', label: 'route_finder' }}
+            >
+              Not sure which? <strong>Answer 4 questions →</strong>
+            </TrackedLink>
           </div>
         </div>
         <RouteFinderHeroExperiment surface="home" />

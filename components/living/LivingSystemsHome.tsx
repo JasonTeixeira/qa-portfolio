@@ -277,12 +277,14 @@ export function LivingSystemsHome() {
       </section>
 
       <section className={styles.work} id="work" aria-labelledby="work-heading" data-living-reel>
-        <SectionHead
-          kicker="002 — Selected work"
-          title={<>I run my own products.<br />Then I build yours.</>}
-          text="Four shipped products. Each surface is paired with the system beneath it."
-        />
         <div className={styles.reelStage} data-living-stage>
+          <div className={styles.reelHeader}>
+            <SectionHead
+              kicker="002 — Selected work"
+              title={<>I run my own products.<br />Then I build yours.</>}
+              text="Four shipped products. Each surface is paired with the system beneath it."
+            />
+          </div>
           <div className={styles.reelHud} aria-hidden="true">
             <span><b data-living-reel-cur>01</b>/04</span>
             <span className={styles.reelRail}><i data-living-reel-rail /></span>

@@ -1670,14 +1670,34 @@
   inset: 0;
   padding: 0;
 }
+:global(body.living-reel) .reelHeader {
+  position: absolute;
+  top: clamp(3rem, 4.6vh, 4.6rem);
+  left: 0;
+  right: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+:global(body.living-reel) .reelHeader .sectionHead {
+  margin-bottom: 0;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+:global(body.living-reel) .reelHeader .sectionHead h2 {
+  font-size: clamp(1.5rem, 1rem + 1.7vw, 2.7rem);
+  max-width: 20ch;
+}
+:global(body.living-reel) .reelHeader .sectionHead p {
+  display: none;
+}
 :global(body.living-reel) .scene {
   position: absolute;
   inset: 0;
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  padding: 0;
+  padding: 0 0 clamp(1.6rem, 4vh, 3.5rem);
   border: none;
   border-radius: 0;
   background: transparent;
@@ -1687,9 +1707,10 @@
 :global(body.living-reel) .sceneInner {
   width: min(1320px, 92vw);
   min-height: auto;
-  height: min(76svh, 760px);
+  height: min(70svh, 720px);
+  align-items: center;
   transform: translate3d(0, var(--scene-y, 0), 0);
-  grid-template-columns: clamp(260px, 28%, 420px) minmax(0, 1fr);
+  grid-template-columns: clamp(260px, 26%, 400px) minmax(0, 1fr);
 }
 :global(body.living-reel) .sceneReverse {
   grid-template-columns: minmax(0, 1fr) clamp(260px, 28%, 420px);

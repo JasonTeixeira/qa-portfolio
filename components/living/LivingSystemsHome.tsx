@@ -109,42 +109,31 @@ export function LivingSystemsHome() {
   return (
     <div className={styles.page}>
       <LivingSystemsMotion />
-      <div className={styles.loader} data-living-loader role="status" aria-live="polite" aria-label="Sage Living OS boot sequence">
-        <div className={styles.bootFrame}>
-          <div className={styles.bootHeader}>
-            <span>Sage Living OS</span>
-            <button type="button" data-living-splash-skip aria-label="Skip intro">Skip</button>
-          </div>
-          <div className={styles.bootCore}>
-            <span className={styles.loaderMark}>
-              <svg viewBox="0 0 42 42" width="72" height="72" fill="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="living-loader-mark" x1="4" x2="38" y1="8" y2="34" gradientUnits="userSpaceOnUse">
-                    <stop offset="0" stopColor="#3D5AFE" />
-                    <stop offset="0.55" stopColor="#7C3AED" />
-                    <stop offset="1" stopColor="#FF2D9B" />
-                  </linearGradient>
-                </defs>
-                <path d="M28.8 7.6c-7.8 1.2-16.3 7-17.5 12.1-.8 3.4 2.2 5.1 8.2 6.7 5.8 1.5 8.8 2.8 8.4 5.3-.5 3.3-7.1 5.1-14.9 4.3" />
-                <circle cx="30" cy="8" r="3.8" />
-                <circle cx="13.5" cy="35.7" r="2.8" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.loaderText}>Booting product, brand, and AI system</p>
-              <p className={styles.bootSubcopy}>Surface to system. Studio to academy. Content to qualified demand.</p>
-            </div>
-          </div>
-          <div className={styles.bootModules} aria-hidden="true">
-            {['Studio', 'Academy', 'Proof', 'Tools', 'Content'].map((label) => (
-              <span key={label} data-living-boot-module>{label}</span>
-            ))}
-          </div>
+      <div className={styles.loader} data-living-loader role="status" aria-live="polite" aria-label="Sage Ideas">
+        <div className={styles.loaderScene} aria-hidden="true">
+          <Image src="/art/inkwash-cliffs.png" alt="" fill priority sizes="100vw" className={styles.loaderSceneImg} />
+        </div>
+        <button type="button" className={styles.loaderSkip} data-living-splash-skip aria-label="Skip intro">
+          Skip intro
+        </button>
+        <div className={styles.loaderCenter}>
+          <span className={styles.loaderMark}>
+            <svg viewBox="0 0 42 42" width="96" height="96" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="living-loader-mark" x1="4" x2="38" y1="8" y2="34" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stopColor="#3D5AFE" />
+                  <stop offset="0.55" stopColor="#7C3AED" />
+                  <stop offset="1" stopColor="#FF2D9B" />
+                </linearGradient>
+              </defs>
+              <path d="M28.8 7.6c-7.8 1.2-16.3 7-17.5 12.1-.8 3.4 2.2 5.1 8.2 6.7 5.8 1.5 8.8 2.8 8.4 5.3-.5 3.3-7.1 5.1-14.9 4.3" />
+              <circle cx="30" cy="8" r="3.8" />
+              <circle cx="13.5" cy="35.7" r="2.8" />
+            </svg>
+          </span>
+          <p className={styles.loaderWordmark}>Sage&nbsp;Ideas</p>
+          <p className={styles.loaderTagline}>AI-native studio · since 2020</p>
           <span className={styles.loaderBar}><i data-living-boot-progress /></span>
-          <div className={styles.bootFooter}>
-            <span data-living-boot-status>Initializing modules</span>
-            <span>Native scroll · reduced-motion safe</span>
-          </div>
         </div>
       </div>
 

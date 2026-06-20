@@ -63,20 +63,107 @@
 .loader {
   position: fixed;
   top: 0;
-  right: 0;
   left: 0;
+  right: 0;
   height: 100svh;
   z-index: 2000;
   display: none;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(1rem, 3vw, 3rem);
+  place-items: center;
+  overflow: hidden;
+  background: #050507;
+  transform-origin: top center;
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.95s var(--ease),
+    visibility 0.95s var(--ease);
+}
+/* The splash plays only at scroll-0 on load; hide the global marketing nav
+   underneath it so the cinematic frame reads clean, then it returns. */
+:global(body.living-intro) :global(header.fixed) {
+  opacity: 0;
+  pointer-events: none;
+}
+/* ── Cinematic intro: the same ink-wash landscape as the hero, so the
+      curtain-rise reveal is a seamless match cut into the page below. ── */
+.loaderScene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.loaderSceneImg {
+  object-fit: cover;
+  transform: scale(1.08);
+  filter: brightness(0.26) saturate(0.92);
+  animation: loaderScene 2s var(--ease) forwards;
+}
+@keyframes loaderScene {
+  to {
+    transform: scale(1);
+    filter: brightness(0.56) saturate(1);
+  }
+}
+.loaderScene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(rgba(242, 239, 233, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(242, 239, 233, 0.035) 1px, transparent 1px),
-    var(--bg);
-  background-size: 64px 64px, 64px 64px, auto;
-  transition: opacity 0.55s ease, visibility 0.55s ease;
+    radial-gradient(120% 90% at 50% 36%, transparent 32%, rgba(5, 5, 7, 0.66) 100%),
+    linear-gradient(180deg, rgba(5, 5, 7, 0.5), transparent 30%, rgba(5, 5, 7, 0.72));
+}
+.loaderSkip {
+  position: absolute;
+  top: clamp(1.2rem, 3vw, 2.2rem);
+  right: clamp(1.2rem, 4vw, 3rem);
+  z-index: 3;
+  min-height: 34px;
+  padding: 0 1rem;
+  border: 1px solid rgba(242, 239, 233, 0.2);
+  border-radius: 999px;
+  color: rgba(242, 239, 233, 0.72);
+  background: rgba(11, 11, 14, 0.4);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.loaderSkip:hover,
+.loaderSkip:focus-visible {
+  color: var(--ink);
+  border-color: rgba(61, 90, 254, 0.6);
+  background: rgba(61, 90, 254, 0.12);
+  outline: none;
+}
+.loaderCenter {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: clamp(1rem, 2.4vw, 1.7rem);
+  padding: 2rem;
+  text-align: center;
+  animation: loaderCenterIn 1s var(--ease) both;
+}
+@keyframes loaderCenterIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.loaderWordmark {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 1.4rem + 4vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+.loaderTagline {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(242, 239, 233, 0.66);
 }
 .loader::before {
   content: "";
@@ -160,12 +247,9 @@
 .loaderMark {
   display: grid;
   place-items: center;
-  width: clamp(5.2rem, 11vw, 7.4rem);
+  width: clamp(4.6rem, 9vw, 6.4rem);
   aspect-ratio: 1;
-  border: 1px solid rgba(242, 239, 233, 0.12);
-  border-radius: 18px;
-  background: #0B0B0E;
-  box-shadow: inset 0 0 0 1px rgba(61, 90, 254, 0.1), 0 24px 60px rgba(0, 0, 0, 0.44);
+  filter: drop-shadow(0 10px 34px rgba(61, 90, 254, 0.45));
 }
 .loaderMark path {
   stroke: url(#living-loader-mark);
@@ -195,10 +279,12 @@
 }
 .loaderBar {
   display: block;
-  width: 100%;
+  width: clamp(150px, 22vw, 230px);
   height: 2px;
+  margin-top: 0.4rem;
   overflow: hidden;
-  background: var(--hair);
+  border-radius: 999px;
+  background: rgba(242, 239, 233, 0.14);
 }
 .loaderBar i {
   display: block;
@@ -269,14 +355,29 @@
 .textLink {
   font-family: var(--mono);
 }
-:global(body.living-visible) .loader,
-:global(body.living-ready) .loader.is-done {
-  opacity: 0;
-  visibility: hidden;
+/* Theatrical hand-off: keep the loader displayed while it curtain-rises off
+   the top, revealing the hero's matching landscape underneath (match cut). */
+.loader.is-done {
+  display: grid;
+  pointer-events: none;
+  animation: loaderRise 0.95s var(--ease) forwards;
 }
-:global(body.living-visible) .loader,
-:global(body.living-ready) .loader.is-done {
-  display: none;
+@keyframes loaderRise {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-101%);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader.is-done {
+    display: none;
+    animation: none;
+  }
 }
 @media (max-width: 640px) {
   .loader {

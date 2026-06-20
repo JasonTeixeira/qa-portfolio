@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { sendAcademyWaitlistWelcome } from '@/lib/academy/waitlist-welcome'
+import { sendEmail } from '@/lib/email/send'
+
+const NOTIFY_TO = 'sage@sageideas.org'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -98,12 +101,24 @@ export async function POST(req: NextRequest) {
     const refs = referrals ?? 0
     const position = Math.max(1, (baseRank ?? 1) - refs * REFERRAL_BOOST)
 
-    // Welcome email — only for brand-new signups, best-effort (never blocks).
+    // Welcome email + operator notification — only for brand-new signups,
+    // best-effort (never blocks the response).
     if (!existing) {
       try {
         await sendAcademyWaitlistWelcome({ email, position, refCode })
       } catch {
         // Resend hiccup — the signup still succeeds.
+      }
+      try {
+        await sendEmail({
+          to: NOTIFY_TO,
+          subject: `New Academy waitlist signup — ${total ?? 1} total`,
+          html: `<p>New founding-waitlist signup:</p><ul><li><strong>${email}</strong></li><li>Position #${position}</li><li>Total now: ${total ?? 1} / 1,000</li></ul>`,
+          text: `New waitlist signup: ${email} (position #${position}, total ${total ?? 1}/1000)`,
+          templateKey: 'academy_waitlist_admin_notify',
+        })
+      } catch {
+        // Notification is non-critical.
       }
     }
 

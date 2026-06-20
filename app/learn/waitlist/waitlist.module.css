@@ -94,8 +94,16 @@
 }
 .heroInner {
   position: relative;
+  z-index: 1;
   max-width: 760px;
   margin: 0 auto;
+}
+.heroAtmo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.75;
 }
 .eyebrow {
   display: inline-flex;
@@ -351,6 +359,141 @@
   border-radius: 999px;
 }
 
+/* ── Journey map (B) ── */
+.journey {
+  margin-top: clamp(2.2rem, 1.4rem + 2.5vw, 3.6rem);
+}
+.milestones {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.milestones::before {
+  content: "";
+  position: absolute;
+  top: 1.7rem;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
+  opacity: 0.5;
+}
+.milestone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+.milestoneDot {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 999px;
+  font-family: var(--ac-mono);
+  font-size: 1.05rem;
+  color: var(--ac-ink);
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line-strong);
+  box-shadow: 0 0 0 7px var(--ac-bg);
+  transition: transform 0.4s var(--ac-ease), border-color 0.3s ease;
+}
+.milestone:hover .milestoneDot {
+  transform: translateY(-3px);
+  border-color: var(--ac-accent);
+}
+.milestone:first-child .milestoneDot {
+  background: linear-gradient(135deg, var(--ac-g1), var(--ac-g2));
+  border-color: transparent;
+  color: #fff;
+}
+.milestone:last-child .milestoneDot {
+  background: linear-gradient(135deg, var(--ac-g2), var(--ac-g3));
+  border-color: transparent;
+  color: #fff;
+}
+.milestoneLabel {
+  font-family: var(--ac-display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+.milestoneSub {
+  font-size: 0.8rem;
+  color: var(--ac-ink-muted);
+}
+.milestoneNum {
+  font-family: var(--ac-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--ac-ink-faint);
+}
+.phases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: center;
+  margin-top: clamp(1.8rem, 1.2rem + 2vw, 2.6rem);
+}
+
+/* ── Method flow (C) ── */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+}
+.stage {
+  position: relative;
+  padding: 1.6rem;
+  border-radius: 16px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+}
+.stageNum {
+  font-family: var(--ac-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(120deg, var(--ac-g1), var(--ac-g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stage h3 {
+  margin-top: 0.5rem;
+  font-family: var(--ac-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.stage p {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ac-ink-muted);
+}
+.stageArrow {
+  position: absolute;
+  top: 50%;
+  right: -0.85rem;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--ac-bg);
+  border: 1px solid var(--ac-line);
+  color: var(--ac-accent-ink);
+  font-size: 0.9rem;
+}
+
 /* ── Founder note ── */
 .founder {
   display: grid;
@@ -429,6 +572,18 @@
 }
 .footer a:hover {
   color: var(--ac-ink);
+}
+
+/* ── Scroll reveals (D) ── */
+:global([data-reveal-scope] > section[data-reveal]) {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.85s var(--ac-ease), transform 0.95s var(--ac-ease);
+  will-change: opacity, transform;
+}
+:global([data-reveal-scope] > section[data-reveal][data-reveal-in]) {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── Live code lab ── */
@@ -554,5 +709,28 @@
   }
   .perks {
     grid-template-columns: 1fr;
+  }
+  .milestones {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .milestones::before {
+    display: none;
+  }
+  .milestone {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+  }
+  .milestoneDot {
+    box-shadow: none;
+    flex-shrink: 0;
+  }
+  .flow {
+    grid-template-columns: 1fr;
+  }
+  .stageArrow {
+    display: none;
   }
 }

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { paths } from '@/data/academy/catalog'
+import { Atmosphere } from '@/components/motion/Atmosphere'
 import { WaitlistForm } from './waitlist-form'
 import { CodeLab } from './code-lab'
+import { RevealOnScroll } from './reveal'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -26,6 +28,20 @@ const PERKS = [
   { glyph: '🗳️', title: 'A vote on what’s next', body: 'Founding members help pick which courses and labs we build first.' },
 ]
 
+const MILESTONES = [
+  { glyph: '›_', label: 'First line', sub: 'Variables & logic' },
+  { glyph: 'ƒ', label: 'Real programs', sub: 'Functions & data' },
+  { glyph: '✦', label: 'Build with AI', sub: 'The LLM API' },
+  { glyph: '⬡', label: 'RAG & agents', sub: 'Grounded & tool-using' },
+  { glyph: '▲', label: 'Ship it', sub: 'Deployed & live' },
+]
+
+const STAGES = [
+  { n: '01', title: 'Learn', body: 'A short, focused lesson that gets to the point and shows real code.' },
+  { n: '02', title: 'Build', body: 'Open a guided lab and ship a working project with starter code and checkpoints.' },
+  { n: '03', title: 'Keep it', body: 'Every lab becomes a real project in your portfolio. Stack them, finish the path.' },
+]
+
 const FAQS = [
   { q: 'When does it launch?', a: 'Soon — we’re building the first paths and labs now. Joining the waitlist puts you first in line and you’ll get the launch email before anyone else.' },
   { q: 'How much is it?', a: 'Pro is $20/month for everything — every course, every guided lab, certificates, and new content each week. There’s a free tier too. Founding members lock the $20 price for life.' },
@@ -35,7 +51,8 @@ const FAQS = [
 
 export default function WaitlistPage() {
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-reveal-scope>
+      <RevealOnScroll />
       <header className={styles.nav}>
         <Link href="/learn" className={styles.brand}>
           <span className={styles.brandMark}>S</span>
@@ -46,6 +63,7 @@ export default function WaitlistPage() {
 
       {/* ── Hero ── */}
       <section className={styles.hero}>
+        <Atmosphere variant="cool" className={styles.heroAtmo} />
         <div className={styles.heroInner}>
           <span className={styles.eyebrow}>
             <span className={styles.dot} /> Founding cohort · spots open
@@ -93,19 +111,49 @@ export default function WaitlistPage() {
         </div>
       </section>
 
-      {/* ── Taste ── */}
+      {/* ── Journey map (B) ── */}
       <section className={styles.section}>
         <div className={styles.sectionNarrow}>
-          <span className={styles.kicker}>What you’ll build</span>
-          <h2 className={styles.h2}>Three paths, from zero to shipped.</h2>
-          <div className={styles.taste}>
-            {paths.map((p) => (
-              <span key={p.slug} className={styles.chip}>
-                <i style={{ background: `linear-gradient(135deg, ${p.gradient[0]}, ${p.gradient[1]})` }} />
-                {p.name}
-              </span>
+          <span className={styles.kicker}>The journey</span>
+          <h2 className={styles.h2}>From your first line to a shipped product.</h2>
+          <div className={styles.journey}>
+            <ol className={styles.milestones}>
+              {MILESTONES.map((m, i) => (
+                <li key={m.label} className={styles.milestone}>
+                  <span className={styles.milestoneDot} aria-hidden="true">{m.glyph}</span>
+                  <span className={styles.milestoneLabel}>{m.label}</span>
+                  <span className={styles.milestoneSub}>{m.sub}</span>
+                  <span className={styles.milestoneNum} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                </li>
+              ))}
+            </ol>
+            <div className={styles.phases}>
+              {paths.map((p) => (
+                <span key={p.slug} className={styles.chip}>
+                  <i style={{ background: `linear-gradient(135deg, ${p.gradient[0]}, ${p.gradient[1]})` }} />
+                  {p.name}
+                </span>
+              ))}
+              <span className={styles.chip}><i style={{ background: '#18b663' }} /> Guided project labs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Method flow (C) ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionNarrow}>
+          <span className={styles.kicker}>How every lesson works</span>
+          <h2 className={styles.h2}>Learn → build → keep it.</h2>
+          <div className={styles.flow}>
+            {STAGES.map((s, i) => (
+              <article key={s.n} className={styles.stage}>
+                <span className={styles.stageNum}>{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+                {i < STAGES.length - 1 && <span className={styles.stageArrow} aria-hidden="true">→</span>}
+              </article>
             ))}
-            <span className={styles.chip}><i style={{ background: '#18b663' }} /> Guided project labs</span>
           </div>
         </div>
       </section>

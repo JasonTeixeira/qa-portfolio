@@ -1651,3 +1651,29 @@ a:focus-visible {
 }
 .font-editorial { font-family: var(--font-editorial); }
 .font-aesthetic { font-family: var(--font-aesthetic); }
+
+/* Cinematic backdrop ambient motion — slow Ken Burns drift so the landscape
+   breathes even when the page is still. Composes with the scroll parallax
+   (applied on a separate parent layer). Decorative; disabled for reduced motion. */
+@keyframes cinematic-drift {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.07) translate3d(-1.6%, -1.4%, 0);
+  }
+  100% {
+    transform: scale(1.03) translate3d(1.4%, 0.6%, 0);
+  }
+}
+.cinematic-drift {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  animation: cinematic-drift 34s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-drift {
+    animation: none;
+  }
+}

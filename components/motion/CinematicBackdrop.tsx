@@ -15,6 +15,8 @@ interface CinematicBackdropProps {
   textAnchor?: 'bottom-left' | 'bottom' | 'center'
   /** Swap to the shared per-visit backdrop on mount (rotates across visits). */
   rotate?: boolean
+  /** Slow ambient Ken Burns drift so the image moves even when the page is still. */
+  drift?: boolean
   className?: string
 }
 
@@ -31,6 +33,7 @@ export function CinematicBackdrop({
   parallax = 64,
   textAnchor = 'bottom-left',
   rotate = false,
+  drift = false,
   className,
 }: CinematicBackdropProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -89,15 +92,17 @@ export function CinematicBackdrop({
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className ?? ''}`}
     >
       <div ref={layerRef} className="absolute inset-0 will-change-transform" style={{ transform: 'scale(1.14)' }}>
-        <Image
-          src={activeSrc}
-          alt={alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ filter: `brightness(${brightness}) saturate(1.06) contrast(1.04)` }}
-        />
+        <div className={drift ? 'cinematic-drift' : 'absolute inset-0'}>
+          <Image
+            src={activeSrc}
+            alt={alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            style={{ filter: `brightness(${brightness}) saturate(1.06) contrast(1.04)` }}
+          />
+        </div>
       </div>
       <div className="absolute inset-0" style={{ background: grade }} />
     </div>

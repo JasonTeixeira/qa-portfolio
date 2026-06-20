@@ -180,6 +180,7 @@ export function LivingSystemsHome() {
           parallax={70}
           textAnchor="bottom-left"
           rotate
+          drift
           className="z-[-2]"
         />
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />

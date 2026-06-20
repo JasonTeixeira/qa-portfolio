@@ -1,0 +1,729 @@
+/* Sage Academy — the bright "learn" mode. Same brand DNA as the dark studio
+   (Bricolage/Hanken/JetBrains type, #3D5AFE accent, blue→purple→pink gradient),
+   inverted to warm light and energized for a mass-market $20/mo audience. */
+
+.page {
+  --ac-bg: #f6f4ee;
+  --ac-surface: #ffffff;
+  --ac-surface-soft: #fbfaf6;
+  --ac-ink: #16161c;
+  --ac-ink-muted: #585865;
+  --ac-ink-faint: #8a8a96;
+  --ac-line: #e7e3d9;
+  --ac-line-strong: #d9d4c7;
+  --ac-accent: #3d5afe;
+  --ac-accent-ink: #2640cf;
+  --ac-g1: #3d5afe;
+  --ac-g2: #7c3aed;
+  --ac-g3: #ff2d9b;
+  --ac-display: var(--font-display), "Bricolage Grotesque", sans-serif;
+  --ac-sans: var(--font-sans), "Hanken Grotesk", sans-serif;
+  --ac-mono: var(--font-mono), "JetBrains Mono", monospace;
+  --ac-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ac-pad: clamp(1.2rem, 0.5rem + 3.4vw, 5rem);
+
+  min-height: 100vh;
+  background: var(--ac-bg);
+  color: var(--ac-ink);
+  font-family: var(--ac-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.gradient {
+  background: linear-gradient(100deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── Nav ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem var(--ac-pad);
+  background: color-mix(in srgb, var(--ac-bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ac-line);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--ac-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--ac-ink);
+}
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
+  color: #fff;
+  font-weight: 800;
+}
+.brand small {
+  font-family: var(--ac-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
+  font-weight: 500;
+}
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+.navLinks a {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ac-ink-muted);
+  transition: color 0.2s ease;
+}
+.navLinks a:hover {
+  color: var(--ac-ink);
+}
+.navCta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+@media (max-width: 860px) {
+  .navLinks {
+    display: none;
+  }
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.9rem;
+  padding: 0 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.35s var(--ac-ease), box-shadow 0.3s ease, background 0.3s ease;
+}
+.btnPrimary {
+  color: #fff;
+  background: linear-gradient(100deg, var(--ac-g1), var(--ac-g2) 60%, var(--ac-g3));
+  box-shadow: 0 10px 26px -12px rgba(124, 58, 237, 0.7);
+}
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 38px -12px rgba(124, 58, 237, 0.8);
+}
+.btnGhost {
+  color: var(--ac-ink);
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line-strong);
+}
+.btnGhost:hover {
+  transform: translateY(-2px);
+  border-color: var(--ac-accent);
+  color: var(--ac-accent-ink);
+}
+.btnSm {
+  min-height: 2.4rem;
+  padding: 0 1.1rem;
+  font-size: 0.88rem;
+}
+
+/* ── Section scaffolding ── */
+.section {
+  padding: clamp(3.5rem, 2rem + 6vw, 7rem) var(--ac-pad);
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--ac-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ac-accent-ink);
+}
+.kicker::before {
+  content: "";
+  width: 1.8rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--ac-g1), var(--ac-g3));
+}
+.sectionTitle {
+  margin: 0.9rem 0 0;
+  font-family: var(--ac-display);
+  font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+.sectionLede {
+  margin: 0.9rem 0 0;
+  max-width: 56ch;
+  color: var(--ac-ink-muted);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem);
+  line-height: 1.55;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 2rem + 6vw, 6.5rem) var(--ac-pad) clamp(3rem, 2rem + 4vw, 5.5rem);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto;
+  height: 70%;
+  background:
+    radial-gradient(40% 60% at 18% 20%, rgba(61, 90, 254, 0.16), transparent 70%),
+    radial-gradient(38% 56% at 82% 8%, rgba(255, 45, 155, 0.13), transparent 70%);
+  pointer-events: none;
+}
+.heroInner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+  align-items: center;
+}
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line-strong);
+  font-family: var(--ac-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ac-ink-muted);
+}
+.heroBadge b {
+  color: var(--ac-accent-ink);
+  font-weight: 700;
+}
+.heroTitle {
+  margin: 1.2rem 0 0;
+  font-family: var(--ac-display);
+  font-size: clamp(2.6rem, 1.6rem + 4.6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+.heroLede {
+  margin: 1.4rem 0 0;
+  max-width: 46ch;
+  color: var(--ac-ink-muted);
+  font-size: clamp(1.05rem, 0.98rem + 0.4vw, 1.32rem);
+  line-height: 1.5;
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+.heroProof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.4rem;
+  margin-top: 1.8rem;
+  font-size: 0.9rem;
+  color: var(--ac-ink-faint);
+}
+.heroProof b {
+  color: var(--ac-ink);
+  font-weight: 700;
+}
+.heroProof span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Hero visual: a stacked "lesson + lab" card cluster */
+.heroVisual {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+}
+.lessonCard {
+  position: relative;
+  padding: 1.4rem 1.5rem;
+  border-radius: 18px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+  box-shadow: 0 30px 60px -34px rgba(22, 22, 28, 0.4);
+}
+.lessonCard:nth-child(2) {
+  margin-left: clamp(1rem, 3vw, 3rem);
+}
+.lessonCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.lessonGlyph {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, rgba(61, 90, 254, 0.14), rgba(255, 45, 155, 0.12));
+}
+.lessonCard h4 {
+  font-family: var(--ac-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.lessonCard p {
+  margin-top: 0.3rem;
+  font-size: 0.86rem;
+  color: var(--ac-ink-muted);
+}
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+}
+.progressTrack {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--ac-line);
+  overflow: hidden;
+}
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ac-g1), var(--ac-g2), var(--ac-g3));
+}
+.progressRow span {
+  font-family: var(--ac-mono);
+  font-size: 0.72rem;
+  color: var(--ac-ink-faint);
+}
+
+/* ── Badges ── */
+.level,
+.free {
+  font-family: var(--ac-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+.level {
+  color: var(--ac-ink-muted);
+  background: var(--ac-surface-soft);
+  border: 1px solid var(--ac-line);
+}
+.free {
+  color: #057a55;
+  background: rgba(5, 122, 85, 0.1);
+  border: 1px solid rgba(5, 122, 85, 0.25);
+}
+
+/* ── Value props ── */
+.valueGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: clamp(2rem, 1.4rem + 2vw, 3.4rem);
+}
+.valueCard {
+  padding: 1.6rem;
+  border-radius: 16px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+}
+.valueIcon {
+  font-size: 1.5rem;
+}
+.valueCard h3 {
+  margin-top: 0.8rem;
+  font-family: var(--ac-display);
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+.valueCard p {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ac-ink-muted);
+}
+
+/* ── Paths ── */
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: clamp(2rem, 1.4rem + 2vw, 3.4rem);
+}
+.pathCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+  transition: transform 0.4s var(--ac-ease), box-shadow 0.3s ease;
+}
+.pathCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px -34px rgba(22, 22, 28, 0.45);
+}
+.pathRibbon {
+  height: 7px;
+}
+.pathBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.6rem 1.6rem 1.8rem;
+}
+.pathBody h3 {
+  font-family: var(--ac-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pathMeta {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0.7rem 0 0;
+  font-family: var(--ac-mono);
+  font-size: 0.72rem;
+  color: var(--ac-ink-faint);
+}
+.pathBody p {
+  margin-top: 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ac-ink-muted);
+}
+.pathOutcomes {
+  margin: 1.1rem 0 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.pathOutcomes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--ac-ink);
+}
+.pathOutcomes li::before {
+  content: "✓";
+  color: var(--ac-accent);
+  font-weight: 800;
+}
+.pathLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ac-accent-ink);
+}
+.pathLink span {
+  transition: transform 0.3s var(--ac-ease);
+}
+.pathCard:hover .pathLink span {
+  transform: translateX(4px);
+}
+
+/* ── Courses ── */
+.coursesHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: clamp(1.8rem, 1.2rem + 2vw, 3rem);
+}
+.courseCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem;
+  border-radius: 16px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+  transition: transform 0.4s var(--ac-ease), border-color 0.3s ease;
+}
+.courseCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--ac-line-strong);
+}
+.courseTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.courseGlyph {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, rgba(61, 90, 254, 0.12), rgba(124, 58, 237, 0.1));
+}
+.courseCard h3 {
+  margin-top: 1rem;
+  font-family: var(--ac-display);
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.courseCard p {
+  margin-top: 0.4rem;
+  flex: 1;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ac-ink-muted);
+}
+.courseFoot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  margin-top: 1.1rem;
+  font-family: var(--ac-mono);
+  font-size: 0.72rem;
+  color: var(--ac-ink-faint);
+}
+
+/* ── How it works ── */
+.howGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: clamp(2rem, 1.4rem + 2vw, 3.4rem);
+}
+.howStep {
+  position: relative;
+  padding: 1.8rem 1.6rem;
+  border-radius: 16px;
+  background: var(--ac-surface-soft);
+  border: 1px solid var(--ac-line);
+}
+.howNum {
+  font-family: var(--ac-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--ac-g1), var(--ac-g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.howStep h3 {
+  margin-top: 0.8rem;
+  font-family: var(--ac-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.howStep p {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ac-ink-muted);
+}
+
+/* ── Pricing ── */
+.pricing {
+  background: var(--ac-surface-soft);
+}
+.priceWrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-top: clamp(2rem, 1.4rem + 2vw, 3.2rem);
+  max-width: 880px;
+}
+.priceCard {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 18px;
+  background: var(--ac-surface);
+  border: 1px solid var(--ac-line);
+}
+.priceCardPro {
+  position: relative;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--ac-surface), var(--ac-surface)) padding-box,
+    linear-gradient(120deg, var(--ac-g1), var(--ac-g2), var(--ac-g3)) border-box;
+}
+.priceTag {
+  position: absolute;
+  top: -0.7rem;
+  right: 1.4rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--ac-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(100deg, var(--ac-g1), var(--ac-g3));
+}
+.priceName {
+  font-family: var(--ac-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
+}
+.priceAmount {
+  margin-top: 0.6rem;
+  font-family: var(--ac-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.priceAmount strong {
+  font-size: clamp(2.6rem, 2rem + 2vw, 3.6rem);
+}
+.priceAmount span {
+  font-size: 1rem;
+  color: var(--ac-ink-faint);
+  font-weight: 500;
+}
+.priceList {
+  margin: 1.4rem 0 1.8rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.priceList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  color: var(--ac-ink);
+}
+.priceList li::before {
+  content: "✓";
+  color: var(--ac-accent);
+  font-weight: 800;
+}
+.priceCard .btn {
+  margin-top: auto;
+  justify-content: center;
+}
+
+/* ── Final CTA ── */
+.cta {
+  position: relative;
+  overflow: hidden;
+  margin: 0 var(--ac-pad) clamp(3rem, 2rem + 4vw, 6rem);
+  padding: clamp(3rem, 2rem + 5vw, 5.5rem) clamp(1.6rem, 1rem + 4vw, 5rem);
+  border-radius: 28px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(120deg, #1b1b6e, #5b1ca8 52%, #b51f6b);
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 80% at 50% 0%, rgba(255, 255, 255, 0.16), transparent 70%);
+}
+.cta h2 {
+  position: relative;
+  font-family: var(--ac-display);
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.cta p {
+  position: relative;
+  margin: 1rem auto 0;
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem);
+}
+.ctaActions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.ctaActions .btnGhost {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+.ctaActions .btnGhost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem var(--ac-pad) 3rem;
+  border-top: 1px solid var(--ac-line);
+  font-size: 0.86rem;
+  color: var(--ac-ink-faint);
+}
+.footer a {
+  color: var(--ac-ink-muted);
+}
+.footer a:hover {
+  color: var(--ac-ink);
+}
+
+/* ── Responsive ── */
+@media (max-width: 980px) {
+  .heroInner { grid-template-columns: 1fr; }
+  .heroVisual { display: none; }
+  .valueGrid { grid-template-columns: repeat(2, 1fr); }
+  .pathGrid,
+  .courseGrid,
+  .howGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .valueGrid { grid-template-columns: 1fr; }
+  .priceWrap { grid-template-columns: 1fr; }
+}

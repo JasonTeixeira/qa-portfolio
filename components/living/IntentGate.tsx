@@ -4,13 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { trackEvent } from '@/lib/analytics/events'
 import { playCue } from '@/components/motion/soundCues'
+import { DEFAULT_BACKDROP, visitBackdrop } from '@/components/motion/visitBackdrop'
 import styles from './IntentGate.module.css'
 
 const INTENT_KEY = 'sage-intent'
-
-// Visit-varied backdrops. More art drops in here (target ~50) and the gate +
-// hero rotate through them per visit; for now it reuses the shipped landscapes.
-const BACKDROPS = ['/art/inkwash-cliffs.png', '/art/sunset-pagoda.png']
 
 type Intent = 'hire' | 'learn' | 'explore'
 type Phase = 'hidden' | 'in' | 'out'
@@ -23,7 +20,7 @@ type Phase = 'hidden' | 'in' | 'out'
  */
 export function IntentGate() {
   const [phase, setPhase] = useState<Phase>('hidden')
-  const [bg, setBg] = useState(BACKDROPS[0])
+  const [bg, setBg] = useState(DEFAULT_BACKDROP)
   const shownRef = useRef(false)
 
   useEffect(() => {
@@ -38,8 +35,8 @@ export function IntentGate() {
       return
     }
 
-    // Client-only random avoids an SSR hydration mismatch on the image src.
-    setBg(BACKDROPS[Math.floor(Math.random() * BACKDROPS.length)])
+    // Shared per-visit pick — same landscape as the splash + hero this load.
+    setBg(visitBackdrop())
 
     const reveal = () => {
       if (shownRef.current) return

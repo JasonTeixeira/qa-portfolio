@@ -9,6 +9,7 @@ import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import { IntentGate } from './IntentGate'
+import { SplashBackdrop } from './SplashBackdrop'
 import { CountUp } from '@/components/motion/CountUp'
 import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
 import styles from './LivingSystemsHome.module.css'
@@ -113,7 +114,7 @@ export function LivingSystemsHome() {
       <IntentGate />
       <div className={styles.loader} data-living-loader role="status" aria-live="polite" aria-label="Sage Ideas">
         <div className={styles.loaderScene} aria-hidden="true">
-          <Image src="/art/inkwash-cliffs.png" alt="" fill priority sizes="100vw" className={styles.loaderSceneImg} />
+          <SplashBackdrop className={styles.loaderSceneImg} />
         </div>
         <button type="button" className={styles.loaderSkip} data-living-splash-skip aria-label="Skip intro">
           Skip intro
@@ -165,6 +166,7 @@ export function LivingSystemsHome() {
           brightness={0.46}
           parallax={70}
           textAnchor="bottom-left"
+          rotate
           className="z-[-2]"
         />
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />

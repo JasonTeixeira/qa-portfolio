@@ -1,7 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { visitBackdrop } from './visitBackdrop'
 
 interface CinematicBackdropProps {
   src: string
@@ -12,6 +13,8 @@ interface CinematicBackdropProps {
   parallax?: number
   /** Where the readable text sits, so the dark grade anchors there. */
   textAnchor?: 'bottom-left' | 'bottom' | 'center'
+  /** Swap to the shared per-visit backdrop on mount (rotates across visits). */
+  rotate?: boolean
   className?: string
 }
 
@@ -27,10 +30,17 @@ export function CinematicBackdrop({
   brightness = 0.42,
   parallax = 64,
   textAnchor = 'bottom-left',
+  rotate = false,
   className,
 }: CinematicBackdropProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const layerRef = useRef<HTMLDivElement>(null)
+  // Init to the SSR-stable src; swap to the shared per-visit pick after mount.
+  const [activeSrc, setActiveSrc] = useState(src)
+
+  useEffect(() => {
+    if (rotate) setActiveSrc(visitBackdrop())
+  }, [rotate])
 
   useEffect(() => {
     if (parallax === 0) return
@@ -80,7 +90,7 @@ export function CinematicBackdrop({
     >
       <div ref={layerRef} className="absolute inset-0 will-change-transform" style={{ transform: 'scale(1.14)' }}>
         <Image
-          src={src}
+          src={activeSrc}
           alt={alt}
           fill
           priority

@@ -430,7 +430,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(8rem, 6rem + 8vw, 12rem) var(--pad-x) var(--section);
+  padding: clamp(8rem, 6rem + 8vw, 12rem) var(--pad-x) clamp(3rem, 2rem + 3vw, 5rem);
 }
 .heroGrid {
   position: absolute;
@@ -978,7 +978,7 @@
 }
 .work {
   position: relative;
-  padding: var(--section) 0;
+  padding: clamp(3rem, 2rem + 2.5vw, 5rem) 0 var(--section);
 }
 /* ── Selected work: honest build-record bento (no fake screenshots) ── */
 .workGrid {

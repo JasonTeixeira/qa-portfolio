@@ -1,0 +1,286 @@
+/* THE ASCENT — cinematic scroll-journey landing page.
+   One world, climbed from valley (cool mist) to summit (warm dawn).
+   Built against docs/design/ART_DIRECTION.md. */
+
+.root {
+  background: #07080b;
+  color: #F2EFE9;
+  cursor: none;
+}
+@media (max-width: 900px) {
+  .root { cursor: auto; }
+}
+
+/* ── Arrival curtain: the page rises out of black on load ── */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #07080b;
+  pointer-events: none;
+  animation: curtainOut 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+@keyframes curtainOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ── Custom cursor ── */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 999px;
+  background: #F2EFE9;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transition: width 0.3s var(--ease-out-quint), height 0.3s var(--ease-out-quint), margin 0.3s var(--ease-out-quint);
+  will-change: transform;
+}
+.cursorHot {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  background: rgba(242, 239, 233, 0.12);
+  border: 1px solid rgba(242, 239, 233, 0.7);
+}
+@media (max-width: 900px) {
+  .cursor { display: none; }
+}
+
+/* ── Brand mark + chapter index (the instrument layer) ── */
+.chrome {
+  position: fixed;
+  inset: clamp(1.4rem, 3vw, 2.6rem) clamp(1.4rem, 4vw, 3.4rem) auto;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  mix-blend-mode: difference;
+}
+.seal {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.seal b {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font-weight: 400;
+}
+.chapterMark {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ── Chapter ── */
+.chapter {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  isolation: isolate;
+  overflow: hidden;
+}
+.chapterInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(6rem, 14vh, 11rem) clamp(1.5rem, 5vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.kicker {
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.55rem + 0.3vw, 0.74rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(242, 239, 233, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.kicker::before {
+  content: "";
+  width: 2.4rem;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ── Display type (Coconat) with line-mask reveal ── */
+.display {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.018em;
+}
+.title {
+  margin: clamp(1.4rem, 2.5vw, 2.4rem) 0 0;
+  font-size: clamp(2.8rem, 1rem + 8vw, 9rem);
+  max-width: 15ch;
+}
+.title em {
+  font-style: italic;
+  color: #BCD2FF;
+}
+.line {
+  display: block;
+  overflow: hidden;
+}
+.line > span {
+  display: block;
+  transform: translateY(110%);
+}
+.reveal .line > span {
+  animation: lineUp 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.reveal .line:nth-child(1) > span { animation-delay: 0.55s; }
+.reveal .line:nth-child(2) > span { animation-delay: 0.66s; }
+.reveal .line:nth-child(3) > span { animation-delay: 0.77s; }
+@keyframes lineUp {
+  to { transform: translateY(0); }
+}
+
+.lede {
+  margin-top: clamp(1.6rem, 2.5vw, 2.4rem);
+  max-width: 52ch;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+  line-height: 1.55;
+  color: rgba(242, 239, 233, 0.82);
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal .lede {
+  animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: none; }
+}
+
+/* ── Fade-in-on-scroll for inner chapters ── */
+.rise {
+  opacity: 0;
+  transform: translateY(56px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.rise.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── CTAs ── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: clamp(2rem, 3vw, 3rem);
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3.4rem;
+  padding: 0 1.8rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: transform 0.4s var(--ease-out-quint), background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+.ctaPrimary { background: #F2EFE9; color: #07080b; }
+.ctaGhost { border: 1px solid rgba(242, 239, 233, 0.4); color: #F2EFE9; }
+.cta:hover { transform: translateY(-3px); }
+.ctaPrimary:hover { background: #fff; }
+.ctaGhost:hover { border-color: #F2EFE9; }
+
+/* ── Scroll cue ── */
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.6rem, 4vh, 3rem);
+  z-index: 4;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(242, 239, 233, 0.6);
+  opacity: 0;
+  animation: fadeUp 1s ease 1.6s forwards;
+}
+.cueLine {
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(rgba(242, 239, 233, 0.7), transparent);
+  animation: cuePulse 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes cuePulse {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* ── Big editorial statement chapter ── */
+.statement {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 1rem + 4vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  max-width: 20ch;
+}
+.statement em { font-style: italic; color: #E8B75A; }
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.6rem, 3vw, 3.2rem);
+  margin-top: clamp(2rem, 4vh, 3.4rem);
+}
+.metaRow div { display: flex; flex-direction: column; gap: 0.4rem; }
+.metaRow strong {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 1.4rem + 2.6vw, 4rem);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+.metaRow span {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(242, 239, 233, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain { animation: none; opacity: 0; visibility: hidden; }
+  .line > span,
+  .reveal .line > span { transform: none; animation: none; }
+  .lede, .reveal .lede { opacity: 1; transform: none; animation: none; }
+  .rise { opacity: 1; transform: none; }
+  .cue { opacity: 1; animation: none; }
+  .cueLine { animation: none; }
+}

@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ReactLenis } from 'lenis/react'
 import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
+import { Atmosphere } from '@/components/motion/Atmosphere'
+import { CountUp } from '@/components/motion/CountUp'
 import styles from './ascent.module.css'
 
 export function AscentContent() {
@@ -81,6 +83,7 @@ export function AscentContent() {
         {/* ── CHAPTER 1 — ARRIVAL (cool valley mist) ── */}
         <section className={styles.chapter}>
           <CinematicBackdrop src="/art/inkwash-cliffs.png" brightness={0.52} parallax={96} textAnchor="bottom-left" />
+          <Atmosphere variant="cool" className={styles.atmosphere} />
           <div className={`${styles.chapterInner} ${styles.reveal}`}>
             <p className={styles.kicker}>Sage Ideas · AI-native studio · since 2020</p>
             <h1 className={`${styles.display} ${styles.title}`}>
@@ -106,16 +109,17 @@ export function AscentContent() {
         {/* ── CHAPTER 2 — THE FORGE (the climb) ── */}
         <section className={styles.chapter}>
           <CinematicBackdrop src="/art/inkwash-cliffs.png" brightness={0.34} parallax={72} textAnchor="center" />
+          <Atmosphere variant="cool" density={1.2} className={styles.atmosphere} />
           <div className={styles.chapterInner} style={{ justifyContent: 'center' }}>
             <p className={`${styles.kicker} ${styles.rise}`}>01 — The forge</p>
             <h2 className={`${styles.statement} ${styles.rise}`}>
               I run my own products. <em>Then I build yours.</em>
             </h2>
             <div className={`${styles.metaRow} ${styles.rise}`}>
-              <div><strong>185</strong><span>db tables shipped</span></div>
-              <div><strong>69</strong><span>api endpoints</span></div>
-              <div><strong>4</strong><span>owned products</span></div>
-              <div><strong>2020</strong><span>building since</span></div>
+              <div><strong><CountUp value="185" /></strong><span>db tables shipped</span></div>
+              <div><strong><CountUp value="69" /></strong><span>api endpoints</span></div>
+              <div><strong><CountUp value="4" /></strong><span>owned products</span></div>
+              <div><strong><CountUp value="2020" /></strong><span>building since</span></div>
             </div>
           </div>
         </section>
@@ -123,6 +127,7 @@ export function AscentContent() {
         {/* ── CHAPTER 3 — THE SUMMIT (warm dawn) ── */}
         <section className={styles.chapter}>
           <CinematicBackdrop src="/art/sunset-pagoda.png" brightness={0.5} parallax={84} textAnchor="bottom" />
+          <Atmosphere variant="ember" className={styles.atmosphere} />
           <div className={styles.chapterInner} style={{ alignItems: 'flex-start' }}>
             <p className={`${styles.kicker} ${styles.rise}`}>The summit</p>
             <h2 className={`${styles.statement} ${styles.rise}`}>

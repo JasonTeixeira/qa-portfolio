@@ -175,72 +175,6 @@
     radial-gradient(52% 48% at 78% 74%, rgba(255, 45, 155, 0.08), transparent 68%),
     radial-gradient(100% 100% at 50% 100%, rgba(0, 0, 0, 0.7), transparent 56%);
 }
-.bootFrame {
-  position: relative;
-  width: min(760px, 100%);
-  border: 1px solid rgba(242, 239, 233, 0.14);
-  border-radius: 8px;
-  overflow: hidden;
-  background:
-    linear-gradient(rgba(242, 239, 233, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(242, 239, 233, 0.035) 1px, transparent 1px),
-    rgba(20, 20, 24, 0.86);
-  background-size: 42px 42px, 42px 42px, auto;
-  box-shadow: 0 40px 140px rgba(0, 0, 0, 0.72);
-}
-.bootFrame::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--g1), var(--g2), var(--g3), transparent);
-}
-.bootHeader,
-.bootFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  line-height: 1.3;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-}
-.bootHeader {
-  padding: 1rem clamp(1rem, 2vw, 1.4rem);
-  border-bottom: 1px solid var(--hair);
-}
-.bootHeader span {
-  color: var(--ink);
-}
-.bootHeader button {
-  min-height: 34px;
-  border: 1px solid rgba(242, 239, 233, 0.14);
-  border-radius: 999px;
-  padding: 0 0.85rem;
-  color: var(--muted);
-  background: rgba(11, 11, 14, 0.72);
-  font: inherit;
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-}
-.bootHeader button:hover,
-.bootHeader button:focus-visible {
-  color: var(--ink);
-  border-color: rgba(61, 90, 254, 0.5);
-  background: rgba(61, 90, 254, 0.1);
-  outline: none;
-}
-.bootCore {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 1.6rem);
-  align-items: center;
-  padding: clamp(1.2rem, 5vw, 3rem);
-}
 :global(body.living-intro) .loader {
   display: grid;
 }
@@ -295,53 +229,6 @@
   background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
   transition: transform 0.35s var(--ease);
 }
-.loaderText {
-  max-width: 10ch;
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--display);
-  font-size: clamp(2.6rem, 1.2rem + 5.2vw, 5.8rem);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-}
-.bootSubcopy {
-  max-width: 44ch;
-  margin: 1.1rem 0 0;
-  color: var(--muted);
-  font-size: clamp(0.95rem, 0.88rem + 0.28vw, 1.1rem);
-  line-height: 1.55;
-}
-.bootModules {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1px;
-  border-top: 1px solid var(--hair);
-  background: var(--hair);
-}
-.bootModules span {
-  min-width: 0;
-  padding: 0.9rem 0.7rem;
-  color: var(--muted-dim);
-  background: rgba(11, 11, 14, 0.8);
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  transition: color 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
-}
-.bootModules span.is-live {
-  color: var(--ink);
-  background: rgba(61, 90, 254, 0.11);
-  box-shadow: inset 0 -1px 0 var(--accent);
-}
-.bootFooter {
-  padding: 0.95rem clamp(1rem, 2vw, 1.4rem);
-}
-.bootFooter span:first-child {
-  color: #8FA0FF;
-}
 .topMeta,
 .progress,
 .kicker,
@@ -383,23 +270,8 @@
   .loader {
     padding: 0.85rem;
   }
-  .bootCore {
-    grid-template-columns: 1fr;
-  }
   .loaderMark {
     width: 4.8rem;
-    border-radius: 14px;
-  }
-  .bootModules {
-    grid-template-columns: 1fr;
-  }
-  .bootModules span {
-    text-align: left;
-    padding: 0.7rem 1rem;
-  }
-  .bootFooter {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
 .progress {

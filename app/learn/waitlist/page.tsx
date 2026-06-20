@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { paths } from '@/data/academy/catalog'
-import { Atmosphere } from '@/components/motion/Atmosphere'
 import { WaitlistForm } from './waitlist-form'
+import { FoundingMeter } from './founding-meter'
 import { CodeLab } from './code-lab'
 import { RevealOnScroll } from './reveal'
 import styles from './waitlist.module.css'
@@ -63,7 +63,6 @@ export default function WaitlistPage() {
 
       {/* ── Hero ── */}
       <section className={styles.hero}>
-        <Atmosphere variant="cool" className={styles.heroAtmo} />
         <div className={styles.heroInner}>
           <span className={styles.eyebrow}>
             <span className={styles.dot} /> Founding cohort · spots open
@@ -72,10 +71,11 @@ export default function WaitlistPage() {
             Most people who “learn to code” never ship a thing. <span className={styles.gradient}>Let’s fix that.</span>
           </h1>
           <p className={styles.lede}>
-            Sage Academy is a project-based academy for code &amp; AI — real builds and guided labs from an
-            operator who ships. Join the founding waitlist and lock in $20/mo for life.
+            Sage Academy teaches you to <em>build</em> — real projects and guided labs from an operator who ships
+            every day, not a theory channel. Be one of the founding 1,000 and lock $20/mo for life.
           </p>
           <WaitlistForm id="waitlist-hero" />
+          <FoundingMeter />
         </div>
       </section>
 
@@ -191,8 +191,16 @@ export default function WaitlistPage() {
       {/* ── Final CTA ── */}
       <section className={`${styles.section} ${styles.finalCta}`}>
         <div className={styles.sectionNarrow}>
-          <h2 className={styles.h2}>Be one of the first to build with us.</h2>
+          <span className={styles.kicker}>The first 1,000</span>
+          <h2 className={styles.h2}>
+            Learn to ship in the AI era — <span className={styles.gradient}>now, not someday.</span>
+          </h2>
+          <p className={styles.lede} style={{ margin: '0.9rem auto 0' }}>
+            This is the founding cohort: the builders who stop watching tutorials and start shipping. Lock $20/mo
+            for life and help shape what we build first.
+          </p>
           <WaitlistForm id="waitlist-foot" />
+          <FoundingMeter />
         </div>
       </section>
 

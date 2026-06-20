@@ -98,13 +98,6 @@
   max-width: 760px;
   margin: 0 auto;
 }
-.heroAtmo {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.75;
-}
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -140,6 +133,11 @@
   color: var(--ac-ink-muted);
   font-size: clamp(1.05rem, 0.98rem + 0.4vw, 1.3rem);
   line-height: 1.5;
+}
+.lede em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ac-ink);
 }
 
 /* ── Form ── */
@@ -206,6 +204,45 @@
   margin-top: 0.8rem;
   font-size: 0.88rem;
   color: #ff8a8a;
+}
+
+/* ── Founding meter (live count + cap) ── */
+.meter {
+  max-width: 460px;
+  margin: 1.6rem auto 0;
+}
+.meterTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.55rem;
+}
+.meterLabel {
+  font-family: var(--ac-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-accent-ink);
+}
+.meterCount {
+  font-family: var(--ac-mono);
+  font-size: 0.68rem;
+  color: var(--ac-ink-muted);
+}
+.meterTrack {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--ac-surface-2);
+  border: 1px solid var(--ac-line);
+  overflow: hidden;
+}
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
+  transition: width 1s var(--ac-ease);
 }
 
 /* Success state */

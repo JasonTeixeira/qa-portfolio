@@ -1332,17 +1332,36 @@
   list-style: none;
 }
 .serviceRow {
+  position: relative;
   display: grid;
   grid-template-columns: 0.42fr 1fr 1.4fr auto;
   align-items: center;
   gap: clamp(1rem, 0.5rem + 2vw, 3rem);
   padding: clamp(1.4rem, 1rem + 2vw, 2.6rem) 0;
   border-top: 1px solid var(--line);
+  transition: background 0.4s var(--ease);
+}
+/* Registration-tick accent line draws across the row on hover */
+.serviceRow::before {
+  content: "";
+  position: absolute;
+  inset: -1px auto auto 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.55s var(--ease);
+}
+.serviceRow:hover::before {
+  width: 100%;
 }
 .serviceRow span {
   color: var(--muted-dim);
   font-family: var(--mono);
   font-size: var(--text-mono);
+  transition: color 0.35s ease;
+}
+.serviceRow:hover span {
+  color: var(--accent);
 }
 .serviceRow h3 {
   font-family: var(--display);
@@ -1355,6 +1374,17 @@
 .serviceRow a {
   color: var(--accent);
   font-size: 1.5rem;
+  transition: transform 0.4s var(--ease);
+}
+.serviceRow:hover a {
+  transform: translateX(8px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .serviceRow::before,
+  .serviceRow span,
+  .serviceRow a {
+    transition: none;
+  }
 }
 .ecosystemGrid {
   display: grid;
@@ -1457,6 +1487,10 @@
   align-items: baseline;
   padding: clamp(1.2rem, 0.8rem + 1.8vw, 2.4rem);
   background: #101014;
+  transition: background 0.35s ease;
+}
+.funnelSteps li:hover {
+  background: #16161d;
 }
 .funnelSteps span {
   color: var(--accent);
@@ -1538,7 +1572,7 @@
   font-weight: 800;
   line-height: 0.9;
 }
-.receipts span {
+.receipts div > span {
   color: var(--muted);
   font-family: var(--mono);
   font-size: var(--text-mono);

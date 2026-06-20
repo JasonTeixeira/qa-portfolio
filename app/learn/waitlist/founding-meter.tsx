@@ -30,15 +30,28 @@ export function FoundingMeter() {
   const pct = Math.max(2, Math.min(100, (claimed / CAP) * 100))
   const forming = count < FORMING_BELOW
 
+  // Once there's real momentum, surface the live count prominently as proof.
+  if (!forming) {
+    return (
+      <div className={styles.meter} role="status" aria-live="polite">
+        <p className={styles.meterBig}>
+          <strong>{claimed.toLocaleString()}</strong> builders already in line
+        </p>
+        <div className={styles.meterTrack}>
+          <i className={styles.meterFill} style={{ width: `${pct}%` }} />
+        </div>
+        <p className={styles.meterSpots}>
+          {(CAP - claimed).toLocaleString()} of the first 1,000 founding spots left
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.meter} role="status" aria-live="polite">
       <div className={styles.meterTop}>
-        <span className={styles.meterLabel}>Founding cohort{forming ? ' · now forming' : ''}</span>
-        <span className={styles.meterCount}>
-          {forming
-            ? 'First 1,000 lock $20/mo for life'
-            : `${claimed.toLocaleString()} in line · ${(CAP - claimed).toLocaleString()} spots left`}
-        </span>
+        <span className={styles.meterLabel}>Founding cohort · now forming</span>
+        <span className={styles.meterCount}>First 1,000 lock $20/mo for life</span>
       </div>
       <div className={styles.meterTrack}>
         <i className={styles.meterFill} style={{ width: `${pct}%` }} />

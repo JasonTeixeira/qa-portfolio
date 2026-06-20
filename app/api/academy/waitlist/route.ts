@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
+import { sendAcademyWaitlistWelcome } from '@/lib/academy/waitlist-welcome'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -96,6 +97,15 @@ export async function POST(req: NextRequest) {
 
     const refs = referrals ?? 0
     const position = Math.max(1, (baseRank ?? 1) - refs * REFERRAL_BOOST)
+
+    // Welcome email — only for brand-new signups, best-effort (never blocks).
+    if (!existing) {
+      try {
+        await sendAcademyWaitlistWelcome({ email, position, refCode })
+      } catch {
+        // Resend hiccup — the signup still succeeds.
+      }
+    }
 
     return NextResponse.json({
       ok: true,

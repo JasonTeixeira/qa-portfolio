@@ -244,6 +244,28 @@
   background: linear-gradient(90deg, var(--ac-g1), var(--ac-g2) 55%, var(--ac-g3));
   transition: width 1s var(--ac-ease);
 }
+.meterBig {
+  margin: 0 0 0.6rem;
+  font-size: 0.96rem;
+  color: var(--ac-ink-muted);
+}
+.meterBig strong {
+  font-family: var(--ac-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(120deg, var(--ac-g1), var(--ac-g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.meterSpots {
+  margin-top: 0.5rem;
+  font-family: var(--ac-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  color: var(--ac-ink-faint);
+}
 
 /* Success state */
 .success {

@@ -30,12 +30,23 @@ const PERKS = [
 ]
 
 const MILESTONES = [
-  { glyph: '›_', label: 'First line', sub: 'Variables & logic' },
-  { glyph: 'ƒ', label: 'Real programs', sub: 'Functions & data' },
-  { glyph: '✦', label: 'Build with AI', sub: 'The LLM API' },
-  { glyph: '⬡', label: 'RAG & agents', sub: 'Grounded & tool-using' },
-  { glyph: '▲', label: 'Ship it', sub: 'Deployed & live' },
+  { glyph: '›_', label: 'First line', sub: 'Variables & logic', build: 'A number-guessing game in your terminal' },
+  { glyph: 'ƒ', label: 'Real programs', sub: 'Functions & data', build: 'A CLI tool that calls a real API' },
+  { glyph: '✦', label: 'Build with AI', sub: 'The LLM API', build: 'An AI chatbot that streams replies' },
+  { glyph: '⬡', label: 'RAG & agents', sub: 'Grounded & tool-using', build: 'A doc-search assistant with citations' },
+  { glyph: '▲', label: 'Ship it', sub: 'Deployed & live', build: 'A full-stack app on a live URL' },
 ]
+
+const TECH = [
+  { group: 'Foundations', items: ['Python', 'JavaScript', 'TypeScript', 'Git', 'The terminal'] },
+  { group: 'AI engineering', items: ['LLM API', 'Prompting', 'RAG', 'Vector search', 'Agents', 'Evals'] },
+  { group: 'Ship it', items: ['Next.js', 'Supabase', 'Auth', 'Stripe', 'Deploy'] },
+]
+
+const COMPARE = {
+  watching: ['Endless videos you never finish', 'Copy-paste you don’t understand', 'Tutorial hell, zero momentum', 'Nothing real to show for it'],
+  building: ['Short lessons, then you build', 'Guided labs with real starter code', 'A finished project every time', 'A portfolio that gets you hired'],
+}
 
 const STAGES = [
   { n: '01', title: 'Learn', body: 'A short, focused lesson that gets to the point and shows real code.' },
@@ -94,6 +105,33 @@ export default function WaitlistPage() {
         </div>
       </section>
 
+      {/* ── Tutorials vs building (comparison) ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionNarrow}>
+          <span className={styles.kicker}>Why it works</span>
+          <h2 className={styles.h2}>Watching ≠ learning.</h2>
+          <div className={styles.compare}>
+            <article className={`${styles.compareCard} ${styles.compareBad}`}>
+              <h3>Watching tutorials</h3>
+              <ul>
+                {COMPARE.watching.map((x) => (
+                  <li key={x}><span className={styles.xMark} aria-hidden="true">✕</span>{x}</li>
+                ))}
+              </ul>
+            </article>
+            <span className={styles.compareVs} aria-hidden="true">vs</span>
+            <article className={`${styles.compareCard} ${styles.compareGood}`}>
+              <h3>Building with Sage</h3>
+              <ul>
+                {COMPARE.building.map((x) => (
+                  <li key={x}><span className={styles.checkMark} aria-hidden="true">✓</span>{x}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
       {/* ── Founding perks ── */}
       <section className={styles.section}>
         <div className={styles.sectionNarrow}>
@@ -126,6 +164,9 @@ export default function WaitlistPage() {
                   <span className={styles.milestoneLabel}>{m.label}</span>
                   <span className={styles.milestoneSub}>{m.sub}</span>
                   <span className={styles.milestoneNum} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span className={styles.milestoneBuild}>
+                    <b>You build</b> {m.build}
+                  </span>
                 </li>
               ))}
             </ol>
@@ -138,6 +179,26 @@ export default function WaitlistPage() {
               ))}
               <span className={styles.chip}><i style={{ background: '#18b663' }} /> Guided project labs</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Tech you'll learn ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionNarrow}>
+          <span className={styles.kicker}>The real stack</span>
+          <h2 className={styles.h2}>Tools you’ll actually use.</h2>
+          <div className={styles.techGrid}>
+            {TECH.map((col) => (
+              <div key={col.group} className={styles.techCol}>
+                <span className={styles.techGroup}>{col.group}</span>
+                <div className={styles.techTags}>
+                  {col.items.map((t) => (
+                    <span key={t} className={styles.techTag}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

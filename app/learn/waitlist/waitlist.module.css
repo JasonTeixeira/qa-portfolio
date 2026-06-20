@@ -830,9 +830,37 @@
   background: #2a2a33;
 }
 .codeFile {
+  margin-left: auto;
   font-family: var(--ac-mono);
   font-size: 0.74rem;
+  color: var(--ac-ink-faint);
+}
+.codeTabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--ac-line);
+  background: #101016;
+}
+.codeTab {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ac-ink-faint);
+  font-family: var(--ac-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.codeTab:hover {
   color: var(--ac-ink-muted);
+}
+.codeTabOn {
+  color: var(--ac-ink);
+  background: rgba(61, 90, 254, 0.12);
+  border-color: rgba(61, 90, 254, 0.4);
 }
 .codeTag {
   margin-left: auto;
@@ -868,6 +896,7 @@
 .tVar { color: #d7d4cc; }
 .tOp { color: #ff8fc7; }
 .tPunct { color: #8a8a94; }
+.tNum { color: #f0b86e; }
 .caret {
   display: inline-block;
   width: 0.55em;
@@ -898,14 +927,35 @@
 .codeOutOn {
   padding: 1.1rem 1.4rem 1.3rem;
 }
+.codeOutHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
 .codeOutLine {
-  display: block;
   font-family: var(--ac-mono);
   font-size: 0.76rem;
   color: var(--ac-ink-faint);
 }
 .codeOutLine b {
   color: #4ade80;
+}
+.codeReplay {
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--ac-line-strong);
+  background: transparent;
+  color: var(--ac-ink-muted);
+  font-family: var(--ac-mono);
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.codeReplay:hover {
+  color: var(--ac-ink);
+  border-color: var(--ac-accent);
 }
 .codeOut p {
   margin: 0.7rem 0 0;

@@ -1015,6 +1015,60 @@
     linear-gradient(180deg, rgba(242, 239, 233, 0.025), transparent 42%),
     var(--surface);
 }
+.workCardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+/* Featured card carrying a real product screenshot → spec left, framed shot right */
+.workCardShot.workCardFeatured {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+}
+.workShot {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0d0d11;
+  box-shadow: 0 30px 70px -34px rgba(0, 0, 0, 0.75);
+  transition: transform 0.5s var(--ease);
+}
+.workCardShot.workCardFeatured:hover .workShot {
+  transform: translateY(-4px) scale(1.012);
+}
+.workShotBar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 12px;
+  background: rgba(11, 11, 14, 0.9);
+  border-bottom: 1px solid var(--line);
+}
+.workShotBar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(242, 239, 233, 0.2);
+}
+.workShotImg {
+  object-fit: cover;
+  object-position: top center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .workCardShot.workCardFeatured:hover .workShot {
+    transform: none;
+  }
+}
 .workCardHead {
   display: flex;
   align-items: center;
@@ -1166,6 +1220,9 @@
   .workCard:nth-of-type(2),
   .workCard:nth-of-type(3) {
     grid-column: span 1;
+  }
+  .workCardShot.workCardFeatured {
+    grid-template-columns: 1fr;
   }
 }
 .reelStage {
@@ -1636,6 +1693,99 @@
 .academy,
 .proof,
 .operator,
+.trust {
+  position: relative;
+  padding: var(--section) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: clamp(2rem, 1rem + 3vw, 4rem);
+  padding: 0 var(--pad-x);
+  background: var(--line);
+}
+.trustItem {
+  padding: clamp(1.4rem, 1rem + 1.6vw, 2.4rem);
+  background:
+    linear-gradient(180deg, rgba(242, 239, 233, 0.035), transparent 46%),
+    var(--surface);
+  transition: background 0.3s ease;
+}
+.trustItem:hover {
+  background:
+    linear-gradient(180deg, rgba(61, 90, 254, 0.12), transparent 56%),
+    var(--surface);
+}
+.trustItem h3 {
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+}
+.trustItem p {
+  margin-top: 1rem;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding: 0 var(--pad-x);
+}
+.quoteCard {
+  margin: 0;
+  padding: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.quoteCard blockquote {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.quoteCard figcaption {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.quoteCard figcaption span {
+  font-weight: 700;
+  color: var(--ink);
+}
+.quoteCard figcaption small {
+  color: var(--muted-dim);
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+}
+.trustNote {
+  margin: clamp(2rem, 1rem + 2vw, 3rem) auto 0;
+  max-width: 64ch;
+  padding: 0 var(--pad-x);
+  text-align: center;
+  color: var(--muted-dim);
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 900px) {
+  .trustGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .trustGrid {
+    grid-template-columns: 1fr;
+  }
+}
 .final {
   position: relative;
   padding: var(--section) 0;

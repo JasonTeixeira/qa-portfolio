@@ -16,6 +16,9 @@ export type WorkProject = {
   href?: string
   linkLabel?: string
   featured?: boolean
+  /** Real product screenshot — proof imagery, never stock. */
+  image?: string
+  imageAlt?: string
 }
 
 /**
@@ -43,6 +46,9 @@ export const workProjects: readonly WorkProject[] = [
     href: 'https://github.com/JasonTeixeira/Nexural_Automation',
     linkLabel: 'Open-source lab ↗',
     featured: true,
+    image: '/work/nexural-cockpit.png',
+    imageAlt:
+      'Nexural cockpit — the Command dashboard showing market temperature, the signal desk, and best opportunities ranked by expected value.',
   },
   {
     slug: 'athanor',

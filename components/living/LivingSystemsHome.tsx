@@ -62,10 +62,10 @@ const services = [
 ] as const
 
 const receipts = [
+  ['11', 'Products shipped'],
+  ['398', 'Tests · flagship CI'],
   ['130+', 'Public repos'],
-  ['30', 'GitHub followers'],
   ['2020', 'Building since'],
-  ['4', 'Owned products'],
 ] as const
 
 const ecosystem = [
@@ -107,6 +107,17 @@ const academyTracks = [
   'Automation systems',
   'Builder-led personal brand',
 ] as const
+
+const trustSignals = [
+  ['Direct line', 'You work with the operator who builds it — no account managers, no handoff, no dilution.'],
+  ['NDA · MSA · SOW', 'Real contracting from day one. Scope and IP protected on paper before code is written.'],
+  ['Openable proof', 'A public build record going back to 2020 — open the repos, read the commits, verify the work.'],
+  ['Human-reviewed', 'Every commit is read by a principal. AI accelerates the work; it never ships unchecked.'],
+] as const
+
+// Real, permissioned client references land here — rendered only when present,
+// so the page never ships an invented testimonial.
+const testimonials: ReadonlyArray<{ quote: string; name: string; role: string }> = []
 
 export function LivingSystemsHome() {
   return (
@@ -150,6 +161,7 @@ export function LivingSystemsHome() {
         <a href="#academy">Academy</a>
         <a href="#proof">Proof</a>
         <a href="#operator">Operator</a>
+        <a href="#trust">Trust</a>
         <a href="#build">Build</a>
       </nav>
 
@@ -173,7 +185,7 @@ export function LivingSystemsHome() {
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
         <Atmosphere variant="cool" className={styles.heroAtmosphere} />
         <p className={styles.eyebrow} data-living-reveal>
-          <span /> Sage Ideas · AI-native studio · since 2020
+          <span /> Sage Ideas · operator-led AI studio · since 2020
         </p>
         <h1 id="hero-heading" className={styles.heroTitle}>
           <span className={styles.heroLine}><span>I build the product,</span></span>
@@ -182,9 +194,9 @@ export function LivingSystemsHome() {
         </h1>
         <div className={styles.heroLower} data-living-reveal>
           <p>
-            A solo, AI-native studio. I run my own products every day and put the same
-            system (AI, apps, SaaS, brand, growth) to work for yours. From someone who
-            <strong> builds</strong>, not someone who just pitches.
+            An operator-led, AI-native studio. One principal scopes and ships every
+            engagement — AI, apps, SaaS, brand, growth — the same system that runs my own
+            products daily. A studio that <strong>builds</strong>, not one that just pitches.
           </p>
           <div className={styles.heroFork}>
             <p className={styles.forkPrompt}>Pick your door</p>
@@ -305,7 +317,11 @@ export function LivingSystemsHome() {
       </section>
 
       <section className={styles.services} id="services" aria-labelledby="services-heading">
-        <SectionHead kicker="003 — Services" title={<>The piece,<br />or the whole business.</>} />
+        <SectionHead
+          kicker="003 — Services"
+          title={<>The piece,<br />or the whole business.</>}
+          text="Engage one capability or hand over the whole machine. Same operator, same standard, scoped to where the leverage actually is."
+        />
         <ol className={styles.serviceList}>
           {services.map(([number, title, text]) => (
             <li className={styles.serviceRow} key={number} data-living-reveal>
@@ -440,8 +456,41 @@ export function LivingSystemsHome() {
         </div>
       </section>
 
+      <section className={styles.trust} id="trust" aria-labelledby="trust-heading">
+        <SectionHead
+          center
+          kicker="009 — Working together"
+          title={<>What you actually get.</>}
+          text="No agency theatre. A short list of things the studio commits to on every engagement — verifiable, not aspirational."
+        />
+        <div className={styles.trustGrid}>
+          {trustSignals.map(([label, text]) => (
+            <div className={styles.trustItem} key={label} data-living-reveal>
+              <h3>{label}</h3>
+              <p>{text}</p>
+            </div>
+          ))}
+        </div>
+        {testimonials.length > 0 ? (
+          <div className={styles.quotes} data-living-reveal>
+            {testimonials.map((t) => (
+              <figure className={styles.quoteCard} key={t.name}>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <span>{t.name}</span>
+                  <small>{t.role}</small>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ) : null}
+        <p className={styles.trustNote} data-living-reveal>
+          Named client references available on request — and added here as they’re permissioned.
+        </p>
+      </section>
+
       <section className={styles.final} id="build" aria-labelledby="build-heading">
-        <span className={styles.kicker} data-living-reveal>009 — Build</span>
+        <span className={styles.kicker} data-living-reveal>010 — Build</span>
         <h2 id="build-heading">Bring me the hard one.</h2>
         <p data-living-reveal>An app, a brand, a SaaS, or all of it. Every engagement starts with a real conversation, not a contract.</p>
         <div className={styles.finalCtas} data-living-reveal>
@@ -493,35 +542,49 @@ function WorkCard({ project }: { project: WorkProject }) {
   const statusKey = project.status.toLowerCase().replace(/\s+/g, '-')
   return (
     <article
-      className={`${styles.workCard} ${project.featured ? styles.workCardFeatured : ''}`}
+      className={`${styles.workCard} ${project.featured ? styles.workCardFeatured : ''} ${project.image ? styles.workCardShot : ''}`}
       data-status={statusKey}
       data-living-reveal
     >
-      <div className={styles.workCardHead}>
-        <span className={styles.workIndex}>{project.index}</span>
-        <span className={styles.workStatus}>{project.status}</span>
+      <div className={styles.workCardBody}>
+        <div className={styles.workCardHead}>
+          <span className={styles.workIndex}>{project.index}</span>
+          <span className={styles.workStatus}>{project.status}</span>
+        </div>
+        <h3 className={styles.workName}>{project.name}</h3>
+        <p className={styles.workDomain}>{project.domain}</p>
+        <p className={styles.workTagline}>{project.tagline}</p>
+        <dl className={styles.workMetrics}>
+          {project.metrics.map((metric) => (
+            <div key={metric.label}>
+              <dt>{metric.value}</dt>
+              <dd>{metric.label}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className={styles.workFoot}>
+          <span className={styles.workStack}>{project.stack}</span>
+          {project.href ? (
+            <a className={styles.workLink} href={project.href} target="_blank" rel="noopener noreferrer">
+              {project.linkLabel}
+            </a>
+          ) : (
+            <span className={styles.workYear}>{project.year}</span>
+          )}
+        </div>
       </div>
-      <h3 className={styles.workName}>{project.name}</h3>
-      <p className={styles.workDomain}>{project.domain}</p>
-      <p className={styles.workTagline}>{project.tagline}</p>
-      <dl className={styles.workMetrics}>
-        {project.metrics.map((metric) => (
-          <div key={metric.label}>
-            <dt>{metric.value}</dt>
-            <dd>{metric.label}</dd>
-          </div>
-        ))}
-      </dl>
-      <div className={styles.workFoot}>
-        <span className={styles.workStack}>{project.stack}</span>
-        {project.href ? (
-          <a className={styles.workLink} href={project.href} target="_blank" rel="noopener noreferrer">
-            {project.linkLabel}
-          </a>
-        ) : (
-          <span className={styles.workYear}>{project.year}</span>
-        )}
-      </div>
+      {project.image ? (
+        <figure className={styles.workShot}>
+          <span className={styles.workShotBar} aria-hidden="true"><i /><i /><i /></span>
+          <Image
+            src={project.image}
+            alt={project.imageAlt ?? `${project.name} product screenshot`}
+            fill
+            sizes="(max-width: 940px) 92vw, 640px"
+            className={styles.workShotImg}
+          />
+        </figure>
+      ) : null}
     </article>
   )
 }

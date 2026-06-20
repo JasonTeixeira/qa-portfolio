@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { paths } from '@/data/academy/catalog'
 import { WaitlistForm } from './waitlist-form'
+import { CodeLab } from './code-lab'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -57,6 +58,19 @@ export default function WaitlistPage() {
             operator who ships. Join the founding waitlist and lock in $20/mo for life.
           </p>
           <WaitlistForm id="waitlist-hero" />
+        </div>
+      </section>
+
+      {/* ── Live code lab ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionNarrow} style={{ textAlign: 'center' }}>
+          <span className={styles.kicker} style={{ justifyContent: 'center' }}>Your first hour</span>
+          <h2 className={styles.h2}>This isn’t a video. It’s a lab.</h2>
+          <p className={styles.lede} style={{ margin: '0.9rem auto 0' }}>
+            You learn by building real things and running them. Here’s a lab you’ll finish on day one —
+            watch it write itself.
+          </p>
+          <CodeLab />
         </div>
       </section>
 

@@ -13,7 +13,6 @@ import { MobileCtaBar } from './MobileCtaBar'
 import { SplashBackdrop } from './SplashBackdrop'
 import { CountUp } from '@/components/motion/CountUp'
 import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
-import { Atmosphere } from '@/components/motion/Atmosphere'
 import styles from './LivingSystemsHome.module.css'
 
 const services = [
@@ -137,20 +136,19 @@ export function LivingSystemsHome() {
           className="z-[-2]"
         />
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
-        <Atmosphere variant="cool" className={styles.heroAtmosphere} />
         <p className={styles.eyebrow} data-living-reveal>
-          <span /> Operator-led AI studio · for founders who need to ship
+          <span /> Sage Ideas · AI-native studio · since 2020
         </p>
         <h1 id="hero-heading" className={styles.heroTitle}>
-          <span className={styles.heroLine}><span>Ship the product,</span></span>
-          <span className={styles.heroLine}><span>brand, and <em>AI</em></span></span>
-          <span className={styles.heroLine}><span>you can’t hire for.</span></span>
+          <span className={styles.heroLine}><span>I build the product,</span></span>
+          <span className={styles.heroLine}><span>the brand, and the</span></span>
+          <span className={styles.heroLine}><span><em>AI</em> that runs it.</span></span>
         </h1>
         <div className={styles.heroLower} data-living-reveal>
           <p>
-            For founders who need it <strong>built, not pitched</strong>. One senior operator
-            designs, builds, and ships your product, brand, and AI systems in weeks — run the
-            same way I run my own SaaS in production every day.
+            A solo, AI-native studio. I run my own products every day and put the same system —
+            AI, apps, SaaS, brand, growth — to work for yours. From someone who
+            <strong> builds</strong>, not someone who just pitches.
           </p>
           <div className={styles.heroCtas}>
             <TrackedLink

@@ -2,57 +2,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
 import { workProjects, type WorkProject } from '@/data/home/living-projects'
+import { attributedTestimonials, permissionedLogos } from '@/data/social-proof/attributed'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
 import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
-import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import { IntentGate } from './IntentGate'
+import { MobileCtaBar } from './MobileCtaBar'
 import { SplashBackdrop } from './SplashBackdrop'
 import { CountUp } from '@/components/motion/CountUp'
 import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
 import { Atmosphere } from '@/components/motion/Atmosphere'
 import styles from './LivingSystemsHome.module.css'
-
-const offerMatrix = [
-  {
-    code: '01',
-    label: 'Studio',
-    title: 'Hire the build system',
-    text: 'Product, app, AI, brand, site, checkout, analytics, and growth loops built as one operating system.',
-    href: '/services',
-    fit: 'Done-for-you',
-    cta: 'Studio',
-  },
-  {
-    code: '02',
-    label: 'Academy',
-    title: 'Learn the build system',
-    text: 'Courses, templates, teardown lessons, and operating notes for founders who want to build the system themselves.',
-    href: '/academy',
-    fit: 'Courses',
-    cta: 'Academy',
-  },
-  {
-    code: '03',
-    label: 'Resources',
-    title: 'Use the free system',
-    text: 'SEO audits, calculators, field notes, reports, templates, and public receipts that compound search demand.',
-    href: '/blog',
-    fit: 'Proof + tools',
-    cta: 'Resources',
-  },
-  {
-    code: '04',
-    label: 'Diagnostic',
-    title: 'Find the right route',
-    text: 'Answer four questions and get routed to studio, audit, automation, academy, or the next best free resource.',
-    href: '/tools/route-finder?source=home_matrix',
-    fit: 'Start here',
-    cta: 'Route finder',
-  },
-] as const
 
 const services = [
   ['S-01', 'AI Systems', 'Agents, copilots, retrieval, voice, and workflow automation that run inside the real business.'],
@@ -68,35 +30,31 @@ const receipts = [
   ['2020', 'Building since'],
 ] as const
 
-const ecosystem = [
-  {
-    index: '01',
-    title: 'Studio',
-    text: 'Done-for-you product, brand, AI systems, and growth infrastructure for founders who need the whole machine built.',
-    href: '/services',
-    cta: 'Work with the studio',
-  },
-  {
-    index: '02',
-    title: 'Academy',
-    text: 'Do-it-yourself playbooks, lessons, and live operating notes for builders learning the same system.',
-    href: '/academy',
-    cta: 'Enter the academy',
-  },
-  {
-    index: '03',
-    title: 'Journal',
-    text: 'Build logs, teardown essays, and proof-backed notes that turn the work into a compounding content engine.',
-    href: '/blog',
-    cta: 'Read the journal',
-  },
-] as const
-
 const funnel = [
-  ['Audit', 'Find the highest-leverage product, AI, brand, or growth bottleneck.'],
-  ['Sprint', 'Ship a scoped, visible improvement with production code and conversion proof.'],
-  ['Build', 'Turn the validated direction into the product, site, automation, and offer system.'],
-  ['Operate', 'Measure, improve, publish, and keep the machine compounding.'],
+  {
+    title: 'Audit',
+    timing: 'Days 1–5',
+    price: 'from $1,500',
+    text: 'Find the single highest-leverage bottleneck and leave with a scoped, costed build plan you own — engage or not.',
+  },
+  {
+    title: 'Sprint',
+    timing: 'Weeks 1–2',
+    price: 'from $4,500',
+    text: 'Ship one visible, production-grade improvement — real code, deployed, measured against conversion.',
+  },
+  {
+    title: 'Build',
+    timing: 'Weeks 3–8',
+    price: 'from $9,500',
+    text: 'Turn the validated direction into the live product, site, AI systems, and offer engine.',
+  },
+  {
+    title: 'Operate',
+    timing: 'Ongoing',
+    price: 'monthly retainer',
+    text: 'Measure, improve, and publish so the system compounds instead of quietly decaying.',
+  },
 ] as const
 
 const academyTracks = [
@@ -115,9 +73,6 @@ const trustSignals = [
   ['Human-reviewed', 'Every commit is read by a principal. AI accelerates the work; it never ships unchecked.'],
 ] as const
 
-// Real, permissioned client references land here — rendered only when present,
-// so the page never ships an invented testimonial.
-const testimonials: ReadonlyArray<{ quote: string; name: string; role: string }> = []
 
 export function LivingSystemsHome() {
   return (
@@ -157,7 +112,6 @@ export function LivingSystemsHome() {
         <a href="#top">Intro</a>
         <a href="#work">Work</a>
         <a href="#services">Services</a>
-        <a href="#ecosystem">Ecosystem</a>
         <a href="#academy">Academy</a>
         <a href="#proof">Proof</a>
         <a href="#operator">Operator</a>
@@ -186,109 +140,81 @@ export function LivingSystemsHome() {
         <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
         <Atmosphere variant="cool" className={styles.heroAtmosphere} />
         <p className={styles.eyebrow} data-living-reveal>
-          <span /> Sage Ideas · operator-led AI studio · since 2020
+          <span /> Operator-led AI studio · for founders who need to ship
         </p>
         <h1 id="hero-heading" className={styles.heroTitle}>
-          <span className={styles.heroLine}><span>I build the product,</span></span>
-          <span className={styles.heroLine}><span>the brand, and the</span></span>
-          <span className={styles.heroLine}><span><em>AI</em> that runs it.</span></span>
+          <span className={styles.heroLine}><span>Ship the product,</span></span>
+          <span className={styles.heroLine}><span>brand, and <em>AI</em></span></span>
+          <span className={styles.heroLine}><span>you can’t hire for.</span></span>
         </h1>
         <div className={styles.heroLower} data-living-reveal>
           <p>
-            An operator-led, AI-native studio. One principal scopes and ships every
-            engagement — AI, apps, SaaS, brand, growth — the same system that runs my own
-            products daily. A studio that <strong>builds</strong>, not one that just pitches.
+            For founders who need it <strong>built, not pitched</strong>. One senior operator
+            designs, builds, and ships your product, brand, and AI systems in weeks — run the
+            same way I run my own SaaS in production every day.
           </p>
-          <div className={styles.heroFork}>
-            <p className={styles.forkPrompt}>Pick your door</p>
+          <div className={styles.heroCtas}>
             <TrackedLink
-              className={`${styles.door} ${styles.doorPrimary}`}
-              href="/contact?source=home_hero_fork"
-              event="cta_click"
-              eventProps={{ location: 'living_hero_fork', label: 'work_with_me' }}
+              className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+              href="/book?source=home_hero"
+              event="booking_click"
+              eventProps={{ location: 'home_hero', label: 'book_a_call' }}
             >
-              <span className={styles.doorLabel}>Work with me</span>
-              <span className={styles.doorSub}>Product, brand &amp; AI systems — built for you</span>
-              <span className={styles.doorArrow} aria-hidden="true">→</span>
+              <span>Book a call</span><span aria-hidden="true">→</span>
             </TrackedLink>
             <TrackedLink
-              className={`${styles.door} ${styles.doorGhost}`}
-              href="/academy?source=home_hero_fork"
+              className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
+              href="#work"
               event="cta_click"
-              eventProps={{ location: 'living_hero_fork', label: 'learn_the_system' }}
+              eventProps={{ location: 'home_hero', label: 'see_the_work' }}
             >
-              <span className={styles.doorLabel}>Learn the system</span>
-              <span className={styles.doorSub}>Courses, templates &amp; the build method</span>
-              <span className={styles.doorArrow} aria-hidden="true">↗</span>
-            </TrackedLink>
-            <TrackedLink
-              className={styles.forkHint}
-              href="/tools/route-finder?source=home_hero_fork"
-              event="cta_click"
-              eventProps={{ location: 'living_hero_fork', label: 'route_finder' }}
-            >
-              Not sure which? <strong>Answer 4 questions →</strong>
+              <span>See the work</span><span aria-hidden="true">↓</span>
             </TrackedLink>
           </div>
+          <p className={styles.heroTrust}>
+            Free 20-min fit call · fixed scope · reversible in 30s · no contract to start.
+          </p>
+          <TrackedLink
+            className={styles.heroSecondary}
+            href="/academy?source=home_hero"
+            event="cta_click"
+            eventProps={{ location: 'home_hero', label: 'learn_the_system' }}
+          >
+            Building it yourself? <strong>Learn the system →</strong>
+          </TrackedLink>
         </div>
         <RouteFinderHeroExperiment surface="home" />
-        <div className={styles.offerSystem} data-living-reveal aria-label="Sage Ideas offer system">
-          <div className={styles.offerDiagram} aria-hidden="true">
-            <svg viewBox="0 0 620 260">
-              <defs>
-                <linearGradient id="offer-flow" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="#3D5AFE" />
-                  <stop offset="0.55" stopColor="#7C3AED" />
-                  <stop offset="1" stopColor="#FF2D9B" />
-                </linearGradient>
-              </defs>
-              <path
-                className={styles.offerGhost}
-                d="M92 136 C184 28 319 28 406 118 C456 170 506 193 572 134"
-                fill="none"
-                stroke="rgba(242,239,233,0.16)"
-                strokeLinecap="round"
-                strokeWidth="1"
-              />
-              <path
-                className={styles.offerFlow}
-                d="M92 136 C184 28 319 28 406 118 C456 170 506 193 572 134"
-                fill="none"
-                stroke="url(#offer-flow)"
-                strokeLinecap="round"
-                strokeWidth="3"
-              />
-              {[
-                [92, 136, 'Studio'],
-                [306, 66, 'Product'],
-                [406, 118, 'Academy'],
-                [572, 134, 'Resources'],
-              ].map(([x, y, label]) => (
-                <g key={label}>
-                  <circle cx={x} cy={y} r="9" />
-                  <text x={x} y={Number(y) + 30}>{label}</text>
-                </g>
-              ))}
-            </svg>
-          </div>
-          <div className={styles.offerCards}>
-            {offerMatrix.map((item) => (
-              <TrackedLink
-                href={item.href}
-                className={styles.offerCard}
-                key={item.label}
-                event="cta_click"
-                eventProps={{ location: 'home_offer_system', label: item.label, href: item.href }}
-              >
-                <SystemFlowOverlay variant={item.label === 'Academy' ? 'academy' : item.label === 'Resources' ? 'growth' : 'systems'} intensity="quiet" />
-                <span>{item.code}</span>
-                <b>{item.label}</b>
-                <strong>{item.title}</strong>
-                <p>{item.text}</p>
-                <small>{item.cta} →</small>
-              </TrackedLink>
+        <div className={styles.systemDiagram} data-living-reveal aria-label="What the studio builds — one connected system">
+          <span className={styles.systemKicker}>One operator · one connected system</span>
+          <svg
+            className={styles.systemSvg}
+            viewBox="0 0 920 124"
+            role="img"
+            aria-label="Strategy to Product to AI Systems to Brand to Growth to Operate"
+          >
+            <defs>
+              <linearGradient id="system-flow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="#3D5AFE" />
+                <stop offset="0.5" stopColor="#7C3AED" />
+                <stop offset="1" stopColor="#FF2D9B" />
+              </linearGradient>
+            </defs>
+            <path className={styles.systemTrack} d="M60 56 H860" />
+            <path className={styles.systemFlow} d="M60 56 H860" stroke="url(#system-flow)" />
+            {[
+              { x: 60, label: 'Strategy' },
+              { x: 220, label: 'Product' },
+              { x: 380, label: 'AI Systems' },
+              { x: 540, label: 'Brand' },
+              { x: 700, label: 'Growth' },
+              { x: 860, label: 'Operate' },
+            ].map((node, i) => (
+              <g key={node.label} className={styles.systemNode} style={{ animationDelay: `${i * 0.35}s` }}>
+                <circle cx={node.x} cy={56} r="6.5" />
+                <text x={node.x} y={92} textAnchor="middle">{node.label}</text>
+              </g>
             ))}
-          </div>
+          </svg>
         </div>
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">
           <span>AI Systems</span><i>·</i><span>Applications</span><i>·</i><span>SaaS</span><i>·</i><span>Brand &amp; Web</span><i>·</i><span>Growth &amp; SEO</span>
@@ -317,6 +243,39 @@ export function LivingSystemsHome() {
         </p>
       </section>
 
+      <section className={styles.showcase} aria-label="The system, live">
+        <div className={styles.showcaseInner} data-living-reveal>
+          <div className={styles.showcaseCopy}>
+            <span className={styles.kicker}>Live in production</span>
+            <h2>This is what “shipped” looks like.</h2>
+            <p>
+              Not a mockup — a real desk inside Nexural: live market reads, convergence signals,
+              sector rotation, and risk in one operator-grade surface. The same depth and finish go
+              into what I build for you.
+            </p>
+            <TrackedLink
+              className={styles.textLink}
+              href="/work"
+              event="cta_click"
+              eventProps={{ location: 'home_showcase', label: 'see_case_studies' }}
+            >
+              See the case studies →
+            </TrackedLink>
+          </div>
+          <figure className={styles.showcaseShot}>
+            <span className={styles.workShotBar} aria-hidden="true"><i /><i /><i /></span>
+            <Image
+              src="/work/nexural-swing.webp"
+              alt="Nexural Swing Desk — live market read, convergence signal, sector rotation, and risk in one view."
+              width={1600}
+              height={1000}
+              sizes="(max-width: 900px) 100vw, 1100px"
+              className={styles.showcaseImg}
+            />
+          </figure>
+        </div>
+      </section>
+
       <section className={styles.services} id="services" aria-labelledby="services-heading">
         <SectionHead
           kicker="003 — Services"
@@ -335,39 +294,25 @@ export function LivingSystemsHome() {
         </ol>
       </section>
 
-      <section className={styles.ecosystem} id="ecosystem" aria-labelledby="ecosystem-heading">
-        <SectionHead
-          kicker="004 — Ecosystem"
-          title={<>Studio, academy,<br />and the build record.</>}
-          text="The business model is simple: build real systems, teach the method, and publish enough proof that the right people can self-select."
-        />
-        <div className={styles.ecosystemGrid}>
-          {ecosystem.map((item) => (
-            <Link className={styles.ecosystemCard} href={item.href} key={item.title} data-living-reveal>
-              <span>{item.index}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-              <b>{item.cta} →</b>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       <section className={styles.funnel} aria-labelledby="funnel-heading">
         <div className={styles.funnelIntro} data-living-reveal>
-          <span className={styles.kicker}>005 — Funnel</span>
-          <h2 id="funnel-heading">A premium path for every level of intent.</h2>
+          <span className={styles.kicker}>004 — How we work</span>
+          <h2 id="funnel-heading">A clear path, a fixed scope, a real number.</h2>
           <p>
-            High-ticket work stays primary. The academy and journal serve builders who are not ready
-            for a full engagement yet, then turn attention into trust over time.
+            Every engagement starts small and earns the next step. You always know the timeline,
+            the deliverable, and the price before you commit — and you keep what we build at every
+            stage, whether or not you continue.
           </p>
         </div>
         <ol className={styles.funnelSteps}>
-          {funnel.map(([title, text], index) => (
-            <li key={title} data-living-reveal>
+          {funnel.map((step, index) => (
+            <li key={step.title} data-living-reveal>
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
+              <div className={styles.funnelHead}>
+                <h3>{step.title}</h3>
+                <p className={styles.funnelMeta}>{step.timing} · <b>{step.price}</b></p>
+              </div>
+              <p>{step.text}</p>
             </li>
           ))}
         </ol>
@@ -375,7 +320,7 @@ export function LivingSystemsHome() {
 
       <section className={styles.academy} id="academy" aria-labelledby="academy-heading">
         <div className={styles.academyCopy} data-living-reveal>
-          <span className={styles.kicker}>006 — Academy</span>
+          <span className={styles.kicker}>005 — Academy</span>
           <h2 id="academy-heading">Learn the system while the studio keeps shipping it.</h2>
           <p>
             A practical curriculum for do-it-yourself builders: product thinking, AI systems,
@@ -417,7 +362,7 @@ export function LivingSystemsHome() {
       </section>
 
       <section className={styles.proof} id="proof" aria-labelledby="proof-heading">
-        <SectionHead center kicker="007 — Proof" title="The receipts." text="Shipped products you can open and a public build record going back to 2020." />
+        <SectionHead center kicker="006 — Proof" title="The receipts." text="Shipped products you can open and a public build record going back to 2020." />
         <div className={styles.receipts} data-living-reveal>
           {receipts.map(([value, label]) => (
             <div key={label}>
@@ -434,7 +379,7 @@ export function LivingSystemsHome() {
 
       <section className={styles.operator} id="operator" aria-labelledby="operator-heading">
         <div data-living-reveal>
-          <span className={styles.kicker}>008 — Operator</span>
+          <span className={styles.kicker}>007 — Operator</span>
           <h2 id="operator-heading">One person. Principal-level. The whole stack.</h2>
           <p>
             Jason Teixeira is the AI engineer and application-building specialist who scopes the work
@@ -460,7 +405,7 @@ export function LivingSystemsHome() {
       <section className={styles.trust} id="trust" aria-labelledby="trust-heading">
         <SectionHead
           center
-          kicker="009 — Working together"
+          kicker="008 — Proof & references"
           title={<>What you actually get.</>}
           text="No agency theatre. A short list of things the studio commits to on every engagement — verifiable, not aspirational."
         />
@@ -472,39 +417,82 @@ export function LivingSystemsHome() {
             </div>
           ))}
         </div>
-        {testimonials.length > 0 ? (
+
+        {/* Callable references — the real anti-cherry-pick differentiator */}
+        <div className={styles.references} data-living-reveal>
+          <div>
+            <span className={styles.kicker}>References, not cherry-picked quotes</span>
+            <h3>Phone a real collaborator before you sign.</h3>
+            <p>
+              Most studios show you three hand-picked testimonials. I’ll connect you with real
+              people I’ve built for — unfiltered, on the record. The person who pitches you is the
+              person who types the code.
+            </p>
+          </div>
+          <TrackedLink
+            className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
+            href="/book?source=home_references"
+            event="booking_click"
+            eventProps={{ location: 'home_references', label: 'ask_for_references' }}
+          >
+            <span>Ask for references</span><span aria-hidden="true">→</span>
+          </TrackedLink>
+        </div>
+
+        {/* Permissioned client logos — render only when real ones exist */}
+        {permissionedLogos.length > 0 ? (
+          <div className={styles.logoStrip} data-living-reveal aria-label="Clients">
+            {permissionedLogos.map((l) =>
+              l.href ? (
+                <a key={l.id} href={l.href} target="_blank" rel="noopener noreferrer">
+                  <img src={l.logo} alt={l.label} loading="lazy" />
+                </a>
+              ) : (
+                <img key={l.id} src={l.logo} alt={l.label} loading="lazy" />
+              ),
+            )}
+          </div>
+        ) : null}
+
+        {/* Attributed testimonials — render only when real, named, permissioned */}
+        {attributedTestimonials.length > 0 ? (
           <div className={styles.quotes} data-living-reveal>
-            {testimonials.map((t) => (
-              <figure className={styles.quoteCard} key={t.name}>
+            {attributedTestimonials.map((t) => (
+              <figure className={styles.quoteCard} key={t.id}>
                 <blockquote>{t.quote}</blockquote>
+                {t.outcome ? <p className={styles.quoteOutcome}>{t.outcome}</p> : null}
                 <figcaption>
                   <span>{t.name}</span>
-                  <small>{t.role}</small>
+                  <small>
+                    {t.title}, {t.company}
+                  </small>
                 </figcaption>
               </figure>
             ))}
           </div>
         ) : null}
+
         <p className={styles.trustNote} data-living-reveal>
-          Named client references available on request — and added here as they’re permissioned.
+          No invented quotes, no borrowed logos. Real named references on request — and added here as
+          they’re permissioned.
         </p>
       </section>
 
       <section className={styles.final} id="build" aria-labelledby="build-heading">
-        <span className={styles.kicker} data-living-reveal>010 — Build</span>
+        <span className={styles.kicker} data-living-reveal>009 — Build</span>
         <h2 id="build-heading">Bring me the hard one.</h2>
         <p data-living-reveal>An app, a brand, a SaaS, or all of it. Every engagement starts with a real conversation, not a contract.</p>
         <div className={styles.finalCtas} data-living-reveal>
           <TrackedLink
-            className={`${styles.button} ${styles.buttonPrimary}`}
-            href="/contact?source=home_final"
-            event="cta_click"
-            eventProps={{ location: 'living_final', label: 'start_project' }}
+            className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+            href="/book?source=home_final"
+            event="booking_click"
+            eventProps={{ location: 'living_final', label: 'book_a_call' }}
           >
-            <span>Start a project</span><span aria-hidden="true">→</span>
+            <span>Book a call</span><span aria-hidden="true">→</span>
           </TrackedLink>
           <TrackedLink
-            className={`${styles.button} ${styles.buttonGhost}`}
+            className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
             href="/academy"
             event="cta_click"
             eventProps={{ location: 'living_final', label: 'academy' }}
@@ -513,6 +501,9 @@ export function LivingSystemsHome() {
           </TrackedLink>
         </div>
       </section>
+
+      {/* Sticky mobile conversion bar — portaled to body to escape main's transform */}
+      <MobileCtaBar />
     </div>
   )
 }

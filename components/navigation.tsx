@@ -868,7 +868,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               onClick={() => trackEvent('booking_click', { location: 'nav' })}
               className="group inline-flex h-11 items-center gap-2 rounded-[14px] bg-[#3D5AFE] px-5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_16px_42px_rgba(61,90,254,0.34)] transition-transform hover:-translate-y-0.5 hover:bg-[#536BFF] [font-family:var(--font-mono),ui-monospace,monospace]"
             >
-              ./book
+              Book a call
               <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
             </Link>
           </div>
@@ -1036,7 +1036,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                       eventProps={{ location: 'nav_mobile' }}
                       className="ml-auto h-11 rounded-full px-4 text-[12px]"
                     >
-                      Book
+                      Book a call
                     </CtaLink>
                   </div>
                 </div>

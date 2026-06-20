@@ -800,6 +800,154 @@
   border-color: var(--line);
   background: rgba(242, 239, 233, 0.02);
 }
+.buttonLg {
+  min-height: 56px;
+  padding: 1.05rem 1.9rem;
+  font-size: 1.02rem;
+}
+
+/* ── Sticky mobile conversion bar ── */
+.mobileCta {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobileCta {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+    background: rgba(8, 8, 11, 0.92);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
+  }
+  .mobileCtaText {
+    font-size: 0.78rem;
+    line-height: 1.2;
+    color: var(--muted);
+  }
+  .mobileCtaBtn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+}
+
+/* ── Hero conversion cluster: one dominant CTA + demoted learn path ── */
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+.heroTrust {
+  margin-top: 0.95rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--muted-dim);
+}
+.heroSecondary {
+  display: inline-block;
+  margin-top: 1.1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  transition: color 0.3s ease;
+}
+.heroSecondary strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+.heroSecondary:hover {
+  color: var(--ink);
+}
+
+/* ── Animated system diagram: the build pipeline as one connected flow ── */
+.systemDiagram {
+  width: 100%;
+  max-width: 920px;
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+}
+.systemKicker {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted-dim);
+}
+.systemSvg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.systemTrack {
+  fill: none;
+  stroke: rgba(242, 239, 233, 0.12);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.systemFlow {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 26 800;
+  animation: system-flow 3.6s linear infinite;
+}
+@keyframes system-flow {
+  from {
+    stroke-dashoffset: 826;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.systemNode circle {
+  fill: #0b0b0e;
+  stroke: var(--accent);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: system-pulse 3s ease-in-out infinite;
+}
+.systemNode text {
+  fill: var(--muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+@keyframes system-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .systemFlow,
+  .systemNode circle {
+    animation: none;
+  }
+  .systemFlow {
+    stroke-dasharray: none;
+  }
+}
 
 /* ── Two-door funnel: client vs learner, surfaced in the hero ── */
 .heroFork {
@@ -1776,6 +1924,115 @@
   font-size: var(--text-mono);
   letter-spacing: 0.04em;
 }
+/* ── Contrasting full-bleed product showcase (breaks the type monotony) ── */
+.showcase {
+  position: relative;
+  padding: var(--section) 0;
+  border-top: 1px solid var(--line-soft);
+  background:
+    radial-gradient(120% 80% at 72% -10%, rgba(61, 90, 254, 0.14), transparent 58%),
+    linear-gradient(180deg, #101019, #0b0b0e);
+}
+.showcaseInner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  padding: 0 var(--pad-x);
+}
+.showcaseCopy h2 {
+  margin-top: 0.6rem;
+  font-family: var(--display);
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  color: var(--ink);
+}
+.showcaseCopy p {
+  margin: 1rem 0 1.4rem;
+  max-width: 46ch;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.showcaseShot {
+  position: relative;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(242, 239, 233, 0.14);
+  box-shadow: 0 50px 110px -42px rgba(0, 0, 0, 0.85);
+  transition: transform 0.5s var(--ease);
+}
+.showcase:hover .showcaseShot {
+  transform: translateY(-5px);
+}
+.showcaseImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase:hover .showcaseShot {
+    transform: none;
+  }
+}
+@media (max-width: 900px) {
+  .showcaseInner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.references {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) var(--pad-x) 0;
+  padding: clamp(1.6rem, 1.2rem + 2vw, 2.6rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(120deg, rgba(61, 90, 254, 0.1), transparent 56%),
+    var(--surface);
+}
+.references > div {
+  max-width: 60ch;
+}
+.references h3 {
+  margin-top: 0.6rem;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 1rem + 1.8vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.references p {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.logoStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  margin: clamp(2rem, 1rem + 2vw, 3rem) var(--pad-x) 0;
+  opacity: 0.7;
+}
+.logoStrip img {
+  height: 28px;
+  width: auto;
+  filter: grayscale(1) brightness(1.6);
+}
+.quoteOutcome {
+  margin-top: 0.8rem;
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  color: var(--accent);
+}
 @media (max-width: 900px) {
   .trustGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -1960,10 +2217,25 @@
 .funnelSteps span {
   color: var(--accent);
 }
+.funnelHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .funnelSteps h3 {
   font-family: var(--display);
   font-size: clamp(1.8rem, 1rem + 2vw, 3rem);
   font-weight: 800;
+}
+.funnelMeta {
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.04em;
+  color: var(--muted-dim);
+}
+.funnelMeta b {
+  color: var(--accent);
+  font-weight: 600;
 }
 .funnelSteps p {
   color: var(--muted);

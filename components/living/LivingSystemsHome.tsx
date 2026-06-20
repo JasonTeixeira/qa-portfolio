@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import type { CSSProperties, ReactNode } from 'react'
-import { livingProjects, type LivingProject } from '@/data/home/living-projects'
+import type { ReactNode } from 'react'
+import { workProjects, type WorkProject } from '@/data/home/living-projects'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
 import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
@@ -282,26 +282,26 @@ export function LivingSystemsHome() {
         </div>
       </section>
 
-      <section className={styles.work} id="work" aria-labelledby="work-heading" data-living-reel>
-        <div className={styles.reelStage} data-living-stage>
-          <div className={styles.reelHeader}>
-            <SectionHead
-              kicker="002 — Selected work"
-              title={<>I run my own products.<br />Then I build yours.</>}
-              text="Four shipped products. Each surface is paired with the system beneath it."
-            />
-          </div>
-          <div className={styles.reelHud} aria-hidden="true">
-            <span><b data-living-reel-cur>01</b>/04</span>
-            <span className={styles.reelRail}><i data-living-reel-rail /></span>
-            <span>Scroll</span>
-          </div>
-          <div className={styles.scenes}>
-            {livingProjects.map((project) => (
-              <ProjectScene key={project.slug} project={project} />
-            ))}
-          </div>
+      <section className={styles.work} id="work" aria-label="Selected work">
+        <SectionHead
+          kicker="002 — Selected work"
+          title={<>I run my own products.<br />Then I build yours.</>}
+          text="Read straight from the repos — real stack, honest status, hard counts, no mockups."
+        />
+        <div className={styles.workGrid}>
+          {workProjects.map((project) => (
+            <WorkCard key={project.slug} project={project} />
+          ))}
         </div>
+        <p className={styles.workMore} data-living-reveal>
+          <span>
+            Seven shown — backed by 30+ more repos: trading ops, voice infrastructure, a CISSP
+            study engine, an AI parts catalog, and shipped products.
+          </span>
+          <a href="https://github.com/JasonTeixeira" target="_blank" rel="noopener noreferrer">
+            View all on GitHub →
+          </a>
+        </p>
       </section>
 
       <section className={styles.services} id="services" aria-labelledby="services-heading">
@@ -489,95 +489,39 @@ function SectionHead({
   )
 }
 
-function ProjectScene({ project }: { project: LivingProject }) {
+function WorkCard({ project }: { project: WorkProject }) {
+  const statusKey = project.status.toLowerCase().replace(/\s+/g, '-')
   return (
-    <article className={styles.scene} style={{ '--brand': project.brand } as CSSProperties} data-living-card data-living-scene>
-      <div className={styles.sceneBg} aria-hidden="true" />
-      <div className={`${styles.sceneInner} ${Number(project.index) % 2 === 0 ? styles.sceneReverse : ''}`}>
-        <div className={styles.sceneLead}>
-          <div className={styles.projectMeta}>
-            <span>{project.index}</span>
-            <div>
-              <h3>{project.name}</h3>
-              <p>{project.caption}</p>
-            </div>
-            <button type="button" data-living-peel aria-label="Reveal system view">
-              <span data-living-peel-label>System</span>
-              <span aria-hidden="true">→</span>
-            </button>
+    <article
+      className={`${styles.workCard} ${project.featured ? styles.workCardFeatured : ''}`}
+      data-status={statusKey}
+      data-living-reveal
+    >
+      <div className={styles.workCardHead}>
+        <span className={styles.workIndex}>{project.index}</span>
+        <span className={styles.workStatus}>{project.status}</span>
+      </div>
+      <h3 className={styles.workName}>{project.name}</h3>
+      <p className={styles.workDomain}>{project.domain}</p>
+      <p className={styles.workTagline}>{project.tagline}</p>
+      <dl className={styles.workMetrics}>
+        {project.metrics.map((metric) => (
+          <div key={metric.label}>
+            <dt>{metric.value}</dt>
+            <dd>{metric.label}</dd>
           </div>
-          <dl className={styles.specList}>
-            <dt>Stack</dt><dd>{project.stack}</dd>
-            <dt>System</dt><dd>{project.system}</dd>
-            <dt>Category</dt><dd>{project.category}</dd>
-          </dl>
-          <div className={styles.metricList}>
-            {project.metrics.map((metric) => (
-              <div key={metric.label}>
-                <strong data-count={metric.count} data-suffix={metric.suffix}>{metric.value}</strong>
-                <span>{metric.label}</span>
-              </div>
-            ))}
-          </div>
-          <Link className={styles.textLink} href={project.href}>Open case study →</Link>
-        </div>
-        <div className={styles.device}>
-          <div className={styles.surface}>
-            <ProductSurface project={project} />
-          </div>
-          <div className={styles.system}>
-            <SystemView project={project} />
-          </div>
-        </div>
+        ))}
+      </dl>
+      <div className={styles.workFoot}>
+        <span className={styles.workStack}>{project.stack}</span>
+        {project.href ? (
+          <a className={styles.workLink} href={project.href} target="_blank" rel="noopener noreferrer">
+            {project.linkLabel}
+          </a>
+        ) : (
+          <span className={styles.workYear}>{project.year}</span>
+        )}
       </div>
     </article>
-  )
-}
-
-function ProductSurface({ project }: { project: LivingProject }) {
-  return (
-    <div className={styles.realSurface}>
-      <Image
-        src={project.screenshot.src}
-        alt={project.screenshot.alt}
-        fill
-        sizes="(max-width: 940px) 92vw, 820px"
-        className={styles.realSurfaceImage}
-        priority={project.slug === 'nexural'}
-      />
-      <div className={styles.realSurfaceHud} aria-hidden="true">
-        <span>{project.slug}.surface</span>
-        <b>{project.caption}</b>
-      </div>
-    </div>
-  )
-}
-
-function SystemView({ project }: { project: LivingProject }) {
-  return (
-    <div className={styles.sys}>
-      <header><span>{project.slug}.system</span><b>{project.caption}</b></header>
-      <svg viewBox="0 0 360 210" aria-hidden="true">
-        <defs>
-          <linearGradient id={`edge-${project.slug}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#3D5AFE" /><stop offset="0.55" stopColor="#7C3AED" /><stop offset="1" stopColor="#FF2D9B" />
-          </linearGradient>
-        </defs>
-        <g className={styles.edges} stroke={`url(#edge-${project.slug})`}>
-          <path d="M70 58 L170 48" /><path d="M70 58 L150 112" /><path d="M170 48 L285 62" />
-          <path d="M150 112 L262 132" /><path d="M170 48 L150 112" /><path d="M285 62 L262 132" />
-          <path d="M150 112 L120 170" /><path d="M262 132 L302 170" />
-        </g>
-        {['input', 'router', 'surface', 'state', 'signals', 'audit', 'hooks'].map((node, i) => {
-          const coords = [[38, 44], [138, 34], [248, 48], [116, 98], [228, 118], [88, 156], [268, 156]][i]
-          return <g className={styles.node} key={node}><rect x={coords[0]} y={coords[1]} width="72" height="28" rx="4" /><text x={coords[0] + 36} y={coords[1] + 18}>{node}</text></g>
-        })}
-      </svg>
-      <pre>{`const system = build({
-  product: "${project.name}",
-  surface: "interface",
-  engine: "data + AI + ops",
-});`}</pre>
-    </div>
   )
 }

@@ -61,6 +61,7 @@ export function WaitlistForm({ id }: { id?: string }) {
       setResult({ refCode: data.refCode, position: data.position, referrals: data.referrals, total: data.total })
       setStatus('success')
       trackEvent('newsletter_signup', { source: 'academy_waitlist' })
+      try { window.dispatchEvent(new Event('sage:waitlist-signup')) } catch { /* no-op */ }
     } catch {
       setStatus('error')
       setErrorMsg('Could not join right now. Try again in a minute.')

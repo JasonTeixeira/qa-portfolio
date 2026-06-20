@@ -5,6 +5,7 @@ import { WaitlistForm } from './waitlist-form'
 import { FoundingMeter } from './founding-meter'
 import { CodeLab } from './code-lab'
 import { RevealOnScroll } from './reveal'
+import { SoundToggle } from './sound-toggle'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -53,6 +54,7 @@ export default function WaitlistPage() {
   return (
     <div className={styles.page} data-reveal-scope>
       <RevealOnScroll />
+      <SoundToggle />
       <header className={styles.nav}>
         <Link href="/learn" className={styles.brand}>
           <span className={styles.brandMark}>S</span>

@@ -194,7 +194,7 @@ export default async function RootLayout({
   const isPortal = h.get('x-portal') === '1'
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
-  const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn')
+  const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn') || pathname.startsWith('/proto')
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html

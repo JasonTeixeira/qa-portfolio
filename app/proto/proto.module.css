@@ -1,0 +1,483 @@
+/* Sage Ideas — design-first prototype. Art direction: "ink and circuitry."
+   Near-black, ONE reserved electric line, dual-voice type, depth via layers +
+   real shadow (no gradient chrome, no particles). */
+
+.root {
+  --ink: #0b0b0e;
+  --surface: #141418;
+  --cream: #f2efe9;
+  --muted: #9c9ca6;
+  --dim: #6b6b78;
+  --line: #1e1e24;
+  --electric: #3d5afe;
+  --moon: #bcd2ff;
+  --ember: #ff5436;
+  --gold: #e8b75a;
+  --slate: #1b2a3a;
+
+  position: relative;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Grain + vignette — atmosphere without particles */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: inset 0 0 240px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* Far layer — a giant ghosted seal that drifts on scroll (depth, not decoration) */
+.farSeal {
+  position: absolute;
+  top: 42vh;
+  right: -8vw;
+  z-index: 0;
+  font-family: var(--font-editorial), serif;
+  font-size: clamp(28rem, 50vw, 64rem);
+  line-height: 0.8;
+  color: #101015;
+  user-select: none;
+  pointer-events: none;
+}
+
+.shell {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(1.4rem, 1rem + 3vw, 4rem);
+}
+
+/* ── Nav ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem clamp(1.4rem, 1rem + 3vw, 4rem);
+  mix-blend-mode: difference;
+}
+.navScrolled {
+  background: rgba(11, 11, 14, 0.72);
+  backdrop-filter: blur(14px);
+  mix-blend-mode: normal;
+  border-bottom: 1px solid var(--line);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.wordmark {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+.wordmark span {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  color: var(--dim);
+  margin-top: 2px;
+}
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.navLinks a:hover {
+  color: var(--cream);
+}
+@media (max-width: 820px) {
+  .navLinks {
+    display: none;
+  }
+}
+
+/* Electric pill — the reserved accent, the only filled button */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background: var(--electric);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+}
+@media (max-width: 920px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.eyebrow i {
+  width: 26px;
+  height: 1px;
+  background: var(--electric);
+}
+.headline {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.2rem, 1rem + 8.4vw, 7rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.headline em {
+  font-style: normal;
+  color: var(--electric);
+}
+.headlineLine {
+  display: block;
+  overflow: hidden;
+}
+.sub {
+  max-width: 36ch;
+  margin: 2rem 0 2.4rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.18rem);
+  line-height: 1.6;
+}
+.sub strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: center;
+}
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--cream);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.ghost:hover {
+  border-color: var(--moon);
+}
+
+/* Hero product panel — content as hero, real shot, real shadow + depth */
+.panel {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 60px 140px -50px rgba(0, 0, 0, 0.9);
+}
+.panelBar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--electric);
+  transform-origin: left;
+  z-index: 3;
+}
+.panelImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.panelTag {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 3;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--moon);
+  background: rgba(11, 11, 14, 0.7);
+  padding: 5px 9px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+.serifNote {
+  font-family: var(--font-editorial), serif;
+  font-size: clamp(1.3rem, 1rem + 1.2vw, 1.9rem);
+  color: #c9c6c0;
+  margin-top: 1.4rem;
+}
+
+/* Registration ticks (instrument layer) */
+.ticks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+.ticks .tl { position: absolute; top: 7.5rem; left: 0; }
+.ticks .br { position: absolute; bottom: 2rem; right: 0; }
+
+/* ── Marquee (kinetic capability strip) ── */
+.marquee {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.6rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marqueeTrack {
+  display: inline-flex;
+  gap: 3.5rem;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  will-change: transform;
+}
+.marqueeTrack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5rem;
+  color: #2a2a32;
+}
+.marqueeTrack span b {
+  color: var(--cream);
+  font-weight: 800;
+}
+.marqueeDot {
+  color: var(--electric);
+}
+
+/* ── Section scaffold ── */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: clamp(5rem, 3rem + 8vw, 11rem) 0;
+}
+.kicker {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--electric);
+}
+.h2 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 1rem + 5vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0.8rem 0 0;
+}
+
+/* Work */
+.workGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.4rem;
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+}
+.workCard {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.85);
+}
+.workCard img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.workCard:hover img {
+  transform: scale(1.04);
+}
+.workCardBig {
+  grid-column: span 7;
+}
+.workCardSmall {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.4rem, 1rem + 1.5vw, 2.4rem);
+  min-height: 280px;
+}
+@media (max-width: 820px) {
+  .workCardBig, .workCardSmall { grid-column: span 12; }
+}
+.workMeta {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: clamp(1.2rem, 1rem + 1vw, 2rem);
+  background: linear-gradient(0deg, rgba(11, 11, 14, 0.92), transparent);
+}
+.workName {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 1rem + 1.6vw, 2.4rem);
+  letter-spacing: -0.02em;
+}
+.workStat {
+  display: flex;
+  gap: 1.6rem;
+  margin-top: 0.6rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--moon);
+  letter-spacing: 0.06em;
+}
+
+/* Process */
+.steps {
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  border-top: 1px solid var(--line);
+}
+.step {
+  display: grid;
+  grid-template-columns: auto 0.7fr 1fr auto;
+  align-items: baseline;
+  gap: clamp(1rem, 0.5rem + 2vw, 3rem);
+  padding: clamp(1.6rem, 1rem + 2vw, 2.6rem) 0;
+  border-bottom: 1px solid var(--line);
+}
+.step span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  color: var(--electric);
+}
+.step h3 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.8rem);
+  letter-spacing: -0.02em;
+}
+.step p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+.step b {
+  font-family: var(--font-mono), monospace;
+  color: var(--moon);
+  font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+@media (max-width: 820px) {
+  .step { grid-template-columns: auto 1fr; }
+  .step p, .step b { grid-column: 2; }
+}
+
+/* Final */
+.final {
+  position: relative;
+  z-index: 2;
+  min-height: 86svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(5rem, 3rem + 6vw, 10rem) 0;
+}
+.finalSeal {
+  position: absolute;
+  top: clamp(3rem, 2rem + 3vw, 5rem);
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: clamp(54px, 6vw, 76px);
+  height: clamp(54px, 6vw, 76px);
+  border: 1.5px solid var(--ember);
+  color: var(--ember);
+  border-radius: 12px;
+  font-family: var(--font-editorial), serif;
+  font-size: clamp(1.8rem, 1rem + 2vw, 2.6rem);
+  rotate: 4deg;
+}
+.finalH {
+  font-family: var(--font-editorial), serif;
+  font-weight: 400;
+  font-size: clamp(3.4rem, 1rem + 10vw, 9rem);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  max-width: 14ch;
+}
+.finalP {
+  max-width: 52ch;
+  margin: 1.6rem 0 2.4rem;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 0.94rem + 0.4vw, 1.3rem);
+  line-height: 1.6;
+}
+.foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workCard img { transition: none; }
+}

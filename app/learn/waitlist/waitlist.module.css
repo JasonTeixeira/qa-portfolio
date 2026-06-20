@@ -2,15 +2,16 @@
    capture the email. Shares brand DNA (Bricolage type, #3D5AFE + gradient). */
 
 .page {
-  --ac-bg: #f5f3ec;
-  --ac-surface: #ffffff;
-  --ac-ink: #15151b;
-  --ac-ink-muted: #585865;
-  --ac-ink-faint: #8a8a96;
-  --ac-line: #e6e2d8;
-  --ac-line-strong: #d8d3c6;
+  --ac-bg: #0b0b0e;
+  --ac-surface: #141418;
+  --ac-surface-2: #1a1a20;
+  --ac-ink: #f2efe9;
+  --ac-ink-muted: #9c9ca6;
+  --ac-ink-faint: #8a8a94;
+  --ac-line: #1e1e24;
+  --ac-line-strong: #2a2a33;
   --ac-accent: #3d5afe;
-  --ac-accent-ink: #2640cf;
+  --ac-accent-ink: #8fa0ff;
   --ac-g1: #3d5afe;
   --ac-g2: #7c3aed;
   --ac-g3: #ff2d9b;
@@ -20,8 +21,13 @@
   --ac-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ac-pad: clamp(1.2rem, 0.5rem + 3.4vw, 5rem);
 
+  position: relative;
   min-height: 100vh;
-  background: var(--ac-bg);
+  background:
+    linear-gradient(var(--ac-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ac-line) 1px, transparent 1px),
+    var(--ac-bg);
+  background-size: clamp(48px, 7vw, 96px) clamp(48px, 7vw, 96px);
   color: var(--ac-ink);
   font-family: var(--ac-sans);
   -webkit-font-smoothing: antialiased;
@@ -191,7 +197,7 @@
 .error {
   margin-top: 0.8rem;
   font-size: 0.88rem;
-  color: #c0392b;
+  color: #ff8a8a;
 }
 
 /* Success state */
@@ -201,8 +207,8 @@
   padding: 2rem;
   border-radius: 20px;
   background: var(--ac-surface);
-  border: 1px solid var(--ac-line);
-  box-shadow: 0 30px 60px -34px rgba(22, 22, 28, 0.4);
+  border: 1px solid var(--ac-line-strong);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(61, 90, 254, 0.14);
 }
 .successCheck {
   display: grid;

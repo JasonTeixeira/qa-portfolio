@@ -194,7 +194,8 @@ export default async function RootLayout({
   const isPortal = h.get('x-portal') === '1'
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
-  const isPremiumLanding = isLivingHomepage || pathname === '/academy'
+  const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn')
+  const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html
       lang="en"
@@ -220,11 +221,11 @@ export default async function RootLayout({
         />
         <PostHogProvider>
           {!isPortal && <AttributionCapture />}
-          <MarketingChrome position="top" />
-          {!isPortal && <Breadcrumbs pathname={pathname} />}
-          <MarketingChrome position="children">{children}</MarketingChrome>
-          <MarketingChrome position="bottom" />
-          {!isPortal && <CookieBanner />}
+          {!isCinematicPath && <MarketingChrome position="top" />}
+          {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
+          {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+          {!isCinematicPath && <MarketingChrome position="bottom" />}
+          {!isPortal && !isCinematicPath && <CookieBanner />}
           {!isPortal && !isPremiumLanding && <ExitIntentModal />}
           <WebVitalsReporter />
           <ClientErrorReporter />

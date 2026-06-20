@@ -991,6 +991,25 @@
     transition: none;
   }
 }
+/* Personalization: a visitor who chose "learn" gets the learner door promoted
+   to the accent treatment, and the hire door relaxed to the quiet state. */
+:global(html[data-intent="learn"]) .doorGhost {
+  border-color: rgba(61, 90, 254, 0.42);
+  background:
+    linear-gradient(120deg, rgba(61, 90, 254, 0.2), rgba(124, 58, 237, 0.12)),
+    rgba(11, 11, 14, 0.42);
+}
+:global(html[data-intent="learn"]) .doorGhost .doorArrow {
+  color: #bcd2ff;
+}
+:global(html[data-intent="learn"]) .doorPrimary {
+  border-color: var(--line);
+  background: rgba(11, 11, 14, 0.42);
+  box-shadow: none;
+}
+:global(html[data-intent="learn"]) .doorPrimary .doorArrow {
+  color: var(--muted);
+}
 .capStrip {
   display: flex;
   flex-wrap: wrap;

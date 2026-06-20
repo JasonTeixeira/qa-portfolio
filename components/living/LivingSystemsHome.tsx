@@ -8,6 +8,7 @@ import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExper
 import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
+import { IntentGate } from './IntentGate'
 import { CountUp } from '@/components/motion/CountUp'
 import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
 import styles from './LivingSystemsHome.module.css'
@@ -109,6 +110,7 @@ export function LivingSystemsHome() {
   return (
     <div className={styles.page}>
       <LivingSystemsMotion />
+      <IntentGate />
       <div className={styles.loader} data-living-loader role="status" aria-live="polite" aria-label="Sage Ideas">
         <div className={styles.loaderScene} aria-hidden="true">
           <Image src="/art/inkwash-cliffs.png" alt="" fill priority sizes="100vw" className={styles.loaderSceneImg} />

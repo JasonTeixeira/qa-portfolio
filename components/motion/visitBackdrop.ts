@@ -14,7 +14,6 @@
 
 const ART = [
   '/art/inkwash-cliffs.png',
-  '/art/sunset-pagoda.png',
 ]
 
 /** SSR-stable default — components render this first, then swap on mount. */

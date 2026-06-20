@@ -99,7 +99,7 @@ export function LivingSystemsMotion() {
 
     const timeout = window.setTimeout(() => {
       if (!splashDone) showEverything('timeout')
-    }, 4200)
+    }, 6000)
 
     const setBootProgress = (progress: number, status: string, activeIndex: number) => {
       const bar = document.querySelector<HTMLElement>('[data-living-boot-progress]')
@@ -133,16 +133,16 @@ export function LivingSystemsMotion() {
       cleanupFns.push(() => skip?.removeEventListener('click', onSkip))
 
       const steps: Array<[number, number, string, number]> = [
-        [90, 0.22, 'Mounting studio route', 0],
-        [420, 0.42, 'Loading academy path', 1],
-        [780, 0.62, 'Indexing proof layer', 2],
-        [1120, 0.8, 'Priming diagnostic tools', 3],
-        [1520, 1, 'Opening content engine', 4],
+        [200, 0.22, 'Mounting studio route', 0],
+        [1150, 0.42, 'Loading academy path', 1],
+        [2300, 0.62, 'Indexing proof layer', 2],
+        [3450, 0.8, 'Priming diagnostic tools', 3],
+        [4550, 1, 'Opening content engine', 4],
       ]
       const timers = steps.map(([delay, progress, status, activeIndex]) =>
         window.setTimeout(() => setBootProgress(progress, status, activeIndex), delay),
       )
-      const finish = window.setTimeout(() => done('loaded'), 2180)
+      const finish = window.setTimeout(() => done('loaded'), 5000)
       cleanupFns.push(() => {
         timers.forEach((timer) => window.clearTimeout(timer))
         window.clearTimeout(finish)

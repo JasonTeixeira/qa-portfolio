@@ -6,9 +6,12 @@ import {
   para,
   strong,
   button,
+  discordButton,
   refBox,
   checklist,
 } from '@/lib/academy/email-theme'
+
+const DISCORD_INVITE = 'https://discord.gg/KWPMEMJHGk'
 
 /**
  * Academy waitlist nurture sequence. Each step is sent once per subscriber by
@@ -43,8 +46,11 @@ export const ACADEMY_SEQUENCE: SeqStep[] = [
           '<strong style="color:#f2efe9;">AI Engineering</strong> — the LLM API, prompting, RAG, agents',
           '<strong style="color:#f2efe9;">Ship Real Products</strong> — Next.js, Supabase, auth, payments, deploy',
         ])}
-        ${button(`${SITE}/learn`, 'Preview the academy →')}`
-      const text = `You won't just watch — you'll build. Three paths: Code Foundations, AI Engineering, Ship Real Products. Preview: ${SITE}/learn`
+        ${button(`${SITE}/learn`, 'Preview the academy →')}
+        <div style="height:22px;"></div>
+        ${para('Builders move faster together — the founding Discord is open now:')}
+        ${discordButton(DISCORD_INVITE)}`
+      const text = `You won't just watch — you'll build. Three paths: Code Foundations, AI Engineering, Ship Real Products. Preview: ${SITE}/learn\n\nJoin the founding Discord: ${DISCORD_INVITE}`
       return { html: emailShell(inner, email), text }
     },
   },
@@ -69,8 +75,11 @@ export const ACADEMY_SEQUENCE: SeqStep[] = [
         ${button(
           `https://twitter.com/intent/tweet?text=${encodeURIComponent('Sage Academy is coming — learn to build with code & AI, $20/mo. Founding spots open:')}&url=${encodeURIComponent(refUrl)}`,
           'Share & jump the line →',
-        )}`
-      const text = `Move up the founding list — every friend who joins with your link jumps you 5 spots. Your link: ${refUrl}`
+        )}
+        <div style="height:22px;"></div>
+        ${para('Already in the Discord? If not, that’s where the founding crew is building:')}
+        ${discordButton(DISCORD_INVITE)}`
+      const text = `Move up the founding list — every friend who joins with your link jumps you 5 spots. Your link: ${refUrl}\n\nJoin the founding Discord: ${DISCORD_INVITE}`
       return { html: emailShell(inner, email), text }
     },
   },

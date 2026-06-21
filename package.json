@@ -31,6 +31,7 @@
     "discord:approval-gate": "node --env-file-if-exists=.env.local scripts/discord/enforce-approval-gate.mjs",
     "discord:approval-audit": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs",
     "discord:approval-enforce": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs --enforce",
+    "discord:prove-onboarding": "tsx --env-file=.env.local scripts/discord/prove-onboarding-live.ts",
     "discord:categorize": "node --env-file-if-exists=.env.local scripts/discord/categorize-lean-community.mjs",
     "discord:harden": "node --env-file-if-exists=.env.local scripts/discord/harden-sage-community.mjs",
     "discord:pin-posts": "node --env-file-if-exists=.env.local scripts/discord/pin-sage-operating-posts.mjs",

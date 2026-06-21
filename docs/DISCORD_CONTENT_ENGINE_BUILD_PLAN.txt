@@ -58,6 +58,8 @@ Pass 0 verified:
 4. Typecheck passes.
 5. Unit tests pass.
 6. Existing unapproved members were removed so the server is reset to owner plus SageBot.
+7. Live onboarding proof harness exists as npm run discord:prove-onboarding.
+8. Live onboarding proof harness refuses to run without a non-admin test member.
 
 Pass 0 still needs live member proof:
 1. A real or test non-admin account must join.
@@ -65,6 +67,7 @@ Pass 0 still needs live member proof:
 3. That account must run /apply.
 4. Admin must run /approve.
 5. Roles and Supabase rows must be verified after approval.
+6. Current blocker: the live server currently has no eligible non-admin test member.
 
 Pass 1 status:
 Implemented locally and verified by automated tests.

@@ -108,7 +108,19 @@ Pass 2 production cadence:
 1. Vercel draft cron is configured for `/api/cron/discord/daily` at 13:00 UTC Monday-Saturday.
 2. Vercel publish cron is configured for `/api/cron/discord/daily/publish` at 21:00 UTC Monday-Saturday.
 3. Publish cron is approved-only and does not create missing drafts.
-4. Remaining external step is deploying the committed cron config to Vercel production.
+4. Production deployment to Vercel was completed and the publish route is live behind cron auth.
+
+Pass 3 status:
+Implemented locally and live Supabase migration applied.
+
+Pass 3 verified:
+1. Quiz attempts are unique by quiz and Discord user.
+2. Quiz point awards use an idempotency action key.
+3. Duplicate quiz attempts return zero new points.
+4. Correct first attempt awards points, writes one quiz attempt, writes one points ledger row, updates streak, and completes the daily onboarding step.
+
+Pass 3 still needs proof:
+1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
 
 TARGET MEMBER EXPERIENCE
 New member:

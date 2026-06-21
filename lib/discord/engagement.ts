@@ -267,27 +267,37 @@ function normalizeAnswer(answer: string): string {
   return answer.trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
+export function quizAttemptActionKey(quizKey: string, discordUserId: string): string {
+  return `quiz:${quizKey}:${discordUserId}`;
+}
+
 export async function awardDiscordPoints(input: {
   discordUserId: string;
   username?: string | null;
   points: number;
   reason: string;
   source: string;
+  actionKey?: string | null;
   metadata?: Json;
-}): Promise<void> {
+}): Promise<{ awarded: boolean }> {
   const sb = supabaseAdmin();
   const now = new Date();
   const activityDate = todayKey(now);
 
   try {
-    await sb.from('discord_points_ledger').insert({
+    const { error: ledgerError } = await sb.from('discord_points_ledger').insert({
       discord_user_id: input.discordUserId,
       discord_username: input.username ?? null,
       points: input.points,
       reason: input.reason,
       source: input.source,
+      action_key: input.actionKey ?? null,
       metadata: input.metadata ?? {},
     });
+    if (ledgerError) {
+      if (isUniqueViolation(ledgerError)) return { awarded: false };
+      throw ledgerError;
+    }
 
     const { data: streak } = await sb
       .from('discord_member_streaks')
@@ -311,8 +321,10 @@ export async function awardDiscordPoints(input: {
       last_activity_date: activityDate,
       updated_at: now.toISOString(),
     }, { onConflict: 'discord_user_id' });
+    return { awarded: true };
   } catch (err) {
     console.warn('[discord/engagement] points award failed', err instanceof Error ? err.message : err);
+    return { awarded: false };
   }
 }
 
@@ -363,14 +375,31 @@ export async function answerDailyQuiz(input: {
   username?: string | null;
   answer: string;
   now?: Date;
-}): Promise<{ quiz: DailyQuiz; correct: boolean; points: number }> {
+}): Promise<{ quiz: DailyQuiz; correct: boolean; points: number; alreadyAttempted: boolean }> {
   const quiz = await getDailyQuizFromStore(input.now);
   const correct = normalizeAnswer(input.answer) === normalizeAnswer(quiz.correctAnswer);
   const points = correct ? 10 : 2;
   const sb = supabaseAdmin();
 
+  const { data: existingAttempt, error: existingError } = await sb
+    .from('discord_quiz_attempts')
+    .select('correct, points_awarded')
+    .eq('quiz_key', quiz.key)
+    .eq('discord_user_id', input.discordUserId)
+    .maybeSingle();
+  if (existingError) console.warn('[discord/engagement] quiz attempt read failed', existingError.message);
+  if (existingAttempt) {
+    return {
+      quiz,
+      correct: Boolean(existingAttempt.correct),
+      points: 0,
+      alreadyAttempted: true,
+    };
+  }
+
+  let insertedAttempt = true;
   try {
-    await sb.from('discord_quiz_attempts').insert({
+    const { error } = await sb.from('discord_quiz_attempts').insert({
       quiz_key: quiz.key,
       discord_user_id: input.discordUserId,
       discord_username: input.username ?? null,
@@ -378,20 +407,50 @@ export async function answerDailyQuiz(input: {
       correct,
       points_awarded: points,
     });
+    if (error) {
+      if (isUniqueViolation(error)) insertedAttempt = false;
+      else throw error;
+    }
   } catch (err) {
     console.warn('[discord/engagement] quiz attempt insert failed', err instanceof Error ? err.message : err);
+    insertedAttempt = false;
   }
 
-  await awardDiscordPoints({
+  if (!insertedAttempt) {
+    return {
+      quiz,
+      correct,
+      points: 0,
+      alreadyAttempted: true,
+    };
+  }
+
+  const award = await awardDiscordPoints({
     discordUserId: input.discordUserId,
     username: input.username,
     points,
     reason: correct ? 'daily_quiz_correct' : 'daily_quiz_attempt',
     source: 'quiz',
+    actionKey: quizAttemptActionKey(quiz.key, input.discordUserId),
     metadata: { quiz_key: quiz.key, correct },
   });
+  if (award.awarded) {
+    await completeOnboardingStep({
+      discordUserId: input.discordUserId,
+      username: input.username,
+      stepKey: 'daily',
+      metadata: { quiz_key: quiz.key, correct },
+    });
+  }
 
-  return { quiz, correct, points };
+  return { quiz, correct, points: award.awarded ? points : 0, alreadyAttempted: !award.awarded };
+}
+
+function isUniqueViolation(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'code' in error
+    && String((error as { code?: unknown }).code) === '23505';
 }
 
 export async function submitDailyChallenge(input: {

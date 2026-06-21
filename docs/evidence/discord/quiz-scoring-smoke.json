@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "quizKey": "automation-boundary-v1",
+  "actionKey": "quiz:automation-boundary-v1:smoke-quiz-pass3",
+  "first": {
+    "quiz": {
+      "key": "automation-boundary-v1",
+      "prompt": "What should require human approval in an automation?",
+      "options": [
+        "Reading public data",
+        "Formatting text",
+        "Sending or charging",
+        "Counting rows"
+      ],
+      "correctAnswer": "sending or charging",
+      "explanation": "External, irreversible, paid, or reputation-affecting actions need approval gates."
+    },
+    "correct": true,
+    "points": 10,
+    "alreadyAttempted": false
+  },
+  "second": {
+    "quiz": {
+      "key": "automation-boundary-v1",
+      "prompt": "What should require human approval in an automation?",
+      "options": [
+        "Reading public data",
+        "Formatting text",
+        "Sending or charging",
+        "Counting rows"
+      ],
+      "correctAnswer": "sending or charging",
+      "explanation": "External, irreversible, paid, or reputation-affecting actions need approval gates."
+    },
+    "correct": true,
+    "points": 0,
+    "alreadyAttempted": true
+  },
+  "attemptsCount": 1,
+  "ledgerCount": 1,
+  "streak": {
+    "current_streak": 1,
+    "longest_streak": 1,
+    "last_activity_date": "2026-06-21"
+  },
+  "onboarding": {
+    "step_key": "daily",
+    "metadata": {
+      "correct": true,
+      "quiz_key": "automation-boundary-v1"
+    }
+  },
+  "points": {
+    "total": 10,
+    "streak": 1,
+    "longestStreak": 1,
+    "rank": 1
+  },
+  "startedAt": "2026-06-21T22:50:44.373Z",
+  "finishedAt": "2026-06-21T22:50:46.607Z"
+}

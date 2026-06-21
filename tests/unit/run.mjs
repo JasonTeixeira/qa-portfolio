@@ -113,6 +113,10 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   const contentDraftMigration = await readFile(new URL('../../supabase/migrations/0070_discord_content_draft_approval.sql', import.meta.url), 'utf8');
   assert.match(contentDraftMigration, /create table if not exists public\.discord_content_drafts/);
   assert.match(contentDraftMigration, /pending_approval/);
+  const quizScoringMigration = await readFile(new URL('../../supabase/migrations/0075_discord_quiz_scoring_idempotency.sql', import.meta.url), 'utf8');
+  assert.match(quizScoringMigration, /add column if not exists action_key text/);
+  assert.match(quizScoringMigration, /discord_points_ledger_action_key_idx/);
+  assert.match(quizScoringMigration, /discord_quiz_attempts_once_idx/);
   const ragMigration = await readFile(new URL('../../supabase/migrations/0065_rag_foundation.sql', import.meta.url), 'utf8');
   assert.match(ragMigration, /create extension if not exists vector/);
   assert.match(ragMigration, /create table if not exists public\.rag_sources/);
@@ -143,6 +147,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.equal(packageJson.scripts['discord:queue-content'], 'tsx --env-file=.env.local scripts/discord/queue-content-from-messages.ts');
   assert.equal(packageJson.scripts['discord:smoke-content-queue'], 'tsx --env-file=.env.local scripts/discord/smoke-content-queue-automation.ts');
   assert.equal(packageJson.scripts['discord:smoke-content-approval'], 'tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts');
+  assert.equal(packageJson.scripts['discord:smoke-quiz-scoring'], 'tsx --env-file=.env.local scripts/discord/smoke-quiz-scoring.ts');
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily"/);
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily\/publish"/);
   assert.equal(packageJson.scripts['rag:baseline'], 'node --env-file-if-exists=.env.local scripts/rag/baseline.mjs');
@@ -578,6 +583,21 @@ test('discord learning generator: validates quiz and challenge drafts', async ()
   assert.match(script, /generateDiscordLearningDrafts/);
   assert.equal(pkg.scripts['discord:generate-learning'], 'tsx --env-file=.env.local scripts/discord/generate-learning-content.ts');
   assert.match(pkg.scripts['discord:smoke-learning-generator'], /--smoke --date=2099-01-02/);
+});
+
+test('discord quiz scoring: points are idempotent per quiz attempt', async () => {
+  const { quizAttemptActionKey } = await import('../../lib/discord/engagement.ts');
+  const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-quiz-scoring.ts', import.meta.url), 'utf8');
+
+  assert.equal(quizAttemptActionKey('quiz-a', 'user-1'), 'quiz:quiz-a:user-1');
+  assert.match(commands, /Quiz already completed/);
+  assert.match(commands, /Points awarded: \*\*0\*\*/);
+  assert.match(smoke, /second\.points === 0/);
+  assert.match(smoke, /second\.alreadyAttempted/);
+  assert.match(smoke, /discord_quiz_attempts/);
+  assert.match(smoke, /discord_points_ledger/);
+  assert.match(smoke, /discord_member_streaks/);
 });
 
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {

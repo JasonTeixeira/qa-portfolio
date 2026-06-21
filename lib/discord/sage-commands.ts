@@ -1220,6 +1220,14 @@ async function handleQuiz(payload: DiscordInteractionPayload): Promise<Interacti
     ].join('\n'));
   }
   const result = await answerDailyQuiz({ discordUserId: id, username: username(payload), answer });
+  if (result.alreadyAttempted) {
+    return ephemeral([
+      'Quiz already completed.',
+      `Answer: **${result.quiz.correctAnswer}**`,
+      result.quiz.explanation,
+      'Points awarded: **0**',
+    ].join('\n'));
+  }
   return ephemeral([
     result.correct ? 'Correct.' : 'Not quite.',
     `Answer: **${result.quiz.correctAnswer}**`,

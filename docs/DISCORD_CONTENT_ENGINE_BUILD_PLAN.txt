@@ -104,8 +104,11 @@ Pass 2 verified:
 10. Live news ingestion fetches official feeds, normalizes candidate items, and only accepts items passing source/freshness/action gates.
 11. Admin approval publish smoke creates a pending daily draft, approves it through the content review path, publishes it, proves idempotency, deletes the Discord test message, and cleans Supabase rows.
 
-Pass 2 remaining operational step:
-1. Enable the production cron/deployment cadence so the daily planner creates reviewable drafts every day and publish mode runs only after admin approval.
+Pass 2 production cadence:
+1. Vercel draft cron is configured for `/api/cron/discord/daily` at 13:00 UTC Monday-Saturday.
+2. Vercel publish cron is configured for `/api/cron/discord/daily/publish` at 21:00 UTC Monday-Saturday.
+3. Publish cron is approved-only and does not create missing drafts.
+4. Remaining external step is deploying the committed cron config to Vercel production.
 
 TARGET MEMBER EXPERIENCE
 New member:

@@ -143,6 +143,8 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.equal(packageJson.scripts['discord:queue-content'], 'tsx --env-file=.env.local scripts/discord/queue-content-from-messages.ts');
   assert.equal(packageJson.scripts['discord:smoke-content-queue'], 'tsx --env-file=.env.local scripts/discord/smoke-content-queue-automation.ts');
   assert.equal(packageJson.scripts['discord:smoke-content-approval'], 'tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts');
+  assert.match(vercel, /"path": "\/api\/cron\/discord\/daily"/);
+  assert.match(vercel, /"path": "\/api\/cron\/discord\/daily\/publish"/);
   assert.equal(packageJson.scripts['rag:baseline'], 'node --env-file-if-exists=.env.local scripts/rag/baseline.mjs');
   assert.equal(packageJson.scripts['rag:migration-check'], 'node scripts/rag/check-rag-migrations.mjs');
   assert.equal(packageJson.scripts['rag:smoke-foundation'], 'node --env-file-if-exists=.env.local scripts/rag/smoke-rag-foundation.mjs');
@@ -456,6 +458,8 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   const smokeNews = await readFile(new URL('../../scripts/discord/smoke-news-to-action.ts', import.meta.url), 'utf8');
   const smokeNewsIngestion = await readFile(new URL('../../scripts/discord/smoke-news-ingestion.ts', import.meta.url), 'utf8');
   const cronRoute = await readFile(new URL('../../app/api/cron/discord/daily/route.ts', import.meta.url), 'utf8');
+  const cronPublishRoute = await readFile(new URL('../../app/api/cron/discord/daily/publish/route.ts', import.meta.url), 'utf8');
+  const vercel = await readFile(new URL('../../vercel.json', import.meta.url), 'utf8');
 
   const prompt = buildDailyPlannerPrompt({
     dateKey: '2099-01-01',
@@ -525,6 +529,11 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   assert.match(smokeNews, /source_url_not_approved/);
   assert.match(smokeNewsIngestion, /fetchNewsToActionCandidates/);
   assert.match(cronRoute, /mode.*publish/s);
+  assert.match(cronRoute, /createIfMissing: false/);
+  assert.match(cronPublishRoute, /vercel-cron-publish/);
+  assert.match(cronPublishRoute, /createIfMissing: false/);
+  assert.match(vercel, /"path": "\/api\/cron\/discord\/daily", "schedule": "0 13 \* \* 1-6"/);
+  assert.match(vercel, /"path": "\/api\/cron\/discord\/daily\/publish", "schedule": "0 21 \* \* 1-6"/);
   assert.equal(pkg.scripts['discord:plan-daily'], 'tsx --env-file=.env.local scripts/discord/plan-daily-content.ts');
   assert.match(pkg.scripts['discord:smoke-daily-planner'], /--smoke --date=2099-01-01/);
   assert.equal(pkg.scripts['discord:smoke-daily-scheduler'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-scheduler.ts');

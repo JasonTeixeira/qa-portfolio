@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createDailyPlannerDraft, publishApprovedDailySignalDraft } from '@/lib/discord/daily-planner';
 import { recordDiscordScheduledRun } from '@/lib/discord/analytics';
+import { publishApprovedDailySignalDraft } from '@/lib/discord/daily-planner';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,27 +20,21 @@ export async function GET(req: Request) {
   }
 
   try {
-    const url = new URL(req.url);
-    const mode = url.searchParams.get('mode') ?? 'draft';
-    if (mode === 'publish') {
-      const result = await publishApprovedDailySignalDraft({
-        source: 'vercel-cron',
-        createIfMissing: false,
-      });
-      return NextResponse.json(result, { status: result.ok ? 200 : 202 });
-    }
-
-    const result = await createDailyPlannerDraft({
-      metadata: { source: 'vercel-cron' },
+    const result = await publishApprovedDailySignalDraft({
+      source: 'vercel-cron-publish',
+      createIfMissing: false,
     });
-    return NextResponse.json(result);
+    return NextResponse.json(result, { status: result.ok ? 200 : 202 });
   } catch (err) {
     await recordDiscordScheduledRun({
       runKey: `daily-signal-${new Date().toISOString().slice(0, 10)}`,
       kind: 'daily_signal',
       status: 'failed',
-      metadata: { error: err instanceof Error ? err.message : String(err) },
+      metadata: {
+        source: 'vercel-cron-publish',
+        error: err instanceof Error ? err.message : String(err),
+      },
     });
-    return NextResponse.json({ error: 'Daily signal failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Daily signal publish failed' }, { status: 500 });
   }
 }

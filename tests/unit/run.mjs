@@ -757,6 +757,9 @@ test('sage discord commands: command registry covers onboarding content engine a
     'team-ops',
   ]);
   assert.ok(sagePathOptions.every((option) => ['build-lab', 'questions'].includes(option.channel)));
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  assert.ok(packageJson.scripts['discord:approval-audit'].includes('audit-member-approval.mjs'));
+  assert.ok(packageJson.scripts['discord:approval-enforce'].includes('--enforce'));
   assert.ok(dailyBuildPrompts.length >= 10);
   assert.equal(weeklyCadence.length, 7);
   const apply = sageCommandDefinitions.find((command) => command.name === 'apply');
@@ -764,6 +767,34 @@ test('sage discord commands: command registry covers onboarding content engine a
     apply.options.map((option) => option.name),
     ['goal', 'experience', 'build', 'rules', 'path', 'level', 'timezone', 'time_budget', 'support', 'portfolio', 'source'],
   );
+});
+
+test('sage discord onboarding: post-approval welcome explains the lean approved-member flow', async () => {
+  const { buildPostApprovalWelcome } = await import('../../lib/discord/onboarding.ts');
+  const message = buildPostApprovalWelcome('123', {
+    discordUserId: '123',
+    username: 'sage',
+    goal: 'Build useful AI systems',
+    experience: 'Beginner',
+    intendedBuild: 'AI assistant',
+    pathKey: 'ai_apps',
+    levelKey: 'beginner',
+    timezone: 'ET',
+    weeklyTimeBudget: '5 hours',
+    primaryGoal: 'Ship',
+    preferredSupport: 'review',
+    portfolioUrl: null,
+    referralSource: null,
+    submittedAt: '2026-01-01T00:00:00.000Z',
+  });
+
+  assert.match(message, /How this Discord works/);
+  assert.match(message, /`questions`/);
+  assert.match(message, /`content-lab`/);
+  assert.match(message, /`live-room`/);
+  assert.match(message, /`wins-showcase`/);
+  assert.doesNotMatch(message, /`wins`:/);
+  assert.match(message, /First-week checklist/);
 });
 
 test('sage discord onboarding: application profile input is normalized before persistence', async () => {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion'
 import Lenis from 'lenis'
 import styles from './proto.module.css'
 
@@ -90,12 +90,23 @@ const STEPS = [
 ] as const
 
 export function Proto() {
-  // Buttery smooth scroll
+  // Aperture hero choreography — progress computed from real layout each frame
+  // (robust against Lenis, which framer's useScroll target measurement mis-reads)
+  const heroRef = useRef<HTMLElement>(null)
+  const hp = useMotionValue(0)
+
+  // Buttery smooth scroll + per-frame hero progress
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.15, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
     let raf = 0
     const loop = (time: number) => {
       lenis.raf(time)
+      const el = heroRef.current
+      if (el) {
+        const r = el.getBoundingClientRect()
+        const denom = r.height - window.innerHeight
+        hp.set(denom > 0 ? Math.min(1, Math.max(0, -r.top / denom)) : 0)
+      }
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
@@ -103,15 +114,20 @@ export function Proto() {
       cancelAnimationFrame(raf)
       lenis.destroy()
     }
-  }, [])
+  }, [hp])
 
   const { scrollYProgress } = useScroll()
   const sealY = useTransform(scrollYProgress, [0, 1], [0, -300])
 
-  // Product reveal parallax
-  const revealRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress: rp } = useScroll({ target: revealRef, offset: ['start end', 'end start'] })
-  const imgY = useTransform(rp, [0, 1], ['-8%', '8%'])
+  const apR = useTransform(hp, [0, 0.82], [9, 82])
+  const apY = useTransform(hp, [0, 0.82], [58, 50])
+  const clip = useMotionTemplate`circle(${apR}% at 50% ${apY}%)`
+  const imgScale = useTransform(hp, [0, 1], [1.32, 1.06])
+  const heroFade = useTransform(hp, [0, 0.34], [1, 0])
+  const heroLift = useTransform(hp, [0, 0.34], [0, -70])
+  const capFade = useTransform(hp, [0.55, 0.84], [0, 1])
+  const capLift = useTransform(hp, [0.55, 0.9], [40, 0])
+  const cueFade = useTransform(hp, [0, 0.1], [1, 0])
 
   return (
     <div className={styles.root}>
@@ -138,66 +154,47 @@ export function Proto() {
         </Magnetic>
       </nav>
 
-      {/* ── HERO — type-first, spacious ── */}
-      <header className={styles.hero}>
-        <span className={`${styles.tick} ${styles.tickTR}`} aria-hidden>01 / 05</span>
-        <div className={styles.wrap}>
-          <motion.p className={styles.eyebrow} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.1 }}>
-            <i /> Sage Ideas · AI-native studio · since 2020
-          </motion.p>
-          <h1 className={styles.headline}>
-            <Line delay={0.18}>I build the product,</Line>
-            <Line delay={0.3}>the brand, and the</Line>
-            <Line delay={0.42}>
-              <em>AI</em> that runs it.
-            </Line>
-          </h1>
-          <motion.p className={styles.sub} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.7 }}>
-            A solo, AI-native studio. I run my own products every day and put the same system —
-            AI, apps, SaaS, brand, growth — to work for yours. From someone who <strong>builds</strong>,
-            not someone who just pitches.
-          </motion.p>
-          <motion.div className={styles.ctaRow} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.82 }}>
-            <Magnetic href="/book?source=proto" className={styles.pill}>
-              Book a call →
-            </Magnetic>
-            <a href="#work" className={styles.ghost} data-cursor>
-              See the work ↓
-            </a>
+      {/* ── APERTURE HERO — keyhole expands to full-bleed product on scroll ── */}
+      <section className={styles.apertureHero} ref={heroRef}>
+        <div className={styles.apertureSticky}>
+          {/* Product revealed only through the expanding clip-path aperture */}
+          <motion.div className={styles.aperture} style={{ clipPath: clip }} aria-hidden>
+            <motion.img style={{ scale: imgScale }} src="/art/inkwash-cliffs.png" alt="" />
+            <div className={styles.apertureGrade} />
           </motion.div>
-        </div>
-        <span className={`${styles.tick} ${styles.tickBL}`} aria-hidden>nexural.system</span>
-        <motion.div className={styles.scrollCue} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3, duration: 1 }} aria-hidden>
-          Scroll
-          <span />
-        </motion.div>
-      </header>
 
-      {/* ── PRODUCT REVEAL — content as hero, clip + parallax ── */}
-      <section className={styles.reveal} ref={revealRef}>
-        <div className={styles.wrap}>
-          <div className={styles.revealHead}>
-            <Reveal>
-              <p className={styles.revealTitle}>This is what shipped looks like.</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className={styles.revealMeta}>
-                Nexural · fintech trading SaaS
-                <br />
-                live in production · built solo
-              </p>
-            </Reveal>
-          </div>
-          <motion.div
-            className={styles.shot}
-            initial={{ clipPath: 'inset(0 0 100% 0)' }}
-            whileInView={{ clipPath: 'inset(0 0 0% 0)' }}
-            viewport={{ once: true, margin: '-120px' }}
-            transition={{ duration: 1.2, ease: EASE }}
-          >
-            <motion.span className={styles.shotBar} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.1, ease: EASE, delay: 0.5 }} />
-            <motion.img style={{ y: imgY, scale: 1.16 }} src="/work/nexural-cockpit.webp" alt="Nexural cockpit — the Command dashboard" />
-            <span className={styles.shotTag}>Nexural · Command desk</span>
+          {/* Dark hero content — fades + lifts as the aperture opens */}
+          <motion.div className={styles.apertureContent} style={{ opacity: heroFade, y: heroLift }}>
+            <motion.p className={styles.eyebrow} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.1 }}>
+              <i /> Sage Ideas · AI-native studio · since 2020
+            </motion.p>
+            <h1 className={styles.headline}>
+              <Line delay={0.18}>I build the product,</Line>
+              <Line delay={0.3}>the brand, and the</Line>
+              <Line delay={0.42}>
+                <em>AI</em> that runs it.
+              </Line>
+            </h1>
+            <motion.p className={styles.sub} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.7 }}>
+              A solo, AI-native studio. I run my own products every day and put the same system —
+              AI, apps, SaaS, brand, growth — to work for yours.
+            </motion.p>
+          </motion.div>
+
+          {/* End caption over the revealed full-bleed product */}
+          <motion.div className={styles.apertureCaption} style={{ opacity: capFade, y: capLift }}>
+            <div className={styles.wrapInner}>
+              <p className={styles.apertureKick}>Operator-led · AI-native · since 2020</p>
+              <h2 className={styles.apertureCapTitle}>Ink and circuitry — built to ship.</h2>
+              <Magnetic href="/book?source=proto_reveal" className={styles.pill}>
+                Book a call →
+              </Magnetic>
+            </div>
+          </motion.div>
+
+          <motion.div className={styles.scrollCue} style={{ opacity: cueFade }} aria-hidden>
+            Scroll to reveal
+            <span />
           </motion.div>
         </div>
       </section>

@@ -953,11 +953,14 @@
   gap: 0.8rem;
   margin-top: 0.4rem;
 }
-.heroTrust {
+.heroLower .heroTrust {
   margin-top: 0.95rem;
+  max-width: none;
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 400;
   letter-spacing: 0.04em;
+  line-height: 1.5;
   color: var(--muted-dim);
 }
 .heroSecondary {
@@ -2224,11 +2227,11 @@
     radial-gradient(90% 70% at 18% 0%, rgba(232, 183, 90, 0.07), transparent 58%),
     radial-gradient(80% 70% at 90% 110%, rgba(255, 84, 54, 0.05), transparent 62%);
 }
-/* Editorial voice (Coconat) for the one emotional resolve beat */
+/* Closing beat matches the hero headline — same display face, same weight */
 .final h2 {
-  font-family: var(--font-editorial), Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 .serviceList {
   margin: 0;

@@ -1,0 +1,146 @@
+---
+title: 'The AI Implementation Audit Before You Build'
+slug: the-ai-implementation-audit-before-you-build
+date: '2026-06-18'
+category: AI Engineering
+readTime: 10 min read
+excerpt: 'Before you build an AI agent, copilot, RAG system, or workflow automation, audit the workflow, data, risk, cost, and measurement loop.'
+description: 'A practical AI implementation audit framework for deciding what to build, what to skip, and how to avoid expensive AI theater.'
+tags:
+  - AI Implementation
+  - AI Audit
+  - Automation
+  - Product Strategy
+cluster: ai-engineering
+keywords:
+  - AI implementation audit
+  - AI implementation consulting
+  - AI automation audit
+  - AI readiness assessment
+canonical: 'https://www.sageideas.dev/blog/the-ai-implementation-audit-before-you-build'
+id: 60
+series: Living Systems
+seriesIndex: 2
+---
+# The AI Implementation Audit Before You Build
+
+Most AI projects should not start with a model.
+
+They should start with an audit.
+
+Not a generic readiness survey. A real implementation audit that answers five questions:
+
+1. What workflow is actually broken?
+2. What data can the system trust?
+3. What actions should AI never take alone?
+4. What does quality mean?
+5. What would make the project worth the cost?
+
+:::system-diagram title="AI implementation audit loop" label="workflow -> risk -> build" nodes="Workflow,Data,Risk,Plan"
+The audit turns a messy workflow into a ranked build plan. The point is not to prove AI can be used. The point is to decide where it should be used first.
+:::
+
+## Start with the workflow
+
+The workflow tells you whether AI belongs there.
+
+Look for repeated decisions, repeated writing, repeated triage, repeated lookup, repeated handoff, and repeated follow-up.
+
+Then ask what happens when the system gets it wrong.
+
+If a wrong answer is annoying, you can automate more aggressively.
+
+If a wrong answer touches money, customers, legal exposure, health, safety, or trust, the system needs review, evals, and escalation.
+
+## Map the data
+
+AI systems are limited by source quality.
+
+The audit should identify:
+
+- where the source data lives
+- whether it is current
+- who owns it
+- who is allowed to see it
+- what the system should cite
+- what the system should refuse to answer
+
+If nobody owns the source, the AI will inherit the mess.
+
+:::proof-note title="Why RAG systems fail" label="field note"
+Most weak RAG systems are not weak because the vector database is bad. They are weak because the corpus is messy, the chunking strategy ignores the source material, and nobody measures whether the answer is faithful.
+:::
+
+## Define the no-fly zone
+
+Every AI system needs a no-fly zone.
+
+Examples:
+
+- refunds over a threshold
+- legal advice
+- medical advice
+- firing decisions
+- customer-facing promises
+- price exceptions
+- production writes
+- destructive file operations
+
+The audit should decide what requires human review before the first prototype exists.
+
+:::checklist title="Audit questions before writing code" label="implementation"
+- What exact workflow is being replaced or assisted?
+- What source data is allowed?
+- What action requires approval?
+- What quality metric can be tested?
+- What cost ceiling is acceptable?
+- What dashboard will prove the system is working?
+:::
+
+## Decide what to build first
+
+The first AI project should usually be narrow.
+
+Good first builds:
+
+- support triage
+- quote drafting
+- document extraction
+- internal knowledge assistant
+- lead qualification
+- customer follow-up
+- report generation
+
+Weak first builds:
+
+- “AI for everything”
+- autonomous sales agent with no guardrails
+- executive dashboard with no source discipline
+- chatbot on top of unmaintained docs
+
+:::scorecard title="Build-first vs audit-first" label="decision"
+| Decision | Build-first risk | Audit-first output |
+| --- | --- | --- |
+| Workflow | vague automation | named process |
+| Data | messy sources | source register |
+| Risk | hidden liability | review boundaries |
+| Quality | vibes | eval criteria |
+| Cost | surprise invoice | spend model |
+:::
+
+## The output should be a build plan
+
+A good audit ends with a ranked plan:
+
+- build now
+- build later
+- buy instead
+- skip entirely
+
+That last category matters.
+
+The strongest AI strategy often includes the work you deliberately do not automate.
+
+:::offer-cta title="Start with the audit" label="studio route" href="/services/ai-implementation-consulting" cta="View AI implementation consulting"
+If the workflow is messy and the AI path is unclear, start with the implementation consulting route before buying a larger build.
+:::

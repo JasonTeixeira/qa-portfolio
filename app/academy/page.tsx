@@ -6,6 +6,7 @@ import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/l
 import { RouteConversionCta } from '@/components/living/RouteConversionCta'
 import { SystemFlowOverlay } from '@/components/living/SystemFlowLayer'
 import { academyPrinciples, academyTracks } from '@/data/academy/tracks'
+import { discordInviteUrl } from '@/lib/discord/config'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -63,6 +64,8 @@ const academyPathMeta: Record<
 }
 
 export default function AcademyPage() {
+  const discordUrl = discordInviteUrl() ?? '#join'
+
   return (
     <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
       <section className="relative isolate overflow-hidden border-b border-[var(--sage-border)] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
@@ -131,6 +134,58 @@ export default function AcademyPage() {
       </section>
 
       <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,1fr)] lg:items-center">
+          <div>
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+              Discord build room
+            </p>
+            <h2 className="text-[clamp(2.4rem,_1.2rem_+_4.4vw,_5.5rem)] font-extrabold" style={displayStyle}>
+              Apply once. Build every day.
+            </h2>
+            <p className="mt-6 max-w-[58ch] text-lg leading-[1.55] text-[var(--sage-ink-muted)]">
+              The Discord is the live room for daily prompts, quizzes, build challenges, project
+              critique, content capture, and member wins. New members apply first so the room stays
+              focused instead of becoming another noisy feed.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <TrackedLink
+                href={discordUrl}
+                event="cta_click"
+                eventProps={{ location: 'academy_discord_build_room' }}
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--sage-accent)] px-6 text-sm font-semibold text-white transition hover:bg-[#5670ff]"
+              >
+                Apply to the Discord →
+              </TrackedLink>
+              <Link
+                href="#tracks"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[var(--sage-border)] px-6 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)]"
+              >
+                Compare the paths ↘
+              </Link>
+            </div>
+          </div>
+          <div className="grid gap-px bg-[var(--sage-border)]">
+            {[
+              ['1', 'Apply', 'Answer the entry questions and accept the rules before member access opens.'],
+              ['2', 'Route', 'Choose a builder path and level so SageBot can point you to the right next step.'],
+              ['3', 'Ship', 'Complete daily prompts, quizzes, and challenges to build proof and earn points.'],
+              ['4', 'Capture', 'Good questions and reviews become resources, posts, lessons, and future prompts.'],
+            ].map(([step, title, detail]) => (
+              <div className="grid gap-4 bg-[var(--sage-surface-1)] p-5 sm:grid-cols-[56px_1fr]" key={step}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--sage-border)] font-mono text-sm text-[var(--sage-accent-readable)]">
+                  {step}
+                </div>
+                <div>
+                  <h3 className="text-xl font-extrabold" style={displayStyle}>{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--sage-ink-muted)]">{detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
@@ -155,7 +210,7 @@ export default function AcademyPage() {
         </div>
       </section>
 
-      <section className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
+      <section id="tracks" className="border-b border-[var(--sage-border)] px-5 py-20 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">

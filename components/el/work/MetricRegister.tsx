@@ -77,7 +77,7 @@ export function MetricRegister({ metrics }: MetricRegisterProps) {
                 )}
               </div>
 
-              <dd className="text-right text-[clamp(1.1rem,1rem+0.5vw,1.5rem)] leading-none tabular-nums text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <dd className="text-right text-[clamp(1.1rem,_1rem_+_0.5vw,_1.5rem)] leading-none tabular-nums text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {row.value}
               </dd>
             </div>

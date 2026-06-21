@@ -2,10 +2,10 @@
   "ok": true,
   "question": "What is the right Discord onboarding path for an education community?",
   "model": "deepseek-v4-flash",
-  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community (specifically Sage Ideas Academy) is a structured, gated flow that starts in `start-here` and uses bot commands [3][4].\n\nThe complete path is:\n\n1.  Read the quality bar and rules in `start-here` [3].\n2.  Run `/apply` and answer the application questions [3].\n3.  Confirm rules acceptance in the command [3].\n4.  Wait for manual approval [3].\n5.  After approval, run `/onboard` [3].\n6.  Post an introduction i",
+  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community (specifically Sage Ideas Academy) is a structured, gated flow that starts in the `start-here` channel [2][3]. The steps are:\n\n1.  Read the quality bar and rules in `start-here` [3].\n2.  Run `/apply` and answer the application questions [3].\n3.  Confirm rules acceptance in the command [3].\n4.  Wait for manual approval [3].\n5.  After approval, run `/onboard` to choose a path and level [3][4].\n6.  Post an in",
   "citationCount": 5,
-  "retrievalLogId": "65bcd38f-2e86-4c10-8e50-a5c317a26e73",
-  "answerId": "8f3ba6b9-545c-416a-96f8-67234d2bdd84",
+  "retrievalLogId": "03801e23-4226-4b2f-9dc6-f3c00eaee19e",
+  "answerId": "87796550-2cd2-4015-b3db-d80dee838c70",
   "citations": [
     {
       "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
@@ -38,6 +38,6 @@
       "source_type": "resource"
     }
   ],
-  "startedAt": "2026-06-20T16:17:16.459Z",
-  "finishedAt": "2026-06-20T16:17:21.182Z"
+  "startedAt": "2026-06-21T13:32:53.515Z",
+  "finishedAt": "2026-06-21T13:32:58.214Z"
 }

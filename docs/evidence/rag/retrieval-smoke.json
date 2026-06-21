@@ -1,54 +1,54 @@
 {
   "ok": true,
-  "query": "application rules quality bar",
+  "query": "How should we onboard Discord members and keep the community high quality?",
   "resultCount": 5,
   "topResults": [
     {
-      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
+      "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
       "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
       "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "vector_score": 0.804387,
-      "keyword_score": 0.017128,
-      "hybrid_score": 0.014893
-    },
-    {
-      "chunk_id": "b0e17739-73fa-4c94-920c-878a737f741b",
-      "title": "Error Handling That Respects Your Users",
-      "source_type": "blog_post",
-      "source_url": "/blog/error-handling-that-respects-your-users",
-      "vector_score": 0.834602,
+      "vector_score": 0.862236,
       "keyword_score": 0,
       "hybrid_score": 0.010656
     },
     {
-      "chunk_id": "ae539b9f-fe79-4f50-9729-4b0b8c332c25",
-      "title": "rag-system-build-plan.txt",
+      "chunk_id": "64b40667-5fde-47c6-9009-5834939d0415",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
-      "source_url": "/docs/specs/rag-system-build-plan.txt",
-      "vector_score": 0.820755,
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "vector_score": 0.854631,
       "keyword_score": 0,
       "hybrid_score": 0.010484
     },
     {
-      "chunk_id": "20ac5e8a-18ed-4b75-bbce-e24d3baefb33",
-      "title": "SEO as an Engineering System, Not a Blog Calendar",
-      "source_type": "blog_post",
-      "source_url": "/blog/seo-as-an-engineering-system-not-a-blog-calendar",
-      "vector_score": 0.814254,
+      "chunk_id": "e3350d3a-715f-494c-901d-a1abe99a6d70",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_type": "resource",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "vector_score": 0.853974,
       "keyword_score": 0,
       "hybrid_score": 0.010317
     },
     {
-      "chunk_id": "cce2d4e6-c614-4731-bde3-a28e7cc5daaa",
-      "title": "How to Evaluate AI Features Before You Ship Them",
-      "source_type": "blog_post",
-      "source_url": "/blog/how-to-evaluate-ai-features-before-you-ship-them",
-      "vector_score": 0.813394,
+      "chunk_id": "782fbcf7-55aa-49a8-aae1-0574f6760350",
+      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_type": "resource",
+      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "vector_score": 0.843065,
       "keyword_score": 0,
       "hybrid_score": 0.010156
+    },
+    {
+      "chunk_id": "471156d9-992b-4512-8333-44188ffd3ec4",
+      "title": "rag-system-build-plan.txt",
+      "source_type": "resource",
+      "source_url": "/docs/specs/rag-system-build-plan.txt",
+      "vector_score": 0.832324,
+      "keyword_score": 0,
+      "hybrid_score": 0.01
     }
   ],
-  "startedAt": "2026-06-20T16:17:27.357Z",
-  "finishedAt": "2026-06-20T16:17:28.003Z"
+  "startedAt": "2026-06-21T13:32:53.514Z",
+  "finishedAt": "2026-06-21T13:32:54.460Z"
 }

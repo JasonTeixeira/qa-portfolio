@@ -6,6 +6,7 @@ import { FoundingMeter } from './founding-meter'
 import { CourseDemo } from './course-demo'
 import { BuildGallery } from './build-gallery'
 import { LiveBuild } from './live-build'
+import { DiscordButton } from './discord-button'
 import { RevealOnScroll } from './reveal'
 import { SoundToggle } from './sound-toggle'
 import { Splash, SageMark } from './splash'
@@ -95,6 +96,10 @@ export default function WaitlistPage() {
             </p>
             <WaitlistForm id="waitlist-hero" />
             <FoundingMeter />
+            <div className={styles.heroDiscord}>
+              <span className={styles.heroDiscordOr}>or</span>
+              <DiscordButton className={styles.discordHero} label="Join the founding Discord" arrow />
+            </div>
           </div>
           <div className={styles.heroLive}>
             <LiveBuild />

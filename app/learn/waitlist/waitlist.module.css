@@ -1651,6 +1651,43 @@
   }
 }
 
+/* Compact Discord button in the hero (secondary to the email form) */
+.heroDiscord {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+.heroDiscordOr {
+  font-family: var(--ac-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
+}
+.discordHero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.78rem 1.45rem;
+  border-radius: 999px;
+  background: #5865f2;
+  color: #fff;
+  font-family: var(--ac-sans);
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: 0 14px 36px -14px rgba(88, 101, 242, 0.7);
+  transition: transform 0.35s var(--ac-ease), background 0.3s ease;
+}
+.discordHero:hover {
+  transform: translateY(-2px);
+  background: #6b76f5;
+}
+.discordHero svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* ── Hero live-build terminal (the motion hook) ── */
 .live {
   border: 1px solid var(--ac-line-strong);

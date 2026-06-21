@@ -4,6 +4,11 @@ import { createDiscordContentDraft } from './content-approval';
 import { getDailyChallengeFromStore, getDailyContentPlan, getDailyQuizFromStore } from './engagement';
 import { recordDiscordEvent, recordDiscordScheduledRun } from './analytics';
 import { postToChannelByBaseName } from './sage-rest';
+import {
+  DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION,
+  approvedNewsToActionSources,
+  buildNewsToActionSourcePolicyLine,
+} from './news-to-action';
 
 export const DISCORD_DAILY_PLANNER_PROMPT_VERSION = 'discord-daily-planner-v1';
 export const DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION = 'discord-daily-signal-scheduler-v1';
@@ -71,6 +76,7 @@ export function buildDailyPlannerPrompt(input: {
   challengeTitle: string;
   challengePrompt: string;
   challengeDeliverable: string;
+  newsToAction?: string | null;
 }): string {
   return [
     'Create a high-signal Discord daily education post for Sage Ideas Academy.',
@@ -82,6 +88,7 @@ export function buildDailyPlannerPrompt(input: {
     '**Theme:** ...',
     '**Build prompt:** ...',
     '**AI/tool pattern:** ...',
+    '**News-to-action:** ...',
     '**Question:** ...',
     '**Quiz:** ...',
     'Options: ... / ... / ... / ...',
@@ -91,6 +98,7 @@ export function buildDailyPlannerPrompt(input: {
     `Date: ${input.dateKey}`,
     `Theme seed: ${input.theme ?? 'Use the strongest useful builder theme.'}`,
     `Build prompt seed: ${input.prompt ?? 'Create a useful daily build prompt.'}`,
+    `News-to-action seed: ${input.newsToAction ?? buildNewsToActionSourcePolicyLine()}`,
     `Quiz seed: ${input.quizPrompt}`,
     `Quiz options: ${input.quizOptions.join(' / ')}`,
     `Challenge seed: ${input.challengeTitle} - ${input.challengePrompt}`,
@@ -140,6 +148,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     challengeTitle: challenge.title,
     challengePrompt: challenge.prompt,
     challengeDeliverable: challenge.deliverable,
+    newsToAction: buildNewsToActionSourcePolicyLine(),
   });
   const generation = await deepSeekChat({
     messages: [
@@ -169,6 +178,9 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
       source: 'discord_daily_planner',
       usage: generation.usage,
       scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
+      news_registry_version: DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION,
+      news_source_policy: 'approved_sources_only',
+      approved_news_sources: approvedNewsToActionSources.map((source) => source.key),
       ...(input.metadata ?? {}),
     },
   });

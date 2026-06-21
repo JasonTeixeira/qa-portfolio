@@ -98,10 +98,13 @@ Pass 2 verified:
 4. Cron defaults to approval-gated draft creation.
 5. Cron publish mode requires an approved draft before posting to Discord.
 6. Approved daily signal smoke can publish to daily-signal, prove idempotency, and clean up the test message.
+7. News-to-action source registry exists for approved AI/dev/product update sources.
+8. News-to-action scoring blocks unapproved URLs, stale items, and generic actions.
+9. Daily planner prompt includes a news-to-action section and approved-source policy.
 
 Pass 2 still needs proof:
 1. Admin approval path is tested end to end from generated draft to published message.
-2. Daily news-to-action source registry is added.
+2. Live news ingestion/fetching is not added yet; current registry validates candidate items before they become daily content.
 
 TARGET MEMBER EXPERIENCE
 New member:

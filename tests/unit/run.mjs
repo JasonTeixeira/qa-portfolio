@@ -440,6 +440,7 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const script = await readFile(new URL('../../scripts/discord/plan-daily-content.ts', import.meta.url), 'utf8');
   const smokeScheduler = await readFile(new URL('../../scripts/discord/smoke-daily-signal-scheduler.ts', import.meta.url), 'utf8');
+  const smokePublish = await readFile(new URL('../../scripts/discord/smoke-daily-signal-publish.ts', import.meta.url), 'utf8');
   const cronRoute = await readFile(new URL('../../app/api/cron/discord/daily/route.ts', import.meta.url), 'utf8');
 
   const prompt = buildDailyPlannerPrompt({
@@ -465,10 +466,13 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   assert.equal(typeof publishApprovedDailySignalDraft, 'function');
   assert.match(script, /createDailyPlannerDraft/);
   assert.match(smokeScheduler, /no_approved_daily_signal_draft/);
+  assert.match(smokePublish, /already_published/);
+  assert.match(smokePublish, /method: 'DELETE'/);
   assert.match(cronRoute, /mode.*publish/s);
   assert.equal(pkg.scripts['discord:plan-daily'], 'tsx --env-file=.env.local scripts/discord/plan-daily-content.ts');
   assert.match(pkg.scripts['discord:smoke-daily-planner'], /--smoke --date=2099-01-01/);
   assert.equal(pkg.scripts['discord:smoke-daily-scheduler'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-scheduler.ts');
+  assert.equal(pkg.scripts['discord:smoke-daily-publish'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-publish.ts');
 });
 
 test('discord learning generator: validates quiz and challenge drafts', async () => {

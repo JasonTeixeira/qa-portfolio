@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { postDailySignal } from '@/lib/discord/sage-commands';
+import { createDailyPlannerDraft, publishApprovedDailySignalDraft } from '@/lib/discord/daily-planner';
 import { recordDiscordScheduledRun } from '@/lib/discord/analytics';
 
 export const runtime = 'nodejs';
@@ -20,8 +20,20 @@ export async function GET(req: Request) {
   }
 
   try {
-    const messageId = await postDailySignal('vercel-cron');
-    return NextResponse.json({ ok: true, messageId });
+    const url = new URL(req.url);
+    const mode = url.searchParams.get('mode') ?? 'draft';
+    if (mode === 'publish') {
+      const result = await publishApprovedDailySignalDraft({
+        source: 'vercel-cron',
+        createIfMissing: true,
+      });
+      return NextResponse.json(result, { status: result.ok ? 200 : 202 });
+    }
+
+    const result = await createDailyPlannerDraft({
+      metadata: { source: 'vercel-cron' },
+    });
+    return NextResponse.json(result);
   } catch (err) {
     await recordDiscordScheduledRun({
       runKey: `daily-signal-${new Date().toISOString().slice(0, 10)}`,

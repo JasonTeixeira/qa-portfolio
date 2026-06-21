@@ -88,6 +88,21 @@ Pass 1 still needs live member proof:
 3. Confirm Academy Member remains.
 4. Confirm Premium Member remains independent if present.
 
+Pass 2 status:
+In progress.
+
+Pass 2 verified:
+1. Daily signal taxonomy and weekly themes are represented in the daily planner.
+2. Daily scheduler can refuse to post without an approved draft.
+3. Daily scheduler records skipped runs instead of silently failing.
+4. Cron defaults to approval-gated draft creation.
+5. Cron publish mode requires an approved draft before posting to Discord.
+
+Pass 2 still needs proof:
+1. Approved daily signal draft publishes to daily-signal.
+2. Published drafts are idempotent and do not post twice.
+3. Admin approval path is tested end to end from draft to published message.
+
 TARGET MEMBER EXPERIENCE
 New member:
 1. Joins server.

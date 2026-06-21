@@ -51,6 +51,7 @@
     "discord:smoke-ask-sage": "tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts",
     "discord:plan-daily": "tsx --env-file=.env.local scripts/discord/plan-daily-content.ts",
     "discord:smoke-daily-planner": "tsx --env-file=.env.local scripts/discord/plan-daily-content.ts --smoke --date=2099-01-01",
+    "discord:smoke-daily-scheduler": "tsx --env-file=.env.local scripts/discord/smoke-daily-signal-scheduler.ts",
     "discord:generate-learning": "tsx --env-file=.env.local scripts/discord/generate-learning-content.ts",
     "discord:smoke-learning-generator": "tsx --env-file=.env.local scripts/discord/generate-learning-content.ts --smoke --date=2099-01-02 --theme=\"approval-gated AI automations\"",
     "discord:weekly-recap-draft": "tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts",

@@ -428,9 +428,19 @@ test('discord ask-sage: formats RAG answers and wires the slash command', async 
 });
 
 test('discord daily planner: builds approval-gated DeepSeek draft jobs', async () => {
-  const { DISCORD_DAILY_PLANNER_PROMPT_VERSION, buildDailyPlannerPrompt, scoreDailyPlannerDraft } = await import('../../lib/discord/daily-planner.ts');
+  const {
+    DISCORD_DAILY_PLANNER_PROMPT_VERSION,
+    DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
+    buildDailyPlannerPrompt,
+    dailySignalPostTypes,
+    getDailySignalWeeklyTheme,
+    publishApprovedDailySignalDraft,
+    scoreDailyPlannerDraft,
+  } = await import('../../lib/discord/daily-planner.ts');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const script = await readFile(new URL('../../scripts/discord/plan-daily-content.ts', import.meta.url), 'utf8');
+  const smokeScheduler = await readFile(new URL('../../scripts/discord/smoke-daily-signal-scheduler.ts', import.meta.url), 'utf8');
+  const cronRoute = await readFile(new URL('../../app/api/cron/discord/daily/route.ts', import.meta.url), 'utf8');
 
   const prompt = buildDailyPlannerPrompt({
     dateKey: '2099-01-01',
@@ -443,14 +453,22 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
     challengeDeliverable: 'Workflow map',
   });
   assert.equal(DISCORD_DAILY_PLANNER_PROMPT_VERSION, 'discord-daily-planner-v1');
+  assert.equal(DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION, 'discord-daily-signal-scheduler-v1');
   assert.match(prompt, /Format exactly:/);
+  assert.match(prompt, /concrete action/);
   assert.match(prompt, /Approval gates/);
   assert.match(prompt, /Automation map/);
   assert.equal(scoreDailyPlannerDraft('thin'), 35);
   assert.ok(scoreDailyPlannerDraft('# Daily Signal\n**Theme:** Test\n**Build prompt:** Build\n**Quiz:** Q\n**Challenge:** C\nDeliverable: D\n'.repeat(8)) >= 80);
+  assert.equal(getDailySignalWeeklyTheme(new Date('2099-01-05T12:00:00.000Z')).label, 'Foundations');
+  assert.ok(dailySignalPostTypes.includes('news_to_action'));
+  assert.equal(typeof publishApprovedDailySignalDraft, 'function');
   assert.match(script, /createDailyPlannerDraft/);
+  assert.match(smokeScheduler, /no_approved_daily_signal_draft/);
+  assert.match(cronRoute, /mode.*publish/s);
   assert.equal(pkg.scripts['discord:plan-daily'], 'tsx --env-file=.env.local scripts/discord/plan-daily-content.ts');
   assert.match(pkg.scripts['discord:smoke-daily-planner'], /--smoke --date=2099-01-01/);
+  assert.equal(pkg.scripts['discord:smoke-daily-scheduler'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-scheduler.ts');
 });
 
 test('discord learning generator: validates quiz and challenge drafts', async () => {

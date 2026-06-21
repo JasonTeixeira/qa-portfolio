@@ -2,8 +2,31 @@ import { deepSeekChat } from '@/lib/rag/deepseek';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { createDiscordContentDraft } from './content-approval';
 import { getDailyChallengeFromStore, getDailyContentPlan, getDailyQuizFromStore } from './engagement';
+import { recordDiscordEvent, recordDiscordScheduledRun } from './analytics';
+import { postToChannelByBaseName } from './sage-rest';
 
 export const DISCORD_DAILY_PLANNER_PROMPT_VERSION = 'discord-daily-planner-v1';
+export const DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION = 'discord-daily-signal-scheduler-v1';
+
+export const dailySignalWeeklyThemes = [
+  { day: 1, label: 'Foundations', focus: 'core concepts, clean specs, and first principles' },
+  { day: 2, label: 'Implementation', focus: 'shipping small working artifacts' },
+  { day: 3, label: 'Critique', focus: 'review, feedback, and improving quality' },
+  { day: 4, label: 'Automation and AI', focus: 'AI workflows, agents, structured output, and approval gates' },
+  { day: 5, label: 'Ship and win', focus: 'visible progress, launches, and proof' },
+  { day: 6, label: 'Resource lab', focus: 'templates, reusable assets, and useful references' },
+  { day: 0, label: 'Recap and planning', focus: 'weekly synthesis and next-week planning' },
+] as const;
+
+export const dailySignalPostTypes = [
+  'build_prompt',
+  'ai_tool_update',
+  'news_to_action',
+  'daily_question',
+  'daily_quiz',
+  'daily_challenge',
+  'resource_drop',
+] as const;
 
 export type DiscordDailyPlannerInput = {
   date?: Date;
@@ -21,6 +44,24 @@ export type DiscordDailyPlannerResult = {
   bodyPreview: string;
 };
 
+export type DiscordDailySignalScheduleResult = {
+  ok: boolean;
+  posted: boolean;
+  skipped: boolean;
+  reason?: string;
+  dateKey: string;
+  draftId: string | null;
+  messageId: string | null;
+};
+
+export function dailySignalRunKey(dateKey: string): string {
+  return `daily-signal-${dateKey}`;
+}
+
+export function getDailySignalWeeklyTheme(now = new Date()): typeof dailySignalWeeklyThemes[number] {
+  return dailySignalWeeklyThemes.find((item) => item.day === now.getUTCDay()) ?? dailySignalWeeklyThemes[0];
+}
+
 export function buildDailyPlannerPrompt(input: {
   dateKey: string;
   theme?: string | null;
@@ -35,6 +76,7 @@ export function buildDailyPlannerPrompt(input: {
     'Create a high-signal Discord daily education post for Sage Ideas Academy.',
     'Audience: builders learning AI apps, websites, automation, cloud, SEO/content, and growth.',
     'Style: practical, specific, no hype, no generic motivation, no engagement bait.',
+    'Every section must create a concrete action a member can take today.',
     'Format exactly:',
     '# Daily Signal',
     '**Theme:** ...',
@@ -91,7 +133,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
   ]);
   const prompt = buildDailyPlannerPrompt({
     dateKey,
-    theme: plan?.theme ?? null,
+    theme: plan?.theme ?? getDailySignalWeeklyTheme(date).label,
     prompt: plan?.prompt ?? null,
     quizPrompt: quiz.prompt,
     quizOptions: quiz.options,
@@ -122,8 +164,11 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     status: 'pending_approval',
     metadata: {
       planner_date: dateKey,
+      weekly_theme: getDailySignalWeeklyTheme(date),
+      post_types: dailySignalPostTypes,
       source: 'discord_daily_planner',
       usage: generation.usage,
+      scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
       ...(input.metadata ?? {}),
     },
   });
@@ -139,6 +184,109 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
   };
 }
 
+export async function publishApprovedDailySignalDraft(input: {
+  date?: Date;
+  source: string;
+  createIfMissing?: boolean;
+}): Promise<DiscordDailySignalScheduleResult> {
+  const date = input.date ?? new Date();
+  const dateKey = date.toISOString().slice(0, 10);
+  const alreadyPosted = await findPublishedDailySignalDraft(dateKey);
+  if (alreadyPosted) {
+    await recordDiscordScheduledRun({
+      runKey: dailySignalRunKey(dateKey),
+      kind: 'daily_signal',
+      status: 'skipped',
+      messageId: alreadyPosted.published_message_id ?? null,
+      metadata: {
+        source: input.source,
+        reason: 'already_published',
+        draft_id: alreadyPosted.id,
+        scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
+      },
+    });
+    return {
+      ok: true,
+      posted: false,
+      skipped: true,
+      reason: 'already_published',
+      dateKey,
+      draftId: alreadyPosted.id,
+      messageId: alreadyPosted.published_message_id ?? null,
+    };
+  }
+
+  let approved = await findApprovedDailySignalDraft(dateKey);
+  if (!approved && input.createIfMissing) {
+    await createDailyPlannerDraft({ date, force: false, metadata: { requested_by: input.source } });
+    approved = await findApprovedDailySignalDraft(dateKey);
+  }
+
+  if (!approved) {
+    await recordDiscordScheduledRun({
+      runKey: dailySignalRunKey(dateKey),
+      kind: 'daily_signal',
+      status: 'skipped',
+      metadata: {
+        source: input.source,
+        reason: 'no_approved_daily_signal_draft',
+        scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
+      },
+    });
+    return {
+      ok: false,
+      posted: false,
+      skipped: true,
+      reason: 'no_approved_daily_signal_draft',
+      dateKey,
+      draftId: null,
+      messageId: null,
+    };
+  }
+
+  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body);
+  await supabaseAdmin()
+    .from('discord_content_drafts')
+    .update({
+      status: messageId ? 'published' : 'approved',
+      published_message_id: messageId,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', approved.id);
+
+  await supabaseAdmin()
+    .from('discord_content_calendar')
+    .update({ status: messageId ? 'posted' : 'planned', updated_at: new Date().toISOString() })
+    .eq('calendar_date', dateKey);
+
+  await recordDiscordScheduledRun({
+    runKey: dailySignalRunKey(dateKey),
+    kind: 'daily_signal',
+    status: messageId ? 'posted' : 'failed',
+    messageId,
+    metadata: {
+      source: input.source,
+      draft_id: approved.id,
+      scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
+    },
+  });
+  await recordDiscordEvent({
+    eventType: messageId ? 'daily_signal_posted' : 'daily_signal_post_failed',
+    commandName: input.source,
+    channelBaseName: approved.target_channel_base_name,
+    metadata: { message_id: messageId, draft_id: approved.id },
+  });
+
+  return {
+    ok: Boolean(messageId),
+    posted: Boolean(messageId),
+    skipped: false,
+    dateKey,
+    draftId: approved.id,
+    messageId,
+  };
+}
+
 async function findExistingDailyPlannerDraft(dateKey: string): Promise<{ id: string; title: string | null; body: string; model: string | null } | null> {
   const { data, error } = await supabaseAdmin()
     .from('discord_content_drafts')
@@ -149,5 +297,39 @@ async function findExistingDailyPlannerDraft(dateKey: string): Promise<{ id: str
     .limit(50);
   if (error) throw new Error(error.message);
   return ((data ?? []) as Array<{ id: string; title: string | null; body: string; model: string | null; metadata?: { planner_date?: string } }>)
+    .find((row) => row.metadata?.planner_date === dateKey) ?? null;
+}
+
+async function findApprovedDailySignalDraft(dateKey: string): Promise<{
+  id: string;
+  body: string;
+  target_channel_base_name: string;
+} | null> {
+  const { data, error } = await supabaseAdmin()
+    .from('discord_content_drafts')
+    .select('id, body, target_channel_base_name, metadata, quality_score')
+    .eq('draft_type', 'daily_signal')
+    .eq('status', 'approved')
+    .order('quality_score', { ascending: false })
+    .order('created_at', { ascending: false })
+    .limit(50);
+  if (error) throw new Error(error.message);
+  return ((data ?? []) as Array<{ id: string; body: string; target_channel_base_name: string; metadata?: { planner_date?: string } }>)
+    .find((row) => row.metadata?.planner_date === dateKey) ?? null;
+}
+
+async function findPublishedDailySignalDraft(dateKey: string): Promise<{
+  id: string;
+  published_message_id: string | null;
+} | null> {
+  const { data, error } = await supabaseAdmin()
+    .from('discord_content_drafts')
+    .select('id, published_message_id, metadata')
+    .eq('draft_type', 'daily_signal')
+    .eq('status', 'published')
+    .order('updated_at', { ascending: false })
+    .limit(50);
+  if (error) throw new Error(error.message);
+  return ((data ?? []) as Array<{ id: string; published_message_id: string | null; metadata?: { planner_date?: string } }>)
     .find((row) => row.metadata?.planner_date === dateKey) ?? null;
 }

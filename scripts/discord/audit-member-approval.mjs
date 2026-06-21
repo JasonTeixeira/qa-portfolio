@@ -191,18 +191,6 @@ try {
     throw err;
   }
 
-  if (enforce && !hierarchy.canManageControlledRoles) {
-    console.log(JSON.stringify({
-      ok: false,
-      enforce,
-      blocked: 'discord_role_hierarchy_blocks_enforcement',
-      roleHierarchy: hierarchy,
-      reason: 'The bot can see the server, but its role is not above the roles it must remove/grant.',
-      fix: hierarchy.fix,
-    }, null, 2));
-    process.exit(2);
-  }
-
   const skipped = [];
   const unapprovedWithAccess = [];
   const approvedMissingAccess = [];
@@ -261,6 +249,9 @@ try {
     memberCount: members.length,
     memberCountEstimate: guild.approximate_member_count ?? null,
     roleHierarchy: hierarchy,
+    roleHierarchyWarning: !hierarchy.canManageControlledRoles
+      ? 'Discord returned equal role positions for the bot and managed roles. Enforcement will still attempt the API operation and report exact failures.'
+      : null,
     approvedRecords: approvedIds.size,
     pendingApplications: pendingApplications.map((row) => ({
       discordUserId: String(row.discord_user_id),

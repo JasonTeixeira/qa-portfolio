@@ -3,6 +3,7 @@ import { submitMemberApplication, reviewMemberApplication } from '@/lib/discord/
 import { approveDiscordMember } from '@/lib/discord/onboarding';
 import { upsertDiscordMember } from '@/lib/discord/analytics';
 import { applyDiscordRoleRouting } from '@/lib/discord/sage-rest';
+import { planDiscordRoleRouting } from '@/lib/discord/role-routing';
 
 const API = 'https://discord.com/api/v10';
 const controlledRoles = [
@@ -35,6 +36,7 @@ const guildId = env('DISCORD_GUILD_ID');
 const supabase = createClient(env('NEXT_PUBLIC_SUPABASE_URL'), env('SUPABASE_SERVICE_ROLE_KEY'), {
   auth: { persistSession: false },
 });
+const headless = process.argv.includes('--headless') || process.env.DISCORD_PROOF_MODE === 'headless';
 
 async function discordApi<T>(path: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(`${API}${path}`, {
@@ -112,11 +114,123 @@ async function verifyDatabase(discordUserId: string) {
   return { application, member };
 }
 
+async function runHeadlessProof(): Promise<void> {
+  const syntheticUserId = `proof-${Date.now()}`;
+  const username = 'headless-onboarding-proof';
+  await deleteExistingRows(syntheticUserId);
+
+  const application = await submitMemberApplication({
+    discordUserId: syntheticUserId,
+    username,
+    goal: 'Build a useful AI learning assistant for a real workflow.',
+    experience: 'I can follow tutorials and have shipped small projects, but need structure and review.',
+    intendedBuild: 'A one-screen AI app that turns messy notes into structured tasks.',
+    pathKey: 'full_stack',
+    levelKey: 'shipping',
+    timezone: 'ET',
+    weeklyTimeBudget: '5 hours',
+    primaryGoal: 'Ship one practical app and learn the production workflow.',
+    preferredSupport: 'review',
+    portfolioUrl: 'https://example.com/test-project',
+    referralSource: 'headless onboarding proof',
+    rulesAccepted: true,
+  });
+  if (!application.ok) throw new Error(`headless application submit failed: ${application.reason ?? 'unknown'}`);
+
+  const review = await reviewMemberApplication({
+    discordUserId: syntheticUserId,
+    status: 'approved',
+    reviewerDiscordUserId: 'headless-reviewer',
+    reviewerUsername: 'headless-proof',
+    note: 'Automated headless onboarding proof.',
+  });
+  if (!review.ok) throw new Error(`headless application review failed: ${review.reason ?? 'unknown'}`);
+
+  const approvalPlan = planDiscordRoleRouting({
+    currentPathKey: null,
+    currentLevelKey: null,
+    nextPathKey: review.application?.pathKey,
+    nextLevelKey: review.application?.levelKey,
+  });
+  const missingApprovalRoles = hasRoles(approvalPlan.rolesToAdd, ['Academy Member', 'Builder']);
+  if (missingApprovalRoles.length) throw new Error(`headless approval plan missing roles: ${missingApprovalRoles.join(', ')}`);
+
+  await upsertDiscordMember({
+    discordUserId: syntheticUserId,
+    username,
+    pathKey: review.application?.pathKey ?? null,
+    levelKey: review.application?.levelKey ?? null,
+    timezone: review.application?.timezone ?? null,
+    weeklyTimeBudget: review.application?.weeklyTimeBudget ?? null,
+    primaryGoal: review.application?.primaryGoal ?? review.application?.goal ?? null,
+    preferredSupport: review.application?.preferredSupport ?? null,
+    portfolioUrl: review.application?.portfolioUrl ?? null,
+    referralSource: review.application?.referralSource ?? null,
+    onboardingCompletedAt: new Date().toISOString(),
+    academyMember: true,
+  });
+
+  const reroutePlan = planDiscordRoleRouting({
+    currentPathKey: 'full_stack',
+    currentLevelKey: 'shipping',
+    nextPathKey: 'web_design',
+    nextLevelKey: 'starting',
+  });
+  const missingRerouteRoles = hasRoles(reroutePlan.rolesToAdd, ['Academy Member', 'Web Builder', 'Beginner']);
+  if (missingRerouteRoles.length) throw new Error(`headless reroute plan missing roles: ${missingRerouteRoles.join(', ')}`);
+  if (!reroutePlan.rolesToRemove.includes('Builder')) throw new Error('headless reroute did not remove stale Builder role');
+
+  await upsertDiscordMember({
+    discordUserId: syntheticUserId,
+    username,
+    pathKey: 'web_design',
+    levelKey: 'starting',
+  });
+
+  const database = await verifyDatabase(syntheticUserId);
+  if (database.application?.status !== 'approved') throw new Error('headless application row is not approved');
+  if (!database.member?.academy_member) throw new Error('headless discord_members academy_member is not true');
+  if (database.member.path_key !== 'web_design' || database.member.level_key !== 'starting') {
+    throw new Error('headless discord_members routing row did not update after reroute');
+  }
+
+  const keepRows = process.env.DISCORD_PROOF_KEEP_ROWS === 'true';
+  if (!keepRows) await deleteExistingRows(syntheticUserId);
+
+  console.log(JSON.stringify({
+    ok: true,
+    mode: 'headless',
+    syntheticUserId,
+    cleanedUp: !keepRows,
+    approvalPlan,
+    reroutePlan,
+    database,
+    proven: [
+      'pending application created in Supabase',
+      'application approved in Supabase',
+      'approval role-routing plan includes Academy Member and Builder',
+      'reroute plan adds Academy Member, Web Builder, and Beginner',
+      'reroute plan removes stale Builder',
+      'discord_members and discord_member_applications verified',
+    ],
+    notProvenHeadlessly: [
+      'Discord client join screen',
+      'Discord native member screening',
+      'Discord API role mutation on a real non-admin member',
+    ],
+  }, null, 2));
+}
+
 function hasRoles(actual: string[], expected: string[]): string[] {
   return expected.filter((role) => !actual.includes(role));
 }
 
 async function main(): Promise<void> {
+  if (headless) {
+    await runHeadlessProof();
+    return;
+  }
+
   const { member: target, ownerId, rolesById } = await findTargetMember();
   if (!target) {
     const result = {

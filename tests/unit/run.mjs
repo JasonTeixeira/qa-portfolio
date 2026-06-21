@@ -761,6 +761,7 @@ test('sage discord commands: command registry covers onboarding content engine a
   assert.ok(packageJson.scripts['discord:approval-audit'].includes('audit-member-approval.mjs'));
   assert.ok(packageJson.scripts['discord:approval-enforce'].includes('--enforce'));
   assert.ok(packageJson.scripts['discord:prove-onboarding'].includes('prove-onboarding-live.ts'));
+  assert.ok(packageJson.scripts['discord:prove-onboarding:headless'].includes('--headless'));
   assert.ok(dailyBuildPrompts.length >= 10);
   assert.equal(weeklyCadence.length, 7);
   const apply = sageCommandDefinitions.find((command) => command.name === 'apply');

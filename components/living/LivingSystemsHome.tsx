@@ -8,6 +8,7 @@ import { NewsletterSignup } from '@/components/newsletter-signup'
 import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
+import { SystemDiagram } from './SystemDiagram'
 import { IntentGate } from './IntentGate'
 import { MobileCtaBar } from './MobileCtaBar'
 import { SplashBackdrop } from './SplashBackdrop'
@@ -181,37 +182,7 @@ export function LivingSystemsHome() {
           </TrackedLink>
         </div>
         <RouteFinderHeroExperiment surface="home" />
-        <div className={styles.systemDiagram} data-living-reveal aria-label="What the studio builds — one connected system">
-          <span className={styles.systemKicker}>One operator · one connected system</span>
-          <svg
-            className={styles.systemSvg}
-            viewBox="0 0 920 124"
-            role="img"
-            aria-label="Strategy to Product to AI Systems to Brand to Growth to Operate"
-          >
-            <defs>
-              <linearGradient id="system-flow" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#3D5AFE" />
-                <stop offset="1" stopColor="#BCD2FF" />
-              </linearGradient>
-            </defs>
-            <path className={styles.systemTrack} d="M60 56 H860" />
-            <path className={styles.systemFlow} d="M60 56 H860" stroke="url(#system-flow)" />
-            {[
-              { x: 60, label: 'Strategy' },
-              { x: 220, label: 'Product' },
-              { x: 380, label: 'AI Systems' },
-              { x: 540, label: 'Brand' },
-              { x: 700, label: 'Growth' },
-              { x: 860, label: 'Operate' },
-            ].map((node, i) => (
-              <g key={node.label} className={styles.systemNode} style={{ animationDelay: `${i * 0.35}s` }}>
-                <circle cx={node.x} cy={56} r="6.5" />
-                <text x={node.x} y={92} textAnchor="middle">{node.label}</text>
-              </g>
-            ))}
-          </svg>
-        </div>
+        <SystemDiagram />
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">
           <span>AI Systems</span><i>·</i><span>Applications</span><i>·</i><span>SaaS</span><i>·</i><span>Brand &amp; Web</span><i>·</i><span>Growth &amp; SEO</span>
         </div>

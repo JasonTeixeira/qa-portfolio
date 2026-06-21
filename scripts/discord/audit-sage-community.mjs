@@ -22,8 +22,10 @@ const requiredChannels = [
   'questions',
   'build-lab',
   'review-queue',
+  'content-lab',
+  'live-room',
   'resources',
-  'wins',
+  'wins-showcase',
   'premium',
   'team-ops',
 ];

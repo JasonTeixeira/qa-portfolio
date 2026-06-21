@@ -9,13 +9,17 @@ const leanChannels = new Set([
   'questions',
   'build-lab',
   'review-queue',
+  'content-lab',
+  'live-room',
   'resources',
-  'wins',
+  'wins-showcase',
   'premium',
   'team-ops',
   '01 START',
   '02 BUILD',
-  '04 PRIVATE',
+  '03 CONTENT',
+  '04 LIVE',
+  '05 PRIVATE',
 ]);
 
 function cleanEnv(value) {

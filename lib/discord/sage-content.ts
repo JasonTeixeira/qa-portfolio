@@ -97,11 +97,19 @@ export const leanDiscordChannels = [
     purpose: 'Design, code, AI, SEO, cloud, and architecture review requests.',
   },
   {
+    name: 'content-lab',
+    purpose: 'Captured questions, lessons, content ideas, resource gaps, and growth work.',
+  },
+  {
+    name: 'live-room',
+    purpose: 'Office-hours queue, live session notes, and replay follow-up.',
+  },
+  {
     name: 'resources',
     purpose: 'Templates, stack guides, reading lists, prompts, and useful tools.',
   },
   {
-    name: 'wins',
+    name: 'wins-showcase',
     purpose: 'Finished ships, member wins, proof screenshots, and weekly recap inputs.',
   },
   {

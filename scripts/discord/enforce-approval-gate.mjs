@@ -10,8 +10,10 @@ const memberChannels = [
   'questions',
   'build-lab',
   'review-queue',
+  'content-lab',
+  'live-room',
   'resources',
-  'wins',
+  'wins-showcase',
 ];
 
 const requiredChannels = ['start-here', ...memberChannels, 'premium', 'team-ops'];

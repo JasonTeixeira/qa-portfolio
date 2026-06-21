@@ -527,7 +527,7 @@ async function handleOnboard(): Promise<InteractionResponse> {
 	      'Choose your primary path and current level below. SageBot will assign your role and point you to the right starting lane.',
 	      '',
 	      '**Server map**',
-	      '`daily-signal` is the daily prompt, quiz, and challenge. `questions` is the main help room. `build-lab` is for specs and shipping updates. `review-queue` is for critique. `resources` is the library. `wins` is proof and progress. `premium` is deeper review.',
+	      '`daily-signal` is the daily prompt, quiz, and challenge. `questions` is the main help room. `build-lab` is for specs and shipping updates. `review-queue` is for critique. `content-lab` captures reusable ideas. `live-room` is office hours. `resources` is the library. `wins-showcase` is proof and progress. `premium` is deeper review.',
 	      '',
 	      'After that, ask your first useful question with `/ask` or post your first build context in `questions`.',
 	    ].join('\n'),
@@ -772,19 +772,19 @@ async function handleCaptureContent(payload: DiscordInteractionPayload): Promise
     idea,
     discordUserId: userId(payload),
     username: username(payload),
-    channelBaseName: 'questions',
+    channelBaseName: 'content-lab',
     angle: source || null,
     priority: 60,
   });
   await postToChannelByBaseName(
-    'questions',
+    'content-lab',
     [`# Captured content idea`, `**Captured by:** ${username(payload)}`, `**Idea:** ${idea}`, source ? `**Source:** ${source}` : null]
       .filter(Boolean)
       .join('\n'),
   );
   const id = userId(payload);
   if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'capture' });
-  return ephemeral('Captured in `questions` for the content engine.');
+  return ephemeral('Captured in `content-lab` for the content engine.');
 }
 
 async function handleAsk(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -1078,7 +1078,7 @@ export async function postDailySignal(source: string): Promise<string | null> {
 
 export async function postWeeklyRecap(source: string): Promise<string | null> {
   const content = await buildWeeklyRecapContent();
-  const messageId = await postToChannelByBaseName('wins', content);
+  const messageId = await postToChannelByBaseName('wins-showcase', content);
   await recordDiscordScheduledRun({
     runKey: `weekly-recap-${weekKey(new Date())}`,
     kind: 'weekly_recap',
@@ -1121,7 +1121,7 @@ async function handleOfficeHours(payload: DiscordInteractionPayload): Promise<In
       question,
     });
     await postToChannelByBaseName(
-      queued.premiumMember ? 'premium' : 'questions',
+      queued.premiumMember ? 'premium' : 'live-room',
       [
         '# Office-hours queue',
         `**Member:** ${username(payload)}`,
@@ -1135,12 +1135,12 @@ async function handleOfficeHours(payload: DiscordInteractionPayload): Promise<In
       commandName: 'office-hours',
       discordUserId: id,
       discordUsername: username(payload),
-      channelBaseName: queued.premiumMember ? 'premium' : 'questions',
+      channelBaseName: queued.premiumMember ? 'premium' : 'live-room',
       metadata: { queue_id: queued.id, priority: queued.priority, premium: queued.premiumMember },
     });
     return ephemeral(`Office-hours question queued. Queue ID: \`${queued.id}\`. Priority: **${queued.priority}**.`);
   }
-  return ephemeral('Use `questions` for the office-hours queue. Strong questions include context, project, blocker, link/screenshot, and desired feedback.');
+  return ephemeral('Use `live-room` for the office-hours queue. Strong questions include context, project, blocker, link/screenshot, and desired feedback.');
 }
 
 async function handleReport(payload: DiscordInteractionPayload): Promise<InteractionResponse> {

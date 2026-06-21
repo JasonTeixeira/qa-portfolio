@@ -742,15 +742,17 @@ test('sage discord commands: command registry covers onboarding content engine a
   ]);
   assert.equal(sagePathOptions.length, 8);
   assert.equal(sageLevelOptions.length, 5);
-  assert.equal(leanDiscordChannels.length, 9);
+  assert.equal(leanDiscordChannels.length, 11);
   assert.deepEqual(leanDiscordChannels.map((channel) => channel.name), [
     'start-here',
     'daily-signal',
     'questions',
     'build-lab',
     'review-queue',
+    'content-lab',
+    'live-room',
     'resources',
-    'wins',
+    'wins-showcase',
     'premium',
     'team-ops',
   ]);

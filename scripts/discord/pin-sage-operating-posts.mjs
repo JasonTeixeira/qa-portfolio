@@ -104,6 +104,39 @@ const posts = {
       'Use `/request-review`. Premium members get priority/deeper teardown when queue volume is high.',
     ],
   },
+  'content-lab': {
+    topic: 'Captured questions, lessons, content ideas, resource gaps, and growth work.',
+    title: 'Content Lab',
+    body: [
+      'This is where the community becomes future content.',
+      '',
+      '**Content loop**',
+      '1. A real question, review, win, or blocker appears.',
+      '2. Capture it with `/capture-content`.',
+      '3. Admin reviews it in the content queue.',
+      '4. It becomes a resource, article, lesson, prompt, or challenge.',
+      '',
+      'Good inputs are specific: the exact question, decision, before/after, mistake, teardown, checklist, or reusable lesson.',
+    ],
+  },
+  'live-room': {
+    topic: 'Office-hours queue, live session notes, and replay follow-up.',
+    title: 'Live Room',
+    body: [
+      'This is the home for office-hours questions, live notes, and replay follow-up.',
+      '',
+      '**Office-hours question format**',
+      '```text',
+      'Project/context:',
+      'Blocker:',
+      'What I tried:',
+      'Link/screenshot:',
+      'What decision I need help making:',
+      '```',
+      '',
+      'Use `/office-hours` to submit the question. Strong repeated questions become content and resources.',
+    ],
+  },
   resources: {
     topic: 'Templates, stack guides, prompts, reading lists, tools, and resource drops.',
     title: 'Resource Index',
@@ -121,9 +154,9 @@ const posts = {
       'If a resource is missing, ask in `questions` or capture the gap with `/capture-content`.',
     ],
   },
-  wins: {
+  'wins-showcase': {
     topic: 'Ships, wins, proof screenshots, launches, and weekly recap inputs.',
-    title: 'Wins',
+    title: 'Wins Showcase',
     body: [
       'Post visible progress here. Wins do not need to be huge; they need to be concrete.',
       '',

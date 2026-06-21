@@ -12,14 +12,18 @@ const layout = [
   },
   {
     name: '02 BUILD',
-    channels: ['daily-signal', 'questions', 'build-lab', 'review-queue', 'wins'],
+    channels: ['daily-signal', 'questions', 'build-lab', 'review-queue'],
   },
   {
     name: '03 CONTENT',
-    channels: ['resources'],
+    channels: ['content-lab', 'resources', 'wins-showcase'],
   },
   {
-    name: '04 PRIVATE',
+    name: '04 LIVE',
+    channels: ['live-room'],
+  },
+  {
+    name: '05 PRIVATE',
     channels: ['premium', 'team-ops'],
   },
 ];
@@ -69,7 +73,7 @@ function overwritesFor(channelName, ids) {
       },
     ];
   }
-  if (channelName === '04 PRIVATE') {
+  if (channelName === '05 PRIVATE') {
     return [
       { id: ids.everyone, type: 0, deny: String(VIEW_CHANNEL) },
       { id: ids.founder, type: 0, allow: String(VIEW_CHANNEL | SEND_MESSAGES | READ_MESSAGE_HISTORY) },

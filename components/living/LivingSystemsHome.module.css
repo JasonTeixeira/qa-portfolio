@@ -430,9 +430,109 @@
   position: relative;
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(8rem, 6rem + 8vw, 12rem) var(--pad-x) clamp(3rem, 2rem + 3vw, 5rem);
+  align-items: center;
+  padding: clamp(7rem, 5rem + 6vw, 10rem) var(--pad-x) clamp(3rem, 2rem + 3vw, 5rem);
+  overflow: hidden;
+}
+
+/* ── Editorial hero (Figma comp): 2-col, real product panel bleeds right ── */
+.heroEditorial {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.96fr);
+  align-items: center;
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+}
+.heroCol {
+  position: relative;
+}
+.heroCol .heroTitle {
+  font-size: clamp(2.6rem, 1rem + 5.2vw, 4.9rem);
+  max-width: none;
+}
+.heroPanel {
+  position: relative;
+}
+.heroShot {
+  position: relative;
+  margin: 0 calc(-1 * var(--pad-x)) 0 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 60px 140px -50px rgba(0, 0, 0, 0.9);
+}
+.heroShotBar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 2;
+}
+.heroShotImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.heroShotTag {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bcd2ff;
+  background: rgba(11, 11, 14, 0.72);
+  padding: 5px 9px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+.heroSerif {
+  margin: 1.4rem 0 0;
+  font-family: var(--font-editorial), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.3rem, 1rem + 1.1vw, 1.9rem);
+  color: #c9c6c0;
+}
+.heroTick {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.1em;
+  color: var(--muted-dim);
+  pointer-events: none;
+}
+.heroTickTR {
+  top: clamp(6.5rem, 4rem + 4vw, 9rem);
+  right: var(--pad-x);
+}
+.heroTickBL {
+  bottom: 0;
+  left: 0;
+}
+.systemSection {
+  position: relative;
+  padding: clamp(2rem, 1rem + 3vw, 4rem) var(--pad-x) clamp(3rem, 2rem + 4vw, 6rem);
+}
+@media (max-width: 920px) {
+  .heroEditorial {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  }
+  .heroShot {
+    margin-right: 0;
+  }
+  .heroTickTR,
+  .heroTickBL {
+    display: none;
+  }
 }
 .heroGrid {
   position: absolute;

@@ -5,7 +5,6 @@ import { workProjects, type WorkProject } from '@/data/home/living-projects'
 import { attributedTestimonials, permissionedLogos } from '@/data/social-proof/attributed'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { NewsletterSignup } from '@/components/newsletter-signup'
-import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
 import { SystemDiagram } from './SystemDiagram'
@@ -13,7 +12,6 @@ import { IntentGate } from './IntentGate'
 import { MobileCtaBar } from './MobileCtaBar'
 import { SplashBackdrop } from './SplashBackdrop'
 import { CountUp } from '@/components/motion/CountUp'
-import { CinematicBackdrop } from '@/components/motion/CinematicBackdrop'
 import styles from './LivingSystemsHome.module.css'
 
 const services = [
@@ -126,62 +124,67 @@ export function LivingSystemsHome() {
       <div className={styles.grain} aria-hidden="true" />
 
       <section className={styles.hero} id="top" aria-label="Introduction">
-        <CinematicBackdrop
-          src="/art/inkwash-cliffs.png"
-          alt=""
-          brightness={0.46}
-          parallax={70}
-          textAnchor="bottom-left"
-          rotate
-          drift
-          className="z-[-2]"
-        />
-        <div className={styles.heroGrid} data-living-parallax aria-hidden="true" />
-        <p className={styles.eyebrow} data-living-reveal>
-          <span /> Sage Ideas · AI-native studio · since 2020
-        </p>
-        <h1 id="hero-heading" className={styles.heroTitle}>
-          <span className={styles.heroLine}><span>I build the product,</span></span>
-          <span className={styles.heroLine}><span>the brand, and the</span></span>
-          <span className={styles.heroLine}><span><em>AI</em> that runs it.</span></span>
-        </h1>
-        <div className={styles.heroLower} data-living-reveal>
-          <p>
-            A solo, AI-native studio. I run my own products every day and put the same system —
-            AI, apps, SaaS, brand, growth — to work for yours. From someone who
-            <strong> builds</strong>, not someone who just pitches.
-          </p>
-          <div className={styles.heroCtas}>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
-              href="/book?source=home_hero"
-              event="booking_click"
-              eventProps={{ location: 'home_hero', label: 'book_a_call' }}
-            >
-              <span>Book a call</span><span aria-hidden="true">→</span>
-            </TrackedLink>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
-              href="#work"
-              event="cta_click"
-              eventProps={{ location: 'home_hero', label: 'see_the_work' }}
-            >
-              <span>See the work</span><span aria-hidden="true">↓</span>
-            </TrackedLink>
+        <span className={`${styles.heroTick} ${styles.heroTickTR}`} aria-hidden="true">01 / 06</span>
+        <div className={styles.heroEditorial}>
+          <div className={styles.heroCol}>
+            <p className={styles.eyebrow} data-living-reveal>
+              <span /> Sage Ideas · AI-native studio · since 2020
+            </p>
+            <h1 id="hero-heading" className={styles.heroTitle}>
+              <span className={styles.heroLine}><span>I build the product,</span></span>
+              <span className={styles.heroLine}><span>the brand, and the</span></span>
+              <span className={styles.heroLine}><span><em>AI</em> that runs it.</span></span>
+            </h1>
+            <div className={styles.heroLower} data-living-reveal>
+              <p>
+                A solo, AI-native studio. I run my own products every day and put the same system —
+                AI, apps, SaaS, brand, growth — to work for yours. From someone who
+                <strong> builds</strong>, not someone who just pitches.
+              </p>
+              <div className={styles.heroCtas}>
+                <TrackedLink
+                  className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+                  href="/book?source=home_hero"
+                  event="booking_click"
+                  eventProps={{ location: 'home_hero', label: 'book_a_call' }}
+                >
+                  <span>Book a call</span><span aria-hidden="true">→</span>
+                </TrackedLink>
+                <TrackedLink
+                  className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
+                  href="#work"
+                  event="cta_click"
+                  eventProps={{ location: 'home_hero', label: 'see_the_work' }}
+                >
+                  <span>See the work</span><span aria-hidden="true">↓</span>
+                </TrackedLink>
+              </div>
+              <p className={styles.heroTrust}>
+                Free 20-min fit call · fixed scope · no contract to start.
+              </p>
+            </div>
+            <span className={`${styles.heroTick} ${styles.heroTickBL}`} aria-hidden="true">nexural.system</span>
           </div>
-          <p className={styles.heroTrust}>
-            Free 20-min fit call · fixed scope · reversible in 30s · no contract to start.
-          </p>
-          <TrackedLink
-            className={styles.heroSecondary}
-            href="/academy?source=home_hero"
-            event="cta_click"
-            eventProps={{ location: 'home_hero', label: 'learn_the_system' }}
-          >
-            Building it yourself? <strong>Learn the system →</strong>
-          </TrackedLink>
+
+          <div className={styles.heroPanel} data-living-reveal>
+            <figure className={styles.heroShot}>
+              <span className={styles.heroShotBar} aria-hidden="true" />
+              <Image
+                src="/work/nexural-cockpit.webp"
+                alt="Nexural cockpit — the studio's flagship product, live in production"
+                width={1280}
+                height={800}
+                className={styles.heroShotImg}
+                priority
+              />
+              <span className={styles.heroShotTag}>Nexural · live in production</span>
+            </figure>
+            <p className={styles.heroSerif}>One operator. The whole stack.</p>
+          </div>
         </div>
-        <RouteFinderHeroExperiment surface="home" />
+      </section>
+
+      <section className={styles.systemSection} aria-label="What the studio builds">
         <SystemDiagram />
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">
           <span>AI Systems</span><i>·</i><span>Applications</span><i>·</i><span>SaaS</span><i>·</i><span>Brand &amp; Web</span><i>·</i><span>Growth &amp; SEO</span>

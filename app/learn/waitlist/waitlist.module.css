@@ -1651,41 +1651,42 @@
   }
 }
 
-/* Compact Discord button in the hero (secondary to the email form) */
-.heroDiscord {
+/* Hero CTA stack: email form (primary) + Discord button (secondary), aligned + same width */
+.heroCtas {
   display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  margin-top: 1.2rem;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 480px;
+  margin-top: clamp(1.4rem, 1rem + 1vw, 2rem);
 }
-.heroDiscordOr {
-  font-family: var(--ac-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ac-ink-faint);
+.heroCtas .form {
+  margin: 0;
+  max-width: none;
 }
 .discordHero {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.78rem 1.45rem;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.95rem 1.5rem;
   border-radius: 999px;
   background: #5865f2;
   color: #fff;
   font-family: var(--ac-sans);
   font-weight: 700;
-  font-size: 0.92rem;
-  box-shadow: 0 14px 36px -14px rgba(88, 101, 242, 0.7);
-  transition: transform 0.35s var(--ac-ease), background 0.3s ease;
+  font-size: 0.98rem;
+  box-shadow: 0 16px 40px -16px rgba(88, 101, 242, 0.6);
+  transition: transform 0.35s var(--ac-ease), background 0.3s ease, box-shadow 0.3s ease;
 }
 .discordHero:hover {
   transform: translateY(-2px);
   background: #6b76f5;
+  box-shadow: 0 22px 52px -16px rgba(88, 101, 242, 0.8);
 }
 .discordHero svg {
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
 }
 
 /* ── Hero live-build terminal (the motion hook) ── */

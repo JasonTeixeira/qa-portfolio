@@ -94,12 +94,11 @@ export default function WaitlistPage() {
               Sage Academy teaches you to <em>build</em> — real projects and guided labs from an operator who ships
               every day, not a theory channel. Be one of the founding 1,000 and lock $20/mo for life.
             </p>
-            <WaitlistForm id="waitlist-hero" />
-            <FoundingMeter />
-            <div className={styles.heroDiscord}>
-              <span className={styles.heroDiscordOr}>or</span>
+            <div className={styles.heroCtas}>
+              <WaitlistForm id="waitlist-hero" />
               <DiscordButton className={styles.discordHero} label="Join the founding Discord" arrow />
             </div>
+            <FoundingMeter />
           </div>
           <div className={styles.heroLive}>
             <LiveBuild />

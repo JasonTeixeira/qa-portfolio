@@ -1,7 +1,7 @@
 import { recordDiscordEvent, upsertDiscordMember } from './analytics';
 import { sageLevelOptions, sagePathOptions, type SageLevelKey, type SagePathKey } from './sage-content';
 import { completeOnboardingStep, type MemberApplicationProfile } from './engagement';
-import { assignLevelRole, assignPathRole, assignRole, postToChannelByBaseName } from './sage-rest';
+import { applyDiscordRoleRouting, postToChannelByBaseName } from './sage-rest';
 
 function validPathKey(value?: string | null): SagePathKey | null {
   return sagePathOptions.some((option) => option.key === value) ? value as SagePathKey : null;
@@ -56,9 +56,12 @@ export async function approveDiscordMember(input: {
 }): Promise<void> {
   const pathKey = validPathKey(input.application?.pathKey);
   const levelKey = validLevelKey(input.application?.levelKey);
-  await assignRole(input.discordUserId, 'Academy Member');
-  if (pathKey) await assignPathRole(input.discordUserId, pathKey);
-  if (levelKey) await assignLevelRole(input.discordUserId, levelKey);
+  await applyDiscordRoleRouting(input.discordUserId, {
+    currentPathKey: null,
+    currentLevelKey: null,
+    nextPathKey: pathKey,
+    nextLevelKey: levelKey,
+  });
   await upsertDiscordMember({
     discordUserId: input.discordUserId,
     username: input.application?.username ?? input.username ?? null,

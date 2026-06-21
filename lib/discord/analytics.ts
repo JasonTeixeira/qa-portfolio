@@ -67,6 +67,26 @@ export async function upsertDiscordMember(input: {
   }
 }
 
+export async function getDiscordMemberRouting(discordUserId: string): Promise<{
+  pathKey: string | null;
+  levelKey: string | null;
+}> {
+  try {
+    const { data } = await supabaseAdmin()
+      .from('discord_members')
+      .select('path_key, level_key')
+      .eq('discord_user_id', discordUserId)
+      .maybeSingle();
+    return {
+      pathKey: data?.path_key ? String(data.path_key) : null,
+      levelKey: data?.level_key ? String(data.level_key) : null,
+    };
+  } catch (err) {
+    console.warn('[discord/analytics] member routing read failed', err instanceof Error ? err.message : err);
+    return { pathKey: null, levelKey: null };
+  }
+}
+
 export async function updateDiscordPremium(input: {
   discordUserId: string;
   username?: string | null;

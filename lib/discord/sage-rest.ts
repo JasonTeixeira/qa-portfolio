@@ -1,4 +1,5 @@
 import { sageLevelOptions, sagePathOptions, type SageLevelKey, type SagePathKey } from './sage-content';
+import { planDiscordRoleRouting, type DiscordRoleRoutingInput, type DiscordRoleRoutingPlan } from './role-routing';
 
 const DISCORD_API = 'https://discord.com/api/v10';
 
@@ -112,6 +113,20 @@ export async function assignLevelRole(userId: string, key: SageLevelKey): Promis
   await assignRole(userId, level.role);
   await assignRole(userId, 'Academy Member');
   return level.role;
+}
+
+export async function applyDiscordRoleRouting(
+  userId: string,
+  input: DiscordRoleRoutingInput,
+): Promise<DiscordRoleRoutingPlan> {
+  const plan = planDiscordRoleRouting(input);
+  for (const role of plan.rolesToRemove) {
+    await removeRole(userId, role);
+  }
+  for (const role of plan.rolesToAdd) {
+    await assignRole(userId, role);
+  }
+  return plan;
 }
 
 export async function postToChannelByBaseName(name: string, content: string): Promise<string | null> {

@@ -1,0 +1,947 @@
+SAGE IDEAS DISCORD CONTENT ENGINE BUILD PLAN
+Version: 2026-06-21
+Scope: Sage Ideas Discord, SageBot, Supabase, DeepSeek generation, RAG, content jobs, quizzes, challenges, leaderboard, onboarding, premium workflows.
+
+PURPOSE
+Build Sage Ideas Discord into a high-quality education community operating system where members always know what to do next, useful participation is rewarded, strong questions become content, and the server produces daily learning, interaction, proof, and reusable assets.
+
+CORE STANDARD
+The Discord should not feel like a passive chat room. It should feel like a live academy and build lab.
+
+Every active day should produce:
+1. A useful learning signal.
+2. A specific question or discussion prompt.
+3. A challenge or action members can complete.
+4. A reason to answer or help someone.
+5. A visible leaderboard or progress signal.
+6. A content artifact candidate captured from real member activity.
+7. A next step for new, active, premium, and inactive members.
+
+NON-NEGOTIABLE QUALITY BAR
+1. No generic AI slop.
+2. Every bot post must have a clear member action.
+3. Every generated post must pass quality checks before public posting.
+4. Every role or point action must be backed by a database event.
+5. Every scheduled job must be idempotent.
+6. Every member-facing workflow must have a failure path and admin visibility.
+7. No unapproved members should access member channels.
+8. The server stays lean: no channel sprawl.
+9. Content comes from real source material: member questions, shipped work, reviews, RAG docs, approved news inputs, and admin-approved themes.
+10. Each phase must be tested and verified before moving to the next phase.
+
+CURRENT FOUNDATION
+Already built or partially built:
+1. Lean 11-channel Discord structure.
+2. Approval-gated onboarding with /apply, /approve, /reject, /pending.
+3. Role assignment from application path and level.
+4. Supabase tables for Discord members, applications, quizzes, challenges, points, messages, content queue, premium workflows, and gateway events.
+5. SageBot slash commands for daily, quiz, challenge, leaderboard, ask-sage, content queue, premium review, office hours, and weekly recap.
+6. RAG system over current site/docs corpus.
+7. DeepSeek generation support for content generation.
+8. Gateway worker foundation.
+9. Approval audit/enforcement for existing members.
+10. Discord smoke and unit test coverage.
+
+KNOWN LIVE GAP
+The server has not yet had real members pass through /apply and /approve after the reset. Until that happens, discord_members and discord_member_applications are expected to be empty.
+
+EXECUTION STATUS
+Last updated: 2026-06-21
+
+Pass 0 status:
+Partially complete.
+
+Pass 0 verified:
+1. Approval audit passes.
+2. Discord smoke passes.
+3. Discord migration check passes.
+4. Typecheck passes.
+5. Unit tests pass.
+6. Existing unapproved members were removed so the server is reset to owner plus SageBot.
+
+Pass 0 still needs live member proof:
+1. A real or test non-admin account must join.
+2. That account must confirm only start-here is visible.
+3. That account must run /apply.
+4. Admin must run /approve.
+5. Roles and Supabase rows must be verified after approval.
+
+Pass 1 status:
+Implemented locally and verified by automated tests.
+
+Pass 1 verified:
+1. Central role-routing planner exists.
+2. Approval uses the central role-routing path.
+3. /choose-path uses the central role-routing path.
+4. /onboard path selector uses the central role-routing path.
+5. /onboard level selector uses the central role-routing path.
+6. Routing tests prove overlapping roles such as Builder and Academy Member are not removed when still valid.
+
+Pass 1 still needs live member proof:
+1. After a test member is approved, change their path and level through /onboard.
+2. Confirm old conflicting path/level roles are removed.
+3. Confirm Academy Member remains.
+4. Confirm Premium Member remains independent if present.
+
+TARGET MEMBER EXPERIENCE
+New member:
+1. Joins server.
+2. Sees start-here only.
+3. Accepts rules and reads the expectations.
+4. Runs /apply.
+5. Answers goal, experience, first build, path, level, support need, time budget, timezone, source, portfolio.
+6. Waits for admin/mod approval.
+7. On approval, gets Academy Member plus path and level roles.
+8. Receives welcome and first-week checklist.
+9. Completes first action within 24 hours.
+
+Active member:
+1. Opens daily-signal.
+2. Completes quiz, question, or challenge.
+3. Posts work in build-lab or questions.
+4. Earns points for useful participation.
+5. Sees weekly leaderboard and recap.
+6. Gets nudged toward next useful action.
+
+Premium member:
+1. Gets Premium Member role through payment or admin grant.
+2. Can submit premium reviews and premium questions.
+3. Gets deeper critique and priority office-hours queue.
+4. Has premium activity tracked separately for retention and value.
+
+Admin/mod:
+1. Reviews member applications.
+2. Approves or rejects members.
+3. Reviews AI-generated drafts.
+4. Approves content queue items into public posts, resources, articles, lessons, or social assets.
+5. Monitors leaderboard, unanswered questions, inactive members, content ideas, job health, and premium queue.
+
+SERVER CHANNEL OPERATING MODEL
+1. start-here
+Purpose: rules, application instructions, quality bar, first action.
+Permissions: unapproved members can view; cannot spam.
+Bot behavior: explains /apply, approval process, and expectations.
+
+2. daily-signal
+Purpose: daily prompt, quiz, challenge, news-to-action update.
+Permissions: approved members can discuss.
+Bot behavior: posts scheduled daily content after approval or from trusted templates.
+
+3. questions
+Purpose: main Q&A and member help room.
+Permissions: approved members.
+Bot behavior: classifies questions, tracks unanswered items, awards helpful answers, captures strong questions into content queue.
+
+4. build-lab
+Purpose: project submissions, specs, progress, blockers.
+Permissions: approved members.
+Bot behavior: structures submissions, awards ship/progress points, promotes strong builds into wins and recaps.
+
+5. review-queue
+Purpose: code/design/AI/SEO/cloud/architecture critique.
+Permissions: approved members; premium can get priority.
+Bot behavior: tracks review requests, captures reusable lessons, routes premium reviews.
+
+6. content-lab
+Purpose: content ideas, captured questions, lessons, article/social/resource drafts.
+Permissions: approved members, with admin workflow for publishing.
+Bot behavior: queues items, labels source, supports approval buttons.
+
+7. live-room
+Purpose: office hours, live questions, notes, replay follow-up.
+Permissions: approved members; premium priority.
+Bot behavior: manages office-hours queue and recap.
+
+8. resources
+Purpose: approved templates, guides, prompts, useful tools.
+Permissions: approved members; admin/bot posting preferred.
+Bot behavior: posts approved resource drops and links back to source discussions.
+
+9. wins-showcase
+Purpose: shipped work, milestones, launches, proof, weekly winners.
+Permissions: approved members.
+Bot behavior: highlights wins, weekly recap, leaderboard.
+
+10. premium
+Purpose: premium critique, advanced drops, deeper answers.
+Permissions: Premium Member only.
+Bot behavior: premium review, premium ask, premium office hours.
+
+11. team-ops
+Purpose: private admin operations.
+Permissions: Founder/Admin/Moderator only.
+Bot behavior: application alerts, draft approvals, moderation reports, job errors, analytics summaries.
+
+PROGRAM 0: BASELINE, SAFETY, AND LIVE READINESS
+Objective:
+Confirm the server, bot, database, jobs, and permissions are ready before content automation increases activity.
+
+Deliverables:
+1. Approval audit passes with no unapproved member access.
+2. Discord smoke passes.
+3. Supabase migration drift check passes.
+4. Gateway worker health is visible.
+5. Admin dashboard loads Discord counts.
+6. All current commands are registered live.
+7. Start-here operating post is pinned.
+8. Bot role can assign/remove Academy, path, level, and Premium roles.
+
+Acceptance criteria:
+1. npm run discord:approval-audit exits 0.
+2. npm run discord:smoke exits 0.
+3. npm run discord:migration-check exits 0.
+4. npm run typecheck exits 0.
+5. npm run test:unit exits 0.
+6. Manual test user can submit /apply.
+7. Admin can /approve and user receives correct roles.
+
+Tests:
+1. Unit tests for command registry and onboarding.
+2. Live Discord approval audit.
+3. Live application/approval test.
+4. Database verification for discord_member_applications and discord_members.
+
+Do not move on until:
+At least one real or test member has completed /apply -> /approve -> role assignment -> database record.
+
+PROGRAM 1: WORLD-CLASS ONBOARDING AND ROLE ROUTING
+Objective:
+Make joining feel intentional, high-quality, and controlled. Every member should be routed into the right path and level based on application answers.
+
+Phase 1.1: Application polish
+Deliverables:
+1. Rewrite /apply field descriptions for clarity and quality.
+2. Add stronger validation for shallow answers.
+3. Add admin-visible application summary score.
+4. Add "recommended path" and "recommended level" inference from goal/experience/build if member does not select them.
+5. Add reviewer note support in admin dashboard and Discord.
+
+Acceptance criteria:
+1. Empty, one-word, or low-signal applications are rejected with useful guidance.
+2. Good applications create one pending row.
+3. Duplicate pending applications are blocked.
+4. Admin sees all application answers in team-ops and admin dashboard.
+
+Tests:
+1. Unit tests for application normalization and validation.
+2. Supabase smoke insert/read for pending application.
+3. Live slash command test.
+
+Phase 1.2: Role routing engine
+Deliverables:
+1. Central role-routing module.
+2. Path answer maps to one primary path role.
+3. Level answer maps to one level role.
+4. Approval always assigns Academy Member.
+5. Changing path removes old path role before assigning new path role.
+6. Changing level removes old level role before assigning new level role.
+7. Premium role remains independent.
+
+Acceptance criteria:
+1. Member cannot accumulate conflicting path roles.
+2. Member cannot accumulate conflicting level roles.
+3. Role assignment events are recorded.
+4. Role assignment can be replayed from database state.
+
+Tests:
+1. Unit tests for routing matrix.
+2. Unit tests for old-role removal plan.
+3. Live role test with test user.
+
+Phase 1.3: First-week onboarding sequence
+Deliverables:
+1. Day 0 welcome after approval.
+2. Day 1 first question nudge.
+3. Day 2 first build/spec nudge.
+4. Day 3 quiz/challenge nudge.
+5. Day 4 review request nudge.
+6. Day 5 content capture nudge.
+7. Day 7 recap and next path recommendation.
+8. Admin-visible onboarding completion status.
+
+Acceptance criteria:
+1. New member gets one clear next action at a time.
+2. Completed actions stop repeated nudges.
+3. Inactive members get gentle reactivation.
+4. Admin can see onboarding completion rate.
+
+Tests:
+1. Unit tests for onboarding step selection.
+2. Cron smoke for due nudges.
+3. Database verification for completed steps.
+
+PROGRAM 2: DAILY SIGNAL ENGINE
+Objective:
+Create a daily heartbeat that makes members return because the posts are useful, specific, and action-oriented.
+
+Phase 2.1: Daily content taxonomy
+Deliverables:
+1. Daily post types:
+   a. Build prompt.
+   b. AI/tool update.
+   c. News-to-action update.
+   d. Daily question.
+   e. Daily quiz.
+   f. Daily challenge.
+   g. Resource drop.
+2. Weekly theme model:
+   Monday: foundations.
+   Tuesday: implementation.
+   Wednesday: critique/review.
+   Thursday: automation/AI.
+   Friday: ship/win.
+   Saturday: resource/lab.
+   Sunday: recap/planning.
+3. Supabase-managed content calendar.
+4. Admin override support.
+
+Acceptance criteria:
+1. Every daily post has a target channel, type, source, action, and quality score.
+2. No generated content posts publicly without approval unless marked trusted-template.
+3. Daily content can be previewed before posting.
+
+Tests:
+1. Unit tests for calendar selection.
+2. Smoke test for daily planner draft creation.
+3. Quality eval test for generated draft.
+
+Phase 2.2: News and updates engine
+Deliverables:
+1. Source registry for approved news inputs.
+2. Fetch or ingest current AI/dev/product news.
+3. Summarize only what matters to builders.
+4. Convert news into "what to do with this" action.
+5. Store citations/source URLs.
+6. Queue drafts for admin approval.
+
+Acceptance criteria:
+1. Every news draft includes source, date, summary, builder relevance, and action prompt.
+2. No uncited news appears.
+3. Stale news is not posted as current.
+4. Admin can reject low-value news.
+
+Tests:
+1. Source ingestion smoke.
+2. Freshness test.
+3. Quality scoring test.
+4. Admin approval flow test.
+
+Phase 2.3: Scheduled daily posting
+Deliverables:
+1. Cron route for daily signal.
+2. Idempotency key by date/channel/post type.
+3. Failure logging to team-ops.
+4. Admin dashboard status.
+5. Manual run command.
+
+Acceptance criteria:
+1. Running the job twice does not duplicate posts.
+2. Missing API keys produce admin-visible failures.
+3. Successful posts are recorded in discord_scheduled_runs.
+
+Tests:
+1. Unit idempotency test.
+2. Cron route smoke.
+3. Live Discord post test in daily-signal.
+
+PROGRAM 3: QUIZ ENGINE
+Objective:
+Use quizzes to create lightweight daily participation and reinforce learning.
+
+Phase 3.1: Quiz bank and generation
+Deliverables:
+1. Supabase quiz bank with category, difficulty, explanation, source.
+2. DeepSeek quiz draft generator.
+3. RAG-grounded quiz creation from resources and recent questions.
+4. Admin approval before adding generated quizzes to active bank.
+
+Acceptance criteria:
+1. Quiz has one correct answer.
+2. Explanation teaches the concept.
+3. Quiz maps to a learning taxonomy.
+4. Generated quizzes pass quality eval.
+
+Tests:
+1. Unit tests for quiz schema.
+2. Generator smoke.
+3. Quality eval smoke.
+
+Phase 3.2: Quiz participation
+Deliverables:
+1. /quiz presents daily quiz.
+2. Answer records attempt.
+3. Correct answers earn points.
+4. Repeated attempts do not farm points.
+5. Streaks update.
+
+Acceptance criteria:
+1. One scored quiz attempt per member per quiz.
+2. Attempts persist.
+3. Points ledger has reason/source.
+4. Leaderboard updates.
+
+Tests:
+1. Unit tests for scoring.
+2. Database smoke for attempt and points.
+3. Live command test.
+
+PROGRAM 4: CHALLENGE AND LAB ENGINE
+Objective:
+Turn the server into a builder lab where people ship artifacts, not just talk.
+
+Phase 4.1: Challenge calendar
+Deliverables:
+1. Daily micro-challenges.
+2. Weekly build challenges.
+3. Premium advanced challenges.
+4. Challenge categories: AI apps, websites, agents, SEO/content, cloud, architecture, growth.
+5. Deliverable requirements for each challenge.
+
+Acceptance criteria:
+1. Every challenge has a clear artifact.
+2. Challenge difficulty is explicit.
+3. Challenge points are proportional to effort.
+4. Challenge can be completed by a beginner or has level flag.
+
+Tests:
+1. Challenge schema tests.
+2. Calendar selection tests.
+3. Generator quality eval.
+
+Phase 4.2: Submission workflow
+Deliverables:
+1. /submit-challenge command records submission.
+2. Link/screenshot/text summary support.
+3. Admin review status: pending, approved, featured, rejected.
+4. Approved submissions earn points.
+5. Featured submissions appear in wins-showcase.
+
+Acceptance criteria:
+1. Duplicate submissions are handled.
+2. Submission must reference active challenge.
+3. Admin can feature strong work.
+4. Points are not awarded twice.
+
+Tests:
+1. Unit tests for submission validation.
+2. Database smoke.
+3. Live command test.
+
+Phase 4.3: Lab prompts and project support
+Deliverables:
+1. /submit-project creates structured build-lab post.
+2. Bot asks for missing context when submissions are vague.
+3. Project can be linked to path, challenge, review, or win.
+4. Strong projects feed content queue.
+
+Acceptance criteria:
+1. Build submissions follow a consistent template.
+2. Bot captures blocker, goal, artifact, and next step.
+3. Admin can turn a project into showcase or content asset.
+
+Tests:
+1. Unit tests for project template.
+2. Message classifier smoke.
+3. Content queue smoke.
+
+PROGRAM 5: POINTS, STREAKS, REWARDS, AND LEADERBOARD
+Objective:
+Reward the behavior that makes the community valuable: asking specific questions, giving helpful answers, shipping work, reviewing others, and creating reusable lessons.
+
+Phase 5.1: Points policy
+Deliverables:
+1. Points matrix:
+   a. Ask a useful question: 5.
+   b. Answer a question: 8.
+   c. Marked helpful answer: 15.
+   d. Complete quiz: 5.
+   e. Complete daily challenge: 15-25.
+   f. Complete weekly challenge: 50-100.
+   g. Submit project: 20.
+   h. Request review with complete artifact: 10.
+   i. Give high-quality review: 20.
+   j. Capture reusable content idea: 10.
+   k. Featured win: 50.
+2. Anti-gaming rules.
+3. Manual admin award command policy.
+4. Dedupe/idempotency rules.
+
+Acceptance criteria:
+1. Every point award has source and reason.
+2. Same action cannot be farmed repeatedly.
+3. Admin awards are logged.
+4. Negative/reversal entries are supported for abuse correction.
+
+Tests:
+1. Unit tests for points policy.
+2. Ledger idempotency test.
+3. Abuse/dedupe test.
+
+Phase 5.2: Leaderboards
+Deliverables:
+1. /leaderboard shows weekly leaders.
+2. /rank shows member rank.
+3. /points shows member points.
+4. Weekly leaderboard snapshot.
+5. Monthly leaderboard snapshot.
+6. Category leaderboards: helper, builder, learner, reviewer, streak.
+
+Acceptance criteria:
+1. Leaderboard excludes bots/admins if configured.
+2. Weekly reset does not delete all-time totals.
+3. Snapshots persist for historical reporting.
+4. Premium and free members can be segmented.
+
+Tests:
+1. Unit ranking tests.
+2. Snapshot generation smoke.
+3. Live command test.
+
+Phase 5.3: Rewards
+Deliverables:
+1. Reward tiers:
+   a. Featured in wins-showcase.
+   b. Free review credit.
+   c. Office-hours priority.
+   d. Premium trial or discount.
+   e. Contributor/Mentor nomination.
+2. Admin approval for material rewards.
+3. Rewards dashboard.
+
+Acceptance criteria:
+1. Rewards cannot be self-granted.
+2. Rewards have status and fulfillment notes.
+3. Reward history is visible.
+
+Tests:
+1. Reward rule tests.
+2. Admin workflow test.
+
+PROGRAM 6: QUESTION, ANSWER, AND KNOWLEDGE CAPTURE ENGINE
+Objective:
+Make every useful conversation compound into resources, articles, prompts, lessons, and future daily content.
+
+Phase 6.1: Message classifier
+Deliverables:
+1. Classify messages into question, answer, blocker, win, review request, resource, content idea, spam/low-value.
+2. Extract topic, path, urgency, and usefulness score.
+3. Detect unanswered questions.
+4. Detect high-quality answers.
+5. Store message metadata.
+
+Acceptance criteria:
+1. Classifier does not require message content if intent is disabled, but uses it when available.
+2. Low-confidence outputs are stored but not acted on automatically.
+3. Classification errors do not crash worker.
+
+Tests:
+1. Unit tests for rule classifier.
+2. Gateway ingestion smoke.
+3. Real message capture test.
+
+Phase 6.2: Content queue from real activity
+Deliverables:
+1. Convert useful messages into content queue candidates.
+2. Candidate types: resource, article, social post, newsletter, lesson, challenge, FAQ, RAG doc.
+3. Each candidate links to source Discord message.
+4. Admin workflow buttons: approve, reject, needs rewrite, assign type.
+
+Acceptance criteria:
+1. No public content is published directly from raw member messages.
+2. Every candidate has source and reason.
+3. Approved candidates can become multiple assets.
+
+Tests:
+1. Content queue automation smoke.
+2. Admin approval smoke.
+3. Source link verification.
+
+Phase 6.3: Knowledge base and RAG sync
+Deliverables:
+1. Approved resources sync into RAG corpus.
+2. Top questions become FAQ docs.
+3. Strong answers become lessons.
+4. RAG source metadata includes Discord source and approval status.
+
+Acceptance criteria:
+1. Unapproved Discord chatter does not enter authoritative RAG.
+2. Approved Discord knowledge is searchable.
+3. Ask-Sage cites approved sources.
+
+Tests:
+1. RAG sync smoke.
+2. Retrieval smoke.
+3. Ask-Sage answer smoke.
+
+PROGRAM 7: WEEKLY RECAP AND CONTENT REPURPOSING ENGINE
+Objective:
+Turn the week of community activity into proof, learning, social content, newsletter content, and next-week prompts.
+
+Phase 7.1: Weekly recap
+Deliverables:
+1. Weekly recap draft:
+   a. Top wins.
+   b. Top questions.
+   c. Best answers.
+   d. Featured builds.
+   e. Leaderboard.
+   f. Open blockers.
+   g. Next week challenge.
+2. Admin approval before public post.
+3. Posted to wins-showcase.
+
+Acceptance criteria:
+1. Recap cites source activity.
+2. No fake stats.
+3. No member is featured for sensitive/private content without admin approval.
+
+Tests:
+1. Weekly recap smoke.
+2. Quality eval.
+3. Live post test.
+
+Phase 7.2: External content assets
+Deliverables:
+1. Convert approved recap items into:
+   a. X post/thread drafts.
+   b. LinkedIn post drafts.
+   c. Newsletter section draft.
+   d. Blog/resource draft.
+   e. Short video idea/script.
+2. Store in content queue.
+3. Admin approves before publication.
+
+Acceptance criteria:
+1. Each output carries one real claim.
+2. No generic hype language.
+3. Every asset links to source proof.
+4. Output is platform-native.
+
+Tests:
+1. Draft quality eval.
+2. Admin approval workflow.
+3. Source provenance test.
+
+PROGRAM 8: PREMIUM ENGAGEMENT ENGINE
+Objective:
+Make premium feel materially better without making free feel abandoned.
+
+Phase 8.1: Premium review queue
+Deliverables:
+1. /premium-review creates premium review request.
+2. Request includes type, artifact, desired feedback, urgency.
+3. Premium queue dashboard.
+4. SLA/status tracking.
+5. Review completion and points/reward link.
+
+Acceptance criteria:
+1. Non-premium users get upgrade path, not broken command.
+2. Premium requests are visible to admin.
+3. Completed reviews become reusable lessons only after approval.
+
+Tests:
+1. Premium command test.
+2. Role gate test.
+3. Admin dashboard smoke.
+
+Phase 8.2: Premium office hours
+Deliverables:
+1. /office-hours queue.
+2. Premium priority flag.
+3. Weekly office-hours agenda.
+4. Post-session recap.
+5. Follow-up tasks.
+
+Acceptance criteria:
+1. Queue is ordered by priority and time.
+2. Members can see their status.
+3. Admin can mark resolved.
+
+Tests:
+1. Queue ordering unit test.
+2. Live command smoke.
+
+Phase 8.3: Premium content promise
+Deliverables:
+1. Public premium promise.
+2. Stripe product/price configured.
+3. Webhook role sync verified.
+4. Premium channel post pinned.
+5. Cancellation removes Premium Member but keeps Academy Member when appropriate.
+
+Acceptance criteria:
+1. Stripe checkout works.
+2. Webhook grants Premium Member.
+3. Canceled subscription removes premium access.
+4. Premium value is clear in Discord and site.
+
+Tests:
+1. Stripe test checkout.
+2. Webhook smoke.
+3. Discord role sync test.
+
+PROGRAM 9: ADMIN CONTROL CENTER
+Objective:
+Give the operator a command center for managing the Discord like a real education product.
+
+Phase 9.1: Admin dashboard metrics
+Deliverables:
+1. New members by path.
+2. Applications pending/approved/rejected.
+3. Onboarding completion.
+4. Daily active members.
+5. Weekly active members.
+6. Commands used.
+7. Quiz attempts.
+8. Challenge submissions.
+9. Points leaderboard.
+10. Premium conversions.
+11. Content queue by status.
+12. Open questions.
+13. Job health.
+
+Acceptance criteria:
+1. Dashboard uses live Supabase data.
+2. Empty states explain what is missing.
+3. Failed jobs are visible.
+4. Metrics are not invented.
+
+Tests:
+1. Server component data smoke.
+2. Empty-state tests.
+3. Playwright admin dashboard smoke.
+
+Phase 9.2: Admin actions
+Deliverables:
+1. Approve/reject applications.
+2. Approve/reject content drafts.
+3. Feature challenge submissions.
+4. Award/reverse points.
+5. Resolve reports.
+6. Create/edit content calendar items.
+7. Run jobs manually.
+
+Acceptance criteria:
+1. Every admin action logs actor and result.
+2. Mutating actions require admin auth.
+3. Failed external calls return visible errors.
+
+Tests:
+1. Server action tests.
+2. Auth tests.
+3. Playwright action smoke.
+
+PROGRAM 10: QUALITY, SAFETY, AND ANTI-SPAM
+Objective:
+Protect quality as the server grows.
+
+Phase 10.1: Content quality evals
+Deliverables:
+1. Score generated drafts for specificity, usefulness, source grounding, actionability, tone, and risk.
+2. Block low-scoring posts.
+3. Store quality scores.
+4. Admin can override with note.
+
+Acceptance criteria:
+1. No low-quality AI draft posts automatically.
+2. Scores are visible in admin.
+3. Evaluation failures block posting by default.
+
+Tests:
+1. Quality scoring unit tests.
+2. Bad draft rejection tests.
+3. Admin override tests.
+
+Phase 10.2: Moderation and reporting
+Deliverables:
+1. /report command.
+2. team-ops report feed.
+3. Spam/low-value detection.
+4. Repeat offender tracking.
+5. Moderator resolution workflow.
+
+Acceptance criteria:
+1. Reports include source message/user/channel.
+2. No report is public by default.
+3. Resolutions are logged.
+
+Tests:
+1. Report command smoke.
+2. Moderation database tests.
+
+Phase 10.3: Growth readiness
+Deliverables:
+1. Rate limits for point events.
+2. Gateway worker dead-letter handling.
+3. Job retry/backoff.
+4. Alerting for failed jobs.
+5. Backup/export plan for Discord community data.
+
+Acceptance criteria:
+1. One bad event cannot crash worker.
+2. Duplicate job runs do not duplicate posts/points.
+3. Admin sees failures.
+
+Tests:
+1. Worker failure test.
+2. Idempotency test.
+3. Dead-letter smoke.
+
+PROGRAM 11: GROWTH FUNNEL AND PUBLIC PROOF
+Objective:
+Turn Discord activity into a public growth loop.
+
+Phase 11.1: Public Discord landing funnel
+Deliverables:
+1. Site page explaining Sage Ideas Academy Discord.
+2. Clear free vs premium promise.
+3. Join CTA.
+4. Application expectation.
+5. Examples of daily prompts/challenges/wins.
+6. Social proof section once available.
+
+Acceptance criteria:
+1. Page makes approval gate clear.
+2. Page does not overpromise activity before proof exists.
+3. CTA routes to Discord invite or waitlist.
+
+Tests:
+1. Playwright page smoke.
+2. Link verification.
+3. Copy review.
+
+Phase 11.2: Public weekly proof engine
+Deliverables:
+1. Approved weekly wins can become public proof.
+2. Member consent flag for public featuring.
+3. Public recap snippets.
+4. Site/social/newsletter draft pipeline.
+
+Acceptance criteria:
+1. No private member content goes public without approval.
+2. Public proof is specific and source-backed.
+3. Admin controls publication.
+
+Tests:
+1. Consent flag tests.
+2. Public draft generation tests.
+
+BUILD ORDER
+Pass 0: Verify live onboarding with a test member.
+Pass 1: Harden role routing so path/level changes remove conflicting old roles.
+Pass 2: Build daily signal scheduler with approval-gated drafts.
+Pass 3: Build quiz attempt scoring and points.
+Pass 4: Build challenge submission approval and featured wins.
+Pass 5: Build weekly leaderboard snapshots and recap.
+Pass 6: Build content queue workflow from real questions/builds/reviews.
+Pass 7: Build first-week onboarding nudges.
+Pass 8: Build admin dashboard controls for calendar, content queue, applications, points, and jobs.
+Pass 9: Build premium office-hours/review loop.
+Pass 10: Build news-to-action digest.
+Pass 11: Build public growth funnel and proof loop.
+Pass 12: Load test, failure test, and polish.
+
+DEFINITION OF DONE FOR EACH PASS
+1. Code implemented.
+2. Database migration added if needed.
+3. Unit tests added/updated.
+4. Smoke command added or updated.
+5. Live or local verification run.
+6. Admin visibility exists for failures.
+7. No duplicate posts/points on rerun.
+8. Documentation updated.
+9. Git diff reviewed.
+10. Remaining gaps stated before moving on.
+
+MINIMUM TEST COMMANDS PER PASS
+1. npm run typecheck
+2. npm run test:unit
+3. npm run discord:smoke
+4. Relevant smoke command for the pass
+5. npm run build for UI/admin changes
+6. Playwright smoke for admin or public site changes
+
+FIRST BUILD PASS TO START NOW
+Pass 0 and Pass 1 should happen first.
+
+Pass 0 deliverables:
+1. Create or use a test Discord account.
+2. Join Sage Ideas server.
+3. Confirm only start-here is visible.
+4. Run /apply with real answers.
+5. Confirm pending application appears in Supabase and team-ops.
+6. Run /approve.
+7. Confirm Academy Member, path role, and level role are assigned.
+8. Confirm discord_members row exists.
+9. Confirm /onboard works only after approval.
+10. Confirm approval audit passes.
+
+Pass 1 deliverables:
+1. Add centralized role routing helpers.
+2. Remove old path role when choosing new path.
+3. Remove old level role when choosing new level.
+4. Keep Academy Member stable.
+5. Keep Premium Member independent.
+6. Add tests for no conflicting role accumulation.
+7. Verify live role reassignment with test user.
+
+RISKS AND CONTROLS
+Risk: AI posts low-quality generic content.
+Control: approval gate and quality eval before public posting.
+
+Risk: Members farm points.
+Control: idempotency keys, daily caps, helpful-answer approval, admin reversals.
+
+Risk: Server becomes noisy.
+Control: lean channels, daily posting limits, content calendar, admin approval.
+
+Risk: RAG uses unapproved community chatter.
+Control: only approved content queue items sync into authoritative RAG.
+
+Risk: Bot fails silently.
+Control: job health, dead letters, team-ops alerts, scheduled run records.
+
+Risk: Premium feels vague.
+Control: premium promise, premium queue, office-hours priority, review SLA.
+
+RACI
+Owner:
+Sage.
+
+Bot/system:
+SageBot handles commands, jobs, points, posting, routing, capture, and alerts.
+
+Admin/mod:
+Approve members, review content, resolve reports, feature submissions, award/reverse points.
+
+Members:
+Ask, answer, build, submit, review, complete quizzes/challenges, share wins.
+
+Premium members:
+Submit deeper reviews, premium questions, office-hours queue items, advanced challenges.
+
+SUCCESS METRICS
+Week 1:
+1. 10+ approved members.
+2. 70% onboarding completion.
+3. 5+ useful questions.
+4. 5+ quiz attempts.
+5. 3+ challenge submissions.
+6. 1 weekly recap.
+
+Month 1:
+1. 50-100 members.
+2. 30% weekly active members.
+3. 50+ useful questions.
+4. 25+ challenge submissions.
+5. 10+ approved content queue assets.
+6. 4 weekly recaps.
+7. 5+ premium conversions or premium-intent leads.
+
+Scale target:
+1. 500 members: stable daily/weekly loop, admin dashboard, content queue, leaderboard, premium queue.
+2. 1,000 members: moderation workflows, stronger automation, segmented onboarding, richer analytics.
+3. 5,000 members: persistent worker, stronger anti-spam, role segmentation, scalable office-hours and mentor systems.
+
+IMMEDIATE NEXT ACTION
+Start Pass 0. Do not build more automation until the actual join -> apply -> approve -> role -> database path is proven end to end with a test member.

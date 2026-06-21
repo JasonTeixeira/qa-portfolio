@@ -10,14 +10,13 @@ import {
   type SagePathKey,
 } from './sage-content';
 import {
-  assignLevelRole,
-  assignPathRole,
+  applyDiscordRoleRouting,
   getRecentChannelMessages,
   postToChannelByBaseName,
   roleIdsByName,
 } from './sage-rest';
 import { createDiscordPremiumCheckout } from './premium';
-import { recordDiscordEvent, recordDiscordScheduledRun, upsertDiscordMember } from './analytics';
+import { getDiscordMemberRouting, recordDiscordEvent, recordDiscordScheduledRun, upsertDiscordMember } from './analytics';
 import { askSageFromDiscord } from './ask-sage';
 import { postDiscordInteractionFollowup } from './followup';
 import { answerPremiumQuestion, createOfficeHoursQueueItem, createPremiumReviewRequest } from './premium-workflows';
@@ -684,10 +683,15 @@ async function handleChoosePath(payload: DiscordInteractionPayload): Promise<Int
   const pathKey = optionValue(payload, 'path') as SagePathKey;
   const path = sagePathOptions.find((option) => option.key === pathKey);
   if (!id || !path) return ephemeral('I could not resolve that path. Try `/onboard`.');
-  await assignPathRole(id, path.key);
+  const current = await getDiscordMemberRouting(id);
+  const plan = await applyDiscordRoleRouting(id, {
+    currentPathKey: current.pathKey,
+    currentLevelKey: current.levelKey,
+    nextPathKey: path.key,
+  });
   await upsertDiscordMember({ discordUserId: id, username: username(payload), pathKey: path.key });
-  await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: path.key } });
-  return ephemeral(`Path set to **${path.label}**. Start in \`${path.channel}\`, then post your first project spec there.`);
+  await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: path.key, removed_roles: plan.rolesToRemove, added_roles: plan.rolesToAdd } });
+  return ephemeral(`Path set to **${path.label}**. Start in \`${plan.channel ?? path.channel}\`, then post your first project spec there.`);
 }
 
 async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -1503,10 +1507,15 @@ export async function handleSageComponent(payload: DiscordInteractionPayload): P
   if (approvedGate) return approvedGate;
 
   if (customId === 'sage_onboard_path') {
-    const channel = await assignPathRole(id, value as SagePathKey);
+    const current = await getDiscordMemberRouting(id);
+    const plan = await applyDiscordRoleRouting(id, {
+      currentPathKey: current.pathKey,
+      currentLevelKey: current.levelKey,
+      nextPathKey: value,
+    });
     const path = sagePathOptions.find((option) => option.key === value);
     await upsertDiscordMember({ discordUserId: id, username: username(payload), pathKey: value });
-    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: value } });
+    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: value, removed_roles: plan.rolesToRemove, added_roles: plan.rolesToAdd } });
     await recordDiscordEvent({
       eventType: 'onboarding_path_selected',
       commandName: 'onboard',
@@ -1517,28 +1526,33 @@ export async function handleSageComponent(payload: DiscordInteractionPayload): P
     return {
       type: RESPONSE_TYPE_UPDATE_MESSAGE,
       data: {
-        content: `Path saved: **${path?.label ?? value}**. Start in \`${channel ?? 'build-lab'}\` and post your first project.`,
+        content: `Path saved: **${path?.label ?? value}**. Start in \`${plan.channel ?? 'build-lab'}\` and post your first project.`,
         components: onboardingComponents(),
       },
     };
   }
 
   if (customId === 'sage_onboard_level') {
-    const role = await assignLevelRole(id, value as SageLevelKey);
+    const current = await getDiscordMemberRouting(id);
+    const plan = await applyDiscordRoleRouting(id, {
+      currentPathKey: current.pathKey,
+      currentLevelKey: current.levelKey,
+      nextLevelKey: value,
+    });
     const level = sageLevelOptions.find((option) => option.key === value);
     await upsertDiscordMember({ discordUserId: id, username: username(payload), levelKey: value });
-    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { level: value } });
+    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { level: value, removed_roles: plan.rolesToRemove, added_roles: plan.rolesToAdd } });
     await recordDiscordEvent({
       eventType: 'onboarding_level_selected',
       commandName: 'onboard',
       discordUserId: id,
       discordUsername: username(payload),
-      metadata: { level_key: value, role },
+      metadata: { level_key: value, role: plan.levelRole, removed_roles: plan.rolesToRemove, added_roles: plan.rolesToAdd },
     });
     return {
       type: RESPONSE_TYPE_UPDATE_MESSAGE,
       data: {
-        content: `Level saved: **${level?.label ?? value}**. Role assigned: **${role ?? 'Academy Member'}**.`,
+        content: `Level saved: **${level?.label ?? value}**. Role assigned: **${plan.levelRole ?? 'Academy Member'}**.`,
         components: onboardingComponents(),
       },
     };

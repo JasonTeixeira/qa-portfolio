@@ -797,6 +797,38 @@ test('sage discord onboarding: post-approval welcome explains the lean approved-
   assert.match(message, /First-week checklist/);
 });
 
+test('sage discord role routing: removes stale path and level roles without stripping overlapping valid roles', async () => {
+  const { planDiscordRoleRouting } = await import('../../lib/discord/role-routing.ts');
+
+  const changedPath = planDiscordRoleRouting({
+    currentPathKey: 'full_stack',
+    currentLevelKey: 'shipping',
+    nextPathKey: 'web_design',
+  });
+  assert.deepEqual(changedPath.rolesToAdd, ['Academy Member', 'Web Builder', 'Builder']);
+  assert.deepEqual(changedPath.rolesToRemove, []);
+  assert.equal(changedPath.pathRole, 'Web Builder');
+  assert.equal(changedPath.levelRole, 'Builder');
+
+  const changedLevel = planDiscordRoleRouting({
+    currentPathKey: 'web_design',
+    currentLevelKey: 'shipping',
+    nextLevelKey: 'starting',
+  });
+  assert.deepEqual(changedLevel.rolesToAdd, ['Academy Member', 'Web Builder', 'Beginner']);
+  assert.deepEqual(changedLevel.rolesToRemove, ['Builder']);
+  assert.equal(changedLevel.pathRole, 'Web Builder');
+  assert.equal(changedLevel.levelRole, 'Beginner');
+
+  const academyOverlap = planDiscordRoleRouting({
+    currentPathKey: 'ai_apps',
+    currentLevelKey: 'learning',
+    nextLevelKey: 'architecting',
+  });
+  assert.deepEqual(academyOverlap.rolesToAdd, ['Academy Member', 'AI Engineer', 'Contributor']);
+  assert.deepEqual(academyOverlap.rolesToRemove, []);
+});
+
 test('sage discord onboarding: application profile input is normalized before persistence', async () => {
   const { normalizeMemberApplicationProfile } = await import('../../lib/discord/engagement.ts');
   const normalized = normalizeMemberApplicationProfile({

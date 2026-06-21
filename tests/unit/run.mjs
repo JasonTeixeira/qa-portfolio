@@ -444,11 +444,17 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
     buildNewsToActionSourcePolicyLine,
     scoreNewsToActionCandidate,
   } = await import('../../lib/discord/news-to-action.ts');
+  const {
+    DISCORD_NEWS_TO_ACTION_INGESTION_VERSION,
+    parseNewsFeedEntriesForTest,
+  } = await import('../../lib/discord/news-ingestion.ts');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const script = await readFile(new URL('../../scripts/discord/plan-daily-content.ts', import.meta.url), 'utf8');
   const smokeScheduler = await readFile(new URL('../../scripts/discord/smoke-daily-signal-scheduler.ts', import.meta.url), 'utf8');
   const smokePublish = await readFile(new URL('../../scripts/discord/smoke-daily-signal-publish.ts', import.meta.url), 'utf8');
+  const smokeApprovalPublish = await readFile(new URL('../../scripts/discord/smoke-daily-approval-publish.ts', import.meta.url), 'utf8');
   const smokeNews = await readFile(new URL('../../scripts/discord/smoke-news-to-action.ts', import.meta.url), 'utf8');
+  const smokeNewsIngestion = await readFile(new URL('../../scripts/discord/smoke-news-ingestion.ts', import.meta.url), 'utf8');
   const cronRoute = await readFile(new URL('../../app/api/cron/discord/daily/route.ts', import.meta.url), 'utf8');
 
   const prompt = buildDailyPlannerPrompt({
@@ -476,17 +482,29 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   const genericNews = scoreNewsToActionCandidate({ ...validNews, action: 'Read the article and share your thoughts.' }, now);
   const unapprovedNews = scoreNewsToActionCandidate({ ...validNews, sourceKey: null, sourceUrl: 'https://example.com/random-news' }, now);
   const newsDraft = buildNewsToActionDraft(validNews, now);
+  const parsedFeed = parseNewsFeedEntriesForTest(`
+    <rss><channel><item>
+      <title>Example Platform Update</title>
+      <link>https://vercel.com/changelog/example-platform-update</link>
+      <description>One useful update for builders.</description>
+      <pubDate>Thu, 14 Jan 2099 12:00:00 GMT</pubDate>
+    </item></channel></rss>
+  `);
   assert.equal(DISCORD_DAILY_PLANNER_PROMPT_VERSION, 'discord-daily-planner-v1');
   assert.equal(DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION, 'discord-daily-signal-scheduler-v1');
   assert.equal(DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION, 'discord-news-to-action-registry-v1');
+  assert.equal(DISCORD_NEWS_TO_ACTION_INGESTION_VERSION, 'discord-news-to-action-ingestion-v1');
   assert.match(prompt, /Format exactly:/);
   assert.match(prompt, /concrete action/);
   assert.match(prompt, /\*\*News-to-action:\*\*/);
   assert.match(prompt, /Approval gates/);
   assert.match(prompt, /Automation map/);
   assert.ok(approvedNewsToActionSources.length >= 8);
+  assert.ok(approvedNewsToActionSources.some((source) => source.feedUrls.length > 0));
   assert.match(buildNewsToActionSourcePolicyLine(), /approved, fresh, sourced/);
   assert.match(newsDraft.body, /Source: Vercel Changelog/);
+  assert.equal(parsedFeed[0].title, 'Example Platform Update');
+  assert.equal(parsedFeed[0].link, 'https://vercel.com/changelog/example-platform-update');
   assert.equal(staleNews.ok, false);
   assert.ok(staleNews.reasons.includes('stale_source'));
   assert.equal(genericNews.ok, false);
@@ -502,13 +520,18 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
   assert.match(smokeScheduler, /no_approved_daily_signal_draft/);
   assert.match(smokePublish, /already_published/);
   assert.match(smokePublish, /method: 'DELETE'/);
+  assert.match(smokeApprovalPublish, /reviewDiscordContentDraft/);
+  assert.match(smokeApprovalPublish, /pending_approval/);
   assert.match(smokeNews, /source_url_not_approved/);
+  assert.match(smokeNewsIngestion, /fetchNewsToActionCandidates/);
   assert.match(cronRoute, /mode.*publish/s);
   assert.equal(pkg.scripts['discord:plan-daily'], 'tsx --env-file=.env.local scripts/discord/plan-daily-content.ts');
   assert.match(pkg.scripts['discord:smoke-daily-planner'], /--smoke --date=2099-01-01/);
   assert.equal(pkg.scripts['discord:smoke-daily-scheduler'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-scheduler.ts');
   assert.equal(pkg.scripts['discord:smoke-daily-publish'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-signal-publish.ts');
+  assert.equal(pkg.scripts['discord:smoke-daily-approval-publish'], 'tsx --env-file=.env.local scripts/discord/smoke-daily-approval-publish.ts');
   assert.equal(pkg.scripts['discord:smoke-news-to-action'], 'tsx --env-file=.env.local scripts/discord/smoke-news-to-action.ts');
+  assert.equal(pkg.scripts['discord:smoke-news-ingestion'], 'tsx --env-file=.env.local scripts/discord/smoke-news-ingestion.ts');
 });
 
 test('discord learning generator: validates quiz and challenge drafts', async () => {

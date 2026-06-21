@@ -9,6 +9,7 @@ import {
   approvedNewsToActionSources,
   buildNewsToActionSourcePolicyLine,
 } from './news-to-action';
+import { DISCORD_NEWS_TO_ACTION_INGESTION_VERSION, fetchNewsToActionCandidates } from './news-ingestion';
 
 export const DISCORD_DAILY_PLANNER_PROMPT_VERSION = 'discord-daily-planner-v1';
 export const DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION = 'discord-daily-signal-scheduler-v1';
@@ -134,11 +135,20 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     };
   }
 
-  const [plan, quiz, challenge] = await Promise.all([
+  const [plan, quiz, challenge, news] = await Promise.all([
     getDailyContentPlan(date),
     getDailyQuizFromStore(date),
     getDailyChallengeFromStore(date),
+    fetchNewsToActionCandidates({ now: date, maxItems: 1 }).catch((error) => ({
+      ok: false,
+      version: DISCORD_NEWS_TO_ACTION_INGESTION_VERSION,
+      checkedSources: approvedNewsToActionSources.length,
+      fetchedFeeds: 0,
+      items: [],
+      errors: [{ sourceKey: 'news_ingestion', feedUrl: 'all', error: error instanceof Error ? error.message : String(error) }],
+    })),
   ]);
+  const newsSeed = news.items[0]?.draft.body ?? buildNewsToActionSourcePolicyLine();
   const prompt = buildDailyPlannerPrompt({
     dateKey,
     theme: plan?.theme ?? getDailySignalWeeklyTheme(date).label,
@@ -148,7 +158,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     challengeTitle: challenge.title,
     challengePrompt: challenge.prompt,
     challengeDeliverable: challenge.deliverable,
-    newsToAction: buildNewsToActionSourcePolicyLine(),
+    newsToAction: newsSeed,
   });
   const generation = await deepSeekChat({
     messages: [
@@ -179,8 +189,17 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
       usage: generation.usage,
       scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
       news_registry_version: DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION,
+      news_ingestion_version: DISCORD_NEWS_TO_ACTION_INGESTION_VERSION,
       news_source_policy: 'approved_sources_only',
       approved_news_sources: approvedNewsToActionSources.map((source) => source.key),
+      news_ingestion: {
+        ok: news.ok,
+        checked_sources: news.checkedSources,
+        fetched_feeds: news.fetchedFeeds,
+        selected_source_key: news.items[0]?.draft.sourceKey ?? null,
+        selected_source_url: news.items[0]?.draft.sourceUrl ?? null,
+        error_count: news.errors.length,
+      },
       ...(input.metadata ?? {}),
     },
   });

@@ -6,6 +6,7 @@ export type NewsToActionSource = {
   category: 'ai_platform' | 'dev_platform' | 'product_platform' | 'infra' | 'payments' | 'open_source';
   domains: string[];
   pathPrefixes: string[];
+  feedUrls: string[];
   audienceUse: string;
 };
 
@@ -48,6 +49,7 @@ export const approvedNewsToActionSources = [
     category: 'ai_platform',
     domains: ['openai.com', 'platform.openai.com'],
     pathPrefixes: ['/index', '/docs', '/blog', '/changelog'],
+    feedUrls: [],
     audienceUse: 'AI app features, model behavior changes, API capability updates, and builder workflow changes.',
   },
   {
@@ -56,6 +58,7 @@ export const approvedNewsToActionSources = [
     category: 'ai_platform',
     domains: ['anthropic.com', 'docs.anthropic.com'],
     pathPrefixes: ['/news', '/docs', '/release-notes'],
+    feedUrls: [],
     audienceUse: 'Claude model, tool use, prompt, safety, and agent workflow changes.',
   },
   {
@@ -64,6 +67,7 @@ export const approvedNewsToActionSources = [
     category: 'dev_platform',
     domains: ['vercel.com'],
     pathPrefixes: ['/changelog', '/blog'],
+    feedUrls: ['https://vercel.com/atom'],
     audienceUse: 'Next.js hosting, deployment, observability, and web app delivery updates.',
   },
   {
@@ -72,6 +76,7 @@ export const approvedNewsToActionSources = [
     category: 'dev_platform',
     domains: ['supabase.com'],
     pathPrefixes: ['/changelog', '/blog', '/docs'],
+    feedUrls: ['https://supabase.com/feed.xml'],
     audienceUse: 'Database, auth, storage, realtime, vector, and backend build patterns.',
   },
   {
@@ -80,6 +85,7 @@ export const approvedNewsToActionSources = [
     category: 'dev_platform',
     domains: ['github.blog', 'docs.github.com'],
     pathPrefixes: ['/changelog', '/en'],
+    feedUrls: ['https://github.blog/changelog/feed/'],
     audienceUse: 'Developer workflow, Actions, security, repositories, Copilot, and collaboration changes.',
   },
   {
@@ -88,6 +94,7 @@ export const approvedNewsToActionSources = [
     category: 'infra',
     domains: ['blog.cloudflare.com', 'developers.cloudflare.com'],
     pathPrefixes: ['/', '/workers', '/pages'],
+    feedUrls: ['https://blog.cloudflare.com/rss/'],
     audienceUse: 'Edge, Workers, security, performance, and production infrastructure updates.',
   },
   {
@@ -96,6 +103,7 @@ export const approvedNewsToActionSources = [
     category: 'payments',
     domains: ['stripe.com', 'docs.stripe.com'],
     pathPrefixes: ['/changelog', '/docs'],
+    feedUrls: [],
     audienceUse: 'Billing, checkout, subscriptions, webhooks, and monetization implementation changes.',
   },
   {
@@ -104,6 +112,7 @@ export const approvedNewsToActionSources = [
     category: 'open_source',
     domains: ['huggingface.co'],
     pathPrefixes: ['/blog', '/docs'],
+    feedUrls: ['https://huggingface.co/blog/feed.xml'],
     audienceUse: 'Open-source models, datasets, evaluation, and deployment patterns.',
   },
 ] as const satisfies readonly NewsToActionSource[];

@@ -89,7 +89,7 @@ Pass 1 still needs live member proof:
 4. Confirm Premium Member remains independent if present.
 
 Pass 2 status:
-In progress.
+Implemented locally and ready for live recurring operation once cron/deployment schedule is enabled.
 
 Pass 2 verified:
 1. Daily signal taxonomy and weekly themes are represented in the daily planner.
@@ -101,10 +101,11 @@ Pass 2 verified:
 7. News-to-action source registry exists for approved AI/dev/product update sources.
 8. News-to-action scoring blocks unapproved URLs, stale items, and generic actions.
 9. Daily planner prompt includes a news-to-action section and approved-source policy.
+10. Live news ingestion fetches official feeds, normalizes candidate items, and only accepts items passing source/freshness/action gates.
+11. Admin approval publish smoke creates a pending daily draft, approves it through the content review path, publishes it, proves idempotency, deletes the Discord test message, and cleans Supabase rows.
 
-Pass 2 still needs proof:
-1. Admin approval path is tested end to end from generated draft to published message.
-2. Live news ingestion/fetching is not added yet; current registry validates candidate items before they become daily content.
+Pass 2 remaining operational step:
+1. Enable the production cron/deployment cadence so the daily planner creates reviewable drafts every day and publish mode runs only after admin approval.
 
 TARGET MEMBER EXPERIENCE
 New member:

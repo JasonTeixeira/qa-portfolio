@@ -1,13 +1,13 @@
 {
   "ok": true,
   "skipped": false,
-  "draftId": "5e9357b4-d43b-4728-bada-aed699811952",
+  "draftId": "aec40782-c799-4419-a687-80abf3b34112",
   "dateKey": "2099-01-01",
   "model": "deepseek-v4-flash",
   "title": "Daily Signal - 2099-01-01",
-  "bodyPreview": "# Daily Signal\n**Theme:** Automation safety gates – knowing when to let the bot run and when to lock it down.\n\n**Build prompt:** Build a simple approval-gated automation that reads a Google Sheet row, formats the data into a Slack message, and pauses before sending it. Only proceed if a human clicks",
+  "bodyPreview": "# Daily Signal\n**Theme:** Automation and AI – Building safe, auditable workflows\n\n**Build prompt:** Create a simple automation that reads a CSV of new user emails, checks each against a blocklist (local .txt file), and sends a welcome email only to non-blocked addresses. Use a tool like n8n, Make, o",
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-21T02:34:14.117Z",
-  "finishedAt": "2026-06-21T02:34:19.506Z"
+  "startedAt": "2026-06-21T19:34:31.824Z",
+  "finishedAt": "2026-06-21T19:34:38.543Z"
 }

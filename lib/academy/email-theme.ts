@@ -37,6 +37,10 @@ export const strong = (t: string) => `<strong style="color:${INK};font-weight:70
 export const button = (href: string, label: string) =>
   `<a href="${href}" style="display:inline-block;margin-top:8px;padding:13px 22px;border-radius:999px;background-color:#3d5afe;background:${GRAD};color:#ffffff;font-family:${FONT};font-weight:700;font-size:15px;text-decoration:none;">${label}</a>`
 
+/** Discord-blurple invite button. */
+export const discordButton = (href: string, label = 'Join the founding Discord →') =>
+  `<a href="${href}" style="display:inline-block;padding:14px 26px;border-radius:999px;background-color:#5865f2;color:#ffffff;font-family:${FONT};font-weight:700;font-size:15px;text-decoration:none;">${label}</a>`
+
 /** A position / founding callout card, echoing the on-site meter. */
 export const positionCard = (position: number) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px;"><tr><td style="border:1px solid ${LINE};border-radius:14px;background:${SURFACE};padding:20px 22px;">

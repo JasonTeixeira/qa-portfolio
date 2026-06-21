@@ -1602,6 +1602,55 @@
   color: var(--ac-ink);
 }
 
+/* ── Founding community (Discord) ── */
+.community {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--ac-pad);
+  text-align: center;
+}
+.discordBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.15rem 2.5rem;
+  border-radius: 999px;
+  background: #5865f2;
+  color: #fff;
+  font-family: var(--ac-sans);
+  font-weight: 700;
+  font-size: 1.12rem;
+  box-shadow: 0 20px 54px -16px rgba(88, 101, 242, 0.7);
+  transition: transform 0.35s var(--ac-ease), box-shadow 0.35s ease, background 0.3s ease;
+}
+.discordBtn:hover {
+  transform: translateY(-3px);
+  background: #6b76f5;
+  box-shadow: 0 26px 64px -16px rgba(88, 101, 242, 0.88);
+}
+.discordBtn svg {
+  width: 27px;
+  height: 27px;
+}
+.discordArrow {
+  transition: transform 0.35s var(--ac-ease);
+}
+.discordBtn:hover .discordArrow {
+  transform: translateX(4px);
+}
+.communityNote {
+  margin-top: 1.2rem;
+  font-family: var(--ac-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ac-ink-faint);
+}
+@media (prefers-reduced-motion: reduce) {
+  .discordBtn, .discordArrow {
+    transition: none;
+  }
+}
+
 /* ── Hero live-build terminal (the motion hook) ── */
 .live {
   border: 1px solid var(--ac-line-strong);

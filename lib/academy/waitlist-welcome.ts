@@ -6,10 +6,13 @@ import {
   para,
   strong,
   button,
+  discordButton,
   positionCard,
   refBox,
   checklist,
 } from '@/lib/academy/email-theme'
+
+const DISCORD_INVITE = 'https://discord.gg/KWPMEMJHGk'
 
 type Args = { email: string; position: number; refCode: string }
 
@@ -38,6 +41,10 @@ export function buildAcademyWelcomeEmail({ email, position, refCode }: Args) {
       'A SaaS that charges real money — your first paying users',
       'A clone of your own voice — plus 90+ more guided labs',
     ])}
+    <div style="height:8px;"></div>
+    ${para(`${strong('One more thing — meet the others.')} Founding members get into the private Discord now: early roles, build-along sessions, and feedback on your projects.`)}
+    ${discordButton(DISCORD_INVITE)}
+    <div style="height:26px;"></div>
     ${para(`Every lab ends with a real, working thing you keep. I’ll email you the moment the doors open — thanks for being early.<br/>${strong('— Jason, Sage Ideas')}`)}
   `
 
@@ -48,6 +55,9 @@ Move up — every friend who joins with your link jumps you 5 spots:
 ${refUrl}
 
 Founding members lock $20/mo for life, get the first month free, and help shape what we build first.
+
+Meet the others — join the private founding Discord:
+${DISCORD_INVITE}
 
 I'll email you the moment the doors open.
 — Jason, Sage Ideas`

@@ -35,6 +35,9 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
+      - name: High severity dependency audit
+        run: npm audit --audit-level=high
+
       - name: Validate content (no dead refs)
         run: npm run validate
 

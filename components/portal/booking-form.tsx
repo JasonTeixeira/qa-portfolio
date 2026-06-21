@@ -164,6 +164,7 @@ export function BookingForm({
                 className="flex h-10 w-full rounded-lg border border-[#3f3f46] bg-[#0f0f12] px-3 py-2 text-sm text-[#fafafa] focus:outline-none focus:border-[#06b6d4]"
                 data-testid="booking-engagement-picker"
               >
+                <option value="">No engagement</option>
                 {engagements.map((e) => (
                   <option key={e.id} value={e.id}>
                     {e.title}

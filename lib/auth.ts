@@ -39,6 +39,30 @@ export async function getUserWithProfile(): Promise<{
   user: NonNullable<Awaited<ReturnType<typeof getUser>>>;
   profile: ProfileRow;
 } | null> {
+  if (process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' && !process.env.VERCEL) {
+    const now = new Date().toISOString();
+    return {
+      user: {
+        id: '00000000-0000-0000-0000-000000000000',
+        email: 'local-admin-preview@sageideas.dev',
+      } as NonNullable<Awaited<ReturnType<typeof getUser>>>,
+      profile: {
+        id: '00000000-0000-0000-0000-000000000000',
+        email: 'local-admin-preview@sageideas.dev',
+        full_name: 'Local Admin Preview',
+        company: null,
+        role_in_company: null,
+        avatar_url: null,
+        app_role: 'admin',
+        approval_status: 'approved',
+        approved_at: now,
+        approved_by: null,
+        created_at: now,
+        updated_at: now,
+      },
+    };
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },

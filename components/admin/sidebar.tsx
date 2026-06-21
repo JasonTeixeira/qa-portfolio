@@ -19,14 +19,22 @@ import {
   TrendingUp,
   UserCog,
   GraduationCap,
+  Inbox,
   MessageCircle,
+  BriefcaseBusiness,
+  Network,
+  Megaphone,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/opportunities', label: 'Opportunity OS', icon: Network },
+  { href: '/admin/traffic', label: 'Traffic OS', icon: Megaphone },
   { href: '/admin/acquisition', label: 'Acquisition OS', icon: Radar },
+  { href: '/admin/job-applications', label: 'Job Application OS', icon: BriefcaseBusiness },
+  { href: '/admin/leads', label: 'Leads Inbox', icon: Inbox },
   { href: '/admin/crm', label: 'CRM', icon: Users },
   { href: '/admin/pipeline', label: 'Pipeline', icon: KanbanSquare },
   { href: '/admin/calendar', label: 'Calendar', icon: Calendar },

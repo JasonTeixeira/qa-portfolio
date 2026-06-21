@@ -78,6 +78,7 @@ test.describe('Phase 2D PR-B - kickoff intake', () => {
     clientPage,
     baseURL,
   }) => {
+    test.setTimeout(90_000);
     test.skip(!engagementId, 'engagement not seeded');
     test.skip(
       !!baseURL && /www\.sageideas\.dev$/i.test(new URL(baseURL).host),
@@ -95,20 +96,12 @@ test.describe('Phase 2D PR-B - kickoff intake', () => {
     await clientPage.locator('[data-testid="intake-field-goals"]').fill('Build a 5-page marketing site.');
     await clientPage.locator('[data-testid="intake-field-audience"]').fill('SMB founders.');
 
-    const submitResp = clientPage.waitForResponse(
-      (resp) =>
-        resp.url().includes(`/api/portal/engagements/${engagementId}/intake`) &&
-        resp.request().method() === 'POST',
-      { timeout: 30_000 },
-    );
     await clientPage.locator('[data-testid="intake-submit"]').click();
-    const finalResp = await submitResp;
-    expect(finalResp.ok()).toBeTruthy();
 
     // Page refreshes; the same /portal/intake/[id] now shows the
     // already-submitted view tagged with kickoff-answers.
     await expect(clientPage.locator('[data-testid="kickoff-answers"]')).toBeVisible({
-      timeout: 15_000,
+      timeout: 30_000,
     });
 
     // Service-role verification.

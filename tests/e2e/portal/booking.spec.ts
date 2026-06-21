@@ -64,15 +64,29 @@ test.describe('Phase 2D PR-B - calendar booking', () => {
     await clientPage
       .locator('[data-testid="booking-meeting-kind"]')
       .selectOption('kickoff');
+    const engagementPicker = clientPage.locator('[data-testid="booking-engagement-picker"]');
+    if (await engagementPicker.isVisible()) {
+      await engagementPicker.selectOption('');
+    }
 
-    // Pick the first available slot.
-    const firstSlot = clientPage.locator('[data-testid^="booking-slot-"]').first();
-    await expect(firstSlot).toBeVisible({ timeout: 15_000 });
-    const slotTestId = await firstSlot.getAttribute('data-testid');
+    // Pick the last available slot to avoid racing with other booking specs
+    // that seed near-term appointments while the full suite runs in parallel.
+    const selectedSlot = clientPage.locator('[data-testid^="booking-slot-"]').last();
+    await expect(selectedSlot).toBeVisible({ timeout: 15_000 });
+    const slotTestId = await selectedSlot.getAttribute('data-testid');
     expect(slotTestId).toBeTruthy();
     const expectedStartIso = (slotTestId ?? '').replace(/^booking-slot-/, '');
-    await firstSlot.click();
-    await expect(firstSlot).toHaveAttribute('aria-pressed', 'true');
+    await selectedSlot.click();
+    await expect(selectedSlot).toHaveAttribute('aria-pressed', 'true');
+
+    const expectedEndIso = new Date(new Date(expectedStartIso).getTime() + 30 * 60 * 1000).toISOString();
+    const sb = adminClient();
+    await sb
+      .from('bookings')
+      .delete()
+      .lt('starts_at', expectedEndIso)
+      .gt('ends_at', expectedStartIso)
+      .eq('status', 'confirmed');
 
     const confirmResp = clientPage.waitForResponse(
       (resp) =>
@@ -82,8 +96,9 @@ test.describe('Phase 2D PR-B - calendar booking', () => {
     );
     await clientPage.locator('[data-testid="booking-confirm"]').click();
     const finalResp = await confirmResp;
-    expect(finalResp.ok()).toBeTruthy();
-    const respJson = (await finalResp.json()) as {
+    const responseText = await finalResp.text();
+    expect(finalResp.ok(), responseText).toBeTruthy();
+    const respJson = JSON.parse(responseText) as {
       ok?: boolean;
       booking?: { id: string; ics_uid: string; starts_at: string };
     };
@@ -96,7 +111,6 @@ test.describe('Phase 2D PR-B - calendar booking', () => {
     });
 
     // Service-role verification.
-    const sb = adminClient();
     const { data: bookings } = await sb
       .from('bookings')
       .select('id, organization_id, meeting_kind, status, starts_at, ics_uid')

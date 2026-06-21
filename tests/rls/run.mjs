@@ -74,6 +74,31 @@ const READ_TABLES = [
   'revenue_deliverability_audits',
   'revenue_load_scale_proofs',
   'revenue_ai_ml_eval_harness_runs',
+  'opportunity_unified_items',
+  'opportunity_proof_assets',
+  'opportunity_communication_events',
+  'opportunity_follow_up_queue',
+  'opportunity_outcome_events',
+  'opportunity_strategy_recommendations',
+  'opportunity_load_proofs',
+  'opportunity_readiness_audits',
+  'traffic_sources',
+  'traffic_campaigns',
+  'traffic_landing_pages',
+  'traffic_content_assets',
+  'traffic_distribution_posts',
+  'traffic_seo_keywords',
+  'traffic_events',
+  'traffic_conversions',
+  'traffic_discord_invites',
+  'traffic_growth_experiments',
+  'traffic_next_best_actions',
+  'traffic_weekly_reports',
+  'traffic_load_proofs',
+  'traffic_readiness_audits',
+  'traffic_live_analytics_proofs',
+  'traffic_campaign_launches',
+  'traffic_revenue_feed_events',
 ];
 
 const WRITE_TABLES = [
@@ -131,6 +156,156 @@ const WRITE_TABLES = [
       dedupe_key: 'blocked',
       source_url: 'https://blocked.example',
       discovered_at: new Date().toISOString(),
+    },
+  },
+  {
+    table: 'opportunity_unified_items',
+    payload: {
+      run_key: 'anon-rls-test',
+      source: 'job_os',
+      source_id: 'blocked',
+      title: 'Blocked opportunity',
+      organization: 'Blocked',
+      stage: 'new',
+    },
+  },
+  {
+    table: 'opportunity_proof_assets',
+    payload: {
+      run_key: 'anon-rls-test',
+      asset_type: 'artifact',
+      title: 'Blocked asset',
+      applies_to: 'both',
+      gap_covered: 'blocked',
+      priority: 'high',
+    },
+  },
+  {
+    table: 'opportunity_communication_events',
+    payload: {
+      run_key: 'anon-rls-test',
+      source: 'revenue_os',
+      source_id: 'blocked',
+      channel: 'email',
+      direction: 'inbound',
+      intent: 'unknown',
+    },
+  },
+  {
+    table: 'opportunity_follow_up_queue',
+    payload: {
+      run_key: 'anon-rls-test',
+      source: 'job_os',
+      action: 'Blocked action',
+      rationale: 'Anon write should be blocked',
+      urgency: 'high',
+    },
+  },
+  {
+    table: 'opportunity_outcome_events',
+    payload: {
+      run_key: 'anon-rls-test',
+      source: 'job_os',
+      source_id: 'blocked',
+      outcome: 'reply',
+    },
+  },
+  {
+    table: 'opportunity_strategy_recommendations',
+    payload: {
+      run_key: 'anon-rls-test',
+      recommendation: 'Blocked recommendation',
+      rationale: 'Anon write should be blocked',
+    },
+  },
+  {
+    table: 'opportunity_load_proofs',
+    payload: {
+      run_key: 'anon-rls-test',
+      status: 'passed',
+    },
+  },
+  {
+    table: 'opportunity_readiness_audits',
+    payload: {
+      run_key: 'anon-rls-test',
+      score: 1,
+      grade: 'blocked',
+    },
+  },
+  {
+    table: 'traffic_sources',
+    payload: { run_key: 'anon-rls-test', source_key: 'seo', label: 'Blocked', status: 'active', audience: 'blocked' },
+  },
+  {
+    table: 'traffic_campaigns',
+    payload: { run_key: 'anon-rls-test', campaign_key: 'blocked', name: 'Blocked', primary_channel: 'seo', intent: 'lead_magnet', landing_page: '/blocked', utm_campaign: 'blocked' },
+  },
+  {
+    table: 'traffic_landing_pages',
+    payload: { run_key: 'anon-rls-test', path: '/blocked', page_type: 'tool', primary_cta: 'Blocked', target_conversion: 'blocked' },
+  },
+  {
+    table: 'traffic_content_assets',
+    payload: { run_key: 'anon-rls-test', asset_key: 'blocked', title: 'Blocked', asset_type: 'blog', target_url: '/blocked', topic: 'blocked', status: 'ready' },
+  },
+  {
+    table: 'traffic_distribution_posts',
+    payload: { run_key: 'anon-rls-test', asset_key: 'blocked', channel: 'linkedin', post_angle: 'Blocked', cta_url: '/blocked' },
+  },
+  {
+    table: 'traffic_seo_keywords',
+    payload: { run_key: 'anon-rls-test', keyword: 'blocked', intent: 'lead_magnet', target_url: '/blocked' },
+  },
+  {
+    table: 'traffic_events',
+    payload: { run_key: 'anon-rls-test', source: 'seo', url: '/blocked', event_type: 'visit', event_count: 1 },
+  },
+  {
+    table: 'traffic_conversions',
+    payload: { run_key: 'anon-rls-test', source: 'seo', landing_page: '/blocked', conversion_type: 'seo_audit', conversion_count: 1 },
+  },
+  {
+    table: 'traffic_discord_invites',
+    payload: { run_key: 'anon-rls-test', server_key: 'blocked', invite_code: 'blocked', source: 'discord', target_audience: 'blocked' },
+  },
+  {
+    table: 'traffic_growth_experiments',
+    payload: { run_key: 'anon-rls-test', name: 'Blocked', channel: 'seo', hypothesis: 'Blocked', metric: 'conversion_rate' },
+  },
+  {
+    table: 'traffic_next_best_actions',
+    payload: { run_key: 'anon-rls-test', channel: 'seo', action: 'Blocked', rationale: 'Blocked', expected_impact: 'Blocked', urgency: 'high' },
+  },
+  {
+    table: 'traffic_weekly_reports',
+    payload: { run_key: 'anon-rls-test', visits: 1, conversions: 1 },
+  },
+  {
+    table: 'traffic_load_proofs',
+    payload: { run_key: 'anon-rls-test', status: 'passed' },
+  },
+  {
+    table: 'traffic_readiness_audits',
+    payload: { run_key: 'anon-rls-test', score: 1, grade: 'blocked' },
+  },
+  {
+    table: 'traffic_live_analytics_proofs',
+    payload: { run_key: 'anon-rls-test', provider: 'ga4', evidence: 'blocked' },
+  },
+  {
+    table: 'traffic_campaign_launches',
+    payload: { run_key: 'anon-rls-test', campaign_key: 'blocked', channel: 'seo' },
+  },
+  {
+    table: 'traffic_revenue_feed_events',
+    payload: {
+      run_key: 'anon-rls-test',
+      campaign_key: 'blocked',
+      source: 'seo',
+      account_name: 'Blocked',
+      recommended_offer: 'seo_conversion_audit',
+      evidence: 'blocked',
     },
   },
   {

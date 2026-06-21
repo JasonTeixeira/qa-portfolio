@@ -26,7 +26,7 @@ const STATUS_MAP: Record<string, string> = {
   'email.complained': 'complained',
   'email.opened': 'opened',
   'email.clicked': 'clicked',
-  'email.unsubscribed': 'complained',
+  'email.unsubscribed': 'unsubscribed',
 };
 
 export async function POST(req: NextRequest) {
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
 
   if (existing?.id) {
     // Don't downgrade a terminal status by overwriting with a transient one.
-    const isTerminal = ['bounced', 'complained', 'failed'].includes(status);
+    const isTerminal = ['bounced', 'complained', 'unsubscribed', 'failed'].includes(status);
     const update: Record<string, unknown> = { metadata: merged };
     if (isTerminal || status === 'delivered') update.status = status;
     await sb.from('email_log').update(update).eq('id', existing.id);

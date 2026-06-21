@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { AdminTopbar } from '@/components/admin/topbar';
+import { discordConfigStatus } from '@/lib/discord/config';
 import {
   AdminSettingsTabs,
   type StudioSettings,
@@ -134,6 +135,7 @@ export default async function AdminSettingsPage() {
       env: process.env.VERCEL_ENV ?? null,
       dashboard_url: 'https://vercel.com/dashboard',
     },
+    discord: discordConfigStatus(),
   };
 
   const me = profile.id;

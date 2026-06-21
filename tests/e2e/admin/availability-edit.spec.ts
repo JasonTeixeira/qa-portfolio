@@ -69,12 +69,20 @@ test.describe('Phase 2F PR-B - admin availability editor', () => {
     expect(finalResp.ok()).toBeTruthy();
 
     const sb = adminClient();
-    const { data: after } = await sb
-      .from('studio_availability')
-      .select('slot_minutes')
-      .eq('id', restoreId!)
-      .single();
-    expect(after?.slot_minutes).toBe(Number(newValue));
+    await expect
+      .poll(
+        async () => {
+          const { data, error } = await sb
+            .from('studio_availability')
+            .select('slot_minutes')
+            .eq('id', restoreId!)
+            .single();
+          if (error) throw error;
+          return data?.slot_minutes ?? null;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe(Number(newValue));
   });
 
   test('PATCH rejects start_time >= end_time', async ({ adminPage, baseURL }) => {

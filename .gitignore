@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Supabase CLI local project state
+supabase/.temp/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
@@ -50,6 +53,7 @@ public/projects/
 # Playwright artifacts / local test outputs
 test-results/
 playwright-report/
+.design-review/
 
 # Terraform runtime artifacts (NEVER commit)
 **/.terraform/

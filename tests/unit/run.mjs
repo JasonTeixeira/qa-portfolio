@@ -5,6 +5,7 @@
 // framework just for a handful of assertions.
 
 import { strict as assert } from 'node:assert';
+import { readFile } from 'node:fs/promises';
 
 // .ts imports work via the tsx loader, which is registered through the
 // package script (`tsx tests/unit/run.mjs` or `node --import tsx ...`).
@@ -53,6 +54,776 @@ test('api-errors: fromZodError returns 400 with first message', async () => {
   const body = await res.json();
   assert.equal(body.code, 'invalid_request');
   assert.ok(typeof body.error === 'string' && body.error.length > 0);
+});
+
+test('ops scripts: local e2e and Supabase commands load env and use durable wrappers', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
+  assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
+  assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
+  assert.match(packageJson.scripts['qa:cwv-budget'], /node scripts\/qa\/cwv-budget-report\.mjs/);
+});
+
+test('programs A/B/C/E: budget, MDX, viz, and leads inbox surfaces are wired', async () => {
+  const mdxIndex = await readFile(new URL('../../components/mdx/index.ts', import.meta.url), 'utf8');
+  const vizIndex = await readFile(new URL('../../components/viz/index.ts', import.meta.url), 'utf8');
+  const leadsMigration = await readFile(new URL('../../supabase/migrations/0045_leads_admin_inbox.sql', import.meta.url), 'utf8');
+  const sidebar = await readFile(new URL('../../components/admin/sidebar.tsx', import.meta.url), 'utf8');
+
+  assert.match(mdxIndex, /ProofBlock/);
+  assert.match(mdxIndex, /SystemDiagram/);
+  assert.match(mdxIndex, /OfferCTA/);
+  assert.match(vizIndex, /MetricGrid/);
+  assert.match(leadsMigration, /add column if not exists status/);
+  assert.match(leadsMigration, /leads_score_created_at_idx/);
+  assert.match(sidebar, /\/admin\/leads/);
+});
+
+test('discord community ops: premium command, analytics dashboard, cron, and migration are wired', async () => {
+  const migration = await readFile(new URL('../../supabase/migrations/0049_discord_community_ops.sql', import.meta.url), 'utf8');
+  const engagementMigration = await readFile(new URL('../../supabase/migrations/0050_discord_engagement_engine.sql', import.meta.url), 'utf8');
+  const approvalMigration = await readFile(new URL('../../supabase/migrations/0051_discord_member_approval_gate.sql', import.meta.url), 'utf8');
+  const gatewayMigration = await readFile(new URL('../../supabase/migrations/0060_discord_gateway_worker.sql', import.meta.url), 'utf8');
+  const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
+  const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const sidebar = await readFile(new URL('../../components/admin/sidebar.tsx', import.meta.url), 'utf8');
+  const vercel = await readFile(new URL('../../vercel.json', import.meta.url), 'utf8');
+
+  assert.match(migration, /create table if not exists public\.discord_members/);
+  assert.match(migration, /create table if not exists public\.discord_events/);
+  assert.match(engagementMigration, /create table if not exists public\.discord_points_ledger/);
+  assert.match(engagementMigration, /create table if not exists public\.discord_content_queue/);
+  assert.match(engagementMigration, /create table if not exists public\.discord_member_streaks/);
+  assert.match(approvalMigration, /create table if not exists public\.discord_member_applications/);
+  assert.match(gatewayMigration, /create table if not exists public\.discord_messages/);
+  assert.match(gatewayMigration, /create table if not exists public\.discord_gateway_events/);
+  assert.match(gatewayMigration, /create table if not exists public\.discord_reactions/);
+  assert.match(gatewayMigration, /create table if not exists public\.discord_threads/);
+  const gatewayReliabilityMigration = await readFile(new URL('../../supabase/migrations/0063_discord_gateway_reliability.sql', import.meta.url), 'utf8');
+  assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_heartbeats/);
+  assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_sessions/);
+  assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_dead_letters/);
+  const classifierMigration = await readFile(new URL('../../supabase/migrations/0068_discord_message_classifier.sql', import.meta.url), 'utf8');
+  assert.match(classifierMigration, /create table if not exists public\.discord_message_classifications/);
+  assert.match(classifierMigration, /recommended_action in/);
+  const contentQueueSourceMigration = await readFile(new URL('../../supabase/migrations/0069_discord_content_queue_source_messages.sql', import.meta.url), 'utf8');
+  assert.match(contentQueueSourceMigration, /source_message_id text references public\.discord_messages/);
+  assert.match(contentQueueSourceMigration, /discord_content_queue_source_message_idx/);
+  const contentDraftMigration = await readFile(new URL('../../supabase/migrations/0070_discord_content_draft_approval.sql', import.meta.url), 'utf8');
+  assert.match(contentDraftMigration, /create table if not exists public\.discord_content_drafts/);
+  assert.match(contentDraftMigration, /pending_approval/);
+  const ragMigration = await readFile(new URL('../../supabase/migrations/0065_rag_foundation.sql', import.meta.url), 'utf8');
+  assert.match(ragMigration, /create extension if not exists vector/);
+  assert.match(ragMigration, /create table if not exists public\.rag_sources/);
+  assert.match(ragMigration, /create table if not exists public\.rag_documents/);
+  assert.match(ragMigration, /create table if not exists public\.rag_chunks/);
+  assert.match(ragMigration, /embedding extensions\.vector\(1536\)/);
+  assert.match(ragMigration, /create table if not exists public\.rag_retrieval_logs/);
+  assert.match(ragMigration, /create table if not exists public\.rag_answers/);
+  assert.match(ragMigration, /create table if not exists public\.rag_answer_feedback/);
+  assert.match(ragMigration, /create table if not exists public\.rag_eval_questions/);
+  assert.match(ragMigration, /create table if not exists public\.rag_eval_runs/);
+  assert.match(ragMigration, /create table if not exists public\.rag_eval_results/);
+  assert.match(commands, /name: 'apply'/);
+  assert.match(commands, /name: 'approve'/);
+  assert.match(commands, /name: 'premium'/);
+  assert.match(commands, /name: 'leaderboard'/);
+  assert.match(commands, /name: 'submit-challenge'/);
+  assert.match(commands, /createDiscordPremiumCheckout/);
+  assert.match(register, /name: 'premium'/);
+  assert.match(register, /name: 'quiz'/);
+  assert.match(register, /name: 'approve'/);
+  assert.equal(packageJson.scripts['discord:migration-check'], 'node scripts/discord/check-migrations.mjs');
+  assert.match(packageJson.scripts['discord:gateway'], /scripts\/discord\/gateway-worker\.ts/);
+  assert.match(packageJson.scripts['discord:smoke'], /smoke-sage-community\.mjs/);
+  assert.equal(packageJson.scripts['discord:verify-message-content'], 'node --env-file-if-exists=.env.local scripts/discord/verify-message-content-intent.mjs');
+  assert.equal(packageJson.scripts['discord:classify-messages'], 'tsx --env-file=.env.local scripts/discord/classify-messages.ts');
+  assert.equal(packageJson.scripts['discord:smoke-classifier'], 'tsx --env-file=.env.local scripts/discord/smoke-message-classifier.ts');
+  assert.equal(packageJson.scripts['discord:queue-content'], 'tsx --env-file=.env.local scripts/discord/queue-content-from-messages.ts');
+  assert.equal(packageJson.scripts['discord:smoke-content-queue'], 'tsx --env-file=.env.local scripts/discord/smoke-content-queue-automation.ts');
+  assert.equal(packageJson.scripts['discord:smoke-content-approval'], 'tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts');
+  assert.equal(packageJson.scripts['rag:baseline'], 'node --env-file-if-exists=.env.local scripts/rag/baseline.mjs');
+  assert.equal(packageJson.scripts['rag:migration-check'], 'node scripts/rag/check-rag-migrations.mjs');
+  assert.equal(packageJson.scripts['rag:smoke-foundation'], 'node --env-file-if-exists=.env.local scripts/rag/smoke-rag-foundation.mjs');
+  assert.equal(packageJson.scripts['rag:sync-sources'], 'tsx --env-file=.env.local scripts/rag/sync-sources.ts');
+  assert.equal(packageJson.scripts['rag:smoke-deepseek'], 'tsx --env-file=.env.local scripts/rag/smoke-deepseek.ts');
+  assert.equal(packageJson.scripts['rag:chunk'], 'tsx --env-file=.env.local scripts/rag/chunk-documents.ts');
+  assert.equal(packageJson.scripts['rag:smoke-embeddings'], 'tsx --env-file=.env.local scripts/rag/smoke-local-embeddings.ts');
+  assert.equal(packageJson.scripts['rag:embed'], 'tsx --env-file=.env.local scripts/rag/embed-chunks-local.ts');
+  assert.equal(packageJson.scripts['rag:smoke-retrieval'], 'tsx --env-file=.env.local scripts/rag/smoke-retrieval.ts');
+  assert.equal(packageJson.scripts['rag:smoke-answer'], 'tsx --env-file=.env.local scripts/rag/smoke-answer.ts');
+  const dockerfile = await readFile(new URL('../../Dockerfile.worker', import.meta.url), 'utf8');
+  const railway = await readFile(new URL('../../railway.worker.json', import.meta.url), 'utf8');
+  assert.match(dockerfile, /npm", "run", "discord:gateway"/);
+  assert.match(railway, /Dockerfile\.worker/);
+  assert.match(sidebar, /\/admin\/discord/);
+  assert.match(vercel, /\/api\/cron\/discord\/daily/);
+  assert.match(vercel, /\/api\/cron\/discord\/weekly/);
+});
+
+test('rag source normalizer: creates stable keys hashes and document payloads', async () => {
+  const sourceNormalizerModule = await import('../../lib/rag/source-normalizer.ts');
+  const {
+    buildSourceKey,
+    estimateTokens,
+    normalizeRagSource,
+    normalizeRagText,
+    stableHash,
+  } = sourceNormalizerModule.default ?? sourceNormalizerModule;
+
+  assert.equal(buildSourceKey('discord_question', 'abc123'), 'discord_question:abc123');
+  assert.equal(normalizeRagText(` hello   world
+
+
+again `), `hello world
+
+again`);
+  assert.equal(stableHash('hello   world'), stableHash('hello world'));
+  assert.ok(estimateTokens('12345678') >= 2);
+
+  const record = normalizeRagSource({
+    sourceType: 'discord_answer',
+    externalId: 'answer-1',
+    title: 'Useful answer',
+    body: 'Here is the answer.\\n\\nIt has enough context.',
+    authorUserId: 'user-1',
+    channelBaseName: 'questions',
+    qualityScore: 120,
+  });
+
+  assert.ok(record);
+  assert.equal(record.source.source_key, 'discord_answer:answer-1');
+  assert.equal(record.source.quality_score, 100);
+  assert.equal(record.document.document_key, 'doc:discord_answer:answer-1');
+  assert.equal(record.document.body_hash, record.source.content_hash);
+  assert.equal(record.document.status, 'pending');
+});
+
+test('discord message classifier: labels useful community moments with actions', async () => {
+  const { classifyDiscordMessage, DISCORD_MESSAGE_CLASSIFIER_VERSION } = await import('../../lib/discord/message-classifier.ts');
+
+  const question = classifyDiscordMessage({
+    discordMessageId: 'm1',
+    channelBaseName: 'questions',
+    authorBot: false,
+    content: 'How should I design the first version of my AI agent project so it is testable and useful?',
+    detectedKind: 'question',
+  });
+  assert.equal(question.category, 'question');
+  assert.equal(question.recommended_action, 'track_question');
+  assert.ok(question.quality_score > 20);
+  assert.equal(question.classifier_version, DISCORD_MESSAGE_CLASSIFIER_VERSION);
+
+  const review = classifyDiscordMessage({
+    discordMessageId: 'm2',
+    channelBaseName: 'review-queue',
+    authorBot: false,
+    content: 'Can someone review my landing page and give critique on the proof section?',
+    detectedKind: 'review',
+  });
+  assert.equal(review.category, 'review_request');
+  assert.equal(review.recommended_action, 'candidate_review');
+
+  const spam = classifyDiscordMessage({
+    discordMessageId: 'm3',
+    channelBaseName: 'general',
+    authorBot: false,
+    content: 'free money crypto pump click here http://bad.example http://worse.example http://spam.example',
+    linkCount: 3,
+  });
+  assert.equal(spam.category, 'spam');
+  assert.equal(spam.recommended_action, 'needs_human_review');
+  assert.ok(spam.spam_score >= 70);
+
+  const bot = classifyDiscordMessage({
+    discordMessageId: 'm4',
+    channelBaseName: 'questions',
+    authorBot: true,
+    content: 'How should I classify this?',
+    detectedKind: 'question',
+  });
+  assert.equal(bot.recommended_action, 'ignore');
+});
+
+test('discord content queue automation: creates queue candidates from useful classifications', async () => {
+  const { buildContentQueueCandidate } = await import('../../lib/discord/content-queue-automation.ts');
+  const candidate = buildContentQueueCandidate({
+    discord_message_id: 'm1',
+    channel_base_name: 'questions-to-content',
+    author_user_id: 'u1',
+    author_username: 'sage',
+    content: 'How do I turn one useful Discord question into a daily lesson and resource?',
+    category: 'question',
+    recommended_action: 'track_question',
+    confidence: 0.8,
+    quality_score: 70,
+    content_value_score: 95,
+    signals: { has_question: true },
+    rationale: 'question -> track_question',
+  });
+
+  assert.ok(candidate);
+  assert.equal(candidate.source, 'discord_message_classifier');
+  assert.equal(candidate.source_message_id, 'm1');
+  assert.equal(candidate.source_classification_action, 'track_question');
+  assert.equal(candidate.status, 'captured');
+  assert.ok(candidate.priority > 70);
+  assert.match(candidate.idea, /Answer this member question/);
+
+  const ignored = buildContentQueueCandidate({
+    discord_message_id: 'm2',
+    channel_base_name: 'general',
+    author_user_id: 'u1',
+    author_username: 'sage',
+    content: 'ok',
+    category: 'general',
+    recommended_action: 'ignore',
+    confidence: 0.9,
+    quality_score: 0,
+    content_value_score: 0,
+    signals: {},
+    rationale: 'general -> ignore',
+  });
+  assert.equal(ignored, null);
+});
+
+test('discord content approval: normalizes drafts and admin review wiring exists', async () => {
+  const { normalizeDiscordContentDraft } = await import('../../lib/discord/content-approval.ts');
+  const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+
+  const draft = normalizeDiscordContentDraft({
+    draftType: 'daily_signal',
+    targetChannelBaseName: 'daily-signal',
+    body: '  One useful prompt.\\n\\n\\nOne clear action. ',
+    qualityScore: 111,
+  });
+  assert.equal(draft.status, 'pending_approval');
+  assert.equal(draft.quality_score, 100);
+  assert.equal(draft.body, 'One useful prompt.\n\nOne clear action.');
+  assert.match(actions, /reviewDiscordContentDraftAction/);
+  assert.match(page, /AI content approval/);
+  assert.match(page, /reviewDiscordContentDraftAction/);
+});
+
+test('rag chunking: creates stable bounded chunks with overlap metadata', async () => {
+  const { chunkRagDocument } = await import('../../lib/rag/chunking.ts');
+  const section = `First paragraph explains the system clearly with operational details, owner expectations, review standards, and proof requirements.
+
+Second paragraph adds implementation notes, common mistakes, source capture, tagging rules, metadata requirements, and escalation paths.
+
+Third paragraph explains verification, repeatable testing, quality gates, review evidence, and how to keep the corpus useful.
+
+Fourth paragraph captures operational ownership, weekly maintenance, content reuse, and the path from question to reusable resource.`;
+  const body = `# Build Systems\n\n${Array.from({ length: 12 }, (_, index) => `${section}\n\nIteration ${index + 1} adds enough detail for chunking.`).join('\n\n')}`;
+
+  const chunks = chunkRagDocument({
+    documentKey: 'doc:resource:build-system',
+    title: 'Build Systems',
+    body,
+    targetTokens: 120,
+    overlapTokens: 25,
+  });
+  const repeated = chunkRagDocument({
+    documentKey: 'doc:resource:build-system',
+    title: 'Build Systems',
+    body,
+    targetTokens: 120,
+    overlapTokens: 25,
+  });
+
+  assert.ok(chunks.length >= 2);
+  assert.deepEqual(chunks.map((chunk) => chunk.chunk_key), repeated.map((chunk) => chunk.chunk_key));
+  assert.equal(chunks[0].chunk_key, 'chunk:doc:resource:build-system:0');
+  assert.ok(chunks.every((chunk) => chunk.token_estimate > 0));
+  assert.ok(chunks.every((chunk) => chunk.metadata.heading === 'Build Systems'));
+  assert.ok(chunks[1].content.includes('Second paragraph') || chunks[1].content.includes('Third paragraph'));
+});
+
+test('rag deepseek: builds authenticated chat requests and parses content', async () => {
+  const { deepSeekChat, requireDeepSeekApiKey } = await import('../../lib/rag/deepseek.ts');
+  assert.equal(requireDeepSeekApiKey({ DEEPSEEK_API_KEY: ' test-key ' }), 'test-key');
+
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url, init });
+    return new Response(JSON.stringify({
+      model: 'deepseek-chat',
+      choices: [{ message: { content: 'rag-ok' } }],
+      usage: { prompt_tokens: 3, completion_tokens: 2, total_tokens: 5 },
+    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  };
+
+  try {
+    const result = await deepSeekChat({
+      apiKey: 'unit-key',
+      baseUrl: 'https://api.deepseek.com/',
+      model: 'deepseek-chat',
+      messages: [{ role: 'user', content: 'ping' }],
+      maxTokens: 8,
+    });
+    assert.equal(result.content, 'rag-ok');
+    assert.equal(result.usage.total_tokens, 5);
+    assert.equal(calls[0].url, 'https://api.deepseek.com/chat/completions');
+  assert.equal(calls[0].init.headers.Authorization, 'Bearer unit-key');
+  assert.match(String(calls[0].init.body), /"model":"deepseek-chat"/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('rag embeddings and retrieval: local vector lane and hybrid RPC are wired', async () => {
+  const { LOCAL_EMBEDDING_DIMENSIONS, LOCAL_EMBEDDING_MODEL, vectorToSql } = await import('../../lib/rag/embeddings.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0067_rag_local_embeddings.sql', import.meta.url), 'utf8');
+  const retrieval = await readFile(new URL('../../lib/rag/retrieval.ts', import.meta.url), 'utf8');
+
+  assert.equal(LOCAL_EMBEDDING_MODEL, 'Supabase/gte-small');
+  assert.equal(LOCAL_EMBEDDING_DIMENSIONS, 384);
+  assert.equal(vectorToSql([0.1, -0.2]), '[0.10000000,-0.20000000]');
+  assert.match(migration, /embedding_local extensions\.vector\(384\)/);
+  assert.match(migration, /using hnsw \(embedding_local extensions\.vector_cosine_ops\)/);
+  assert.match(migration, /create or replace function public\.match_rag_chunks_hybrid/);
+  assert.match(migration, /websearch_to_tsquery\('english', query_text\)/);
+  assert.match(retrieval, /match_rag_chunks_hybrid/);
+  assert.match(retrieval, /answerRagQuestion/);
+});
+
+test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
+  const { formatAskSageDiscordAnswer, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
+  const { isDeferredSageCommand } = await import('../../lib/discord/sage-commands.ts');
+  const { buildDiscordFollowupRequest } = await import('../../lib/discord/followup.ts');
+  const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
+  const route = await readFile(new URL('../../app/api/discord/interactions/route.ts', import.meta.url), 'utf8');
+  const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(
+    normalizeAskSageQuestion({ question: '  How do I onboard members?  ', context: '  Free member approval  ' }),
+    'How do I onboard members?\n\nMember context: Free member approval',
+  );
+  const formatted = formatAskSageDiscordAnswer('How do I onboard members?', {
+    answer: 'Use a clear start-here path and approval gate [1].',
+    citations: [{ chunk_id: 'c1', title: 'Discord runbook', source_url: 'https://example.com/runbook', source_type: 'doc' }],
+    retrievalLogId: 'log-1',
+    answerId: 'answer-1',
+    model: 'deepseek-chat',
+  });
+  assert.match(formatted, /# SageBot answer/);
+  assert.match(formatted, /Discord runbook/);
+  assert.match(formatted, /Answer ID: `answer-1`/);
+  assert.ok(formatted.length <= 1900);
+  assert.match(commands, /name: 'ask-sage'/);
+  assert.match(commands, /handleAskSage/);
+  assert.match(commands, /handleDeferredSageCommand/);
+  assert.match(route, /RESPONSE_TYPE_DEFERRED_CHANNEL_MESSAGE/);
+  assert.equal(isDeferredSageCommand({ data: { name: 'ask-sage' } }), true);
+  assert.equal(isDeferredSageCommand({ data: { name: 'ask' } }), false);
+  const followup = buildDiscordFollowupRequest({ applicationId: 'app-1', token: 'token-1', content: 'done' });
+  assert.equal(followup.url, 'https://discord.com/api/v10/webhooks/app-1/token-1');
+  assert.match(String(followup.init.body), /"flags":64/);
+  assert.match(register, /name: 'ask-sage'/);
+  assert.equal(pkg.scripts['discord:smoke-ask-sage'], 'tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts');
+});
+
+test('discord daily planner: builds approval-gated DeepSeek draft jobs', async () => {
+  const { DISCORD_DAILY_PLANNER_PROMPT_VERSION, buildDailyPlannerPrompt, scoreDailyPlannerDraft } = await import('../../lib/discord/daily-planner.ts');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const script = await readFile(new URL('../../scripts/discord/plan-daily-content.ts', import.meta.url), 'utf8');
+
+  const prompt = buildDailyPlannerPrompt({
+    dateKey: '2099-01-01',
+    theme: 'Approval gates',
+    prompt: 'Map one approval workflow.',
+    quizPrompt: 'What needs approval?',
+    quizOptions: ['Sending', 'Reading', 'Counting', 'Formatting'],
+    challengeTitle: 'Automation map',
+    challengePrompt: 'Map a workflow.',
+    challengeDeliverable: 'Workflow map',
+  });
+  assert.equal(DISCORD_DAILY_PLANNER_PROMPT_VERSION, 'discord-daily-planner-v1');
+  assert.match(prompt, /Format exactly:/);
+  assert.match(prompt, /Approval gates/);
+  assert.match(prompt, /Automation map/);
+  assert.equal(scoreDailyPlannerDraft('thin'), 35);
+  assert.ok(scoreDailyPlannerDraft('# Daily Signal\n**Theme:** Test\n**Build prompt:** Build\n**Quiz:** Q\n**Challenge:** C\nDeliverable: D\n'.repeat(8)) >= 80);
+  assert.match(script, /createDailyPlannerDraft/);
+  assert.equal(pkg.scripts['discord:plan-daily'], 'tsx --env-file=.env.local scripts/discord/plan-daily-content.ts');
+  assert.match(pkg.scripts['discord:smoke-daily-planner'], /--smoke --date=2099-01-01/);
+});
+
+test('discord learning generator: validates quiz and challenge drafts', async () => {
+  const {
+    DISCORD_LEARNING_GENERATOR_PROMPT_VERSION,
+    buildLearningGeneratorPrompt,
+    parseGeneratedLearningItems,
+    scoreGeneratedLearningItems,
+  } = await import('../../lib/discord/quiz-challenge-generator.ts');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const script = await readFile(new URL('../../scripts/discord/generate-learning-content.ts', import.meta.url), 'utf8');
+
+  const prompt = buildLearningGeneratorPrompt({ theme: 'approval gates', dateKey: '2099-01-02' });
+  assert.equal(DISCORD_LEARNING_GENERATOR_PROMPT_VERSION, 'discord-learning-generator-v1');
+  assert.match(prompt, /Return strict JSON only/);
+  assert.match(prompt, /approval gates/);
+  const items = parseGeneratedLearningItems(JSON.stringify({
+    quiz: {
+      prompt: 'Which action should require a human approval gate before an automation proceeds?',
+      options: ['Reading data', 'Sending a customer email', 'Counting rows', 'Formatting text'],
+      correct_answer: 'Sending a customer email',
+      explanation: 'Sending affects trust and reputation, so it needs a human approval boundary.',
+      difficulty: 'foundation',
+    },
+    challenge: {
+      title: 'Approval map',
+      prompt: 'Map one automation with trigger, input, decision point, human approval, and failure path.',
+      deliverable: 'Post the map and name the approval owner.',
+      points: 20,
+    },
+  }));
+  assert.equal(items.quiz.options.length, 4);
+  assert.equal(items.challenge.points, 20);
+  assert.ok(scoreGeneratedLearningItems(items) >= 90);
+  assert.match(script, /generateDiscordLearningDrafts/);
+  assert.equal(pkg.scripts['discord:generate-learning'], 'tsx --env-file=.env.local scripts/discord/generate-learning-content.ts');
+  assert.match(pkg.scripts['discord:smoke-learning-generator'], /--smoke --date=2099-01-02/);
+});
+
+test('discord weekly automation: drafts leaderboard recap for approval', async () => {
+  const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const script = await readFile(new URL('../../scripts/discord/create-weekly-recap-draft.ts', import.meta.url), 'utf8');
+
+  assert.equal(DISCORD_WEEKLY_RECAP_PROMPT_VERSION, 'discord-weekly-recap-automation-v1');
+  assert.match(discordWeekKey(new Date('2026-06-21T12:00:00.000Z')), /^2026-W\d{2}$/);
+  const body = [
+    '# Weekly Recap',
+    '**Leaderboard**',
+    '1. Builder - 50 pts',
+    '**Challenge recap**',
+    'Submissions this week: 1',
+    '**Content queue**',
+    '- One idea',
+    '**Open questions**',
+    '- One question',
+    'x'.repeat(500),
+  ].join('\n');
+  assert.ok(scoreWeeklyRecap(body) >= 90);
+  assert.match(script, /createWeeklyRecapDraft/);
+  assert.equal(pkg.scripts['discord:weekly-recap-draft'], 'tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts');
+  assert.match(pkg.scripts['discord:smoke-weekly-recap'], /--smoke/);
+});
+
+test('discord member intelligence: classifies member segments and persists rollups', async () => {
+  const { classifyDiscordMemberProfile } = await import('../../lib/discord/member-intelligence.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0071_discord_member_intelligence_profiles.sql', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const script = await readFile(new URL('../../scripts/discord/rebuild-member-intelligence.ts', import.meta.url), 'utf8');
+
+  const profile = classifyDiscordMemberProfile({
+    discordUserId: 'u1',
+    academyMember: true,
+    premiumMember: false,
+    totalPoints: 80,
+    currentStreak: 4,
+    longestStreak: 4,
+    questionCount: 2,
+    answerCount: 3,
+    helpfulAnswerCount: 2,
+    challengeSubmissionCount: 1,
+    contentCaptureCount: 1,
+    onboardingStepsCompleted: 5,
+  });
+  assert.equal(profile.segment, 'premium_candidate');
+  assert.equal(profile.nextBestAction, 'offer_premium_review_or_member_spotlight');
+  assert.ok(profile.strengths.includes('helps_members'));
+  assert.match(migration, /create table if not exists public\.discord_member_intelligence_profiles/);
+  assert.match(migration, /segment text not null/);
+  assert.match(script, /rebuildDiscordMemberIntelligenceProfiles/);
+  assert.equal(pkg.scripts['discord:member-intelligence'], 'tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts');
+  assert.match(pkg.scripts['discord:smoke-member-intelligence'], /--smoke/);
+});
+
+test('discord premium workflows: review, deeper answer, and office-hours queues are wired', async () => {
+  const { normalizePremiumReviewType } = await import('../../lib/discord/premium-workflows.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0072_discord_premium_workflows.sql', import.meta.url), 'utf8');
+  const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
+  const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(normalizePremiumReviewType('AI'), 'ai');
+  assert.equal(normalizePremiumReviewType('nonsense'), 'general');
+  assert.match(migration, /create table if not exists public\.discord_premium_review_requests/);
+  assert.match(migration, /create table if not exists public\.discord_premium_answer_requests/);
+  assert.match(migration, /create table if not exists public\.discord_office_hours_queue/);
+  assert.match(commands, /name: 'premium-review'/);
+  assert.match(commands, /name: 'premium-ask'/);
+  assert.match(commands, /createOfficeHoursQueueItem/);
+  assert.match(commands, /payload\.data\?\.name === 'premium-ask'/);
+  assert.match(register, /name: 'premium-review'/);
+  assert.match(register, /name: 'premium-ask'/);
+  assert.equal(pkg.scripts['discord:smoke-premium-workflows'], 'tsx --env-file=.env.local scripts/discord/smoke-premium-workflows.ts');
+});
+
+test('discord content quality: evaluates drafts before approval', async () => {
+  const {
+    DISCORD_CONTENT_QUALITY_EVALUATOR_VERSION,
+    evaluateDiscordContentDraft,
+  } = await import('../../lib/discord/content-quality.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0073_discord_content_quality_evaluations.sql', import.meta.url), 'utf8');
+  const approval = await readFile(new URL('../../lib/discord/content-approval.ts', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  const passing = evaluateDiscordContentDraft({
+    id: 'draft-1',
+    draft_type: 'daily_signal',
+    target_channel_base_name: 'daily-signal',
+    body: '# Daily Signal\n**Build prompt:** Build one approval-gated workflow.\n**Question:** What should require review?\n**Challenge:** Map the workflow.\nDeliverable: Post trigger, owner, and failure path.',
+  });
+  const failing = evaluateDiscordContentDraft({
+    id: 'draft-2',
+    draft_type: 'daily_signal',
+    target_channel_base_name: 'daily-signal',
+    body: "This is a cutting-edge game-changer.",
+  });
+  assert.equal(DISCORD_CONTENT_QUALITY_EVALUATOR_VERSION, 'discord-content-quality-v1');
+  assert.equal(passing.passed, true);
+  assert.equal(failing.passed, false);
+  assert.ok(failing.reasons.length > 0);
+  assert.match(migration, /create table if not exists public\.discord_content_draft_evaluations/);
+  assert.match(approval, /latestPassingContentDraftEvaluation/);
+  assert.match(approval, /failed quality evaluation/);
+  assert.equal(pkg.scripts['discord:evaluate-content'], 'tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts');
+  assert.match(pkg.scripts['discord:smoke-content-quality'], /--smoke/);
+});
+
+test('discord migrations: numeric versions are unique', async () => {
+  const { readdir } = await import('node:fs/promises');
+  const files = (await readdir(new URL('../../supabase/migrations/', import.meta.url))).filter((file) => /^\d{4}_.+\.sql$/.test(file));
+  const versions = files.map((file) => file.slice(0, 4));
+  assert.equal(new Set(versions).size, versions.length);
+});
+
+test('viz metrics: proportions use real metric values without inventing placeholders', async () => {
+  const { metricMagnitude, metricProportions } = await import('../../components/viz/metric-utils.ts');
+  assert.equal(metricMagnitude('200+'), 200);
+  assert.equal(metricMagnitude('5★'), 5);
+  assert.equal(metricMagnitude('EN + ES'), null);
+
+  const rows = metricProportions([
+    { label: 'DB Tables', value: '185' },
+    { label: 'API Endpoints', value: '69' },
+    { label: 'Languages', value: 'EN + ES' },
+  ]);
+  assert.equal(rows[0].proportion, 1);
+  assert.ok(rows[1].proportion > 0.3 && rows[1].proportion < 0.4);
+  assert.equal(rows[2].proportion, null);
+});
+
+test('ops scripts: Program 7 audit logging uses the typed logAudit contract', async () => {
+  const actions = await readFile(new URL('../../app/admin/acquisition/actions.ts', import.meta.url), 'utf8');
+  const start = actions.indexOf('runRevenueOsTenantSaasFoundationProof');
+  assert.ok(start > 0, 'Program 7 action must exist');
+  const body = actions.slice(start, actions.indexOf('revalidatePath', start));
+  assert.match(body, /entityType:\s*'revenue_workspace'/);
+  assert.match(body, /after:\s*\{/);
+  assert.doesNotMatch(body, /targetType:/);
+  assert.doesNotMatch(body, /metadata:\s*\{\s*runKey,\s*workspaces:/);
+});
+
+test('revenue os public api: hashes keys, enforces scopes, and verifies webhook signatures', async () => {
+  const {
+    buildRevenueApiKey,
+    hashRevenueApiKey,
+    verifyRevenueApiKey,
+    hasRevenueApiScope,
+    signRevenueWebhookPayload,
+    verifyRevenueWebhookSignature,
+    buildIdempotencyKey,
+  } = await import('../../lib/revenue-os/public-api.ts');
+
+  const key = buildRevenueApiKey({
+    tenantKey: 'tenant-apex',
+    scopes: ['leads:write', 'exports:read'],
+    entropy: 'unit-test-entropy',
+  });
+  const hash = hashRevenueApiKey(key.secret);
+  const verified = verifyRevenueApiKey({
+    presentedKey: key.secret,
+    records: [{ id: 'api-key-1', tenantKey: 'tenant-apex', keyHash: hash, scopes: key.scopes, status: 'active' }],
+  });
+  const failed = verifyRevenueApiKey({
+    presentedKey: `${key.secret}x`,
+    records: [{ id: 'api-key-1', tenantKey: 'tenant-apex', keyHash: hash, scopes: key.scopes, status: 'active' }],
+  });
+  const body = JSON.stringify({ event: 'reply.received', id: 'evt_1' });
+  const signature = signRevenueWebhookPayload({ secret: key.secret, timestamp: '2026-06-18T12:00:00.000Z', body });
+
+  assert.match(key.secret, /^rosk_live_/);
+  assert.equal(key.prefix, key.secret.slice(0, 16));
+  assert.equal(key.lastFour, key.secret.slice(-4));
+  assert.equal(verified?.tenantKey, 'tenant-apex');
+  assert.equal(failed, null);
+  assert.equal(hasRevenueApiScope(key.scopes, 'leads:write'), true);
+  assert.equal(hasRevenueApiScope(key.scopes, 'jobs:write'), false);
+  assert.equal(verifyRevenueWebhookSignature({ secret: key.secret, timestamp: '2026-06-18T12:00:00.000Z', body, signature, now: '2026-06-18T12:00:30.000Z' }).ok, true);
+  assert.equal(verifyRevenueWebhookSignature({ secret: key.secret, timestamp: '2026-06-18T12:00:00.000Z', body, signature: 'bad', now: '2026-06-18T12:00:30.000Z' }).ok, false);
+  assert.equal(buildIdempotencyKey({ tenantKey: 'tenant-apex', resource: 'leads', externalId: 'lead-1' }), 'tenant-apex:leads:lead-1');
+});
+
+test('discord signatures: verifies signed interaction payloads and rejects tampering', async () => {
+  const { generateKeyPairSync, sign } = await import('node:crypto');
+  const { verifyDiscordRequestSignature } = await import('../../lib/discord/signature.ts');
+  const { privateKey, publicKey } = generateKeyPairSync('ed25519');
+  const publicKeyDer = publicKey.export({ format: 'der', type: 'spki' });
+  const publicKeyHex = Buffer.from(publicKeyDer).subarray(-32).toString('hex');
+  const timestamp = '1781766000';
+  const body = JSON.stringify({ type: 1 });
+  const signature = sign(null, Buffer.from(`${timestamp}${body}`), privateKey).toString('hex');
+
+  assert.equal(
+    verifyDiscordRequestSignature({ publicKey: publicKeyHex, signature, timestamp, body }),
+    true,
+  );
+  assert.equal(
+    verifyDiscordRequestSignature({ publicKey: publicKeyHex, signature, timestamp, body: '{"type":2}' }),
+    false,
+  );
+  assert.equal(
+    verifyDiscordRequestSignature({ publicKey: publicKeyHex, signature: null, timestamp, body }),
+    false,
+  );
+});
+
+test('sage discord commands: command registry covers onboarding content engine and ops commands', async () => {
+  const { sageCommandDefinitions } = await import('../../lib/discord/sage-commands.ts');
+  const { sagePathOptions, sageLevelOptions, dailyBuildPrompts, weeklyCadence, leanDiscordChannels } = await import('../../lib/discord/sage-content.ts');
+  const names = sageCommandDefinitions.map((command) => command.name);
+
+  assert.deepEqual(names, [
+    'apply',
+    'approve',
+    'reject',
+    'pending',
+    'onboard',
+    'choose-path',
+    'submit-project',
+    'request-review',
+    'premium-review',
+    'capture-content',
+    'daily-prompt',
+    'ask',
+    'ask-sage',
+    'premium-ask',
+    'answer',
+    'mark-helpful',
+    'award',
+    'profile',
+    'rewards',
+    'weekly-winners',
+    'weekly-recap',
+    'resource',
+    'office-hours',
+    'report',
+    'premium',
+    'daily',
+    'checklist',
+    'complete-step',
+    'quiz',
+    'challenge',
+    'submit-challenge',
+    'points',
+    'rank',
+    'leaderboard',
+    'streak',
+    'weekly',
+    'content-queue',
+  ]);
+  assert.equal(sagePathOptions.length, 8);
+  assert.equal(sageLevelOptions.length, 5);
+  assert.equal(leanDiscordChannels.length, 9);
+  assert.deepEqual(leanDiscordChannels.map((channel) => channel.name), [
+    'start-here',
+    'daily-signal',
+    'questions',
+    'build-lab',
+    'review-queue',
+    'resources',
+    'wins',
+    'premium',
+    'team-ops',
+  ]);
+  assert.ok(sagePathOptions.every((option) => ['build-lab', 'questions'].includes(option.channel)));
+  assert.ok(dailyBuildPrompts.length >= 10);
+  assert.equal(weeklyCadence.length, 7);
+  const apply = sageCommandDefinitions.find((command) => command.name === 'apply');
+  assert.deepEqual(
+    apply.options.map((option) => option.name),
+    ['goal', 'experience', 'build', 'rules', 'path', 'level', 'timezone', 'time_budget', 'support', 'portfolio', 'source'],
+  );
+});
+
+test('sage discord onboarding: application profile input is normalized before persistence', async () => {
+  const { normalizeMemberApplicationProfile } = await import('../../lib/discord/engagement.ts');
+  const normalized = normalizeMemberApplicationProfile({
+    goal: '  Build an AI app  ',
+    experience: 'Learning',
+    intendedBuild: 'A support agent',
+    pathKey: 'ai_apps',
+    levelKey: 'shipping',
+    timezone: ' ET ',
+    weeklyTimeBudget: '5 hours',
+    preferredSupport: 'review',
+    portfolioUrl: 'https://example.com',
+    referralSource: 'YouTube',
+  });
+  assert.equal(normalized.goal, 'Build an AI app');
+  assert.equal(normalized.pathKey, 'ai_apps');
+  assert.equal(normalized.levelKey, 'shipping');
+  assert.equal(normalized.timezone, 'ET');
+  assert.equal(normalized.preferredSupport, 'review');
+
+  const unsafe = normalizeMemberApplicationProfile({
+    goal: 'Goal',
+    experience: 'Experience',
+    intendedBuild: 'Build',
+    pathKey: 'not_real',
+    levelKey: 'bad_level',
+    preferredSupport: 'spam',
+  });
+  assert.equal(unsafe.pathKey, null);
+  assert.equal(unsafe.levelKey, null);
+  assert.equal(unsafe.preferredSupport, null);
+});
+
+test('discord gateway ingestion: classifies normal messages for capture', async () => {
+  const {
+    countLinks,
+    detectDiscordMessageKind,
+    normalizeDiscordGatewayMessage,
+  } = await import('../../lib/discord/gateway-ingestion.ts');
+
+  assert.equal(countLinks('See https://example.com and http://demo.test'), 2);
+  assert.equal(detectDiscordMessageKind({ channelBaseName: 'questions', content: 'How do I deploy this?' }), 'question');
+  assert.equal(detectDiscordMessageKind({ channelBaseName: 'build-lab', content: 'I shipped a draft' }), 'project');
+  assert.equal(detectDiscordMessageKind({ channelBaseName: 'wins', content: 'Launched today' }), 'win');
+  assert.equal(detectDiscordMessageKind({ channelBaseName: 'questions', content: 'Here is the fix', referencedMessageId: 'm1' }), 'answer');
+
+  const message = normalizeDiscordGatewayMessage({
+    id: 'm1',
+    guild_id: 'g1',
+    channel_id: 'c1',
+    author: { id: 'u1', username: 'sage' },
+    content: 'How do I make this reliable? https://example.com',
+    timestamp: '2026-06-18T12:00:00.000Z',
+    attachments: [{ id: 'a1', filename: 'shot.png' }],
+  }, '❓questions');
+  assert.equal(message.discordMessageId, 'm1');
+  assert.equal(message.channelBaseName, 'questions');
+  assert.equal(message.detectedKind, 'question');
+  assert.equal(message.linkCount, 1);
+  assert.equal(message.attachmentCount, 1);
 });
 
 // -------------------------------------------------------------- rate-limit
@@ -366,6 +1137,175 @@ test('revenue os jobs: ranks junior remote AI roles and skips senior/spanish-req
   assert.ok(pipeline.matches[0].applicationAdvice.includes('AI application'));
 });
 
+test('job application os: builds phases 1-6 queue packets and manual proof safeguards', async () => {
+  const {
+    buildJobApplicationOsRun,
+    detectKnockoutRules,
+  } = await import('../../lib/job-application-os/core.ts');
+
+  const run = buildJobApplicationOsRun({
+    capturedAt: '2026-06-18T12:00:00.000Z',
+    manualJobs: [
+      {
+        title: 'Junior AI Application Engineer',
+        company: 'Applied Apps',
+        location: 'Remote US',
+        description: 'Build Next.js TypeScript OpenAI LLM API workflows with testing and Vercel.',
+        url: 'https://jobs.example/ai',
+      },
+      {
+        title: 'Junior AI Application Engineer',
+        company: 'Applied Apps',
+        location: 'Remote US',
+        description: 'Duplicate from LinkedIn capture.',
+        url: 'https://jobs.example/ai',
+      },
+      {
+        title: 'Senior Platform Director',
+        company: 'Big Corp',
+        location: 'Onsite',
+        description: 'Senior director role requiring 10+ years onsite.',
+        url: 'https://jobs.example/senior',
+      },
+    ],
+    providerPayloads: [],
+  });
+
+  assert.equal(run.resumeVersions.length, 3);
+  assert.ok(run.skills.length >= 5);
+  assert.ok(run.stories.some((story) => story.competency === 'quality'));
+  assert.equal(run.summary.deduped, 1);
+  assert.ok(run.dailyTargets[0].fit.overall >= 75);
+  assert.equal(run.dailyTargets[0].stage, 'ready');
+  assert.ok(run.packets[0].coverLetter.includes('Applied Apps'));
+  assert.ok(run.checklists[0].items.some((item) => item.label === 'Sensitive questions answered manually' && item.done === false));
+  assert.ok(run.evidence.every((record) => record.notes.some((note) => note.includes('manual'))));
+  assert.ok(run.phaseScorecard.every((phase) => phase.score >= 70));
+  assert.ok(run.phaseScorecard.some((phase) => phase.status === 'needs_live_proof'));
+  assert.ok(detectKnockoutRules('Senior director requiring fluent spanish and onsite', run.preferences).length >= 3);
+});
+
+test('job application os: builds phases 7-12 recruiter interview analytics observability and load proof', async () => {
+  const {
+    buildJobApplicationOsRun,
+    buildJobLoadProof,
+    buildLiveSourceProofs,
+    classifyRecruiterInbox,
+  } = await import('../../lib/job-application-os/core.ts');
+
+  const run = buildJobApplicationOsRun();
+  const interviewReply = classifyRecruiterInbox({
+    applicationRank: 1,
+    fromEmail: 'Recruiter@Example.com',
+    body: 'We would like to schedule an interview and discuss next steps.',
+  });
+  const failedLoad = buildJobLoadProof({
+    tenants: 1,
+    jobs: 100,
+    applications: 20,
+    packets: 5,
+    p95DashboardMs: 3000,
+    p95ExportMs: 5000,
+  });
+  const liveProofs = buildLiveSourceProofs({ hasJobApiCredentials: true, hasLinkedInCookie: false });
+
+  assert.ok(run.recruiterContacts.length > 0);
+  assert.ok(run.outreachSteps.every((step) => step.status === 'manual_review'));
+  assert.equal(interviewReply.classification, 'interview_request');
+  assert.ok(run.interviewKits[0].likelyQuestions.length >= 3);
+  assert.ok(run.experiments.some((experiment) => experiment.metric === 'interview_rate'));
+  assert.ok(run.analytics.bottlenecks.includes('manual_submission_pending'));
+  assert.equal(liveProofs[0].status, 'configured');
+  assert.equal(liveProofs[1].status, 'missing_credentials');
+  assert.equal(run.observability.status, 'healthy');
+  assert.equal(run.loadProof.status, 'passed');
+  assert.equal(failedLoad.status, 'failed');
+  assert.equal(run.phaseScorecard.length, 12);
+});
+
+test('job application os: hardens artifacts browser capture outcomes learning and readiness audit', async () => {
+  const {
+    buildJobApplicationOsRun,
+    buildJobReadinessAudit,
+  } = await import('../../lib/job-application-os/core.ts');
+
+  const run = buildJobApplicationOsRun();
+  const artifactTypes = new Set(run.resumeArtifacts.map((artifact) => artifact.artifactType));
+
+  assert.equal(run.resumeArtifacts.length, run.resumeVersions.length * 3);
+  assert.ok(artifactTypes.has('markdown'));
+  assert.ok(artifactTypes.has('pdf_ready_html'));
+  assert.ok(artifactTypes.has('docx_manifest'));
+  assert.ok(run.resumeArtifacts.every((artifact) => artifact.checksum.startsWith('jobos_')));
+  assert.ok(run.browserCaptureSessions.some((session) => session.source === 'linkedin' && session.status === 'needs_operator_session'));
+  assert.ok(run.browserCaptureSessions.every((session) => session.evidenceRequired.length >= 3));
+  assert.ok(run.outcomes.length >= 4);
+  assert.equal(run.learningReport.sampleSize, run.outcomes.length);
+  assert.ok(run.learningReport.recommendedChanges.some((change) => change.includes('checksum')));
+  assert.ok(run.readinessAudit.score >= 90);
+  assert.equal(run.readinessAudit.grade, 'institutional');
+  assert.ok(run.readinessAudit.passed.includes('resume_markdown_pdf_docx_artifacts_ready'));
+  assert.ok(run.readinessAudit.gaps.includes('gmail_live_reply_stream_not_connected'));
+
+  const worldClassAudit = buildJobReadinessAudit({
+    run,
+    gmailConnected: true,
+    linkedinConnected: true,
+  });
+  assert.ok(worldClassAudit.score >= 95);
+  assert.equal(worldClassAudit.grade, 'world_class_ready');
+  assert.equal(worldClassAudit.gaps.length, 0);
+});
+
+test('job application os: imports datasets and builds optimization recommendations', async () => {
+  const {
+    buildJobApplicationOsRun,
+    buildJobStrategyRecommendations,
+    buildMeasuredJobLoadRun,
+    buildOutcomeLearningReport,
+    buildProofGapRecommendations,
+    parseJobDataset,
+  } = await import('../../lib/job-application-os/core.ts');
+
+  const dataset = parseJobDataset({
+    sourceType: 'csv',
+    datasetName: 'historical-applications',
+    payload: [
+      'title,company,location,description,url,outcome,evidence',
+      'AI Application Engineer,Example AI,Remote,Next.js TypeScript OpenAI testing,https://example.com/ai,interview,calendar reply',
+      'QA Automation Engineer,Quality SaaS,Remote,Playwright API CI regression,https://example.com/qa,reply,recruiter reply',
+      'Broken Row Only',
+    ].join('\n'),
+  });
+  const run = buildJobApplicationOsRun({ manualJobs: dataset.normalizedJobs });
+  const learning = buildOutcomeLearningReport(dataset.normalizedOutcomes);
+  const strategy = buildJobStrategyRecommendations({
+    targets: run.dailyTargets,
+    learning,
+    liveProofs: run.liveSourceProofs,
+    importedJobs: dataset.normalizedJobs,
+  });
+  const proofGaps = buildProofGapRecommendations({ parsedJobs: run.parsedJobs, skills: run.skills });
+  const load = buildMeasuredJobLoadRun({
+    tenants: 5,
+    jobs: 10_000,
+    applications: 500,
+    packets: 100,
+    startedAtMs: 100,
+    finishedAtMs: 1100,
+  });
+
+  assert.equal(dataset.normalizedJobs.length, 2);
+  assert.equal(dataset.normalizedOutcomes.length, 2);
+  assert.equal(dataset.rowsRejected, 1);
+  assert.equal(learning.replyRate, 100);
+  assert.ok(strategy.length >= 3);
+  assert.ok(strategy[0].action.includes('Apply'));
+  assert.ok(Array.isArray(proofGaps));
+  assert.equal(load.status, 'passed');
+  assert.ok(load.samples.some((sample) => sample.route.includes('/admin/job-applications')));
+});
+
 test('revenue os connectors: creates deduped lead-source run plans', async () => {
   const { buildLeadSourceConnectorPlan } = await import('../../lib/revenue-os/connectors.ts');
   const plan = buildLeadSourceConnectorPlan({
@@ -510,6 +1450,67 @@ test('revenue os reporting: identifies working channels and next experiments', a
   assert.ok(report.whatToImprove.some((item) => item.includes('missing recipient')));
   assert.ok(report.nextExperiments.some((item) => item.includes('AI application')));
   assert.ok(report.learningScore >= 70);
+});
+
+test('revenue os intelligence dashboard: builds KPIs, insights, conversion dimensions, and priority queue', async () => {
+  const { buildRevenueIntelligenceDashboard } = await import('../../lib/revenue-os/revenue-intelligence-dashboard.ts');
+  const dashboard = buildRevenueIntelligenceDashboard({
+    totals: {
+      leadsAdded: 18,
+      qualified: 12,
+      drafted: 9,
+      sent: 8,
+      replies: 4,
+      meetings: 2,
+      proposals: 1,
+      won: 1,
+      pipeline: 24000,
+      accounts: 6,
+      audits: 4,
+      replyRate: 50,
+      meetingRate: 25,
+      auditCoverage: 67,
+      qualificationRate: 67,
+    },
+    breakdowns: {
+      bySource: [
+        { label: 'inbound', accounts: 4, contacted: 4, replies: 3, meetings: 2, wins: 1, replyRate: 75, meetingRate: 50 },
+        { label: 'directory', accounts: 3, contacted: 3, replies: 0, meetings: 0, wins: 0, replyRate: 0, meetingRate: 0 },
+      ],
+      byIndustry: [{ label: 'Dental', accounts: 4, contacted: 4, replies: 3, meetings: 2, wins: 1, replyRate: 75, meetingRate: 50 }],
+      byOffer: [{ label: 'seo_conversion_audit', accounts: 4, contacted: 4, replies: 3, meetings: 2, wins: 1, replyRate: 75, meetingRate: 50 }],
+      byPriority: [{ label: 'urgent', accounts: 2, contacted: 2, replies: 2, meetings: 1, wins: 1, replyRate: 100, meetingRate: 50 }],
+      byCloseBand: [{ label: '70%+ close', accounts: 2, contacted: 2, replies: 2, meetings: 1, wins: 1, replyRate: 100, meetingRate: 50 }],
+    },
+    metricRows: [
+      { metric_date: '2026-06-15', accounts_added: 2, accounts_qualified: 1, messages_drafted: 1, messages_sent: 2, replies: 1, meetings_booked: 0, proposals_created: 0, deals_won: 0, estimated_pipeline_value: 4000 },
+      { metric_date: '2026-06-16', accounts_added: 4, accounts_qualified: 3, messages_drafted: 3, messages_sent: 6, replies: 3, meetings_booked: 2, proposals_created: 1, deals_won: 1, estimated_pipeline_value: 20000 },
+    ],
+    accounts: [
+      { id: 'acct-1', name: 'Apex Dental', priority: 'urgent', stage: 'meeting', totalScore: 92, nextAction: 'Send proposal.' },
+      { id: 'acct-2', name: 'Bright Dental', priority: 'high', stage: 'follow_up', totalScore: 84, nextAction: 'Follow up with audit proof.' },
+    ],
+    emailRows: [
+      { id: 'email-1', recipientEmail: 'owner@apex.example', status: 'replied', sequenceKey: 'audit-seq', metadata: { tenantId: 'tenant-a', persona: 'owner', outreachV2: { qualityScore: 88 } } },
+      { id: 'email-2', recipientEmail: 'ops@apex.example', status: 'sent', sequenceKey: 'audit-seq', metadata: { tenantId: 'tenant-a', persona: 'operator', outreachV2: { qualityScore: 74 } } },
+    ],
+    jobApplications: [
+      { id: 'job-1', stage: 'applied', resumeVariant: 'ai_application_engineer' },
+      { id: 'job-2', stage: 'interview', resumeVariant: 'qa_automation_engineer' },
+    ],
+    dailyActions: [
+      { lane: 'business_development', priority: 80, title: 'Move Apex Dental', detail: 'Send proposal.' },
+    ],
+    blockedEmailCount: 1,
+    deadLetterCount: 1,
+  });
+
+  assert.equal(dashboard.kpis.find((kpi) => kpi.label === 'Replies')?.value, 4);
+  assert.equal(dashboard.conversion.byEmailDomain[0].label, 'apex.example');
+  assert.ok(dashboard.insights.whatIsWorking.some((item) => item.includes('inbound')));
+  assert.ok(dashboard.insights.whatIsFailing.some((item) => item.includes('blocked')));
+  assert.equal(dashboard.priorityQueue[0].lane, 'account');
+  assert.ok(dashboard.clientReport.summary.includes('18 leads'));
 });
 
 test('revenue os hardening: blocks unsafe production automation configuration', async () => {
@@ -870,6 +1871,16 @@ test('revenue os email delivery: maps resend webhooks to queue events and suppre
   assert.equal(delivered?.eventType, 'delivered');
   assert.equal(delivered?.queueStatus, 'sent');
   assert.equal(delivered?.requiresSuppression, false);
+
+  const unsubscribed = mapResendWebhookToRevenueEmailEvent({
+    type: 'email.unsubscribed',
+    created_at: '2026-06-17T12:03:00.000Z',
+    data: { email_id: 're_msg_124', to: 'owner@bright.example' },
+  });
+  assert.equal(unsubscribed?.eventType, 'unsubscribed');
+  assert.equal(unsubscribed?.queueStatus, 'blocked');
+  assert.equal(unsubscribed?.requiresSuppression, true);
+  assert.equal(unsubscribed?.suppression?.reason, 'resend unsubscribed');
 });
 
 test('revenue os email safety: enforces suppression, events, caps, and sequence stops', async () => {
@@ -1284,6 +2295,211 @@ test('revenue os production gate: requires live-mode controls and redacts secret
   assert.ok(gate.controls.some((item) => item.includes('manual-review email')));
   assert.equal(gate.secrets.GOOGLE_PLACES_API_KEY.configured, false);
   assert.equal(gate.secrets.RESEND_API_KEY.redacted, 're_l...key');
+});
+
+test('revenue os governance: blocks suppressed outreach and tracks privacy workflow', async () => {
+  const {
+    buildPrivacyWorkflow,
+    buildRevenueComplianceDecision,
+    buildRevenueGovernanceReport,
+  } = await import('../../lib/revenue-os/compliance-governance.ts');
+  const allowed = buildRevenueComplianceDecision({
+    email: 'owner@business.example',
+    source: 'inbound',
+    sourceUrl: 'https://business.example/contact',
+    consentBasis: 'legitimate_interest',
+    businessContext: 'Business owner requested a website audit follow-up.',
+    unsubscribeUrl: 'https://sageideas.dev/unsubscribe',
+    retentionDays: 365,
+  });
+  const blocked = buildRevenueComplianceDecision({
+    email: 'blocked@gmail.com',
+    source: 'unknown',
+    consentBasis: 'do_not_contact',
+    businessContext: 'Suppression record only.',
+    retentionDays: 900,
+    suppressed: true,
+  });
+  const privacy = buildPrivacyWorkflow({ requestType: 'suppress', subjectEmail: 'BLOCKED@gmail.com' });
+  const report = buildRevenueGovernanceReport({
+    tenantKey: 'tenant-test',
+    contacts: [
+      {
+        email: 'owner@business.example',
+        source: 'inbound',
+        sourceUrl: 'https://business.example/contact',
+        consentBasis: 'legitimate_interest',
+        businessContext: 'Business owner requested a website audit follow-up.',
+        unsubscribeUrl: 'https://sageideas.dev/unsubscribe',
+        retentionDays: 365,
+      },
+      {
+        email: 'blocked@gmail.com',
+        source: 'unknown',
+        consentBasis: 'do_not_contact',
+        businessContext: 'Suppression record only.',
+        retentionDays: 900,
+        suppressed: true,
+      },
+    ],
+    privacyRequests: [privacy],
+    auditEvents: 2,
+  });
+
+  assert.equal(allowed.allowed, true);
+  assert.equal(blocked.allowed, false);
+  assert.ok(blocked.blockers.some((item) => item.includes('suppressed')));
+  assert.equal(privacy.subjectEmail, 'blocked@gmail.com');
+  assert.equal(report.allowed, 1);
+  assert.equal(report.blocked, 1);
+  assert.equal(report.status, 'blocked');
+});
+
+test('revenue os production ops: summarizes health, CI gates, runbooks, and load smoke', async () => {
+  const {
+    buildRevenueCiProof,
+    buildRevenueCiProofFromEvidence,
+    buildRevenueLoadProofFromEvidence,
+    buildRevenueLoadSmokePlan,
+    buildRevenueOpsHealth,
+    buildRevenueRunbookIndex,
+  } = await import('../../lib/revenue-os/production-ops.ts');
+  const health = buildRevenueOpsHealth({
+    dbOk: true,
+    queueDepth: 12,
+    deadLetters: 1,
+    emailProviderConfigured: true,
+    llmProviderConfigured: false,
+    leadConnectorsConfigured: true,
+    gmailConfigured: false,
+    workerSchedulerLive: false,
+    storageOk: true,
+  });
+  const ci = buildRevenueCiProof({
+    lint: true,
+    typecheck: true,
+    unit: true,
+    rls: true,
+    build: true,
+    focusedE2e: true,
+    productionVerify: true,
+    auditHigh: true,
+  });
+  const load = buildRevenueLoadSmokePlan({
+    leads: 1000,
+    queuedJobs: 10_000,
+    tenants: 5,
+    sequenceCapsEnforced: true,
+    dashboardP95Ms: 900,
+    exportP95Ms: 1800,
+  });
+  const runbooks = buildRevenueRunbookIndex();
+
+  assert.equal(health.status, 'degraded');
+  assert.ok(health.alerts.some((alert) => alert.includes('Worker queues')));
+  assert.equal(ci.ready, true);
+  assert.equal(ci.score, 100);
+  assert.equal(load.passed, true);
+  const missingCi = buildRevenueCiProofFromEvidence({ evidence: null });
+  assert.equal(missingCi.ready, false);
+  assert.equal(missingCi.score, 0);
+  assert.ok(missingCi.gates.every((gate) => gate.evidence.includes('missing captured artifact')));
+  const measuredLoad = buildRevenueLoadProofFromEvidence({
+    evidence: {
+      tenants: 5,
+      leads: 1000,
+      queuedJobs: 10_000,
+      sequenceCapsEnforced: true,
+      dashboardP95Ms: 900,
+      apiP95Ms: 420,
+      exportP95Ms: 1800,
+      source: 'unit-load-artifact',
+    },
+  });
+  assert.equal(measuredLoad.passed, true);
+  const missingLoad = buildRevenueLoadProofFromEvidence({ evidence: null });
+  assert.equal(missingLoad.passed, false);
+  assert.ok(runbooks.some((runbook) => runbook.key === 'migration_failure'));
+});
+
+test('revenue os institutional hardening: builds programs 13-21 with honest live activation gaps', async () => {
+  const {
+    buildAiMlEvalHarnessProof,
+    buildClientSaasSurfaceProof,
+    buildComplianceWorkflowProductization,
+    buildDeliverabilityOperationsAudit,
+    buildInstitutionalProgramRuns,
+    buildLiveIntegrationActivation,
+    buildObservabilitySloSnapshot,
+    buildRealLoadScaleProof,
+    buildRealWorkerRuntimeProof,
+  } = await import('../../lib/revenue-os/institutional-hardening.ts');
+  const runKey = 'unit-institutional';
+  const live = buildLiveIntegrationActivation({
+    env: {
+      RESEND_API_KEY: 're_test',
+      OPENAI_API_KEY: 'sk-test',
+      EXA_API_KEY: 'exa-test',
+    },
+  });
+  const worker = buildRealWorkerRuntimeProof({ runKey, now: '2026-06-18T12:00:00.000Z' });
+  const observability = buildObservabilitySloSnapshot({
+    runKey,
+    queueDepth: 4,
+    deadLetters: 0,
+    providerLatencyMs: 900,
+    webhookFreshnessSeconds: 300,
+    estimatedDailyCostUsd: 7,
+    env: { RESEND_API_KEY: 're_test', OPENAI_API_KEY: 'sk-test', EXA_API_KEY: 'exa-test' },
+  });
+  const privacyJobs = buildComplianceWorkflowProductization({
+    runKey,
+    tenantKey: 'tenant-unit-institutional',
+    subjectEmail: 'owner@example.com',
+  });
+  const clientSurfaces = buildClientSaasSurfaceProof({ runKey, tenantKey: 'tenant-unit-institutional' });
+  const deliverability = buildDeliverabilityOperationsAudit({
+    runKey,
+    sendingDomain: 'sageideas.dev',
+    resendConfigured: true,
+  });
+  const load = buildRealLoadScaleProof({ runKey, tenants: 5, leads: 1000, jobs: 10_000, workerJobs: 10_000 });
+  const evalHarness = buildAiMlEvalHarnessProof({ runKey, llmConfigured: true });
+  const institutional = buildInstitutionalProgramRuns({
+    live,
+    worker,
+    observability,
+    privacyJobs,
+    clientSurfaces,
+    deliverability,
+    load,
+    evalHarness,
+  });
+
+  assert.equal(live.configuredCount, 3);
+  assert.equal(live.liveVerifiedCount, 0);
+  assert.equal(worker.claimedJobs, 4);
+  assert.equal(worker.completedJobs, 3);
+  assert.equal(privacyJobs.length, 4);
+  assert.equal(clientSurfaces.length, 2);
+  assert.deepEqual(deliverability.automaticStops, ['bounce_received', 'complaint_received', 'unsubscribe_received', 'reply_received']);
+  assert.equal(deliverability.spfStatus, 'requires_dns_probe');
+  assert.equal(load.status, 'passed');
+  assert.equal(evalHarness.status, 'passed');
+  assert.equal(institutional.programs.length, 9);
+  assert.ok(institutional.overallScore >= 75);
+  assert.ok(institutional.programs.some((program) => program.programKey === '15_live_integration_activation' && program.status === 'requires_live_activation'));
+  assert.ok(institutional.programs.some((program) => program.programKey === '14_real_worker_runtime' && program.score < 90));
+  assert.ok(institutional.programs.some((program) => program.programKey === '20_real_load_scale_proof' && program.score < 90));
+});
+
+test('revenue os public api: member key access is redacted through a view', async () => {
+  const migration = await readFile(new URL('../../supabase/migrations/0044_revenue_os_public_api.sql', import.meta.url), 'utf8');
+  const repair = await readFile(new URL('../../supabase/migrations/0059_revenue_os_api_key_redaction.sql', import.meta.url), 'utf8');
+  assert.match(migration, /create or replace view public\.revenue_api_keys_redacted/);
+  assert.match(repair, /drop policy if exists "revenue_api_keys_member_select"/);
+  assert.match(repair, /revenue_api_keys_redacted/);
+  assert.doesNotMatch(repair, /^\s*key_hash,/m);
 });
 
 test('revenue os live connectors: fetches job APIs through provider builders', async () => {
@@ -2410,6 +3626,103 @@ test('revenue os ml scoring: compares rule score with calibrated learned score',
   assert.equal(scored.decision, 'prioritize');
 });
 
+test('revenue os ml learning loop: trains, scores, calibrates, and persists model decisions', async () => {
+  const {
+    buildMlFeatureSnapshot,
+    buildMlOutcomeLabel,
+    trainRevenueMlModel,
+    scoreRevenueMlDecision,
+    buildMlCalibrationReport,
+  } = await import('../../lib/revenue-os/ml-scoring.ts');
+
+  const snapshots = [
+    buildMlFeatureSnapshot({
+      tenantId: 'tenant-ml',
+      accountId: 'acct-win-1',
+      source: 'google_places',
+      industry: 'dental',
+      offer: 'seo_conversion_audit',
+      features: { fit: 88, urgency: 82, contactConfidence: 94, pastReplyRate: 34 },
+      ruleScore: 84,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId: 'tenant-ml',
+      accountId: 'acct-win-2',
+      source: 'referral',
+      industry: 'med_spa',
+      offer: 'website_rebuild',
+      features: { fit: 78, urgency: 76, contactConfidence: 88, pastReplyRate: 28 },
+      ruleScore: 80,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId: 'tenant-ml',
+      accountId: 'acct-loss-1',
+      source: 'directory',
+      industry: 'restaurant',
+      offer: 'brand_presence_audit',
+      features: { fit: 34, urgency: 25, contactConfidence: 20, pastReplyRate: 2 },
+      ruleScore: 38,
+    }),
+    buildMlFeatureSnapshot({
+      tenantId: 'tenant-ml',
+      accountId: 'acct-loss-2',
+      source: 'cold_list',
+      industry: 'generic',
+      offer: 'seo_conversion_audit',
+      features: { fit: 42, urgency: 30, contactConfidence: 28, pastReplyRate: 4 },
+      ruleScore: 41,
+    }),
+  ];
+  const labels = [
+    buildMlOutcomeLabel({ tenantId: 'tenant-ml', accountId: 'acct-win-1', outcome: 'won', value: 9000 }),
+    buildMlOutcomeLabel({ tenantId: 'tenant-ml', accountId: 'acct-win-2', outcome: 'meeting' }),
+    buildMlOutcomeLabel({ tenantId: 'tenant-ml', accountId: 'acct-loss-1', outcome: 'lost' }),
+    buildMlOutcomeLabel({ tenantId: 'tenant-ml', accountId: 'acct-loss-2', outcome: 'no_reply' }),
+  ];
+  const model = trainRevenueMlModel({
+    tenantId: 'tenant-ml',
+    modelVersion: 'tenant-ml-local-v1',
+    snapshots,
+    labels,
+  });
+  const decision = scoreRevenueMlDecision({
+    tenantId: 'tenant-ml',
+    accountId: 'acct-fresh',
+    model,
+    snapshot: buildMlFeatureSnapshot({
+      tenantId: 'tenant-ml',
+      accountId: 'acct-fresh',
+      source: 'google_places',
+      industry: 'dental',
+      offer: 'seo_conversion_audit',
+      features: { fit: 86, urgency: 80, contactConfidence: 90, pastReplyRate: 30 },
+      ruleScore: 76,
+    }),
+  });
+  const report = buildMlCalibrationReport({
+    tenantId: 'tenant-ml',
+    model,
+    decisions: [
+      decision,
+      scoreRevenueMlDecision({ tenantId: 'tenant-ml', accountId: 'acct-loss-1', model, snapshot: snapshots[2] }),
+      scoreRevenueMlDecision({ tenantId: 'tenant-ml', accountId: 'acct-loss-2', model, snapshot: snapshots[3] }),
+    ],
+    labels,
+  });
+
+  assert.equal(model.modelVersion, 'tenant-ml-local-v1');
+  assert.equal(model.sampleSize, 4);
+  assert.ok(model.metrics.trainingAccuracy >= 0.75);
+  assert.ok(model.featureImportance.fit > 0);
+  assert.equal(decision.decision, 'prioritize');
+  assert.equal(decision.persistence.model_version, 'tenant-ml-local-v1');
+  assert.equal(decision.persistence.tenant_id, 'tenant-ml');
+  assert.equal(report.persistence.model_version, 'tenant-ml-local-v1');
+  assert.ok(report.brierScore >= 0 && report.brierScore <= 1);
+  assert.ok(report.bands.length >= 2);
+  assert.ok(report.driftWarnings.includes('low_sample_size'));
+});
+
 test('revenue os adaptive sequences: branches from events and stops on reply or suppression', async () => {
   const { buildAdaptiveSequencePlan, advanceAdaptiveSequence } = await import('../../lib/revenue-os/adaptive-sequences.ts');
   const plan = buildAdaptiveSequencePlan({
@@ -2544,6 +3857,105 @@ test('revenue os eval gates: scores lead, draft, spam, deliverability, hallucina
   assert.equal(result.passed, 1);
   assert.equal(result.failed, 1);
   assert.ok(result.failures[0].reasons.includes('lead quality below threshold'));
+});
+
+test('opportunity os: unifies job and client opportunities into one queue and proof model', async () => {
+  const {
+    adaptJobOpportunity,
+    adaptRevenueOpportunity,
+    buildOpportunityAnalytics,
+    buildOpportunityOsRun,
+    buildProofAssets,
+    buildUnifiedDailyQueue,
+    classifyOpportunityMessage,
+    mapJobStage,
+    mapRevenueStage,
+  } = await import('../../lib/opportunity-os/core.ts');
+
+  const job = adaptJobOpportunity({
+    id: 'job-1',
+    stage: 'ready',
+    priority_rank: 1,
+    next_action: 'Submit tailored packet.',
+    next_action_at: '2026-06-18T10:00:00.000Z',
+    metadata: {
+      target: {
+        job: { title: 'AI Engineer', company: 'TargetCo' },
+        fit: { overall: 91, missingSkills: ['submitted artifact proof'] },
+      },
+    },
+    created_at: '2026-06-18T09:00:00.000Z',
+  });
+  const client = adaptRevenueOpportunity({
+    id: 'client-1',
+    name: 'Acme Dental',
+    stage: 'qualified',
+    total_score: 88,
+    revenue_score: 84,
+    next_action: 'Send approved audit offer.',
+    next_action_at: '2026-06-18T11:00:00.000Z',
+    recommended_offer: 'Revenue OS audit',
+    pain_summary: 'Needs follow-up system.',
+    created_at: '2026-06-18T09:00:00.000Z',
+  });
+  const queue = buildUnifiedDailyQueue([job, client]);
+  const analytics = buildOpportunityAnalytics([job, client]);
+  const proofAssets = buildProofAssets([job, client]);
+  const run = buildOpportunityOsRun({ jobRows: [], revenueRows: [] });
+
+  assert.equal(mapJobStage('interviewing'), 'active');
+  assert.equal(mapRevenueStage('proposal'), 'active');
+  assert.equal(queue.length, 2);
+  assert.ok(queue[0].rank < queue[1].rank || queue[1].rank < queue[0].rank);
+  assert.equal(analytics.jobs, 1);
+  assert.equal(analytics.clients, 1);
+  assert.ok(analytics.weightedPipelineUsd > 0);
+  assert.ok(proofAssets.some((asset) => asset.appliesTo === 'both'));
+  assert.equal(classifyOpportunityMessage({ body: 'Can you meet to discuss budget and proposal?' }), 'client_interest');
+  assert.equal(run.programs.length, 24);
+  assert.equal(run.readiness.grade, 'institutional_beta');
+});
+
+test('traffic os: builds source campaigns distribution discord and conversion growth loop', async () => {
+  const {
+    buildTrafficOsRun,
+    buildNextBestTrafficActions,
+    buildTrafficAnalytics,
+    buildTrafficConversions,
+    buildTrafficEvents,
+    buildTrafficSources,
+    buildTrafficCampaigns,
+    buildContentAssets,
+    buildKeywordOpportunities,
+    buildDiscordInviteProof,
+    buildLiveAnalyticsProofs,
+  } = await import('../../lib/traffic-os/core.ts');
+
+  const sources = buildTrafficSources();
+  const campaigns = buildTrafficCampaigns();
+  const assets = buildContentAssets();
+  const keywords = buildKeywordOpportunities();
+  const events = buildTrafficEvents(sources, campaigns);
+  const conversions = buildTrafficConversions(events);
+  const discordInvites = buildDiscordInviteProof();
+  const analytics = buildTrafficAnalytics({ events, conversions, discordInvites });
+  const actions = buildNextBestTrafficActions({ assets, keywords, analytics });
+  const run = buildTrafficOsRun();
+
+  assert.ok(sources.some((source) => source.key === 'seo'));
+  assert.ok(campaigns.some((campaign) => campaign.landingPage === '/tools/seo-audit'));
+  assert.ok(assets.some((asset) => asset.assetType === 'tool'));
+  assert.ok(keywords.some((keyword) => keyword.keyword.includes('AI implementation')));
+  assert.ok(events.some((event) => event.eventType === 'visit'));
+  assert.ok(conversions.length > 0);
+  assert.ok(discordInvites.reduce((sum, invite) => sum + invite.joins, 0) > 0);
+  assert.ok(analytics.weightedPipelineUsd > 0);
+  assert.equal(actions[0].channel, 'seo');
+  assert.equal(run.liveAnalyticsProofs.length, 4);
+  assert.ok(run.revenueFeedCandidates.length > 0);
+  assert.equal(buildLiveAnalyticsProofs({ ga4Rows: 10 }).find((proof) => proof.provider === 'ga4')?.liveVerified, true);
+  assert.equal(run.programs.length, 32);
+  assert.equal(run.readiness.grade, 'institutional_beta');
 });
 
 // -------------------------------------------------------------- runner

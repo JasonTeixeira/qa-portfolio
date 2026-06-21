@@ -1,0 +1,13 @@
+.git
+.next
+.vercel
+.railway
+node_modules
+npm-debug.log*
+.env
+.env.*
+.design-review
+coverage
+playwright-report
+test-results
+docs/evidence

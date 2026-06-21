@@ -54,6 +54,16 @@ export interface IntegrationsSummary {
     env: string | null;
     dashboard_url: string;
   };
+  discord: {
+    clientIdConfigured: boolean;
+    clientSecretConfigured: boolean;
+    botTokenConfigured: boolean;
+    publicKeyConfigured: boolean;
+    guildIdConfigured: boolean;
+    interactionEndpointUrl: string;
+    inviteUrl: string | null;
+    developerPortalUrl: string;
+  };
 }
 
 export interface TeamMember {
@@ -442,6 +452,43 @@ function IntegrationsTab({ summary }: { summary: IntegrationsSummary }) {
               mono
             />
             <DetailRow label="Environment" value={summary.vercel.env ?? '—'} mono />
+          </>
+        }
+      />
+      <IntegrationCard
+        name="Discord"
+        desc="Community app + server commands"
+        connected={summary.discord.publicKeyConfigured && summary.discord.clientIdConfigured}
+        dashboardUrl={summary.discord.developerPortalUrl}
+        details={
+          <>
+            <DetailRow label="Interactions endpoint" value={summary.discord.interactionEndpointUrl} mono />
+            <DetailRow
+              label="Public key"
+              value={summary.discord.publicKeyConfigured ? 'configured' : 'missing'}
+              tone={summary.discord.publicKeyConfigured ? 'good' : 'warn'}
+            />
+            <DetailRow
+              label="Client ID"
+              value={summary.discord.clientIdConfigured ? 'configured' : 'missing'}
+              tone={summary.discord.clientIdConfigured ? 'good' : 'warn'}
+            />
+            <DetailRow
+              label="Client secret"
+              value={summary.discord.clientSecretConfigured ? 'configured' : 'missing'}
+              tone={summary.discord.clientSecretConfigured ? 'good' : 'warn'}
+            />
+            <DetailRow
+              label="Bot token"
+              value={summary.discord.botTokenConfigured ? 'configured' : 'missing'}
+              tone={summary.discord.botTokenConfigured ? 'good' : 'warn'}
+            />
+            <DetailRow
+              label="Guild ID"
+              value={summary.discord.guildIdConfigured ? 'configured' : 'missing'}
+              tone={summary.discord.guildIdConfigured ? 'good' : 'warn'}
+            />
+            <DetailRow label="Invite URL" value={summary.discord.inviteUrl ?? 'Set DISCORD_CLIENT_ID first'} mono />
           </>
         }
       />

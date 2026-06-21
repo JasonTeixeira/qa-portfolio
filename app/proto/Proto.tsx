@@ -89,6 +89,77 @@ const STEPS = [
   ['Operate', 'Measure, improve, and publish so the system compounds instead of decaying.', 'Ongoing · monthly'],
 ] as const
 
+const SYSTEM_NODES = [
+  { label: 'Strategy', x: 80, desc: 'Find the highest-leverage move — the product, market, and offer that actually compounds.' },
+  { label: 'Product', x: 252, desc: 'Full-stack product: schema to interface, auth to billing, shipped to production.' },
+  { label: 'AI Systems', x: 424, desc: 'Agents, retrieval, copilots, and automation — AI wired into the real workflow, not bolted on.' },
+  { label: 'Brand', x: 596, desc: 'Identity, narrative, and a site that makes the product legible and premium.' },
+  { label: 'Growth', x: 768, desc: 'Technical SEO, content systems, and compounding distribution loops.' },
+  { label: 'Operate', x: 940, desc: 'Measure, improve, publish — the machine keeps compounding after launch.' },
+] as const
+
+function SystemDiagram() {
+  const [active, setActive] = useState(0)
+  return (
+    <section className={styles.system} id="system">
+      <div className={styles.wrap}>
+        <Reveal>
+          <span className={styles.kicker}>02 / What I build</span>
+          <h2 className={styles.h2}>One operator. One connected system.</h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className={styles.systemStage}>
+            <svg className={styles.systemSvg} viewBox="0 0 1020 170" role="img" aria-label="The build pipeline — strategy to operate">
+              <motion.path
+                className={styles.systemTrack}
+                d="M80 80 H940"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.4, ease: EASE }}
+              />
+              <path className={styles.systemFlow} d="M80 80 H940" />
+              {SYSTEM_NODES.map((n, i) => (
+                <motion.g
+                  key={n.label}
+                  className={`${styles.systemNode} ${active === i ? styles.on : ''}`}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  tabIndex={0}
+                  data-cursor
+                  style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, ease: EASE, delay: 0.4 + i * 0.1 }}
+                >
+                  <circle cx={n.x} cy={80} r={active === i ? 11 : 8} />
+                  <text x={n.x} y={120} textAnchor="middle">
+                    {n.label}
+                  </text>
+                </motion.g>
+              ))}
+            </svg>
+            <motion.div
+              className={styles.systemDetail}
+              key={active}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: EASE }}
+            >
+              <span className={styles.systemDetailNum}>{String(active + 1).padStart(2, '0')} / 06</span>
+              <div className={styles.systemDetailBody}>
+                <h3>{SYSTEM_NODES[active].label}</h3>
+                <p>{SYSTEM_NODES[active].desc}</p>
+              </div>
+            </motion.div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
 export function Proto() {
   // Aperture hero choreography — progress computed from real layout each frame
   // (robust against Lenis, which framer's useScroll target measurement mis-reads)
@@ -215,11 +286,14 @@ export function Proto() {
         </motion.div>
       </div>
 
+      {/* ── THE SYSTEM (interactive) ── */}
+      <SystemDiagram />
+
       {/* ── WORK ── */}
       <section className={styles.section} id="work">
         <div className={styles.wrap}>
           <Reveal>
-            <span className={styles.kicker}>02 / Selected work</span>
+            <span className={styles.kicker}>03 / Selected work</span>
             <h2 className={styles.h2}>
               I run my own products.
               <br />
@@ -258,7 +332,7 @@ export function Proto() {
       <section className={styles.section} id="process">
         <div className={styles.wrap}>
           <Reveal>
-            <span className={styles.kicker}>03 / How we work</span>
+            <span className={styles.kicker}>04 / How we work</span>
             <h2 className={styles.h2}>A clear path. A real number.</h2>
           </Reveal>
           <div className={styles.steps}>
@@ -279,7 +353,7 @@ export function Proto() {
         <span className={styles.seal} aria-hidden>道</span>
         <div className={styles.wrap}>
           <Reveal>
-            <span className={styles.kicker}>04 / Build</span>
+            <span className={styles.kicker}>05 / Build</span>
             <h2 className={styles.finalH}>Bring me the hard one.</h2>
             <p className={styles.finalP}>
               An app, a brand, a SaaS, or all of it. Every engagement starts with a real

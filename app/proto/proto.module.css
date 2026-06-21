@@ -430,6 +430,97 @@
   color: var(--cream);
 }
 
+/* ── Interactive system diagram ── */
+.system {
+  position: relative;
+  z-index: 2;
+  padding: clamp(5rem, 3rem + 7vw, 10rem) 0;
+}
+.systemStage {
+  position: relative;
+  margin-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+}
+.systemSvg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.systemTrack {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+.systemFlow {
+  fill: none;
+  stroke: var(--electric);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 18 760;
+  animation: sysflow 4s linear infinite;
+}
+@keyframes sysflow {
+  from { stroke-dashoffset: 778; }
+  to { stroke-dashoffset: 0; }
+}
+.systemNode {
+  cursor: pointer;
+}
+.systemNode circle {
+  fill: var(--ink);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+  transition: stroke 0.35s, fill 0.35s, r 0.35s;
+}
+.systemNode text {
+  fill: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  transition: fill 0.35s;
+}
+.systemNode.on circle {
+  fill: var(--electric);
+  stroke: var(--moon);
+}
+.systemNode.on text {
+  fill: var(--cream);
+}
+.systemDetail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  padding: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem) clamp(1.6rem, 1.2rem + 2vw, 2.6rem);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--electric);
+  border-radius: 16px;
+  background: var(--surface);
+  min-height: 7.5rem;
+}
+.systemDetailNum {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--electric);
+}
+.systemDetailBody h3 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.systemDetailBody p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 56ch;
+}
+@media (max-width: 720px) {
+  .systemDetail { grid-template-columns: 1fr; }
+}
+
 /* ── Marquee ── */
 .marquee {
   position: relative;

@@ -15,16 +15,17 @@ const MUTED = '#9c9ca6'
 const FAINT = '#6b6b78'
 const FONT =
   "'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
-const GRAD = 'linear-gradient(100deg,#3d5afe,#7c3aed 55%,#ff2d9b)'
+const GRAD = 'linear-gradient(100deg,#3d5afe,#6e87ff 55%,#bcd2ff)'
+const EDITORIAL = "Georgia,'Times New Roman',serif"
 
 export const eyebrow = (text: string) =>
   `<p style="margin:0 0 18px;font-family:${FONT};font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#8fa0ff;">${text}</p>`
 
-/** Big display headline; the optional accent phrase renders in the brand gradient. */
+/** Big display headline; the optional accent phrase renders in an editorial italic (electric). */
 export const headline = (text: string, accent?: string) =>
-  `<h1 style="margin:0 0 14px;font-family:${FONT};font-size:30px;line-height:1.08;letter-spacing:-0.02em;font-weight:800;color:${INK};">${text}${
+  `<h1 style="margin:0 0 14px;font-family:${FONT};font-size:30px;line-height:1.1;letter-spacing:-0.02em;font-weight:800;color:${INK};">${text}${
     accent
-      ? ` <span style="background:${GRAD};-webkit-background-clip:text;background-clip:text;color:#8fa0ff;">${accent}</span>`
+      ? ` <span style="font-family:${EDITORIAL};font-style:italic;font-weight:400;letter-spacing:-0.01em;color:#8fa0ff;">${accent}</span>`
       : ''
   }</h1>`
 
@@ -40,7 +41,7 @@ export const button = (href: string, label: string) =>
 export const positionCard = (position: number) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px;"><tr><td style="border:1px solid ${LINE};border-radius:14px;background:${SURFACE};padding:20px 22px;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:${FAINT};">Your position</div>
-    <div style="font-family:${FONT};font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1;color:#bcd2ff;background:linear-gradient(120deg,#3d5afe,#ff2d9b);-webkit-background-clip:text;background-clip:text;">#${position.toLocaleString()}</div>
+    <div style="font-family:${FONT};font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1;color:#8fa0ff;">#${position.toLocaleString()}</div>
   </td></tr></table>`
 
 /** The referral-link box. */
@@ -64,8 +65,8 @@ export function emailShell(inner: string, email: string): string {
       <tr><td style="height:4px;background-color:#7c3aed;background:${GRAD};font-size:0;line-height:0;">&nbsp;</td></tr>
       <tr><td style="padding:34px 30px;background:${BG};">
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:26px;"><tr>
-          <td style="vertical-align:middle;"><span style="display:inline-block;width:30px;height:30px;border-radius:8px;background-color:#7c3aed;background:linear-gradient(135deg,#3d5afe,#7c3aed 55%,#ff2d9b);color:#fff;font-family:${FONT};font-weight:800;text-align:center;line-height:30px;font-size:16px;">S</span></td>
-          <td style="vertical-align:middle;padding-left:10px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${INK};font-weight:600;">Sage&nbsp;Academy</td>
+          <td style="vertical-align:middle;"><span style="display:inline-block;width:30px;height:30px;border-radius:8px;background-color:#3d5afe;background:linear-gradient(135deg,#3d5afe,#6e87ff 55%,#bcd2ff);color:#fff;font-family:${FONT};font-weight:800;text-align:center;line-height:30px;font-size:16px;">S</span></td>
+          <td style="vertical-align:middle;padding-left:10px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${INK};font-weight:600;">Sage&nbsp;Ideas</td>
         </tr></table>
         ${inner}
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:30px;border-top:1px solid ${LINE};"><tr><td style="padding-top:16px;font-family:${FONT};font-size:12px;line-height:1.5;color:${FAINT};">

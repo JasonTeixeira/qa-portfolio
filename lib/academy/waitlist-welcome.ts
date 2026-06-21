@@ -31,13 +31,14 @@ export function buildAcademyWelcomeEmail({ email, position, refCode }: Args) {
     ${refBox(refUrl)}
     ${button(tweet, 'Share & move up →')}
     <div style="height:26px;"></div>
-    ${para('What you’re building toward:')}
+    ${para('A taste of what you’ll actually build — not watch:')}
     ${checklist([
-      'Project-based courses — you build real things, not watch slides',
-      'Guided labs with starter code and checkpoints',
-      'Code & AI: from your first line to a deployed product',
+      'An AI that roasts your code 🔥',
+      'A website built from a single sentence',
+      'A SaaS that charges real money — your first paying users',
+      'A clone of your own voice — plus 90+ more guided labs',
     ])}
-    ${para(`I’ll email you the moment the doors open. Thanks for being early.<br/>${strong('— Jason, Sage Ideas')}`)}
+    ${para(`Every lab ends with a real, working thing you keep. I’ll email you the moment the doors open — thanks for being early.<br/>${strong('— Jason, Sage Ideas')}`)}
   `
 
   const text = `You're on the Sage Academy founding list.
@@ -52,7 +53,7 @@ I'll email you the moment the doors open.
 — Jason, Sage Ideas`
 
   return {
-    subject: 'You’re on the Sage Academy founding list',
+    subject: `You’re in — founding spot #${position} secured`,
     html: emailShell(inner, email),
     text,
   }

@@ -3,10 +3,11 @@ import Link from 'next/link'
 import { paths } from '@/data/academy/catalog'
 import { WaitlistForm } from './waitlist-form'
 import { FoundingMeter } from './founding-meter'
-import { CodeLab } from './code-lab'
+import { CourseDemo } from './course-demo'
+import { BuildGallery } from './build-gallery'
 import { RevealOnScroll } from './reveal'
 import { SoundToggle } from './sound-toggle'
-import { Splash } from './splash'
+import { Splash, SageMark } from './splash'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -69,9 +70,9 @@ export default function WaitlistPage() {
       <RevealOnScroll />
       <SoundToggle />
       <header className={styles.nav}>
-        <Link href="/learn" className={styles.brand}>
-          <span className={styles.brandMark}>S</span>
-          Sage Academy
+        <Link href="/" className={styles.brand}>
+          <SageMark size={26} />
+          Sage Ideas
         </Link>
         <span className={styles.navTag}>Launching soon</span>
       </header>
@@ -94,16 +95,37 @@ export default function WaitlistPage() {
         </div>
       </section>
 
-      {/* ── Live code lab ── */}
+      {/* ── Interactive course demo (playable lesson) ── */}
       <section className={styles.section}>
-        <div className={styles.sectionNarrow} style={{ textAlign: 'center' }}>
-          <span className={styles.kicker} style={{ justifyContent: 'center' }}>Your first hour</span>
-          <h2 className={styles.h2}>This isn’t a video. It’s a lab.</h2>
+        <div className={styles.sectionNarrow} style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+          <span className={styles.kicker} style={{ justifyContent: 'center' }}>Try it now — no signup</span>
+          <h2 className={styles.h2}>
+            This isn’t a video. <span className={styles.gradient}>It’s the product.</span>
+          </h2>
           <p className={styles.lede} style={{ margin: '0.9rem auto 0' }}>
-            You learn by building real things and running them. Here’s a lab you’ll finish on day one —
-            watch it write itself.
+            Pick a project and click through building it — real code, real output, shipped at the end.
+            This is exactly how every lab works.
           </p>
-          <CodeLab />
+        </div>
+        <div style={{ padding: '0 var(--ac-pad)' }}>
+          <CourseDemo />
+        </div>
+      </section>
+
+      {/* ── Everything you'll build ── */}
+      <section className={styles.section}>
+        <div className={styles.sectionNarrow} style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+          <span className={styles.kicker} style={{ justifyContent: 'center' }}>The build list</span>
+          <h2 className={styles.h2}>
+            You won’t take notes. <span className={styles.gradient}>You’ll build all of this.</span>
+          </h2>
+          <p className={styles.lede} style={{ margin: '0.9rem auto 0' }}>
+            Every lab ends with a real, working thing you keep. Here’s a taste of what’s in your
+            portfolio by the end — filter by path.
+          </p>
+        </div>
+        <div style={{ padding: '0 var(--ac-pad)' }}>
+          <BuildGallery />
         </div>
       </section>
 
@@ -231,7 +253,7 @@ export default function WaitlistPage() {
             no fluff, priced so anyone can actually start.”
           </p>
           <div className={styles.founderBy}>
-            <span className={styles.brandMark} aria-hidden="true">S</span>
+            <SageMark size={26} />
             <span><b>Jason Teixeira</b> · Founder, Sage Ideas</span>
           </div>
         </div>

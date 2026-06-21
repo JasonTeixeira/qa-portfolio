@@ -89,6 +89,40 @@ const STEPS = [
   ['Operate', 'Measure, improve, and publish so the system compounds instead of decaying.', 'Ongoing · monthly'],
 ] as const
 
+/* 3D tilt card — rotates toward the cursor, spring-damped; also handles entrance */
+function TiltCard({ className, children, delay = 0 }: { className?: string; children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const rx = useMotionValue(0)
+  const ry = useMotionValue(0)
+  const srx = useSpring(rx, { stiffness: 150, damping: 18 })
+  const sry = useSpring(ry, { stiffness: 150, damping: 18 })
+  const onMove = (e: React.MouseEvent) => {
+    const r = ref.current?.getBoundingClientRect()
+    if (!r) return
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 9)
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 9)
+  }
+  const reset = () => {
+    rx.set(0)
+    ry.set(0)
+  }
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={{ rotateX: srx, rotateY: sry, transformPerspective: 1100 }}
+      initial={{ opacity: 0, y: 44 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-90px' }}
+      transition={{ duration: 0.9, ease: EASE, delay }}
+      onMouseMove={onMove}
+      onMouseLeave={reset}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 const SYSTEM_NODES = [
   { label: 'Strategy', x: 80, desc: 'Find the highest-leverage move — the product, market, and offer that actually compounds.' },
   { label: 'Product', x: 252, desc: 'Full-stack product: schema to interface, auth to billing, shipped to production.' },
@@ -301,7 +335,7 @@ export function Proto() {
             </h2>
           </Reveal>
           <div className={styles.workGrid}>
-            <Reveal className={`${styles.card} ${styles.cardBig}`}>
+            <TiltCard className={`${styles.card} ${styles.cardBig}`}>
               <a href="#work" data-cursor style={{ display: 'block', height: '100%' }}>
                 <img src="/work/nexural-swing.webp" alt="Nexural Swing Desk" />
                 <div className={styles.cardMeta}>
@@ -313,8 +347,8 @@ export function Proto() {
                   </div>
                 </div>
               </a>
-            </Reveal>
-            <Reveal className={`${styles.card} ${styles.cardSmall}`} delay={0.1}>
+            </TiltCard>
+            <TiltCard className={`${styles.card} ${styles.cardSmall}`} delay={0.1}>
               <div className={styles.cardText}>
                 <span className={styles.kicker} style={{ margin: 0 }}>Fintech · trading SaaS</span>
                 <div className={styles.cardName} style={{ marginTop: '0.8rem' }}>The flagship.</div>
@@ -323,7 +357,7 @@ export function Proto() {
                   most mature system in the federation. Built and run solo.
                 </p>
               </div>
-            </Reveal>
+            </TiltCard>
           </div>
         </div>
       </section>
@@ -336,6 +370,13 @@ export function Proto() {
             <h2 className={styles.h2}>A clear path. A real number.</h2>
           </Reveal>
           <div className={styles.steps}>
+            <motion.div
+              className={styles.stepsRail}
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 1.5, ease: EASE }}
+            />
             {STEPS.map(([title, body, meta], i) => (
               <Reveal className={styles.step} key={title} delay={i * 0.05}>
                 <span>{String(i + 1).padStart(2, '0')}</span>

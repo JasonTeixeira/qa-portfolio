@@ -645,8 +645,19 @@
 
 /* Process */
 .steps {
+  position: relative;
   margin-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  padding-left: clamp(0.9rem, 0.5rem + 1.2vw, 1.8rem);
   border-top: 1px solid var(--line);
+}
+.stepsRail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--electric), rgba(61, 90, 254, 0.08));
+  transform-origin: top;
 }
 .step {
   display: grid;

@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "messageId": "classifier-smoke-1782008069296",
+  "classification": {
+    "discord_message_id": "classifier-smoke-1782008069296",
+    "category": "question",
+    "recommended_action": "track_question",
+    "confidence": 0.8133,
+    "quality_score": 70,
+    "content_value_score": 100,
+    "spam_score": 0,
+    "signals": {
+      "empty": false,
+      "reply": false,
+      "short": false,
+      "has_link": false,
+      "author_bot": false,
+      "spam_terms": false,
+      "word_count": 22,
+      "has_question": true,
+      "mentions_win": false,
+      "has_attachment": false,
+      "mentions_build": true,
+      "asks_for_review": false,
+      "shares_resource": false,
+      "asks_for_support": false,
+      "content_opportunity": true
+    },
+    "rationale": "question -> track_question because has question, mentions build, content opportunity",
+    "classifier_version": "discord-message-classifier-v1",
+    "classified_at": "2026-06-21T02:14:29.501+00:00",
+    "created_at": "2026-06-21T02:14:29.651824+00:00",
+    "updated_at": "2026-06-21T02:14:29.501+00:00"
+  },
+  "cleanedUp": true,
+  "startedAt": "2026-06-21T02:14:29.294Z",
+  "finishedAt": "2026-06-21T02:14:29.943Z"
+}

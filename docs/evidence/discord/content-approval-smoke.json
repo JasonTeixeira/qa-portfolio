@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "draft": {
+    "id": "ef42ce48-6f3e-4a22-8505-08c005a40900",
+    "status": "approved",
+    "reviewer_email": "smoke@test.local",
+    "review_note": "Smoke approval verified.",
+    "quality_score": 88
+  },
+  "cleanedUp": true,
+  "startedAt": "2026-06-21T03:12:32.997Z",
+  "finishedAt": "2026-06-21T03:12:33.643Z"
+}

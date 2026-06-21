@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "smoke": false,
+  "evaluated": 4,
+  "results": [
+    {
+      "draftId": "66f50a52-d7ad-474b-9f56-8963ed4e2ea4",
+      "evaluationId": "05f0f834-7c75-4e31-930a-e68443d802f4",
+      "score": 100,
+      "passed": true,
+      "reasons": []
+    },
+    {
+      "draftId": "9383ce33-0f9f-4b4b-a4ff-99a13a2a4668",
+      "evaluationId": "91bd9862-ac0a-4d91-acea-7f46349cb69b",
+      "score": 100,
+      "passed": true,
+      "reasons": []
+    },
+    {
+      "draftId": "62f093f8-e992-406f-9c93-d00e687b879b",
+      "evaluationId": "842d8a3f-bdf6-455b-a2f5-58a5b9d77c3d",
+      "score": 100,
+      "passed": true,
+      "reasons": []
+    },
+    {
+      "draftId": "e2a4fdfe-a857-4cd0-b4af-eb34cec90999",
+      "evaluationId": "5ab440e0-e97f-46ca-be03-0aa82e43707c",
+      "score": 100,
+      "passed": true,
+      "reasons": []
+    }
+  ],
+  "startedAt": "2026-06-21T03:09:55.651Z",
+  "finishedAt": "2026-06-21T03:09:57.800Z"
+}

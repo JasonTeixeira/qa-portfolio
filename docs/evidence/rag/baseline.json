@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-06-20T15:26:00.608Z",
+  "phase": "phase_0_baseline",
+  "ok": true,
+  "envPresence": {
+    "NEXT_PUBLIC_SUPABASE_URL": true,
+    "SUPABASE_SERVICE_ROLE_KEY": true,
+    "DISCORD_BOT_TOKEN": true,
+    "DISCORD_GUILD_ID": true,
+    "DISCORD_CLIENT_ID": true,
+    "DISCORD_APPLICATION_ID": false
+  },
+  "checks": {
+    "discordSmoke": {
+      "command": "npm run discord:smoke",
+      "ok": true,
+      "status": 0,
+      "durationMs": 2754,
+      "stdout": "> qa-portfolio@0.2.0 discord:smoke\n> node --env-file-if-exists=.env.local scripts/discord/smoke-sage-community.mjs\n\n{\n  \"ok\": true,\n  \"missingEnv\": [],\n  \"scripts\": {\n    \"gatewayWorker\": true,\n    \"migrationCheck\": true\n  },\n  \"commands\": {\n    \"ok\": true,\n    \"count\": 34,\n    \"names\": [\n      \"answer\",\n      \"apply\",\n      \"approve\",\n      \"ask\",\n      \"award\",\n      \"capture-content\",\n      \"challenge\",\n      \"checklist\",\n      \"choose-path\",\n      \"complete-step\",\n      \"content-queue\",\n      \"daily\",\n      \"daily-prompt\",\n      \"leaderboard\",\n      \"mark-helpful\",\n      \"office-hours\",\n      \"onboard\",\n      \"pending\",\n      \"points\",\n      \"premium\",\n      \"profile\",\n      \"quiz\",\n      \"rank\",\n      \"reject\",\n      \"report\",\n      \"request-review\",\n      \"resource\",\n      \"rewards\",\n      \"streak\",\n      \"submit-challenge\",\n      \"submit-project\",\n      \"weekly\",\n      \"weekly-recap\",\n      \"weekly-winners\"\n    ]\n  },\n  \"missingCommands\": [],\n  \"tables\": {\n    \"ok\": true,\n    \"counts\": {\n      \"discord_members\": 0,\n      \"discord_member_applications\": 0,\n      \"discord_events\": 0,\n      \"discord_scheduled_runs\": 0,\n      \"discord_quizzes\": 5,\n      \"discord_challenges\": 5,\n      \"discord_points_ledger\": 0,\n      \"discord_content_queue\": 0,\n      \"discord_questions\": 0,\n      \"discord_answers\": 0,\n      \"discord_messages\": 0,\n      \"discord_gateway_events\": 75,\n      \"discord_reactions\": 0,\n      \"discord_threads\": 0,\n      \"discord_gateway_heartbeats\": 3,\n      \"discord_gateway_sessions\": 2,\n      \"discord_gateway_dead_letters\": 0\n    },\n    \"errors\": {}\n  }\n}",
+      "stderr": ""
+    },
+    "gatewayOnce": {
+      "command": "npm run discord:gateway:once",
+      "ok": true,
+      "status": 0,
+      "durationMs": 2166,
+      "stdout": "> qa-portfolio@0.2.0 discord:gateway:once\n> tsx --env-file=.env.local scripts/discord/gateway-worker.ts --once\n\n[discord/gateway] socket open",
+      "stderr": ""
+    },
+    "railwayDeployments": {
+      "command": "railway deployment list",
+      "ok": true,
+      "status": 0,
+      "durationMs": 697,
+      "stdout": "Recent Deployments\n  b8f677c2-1347-4ac7-8d2c-eac8654cee8b | SUCCESS | 2026-06-19 23:19:34 -04:00\n  93a875f2-d36d-4433-887d-3b461a176ac4 | REMOVED | 2026-06-19 22:19:01 -04:00\n  6377a63d-69c8-44e8-bcf5-13b5f1115846 | REMOVED | 2026-06-19 22:15:55 -04:00",
+      "stderr": ""
+    },
+    "railwayLogs": {
+      "command": "railway logs --lines 80",
+      "ok": true,
+      "status": 0,
+      "durationMs": 1164,
+      "stdout": "Starting Container\n\n> qa-portfolio@0.2.0 discord:gateway\n> tsx scripts/discord/gateway-worker.ts\n\n[discord/gateway] socket open\n[discord/gateway] socket closed 4000 \n[discord/gateway] socket open\n[discord/gateway] socket closed 4000 \n[discord/gateway] socket open\n[discord/gateway] socket closed 4000 \n[discord/gateway] socket open\n[discord/gateway] socket closed 4000 \n[discord/gateway] socket open",
+      "stderr": ""
+    },
+    "messageContentProbe": {
+      "command": "npm run discord:gateway:once:content",
+      "ok": false,
+      "status": 1,
+      "durationMs": 2094,
+      "stdout": "> qa-portfolio@0.2.0 discord:gateway:once:content\n> tsx --env-file=.env.local scripts/discord/gateway-worker.ts --once --message-content\n\n[discord/gateway] socket open\n[discord/gateway] socket closed 4000",
+      "stderr": "",
+      "expectedBlockedUntilPortalToggle": false
+    }
+  },
+  "sourceTableCounts": [
+    {
+      "table": "discord_messages",
+      "count": 0,
+      "error": null
+    },
+    {
+      "table": "discord_questions",
+      "count": 0,
+      "error": null
+    },
+    {
+      "table": "discord_answers",
+      "count": 0,
+      "error": null
+    },
+    {
+      "table": "discord_content_queue",
+      "count": 0,
+      "error": null
+    },
+    {
+      "table": "discord_gateway_events",
+      "count": 79,
+      "error": null
+    },
+    {
+      "table": "discord_gateway_heartbeats",
+      "count": 3,
+      "error": null
+    },
+    {
+      "table": "discord_gateway_sessions",
+      "count": 2,
+      "error": null
+    },
+    {
+      "table": "discord_gateway_dead_letters",
+      "count": 0,
+      "error": null
+    }
+  ],
+  "verifiedBlockers": [
+    "Discord Message Content Intent is not verified; normal message body capture remains blocked until portal toggle passes."
+  ]
+}

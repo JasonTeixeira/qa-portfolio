@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "provider": "local",
+  "model": "Supabase/gte-small",
+  "dimensions": 384,
+  "normalizedMagnitude": 1,
+  "sampleFirstFive": [
+    -0.068949,
+    0.012928,
+    0.034394,
+    -0.005782,
+    0.035482
+  ],
+  "startedAt": "2026-06-20T16:16:23.192Z",
+  "finishedAt": "2026-06-20T16:16:26.460Z"
+}

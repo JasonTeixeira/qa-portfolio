@@ -22,56 +22,95 @@ export const sagePathOptions: Array<{
     label: 'AI Apps',
     description: 'Build AI-native apps and SaaS products.',
     role: 'AI Engineer',
-    channel: 'path-ai-apps',
+    channel: 'build-lab',
   },
   {
     key: 'full_stack',
     label: 'Full-Stack Development',
     description: 'Ship real apps with auth, data, APIs, tests, and deployment.',
     role: 'Builder',
-    channel: 'path-full-stack-dev',
+    channel: 'build-lab',
   },
   {
     key: 'web_design',
     label: 'Websites + Design',
     description: 'Build premium sites, UI systems, and conversion pages.',
     role: 'Web Builder',
-    channel: 'path-websites-design',
+    channel: 'build-lab',
   },
   {
     key: 'cloud_devops',
     label: 'Cloud + DevOps',
     description: 'Deploy, monitor, and operate reliable systems.',
     role: 'Cloud Builder',
-    channel: 'path-cloud-devops',
+    channel: 'build-lab',
   },
   {
     key: 'agents_automation',
     label: 'AI Agents + Automation',
     description: 'Build workflow automations, agents, and internal systems.',
     role: 'AI Engineer',
-    channel: 'path-ai-agents-automation',
+    channel: 'build-lab',
   },
   {
     key: 'seo_content',
     label: 'SEO + Content Engine',
     description: 'Build search, publishing, newsletter, and content systems.',
     role: 'Content Builder',
-    channel: 'path-seo-content-engine',
+    channel: 'questions',
   },
   {
     key: 'ads_growth',
     label: 'Ads + Growth',
     description: 'Build offers, funnels, landing pages, and acquisition loops.',
     role: 'Growth Builder',
-    channel: 'path-ads-growth',
+    channel: 'questions',
   },
   {
     key: 'architecture',
     label: 'Architecture + Systems',
     description: 'Design APIs, data models, auth, reliability, and tradeoffs.',
     role: 'Builder',
-    channel: 'path-architecture-systems',
+    channel: 'build-lab',
+  },
+];
+
+export const leanDiscordChannels = [
+  {
+    name: 'start-here',
+    purpose: 'Read-only welcome, rules, onboarding instructions, and first action.',
+  },
+  {
+    name: 'daily-signal',
+    purpose: 'Bot-posted daily build prompt, AI pattern, and discussion question.',
+  },
+  {
+    name: 'questions',
+    purpose: 'Main member questions, answers, accepted/helpful replies, and unanswered-question tracking.',
+  },
+  {
+    name: 'build-lab',
+    purpose: 'Project specs, shipping updates, technical questions, and general build work.',
+  },
+  {
+    name: 'review-queue',
+    purpose: 'Design, code, AI, SEO, cloud, and architecture review requests.',
+  },
+  {
+    name: 'resources',
+    purpose: 'Templates, stack guides, reading lists, prompts, and useful tools.',
+  },
+  {
+    name: 'wins',
+    purpose: 'Finished ships, member wins, proof screenshots, and weekly recap inputs.',
+  },
+  {
+    name: 'premium',
+    purpose: 'Premium member critique, advanced drops, replays, and deeper help.',
+  },
+  {
+    name: 'team-ops',
+    purpose: 'Private moderation, reports, analytics review, and admin operations.',
   },
 ];
 

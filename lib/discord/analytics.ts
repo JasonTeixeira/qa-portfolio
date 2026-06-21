@@ -31,6 +31,13 @@ export async function upsertDiscordMember(input: {
   username?: string | null;
   pathKey?: string | null;
   levelKey?: string | null;
+  timezone?: string | null;
+  weeklyTimeBudget?: string | null;
+  primaryGoal?: string | null;
+  preferredSupport?: string | null;
+  portfolioUrl?: string | null;
+  referralSource?: string | null;
+  onboardingCompletedAt?: string | null;
   academyMember?: boolean;
 }): Promise<void> {
   try {
@@ -43,6 +50,13 @@ export async function upsertDiscordMember(input: {
     if (input.username !== undefined) row.username = input.username;
     if (input.pathKey !== undefined) row.path_key = input.pathKey;
     if (input.levelKey !== undefined) row.level_key = input.levelKey;
+    if (input.timezone !== undefined) row.timezone = input.timezone;
+    if (input.weeklyTimeBudget !== undefined) row.weekly_time_budget = input.weeklyTimeBudget;
+    if (input.primaryGoal !== undefined) row.primary_goal = input.primaryGoal;
+    if (input.preferredSupport !== undefined) row.preferred_support = input.preferredSupport;
+    if (input.portfolioUrl !== undefined) row.portfolio_url = input.portfolioUrl;
+    if (input.referralSource !== undefined) row.referral_source = input.referralSource;
+    if (input.onboardingCompletedAt !== undefined) row.onboarding_completed_at = input.onboardingCompletedAt;
 
     await supabaseAdmin().from('discord_members').upsert(
       row,

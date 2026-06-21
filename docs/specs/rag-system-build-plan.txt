@@ -1,0 +1,580 @@
+SAGE IDEAS RAG + CONTENT INTELLIGENCE SYSTEM BUILD PLAN
+Status: Proposed
+Date: 2026-06-20
+Owner: Sage Ideas
+Primary product surfaces: Discord, admin dashboard, content engine, resources, future academy lessons
+
+OBJECTIVE
+Build a production-grade RAG system that turns Discord questions, answers, resources, articles, lessons, and admin notes into searchable, cited, reusable knowledge. The system must support high-quality answers, content generation, quizzes, weekly recaps, curriculum/resource creation, and admin review workflows.
+
+CORE DECISION
+Use the existing TypeScript/Next/Supabase stack as the primary system.
+
+Recommended stack:
+- Supabase Postgres + pgvector for durable storage, source records, chunks, embeddings, logs, and feedback.
+- LlamaIndex TS patterns for ingestion, chunking, indexing, retrieval/query engine patterns. Keep implementation local where that is simpler and more testable.
+- DeepSeek for generation/content workflows because it is much cheaper for the community/content engine.
+- Embeddings are separate from generation. DeepSeek `/embeddings` was probed and returned 404, so the proven local embedding lane uses Transformers.js with `Supabase/gte-small` at 384 dimensions.
+- LangGraph later, only after retrieval is reliable, for multi-step agent workflows and human approval loops.
+- LangChain only where it provides useful tools/integrations.
+- Do not start with Haystack or RAGFlow unless a separate Python/document-processing service becomes necessary for heavy PDF parsing.
+
+CURRENT FOUNDATION ALREADY IN PLACE
+- Discord slash commands are registered.
+- Discord Gateway worker is deployed on Railway.
+- Gateway worker captures Discord Gateway events.
+- Reliability tables exist: discord_gateway_heartbeats, discord_gateway_sessions, discord_gateway_dead_letters.
+- Content/community tables exist: discord_messages, discord_questions, discord_answers, discord_content_queue, discord_quizzes, discord_challenges, discord_points_ledger.
+- Admin Discord dashboard exists.
+
+KNOWN REMAINING PREREQUISITE
+- Discord Message Content Intent must be enabled in the Discord Developer Portal before actual message bodies can be captured from normal Discord messages.
+
+PHASE COUNT
+Build this in 10 phases.
+
+Each phase must pass its verification gate before the next phase starts.
+
+
+PHASE 0 - BASELINE, INVENTORY, AND RISK LOCK
+
+Objective:
+Establish the exact current state of Discord capture, Supabase schema, content sources, command behavior, and production worker health before changing the RAG layer.
+
+Specs:
+- Confirm Railway worker is alive.
+- Confirm Supabase tables are present.
+- Confirm Discord commands are registered.
+- Confirm whether message content capture is enabled or blocked by 4014.
+- Record current row counts for all Discord/RAG-adjacent tables.
+- Identify source tables that can feed RAG.
+- Document all required env vars.
+
+Deliverables:
+- docs/evidence/rag/baseline.json
+- docs/evidence/rag/source-inventory.txt
+- Updated docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md if current runbook is missing any RAG prerequisites.
+
+Tests:
+- npm run discord:smoke
+- npm run discord:gateway:once
+- Railway logs show sagebot-main connected.
+- Supabase query confirms heartbeats and sessions have current rows.
+
+Exit Gate:
+- Baseline evidence exists.
+- No missing required tables.
+- Known blockers are written down with owner and fix.
+
+
+PHASE 1 - RAG DATA MODEL AND MIGRATION
+
+Objective:
+Add the durable schema for sources, documents, chunks, embeddings, retrieval logs, answers, feedback, and evals.
+
+Specs:
+- Enable pgvector extension.
+- Add source registry table for every knowledge input.
+- Add document table for normalized source text.
+- Add chunk table with vector embedding.
+- Add ingestion run table.
+- Add retrieval log table.
+- Add answer log and answer feedback tables.
+- Add evaluation dataset table for golden questions.
+- RLS should keep public users out. Admin/service-role owns writes.
+- All tables must include enough metadata to trace every generated answer back to source.
+
+Tables:
+- rag_sources
+- rag_documents
+- rag_chunks
+- rag_ingestion_runs
+- rag_retrieval_logs
+- rag_answers
+- rag_answer_feedback
+- rag_eval_questions
+- rag_eval_runs
+- rag_eval_results
+
+Required source types:
+- discord_message
+- discord_question
+- discord_answer
+- discord_content_queue
+- blog_post
+- resource
+- lesson
+- admin_note
+- uploaded_document
+
+Deliverables:
+- supabase/migrations/0065_rag_foundation.sql or next available migration number.
+- scripts/rag/check-rag-migrations.mjs
+- Unit checks in tests/unit/run.mjs for migration presence and table names.
+
+Tests:
+- npm run rag:migration-check
+- npm run test:unit
+- supabase db push dry-run, then apply.
+- Post-apply table existence check through Supabase REST with service role.
+
+Exit Gate:
+- Migration is applied to live Supabase.
+- All RAG tables are visible through Supabase API.
+- Unit migration tests pass.
+
+
+PHASE 2 - SOURCE REGISTRY AND NORMALIZATION
+
+Objective:
+Create a clean source registry that converts Discord/community/content records into consistent RAG source records.
+
+Specs:
+- Each source gets stable source_key.
+- Each source gets content_hash for dedupe.
+- Source text must be normalized but not over-cleaned.
+- Preserve original raw IDs and links.
+- Preserve channel, author, path, level, category, and quality signals where available.
+- Bot messages should be excluded unless explicitly marked as reusable.
+- Low-quality messages should be ignored or marked low priority.
+
+Source mapping:
+- discord_messages -> source text from message content.
+- discord_questions -> source text from structured question.
+- discord_answers -> source text from accepted/helpful answers.
+- discord_content_queue -> source text from captured ideas and lessons.
+- content/blog/*.mdx -> source text from article body and metadata.
+- docs/resources later -> source text from resource markdown.
+
+Deliverables:
+- lib/rag/source-normalizer.ts
+- scripts/rag/sync-sources.ts
+- npm script: rag:sync-sources
+- docs/evidence/rag/source-sync-sample.json
+
+Tests:
+- Unit tests for source_key stability.
+- Unit tests for content_hash stability.
+- Unit tests for bot-message exclusion.
+- Unit tests for Discord source metadata mapping.
+- Smoke script inserts or updates sources idempotently.
+
+Exit Gate:
+- Running rag:sync-sources twice creates no duplicates.
+- Source registry has records from at least Discord and blog/content sources.
+- Evidence file shows sample source records with traceable metadata.
+
+
+PHASE 3 - INGESTION, CHUNKING, AND EMBEDDINGS
+
+Objective:
+Turn normalized sources into high-quality chunks and embeddings.
+
+Specs:
+- Use local chunking logic wrapped behind lib/rag/chunking.ts first.
+- Start with sentence/paragraph-aware chunking.
+- Target chunk size: 500-900 tokens equivalent.
+- Chunk overlap: 80-150 tokens equivalent.
+- Never split code blocks badly if possible.
+- Preserve heading/context metadata.
+- Store embedding model name and dimension when a real embedding provider is configured.
+- Store content_hash per chunk.
+- Re-embed only changed chunks.
+- Failed embeddings go into ingestion run errors, not silent failure.
+- Generation provider is DeepSeek. Embedding provider is not allowed to be faked.
+- Proven embedding provider: local Transformers.js `Supabase/gte-small`.
+
+Deliverables:
+- lib/rag/chunking.ts
+- lib/rag/deepseek.ts
+- lib/rag/embeddings.ts
+- lib/rag/retrieval.ts
+- scripts/rag/smoke-deepseek.ts
+- scripts/rag/chunk-documents.ts
+- scripts/rag/smoke-local-embeddings.ts
+- scripts/rag/embed-chunks-local.ts
+- scripts/rag/smoke-retrieval.ts
+- scripts/rag/smoke-answer.ts
+- npm script: rag:smoke-deepseek
+- npm script: rag:chunk
+- npm script: rag:smoke-embeddings
+- npm script: rag:embed
+- npm script: rag:smoke-retrieval
+- npm script: rag:smoke-answer
+- docs/evidence/rag/deepseek-smoke.json
+- docs/evidence/rag/chunk-run.json
+- docs/evidence/rag/local-embeddings-smoke.json
+- docs/evidence/rag/local-embedding-run.json
+- docs/evidence/rag/retrieval-smoke.json
+- docs/evidence/rag/answer-smoke.json
+
+Tests:
+- Unit tests for chunk boundaries.
+- Unit tests for idempotent chunk updates.
+- Unit tests for stable chunk keys and metadata.
+- Live smoke with chunks created from real sources.
+- Live DeepSeek generation smoke.
+- Live embedding smoke with local `Supabase/gte-small`.
+- Check pgvector hybrid similarity query works only after embeddings exist.
+
+Exit Gate:
+- rag_chunks contains chunks from real sources.
+- Full Phase 3 embedding gate requires embedded chunks from a real provider. Current pass: 110/110 chunks embedded locally with `Supabase/gte-small`.
+- Re-running chunking is idempotent and does not create duplicate chunks.
+- Ingestion run reports processed, skipped, failed, duration, and cost estimate.
+
+
+PHASE 4 - HYBRID RETRIEVAL API
+
+Objective:
+Build retrieval that combines vector similarity, keyword/full-text search, metadata filters, and ranking.
+
+Specs:
+- Do not use vector-only retrieval.
+- Query should support:
+  - text query
+  - source type filters
+  - channel filters
+  - date range filters
+  - minimum quality threshold
+  - max results
+- Return cited chunks with source IDs and source URLs.
+- Log every retrieval request.
+- Include ranking features in logs.
+- Add confidence estimate based on score spread and source quality.
+
+Deliverables:
+- lib/rag/retrieval.ts
+- app/api/admin/rag/search/route.ts
+- app/api/discord/rag/search/route.ts or internal handler if not public.
+- scripts/rag/smoke-retrieval.ts
+- npm script: rag:smoke-retrieval
+
+Tests:
+- Unit tests for query parsing.
+- Unit tests for filter behavior.
+- Integration test using seeded chunks.
+- Smoke query returns relevant cited chunks.
+- Retrieval log row is created.
+
+Exit Gate:
+- A real query against live Supabase returns cited chunks.
+- Retrieval logs show query, filters, selected chunks, and score metadata.
+- No uncited answer path exists yet.
+
+
+PHASE 5 - ANSWER ENGINE WITH CITATIONS
+
+Objective:
+Generate useful answers grounded in retrieved chunks and refuse weakly supported answers.
+
+Specs:
+- Every answer must include citations.
+- The answer engine must separate:
+  - retrieved context
+  - answer draft
+  - citations
+  - confidence
+  - recommended follow-up
+- If retrieval confidence is low, answer should ask a clarifying question or say the knowledge base does not have enough context.
+- No financial/legal/medical advice generation from Discord knowledge.
+- Admin and Discord surfaces can share the same core answer engine.
+
+Deliverables:
+- lib/rag/answer-engine.ts
+- lib/rag/prompts.ts
+- app/api/admin/rag/answer/route.ts
+- scripts/rag/smoke-answer.ts
+- npm script: rag:smoke-answer
+
+Tests:
+- Unit tests for citation requirement.
+- Unit tests for low-confidence refusal.
+- Unit tests for source formatting.
+- Smoke answer against known source.
+- Retrieval and answer logs are created.
+
+Exit Gate:
+- Answer returns citations every time.
+- Low-confidence answer refuses or asks clarification.
+- Answer log contains prompt version, model, retrieval IDs, and output.
+
+
+PHASE 6 - DISCORD BOT RAG COMMANDS
+
+Objective:
+Expose RAG safely inside Discord without creating spam or hallucination risk.
+
+Specs:
+- Add slash commands:
+  - /ask-sage
+  - /search
+  - /explain
+  - /source
+  - /content-gap
+- Default answers should be ephemeral unless explicitly posted.
+- Public posting should require admin/mod approval or confidence threshold.
+- `/ask-sage` should cite resources and relevant prior Q&A.
+- `/content-gap` should create a content queue item when knowledge is missing.
+- Use role gates for admin-only commands.
+
+Deliverables:
+- lib/discord/sage-commands.ts updates
+- lib/discord/sage-rag.ts
+- app/api/discord/interactions route integration
+- scripts/discord/register-sage-commands.mjs update
+- docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md update
+
+Tests:
+- Unit tests for command registry.
+- Signature route tests continue passing.
+- Manual Discord smoke for `/ask-sage`.
+- Retrieval/answer logs created from Discord command.
+
+Exit Gate:
+- Commands registered live.
+- `/ask-sage` returns cited answer.
+- No public spam behavior.
+
+
+PHASE 7 - ADMIN RAG DASHBOARD
+
+Objective:
+Give admins a control surface to search, inspect sources, review answers, manage feedback, and identify content opportunities.
+
+Specs:
+- Admin page should show:
+  - source count
+  - chunk count
+  - ingestion health
+  - retrieval volume
+  - low-confidence queries
+  - unanswered questions
+  - content gaps
+  - top source types
+  - stale sources
+- Admin can:
+  - search knowledge base
+  - inspect source and chunks
+  - mark source quality
+  - send item to content queue
+  - approve answer as reusable
+  - hide/remove bad source
+
+Deliverables:
+- app/admin/rag/page.tsx
+- app/admin/rag/actions.ts
+- components/admin/rag-search-panel.tsx
+- components/admin/rag-source-inspector.tsx
+- components/admin/rag-health-panel.tsx
+- Sidebar link under admin.
+
+Tests:
+- Unit tests for dashboard summary builder.
+- Playwright admin smoke.
+- Access control test: unauthenticated users cannot access.
+- Screenshot evidence for desktop/mobile layout.
+
+Exit Gate:
+- Admin can search and inspect live RAG data.
+- Admin can route a gap into discord_content_queue.
+- Dashboard shows health and recent failures.
+
+
+PHASE 8 - CONTENT INTELLIGENCE LOOP
+
+Objective:
+Turn RAG activity into daily/weekly content, quizzes, lessons, resources, and challenge ideas.
+
+Specs:
+- Detect repeated questions.
+- Detect unanswered searches.
+- Detect high-value answers.
+- Detect weak resource coverage.
+- Generate content briefs, not auto-published content.
+- Content types:
+  - Discord resource drop
+  - blog post
+  - social thread
+  - academy lesson
+  - quiz
+  - challenge
+  - checklist/template
+- Admin approval required before publishing.
+
+Deliverables:
+- lib/rag/content-intelligence.ts
+- scripts/rag/build-content-queue.ts
+- npm script: rag:content-queue
+- Admin workflow buttons from RAG result -> content queue.
+- Weekly RAG/content recap section.
+
+Tests:
+- Unit tests for clustering repeated questions.
+- Unit tests for content type recommendation.
+- Smoke creates draft content queue items from real retrieval logs.
+- No duplicate content queue items for same cluster.
+
+Exit Gate:
+- Repeated questions become content queue candidates.
+- Weekly recap includes RAG-driven content opportunities.
+- Admin can approve/reject/triage candidates.
+
+
+PHASE 9 - EVALUATION, SAFETY, AND QUALITY GATES
+
+Objective:
+Make the RAG system measurable, testable, and difficult to degrade silently.
+
+Specs:
+- Build golden question set.
+- Evaluate retrieval precision.
+- Evaluate citation coverage.
+- Evaluate answer faithfulness.
+- Evaluate refusal behavior.
+- Track model, embedding model, prompt version, and retrieval config.
+- Every production prompt change should be tested against eval set.
+
+Metrics:
+- Retrieval hit rate.
+- Citation coverage.
+- Answer faithfulness.
+- Low-confidence refusal correctness.
+- Unsupported claim rate.
+- Average retrieval latency.
+- Average answer latency.
+- Token and embedding cost.
+
+Deliverables:
+- lib/rag/evals.ts
+- scripts/rag/run-evals.ts
+- npm script: rag:evaluate
+- docs/evidence/rag/eval-latest.json
+- Admin eval summary section.
+
+Tests:
+- Golden set minimum 25 questions.
+- Eval runner must fail below thresholds.
+- CI-compatible local eval mode using deterministic fixtures.
+
+Exit Gate:
+- rag:evaluate passes thresholds.
+- Eval report is committed or written to docs/evidence/rag.
+- No answer engine changes ship without eval evidence.
+
+
+PHASE 10 - LANGGRAPH AGENT WORKFLOWS
+
+Objective:
+Add multi-step RAG agents only after retrieval, citations, feedback, and evals are stable.
+
+Specs:
+- Use LangGraph for stateful workflows that need multiple steps and admin approval.
+- Workflows must be deterministic where possible.
+- Every tool call must be logged.
+- Mutating actions require admin approval.
+- Failed runs must be resumable or dead-lettered.
+
+Initial workflows:
+- Answer Draft Workflow:
+  retrieve -> draft -> cite -> confidence check -> admin approve -> post
+- Content Brief Workflow:
+  cluster questions -> retrieve sources -> draft brief -> admin approve -> queue
+- Resource Builder Workflow:
+  find gap -> retrieve examples -> draft resource -> admin approve -> publish to resources
+- Weekly Recap Workflow:
+  collect wins/questions/challenges -> draft recap -> admin approve -> post
+
+Deliverables:
+- lib/rag/workflows/*
+- lib/rag/tools/*
+- app/admin/rag/workflows/page.tsx
+- rag_workflow_runs and rag_workflow_steps migration if needed.
+- Human approval UI.
+
+Tests:
+- Unit tests for each graph path.
+- Interrupt/resume test for admin approval.
+- Dead-letter test for failed tool call.
+- End-to-end dry-run for weekly recap workflow.
+
+Exit Gate:
+- Agent workflows never publish without approval.
+- Workflow runs are inspectable.
+- Failed workflows do not lose state.
+
+
+GLOBAL ACCEPTANCE CRITERIA
+The RAG system is production-ready only when all are true:
+
+1. Source capture works.
+2. Ingestion is idempotent.
+3. Chunks are embedded and searchable.
+4. Retrieval returns cited chunks.
+5. Answers include citations.
+6. Weak-context questions refuse or ask clarification.
+7. Discord command works safely.
+8. Admin can inspect, approve, and correct.
+9. Content queue is fed by real question patterns.
+10. Evals pass before any prompt/retrieval change is shipped.
+11. Railway worker remains healthy.
+12. No dead-letter backlog grows silently.
+13. Message Content Intent is enabled and verified if normal Discord message content is expected.
+
+
+MINIMUM FIRST RELEASE
+If we want the smallest useful RAG release, ship phases 0 through 5 first.
+
+MVP deliverables:
+- RAG schema.
+- Source sync from Discord + blog/content.
+- Embeddings.
+- Hybrid retrieval.
+- Cited answer engine.
+- Admin-only search/answer smoke.
+
+Do not expose broad public Discord RAG until phases 6 and 9 are ready.
+
+
+TARGET PRODUCTION RELEASE
+For the full education/community operating system, ship all 10 phases.
+
+The finished system should answer:
+- What has the community already asked?
+- What answers were actually useful?
+- What should become a resource?
+- What should become a quiz?
+- What should become a challenge?
+- What should become a blog/article/lesson?
+- Where is the knowledge base weak?
+- Which members are contributing high-value knowledge?
+- Can SageBot answer with citations instead of vibes?
+
+
+FRAMEWORK DECISION SUMMARY
+
+LlamaIndex TS:
+Use for design patterns around ingestion, chunking, indexing, query engine patterns, and source/citation handling. Keep the production path local unless LlamaIndex removes real complexity.
+
+DeepSeek:
+Use for answer drafting, content briefs, weekly recaps, quizzes, challenge generation, and other generation-heavy workflows.
+
+LangGraph:
+Use later for long-running, stateful, human-approved workflows.
+
+LangChain:
+Use selectively for tools, integrations, and model wrappers if it reduces code.
+
+Haystack:
+Do not use in the first implementation. It is stronger if we create a separate Python RAG service.
+
+RAGFlow:
+Do not use in the first implementation. Consider later only if complex PDFs become a major source type and visual ingestion UI is worth operating.
+
+
+IMMEDIATE NEXT ACTIONS
+1. Enable Discord Message Content Intent.
+2. Verify a real Discord message lands in discord_messages with content.
+3. Start Phase 0 baseline evidence.
+4. Build Phase 1 migration.
+5. Build Phase 2 source sync.

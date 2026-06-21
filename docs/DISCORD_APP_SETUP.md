@@ -57,6 +57,10 @@ npm run discord:register
 
 Registered commands:
 
+- `/apply`
+- `/approve`
+- `/reject`
+- `/pending`
 - `/onboard`
 - `/choose-path`
 - `/submit-project`
@@ -68,6 +72,72 @@ Registered commands:
 - `/office-hours`
 - `/report`
 - `/premium`
+- `/daily`
+- `/quiz`
+- `/challenge`
+- `/submit-challenge`
+- `/points`
+- `/rank`
+- `/leaderboard`
+- `/streak`
+- `/weekly`
+- `/content-queue`
+
+Community operating model:
+
+- Source of truth: `docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md`.
+- Intentional server shape: a lean set of channels, with roles carrying member path/level context.
+- Read-only verification:
+
+```text
+npm run discord:audit
+```
+
+- Provision missing lean channels and post the `start-here` onboarding message:
+
+```text
+npm run discord:provision
+```
+
+- Hide older pre-lean channels without deleting history:
+
+```text
+npm run discord:archive-old
+```
+
+- Enforce manual approval permissions so unapproved members only see `start-here`:
+
+```text
+npm run discord:approval-gate
+```
+
+Required lean channels:
+
+- `start-here`
+- `introductions`
+- `daily-signal`
+- `build-lab`
+- `review-queue`
+- `content-lab`
+- `live-room`
+- `resources`
+- `wins-showcase`
+- `premium`
+- `team-ops`
+
+Required roles:
+
+- `AI Engineer`
+- `Builder`
+- `Web Builder`
+- `Cloud Builder`
+- `Content Builder`
+- `Growth Builder`
+- `Beginner`
+- `Academy Member`
+- `Contributor`
+- `Mentor`
+- `Premium Member`
 
 Premium/community operations now implemented:
 
@@ -81,9 +151,9 @@ Premium/community operations now implemented:
 
 Still operationally required:
 
-- Deploy after code changes.
-- Apply `supabase/migrations/0049_discord_community_ops.sql`.
+- Create or verify the lean roles and channels above inside Discord.
+- Post the `start-here` onboarding copy from `docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md`.
 - Set Stripe env vars in Vercel, including the premium price id.
-- Set `CRON_SECRET` in Vercel so scheduled routes can authenticate.
+- Test `/onboard`, `/submit-project`, `/request-review`, `/capture-content`, `/office-hours`, and `/premium` in the live Discord.
 
 Operational note: Discord slash commands call the production interactions endpoint. After command registration, deploy the current app to Vercel before expecting newly added handlers to respond in the live server.

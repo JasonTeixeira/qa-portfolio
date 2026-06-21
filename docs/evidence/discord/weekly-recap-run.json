@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "draftId": "66f50a52-d7ad-474b-9f56-8963ed4e2ea4",
+  "weekKey": "2026-W25",
+  "qualityScore": 100,
+  "bodyPreview": "# Weekly Recap\n**Cadence**\n- Monday: Build brief and weekly project target.\n- Tuesday: Tool teardown and implementation pattern.\n- Wednesday: Office-hours question collection.\n- Thursday: Review day for code, design, AI, SEO, and architecture.\n- Friday: Ship showcase and portfolio proof.\n- Saturday:",
+  "smoke": false,
+  "cleanedUp": false,
+  "startedAt": "2026-06-21T02:40:04.375Z",
+  "finishedAt": "2026-06-21T02:40:04.938Z"
+}

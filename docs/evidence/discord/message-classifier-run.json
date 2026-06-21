@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "dryRun": false,
+  "messageId": null,
+  "limit": 500,
+  "messagesSeen": 0,
+  "classificationsUpserted": 0,
+  "summary": {
+    "count": 0,
+    "byCategory": {},
+    "byAction": {},
+    "avgQuality": 0,
+    "avgContentValue": 0
+  },
+  "sample": [],
+  "startedAt": "2026-06-21T02:18:39.116Z",
+  "finishedAt": "2026-06-21T02:18:39.331Z"
+}

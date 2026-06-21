@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "expected": "rag-ok",
+  "received": "rag-ok",
+  "usage": {
+    "prompt_tokens": 19,
+    "completion_tokens": 3,
+    "total_tokens": 22,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 19
+  },
+  "startedAt": "2026-06-20T15:46:41.196Z",
+  "finishedAt": "2026-06-20T15:46:42.436Z"
+}

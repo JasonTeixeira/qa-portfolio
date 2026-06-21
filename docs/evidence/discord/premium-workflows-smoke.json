@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "review": {
+    "id": "dd709399-8f13-490d-8c8a-eebeee4ebaad",
+    "priority": 95
+  },
+  "officeHours": {
+    "id": "02441451-1355-4daa-bba5-d6ed4c315b27",
+    "priority": 90,
+    "premiumMember": true
+  },
+  "answer": {
+    "id": "3f7405c5-3d7c-4578-b092-6126e684d5db",
+    "answerId": "144db797-976d-4e42-a398-9cc979215272",
+    "retrievalLogId": "f359c9b3-2890-43f7-8682-61e2c4c24b06",
+    "model": "deepseek-v4-flash",
+    "answerPreview": "Based on the provided context, here is a design for a premium review workflow for your education Discord server.\n\n### Workflow Design\n\nThe workflow should be a structured, human-in-the-loop process that prioritizes premium members while ensuring quality and safety.\n\n**1. Request Intake**\n- Premium members use a dedicated slash command (e.g., `/premium-review`) to submit a request. This command sho"
+  },
+  "startedAt": "2026-06-21T03:09:34.640Z",
+  "finishedAt": "2026-06-21T03:09:42.044Z"
+}

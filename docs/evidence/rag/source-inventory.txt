@@ -1,0 +1,23 @@
+SAGE IDEAS RAG SOURCE INVENTORY
+Generated: 2026-06-20T15:26:00.608Z
+
+Source tables:
+- discord_messages: count=0
+- discord_questions: count=0
+- discord_answers: count=0
+- discord_content_queue: count=0
+- discord_gateway_events: count=79
+- discord_gateway_heartbeats: count=3
+- discord_gateway_sessions: count=2
+- discord_gateway_dead_letters: count=0
+
+Primary RAG candidates:
+- discord_messages: normal Discord message capture after Message Content Intent is enabled.
+- discord_questions: structured slash-command questions.
+- discord_answers: structured slash-command answers and helpful marks.
+- discord_content_queue: captured lessons, resource gaps, and future content ideas.
+- content/blog/*.mdx: existing site articles and future education content.
+- docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md: canonical community operating instructions.
+
+Verified blockers:
+- Discord Message Content Intent is not verified; normal message body capture remains blocked until portal toggle passes.

@@ -1,0 +1,50 @@
+{
+  "ok": true,
+  "messageId": "content-queue-smoke-1782008266948",
+  "queueItem": {
+    "id": "5317bd26-0730-4756-ad4d-c439023c617b",
+    "source": "discord_message_classifier",
+    "source_event_id": null,
+    "discord_user_id": "content-queue-smoke-user",
+    "discord_username": "content-queue-smoke",
+    "channel_base_name": "questions-to-content",
+    "idea": "Answer this member question: How do I turn a Discord question into a daily post, a mini lesson, and a reusable resource for beginners?",
+    "angle": "Question-driven teaching asset: answer publicly, capture the resource gap, and consider a daily prompt.",
+    "status": "captured",
+    "priority": 91,
+    "metadata": {
+      "signals": {
+        "empty": false,
+        "reply": false,
+        "short": false,
+        "has_link": false,
+        "author_bot": false,
+        "spam_terms": false,
+        "word_count": 20,
+        "has_question": true,
+        "mentions_win": false,
+        "has_attachment": false,
+        "mentions_build": false,
+        "asks_for_review": false,
+        "shares_resource": true,
+        "asks_for_support": false,
+        "content_opportunity": true
+      },
+      "rationale": "question -> track_question because has question, shares resource, content opportunity",
+      "confidence": 0.7967,
+      "quality_score": 65,
+      "classifier_action": "track_question",
+      "classifier_category": "question",
+      "content_value_score": 100,
+      "source_content_preview": "How do I turn a Discord question into a daily post, a mini lesson, and a reusable resource for beginners?"
+    },
+    "created_at": "2026-06-21T02:17:47.448788+00:00",
+    "updated_at": "2026-06-21T02:17:47.448788+00:00",
+    "source_message_id": "content-queue-smoke-1782008266948",
+    "source_classification_action": "track_question",
+    "source_classification_category": "question"
+  },
+  "cleanedUp": true,
+  "startedAt": "2026-06-21T02:17:46.947Z",
+  "finishedAt": "2026-06-21T02:17:47.745Z"
+}

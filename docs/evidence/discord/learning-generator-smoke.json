@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "dateKey": "2099-01-02",
+  "model": "deepseek-v4-flash",
+  "quizDraftId": "abcee618-8bf8-49d0-85ce-6b00c77b437a",
+  "challengeDraftId": "39464b33-f264-4ca9-ae2c-1a8f4dc5bc0c",
+  "quizPreview": "In an approval-gated AI automation, what is the primary purpose of the human-in-the-loop step?",
+  "challengePreview": "Build an Approval-Gated Social Media Post Generator",
+  "theme": "approval-gated AI automations",
+  "smoke": true,
+  "cleanedUp": true,
+  "startedAt": "2026-06-21T02:36:53.352Z",
+  "finishedAt": "2026-06-21T02:36:59.684Z"
+}

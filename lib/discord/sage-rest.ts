@@ -5,14 +5,18 @@ const DISCORD_API = 'https://discord.com/api/v10';
 type DiscordRole = { id: string; name: string };
 type DiscordChannel = { id: string; name: string; type: number };
 
+function cleanEnv(value: string | undefined): string | undefined {
+  return value?.replace(/\\n/g, '').trim();
+}
+
 function botToken(): string {
-  const token = process.env.DISCORD_BOT_TOKEN;
+  const token = cleanEnv(process.env.DISCORD_BOT_TOKEN);
   if (!token) throw new Error('DISCORD_BOT_TOKEN missing');
   return token;
 }
 
 function guildId(): string {
-  const id = process.env.DISCORD_GUILD_ID;
+  const id = cleanEnv(process.env.DISCORD_GUILD_ID);
   if (!id) throw new Error('DISCORD_GUILD_ID missing');
   return id;
 }
@@ -62,6 +66,12 @@ export async function getGuildChannels(): Promise<DiscordChannel[]> {
 export async function findRoleIdByName(name: string): Promise<string | null> {
   const roles = await getGuildRoles();
   return roles.find((role) => role.name === name)?.id ?? null;
+}
+
+export async function roleIdsByName(names: string[]): Promise<Set<string>> {
+  const roleNames = new Set(names);
+  const roles = await getGuildRoles();
+  return new Set(roles.filter((role) => roleNames.has(role.name)).map((role) => role.id));
 }
 
 export async function findChannelIdByBaseName(name: string): Promise<string | null> {

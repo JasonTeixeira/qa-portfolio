@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "runKey": "rag-source-sync-2026-06-20T15-46-54-097Z",
+  "status": "completed",
+  "stats": {
+    "sourcesSeen": 65,
+    "sourcesUpserted": 65,
+    "documentsUpserted": 65,
+    "failures": 0,
+    "byType": {
+      "blog_post": 62,
+      "resource": 3
+    }
+  },
+  "blocker": "No Discord knowledge-source rows were available to sync. Message Content Intent/member activity still required for Discord corpus.",
+  "sampleSources": [
+    {
+      "source_key": "blog_post:authentication-is-harder-than-you-think",
+      "source_type": "blog_post",
+      "title": "Authentication Is Harder Than You Think",
+      "token_estimate": 496
+    },
+    {
+      "source_key": "blog_post:aws-cost-optimization-how-i-keep-a-production-platform-under-50-month",
+      "source_type": "blog_post",
+      "title": "AWS Cost Optimization: How I Keep a Production Platform Under $50/Month",
+      "token_estimate": 444
+    },
+    {
+      "source_key": "blog_post:build-a-product-surface-and-system-map",
+      "source_type": "blog_post",
+      "title": "Build a Product Surface and System Map",
+      "token_estimate": 889
+    },
+    {
+      "source_key": "blog_post:building-a-backtesting-engine-that-doesn",
+      "source_type": "blog_post",
+      "title": "Building a Backtesting Engine That Doesn't Lie to You",
+      "token_estimate": 218
+    },
+    {
+      "source_key": "blog_post:building-a-fintech-platform-solo-185-tables-69-apis-7-systems",
+      "source_type": "blog_post",
+      "title": "Building a Fintech Platform Solo: 185 Tables, 69 APIs, 7 Systems",
+      "token_estimate": 649
+    }
+  ]
+}

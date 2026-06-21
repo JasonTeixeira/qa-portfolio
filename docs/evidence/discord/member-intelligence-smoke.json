@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "processed": 1,
+  "smoke": true,
+  "smokeProfile": {
+    "discord_user_id": "member-intel-smoke-1782009800192",
+    "segment": "premium_candidate",
+    "next_best_action": "offer_premium_review_or_member_spotlight",
+    "total_points": 80,
+    "helpful_answer_count": 1,
+    "strengths": [
+      "helps_members"
+    ]
+  },
+  "startedAt": "2026-06-21T02:43:20.192Z",
+  "finishedAt": "2026-06-21T02:43:21.704Z"
+}

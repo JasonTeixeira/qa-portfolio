@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "skipped": false,
+  "draftId": "5e9357b4-d43b-4728-bada-aed699811952",
+  "dateKey": "2099-01-01",
+  "model": "deepseek-v4-flash",
+  "title": "Daily Signal - 2099-01-01",
+  "bodyPreview": "# Daily Signal\n**Theme:** Automation safety gates – knowing when to let the bot run and when to lock it down.\n\n**Build prompt:** Build a simple approval-gated automation that reads a Google Sheet row, formats the data into a Slack message, and pauses before sending it. Only proceed if a human clicks",
+  "smoke": true,
+  "cleanedUp": true,
+  "startedAt": "2026-06-21T02:34:14.117Z",
+  "finishedAt": "2026-06-21T02:34:19.506Z"
+}

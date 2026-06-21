@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { handleSageCommand, handleSageComponent } from '@/lib/discord/sage-commands';
+import { after, NextResponse } from 'next/server';
+import { handleDeferredSageCommand, handleSageCommand, handleSageComponent, isDeferredSageCommand } from '@/lib/discord/sage-commands';
 import { verifyDiscordRequestSignature } from '@/lib/discord/signature';
 
 export const runtime = 'nodejs';
@@ -8,6 +8,7 @@ const INTERACTION_TYPE_PING = 1;
 const INTERACTION_TYPE_APPLICATION_COMMAND = 2;
 const INTERACTION_TYPE_COMPONENT = 3;
 const RESPONSE_TYPE_PONG = 1;
+const RESPONSE_TYPE_DEFERRED_CHANNEL_MESSAGE = 5;
 const RESPONSE_TYPE_CHANNEL_MESSAGE = 4;
 const EPHEMERAL_FLAG = 64;
 
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_signature' }, { status: 401 });
   }
 
-  let payload: { type?: number };
+  let payload: Parameters<typeof handleSageCommand>[0];
   try {
     payload = JSON.parse(body);
   } catch {
@@ -51,6 +52,16 @@ export async function POST(request: Request) {
   }
 
   if (payload.type === INTERACTION_TYPE_APPLICATION_COMMAND) {
+    if (isDeferredSageCommand(payload)) {
+      after(() => handleDeferredSageCommand(payload));
+      return NextResponse.json({
+        type: RESPONSE_TYPE_DEFERRED_CHANNEL_MESSAGE,
+        data: {
+          content: 'SageBot is checking the knowledge base.',
+          flags: EPHEMERAL_FLAG,
+        },
+      });
+    }
     return NextResponse.json(await handleSageCommand(payload));
   }
 

@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "status": "enabled",
+  "closeCode": null,
+  "portalUrl": "https://discord.com/developers/applications/1516816082122309775/bot",
+  "instructions": [],
+  "stdout": "[discord/gateway] socket open\n",
+  "stderr": "",
+  "startedAt": "2026-06-21T00:18:41.124Z",
+  "finishedAt": "2026-06-21T00:18:42.688Z"
+}

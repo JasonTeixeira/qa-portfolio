@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "skipped": false,
+  "draftId": "e2a4fdfe-a857-4cd0-b4af-eb34cec90999",
+  "dateKey": "2026-06-21",
+  "model": "deepseek-v4-flash",
+  "title": "Daily Signal - 2026-06-21",
+  "bodyPreview": "# Daily Signal\n**Theme:** Project scope — the single most underrated skill in AI product building.\n\n**Build prompt:** Write a one-screen spec with user, goal, acceptance criteria, and out-of-scope items. Keep it to 10 lines max. If you can’t, your scope is too big.\n\n**AI/tool pattern:** Use structur",
+  "smoke": false,
+  "cleanedUp": false,
+  "startedAt": "2026-06-21T02:34:26.006Z",
+  "finishedAt": "2026-06-21T02:34:31.019Z"
+}

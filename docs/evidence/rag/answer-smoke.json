@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "question": "What is the right Discord onboarding path for an education community?",
+  "model": "deepseek-v4-flash",
+  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community (specifically Sage Ideas Academy) is a structured, gated flow that starts in `start-here` and uses bot commands [3][4].\n\nThe complete path is:\n\n1.  Read the quality bar and rules in `start-here` [3].\n2.  Run `/apply` and answer the application questions [3].\n3.  Confirm rules acceptance in the command [3].\n4.  Wait for manual approval [3].\n5.  After approval, run `/onboard` [3].\n6.  Post an introduction i",
+  "citationCount": 5,
+  "retrievalLogId": "65bcd38f-2e86-4c10-8e50-a5c317a26e73",
+  "answerId": "8f3ba6b9-545c-416a-96f8-67234d2bdd84",
+  "citations": [
+    {
+      "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_type": "resource"
+    },
+    {
+      "chunk_id": "64b40667-5fde-47c6-9009-5834939d0415",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_type": "resource"
+    },
+    {
+      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_type": "resource"
+    },
+    {
+      "chunk_id": "c8cd2764-eeca-48d9-8457-009cd5d81e43",
+      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_type": "resource"
+    },
+    {
+      "chunk_id": "782fbcf7-55aa-49a8-aae1-0574f6760350",
+      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_type": "resource"
+    }
+  ],
+  "startedAt": "2026-06-20T16:17:16.459Z",
+  "finishedAt": "2026-06-20T16:17:21.182Z"
+}

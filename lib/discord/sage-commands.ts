@@ -14,9 +14,41 @@ import {
   assignPathRole,
   getRecentChannelMessages,
   postToChannelByBaseName,
+  roleIdsByName,
 } from './sage-rest';
 import { createDiscordPremiumCheckout } from './premium';
 import { recordDiscordEvent, recordDiscordScheduledRun, upsertDiscordMember } from './analytics';
+import { askSageFromDiscord } from './ask-sage';
+import { postDiscordInteractionFollowup } from './followup';
+import { answerPremiumQuestion, createOfficeHoursQueueItem, createPremiumReviewRequest } from './premium-workflows';
+import {
+  answerDailyQuiz,
+  answerDiscordQuestion,
+  askDiscordQuestion,
+  awardDiscordPoints,
+  captureContentQueueItem,
+  completeOnboardingStep,
+  getContentQueue,
+  getDailyChallengeFromStore,
+  getDailyContentPlan,
+  getDailyQuizFromStore,
+  getLeaderboard,
+  getMemberPoints,
+  getOnboardingChecklist,
+  getOpenQuestions,
+  getPendingApplications,
+  getRecentAnswers,
+  getWeeklyChallengeRecap,
+  isApprovedDiscordMember,
+  manuallyAwardDiscordPoints,
+  markDiscordAnswerHelpful,
+  onboardingSteps,
+  type OnboardingStepKey,
+  reviewMemberApplication,
+  submitMemberApplication,
+  submitDailyChallenge,
+} from './engagement';
+import { approveDiscordMember } from './onboarding';
 
 const RESPONSE_TYPE_CHANNEL_MESSAGE = 4;
 const RESPONSE_TYPE_UPDATE_MESSAGE = 7;
@@ -24,11 +56,13 @@ const EPHEMERAL_FLAG = 64;
 
 type DiscordOption = {
   name: string;
-  value?: string;
+  value?: string | boolean;
   options?: DiscordOption[];
 };
 
 export type DiscordInteractionPayload = {
+  application_id?: string;
+  token?: string;
   type?: number;
   data?: {
     name?: string;
@@ -38,6 +72,7 @@ export type DiscordInteractionPayload = {
   };
   member?: {
     user?: { id: string; username?: string };
+    roles?: string[];
   };
   user?: { id: string; username?: string };
   channel_id?: string;
@@ -51,6 +86,11 @@ type InteractionResponse = {
 function optionValue(payload: DiscordInteractionPayload, name: string): string {
   const option = payload.data?.options?.find((item) => item.name === name);
   return String(option?.value ?? '').trim();
+}
+
+function optionBool(payload: DiscordInteractionPayload, name: string): boolean {
+  const option = payload.data?.options?.find((item) => item.name === name);
+  return option?.value === true;
 }
 
 function userId(payload: DiscordInteractionPayload): string | null {
@@ -79,7 +119,103 @@ function publicMessage(content: string): InteractionResponse {
   };
 }
 
+export function isDeferredSageCommand(payload: DiscordInteractionPayload): boolean {
+  return payload.data?.name === 'ask-sage' || payload.data?.name === 'premium-ask';
+}
+
+async function awardDiscordPointsFallback(
+  discordUserId: string,
+  discordUsername: string,
+  points: number,
+  reason: string,
+  metadata: Record<string, unknown>,
+): Promise<void> {
+  await awardDiscordPoints({
+    discordUserId,
+    username: discordUsername,
+    points,
+    reason,
+    source: 'question_fallback',
+    metadata,
+  });
+}
+
+async function isReviewer(payload: DiscordInteractionPayload): Promise<boolean> {
+  const memberRoles = payload.member?.roles ?? [];
+  if (!memberRoles.length) return false;
+  const reviewerRoleIds = await roleIdsByName(['Founder', 'Admin', 'Moderator']);
+  return memberRoles.some((roleId) => reviewerRoleIds.has(roleId));
+}
+
+async function requireApproved(payload: DiscordInteractionPayload): Promise<InteractionResponse | null> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const approved = await isApprovedDiscordMember(id);
+  if (approved) return null;
+  return ephemeral('You need approval before using member commands. Read `start-here`, accept the rules, and submit `/apply` first.');
+}
+
 export const sageCommandDefinitions = [
+  {
+    name: 'apply',
+    description: 'Apply for Sage Ideas Academy access after reading and accepting the rules.',
+    options: [
+	      { name: 'goal', description: 'What do you want to learn or build here?', type: 3, required: true },
+	      { name: 'experience', description: 'Your current skill level and background', type: 3, required: true },
+	      { name: 'build', description: 'The first thing you want to build or improve', type: 3, required: true },
+	      { name: 'rules', description: 'Confirm you read and accept the rules in start-here', type: 5, required: true },
+	      {
+	        name: 'path',
+	        description: 'Primary learning path you want to follow',
+	        type: 3,
+	        required: false,
+	        choices: sagePathOptions.map((option) => ({ name: option.label, value: option.key })),
+	      },
+	      {
+	        name: 'level',
+	        description: 'Your current builder level',
+	        type: 3,
+	        required: false,
+	        choices: sageLevelOptions.map((option) => ({ name: option.label, value: option.key })),
+	      },
+	      { name: 'timezone', description: 'Your timezone for office hours and accountability', type: 3, required: false },
+	      { name: 'time_budget', description: 'Weekly time you can realistically commit', type: 3, required: false },
+	      {
+	        name: 'support',
+	        description: 'What kind of support would help most?',
+	        type: 3,
+	        required: false,
+	        choices: [
+	          { name: 'Questions and unblockers', value: 'questions' },
+	          { name: 'Project review', value: 'review' },
+	          { name: 'Accountability', value: 'accountability' },
+	          { name: 'Premium critique', value: 'premium_curious' },
+	        ],
+	      },
+	      { name: 'portfolio', description: 'Optional site, GitHub, LinkedIn, or current project link', type: 3, required: false },
+	      { name: 'source', description: 'How did you hear about the community?', type: 3, required: false },
+	    ],
+	  },
+  {
+    name: 'approve',
+    description: 'Approve a pending member application and grant Academy Member access.',
+    options: [
+      { name: 'user', description: 'Discord user to approve', type: 6, required: true },
+      { name: 'note', description: 'Optional internal review note', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'reject',
+    description: 'Reject a pending member application.',
+    options: [
+      { name: 'user', description: 'Discord user to reject', type: 6, required: true },
+      { name: 'note', description: 'Optional internal review note', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'pending',
+    description: 'Show pending member applications for review.',
+  },
   {
     name: 'onboard',
     description: 'Start Sage Ideas Academy onboarding with path and level selectors.',
@@ -130,6 +266,30 @@ export const sageCommandDefinitions = [
     ],
   },
   {
+    name: 'premium-review',
+    description: 'Submit a premium priority review request for a concrete artifact.',
+    options: [
+      {
+        name: 'type',
+        description: 'Review type',
+        type: 3,
+        required: true,
+        choices: [
+          { name: 'Design', value: 'design' },
+          { name: 'Code', value: 'code' },
+          { name: 'AI workflow', value: 'ai' },
+          { name: 'Architecture', value: 'architecture' },
+          { name: 'SEO/content', value: 'seo' },
+          { name: 'Cloud/devops', value: 'cloud' },
+          { name: 'Growth', value: 'growth' },
+          { name: 'General', value: 'general' },
+        ],
+      },
+      { name: 'summary', description: 'What should be reviewed, and what outcome do you want?', type: 3, required: true },
+      { name: 'link', description: 'Artifact link, repo, page, doc, screenshot, or loom', type: 3, required: false },
+    ],
+  },
+  {
     name: 'capture-content',
     description: 'Capture a question, lesson, win, or project moment into the content engine.',
     options: [
@@ -154,12 +314,72 @@ export const sageCommandDefinitions = [
     ],
   },
   {
+    name: 'ask',
+    description: 'Ask a structured member question in the questions channel and earn points.',
+    options: [
+      { name: 'question', description: 'The question you need answered', type: 3, required: true },
+      { name: 'context', description: 'Goal, blocker, attempted solution, or link context', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'ask-sage',
+    description: 'Ask SageBot for a private RAG-backed answer from the Sage Ideas knowledge base.',
+    options: [
+      { name: 'question', description: 'The question SageBot should answer from the knowledge base', type: 3, required: true },
+      { name: 'context', description: 'Optional goal, blocker, or project context', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'premium-ask',
+    description: 'Ask a deeper premium RAG-backed question with implementation steps and risks.',
+    options: [
+      { name: 'question', description: 'The deeper question SageBot should answer', type: 3, required: true },
+      { name: 'context', description: 'Optional project, code, business, or blocker context', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'answer',
+    description: 'Answer a tracked question and earn helpful participation points.',
+    options: [
+      { name: 'question_id', description: 'Question id from /ask or the questions post', type: 3, required: true },
+      { name: 'answer', description: 'Your useful answer', type: 3, required: true },
+    ],
+  },
+  {
+    name: 'mark-helpful',
+    description: 'Mark an answer helpful and award the answerer a quality bonus.',
+    options: [
+      { name: 'answer_id', description: 'Answer id from /answer', type: 3, required: true },
+    ],
+  },
+  {
+    name: 'award',
+    description: 'Admin/mod manual point award for high-quality contribution.',
+    options: [
+      { name: 'user', description: 'Member to award', type: 6, required: true },
+      { name: 'points', description: 'Points to award, positive or negative', type: 4, required: true },
+      { name: 'reason', description: 'Why points are being adjusted', type: 3, required: true },
+    ],
+  },
+  {
+    name: 'profile',
+    description: 'Show your participation profile, points, rank, streak, and checklist.',
+  },
+  {
+    name: 'rewards',
+    description: 'Show how points translate into status, access, and rewards.',
+  },
+  {
+    name: 'weekly-winners',
+    description: 'Show weekly builders, helpers, and open question opportunities.',
+  },
+  {
     name: 'weekly-recap',
-    description: 'Generate a lightweight weekly recap from showcase, wins, and content channels.',
+    description: 'Generate a lightweight weekly recap from build, wins, and content channels.',
     options: [
       {
         name: 'mode',
-        description: 'Preview privately or post to weekly schedule',
+        description: 'Preview privately or post to the showcase channel',
         type: 3,
         required: false,
         choices: [
@@ -176,7 +396,7 @@ export const sageCommandDefinitions = [
   },
   {
     name: 'office-hours',
-    description: 'Get the office-hours format and submit a question.',
+    description: 'Get the live-room format and submit an office-hours question.',
     options: [{ name: 'question', description: 'Optional office-hours question', type: 3, required: false }],
   },
   {
@@ -187,6 +407,77 @@ export const sageCommandDefinitions = [
   {
     name: 'premium',
     description: 'Get the premium membership checkout link and unlock Premium Member access.',
+  },
+  {
+    name: 'daily',
+    description: 'Get today’s useful prompt, quiz, and build challenge.',
+  },
+  {
+    name: 'checklist',
+    description: 'Show your first-week onboarding checklist.',
+  },
+  {
+    name: 'complete-step',
+    description: 'Manually mark a first-week onboarding step complete.',
+    options: [
+      {
+        name: 'step',
+        description: 'Checklist step',
+        type: 3,
+        required: true,
+        choices: [
+          ['Intro posted', 'intro'],
+          ['Path selected', 'path'],
+          ['Daily signal completed', 'daily'],
+          ['Challenge submitted', 'challenge'],
+          ['Project submitted', 'project'],
+          ['Review requested', 'review'],
+          ['Content captured', 'capture'],
+          ['Win posted', 'win'],
+        ].map(([name, value]) => ({ name, value })),
+      },
+    ],
+  },
+  {
+    name: 'quiz',
+    description: 'Answer today’s quiz and earn points.',
+    options: [{ name: 'answer', description: 'Your answer, copied from one of the quiz options', type: 3, required: false }],
+  },
+  {
+    name: 'challenge',
+    description: 'Get today’s build challenge and deliverable.',
+  },
+  {
+    name: 'submit-challenge',
+    description: 'Submit today’s challenge deliverable and earn points.',
+    options: [
+      { name: 'summary', description: 'What you shipped or produced', type: 3, required: true },
+      { name: 'link', description: 'Optional link, screenshot, repo, or doc', type: 3, required: false },
+    ],
+  },
+  {
+    name: 'points',
+    description: 'See your points, rank, and streak.',
+  },
+  {
+    name: 'rank',
+    description: 'See your current community rank.',
+  },
+  {
+    name: 'leaderboard',
+    description: 'Show the top Sage Ideas builders by points.',
+  },
+  {
+    name: 'streak',
+    description: 'See your current and longest activity streak.',
+  },
+  {
+    name: 'weekly',
+    description: 'Preview the weekly recap, leaderboard, and content queue.',
+  },
+  {
+    name: 'content-queue',
+    description: 'Preview the captured ideas that should become posts, resources, or lessons.',
   },
 ];
 
@@ -232,13 +523,160 @@ function onboardingComponents() {
 async function handleOnboard(): Promise<InteractionResponse> {
   return ephemeral(
     [
-      '**Sage Ideas Academy Onboarding**',
-      'Choose your primary path and current level below. SageBot will assign your role and point you to the right starting lane.',
-      '',
-      'After that, post in `🙋-introduce-yourself` with your first project and blocker.',
-    ].join('\n'),
-    { components: onboardingComponents() },
-  );
+	      '**Sage Ideas Academy Onboarding**',
+	      'Choose your primary path and current level below. SageBot will assign your role and point you to the right starting lane.',
+	      '',
+	      '**Server map**',
+	      '`daily-signal` is the daily prompt, quiz, and challenge. `questions` is the main help room. `build-lab` is for specs and shipping updates. `review-queue` is for critique. `resources` is the library. `wins` is proof and progress. `premium` is deeper review.',
+	      '',
+	      'After that, ask your first useful question with `/ask` or post your first build context in `questions`.',
+	    ].join('\n'),
+	    { components: onboardingComponents() },
+	  );
+}
+
+async function handleApply(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const rulesAccepted = optionBool(payload, 'rules');
+	  const goal = optionValue(payload, 'goal');
+	  const experience = optionValue(payload, 'experience');
+	  const intendedBuild = optionValue(payload, 'build');
+	  const pathKey = optionValue(payload, 'path');
+	  const levelKey = optionValue(payload, 'level');
+	  const timezone = optionValue(payload, 'timezone');
+	  const weeklyTimeBudget = optionValue(payload, 'time_budget');
+	  const preferredSupport = optionValue(payload, 'support');
+	  const portfolioUrl = optionValue(payload, 'portfolio');
+	  const referralSource = optionValue(payload, 'source');
+
+	  const result = await submitMemberApplication({
+	    discordUserId: id,
+	    username: username(payload),
+	    goal,
+	    experience,
+	    intendedBuild,
+	    pathKey: pathKey || null,
+	    levelKey: levelKey || null,
+	    timezone: timezone || null,
+	    weeklyTimeBudget: weeklyTimeBudget || null,
+	    primaryGoal: goal,
+	    preferredSupport: preferredSupport || null,
+	    portfolioUrl: portfolioUrl || null,
+	    referralSource: referralSource || null,
+	    rulesAccepted,
+	  });
+
+  if (!result.ok) {
+    if (result.reason === 'rules_not_accepted') return ephemeral('You must accept the rules to apply. Read `start-here`, then run `/apply` with rules set to true.');
+    if (result.reason === 'already_pending') return ephemeral('You already have a pending application. A moderator will review it.');
+    return ephemeral(`Application could not be submitted: ${result.reason ?? 'unknown error'}`);
+  }
+
+  await postToChannelByBaseName('team-ops', [
+    '# New member application',
+    `**Applicant:** ${username(payload)} (${id})`,
+	    `**Goal:** ${goal}`,
+	    `**Experience:** ${experience}`,
+	    `**First build:** ${intendedBuild}`,
+	    pathKey ? `**Path:** ${pathKey}` : null,
+	    levelKey ? `**Level:** ${levelKey}` : null,
+	    timezone ? `**Timezone:** ${timezone}` : null,
+	    weeklyTimeBudget ? `**Time budget:** ${weeklyTimeBudget}` : null,
+	    preferredSupport ? `**Support:** ${preferredSupport}` : null,
+	    portfolioUrl ? `**Portfolio/current project:** ${portfolioUrl}` : null,
+	    referralSource ? `**Source:** ${referralSource}` : null,
+	    '',
+	    `Approve with \`/approve user:${id}\` or reject with \`/reject user:${id}\`.`,
+	  ].filter(Boolean).join('\n'));
+
+  await recordDiscordEvent({
+    eventType: 'member_application_submitted',
+    commandName: 'apply',
+    discordUserId: id,
+    discordUsername: username(payload),
+    channelBaseName: 'start-here',
+	    metadata: {
+	      rules_accepted: rulesAccepted,
+	      path: pathKey || null,
+	      level: levelKey || null,
+	      support: preferredSupport || null,
+	    },
+	  });
+
+  return ephemeral('Application submitted. A moderator will review it before you get full member access.');
+}
+
+async function handleApprove(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  if (!(await isReviewer(payload))) return ephemeral('Only Founder, Admin, or Moderator can approve applications.');
+  const reviewerId = userId(payload);
+  const targetId = optionValue(payload, 'user');
+  const note = optionValue(payload, 'note');
+  if (!reviewerId || !targetId) return ephemeral('I could not resolve the reviewer or target user.');
+
+  const result = await reviewMemberApplication({
+    discordUserId: targetId,
+    status: 'approved',
+    reviewerDiscordUserId: reviewerId,
+    reviewerUsername: username(payload),
+    note: note || null,
+  });
+  if (!result.ok) return ephemeral(`Could not approve: ${result.reason ?? 'unknown error'}`);
+
+	  await approveDiscordMember({
+	    discordUserId: targetId,
+	    username: result.application?.username ?? targetId,
+	    reviewer: username(payload),
+	    commandName: 'approve',
+	    application: result.application ?? null,
+	  });
+  return ephemeral(`Approved <@${targetId}> and granted Academy Member access.`);
+}
+
+async function handleReject(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  if (!(await isReviewer(payload))) return ephemeral('Only Founder, Admin, or Moderator can reject applications.');
+  const reviewerId = userId(payload);
+  const targetId = optionValue(payload, 'user');
+  const note = optionValue(payload, 'note');
+  if (!reviewerId || !targetId) return ephemeral('I could not resolve the reviewer or target user.');
+
+  const result = await reviewMemberApplication({
+    discordUserId: targetId,
+    status: 'rejected',
+    reviewerDiscordUserId: reviewerId,
+    reviewerUsername: username(payload),
+    note: note || null,
+  });
+  if (!result.ok) return ephemeral(`Could not reject: ${result.reason ?? 'unknown error'}`);
+
+  await postToChannelByBaseName('team-ops', `Rejected <@${targetId}> application. Reviewer: ${username(payload)}. ${note ? `Note: ${note}` : ''}`);
+  await recordDiscordEvent({
+    eventType: 'member_application_rejected',
+    commandName: 'reject',
+    discordUserId: targetId,
+    discordUsername: targetId,
+    channelBaseName: 'team-ops',
+    metadata: { reviewer: username(payload), note: note || null },
+  });
+  return ephemeral(`Rejected <@${targetId}>.`);
+}
+
+async function handlePending(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  if (!(await isReviewer(payload))) return ephemeral('Only Founder, Admin, or Moderator can view pending applications.');
+  const pending = await getPendingApplications(10);
+  return ephemeral([
+    '# Pending applications',
+    ...(pending.length
+      ? pending.map((item, index) => [
+        `${index + 1}. **${item.username ?? item.discordUserId}** (${item.discordUserId})`,
+	        `Goal: ${item.goal}`,
+	        `Experience: ${item.experience}`,
+	        `Build: ${item.intendedBuild}`,
+	        `Path/level: ${item.pathKey ?? '-'} / ${item.levelKey ?? '-'}`,
+	        `Support/time: ${item.preferredSupport ?? '-'} / ${item.weeklyTimeBudget ?? '-'}`,
+	      ].join('\n'))
+      : ['No pending applications.']),
+  ].join('\n\n'));
 }
 
 async function handleChoosePath(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -248,7 +686,8 @@ async function handleChoosePath(payload: DiscordInteractionPayload): Promise<Int
   if (!id || !path) return ephemeral('I could not resolve that path. Try `/onboard`.');
   await assignPathRole(id, path.key);
   await upsertDiscordMember({ discordUserId: id, username: username(payload), pathKey: path.key });
-  return ephemeral(`Path set to **${path.label}**. Start in \`${path.channel}\`, then post your first project in \`project-specs\`.`);
+  await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: path.key } });
+  return ephemeral(`Path set to **${path.label}**. Start in \`${path.channel}\`, then post your first project spec there.`);
 }
 
 async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -267,50 +706,282 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
   ]
     .filter(Boolean)
     .join('\n');
-  await postToChannelByBaseName('project-specs', content);
-  return ephemeral('Project submitted to `project-specs`. Next: add acceptance criteria and first milestone.');
+  await postToChannelByBaseName('build-lab', content);
+  const id = userId(payload);
+  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'project', metadata: { title, path } });
+  return ephemeral('Project submitted to `build-lab`. Next: add acceptance criteria and first milestone.');
 }
 
 async function handleRequestReview(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const type = optionValue(payload, 'type');
   const summary = optionValue(payload, 'summary');
   const link = optionValue(payload, 'link');
-  const route: Record<string, string> = {
-    design: 'design-review',
-    code: 'code-help',
-    ai: 'ai-help',
-    architecture: 'architecture-review',
-    seo: 'path-seo-content-engine',
-    cloud: 'path-cloud-devops',
-  };
-  const target = route[type] ?? 'project-specs';
+  const target = 'review-queue';
   await postToChannelByBaseName(
     target,
     [`# Review request: ${type}`, `**Member:** ${username(payload)}`, `**Summary:** ${summary}`, link ? `**Link:** ${link}` : null]
       .filter(Boolean)
       .join('\n'),
   );
+  const id = userId(payload);
+  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'review', metadata: { type } });
   return ephemeral(`Review request routed to \`${target}\`.`);
+}
+
+async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const type = optionValue(payload, 'type') || 'general';
+  const summary = optionValue(payload, 'summary');
+  const link = optionValue(payload, 'link');
+  const result = await createPremiumReviewRequest({
+    discordUserId: id,
+    username: username(payload),
+    reviewType: type,
+    summary,
+    link: link || null,
+  });
+  await postToChannelByBaseName(
+    'premium',
+    [
+      '# Premium review request',
+      `**Member:** ${username(payload)}`,
+      `**Type:** ${type}`,
+      `**Priority:** ${result.priority}`,
+      `**Request ID:** \`${result.id}\``,
+      `**Summary:** ${summary}`,
+      link ? `**Link:** ${link}` : null,
+    ].filter(Boolean).join('\n'),
+  );
+  await recordDiscordEvent({
+    eventType: 'premium_review_requested',
+    commandName: 'premium-review',
+    discordUserId: id,
+    discordUsername: username(payload),
+    channelBaseName: 'premium',
+    metadata: { request_id: result.id, type, priority: result.priority },
+  });
+  return ephemeral(`Premium review queued. Request ID: \`${result.id}\`. Priority: **${result.priority}**.`);
 }
 
 async function handleCaptureContent(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const idea = optionValue(payload, 'idea');
   const source = optionValue(payload, 'source');
+  await captureContentQueueItem({
+    source: 'slash_command',
+    idea,
+    discordUserId: userId(payload),
+    username: username(payload),
+    channelBaseName: 'questions',
+    angle: source || null,
+    priority: 60,
+  });
   await postToChannelByBaseName(
-    'questions-to-content',
+    'questions',
     [`# Captured content idea`, `**Captured by:** ${username(payload)}`, `**Idea:** ${idea}`, source ? `**Source:** ${source}` : null]
       .filter(Boolean)
       .join('\n'),
   );
-  return ephemeral('Captured in `questions-to-content` for the content engine.');
+  const id = userId(payload);
+  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'capture' });
+  return ephemeral('Captured in `questions` for the content engine.');
+}
+
+async function handleAsk(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const question = optionValue(payload, 'question');
+  const context = optionValue(payload, 'context');
+  let result: { id: string };
+  let persistent = true;
+  try {
+    result = await askDiscordQuestion({
+      discordUserId: id,
+      username: username(payload),
+      question,
+      context: context || null,
+    });
+  } catch (err) {
+    persistent = false;
+    result = { id: `q-${Date.now()}` };
+    await awardDiscordPointsFallback(id, username(payload), 5, 'question_asked_fallback', { error: err instanceof Error ? err.message : String(err) });
+  }
+  await postToChannelByBaseName('questions', [
+    `# Question: ${question}`,
+    `**Asked by:** ${username(payload)}`,
+    `**Question ID:** \`${result.id}\``,
+    context ? `**Context:** ${context}` : null,
+    '',
+    `Answer with \`/answer question_id:${result.id} answer:<your answer>\`. Helpful answers can be marked with \`/mark-helpful\`.`,
+  ].filter(Boolean).join('\n'));
+  await captureContentQueueItem({
+    source: 'question',
+    idea: question,
+    discordUserId: id,
+    username: username(payload),
+    channelBaseName: 'questions',
+    angle: context || null,
+    priority: 65,
+    metadata: { question_id: result.id },
+  });
+  return ephemeral(`Question posted to \`questions\`. Awarded **5** points. Question ID: \`${result.id}\`${persistent ? '.' : '. Persistent question tables are not migrated yet, so this is temporarily tracked through Discord/content queue only.'}`);
+}
+
+async function handleAskSage(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const question = optionValue(payload, 'question');
+  const context = optionValue(payload, 'context');
+  const result = await askSageFromDiscord({
+    question,
+    context: context || null,
+    discordUserId: id,
+    username: username(payload),
+  });
+  await captureContentQueueItem({
+    source: 'ask_sage',
+    idea: question,
+    discordUserId: id,
+    username: username(payload),
+    channelBaseName: 'questions',
+    angle: context || 'RAG-backed member question',
+    priority: 72,
+    metadata: {
+      rag_answer_id: result.answerId,
+      rag_retrieval_log_id: result.retrievalLogId,
+      citation_count: result.citations.length,
+      model: result.model,
+    },
+  });
+  await awardDiscordPoints({
+    discordUserId: id,
+    username: username(payload),
+    points: 3,
+    reason: 'ask_sage_question',
+    source: 'ask_sage',
+    metadata: { rag_answer_id: result.answerId, citation_count: result.citations.length },
+  });
+  await recordDiscordEvent({
+    eventType: 'ask_sage_answered',
+    commandName: 'ask-sage',
+    discordUserId: id,
+    discordUsername: username(payload),
+    channelBaseName: 'questions',
+    metadata: {
+      rag_answer_id: result.answerId,
+      rag_retrieval_log_id: result.retrievalLogId,
+      citation_count: result.citations.length,
+      model: result.model,
+    },
+  });
+  return ephemeral(`${result.formatted}\n\nAwarded **3** points for asking a useful SageBot question.`);
+}
+
+async function handlePremiumAsk(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const question = optionValue(payload, 'question');
+  const context = optionValue(payload, 'context');
+  const result = await answerPremiumQuestion({
+    discordUserId: id,
+    username: username(payload),
+    question,
+    context: context || null,
+  });
+  await recordDiscordEvent({
+    eventType: 'premium_answer_created',
+    commandName: 'premium-ask',
+    discordUserId: id,
+    discordUsername: username(payload),
+    channelBaseName: 'premium',
+    metadata: {
+      request_id: result.id,
+      rag_answer_id: result.answerId,
+      retrieval_log_id: result.retrievalLogId,
+      model: result.model,
+    },
+  });
+  return ephemeral([
+    '# Premium SageBot answer',
+    `**Question:** ${question}`,
+    '',
+    result.answer,
+    '',
+    `Premium answer ID: \`${result.id}\``,
+  ].join('\n').slice(0, 1900));
+}
+
+async function handleAnswer(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const questionId = optionValue(payload, 'question_id');
+  const answer = optionValue(payload, 'answer');
+  let result: { id: string };
+  let persistent = true;
+  try {
+    result = await answerDiscordQuestion({
+      questionId,
+      discordUserId: id,
+      username: username(payload),
+      answer,
+    });
+  } catch (err) {
+    persistent = false;
+    result = { id: `a-${Date.now()}` };
+    await awardDiscordPointsFallback(id, username(payload), 10, 'question_answered_fallback', { question_id: questionId, error: err instanceof Error ? err.message : String(err) });
+  }
+  await postToChannelByBaseName('questions', [
+    `# Answer submitted`,
+    `**Question ID:** \`${questionId}\``,
+    `**Answer ID:** \`${result.id}\``,
+    `**Answered by:** ${username(payload)}`,
+    `**Answer:** ${answer}`,
+    '',
+    `If this helped, a moderator or question owner can mark it with \`/mark-helpful answer_id:${result.id}\`.`,
+  ].join('\n'));
+  return ephemeral(`Answer recorded. Awarded **10** points. Answer ID: \`${result.id}\`${persistent ? '.' : '. Persistent answer tables are not migrated yet, so this is temporarily tracked through Discord only.'}`);
+}
+
+async function handleMarkHelpful(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  if (!(await isReviewer(payload))) return ephemeral('Only Founder, Admin, or Moderator can mark answers helpful in this MVP.');
+  const reviewerId = userId(payload);
+  const answerId = optionValue(payload, 'answer_id');
+  if (!reviewerId || !answerId) return ephemeral('I could not resolve the reviewer or answer.');
+  const result = await markDiscordAnswerHelpful({
+    answerId,
+    reviewerDiscordUserId: reviewerId,
+    reviewerUsername: username(payload),
+  });
+  if (!result.ok) return ephemeral(`Could not mark helpful: ${result.reason ?? 'unknown error'}`);
+  await postToChannelByBaseName('questions', `Marked answer \`${answerId}\` helpful. <@${result.answererDiscordUserId}> earned a **15 point** quality bonus.`);
+  return ephemeral(`Marked answer \`${answerId}\` helpful and awarded the quality bonus.`);
+}
+
+async function handleAward(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  if (!(await isReviewer(payload))) return ephemeral('Only Founder, Admin, or Moderator can award manual points.');
+  const reviewerId = userId(payload);
+  const targetId = optionValue(payload, 'user');
+  const points = Number(optionValue(payload, 'points'));
+  const reason = optionValue(payload, 'reason');
+  if (!reviewerId || !targetId || !Number.isFinite(points) || !reason) return ephemeral('Missing user, points, or reason.');
+  await manuallyAwardDiscordPoints({
+    discordUserId: targetId,
+    username: targetId,
+    points,
+    reason,
+    awardedByDiscordUserId: reviewerId,
+    awardedByUsername: username(payload),
+  });
+  await postToChannelByBaseName('team-ops', `Manual point adjustment: <@${targetId}> ${points > 0 ? '+' : ''}${points} pts. Reason: ${reason}. Reviewer: ${username(payload)}.`);
+  return ephemeral(`Awarded ${points > 0 ? '+' : ''}${points} points to <@${targetId}>.`);
 }
 
 async function handleDailyPrompt(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const mode = optionValue(payload, 'mode') || 'preview';
-  const content = buildDailySignalContent(new Date());
+  const content = await buildDailySignalContent(new Date());
   if (mode === 'post') {
     await postDailySignal('slash-command');
-    return ephemeral('Posted today’s Daily Signal to `daily-build-prompt`.');
+    return ephemeral('Posted today’s Daily Signal to `daily-signal`.');
   }
   return ephemeral(content);
 }
@@ -320,25 +991,43 @@ async function handleWeeklyRecap(payload: DiscordInteractionPayload): Promise<In
   const content = await buildWeeklyRecapContent();
   if (mode === 'post') {
     await postWeeklyRecap('slash-command');
-    return ephemeral('Posted the weekly recap to `weekly-schedule`.');
+    return ephemeral('Posted the weekly recap to `wins`.');
   }
   return ephemeral(content);
 }
 
-export function buildDailySignalContent(now = new Date()): string {
+export async function buildDailySignalContent(now = new Date()): Promise<string> {
+  const [quiz, challenge, plan] = await Promise.all([
+    getDailyQuizFromStore(now),
+    getDailyChallengeFromStore(now),
+    getDailyContentPlan(now),
+  ]);
+  const buildPrompt = plan?.prompt ?? pickDaily(dailyBuildPrompts, now);
   return [
     '# Daily Signal',
-    `**Build prompt:** ${pickDaily(dailyBuildPrompts, now)}`,
+    plan?.theme ? `**Theme:** ${plan.theme}` : null,
+    `**Build prompt:** ${buildPrompt}`,
     `**AI tool/pattern:** ${pickDaily(dailyAiTools, now)}`,
     `**Question:** ${pickDaily(dailyQuestions, now)}`,
-  ].join('\n');
+    '',
+    `**Quiz:** ${quiz.prompt}`,
+    `Options: ${quiz.options.join(' / ')}`,
+    '',
+    `**Challenge:** ${challenge.title}`,
+    `${challenge.prompt}`,
+    `Deliverable: ${challenge.deliverable}`,
+  ].filter(Boolean).join('\n');
 }
 
 export async function buildWeeklyRecapContent(): Promise<string> {
-  const [ships, wins, contentIdeas] = await Promise.all([
-    getRecentChannelMessages('ship-showcase', 10),
-    getRecentChannelMessages('member-wins', 10),
-    getRecentChannelMessages('questions-to-content', 10),
+  const [ships, wins, contentIdeas, leaderboard, queue, challengeRecap, openQuestions] = await Promise.all([
+    getRecentChannelMessages('wins', 20),
+    getRecentChannelMessages('build-lab', 20),
+    getRecentChannelMessages('questions', 20),
+    getLeaderboard(5),
+    getContentQueue(5),
+    getWeeklyChallengeRecap(5),
+    getOpenQuestions(5),
   ]);
   return [
     '# Weekly Recap',
@@ -349,13 +1038,28 @@ export async function buildWeeklyRecapContent(): Promise<string> {
     `**Ships posted:** ${ships.filter((message) => !message.author?.bot).length}`,
     `**Wins posted:** ${wins.filter((message) => !message.author?.bot).length}`,
     '',
+    '**Leaderboard**',
+    ...(leaderboard.length ? leaderboard.map((row, index) => `${index + 1}. ${row.username} — ${row.points} pts`) : ['No points recorded yet.']),
+    '',
+    '**Challenge recap**',
+    `Submissions this week: ${challengeRecap.count}`,
+    ...(challengeRecap.submissions.length
+      ? challengeRecap.submissions.map((item) => `- ${item.username}: ${item.summary}${item.link ? ` (${item.link})` : ''}`)
+      : ['No challenge submissions captured yet.']),
+    '',
+    '**Content queue**',
+    ...(queue.length ? queue.map((item) => `- ${item.idea} (${item.source})`) : ['No captured ideas waiting.']),
+    '',
+    '**Open questions**',
+    ...(openQuestions.length ? openQuestions.map((item) => `- ${item.question} (${item.id})`) : ['No open tracked questions.']),
+    '',
     '**Next action:** pick one project to spec, one artifact to ship, and one lesson to capture into content.',
   ].join('\n');
 }
 
 export async function postDailySignal(source: string): Promise<string | null> {
-  const content = buildDailySignalContent(new Date());
-  const messageId = await postToChannelByBaseName('daily-build-prompt', content);
+  const content = await buildDailySignalContent(new Date());
+  const messageId = await postToChannelByBaseName('daily-signal', content);
   await recordDiscordScheduledRun({
     runKey: `daily-signal-${new Date().toISOString().slice(0, 10)}`,
     kind: 'daily_signal',
@@ -366,7 +1070,7 @@ export async function postDailySignal(source: string): Promise<string | null> {
   await recordDiscordEvent({
     eventType: 'daily_signal_posted',
     commandName: source,
-    channelBaseName: 'daily-build-prompt',
+    channelBaseName: 'daily-signal',
     metadata: { message_id: messageId },
   });
   return messageId;
@@ -374,7 +1078,7 @@ export async function postDailySignal(source: string): Promise<string | null> {
 
 export async function postWeeklyRecap(source: string): Promise<string | null> {
   const content = await buildWeeklyRecapContent();
-  const messageId = await postToChannelByBaseName('weekly-schedule', content);
+  const messageId = await postToChannelByBaseName('wins', content);
   await recordDiscordScheduledRun({
     runKey: `weekly-recap-${weekKey(new Date())}`,
     kind: 'weekly_recap',
@@ -385,7 +1089,7 @@ export async function postWeeklyRecap(source: string): Promise<string | null> {
   await recordDiscordEvent({
     eventType: 'weekly_recap_posted',
     commandName: source,
-    channelBaseName: 'weekly-schedule',
+    channelBaseName: 'wins',
     metadata: { message_id: messageId },
   });
   return messageId;
@@ -402,30 +1106,46 @@ function weekKey(now: Date): string {
 
 async function handleResource(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const need = optionValue(payload, 'need').toLowerCase();
-  const target = need.includes('prompt')
-    ? 'prompts'
-    : need.includes('stack') || need.includes('tool')
-      ? 'stack-guides'
-      : need.includes('read')
-        ? 'reading-list'
-        : need.includes('template')
-          ? 'templates'
-          : 'tools';
-  return ephemeral(`Start in \`${target}\`. If you do not find it, capture the gap in \`content-ideas\` so it becomes a resource drop.`);
+  const target = need.includes('question') || need.includes('help') || need.includes('stuck') ? 'questions' : 'resources';
+  return ephemeral(`Start in \`${target}\`. If you do not find it, capture the gap with \`/capture-content\` so it becomes a resource drop.`);
 }
 
 async function handleOfficeHours(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const question = optionValue(payload, 'question');
   if (question) {
-    await postToChannelByBaseName('office-hours', `# Office-hours question\n**Member:** ${username(payload)}\n**Question:** ${question}`);
-    return ephemeral('Question added to `office-hours`.');
+    const id = userId(payload);
+    if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+    const queued = await createOfficeHoursQueueItem({
+      discordUserId: id,
+      username: username(payload),
+      question,
+    });
+    await postToChannelByBaseName(
+      queued.premiumMember ? 'premium' : 'questions',
+      [
+        '# Office-hours queue',
+        `**Member:** ${username(payload)}`,
+        `**Queue ID:** \`${queued.id}\``,
+        `**Priority:** ${queued.priority}`,
+        `**Question:** ${question}`,
+      ].join('\n'),
+    );
+    await recordDiscordEvent({
+      eventType: 'office_hours_question_queued',
+      commandName: 'office-hours',
+      discordUserId: id,
+      discordUsername: username(payload),
+      channelBaseName: queued.premiumMember ? 'premium' : 'questions',
+      metadata: { queue_id: queued.id, priority: queued.priority, premium: queued.premiumMember },
+    });
+    return ephemeral(`Office-hours question queued. Queue ID: \`${queued.id}\`. Priority: **${queued.priority}**.`);
   }
-  return ephemeral('Use `office-hours` for the schedule and question queue. Strong questions include context, project, blocker, link/screenshot, and desired feedback.');
+  return ephemeral('Use `questions` for the office-hours queue. Strong questions include context, project, blocker, link/screenshot, and desired feedback.');
 }
 
 async function handleReport(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const issue = optionValue(payload, 'issue');
-  await postToChannelByBaseName('moderation', `# Member report\n**Reporter:** ${username(payload)}\n**Issue:** ${issue}`);
+  await postToChannelByBaseName('team-ops', `# Member report\n**Reporter:** ${username(payload)}\n**Issue:** ${issue}`);
   return ephemeral('Report sent to the moderation queue. Thank you for keeping the room useful.');
 }
 
@@ -453,6 +1173,189 @@ async function handlePremium(payload: DiscordInteractionPayload): Promise<Intera
   });
 }
 
+async function handleDaily(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'daily' });
+  return ephemeral(await buildDailySignalContent(new Date()));
+}
+
+async function handleChecklist(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const checklist = await getOnboardingChecklist(id);
+  const complete = checklist.filter((step) => step.completed).length;
+  return ephemeral([
+    '# First-week checklist',
+    `${complete}/${checklist.length} complete`,
+    '',
+    ...checklist.map((step) => `${step.completed ? '[x]' : '[ ]'} **${step.label}** - ${step.command}`),
+  ].join('\n'));
+}
+
+async function handleCompleteStep(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  const step = optionValue(payload, 'step') as OnboardingStepKey;
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  if (!onboardingSteps.some((item) => item.key === step)) return ephemeral('I could not resolve that checklist step.');
+  await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: step, metadata: { source: 'manual_command' } });
+  return handleChecklist(payload);
+}
+
+async function handleQuiz(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  const quiz = await getDailyQuizFromStore();
+  const answer = optionValue(payload, 'answer');
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  if (!answer) {
+    return ephemeral([
+      `**Today’s quiz:** ${quiz.prompt}`,
+      '',
+      ...quiz.options.map((option) => `- ${option}`),
+      '',
+      'Run `/quiz answer:<option>` to submit.',
+    ].join('\n'));
+  }
+  const result = await answerDailyQuiz({ discordUserId: id, username: username(payload), answer });
+  return ephemeral([
+    result.correct ? 'Correct.' : 'Not quite.',
+    `Answer: **${result.quiz.correctAnswer}**`,
+    result.quiz.explanation,
+    `Points awarded: **${result.points}**`,
+  ].join('\n'));
+}
+
+async function handleChallenge(): Promise<InteractionResponse> {
+  const challenge = await getDailyChallengeFromStore();
+  return ephemeral([
+    `**${challenge.title}**`,
+    challenge.prompt,
+    '',
+    `Deliverable: ${challenge.deliverable}`,
+    `Points: ${challenge.points}`,
+    '',
+    'Submit with `/submit-challenge` when you have the artifact.',
+  ].join('\n'));
+}
+
+async function handleSubmitChallenge(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const summary = optionValue(payload, 'summary');
+  const link = optionValue(payload, 'link');
+  const result = await submitDailyChallenge({ discordUserId: id, username: username(payload), summary, link });
+  await postToChannelByBaseName(
+    'wins',
+    [`# Challenge submission: ${result.challenge.title}`, `**Member:** ${username(payload)}`, `**Summary:** ${summary}`, link ? `**Link:** ${link}` : null]
+      .filter(Boolean)
+      .join('\n'),
+  );
+  await captureContentQueueItem({
+    source: 'challenge_submission',
+    idea: `${result.challenge.title}: ${summary}`,
+    discordUserId: id,
+    username: username(payload),
+    channelBaseName: 'wins',
+    priority: 70,
+    metadata: { challenge_key: result.challenge.key, link: link || null },
+  });
+  return ephemeral(`Challenge submitted. Awarded **${result.points}** points.`);
+}
+
+async function handlePoints(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const points = await getMemberPoints(id);
+  return ephemeral([
+    `**Points:** ${points.total}`,
+    `**Rank:** ${points.rank ? `#${points.rank}` : 'unranked'}`,
+    `**Current streak:** ${points.streak} day(s)`,
+    `**Longest streak:** ${points.longestStreak} day(s)`,
+  ].join('\n'));
+}
+
+async function handleProfile(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
+  const [points, checklist] = await Promise.all([getMemberPoints(id), getOnboardingChecklist(id)]);
+  const complete = checklist.filter((step) => step.completed).length;
+  return ephemeral([
+    '# Builder profile',
+    `**Member:** ${username(payload)}`,
+    `**Points:** ${points.total}`,
+    `**Rank:** ${points.rank ? `#${points.rank}` : 'unranked'}`,
+    `**Current streak:** ${points.streak} day(s)`,
+    `**First-week checklist:** ${complete}/${checklist.length}`,
+  ].join('\n'));
+}
+
+async function handleRewards(): Promise<InteractionResponse> {
+  return ephemeral([
+    '# Rewards and reputation',
+    '**What earns points**',
+    '- Good structured question: 5 pts',
+    '- Useful answer: 10 pts',
+    '- Helpful answer bonus: 15 pts',
+    '- Daily quiz: 2-10 pts',
+    '- Daily challenge: 15-25 pts',
+    '- Project/spec submission: tracked toward onboarding',
+    '- Manual admin award: for top builds, reviews, resources, and wins',
+    '',
+    '**What points unlock**',
+    '- Weekly leaderboard visibility',
+    '- Contributor/Mentor consideration',
+    '- Priority review opportunities',
+    '- Member spotlights',
+    '- Premium credits or deeper teardown rewards when available',
+    '',
+    'Noise does not count. Useful artifacts, helpful answers, and consistent shipping do.',
+  ].join('\n'));
+}
+
+async function handleWeeklyWinners(): Promise<InteractionResponse> {
+  const [leaders, openQuestions, answers] = await Promise.all([
+    getLeaderboard(10),
+    getOpenQuestions(5),
+    getRecentAnswers(5),
+  ]);
+  return publicMessage([
+    '# Weekly builders and helpers',
+    '**Leaderboard**',
+    ...(leaders.length ? leaders.map((row, index) => `${index + 1}. **${row.username}** - ${row.points} pts`) : ['No points recorded yet.']),
+    '',
+    '**Recent answers**',
+    ...(answers.length ? answers.map((row) => `- ${row.username ?? 'member'}: ${row.helpful ? '[helpful] ' : ''}${row.answer.slice(0, 120)}`) : ['No answers recorded yet.']),
+    '',
+    '**Open questions to help with**',
+    ...(openQuestions.length ? openQuestions.map((row) => `- ${row.question} (\`${row.id}\`)`) : ['No open tracked questions.']),
+  ].join('\n'));
+}
+
+async function handleLeaderboard(): Promise<InteractionResponse> {
+  const rows = await getLeaderboard(10);
+  return publicMessage([
+    '# Sage Ideas Leaderboard',
+    ...(rows.length ? rows.map((row, index) => `${index + 1}. **${row.username}** — ${row.points} pts`) : ['No points recorded yet.']),
+  ].join('\n'));
+}
+
+async function handleWeekly(): Promise<InteractionResponse> {
+  const [recap, queue] = await Promise.all([buildWeeklyRecapContent(), getContentQueue(5)]);
+  return ephemeral([
+    recap,
+    '',
+    '**Content queue**',
+    ...(queue.length ? queue.map((item, index) => `${index + 1}. ${item.idea} (${item.source})`) : ['No captured content ideas yet.']),
+  ].join('\n'));
+}
+
+async function handleContentQueue(): Promise<InteractionResponse> {
+  const queue = await getContentQueue(10);
+  return ephemeral([
+    '# Content Queue',
+    ...(queue.length ? queue.map((item, index) => `${index + 1}. ${item.idea}${item.username ? ` — ${item.username}` : ''}`) : ['No captured content ideas yet.']),
+  ].join('\n'));
+}
+
 export async function handleSageCommand(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const name = payload.data?.name;
   try {
@@ -464,28 +1367,78 @@ export async function handleSageCommand(payload: DiscordInteractionPayload): Pro
       metadata: { channel_id: payload.channel_id ?? null },
     });
     switch (name) {
+      case 'apply':
+        return handleApply(payload);
+      case 'approve':
+        return handleApprove(payload);
+      case 'reject':
+        return handleReject(payload);
+      case 'pending':
+        return handlePending(payload);
       case 'onboard':
-        return handleOnboard();
+        return (await requireApproved(payload)) ?? handleOnboard();
       case 'choose-path':
-        return handleChoosePath(payload);
+        return (await requireApproved(payload)) ?? handleChoosePath(payload);
       case 'submit-project':
-        return handleSubmitProject(payload);
+        return (await requireApproved(payload)) ?? handleSubmitProject(payload);
       case 'request-review':
-        return handleRequestReview(payload);
+        return (await requireApproved(payload)) ?? handleRequestReview(payload);
+      case 'premium-review':
+        return (await requireApproved(payload)) ?? handlePremiumReview(payload);
       case 'capture-content':
-        return handleCaptureContent(payload);
+        return (await requireApproved(payload)) ?? handleCaptureContent(payload);
+      case 'ask':
+        return (await requireApproved(payload)) ?? handleAsk(payload);
+      case 'ask-sage':
+        return (await requireApproved(payload)) ?? handleAskSage(payload);
+      case 'premium-ask':
+        return (await requireApproved(payload)) ?? handlePremiumAsk(payload);
+      case 'answer':
+        return (await requireApproved(payload)) ?? handleAnswer(payload);
+      case 'mark-helpful':
+        return (await requireApproved(payload)) ?? handleMarkHelpful(payload);
+      case 'award':
+        return (await requireApproved(payload)) ?? handleAward(payload);
+      case 'profile':
+        return (await requireApproved(payload)) ?? handleProfile(payload);
+      case 'rewards':
+        return (await requireApproved(payload)) ?? handleRewards();
+      case 'weekly-winners':
+        return (await requireApproved(payload)) ?? handleWeeklyWinners();
       case 'daily-prompt':
-        return handleDailyPrompt(payload);
+        return (await requireApproved(payload)) ?? handleDailyPrompt(payload);
       case 'weekly-recap':
-        return handleWeeklyRecap(payload);
+        return (await requireApproved(payload)) ?? handleWeeklyRecap(payload);
       case 'resource':
-        return handleResource(payload);
+        return (await requireApproved(payload)) ?? handleResource(payload);
       case 'office-hours':
-        return handleOfficeHours(payload);
+        return (await requireApproved(payload)) ?? handleOfficeHours(payload);
       case 'report':
         return handleReport(payload);
       case 'premium':
-        return handlePremium(payload);
+        return (await requireApproved(payload)) ?? handlePremium(payload);
+      case 'daily':
+        return (await requireApproved(payload)) ?? handleDaily(payload);
+      case 'checklist':
+        return (await requireApproved(payload)) ?? handleChecklist(payload);
+      case 'complete-step':
+        return (await requireApproved(payload)) ?? handleCompleteStep(payload);
+      case 'quiz':
+        return (await requireApproved(payload)) ?? handleQuiz(payload);
+      case 'challenge':
+        return (await requireApproved(payload)) ?? handleChallenge();
+      case 'submit-challenge':
+        return (await requireApproved(payload)) ?? handleSubmitChallenge(payload);
+      case 'points':
+      case 'rank':
+      case 'streak':
+        return (await requireApproved(payload)) ?? handlePoints(payload);
+      case 'leaderboard':
+        return (await requireApproved(payload)) ?? handleLeaderboard();
+      case 'weekly':
+        return (await requireApproved(payload)) ?? handleWeekly();
+      case 'content-queue':
+        return (await requireApproved(payload)) ?? handleContentQueue();
       default:
         return ephemeral('Unknown SageBot command.');
     }
@@ -501,16 +1454,59 @@ export async function handleSageCommand(payload: DiscordInteractionPayload): Pro
   }
 }
 
+export async function handleDeferredSageCommand(payload: DiscordInteractionPayload): Promise<void> {
+  const applicationId = payload.application_id;
+  const token = payload.token;
+  if (!applicationId || !token) {
+    await recordDiscordEvent({
+      eventType: 'command_failed',
+      commandName: payload.data?.name ?? null,
+      discordUserId: userId(payload),
+      discordUsername: username(payload),
+      metadata: { error: 'missing_discord_interaction_followup_token' },
+    });
+    return;
+  }
+
+  try {
+    const response = await handleSageCommand(payload);
+    await postDiscordInteractionFollowup({
+      applicationId,
+      token,
+      content: String(response.data?.content ?? 'SageBot finished, but no answer content was returned.'),
+      ephemeral: response.data?.flags === EPHEMERAL_FLAG,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await recordDiscordEvent({
+      eventType: 'command_failed',
+      commandName: payload.data?.name ?? null,
+      discordUserId: userId(payload),
+      discordUsername: username(payload),
+      metadata: { error: message, deferred: true },
+    });
+    await postDiscordInteractionFollowup({
+      applicationId,
+      token,
+      content: `SageBot could not answer that yet: ${message.slice(0, 1400)}`,
+      ephemeral: true,
+    });
+  }
+}
+
 export async function handleSageComponent(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const id = userId(payload);
   const customId = payload.data?.custom_id;
   const value = payload.data?.values?.[0];
   if (!id || !customId || !value) return ephemeral('I could not read that selection.');
+  const approvedGate = await requireApproved(payload);
+  if (approvedGate) return approvedGate;
 
   if (customId === 'sage_onboard_path') {
     const channel = await assignPathRole(id, value as SagePathKey);
     const path = sagePathOptions.find((option) => option.key === value);
     await upsertDiscordMember({ discordUserId: id, username: username(payload), pathKey: value });
+    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { path: value } });
     await recordDiscordEvent({
       eventType: 'onboarding_path_selected',
       commandName: 'onboard',
@@ -521,7 +1517,7 @@ export async function handleSageComponent(payload: DiscordInteractionPayload): P
     return {
       type: RESPONSE_TYPE_UPDATE_MESSAGE,
       data: {
-        content: `Path saved: **${path?.label ?? value}**. Start in \`${channel ?? 'your path channel'}\` and post your first project.`,
+        content: `Path saved: **${path?.label ?? value}**. Start in \`${channel ?? 'build-lab'}\` and post your first project.`,
         components: onboardingComponents(),
       },
     };
@@ -531,6 +1527,7 @@ export async function handleSageComponent(payload: DiscordInteractionPayload): P
     const role = await assignLevelRole(id, value as SageLevelKey);
     const level = sageLevelOptions.find((option) => option.key === value);
     await upsertDiscordMember({ discordUserId: id, username: username(payload), levelKey: value });
+    await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'path', metadata: { level: value } });
     await recordDiscordEvent({
       eventType: 'onboarding_level_selected',
       commandName: 'onboard',

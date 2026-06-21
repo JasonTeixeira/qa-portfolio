@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "smoke": true,
+  "evaluated": 1,
+  "results": [
+    {
+      "draftId": "6ef20ae7-0547-4c3f-83d6-79994124bfaa",
+      "evaluationId": "17db568f-38ad-4e7a-b8da-52a1ff0f3c0b",
+      "score": 100,
+      "passed": true,
+      "reasons": []
+    }
+  ],
+  "startedAt": "2026-06-21T03:09:34.635Z",
+  "finishedAt": "2026-06-21T03:09:35.778Z"
+}

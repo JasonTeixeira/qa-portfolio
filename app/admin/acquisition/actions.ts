@@ -1,6 +1,7 @@
 'use server';
 
 import { resolveTxt } from 'node:dns/promises';
+import { readFile } from 'node:fs/promises';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
@@ -29,7 +30,11 @@ import { buildJobApplicationRecord, buildRecruiterFollowUp } from '@/lib/revenue
 import { enrichConnectorLead, normalizeGooglePlaceLead } from '@/lib/revenue-os/lead-connectors';
 import { runLeadConnector, type LeadConnector } from '@/lib/revenue-os/external-connectors';
 import { composePersonalizedOutreachV2 } from '@/lib/revenue-os/outreach-v2';
-import { buildRevenueEmailDeliveryPlan, sendRevenueEmailWithResend } from '@/lib/revenue-os/email-delivery';
+import {
+  buildRevenueEmailDeliveryPlan,
+  sendRevenueEmailWithResend,
+  type RevenueEmailQueueItem,
+} from '@/lib/revenue-os/email-delivery';
 import { buildLeadSourceCredentialHealth, buildLeadSourceRunDecision } from '@/lib/revenue-os/lead-source-health';
 import { buildJobConnectorRun, normalizeJobSourceResults } from '@/lib/revenue-os/job-connectors';
 import { buildApplicationPacket } from '@/lib/revenue-os/application-packets';
@@ -66,10 +71,12 @@ import {
   trainRevenueMlModel,
 } from '@/lib/revenue-os/ml-scoring';
 import {
-  buildRevenueCiProof,
-  buildRevenueLoadSmokePlan,
+  buildRevenueCiProofFromEvidence,
+  buildRevenueLoadProofFromEvidence,
   buildRevenueOpsHealth,
   buildRevenueRunbookIndex,
+  type RevenueCiEvidence,
+  type RevenueLoadEvidence,
 } from '@/lib/revenue-os/production-ops';
 import {
   buildRevenueApiKey,
@@ -178,6 +185,15 @@ const TenantSaasProofSchema = z.object({
 const MlLearningLoopProofSchema = z.object({
   runKey: z.string().trim().min(1).max(120),
 });
+
+async function readJsonEvidence<T>(path: string | undefined): Promise<T | null> {
+  if (!path?.trim()) return null;
+  try {
+    return JSON.parse(await readFile(path, 'utf8')) as T;
+  } catch {
+    return null;
+  }
+}
 
 const RevenueIntelligenceDashboardProofSchema = z.object({
   runKey: z.string().trim().min(1).max(120),
@@ -1612,7 +1628,7 @@ export async function sendRevenueEmailQueueItem(formData: FormData): Promise<voi
   const suppressed = await isSuppressed({ email: queueItem.recipient_email });
   const approvedItem = {
     id: queueItem.id,
-    status: queueItem.status === 'manual_review' ? 'approved' as const : queueItem.status,
+    status: queueItem.status as RevenueEmailQueueItem['status'],
     recipientEmail: queueItem.recipient_email,
     subject: queueItem.subject,
     body: queueItem.body,
@@ -1718,6 +1734,69 @@ export async function sendRevenueEmailQueueItem(formData: FormData): Promise<voi
     entityType: 'revenue_email_queue',
     entityId: queueItem.id,
     after: { providerMessageId: result.providerMessageId, mode: result.mode },
+  });
+
+  revalidatePath('/admin/acquisition');
+}
+
+export async function approveRevenueEmailQueueItem(formData: FormData): Promise<void> {
+  const { user, profile } = await requireAdmin();
+  const parsed = IdSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) {
+    await recordRevenueOsActionFailure({
+      actorId: user.id,
+      actorEmail: profile.email,
+      action: 'revenue_os.email_queue.approve',
+      code: 'invalid_input',
+      message: 'Invalid email queue id.',
+      detail: parsed.error.flatten(),
+    });
+    return;
+  }
+
+  const sb = supabaseAdmin();
+  const { data: queueItem } = await sb
+    .from('revenue_email_queue')
+    .select('id, status, metadata')
+    .eq('id', parsed.data.id)
+    .maybeSingle();
+  if (!queueItem) return;
+  if (queueItem.status !== 'manual_review') {
+    await recordRevenueOsActionFailure({
+      actorId: user.id,
+      actorEmail: profile.email,
+      action: 'revenue_os.email_queue.approve',
+      code: 'invalid_input',
+      message: 'Only manual-review emails can be approved.',
+      detail: { id: queueItem.id, status: queueItem.status },
+    });
+    return;
+  }
+
+  const now = new Date().toISOString();
+  await sb
+    .from('revenue_email_queue')
+    .update({
+      status: 'approved',
+      approved_at: now,
+      metadata: {
+        ...(((queueItem.metadata as Record<string, unknown> | null) ?? {}) as Record<string, unknown>),
+        approval: {
+          approvedAt: now,
+          approvedBy: user.id,
+          requiredBeforeSend: true,
+        },
+      },
+    })
+    .eq('id', queueItem.id);
+
+  await logAudit({
+    actorId: user.id,
+    actorEmail: profile.email,
+    action: 'revenue_os.email_queue.approve',
+    entityType: 'revenue_email_queue',
+    entityId: queueItem.id,
+    after: { status: 'approved', requiredBeforeSend: true },
   });
 
   revalidatePath('/admin/acquisition');
@@ -3556,6 +3635,8 @@ export async function runRevenueOsProductionOpsProof(formData: FormData): Promis
 
   const runKey = parsed.data.runKey;
   const metadata = { runKey, program: '12_production_operations_ci_proof' };
+  const ciEvidence = await readJsonEvidence<RevenueCiEvidence>(process.env.REVENUE_OS_CI_PROOF_PATH);
+  const loadEvidence = await readJsonEvidence<RevenueLoadEvidence>(process.env.REVENUE_OS_LOAD_PROOF_PATH);
   const sb = supabaseAdmin();
   const { count: queuedJobs } = await sb
     .from('revenue_worker_jobs')
@@ -3572,26 +3653,11 @@ export async function runRevenueOsProductionOpsProof(formData: FormData): Promis
     llmProviderConfigured: Boolean(process.env.OPENAI_API_KEY),
     leadConnectorsConfigured: Boolean(process.env.GOOGLE_PLACES_API_KEY || process.env.EXA_API_KEY),
     gmailConfigured: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    workerSchedulerLive: false,
     storageOk: true,
   });
-  const ciProof = buildRevenueCiProof({
-    lint: true,
-    typecheck: true,
-    unit: true,
-    rls: true,
-    build: true,
-    focusedE2e: true,
-    productionVerify: true,
-    auditHigh: true,
-  });
-  const loadSmoke = buildRevenueLoadSmokePlan({
-    leads: 1000,
-    queuedJobs: 10_000,
-    tenants: 5,
-    sequenceCapsEnforced: true,
-    dashboardP95Ms: 900,
-    exportP95Ms: 1800,
-  });
+  const ciProof = buildRevenueCiProofFromEvidence({ evidence: ciEvidence });
+  const loadSmoke = buildRevenueLoadProofFromEvidence({ evidence: loadEvidence });
   const runbooks = buildRevenueRunbookIndex();
 
   await sb.from('revenue_ops_health_snapshots').insert({
@@ -3609,7 +3675,7 @@ export async function runRevenueOsProductionOpsProof(formData: FormData): Promis
     score: ciProof.score,
     gates: ciProof.gates,
     failed_required: ciProof.failedRequired,
-    metadata,
+    metadata: { ...metadata, evidenceSource: ciEvidence?.source ?? null, artifactRequired: !ciEvidence },
     created_by: user.id,
   });
   await sb.from('revenue_ops_load_smokes').insert({
@@ -3617,7 +3683,7 @@ export async function runRevenueOsProductionOpsProof(formData: FormData): Promis
     passed: loadSmoke.passed,
     score: loadSmoke.score,
     checks: loadSmoke.checks,
-    metadata,
+    metadata: { ...metadata, evidenceSource: loadSmoke.source, artifactRequired: !loadEvidence },
     created_by: user.id,
   });
 
@@ -3929,6 +3995,25 @@ export async function runRevenueOsInstitutionalHardeningProof(formData: FormData
   const normalized = runKey.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
   const tenantKey = `tenant-${normalized}`;
   const metadata = { runKey, tenantKey, program: '13_21_institutional_hardening' };
+  const liveVerification = await readJsonEvidence<{
+    google_places?: boolean;
+    exa?: boolean;
+    gmail?: boolean;
+    openai?: boolean;
+    resend?: boolean;
+    source?: string;
+  }>(process.env.REVENUE_OS_LIVE_PROOF_PATH);
+  const workerEvidence = await readJsonEvidence<{
+    workerId?: string;
+    claimedJobs?: number;
+    completedJobs?: number;
+    failedJobs?: number;
+    deadLetteredJobs?: number;
+    maxConcurrency?: number;
+    leaseSeconds?: number;
+    source?: string;
+  }>(process.env.REVENUE_OS_WORKER_PROOF_PATH);
+  const loadEvidence = await readJsonEvidence<RevenueLoadEvidence>(process.env.REVENUE_OS_LOAD_PROOF_PATH);
   const sb = supabaseAdmin();
 
   await sb.from('revenue_workspaces').upsert({
@@ -3958,8 +4043,9 @@ export async function runRevenueOsInstitutionalHardeningProof(formData: FormData
       OPENAI_API_KEY: process.env.OPENAI_API_KEY,
       RESEND_API_KEY: process.env.RESEND_API_KEY,
     },
+    liveVerification: liveVerification ?? undefined,
   });
-  const worker = buildRealWorkerRuntimeProof({ runKey });
+  const worker = buildRealWorkerRuntimeProof({ runKey, evidence: workerEvidence });
   const observability = buildObservabilitySloSnapshot({
     runKey,
     queueDepth: queuedJobs ?? 0,
@@ -3993,6 +4079,7 @@ export async function runRevenueOsInstitutionalHardeningProof(formData: FormData
     leads: 1000,
     jobs: 10_000,
     workerJobs: 10_000,
+    evidence: loadEvidence,
   });
   const evalHarness = buildAiMlEvalHarnessProof({
     runKey,

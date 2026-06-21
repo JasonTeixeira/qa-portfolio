@@ -542,7 +542,33 @@ test.describe('Admin Acquisition OS', () => {
     await expect(providerPanel).toBeVisible({ timeout: 30_000 });
     const emailRow = providerPanel.getByTestId('revenue-os-email-provider-row').filter({ hasText: leadName }).first();
     await expect(emailRow).toBeVisible({ timeout: 30_000 });
+    await expect(emailRow.getByTestId('revenue-os-email-send-button')).toHaveText('Approve');
     await emailRow.getByTestId('revenue-os-email-send-button').click();
+    await adminPage.waitForLoadState('networkidle');
+    await expect
+      .poll(
+        async () => {
+          const { data, error } = await sb
+            .from('revenue_email_queue')
+            .select('status')
+            .contains('metadata', { runKey })
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          if (error) throw error;
+          return data?.status ?? null;
+        },
+        { timeout: 30_000 },
+      )
+      .toBe('approved');
+    await adminPage.reload({ waitUntil: 'networkidle' });
+    const approvedEmailRow = adminPage
+      .getByTestId('revenue-os-program-20')
+      .getByTestId('revenue-os-email-provider-row')
+      .filter({ hasText: leadName })
+      .first();
+    await expect(approvedEmailRow.getByTestId('revenue-os-email-send-button')).toHaveText('Send');
+    await approvedEmailRow.getByTestId('revenue-os-email-send-button').click();
     await adminPage.waitForLoadState('networkidle');
 
     await expect
@@ -1424,8 +1450,13 @@ test.describe('Admin Acquisition OS', () => {
       .select('ready, score, gates')
       .eq('run_key', runKey)
       .maybeSingle();
-    expect(ciProof?.ready).toBe(true);
-    expect(Number(ciProof?.score ?? 0)).toBe(100);
+    const hasCiProofArtifact = Boolean(process.env.REVENUE_OS_CI_PROOF_PATH);
+    expect(ciProof?.ready).toBe(hasCiProofArtifact);
+    if (hasCiProofArtifact) {
+      expect(Number(ciProof?.score ?? 0)).toBe(100);
+    } else {
+      expect(Number(ciProof?.score ?? 0)).toBeLessThan(100);
+    }
     expect(Array.isArray(ciProof?.gates)).toBe(true);
 
     const { data: loadSmoke } = await sb
@@ -1433,8 +1464,13 @@ test.describe('Admin Acquisition OS', () => {
       .select('passed, score, checks')
       .eq('run_key', runKey)
       .maybeSingle();
-    expect(loadSmoke?.passed).toBe(true);
-    expect(Number(loadSmoke?.score ?? 0)).toBe(100);
+    const hasLoadProofArtifact = Boolean(process.env.REVENUE_OS_LOAD_PROOF_PATH);
+    expect(loadSmoke?.passed).toBe(hasLoadProofArtifact);
+    if (hasLoadProofArtifact) {
+      expect(Number(loadSmoke?.score ?? 0)).toBe(100);
+    } else {
+      expect(Number(loadSmoke?.score ?? 0)).toBeLessThan(100);
+    }
     expect(loadSmoke?.checks?.some((check: { label?: string }) => check.label === 'worker queue volume')).toBe(true);
 
     const health = await request.get('/api/health/revenue-os');
@@ -1492,8 +1528,10 @@ test.describe('Admin Acquisition OS', () => {
       .select('claimed_jobs, completed_jobs, failed_jobs, status')
       .eq('run_key', runKey)
       .maybeSingle();
-    expect(Number(worker?.claimed_jobs ?? 0)).toBeGreaterThanOrEqual(4);
-    expect(Number(worker?.completed_jobs ?? 0)).toBeGreaterThanOrEqual(3);
+    const hasWorkerProofArtifact = Boolean(process.env.REVENUE_OS_WORKER_PROOF_PATH);
+    expect(Number(worker?.claimed_jobs ?? 0)).toBeGreaterThanOrEqual(hasWorkerProofArtifact ? 1 : 4);
+    expect(Number(worker?.completed_jobs ?? 0)).toBeGreaterThanOrEqual(hasWorkerProofArtifact ? 1 : 3);
+    expect(worker?.status).toBe(hasWorkerProofArtifact ? 'passed' : 'degraded');
 
     const { count: privacyJobs } = await sb
       .from('revenue_privacy_workflow_jobs')

@@ -1,4 +1,9 @@
-import { buildRevenueLoadSmokePlan, buildRevenueOpsHealth } from '@/lib/revenue-os/production-ops';
+import {
+  buildRevenueLoadProofFromEvidence,
+  buildRevenueLoadSmokePlan,
+  buildRevenueOpsHealth,
+  type RevenueLoadEvidence,
+} from '@/lib/revenue-os/production-ops';
 import {
   buildConnectorWorkerBatch,
   claimDueWorkerJobs,
@@ -91,7 +96,40 @@ export function buildLiveIntegrationActivation(input: {
 export function buildRealWorkerRuntimeProof(input: {
   runKey: string;
   now?: string;
+  evidence?: {
+    workerId?: string;
+    claimedJobs?: number;
+    completedJobs?: number;
+    failedJobs?: number;
+    deadLetteredJobs?: number;
+    maxConcurrency?: number;
+    leaseSeconds?: number;
+    source?: string;
+  } | null;
 }) {
+  if (input.evidence) {
+    const claimedJobs = Number(input.evidence.claimedJobs ?? 0);
+    const completedJobs = Number(input.evidence.completedJobs ?? 0);
+    const failedJobs = Number(input.evidence.failedJobs ?? 0);
+    const deadLetteredJobs = Number(input.evidence.deadLetteredJobs ?? 0);
+    const passed = claimedJobs > 0 && completedJobs > 0 && deadLetteredJobs === 0;
+    return {
+      workerId: input.evidence.workerId ?? `worker-${input.runKey}`,
+      claimedJobs,
+      completedJobs,
+      failedJobs,
+      deadLetteredJobs,
+      maxConcurrency: Number(input.evidence.maxConcurrency ?? 1),
+      leaseSeconds: Number(input.evidence.leaseSeconds ?? 300),
+      status: passed ? 'passed' as const : 'degraded' as const,
+      evidence: {
+        source: input.evidence.source ?? 'provided_worker_runtime_evidence',
+        synthetic: false,
+        continuousRuntimeProven: passed,
+      },
+    };
+  }
+
   const now = input.now ?? new Date().toISOString();
   const batch = buildConnectorWorkerBatch({
     runKey: input.runKey,
@@ -139,6 +177,8 @@ export function buildRealWorkerRuntimeProof(input: {
       batch,
       attempts: [...completed.map((item) => item.attempt), ...failed.map((item) => item.attempt)],
       retryableFailures: failed.length,
+      synthetic: true,
+      continuousRuntimeProven: false,
     },
   };
 }
@@ -160,6 +200,7 @@ export function buildObservabilitySloSnapshot(input: {
     llmProviderConfigured: envConfigured(input.env, 'OPENAI_API_KEY'),
     leadConnectorsConfigured: envConfigured(input.env, 'GOOGLE_PLACES_API_KEY') || envConfigured(input.env, 'EXA_API_KEY'),
     gmailConfigured: envConfigured(input.env, 'GOOGLE_CLIENT_ID') && envConfigured(input.env, 'GOOGLE_CLIENT_SECRET'),
+    workerSchedulerLive: false,
     storageOk: true,
   });
   const alerts = [
@@ -275,7 +316,29 @@ export function buildRealLoadScaleProof(input: {
   leads: number;
   jobs: number;
   workerJobs: number;
+  evidence?: RevenueLoadEvidence | null;
 }) {
+  if (input.evidence) {
+    const measured = buildRevenueLoadProofFromEvidence({ evidence: input.evidence });
+    const apiP95Ms = Number(input.evidence.apiP95Ms ?? 999_999);
+    return {
+      tenants: Number(input.evidence.tenants ?? 0),
+      leads: Number(input.evidence.leads ?? 0),
+      jobs: input.jobs,
+      workerJobs: Number(input.evidence.queuedJobs ?? 0),
+      dashboardP95Ms: Number(input.evidence.dashboardP95Ms ?? 999_999),
+      apiP95Ms,
+      exportP95Ms: Number(input.evidence.exportP95Ms ?? 999_999),
+      status: measured.passed ? 'passed' as const : 'degraded' as const,
+      evidence: {
+        load: measured,
+        source: input.evidence.source ?? 'provided_load_evidence',
+        synthetic: false,
+        target: { tenants: 5, leads: 1000, jobs: 10000, apiP95Ms: 750 },
+      },
+    };
+  }
+
   const load = buildRevenueLoadSmokePlan({
     leads: input.leads,
     queuedJobs: input.workerJobs,
@@ -294,7 +357,12 @@ export function buildRealLoadScaleProof(input: {
     apiP95Ms,
     exportP95Ms: 2200,
     status: load.passed && apiP95Ms <= 750 ? 'passed' as const : 'degraded' as const,
-    evidence: { load, target: { tenants: 5, leads: 1000, jobs: 10000, apiP95Ms: 750 } },
+    evidence: {
+      load,
+      target: { tenants: 5, leads: 1000, jobs: 10000, apiP95Ms: 750 },
+      synthetic: true,
+      stagingLoadProven: false,
+    },
   };
 }
 
@@ -360,9 +428,13 @@ export function buildInstitutionalProgramRuns(input: {
       programKey: '14_real_worker_runtime',
       programName: 'Real Worker Runtime',
       status: input.worker.status,
-      score: input.worker.status === 'passed' ? 93 : 84,
+      score: input.worker.evidence.synthetic ? 62 : input.worker.status === 'passed' ? 93 : 74,
       verifiedControls: ['leases', 'bounded concurrency', 'retryable failure handling', 'attempt evidence'],
-      gaps: input.worker.failedJobs ? ['one retryable provider failure remains queued for replay proof'] : [],
+      gaps: input.worker.evidence.synthetic
+        ? ['continuous worker runtime requires real scheduler execution evidence']
+        : input.worker.failedJobs
+          ? ['one provider failure remains queued for replay proof']
+          : [],
       evidence: input.worker.evidence,
     },
     {
@@ -414,9 +486,13 @@ export function buildInstitutionalProgramRuns(input: {
       programKey: '20_real_load_scale_proof',
       programName: 'Real Load + Scale Proof',
       status: input.load.status,
-      score: input.load.status === 'passed' ? 94 : 78,
+      score: input.load.evidence.synthetic ? 58 : input.load.status === 'passed' ? 94 : 78,
       verifiedControls: ['1k leads target', '10k worker jobs target', '5 tenant target', 'latency budgets'],
-      gaps: input.load.status === 'passed' ? [] : ['load target not met'],
+      gaps: input.load.evidence.synthetic
+        ? ['real staging load artifact required']
+        : input.load.status === 'passed'
+          ? []
+          : ['load target not met'],
       evidence: input.load.evidence,
     },
     {

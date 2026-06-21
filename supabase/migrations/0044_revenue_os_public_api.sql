@@ -96,8 +96,30 @@ create policy "revenue_api_keys_admin_all" on public.revenue_api_keys for all to
   with check (public.is_admin((select auth.uid())));
 
 drop policy if exists "revenue_api_keys_member_select" on public.revenue_api_keys;
-create policy "revenue_api_keys_member_select" on public.revenue_api_keys for select to authenticated
-  using (public.revenue_os_is_workspace_member(tenant_key));
+
+create or replace view public.revenue_api_keys_redacted
+with (security_invoker = true) as
+select
+  id,
+  workspace_id,
+  tenant_key,
+  name,
+  key_prefix,
+  last_four,
+  scopes,
+  status,
+  expires_at,
+  last_used_at,
+  revoked_at,
+  metadata,
+  created_by,
+  created_at,
+  updated_at
+from public.revenue_api_keys
+where public.is_admin((select auth.uid()))
+   or public.revenue_os_is_workspace_member(tenant_key);
+
+grant select on public.revenue_api_keys_redacted to authenticated;
 
 drop policy if exists "revenue_api_requests_admin_all" on public.revenue_api_requests;
 create policy "revenue_api_requests_admin_all" on public.revenue_api_requests for all to authenticated

@@ -16,16 +16,31 @@ export type RevenueOpsGate = {
   evidence: string;
 };
 
+export type RevenueProviderHealth = {
+  configured: boolean;
+  liveVerified: boolean;
+};
+
 export function buildRevenueOpsHealth(input: {
   dbOk: boolean;
   queueDepth: number;
   deadLetters: number;
-  emailProviderConfigured: boolean;
-  llmProviderConfigured: boolean;
-  leadConnectorsConfigured: boolean;
-  gmailConfigured: boolean;
+  emailProviderConfigured: boolean | RevenueProviderHealth;
+  llmProviderConfigured: boolean | RevenueProviderHealth;
+  leadConnectorsConfigured: boolean | RevenueProviderHealth;
+  gmailConfigured: boolean | RevenueProviderHealth;
+  workerSchedulerLive?: boolean;
   storageOk: boolean;
 }) {
+  const providerStatus = (value: boolean | RevenueProviderHealth) => {
+    const configured = typeof value === 'boolean' ? value : value.configured;
+    const liveVerified = typeof value === 'boolean' ? value : value.liveVerified;
+    return { configured, liveVerified };
+  };
+  const email = providerStatus(input.emailProviderConfigured);
+  const llm = providerStatus(input.llmProviderConfigured);
+  const leadConnectors = providerStatus(input.leadConnectorsConfigured);
+  const gmail = providerStatus(input.gmailConfigured);
   const checks: RevenueOpsCheck[] = [
     {
       key: 'db',
@@ -42,26 +57,48 @@ export function buildRevenueOpsHealth(input: {
     {
       key: 'email',
       label: 'Email provider',
-      status: input.emailProviderConfigured ? 'ok' : 'degraded',
-      detail: input.emailProviderConfigured ? 'provider key configured' : 'manual review only; provider key missing',
+      status: email.liveVerified ? 'ok' : email.configured ? 'degraded' : 'degraded',
+      detail: email.liveVerified
+        ? 'provider live probe verified'
+        : email.configured
+          ? 'provider key configured; live probe missing'
+          : 'manual review only; provider key missing',
     },
     {
       key: 'llm',
       label: 'LLM provider',
-      status: input.llmProviderConfigured ? 'ok' : 'degraded',
-      detail: input.llmProviderConfigured ? 'LLM provider configured' : 'local/deterministic drafting only',
+      status: llm.liveVerified ? 'ok' : llm.configured ? 'degraded' : 'degraded',
+      detail: llm.liveVerified
+        ? 'LLM live probe verified'
+        : llm.configured
+          ? 'LLM provider configured; live probe missing'
+          : 'local/deterministic drafting only',
     },
     {
       key: 'lead_connectors',
       label: 'Lead connectors',
-      status: input.leadConnectorsConfigured ? 'ok' : 'degraded',
-      detail: input.leadConnectorsConfigured ? 'live connector credentials configured' : 'sample/import connectors only',
+      status: leadConnectors.liveVerified ? 'ok' : leadConnectors.configured ? 'degraded' : 'degraded',
+      detail: leadConnectors.liveVerified
+        ? 'live connector probe verified'
+        : leadConnectors.configured
+          ? 'connector credentials configured; live probe missing'
+          : 'sample/import connectors only',
     },
     {
       key: 'gmail',
       label: 'Gmail sync',
-      status: input.gmailConfigured ? 'ok' : 'degraded',
-      detail: input.gmailConfigured ? 'Gmail sync configured' : 'manual reply ingest only',
+      status: gmail.liveVerified ? 'ok' : gmail.configured ? 'degraded' : 'degraded',
+      detail: gmail.liveVerified
+        ? 'Gmail sync live probe verified'
+        : gmail.configured
+          ? 'Gmail credentials configured; live stream proof missing'
+          : 'manual reply ingest only',
+    },
+    {
+      key: 'worker_scheduler',
+      label: 'Worker scheduler',
+      status: input.workerSchedulerLive ? 'ok' : 'degraded',
+      detail: input.workerSchedulerLive ? 'recent worker runtime execution recorded' : 'continuous worker runtime not recently proven',
     },
     {
       key: 'storage',
@@ -172,5 +209,82 @@ export function buildRevenueLoadSmokePlan(input: {
     passed: checks.every((check) => check.passed),
     checks,
     score: Math.round((checks.filter((check) => check.passed).length / checks.length) * 100),
+  };
+}
+
+export type RevenueCiEvidence = {
+  lint?: boolean;
+  typecheck?: boolean;
+  unit?: boolean;
+  rls?: boolean;
+  build?: boolean;
+  focusedE2e?: boolean;
+  productionVerify?: boolean;
+  auditHigh?: boolean;
+  source?: string;
+};
+
+export function buildRevenueCiProofFromEvidence(input: {
+  evidence?: RevenueCiEvidence | null;
+}) {
+  const evidence = input.evidence ?? {};
+  const proof = buildRevenueCiProof({
+    lint: evidence.lint === true,
+    typecheck: evidence.typecheck === true,
+    unit: evidence.unit === true,
+    rls: evidence.rls === true,
+    build: evidence.build === true,
+    focusedE2e: evidence.focusedE2e === true,
+    productionVerify: evidence.productionVerify === true,
+    auditHigh: evidence.auditHigh === true,
+  });
+  return {
+    ...proof,
+    gates: proof.gates.map((gate) => ({
+      ...gate,
+      evidence: evidence.source
+        ? `${gate.evidence}; source=${evidence.source}`
+        : `${gate.evidence}; missing captured artifact`,
+    })),
+  };
+}
+
+export type RevenueLoadEvidence = {
+  tenants?: number;
+  leads?: number;
+  queuedJobs?: number;
+  sequenceCapsEnforced?: boolean;
+  dashboardP95Ms?: number;
+  apiP95Ms?: number;
+  exportP95Ms?: number;
+  source?: string;
+};
+
+export function buildRevenueLoadProofFromEvidence(input: {
+  evidence?: RevenueLoadEvidence | null;
+}) {
+  const evidence = input.evidence ?? {};
+  const missingLatencyMs = 999_999;
+  const load = buildRevenueLoadSmokePlan({
+    leads: Number(evidence.leads ?? 0),
+    queuedJobs: Number(evidence.queuedJobs ?? 0),
+    tenants: Number(evidence.tenants ?? 0),
+    sequenceCapsEnforced: evidence.sequenceCapsEnforced === true,
+    dashboardP95Ms: Number(evidence.dashboardP95Ms ?? missingLatencyMs),
+    exportP95Ms: Number(evidence.exportP95Ms ?? missingLatencyMs),
+  });
+  const apiP95Ms = Number(evidence.apiP95Ms ?? missingLatencyMs);
+  return {
+    ...load,
+    passed: load.passed && apiP95Ms <= 750,
+    checks: [
+      ...load.checks,
+      {
+        label: 'api p95',
+        passed: apiP95Ms <= 750,
+        detail: Number.isFinite(apiP95Ms) ? `${apiP95Ms}ms` : 'missing captured artifact',
+      },
+    ],
+    source: evidence.source ?? null,
   };
 }

@@ -1,0 +1,22 @@
+{
+  "source": "local_verified_commands_2026-06-19",
+  "capturedAt": "2026-06-19T13:06:13.679Z",
+  "lint": true,
+  "typecheck": true,
+  "unit": true,
+  "rls": true,
+  "build": true,
+  "focusedE2e": true,
+  "productionVerify": true,
+  "auditHigh": true,
+  "commands": [
+    "npm run typecheck",
+    "npx eslint app/admin/acquisition/actions.ts app/admin/acquisition/page.tsx app/api/email/webhook/route.ts app/api/health/revenue-os/route.ts app/api/cron/revenue-os/workers/route.ts lib/revenue-os/production-ops.ts lib/revenue-os/institutional-hardening.ts tests/unit/run.mjs tests/e2e/admin/acquisition.spec.ts",
+    "npm run test:unit",
+    "npm run test:rls",
+    "npm audit --audit-level=high",
+    "npm run verify:prod",
+    "npm run build",
+    "Playwright focused Revenue OS workflows on production server: core prospect, connector outreach, Program 12, Programs 13-21"
+  ]
+}

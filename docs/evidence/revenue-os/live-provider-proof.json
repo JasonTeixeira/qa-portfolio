@@ -1,0 +1,17 @@
+{
+  "source": "local_env_provider_readiness_2026-06-19",
+  "capturedAt": "2026-06-19T13:06:13.679Z",
+  "google_places": false,
+  "exa": false,
+  "gmail": false,
+  "openai": false,
+  "resend": false,
+  "configured": {
+    "google_places": false,
+    "exa": false,
+    "gmail": false,
+    "openai": false,
+    "resend": false
+  },
+  "note": "No live provider probe was marked verified because this local env does not contain the required live provider credentials/probe evidence."
+}

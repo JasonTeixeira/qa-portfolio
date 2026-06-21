@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-06-19T17:11:31.774Z",
+  "source": "post_migration_0059_local_cron_endpoint_against_supabase",
+  "endpoint": "/api/cron/revenue-os/workers",
+  "synthetic": false,
+  "httpStatus": 200,
+  "runKey": "revenue-os-worker-proof-1781889089360",
+  "jobId": "37fbce61-51b1-4851-864c-49749573c946",
+  "workerId": "revenue-os-cron-1781889090153",
+  "claimedJobs": 1,
+  "completedJobs": 1,
+  "failedJobs": 0,
+  "deadLetteredJobs": 0,
+  "jobStatus": "completed",
+  "attemptRows": 1,
+  "runtimeExecution": {
+    "id": "5f072392-59cf-4504-aa5e-f64ec9e4e5b2",
+    "status": "passed",
+    "claimedJobs": 1,
+    "completedJobs": 1,
+    "failedJobs": 0,
+    "deadLetteredJobs": 0,
+    "maxConcurrency": 1,
+    "leaseSeconds": 300,
+    "createdAt": "2026-06-19T17:11:31.301253+00:00"
+  },
+  "assertions": {
+    "claimedOneIsolatedJob": true,
+    "completedOneIsolatedJob": true,
+    "noFailures": true,
+    "jobCompleted": true,
+    "attemptPersisted": true,
+    "runtimeExecutionPersisted": true
+  },
+  "note": "Server was started with REVENUE_WORKER_MAX_JOBS=1 for isolated proof after applying migration 0059."
+}

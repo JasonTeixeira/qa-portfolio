@@ -32,6 +32,7 @@ import {
 } from '@/lib/revenue-os/operator-dashboard';
 import { buildRevenueIntelligenceDashboard } from '@/lib/revenue-os/revenue-intelligence-dashboard';
 import {
+  approveRevenueEmailQueueItem,
   draftOutreachMessage,
   enrichAcquisitionAccount,
   generateWebsiteAudit,
@@ -2027,14 +2028,14 @@ export default async function AdminAcquisitionPage({
                       Created {formatRelative(email.created_at)}
                     </div>
                   </div>
-                  <form action={sendRevenueEmailQueueItem}>
+                  <form action={email.status === 'manual_review' ? approveRevenueEmailQueueItem : sendRevenueEmailQueueItem}>
                     <input type="hidden" name="id" value={email.id} />
                     <button
                       data-testid="revenue-os-email-send-button"
                       disabled={['sent', 'blocked', 'archived'].includes(email.status)}
                       className="w-full rounded-lg border border-[#06b6d4]/40 bg-[#06b6d4]/10 px-3 py-2 text-xs font-semibold text-[#67e8f9] transition-colors hover:bg-[#06b6d4]/15 disabled:cursor-not-allowed disabled:border-[#27272a] disabled:bg-transparent disabled:text-[#52525b]"
                     >
-                      Approve/send
+                      {email.status === 'manual_review' ? 'Approve' : 'Send'}
                     </button>
                   </form>
                 </div>

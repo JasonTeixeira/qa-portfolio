@@ -12,9 +12,10 @@
   --ac-line-strong: #2a2a33;
   --ac-accent: #3d5afe;
   --ac-accent-ink: #8fa0ff;
+  /* Reserved electric ramp (was a blue→purple→pink rainbow) — cohesive, on-brand */
   --ac-g1: #3d5afe;
-  --ac-g2: #7c3aed;
-  --ac-g3: #ff2d9b;
+  --ac-g2: #6e87ff;
+  --ac-g3: #bcd2ff;
   --ac-display: var(--font-display), "Bricolage Grotesque", sans-serif;
   --ac-sans: var(--font-sans), "Hanken Grotesk", sans-serif;
   --ac-mono: var(--font-mono), "JetBrains Mono", monospace;
@@ -576,7 +577,7 @@
   height: 2.6rem;
   border-radius: 10px;
   font-size: 1.3rem;
-  background: linear-gradient(135deg, rgba(61, 90, 254, 0.14), rgba(255, 45, 155, 0.12));
+  background: linear-gradient(135deg, rgba(61, 90, 254, 0.16), rgba(188, 210, 255, 0.08));
 }
 .perk h3 {
   font-family: var(--ac-display);

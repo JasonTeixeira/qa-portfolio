@@ -65,7 +65,7 @@ const FAQS = [
 
 export default function WaitlistPage() {
   return (
-    <div className={styles.page} data-reveal-scope>
+    <div className={styles.page}>
       <Splash />
       <RevealOnScroll />
       <SoundToggle />
@@ -77,6 +77,7 @@ export default function WaitlistPage() {
         <span className={styles.navTag}>Launching soon</span>
       </header>
 
+      <main data-reveal-scope>
       {/* ── Hero ── */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
@@ -195,9 +196,9 @@ export default function WaitlistPage() {
               ))}
             </ol>
             <div className={styles.phases}>
-              {paths.map((p) => (
+              {paths.map((p, idx) => (
                 <span key={p.slug} className={styles.chip}>
-                  <i style={{ background: `linear-gradient(135deg, ${p.gradient[0]}, ${p.gradient[1]})` }} />
+                  <i style={{ background: ['#bcd2ff', '#3d5afe', '#e8b75a'][idx] ?? '#8fa0ff' }} />
                   {p.name}
                 </span>
               ))}
@@ -290,6 +291,7 @@ export default function WaitlistPage() {
           <FoundingMeter />
         </div>
       </section>
+      </main>
 
       <footer className={styles.footer}>
         <span>© 2026 Sage Ideas · Sage Academy</span>

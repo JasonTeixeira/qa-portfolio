@@ -9,22 +9,22 @@ type Path = 'Foundations' | 'AI Engineering' | 'Ship Real Products'
 const PATHS: Path[] = ['Foundations', 'AI Engineering', 'Ship Real Products']
 
 const BUILDS: Build[] = [
-  { path: 'Foundations', name: 'Terminal guessing game', what: 'Your very first program — variables, loops, logic.', tech: 'Python' },
-  { path: 'Foundations', name: 'Live weather CLI', what: 'A command-line tool that calls a real API.', tech: 'Python · APIs' },
-  { path: 'Foundations', name: 'Web scraper → dataset', what: 'Pull real data off the web into a clean file.', tech: 'Python' },
-  { path: 'Foundations', name: 'Password strength meter', what: 'Validation, edge cases, and clean functions.', tech: 'JavaScript' },
-  { path: 'Foundations', name: 'Habit tracker', what: 'Store, read, and update real data.', tech: 'JS · Storage' },
-  { path: 'AI Engineering', name: 'Streaming AI chatbot', what: 'Real LLM replies, token by token, live.', tech: 'LLM API' },
-  { path: 'AI Engineering', name: 'Doc-search assistant', what: 'Answers grounded in your docs — with citations.', tech: 'RAG · Vectors' },
-  { path: 'AI Engineering', name: 'Tool-using agent', what: 'An AI that takes actions, not just talks.', tech: 'Agents' },
-  { path: 'AI Engineering', name: 'Self-grading evals', what: 'Measure whether your AI is actually any good.', tech: 'Evals' },
-  { path: 'AI Engineering', name: 'Voice assistant', what: 'Talk to it; it talks back.', tech: 'Speech · LLM' },
-  { path: 'AI Engineering', name: 'AI photo tagger', what: 'A vision pipeline that labels images for you.', tech: 'Vision' },
-  { path: 'Ship Real Products', name: 'Full-stack SaaS', what: 'Auth, database, and Stripe billing — live.', tech: 'Next.js · Supabase' },
-  { path: 'Ship Real Products', name: 'A waitlist page', what: 'Exactly like the one you’re reading now.', tech: 'Next.js' },
-  { path: 'Ship Real Products', name: 'Real-time dashboard', what: 'Live data, charts, the whole instrument.', tech: 'React' },
-  { path: 'Ship Real Products', name: 'Chrome extension', what: 'Ship a tool people actually install.', tech: 'JS · Web APIs' },
-  { path: 'Ship Real Products', name: 'Deploy to a live URL', what: 'A real product on the internet, shareable.', tech: 'Vercel' },
+  { path: 'Foundations', name: 'An AI that roasts your code', what: 'Feed it your code; get back a brutally funny review.', tech: 'Python · LLM' },
+  { path: 'Foundations', name: 'Crypto price-alert bot', what: 'It DMs you the second your coin moves 5%.', tech: 'Python · APIs' },
+  { path: 'Foundations', name: 'A terminal dungeon game', what: 'A text adventure you actually play — your first real program.', tech: 'Python' },
+  { path: 'Foundations', name: 'A meme generator', what: 'Auto-caption images and post them.', tech: 'Python' },
+  { path: 'Foundations', name: 'Wikipedia-race solver', what: 'Scrape, map links, and find the shortest path.', tech: 'Python' },
+  { path: 'AI Engineering', name: 'Build a website from a sentence', what: '“A landing page for my startup” → a live site.', tech: 'LLM · Codegen' },
+  { path: 'AI Engineering', name: 'Summarize any YouTube video', what: 'Paste a link, get the TL;DR in seconds.', tech: 'LLM · Transcripts' },
+  { path: 'AI Engineering', name: 'An agent that books things', what: 'It takes real actions — not just chat.', tech: 'Agents · Tools' },
+  { path: 'AI Engineering', name: 'Clone your own voice', what: 'A voice that sounds exactly like you.', tech: 'Speech AI' },
+  { path: 'AI Engineering', name: 'AI study buddy that quizzes you', what: 'Turns any notes into flashcards and grills you.', tech: 'RAG · LLM' },
+  { path: 'AI Engineering', name: 'Doc-search with citations', what: 'Answers grounded in your docs — sources attached.', tech: 'RAG · Vectors' },
+  { path: 'Ship Real Products', name: 'A SaaS that charges money', what: 'Auth, database, Stripe billing — your first paying users.', tech: 'Next.js · Stripe' },
+  { path: 'Ship Real Products', name: 'A viral waitlist page', what: 'Exactly like the one you’re on — referrals and all.', tech: 'Next.js' },
+  { path: 'Ship Real Products', name: 'AI distraction blocker', what: 'A Chrome extension that knows when you’re slacking.', tech: 'JS · AI' },
+  { path: 'Ship Real Products', name: 'A real-time multiplayer app', what: 'Live cursors, presence, the works.', tech: 'WebSockets' },
+  { path: 'Ship Real Products', name: 'An AI support agent — live', what: 'Answers your customers 24/7, deployed.', tech: 'RAG · Next.js' },
 ]
 
 const COUNT: Record<Path, number> = {

@@ -5,6 +5,7 @@ import { WaitlistForm } from './waitlist-form'
 import { FoundingMeter } from './founding-meter'
 import { CourseDemo } from './course-demo'
 import { BuildGallery } from './build-gallery'
+import { LiveBuild } from './live-build'
 import { RevealOnScroll } from './reveal'
 import { SoundToggle } from './sound-toggle'
 import { Splash, SageMark } from './splash'
@@ -80,19 +81,24 @@ export default function WaitlistPage() {
       <main data-reveal-scope>
       {/* ── Hero ── */}
       <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>
-            <span className={styles.dot} /> Founding cohort · spots open
-          </span>
-          <h1 className={styles.title}>
-            Most people who “learn to code” never ship a thing. <span className={styles.gradient}>Let’s fix that.</span>
-          </h1>
-          <p className={styles.lede}>
-            Sage Academy teaches you to <em>build</em> — real projects and guided labs from an operator who ships
-            every day, not a theory channel. Be one of the founding 1,000 and lock $20/mo for life.
-          </p>
-          <WaitlistForm id="waitlist-hero" />
-          <FoundingMeter />
+        <div className={styles.heroGrid}>
+          <div className={styles.heroCol}>
+            <span className={styles.eyebrow}>
+              <span className={styles.dot} /> Founding cohort · spots open
+            </span>
+            <h1 className={styles.title}>
+              Most people who “learn to code” never ship a thing. <span className={styles.gradient}>Let’s fix that.</span>
+            </h1>
+            <p className={styles.lede}>
+              Sage Academy teaches you to <em>build</em> — real projects and guided labs from an operator who ships
+              every day, not a theory channel. Be one of the founding 1,000 and lock $20/mo for life.
+            </p>
+            <WaitlistForm id="waitlist-hero" />
+            <FoundingMeter />
+          </div>
+          <div className={styles.heroLive}>
+            <LiveBuild />
+          </div>
         </div>
       </section>
 

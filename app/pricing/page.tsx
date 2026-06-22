@@ -47,7 +47,7 @@ export default function PricingPage() {
     <>
       <JsonLd data={[faqSchema, breadcrumbSchema]} />
       <PageViewTracker event="pricing_view" />
-      <div className="px-5 pt-28 sm:px-8 lg:px-12">
+      <div className="px-5 pt-4 sm:px-8 lg:px-12">
         <RouteFinderHeroExperiment surface="pricing" />
       </div>
       <PricingEl />

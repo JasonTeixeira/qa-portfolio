@@ -9,6 +9,9 @@ import { RouteConversionCta } from '@/components/living/RouteConversionCta'
 import { academyTracks, clustersForTrack, getAcademyTrack } from '@/data/academy/tracks'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { CLUSTERS } from '@/data/content/clusters'
+import { getLocale } from '@/lib/i18n/server'
+import { localizeTrack } from '@/lib/academy-i18n'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
 
 interface PageProps {
@@ -29,13 +32,15 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { track: slug } = await params
-  const track = getAcademyTrack(slug)
-  if (!track) return { title: 'Academy track not found' }
+  const english = getAcademyTrack(slug)
+  if (!english) return { title: 'Academy track not found' }
+  const locale = await getLocale()
+  const track = localizeTrack(english, locale)
 
   return {
     title: `${track.title} | Sage Academy`,
     description: track.description,
-    alternates: { canonical: `${SITE}/academy/${track.slug}` },
+    alternates: localizedAlternates(`/academy/${track.slug}`, locale),
     openGraph: {
       title: `${track.title} | Sage Academy`,
       description: track.description,
@@ -63,8 +68,9 @@ function relatedPostsForTrack(slug: string) {
 
 export default async function AcademyTrackPage({ params }: PageProps) {
   const { track: slug } = await params
-  const track = getAcademyTrack(slug)
-  if (!track) notFound()
+  const english = getAcademyTrack(slug)
+  if (!english) notFound()
+  const track = localizeTrack(english, await getLocale())
 
   const trackUrl = `${SITE}/academy/${track.slug}`
   const relatedPosts = relatedPostsForTrack(track.slug)

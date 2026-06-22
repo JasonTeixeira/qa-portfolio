@@ -101,8 +101,10 @@
     "content:report": "tsx scripts/content-report.ts",
     "i18n:messages": "tsx scripts/translate-messages.ts",
     "i18n:blog": "tsx scripts/translate-blog.ts",
-    "i18n": "tsx scripts/translate-messages.ts && tsx scripts/translate-blog.ts",
-    "i18n:check": "tsx scripts/translate-blog.ts --check"
+    "i18n": "tsx scripts/translate-messages.ts && tsx scripts/translate-academy.ts && tsx scripts/translate-blog.ts",
+    "i18n:check": "tsx scripts/translate-academy.ts --check && tsx scripts/translate-blog.ts --check",
+    "i18n:academy": "tsx scripts/translate-academy.ts",
+    "i18n:audit": "tsx scripts/i18n-audit.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.879.0",

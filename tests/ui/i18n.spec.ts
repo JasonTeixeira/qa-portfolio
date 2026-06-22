@@ -60,6 +60,16 @@ test('blog content is served in Spanish with an honest hreflang map', async ({ p
   }
 })
 
+test('academy course content is translated, not just the chrome', async ({ page }) => {
+  await page.goto('/es/academy/ai-native-product-building')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es')
+  // The track title + a lesson render in Spanish (not the English source).
+  await expect(page.locator('h1')).toContainText(/Construcci[oó]n de Productos Nativos/i)
+  await expect(page.getByText('Mapa de oferta a producto').first()).toBeVisible()
+  // English source strings must NOT appear as visible content.
+  await expect(page.getByText('AI-Native Product Building')).toHaveCount(0)
+})
+
 test('Arabic is right-to-left', async ({ page }) => {
   await page.goto(`/ar/blog/${TRANSLATED_SLUG}`)
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar')

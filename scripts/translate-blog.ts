@@ -59,6 +59,31 @@ interface Job {
   reason: 'missing' | 'stale'
 }
 
+function fenceCount(md: string): number {
+  return (md.match(/```/g) ?? []).length
+}
+
+/**
+ * Translate the body, validating that the number of ``` code fences matches the source.
+ * The model occasionally converts an indented code block into a (sometimes unclosed)
+ * fenced one; a quick retry fixes it deterministically. Keeps the best of N attempts.
+ */
+async function translateBodyWithParity(post: Job['post'], locale: Locale): Promise<string> {
+  const src = post.fullContent || post.content
+  const want = fenceCount(src)
+  let best = ''
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const body = await translateMarkdown(src, { code: locale, name: localeNames[locale] })
+    if (fenceCount(body) === want) return body
+    best = best || body
+  }
+  // Couldn't reach parity. If the source has NO fenced blocks, every ``` in the output
+  // is spurious (the model fenced an indented block, sometimes leaving it unclosed) -
+  // strip the fence markers so the doc is never malformed. The prose is untouched.
+  if (want === 0) return best.split('\n').filter((l) => !/^\s*```/.test(l)).join('\n')
+  return best
+}
+
 async function runJob(job: Job): Promise<boolean> {
   const { post, locale, out, hash } = job
   try {
@@ -66,10 +91,7 @@ async function runJob(job: Job): Promise<boolean> {
       { title: post.title, excerpt: post.excerpt },
       { code: locale, name: localeNames[locale] },
     )
-    const body = await translateMarkdown(post.fullContent || post.content, {
-      code: locale,
-      name: localeNames[locale],
-    })
+    const body = await translateBodyWithParity(post, locale)
     fs.mkdirSync(path.dirname(out), { recursive: true })
     const frontmatter =
       '---\n' +

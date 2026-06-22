@@ -79,6 +79,8 @@ export async function translateMarkdown(markdown: string, target: LangTarget): P
     `(1) DO NOT translate fenced code blocks, inline code, URLs, file paths, CLI commands, or identifiers; ` +
     `(2) keep all markdown structure (headings, lists, links, tables) and any [[wiki-links]] exactly; ` +
     `(3) keep brand/proper names and technical terms (RAG, Stripe, AWS, Next.js, Supabase, etc.) untranslated; ` +
-    `(4) translate link text but never link targets; (5) return ONLY the translated markdown, no commentary.`
+    `(4) translate link text but never link targets; ` +
+    `(5) NEVER add or remove code fences — keep EXACTLY the same number of \`\`\` markers as the source (do not wrap prose in code blocks); ` +
+    `(6) return ONLY the translated markdown, no commentary.`
   return chat(system, markdown, false)
 }

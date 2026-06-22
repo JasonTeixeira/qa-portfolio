@@ -18,23 +18,42 @@ function apiKey(): string {
   return key
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
 async function chat(system: string, user: string, json: boolean): Promise<string> {
-  const res = await fetch(ENDPOINT, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey()}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: MODEL,
-      temperature: 0.2,
-      messages: [
-        { role: 'system', content: system },
-        { role: 'user', content: user },
-      ],
-      ...(json ? { response_format: { type: 'json_object' } } : {}),
-    }),
-  })
-  if (!res.ok) throw new Error(`DeepSeek ${res.status}: ${(await res.text()).slice(0, 200)}`)
-  const data = await res.json()
-  return data.choices?.[0]?.message?.content ?? ''
+  const MAX_ATTEMPTS = 4
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${apiKey()}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: MODEL,
+          temperature: 0.2,
+          messages: [
+            { role: 'system', content: system },
+            { role: 'user', content: user },
+          ],
+          ...(json ? { response_format: { type: 'json_object' } } : {}),
+        }),
+      })
+      // Retry transient failures (rate limits, 5xx) with exponential backoff.
+      if (res.status === 429 || res.status >= 500) {
+        throw new Error(`DeepSeek ${res.status}: ${(await res.text()).slice(0, 120)}`)
+      }
+      if (!res.ok) throw Object.assign(new Error(`DeepSeek ${res.status}: ${(await res.text()).slice(0, 200)}`), { fatal: true })
+      const data = await res.json()
+      const content = data.choices?.[0]?.message?.content
+      if (!content) throw new Error('DeepSeek returned empty content')
+      return content
+    } catch (err) {
+      lastErr = err
+      if ((err as { fatal?: boolean })?.fatal || attempt === MAX_ATTEMPTS) break
+      await sleep(1500 * attempt * attempt) // 1.5s, 6s, 13.5s
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error('translation failed')
 }
 
 /** Translate the VALUES of a flat string→string dictionary into the target language. */

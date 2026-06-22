@@ -262,13 +262,6 @@ function MegaDropdown({
   onClose: () => void
 }) {
   const mode: RouteConsoleMode = label === 'Services' ? 'services' : 'resources'
-  const firstItem = sections[0]?.items[0]
-  const [activeItem, setActiveItem] = useState<MegaItem | undefined>(firstItem)
-  const active = activeItem ?? firstItem
-
-  useEffect(() => {
-    if (isOpen) setActiveItem(firstItem)
-  }, [firstItem, isOpen])
 
   return (
     <div
@@ -329,32 +322,41 @@ function MegaDropdown({
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,#3D5AFE,#7C3AED,#FF2D9B,transparent)]"
                 />
-                <div className="relative grid lg:grid-cols-[330px_minmax(0,1fr)_286px]">
-                  <div className="border-b border-[var(--sage-border)] p-5 lg:border-b-0 lg:border-r">
+                <div className="relative grid lg:grid-cols-[300px_minmax(0,1fr)]">
+                  <div className="flex flex-col border-b border-[var(--sage-border)] p-6 lg:border-b-0 lg:border-r">
                     <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--sage-accent-readable)]">
-                      {mode === 'services' ? 'Route console' : 'Resource console'}
+                      {mode === 'services' ? 'The studio' : 'The system'}
                     </p>
-                    <h2 className="mt-3 max-w-[10ch] text-[clamp(2rem,1.3rem_+_2vw,3.45rem)] font-extrabold leading-[0.92] tracking-[-0.035em] text-[var(--sage-ink)] [font-family:var(--font-display),var(--font-sans),sans-serif]">
+                    <h2 className="mt-3 text-[clamp(1.7rem,1.2rem_+_1.4vw,2.5rem)] font-extrabold leading-[0.98] tracking-[-0.03em] text-[var(--sage-ink)] [font-family:var(--font-display),var(--font-sans),sans-serif]">
                       {mode === 'services' ? 'Choose the build path.' : 'Open the growth loop.'}
                     </h2>
-                    <p className="mt-4 max-w-[34ch] text-sm leading-6 text-[var(--sage-ink-muted)]">
+                    <p className="mt-3 max-w-[32ch] text-[13px] leading-6 text-[var(--sage-ink-muted)]">
                       {mode === 'services'
-                        ? 'Route the buyer by intent: audit, sprint, build, or operate. Every path has a next action.'
-                        : 'Learn, inspect, compare, and reuse the system. Resources are designed to turn attention into qualified demand.'}
+                        ? 'Audit, sprint, build, or operate — fixed scope, fixed price, one operator end to end.'
+                        : 'Learn the system, run the free tools, and read the public build record.'}
                     </p>
-                    <RouteConsoleMap mode={mode} activeLabel={active?.label ?? label} />
-                    <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-[8px] border border-[var(--sage-border)] bg-[var(--sage-border)]">
-                      {routeConsoleMetrics[mode].map(([metric, value]) => (
-                        <div className="bg-[#0B0B0E] p-3" key={metric}>
-                          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[var(--sage-ink-faint)]">{metric}</span>
-                          <p className="mt-1 text-[12px] font-semibold text-[var(--sage-ink)]">{value}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <Link
+                      href={mode === 'services' ? '/book' : '/academy'}
+                      onClick={() => {
+                        onClose()
+                        trackEvent(mode === 'services' ? 'booking_click' : 'cta_click', { location: `mega_${mode}_cta` })
+                      }}
+                      className="group mt-6 inline-flex items-center justify-between gap-3 rounded-[12px] border border-[rgba(61,90,254,0.4)] bg-[rgba(61,90,254,0.1)] px-4 py-3.5 transition-colors hover:bg-[rgba(61,90,254,0.16)] lg:mt-auto"
+                    >
+                      <span>
+                        <span className="block text-[13px] font-semibold text-[var(--sage-ink)]">
+                          {mode === 'services' ? 'Book a 30-min call' : 'Enter the academy'}
+                        </span>
+                        <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
+                          {mode === 'services' ? 'Not a sales call' : 'Courses + labs'}
+                        </span>
+                      </span>
+                      <span className="text-[var(--sage-accent-readable)] transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+                    </Link>
                   </div>
 
-                  <div className="border-b border-[var(--sage-border)] p-4 lg:border-b-0 lg:border-r">
-                    <div className="grid gap-3 md:grid-cols-3">
+                  <div className="p-5">
+                    <div className="grid gap-x-4 gap-y-2 md:grid-cols-3">
                       {sections.map((section, sectionIndex) => (
                         <div key={section.title} className="min-w-0">
                           <p className="mb-2 px-2 font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--sage-ink-faint)]">
@@ -371,7 +373,6 @@ function MegaDropdown({
                           >
                             {section.items.map((item) => {
                               const Icon = item.icon
-                              const isActiveItem = active?.href === item.href
                               return (
                                 <motion.li
                                   key={item.href}
@@ -382,32 +383,19 @@ function MegaDropdown({
                                 >
                                   <Link
                                     href={item.href}
-                                    onMouseEnter={() => setActiveItem(item)}
-                                    onFocus={() => setActiveItem(item)}
                                     onClick={() => {
                                       onClose()
-                                      trackEvent('route_console_click', {
-                                        mode,
-                                        label: item.label,
-                                        href: item.href,
-                                        lane: section.title,
-                                      })
                                       trackEvent('cta_click', {
-                                        location: `route_console_${mode}`,
+                                        location: `mega_${mode}`,
                                         label: item.label,
                                         href: item.href,
                                       })
                                     }}
-                                    className={cn(
-                                      'group relative flex min-h-[64px] items-start gap-3 rounded-[10px] border px-3 py-3 transition-all duration-200',
-                                      isActiveItem
-                                        ? 'border-[rgba(61,90,254,0.48)] bg-[rgba(61,90,254,0.11)] text-[var(--sage-ink)] shadow-[inset_0_0_0_1px_rgba(61,90,254,0.15)]'
-                                        : 'border-transparent text-[var(--sage-ink-muted)] hover:border-[rgba(242,239,233,0.1)] hover:bg-[rgba(242,239,233,0.035)] hover:text-[var(--sage-ink)]',
-                                    )}
+                                    className="group relative flex min-h-[60px] items-start gap-3 rounded-[10px] border border-transparent px-3 py-2.5 text-[var(--sage-ink-muted)] transition-all duration-200 hover:border-[rgba(242,239,233,0.1)] hover:bg-[rgba(242,239,233,0.035)] hover:text-[var(--sage-ink)]"
                                   >
                                     {Icon && (
                                       <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] border border-[rgba(242,239,233,0.1)] bg-[#0B0B0E]">
-                                        <Icon className={cn('h-4 w-4 transition-colors', isActiveItem ? 'text-[var(--sage-accent-readable)]' : 'text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-accent-readable)]')} />
+                                        <Icon className="h-4 w-4 text-[var(--sage-ink-faint)] transition-colors group-hover:text-[var(--sage-accent-readable)]" />
                                       </span>
                                     )}
                                     <span className="min-w-0">
@@ -433,53 +421,6 @@ function MegaDropdown({
                         </div>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="p-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--sage-ink-faint)]">
-                      active route
-                    </p>
-                    <div className="mt-3 rounded-[12px] border border-[rgba(242,239,233,0.1)] bg-[rgba(20,20,24,0.72)] p-4">
-                      <p className="text-lg font-semibold leading-tight text-[var(--sage-ink)]">{active?.label}</p>
-                      <p className="mt-2 text-sm leading-6 text-[var(--sage-ink-muted)]">
-                        {active?.description ?? 'Choose a route to inspect the next step.'}
-                      </p>
-                    </div>
-                    <div className="mt-4 grid gap-2">
-                      {[
-                        { href: '/tools/seo-audit', label: 'Run audit', description: 'Free tool' },
-                        { href: '/contact?intent=diagnose', label: 'Choose path', description: 'Diagnostic intake' },
-                        { href: '/book', label: 'Book call', description: 'Direct route' },
-                      ].map((item) => (
-                        <Link
-                          href={item.href}
-                          key={item.label}
-                          onClick={() => {
-                            onClose()
-                            trackEvent('route_console_click', {
-                              mode,
-                              label: item.label,
-                              href: item.href,
-                              lane: 'active_route',
-                            })
-                            trackEvent(item.href === '/book' ? 'booking_click' : 'cta_click', {
-                              location: `route_console_${mode}`,
-                              label: item.label,
-                            })
-                          }}
-                          className="group flex items-center justify-between rounded-[10px] border border-[rgba(242,239,233,0.1)] bg-[#0B0B0E] px-3 py-3 transition-colors hover:border-[rgba(61,90,254,0.46)] hover:bg-[rgba(61,90,254,0.08)]"
-                        >
-                          <span>
-                            <span className="block text-sm font-semibold text-[var(--sage-ink)]">{item.label}</span>
-                            <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">{item.description}</span>
-                          </span>
-                          <span className="text-[var(--sage-accent-readable)] transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
-                        </Link>
-                      ))}
-                    </div>
-                    <p className="mt-4 border-t border-[var(--sage-border)] pt-4 font-mono text-[10px] uppercase leading-5 tracking-[0.16em] text-[var(--sage-ink-faint)]">
-                      Surface {'->'} system. Every route should reveal the offer, the engine, and the next move.
-                    </p>
                   </div>
                 </div>
               </div>

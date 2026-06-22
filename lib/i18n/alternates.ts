@@ -17,9 +17,11 @@ export function localizedAlternates(
   canonicalPath: string,
   locale: Locale = defaultLocale,
   extra?: Metadata['alternates'],
+  /** Restrict hreflang to locales that actually exist (honest hreflang). Defaults to all. */
+  availableLocales: readonly Locale[] = locales,
 ): Metadata['alternates'] {
   const languages: Record<string, string> = {}
-  for (const l of locales) {
+  for (const l of availableLocales) {
     languages[localeHrefLang[l]] = urlFor(l, canonicalPath)
   }
   languages['x-default'] = urlFor(defaultLocale, canonicalPath)

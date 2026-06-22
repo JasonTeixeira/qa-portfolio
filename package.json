@@ -99,7 +99,8 @@
     "seed:test-data": "tsx scripts/seed-test-data.ts",
     "test:cleanup": "tsx tests/db/cleanup.ts",
     "content:report": "tsx scripts/content-report.ts",
-    "i18n:messages": "tsx scripts/translate-messages.ts"
+    "i18n:messages": "tsx scripts/translate-messages.ts",
+    "i18n:blog": "tsx scripts/translate-blog.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.879.0",

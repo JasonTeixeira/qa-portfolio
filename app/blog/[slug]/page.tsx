@@ -13,6 +13,7 @@ import { buildArticle, buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { resolveWikiLinks } from '@/lib/seo/internal-links'
 import { localizedAlternates } from '@/lib/i18n/alternates'
 import { getLocale } from '@/lib/i18n/server'
+import { getTranslatedPost, getTranslatedLocales } from '@/lib/blog-i18n'
 import { CLUSTERS } from '@/data/content/clusters'
 import { ArticleConversionSystem } from '@/components/blog/article-conversion-system'
 import { ArticleRouteCards } from '@/components/blog/article-route-cards'
@@ -33,17 +34,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getBlogPostBySlug(slug)
   if (!post) return { title: 'Post not found' }
   const locale = await getLocale()
+  const translation = getTranslatedPost(post.slug, locale)
+  const title = translation?.title || post.title
+  const excerpt = translation?.excerpt || post.excerpt
   // Every post gets a social card: the cover image if set, else a generated one.
   const ogImage = post.coverImage
     ? (post.coverImage.startsWith('http') ? post.coverImage : `${SITE}${post.coverImage}`)
     : `${SITE}/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent(post.category)}`
   return {
-    title: `${post.title} — Jason Teixeira`,
-    description: post.excerpt,
-    alternates: localizedAlternates(`/blog/${post.slug}`, locale),
+    title: `${title} — Jason Teixeira`,
+    description: excerpt,
+    // Honest hreflang: only advertise locales that actually have a translation.
+    alternates: localizedAlternates(`/blog/${post.slug}`, locale, undefined, getTranslatedLocales(post.slug)),
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description: excerpt,
       type: 'article',
       url: `${SITE}/blog/${post.slug}`,
       images: [{ url: ogImage, width: 1200, height: 630 }],
@@ -52,8 +57,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description: excerpt,
       images: [ogImage],
     },
   }
@@ -67,7 +72,13 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound()
   }
 
-  const rawMd = post.fullContent || post.content
+  // Serve the machine-translated body + title when the reader's locale has one.
+  const locale = await getLocale()
+  const translation = getTranslatedPost(post.slug, locale)
+  const displayTitle = translation?.title || post.title
+  const displayExcerpt = translation?.excerpt || post.description || post.excerpt
+
+  const rawMd = translation?.body || post.fullContent || post.content
   // Resolve [[slug]] / [[cluster/key]] in-body wiki-links into real internal links.
   const cleanedMd = resolveWikiLinks(rawMd.replace(/^\s*#\s+.+\n+/, ''), getAllBlogPosts())
   const rendered = await renderMarkdownToHtml(cleanedMd)
@@ -115,8 +126,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       <ReadingProgress targetSelector="#article-body" />
 
       <ArticleShell
-        title={post.title}
-        description={post.description || post.excerpt}
+        title={displayTitle}
+        description={displayExcerpt}
         category={post.category}
         clusterLabel={cluster.title}
         clusterHref={`/topics/${cluster.slug}`}

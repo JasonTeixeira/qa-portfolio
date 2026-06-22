@@ -3,6 +3,7 @@ title: "辞めたくならないGitワークフロー"
 excerpt: "トランクベース vs GitFlow vs GitHub Flow — 3つすべて使ってきました。これがソロ開発者や小規模チームに実際に機能する方法であり、ほとんどのGitワークフローが過度に複雑である理由です。"
 sourceSlug: git-workflows-that-don
 locale: ja
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

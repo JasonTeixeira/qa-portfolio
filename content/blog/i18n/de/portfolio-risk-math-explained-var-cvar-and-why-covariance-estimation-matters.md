@@ -3,6 +3,7 @@ title: "Portfolio-Risiko-Mathematik erklärt: VaR, CVaR und warum die Kovarianzs
 excerpt: "Die Mathematik hinter RiskRadar – Value at Risk, Conditional VaR, Ledoit-Wolf-Schätzung und Monte-Carlo-Simulation, erklärt für Ingenieure, die keine Quants sind."
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: de
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

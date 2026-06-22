@@ -3,6 +3,7 @@ title: "Was ein KI-natives Studio tatsächlich baut"
 excerpt: "Ein KI-natives Studio ist kein Prompt-Shop. Es baut die Produktoberfläche, das darunterliegende Betriebssystem und die Messschleife, die es ehrlich hält."
 sourceSlug: what-an-ai-native-studio-actually-builds
 locale: de
+sourceHash: 41314c48af13458b
 machineTranslated: true
 ---
 

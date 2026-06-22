@@ -3,6 +3,7 @@ title: "Написание книги на 120 000 слов при полной 
 excerpt: "Я написал книгу из 24 глав о трейдинге, одновременно создавая платформу Nexural. Вот как я справлялся с обеими задачами, что едва меня не сломало и почему писательство сделало меня лучшим инженером."
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: ru
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

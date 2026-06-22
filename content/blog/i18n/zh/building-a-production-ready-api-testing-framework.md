@@ -3,6 +3,7 @@ title: "构建生产级API测试框架"
 excerpt: "了解我如何通过智能重试逻辑、Pydantic验证和会话池，将API测试框架的脆弱测试率从10%降至<1%"
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: zh
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

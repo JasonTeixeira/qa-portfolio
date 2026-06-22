@@ -3,6 +3,7 @@ title: "Appium के साथ मोबाइल टेस्ट ऑटोम�
 excerpt: "एक क्रॉस-प्लेटफ़ॉर्म मोबाइल टेस्टिंग फ्रेमवर्क बनाया जिसने रिग्रेशन समय को 2 दिनों से घटाकर 2 घंटे कर दिया और रिलीज़ से पहले 23 डिवाइस-विशिष्ट बग खोजे।"
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: hi
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

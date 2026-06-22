@@ -3,6 +3,7 @@ title: "एनवायरनमेंट वेरिएबल्स: हर �
 excerpt: "आपकी .env फ़ाइल में डेटाबेस पासवर्ड, Stripe सीक्रेट की और AWS क्रेडेंशियल्स हैं। यह एक Slack संदेश, डेवलपर के लैपटॉप और शायद कहीं Docker इमेज में है। चलिए इसे ठीक करते हैं।"
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: hi
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

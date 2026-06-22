@@ -3,6 +3,7 @@ title: "आर्किटेक्चर निर्णय जो कोई �
 excerpt: "हम Kafka और RabbitMQ के बीच चुनने में हफ्ते बिताते हैं लेकिन कभी दस्तावेज़ नहीं बनाते। ADRs में 15 मिनट लगते हैं और 'हमने ऐसा क्यों किया?' वाली बातचीत के महीनों बचाते हैं।"
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: hi
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

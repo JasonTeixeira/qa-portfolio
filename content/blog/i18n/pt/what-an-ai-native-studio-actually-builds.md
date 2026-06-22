@@ -3,6 +3,7 @@ title: "O que um Estúdio Nativo de IA Realmente Constrói"
 excerpt: "Um estúdio nativo de IA não é uma loja de prompts. Ele constrói a superfície do produto, o sistema operacional subjacente e o ciclo de medição que o mantém honesto."
 sourceSlug: what-an-ai-native-studio-actually-builds
 locale: pt
+sourceHash: 41314c48af13458b
 machineTranslated: true
 ---
 

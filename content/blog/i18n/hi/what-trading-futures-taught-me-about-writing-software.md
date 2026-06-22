@@ -3,6 +3,7 @@ title: "ट्रेडिंग फ्यूचर्स ने मुझे �
 excerpt: "मैं कोड लिखने से पहले हर सुबह ES, NQ और CL फ्यूचर्स का व्यापार करता हूं। ट्रेडिंग में जोखिम प्रबंधन और सॉफ्टवेयर में जोखिम प्रबंधन के बीच समानताएं असहज रूप से समान हैं।"
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: hi
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

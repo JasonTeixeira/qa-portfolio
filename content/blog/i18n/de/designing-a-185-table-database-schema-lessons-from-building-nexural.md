@@ -3,6 +3,7 @@ title: "Entwicklung eines Datenbankschemas mit 185 Tabellen: Erfahrungen aus dem
 excerpt: "Wie ich ein normalisiertes Datenbankschema für eine Fintech-Plattform mit 7 vernetzten Systemen entworfen habe. Schema-Phasen, RLS-Richtlinien, Denormalisierungs-Kompromisse und Migrationsstrategien."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: de
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

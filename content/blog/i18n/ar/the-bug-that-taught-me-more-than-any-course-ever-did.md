@@ -3,6 +3,7 @@ title: "الخلل الذي علمني أكثر من أي دورة تدريبي�
 excerpt: "ظل خطأ في التزامن في معالج webhook للمدفوعات غير مكتشف لمدة 3 أسابيع. عندما حدث، قام بخصم مزدوج من 4 عملاء. إليك التحليل الكامل بعد الحادثة ولماذا أختبر كود الفوترة بشكل مختلف الآن."
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: ar
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

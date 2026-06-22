@@ -3,6 +3,7 @@ title: "ベンチマーク劇場なしのRAG評価"
 excerpt: "検索拡張生成を評価する現実的な方法：ソースカバレッジ、引用の忠実性、拒否行動、タスクレベルの有用性。"
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: ja
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Система доказательств на странице дост
 excerpt: "Разбор архитектуры доказательств на странице достижений Nexural: квитанции, цитаты участников, методология, оговорки и пути конверсии."
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: ru
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

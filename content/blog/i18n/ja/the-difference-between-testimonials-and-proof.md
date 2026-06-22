@@ -3,6 +3,7 @@ title: "お客様の声と証拠の違い"
 excerpt: "お客様の声は引用です。証拠はシステムです：出典、文脈、領収書、方法論、限界、次のアクション。"
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: ja
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

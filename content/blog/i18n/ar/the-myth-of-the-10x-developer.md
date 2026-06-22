@@ -3,6 +3,7 @@ title: "أسطورة المطور العشريني"
 excerpt: "لا يوجد مطورون بعشرين ضعفًا. هناك مطورون يتمتعون بوضوح عشرة أضعاف حول ما يجب بناؤه وما يجب تخطيه. الفرق هو اتخاذ القرار، وليس سرعة الكتابة."
 sourceSlug: the-myth-of-the-10x-developer
 locale: ar
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "تحويل إيصالات العملاء إلى أصول تحسين مح
 excerpt: "يجب ألا تبقى أدلة العملاء في مجلد لقطات الشاشة. يمكن أن تصبح أصلًا للبحث عندما تنظمها بالمصدر، ونية الاستعلام، والروابط الداخلية، وإخلاء المسؤولية."
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: ar
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

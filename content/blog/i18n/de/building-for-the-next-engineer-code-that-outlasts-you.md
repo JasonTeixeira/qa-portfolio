@@ -3,6 +3,7 @@ title: "Für den nächsten Entwickler bauen: Code, der dich überdauert"
 excerpt: "Jedes System, das ich gebaut habe, ist darauf ausgelegt, ohne mich zu laufen. Das ist kein Zufall – es ist bewusstes Design für Betriebsfähigkeit. So mache ich es anders."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: de
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

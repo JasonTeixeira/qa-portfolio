@@ -3,6 +3,7 @@ title: "Variables de Entorno: El Agujero de Seguridad en Cada Startup"
 excerpt: "Tu archivo .env tiene la contraseña de tu base de datos, la clave secreta de Stripe y las credenciales de AWS. Está en un mensaje de Slack, en la laptop de un desarrollador y probablemente en alguna imagen de Docker. Arreglemos eso."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: es
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

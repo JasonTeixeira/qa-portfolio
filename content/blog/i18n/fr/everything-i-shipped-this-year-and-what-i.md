@@ -3,6 +3,7 @@ title: "Tout ce que j'ai livré cette année (et ce que je supprimerais avec le 
 excerpt: "Bilan de fin d'année : 7 systèmes, 185 tables, 51 articles de blog, un livre et une carrière de trader. Ce qui en valait la peine, ce qui n'en valait pas, et ce que je construis ensuite."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: fr
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

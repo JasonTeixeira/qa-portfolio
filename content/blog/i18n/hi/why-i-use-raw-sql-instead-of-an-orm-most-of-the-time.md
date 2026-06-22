@@ -3,6 +3,7 @@ title: "ज्यादातर समय मैं ORM के बजाय Raw
 excerpt: "ORMs तब तक बढ़िया हैं जब तक वे न हों। 185-तालिका डेटाबेस पर 30 सेकंड लेने वाले जनरेटेड क्वेरी को डीबग करने के बाद, मैंने हॉट पाथ के लिए raw SQL पर स्विच किया। यहाँ बताया गया है कि कब क्या समझ में आता है।"
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: hi
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

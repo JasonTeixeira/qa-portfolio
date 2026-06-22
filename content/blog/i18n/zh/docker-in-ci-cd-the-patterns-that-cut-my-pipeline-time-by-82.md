@@ -3,6 +3,7 @@ title: "Docker在CI/CD中的应用：将流水线时间缩短82%的模式"
 excerpt: "层缓存、多阶段构建、BuildKit以及Docker模式，将我的CI流水线从45分钟缩短至8分钟。"
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: zh
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "OWASP Top 10 自动化测试：实用实现"
 excerpt: "如何在CI/CD管道中构建自动检测SQL注入、XSS、认证失效等10种OWASP类别的安全扫描器。"
 sourceSlug: owasp-top-10-automated-testing-a-practical-implementation
 locale: zh
+sourceHash: 91060abfa5946a27
 machineTranslated: true
 ---
 

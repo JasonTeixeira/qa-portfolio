@@ -3,6 +3,7 @@ title: "Modèles de modules Terraform : comment je structure l'IaC pour la réut
 excerpt: "Modèles de modules Terraform opinionés — nommage cohérent des variables, contrats de sortie, tests avec Terratest et structure de module qui fonctionne entre équipes."
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: fr
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Votre taux de couverture de test vous ment"
 excerpt: "80 % de couverture ne signifie rien si vous testez les mauvais 80 %. Voici comment je considère la couverture — non pas comme un chiffre à atteindre, mais comme une carte de vos angles morts."
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: fr
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "ソフトウェア開発のフルタイム勤務をしながら12万語�
 excerpt: "Nexuralプラットフォームを構築しながら、取引に関する24章の本を執筆しました。両方をどう両立させたか、何が私をほぼ壊したか、そしてなぜ執筆がより良いエンジニアにしてくれたかを紹介します。"
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: ja
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

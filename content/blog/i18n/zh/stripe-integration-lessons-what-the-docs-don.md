@@ -3,6 +3,7 @@ title: "Stripe 集成经验：文档未提及的要点"
 excerpt: "Webhook 幂等性、订阅状态机、催缴策略以及若不处理就会破坏计费系统的边缘情况。"
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: zh
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

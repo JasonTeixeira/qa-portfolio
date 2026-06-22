@@ -3,6 +3,7 @@ title: "構築した全システムを文書化する理由（と使用テンプ
 excerpt: "システム文書化のための1ページテンプレートがあります。記入に30分かかりますが、「これはどう動くの？」という質問を30時間節約できます。テンプレートはこちら。"
 sourceSlug: why-i-document-every-system-i-build-and-the-template-i-use
 locale: ja
+sourceHash: 0b54745b1b741a82
 machineTranslated: true
 ---
 

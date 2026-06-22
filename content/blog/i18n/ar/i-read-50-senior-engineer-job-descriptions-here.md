@@ -3,6 +3,7 @@ title: "قرأت 50 وصفًا وظيفيًا لمهندس أول. إليك ما
 excerpt: "حللت 50 إعلان وظيفة لمهندسين أول/كبار في شركات تدفع 180 ألف - 350 ألف دولار. الأنماط واضحة — ومعظم المحافظ الوظيفية تفتقدها تمامًا."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: ar
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "رقم تغطية الاختبارات لديك يخدعك"
 excerpt: "تغطية اختبارات بنسبة 80% لا تعني شيئًا إذا كنت تختبر الـ80% الخاطئة. إليك كيف أفكر في التغطية — ليس كرقم نسعى وراءه، بل كخريطة للأماكن التي لا تراها."
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: ar
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

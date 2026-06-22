@@ -3,6 +3,7 @@ title: "मोनोलिथ बनाम माइक्रोसर्वि�
 excerpt: "Nexural प्लेटफॉर्म में 7 सिस्टम हैं लेकिन यह माइक्रोसर्विसेज के बजाय मॉड्यूलर मोनोलिथ के रूप में चलता है। यहाँ बताया गया है कि एक अकेले इंजीनियर के लिए यह सही निर्णय क्यों था, और मैं कब विभाजित करूंगा।"
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: hi
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

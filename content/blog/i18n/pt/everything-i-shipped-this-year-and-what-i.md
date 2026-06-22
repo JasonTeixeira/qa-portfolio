@@ -3,6 +3,7 @@ title: "Tudo que Lancei Este Ano (E o que Eu Cortaria em Retrospecto)"
 excerpt: "Uma retrospectiva de fim de ano: 7 sistemas, 185 tabelas, 51 posts de blog, um livro e uma carreira de trader. O que valeu a pena, o que não valeu, e o que estou construindo em seguida."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: pt
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

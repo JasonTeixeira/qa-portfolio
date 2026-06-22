@@ -3,6 +3,7 @@ title: "ポートフォリオリスクの数学解説：VaR、CVaR、そして�
 excerpt: "RiskRadarの背後にある数学 — バリュー・アット・リスク、条件付きVaR、Ledoit-Wolf縮小推定、モンテカルロシミュレーションを、クオンツではないエンジニア向けに解説。"
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: ja
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

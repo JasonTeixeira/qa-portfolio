@@ -3,6 +3,7 @@ title: "AI機能を出荷前に評価する方法"
 excerpt: "AI機能の実用的な評価ループ：約束を定義し、失敗セットを構築し、退屈なケースをテストし、システムが信頼を得るまで人間をループに残す。"
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: ja
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

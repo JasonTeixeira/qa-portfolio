@@ -3,6 +3,7 @@ title: "Leistungstests: Von Null zur Produktion"
 excerpt: "Wie ich eine Leistungstestsuite erstellte, die vor der Produktion 3 kritische Engpässe identifizierte und die API-Antwortzeiten um 40% verbesserte."
 sourceSlug: performance-testing-from-zero-to-production
 locale: de
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

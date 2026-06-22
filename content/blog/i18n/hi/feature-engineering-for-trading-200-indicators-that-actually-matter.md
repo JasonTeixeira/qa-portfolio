@@ -3,6 +3,7 @@ title: "ट्रेडिंग के लिए फीचर इंजीन�
 excerpt: "मैंने AlphaStream की फीचर इंजीनियरिंग पाइपलाइन कैसे बनाई — कौन से संकेतक मूल्य आंदोलन की भविष्यवाणी करते हैं, कौन से शोर हैं, और सामान्यीकरण करने वाली सुविधाओं का चयन कैसे करें।"
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: hi
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Feature Engineering für den Handel: 200+ Indikatoren, die wirklich zäh
 excerpt: "Wie ich die Feature-Engineering-Pipeline von AlphaStream aufgebaut habe – welche Indikatoren Kursbewegungen vorhersagen, welche Rauschen sind und wie man Merkmale auswählt, die generalisieren."
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: de
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Gestion des erreurs qui respecte vos utilisateurs"
 excerpt: "Vos utilisateurs se fichent des traces de pile. Ils veulent savoir ce qui a mal tourné et quoi faire ensuite. Voici comment je conçois des expériences d'erreur qui aident au lieu de frustrer."
 sourceSlug: error-handling-that-respects-your-users
 locale: fr
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

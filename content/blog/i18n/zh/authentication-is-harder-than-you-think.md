@@ -3,6 +3,7 @@ title: "认证比你想象的更难"
 excerpt: "我在不同项目中实现了4次认证。每次我都以为只需要2天，结果每次都花了2周。原因如下，以及我会如何改进。"
 sourceSlug: authentication-is-harder-than-you-think
 locale: zh
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

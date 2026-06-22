@@ -3,6 +3,7 @@ title: "GitHub OIDC → AWS (без долгоживущих ключей): пр
 excerpt: "Как использовать GitHub Actions OIDC для принятия роли AWS IAM и развертывания/загрузки артефактов без хранения ключей AWS. Включает IAM с минимальными привилегиями, шаблоны политик доверия и советы по устранению неполадок."
 sourceSlug: github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
 locale: ru
+sourceHash: bfc0536b90edf6b9
 machineTranslated: true
 ---
 

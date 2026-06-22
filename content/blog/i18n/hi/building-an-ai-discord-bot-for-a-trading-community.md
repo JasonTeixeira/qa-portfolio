@@ -3,6 +3,7 @@ title: "एक ट्रेडिंग समुदाय के लिए AI �
 excerpt: "मैंने Nexural Discord AI Engine कैसे बनाया — 30+ कमांड, GPT-4o एकीकरण, ऑटो-मॉडरेशन, और बाजार खुफिया। वित्तीय संदर्भों में AI सुरक्षा पर सबक।"
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: hi
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

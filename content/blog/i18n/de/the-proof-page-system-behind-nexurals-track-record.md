@@ -3,6 +3,7 @@ title: "Das Proof-Page-System hinter Nexurals Erfolgsbilanz"
 excerpt: "Eine Aufschlüsselung der Proof-Architektur hinter Nexurals Erfolgsbilanz-Seite: Belege, Mitgliederzitate, Methodik, Haftungsausschlüsse und Konversionspfade."
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: de
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

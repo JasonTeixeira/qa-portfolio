@@ -3,6 +3,7 @@ title: "L'audit de mise en œuvre de l'IA avant de construire"
 excerpt: "Avant de construire un agent IA, un copilote, un système RAG ou une automatisation de flux de travail, auditez le flux de travail, les données, les risques, les coûts et la boucle de mesure."
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: fr
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Monitoramento Que Realmente Diz Algo"
 excerpt: "Painéis com 47 gráficos onde tudo está verde não são monitoramento. São decoração. Veja o que eu realmente monitoro e por que a maioria dos alertas é ruído inútil."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: pt
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

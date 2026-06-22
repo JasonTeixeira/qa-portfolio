@@ -3,6 +3,7 @@ title: "Variables d'environnement : la faille de sécurité dans chaque startup"
 excerpt: "Votre fichier .env contient le mot de passe de votre base de données, la clé secrète Stripe et les identifiants AWS. Il traîne dans un message Slack, sur l'ordinateur d'un développeur, et probablement dans une image Docker quelque part. Corrigeons cela."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: fr
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

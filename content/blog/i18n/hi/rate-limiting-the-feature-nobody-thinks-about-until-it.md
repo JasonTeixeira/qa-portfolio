@@ -3,6 +3,7 @@ title: "रेट लिमिटिंग: वह सुविधा जिस�
 excerpt: "आपका API 10 अनुरोध प्रति सेकंड पर पूरी तरह काम करता है। 10,000 पर, यह ढह जाता है। यहाँ बताया गया है कि मैं रेट लिमिटिंग कैसे लागू करता हूँ जो वैध उपयोगकर्ताओं को परेशान किए बिना सुरक्षा प्रदान करती है।"
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: hi
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

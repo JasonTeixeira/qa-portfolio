@@ -3,6 +3,7 @@ title: "Construyendo para el Próximo Ingeniero: Código que Te Sobrevive"
 excerpt: "Cada sistema que he construido está diseñado para funcionar sin mí. Eso no es suerte, es diseño intencional para la operabilidad. Esto es lo que hago diferente."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: es
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

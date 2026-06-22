@@ -3,6 +3,7 @@ title: "如何在发布前评估AI功能"
 excerpt: "AI功能的实用评估循环：定义承诺、构建失败集、测试常规情况，并在系统赢得信任前保持人工参与。"
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: zh
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Создание финтех-платформы в одиночку: 18
 excerpt: "Полная история архитектуры и создания экосистемы Nexural с нуля — проектирование базы данных, архитектура API, интеграция Stripe и уроки работы единственным инженером на продакшн-финтех-платформе."
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: ru
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "リアルタイムWebSocketアーキテクチャ：実際にスケール
 excerpt: "トレーディングプラットフォームでのWebSocket接続の扱い方 — 再接続戦略、ハートビート、バックプレッシャー、そしてミリ秒が重要な場面で機能するパターン。"
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: ja
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

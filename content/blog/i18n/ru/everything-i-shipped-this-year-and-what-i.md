@@ -3,6 +3,7 @@ title: "Всё, что я запустил в этом году (и что бы 
 excerpt: "Годовая ретроспектива: 7 систем, 185 таблиц, 51 пост в блоге, книга и карьера трейдера. Что было стоящим, что нет, и что я строю дальше."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: ru
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

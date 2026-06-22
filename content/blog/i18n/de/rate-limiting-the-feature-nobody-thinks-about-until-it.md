@@ -3,6 +3,7 @@ title: "Ratenbegrenzung: Die Funktion, an die niemand denkt, bis es zu spät ist
 excerpt: "Ihre API funktioniert perfekt bei 10 Anfragen pro Sekunde. Bei 10.000 bricht sie zusammen. So implementiere ich eine Ratenbegrenzung, die schützt, ohne legitime Nutzer zu stören."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: de
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

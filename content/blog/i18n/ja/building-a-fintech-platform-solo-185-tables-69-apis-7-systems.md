@@ -3,6 +3,7 @@ title: "一人でフィンテックプラットフォームを構築：185テー
 excerpt: "Nexuralエコシステムをゼロから設計・構築した全貌 — データベース設計、APIアーキテクチャ、Stripe統合、そして本番フィンテックプラットフォームの唯一のエンジニアとして得た教訓。"
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: ja
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

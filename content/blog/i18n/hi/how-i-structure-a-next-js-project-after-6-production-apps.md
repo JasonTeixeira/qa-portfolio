@@ -3,6 +3,7 @@ title: "मैं Next.js प्रोजेक्ट कैसे संरच�
 excerpt: "फ़ोल्डर परंपराएं, डेटा फ़ेचिंग पैटर्न, घटक संगठन, और फ़ाइल संरचना जो MVP से 185 डेटाबेस टेबल तक बिना अव्यवस्थित हुए स्केल करती है।"
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: hi
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

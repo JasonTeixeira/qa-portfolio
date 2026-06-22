@@ -3,6 +3,7 @@ title: "AWS लागत अनुकूलन: मैं एक उत्पा
 excerpt: "Nexural प्लेटफ़ॉर्म AWS पर Vercel, Supabase और लक्षित AWS सेवाओं के साथ चलता है। यहाँ बताया गया है कि मैं 185 तालिकाओं और रीयल-टाइम डेटा वाले प्लेटफ़ॉर्म की लागत $50/माह से कम कैसे रखता हूँ।"
 sourceSlug: aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
 locale: hi
+sourceHash: 7589c8d533227578
 machineTranslated: true
 ---
 

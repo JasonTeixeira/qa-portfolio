@@ -3,6 +3,7 @@ title: "نموذج كائن الصفحة: ما وراء الأساسيات"
 excerpt: "معظم الفرق تنفذ POM بشكل خاطئ. إليك كيفية بناء إطار عمل Selenium قابل للصيانة حقًا ويتسع لمئات الاختبارات."
 sourceSlug: page-object-model-beyond-the-basics
 locale: ar
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

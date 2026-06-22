@@ -3,6 +3,7 @@ title: "GitHub OIDC → AWS（无需长期密钥）：正确的云自动化方�
 excerpt: "如何使用 GitHub Actions OIDC 承担 AWS IAM 角色并部署/上传工件，无需存储 AWS 密钥。包含最小权限 IAM、信任策略模式和故障排除技巧。"
 sourceSlug: github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
 locale: zh
+sourceHash: bfc0536b90edf6b9
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "استراتيجية الاختبار للشركات الناشئة: م�
 excerpt: "لديك مهندسان و100 ميزة. لا يمكنك اختبار كل شيء. إليك استراتيجية الاختبار القائمة على المخاطر التي أستخدمها لتعظيم التغطية بأقل استثمار."
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: ar
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

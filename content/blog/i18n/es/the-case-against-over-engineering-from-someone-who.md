@@ -3,6 +3,7 @@ title: "El caso contra la sobreingeniería (de alguien que lo ha hecho)"
 excerpt: "Una vez construí una arquitectura de plugins para un sistema que nunca necesitó plugins. 3 semanas de capas de abstracción para una función que nadie pidió. Así aprendí a parar."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: es
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

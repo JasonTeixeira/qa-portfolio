@@ -3,6 +3,7 @@ title: "لماذا أوثق كل نظام أبنيه (والقالب الذي أ
 excerpt: "لدي قالب من صفحة واحدة لتوثيق الأنظمة. يستغرق ملؤه 30 دقيقة ويوفر 30 ساعة من أسئلة 'كيف يعمل هذا؟' إليك القالب."
 sourceSlug: why-i-document-every-system-i-build-and-the-template-i-use
 locale: ar
+sourceHash: 0b54745b1b741a82
 machineTranslated: true
 ---
 

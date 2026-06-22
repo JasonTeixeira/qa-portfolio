@@ -3,6 +3,7 @@ title: "Pourquoi je documente chaque système que je construis (et le modèle qu
 excerpt: "J'ai un modèle d'une page pour la documentation système. Il faut 30 minutes pour le remplir et cela permet d'économiser 30 heures de questions « comment ça marche ? ». Voici le modèle."
 sourceSlug: why-i-document-every-system-i-build-and-the-template-i-use
 locale: fr
+sourceHash: 0b54745b1b741a82
 machineTranslated: true
 ---
 

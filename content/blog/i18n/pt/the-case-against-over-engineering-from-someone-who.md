@@ -3,6 +3,7 @@ title: "O Caso Contra a Engenharia Excessiva (De Alguém Que Já Fez Isso)"
 excerpt: "Certa vez, construí uma arquitetura de plugins para um sistema que nunca precisou deles. 3 semanas de camadas de abstração para um recurso que ninguém pediu. Aqui está como aprendi a parar."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: pt
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

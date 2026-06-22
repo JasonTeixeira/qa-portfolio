@@ -3,6 +3,7 @@ title: "尊重用户的错误处理"
 excerpt: "用户不在乎堆栈跟踪。他们关心哪里出了问题以及下一步该怎么做。以下是我如何设计帮助而非困扰用户的错误体验。"
 sourceSlug: error-handling-that-respects-your-users
 locale: zh
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Я прочитал 50 описаний вакансий старшег�
 excerpt: "Я проанализировал 50 вакансий для старших/ведущих инженеров в компаниях с зарплатой $180K-$350K. Закономерности очевидны — и большинство портфолио их полностью упускают."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: ru
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

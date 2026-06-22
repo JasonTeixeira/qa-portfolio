@@ -3,6 +3,7 @@ title: "Миф о 10x разработчике"
 excerpt: "Не существует 10x разработчиков. Есть разработчики с 10x ясностью в том, что строить, а что пропустить. Разница в принятии решений, а не в скорости набора текста."
 sourceSlug: the-myth-of-the-10x-developer
 locale: ru
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

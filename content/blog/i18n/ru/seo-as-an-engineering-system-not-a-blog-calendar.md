@@ -3,6 +3,7 @@ title: "SEO как инженерная система, а не календар
 excerpt: "Полезная SEO-система — это техническое здоровье, архитектура контента, внутренние ссылки, подтверждающие активы, измерения и распределение, работающие вместе."
 sourceSlug: seo-as-an-engineering-system-not-a-blog-calendar
 locale: ru
+sourceHash: 8df0628f2497a6b1
 machineTranslated: true
 ---
 

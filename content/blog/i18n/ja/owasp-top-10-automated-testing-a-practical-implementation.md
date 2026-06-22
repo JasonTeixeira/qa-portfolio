@@ -3,6 +3,7 @@ title: "OWASP Top 10 自動テスト：実践的な実装"
 excerpt: "CI/CDパイプラインでSQLインジェクション、XSS、認証の欠陥など、OWASPの10カテゴリを自動チェックするセキュリティスキャナを構築した方法。"
 sourceSlug: owasp-top-10-automated-testing-a-practical-implementation
 locale: ja
+sourceHash: 91060abfa5946a27
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Оценка RAG без театральных бенчмарков"
 excerpt: "Обоснованный способ оценки генерации с дополнением поиска: охват источников, точность цитирования, поведение при отказе и полезность на уровне задач."
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: ru
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

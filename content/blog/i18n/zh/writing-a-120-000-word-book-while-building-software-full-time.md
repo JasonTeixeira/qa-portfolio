@@ -3,6 +3,7 @@ title: "全职开发软件的同时撰写12万字书籍"
 excerpt: "我在构建Nexural平台的同时写了一本24章的交易书籍。以下是我如何兼顾两者、什么几乎击垮我，以及写作如何让我成为更好的工程师。"
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: zh
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

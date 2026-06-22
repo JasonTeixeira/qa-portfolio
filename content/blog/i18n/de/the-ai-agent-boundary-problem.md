@@ -3,6 +3,7 @@ title: "Das KI-Agenten-Grenzproblem"
 excerpt: "Der schwierige Teil bei KI-Agenten ist nicht, ihnen Werkzeuge zu geben. Es geht darum, zu entscheiden, wo der Agent aufhört, wo Software beginnt und wo ein Mensch rechenschaftspflichtig bleiben muss."
 sourceSlug: the-ai-agent-boundary-problem
 locale: de
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

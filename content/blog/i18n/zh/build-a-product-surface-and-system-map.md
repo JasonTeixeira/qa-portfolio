@@ -3,6 +3,7 @@ title: "构建产品表面与系统地图"
 excerpt: "将可见表面与底层操作系统分离，产品更易于构建、销售和教学。"
 sourceSlug: build-a-product-surface-and-system-map
 locale: zh
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Supabase 生产环境实战：185 张表前我希望知道的事"
 excerpt: "在生产环境运行 Supabase 一年、管理 185 张表后，这是一份诚实的评价——哪些令人惊叹，哪些令人沮丧，以及什么差点让我放弃。"
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: zh
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

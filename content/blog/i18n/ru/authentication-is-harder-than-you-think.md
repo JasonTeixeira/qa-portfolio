@@ -3,6 +3,7 @@ title: "Аутентификация сложнее, чем вы думаете"
 excerpt: "Я реализовывал аутентификацию 4 раза в разных проектах. Каждый раз думал, что это займет 2 дня. Каждый раз уходило 2 недели. Вот почему и что я сделал бы иначе."
 sourceSlug: authentication-is-harder-than-you-think
 locale: ru
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

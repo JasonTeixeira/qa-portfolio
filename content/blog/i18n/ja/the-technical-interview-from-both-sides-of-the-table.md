@@ -3,6 +3,7 @@ title: "テーブルの両側から見た技術面接"
 excerpt: "システム設計の問題に汗をかく候補者であり、それを評価する面接官でもありました。面接官が求めるものと候補者が準備するものの間には大きな隔たりがあります。"
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: ja
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Почему я отношусь к своему портфолио ка
 excerpt: "SLO, тренировки по инцидентам, ограничение скорости WAF и федерация OIDC — почему я управляю сайтом-портфолио с той же строгостью, что и корпоративной инфраструктурой, и что это сигнализирует менеджерам по найму."
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: ru
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

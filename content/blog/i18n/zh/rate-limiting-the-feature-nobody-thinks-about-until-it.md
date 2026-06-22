@@ -3,6 +3,7 @@ title: "速率限制：没人想到的功能，直到为时已晚"
 excerpt: "你的API在每秒10次请求时完美运行。到每秒10,000次时，它就崩溃了。以下是我如何实现既能保护又不惹恼合法用户的速率限制。"
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: zh
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

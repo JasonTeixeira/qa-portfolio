@@ -3,6 +3,7 @@ title: "OWASP Top 10 Автоматизированное тестировани
 excerpt: "Как я создал сканер безопасности, который автоматически проверяет SQL-инъекции, XSS, нарушенную аутентификацию и 7 других категорий OWASP в конвейерах CI/CD."
 sourceSlug: owasp-top-10-automated-testing-a-practical-implementation
 locale: ru
+sourceHash: 91060abfa5946a27
 machineTranslated: true
 ---
 

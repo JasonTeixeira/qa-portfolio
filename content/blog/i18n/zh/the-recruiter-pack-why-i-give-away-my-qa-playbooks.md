@@ -3,6 +3,7 @@ title: "招聘者工具包：我为何免费分享我的QA手册"
 excerpt: "我制作了一个可下载的ZIP包，内含我的简历、测试策略、架构示例和运营证据。免费分享你最好的作品，是你能做出的最佳职业选择。"
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: zh
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "页面对象模型：超越基础"
 excerpt: "大多数团队错误地实现了POM。以下是如何构建一个真正可维护、可扩展至数百个测试的Selenium框架。"
 sourceSlug: page-object-model-beyond-the-basics
 locale: zh
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

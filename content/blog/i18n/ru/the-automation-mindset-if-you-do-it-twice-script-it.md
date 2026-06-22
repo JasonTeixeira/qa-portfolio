@@ -3,6 +3,7 @@ title: "Менталитет автоматизации: если делаешь
 excerpt: "У меня 47 shell-скриптов, 6 CI-воркфлоу и cron-задача, которая пишет мне, когда истекает SSL-сертификат. Вот менталитет, стоящий за автоматизацией всего."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: ru
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "你的测试覆盖率数字在欺骗你"
 excerpt: "如果测试的是错误的80%，那么80%的测试覆盖率毫无意义。以下是我对覆盖率的看法——不是追逐的数字，而是盲点的地图。"
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: zh
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

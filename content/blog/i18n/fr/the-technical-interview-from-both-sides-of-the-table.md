@@ -3,6 +3,7 @@ title: "L'entretien technique des deux côtés de la table"
 excerpt: "J'ai été le candidat qui transpire à travers les questions de conception système et l'intervieweur qui les évalue. L'écart entre ce que recherchent les intervieweurs et ce que préparent les candidats est énorme."
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: fr
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "تشغيل شركة ذات مسؤولية محدودة كمهندس: م�
 excerpt: "أسست شركة Sage Ideas LLC. إليك ما تتركه مقالات 'بدء عمل استشاري' — الضرائب، التأمين، العقود، ولماذا أحتفظ بمدرج مالي شخصي."
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: ar
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

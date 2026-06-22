@@ -3,6 +3,7 @@ title: "एक इंजीनियर के रूप में LLC चला
 excerpt: "मैंने Sage Ideas LLC की स्थापना की। यहाँ वह बातें हैं जो 'कंसल्टिंग बिज़नेस शुरू करें' लेखों में नहीं बताई जातीं — टैक्स, बीमा, अनुबंध, और मैं व्यक्तिगत वित्तीय रनवे क्यों रखता हूँ।"
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: hi
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

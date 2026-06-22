@@ -3,6 +3,7 @@ title: "我读了50份高级工程师职位描述。以下是他们真正想要�
 excerpt: "我分析了50份薪资在18万到35万美元之间的高级/主管工程师职位招聘信息。模式很清晰——而大多数简历完全忽略了这些。"
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: zh
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

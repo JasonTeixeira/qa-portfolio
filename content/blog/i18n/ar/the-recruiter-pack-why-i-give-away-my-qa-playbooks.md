@@ -3,6 +3,7 @@ title: "حزمة المسؤول عن التوظيف: لماذا أقدم كتب 
 excerpt: "لقد أنشأت ملف ZIP قابل للتنزيل يحتوي على سيرتي الذاتية، واستراتيجيات الاختبار، ونماذج الهندسة، والأدلة التشغيلية. إليك لماذا تقديم أفضل أعمالك مجانًا هو أفضل خطوة مهنية يمكنك اتخاذها."
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: ar
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Umgebungsvariablen: Das Sicherheitsloch in jedem Startup"
 excerpt: "Ihre .env-Datei enthält Ihr Datenbank-Passwort, den Stripe-Secret-Key und AWS-Zugangsdaten. Sie liegt in einer Slack-Nachricht, auf dem Laptop eines Entwicklers und wahrscheinlich irgendwo in einem Docker-Image. Lassen Sie uns das beheben."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: de
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

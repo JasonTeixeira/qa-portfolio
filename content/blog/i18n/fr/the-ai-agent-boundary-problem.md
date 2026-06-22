@@ -3,6 +3,7 @@ title: "Le problème de frontière des agents IA"
 excerpt: "La partie difficile des agents IA n'est pas de leur donner des outils. C'est de décider où l'agent s'arrête, où le logiciel commence, et où un humain doit rester responsable."
 sourceSlug: the-ai-agent-boundary-problem
 locale: fr
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

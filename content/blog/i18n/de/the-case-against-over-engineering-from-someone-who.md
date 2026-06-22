@@ -3,6 +3,7 @@ title: "Der Fall gegen Over-Engineering (von jemandem, der es getan hat)"
 excerpt: "Ich habe einmal eine Plugin-Architektur für ein System gebaut, das nie Plugins brauchte. 3 Wochen Abstraktionsebenen für eine Funktion, nach der niemand gefragt hat. So habe ich gelernt, damit aufzuhören."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: de
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

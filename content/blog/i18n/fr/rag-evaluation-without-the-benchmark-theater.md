@@ -3,6 +3,7 @@ title: "Évaluation RAG sans le théâtre des benchmarks"
 excerpt: "Une approche concrète pour évaluer la génération augmentée par récupération : couverture des sources, fidélité des citations, comportement de refus et utilité au niveau de la tâche."
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: fr
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

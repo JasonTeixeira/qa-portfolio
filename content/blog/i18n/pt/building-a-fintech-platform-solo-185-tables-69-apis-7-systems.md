@@ -3,6 +3,7 @@ title: "Construindo uma Plataforma Fintech Solo: 185 Tabelas, 69 APIs, 7 Sistema
 excerpt: "A história completa de arquitetura e construção do ecossistema Nexural do zero — design de banco de dados, arquitetura de API, integração com Stripe e lições de ser o único engenheiro em uma plataforma fintech em produção."
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: pt
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

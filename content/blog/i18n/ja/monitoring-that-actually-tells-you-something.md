@@ -3,6 +3,7 @@ title: "実際に何かを教えてくれる監視"
 excerpt: "47個のパネルがすべて緑色のダッシュボードは監視ではありません。飾りです。私が実際に監視しているものと、ほとんどのアラートが無意味なノイズである理由をご紹介します。"
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: ja
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Manejo de Errores que Respeta a tus Usuarios"
 excerpt: "A tus usuarios no les importan los rastreos de pila. Les importa qué salió mal y qué hacer a continuación. Así es como diseño experiencias de error que ayudan en lugar de frustrar."
 sourceSlug: error-handling-that-respects-your-users
 locale: es
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Pruebas de rendimiento: De cero a producción"
 excerpt: "Cómo creé un conjunto de pruebas de rendimiento que identificó 3 cuellos de botella críticos antes de la producción y mejoró los tiempos de respuesta de la API en un 40%."
 sourceSlug: performance-testing-from-zero-to-production
 locale: es
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

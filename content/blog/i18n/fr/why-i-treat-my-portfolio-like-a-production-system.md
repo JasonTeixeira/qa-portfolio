@@ -3,6 +3,7 @@ title: "Pourquoi je gère mon portfolio comme un système de production"
 excerpt: "SLO, exercices d'incident, limitation de débit WAF et fédération OIDC — pourquoi j'opère mon site portfolio avec la même rigueur que l'infrastructure d'entreprise, et ce que cela signale aux recruteurs."
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: fr
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

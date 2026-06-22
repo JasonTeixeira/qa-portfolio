@@ -3,6 +3,7 @@ title: "Создание для следующего инженера: код, �
 excerpt: "Каждая созданная мной система спроектирована так, чтобы работать без меня. Это не везение — это осознанный подход к эксплуатации. Вот что я делаю иначе."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: ru
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

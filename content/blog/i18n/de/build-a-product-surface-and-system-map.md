@@ -3,6 +3,7 @@ title: "Erstellen einer Produktoberfläche und Systemkarte"
 excerpt: "Ein Produkt lässt sich einfacher bauen, verkaufen und vermitteln, wenn Sie die sichtbare Oberfläche vom darunterliegenden Betriebssystem trennen."
 sourceSlug: build-a-product-surface-and-system-map
 locale: de
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

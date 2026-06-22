@@ -3,6 +3,7 @@ title: "बेंचमार्क थिएटर के बिना RAG म�
 excerpt: "पुनर्प्राप्ति-वर्धित पीढ़ी का मूल्यांकन करने का एक आधारभूत तरीका: स्रोत कवरेज, उद्धरण निष्ठा, अस्वीकार व्यवहार, और कार्य-स्तरीय उपयोगिता।"
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: hi
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

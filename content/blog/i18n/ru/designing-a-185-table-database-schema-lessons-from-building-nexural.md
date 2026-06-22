@@ -3,6 +3,7 @@ title: "Проектирование схемы базы данных на 185 �
 excerpt: "Как я спроектировал нормализованную схему базы данных для финтех-платформы с 7 взаимосвязанными системами. Фазы схемы, политики RLS, компромиссы денормализации и стратегии миграции."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: ru
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

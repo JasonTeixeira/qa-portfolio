@@ -3,6 +3,7 @@ title: "AI Agent边界问题"
 excerpt: "AI Agent的难点不在于赋予工具，而在于界定Agent的边界、软件的起点以及人类必须保持问责的领域。"
 sourceSlug: the-ai-agent-boundary-problem
 locale: zh
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

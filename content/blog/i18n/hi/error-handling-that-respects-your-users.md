@@ -3,6 +3,7 @@ title: "त्रुटि प्रबंधन जो आपके उपय�
 excerpt: "आपके उपयोगकर्ता स्टैक ट्रेस की परवाह नहीं करते। वे परवाह करते हैं कि क्या गलत हुआ और आगे क्या करना है। यहाँ बताया गया है कि मैं त्रुटि अनुभवों को कैसे डिज़ाइन करता हूँ जो मदद करते हैं, निराश नहीं करते।"
 sourceSlug: error-handling-that-respects-your-users
 locale: hi
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

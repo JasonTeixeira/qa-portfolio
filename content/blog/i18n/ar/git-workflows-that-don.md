@@ -3,6 +3,7 @@ title: "سير عمل Git التي لا تجعلك ترغب في الاستقا�
 excerpt: "Trunk-based مقابل GitFlow مقابل GitHub Flow — لقد استخدمت الثلاثة. إليك ما ينجح فعليًا للمطورين المنفردين والفرق الصغيرة، ولماذا معظم سير عمل Git معقدة بشكل مفرط."
 sourceSlug: git-workflows-that-don
 locale: ar
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

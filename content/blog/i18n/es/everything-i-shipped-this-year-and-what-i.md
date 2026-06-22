@@ -3,6 +3,7 @@ title: "Todo lo que lancé este año (y qué recortaría en retrospectiva)"
 excerpt: "Retrospectiva de fin de año: 7 sistemas, 185 tablas, 51 publicaciones de blog, un libro y una carrera de trading. Qué valió la pena, qué no, y qué estoy construyendo a continuación."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: es
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

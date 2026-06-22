@@ -3,6 +3,7 @@ title: "Tests automatisés OWASP Top 10 : une mise en œuvre pratique"
 excerpt: "Comment j'ai construit un scanner de sécurité qui vérifie automatiquement les injections SQL, XSS, l'authentification défaillante et 7 autres catégories OWASP dans les pipelines CI/CD."
 sourceSlug: owasp-top-10-automated-testing-a-practical-implementation
 locale: fr
+sourceHash: 91060abfa5946a27
 machineTranslated: true
 ---
 

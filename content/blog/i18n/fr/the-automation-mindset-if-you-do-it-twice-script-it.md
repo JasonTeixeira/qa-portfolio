@@ -3,6 +3,7 @@ title: "L'état d'esprit de l'automatisation : si vous le faites deux fois, scri
 excerpt: "J'ai 47 scripts shell, 6 workflows CI et une tâche cron qui m'envoie un SMS quand mon certificat SSL expire. Voici l'état d'esprit derrière l'automatisation de tout."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: fr
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

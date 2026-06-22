@@ -3,6 +3,7 @@ title: "Docker en CI/CD: Los patrones que redujeron mi tiempo de pipeline en un 
 excerpt: "Caché de capas, compilaciones multi-etapa, BuildKit y los patrones de Docker que llevaron mi pipeline de CI de 45 minutos a 8 minutos."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: es
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

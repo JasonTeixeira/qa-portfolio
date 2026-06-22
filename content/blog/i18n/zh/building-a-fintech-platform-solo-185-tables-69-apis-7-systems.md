@@ -3,6 +3,7 @@ title: "独自构建金融科技平台：185张表、69个API、7个系统"
 excerpt: "从头架构并构建Nexural生态系统的完整故事——数据库设计、API架构、Stripe集成，以及作为生产级金融科技平台唯一工程师的经验教训。"
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: zh
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

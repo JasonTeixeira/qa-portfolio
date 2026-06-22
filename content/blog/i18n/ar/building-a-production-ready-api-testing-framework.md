@@ -3,6 +3,7 @@ title: "بناء إطار اختبار API جاهز للإنتاج"
 excerpt: "تعلم كيف بنيت إطار اختبار API قلل الاختبارات غير المستقرة من 10% إلى <1% باستخدام منطق إعادة المحاولة الذكي، والتحقق من صحة Pydantic، وتجميع الجلسات."
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: ar
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

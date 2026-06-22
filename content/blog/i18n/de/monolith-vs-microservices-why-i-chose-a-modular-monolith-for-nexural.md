@@ -3,6 +3,7 @@ title: "Monolith vs. Microservices: Warum ich mich für einen modularen Monolith
 excerpt: "Die Nexural-Plattform hat 7 Systeme, läuft aber als modularer Monolith, nicht als Microservices. Hier erfahren Sie, warum das für einen Solo-Entwickler die richtige Entscheidung war und wann ich aufteilen würde."
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: de
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

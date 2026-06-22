@@ -3,6 +3,7 @@ title: "没人写下的架构决策"
 excerpt: "我们花数周在Kafka和RabbitMQ之间做选择，却从不记录原因。ADR只需15分钟，却能省下数月‘我们为什么这么做？’的讨论。"
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: zh
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

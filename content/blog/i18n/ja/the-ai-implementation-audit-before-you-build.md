@@ -3,6 +3,7 @@ title: "AI実装監査：構築前のチェックポイント"
 excerpt: "AIエージェント、コパイロット、RAGシステム、ワークフロー自動化を構築する前に、ワークフロー、データ、リスク、コスト、測定ループを監査しましょう。"
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: ja
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

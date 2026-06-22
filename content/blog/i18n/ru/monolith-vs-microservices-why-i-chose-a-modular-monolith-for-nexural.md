@@ -3,6 +3,7 @@ title: "Монолит против микросервисов: почему я 
 excerpt: "Платформа Nexural состоит из 7 систем, но работает как модульный монолит, а не микросервисы. Вот почему это было правильным решением для одного разработчика и когда я бы разделил их."
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: ru
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

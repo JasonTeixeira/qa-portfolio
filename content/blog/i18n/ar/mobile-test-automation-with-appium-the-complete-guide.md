@@ -3,6 +3,7 @@ title: "اختبار الأتمتة للجوال باستخدام Appium: الد
 excerpt: "بناء إطار اختبار عبر المنصات قلص وقت الانحدار من يومين إلى ساعتين واكتشف 23 خطأ خاصًا بالجهاز قبل الإصدار."
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: ar
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

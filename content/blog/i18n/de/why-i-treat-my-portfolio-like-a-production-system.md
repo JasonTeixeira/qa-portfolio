@@ -3,6 +3,7 @@ title: "Warum ich mein Portfolio wie ein Produktionssystem betreibe"
 excerpt: "SLOs, Incident Drills, WAF-Ratenbegrenzung und OIDC-Föderation – warum ich meine Portfolio-Seite mit derselben Strenge betreibe wie Unternehmensinfrastruktur und was das Personalverantwortlichen signalisiert."
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: de
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

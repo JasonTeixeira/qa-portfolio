@@ -3,6 +3,7 @@ title: "كيف أنظم مشروع Next.js (بعد 6 تطبيقات إنتاجي
 excerpt: "اتفاقيات المجلدات، أنماط جلب البيانات، تنظيم المكونات، وهيكل الملفات الذي يتوسع من MVP إلى 185 جدول قاعدة بيانات دون أن يصبح غير قابل للإدارة."
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: ar
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

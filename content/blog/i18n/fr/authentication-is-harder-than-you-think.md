@@ -3,6 +3,7 @@ title: "L'authentification est plus difficile que vous ne le pensez"
 excerpt: "J'ai implémenté l'authentification 4 fois dans différents projets. Chaque fois, je pensais que cela prendrait 2 jours. Chaque fois, cela a pris 2 semaines. Voici pourquoi, et ce que je ferais différemment."
 sourceSlug: authentication-is-harder-than-you-think
 locale: fr
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

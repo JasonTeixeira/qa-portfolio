@@ -3,6 +3,7 @@ title: "अकेले फिनटेक प्लेटफॉर्म बन
 excerpt: "स्क्रैच से Nexural इकोसिस्टम को आर्किटेक्ट और बनाने की पूरी कहानी — डेटाबेस डिज़ाइन, API आर्किटेक्चर, Stripe एकीकरण, और प्रोडक्शन फिनटेक प्लेटफॉर्म पर एकमात्र इंजीनियर होने के सबक।"
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: hi
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "如何自我审查代码（当没有其他人时）"
 excerpt: "独自开发意味着没有代码审查。我开发了一套自我审查流程，能捕捉到第二双眼睛会发现80%的问题。首先从暂时离开开始。"
 sourceSlug: how-to-review-your-own-code-when-there
 locale: zh
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

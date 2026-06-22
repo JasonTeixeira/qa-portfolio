@@ -3,6 +3,7 @@ title: "Beheben von Docker Compose-Verbindungsfehlern in CI/CD"
 excerpt: "Habe 4 Stunden damit verbracht, 'Connection refused'-Fehler in Jenkins zu debuggen. Hier ist, was ich über Docker-Netzwerke in CI-Pipelines gelernt habe."
 sourceSlug: fixing-docker-compose-connection-errors-in-ci-cd
 locale: de
+sourceHash: 8e0431f892a3afac
 machineTranslated: true
 ---
 

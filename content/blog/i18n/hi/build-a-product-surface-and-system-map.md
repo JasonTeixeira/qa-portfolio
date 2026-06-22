@@ -3,6 +3,7 @@ title: "उत्पाद सतह और सिस्टम मैप बन�
 excerpt: "जब आप दृश्य सतह को उसके नीचे के ऑपरेटिंग सिस्टम से अलग करते हैं, तो उत्पाद बनाना, बेचना और सिखाना आसान हो जाता है।"
 sourceSlug: build-a-product-surface-and-system-map
 locale: hi
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

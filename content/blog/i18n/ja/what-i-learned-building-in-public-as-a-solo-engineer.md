@@ -3,6 +3,7 @@ title: "ソロエンジニアとして公開開発で学んだこと"
 excerpt: "Nexuralエコシステム構築、先物取引、執筆、そしてすべての記録の1年間。成功と失敗、そして今日始める人に伝えたいこと。"
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: ja
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

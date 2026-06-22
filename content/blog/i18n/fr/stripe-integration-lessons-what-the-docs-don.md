@@ -3,6 +3,7 @@ title: "Leçons d'intégration Stripe : Ce que la documentation ne vous dit pas"
 excerpt: "Idempotence des webhooks, machines d'état des abonnements, stratégies de relance et les cas limites qui casseront votre système de facturation si vous ne les gérez pas."
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: fr
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

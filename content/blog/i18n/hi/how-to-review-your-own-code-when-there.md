@@ -3,6 +3,7 @@ title: "अपने कोड की समीक्षा कैसे कर�
 excerpt: "एकल इंजीनियरिंग का मतलब है कोड समीक्षा न होना। मैंने एक स्व-समीक्षा प्रक्रिया विकसित की है जो 80% उन चीज़ों को पकड़ लेती है जो दूसरी जोड़ी आँखें ढूंढ़तीं। इसकी शुरुआत दूर हटकर देखने से होती है।"
 sourceSlug: how-to-review-your-own-code-when-there
 locale: hi
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

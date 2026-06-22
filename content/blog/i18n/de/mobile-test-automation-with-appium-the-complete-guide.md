@@ -3,6 +3,7 @@ title: "Mobile Test Automation mit Appium: Der vollständige Leitfaden"
 excerpt: "Entwickelt ein plattformübergreifendes mobiles Test-Framework, das die Regressionszeit von 2 Tagen auf 2 Stunden reduzierte und 23 gerätespezifische Fehler vor der Veröffentlichung fand."
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: de
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

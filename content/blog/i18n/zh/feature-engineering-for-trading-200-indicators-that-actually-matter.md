@@ -3,6 +3,7 @@ title: "交易中的特征工程：200+真正重要的指标"
 excerpt: "我是如何构建AlphaStream的特征工程管道的——哪些指标能预测价格变动，哪些是噪音，以及如何选择能泛化的特征。"
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: zh
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

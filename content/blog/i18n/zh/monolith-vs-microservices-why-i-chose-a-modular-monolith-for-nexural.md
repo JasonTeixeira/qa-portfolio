@@ -3,6 +3,7 @@ title: "单体架构 vs 微服务：为何我为Nexural选择了模块化单体"
 excerpt: "Nexural平台有7个系统，但以模块化单体而非微服务运行。作为独立开发者，这是正确的选择，以及何时我会拆分。"
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: zh
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

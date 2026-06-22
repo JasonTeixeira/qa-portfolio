@@ -3,6 +3,7 @@ title: "ऑटोमेशन मानसिकता: अगर आप इस�
 excerpt: "मेरे पास 47 शेल स्क्रिप्ट, 6 CI वर्कफ़्लो और एक क्रॉन जॉब है जो मुझे टेक्स्ट करता है जब मेरा SSL प्रमाणपत्र समाप्त हो रहा होता है। यहाँ हर चीज़ को ऑटोमेट करने की मानसिकता है।"
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: hi
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

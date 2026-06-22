@@ -3,6 +3,7 @@ title: "تحسين تكاليف AWS: كيف أحافظ على منصة إنتا�
 excerpt: "تعمل منصة Nexural على AWS مع Vercel وSupabase وخدمات AWS المستهدفة. إليك كيف أحافظ على التكاليف أقل من 50 دولارًا شهريًا لمنصة تحتوي على 185 جدولًا وبيانات في الوقت الفعلي."
 sourceSlug: aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
 locale: ar
+sourceHash: 7589c8d533227578
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Aufbau eines produktionsreifen API-Testframeworks"
 excerpt: "Erfahren Sie, wie ich ein API-Testframework entwickelt habe, das fehlerhafte Tests von 10 % auf <1 % reduziert hat – mit intelligenter Wiederholungslogik, Pydantic-Validierung und Session-Pooling."
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: de
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

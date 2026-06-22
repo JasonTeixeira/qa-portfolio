@@ -3,6 +3,7 @@ title: "コードを自分でレビューする方法（他に誰もいない場
 excerpt: "ソロエンジニアリングではコードレビューがありません。私は、他の人が見つけるであろう問題の80%をキャッチする自己レビュープロセスを開発しました。まずは距離を置くことから始まります。"
 sourceSlug: how-to-review-your-own-code-when-there
 locale: ja
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

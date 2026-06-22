@@ -3,6 +3,7 @@ title: "誰も書き留めないアーキテクチャ決定"
 excerpt: "KafkaとRabbitMQの選択に何週間も費やすのに、なぜそうしたのかを文書化しない。ADRなら15分で済み、『なぜこうしたのか』という問い合わせに何ヶ月も費やすのを防げる。"
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: ja
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

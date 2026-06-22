@@ -3,6 +3,7 @@ title: "Warum ich meistens Raw SQL statt eines ORMs verwende"
 excerpt: "ORMs sind großartig, bis sie es nicht sind. Nachdem ich generierte Abfragen debuggt habe, die 30 Sekunden auf einer Datenbank mit 185 Tabellen brauchten, bin ich für die heißen Pfade auf Raw SQL umgestiegen. Hier ist, wann jedes sinnvoll ist."
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: de
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

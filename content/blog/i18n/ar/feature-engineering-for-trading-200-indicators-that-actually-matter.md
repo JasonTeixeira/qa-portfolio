@@ -3,6 +3,7 @@ title: "هندسة الميزات للتداول: أكثر من 200 مؤشر م�
 excerpt: "كيف بنيت خط أنابيب هندسة الميزات لـ AlphaStream — أي المؤشرات تتنبأ بحركة السعر، وأيها ضوضاء، وكيفية اختيار الميزات التي تعمم."
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: ar
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

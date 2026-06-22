@@ -3,6 +3,7 @@ title: "Comment construire un mur d'amour qui ne semble pas faux"
 excerpt: "Une page de preuve fonctionne lorsqu'elle montre la source, la méthode, les reçus et les limites. Voici le système derrière un mur de témoignages qui ne semble pas fabriqué."
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: fr
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

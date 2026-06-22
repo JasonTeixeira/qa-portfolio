@@ -3,6 +3,7 @@ title: "Git-рабочие процессы, от которых не хочет
 excerpt: "Trunk-based против GitFlow против GitHub Flow — я использовал все три. Вот что действительно работает для соло-разработчиков и небольших команд, и почему большинство Git-процессов излишне сложны."
 sourceSlug: git-workflows-that-don
 locale: ru
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

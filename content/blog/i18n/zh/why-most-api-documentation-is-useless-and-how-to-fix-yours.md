@@ -3,6 +3,7 @@ title: "为什么大多数API文档毫无用处（以及如何改进）"
 excerpt: "如果你的API文档列出了所有端点，却没有告诉我如何完成一个任务，那它只是伪装成文档的参考手册。以下是开发者真正需要的。"
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: zh
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

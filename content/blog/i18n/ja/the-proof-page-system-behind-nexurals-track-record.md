@@ -3,6 +3,7 @@ title: "Nexuralの実績を支える証明ページシステム"
 excerpt: "Nexuralの実績ページを支える証明アーキテクチャの解説：証拠、メンバーの声、方法論、免責事項、コンバージョンパス。"
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: ja
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

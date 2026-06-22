@@ -3,6 +3,7 @@ title: "Erstellen eines KI-Discord-Bots für eine Trading-Community"
 excerpt: "Wie ich die Nexural Discord AI Engine entwickelt habe – 30+ Befehle, GPT-4o-Integration, automatische Moderation und Marktinformationen. Erkenntnisse zur KI-Sicherheit in finanziellen Kontexten."
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: de
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

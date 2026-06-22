@@ -3,6 +3,7 @@ title: "La différence entre témoignages et preuves"
 excerpt: "Les témoignages sont des citations. La preuve est un système : source, contexte, reçu, méthodologie, limites et action suivante."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: fr
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

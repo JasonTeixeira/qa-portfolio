@@ -3,6 +3,7 @@ title: "Was ich als Solo-Entwickler beim öffentlichen Bauen gelernt habe"
 excerpt: "Ein Jahr Aufbau des Nexural-Ökosystems, Futures-Handel, Schreiben eines Buches und Dokumentieren von allem. Die Erfolge, die Misserfolge und was ich jemandem sagen würde, der heute anfängt."
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: de
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

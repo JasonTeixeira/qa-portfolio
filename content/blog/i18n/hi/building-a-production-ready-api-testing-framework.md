@@ -3,6 +3,7 @@ title: "प्रोडक्शन-रेडी API परीक्षण ढ�
 excerpt: "जानें कि कैसे मैंने बुद्धिमान पुनर्प्रयास तर्क, Pydantic सत्यापन और सत्र पूलिंग का उपयोग करके अस्थिर परीक्षणों को 10% से <1% तक कम करने वाला API परीक्षण ढांचा बनाया।"
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: hi
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

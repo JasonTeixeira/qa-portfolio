@@ -3,6 +3,7 @@ title: "Límite de tasa: La función en la que nadie piensa hasta que es demasia
 excerpt: "Tu API funciona perfectamente a 10 solicitudes por segundo. A 10,000, colapsa. Así es como implemento límites de tasa que protegen sin molestar a los usuarios legítimos."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: es
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

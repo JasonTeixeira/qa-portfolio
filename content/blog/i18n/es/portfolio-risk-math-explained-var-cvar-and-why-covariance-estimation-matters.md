@@ -3,6 +3,7 @@ title: "Matemáticas de Riesgo de Cartera Explicadas: VaR, CVaR y por qué la Es
 excerpt: "Las matemáticas detrás de RiskRadar — Valor en Riesgo, CVaR, contracción de Ledoit-Wolf y simulación Monte Carlo explicadas para ingenieros que no son cuantitativos."
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: es
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

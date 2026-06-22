@@ -3,6 +3,7 @@ title: "Como Depuro Problemas em Produção (Um Framework Real, Não Palpites)"
 excerpt: "A maioria dos desenvolvedores depura alterando coisas até o erro desaparecer. Eu depuro estreitando o raio de explosão sistematicamente. Aqui está meu framework real."
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: pt
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

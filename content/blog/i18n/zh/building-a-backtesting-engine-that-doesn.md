@@ -3,6 +3,7 @@ title: "构建不欺骗你的回测引擎"
 excerpt: "大多数回测引擎产生的结果看起来很棒，但在实盘交易中却不堪一击。以下是我如何构建QuantumTrader的回测引擎以诚实反映性能。"
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: zh
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

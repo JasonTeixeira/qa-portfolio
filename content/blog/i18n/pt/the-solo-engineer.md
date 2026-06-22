@@ -3,6 +3,7 @@ title: "Kit de Ferramentas do Engenheiro Solo: Ferramentas que Substituem uma Eq
 excerpt: "Como opero como engenheiro solo construindo sistemas de produção — as ferramentas, fluxos de trabalho e automações que permitem que uma pessoa faça o trabalho de uma pequena equipe."
 sourceSlug: the-solo-engineer
 locale: pt
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

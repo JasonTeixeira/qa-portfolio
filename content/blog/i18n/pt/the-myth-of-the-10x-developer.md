@@ -3,6 +3,7 @@ title: "O Mito do Desenvolvedor 10x"
 excerpt: "Não existem desenvolvedores 10x. Existem desenvolvedores com 10x de clareza sobre o que construir e o que pular. A diferença é a tomada de decisão, não a velocidade de digitação."
 sourceSlug: the-myth-of-the-10x-developer
 locale: pt
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

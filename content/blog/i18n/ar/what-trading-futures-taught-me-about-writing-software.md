@@ -3,6 +3,7 @@ title: "ما علمته إياي تداول العقود الآجلة عن كت�
 excerpt: "أتداول عقود ES وNQ وCL الآجلة كل صباح قبل كتابة الكود. أوجه التشابه بين إدارة المخاطر في التداول وإدارة المخاطر في البرمجيات متشابهة بشكل غير مريح."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: ar
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

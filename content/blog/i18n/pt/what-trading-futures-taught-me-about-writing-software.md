@@ -3,6 +3,7 @@ title: "O que negociar futuros me ensinou sobre escrever software"
 excerpt: "Negocio futuros de ES, NQ e CL todas as manhãs antes de escrever código. Os paralelos entre gestão de risco em negociações e gestão de risco em software são desconfortavelmente semelhantes."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: pt
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

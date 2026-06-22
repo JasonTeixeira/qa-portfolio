@@ -3,6 +3,7 @@ title: "Аудит внедрения ИИ перед разработкой"
 excerpt: "Прежде чем создавать ИИ-агента, копилота, RAG-систему или автоматизацию рабочих процессов, проверьте рабочий процесс, данные, риски, затраты и цикл измерений."
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: ru
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

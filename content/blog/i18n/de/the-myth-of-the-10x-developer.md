@@ -3,6 +3,7 @@ title: "Der Mythos des 10x-Entwicklers"
 excerpt: "Es gibt keine 10x-Entwickler. Es gibt Entwickler mit 10x Klarheit darüber, was gebaut und was weggelassen werden sollte. Der Unterschied liegt in der Entscheidungsfindung, nicht in der Tippgeschwindigkeit."
 sourceSlug: the-myth-of-the-10x-developer
 locale: de
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

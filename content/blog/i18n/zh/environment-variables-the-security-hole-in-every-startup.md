@@ -3,6 +3,7 @@ title: "环境变量：每个初创公司的安全漏洞"
 excerpt: "你的 .env 文件里有数据库密码、Stripe 密钥和 AWS 凭证。它出现在 Slack 消息里、开发者的笔记本上，可能还在某个 Docker 镜像里。让我们解决这个问题。"
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: zh
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "كيف أُصحّح مشكلات الإنتاج (إطار عمل حقي�
 excerpt: "معظم المطورين يُصحّحون بتغيير الأشياء حتى يختفي الخطأ. أنا أُصحّح بتضييق نطاق التأثير بشكل منهجي. إليك إطار عملي الفعلي."
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: ar
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

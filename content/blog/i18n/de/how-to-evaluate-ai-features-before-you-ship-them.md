@@ -3,6 +3,7 @@ title: "Wie man KI-Funktionen vor der Auslieferung bewertet"
 excerpt: "Ein praktischer Bewertungszyklus für KI-Funktionen: das Versprechen definieren, eine Fehlermenge aufbauen, die langweiligen Fälle testen und einen Menschen im Loop behalten, bis das System Vertrauen verdient."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: de
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

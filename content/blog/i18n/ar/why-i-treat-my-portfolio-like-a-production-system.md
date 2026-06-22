@@ -3,6 +3,7 @@ title: "لماذا أعامل محفظتي الاستثمارية كنظام إ�
 excerpt: "SLOs، تدريبات الحوادث، تحديد معدل WAF، واتحاد OIDC — لماذا أدير موقع محفظتي بنفس الدقة التي أدير بها البنية التحتية للمؤسسات، وما الذي يشير إليه لمديري التوظيف."
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: ar
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

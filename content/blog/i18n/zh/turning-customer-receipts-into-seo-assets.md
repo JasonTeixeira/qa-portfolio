@@ -3,6 +3,7 @@ title: "将客户收据转化为SEO资产"
 excerpt: "客户证明不应只存放在截图文件夹中。通过结构化处理，包括来源、查询意图、内部链接和免责声明，它可以成为搜索资产。"
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: zh
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

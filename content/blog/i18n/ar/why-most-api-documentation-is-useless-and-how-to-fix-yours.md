@@ -3,6 +3,7 @@ title: "لماذا معظم توثيق API عديم الفائدة (وكيفية
 excerpt: "إذا كانت وثائق API الخاصة بك تسرد كل نقطة نهاية ولكنها لا توضح لي كيفية إكمال مهمة، فهي دليل مرجعي متنكر في شكل توثيق. إليك ما يحتاجه المطورون بالفعل."
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: ar
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

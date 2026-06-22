@@ -3,6 +3,7 @@ title: "Docker em CI/CD: Os Padrões que Reduziram Meu Pipeline em 82%"
 excerpt: "Cache de camadas, builds multi-estágio, BuildKit e os padrões Docker que reduziram meu pipeline de CI de 45 para 8 minutos."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: pt
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

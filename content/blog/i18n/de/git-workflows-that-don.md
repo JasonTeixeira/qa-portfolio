@@ -3,6 +3,7 @@ title: "Git-Workflows, die einen nicht zum Aufgeben bringen"
 excerpt: "Trunk-based vs. GitFlow vs. GitHub Flow – ich habe alle drei ausprobiert. Hier erfährst du, was für Solo-Entwickler und kleine Teams wirklich funktioniert und warum die meisten Git-Workflows übermäßig kompliziert sind."
 sourceSlug: git-workflows-that-don
 locale: de
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

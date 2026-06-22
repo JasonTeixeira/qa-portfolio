@@ -3,6 +3,7 @@ title: "Projetando um Esquema de Banco de Dados com 185 Tabelas: Lições da Con
 excerpt: "Como projetei um esquema de banco de dados normalizado para uma plataforma fintech com 7 sistemas interconectados. Fases do esquema, políticas RLS, trade-offs de desnormalização e estratégias de migração."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: pt
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

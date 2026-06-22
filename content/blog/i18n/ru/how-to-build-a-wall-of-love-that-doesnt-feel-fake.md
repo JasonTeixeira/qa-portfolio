@@ -3,6 +3,7 @@ title: "Как построить стену любви, которая не к�
 excerpt: "Страница доказательств работает, когда показывает источник, метод, квитанции и ограничения. Вот система, стоящая за стеной отзывов, которая не выглядит искусственной."
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: ru
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

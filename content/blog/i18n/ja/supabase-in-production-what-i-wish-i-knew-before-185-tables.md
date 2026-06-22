@@ -3,6 +3,7 @@ title: "Supabase 本番運用：185テーブルを前に知っておきたかっ
 excerpt: "Supabaseを本番環境で1年間、185テーブルと共に運用した正直なレビュー — 素晴らしい点、苛立つ点、そして乗り換え寸前になった理由。"
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: ja
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Creación de un Bot de IA para Discord en una Comunidad de Trading"
 excerpt: "Cómo construí el Motor de IA Nexural para Discord: más de 30 comandos, integración con GPT-4o, moderación automática e inteligencia de mercado. Lecciones sobre seguridad de IA en contextos financieros."
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: es
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

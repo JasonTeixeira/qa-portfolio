@@ -3,6 +3,7 @@ title: "A diferença entre depoimentos e provas"
 excerpt: "Depoimentos são citações. Prova é um sistema: fonte, contexto, recibo, metodologia, limites e próxima ação."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: pt
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Teste de Performance: Do Zero à Produção"
 excerpt: "Como construí um conjunto de testes de performance que identificou 3 gargalos críticos antes da produção e melhorou os tempos de resposta da API em 40%."
 sourceSlug: performance-testing-from-zero-to-production
 locale: pt
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

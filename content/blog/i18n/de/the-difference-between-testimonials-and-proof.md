@@ -3,6 +3,7 @@ title: "Der Unterschied zwischen Testimonials und Nachweisen"
 excerpt: "Testimonials sind Zitate. Nachweise sind ein System: Quelle, Kontext, Beleg, Methodik, Grenzen und nächster Schritt."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: de
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

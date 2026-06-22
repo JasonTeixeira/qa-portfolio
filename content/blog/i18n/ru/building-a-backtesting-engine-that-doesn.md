@@ -3,6 +3,7 @@ title: "Создание движка бэктестинга, который н�
 excerpt: "Большинство движков бэктестинга выдают отличные результаты, которые рушатся в реальной торговле. Вот как я создал движок бэктестинга QuantumTrader, честно оценивающий производительность."
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: ru
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

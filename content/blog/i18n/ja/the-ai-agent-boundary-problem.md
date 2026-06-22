@@ -3,6 +3,7 @@ title: "AIエージェントの境界問題"
 excerpt: "AIエージェントの難しい部分はツールを与えることではない。エージェントがどこで止まり、ソフトウェアがどこから始まり、人間がどこで責任を持つべきかを決めることだ。"
 sourceSlug: the-ai-agent-boundary-problem
 locale: ja
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

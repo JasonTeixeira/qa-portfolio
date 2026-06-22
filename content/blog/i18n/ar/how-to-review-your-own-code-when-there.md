@@ -3,6 +3,7 @@ title: "كيف تراجع كودك بنفسك (عندما لا يوجد أحد �
 excerpt: "الهندسة الفردية تعني عدم وجود مراجعات للكود. لقد طورت عملية مراجعة ذاتية تكتشف 80% مما كانت ستجده عين ثانية. تبدأ بالابتعاد."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: ar
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

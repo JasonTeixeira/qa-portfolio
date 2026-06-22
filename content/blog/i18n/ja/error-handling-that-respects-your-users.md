@@ -3,6 +3,7 @@ title: "ユーザーを尊重するエラーハンドリング"
 excerpt: "ユーザーはスタックトレースには興味がありません。何が問題で、次に何をすべきかに関心があります。ユーザーを助け、苛立たせないエラー体験の設計方法をご紹介します。"
 sourceSlug: error-handling-that-respects-your-users
 locale: ja
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

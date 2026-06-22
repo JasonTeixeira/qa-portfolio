@@ -3,6 +3,7 @@ title: "Wie man eine Liebeswand baut, die sich nicht falsch anfühlt"
 excerpt: "Eine Beweisseite funktioniert, wenn sie Quelle, Methode, Belege und Grenzen zeigt. Hier ist das System hinter einer Testimonial-Wand, die sich nicht konstruiert anfühlt."
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: de
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

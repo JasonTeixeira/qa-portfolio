@@ -3,6 +3,7 @@ title: "بناء منصة فينتك بمفردك: 185 جدولاً، 69 واج�
 excerpt: "القصة الكاملة لتصميم وبناء نظام Nexural من الصفر — تصميم قاعدة البيانات، بنية واجهات البرمجة، تكامل Stripe، والدروس المستفادة من كونك المهندس الوحيد لمنصة فينتك إنتاجية."
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: ar
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

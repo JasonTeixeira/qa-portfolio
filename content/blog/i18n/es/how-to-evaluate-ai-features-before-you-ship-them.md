@@ -3,6 +3,7 @@ title: "Cómo evaluar las funciones de IA antes de lanzarlas"
 excerpt: "Un ciclo de evaluación práctico para funciones de IA: define la promesa, crea un conjunto de fallos, prueba los casos aburridos y mantén a un humano en el bucle hasta que el sistema gane confianza."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: es
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

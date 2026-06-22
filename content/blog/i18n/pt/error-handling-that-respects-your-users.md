@@ -3,6 +3,7 @@ title: "Tratamento de Erros Que Respeita Seus Usuários"
 excerpt: "Seus usuários não se importam com rastreamentos de pilha. Eles se importam com o que deu errado e o que fazer a seguir. Veja como eu projeto experiências de erro que ajudam em vez de frustrar."
 sourceSlug: error-handling-that-respects-your-users
 locale: pt
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

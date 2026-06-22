@@ -3,6 +3,7 @@ title: "環境変数：すべてのスタートアップのセキュリティホ
 excerpt: ".envファイルにはデータベースのパスワード、Stripeの秘密鍵、AWSの認証情報が含まれています。それはSlackのメッセージ、開発者のノートパソコン、そしておそらくどこかのDockerイメージにあります。それを修正しましょう。"
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: ja
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

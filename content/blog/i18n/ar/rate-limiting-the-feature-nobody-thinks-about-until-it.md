@@ -3,6 +3,7 @@ title: "تحديد المعدل: الميزة التي لا يفكر بها أح
 excerpt: "واجهة برمجة التطبيقات الخاصة بك تعمل بشكل مثالي عند 10 طلبات في الثانية. عند 10,000، تنهار. إليك كيفية تطبيقي لتحديد المعدل الذي يحمي دون إزعاج المستخدمين الشرعيين."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: ar
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

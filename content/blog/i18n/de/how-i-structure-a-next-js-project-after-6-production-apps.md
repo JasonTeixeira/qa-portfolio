@@ -3,6 +3,7 @@ title: "Wie ich ein Next.js-Projekt strukturiere (nach 6 Produktions-Apps)"
 excerpt: "Ordnerkonventionen, Datenabrufmuster, Komponentenorganisation und die Dateistruktur, die vom MVP bis zu 185 Datenbanktabellen skalierbar bleibt, ohne unüberschaubar zu werden."
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: de
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

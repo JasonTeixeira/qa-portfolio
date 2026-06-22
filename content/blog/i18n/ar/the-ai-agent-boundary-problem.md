@@ -3,6 +3,7 @@ title: "مشكلة حدود الوكيل الذكي"
 excerpt: "الجزء الصعب في الوكلاء الذكيين ليس منحهم الأدوات. بل هو تحديد أين يتوقف الوكيل، وأين يبدأ البرنامج، وأين يجب أن يبقى الإنسان مسؤولاً."
 sourceSlug: the-ai-agent-boundary-problem
 locale: ar
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

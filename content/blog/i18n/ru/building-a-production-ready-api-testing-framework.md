@@ -3,6 +3,7 @@ title: "Создание готового к продакшену фреймво
 excerpt: "Узнайте, как я создал фреймворк для тестирования API, который сократил количество нестабильных тестов с 10% до <1% с помощью интеллектуальной логики повторных попыток, валидации Pydantic и пула сессий."
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: ru
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

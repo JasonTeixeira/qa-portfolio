@@ -3,6 +3,7 @@ title: "अगले इंजीनियर के लिए निर्म�
 excerpt: "मैंने जो भी सिस्टम बनाया है, वह मेरे बिना चलने के लिए डिज़ाइन किया गया है। यह भाग्य नहीं है — यह संचालन क्षमता के लिए जानबूझकर किया गया डिज़ाइन है। यहाँ बताया गया है कि मैं क्या अलग करता हूँ।"
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: hi
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "スタートアップのテスト戦略：すべてをテストできな
 excerpt: "エンジニア2人で100の機能。すべてをテストすることはできません。最小限の投資で最大限のカバレッジを実現するリスクベースのテスト戦略をご紹介します。"
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: ja
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

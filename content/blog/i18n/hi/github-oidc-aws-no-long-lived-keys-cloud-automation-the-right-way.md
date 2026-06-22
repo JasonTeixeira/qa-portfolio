@@ -3,6 +3,7 @@ title: "GitHub OIDC → AWS (कोई दीर्घकालिक कुं�
 excerpt: "AWS IAM भूमिका ग्रहण करने और AWS कुंजियाँ संग्रहीत किए बिना आर्टिफैक्ट तैनात/अपलोड करने के लिए GitHub Actions OIDC का उपयोग कैसे करें। इसमें न्यूनतम-विशेषाधिकार IAM, विश्वास नीति पैटर्न और समस्या निवारण युक्तियाँ शामिल हैं।"
 sourceSlug: github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
 locale: hi
+sourceHash: bfc0536b90edf6b9
 machineTranslated: true
 ---
 

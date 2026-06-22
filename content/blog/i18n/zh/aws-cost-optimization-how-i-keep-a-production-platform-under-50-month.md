@@ -3,6 +3,7 @@ title: "AWS 成本优化：如何将生产平台月费控制在 50 美元以下"
 excerpt: "Nexural 平台运行在 AWS 上，结合 Vercel、Supabase 和特定 AWS 服务。以下是我如何将拥有 185 张表和实时数据的平台成本控制在每月 50 美元以下。"
 sourceSlug: aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
 locale: zh
+sourceHash: 7589c8d533227578
 machineTranslated: true
 ---
 

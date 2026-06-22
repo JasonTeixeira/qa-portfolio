@@ -3,6 +3,7 @@ title: "A Entrevista Técnica de Ambos os Lados da Mesa"
 excerpt: "Já fui o candidato suando em questões de design de sistemas e o entrevistador avaliando-as. A lacuna entre o que os entrevistadores procuram e o que os candidatos preparam é enorme."
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: pt
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Lo que el trading de futuros me enseñó sobre escribir software"
 excerpt: "Opero futuros ES, NQ y CL cada mañana antes de escribir código. Los paralelismos entre la gestión de riesgos en el trading y en el software son incómodamente similares."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: es
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

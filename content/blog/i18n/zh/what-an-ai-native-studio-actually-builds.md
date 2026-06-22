@@ -3,6 +3,7 @@ title: "AI原生工作室实际构建的内容"
 excerpt: "AI原生工作室不是提示词商店。它构建产品表面、底层的操作系统，以及保持其诚实的测量循环。"
 sourceSlug: what-an-ai-native-studio-actually-builds
 locale: zh
+sourceHash: 41314c48af13458b
 machineTranslated: true
 ---
 

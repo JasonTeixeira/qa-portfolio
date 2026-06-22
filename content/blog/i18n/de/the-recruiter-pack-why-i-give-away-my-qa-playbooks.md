@@ -3,6 +3,7 @@ title: "Das Recruiter-Paket: Warum ich meine QA-Playbooks verschenke"
 excerpt: "Ich habe einen ZIP-Download mit meinem Lebenslauf, Teststrategien, Architekturbeispielen und operativen Nachweisen erstellt. Hier erfahren Sie, warum es der beste Karriereschritt ist, Ihre beste Arbeit kostenlos zu verschenken."
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: de
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

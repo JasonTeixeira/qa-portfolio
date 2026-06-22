@@ -3,6 +3,7 @@ title: "Мониторинг, который действительно что-�
 excerpt: "Панели с 47 графиками, где всё зелёное — это не мониторинг. Это украшение. Вот что я на самом деле отслеживаю и почему большинство оповещений — бесполезный шум."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: ru
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

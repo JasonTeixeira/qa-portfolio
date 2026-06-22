@@ -3,6 +3,7 @@ title: "Monitoring, das wirklich etwas aussagt"
 excerpt: "Dashboards mit 47 Panels, auf denen alles grün ist, sind kein Monitoring. Sie sind Dekoration. Hier ist, was ich tatsächlich überwache und warum die meisten Alarmierungen nutzloses Rauschen sind."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: de
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

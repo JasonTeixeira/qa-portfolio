@@ -3,6 +3,7 @@ title: "投资组合风险数学解析：VaR、CVaR 及协方差估计的重要�
 excerpt: "RiskRadar 背后的数学原理——面向非量化工程师解释风险价值、条件风险价值、Ledoit-Wolf 收缩及蒙特卡洛模拟。"
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: zh
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

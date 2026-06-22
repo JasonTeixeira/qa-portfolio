@@ -3,6 +3,7 @@ title: "O Pacote do Recrutador: Por Que Dou Meus Manuais de QA de Graça"
 excerpt: "Criei um ZIP para download com meu currículo, estratégias de teste, exemplos de arquitetura e evidências operacionais. Eis por que dar seu melhor trabalho de graça é a melhor jogada de carreira que você pode fazer."
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: pt
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

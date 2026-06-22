@@ -3,6 +3,7 @@ title: "CI/CD में Docker: वे पैटर्न जिन्हों�
 excerpt: "लेयर कैशिंग, मल्टी-स्टेज बिल्ड, BuildKit, और वे Docker पैटर्न जिन्होंने मेरी CI पाइपलाइन को 45 मिनट से घटाकर 8 मिनट कर दिया।"
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: hi
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

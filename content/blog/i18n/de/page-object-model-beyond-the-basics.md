@@ -3,6 +3,7 @@ title: "Page Object Model: Über die Grundlagen hinaus"
 excerpt: "Die meisten Teams setzen POM falsch um. So bauen Sie ein wirklich wartbares Selenium-Framework, das auf Hunderte von Tests skaliert."
 sourceSlug: page-object-model-beyond-the-basics
 locale: de
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

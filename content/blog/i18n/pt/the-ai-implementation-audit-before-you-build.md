@@ -3,6 +3,7 @@ title: "A Auditoria de Implementação de IA Antes de Construir"
 excerpt: "Antes de construir um agente de IA, copiloto, sistema RAG ou automação de fluxo de trabalho, audite o fluxo de trabalho, dados, risco, custo e ciclo de medição."
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: pt
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

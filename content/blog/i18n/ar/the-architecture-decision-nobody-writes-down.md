@@ -3,6 +3,7 @@ title: "قرار العمارة الذي لا يكتبه أحد"
 excerpt: "نقضي أسابيع في الاختيار بين Kafka وRabbitMQ لكننا لا نوثق السبب أبدًا. تستغرق ADRs 15 دقيقة وتوفر شهورًا من محادثات 'لماذا فعلنا هذا؟'"
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: ar
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

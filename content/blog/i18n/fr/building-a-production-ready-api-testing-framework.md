@@ -3,6 +3,7 @@ title: "Création d'un cadre de test API prêt pour la production"
 excerpt: "Découvrez comment j'ai construit un cadre de test API qui a réduit les tests instables de 10 % à <1 % grâce à une logique de nouvelle tentative intelligente, une validation Pydantic et un pool de sessions."
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: fr
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

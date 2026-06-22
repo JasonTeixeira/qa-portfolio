@@ -3,6 +3,7 @@ title: "Почему я использую чистый SQL вместо ORM (в
 excerpt: "ORM отличны, пока не перестают быть таковыми. После отладки сгенерированных запросов, выполнявшихся 30 секунд на базе из 185 таблиц, я перешёл на чистый SQL для горячих путей. Вот когда каждый из них имеет смысл."
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: ru
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

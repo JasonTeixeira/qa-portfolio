@@ -3,6 +3,7 @@ title: "Ведение ООО как инженер: о чём вам не ра�
 excerpt: "Я основал Sage Ideas LLC. Вот то, о чём умалчивают статьи «как начать консалтинговый бизнес» — налоги, страховка, контракты и почему я держу личный финансовый резерв."
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: ru
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

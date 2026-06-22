@@ -3,6 +3,7 @@ title: "Устранение нестабильных тестов: систем
 excerpt: "Как я снизил долю нестабильных тестов с 10% до менее 1% — логика повторных попыток, изоляция тестов, детерминированные данные и паттерны, делающие тесты надежными."
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: ru
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

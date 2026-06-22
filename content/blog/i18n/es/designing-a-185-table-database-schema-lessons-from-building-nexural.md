@@ -3,6 +3,7 @@ title: "Diseñando un esquema de base de datos de 185 tablas: Lecciones de la co
 excerpt: "Cómo diseñé un esquema de base de datos normalizado para una plataforma fintech con 7 sistemas interconectados. Fases del esquema, políticas RLS, compensaciones de desnormalización y estrategias de migración."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: es
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

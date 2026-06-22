@@ -3,6 +3,7 @@ title: "Граница AI-агентов"
 excerpt: "Сложность AI-агентов не в предоставлении им инструментов. Она в определении того, где заканчивается агент, где начинается программное обеспечение и где человек должен оставаться ответственным."
 sourceSlug: the-ai-agent-boundary-problem
 locale: ru
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

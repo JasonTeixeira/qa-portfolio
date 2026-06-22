@@ -3,6 +3,7 @@ title: "Gérer une SARL en tant qu'ingénieur : ce que personne ne vous dit"
 excerpt: "J'ai fondé Sage Ideas LLC. Voici ce que les articles « créer un cabinet de conseil » omettent — impôts, assurances, contrats, et pourquoi je conserve une réserve financière personnelle."
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: fr
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Comment je débogue les problèmes de production (un vrai framework, pas
 excerpt: "La plupart des développeurs déboguent en modifiant des choses jusqu'à ce que l'erreur disparaisse. Je débogue en réduisant systématiquement le rayon d'impact. Voici mon framework réel."
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: fr
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

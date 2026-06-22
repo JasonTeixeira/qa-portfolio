@@ -3,6 +3,7 @@ title: "Running an LLC as an Engineer: What Nobody Tells You"
 excerpt: "I founded Sage Ideas LLC. Here's the stuff the 'start a consulting business' articles leave out — taxes, insurance, contracts, and why I keep a personal financial runway."
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: de
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

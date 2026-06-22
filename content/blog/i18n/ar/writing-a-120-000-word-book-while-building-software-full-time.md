@@ -3,6 +3,7 @@ title: "كتابة كتاب من 120,000 كلمة أثناء بناء برنام
 excerpt: "كتبت كتابًا من 24 فصلًا عن التداول أثناء بناء منصة Nexural. إليك كيف أدرت كليهما، ما كاد يحطمني، ولماذا جعلني الكتابة مهندسًا أفضل."
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: ar
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

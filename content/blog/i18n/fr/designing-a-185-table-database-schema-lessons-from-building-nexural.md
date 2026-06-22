@@ -3,6 +3,7 @@ title: "Conception d'un schéma de base de données de 185 tables : leçons tir�
 excerpt: "Comment j'ai conçu un schéma de base de données normalisé pour une plateforme fintech avec 7 systèmes interconnectés. Phases de schéma, politiques RLS, compromis de dénormalisation et stratégies de migration."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: fr
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

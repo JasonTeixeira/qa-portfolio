@@ -3,6 +3,7 @@ title: "GitHub OIDC → AWS（長期キー不要）：クラウド自動化の�
 excerpt: "GitHub Actions OIDCを使用してAWS IAMロールを引き受け、AWSキーを保存せずにアーティファクトをデプロイ/アップロードする方法。最小権限IAM、信頼ポリシーパターン、トラブルシューティングのヒントを含む。"
 sourceSlug: github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
 locale: ja
+sourceHash: bfc0536b90edf6b9
 machineTranslated: true
 ---
 

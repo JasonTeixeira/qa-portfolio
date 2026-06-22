@@ -3,6 +3,7 @@ title: "Matemática de Risco de Portfólio Explicada: VaR, CVaR e Por que a Esti
 excerpt: "A matemática por trás do RiskRadar — Valor em Risco, CVaR, shrinkage de Ledoit-Wolf e simulação de Monte Carlo explicada para engenheiros que não são quants."
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: pt
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

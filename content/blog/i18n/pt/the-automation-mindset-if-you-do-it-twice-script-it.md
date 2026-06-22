@@ -3,6 +3,7 @@ title: "A Mentalidade da Automação: Se Você Fizer Duas Vezes, Crie um Script"
 excerpt: "Tenho 47 scripts de shell, 6 fluxos de CI e um cron job que me envia SMS quando meu certificado SSL está expirando. Aqui está a mentalidade por trás de automatizar tudo."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: pt
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

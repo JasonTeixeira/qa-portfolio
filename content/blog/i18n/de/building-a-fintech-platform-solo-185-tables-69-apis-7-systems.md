@@ -3,6 +3,7 @@ title: "Aufbau einer Fintech-Plattform im Alleingang: 185 Tabellen, 69 APIs, 7 S
 excerpt: "Die vollständige Geschichte der Architektur und Entwicklung des Nexural-Ökosystems von Grund auf – Datenbankdesign, API-Architektur, Stripe-Integration und Lehren aus der Arbeit als einziger Ingenieur an einer produktiven Fintech-Plattform."
 sourceSlug: building-a-fintech-platform-solo-185-tables-69-apis-7-systems
 locale: de
+sourceHash: 23f602ed84078e28
 machineTranslated: true
 ---
 

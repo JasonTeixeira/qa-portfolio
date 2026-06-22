@@ -3,6 +3,7 @@ title: "Ce que le trading de futures m'a appris sur l'écriture de logiciels"
 excerpt: "Je trade des futures ES, NQ et CL chaque matin avant d'écrire du code. Les parallèles entre la gestion des risques dans le trading et celle dans le logiciel sont inconfortablement similaires."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: fr
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

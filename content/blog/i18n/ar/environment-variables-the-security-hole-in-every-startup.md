@@ -3,6 +3,7 @@ title: "متغيرات البيئة: الثغرة الأمنية في كل شر�
 excerpt: "ملف .env الخاص بك يحتوي على كلمة مرور قاعدة البيانات، مفتاح Stripe السري، وبيانات اعتماد AWS. إنه موجود في رسالة Slack، على كمبيوتر مطور، وربما في صورة Docker في مكان ما. دعنا نصلح ذلك."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: ar
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

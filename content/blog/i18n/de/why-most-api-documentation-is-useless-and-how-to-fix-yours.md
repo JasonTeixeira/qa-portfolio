@@ -3,6 +3,7 @@ title: "Warum die meisten API-Dokumentationen nutzlos sind (und wie Sie Ihre ver
 excerpt: "Wenn Ihre API-Dokumentation jeden Endpunkt auflistet, aber nicht zeigt, wie eine Aufgabe erledigt wird, ist sie ein als Dokumentation getarntes Referenzhandbuch. Hier ist, was Entwickler wirklich brauchen."
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: de
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

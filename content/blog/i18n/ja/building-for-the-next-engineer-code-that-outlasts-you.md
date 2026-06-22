@@ -3,6 +3,7 @@ title: "次世代のエンジニアのために：あなたを超えて生き続
 excerpt: "私が構築するすべてのシステムは、私がいなくても動くように設計されています。それは偶然ではなく、運用性を意図的に設計した結果です。ここでは、私がどのように異なるアプローチを取っているかを紹介します。"
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: ja
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Supabase в продакшене: что я хотел бы знать �
 excerpt: "После года работы Supabase в продакшене с 185 таблицами — честный обзор: что впечатляет, что раздражает и что чуть не заставило меня переключиться."
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: ru
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

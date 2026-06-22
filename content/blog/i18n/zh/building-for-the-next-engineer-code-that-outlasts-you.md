@@ -3,6 +3,7 @@ title: "为下一代工程师构建：超越你存在的代码"
 excerpt: "我构建的每个系统都设计为无需我即可运行。这不是运气——而是有意为之的可操作性设计。以下是我与众不同的做法。"
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: zh
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

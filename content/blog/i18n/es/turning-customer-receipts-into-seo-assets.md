@@ -3,6 +3,7 @@ title: "Convirtiendo Recibos de Clientes en Activos SEO"
 excerpt: "La prueba social no debería quedarse en una carpeta de capturas. Puede convertirse en un activo de búsqueda cuando la estructuras con fuente, intención de consulta, enlaces internos y descargos."
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: es
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

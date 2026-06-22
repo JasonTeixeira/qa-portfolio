@@ -3,6 +3,7 @@ title: "设计185表数据库架构：Nexural构建经验谈"
 excerpt: "如何为拥有7个互联系统的金融科技平台设计规范化数据库架构。涵盖架构阶段、RLS策略、反规范化权衡及迁移策略。"
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: zh
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

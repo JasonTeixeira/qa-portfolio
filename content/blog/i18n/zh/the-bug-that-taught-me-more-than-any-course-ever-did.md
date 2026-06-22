@@ -3,6 +3,7 @@ title: "那个比任何课程都教会我更多的Bug"
 excerpt: "一个支付webhook处理程序中的竞态条件潜伏了3周未被发现。当它触发时，导致4位客户被重复扣款。以下是完整的故障复盘，以及我如今为何以不同方式测试计费代码。"
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: zh
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "如何打造不显虚假的赞美墙"
 excerpt: "证明页面有效时，它会展示来源、方法、凭证和限制。以下是打造不显刻意的好评墙背后的系统。"
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: zh
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

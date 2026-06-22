@@ -3,6 +3,7 @@ title: "So überprüfst du deinen eigenen Code (wenn niemand sonst da ist)"
 excerpt: "Solo-Entwicklung bedeutet keine Code-Reviews. Ich habe einen Selbstüberprüfungsprozess entwickelt, der 80 % dessen erfasst, was ein zweites Augenpaar finden würde. Es beginnt mit Abstandnehmen."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: de
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

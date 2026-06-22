@@ -3,6 +3,7 @@ title: "Что я узнал, строя на публике как соло-и�
 excerpt: "Один год создания экосистемы Nexural, торговля фьючерсами, написание книги и документирование всего. Победы, неудачи и что я бы сказал тому, кто начинает сегодня."
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: ru
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

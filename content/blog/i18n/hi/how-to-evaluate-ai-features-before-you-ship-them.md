@@ -3,6 +3,7 @@ title: "शिप करने से पहले AI सुविधाओं �
 excerpt: "AI सुविधाओं के लिए एक व्यावहारिक मूल्यांकन चक्र: वादा परिभाषित करें, विफलता सेट बनाएं, सामान्य मामलों का परीक्षण करें, और सिस्टम के विश्वास अर्जित करने तक एक मानव को लूप में रखें।"
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: hi
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

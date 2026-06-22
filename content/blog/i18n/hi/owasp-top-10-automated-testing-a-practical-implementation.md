@@ -3,6 +3,7 @@ title: "OWASP Top 10 स्वचालित परीक्षण: एक व�
 excerpt: "मैंने एक सुरक्षा स्कैनर कैसे बनाया जो CI/CD पाइपलाइनों में SQL इंजेक्शन, XSS, टूटा हुआ प्रमाणीकरण और 7 अन्य OWASP श्रेणियों की स्वचालित रूप से जाँच करता है।"
 sourceSlug: owasp-top-10-automated-testing-a-practical-implementation
 locale: hi
+sourceHash: 91060abfa5946a27
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "द रिक्रूटर पैक: मैं अपनी QA प्
 excerpt: "मैंने अपना रिज्यूमे, टेस्ट रणनीतियाँ, आर्किटेक्चर नमूने और परिचालन साक्ष्य के साथ एक डाउनलोड करने योग्य ZIP बनाया। यहाँ बताया गया है कि अपना सर्वश्रेष्ठ काम मुफ्त में देना आपके करियर का सबसे अच्छा कदम क्यों है।"
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: hi
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

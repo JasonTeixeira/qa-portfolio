@@ -3,6 +3,7 @@ title: "なぜ私は（ほとんどの場合）ORMではなく生SQLを使うの
 excerpt: "ORMは便利ですが、限界もあります。185テーブルのデータベースで生成されたクエリのデバッグに30秒かかった経験から、ホットパスでは生SQLに切り替えました。それぞれの適切な使いどころをご紹介します。"
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: ja
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

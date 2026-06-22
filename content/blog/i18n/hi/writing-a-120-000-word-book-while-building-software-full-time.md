@@ -3,6 +3,7 @@ title: "120,000 शब्दों की पुस्तक लिखना औ
 excerpt: "मैंने Nexural प्लेटफॉर्म बनाते हुए ट्रेडिंग पर 24 अध्यायों की पुस्तक लिखी। यहाँ बताया गया है कि मैंने दोनों को कैसे संभाला, किस चीज़ ने मुझे लगभग तोड़ दिया, और क्यों लेखन ने मुझे एक बेहतर इंजीनियर बनाया।"
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: hi
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

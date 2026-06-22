@@ -3,6 +3,7 @@ title: "作为独立工程师公开构建的收获"
 excerpt: "一年来构建Nexural生态系统、交易期货、写书并记录一切。成功、失败，以及我会对今天开始的人说的话。"
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: zh
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

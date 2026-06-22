@@ -3,6 +3,7 @@ title: "Construindo um Framework de Testes de API Pronto para Produção"
 excerpt: "Aprenda como construí um framework de testes de API que reduziu testes instáveis de 10% para <1% usando lógica de repetição inteligente, validação Pydantic e pooling de sessões."
 sourceSlug: building-a-production-ready-api-testing-framework
 locale: pt
+sourceHash: c5fd1a7cfc3c8054
 machineTranslated: true
 ---
 

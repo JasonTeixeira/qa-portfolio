@@ -3,6 +3,7 @@ title: "不安定なテストを排除する：体系的なアプローチ"
 excerpt: "テストスイートの不安定率を10%から1%未満に改善した方法 — リトライロジック、テストの分離、決定論的データ、そしてテストを信頼性高くするパターン。"
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: ja
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

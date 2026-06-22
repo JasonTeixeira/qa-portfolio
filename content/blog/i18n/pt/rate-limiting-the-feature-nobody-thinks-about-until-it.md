@@ -3,6 +3,7 @@ title: "Limitação de Taxa: O Recurso em que Ninguém Pensa Até Ser Tarde Dema
 excerpt: "Sua API funciona perfeitamente a 10 requisições por segundo. A 10.000, ela cai. Veja como implemento limitação de taxa que protege sem irritar usuários legítimos."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: pt
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

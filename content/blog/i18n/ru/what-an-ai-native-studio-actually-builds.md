@@ -3,6 +3,7 @@ title: "Что на самом деле создает AI-нативная ст�
 excerpt: "AI-нативная студия — это не магазин промптов. Она создает поверхность продукта, операционную систему под ней и измерительный контур, обеспечивающий честность."
 sourceSlug: what-an-ai-native-studio-actually-builds
 locale: ru
+sourceHash: 41314c48af13458b
 machineTranslated: true
 ---
 

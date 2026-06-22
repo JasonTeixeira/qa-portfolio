@@ -3,6 +3,7 @@ title: "تقييم RAG بدون مسرح المعايير"
 excerpt: "طريقة واقعية لتقييم التوليد المعزز بالاسترجاع: تغطية المصادر، دقة الاستشهادات، سلوك الرفض، والفائدة على مستوى المهمة."
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: ar
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Tests de performance : de zéro à la production"
 excerpt: "Comment j'ai construit une suite de tests de performance qui a identifié 3 goulots d'étranglement critiques avant la production et amélioré les temps de réponse de l'API de 40 %."
 sourceSlug: performance-testing-from-zero-to-production
 locale: fr
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

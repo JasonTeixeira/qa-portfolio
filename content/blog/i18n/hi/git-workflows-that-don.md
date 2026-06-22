@@ -3,6 +3,7 @@ title: "Git वर्कफ़्लो जो आपको छोड़ने �
 excerpt: "ट्रंक-बेस्ड बनाम GitFlow बनाम GitHub Flow — मैंने तीनों का उपयोग किया है। यहाँ वह है जो वास्तव में एकल डेवलपर्स और छोटी टीमों के लिए काम करता है, और क्यों अधिकांश Git वर्कफ़्लो अत्यधिक जटिल हैं।"
 sourceSlug: git-workflows-that-don
 locale: hi
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

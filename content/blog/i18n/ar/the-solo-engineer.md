@@ -3,6 +3,7 @@ title: "مجموعة أدوات المهندس الفردي: أدوات تحل �
 excerpt: "كيف أعمل كمهندس فردي لبناء أنظمة إنتاجية — الأدوات وسير العمل والأتمتة التي تسمح لشخص واحد بالقيام بعمل فريق صغير."
 sourceSlug: the-solo-engineer
 locale: ar
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

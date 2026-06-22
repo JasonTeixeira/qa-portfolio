@@ -3,6 +3,7 @@ title: "Техническое собеседование с обеих стор
 excerpt: "Я был и кандидатом, потеющим над вопросами по проектированию систем, и интервьюером, оценивающим их. Разрыв между тем, что ищут интервьюеры, и тем, к чему готовятся кандидаты, огромен."
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: ru
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

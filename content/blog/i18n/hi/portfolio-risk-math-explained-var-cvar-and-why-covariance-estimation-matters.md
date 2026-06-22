@@ -3,6 +3,7 @@ title: "पोर्टफोलियो जोखिम गणित समझ
 excerpt: "RiskRadar के पीछे का गणित — Value at Risk, Conditional VaR, Ledoit-Wolf संकोचन, और Monte Carlo सिमुलेशन उन इंजीनियरों के लिए समझाया गया जो क्वांट नहीं हैं।"
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: hi
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

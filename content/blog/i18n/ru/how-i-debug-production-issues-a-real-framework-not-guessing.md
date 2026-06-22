@@ -3,6 +3,7 @@ title: "Как я отлаживаю проблемы в продакшене (�
 excerpt: "Большинство разработчиков отлаживают, меняя что-то, пока ошибка не исчезнет. Я отлаживаю, систематически сужая радиус поражения. Вот мой реальный фреймворк."
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: ru
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "本番障害のデバッグ方法（推測ではなく、実際のフレ
 excerpt: "ほとんどの開発者はエラーが消えるまで変更を繰り返してデバッグします。私は爆発範囲を体系的に絞り込んでデバッグします。これが実際のフレームワークです。"
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: ja
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

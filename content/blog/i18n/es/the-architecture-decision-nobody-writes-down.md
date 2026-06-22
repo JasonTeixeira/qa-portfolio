@@ -3,6 +3,7 @@ title: "La Decisión de Arquitectura Que Nadie Documenta"
 excerpt: "Pasamos semanas eligiendo entre Kafka y RabbitMQ pero nunca documentamos por qué. Las ADR toman 15 minutos y ahorran meses de conversaciones de '¿por qué hicimos esto?'."
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: es
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

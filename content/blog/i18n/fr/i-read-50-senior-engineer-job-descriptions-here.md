@@ -3,6 +3,7 @@ title: "J'ai lu 50 descriptions de poste d'ingénieur senior. Voici ce qu'elles 
 excerpt: "J'ai analysé 50 offres d'emploi pour ingénieurs seniors/principaux dans des entreprises payant entre 180 000 $ et 350 000 $. Les tendances sont claires — et la plupart des portfolios les manquent complètement."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: fr
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

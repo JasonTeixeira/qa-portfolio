@@ -3,6 +3,7 @@ title: "La mentalidad de automatización: si lo haces dos veces, conviértelo en
 excerpt: "Tengo 47 scripts de shell, 6 flujos de CI y un cron job que me envía un mensaje cuando mi certificado SSL está por vencer. Esta es la mentalidad detrás de automatizar todo."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: es
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

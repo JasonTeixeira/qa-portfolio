@@ -3,6 +3,7 @@ title: "ほとんどのAPIドキュメントが役に立たない理由（そし
 excerpt: "APIドキュメントがすべてのエンドポイントを列挙しても、タスクの完了方法を示していなければ、それはドキュメントを装ったリファレンスマニュアルです。開発者が実際に必要とするものはこちら。"
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: ja
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

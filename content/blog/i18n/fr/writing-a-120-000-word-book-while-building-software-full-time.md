@@ -3,6 +3,7 @@ title: "Rédiger un livre de 120 000 mots tout en développant un logiciel à te
 excerpt: "J'ai écrit un livre de 24 chapitres sur le trading tout en développant la plateforme Nexural. Voici comment j'ai géré les deux, ce qui a failli me briser, et pourquoi l'écriture a fait de moi un meilleur ingénieur."
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: fr
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Construire une surface produit et une carte système"
 excerpt: "Un produit est plus facile à construire, vendre et enseigner lorsque vous séparez la surface visible du système d'exploitation sous-jacent."
 sourceSlug: build-a-product-surface-and-system-map
 locale: fr
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

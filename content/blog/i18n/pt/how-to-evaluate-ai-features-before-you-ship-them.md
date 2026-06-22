@@ -3,6 +3,7 @@ title: "Como Avaliar Recursos de IA Antes de Lançá-los"
 excerpt: "Um ciclo de avaliação prático para recursos de IA: defina a promessa, crie um conjunto de falhas, teste os casos comuns e mantenha um humano no ciclo até que o sistema ganhe confiança."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: pt
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

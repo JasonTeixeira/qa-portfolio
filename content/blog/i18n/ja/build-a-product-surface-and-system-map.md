@@ -3,6 +3,7 @@ title: "プロダクトサーフェスとシステムマップの構築"
 excerpt: "製品は、目に見える表面とその下にあるオペレーティングシステムを分離することで、構築、販売、教育が容易になります。"
 sourceSlug: build-a-product-surface-and-system-map
 locale: ja
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Éliminer les tests instables : une approche systématique"
 excerpt: "Comment j'ai fait passer une suite de tests d'un taux d'instabilité de 10 % à moins de 1 % — logique de réessai, isolation des tests, données déterministes et les schémas qui rendent les tests fiables."
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: fr
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

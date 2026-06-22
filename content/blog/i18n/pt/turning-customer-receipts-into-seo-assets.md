@@ -3,6 +3,7 @@ title: "Transformando Recibos de Clientes em Ativos de SEO"
 excerpt: "A prova do cliente não deve ficar em uma pasta de capturas de tela. Ela pode se tornar um ativo de busca quando estruturada com fonte, intenção de consulta, links internos e avisos legais."
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: pt
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

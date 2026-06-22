@@ -3,6 +3,7 @@ title: "为交易社区构建AI Discord机器人"
 excerpt: "如何构建Nexural Discord AI引擎——30+命令、GPT-4o集成、自动审核和市场情报。金融场景中AI安全的经验教训。"
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: zh
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

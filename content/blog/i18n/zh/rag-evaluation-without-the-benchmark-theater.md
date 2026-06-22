@@ -3,6 +3,7 @@ title: "无需基准测试的RAG评估"
 excerpt: "一种务实的检索增强生成评估方法：源覆盖度、引用忠实性、拒绝行为及任务级实用性。"
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: zh
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

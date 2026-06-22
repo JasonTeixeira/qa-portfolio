@@ -3,6 +3,7 @@ title: "Как оценивать AI-функции до их выпуска"
 excerpt: "Практический цикл оценки AI-функций: определите обещание, создайте набор неудач, протестируйте скучные случаи и оставьте человека в цикле, пока система не заслужит доверия."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: ru
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

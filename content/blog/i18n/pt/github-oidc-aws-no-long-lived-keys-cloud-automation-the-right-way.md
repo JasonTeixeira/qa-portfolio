@@ -3,6 +3,7 @@ title: "GitHub OIDC → AWS (Sem Chaves de Longa Duração): Automação em Nuve
 excerpt: "Como usar o OIDC do GitHub Actions para assumir uma função IAM da AWS e implantar/enviar artefatos sem armazenar chaves AWS. Inclui IAM de privilégio mínimo, padrões de política de confiança e dicas de solução de problemas."
 sourceSlug: github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
 locale: pt
+sourceHash: bfc0536b90edf6b9
 machineTranslated: true
 ---
 

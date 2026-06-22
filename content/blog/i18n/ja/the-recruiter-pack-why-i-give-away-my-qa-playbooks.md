@@ -3,6 +3,7 @@ title: "リクルーターパック：なぜ私のQAプレイブックを無料�
 excerpt: "履歴書、テスト戦略、アーキテクチャサンプル、運用実績をまとめたZIPファイルを作成しました。最高の仕事を無料で公開することが、最高のキャリア戦略である理由をご紹介します。"
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: ja
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

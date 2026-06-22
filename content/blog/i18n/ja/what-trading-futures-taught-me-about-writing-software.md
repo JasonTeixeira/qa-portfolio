@@ -3,6 +3,7 @@ title: "先物取引がソフトウェア開発について教えてくれたこ
 excerpt: "私は毎朝コードを書く前に、ES、NQ、CLの先物を取引しています。トレーディングにおけるリスク管理とソフトウェアにおけるリスク管理の類似点は、不気味なほど似ています。"
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: ja
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "لماذا أستخدم SQL الخام بدلاً من ORM (في معظ�
 excerpt: "أنظمة ORM رائعة حتى لا تكون كذلك. بعد تصحيح الاستعلامات المُنشأة التي استغرقت 30 ثانية على قاعدة بيانات تحتوي على 185 جدولًا، تحولت إلى SQL الخام للمسارات الساخنة. إليك متى يكون كل منهما مناسبًا."
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: ar
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

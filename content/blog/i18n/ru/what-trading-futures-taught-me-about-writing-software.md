@@ -3,6 +3,7 @@ title: "Что торговля фьючерсами научила меня о 
 excerpt: "Каждое утро перед написанием кода я торгую фьючерсами ES, NQ и CL. Параллели между управлением рисками в трейдинге и управлением рисками в разработке ПО пугающе схожи."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: ru
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

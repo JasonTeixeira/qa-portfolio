@@ -3,6 +3,7 @@ title: "Cómo construir un Muro de Amor que no se sienta falso"
 excerpt: "Una página de pruebas funciona cuando muestra fuente, método, recibos y límites. Aquí está el sistema detrás de un muro de testimonios que no se siente fabricado."
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: es
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

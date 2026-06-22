@@ -3,6 +3,7 @@ title: "मॉनिटरिंग जो वास्तव में कु�
 excerpt: "47 पैनल वाले डैशबोर्ड जहाँ सब कुछ हरा है, वे मॉनिटरिंग नहीं हैं। वे सजावट हैं। यहाँ बताया गया है कि मैं वास्तव में क्या मॉनिटर करता हूँ और क्यों अधिकांश अलर्टिंग बेकार शोर है।"
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: hi
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

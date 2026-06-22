@@ -3,6 +3,7 @@ title: "185-तालिका डेटाबेस स्कीमा डि�
 excerpt: "मैंने 7 परस्पर जुड़े सिस्टम वाले फिनटेक प्लेटफॉर्म के लिए एक सामान्यीकृत डेटाबेस स्कीमा कैसे डिज़ाइन किया। स्कीमा चरण, RLS नीतियां, डीनॉर्मलाइज़ेशन ट्रेड-ऑफ़, और माइग्रेशन रणनीतियाँ।"
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: hi
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

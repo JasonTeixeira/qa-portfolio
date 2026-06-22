@@ -3,6 +3,7 @@ title: "顧客の領収書をSEO資産に変える方法"
 excerpt: "顧客の証拠をスクリーンショットフォルダにしまい込むべきではありません。ソース、クエリの意図、内部リンク、免責事項で構造化すれば、検索資産に変わります。"
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: ja
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Monolith مقابل Microservices: لماذا اخترت Monolith معي
 excerpt: "منصة Nexural تحتوي على 7 أنظمة ولكنها تعمل كـ Monolith معياري، وليس Microservices. إليك لماذا كان هذا القرار الصحيح لمهندس فردي، ومتى سأقوم بالتقسيم."
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: ar
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

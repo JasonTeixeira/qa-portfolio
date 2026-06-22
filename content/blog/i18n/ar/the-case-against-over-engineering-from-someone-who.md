@@ -3,6 +3,7 @@ title: "قضية ضد الإفراط في الهندسة (من شخص قام ب�
 excerpt: "لقد بنيت مرة بنية إضافات لنظام لم يحتج أبدًا إلى إضافات. 3 أسابيع من طبقات التجريد لميزة لم يطلبها أحد. إليك كيف تعلمت التوقف."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: ar
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

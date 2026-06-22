@@ -3,6 +3,7 @@ title: "Limitation de débit : la fonctionnalité à laquelle personne ne pense 
 excerpt: "Votre API fonctionne parfaitement à 10 requêtes par seconde. À 10 000, elle s'effondre. Voici comment j'implémente une limitation de débit qui protège sans gêner les utilisateurs légitimes."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: fr
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

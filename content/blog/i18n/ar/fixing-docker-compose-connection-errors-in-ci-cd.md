@@ -3,6 +3,7 @@ title: "إصلاح أخطاء اتصال Docker Compose في CI/CD"
 excerpt: "قضيت 4 ساعات في تصحيح أخطاء 'Connection refused' في Jenkins. إليك ما تعلمته عن شبكات Docker في خطوط CI."
 sourceSlug: fixing-docker-compose-connection-errors-in-ci-cd
 locale: ar
+sourceHash: 8e0431f892a3afac
 machineTranslated: true
 ---
 

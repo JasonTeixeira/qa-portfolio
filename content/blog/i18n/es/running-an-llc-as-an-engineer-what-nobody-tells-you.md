@@ -3,6 +3,7 @@ title: "Gestionar una LLC como ingeniero: lo que nadie te cuenta"
 excerpt: "Fundé Sage Ideas LLC. Esto es lo que omiten los artículos sobre 'cómo iniciar un negocio de consultoría': impuestos, seguros, contratos y por qué mantengo un colchón financiero personal."
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: es
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Почему большинство документации API бес�
 excerpt: "Если ваша документация API перечисляет все конечные точки, но не показывает, как выполнить задачу, это справочное руководство, замаскированное под документацию. Вот что на самом деле нужно разработчикам."
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: ru
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

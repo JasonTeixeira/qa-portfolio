@@ -3,6 +3,7 @@ title: "CI/CD में Docker Compose कनेक्शन त्रुटि�
 excerpt: "Jenkins में 'कनेक्शन अस्वीकृत' त्रुटियों को डीबग करने में 4 घंटे बिताए। CI पाइपलाइनों में Docker नेटवर्किंग के बारे में यहाँ मैंने क्या सीखा।"
 sourceSlug: fixing-docker-compose-connection-errors-in-ci-cd
 locale: hi
+sourceHash: 8e0431f892a3afac
 machineTranslated: true
 ---
 

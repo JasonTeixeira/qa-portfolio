@@ -3,6 +3,7 @@ title: "Estrategia de pruebas para startups: qué probar cuando no puedes probar
 excerpt: "Tienes 2 ingenieros y 100 funciones. No puedes probarlo todo. Esta es la estrategia de pruebas basada en riesgos que uso para maximizar la cobertura con una inversión mínima."
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: es
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

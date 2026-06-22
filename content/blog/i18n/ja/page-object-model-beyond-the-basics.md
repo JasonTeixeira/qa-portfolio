@@ -3,6 +3,7 @@ title: "Page Object Model: 基本を超えて"
 excerpt: "ほとんどのチームがPOMを誤って実装しています。何百ものテストにスケールする真に保守可能なSeleniumフレームワークの構築方法をご紹介します。"
 sourceSlug: page-object-model-beyond-the-basics
 locale: ja
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

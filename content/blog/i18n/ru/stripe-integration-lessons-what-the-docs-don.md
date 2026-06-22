@@ -3,6 +3,7 @@ title: "Stripe Integration Lessons: What the Docs Don't Tell You"
 excerpt: "Webhook idempotency, subscription state machines, dunning strategies, and the edge cases that will break your billing system if you don't handle them."
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: ru
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

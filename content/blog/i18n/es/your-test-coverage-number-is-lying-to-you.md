@@ -3,6 +3,7 @@ title: "Tu Número de Cobertura de Pruebas Te Está Mintiendo"
 excerpt: "El 80% de cobertura de pruebas no significa nada si estás probando el 80% equivocado. Así es como pienso sobre la cobertura — no como un número que perseguir, sino como un mapa de dónde estás ciego."
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: es
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Le Pack Recruteur : Pourquoi je donne mes playbooks QA"
 excerpt: "J'ai créé un ZIP téléchargeable avec mon CV, mes stratégies de test, des exemples d'architecture et des preuves opérationnelles. Voici pourquoi donner votre meilleur travail gratuitement est la meilleure décision de carrière que vous puissiez prendre."
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: fr
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

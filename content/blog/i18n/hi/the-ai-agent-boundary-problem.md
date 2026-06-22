@@ -3,6 +3,7 @@ title: "AI एजेंट सीमा समस्या"
 excerpt: "AI एजेंटों का कठिन हिस्सा उन्हें उपकरण देना नहीं है। यह तय करना है कि एजेंट कहाँ रुकता है, सॉफ्टवेयर कहाँ शुरू होता है, और मानव को कहाँ जवाबदेह रहना चाहिए।"
 sourceSlug: the-ai-agent-boundary-problem
 locale: hi
+sourceHash: 2ec6d495d801e51c
 machineTranslated: true
 ---
 

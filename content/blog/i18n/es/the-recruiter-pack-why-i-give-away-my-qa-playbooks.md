@@ -3,6 +3,7 @@ title: "The Recruiter Pack: Why I Give Away My QA Playbooks"
 excerpt: "Creé un ZIP descargable con mi currículum, estrategias de prueba, muestras de arquitectura y evidencia operativa. He aquí por qué regalar tu mejor trabajo de forma gratuita es la mejor jugada profesional que puedes hacer."
 sourceSlug: the-recruiter-pack-why-i-give-away-my-qa-playbooks
 locale: es
+sourceHash: 9b972d35315733bb
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Monitoreo Que Realmente Te Dice Algo"
 excerpt: "Los paneles con 47 gráficos donde todo está en verde no son monitoreo. Son decoración. Esto es lo que realmente monitoreo y por qué la mayoría de las alertas son ruido inútil."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: es
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

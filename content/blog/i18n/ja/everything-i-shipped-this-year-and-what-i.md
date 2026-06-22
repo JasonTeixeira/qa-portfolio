@@ -3,6 +3,7 @@ title: "今年出荷したすべて（そして後悔していること）"
 excerpt: "年末回顧：7つのシステム、185のテーブル、51のブログ記事、1冊の本、そしてトレーディングキャリア。価値があったもの、なかったもの、次に構築するもの。"
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: ja
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

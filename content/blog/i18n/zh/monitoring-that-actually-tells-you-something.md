@@ -3,6 +3,7 @@ title: "真正能告诉你问题的监控"
 excerpt: "47个面板全绿的仪表盘不是监控，是装饰。以下是我真正监控的内容，以及为什么大多数告警只是无用的噪音。"
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: zh
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

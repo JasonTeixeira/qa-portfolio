@@ -3,6 +3,7 @@ title: "Supabase en Producción: Lo que Desearía Saber Antes de 185 Tablas"
 excerpt: "Después de un año usando Supabase en producción con 185 tablas, aquí está la reseña honesta: lo increíble, lo frustrante y lo que casi me hace cambiar."
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: es
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

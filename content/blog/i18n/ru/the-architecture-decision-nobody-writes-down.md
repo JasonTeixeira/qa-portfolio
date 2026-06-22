@@ -3,6 +3,7 @@ title: "Архитектурное решение, которое никто н�
 excerpt: "Мы тратим недели на выбор между Kafka и RabbitMQ, но никогда не документируем, почему. ADR занимают 15 минут и экономят месяцы разговоров «почему мы это сделали?»."
 sourceSlug: the-architecture-decision-nobody-writes-down
 locale: ru
+sourceHash: 0b9f36e97479d9e0
 machineTranslated: true
 ---
 

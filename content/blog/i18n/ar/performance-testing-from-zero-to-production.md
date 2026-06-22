@@ -3,6 +3,7 @@ title: "اختبار الأداء: من الصفر إلى الإنتاج"
 excerpt: "كيف بنيت مجموعة اختبارات أداء حددت 3 اختناقات حرجة قبل الإنتاج وحسّنت أوقات استجابة API بنسبة 40%."
 sourceSlug: performance-testing-from-zero-to-production
 locale: ar
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

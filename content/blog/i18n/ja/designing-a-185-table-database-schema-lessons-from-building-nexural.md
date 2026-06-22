@@ -3,6 +3,7 @@ title: "185テーブルのデータベーススキーマ設計：Nexural構築�
 excerpt: "7つの相互接続システムを持つフィンテックプラットフォーム向けに正規化されたデータベーススキーマを設計した方法。スキーマフェーズ、RLSポリシー、非正規化のトレードオフ、移行戦略。"
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: ja
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

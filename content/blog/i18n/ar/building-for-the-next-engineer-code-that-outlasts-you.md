@@ -3,6 +3,7 @@ title: "بناء للمهندس القادم: كود يدوم بعدك"
 excerpt: "كل نظام بنيته مصمم ليعمل بدوني. هذا ليس حظًا — إنه تصميم متعمد للتشغيل. إليك ما أفعله بشكل مختلف."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: ar
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

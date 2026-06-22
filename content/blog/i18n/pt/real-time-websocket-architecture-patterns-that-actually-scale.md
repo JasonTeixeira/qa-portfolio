@@ -3,6 +3,7 @@ title: "Arquitetura WebSocket em Tempo Real: Padrões que Realmente Escalam"
 excerpt: "Como lido com conexões WebSocket em plataformas de negociação — estratégias de reconexão, heartbeats, contrapressão e os padrões que funcionam quando milissegundos importam."
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: pt
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

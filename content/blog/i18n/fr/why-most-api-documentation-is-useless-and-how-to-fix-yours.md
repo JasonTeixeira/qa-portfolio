@@ -3,6 +3,7 @@ title: "Pourquoi la plupart des documentations d'API sont inutiles (et comment a
 excerpt: "Si votre documentation d'API liste chaque endpoint mais ne montre pas comment accomplir une tâche, c'est un manuel de référence déguisé en documentation. Voici ce dont les développeurs ont réellement besoin."
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: fr
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

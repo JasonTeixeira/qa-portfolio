@@ -3,6 +3,7 @@ title: "初创公司测试策略：无法全面测试时该测什么"
 excerpt: "你只有2名工程师和100个功能。你无法测试所有内容。以下是我使用的基于风险的测试策略，以最小投入最大化覆盖率。"
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: zh
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

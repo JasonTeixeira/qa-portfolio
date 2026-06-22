@@ -3,6 +3,7 @@ title: "معمارية WebSocket في الوقت الفعلي: أنماط قاب
 excerpt: "كيف أتعامل مع اتصالات WebSocket في منصات التداول — استراتيجيات إعادة الاتصال، إشارات البقاء، الضغط العكسي، والأنماط التي تعمل عندما تكون الميلي ثانية مهمة."
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: ar
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

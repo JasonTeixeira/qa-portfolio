@@ -3,6 +3,7 @@ title: "मैं अपने पोर्टफोलियो को प्�
 excerpt: "SLO, घटना अभ्यास, WAF दर सीमा, और OIDC फेडरेशन — मैं अपनी पोर्टफोलियो साइट को एंटरप्राइज इंफ्रास्ट्रक्चर जितनी सख्ती से क्यों चलाता हूँ, और यह नियुक्ति प्रबंधकों को क्या संकेत देता है।"
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: hi
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Der Automatisierungs-Mindset: Wenn du es zweimal machst, skripte es"
 excerpt: "Ich habe 47 Shell-Skripte, 6 CI-Workflows und einen Cron-Job, der mir eine SMS schickt, wenn mein SSL-Zertifikat abläuft. Hier ist der Mindset hinter der Automatisierung von allem."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: de
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

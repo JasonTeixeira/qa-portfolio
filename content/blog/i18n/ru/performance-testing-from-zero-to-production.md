@@ -3,6 +3,7 @@ title: "Нагрузочное тестирование: от нуля до пр
 excerpt: "Как я создал набор нагрузочных тестов, который выявил 3 критических узких места до выхода в продакшен и улучшил время ответа API на 40%."
 sourceSlug: performance-testing-from-zero-to-production
 locale: ru
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

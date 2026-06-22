@@ -3,6 +3,7 @@ title: "Обработка ошибок, уважающая ваших поль�
 excerpt: "Вашим пользователям всё равно на стек-трейсы. Их волнует, что пошло не так и что делать дальше. Вот как я проектирую сообщения об ошибках, которые помогают, а не раздражают."
 sourceSlug: error-handling-that-respects-your-users
 locale: ru
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

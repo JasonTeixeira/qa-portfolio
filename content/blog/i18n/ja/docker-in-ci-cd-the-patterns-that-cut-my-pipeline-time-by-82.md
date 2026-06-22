@@ -3,6 +3,7 @@ title: "Docker in CI/CD: パイプライン時間を82%削減したパターン"
 excerpt: "レイヤーキャッシュ、マルチステージビルド、BuildKit、そしてCIパイプラインを45分から8分に短縮したDockerパターン。"
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: ja
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

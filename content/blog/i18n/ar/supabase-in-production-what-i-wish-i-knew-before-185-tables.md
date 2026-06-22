@@ -3,6 +3,7 @@ title: "Supabase في الإنتاج: ما تمنيت معرفته قبل 185 ج
 excerpt: "بعد عام من تشغيل Supabase في الإنتاج مع 185 جدولًا، هذه هي المراجعة الصادقة — ما هو رائع، وما هو محبط، وما كاد يجعلني أتحول."
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: ar
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

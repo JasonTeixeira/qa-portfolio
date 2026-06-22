@@ -3,6 +3,7 @@ title: "Echtzeit-WebSocket-Architektur: Muster, die wirklich skalieren"
 excerpt: "Wie ich WebSocket-Verbindungen in Handelsplattformen verwalte – Wiederverbindungsstrategien, Heartbeats, Backpressure und die Muster, die funktionieren, wenn Millisekunden zählen."
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: de
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Архитектура WebSocket в реальном времени: п�
 excerpt: "Как я управляю WebSocket-соединениями в торговых платформах — стратегии переподключения, пульсации, обратное давление и паттерны, работающие когда важны миллисекунды."
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: ru
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

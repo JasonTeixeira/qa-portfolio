@@ -3,6 +3,7 @@ title: "Мобильная автоматизация тестирования �
 excerpt: "Создал кроссплатформенный фреймворк для мобильного тестирования, который сократил время регрессии с 2 дней до 2 часов и обнаружил 23 специфических для устройств ошибки до релиза."
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: ru
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

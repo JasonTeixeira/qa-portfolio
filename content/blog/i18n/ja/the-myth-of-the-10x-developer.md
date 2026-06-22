@@ -3,6 +3,7 @@ title: "10倍開発者の神話"
 excerpt: "10倍の開発者などいない。何を構築し、何をスキップすべきかについて10倍の明確さを持つ開発者がいるのだ。その違いはタイピング速度ではなく、意思決定にある。"
 sourceSlug: the-myth-of-the-10x-developer
 locale: ja
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

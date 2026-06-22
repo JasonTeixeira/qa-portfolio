@@ -3,6 +3,7 @@ title: "معالجة الأخطاء التي تحترم مستخدميك"
 excerpt: "مستخدميك لا يهتمون بتتبعات المكدس. يهتمون بما حدث خطأ وما يجب فعله بعد ذلك. إليك كيف أصمم تجارب أخطاء تساعد بدلاً من أن تحبط."
 sourceSlug: error-handling-that-respects-your-users
 locale: ar
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

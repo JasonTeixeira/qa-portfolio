@@ -3,6 +3,7 @@ title: "आपका टेस्ट कवरेज नंबर आपसे �
 excerpt: "80% टेस्ट कवरेज का कोई मतलब नहीं है अगर आप गलत 80% का परीक्षण कर रहे हैं। यहाँ बताया गया है कि मैं कवरेज के बारे में कैसे सोचता हूँ — एक संख्या का पीछा करने के बजाय, एक नक्शे के रूप में जहाँ आप अंधे हैं।"
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: hi
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

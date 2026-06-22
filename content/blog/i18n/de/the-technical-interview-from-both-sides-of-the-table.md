@@ -3,6 +3,7 @@ title: "Das technische Vorstellungsgespräch von beiden Seiten des Tisches"
 excerpt: "Ich war sowohl der Kandidat, der sich durch Systemdesign-Fragen schwitzte, als auch der Interviewer, der sie bewertete. Die Kluft zwischen dem, worauf Interviewer achten, und dem, worauf sich Kandidaten vorbereiten, ist enorm."
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: de
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

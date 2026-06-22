@@ -3,6 +3,7 @@ title: "Por qué trato mi portafolio como un sistema de producción"
 excerpt: "SLOs, simulacros de incidentes, limitación de tasa WAF y federación OIDC: por qué opero mi sitio de portafolio con el mismo rigor que la infraestructura empresarial, y qué señala a los gerentes de contratación."
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: es
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

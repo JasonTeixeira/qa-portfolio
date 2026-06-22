@@ -3,6 +3,7 @@ title: "Construye un Mapa de Superficie y Sistema del Producto"
 excerpt: "Un producto es más fácil de construir, vender y enseñar cuando separas la superficie visible del sistema operativo subyacente."
 sourceSlug: build-a-product-surface-and-system-map
 locale: es
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

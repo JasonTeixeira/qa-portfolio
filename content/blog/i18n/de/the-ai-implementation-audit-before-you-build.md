@@ -3,6 +3,7 @@ title: "Das KI-Implementierungsaudit vor dem Bau"
 excerpt: "Bevor Sie einen KI-Agenten, Copilot, RAG-System oder Workflow-Automatisierung bauen, prüfen Sie den Workflow, die Daten, das Risiko, die Kosten und die Messschleife."
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: de
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

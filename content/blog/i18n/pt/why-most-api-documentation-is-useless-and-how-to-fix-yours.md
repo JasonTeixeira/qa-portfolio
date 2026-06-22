@@ -3,6 +3,7 @@ title: "Por que a Maioria das Documentações de API é Inútil (E Como Corrigir
 excerpt: "Se seus documentos de API listam todos os endpoints, mas não mostram como concluir uma tarefa, eles são um manual de referência disfarçado de documentação. Aqui está o que os desenvolvedores realmente precisam."
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: pt
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

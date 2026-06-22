@@ -3,6 +3,7 @@ title: "The Bug That Taught Me More Than Any Course Ever Did"
 excerpt: "A race condition in a payment webhook handler sat undetected for 3 weeks. When it fired, it double-charged 4 customers. Here's the full postmortem and why I now test billing code differently."
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: pt
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

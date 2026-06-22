@@ -3,6 +3,7 @@ title: "Eliminando Testes Instáveis: Uma Abordagem Sistemática"
 excerpt: "Como levei um conjunto de testes de uma taxa de instabilidade de 10% para menos de 1% — lógica de repetição, isolamento de testes, dados determinísticos e os padrões que tornam os testes confiáveis."
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: pt
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

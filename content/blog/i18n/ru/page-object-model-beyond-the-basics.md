@@ -3,6 +3,7 @@ title: "Page Object Model: Beyond the Basics"
 excerpt: "Большинство команд реализуют POM неправильно. Вот как построить действительно поддерживаемый фреймворк Selenium, который масштабируется на сотни тестов."
 sourceSlug: page-object-model-beyond-the-basics
 locale: ru
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

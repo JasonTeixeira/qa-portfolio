@@ -3,6 +3,7 @@ title: "AWSコスト最適化：本番プラットフォームを月50ドル未�
 excerpt: "NexuralプラットフォームはAWS上でVercel、Supabase、および厳選されたAWSサービスを利用して動作しています。185のテーブルとリアルタイムデータを扱うプラットフォームのコストを月50ドル未満に抑える方法をご紹介します。"
 sourceSlug: aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
 locale: ja
+sourceHash: 7589c8d533227578
 machineTranslated: true
 ---
 

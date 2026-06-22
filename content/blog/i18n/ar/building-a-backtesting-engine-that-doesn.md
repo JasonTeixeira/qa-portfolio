@@ -3,6 +3,7 @@ title: "بناء محرك اختبار خلفي لا يخدعك"
 excerpt: "معظم محركات الاختبار الخلفي تنتج نتائج تبدو رائعة لكنها تنهار في التداول الحي. إليك كيف بنيت محرك اختبار خلفي لـ QuantumTrader ليكون صادقًا بشأن الأداء."
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: ar
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

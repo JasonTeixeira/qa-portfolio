@@ -3,6 +3,7 @@ title: "Feature Engineering для торговли: 200+ индикаторов
 excerpt: "Как я построил конвейер разработки признаков для AlphaStream — какие индикаторы предсказывают движение цены, какие являются шумом и как выбирать признаки, которые обобщаются."
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: ru
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

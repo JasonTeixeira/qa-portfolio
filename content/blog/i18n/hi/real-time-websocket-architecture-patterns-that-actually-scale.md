@@ -3,6 +3,7 @@ title: "रियल-टाइम वेबसॉकेट आर्किटे
 excerpt: "ट्रेडिंग प्लेटफॉर्म में वेबसॉकेट कनेक्शन को कैसे संभालता हूं — पुन: कनेक्शन रणनीतियां, हार्टबीट्स, बैकप्रेशर, और वे पैटर्न जो मिलीसेकंड मायने रखने पर काम करते हैं।"
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: hi
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

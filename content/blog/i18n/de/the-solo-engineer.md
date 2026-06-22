@@ -3,6 +3,7 @@ title: "Das Toolkit des Einzelentwicklers: Werkzeuge, die ein Team ersetzen"
 excerpt: "Wie ich als Einzelentwickler Produktionssysteme betreibe – die Werkzeuge, Arbeitsabläufe und Automatisierungen, die einer Person die Arbeit eines kleinen Teams ermöglichen."
 sourceSlug: the-solo-engineer
 locale: de
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

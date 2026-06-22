@@ -3,6 +3,7 @@ title: "المصادقة أصعب مما تظن"
 excerpt: "لقد قمت بتنفيذ المصادقة 4 مرات عبر مشاريع مختلفة. في كل مرة ظننت أنها ستستغرق يومين. وفي كل مرة استغرقت أسبوعين. إليك السبب، وما سأفعله بشكل مختلف."
 sourceSlug: authentication-is-harder-than-you-think
 locale: ar
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

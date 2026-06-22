@@ -3,6 +3,7 @@ title: "嘘をつかないバックテストエンジンの構築"
 excerpt: "ほとんどのバックテストエンジンは見栄えの良い結果を出すが、実際の取引では機能しない。QuantumTraderのバックテストエンジンを正直なパフォーマンス評価のためにどう構築したか。"
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: ja
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

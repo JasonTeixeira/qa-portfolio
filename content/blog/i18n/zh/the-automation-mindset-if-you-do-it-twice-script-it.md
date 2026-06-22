@@ -3,6 +3,7 @@ title: "自动化思维：做两次就写成脚本"
 excerpt: "我有47个Shell脚本、6个CI工作流，还有一个SSL证书到期时给我发短信的定时任务。这就是自动化一切背后的思维。"
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: zh
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

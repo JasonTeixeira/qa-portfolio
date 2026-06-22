@@ -3,6 +3,7 @@ title: "तकनीकी साक्षात्कार: मेज के �
 excerpt: "मैं सिस्टम डिज़ाइन के सवालों पर पसीना बहाने वाला उम्मीदवार और उनका मूल्यांकन करने वाला साक्षात्कारकर्ता दोनों रहा हूँ। साक्षात्कारकर्ता जो खोजते हैं और उम्मीदवार जो तैयारी करते हैं, उनके बीच का अंतर बहुत बड़ा है।"
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: hi
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

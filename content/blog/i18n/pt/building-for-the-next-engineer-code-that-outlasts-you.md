@@ -3,6 +3,7 @@ title: "Construindo para o Próximo Engenheiro: Código que Sobrevive a Você"
 excerpt: "Cada sistema que construí foi projetado para funcionar sem mim. Isso não é sorte — é design intencional para operabilidade. Aqui está o que faço de diferente."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: pt
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

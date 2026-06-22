@@ -3,6 +3,7 @@ title: "स्टार्टअप्स के लिए टेस्ट र�
 excerpt: "आपके पास 2 इंजीनियर और 100 फीचर्स हैं। आप सब कुछ टेस्ट नहीं कर सकते। यहाँ जोखिम-आधारित टेस्ट रणनीति है जिसका उपयोग मैं न्यूनतम निवेश के साथ अधिकतम कवरेज प्राप्त करने के लिए करता हूँ।"
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: hi
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

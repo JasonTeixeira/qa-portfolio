@@ -3,6 +3,7 @@ title: "Стратегия тестирования для стартапов: �
 excerpt: "У вас 2 инженера и 100 функций. Невозможно протестировать всё. Вот стратегия тестирования на основе рисков, которую я использую, чтобы максимизировать покрытие при минимальных вложениях."
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: ru
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

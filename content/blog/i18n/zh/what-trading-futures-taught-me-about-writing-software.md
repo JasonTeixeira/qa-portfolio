@@ -3,6 +3,7 @@ title: "交易期货教会我的软件写作之道"
 excerpt: "我每天早晨在写代码之前交易ES、NQ和CL期货。交易中的风险管理与软件中的风险管理之间的相似之处令人不安地相似。"
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: zh
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

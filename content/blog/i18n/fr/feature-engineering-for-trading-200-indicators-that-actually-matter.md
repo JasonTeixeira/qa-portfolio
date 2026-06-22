@@ -3,6 +3,7 @@ title: "Ingénierie des caractéristiques pour le trading : plus de 200 indicate
 excerpt: "Comment j'ai construit le pipeline d'ingénierie des caractéristiques d'AlphaStream — quels indicateurs prédisent les mouvements de prix, lesquels sont du bruit, et comment sélectionner des caractéristiques qui généralisent."
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: fr
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

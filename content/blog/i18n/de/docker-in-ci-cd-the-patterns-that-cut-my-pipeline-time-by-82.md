@@ -3,6 +3,7 @@ title: "Docker in CI/CD: Die Patterns, die meine Pipeline-Zeit um 82 % verkürzt
 excerpt: "Layer-Caching, Multi-Stage-Builds, BuildKit und die Docker-Patterns, die meine CI-Pipeline von 45 auf 8 Minuten verkürzt haben."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: de
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

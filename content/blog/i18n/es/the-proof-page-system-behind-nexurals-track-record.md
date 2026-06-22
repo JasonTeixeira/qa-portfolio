@@ -3,6 +3,7 @@ title: "El sistema de páginas de prueba detrás del historial de Nexural"
 excerpt: "Un desglose de la arquitectura de prueba detrás de la página de historial de Nexural: recibos, citas de miembros, metodología, descargos y rutas de conversión."
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: es
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

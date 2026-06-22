@@ -3,6 +3,7 @@ title: "Como Revisar Seu Próprio Código (Quando Não Há Mais Ninguém)"
 excerpt: "Engenharia solo significa sem revisões de código. Desenvolvi um processo de auto-revisão que captura 80% do que um segundo par de olhos encontraria. Começa com se afastar."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: pt
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

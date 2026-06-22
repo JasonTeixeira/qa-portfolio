@@ -3,6 +3,7 @@ title: "Ein 120.000-Wörter-Buch schreiben, während man Vollzeit Software entwi
 excerpt: "Ich habe ein 24-Kapitel-Buch über Trading geschrieben, während ich die Nexural-Plattform entwickelte. So habe ich beides gemeistert, was mich fast zerbrochen hat und warum das Schreiben mich zu einem besseren Ingenieur gemacht hat."
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: de
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

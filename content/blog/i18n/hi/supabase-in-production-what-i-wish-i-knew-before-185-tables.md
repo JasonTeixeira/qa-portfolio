@@ -3,6 +3,7 @@ title: "Supabase in Production: What I Wish I Knew Before 185 Tables"
 excerpt: "After a year of running Supabase in production with 185 tables, here's the honest review — what's incredible, what's frustrating, and what almost made me switch."
 sourceSlug: supabase-in-production-what-i-wish-i-knew-before-185-tables
 locale: hi
+sourceHash: f14a111c3a6ba881
 machineTranslated: true
 ---
 

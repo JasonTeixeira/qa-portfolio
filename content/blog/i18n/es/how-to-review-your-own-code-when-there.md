@@ -3,6 +3,7 @@ title: "Cómo Revisar Tu Propio Código (Cuando No Hay Nadie Más)"
 excerpt: "La ingeniería en solitario significa sin revisiones de código. He desarrollado un proceso de autorevisión que detecta el 80% de lo que encontraría un segundo par de ojos. Empieza con alejarse."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: es
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

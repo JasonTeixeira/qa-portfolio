@@ -3,6 +3,7 @@ title: "消除不稳定测试：系统化方法"
 excerpt: "如何将测试套件的不稳定率从10%降至1%以下——重试逻辑、测试隔离、确定性数据以及让测试可靠的模式。"
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: zh
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

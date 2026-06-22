@@ -3,6 +3,7 @@ title: "Der Fehler, der mich mehr lehrte als jeder Kurs"
 excerpt: "Eine Race-Condition in einem Zahlungs-Webhook-Handler blieb 3 Wochen unentdeckt. Als sie zuschlug, wurden 4 Kunden doppelt belastet. Hier die vollständige Postmortem-Analyse und warum ich Abrechnungscode jetzt anders teste."
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: de
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

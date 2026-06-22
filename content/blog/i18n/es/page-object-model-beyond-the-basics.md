@@ -3,6 +3,7 @@ title: "Page Object Model: Más allá de lo básico"
 excerpt: "La mayoría de los equipos implementan POM incorrectamente. Así es como construir un framework Selenium verdaderamente mantenible que escala a cientos de pruebas."
 sourceSlug: page-object-model-beyond-the-basics
 locale: es
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

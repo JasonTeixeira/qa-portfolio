@@ -3,6 +3,7 @@ title: "La boîte à outils de l'ingénieur solo : des outils qui remplacent une
 excerpt: "Comment j'opère en tant qu'ingénieur solo construisant des systèmes de production — les outils, workflows et automatisations qui permettent à une personne de faire le travail d'une petite équipe."
 sourceSlug: the-solo-engineer
 locale: fr
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Docker в CI/CD: паттерны, сократившие время п�
 excerpt: "Кэширование слоёв, многоэтапные сборки, BuildKit и паттерны Docker, которые сократили мой CI-пайплайн с 45 до 8 минут."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: ru
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "過剰エンジニアリングへの反論（経験者より）"
 excerpt: "かつて、プラグインが必要ないシステムにプラグインアーキテクチャを構築しました。誰も求めていない機能のために3週間の抽象化レイヤー。それをやめる方法を学びました。"
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: ja
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

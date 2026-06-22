@@ -3,6 +3,7 @@ title: "为何我（多数时候）用原生SQL而非ORM"
 excerpt: "ORM虽好，但并非万能。在调试一个185表数据库上耗时30秒的生成查询后，我将热路径切换为原生SQL。以下是对各自适用场景的分析。"
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: zh
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Почему я документирую каждую созданную
 excerpt: "У меня есть одностраничный шаблон для документирования систем. На его заполнение уходит 30 минут, а экономит он 30 часов вопросов «как это работает?». Вот шаблон."
 sourceSlug: why-i-document-every-system-i-build-and-the-template-i-use
 locale: ru
+sourceHash: 0b54745b1b741a82
 machineTranslated: true
 ---
 

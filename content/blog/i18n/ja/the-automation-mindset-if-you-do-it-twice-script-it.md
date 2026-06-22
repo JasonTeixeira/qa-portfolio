@@ -3,6 +3,7 @@ title: "自動化マインドセット：2回やったらスクリプト化"
 excerpt: "シェルスクリプト47個、CIワークフロー6つ、SSL証明書の期限切れを通知するcronジョブがあります。すべてを自動化するマインドセットをご紹介します。"
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: ja
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

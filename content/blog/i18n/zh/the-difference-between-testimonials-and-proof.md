@@ -3,6 +3,7 @@ title: "推荐语与证据的区别"
 excerpt: "推荐语是引述。证据是一个系统：来源、背景、收据、方法、限制和下一步行动。"
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: zh
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

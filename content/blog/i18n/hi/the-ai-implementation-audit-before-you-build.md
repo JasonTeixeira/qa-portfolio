@@ -3,6 +3,7 @@ title: "AI निर्माण से पहले कार्यान्व
 excerpt: "AI एजेंट, कोपायलट, RAG सिस्टम या वर्कफ़्लो ऑटोमेशन बनाने से पहले, वर्कफ़्लो, डेटा, जोखिम, लागत और मापन लूप का ऑडिट करें।"
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: hi
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

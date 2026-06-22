@@ -3,6 +3,7 @@ title: "不会让你想辞职的Git工作流"
 excerpt: "主干开发 vs GitFlow vs GitHub Flow — 这三种我都用过。以下是对独立开发者和小团队真正有效的方法，以及为什么大多数Git工作流过于复杂。"
 sourceSlug: git-workflows-that-don
 locale: zh
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

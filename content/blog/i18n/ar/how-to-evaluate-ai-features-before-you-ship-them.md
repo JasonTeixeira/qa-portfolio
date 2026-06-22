@@ -3,6 +3,7 @@ title: "كيفية تقييم ميزات الذكاء الاصطناعي قبل 
 excerpt: "حلقة تقييم عملية لميزات الذكاء الاصطناعي: حدد الوعد، ابنِ مجموعة الفشل، اختبر الحالات العادية، وأبقِ إنسانًا في الحلقة حتى يكتسب النظام الثقة."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: ar
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

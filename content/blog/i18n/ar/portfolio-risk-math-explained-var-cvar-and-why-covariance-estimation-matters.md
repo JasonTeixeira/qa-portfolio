@@ -3,6 +3,7 @@ title: "شرح رياضيات مخاطر المحفظة: القيمة المعر
 excerpt: "الرياضيات وراء RiskRadar — القيمة المعرضة للخطر، القيمة المعرضة للخطر المشروطة، انكماش Ledoit-Wolf، ومحاكاة مونت كارلو موضحة للمهندسين غير المتخصصين في الكميات."
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: ar
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

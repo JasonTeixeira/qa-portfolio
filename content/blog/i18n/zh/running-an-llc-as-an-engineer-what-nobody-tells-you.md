@@ -3,6 +3,7 @@ title: "作为工程师运营LLC：没人告诉你的那些事"
 excerpt: "我创立了Sage Ideas LLC。以下是那些“创办咨询公司”文章没提到的内容——税务、保险、合同，以及为什么我要保留个人财务缓冲。"
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: zh
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

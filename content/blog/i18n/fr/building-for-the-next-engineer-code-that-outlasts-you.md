@@ -3,6 +3,7 @@ title: "Construire pour le prochain ingénieur : un code qui vous survit"
 excerpt: "Chaque système que j'ai construit est conçu pour fonctionner sans moi. Ce n'est pas de la chance — c'est une conception intentionnelle pour l'exploitabilité. Voici ce que je fais différemment."
 sourceSlug: building-for-the-next-engineer-code-that-outlasts-you
 locale: fr
+sourceHash: 814f38f38d92909f
 machineTranslated: true
 ---
 

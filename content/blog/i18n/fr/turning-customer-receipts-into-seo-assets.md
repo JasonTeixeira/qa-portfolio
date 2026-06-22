@@ -3,6 +3,7 @@ title: "Transformer les reçus clients en actifs SEO"
 excerpt: "La preuve client ne doit pas rester dans un dossier de captures d'écran. Elle peut devenir un actif de recherche si vous la structurez avec source, intention de requête, liens internes et mentions légales."
 sourceSlug: turning-customer-receipts-into-seo-assets
 locale: fr
+sourceHash: 18d2a4d04eefe710
 machineTranslated: true
 ---
 

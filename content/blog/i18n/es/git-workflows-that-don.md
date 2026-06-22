@@ -3,6 +3,7 @@ title: "Flujos de Git que no te harán querer renunciar"
 excerpt: "Trunk-based vs GitFlow vs GitHub Flow: he usado los tres. Esto es lo que realmente funciona para desarrolladores solitarios y equipos pequeños, y por qué la mayoría de los flujos de Git son demasiado complicados."
 sourceSlug: git-workflows-that-don
 locale: es
+sourceHash: c676d6ff79c74263
 machineTranslated: true
 ---
 

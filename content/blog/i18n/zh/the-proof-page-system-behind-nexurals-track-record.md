@@ -3,6 +3,7 @@ title: "Nexural 业绩背后的证明页面系统"
 excerpt: "Nexural 业绩页面的证明架构解析：收据、成员引用、方法论、免责声明及转化路径。"
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: zh
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

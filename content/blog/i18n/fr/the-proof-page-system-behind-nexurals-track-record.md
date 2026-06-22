@@ -3,6 +3,7 @@ title: "Le système de preuve derrière le bilan de Nexural"
 excerpt: "Une analyse de l'architecture de preuve derrière la page de bilan de Nexural : reçus, citations de membres, méthodologie, mentions légales et parcours de conversion."
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: fr
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

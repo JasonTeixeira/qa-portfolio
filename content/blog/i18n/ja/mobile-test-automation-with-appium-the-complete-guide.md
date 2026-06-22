@@ -3,6 +3,7 @@ title: "Appiumを使ったモバイルテスト自動化：完全ガイド"
 excerpt: "クロスプラットフォームのモバイルテストフレームワークを構築し、回帰テスト時間を2日から2時間に短縮、リリース前に23件のデバイス固有のバグを発見しました。"
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: ja
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Por que uso SQL puro em vez de um ORM (na maioria das vezes)"
 excerpt: "ORMs são ótimos até deixarem de ser. Depois de depurar consultas geradas que levavam 30 segundos em um banco de dados com 185 tabelas, mudei para SQL puro nos caminhos críticos. Veja quando cada um faz sentido."
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: pt
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

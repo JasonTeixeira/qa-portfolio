@@ -3,6 +3,7 @@ title: "Stripe統合の教訓：ドキュメントに書かれていないこと
 excerpt: "Webhookの冪等性、サブスクリプションのステートマシン、ダニング戦略、そしてそれらを処理しないと課金システムが壊れるエッジケース。"
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: ja
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

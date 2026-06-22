@@ -3,6 +3,7 @@ title: "الفرق بين الشهادات والإثبات"
 excerpt: "الشهادات هي اقتباسات. الإثبات هو نظام: المصدر، السياق، الإيصال، المنهجية، الحدود، والإجراء التالي."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: ar
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

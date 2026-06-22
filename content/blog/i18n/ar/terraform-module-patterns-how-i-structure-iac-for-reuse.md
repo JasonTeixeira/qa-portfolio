@@ -3,6 +3,7 @@ title: "أنماط وحدات Terraform: كيف أنظم البنية التحت
 excerpt: "أنماط وحدات Terraform الموجهة — تسمية متغيرات متسقة، عقود مخرجات، اختبار باستخدام Terratest، وهيكل الوحدة الذي يعمل عبر الفرق."
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: ar
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

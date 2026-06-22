@@ -3,6 +3,7 @@ title: "エンジニアがLLCを運営する際に誰も教えてくれないこ
 excerpt: "私はSage Ideas LLCを設立しました。ここでは「コンサルティング事業を始める」系の記事が省いていること、つまり税金、保険、契約、そしてなぜ個人の財務的余裕を維持しているのかについてお話しします。"
 sourceSlug: running-an-llc-as-an-engineer-what-nobody-tells-you
 locale: ja
+sourceHash: 8f0b9bb8cbf0f410
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "القضاء على الاختبارات غير المستقرة: نهج
 excerpt: "كيف خفضت معدل الاختبارات غير المستقرة من 10% إلى أقل من 1% — منطق إعادة المحاولة، عزل الاختبار، بيانات حتمية، والأنماط التي تجعل الاختبارات موثوقة."
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: ar
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

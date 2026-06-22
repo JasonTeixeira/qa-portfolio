@@ -3,6 +3,7 @@ title: "مراقبة تخبرك بشيء فعليًا"
 excerpt: "لوحات تحكم تحتوي على 47 لوحة وكلها خضراء ليست مراقبة، بل ديكور. إليك ما أراقبه فعليًا ولماذا معظم التنبيهات مجرد ضوضاء عديمة الفائدة."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: ar
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "بناء سطح المنتج وخريطة النظام"
 excerpt: "يكون المنتج أسهل في البناء والبيع والتعليم عندما تفصل السطح المرئي عن نظام التشغيل الأساسي."
 sourceSlug: build-a-product-surface-and-system-map
 locale: ar
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

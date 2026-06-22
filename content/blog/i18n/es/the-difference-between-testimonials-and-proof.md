@@ -3,6 +3,7 @@ title: "La Diferencia Entre Testimonios y Pruebas"
 excerpt: "Los testimonios son citas. La prueba es un sistema: fuente, contexto, recibo, metodología, límites y siguiente acción."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: es
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

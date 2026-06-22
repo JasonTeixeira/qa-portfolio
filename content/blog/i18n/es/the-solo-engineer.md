@@ -3,6 +3,7 @@ title: "El kit de herramientas del ingeniero solitario: Herramientas que reempla
 excerpt: "Cómo opero como ingeniero solitario construyendo sistemas de producción: las herramientas, flujos de trabajo y automatizaciones que permiten que una persona haga el trabajo de un equipo pequeño."
 sourceSlug: the-solo-engineer
 locale: es
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

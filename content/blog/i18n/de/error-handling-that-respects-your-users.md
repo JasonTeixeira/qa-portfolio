@@ -3,6 +3,7 @@ title: "Fehlerbehandlung, die Ihre Benutzer respektiert"
 excerpt: "Ihre Benutzer interessieren sich nicht für Stack-Traces. Sie wollen wissen, was schiefgelaufen ist und was als Nächstes zu tun ist. So gestalte ich Fehlererlebnisse, die helfen statt frustrieren."
 sourceSlug: error-handling-that-respects-your-users
 locale: de
+sourceHash: 68295447e196c20c
 machineTranslated: true
 ---
 

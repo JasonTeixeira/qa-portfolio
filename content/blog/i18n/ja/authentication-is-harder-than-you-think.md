@@ -3,6 +3,7 @@ title: "認証は思ったより難しい"
 excerpt: "私は異なるプロジェクトで4回認証を実装しました。毎回2日で終わると思っていましたが、実際には2週間かかりました。その理由と、次にどう変えるかを説明します。"
 sourceSlug: authentication-is-harder-than-you-think
 locale: ja
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

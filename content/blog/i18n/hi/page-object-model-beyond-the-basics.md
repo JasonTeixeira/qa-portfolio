@@ -3,6 +3,7 @@ title: "पेज ऑब्जेक्ट मॉडल: बुनियाद�
 excerpt: "अधिकांश टीमें POM को गलत तरीके से लागू करती हैं। यहां बताया गया है कि वास्तव में रखरखाव योग्य Selenium फ्रेमवर्क कैसे बनाया जाए जो सैकड़ों परीक्षणों तक स्केल करता है।"
 sourceSlug: page-object-model-beyond-the-basics
 locale: hi
+sourceHash: cd6d6bcc7bc6b9c6
 machineTranslated: true
 ---
 

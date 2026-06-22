@@ -3,6 +3,7 @@ title: "ما يبنيه استوديو أصلي للذكاء الاصطناعي 
 excerpt: "الاستوديو الأصلي للذكاء الاصطناعي ليس متجرًا للطلبات. إنه يبني سطح المنتج، ونظام التشغيل تحته، وحلقة القياس التي تحافظ على نزاهته."
 sourceSlug: what-an-ai-native-studio-actually-builds
 locale: ar
+sourceHash: 41314c48af13458b
 machineTranslated: true
 ---
 

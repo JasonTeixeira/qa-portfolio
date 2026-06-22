@@ -3,6 +3,7 @@ title: "Comment relire votre propre code (quand il n'y a personne d'autre)"
 excerpt: "Le travail en solo signifie pas de revue de code. J'ai développé un processus d'auto-relecture qui détecte 80% de ce qu'une seconde paire d'yeux trouverait. Cela commence par s'éloigner."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: fr
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

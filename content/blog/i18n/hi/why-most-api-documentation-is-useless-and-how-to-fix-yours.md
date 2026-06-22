@@ -3,6 +3,7 @@ title: "अधिकांश API दस्तावेज़ बेकार �
 excerpt: "यदि आपके API दस्तावेज़ सभी एंडपॉइंट सूचीबद्ध करते हैं लेकिन मुझे कोई कार्य पूरा करने का तरीका नहीं दिखाते, तो वे दस्तावेज़ के रूप में प्रच्छन्न एक संदर्भ पुस्तिका हैं। डेवलपर्स को वास्तव में क्या चाहिए।"
 sourceSlug: why-most-api-documentation-is-useless-and-how-to-fix-yours
 locale: hi
+sourceHash: e4c09231a600ddb8
 machineTranslated: true
 ---
 

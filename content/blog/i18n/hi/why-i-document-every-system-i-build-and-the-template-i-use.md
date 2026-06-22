@@ -3,6 +3,7 @@ title: "मैं हर सिस्टम का दस्तावेज़ �
 excerpt: "मेरे पास सिस्टम दस्तावेज़ीकरण के लिए 1-पेज का टेम्पलेट है। इसे भरने में 30 मिनट लगते हैं और 'यह कैसे काम करता है?' के 30 घंटे के सवाल बचाता है। यहाँ टेम्पलेट है।"
 sourceSlug: why-i-document-every-system-i-build-and-the-template-i-use
 locale: hi
+sourceHash: 0b54745b1b741a82
 machineTranslated: true
 ---
 

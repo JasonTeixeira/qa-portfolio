@@ -3,6 +3,7 @@ title: "بناء روبوت دردشة ذكي لمجتمع التداول"
 excerpt: "كيف بنيت محرك Nexural للذكاء الاصطناعي في Discord — أكثر من 30 أمرًا، تكامل مع GPT-4o، الإشراف التلقائي، وذكاء السوق. دروس حول سلامة الذكاء الاصطناعي في السياقات المالية."
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: ar
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Terraform モジュールパターン：再利用可能なIaCの構成�
 excerpt: "意見を取り入れたTerraformモジュールパターン — 一貫した変数命名、出力契約、Terratestによるテスト、チーム間で機能するモジュール構造。"
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: ja
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

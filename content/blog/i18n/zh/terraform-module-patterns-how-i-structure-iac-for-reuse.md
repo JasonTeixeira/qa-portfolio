@@ -3,6 +3,7 @@ title: "Terraform 模块模式：如何构建可复用的基础设施即代码"
 excerpt: "有主见的 Terraform 模块模式——一致的变量命名、输出约定、使用 Terratest 进行测试，以及跨团队适用的模块结构。"
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: zh
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

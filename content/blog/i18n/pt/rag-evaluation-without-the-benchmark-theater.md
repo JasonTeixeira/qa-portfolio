@@ -3,6 +3,7 @@ title: "Avaliação de RAG Sem o Teatro de Benchmarks"
 excerpt: "Uma forma fundamentada de avaliar geração aumentada por recuperação: cobertura de fontes, fidelidade de citações, comportamento de recusa e utilidade em nível de tarefa."
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: pt
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

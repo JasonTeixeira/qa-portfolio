@@ -3,6 +3,7 @@ title: "प्रमाणीकरण आपकी सोच से कही�
 excerpt: "मैंने विभिन्न परियोजनाओं में 4 बार प्रमाणीकरण लागू किया है। हर बार मुझे लगा कि इसमें 2 दिन लगेंगे। हर बार इसमें 2 सप्ताह लगे। यहाँ बताया गया है कि क्यों, और मैं क्या अलग करूंगा।"
 sourceSlug: authentication-is-harder-than-you-think
 locale: hi
+sourceHash: e2ed3ac31387d42f
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Ограничение запросов: функция, о которо
 excerpt: "Ваш API отлично работает при 10 запросах в секунду. При 10 000 он падает. Вот как я реализую ограничение запросов, которое защищает, не раздражая легитимных пользователей."
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: ru
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

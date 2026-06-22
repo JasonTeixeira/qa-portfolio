@@ -3,6 +3,7 @@ title: "技术面试：桌子的两边"
 excerpt: "我曾是那个为系统设计题冒汗的候选人，也曾是评估他们的面试官。面试官寻找的与候选人准备的之间存在着巨大差距。"
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: zh
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Ваш показатель покрытия тестами вас об�
 excerpt: "80% покрытия тестами ничего не значит, если вы тестируете не те 80%. Вот как я отношусь к покрытию — не как к числу, к которому нужно стремиться, а как к карте ваших слепых зон."
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: ru
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

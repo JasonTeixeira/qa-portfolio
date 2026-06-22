@@ -3,6 +3,7 @@ title: "どんなコースよりも学びを与えてくれたバグ"
 excerpt: "決済ウェブフックハンドラの競合状態が3週間も気づかれず、発動時に4人の顧客に二重請求が発生。完全なポストモーテムと、今では請求コードを異なる方法でテストする理由。"
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: ja
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

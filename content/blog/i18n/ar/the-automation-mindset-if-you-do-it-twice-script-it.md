@@ -3,6 +3,7 @@ title: "عقلية الأتمتة: إذا فعلتها مرتين، اكتب ل�
 excerpt: "لدي 47 سكريبت شل، و6 سير عمل CI، ووظيفة cron ترسل لي رسالة نصية عندما يقترب شهادة SSL من الانتهاء. هذه هي العقلية وراء أتمتة كل شيء."
 sourceSlug: the-automation-mindset-if-you-do-it-twice-script-it
 locale: ar
+sourceHash: a728d62c64798390
 machineTranslated: true
 ---
 

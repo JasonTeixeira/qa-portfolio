@@ -3,6 +3,7 @@ title: "ओवर-इंजीनियरिंग के खिलाफ म�
 excerpt: "मैंने एक बार एक ऐसे सिस्टम के लिए प्लगइन आर्किटेक्चर बनाया जिसे कभी प्लगइन की ज़रूरत नहीं थी। एक ऐसी सुविधा के लिए 3 सप्ताह की एब्स्ट्रैक्शन लेयर जो किसी ने नहीं मांगी थी। यहाँ बताया गया है कि मैंने कैसे रुकना सीखा।"
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: hi
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Дело против переусложнения (от того, кт�
 excerpt: "Однажды я создал архитектуру плагинов для системы, которой плагины никогда не были нужны. 3 недели слоёв абстракции для функции, которую никто не просил. Вот как я научился останавливаться."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: ru
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

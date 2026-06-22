@@ -3,6 +3,7 @@ title: "एक बैकटेस्टिंग इंजन बनाना �
 excerpt: "अधिकांश बैकटेस्टिंग इंजन ऐसे परिणाम देते हैं जो शानदार दिखते हैं लेकिन लाइव ट्रेडिंग में विफल हो जाते हैं। यहाँ बताया गया है कि मैंने QuantumTrader के बैकटेस्टिंग इंजन को प्रदर्शन के प्रति ईमानदार कैसे बनाया।"
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: hi
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

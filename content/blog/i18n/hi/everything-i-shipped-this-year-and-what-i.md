@@ -3,6 +3,7 @@ title: "इस वर्ष मैंने जो कुछ भी शिप �
 excerpt: "साल के अंत का पुनरावलोकन: 7 सिस्टम, 185 टेबल, 51 ब्लॉग पोस्ट, एक किताब और एक ट्रेडिंग करियर। क्या सार्थक था, क्या नहीं, और आगे क्या बना रहा हूं।"
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: hi
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

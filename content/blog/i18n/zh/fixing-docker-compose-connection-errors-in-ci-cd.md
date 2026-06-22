@@ -3,6 +3,7 @@ title: "修复CI/CD中的Docker Compose连接错误"
 excerpt: "花了4小时调试Jenkins中的'连接被拒绝'错误。以下是我在CI管道中学到的Docker网络知识。"
 sourceSlug: fixing-docker-compose-connection-errors-in-ci-cd
 locale: zh
+sourceHash: 8e0431f892a3afac
 machineTranslated: true
 ---
 

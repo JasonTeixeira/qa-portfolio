@@ -3,6 +3,7 @@ title: "Объяснение математики портфельного ри�
 excerpt: "Математика RiskRadar — Value at Risk, Conditional VaR, сжатие Ледойта-Вольфа и моделирование Монте-Карло, объяснённая для инженеров, не являющихся квантитативными аналитиками."
 sourceSlug: portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
 locale: ru
+sourceHash: 50a489ee66c8215e
 machineTranslated: true
 ---
 

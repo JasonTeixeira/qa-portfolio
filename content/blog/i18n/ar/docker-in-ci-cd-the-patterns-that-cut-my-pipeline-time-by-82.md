@@ -3,6 +3,7 @@ title: "Docker في CI/CD: الأنماط التي قلصت وقت خط الأن
 excerpt: "التخزين المؤقت للطبقات، البناء متعدد المراحل، BuildKit، وأنماط Docker التي خفضت وقت خط الأنابيب من 45 دقيقة إلى 8 دقائق."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: ar
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

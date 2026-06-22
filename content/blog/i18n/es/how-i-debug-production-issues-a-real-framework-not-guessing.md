@@ -3,6 +3,7 @@ title: "Cómo depuro problemas en producción (Un marco real, no adivinanzas)"
 excerpt: "La mayoría de los desarrolladores depuran cambiando cosas hasta que el error desaparece. Yo depuro reduciendo sistemáticamente el radio de explosión. Este es mi marco real."
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: es
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

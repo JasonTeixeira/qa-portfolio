@@ -3,6 +3,7 @@ title: "Feature Engineering para Trading: Mais de 200 Indicadores que Realmente 
 excerpt: "Como construí o pipeline de feature engineering da AlphaStream — quais indicadores preveem movimento de preço, quais são ruído e como selecionar features que generalizam."
 sourceSlug: feature-engineering-for-trading-200-indicators-that-actually-matter
 locale: pt
+sourceHash: 1ff1287097b2adc0
 machineTranslated: true
 ---
 

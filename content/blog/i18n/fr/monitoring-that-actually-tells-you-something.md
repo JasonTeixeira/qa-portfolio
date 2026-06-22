@@ -3,6 +3,7 @@ title: "Une Surveillance Qui Vous Dit Vraiment Quelque Chose"
 excerpt: "Des tableaux de bord avec 47 panneaux où tout est vert, ce n'est pas de la surveillance. C'est de la décoration. Voici ce que je surveille réellement et pourquoi la plupart des alertes ne sont qu'un bruit inutile."
 sourceSlug: monitoring-that-actually-tells-you-something
 locale: fr
+sourceHash: 4c2fd7867d8e623f
 machineTranslated: true
 ---
 

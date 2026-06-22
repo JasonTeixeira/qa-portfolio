@@ -3,6 +3,7 @@ title: "性能测试：从零到生产"
 excerpt: "我如何构建了一套性能测试套件，在生产前发现了3个关键瓶颈，并将API响应时间提升了40%。"
 sourceSlug: performance-testing-from-zero-to-production
 locale: zh
+sourceHash: f4e3c5ef49fafcde
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Next.jsプロジェクトの構成方法（本番アプリ6本の経験�
 excerpt: "フォルダ規約、データ取得パターン、コンポーネント構成、そしてMVPから185のデータベーステーブルまで管理可能なファイル構造。"
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: ja
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

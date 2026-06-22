@@ -3,6 +3,7 @@ title: "प्रशंसापत्र और प्रमाण के ब�
 excerpt: "प्रशंसापत्र उद्धरण हैं। प्रमाण एक प्रणाली है: स्रोत, संदर्भ, रसीद, पद्धति, सीमाएँ और अगली कार्रवाई।"
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: hi
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

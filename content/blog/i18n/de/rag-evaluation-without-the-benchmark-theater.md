@@ -3,6 +3,7 @@ title: "RAG-Bewertung ohne Benchmark-Theater"
 excerpt: "Ein fundierter Ansatz zur Bewertung von Retrieval-Augmented Generation: Quellenabdeckung, Zitationstreue, Verweigerungsverhalten und Nutzen auf Aufgabenebene."
 sourceSlug: rag-evaluation-without-the-benchmark-theater
 locale: de
+sourceHash: 0c9b12c23086a8ae
 machineTranslated: true
 ---
 

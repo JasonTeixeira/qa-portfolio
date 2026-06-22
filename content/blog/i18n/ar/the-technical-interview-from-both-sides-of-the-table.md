@@ -3,6 +3,7 @@ title: "المقابلة التقنية من جانبي الطاولة"
 excerpt: "كنت المرشح الذي يتعرق أثناء أسئلة تصميم النظام والمُقابل الذي يقيمها. الفجوة بين ما يبحث عنه المقابلون وما يستعد له المرشحون هائلة."
 sourceSlug: the-technical-interview-from-both-sides-of-the-table
 locale: ar
+sourceHash: 359005b5fa6fb432
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Переменные окружения: дыра в безопасно�
 excerpt: "Ваш .env-файл содержит пароль от базы данных, секретный ключ Stripe и учетные данные AWS. Он лежит в сообщении Slack, на ноутбуке разработчика и, вероятно, где-то в Docker-образе. Давайте это исправим."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: ru
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

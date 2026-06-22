@@ -3,6 +3,7 @@ title: "今年我交付的一切（以及事后我会砍掉的）"
 excerpt: "年终回顾：7个系统、185张表、51篇博客、一本书和一段交易生涯。哪些值得，哪些不值得，以及我接下来要构建什么。"
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: zh
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

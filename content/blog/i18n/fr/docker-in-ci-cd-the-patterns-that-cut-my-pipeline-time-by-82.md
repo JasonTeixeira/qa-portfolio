@@ -3,6 +3,7 @@ title: "Docker dans CI/CD : les schémas qui ont réduit mon temps de pipeline d
 excerpt: "Mise en cache des couches, constructions multi-étapes, BuildKit et les schémas Docker qui ont fait passer mon pipeline CI de 45 à 8 minutes."
 sourceSlug: docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
 locale: fr
+sourceHash: cc6640e470b056da
 machineTranslated: true
 ---
 

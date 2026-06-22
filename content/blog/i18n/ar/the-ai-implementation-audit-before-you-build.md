@@ -3,6 +3,7 @@ title: "تدقيق تنفيذ الذكاء الاصطناعي قبل البنا�
 excerpt: "قبل بناء وكيل ذكاء اصطناعي، أو مساعد، أو نظام RAG، أو أتمتة سير العمل، قم بتدقيق سير العمل والبيانات والمخاطر والتكلفة وحلقة القياس."
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: ar
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

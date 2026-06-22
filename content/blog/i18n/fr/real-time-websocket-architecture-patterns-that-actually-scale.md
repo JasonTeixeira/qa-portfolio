@@ -3,6 +3,7 @@ title: "Architecture WebSocket en temps réel : des modèles qui passent vraimen
 excerpt: "Comment je gère les connexions WebSocket dans les plateformes de trading — stratégies de reconnexion, signaux de vie, contre-pression et les modèles qui fonctionnent quand chaque milliseconde compte."
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: fr
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

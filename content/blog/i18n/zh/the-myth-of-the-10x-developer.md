@@ -3,6 +3,7 @@ title: "10倍开发者神话"
 excerpt: "没有10倍开发者。只有对构建什么和跳过什么有10倍清晰度的开发者。区别在于决策，而非打字速度。"
 sourceSlug: the-myth-of-the-10x-developer
 locale: zh
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

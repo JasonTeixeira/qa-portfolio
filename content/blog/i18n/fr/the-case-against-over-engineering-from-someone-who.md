@@ -3,6 +3,7 @@ title: "Le cas contre la sur-ingénierie (de la part de quelqu'un qui l'a fait)"
 excerpt: "J'ai un jour construit une architecture de plugins pour un système qui n'en avait jamais besoin. 3 semaines de couches d'abstraction pour une fonctionnalité que personne n'avait demandée. Voici comment j'ai appris à m'arrêter."
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: fr
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

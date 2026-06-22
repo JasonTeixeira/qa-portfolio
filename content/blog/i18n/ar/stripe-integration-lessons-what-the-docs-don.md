@@ -3,6 +3,7 @@ title: "دروس تكامل Stripe: ما لا تخبرك به الوثائق"
 excerpt: "تكرارية webhook، آلات حالة الاشتراك، استراتيجيات التحصيل، والحالات الحدودية التي ستعطل نظام الفوترة إذا لم تتعامل معها."
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: ar
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

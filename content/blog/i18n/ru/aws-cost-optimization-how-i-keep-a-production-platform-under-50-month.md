@@ -3,6 +3,7 @@ title: "AWS Cost Optimization: How I Keep a Production Platform Under $50/Month"
 excerpt: "The Nexural platform runs on AWS with Vercel, Supabase, and targeted AWS services. Here's how I keep costs under $50/month for a platform with 185 tables and real-time data."
 sourceSlug: aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
 locale: ru
+sourceHash: 7589c8d533227578
 machineTranslated: true
 ---
 

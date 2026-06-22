@@ -3,6 +3,7 @@ title: "モノリス vs マイクロサービス：Nexuralにモジュラーモ�
 excerpt: "Nexuralプラットフォームは7つのシステムを搭載しながら、マイクロサービスではなくモジュラーモノリスとして動作します。単独エンジニアにとってこれが正しい選択だった理由と、分割すべきタイミングについて解説します。"
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: ja
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

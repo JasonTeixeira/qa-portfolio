@@ -3,6 +3,7 @@ title: "ポートフォリオを本番システムのように扱う理由"
 excerpt: "SLO、インシデント訓練、WAFレート制限、OIDCフェデレーション — ポートフォリオサイトをエンタープライズインフラと同じ厳格さで運用し、それが採用担当者に何を伝えるか。"
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: ja
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

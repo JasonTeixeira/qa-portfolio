@@ -3,6 +3,7 @@ title: "كيف تبني جدار حب لا يبدو مزيفًا"
 excerpt: "صفحة الإثبات تعمل عندما تُظهر المصدر، الطريقة، الإيصالات، والحدود. إليك النظام وراء جدار الشهادات الذي لا يبدو مصنوعًا."
 sourceSlug: how-to-build-a-wall-of-love-that-doesnt-feel-fake
 locale: ar
+sourceHash: 44ef8d5cc5792ea9
 machineTranslated: true
 ---
 

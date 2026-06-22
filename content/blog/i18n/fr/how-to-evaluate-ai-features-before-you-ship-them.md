@@ -3,6 +3,7 @@ title: "Comment évaluer les fonctionnalités IA avant de les déployer"
 excerpt: "Un cycle d'évaluation pratique pour les fonctionnalités IA : définir la promesse, constituer un ensemble d'échecs, tester les cas banals et garder un humain dans la boucle jusqu'à ce que le système gagne la confiance."
 sourceSlug: how-to-evaluate-ai-features-before-you-ship-them
 locale: fr
+sourceHash: c309380851b58ed1
 machineTranslated: true
 ---
 

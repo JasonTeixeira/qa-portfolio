@@ -3,6 +3,7 @@ title: "كل ما أنجزته هذا العام (وما كنت سأستبعده
 excerpt: "مراجعة نهاية العام: 7 أنظمة، 185 جدولًا، 51 منشورًا، كتاب، ومسيرة تداول. ما كان يستحق، وما لم يكن، وما سأبنيه بعد ذلك."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: ar
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

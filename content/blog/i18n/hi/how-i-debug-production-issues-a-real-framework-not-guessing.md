@@ -3,6 +3,7 @@ title: "प्रोडक्शन समस्याओं को कैसे
 excerpt: "अधिकांश डेवलपर तब तक चीज़ें बदलते रहते हैं जब तक त्रुटि गायब न हो जाए। मैं व्यवस्थित रूप से ब्लास्ट रेडियस को कम करके डीबग करता हूं। यहां मेरा वास्तविक ढांचा है।"
 sourceSlug: how-i-debug-production-issues-a-real-framework-not-guessing
 locale: hi
+sourceHash: 09346ad64da52882
 machineTranslated: true
 ---
 

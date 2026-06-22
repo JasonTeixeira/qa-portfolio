@@ -3,6 +3,7 @@ title: "Leí 50 descripciones de trabajo para ingenieros senior. Esto es lo que 
 excerpt: "Analicé 50 ofertas de trabajo para ingenieros senior/staff en empresas que pagan $180K-$350K. Los patrones son claros, y la mayoría de los portafolios los pasan por alto por completo."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: es
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

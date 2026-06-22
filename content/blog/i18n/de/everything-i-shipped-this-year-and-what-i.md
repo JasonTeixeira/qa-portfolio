@@ -3,6 +3,7 @@ title: "Alles, was ich dieses Jahr ausgeliefert habe (und was ich im Nachhinein 
 excerpt: "Ein Jahresrückblick: 7 Systeme, 185 Tabellen, 51 Blogbeiträge, ein Buch und eine Trading-Karriere. Was sich gelohnt hat, was nicht und was ich als Nächstes baue."
 sourceSlug: everything-i-shipped-this-year-and-what-i
 locale: de
+sourceHash: 53f4663a4013d75d
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Li 50 Descrições de Cargos de Engenheiro Sênior. Aqui Está o Que Ele
 excerpt: "Analisei 50 anúncios de emprego para engenheiros seniores/staff em empresas que pagam de $180K a $350K. Os padrões são claros — e a maioria dos portfólios os ignora completamente."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: pt
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

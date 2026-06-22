@@ -3,6 +3,7 @@ title: "トレーディングコミュニティ向けAI Discord Botの構築"
 excerpt: "Nexural Discord AI Engineの構築方法 — 30以上のコマンド、GPT-4o統合、自動モデレーション、マーケットインテリジェンス。金融コンテキストにおけるAI安全性の教訓。"
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: ja
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

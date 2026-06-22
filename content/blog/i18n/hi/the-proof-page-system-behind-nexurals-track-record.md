@@ -3,6 +3,7 @@ title: "Nexural के ट्रैक रिकॉर्ड के पीछे
 excerpt: "Nexural के ट्रैक-रिकॉर्ड पेज के पीछे प्रूफ आर्किटेक्चर का विवरण: रसीदें, सदस्य उद्धरण, पद्धति, अस्वीकरण और रूपांतरण पथ।"
 sourceSlug: the-proof-page-system-behind-nexurals-track-record
 locale: hi
+sourceHash: 13cbca2753507bb0
 machineTranslated: true
 ---
 

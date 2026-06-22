@@ -3,6 +3,7 @@ title: "实时WebSocket架构：真正可扩展的模式"
 excerpt: "我在交易平台中处理WebSocket连接的方式——重连策略、心跳、背压以及毫秒级响应时有效的模式。"
 sourceSlug: real-time-websocket-architecture-patterns-that-actually-scale
 locale: zh
+sourceHash: e0610a0990caefb9
 machineTranslated: true
 ---
 

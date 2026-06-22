@@ -3,6 +3,7 @@ title: "构建前的人工智能实施审计"
 excerpt: "在构建AI代理、副驾驶、RAG系统或工作流自动化之前，审计工作流、数据、风险、成本和测量循环。"
 sourceSlug: the-ai-implementation-audit-before-you-build
 locale: zh
+sourceHash: 794eb67e7b367e60
 machineTranslated: true
 ---
 

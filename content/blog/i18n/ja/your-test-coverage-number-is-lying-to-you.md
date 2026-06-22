@@ -3,6 +3,7 @@ title: "テストカバレッジの数値はあなたを欺いている"
 excerpt: "間違った80％をテストしているなら、80％のテストカバレッジは無意味です。カバレッジを追い求める数値ではなく、どこに死角があるかを示す地図として捉える方法をご紹介します。"
 sourceSlug: your-test-coverage-number-is-lying-to-you
 locale: ja
+sourceHash: 3020cce909216922
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "如何组织Next.js项目结构（6个生产级应用后的经验）"
 excerpt: "文件夹约定、数据获取模式、组件组织，以及从MVP扩展到185个数据库表仍保持可管理的文件结构。"
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: zh
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

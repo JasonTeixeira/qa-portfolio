@@ -3,6 +3,7 @@ title: "Le bug qui m'a plus appris que n'importe quel cours"
 excerpt: "Une condition de concurrence dans un gestionnaire de webhook de paiement est restée indétectée pendant 3 semaines. Quand elle s'est déclenchée, elle a facturé deux fois 4 clients. Voici le post-mortem complet et pourquoi je teste désormais le code de facturation différemment."
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: fr
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

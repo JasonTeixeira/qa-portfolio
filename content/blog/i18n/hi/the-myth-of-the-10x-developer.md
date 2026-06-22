@@ -3,6 +3,7 @@ title: "10x डेवलपर का मिथक"
 excerpt: "कोई 10x डेवलपर नहीं होते। ऐसे डेवलपर होते हैं जिन्हें क्या बनाना है और क्या छोड़ना है, इसकी 10x स्पष्टता होती है। अंतर निर्णय लेने का है, टाइपिंग स्पीड का नहीं।"
 sourceSlug: the-myth-of-the-10x-developer
 locale: hi
+sourceHash: 81662f3fa6216e21
 machineTranslated: true
 ---
 

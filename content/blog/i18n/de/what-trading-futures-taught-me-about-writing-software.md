@@ -3,6 +3,7 @@ title: "Was mir der Futures-Handel über das Schreiben von Software beigebracht 
 excerpt: "Ich handle jeden Morgen ES-, NQ- und CL-Futures, bevor ich Code schreibe. Die Parallelen zwischen Risikomanagement im Handel und Risikomanagement in der Software sind unangenehm ähnlich."
 sourceSlug: what-trading-futures-taught-me-about-writing-software
 locale: de
+sourceHash: d440df8c786a8375
 machineTranslated: true
 ---
 

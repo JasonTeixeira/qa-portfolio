@@ -3,6 +3,7 @@ title: "Escribiendo un libro de 120,000 palabras mientras desarrollo software a 
 excerpt: "Escribí un libro de 24 capítulos sobre trading mientras construía la plataforma Nexural. Aquí te cuento cómo manejé ambas cosas, qué casi me quiebra y por qué escribir me hizo mejor ingeniero."
 sourceSlug: writing-a-120-000-word-book-while-building-software-full-time
 locale: es
+sourceHash: 7493d2994ce2213f
 machineTranslated: true
 ---
 

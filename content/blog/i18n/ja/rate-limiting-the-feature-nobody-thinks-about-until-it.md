@@ -3,6 +3,7 @@ title: "レート制限：手遅れになるまで誰も考えない機能"
 excerpt: "APIは毎秒10リクエストでは完璧に動作します。10,000リクエストではダウンします。正当なユーザーを煩わせずに保護するレート制限の実装方法をご紹介します。"
 sourceSlug: rate-limiting-the-feature-nobody-thinks-about-until-it
 locale: ja
+sourceHash: c38601b0fe30159a
 machineTranslated: true
 ---
 

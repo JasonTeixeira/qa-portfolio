@@ -3,6 +3,7 @@ title: "Pourquoi j'utilise du SQL brut plutôt qu'un ORM (la plupart du temps)"
 excerpt: "Les ORM sont géniaux jusqu'à ce qu'ils ne le soient plus. Après avoir débogué des requêtes générées qui prenaient 30 secondes sur une base de données de 185 tables, je suis passé au SQL brut pour les chemins critiques. Voici quand chacun a du sens."
 sourceSlug: why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
 locale: fr
+sourceHash: 8704afb8dd6233ff
 machineTranslated: true
 ---
 

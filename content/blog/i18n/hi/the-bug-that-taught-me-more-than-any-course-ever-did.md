@@ -3,6 +3,7 @@ title: "वह बग जिसने मुझे किसी भी कोर
 excerpt: "एक भुगतान वेबहुक हैंडलर में रेस कंडीशन 3 हफ्तों तक अनदेखी रही। जब यह ट्रिगर हुआ, तो इसने 4 ग्राहकों से दोगुना शुल्क ले लिया। यहाँ पूरा पोस्टमार्टम है और क्यों अब मैं बिलिंग कोड का अलग तरीके से परीक्षण करता हूँ।"
 sourceSlug: the-bug-that-taught-me-more-than-any-course-ever-did
 locale: hi
+sourceHash: c708a0d3fda65b18
 machineTranslated: true
 ---
 

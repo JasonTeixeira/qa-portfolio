@@ -3,6 +3,7 @@ title: "تصميم مخطط قاعدة بيانات بـ 185 جدولًا: در�
 excerpt: "كيف صممت مخطط قاعدة بيانات معياري لمنصة مالية تضم 7 أنظمة مترابطة. مراحل المخطط، سياسات RLS، مقايضات إلغاء التسوية، واستراتيجيات الترحيل."
 sourceSlug: designing-a-185-table-database-schema-lessons-from-building-nexural
 locale: ar
+sourceHash: 35047aee80b62eef
 machineTranslated: true
 ---
 

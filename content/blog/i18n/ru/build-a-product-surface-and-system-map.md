@@ -3,6 +3,7 @@ title: "Создайте карту поверхности продукта и �
 excerpt: "Продукт легче создавать, продавать и обучать, когда вы отделяете видимую поверхность от операционной системы под ней."
 sourceSlug: build-a-product-surface-and-system-map
 locale: ru
+sourceHash: 4019ab36467243d5
 machineTranslated: true
 ---
 

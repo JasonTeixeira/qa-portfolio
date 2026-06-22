@@ -3,6 +3,7 @@ title: "过度工程的教训（来自一个亲历者）"
 excerpt: "我曾为一个永远不需要插件的系统构建了插件架构。花了3周时间搭建抽象层，结果这个功能根本没人要。以下是我如何学会停止的。"
 sourceSlug: the-case-against-over-engineering-from-someone-who
 locale: zh
+sourceHash: bc02bbe3cb578fd8
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Monolito vs Microservicios: Por qué elegí un monolito modular para Nex
 excerpt: "La plataforma Nexural tiene 7 sistemas pero funciona como un monolito modular, no como microservicios. Aquí está por qué fue la decisión correcta para un ingeniero en solitario, y cuándo lo dividiría."
 sourceSlug: monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
 locale: es
+sourceHash: bbc8c35698d66e27
 machineTranslated: true
 ---
 

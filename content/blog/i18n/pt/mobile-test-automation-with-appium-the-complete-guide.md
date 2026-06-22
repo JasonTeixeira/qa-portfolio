@@ -3,6 +3,7 @@ title: "Automação de Testes Mobile com Appium: O Guia Completo"
 excerpt: "Construí um framework de testes mobile multiplataforma que reduziu o tempo de regressão de 2 dias para 2 horas e encontrou 23 bugs específicos de dispositivo antes do lançamento."
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: pt
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

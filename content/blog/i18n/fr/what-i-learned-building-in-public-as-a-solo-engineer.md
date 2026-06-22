@@ -3,6 +3,7 @@ title: "Ce que j'ai appris en construisant en public en tant qu'ingénieur solo"
 excerpt: "Un an à construire l'écosystème Nexural, à trader des futures, à écrire un livre et à tout documenter. Les victoires, les échecs et ce que je dirais à quelqu'un qui commence aujourd'hui."
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: fr
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Lições da Integração com Stripe: O Que a Documentação Não Conta"
 excerpt: "Idempotência de webhooks, máquinas de estado de assinaturas, estratégias de cobrança e os casos extremos que quebrarão seu sistema de faturamento se você não tratá-los."
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: pt
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

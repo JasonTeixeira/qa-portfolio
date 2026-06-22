@@ -3,6 +3,7 @@ title: "Terraform Module Patterns: How I Structure IaC for Reuse"
 excerpt: "Opinionated Terraform module patterns — consistent variable naming, output contracts, testing with Terratest, and the module structure that works across teams."
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: ru
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

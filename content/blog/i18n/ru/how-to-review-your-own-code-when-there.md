@@ -3,6 +3,7 @@ title: "Как рецензировать свой код (когда больш
 excerpt: "Соло-разработка означает отсутствие ревью кода. Я разработал процесс саморецензирования, который выявляет 80% того, что нашла бы вторая пара глаз. Начинается он с отвлечения."
 sourceSlug: how-to-review-your-own-code-when-there
 locale: ru
+sourceHash: a3e8c4797df16be4
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Stratégie de test pour startups : quoi tester quand on ne peut pas tout
 excerpt: "Vous avez 2 ingénieurs et 100 fonctionnalités. Vous ne pouvez pas tout tester. Voici la stratégie de test basée sur les risques que j'utilise pour maximiser la couverture avec un investissement minimal."
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: fr
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

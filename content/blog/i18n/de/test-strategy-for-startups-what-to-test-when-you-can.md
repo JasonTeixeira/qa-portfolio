@@ -3,6 +3,7 @@ title: "Teststrategie für Startups: Was testen, wenn man nicht alles testen kan
 excerpt: "Sie haben 2 Entwickler und 100 Funktionen. Sie können nicht alles testen. Hier ist die risikobasierte Teststrategie, die ich verwende, um die Abdeckung bei minimalem Aufwand zu maximieren."
 sourceSlug: test-strategy-for-startups-what-to-test-when-you-can
 locale: de
+sourceHash: 3dcd82e997a05fc2
 machineTranslated: true
 ---
 

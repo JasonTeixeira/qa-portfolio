@@ -3,6 +3,7 @@ title: "Variáveis de Ambiente: A Falha de Segurança em Toda Startup"
 excerpt: "Seu arquivo .env contém a senha do banco de dados, a chave secreta do Stripe e as credenciais da AWS. Está em uma mensagem do Slack, no laptop de um desenvolvedor e provavelmente em alguma imagem Docker. Vamos resolver isso."
 sourceSlug: environment-variables-the-security-hole-in-every-startup
 locale: pt
+sourceHash: b4aa2f8e3a21f653
 machineTranslated: true
 ---
 

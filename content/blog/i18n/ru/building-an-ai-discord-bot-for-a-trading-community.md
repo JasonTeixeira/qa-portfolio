@@ -3,6 +3,7 @@ title: "Создание AI Discord-бота для торгового сооб�
 excerpt: "Как я создал Nexural Discord AI Engine — 30+ команд, интеграция GPT-4o, автоматическая модерация и рыночная аналитика. Уроки безопасности ИИ в финансовых контекстах."
 sourceSlug: building-an-ai-discord-bot-for-a-trading-community
 locale: ru
+sourceHash: 995c6b357c9cfdb3
 machineTranslated: true
 ---
 

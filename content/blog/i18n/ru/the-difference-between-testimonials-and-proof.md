@@ -3,6 +3,7 @@ title: "Разница между отзывами и доказательств
 excerpt: "Отзывы — это цитаты. Доказательство — это система: источник, контекст, квитанция, методология, ограничения и следующее действие."
 sourceSlug: the-difference-between-testimonials-and-proof
 locale: ru
+sourceHash: 99bbf019516fec8a
 machineTranslated: true
 ---
 

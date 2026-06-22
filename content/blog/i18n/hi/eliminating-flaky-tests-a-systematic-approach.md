@@ -3,6 +3,7 @@ title: "अस्थिर परीक्षणों को समाप्त
 excerpt: "मैंने कैसे एक परीक्षण सूट को 10% अस्थिरता दर से 1% से कम पर लाया — पुनः प्रयास तर्क, परीक्षण पृथक्करण, निर्धारित डेटा, और वे पैटर्न जो परीक्षणों को विश्वसनीय बनाते हैं।"
 sourceSlug: eliminating-flaky-tests-a-systematic-approach
 locale: hi
+sourceHash: b780b5a56a15f8e6
 machineTranslated: true
 ---
 

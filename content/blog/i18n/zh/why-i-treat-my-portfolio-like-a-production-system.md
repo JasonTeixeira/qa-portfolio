@@ -3,6 +3,7 @@ title: "为何我把个人作品集当作生产系统来运维"
 excerpt: "SLO、故障演练、WAF限速和OIDC联合——我为何以企业级基础设施的严谨标准运维个人作品集网站，以及这向招聘经理传递了什么信号。"
 sourceSlug: why-i-treat-my-portfolio-like-a-production-system
 locale: zh
+sourceHash: 378dd32b468864fc
 machineTranslated: true
 ---
 

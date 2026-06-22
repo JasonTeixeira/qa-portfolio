@@ -3,6 +3,7 @@ title: "Aufbau einer Backtesting-Engine, die nicht lügt"
 excerpt: "Die meisten Backtesting-Engines liefern Ergebnisse, die großartig aussehen, aber im Live-Handel versagen. So habe ich die Backtesting-Engine von QuantumTrader gebaut, um ehrlich über die Leistung zu sein."
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: de
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

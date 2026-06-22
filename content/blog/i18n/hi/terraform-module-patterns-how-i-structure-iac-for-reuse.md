@@ -3,6 +3,7 @@ title: "Terraform Module Patterns: पुन: उपयोग के लिए I
 excerpt: "विवादास्पद Terraform मॉड्यूल पैटर्न — सुसंगत चर नामकरण, आउटपुट अनुबंध, Terratest के साथ परीक्षण, और टीमों में काम करने वाली मॉड्यूल संरचना।"
 sourceSlug: terraform-module-patterns-how-i-structure-iac-for-reuse
 locale: hi
+sourceHash: 1fc529dc16591e27
 machineTranslated: true
 ---
 

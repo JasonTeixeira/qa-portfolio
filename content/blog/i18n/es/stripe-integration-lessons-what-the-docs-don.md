@@ -3,6 +3,7 @@ title: "Lecciones de integración con Stripe: Lo que la documentación no te cue
 excerpt: "Idempotencia de webhooks, máquinas de estado de suscripciones, estrategias de cobro y los casos límite que romperán tu sistema de facturación si no los manejas."
 sourceSlug: stripe-integration-lessons-what-the-docs-don
 locale: es
+sourceHash: 59f046b57c90861a
 machineTranslated: true
 ---
 

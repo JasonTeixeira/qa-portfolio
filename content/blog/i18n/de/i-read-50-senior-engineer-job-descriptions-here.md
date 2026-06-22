@@ -3,6 +3,7 @@ title: "Ich habe 50 Stellenanzeigen für Senior Engineers gelesen. Das wollen si
 excerpt: "Ich habe 50 Stellenausschreibungen für Senior/Staff Engineers bei Unternehmen mit Gehältern von 180.000 bis 350.000 $ analysiert. Die Muster sind eindeutig – und die meisten Portfolios übersehen sie völlig."
 sourceSlug: i-read-50-senior-engineer-job-descriptions-here
 locale: de
+sourceHash: 5023405c5e9f8d93
 machineTranslated: true
 ---
 

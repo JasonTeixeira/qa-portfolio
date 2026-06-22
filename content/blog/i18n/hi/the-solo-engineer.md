@@ -3,6 +3,7 @@ title: "एकल इंजीनियर का टूलकिट: एक ट
 excerpt: "मैं एकल इंजीनियर के रूप में प्रोडक्शन सिस्टम कैसे बनाता हूँ — वे उपकरण, वर्कफ़्लो और ऑटोमेशन जो एक व्यक्ति को छोटी टीम का काम करने देते हैं।"
 sourceSlug: the-solo-engineer
 locale: hi
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

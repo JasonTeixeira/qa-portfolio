@@ -3,6 +3,7 @@ title: "एक सोलो इंजीनियर के रूप में 
 excerpt: "नेक्सुरल इकोसिस्टम बनाने, फ्यूचर्स ट्रेडिंग, किताब लिखने और सब कुछ दस्तावेज़ करने का एक साल। जीत, असफलताएँ, और आज शुरू करने वाले किसी व्यक्ति को मैं क्या बताऊँगा।"
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: hi
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "Construindo um Motor de Backtesting que Não Mente para Você"
 excerpt: "A maioria dos motores de backtesting produz resultados que parecem ótimos, mas desmoronam no trading ao vivo. Veja como construí o motor de backtesting do QuantumTrader para ser honesto sobre o desempenho."
 sourceSlug: building-a-backtesting-engine-that-doesn
 locale: pt
+sourceHash: 452ef2f115fe23a2
 machineTranslated: true
 ---
 

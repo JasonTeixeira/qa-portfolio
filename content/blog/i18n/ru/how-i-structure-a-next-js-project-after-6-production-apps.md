@@ -3,6 +3,7 @@ title: "Как я структурирую проект Next.js (после 6 п
 excerpt: "Соглашения по папкам, шаблоны получения данных, организация компонентов и структура файлов, которая масштабируется от MVP до 185 таблиц базы данных, не становясь неуправляемой."
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: ru
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

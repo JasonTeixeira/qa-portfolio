@@ -3,6 +3,7 @@ title: "ما تعلمته من البناء علنًا كمهندس منفرد"
 excerpt: "عام من بناء نظام Nexural البيئي، وتداول العقود الآجلة، وكتابة كتاب، وتوثيق كل شيء. الانتصارات، والإخفاقات، وما سأقوله لشخص يبدأ اليوم."
 sourceSlug: what-i-learned-building-in-public-as-a-solo-engineer
 locale: ar
+sourceHash: 8efdb4e4031bcb97
 machineTranslated: true
 ---
 

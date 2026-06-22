@@ -3,6 +3,7 @@ title: "独行工程师的工具箱：替代整个团队的工具"
 excerpt: "我如何作为独立工程师构建生产系统——让一个人完成小团队工作的工具、工作流程和自动化方案。"
 sourceSlug: the-solo-engineer
 locale: zh
+sourceHash: d67cce21d1788639
 machineTranslated: true
 ---
 

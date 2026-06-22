@@ -3,6 +3,7 @@ title: "Comment je structure un projet Next.js (après 6 applications en product
 excerpt: "Conventions de dossiers, modèles de récupération de données, organisation des composants et structure de fichiers qui évolue d'un MVP à 185 tables de base de données sans devenir ingérable."
 sourceSlug: how-i-structure-a-next-js-project-after-6-production-apps
 locale: fr
+sourceHash: 89f409f4dce8ecaa
 machineTranslated: true
 ---
 

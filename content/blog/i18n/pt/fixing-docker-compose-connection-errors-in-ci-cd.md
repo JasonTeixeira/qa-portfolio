@@ -3,6 +3,7 @@ title: "Corrigindo Erros de Conexão do Docker Compose em CI/CD"
 excerpt: "Passei 4 horas depurando erros de 'Conexão recusada' no Jenkins. Aqui está o que aprendi sobre redes Docker em pipelines de CI."
 sourceSlug: fixing-docker-compose-connection-errors-in-ci-cd
 locale: pt
+sourceHash: 8e0431f892a3afac
 machineTranslated: true
 ---
 

@@ -3,6 +3,7 @@ title: "使用Appium进行移动测试自动化：完整指南"
 excerpt: "构建了一个跨平台移动测试框架，将回归测试时间从2天缩短至2小时，并在发布前发现了23个设备特定错误。"
 sourceSlug: mobile-test-automation-with-appium-the-complete-guide
 locale: zh
+sourceHash: 5b1556cf52daf776
 machineTranslated: true
 ---
 

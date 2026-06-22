@@ -16,40 +16,67 @@ type Props = {
   searchParams: Promise<{
     error?: string;
     next?: string;
+    audience?: string;
   }>;
 };
+
+const COPY = {
+  studio: {
+    kicker: 'Studio access. Built for clients and craft.',
+    heading: 'Sign in to the studio',
+    sub: 'Use the email and password tied to your engagement, or continue with a connected account.',
+    mobileLabel: 'Sage Ideas Studio',
+    accent: '#3D5AFE',
+    newPrompt: 'Need studio access?',
+    newCta: 'Request an account →',
+  },
+  academy: {
+    kicker: 'Sage Academy. Learn to build, by building.',
+    heading: 'Sign in to keep learning',
+    sub: 'Use the email tied to your membership to reach your courses, labs, and certificates.',
+    mobileLabel: 'Sage Academy',
+    accent: '#18b663',
+    newPrompt: 'New to the Academy?',
+    newCta: 'Join — $20/mo, instant access →',
+  },
+} as const;
 
 export default async function LoginPage({ searchParams }: Props) {
   const sp = await searchParams;
   const error = sp.error;
   const next = sp.next ?? '/auth/redirect';
+  // Which door is this? Explicit ?audience, or inferred from an academy destination.
+  const audience: 'studio' | 'academy' =
+    sp.audience === 'academy' || next.startsWith('/academy') ? 'academy' : 'studio';
+  const c = COPY[audience];
   const signupHref =
-    next !== '/auth/redirect' ? `/signup?next=${encodeURIComponent(next)}` : '/signup';
+    audience === 'academy'
+      ? '/academy/join'
+      : next !== '/auth/redirect'
+        ? `/signup?next=${encodeURIComponent(next)}`
+        : '/signup';
 
   return (
     <div className="relative min-h-screen flex bg-[#09090B]">
       <GradientMesh />
       <div className="relative z-10 flex flex-1">
-        <BrandPanel />
+        <BrandPanel audience={audience} />
 
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="w-full max-w-md">
             <div className="lg:hidden flex items-center gap-3 text-[#FAFAFA] mb-8">
               <SageLogo />
-              <span className="font-semibold">Sage Ideas Studio</span>
+              <span className="font-semibold">{c.mobileLabel}</span>
             </div>
 
             <div className="space-y-2 mb-8">
-              <div className="text-[10px] font-mono uppercase tracking-widest text-[#3D5AFE]">
-                Studio access. Built for clients and craft.
+              <div className="text-[10px] font-mono uppercase tracking-widest" style={{ color: c.accent }}>
+                {c.kicker}
               </div>
               <h2 className="text-2xl font-semibold tracking-tight text-[#FAFAFA]">
-                Sign in to the studio
+                {c.heading}
               </h2>
-              <p className="text-sm text-[#A8A29E]">
-                Use the email and password tied to your engagement, or continue with a connected
-                account.
-              </p>
+              <p className="text-sm text-[#A8A29E]">{c.sub}</p>
             </div>
 
             <div aria-live="polite" aria-atomic="true">
@@ -109,7 +136,8 @@ export default async function LoginPage({ searchParams }: Props) {
               </div>
               <button
                 type="submit"
-                className="w-full rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors"
+                style={{ background: c.accent }}
+                className="w-full rounded-lg px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-all"
               >
                 Sign in
               </button>
@@ -126,13 +154,27 @@ export default async function LoginPage({ searchParams }: Props) {
             <OAuthButtons next={next} />
 
             <p className="mt-8 text-center text-sm text-[#A8A29E]">
-              New here?{' '}
+              {c.newPrompt}{' '}
               <Link
                 href={signupHref}
-                className="text-[#3D5AFE] hover:text-[#5670ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 rounded-sm"
+                style={{ color: c.accent }}
+                className="hover:brightness-125 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-sm"
               >
-                Create an account →
+                {c.newCta}
               </Link>
+            </p>
+
+            {/* Cross-door link so people who hit the wrong house can switch. */}
+            <p className="mt-3 text-center text-xs text-[#52525B]">
+              {audience === 'academy' ? (
+                <Link href="/login" className="hover:text-[#A8A29E]">
+                  Studio client? Sign in here →
+                </Link>
+              ) : (
+                <Link href="/login?audience=academy&next=/academy/dashboard" className="hover:text-[#A8A29E]">
+                  Here to learn? Academy sign-in →
+                </Link>
+              )}
             </p>
           </div>
         </div>

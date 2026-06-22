@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { getAcademyAccess } from '@/lib/academy/access';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -22,7 +23,14 @@ export default async function AuthRedirectPage() {
     .eq('id', user.id)
     .maybeSingle();
 
+  // Route by audience. Admins → admin; approved studio CLIENTS → the project portal;
+  // academy CUSTOMERS (paying member or enrolled) → their learning dashboard — NOT the
+  // studio "pending approval" waiting room. Clients are preferred on a tie (dual identity).
   if (profile?.app_role === 'admin') redirect('/admin');
   if (profile?.approval_status === 'approved') redirect('/portal');
+
+  const academy = await getAcademyAccess();
+  if (academy.hasFullAccess) redirect('/academy/dashboard');
+
   redirect('/pending-approval');
 }

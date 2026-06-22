@@ -98,6 +98,17 @@ export function ArticleShell({
             <p className="mt-5 max-w-[62ch] text-[16px] leading-[1.72] text-[var(--sage-ink-muted)] sm:text-[18px]">
               {description}
             </p>
+            <Link
+              href={clusterHref}
+              className="group mt-6 inline-flex items-center gap-2 rounded-full border border-[var(--sage-border)] bg-[var(--sage-surface-1)] py-1.5 pl-3 pr-4 transition-colors hover:border-[var(--sage-accent)]"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">
+                Part of
+              </span>
+              <span className="text-[13px] font-medium text-[var(--sage-ink-muted)] group-hover:text-[var(--sage-accent-readable)]">
+                {clusterLabel} -&gt;
+              </span>
+            </Link>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-[var(--sage-border)] pt-6">
               <MonoLabel tone="faint">By Jason Teixeira</MonoLabel>
               <span className="hidden h-3 w-px bg-[var(--sage-border-strong)] sm:block" aria-hidden />

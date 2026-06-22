@@ -476,15 +476,24 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
               <p className={`${mono} text-[var(--sage-ink-faint)]`}>
                 Showing {shownPosts.length} of {archivePosts.length}
               </p>
-              {hasMore ? (
-                <button
-                  type="button"
-                  onClick={() => setVisibleCount((value) => value + 12)}
-                  className={`min-h-11 border border-[var(--sage-border-strong)] bg-transparent px-6 ${mono} text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)] hover:bg-[rgba(61,90,254,0.1)]`}
+              <div className="flex flex-wrap items-center gap-4">
+                {hasMore ? (
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount((value) => value + 12)}
+                    className={`min-h-11 border border-[var(--sage-border-strong)] bg-transparent px-6 ${mono} text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)] hover:bg-[rgba(61,90,254,0.1)]`}
+                  >
+                    Load more dispatches -&gt;
+                  </button>
+                ) : null}
+                {/* Crawlable entry into the static paginated archive (SEO: every post indexable). */}
+                <Link
+                  href="/blog/page/1"
+                  className={`min-h-11 inline-flex items-center px-6 ${mono} text-[var(--sage-ink-muted)] underline-offset-4 transition hover:text-[var(--sage-accent-readable)] hover:underline`}
                 >
-                  Load more dispatches -&gt;
-                </button>
-              ) : null}
+                  Browse the full archive -&gt;
+                </Link>
+              </div>
             </div>
           </>
         )}

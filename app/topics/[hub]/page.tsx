@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { clusterList, getClusterBySlug } from '@/data/content/clusters'
-import { getBlogPostsByCluster } from '@/lib/blog-server'
+import { CLUSTERS, clusterList, getClusterBySlug } from '@/data/content/clusters'
+import { getAllBlogPosts, getBlogPostsByCluster } from '@/lib/blog-server'
+import { getHubRelatedClusters } from '@/lib/seo/internal-links'
 import { JsonLd } from '@/components/json-ld'
 import {
   ConversionMap,
@@ -67,6 +68,7 @@ export default async function TopicHubPage({ params }: PageProps) {
 
   const posts = getBlogPostsByCluster(cluster.key)
   const hubUrl = `${SITE}/topics/${cluster.slug}`
+  const relatedClusters = getHubRelatedClusters(cluster.key, getAllBlogPosts(), 3).map((key) => CLUSTERS[key])
 
   return (
     <LivingPageShell>
@@ -209,6 +211,37 @@ export default async function TopicHubPage({ params }: PageProps) {
           </aside>
         </div>
       </LivingSection>
+
+      {relatedClusters.length > 0 ? (
+        <LivingSection
+          eyebrow="Related topics"
+          title="Where this cluster connects."
+          lede="Strong topics don't sit in isolation. These adjacent clusters share readers, problems, and buyers — follow the thread."
+        >
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedClusters.map((related) => (
+              <Link
+                key={related.key}
+                href={`/topics/${related.slug}`}
+                className="group flex flex-col gap-3 rounded-[8px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-5 transition-colors hover:border-[var(--sage-accent)]"
+              >
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                  Topic hub
+                </span>
+                <span className="text-lg font-semibold text-[var(--sage-ink)] group-hover:text-[var(--sage-accent-readable)]">
+                  {related.title}
+                </span>
+                <span className="text-sm leading-6 text-[var(--sage-ink-muted)]">
+                  {related.description}
+                </span>
+                <span className="mt-auto font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)] group-hover:text-[var(--sage-accent-readable)]">
+                  Read the cluster -&gt;
+                </span>
+              </Link>
+            ))}
+          </div>
+        </LivingSection>
+      ) : null}
 
       <LivingSection
         eyebrow="Cluster funnel"

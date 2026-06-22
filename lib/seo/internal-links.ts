@@ -104,6 +104,25 @@ export function getRelatedClusterKeys(post: BlogPost, all: BlogPost[], limit = 2
   return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([k]) => k)
 }
 
+/**
+ * Which clusters a *hub* bridges to — for the "Related topics" cross-links on a
+ * pillar page (linking law §5, SIDEWAYS). Data-driven: aggregates the cross-cluster
+ * bridges of every post in the cluster, so the graph reflects real content overlap
+ * and improves automatically as posts are added. No hardcoded cluster pairs.
+ */
+export function getHubRelatedClusters(cluster: ClusterKey, all: BlogPost[], limit = 3): ClusterKey[] {
+  const counts = new Map<ClusterKey, number>()
+  for (const post of all.filter((p) => p.cluster === cluster)) {
+    for (const key of getRelatedClusterKeys(post, all, 3)) {
+      if (key !== cluster) counts.set(key, (counts.get(key) ?? 0) + 1)
+    }
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([k]) => k)
+}
+
 /** Orphan check for the build report: a post with no inbound sibling links is weak. */
 export function findOrphanSlugs(all: BlogPost[]): string[] {
   const inbound = new Map<string, number>(all.map((p) => [p.slug, 0]))

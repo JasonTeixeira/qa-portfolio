@@ -109,6 +109,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
+    // Paginated archive (page 2+; page 1 canonicalises to /blog so it's omitted here).
+    ...Array.from(
+      { length: Math.max(0, Math.ceil(blogPosts.length / 12) - 1) },
+      (_, i) => ({
+        url: `${SITE}/blog/page/${i + 2}`,
+        changeFrequency: 'weekly' as const,
+        priority: 0.45,
+      }),
+    ),
     ...clusterList.map((cluster) => ({
       url: `${SITE}/topics/${cluster.slug}`,
       changeFrequency: 'weekly' as const,

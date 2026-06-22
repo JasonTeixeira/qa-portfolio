@@ -7,7 +7,7 @@ import { checkRateLimitFromHeaders } from '@/lib/rate-limit'
 import { computeOpenSlots, type AvailabilityWindow, type BusyWindow } from '@/lib/booking/slots'
 import { sendBookingConfirmation, sendBookingNotification } from '@/lib/booking/confirm-email'
 
-const BOOKING_HORIZON_DAYS = 60
+const MAX_ADVANCE_DAYS = Number(process.env.BOOKING_MAX_ADVANCE_DAYS) || 365
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -40,19 +40,26 @@ export async function POST(req: Request) {
   if (body.honey) return NextResponse.json({ ok: true }) // silently drop bots
 
   const sb = supabaseAdmin()
-  const nowIso = new Date().toISOString()
+  const now = new Date()
+  const requestedDate = new Date(body.slot)
+  if (requestedDate.getTime() > now.getTime() + MAX_ADVANCE_DAYS * 86_400_000) {
+    return NextResponse.json({ error: 'That date is too far out to book.' }, { status: 409 })
+  }
 
-  // Recompute the open slots and confirm the requested slot is genuinely offered.
+  // Validate the requested slot is genuinely offered — compute only a tight window around it
+  // (works for any future date without materializing the whole horizon).
+  const winFrom = new Date(requestedDate.getTime() - 36 * 3_600_000)
+  const winTo = new Date(requestedDate.getTime() + 36 * 3_600_000)
   const [availabilityRes, bookingsRes] = await Promise.all([
     sb.from('studio_availability').select('weekday, start_time, end_time, timezone, slot_minutes, is_active').eq('is_active', true),
-    sb.from('bookings').select('starts_at, ends_at').eq('status', 'confirmed').gte('ends_at', nowIso),
+    sb.from('bookings').select('starts_at, ends_at').eq('status', 'confirmed').gte('ends_at', winFrom.toISOString()).lte('starts_at', winTo.toISOString()),
   ])
   const { slots, durationMinutes } = computeOpenSlots(
     (availabilityRes.data ?? []) as AvailabilityWindow[],
     (bookingsRes.data ?? []) as BusyWindow[],
-    { horizonDays: BOOKING_HORIZON_DAYS, minNoticeHours: 12 },
+    { from: winFrom, to: winTo, minNoticeHours: 12 },
   )
-  const requested = new Date(body.slot).toISOString()
+  const requested = requestedDate.toISOString()
   if (!slots.includes(requested)) {
     return NextResponse.json({ error: 'That time is no longer available — pick another.' }, { status: 409 })
   }

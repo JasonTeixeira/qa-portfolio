@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Hairline, MonoLabel, Surface } from '@/components/el'
 
 const fmtDayLong = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
@@ -13,12 +13,15 @@ const SERIF: React.CSSProperties = {
 }
 
 const dayKey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+const monthKey = (y: number, m: number) => `${y}-${m}`
+const monthIndex = (y: number, m: number) => y * 12 + m
 
 export function PublicScheduler() {
-  const [slots, setSlots] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
-  const [failed, setFailed] = useState(false)
-  const [view, setView] = useState<{ y: number; m: number } | null>(null)
+  const today = useMemo(() => new Date(), [])
+  const [months, setMonths] = useState<Map<string, string[]>>(new Map())
+  const [maxBookable, setMaxBookable] = useState<Date | null>(null)
+  const [view, setView] = useState({ y: today.getFullYear(), m: today.getMonth() })
+  const [fetching, setFetching] = useState(true)
   const [selectedKey, setSelectedKey] = useState<string | null>(null)
   const [slot, setSlot] = useState<string | null>(null)
   const [name, setName] = useState('')
@@ -38,60 +41,61 @@ export function PublicScheduler() {
     }
   }, [])
 
-  useEffect(() => {
-    let alive = true
-    fetch('/api/book/slots')
-      .then((r) => r.json())
-      .then((d: { slots?: string[] }) => {
-        if (!alive) return
-        const list = d.slots ?? []
-        setSlots(list)
-        setFailed(list.length === 0)
-      })
-      .catch(() => alive && setFailed(true))
-      .finally(() => alive && setLoading(false))
-    return () => {
-      alive = false
+  // Fetch a single month's open slots on demand (only the requested window is computed server-side).
+  const fetchMonth = useCallback(async (y: number, m: number, force = false) => {
+    const key = monthKey(y, m)
+    if (!force && months.has(key)) return
+    setFetching(true)
+    const from = new Date(y, m, 1)
+    const to = new Date(y, m + 1, 0, 23, 59, 59)
+    try {
+      const res = await fetch(`/api/book/slots?from=${from.toISOString()}&to=${to.toISOString()}`)
+      const data: { slots?: string[]; maxBookable?: string } = await res.json()
+      setMonths((prev) => new Map(prev).set(key, data.slots ?? []))
+      if (data.maxBookable) setMaxBookable(new Date(data.maxBookable))
+    } catch {
+      setMonths((prev) => new Map(prev).set(key, []))
+    } finally {
+      setFetching(false)
     }
-  }, [])
+  }, [months])
 
-  // local-day key → slots
+  useEffect(() => {
+    fetchMonth(view.y, view.m)
+  }, [view, fetchMonth])
+
+  // Merge every fetched month into a single local-day → slots map.
   const byDay = useMemo(() => {
     const map = new Map<string, string[]>()
-    for (const iso of slots) {
-      const k = dayKey(new Date(iso))
-      if (!map.has(k)) map.set(k, [])
-      map.get(k)!.push(iso)
+    for (const list of months.values()) {
+      for (const iso of list) {
+        const k = dayKey(new Date(iso))
+        if (!map.has(k)) map.set(k, [])
+        map.get(k)!.push(iso)
+      }
     }
+    for (const arr of map.values()) arr.sort()
     return map
-  }, [slots])
+  }, [months])
 
-  // navigable month range: from the first available month to the last
-  const range = useMemo(() => {
-    if (slots.length === 0) return null
-    const first = new Date(slots[0])
-    const last = new Date(slots[slots.length - 1])
-    return {
-      min: { y: first.getFullYear(), m: first.getMonth() },
-      max: { y: last.getFullYear(), m: last.getMonth() },
-    }
-  }, [slots])
-
-  useEffect(() => {
-    if (!view && range) setView(range.min)
-  }, [range, view])
-
-  const monthSlots = view ? buildMonthCells(view.y, view.m, byDay) : []
+  const monthCells = buildMonthCells(view.y, view.m, byDay)
   const selectedSlots = selectedKey ? byDay.get(selectedKey) ?? [] : []
   const selectedDate = selectedSlots.length ? new Date(selectedSlots[0]) : null
 
-  const canPrev = view && range ? view.y * 12 + view.m > range.min.y * 12 + range.min.m : false
-  const canNext = view && range ? view.y * 12 + view.m < range.max.y * 12 + range.max.m : false
+  const currentIdx = monthIndex(today.getFullYear(), today.getMonth())
+  const viewIdx = monthIndex(view.y, view.m)
+  const maxIdx = maxBookable ? monthIndex(maxBookable.getFullYear(), maxBookable.getMonth()) : viewIdx + 1
+  const canPrev = viewIdx > currentIdx
+  const canNext = viewIdx < maxIdx
   const shift = (delta: number) => {
-    if (!view) return
-    const total = view.y * 12 + view.m + delta
+    const total = viewIdx + delta
     setView({ y: Math.floor(total / 12), m: total % 12 })
+    setSelectedKey(null)
+    setSlot(null)
   }
+
+  const thisMonthFetched = months.has(monthKey(view.y, view.m))
+  const hasAnySlots = byDay.size > 0
 
   async function book() {
     if (!slot) return
@@ -109,7 +113,7 @@ export function PublicScheduler() {
       if (!res.ok) {
         setError(data?.error || 'Could not book that slot. Try another time.')
         if (res.status === 409) {
-          fetch('/api/book/slots').then((r) => r.json()).then((d) => setSlots(d.slots ?? []))
+          fetchMonth(view.y, view.m, true) // refresh this month
           setSlot(null)
         }
       } else {
@@ -138,24 +142,6 @@ export function PublicScheduler() {
     )
   }
 
-  if (loading) {
-    return (
-      <Surface level={2} bordered className="p-10 text-center">
-        <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[var(--sage-ink-faint)]">Loading open times…</p>
-      </Surface>
-    )
-  }
-  if (failed || !view) {
-    return (
-      <Surface level={2} bordered className="p-8">
-        <MonoLabel tone="faint" className="text-[10px]">{'// scheduler'}</MonoLabel>
-        <p className="mt-3 text-[15px] text-[var(--sage-ink-muted)]">
-          No open slots right now — use the structured intake below and I&apos;ll send times directly.
-        </p>
-      </Surface>
-    )
-  }
-
   return (
     <Surface level={2} bordered ticks className="overflow-hidden">
       <div className="flex items-center justify-between border-b border-[var(--sage-border)] px-5 py-3.5 sm:px-6">
@@ -179,7 +165,7 @@ export function PublicScheduler() {
             {WEEKDAYS.map((w) => (
               <span key={w} className="pb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--sage-ink-faint)]">{w}</span>
             ))}
-            {monthSlots.map((cell, i) =>
+            {monthCells.map((cell, i) =>
               cell === null ? (
                 <span key={`b${i}`} />
               ) : (
@@ -208,6 +194,12 @@ export function PublicScheduler() {
               ),
             )}
           </div>
+          {fetching && !thisMonthFetched && (
+            <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">Loading…</p>
+          )}
+          {thisMonthFetched && !hasAnySlots && (
+            <p className="mt-3 text-center text-[12px] text-[var(--sage-ink-faint)]">No open times this month — try → for the next one.</p>
+          )}
         </div>
 
         {/* Times + form */}
@@ -258,14 +250,13 @@ export function PublicScheduler() {
 type Cell = { key: string; day: number; available: boolean } | null
 
 function buildMonthCells(year: number, month: number, byDay: Map<string, string[]>): Cell[] {
-  const first = new Date(year, month, 1)
-  const lead = first.getDay()
+  const lead = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const cells: Cell[] = []
   for (let i = 0; i < lead; i++) cells.push(null)
   for (let d = 1; d <= daysInMonth; d++) {
     const key = `${year}-${month}-${d}`
-    cells.push({ key, day: d, available: byDay.has(key) })
+    cells.push({ key, day: d, available: (byDay.get(key)?.length ?? 0) > 0 })
   }
   return cells
 }

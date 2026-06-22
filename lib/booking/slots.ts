@@ -21,7 +21,10 @@ export interface BusyWindow {
 
 export interface SlotOptions {
   now?: Date
-  horizonDays?: number // how far out to offer slots
+  /** Window start — slots before this (or before now + minNotice) are excluded. Default now. */
+  from?: Date
+  /** Window end — slots after this are excluded. Default now + 45 days. */
+  to?: Date
   minNoticeHours?: number // earliest bookable slot from now
 }
 
@@ -65,31 +68,39 @@ function parseHM(t: string): [number, number] {
 }
 
 /** Open slots (UTC ISO start strings) across the booking horizon. */
+/**
+ * Open slots (UTC ISO) within an arbitrary [from, to] window. The recurring availability
+ * model is infinite — this computes only the requested window ON DEMAND (e.g. one month at
+ * a time), so the calendar scales to years without ever materializing a giant list.
+ */
 export function computeOpenSlots(
   availability: AvailabilityWindow[],
   busy: BusyWindow[],
   opts: SlotOptions = {},
 ): { slots: string[]; durationMinutes: number } {
   const now = opts.now ?? new Date()
-  const horizonDays = opts.horizonDays ?? 21
   const minNoticeMs = (opts.minNoticeHours ?? 12) * 3_600_000
+  const earliest = now.getTime() + minNoticeMs
+  const windowStart = new Date(Math.max((opts.from ?? now).getTime(), earliest - 86_400_000))
+  const windowEndMs = (opts.to ?? new Date(now.getTime() + 45 * 86_400_000)).getTime()
+
   const active = availability.filter((a) => a.is_active)
-  if (active.length === 0) return { slots: [], durationMinutes: 30 }
+  if (active.length === 0 || windowEndMs < earliest) return { slots: [], durationMinutes: 30 }
 
   const tz = active[0].timezone
   const durationMinutes = active[0].slot_minutes
-  const earliest = now.getTime() + minNoticeMs
 
   const busyRanges = busy.map((b) => [new Date(b.starts_at).getTime(), new Date(b.ends_at).getTime()] as const)
   const overlaps = (s: number, e: number) => busyRanges.some(([bs, be]) => s < be && e > bs)
 
-  // Iterate calendar dates using a UTC-midnight container (DST-free; weekday is TZ-agnostic).
-  const start = calendarDateIn(now, tz)
-  const cursor = Date.UTC(start.y, start.mo - 1, start.d)
+  // Iterate calendar dates with a UTC-midnight container (DST-free; weekday is TZ-agnostic).
+  const startCal = calendarDateIn(windowStart, tz)
+  const endCal = calendarDateIn(new Date(windowEndMs), tz)
+  const endCursor = Date.UTC(endCal.y, endCal.mo - 1, endCal.d)
   const slots: string[] = []
 
-  for (let i = 0; i <= horizonDays; i++) {
-    const day = new Date(cursor + i * 86_400_000)
+  for (let cursor = Date.UTC(startCal.y, startCal.mo - 1, startCal.d); cursor <= endCursor; cursor += 86_400_000) {
+    const day = new Date(cursor)
     const y = day.getUTCFullYear()
     const mo = day.getUTCMonth() + 1
     const d = day.getUTCDate()
@@ -103,7 +114,7 @@ export function computeOpenSlots(
         const startUtc = zonedTimeToUtc(y, mo, d, Math.floor(mins / 60), mins % 60, win.timezone)
         const ms = startUtc.getTime()
         const endMs = ms + win.slot_minutes * 60_000
-        if (ms < earliest) continue
+        if (ms < earliest || ms > windowEndMs) continue
         if (overlaps(ms, endMs)) continue
         slots.push(startUtc.toISOString())
       }

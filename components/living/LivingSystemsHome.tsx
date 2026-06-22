@@ -138,12 +138,21 @@ export async function LivingSystemsHome() {
               </p>
               <div className={styles.heroCtas}>
                 <TrackedLink
-                  className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+                  className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg} ${styles.heroCtaHire}`}
                   href="/book?source=home_hero"
                   event="booking_click"
                   eventProps={{ location: 'home_hero', label: 'book_a_call' }}
                 >
                   <span>Book a call</span><span aria-hidden="true">→</span>
+                </TrackedLink>
+                {/* Swapped in for visitors who chose "I'm here to learn" (data-intent=learn). */}
+                <TrackedLink
+                  className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg} ${styles.heroCtaLearn}`}
+                  href="/academy"
+                  event="cta_click"
+                  eventProps={{ location: 'home_hero', label: 'enter_academy_intent' }}
+                >
+                  <span>Enter the Academy</span><span aria-hidden="true">→</span>
                 </TrackedLink>
                 <TrackedLink
                   className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
@@ -279,6 +288,40 @@ export async function LivingSystemsHome() {
           >
             <span>Start with the Sage Audit — $750</span><span aria-hidden="true">→</span>
           </TrackedLink>
+        </div>
+      </section>
+
+      <section className={styles.funnel} aria-labelledby="fit-heading">
+        <div className={styles.funnelIntro} data-living-reveal>
+          <span className={styles.kicker}>004.5 — Fit</span>
+          <h2
+            id="fit-heading"
+            style={{ fontFamily: 'var(--font-serif)', fontVariationSettings: "'opsz' 120, 'SOFT' 0, 'WONK' 0" }}
+          >
+            Who this is for — and who it isn&apos;t.
+          </h2>
+          <p>
+            A small studio can&apos;t be the right answer for everyone, and pretending otherwise wastes
+            your time and mine. Here&apos;s the honest filter before you reach out.
+          </p>
+        </div>
+        <div className="mx-auto mt-8 grid w-full max-w-5xl gap-4 px-5 sm:px-8 md:grid-cols-2" data-living-reveal>
+          <div className="rounded-[12px] border border-[rgba(24,182,99,0.28)] bg-[rgba(24,182,99,0.04)] p-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#18b663]">A fit if you&apos;re…</p>
+            <ul className="mt-4 space-y-3 text-[15px] leading-6 text-[var(--sage-ink-muted)]">
+              <li>A founder or operator with real revenue or funding who needs production-grade systems — not a throwaway prototype.</li>
+              <li>Buying senior judgment <em>and</em> execution from one accountable person, not a staffing bench.</li>
+              <li>Ready to start small (the $750 Audit) and move on proof, not promises.</li>
+            </ul>
+          </div>
+          <div className="rounded-[12px] border border-[rgba(255,92,122,0.22)] bg-[rgba(255,92,122,0.03)] p-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#ff7a93]">Not a fit if you&apos;re…</p>
+            <ul className="mt-4 space-y-3 text-[15px] leading-6 text-[var(--sage-ink-muted)]">
+              <li>Shopping purely on price, or wanting the cheapest freelancer you can find.</li>
+              <li>Looking for a big agency with account managers and a ten-person team.</li>
+              <li>Not ready to decide — or to invest in doing it properly the first time.</li>
+            </ul>
+          </div>
         </div>
       </section>
 

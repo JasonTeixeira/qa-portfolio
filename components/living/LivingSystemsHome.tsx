@@ -10,6 +10,8 @@ import { OperatorConsole } from './OperatorConsole'
 import { StudioAcademySwitch } from '@/components/studio-academy-switch'
 import { IntentGate } from './IntentGate'
 import { MobileCtaBar } from './MobileCtaBar'
+import { getLocale } from '@/lib/i18n/server'
+import { getMessages, translate } from '@/lib/i18n/messages'
 import { SplashBackdrop } from './SplashBackdrop'
 import { CountUp } from '@/components/motion/CountUp'
 import styles from './LivingSystemsHome.module.css'
@@ -63,7 +65,9 @@ const trustSignals = [
 ] as const
 
 
-export function LivingSystemsHome() {
+export async function LivingSystemsHome() {
+  const messages = getMessages(await getLocale())
+  const t = (source: string) => translate(messages, source)
   return (
     <div className={styles.page}>
       <LivingSystemsMotion />
@@ -271,7 +275,7 @@ export function LivingSystemsHome() {
       <section className={styles.academyDoor} id="academy" aria-labelledby="academy-heading">
         <div className={styles.academyDoorInner} data-living-reveal>
           <span className={styles.kicker}>005 — Two ways in</span>
-          <h2 id="academy-heading">Hire the studio — or learn to build it yourself.</h2>
+          <h2 id="academy-heading">{t('Hire the studio — or learn to build it yourself.')}</h2>
           <p>
             Everything I run for clients, taught as a practical curriculum: code foundations,
             AI engineering, and shipping real products. <strong>$20/mo</strong>, founding cohort forming.
@@ -285,7 +289,7 @@ export function LivingSystemsHome() {
             event="cta_click"
             eventProps={{ location: 'living_academy', label: 'enter_academy' }}
           >
-            <span>Enter the Academy</span><span aria-hidden="true">→</span>
+            <span>{t('Enter the Academy')}</span><span aria-hidden="true">→</span>
           </TrackedLink>
         </div>
       </section>
@@ -411,7 +415,7 @@ export function LivingSystemsHome() {
       <section className={styles.final} id="build" aria-labelledby="build-heading">
         <span className={styles.seal} aria-hidden="true">道</span>
         <span className={styles.kicker} data-living-reveal>009 — Build</span>
-        <h2 id="build-heading">Bring me the hard one.</h2>
+        <h2 id="build-heading">{t('Bring me the hard one.')}</h2>
         <p data-living-reveal>An app, a brand, a SaaS, or all of it. Every engagement starts with a real conversation, not a contract.</p>
         <div className={styles.finalCtas} data-living-reveal>
           <TrackedLink
@@ -428,7 +432,7 @@ export function LivingSystemsHome() {
             event="cta_click"
             eventProps={{ location: 'living_final', label: 'academy' }}
           >
-            <span>Learn the system</span><span aria-hidden="true">↗</span>
+            <span>{t('Learn the system')}</span><span aria-hidden="true">↗</span>
           </TrackedLink>
         </div>
       </section>

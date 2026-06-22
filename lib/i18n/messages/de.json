@@ -40,7 +40,7 @@
   "diagnostic": "Diagnose",
   "free tool": "kostenloses Tool",
   "operator profile": "Betreiberprofil",
-  "how this works": "So funktioniert's",
+  "how this works": "wie das funktioniert",
   "vertical routes": "vertikale Routen",
   "buying paths": "Kaufpfade",
   "Build the system.": "Baue das System.",
@@ -48,5 +48,9 @@
   "Not sure where to route the build?": "Nicht sicher, wohin der Build geleitet werden soll?",
   "Privacy": "Datenschutz",
   "Terms": "AGB",
-  "Cookies": "Cookies"
+  "Cookies": "Cookies",
+  "Hire the studio — or learn to build it yourself.": "Engagiere das Studio – oder lerne, es selbst zu bauen.",
+  "Enter the Academy": "Akademie betreten",
+  "Bring me the hard one.": "Gib mir das Schwere.",
+  "Learn the system": "Lerne das System"
 }

@@ -64,6 +64,7 @@ function isPortalChrome(pathname: string) {
     pathname.startsWith('/academy-admin') ||
     // The signed-in learner area + academy auth use their own chrome, not the studio nav.
     pathname === '/academy/dashboard' ||
+    pathname === '/academy/my-courses' ||
     pathname === '/academy/signup' ||
     pathname === '/academy/preview' ||
     pathname === '/academy/join' ||

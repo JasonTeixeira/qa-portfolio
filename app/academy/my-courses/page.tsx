@@ -10,6 +10,7 @@ import { getAcademyProductBySlug } from '@/data/academy/products'
 import { academyTracks } from '@/data/academy/tracks'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
+import { AcademyShell } from '@/components/academy/academy-shell'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -47,7 +48,8 @@ export default async function MyCoursesPage() {
   const enrollments = user?.email ? await getEnrollmentsForEmail(user.email) : []
 
   return (
-    <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+    <AcademyShell active="courses" signedIn={Boolean(user?.email)}>
+    <div className="bg-[var(--sage-bg)] text-[var(--sage-ink)]">
       <JsonLd
         data={[
           buildBreadcrumbList([
@@ -58,7 +60,7 @@ export default async function MyCoursesPage() {
         ]}
       />
 
-      <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
+      <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-12 sm:px-8 lg:px-12 lg:pb-24 lg:pt-16">
         <div className="mx-auto max-w-7xl">
           <nav
             aria-label="Breadcrumb"
@@ -185,7 +187,8 @@ export default async function MyCoursesPage() {
           )}
         </div>
       </section>
-    </main>
+    </div>
+    </AcademyShell>
   )
 }
 

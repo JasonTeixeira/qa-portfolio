@@ -32,10 +32,10 @@ const receipts = [
 
 const funnel = [
   {
-    title: 'Audit',
-    timing: 'Days 1–5',
-    price: 'from $1,500',
-    text: 'Find the single highest-leverage bottleneck and leave with a scoped, costed build plan you own — engage or not.',
+    title: 'Sage Audit',
+    timing: '1 week',
+    price: '$750',
+    text: 'Find the single highest-leverage bottleneck and leave with a scoped, costed build plan you own. Credited in full if you continue.',
   },
   {
     title: 'Sprint',
@@ -123,7 +123,7 @@ export async function LivingSystemsHome() {
         <div className={styles.heroEditorial}>
           <div className={styles.heroCol}>
             <p className={styles.eyebrow} data-living-reveal>
-              <span /> Sage Ideas · AI-native studio · since 2020
+              <span /> AI-native studio for founders &amp; operators · since 2020
             </p>
             <h1 id="hero-heading" className={styles.heroTitle}>
               <span className={styles.heroLine}><span>I build the product,</span></span>
@@ -270,6 +270,16 @@ export async function LivingSystemsHome() {
             </li>
           ))}
         </ol>
+        <div className={styles.heroCtas} data-living-reveal style={{ marginTop: '2rem', justifyContent: 'center' }}>
+          <TrackedLink
+            className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+            href="/contact?engagement=audit&source=home_funnel"
+            event="cta_click"
+            eventProps={{ location: 'home_funnel', label: 'start_audit' }}
+          >
+            <span>Start with the Sage Audit — $750</span><span aria-hidden="true">→</span>
+          </TrackedLink>
+        </div>
       </section>
 
       <section className={styles.academyDoor} id="academy" aria-labelledby="academy-heading">

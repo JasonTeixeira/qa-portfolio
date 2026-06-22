@@ -134,10 +134,12 @@ export function AcademyLanding() {
             <span className={styles.priceSave}>2 months free</span>
           </div>
           <div className={styles.heroCtas}>
-            <Link href="/academy/join" className={styles.primary}>Start learning →</Link>
+            <Link href="/academy/signup" className={styles.primary}>Start free — no card →</Link>
             <Link href="/academy/catalog" className={styles.secondary}>Browse first</Link>
           </div>
-          <p className={styles.heroNote}>Cancel anytime · keep access through the period you paid for</p>
+          <p className={styles.heroNote}>
+            Free account, instant access · upgrade to Pro ($20/mo) any time · cancel whenever
+          </p>
         </div>
       </section>
     </div>

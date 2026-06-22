@@ -32,6 +32,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/topics', priority: 0.72, changeFrequency: 'weekly' },
   { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/learn/waitlist', priority: 0.82, changeFrequency: 'weekly' },
   { path: '/reports/ai-search-readiness-2026', priority: 0.74, changeFrequency: 'monthly' },
   { path: '/artifacts/sample-audit', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/tools/route-finder', priority: 0.76, changeFrequency: 'weekly' },

@@ -145,7 +145,11 @@ export function WaitlistForm({ id }: { id?: string }) {
       <p className={styles.microcopy}>
         <b>Founding members lock in $20/mo forever.</b> No spam, one click to leave.
       </p>
-      {status === 'error' && <p className={styles.error}>{errorMsg}</p>}
+      {status === 'error' && (
+        <p className={styles.error} role="alert" aria-live="assertive">
+          {errorMsg}
+        </p>
+      )}
     </>
   )
 }

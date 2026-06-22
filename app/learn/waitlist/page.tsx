@@ -10,6 +10,8 @@ import { DiscordButton } from './discord-button'
 import { RevealOnScroll } from './reveal'
 import { SoundToggle } from './sound-toggle'
 import { Splash, SageMark } from './splash'
+import { StickyCta } from './sticky-cta'
+import { JsonLd } from '@/components/json-ld'
 import styles from './waitlist.module.css'
 
 const SITE = 'https://www.sageideas.dev'
@@ -65,12 +67,48 @@ const FAQS = [
   { q: 'What makes it different?', a: 'It’s project-based and taught by an operator who actually ships software — not a theory channel. You build real things and keep them.' },
 ]
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}
+
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Sage Academy',
+  description:
+    'Project-based courses and guided labs to learn code & AI — from your first line to a deployed, full-stack app. Taught by an operator who ships software daily.',
+  url: `${SITE}/learn/waitlist`,
+  provider: { '@type': 'Organization', name: 'Sage Ideas', url: SITE },
+  inLanguage: 'en',
+  offers: {
+    '@type': 'Offer',
+    category: 'Subscription',
+    price: '20',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/PreOrder',
+    url: `${SITE}/learn/waitlist`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'online',
+    courseWorkload: 'PT4H',
+  },
+}
+
 export default function WaitlistPage() {
   return (
     <div className={styles.page}>
+      <JsonLd data={[faqSchema, courseSchema]} />
       <Splash />
       <RevealOnScroll />
       <SoundToggle />
+      <StickyCta />
       <header className={styles.nav}>
         <Link href="/" className={styles.brand}>
           <SageMark size={26} />
@@ -81,7 +119,7 @@ export default function WaitlistPage() {
 
       <main data-reveal-scope>
       {/* ── Hero ── */}
-      <section className={styles.hero}>
+      <section id="wl-hero" className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCol}>
             <span className={styles.eyebrow}>
@@ -314,7 +352,7 @@ export default function WaitlistPage() {
       </section>
 
       {/* ── Final CTA ── */}
-      <section className={`${styles.section} ${styles.finalCta}`}>
+      <section id="wl-final" className={`${styles.section} ${styles.finalCta}`}>
         <div className={styles.sectionNarrow}>
           <span className={styles.kicker}>The first 1,000</span>
           <h2 className={styles.h2}>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Fraunces, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { headers } from 'next/headers'
@@ -25,6 +25,16 @@ const display = Bricolage_Grotesque({
   subsets: ['latin'],
   weight: ['400', '600', '800'],
   variable: '--font-display',
+  display: 'swap',
+})
+
+// Editorial serif — the "expensive" display contrast. Many hero/section headings already
+// declare its optical-size axes (opsz/SOFT/WONK); they only render correctly once it loads.
+const serif = Fraunces({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  axes: ['opsz', 'SOFT', 'WONK'],
+  variable: '--font-serif',
   display: 'swap',
 })
 
@@ -208,7 +218,7 @@ export default async function RootLayout({
       lang={localeHrefLang[locale]}
       dir={isRtl(locale) ? 'rtl' : 'ltr'}
       data-scroll-behavior="smooth"
-      className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#0B0B0E]`}
+      className={`${display.variable} ${serif.variable} ${sans.variable} ${mono.variable} bg-[#0B0B0E]`}
     >
       <head>
         {/* Preconnect to Google Fonts CDN to shave ~100–200 ms off font fetch */}

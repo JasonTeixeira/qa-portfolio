@@ -25,7 +25,7 @@ const rollbackRules = [
 ]
 
 const DISPLAY_STYLE: React.CSSProperties = {
-  fontFamily: 'var(--font-display)',
+  fontFamily: 'var(--font-serif)',
   fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
   letterSpacing: '-0.024em',
 }

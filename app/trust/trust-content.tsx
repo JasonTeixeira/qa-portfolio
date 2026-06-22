@@ -239,7 +239,7 @@ export function TrustContent() {
                 transition={{ duration: 0.7, ease: EASE_OUT_QUINT, delay: 0.05 }}
                 className="font-normal text-[var(--sage-ink)] leading-[1.02] max-w-3xl"
                 style={{
-                  fontFamily: 'var(--font-display)',
+                  fontFamily: 'var(--font-serif)',
                   fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                   letterSpacing: '-0.024em',
                   fontSize: 'clamp(3rem, 1.5rem + 5vw, 6.3rem)',

@@ -132,6 +132,12 @@ function resolveEngagementContext(slug: string | null): {
 // EL form primitives
 // ────────────────────────────────────────────────────────────────────────────
 
+// Inline so it beats the unlayered global `h1,h2,h3 { font-family: var(--font-display) }`.
+const SERIF: React.CSSProperties = {
+  fontFamily: 'var(--font-serif)',
+  fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
+}
+
 const inputClass =
   'w-full rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-4 py-2.5 text-[13px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none focus:ring-1 focus:ring-[#3D5AFE]/30 transition-colors duration-150'
 
@@ -195,6 +201,8 @@ function ContactInner() {
   const [email, setEmail] = useState('')
   const [company, setCompany] = useState('')
   const [role, setRole] = useState('')
+  const [companySize, setCompanySize] = useState('')
+  const [authority, setAuthority] = useState('')
   const [timeline, setTimeline] = useState('')
   const [budget, setBudget] = useState('')
   const [scope, setScope] = useState(initialPrefill)
@@ -237,6 +245,8 @@ function ContactInner() {
           email: email.trim(),
           company: company.trim(),
           role: role.trim(),
+          company_size: companySize,
+          decision_authority: authority,
           timeline,
           budget_band: budget,
           scope: scope.trim(),
@@ -274,7 +284,7 @@ function ContactInner() {
               <MonoLabel tone="accent" className="text-[10px]">Inquiry received</MonoLabel>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
+            <h1 style={SERIF} className="text-4xl sm:text-5xl font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
               Got it. Check your inbox.
             </h1>
             <p className="mt-6 text-[15px] text-[var(--sage-ink-muted)] leading-relaxed">
@@ -323,7 +333,7 @@ function ContactInner() {
             </MonoLabel>
 
             {/* Fraunces display heading */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
+            <h1 style={SERIF} className="text-5xl sm:text-6xl lg:text-7xl font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
               Start a conversation.
             </h1>
 
@@ -490,6 +500,35 @@ function ContactInner() {
                     autoComplete="organization-title"
                     maxLength={120}
                   />
+                </Field>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="Company size" hint="Helps me tailor the reply.">
+                  <select
+                    value={companySize}
+                    onChange={(e) => setCompanySize(e.target.value)}
+                    className={selectClass}
+                  >
+                    <option value="">Select size…</option>
+                    <option value="solo">Just me / founder</option>
+                    <option value="1-10">1–10</option>
+                    <option value="11-50">11–50</option>
+                    <option value="51-200">51–200</option>
+                    <option value="200+">200+</option>
+                  </select>
+                </Field>
+                <Field label="Your role in this decision">
+                  <select
+                    value={authority}
+                    onChange={(e) => setAuthority(e.target.value)}
+                    className={selectClass}
+                  >
+                    <option value="">Select…</option>
+                    <option value="buyer">I'm the decision-maker</option>
+                    <option value="proposing">I'm proposing to leadership</option>
+                    <option value="exploring">Exploring for someone else</option>
+                  </select>
                 </Field>
               </div>
 
@@ -673,7 +712,7 @@ function ContactInner() {
             <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
               {'// what to expect'}
             </MonoLabel>
-            <h2 className="text-3xl sm:text-4xl font-[family-name:var(--font-display)] font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
+            <h2 style={SERIF} className="text-3xl sm:text-4xl font-normal text-[var(--sage-ink)] leading-tight tracking-[-0.01em]">
               From inquiry to kickoff,<br />in four steps.
             </h2>
             <p className="mt-4 text-[14px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">

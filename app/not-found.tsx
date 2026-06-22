@@ -55,7 +55,7 @@ export default function NotFound() {
             <h1
               className="font-normal text-[var(--sage-ink)]"
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-serif)',
                 fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                 fontSize: 'clamp(4rem, 2rem + 10vw, 9rem)',
                 lineHeight: 1.0,

@@ -96,7 +96,7 @@ export default function SageHeroTerminal(_props: SageHeroTerminalProps) {
               aria-hidden
               className="font-normal text-[var(--sage-ink)]"
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-serif)',
                 fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                 fontSize: 'clamp(2.65rem, 1.1rem + 6.6vw, 6.25rem)',
                 lineHeight: 0.98,

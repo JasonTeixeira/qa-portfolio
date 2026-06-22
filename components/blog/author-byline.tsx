@@ -18,7 +18,7 @@ export function AuthorByline() {
           <div
             className="text-[var(--sage-ink)] font-normal text-[1.125rem]"
             style={{
-              fontFamily: 'var(--font-display)',
+              fontFamily: 'var(--font-serif)',
               fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
               letterSpacing: '-0.018em',
             }}

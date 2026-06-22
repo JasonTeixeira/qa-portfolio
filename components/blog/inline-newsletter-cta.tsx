@@ -46,7 +46,7 @@ export function InlineNewsletterCTA() {
       <p
         className="text-[var(--sage-ink)] font-normal text-[1.25rem] mb-2"
         style={{
-          fontFamily: 'var(--font-display)',
+          fontFamily: 'var(--font-serif)',
           fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
           letterSpacing: '-0.018em',
           lineHeight: 1.2,

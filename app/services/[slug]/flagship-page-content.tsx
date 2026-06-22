@@ -630,7 +630,7 @@ export function FlagshipPageContent({ tier }: { tier: ExtendedTier }) {
             <h2
               className="text-[var(--sage-ink)] font-normal text-[clamp(2rem,_1rem_+_3.5vw,_3.5rem)]"
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-serif)',
                 fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                 letterSpacing: '-0.024em',
                 lineHeight: 1.02,

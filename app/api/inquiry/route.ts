@@ -73,7 +73,18 @@ export async function POST(request: NextRequest) {
     const website_url = sanitize(body.website_url ?? body.website ?? body.url, 500)
     const timeline = sanitize(body.timeline, 20)
     const budget_band = sanitize(body.budget_band, 20)
-    const scope = sanitize(body.scope, 5000)
+    const company_size = sanitize(body.company_size, 24)
+    const decision_authority = sanitize(body.decision_authority, 24)
+    const rawScope = sanitize(body.scope, 5000)
+    // Fold the qualification signals into the scope so the operator sees them on every
+    // inquiry without a schema change (no engagement_inquiries column for these yet).
+    const qualifier = [
+      company_size ? `Company size: ${company_size}` : '',
+      decision_authority ? `Decision role: ${decision_authority}` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ')
+    const scope = qualifier ? `[${qualifier}]\n\n${rawScope}` : rawScope
     const source = sanitize(body.source, 80)
     const referrer = sanitize(body.referrer, 500)
 

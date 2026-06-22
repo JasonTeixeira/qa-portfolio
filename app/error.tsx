@@ -54,7 +54,7 @@ export default function ErrorBoundary({
         <h1
           className="font-normal text-[var(--sage-ink)]"
           style={{
-            fontFamily: 'var(--font-display)',
+            fontFamily: 'var(--font-serif)',
             fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
             fontSize: 'clamp(2.5rem, 1.5rem + 4vw, 4.5rem)',
             lineHeight: 1.0,

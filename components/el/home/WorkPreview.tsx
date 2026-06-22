@@ -50,7 +50,7 @@ export function WorkPreview({ flagship, rest, flagshipImage }: WorkPreviewProps)
                 <h3
                   className="mt-4 text-[clamp(2rem,1.2rem+3vw,3.5rem)] font-normal leading-[1.0] tracking-[-0.024em] text-[var(--sage-ink)] transition-colors group-hover:text-[#3D5AFE]"
                   style={{
-                    fontFamily: 'var(--font-display)',
+                    fontFamily: 'var(--font-serif)',
                     fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                   }}
                 >

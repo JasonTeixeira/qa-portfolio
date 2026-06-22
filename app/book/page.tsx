@@ -76,7 +76,7 @@ export default function BookPage() {
                 id="book-heading"
                 className="font-normal text-[var(--sage-ink)]"
                 style={{
-                  fontFamily: 'var(--font-display)',
+                  fontFamily: 'var(--font-serif)',
                   fontVariationSettings: "'opsz' 144, 'SOFT' 0, 'WONK' 0",
                   fontSize: 'clamp(2.4rem, 1.2rem + 5vw, 5rem)',
                   lineHeight: 1.0,

@@ -153,6 +153,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.equal(packageJson.scripts['discord:smoke-content-approval'], 'tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts');
   assert.equal(packageJson.scripts['discord:smoke-quiz-scoring'], 'tsx --env-file=.env.local scripts/discord/smoke-quiz-scoring.ts');
   assert.equal(packageJson.scripts['discord:smoke-challenge-lab'], 'tsx --env-file=.env.local scripts/discord/smoke-challenge-lab.ts');
+  assert.equal(packageJson.scripts['discord:smoke-approved-slash-flows'], 'tsx --env-file=.env.local scripts/discord/smoke-approved-member-slash-flows.ts');
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily"/);
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily\/publish"/);
   assert.equal(packageJson.scripts['rag:baseline'], 'node --env-file-if-exists=.env.local scripts/rag/baseline.mjs');
@@ -627,13 +628,16 @@ test('discord challenge lab: submissions are review-gated and projects feed cont
 
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {
   const { createLeaderboardSnapshot, discordLeaderboardPeriod } = await import('../../lib/discord/engagement.ts');
-  const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');
+  const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, publishApprovedWeeklyRecapDraft, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const automation = await readFile(new URL('../../lib/discord/weekly-automation.ts', import.meta.url), 'utf8');
+  const cronRoute = await readFile(new URL('../../app/api/cron/discord/weekly/route.ts', import.meta.url), 'utf8');
   const script = await readFile(new URL('../../scripts/discord/create-weekly-recap-draft.ts', import.meta.url), 'utf8');
   const snapshotSmoke = await readFile(new URL('../../scripts/discord/smoke-weekly-leaderboard-recap.ts', import.meta.url), 'utf8');
+  const publishSmoke = await readFile(new URL('../../scripts/discord/smoke-weekly-approval-publish.ts', import.meta.url), 'utf8');
 
   assert.equal(DISCORD_WEEKLY_RECAP_PROMPT_VERSION, 'discord-weekly-recap-automation-v1');
+  assert.equal(typeof publishApprovedWeeklyRecapDraft, 'function');
   assert.match(discordWeekKey(new Date('2026-06-21T12:00:00.000Z')), /^2026-W\d{2}$/);
   assert.match(discordLeaderboardPeriod(new Date('2026-06-21T12:00:00.000Z')).periodKey, /^2026-W\d{2}$/);
   const body = [
@@ -653,12 +657,22 @@ test('discord weekly automation: drafts leaderboard recap for approval', async (
   assert.match(automation, /createLeaderboardSnapshot/);
   assert.match(automation, /leaderboard_snapshot_id/);
   assert.match(automation, /targetChannelBaseName: 'wins-showcase'/);
+  assert.match(automation, /findApprovedWeeklyRecapDraft/);
+  assert.match(automation, /weekly_recap_posted/);
+  assert.match(automation, /already_published/);
+  assert.match(cronRoute, /mode === 'publish'/);
+  assert.match(cronRoute, /createWeeklyRecapDraft/);
+  assert.match(cronRoute, /publishApprovedWeeklyRecapDraft/);
   assert.match(script, /createWeeklyRecapDraft/);
   assert.match(snapshotSmoke, /discord_leaderboard_snapshots/);
   assert.match(snapshotSmoke, /weekly-leaderboard-recap-smoke\.json/);
+  assert.match(publishSmoke, /reviewDiscordContentDraft/);
+  assert.match(publishSmoke, /messageDeleted/);
+  assert.match(publishSmoke, /already_published/);
   assert.equal(pkg.scripts['discord:weekly-recap-draft'], 'tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts');
   assert.match(pkg.scripts['discord:smoke-weekly-recap'], /--smoke/);
   assert.equal(pkg.scripts['discord:smoke-weekly-leaderboard-recap'], 'tsx --env-file=.env.local scripts/discord/smoke-weekly-leaderboard-recap.ts');
+  assert.equal(pkg.scripts['discord:smoke-weekly-approval-publish'], 'tsx --env-file=.env.local scripts/discord/smoke-weekly-approval-publish.ts');
 });
 
 test('discord member intelligence: classifies member segments and persists rollups', async () => {

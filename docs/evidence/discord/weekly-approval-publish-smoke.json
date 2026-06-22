@@ -1,0 +1,64 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "messageDeleted": true,
+  "weekKey": "2099-W05",
+  "draft": {
+    "ok": true,
+    "draftId": "af0b8ebe-a262-4d68-914d-5995eef6ea7f",
+    "weekKey": "2099-W05",
+    "leaderboardSnapshotId": "a0fa4f30-881c-45b8-9679-216260bfe64b",
+    "leaderboardCount": 0,
+    "qualityScore": 100,
+    "bodyPreview": "# Weekly Recap\n**Cadence**\n- Monday: Build brief and weekly project target.\n- Tuesday: Tool teardown and implementation pattern.\n- Wednesday: Office-hours question collection.\n- Thursday: Review day for code, design, AI, SEO, and architecture.\n- Friday: Ship showcase and portfolio proof.\n- Saturday:"
+  },
+  "first": {
+    "ok": true,
+    "posted": true,
+    "skipped": false,
+    "weekKey": "2099-W05",
+    "draftId": "af0b8ebe-a262-4d68-914d-5995eef6ea7f",
+    "messageId": "1518471353643040920"
+  },
+  "second": {
+    "ok": true,
+    "posted": false,
+    "skipped": true,
+    "reason": "already_published",
+    "weekKey": "2099-W05",
+    "draftId": "af0b8ebe-a262-4d68-914d-5995eef6ea7f",
+    "messageId": "1518471353643040920"
+  },
+  "draftRow": {
+    "id": "af0b8ebe-a262-4d68-914d-5995eef6ea7f",
+    "status": "published",
+    "target_channel_base_name": "wins-showcase",
+    "published_message_id": "1518471353643040920",
+    "reviewer_email": "smoke@test.local",
+    "metadata": {
+      "smoke": true,
+      "source": "smoke-weekly-approval-publish",
+      "week_key": "2099-W05",
+      "leaderboard_count": 0,
+      "leaderboard_snapshot_id": "a0fa4f30-881c-45b8-9679-216260bfe64b"
+    }
+  },
+  "runRow": {
+    "run_key": "weekly-recap-2099-W05",
+    "kind": "weekly_recap",
+    "status": "skipped",
+    "message_id": "1518471353643040920",
+    "metadata": {
+      "reason": "already_published",
+      "source": "smoke-weekly-approval-publish",
+      "draft_id": "af0b8ebe-a262-4d68-914d-5995eef6ea7f"
+    }
+  },
+  "eventCount": 1,
+  "snapshotRow": {
+    "id": "a0fa4f30-881c-45b8-9679-216260bfe64b",
+    "period_key": "2099-W05"
+  },
+  "startedAt": "2026-06-22T04:23:00.306Z",
+  "finishedAt": "2026-06-22T04:23:03.966Z"
+}

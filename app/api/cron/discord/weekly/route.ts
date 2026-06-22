@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { postWeeklyRecap } from '@/lib/discord/sage-commands';
 import { recordDiscordScheduledRun } from '@/lib/discord/analytics';
+import { createWeeklyRecapDraft, publishApprovedWeeklyRecapDraft } from '@/lib/discord/weekly-automation';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,8 +29,19 @@ export async function GET(req: Request) {
   }
 
   try {
-    const messageId = await postWeeklyRecap('vercel-cron');
-    return NextResponse.json({ ok: true, messageId });
+    const url = new URL(req.url);
+    const mode = url.searchParams.get('mode') ?? 'draft';
+    if (mode === 'publish') {
+      const result = await publishApprovedWeeklyRecapDraft({
+        source: 'vercel-cron-weekly-publish',
+      });
+      return NextResponse.json(result, { status: result.ok ? 200 : 202 });
+    }
+
+    const result = await createWeeklyRecapDraft({
+      metadata: { source: 'vercel-cron-weekly' },
+    });
+    return NextResponse.json(result);
   } catch (err) {
     await recordDiscordScheduledRun({
       runKey: `weekly-recap-${weekKey(new Date())}`,

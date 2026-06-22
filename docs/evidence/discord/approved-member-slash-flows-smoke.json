@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "discordMessagesDeleted": 2,
+  "userId": "smoke-approved-slash-member",
+  "marker": "slash-smoke-1782102311284",
+  "quizKey": "landing-page-proof-v1",
+  "challengeKey": "premium-section-redesign",
+  "scope": "approved-member handler proof for quiz, submit-challenge, and submit-project. Real Discord role routing still requires a real guild member.",
+  "responses": {
+    "quiz": "Correct.\nAnswer: **proof with concrete outcomes**\nSpecific proof beats claims because it gives the reader evidence to evaluate.\nPoints awarded: **10**",
+    "duplicateQuiz": "Quiz already completed.\nAnswer: **proof with concrete outcomes**\nSpecific proof beats claims because it gives the reader evidence to evaluate.\nPoints awarded: **0**",
+    "challenge": "Challenge submitted for review. Submission ID: `1ef0b539-fbca-47ce-bb17-1da38f43ea32`. Points award after approval.",
+    "project": "Project submitted to `build-lab` and queued for the content engine. Project ID: `ecb80b3b-00ab-4ad6-a73b-d48aa2ae1177`."
+  },
+  "counts": {
+    "attempts": 1,
+    "challenges": 1,
+    "projects": 1,
+    "queue": 2,
+    "onboarding": 3,
+    "ledger": 1
+  },
+  "startedAt": "2026-06-22T04:25:11.283Z",
+  "finishedAt": "2026-06-22T04:25:22.479Z"
+}

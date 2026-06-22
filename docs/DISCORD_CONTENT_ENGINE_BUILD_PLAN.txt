@@ -46,7 +46,7 @@ KNOWN LIVE GAP
 The server has not yet had real members pass through /apply and /approve after the reset. Until that happens, discord_members and discord_member_applications are expected to be empty.
 
 EXECUTION STATUS
-Last updated: 2026-06-21
+Last updated: 2026-06-22
 
 Pass 0 status:
 Partially complete.
@@ -120,9 +120,10 @@ Pass 3 verified:
 2. Quiz point awards use an idempotency action key.
 3. Duplicate quiz attempts return zero new points.
 4. Correct first attempt awards points, writes one quiz attempt, writes one points ledger row, updates streak, and completes the daily onboarding step.
+5. Approved-member slash handler smoke proves `/quiz` first attempt, duplicate attempt, Supabase quiz row, points ledger row, daily onboarding step, and cleanup. Evidence: `docs/evidence/discord/approved-member-slash-flows-smoke.json`.
 
 Pass 3 still needs proof:
-1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
+1. Real Discord client slash-command proof with a real approved member after Pass 0 live onboarding proof exists. The handler and database contract are proven; the missing part is only the real human Discord client path.
 
 Pass 4 status:
 Implemented locally and live Supabase migration applied.
@@ -136,12 +137,13 @@ Pass 4 verified:
 6. Project submissions create content queue candidates.
 7. Challenge/project onboarding steps are recorded.
 8. Admin dashboard E2E proof seeds a pending challenge submission, clicks approve in `/admin/discord`, verifies approved status, verifies challenge points ledger, verifies review event, and cleans all smoke rows.
+9. Approved-member slash handler smoke proves `/submit-challenge` creates a pending review-gated submission, `/submit-project` creates a project row and content queue item, both complete onboarding steps, both post into build-lab, and both smoke Discord messages are deleted. Evidence: `docs/evidence/discord/approved-member-slash-flows-smoke.json`.
 
 Pass 4 still needs proof:
-1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
+1. Real Discord client slash-command proof with a real approved member after Pass 0 live onboarding proof exists. The handler, Discord post, Supabase persistence, admin dashboard, and cleanup contracts are proven.
 
 Pass 5 status:
-Implemented locally.
+Implemented and smoke-proven against live Discord/Supabase.
 
 Pass 5 verified:
 1. Weekly recap draft creation creates a durable `discord_leaderboard_snapshots` row.
@@ -149,10 +151,13 @@ Pass 5 verified:
 3. Snapshot rankings include rank, Discord user id, username, and point total.
 4. Weekly recap drafts target `wins-showcase`, stay `pending_approval`, and link to the snapshot in metadata.
 5. Smoke proof seeds synthetic member points, verifies leaderboard ordering, creates a weekly recap draft, verifies snapshot linkage, and cleans all smoke rows.
+6. Weekly cron route now defaults to approval-gated draft creation instead of direct posting.
+7. Weekly cron route supports `?mode=publish`, which only publishes an already-approved weekly recap draft.
+8. Approved weekly recap smoke creates a future weekly draft, approves it through the admin review path, publishes it to `wins-showcase`, proves duplicate publish is skipped as `already_published`, records scheduled run and event rows, deletes the Discord smoke message, and cleans Supabase rows. Evidence: `docs/evidence/discord/weekly-approval-publish-smoke.json`.
 
 Pass 5 still needs proof:
-1. Live scheduled cron proof for the real weekly route after the next production deployment.
-2. Live published recap proof after admin approval of a real weekly recap draft.
+1. Production deployment of the weekly approval-gated cron route.
+2. Real calendar-scheduled Vercel cron run proof. Manual smoke proof exists, but the actual weekly clock run cannot be honestly proven until the scheduled time occurs.
 
 TARGET MEMBER EXPERIENCE
 New member:

@@ -2,6 +2,7 @@
 
 import { LocaleLink as Link } from '@/components/i18n/locale-link'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
+import { useT } from '@/components/i18n/locale-provider'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -526,6 +527,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const trackedOpenRef = useRef<OpenMenu>(null)
   const pathname = usePathname()
+  const t = useT()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -636,7 +638,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
           {/* Center cluster — primary nav */}
           <div className="hidden items-center gap-1 rounded-[18px] border border-[rgba(242,239,233,0.12)] bg-[rgba(20,20,24,0.76)] p-1.5 shadow-[inset_0_1px_0_rgba(242,239,233,0.05),0_20px_70px_rgba(0,0,0,0.24)] lg:flex">
             <MegaDropdown
-              label="Services"
+              label={t('Services')}
               sections={servicesMega}
               isOpen={openMenu === 'services'}
               onOpen={(trigger) => openRouteConsole('services', trigger)}
@@ -652,7 +654,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
-              Work
+              {t('Work')}
             </Link>
             <Link
               href="/academy"
@@ -664,7 +666,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
-              Academy
+              {t('Academy')}
             </Link>
             <Link
               href="/pricing"
@@ -676,7 +678,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
               )}
             >
-              Pricing
+              {t('Pricing')}
             </Link>
             <MegaDropdown
               label="Resources"
@@ -734,7 +736,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                 )}
               >
                 <LayoutDashboard className="h-3.5 w-3.5" />
-                Portal
+                {t('Portal')}
               </Link>
             ) : (
               <Link
@@ -744,7 +746,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
                 )}
               >
                 <LogIn className="h-3.5 w-3.5" />
-                Login
+                {t('Login')}
               </Link>
             )}
 
@@ -754,7 +756,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               onClick={() => trackEvent('booking_click', { location: 'nav' })}
               className="group inline-flex h-11 items-center gap-2 rounded-[14px] bg-[#3D5AFE] px-5 text-[12px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_16px_42px_rgba(61,90,254,0.34)] transition-transform hover:-translate-y-0.5 hover:bg-[#536BFF] [font-family:var(--font-mono),ui-monospace,monospace]"
             >
-              Book a call
+              {t('Book a call')}
               <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
             </Link>
           </div>

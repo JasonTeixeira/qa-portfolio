@@ -2,14 +2,34 @@
 
 import { createContext, useContext, type ReactNode } from 'react'
 import { defaultLocale, type Locale } from '@/lib/i18n/config'
+import { translate, type Messages } from '@/lib/i18n/messages'
 
-const LocaleContext = createContext<Locale>(defaultLocale)
+interface LocaleContextValue {
+  locale: Locale
+  messages: Messages
+}
 
-export function LocaleProvider({ locale, children }: { locale: Locale; children: ReactNode }) {
-  return <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>
+const LocaleContext = createContext<LocaleContextValue>({ locale: defaultLocale, messages: {} })
+
+export function LocaleProvider({
+  locale,
+  messages,
+  children,
+}: {
+  locale: Locale
+  messages: Messages
+  children: ReactNode
+}) {
+  return <LocaleContext.Provider value={{ locale, messages }}>{children}</LocaleContext.Provider>
 }
 
 /** The active locale, available to any client component under the provider. */
 export function useLocale(): Locale {
-  return useContext(LocaleContext)
+  return useContext(LocaleContext).locale
+}
+
+/** Translate a source (English) string in the active locale; falls back to the source. */
+export function useT(): (source: string) => string {
+  const { messages } = useContext(LocaleContext)
+  return (source: string) => translate(messages, source)
 }

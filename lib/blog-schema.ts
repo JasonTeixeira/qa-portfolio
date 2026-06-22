@@ -22,8 +22,14 @@ export const PostFrontmatterSchema = z.object({
   dateUpdated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   category: z.string().min(2).default('Engineering'),
   cluster: z.enum(ClusterKeys).optional(),
+  subCluster: z.string().optional(),
   keywords: z.array(z.string()).min(1).max(12).optional(),
   tags: z.array(z.string()).default([]),
+  // Internal-linking contract (see BLOG_SEO_ENGINE.md §2). Curated overrides for
+  // the auto cluster-first linking; empty/absent = fully automatic.
+  related: z.array(z.string()).optional(),
+  relatedClusters: z.array(z.enum(ClusterKeys)).optional(),
+  faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
   readTime: z.string().regex(/^\d+ min read$/).optional(),
   coverImage: z.string().startsWith('/').optional(),
   canonical: z.string().url().optional(),

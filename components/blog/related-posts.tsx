@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { MonoLabel, Hairline } from '@/components/el'
 import type { BlogPost } from '@/lib/blog-server'
+import { getRelatedPosts } from '@/lib/seo/internal-links'
 
 interface RelatedPostsProps {
   currentSlug: string
@@ -26,17 +27,8 @@ export function RelatedPosts({ currentSlug, posts }: RelatedPostsProps) {
   const current = posts.find((p) => p.slug === currentSlug)
   if (!current) return null
 
-  const sameCategory = posts.filter(
-    (p) => p.slug !== currentSlug && p.category === current.category,
-  )
-  const tagSet = new Set(current.tags)
-  const sameTags = posts.filter(
-    (p) =>
-      p.slug !== currentSlug &&
-      p.category !== current.category &&
-      p.tags.some((t) => tagSet.has(t)),
-  )
-  const related = [...sameCategory, ...sameTags].slice(0, 3)
+  // Cluster-first: same-topic siblings before tag matches — builds topical authority.
+  const related = getRelatedPosts(current, posts, 4)
   if (related.length === 0) return null
 
   return (

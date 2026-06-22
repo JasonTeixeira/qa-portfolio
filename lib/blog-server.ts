@@ -18,8 +18,14 @@ export interface BlogPost {
   fullContent: string
   category: string
   cluster: ClusterKey
+  subCluster?: string
   keywords: string[]
   tags: string[]
+  /** Curated sibling slugs (overrides auto cluster-first linking). */
+  related?: string[]
+  /** Cross-cluster bridges for the link graph. */
+  relatedClusters?: ClusterKey[]
+  faq?: { q: string; a: string }[]
   date: string
   dateUpdated?: string
   readTime: string
@@ -57,6 +63,10 @@ function parseMdxFile(filename: string): BlogPost | null {
       fullContent: content,
       category,
       cluster,
+      subCluster: stringValue(fm.subCluster),
+      related: nonEmptyStringArray(fm.related),
+      relatedClusters: nonEmptyStringArray(fm.relatedClusters)?.filter((c): c is ClusterKey => clusterValue(c) !== undefined),
+      faq: Array.isArray(fm.faq) ? (fm.faq as { q: string; a: string }[]) : undefined,
       keywords: nonEmptyStringArray(fm.keywords) ?? deriveKeywords({ title, category, tags, cluster }),
       tags,
       date: stringValue(fm.datePublished) ?? stringValue(fm.date) ?? '2025-01-01',

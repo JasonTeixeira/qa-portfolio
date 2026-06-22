@@ -10,6 +10,7 @@ import { ArticleShell } from '@/components/blog/article-shell'
 import { JsonLd } from '@/components/json-ld'
 import { injectHeadingIds } from '@/lib/blog-toc'
 import { buildArticle, buildBreadcrumbList } from '@/lib/seo/jsonld'
+import { resolveWikiLinks } from '@/lib/seo/internal-links'
 import { CLUSTERS } from '@/data/content/clusters'
 import { ArticleConversionSystem } from '@/components/blog/article-conversion-system'
 import { ArticleRouteCards } from '@/components/blog/article-route-cards'
@@ -64,7 +65,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const rawMd = post.fullContent || post.content
-  const cleanedMd = rawMd.replace(/^\s*#\s+.+\n+/, '')
+  // Resolve [[slug]] / [[cluster/key]] in-body wiki-links into real internal links.
+  const cleanedMd = resolveWikiLinks(rawMd.replace(/^\s*#\s+.+\n+/, ''), getAllBlogPosts())
   const rendered = await renderMarkdownToHtml(cleanedMd)
   const { html, toc } = injectHeadingIds(rendered)
   const postUrl = `${SITE}/blog/${post.slug}`
@@ -92,6 +94,18 @@ export default async function BlogPostPage({ params }: PageProps) {
             { name: cluster.title, url: `${SITE}/topics/${cluster.slug}` },
             { name: post.title, url: postUrl },
           ]),
+          // FAQPage → eligible for the FAQ rich result when the post declares faq[].
+          ...(post.faq?.length
+            ? [{
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: post.faq.map((f) => ({
+                  '@type': 'Question',
+                  name: f.q,
+                  acceptedAnswer: { '@type': 'Answer', text: f.a },
+                })),
+              }]
+            : []),
         ]}
       />
 

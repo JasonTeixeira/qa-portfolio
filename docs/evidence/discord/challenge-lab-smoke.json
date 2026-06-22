@@ -4,7 +4,7 @@
   "challengeKey": "content-repurpose",
   "challengePoints": 20,
   "first": {
-    "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+    "id": "0988d017-3ace-4ac9-9809-bf449a46c009",
     "challenge": {
       "key": "content-repurpose",
       "title": "Question to content",
@@ -17,7 +17,7 @@
     "alreadySubmitted": false
   },
   "duplicate": {
-    "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+    "id": "0988d017-3ace-4ac9-9809-bf449a46c009",
     "challenge": {
       "key": "content-repurpose",
       "title": "Question to content",
@@ -33,7 +33,7 @@
     "ok": true,
     "pointsAwarded": 20,
     "submission": {
-      "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+      "id": "0988d017-3ace-4ac9-9809-bf449a46c009",
       "challengeKey": "content-repurpose",
       "discordUserId": "smoke-challenge-pass4",
       "username": "challenge-pass4-smoke",
@@ -47,7 +47,7 @@
     "ok": true,
     "pointsAwarded": 20,
     "submission": {
-      "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+      "id": "0988d017-3ace-4ac9-9809-bf449a46c009",
       "challengeKey": "content-repurpose",
       "discordUserId": "smoke-challenge-pass4",
       "username": "challenge-pass4-smoke",
@@ -57,10 +57,10 @@
       "pointsAwarded": 20
     }
   },
-  "featuredMessageId": "1518454206896410686",
+  "featuredMessageId": "1518464125905272866",
   "project": {
-    "id": "a839744a-554f-45e3-89a3-63b670b20ddf",
-    "contentQueueId": "1f59d122-0b42-4126-b2ef-dc6df30cff18"
+    "id": "d177c7bf-7007-4457-b46c-53d6246ddbd9",
+    "contentQueueId": "2c5de5b5-a930-4e56-8932-e851128c9c4a"
   },
   "submissionsCount": 1,
   "ledgerCount": 1,
@@ -75,6 +75,6 @@
     "longestStreak": 1,
     "rank": 1
   },
-  "startedAt": "2026-06-22T03:14:51.352Z",
-  "finishedAt": "2026-06-22T03:14:55.699Z"
+  "startedAt": "2026-06-22T03:54:15.303Z",
+  "finishedAt": "2026-06-22T03:54:21.000Z"
 }

@@ -626,12 +626,16 @@ test('discord challenge lab: submissions are review-gated and projects feed cont
 });
 
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {
+  const { createLeaderboardSnapshot, discordLeaderboardPeriod } = await import('../../lib/discord/engagement.ts');
   const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const automation = await readFile(new URL('../../lib/discord/weekly-automation.ts', import.meta.url), 'utf8');
   const script = await readFile(new URL('../../scripts/discord/create-weekly-recap-draft.ts', import.meta.url), 'utf8');
+  const snapshotSmoke = await readFile(new URL('../../scripts/discord/smoke-weekly-leaderboard-recap.ts', import.meta.url), 'utf8');
 
   assert.equal(DISCORD_WEEKLY_RECAP_PROMPT_VERSION, 'discord-weekly-recap-automation-v1');
   assert.match(discordWeekKey(new Date('2026-06-21T12:00:00.000Z')), /^2026-W\d{2}$/);
+  assert.match(discordLeaderboardPeriod(new Date('2026-06-21T12:00:00.000Z')).periodKey, /^2026-W\d{2}$/);
   const body = [
     '# Weekly Recap',
     '**Leaderboard**',
@@ -645,9 +649,16 @@ test('discord weekly automation: drafts leaderboard recap for approval', async (
     'x'.repeat(500),
   ].join('\n');
   assert.ok(scoreWeeklyRecap(body) >= 90);
+  assert.equal(typeof createLeaderboardSnapshot, 'function');
+  assert.match(automation, /createLeaderboardSnapshot/);
+  assert.match(automation, /leaderboard_snapshot_id/);
+  assert.match(automation, /targetChannelBaseName: 'wins-showcase'/);
   assert.match(script, /createWeeklyRecapDraft/);
+  assert.match(snapshotSmoke, /discord_leaderboard_snapshots/);
+  assert.match(snapshotSmoke, /weekly-leaderboard-recap-smoke\.json/);
   assert.equal(pkg.scripts['discord:weekly-recap-draft'], 'tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts');
   assert.match(pkg.scripts['discord:smoke-weekly-recap'], /--smoke/);
+  assert.equal(pkg.scripts['discord:smoke-weekly-leaderboard-recap'], 'tsx --env-file=.env.local scripts/discord/smoke-weekly-leaderboard-recap.ts');
 });
 
 test('discord member intelligence: classifies member segments and persists rollups', async () => {

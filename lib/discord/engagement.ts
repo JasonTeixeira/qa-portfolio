@@ -669,6 +669,65 @@ export async function getLeaderboard(limit = 10): Promise<Array<{ discordUserId:
   return [...totals.values()].sort((a, b) => b.points - a.points).slice(0, limit);
 }
 
+export type DiscordLeaderboardSnapshot = {
+  id: string;
+  periodKey: string;
+  periodStart: string;
+  periodEnd: string;
+  rankings: Array<{ rank: number; discordUserId: string; username: string; points: number }>;
+};
+
+export function discordLeaderboardPeriod(now = new Date()): { periodKey: string; periodStart: Date; periodEnd: Date } {
+  const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const day = date.getUTCDay() || 7;
+  const periodStart = new Date(date);
+  periodStart.setUTCDate(date.getUTCDate() - day + 1);
+  periodStart.setUTCHours(0, 0, 0, 0);
+  const periodEnd = new Date(periodStart);
+  periodEnd.setUTCDate(periodStart.getUTCDate() + 7);
+  const yearStart = new Date(Date.UTC(periodStart.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((periodStart.getTime() - yearStart.getTime()) / 86_400_000) + 1) / 7);
+  return {
+    periodKey: `${periodStart.getUTCFullYear()}-W${String(week).padStart(2, '0')}`,
+    periodStart,
+    periodEnd,
+  };
+}
+
+export async function createLeaderboardSnapshot(input: {
+  now?: Date;
+  periodKey?: string;
+  limit?: number;
+} = {}): Promise<DiscordLeaderboardSnapshot> {
+  const period = discordLeaderboardPeriod(input.now);
+  const periodKey = input.periodKey ?? period.periodKey;
+  const leaderboard = await getLeaderboard(input.limit ?? 10);
+  const rankings = leaderboard.map((row, index) => ({
+    rank: index + 1,
+    discordUserId: row.discordUserId,
+    username: row.username,
+    points: row.points,
+  }));
+  const { data, error } = await supabaseAdmin()
+    .from('discord_leaderboard_snapshots')
+    .upsert({
+      period_key: periodKey,
+      period_start: period.periodStart.toISOString(),
+      period_end: period.periodEnd.toISOString(),
+      rankings,
+    }, { onConflict: 'period_key' })
+    .select('id, period_key, period_start, period_end, rankings')
+    .single();
+  if (error) throw new Error(error.message);
+  return {
+    id: String(data.id),
+    periodKey: String(data.period_key),
+    periodStart: String(data.period_start),
+    periodEnd: String(data.period_end),
+    rankings: Array.isArray(data.rankings) ? data.rankings as DiscordLeaderboardSnapshot['rankings'] : [],
+  };
+}
+
 export async function askDiscordQuestion(input: {
   discordUserId: string;
   username?: string | null;

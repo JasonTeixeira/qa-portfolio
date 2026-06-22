@@ -1,4 +1,5 @@
 import { createDiscordContentDraft } from './content-approval';
+import { createLeaderboardSnapshot } from './engagement';
 import { buildWeeklyRecapContent } from './sage-commands';
 
 export const DISCORD_WEEKLY_RECAP_PROMPT_VERSION = 'discord-weekly-recap-automation-v1';
@@ -12,6 +13,8 @@ export type WeeklyRecapDraftResult = {
   ok: boolean;
   draftId: string;
   weekKey: string;
+  leaderboardSnapshotId: string;
+  leaderboardCount: number;
   qualityScore: number;
   bodyPreview: string;
 };
@@ -39,11 +42,12 @@ export function scoreWeeklyRecap(body: string): number {
 export async function createWeeklyRecapDraft(input: WeeklyRecapDraftInput = {}): Promise<WeeklyRecapDraftResult> {
   const now = input.now ?? new Date();
   const weekKey = discordWeekKey(now);
+  const leaderboardSnapshot = await createLeaderboardSnapshot({ now, periodKey: weekKey, limit: 10 });
   const body = await buildWeeklyRecapContent();
   const qualityScore = scoreWeeklyRecap(body);
   const draft = await createDiscordContentDraft({
     draftType: 'weekly_recap',
-    targetChannelBaseName: 'wins',
+    targetChannelBaseName: 'wins-showcase',
     title: `Weekly Recap - ${weekKey}`,
     body,
     promptVersion: DISCORD_WEEKLY_RECAP_PROMPT_VERSION,
@@ -51,6 +55,8 @@ export async function createWeeklyRecapDraft(input: WeeklyRecapDraftInput = {}):
     status: 'pending_approval',
     metadata: {
       week_key: weekKey,
+      leaderboard_snapshot_id: leaderboardSnapshot.id,
+      leaderboard_count: leaderboardSnapshot.rankings.length,
       source: 'discord_weekly_recap_automation',
       ...(input.metadata ?? {}),
     },
@@ -59,6 +65,8 @@ export async function createWeeklyRecapDraft(input: WeeklyRecapDraftInput = {}):
     ok: true,
     draftId: draft.id,
     weekKey,
+    leaderboardSnapshotId: leaderboardSnapshot.id,
+    leaderboardCount: leaderboardSnapshot.rankings.length,
     qualityScore,
     bodyPreview: body.slice(0, 300),
   };

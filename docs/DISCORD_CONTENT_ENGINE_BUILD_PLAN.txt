@@ -138,6 +138,20 @@ Pass 4 still needs proof:
 1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
 2. Live admin dashboard click proof for approve/feature/reject after a real submission exists.
 
+Pass 5 status:
+Implemented locally.
+
+Pass 5 verified:
+1. Weekly recap draft creation creates a durable `discord_leaderboard_snapshots` row.
+2. Leaderboard snapshot rows are keyed by ISO-like week and upserted idempotently.
+3. Snapshot rankings include rank, Discord user id, username, and point total.
+4. Weekly recap drafts target `wins-showcase`, stay `pending_approval`, and link to the snapshot in metadata.
+5. Smoke proof seeds synthetic member points, verifies leaderboard ordering, creates a weekly recap draft, verifies snapshot linkage, and cleans all smoke rows.
+
+Pass 5 still needs proof:
+1. Live scheduled cron proof for the real weekly route after the next production deployment.
+2. Live published recap proof after admin approval of a real weekly recap draft.
+
 TARGET MEMBER EXPERIENCE
 New member:
 1. Joins server.

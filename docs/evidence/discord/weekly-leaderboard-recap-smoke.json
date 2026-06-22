@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "weekKey": "2099-W03",
+  "seededUsers": [
+    {
+      "id": "smoke-weekly-leader-1",
+      "username": "weekly-leader-one",
+      "points": 35
+    },
+    {
+      "id": "smoke-weekly-leader-2",
+      "username": "weekly-leader-two",
+      "points": 20
+    },
+    {
+      "id": "smoke-weekly-leader-3",
+      "username": "weekly-leader-three",
+      "points": 10
+    }
+  ],
+  "beforeDraftLeaderboard": [
+    {
+      "discordUserId": "smoke-weekly-leader-1",
+      "username": "weekly-leader-one",
+      "points": 35
+    },
+    {
+      "discordUserId": "smoke-weekly-leader-2",
+      "username": "weekly-leader-two",
+      "points": 20
+    },
+    {
+      "discordUserId": "smoke-weekly-leader-3",
+      "username": "weekly-leader-three",
+      "points": 10
+    }
+  ],
+  "draft": {
+    "ok": true,
+    "draftId": "ee503eeb-7db8-4051-9907-f474bf3d8b85",
+    "weekKey": "2099-W03",
+    "leaderboardSnapshotId": "324764b8-4b5b-47d3-aaa3-0a336fc4bdf8",
+    "leaderboardCount": 3,
+    "qualityScore": 100,
+    "bodyPreview": "# Weekly Recap\n**Cadence**\n- Monday: Build brief and weekly project target.\n- Tuesday: Tool teardown and implementation pattern.\n- Wednesday: Office-hours question collection.\n- Thursday: Review day for code, design, AI, SEO, and architecture.\n- Friday: Ship showcase and portfolio proof.\n- Saturday:"
+  },
+  "snapshot": {
+    "id": "324764b8-4b5b-47d3-aaa3-0a336fc4bdf8",
+    "periodKey": "2099-W03",
+    "rankingsCount": 3,
+    "topSmoke": {
+      "rank": 1,
+      "points": 35,
+      "username": "weekly-leader-one",
+      "discordUserId": "smoke-weekly-leader-1"
+    }
+  },
+  "draftRow": {
+    "id": "ee503eeb-7db8-4051-9907-f474bf3d8b85",
+    "draftType": "weekly_recap",
+    "targetChannelBaseName": "wins-showcase",
+    "status": "pending_approval",
+    "qualityScore": 100,
+    "metadata": {
+      "smoke": true,
+      "source": "discord_weekly_recap_automation",
+      "week_key": "2099-W03",
+      "smoke_run": "weekly_leaderboard_recap",
+      "leaderboard_count": 3,
+      "leaderboard_snapshot_id": "324764b8-4b5b-47d3-aaa3-0a336fc4bdf8"
+    }
+  },
+  "ledgerCount": 3,
+  "startedAt": "2026-06-22T03:53:46.736Z",
+  "finishedAt": "2026-06-22T03:53:49.826Z"
+}

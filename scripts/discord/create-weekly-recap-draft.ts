@@ -21,7 +21,10 @@ async function main() {
     const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
       auth: { persistSession: false },
     });
-    await sb.from('discord_content_drafts').delete().eq('id', result.draftId);
+    await Promise.all([
+      sb.from('discord_content_drafts').delete().eq('id', result.draftId),
+      sb.from('discord_leaderboard_snapshots').delete().eq('id', result.leaderboardSnapshotId),
+    ]);
     cleanedUp = true;
   }
 

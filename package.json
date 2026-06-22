@@ -62,6 +62,7 @@
     "discord:smoke-learning-generator": "tsx --env-file=.env.local scripts/discord/generate-learning-content.ts --smoke --date=2099-01-02 --theme=\"approval-gated AI automations\"",
     "discord:weekly-recap-draft": "tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts",
     "discord:smoke-weekly-recap": "tsx --env-file=.env.local scripts/discord/create-weekly-recap-draft.ts --smoke",
+    "discord:smoke-weekly-leaderboard-recap": "tsx --env-file=.env.local scripts/discord/smoke-weekly-leaderboard-recap.ts",
     "discord:member-intelligence": "tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts",
     "discord:smoke-member-intelligence": "tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts --smoke",
     "discord:smoke-premium-workflows": "tsx --env-file=.env.local scripts/discord/smoke-premium-workflows.ts",

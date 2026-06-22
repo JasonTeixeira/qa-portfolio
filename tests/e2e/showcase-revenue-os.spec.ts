@@ -16,7 +16,7 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByRole('heading', { name: /open and inspect the rev os prototype/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /open figma prototype/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /launch original figma build/i })).toBeVisible()
-    await expect(page.getByText(/website-native version starts directly below/i)).toBeVisible()
+    await expect(page.getByText(/on-site rev os prototype above is the embedded demo/i)).toBeVisible()
     await expect(page.getByRole('heading', { name: /the product demo is built directly/i })).toBeVisible()
 
     await page.getByRole('button', { name: /ironpeak roofing/i }).click()

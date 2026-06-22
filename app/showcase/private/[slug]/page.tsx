@@ -27,7 +27,7 @@ export default async function PrivateDemoPage({ params }: { params: Promise<{ sl
   }
 
   return (
-    <main className={styles.shell}>
+    <div className={styles.shell}>
       <section className={styles.packet}>
         <div className={styles.badge}><LockKeyhole size={15} /> Private demo packet</div>
         <h1>{prototype.name} customized for a high-fit prospect.</h1>
@@ -71,6 +71,6 @@ export default async function PrivateDemoPage({ params }: { params: Promise<{ sl
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

@@ -34,7 +34,7 @@ export default async function PrototypeDetailPage({ params }: { params: Promise<
   }
 
   return (
-    <main className={styles.shell}>
+    <div className={styles.shell}>
       <section className={styles.hero}>
         <span className={styles.kicker}>{prototype.status}</span>
         <h1>{prototype.headline}</h1>
@@ -49,6 +49,8 @@ export default async function PrototypeDetailPage({ params }: { params: Promise<
         </div>
       </section>
 
+      <PrototypePlayground prototype={prototype} />
+
       <section className={styles.metrics}>
         {prototype.metrics.map((metric) => (
           <div key={metric.label}>
@@ -58,8 +60,6 @@ export default async function PrototypeDetailPage({ params }: { params: Promise<
           </div>
         ))}
       </section>
-
-      <PrototypePlayground prototype={prototype} />
 
       <section className={styles.workflow}>
         <div className={styles.panel}>
@@ -99,6 +99,6 @@ export default async function PrototypeDetailPage({ params }: { params: Promise<
           ))}
         </div>
       </section>
-    </main>
+    </div>
   )
 }

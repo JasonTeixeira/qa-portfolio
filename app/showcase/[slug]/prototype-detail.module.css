@@ -4,7 +4,7 @@
     radial-gradient(72% 62% at 50% -12%, rgba(61, 90, 254, 0.14), transparent 58%),
     #09090b;
   color: #f2efe9;
-  padding: clamp(5rem, 10vw, 8rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
 }
 
 .hero,
@@ -16,7 +16,7 @@
 }
 
 .hero {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .kicker {
@@ -28,11 +28,11 @@
 }
 
 .hero h1 {
-  max-width: 13ch;
-  margin: 1rem 0;
+  max-width: 19ch;
+  margin: 0.75rem 0;
   color: #f8f4ec;
-  font-size: clamp(3rem, 7vw, 6.4rem);
-  line-height: 0.94;
+  font-size: clamp(2.8rem, 5.8vw, 5rem);
+  line-height: 0.96;
   letter-spacing: -0.045em;
 }
 
@@ -47,7 +47,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-top: 1.6rem;
+  margin-top: 1rem;
 }
 
 .primary,
@@ -117,7 +117,7 @@
 
 .prototypeEmbed {
   max-width: 1280px;
-  margin: 1rem auto 0;
+  margin: 0.75rem auto 0;
   border: 1px solid rgba(242, 239, 233, 0.12);
   border-radius: 14px;
   background:
@@ -136,11 +136,11 @@
 }
 
 .embedHeader h2 {
-  max-width: 16ch;
+  max-width: 23ch;
   margin: 0.6rem 0 0.5rem;
   color: #f8f4ec;
-  font-size: clamp(2rem, 4vw, 4rem);
-  line-height: 0.95;
+  font-size: clamp(1.8rem, 3.3vw, 3.2rem);
+  line-height: 1;
   letter-spacing: -0.045em;
 }
 

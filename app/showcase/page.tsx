@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function ShowcasePage() {
   return (
-    <main className={styles.shell}>
+    <div className={styles.shell}>
       <section className={styles.hero}>
         <span className={styles.kicker}>Sage Ideas Prototype Warehouse</span>
         <h1>Interactive systems people can click, understand, and buy.</h1>
@@ -40,6 +40,6 @@ export default function ShowcasePage() {
           </Link>
         ))}
       </section>
-    </main>
+    </div>
   )
 }

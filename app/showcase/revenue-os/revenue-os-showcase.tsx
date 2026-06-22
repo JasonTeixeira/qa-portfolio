@@ -137,7 +137,7 @@ export function RevenueOsShowcase() {
   const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0) + (sent ? 8 : 0))
 
   return (
-    <main className={styles.shell}>
+    <div className={styles.shell}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <span className={styles.kicker}>Prototype 01 / Revenue OS</span>
@@ -169,38 +169,6 @@ export function RevenueOsShowcase() {
         </div>
       </section>
 
-      <section className={styles.figmaSection} aria-label="Original Figma Make prototype">
-        <div className={styles.figmaHeader}>
-          <div>
-            <span className={styles.kicker}>Original Figma Make build</span>
-            <h2>Open and inspect the Rev OS prototype we built in Figma.</h2>
-          </div>
-          <a
-            className={styles.secondaryButton}
-            href={figmaPrototypeUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open Figma prototype
-            <ArrowRight size={16} />
-          </a>
-        </div>
-        <div className={styles.figmaLaunch}>
-          <div>
-            <span>Figma Make blocks reliable embedded rendering on this page.</span>
-            <strong>The original Rev OS prototype opens cleanly in Figma from the button above.</strong>
-            <p>
-              The production-grade, website-native version starts directly below this panel so prospects can still
-              click through the Revenue OS workflow without leaving the site.
-            </p>
-          </div>
-          <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
-            Launch original Figma build
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </section>
-
       <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
         <div>
           <span className={styles.kicker}>Embedded website-native prototype</span>
@@ -226,7 +194,7 @@ export function RevenueOsShowcase() {
       </section>
 
       <section className={styles.workspace}>
-        <aside className={styles.leftRail}>
+        <div className={styles.leftRail}>
           <div className={styles.panelHeader}>
             <span>Opportunity Queue</span>
             <strong>{leads.length} accounts</strong>
@@ -250,7 +218,7 @@ export function RevenueOsShowcase() {
               </button>
             ))}
           </div>
-        </aside>
+        </div>
 
         <section className={styles.mainStage}>
           <div className={styles.stageHeader}>
@@ -343,7 +311,7 @@ export function RevenueOsShowcase() {
           </div>
         </section>
 
-        <aside className={styles.rightRail}>
+        <div className={styles.rightRail}>
           <div className={styles.panelHeader}>
             <span>Live Sprint</span>
             <strong>{sprintProgress}%</strong>
@@ -372,7 +340,7 @@ export function RevenueOsShowcase() {
               </div>
             ))}
           </div>
-        </aside>
+        </div>
       </section>
 
       <section className={styles.lowerGrid}>
@@ -406,7 +374,39 @@ export function RevenueOsShowcase() {
           </a>
         </div>
       </section>
-    </main>
+
+      <section className={styles.figmaSection} aria-label="Original Figma Make prototype">
+        <div className={styles.figmaHeader}>
+          <div>
+            <span className={styles.kicker}>Original Figma Make build</span>
+            <h2>Open and inspect the Rev OS prototype we built in Figma.</h2>
+          </div>
+          <a
+            className={styles.secondaryButton}
+            href={figmaPrototypeUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Figma prototype
+            <ArrowRight size={16} />
+          </a>
+        </div>
+        <div className={styles.figmaLaunch}>
+          <div>
+            <span>Figma Make does not render reliably inside this page.</span>
+            <strong>The on-site Rev OS prototype above is the embedded demo. Figma opens as the source artifact.</strong>
+            <p>
+              Prospects can use the native command center directly on this page, while the Figma build remains available
+              for design inspection.
+            </p>
+          </div>
+          <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
+            Launch original Figma build
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </section>
+    </div>
   )
 }
 

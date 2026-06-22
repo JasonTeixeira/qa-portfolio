@@ -14,7 +14,7 @@
   align-items: end;
   max-width: 1480px;
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 6rem) 0 clamp(1.5rem, 3vw, 3rem);
+  padding: clamp(1.6rem, 3vw, 3rem) 0 clamp(1rem, 2vw, 1.5rem);
 }
 
 .heroCopy {
@@ -40,19 +40,19 @@
 }
 
 .hero h1 {
-  max-width: 11ch;
+  max-width: 15ch;
   margin: 1.2rem 0 1.4rem;
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(3.25rem, 8vw, 7.8rem);
+  font-size: clamp(3rem, 6vw, 5.8rem);
   font-weight: 520;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.045em;
   color: #f8f4ec;
   text-shadow: 0 22px 80px rgba(0, 0, 0, 0.55);
 }
 
 .hero p {
-  max-width: 62ch;
+  max-width: 58ch;
   margin: 0;
   color: #d9d3ca;
   font-size: clamp(1rem, 1.3vw, 1.22rem);
@@ -205,7 +205,7 @@
   gap: 1rem;
   align-items: end;
   max-width: 1480px;
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.75rem;
   border: 1px solid rgba(242, 239, 233, 0.12);
   border-radius: 14px;
   background:
@@ -215,11 +215,11 @@
 }
 
 .nativeIntro h2 {
-  max-width: 17ch;
+  max-width: 21ch;
   margin: 0.55rem 0 0;
   color: #f8f4ec;
-  font-size: clamp(2rem, 4vw, 3.8rem);
-  line-height: 0.96;
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
+  line-height: 1;
   letter-spacing: -0.045em;
 }
 

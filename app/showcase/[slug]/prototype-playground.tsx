@@ -92,7 +92,7 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
       </div>
 
       <div className={styles.playground}>
-        <aside className={styles.prototypeRail}>
+        <div className={styles.prototypeRail}>
           {prototype.workflow.map((item, index) => (
             <button
               key={item.step}
@@ -104,7 +104,7 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
               <em>{item.detail}</em>
             </button>
           ))}
-        </aside>
+        </div>
 
         <div className={styles.prototypeCanvas}>
           <div className={styles.canvasTop}>

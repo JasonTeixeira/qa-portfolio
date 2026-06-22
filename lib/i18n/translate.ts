@@ -71,6 +71,47 @@ export async function translateDictionary(
   return JSON.parse(out) as Record<string, string>
 }
 
+export interface QualityVerdict {
+  /** 1-5: meaning preserved with no additions, omissions, or mistranslations. */
+  faithfulness: number
+  /** 1-5: natural, idiomatic target language. */
+  fluency: number
+  /** Code, URLs, brand/proper names, technical terms kept intact. */
+  termsPreserved: boolean
+  issues: string[]
+}
+
+/**
+ * LLM-as-judge accuracy check (the verification loop). Grades a translation against its
+ * English source so the pipeline can flag/re-do anything that isn't genuinely correct —
+ * not just structurally complete.
+ */
+export async function verifyTranslation(
+  source: string,
+  translation: string,
+  target: LangTarget,
+): Promise<QualityVerdict> {
+  const system =
+    `You are a meticulous, STRICT bilingual translation QA reviewer for ${target.name}. ` +
+    `Grade the ${target.name} translation of the English source. Return JSON ONLY: ` +
+    `{"faithfulness": 1-5, "fluency": 1-5, "termsPreserved": true|false, "issues": ["..."]}. ` +
+    `faithfulness: does it preserve the EXACT meaning with no additions, omissions, or mistranslations ` +
+    `(5 = perfect, 4 = minor nits, 3 = noticeable drift, 1 = wrong). ` +
+    `fluency: natural idiomatic ${target.name} (5 = native, 1 = broken). ` +
+    `termsPreserved: were code, URLs, file paths, brand/proper names, and technical terms (RAG, Stripe, AWS, ` +
+    `Next.js, Supabase, etc.) kept intact and untranslated. ` +
+    `issues: short concrete problems, empty if none. Be honest; do not inflate scores.`
+  const user = `SOURCE (English):\n${source}\n\n---\n\nTRANSLATION (${target.name}):\n${translation}`
+  const raw = await chat(system, user, true)
+  const v = JSON.parse(raw) as Partial<QualityVerdict>
+  return {
+    faithfulness: Number(v.faithfulness) || 0,
+    fluency: Number(v.fluency) || 0,
+    termsPreserved: Boolean(v.termsPreserved),
+    issues: Array.isArray(v.issues) ? v.issues : [],
+  }
+}
+
 /** Translate a long markdown document, preserving structure/code/frontmatter intent. */
 export async function translateMarkdown(markdown: string, target: LangTarget): Promise<string> {
   const system =

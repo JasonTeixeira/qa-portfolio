@@ -45,8 +45,13 @@ jobs:
           fi
           npm run i18n
 
-      - name: Audit accuracy + completeness
+      - name: Audit completeness + structure (gate)
         run: npx tsx scripts/i18n-audit.ts --strict
+
+      - name: Verify accuracy (LLM judge, sampled spot-check)
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: npx tsx scripts/i18n-verify.ts --sample=3 --locales=es,zh,ar || true
 
       - name: Commit translations
         run: |

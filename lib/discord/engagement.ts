@@ -271,6 +271,10 @@ export function quizAttemptActionKey(quizKey: string, discordUserId: string): st
   return `quiz:${quizKey}:${discordUserId}`;
 }
 
+export function challengeSubmissionActionKey(challengeKey: string, discordUserId: string): string {
+  return `challenge:${challengeKey}:${discordUserId}`;
+}
+
 export async function awardDiscordPoints(input: {
   discordUserId: string;
   username?: string | null;
@@ -459,39 +463,175 @@ export async function submitDailyChallenge(input: {
   summary: string;
   link?: string | null;
   now?: Date;
-}): Promise<{ challenge: DailyChallenge; points: number }> {
+}): Promise<{ id: string | null; challenge: DailyChallenge; points: number; status: 'pending' | 'duplicate'; alreadySubmitted: boolean }> {
   const challenge = await getDailyChallengeFromStore(input.now);
   const sb = supabaseAdmin();
+  const summary = cleanText(input.summary);
+  if (!summary || summary.length < 20) {
+    throw new Error('Challenge summary must describe the artifact, what changed, and the proof link/context.');
+  }
 
+  const { data: existing, error: existingError } = await sb
+    .from('discord_challenge_submissions')
+    .select('id, status')
+    .eq('challenge_key', challenge.key)
+    .eq('discord_user_id', input.discordUserId)
+    .maybeSingle();
+  if (existingError) console.warn('[discord/engagement] challenge submission read failed', existingError.message);
+  if (existing) {
+    return {
+      id: String(existing.id),
+      challenge,
+      points: 0,
+      status: 'duplicate',
+      alreadySubmitted: true,
+    };
+  }
+
+  let submissionId: string | null = null;
   try {
-    await sb.from('discord_challenge_submissions').insert({
+    const { data, error } = await sb.from('discord_challenge_submissions').insert({
       challenge_key: challenge.key,
       discord_user_id: input.discordUserId,
       discord_username: input.username ?? null,
-      summary: input.summary,
+      summary,
       link: input.link ?? null,
-      points_awarded: challenge.points,
-    });
+      status: 'pending',
+      points_awarded: 0,
+    }).select('id').single();
+    if (error) {
+      if (isUniqueViolation(error)) {
+        return {
+          id: null,
+          challenge,
+          points: 0,
+          status: 'duplicate',
+          alreadySubmitted: true,
+        };
+      }
+      throw error;
+    }
+    submissionId = String(data.id);
   } catch (err) {
     console.warn('[discord/engagement] challenge submission insert failed', err instanceof Error ? err.message : err);
+    throw err;
   }
 
-  await awardDiscordPoints({
-    discordUserId: input.discordUserId,
-    username: input.username,
-    points: challenge.points,
-    reason: 'challenge_submission',
-    source: 'challenge',
-    metadata: { challenge_key: challenge.key, link: input.link ?? null },
-  });
   await completeOnboardingStep({
     discordUserId: input.discordUserId,
     username: input.username,
     stepKey: 'challenge',
-    metadata: { challenge_key: challenge.key },
+    metadata: { challenge_key: challenge.key, submission_id: submissionId, status: 'pending_review' },
   });
 
-  return { challenge, points: challenge.points };
+  return { id: submissionId, challenge, points: 0, status: 'pending', alreadySubmitted: false };
+}
+
+export async function reviewChallengeSubmission(input: {
+  submissionId: string;
+  status: 'approved' | 'featured' | 'rejected';
+  reviewerDiscordUserId: string;
+  reviewerUsername?: string | null;
+  note?: string | null;
+  featuredMessageId?: string | null;
+}): Promise<{
+  ok: boolean;
+  reason?: string;
+  submission?: {
+    id: string;
+    challengeKey: string;
+    discordUserId: string;
+    username: string | null;
+    summary: string;
+    link: string | null;
+    status: string;
+    pointsAwarded: number;
+  };
+  pointsAwarded: number;
+}> {
+  const sb = supabaseAdmin();
+  const { data: current, error } = await sb
+    .from('discord_challenge_submissions')
+    .select('id, challenge_key, discord_user_id, discord_username, summary, link, status, points_awarded')
+    .eq('id', input.submissionId)
+    .maybeSingle();
+  if (error) return { ok: false, reason: error.message, pointsAwarded: 0 };
+  if (!current) return { ok: false, reason: 'submission_not_found', pointsAwarded: 0 };
+  if (current.status === 'rejected') return { ok: false, reason: 'already_rejected', pointsAwarded: 0 };
+  if (current.status === 'featured' && input.status === 'featured') return { ok: false, reason: 'already_featured', pointsAwarded: 0 };
+
+  const challenge = await getChallengeByKey(String(current.challenge_key));
+  const shouldAward = input.status === 'approved' || input.status === 'featured';
+  let pointsAwarded = Number(current.points_awarded ?? 0);
+  if (shouldAward && pointsAwarded <= 0) {
+    const award = await awardDiscordPoints({
+      discordUserId: String(current.discord_user_id),
+      username: current.discord_username ? String(current.discord_username) : null,
+      points: challenge.points,
+      reason: input.status === 'featured' ? 'challenge_featured' : 'challenge_approved',
+      source: 'challenge',
+      actionKey: challengeSubmissionActionKey(String(current.challenge_key), String(current.discord_user_id)),
+      metadata: {
+        challenge_key: current.challenge_key,
+        submission_id: current.id,
+        reviewed_by: input.reviewerUsername ?? null,
+      },
+    });
+    pointsAwarded = award.awarded ? challenge.points : pointsAwarded;
+  }
+
+  const nextStatus = input.status;
+  const { error: updateError } = await sb
+    .from('discord_challenge_submissions')
+    .update({
+      status: nextStatus,
+      points_awarded: pointsAwarded,
+      reviewed_at: new Date().toISOString(),
+      reviewed_by_discord_user_id: input.reviewerDiscordUserId,
+      reviewed_by_discord_username: input.reviewerUsername ?? null,
+      review_note: input.note ?? null,
+      featured_message_id: input.featuredMessageId ?? null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', input.submissionId);
+  if (updateError) return { ok: false, reason: updateError.message, pointsAwarded: 0 };
+
+  return {
+    ok: true,
+    pointsAwarded,
+    submission: {
+      id: String(current.id),
+      challengeKey: String(current.challenge_key),
+      discordUserId: String(current.discord_user_id),
+      username: current.discord_username ? String(current.discord_username) : null,
+      summary: String(current.summary),
+      link: current.link ? String(current.link) : null,
+      status: nextStatus,
+      pointsAwarded,
+    },
+  };
+}
+
+async function getChallengeByKey(challengeKey: string): Promise<DailyChallenge> {
+  try {
+    const { data, error } = await supabaseAdmin()
+      .from('discord_challenges')
+      .select('challenge_key, title, prompt, deliverable, points')
+      .eq('challenge_key', challengeKey)
+      .maybeSingle();
+    if (!error && data) {
+      return {
+        key: String(data.challenge_key),
+        title: String(data.title),
+        prompt: String(data.prompt),
+        deliverable: String(data.deliverable),
+        points: Number(data.points ?? 25),
+      };
+    }
+  } catch {
+    // fall through to seed lookup
+  }
+  return dailyChallenges.find((challenge) => challenge.key === challengeKey) ?? getDailyChallenge();
 }
 
 export async function getMemberPoints(discordUserId: string): Promise<{ total: number; streak: number; longestStreak: number; rank: number | null }> {
@@ -726,9 +866,9 @@ export async function captureContentQueueItem(input: {
   angle?: string | null;
   priority?: number;
   metadata?: Json;
-}): Promise<void> {
+}): Promise<{ id: string } | null> {
   try {
-    await supabaseAdmin().from('discord_content_queue').insert({
+    const { data, error } = await supabaseAdmin().from('discord_content_queue').insert({
       source: input.source,
       discord_user_id: input.discordUserId ?? null,
       discord_username: input.username ?? null,
@@ -737,10 +877,59 @@ export async function captureContentQueueItem(input: {
       angle: input.angle ?? null,
       priority: input.priority ?? 50,
       metadata: input.metadata ?? {},
-    });
+    }).select('id').single();
+    if (error) throw error;
+    return { id: String(data.id) };
   } catch (err) {
     console.warn('[discord/engagement] content queue insert failed', err instanceof Error ? err.message : err);
+    return null;
   }
+}
+
+export async function submitProjectToBuildLab(input: {
+  discordUserId: string;
+  username?: string | null;
+  title: string;
+  pathKey?: string | null;
+  goal: string;
+  link?: string | null;
+}): Promise<{ id: string; contentQueueId: string | null }> {
+  const title = cleanText(input.title);
+  const goal = cleanText(input.goal);
+  if (!title || title.length < 4) throw new Error('Project title is required.');
+  if (!goal || goal.length < 20) throw new Error('Project goal must include the outcome, user, and useful proof target.');
+  const queue = await captureContentQueueItem({
+    source: 'project_submission',
+    idea: `${title}: ${goal}`,
+    discordUserId: input.discordUserId,
+    username: input.username,
+    channelBaseName: 'build-lab',
+    angle: input.pathKey ?? null,
+    priority: 68,
+    metadata: { title, path_key: input.pathKey ?? null, link: input.link ?? null },
+  });
+  const { data, error } = await supabaseAdmin()
+    .from('discord_project_submissions')
+    .insert({
+      discord_user_id: input.discordUserId,
+      discord_username: input.username ?? null,
+      title,
+      path_key: input.pathKey ?? null,
+      goal,
+      link: input.link ?? null,
+      status: 'queued',
+      content_queue_id: queue?.id ?? null,
+    })
+    .select('id')
+    .single();
+  if (error) throw new Error(error.message);
+  await completeOnboardingStep({
+    discordUserId: input.discordUserId,
+    username: input.username,
+    stepKey: 'project',
+    metadata: { project_id: data.id, content_queue_id: queue?.id ?? null, title, path_key: input.pathKey ?? null },
+  });
+  return { id: String(data.id), contentQueueId: queue?.id ?? null };
 }
 
 export async function getContentQueue(limit = 5): Promise<Array<{ idea: string; source: string; username: string | null; createdAt: string }>> {

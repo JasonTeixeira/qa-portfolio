@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "challengeKey": "content-repurpose",
+  "challengePoints": 20,
+  "first": {
+    "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+    "challenge": {
+      "key": "content-repurpose",
+      "title": "Question to content",
+      "prompt": "Turn one useful question into a short answer, one post idea, and one resource gap.",
+      "deliverable": "Post the question, answer, post angle, and resource needed.",
+      "points": 20
+    },
+    "points": 0,
+    "status": "pending",
+    "alreadySubmitted": false
+  },
+  "duplicate": {
+    "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+    "challenge": {
+      "key": "content-repurpose",
+      "title": "Question to content",
+      "prompt": "Turn one useful question into a short answer, one post idea, and one resource gap.",
+      "deliverable": "Post the question, answer, post angle, and resource needed.",
+      "points": 20
+    },
+    "points": 0,
+    "status": "duplicate",
+    "alreadySubmitted": true
+  },
+  "approved": {
+    "ok": true,
+    "pointsAwarded": 20,
+    "submission": {
+      "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+      "challengeKey": "content-repurpose",
+      "discordUserId": "smoke-challenge-pass4",
+      "username": "challenge-pass4-smoke",
+      "summary": "Built a working approval-gated automation map with trigger, input, human decision point, and failure path proof.",
+      "link": "https://example.com/pass4-challenge-proof",
+      "status": "approved",
+      "pointsAwarded": 20
+    }
+  },
+  "featured": {
+    "ok": true,
+    "pointsAwarded": 20,
+    "submission": {
+      "id": "57555598-42dd-42ff-985e-51e1bbe7d6a8",
+      "challengeKey": "content-repurpose",
+      "discordUserId": "smoke-challenge-pass4",
+      "username": "challenge-pass4-smoke",
+      "summary": "Built a working approval-gated automation map with trigger, input, human decision point, and failure path proof.",
+      "link": "https://example.com/pass4-challenge-proof",
+      "status": "featured",
+      "pointsAwarded": 20
+    }
+  },
+  "featuredMessageId": "1518454206896410686",
+  "project": {
+    "id": "a839744a-554f-45e3-89a3-63b670b20ddf",
+    "contentQueueId": "1f59d122-0b42-4126-b2ef-dc6df30cff18"
+  },
+  "submissionsCount": 1,
+  "ledgerCount": 1,
+  "queueCount": 1,
+  "onboardingSteps": [
+    "challenge",
+    "project"
+  ],
+  "points": {
+    "total": 20,
+    "streak": 1,
+    "longestStreak": 1,
+    "rank": 1
+  },
+  "startedAt": "2026-06-22T03:14:51.352Z",
+  "finishedAt": "2026-06-22T03:14:55.699Z"
+}

@@ -117,6 +117,10 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.match(quizScoringMigration, /add column if not exists action_key text/);
   assert.match(quizScoringMigration, /discord_points_ledger_action_key_idx/);
   assert.match(quizScoringMigration, /discord_quiz_attempts_once_idx/);
+  const challengeLabMigration = await readFile(new URL('../../supabase/migrations/0076_discord_challenge_lab_pipeline.sql', import.meta.url), 'utf8');
+  assert.match(challengeLabMigration, /discord_challenge_submissions_once_idx/);
+  assert.match(challengeLabMigration, /create table if not exists public\.discord_project_submissions/);
+  assert.match(challengeLabMigration, /status in \('pending', 'approved', 'featured', 'rejected'\)/);
   const ragMigration = await readFile(new URL('../../supabase/migrations/0065_rag_foundation.sql', import.meta.url), 'utf8');
   assert.match(ragMigration, /create extension if not exists vector/);
   assert.match(ragMigration, /create table if not exists public\.rag_sources/);
@@ -148,6 +152,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.equal(packageJson.scripts['discord:smoke-content-queue'], 'tsx --env-file=.env.local scripts/discord/smoke-content-queue-automation.ts');
   assert.equal(packageJson.scripts['discord:smoke-content-approval'], 'tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts');
   assert.equal(packageJson.scripts['discord:smoke-quiz-scoring'], 'tsx --env-file=.env.local scripts/discord/smoke-quiz-scoring.ts');
+  assert.equal(packageJson.scripts['discord:smoke-challenge-lab'], 'tsx --env-file=.env.local scripts/discord/smoke-challenge-lab.ts');
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily"/);
   assert.match(vercel, /"path": "\/api\/cron\/discord\/daily\/publish"/);
   assert.equal(packageJson.scripts['rag:baseline'], 'node --env-file-if-exists=.env.local scripts/rag/baseline.mjs');
@@ -598,6 +603,26 @@ test('discord quiz scoring: points are idempotent per quiz attempt', async () =>
   assert.match(smoke, /discord_quiz_attempts/);
   assert.match(smoke, /discord_points_ledger/);
   assert.match(smoke, /discord_member_streaks/);
+});
+
+test('discord challenge lab: submissions are review-gated and projects feed content queue', async () => {
+  const { challengeSubmissionActionKey } = await import('../../lib/discord/engagement.ts');
+  const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
+  const adminActions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+  const adminPage = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-challenge-lab.ts', import.meta.url), 'utf8');
+
+  assert.equal(challengeSubmissionActionKey('challenge-a', 'user-1'), 'challenge:challenge-a:user-1');
+  assert.match(commands, /Points award after approval/);
+  assert.match(commands, /already submitted today.s challenge/i);
+  assert.match(commands, /submitProjectToBuildLab/);
+  assert.match(adminActions, /reviewDiscordChallengeSubmissionAction/);
+  assert.match(adminActions, /wins-showcase/);
+  assert.match(adminPage, /Challenge submissions/);
+  assert.match(smoke, /duplicate\.alreadySubmitted/);
+  assert.match(smoke, /approved\.pointsAwarded === challenge\.points/);
+  assert.match(smoke, /featuredMessageId/);
+  assert.match(smoke, /projectRows\?\.\[0\]\?\.content_queue_id === project\.contentQueueId/);
 });
 
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {

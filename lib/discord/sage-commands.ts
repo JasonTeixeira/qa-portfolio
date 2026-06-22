@@ -46,6 +46,7 @@ import {
   reviewMemberApplication,
   submitMemberApplication,
   submitDailyChallenge,
+  submitProjectToBuildLab,
 } from './engagement';
 import { approveDiscordMember } from './onboarding';
 
@@ -695,13 +696,25 @@ async function handleChoosePath(payload: DiscordInteractionPayload): Promise<Int
 }
 
 async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
+  const id = userId(payload);
+  if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
   const title = optionValue(payload, 'title');
   const path = optionValue(payload, 'path');
   const goal = optionValue(payload, 'goal');
   const link = optionValue(payload, 'link');
+  const result = await submitProjectToBuildLab({
+    discordUserId: id,
+    username: username(payload),
+    title,
+    pathKey: path || null,
+    goal,
+    link: link || null,
+  });
   const content = [
     `# New project submission: ${title}`,
     `**Builder:** ${username(payload)}`,
+    `**Project ID:** \`${result.id}\``,
+    result.contentQueueId ? `**Content queue ID:** \`${result.contentQueueId}\`` : null,
     `**Path:** ${path}`,
     `**Goal:** ${goal}`,
     link ? `**Link:** ${link}` : null,
@@ -711,9 +724,7 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
     .filter(Boolean)
     .join('\n');
   await postToChannelByBaseName('build-lab', content);
-  const id = userId(payload);
-  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'project', metadata: { title, path } });
-  return ephemeral('Project submitted to `build-lab`. Next: add acceptance criteria and first milestone.');
+  return ephemeral(`Project submitted to \`build-lab\` and queued for the content engine. Project ID: \`${result.id}\`.`);
 }
 
 async function handleRequestReview(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -1255,22 +1266,33 @@ async function handleSubmitChallenge(payload: DiscordInteractionPayload): Promis
   const summary = optionValue(payload, 'summary');
   const link = optionValue(payload, 'link');
   const result = await submitDailyChallenge({ discordUserId: id, username: username(payload), summary, link });
-  await postToChannelByBaseName(
-    'wins',
-    [`# Challenge submission: ${result.challenge.title}`, `**Member:** ${username(payload)}`, `**Summary:** ${summary}`, link ? `**Link:** ${link}` : null]
-      .filter(Boolean)
-      .join('\n'),
-  );
+  if (result.alreadySubmitted) {
+    return ephemeral(`You already submitted today’s challenge. Submission ID: \`${result.id ?? 'existing'}\`. No extra points awarded.`);
+  }
   await captureContentQueueItem({
     source: 'challenge_submission',
     idea: `${result.challenge.title}: ${summary}`,
     discordUserId: id,
     username: username(payload),
-    channelBaseName: 'wins',
+    channelBaseName: 'build-lab',
     priority: 70,
-    metadata: { challenge_key: result.challenge.key, link: link || null },
+    metadata: { challenge_key: result.challenge.key, submission_id: result.id, link: link || null, status: 'pending_review' },
   });
-  return ephemeral(`Challenge submitted. Awarded **${result.points}** points.`);
+  await postToChannelByBaseName(
+    'build-lab',
+    [
+      `# Challenge submission pending review: ${result.challenge.title}`,
+      `**Member:** ${username(payload)}`,
+      `**Submission ID:** \`${result.id}\``,
+      `**Summary:** ${summary}`,
+      link ? `**Link:** ${link}` : null,
+      '',
+      'Points are awarded after admin approval. Featured submissions move to `wins-showcase`.',
+    ]
+      .filter(Boolean)
+      .join('\n'),
+  );
+  return ephemeral(`Challenge submitted for review. Submission ID: \`${result.id}\`. Points award after approval.`);
 }
 
 async function handlePoints(payload: DiscordInteractionPayload): Promise<InteractionResponse> {

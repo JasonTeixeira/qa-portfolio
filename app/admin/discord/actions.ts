@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { recordDiscordEvent } from '@/lib/discord/analytics';
 import { reviewDiscordContentDraft } from '@/lib/discord/content-approval';
-import { reviewMemberApplication } from '@/lib/discord/engagement';
+import { reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
 import { postToChannelByBaseName } from '@/lib/discord/sage-rest';
 
@@ -114,6 +114,55 @@ export async function reviewDiscordContentDraftAction(formData: FormData) {
     commandName: 'admin_dashboard',
     channelBaseName: 'team-ops',
     metadata: { id, status, reviewer: profile.email, note: note || null },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function reviewDiscordChallengeSubmissionAction(formData: FormData) {
+  const { user, profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const status = value(formData, 'status');
+  const note = value(formData, 'note');
+  if (!id || !['approved', 'featured', 'rejected'].includes(status)) throw new Error('Invalid challenge review.');
+
+  const result = await reviewChallengeSubmission({
+    submissionId: id,
+    status: status as 'approved' | 'featured' | 'rejected',
+    reviewerDiscordUserId: user.id,
+    reviewerUsername: profile.email,
+    note: note || null,
+  });
+  if (!result.ok || !result.submission) throw new Error(`Could not review challenge: ${result.reason ?? 'unknown error'}`);
+
+  let messageId: string | null = null;
+  if (status === 'featured') {
+    messageId = await postToChannelByBaseName(
+      'wins-showcase',
+      [
+        `# Featured challenge submission`,
+        `**Member:** ${result.submission.username ?? result.submission.discordUserId}`,
+        `**Challenge:** ${result.submission.challengeKey}`,
+        `**Submission ID:** \`${result.submission.id}\``,
+        `**Summary:** ${result.submission.summary}`,
+        result.submission.link ? `**Link:** ${result.submission.link}` : null,
+        `**Points awarded:** ${result.pointsAwarded}`,
+      ].filter(Boolean).join('\n'),
+    );
+    if (messageId) {
+      await supabaseAdmin()
+        .from('discord_challenge_submissions')
+        .update({ featured_message_id: messageId, updated_at: new Date().toISOString() })
+        .eq('id', id);
+    }
+  }
+
+  await recordDiscordEvent({
+    eventType: 'challenge_submission_reviewed',
+    commandName: 'admin_dashboard',
+    discordUserId: result.submission.discordUserId,
+    discordUsername: result.submission.username,
+    channelBaseName: status === 'featured' ? 'wins-showcase' : 'team-ops',
+    metadata: { id, status, reviewer: profile.email, note: note || null, points_awarded: result.pointsAwarded, message_id: messageId },
   });
   revalidatePath('/admin/discord');
 }

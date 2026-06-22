@@ -7,6 +7,7 @@ import { Badge } from '@/components/portal/ui/badge';
 import {
   approveDiscordApplication,
   rejectDiscordApplication,
+  reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
   updateDiscordContentQueueStatus,
 } from './actions';
@@ -102,6 +103,18 @@ type DiscordChallengeRow = {
   created_at: string;
 };
 
+type DiscordChallengeSubmissionRow = {
+  id: string;
+  challenge_key: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  summary: string;
+  link: string | null;
+  status: string;
+  points_awarded: number;
+  created_at: string;
+};
+
 type DiscordCalendarRow = {
   calendar_date: string;
   theme: string | null;
@@ -155,6 +168,7 @@ export default async function AdminDiscordPage() {
     applicationsRes,
     quizzesRes,
     challengesRes,
+    challengeSubmissionsRes,
     calendarRes,
     questionsRes,
     answersRes,
@@ -222,6 +236,12 @@ export default async function AdminDiscordPage() {
       .order('created_at', { ascending: false })
       .limit(5),
     sb
+      .from('discord_challenge_submissions')
+      .select('id, challenge_key, discord_user_id, discord_username, summary, link, status, points_awarded, created_at')
+      .in('status', ['pending', 'approved'])
+      .order('created_at', { ascending: false })
+      .limit(20),
+    sb
       .from('discord_content_calendar')
       .select('calendar_date, theme, daily_prompt, status')
       .order('calendar_date', { ascending: false })
@@ -265,6 +285,7 @@ export default async function AdminDiscordPage() {
   const applications = (applicationsRes.data ?? []) as DiscordApplicationRow[];
   const quizzes = (quizzesRes.data ?? []) as DiscordQuizRow[];
   const challenges = (challengesRes.data ?? []) as DiscordChallengeRow[];
+  const challengeSubmissions = (challengeSubmissionsRes.data ?? []) as DiscordChallengeSubmissionRow[];
   const calendar = (calendarRes.data ?? []) as DiscordCalendarRow[];
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
@@ -575,6 +596,42 @@ export default async function AdminDiscordPage() {
             </CardContent>
           </Card>
         </div>
+
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex items-baseline justify-between mb-3">
+              <h2 className="text-sm font-medium text-[#fafafa]">Challenge submissions</h2>
+              <span className="text-xs text-[#71717a]">Approve for points or feature in wins-showcase</span>
+            </div>
+            <Rows empty="No challenge submissions waiting for review.">
+              {challengeSubmissions.map((submission) => (
+                <div key={submission.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
+                  <div className="col-span-2">
+                    <Badge tone={submission.status === 'pending' ? 'emerald' : 'neutral'}>{submission.status}</Badge>
+                  </div>
+                  <div className="col-span-2 text-[#a1a1aa] truncate">{submission.discord_username ?? submission.discord_user_id}</div>
+                  <div className="col-span-2 text-[#71717a] truncate">{submission.challenge_key}</div>
+                  <div className="col-span-3 text-[#fafafa] truncate">{submission.summary}</div>
+                  <div className="col-span-1 text-[#34d399] text-right tabular-nums">{submission.points_awarded}</div>
+                  <div className="col-span-2 flex justify-end gap-1">
+                    {['approved', 'featured', 'rejected'].map((status) => (
+                      <form action={reviewDiscordChallengeSubmissionAction} key={status}>
+                        <input type="hidden" name="id" value={submission.id} />
+                        <input type="hidden" name="status" value={status} />
+                        <button
+                          className={status === 'featured' ? 'rounded-full bg-[#34d399] px-2 py-1 text-[10px] font-medium text-[#07110d]' : 'rounded-full border border-[#3f3f46] px-2 py-1 text-[10px] text-[#fafafa]'}
+                          type="submit"
+                        >
+                          {status}
+                        </button>
+                      </form>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Rows>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardContent className="p-5">

@@ -122,6 +122,22 @@ Pass 3 verified:
 Pass 3 still needs proof:
 1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
 
+Pass 4 status:
+Implemented locally and live Supabase migration applied.
+
+Pass 4 verified:
+1. Challenge submissions are pending by default.
+2. Duplicate challenge submissions do not create duplicate scored rows.
+3. Challenge points are awarded only after admin approval/feature.
+4. Featured challenge submissions can post to wins-showcase.
+5. Project submissions persist to `discord_project_submissions`.
+6. Project submissions create content queue candidates.
+7. Challenge/project onboarding steps are recorded.
+
+Pass 4 still needs proof:
+1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
+2. Live admin dashboard click proof for approve/feature/reject after a real submission exists.
+
 TARGET MEMBER EXPERIENCE
 New member:
 1. Joins server.

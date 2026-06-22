@@ -35,6 +35,7 @@ const requiredDiscordTables = [
   'discord_office_hours_queue',
   'discord_content_draft_evaluations',
   'discord_member_intelligence_profiles',
+  'discord_project_submissions',
 ];
 const migrationText = (await Promise.all(discordMigrations.map((file) => readFile(path.join(migrationsDir, file), 'utf8')))).join('\n');
 const missingDiscordTables = requiredDiscordTables.filter((table) => !migrationText.includes(`public.${table}`));

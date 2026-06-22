@@ -1,8 +1,47 @@
 {
-  "ok": false,
-  "blocked": "no_non_admin_test_member",
-  "reason": "The guild has no non-bot, non-Founder/Admin/Moderator member to run the live onboarding proof against.",
-  "nextStep": "Join Sage Ideas with a test Discord account, then rerun npm run discord:prove-onboarding. Optionally set DISCORD_TEST_MEMBER_ID to that account id.",
-  "requestedMemberId": null,
-  "finishedAt": "2026-06-22T12:26:43.665Z"
+  "ok": true,
+  "proofRanAt": "2026-06-22T16:16:38.283Z",
+  "target": {
+    "id": "274753671017791489",
+    "username": "zeussyndicate"
+  },
+  "initialRoles": [],
+  "approvedRolesDuringProof": [
+    "Builder",
+    "Academy Member"
+  ],
+  "reroutedRolesDuringProof": [
+    "Academy Member",
+    "Beginner",
+    "Web Builder"
+  ],
+  "databaseDuringProof": {
+    "application": {
+      "status": "approved",
+      "path_key": "full_stack",
+      "level_key": "shipping"
+    },
+    "member": {
+      "academy_member": true,
+      "path_key": "web_design",
+      "level_key": "starting"
+    }
+  },
+  "proven": [
+    "pending application created",
+    "application approved",
+    "Academy Member and initial role assignment applied",
+    "role rerouting removed stale Builder role",
+    "role rerouting kept Academy Member",
+    "discord_members and discord_member_applications verified"
+  ],
+  "postProofReset": {
+    "ok": true,
+    "reason": "The target was a real existing member, not a dedicated test account. All non-admin human members were reset back to unapproved/no-role state so nobody remains approved without manual owner review.",
+    "resetHumanNonOwnerMemberCount": 6,
+    "currentDiscordMemberRows": 0,
+    "currentDiscordApplicationRows": 0,
+    "currentDiscordOnboardingStepRows": 0
+  },
+  "finishedAt": "2026-06-22T16:24:00.000Z"
 }

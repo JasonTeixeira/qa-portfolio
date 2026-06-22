@@ -6,6 +6,7 @@ const SEND_MESSAGES = 1n << 11n;
 const READ_MESSAGE_HISTORY = 1n << 16n;
 
 const memberChannels = [
+  'introductions',
   'daily-signal',
   'questions',
   'build-lab',

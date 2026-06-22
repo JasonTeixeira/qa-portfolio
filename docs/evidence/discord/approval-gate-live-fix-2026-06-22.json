@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "fixedAt": "2026-06-22T16:24:00.000Z",
+  "rootCause": "The old 60+ channel Discord structure was still present and was not fully hidden from no-role members. The bot onboarding/database system existed, but Discord channel permissions allowed members to join without going through the intended /apply approval pipeline.",
+  "actionsTaken": [
+    "Enforced the lean approval gate across start-here, introductions, daily-signal, questions, build-lab, review-queue, content-lab, live-room, resources, wins-showcase, premium, and team-ops.",
+    "Archived 74 legacy channels/categories by denying @everyone view access. No channels were deleted.",
+    "Reset 6 human non-owner members to no Sage-controlled roles.",
+    "Cleared generated Discord member/application/onboarding proof rows so no existing human member remains approved without manual review.",
+    "Posted an onboarding reset notice in start-here telling members to run /apply and wait for manual approval."
+  ],
+  "liveVerification": {
+    "guild": {
+      "id": "1516813594468286575",
+      "name": "Sage Ideas",
+      "approximateMemberCount": 8
+    },
+    "humanNonOwnerMembers": [
+      "zeussyndicate",
+      "nams00",
+      "shiv202",
+      "bc1784",
+      "infiniteflow369",
+      "roilo123"
+    ],
+    "humanNonOwnerControlledRoles": [],
+    "noRoleVisible": [
+      "start-here",
+      "01 START"
+    ],
+    "supabaseCounts": {
+      "discord_members": 0,
+      "discord_member_applications": 0,
+      "discord_member_onboarding_steps": 0
+    },
+    "approvalAudit": "ok"
+  },
+  "remainingManualDiscordSetting": "For Discord's native pending-member approval UI like Nexural, enable Membership Screening/Rules Screening in Discord Server Settings. The bot-side approval gate is now enforced by roles and channel permissions."
+}

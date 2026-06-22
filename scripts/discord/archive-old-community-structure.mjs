@@ -5,6 +5,7 @@ const VIEW_CHANNEL = 1n << 10n;
 
 const leanChannels = new Set([
   'start-here',
+  'introductions',
   'daily-signal',
   'questions',
   'build-lab',

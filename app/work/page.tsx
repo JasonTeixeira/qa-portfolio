@@ -7,13 +7,20 @@ import { caseStudies } from '@/data/work/case-studies'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/work' },
-  title: 'Work',
+  title: 'Work — Production Case Studies',
   description:
     'Production case studies from Sage Ideas: fintech platforms, ML signal engines, AI-native products, infrastructure, and developer tooling. Real work, real outcomes.',
   openGraph: {
-    title: 'Work',
+    title: 'Work — Production Case Studies',
     description:
       'Production case studies from Sage Ideas: fintech platforms, ML signal engines, AI-native products, infrastructure, and developer tooling. Real work, real outcomes.',
+    url: 'https://www.sageideas.dev/work',
+    images: ['/og?title=The+work+speaks.&subtitle=Production+case+studies'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Work — Production Case Studies',
+    description: 'Production case studies from Sage Ideas — real work, real outcomes.',
     images: ['/og?title=The+work+speaks.&subtitle=Production+case+studies'],
   },
 }

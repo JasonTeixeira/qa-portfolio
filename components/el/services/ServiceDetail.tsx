@@ -300,6 +300,11 @@ export function ServiceDetail({ tier }: ServiceDetailProps) {
             <LivingCTA href="/services" variant="text">
               services index
             </LivingCTA>
+            {tier.sampleArtifact?.href && !tier.sampleArtifact.comingSoon && (
+              <LivingCTA href={tier.sampleArtifact.href} variant="text">
+                see a sample deliverable
+              </LivingCTA>
+            )}
           </>
         }
       />

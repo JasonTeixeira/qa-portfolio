@@ -27,12 +27,12 @@ const breadcrumbSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'Pricing',
+  title: 'Pricing — AI Engineering & Studio Retainers',
   description:
-    'Full pricing menu from Sage Ideas: productized engineering and QA tiers, AI reliability audits, RAG and agent ops, automation pipelines, customer-facing AI products, productized retainers, diagnostic on-ramps from $1,200, and a 90-day Done-For-You bundle. Fixed scope, transparent pricing.',
+    'Fixed-scope, fixed-price tiers — from a $750 audit to full builds and retainers. AI reliability audits, RAG & agent ops, automation, and product engineering. No hourly billing.',
   alternates: { canonical: `${SITE}/pricing` },
   openGraph: {
-    title: 'Pricing',
+    title: 'Pricing — AI Engineering & Studio Retainers',
     description: 'Engineering, QA, AI, automation, retainers, and bundles. Fixed price.',
     images: [{ url: '/og?title=Pricing&subtitle=Engineering%2C+AI%2C+automation%2C+retainers.' }],
   },

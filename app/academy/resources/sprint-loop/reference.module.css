@@ -1,0 +1,48 @@
+/* A clean light "document" — looks like a reference on screen, prints to a
+   crisp one/two-page PDF. */
+.sheet {
+  min-height: 100vh;
+  background: #14141a;
+  padding: 2rem 1.2rem 4rem;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+.toolbar { max-width: 800px; margin: 0 auto 1.4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.back { color: #b8c4e8; text-decoration: none; font-family: var(--font-mono), monospace; font-size: 0.8rem; }
+.back:hover { color: #fff; }
+.print { cursor: pointer; border: 0; background: #3d5afe; color: #fff; border-radius: 10px; padding: 0.6rem 1.1rem; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 0.85rem; box-shadow: 0 8px 22px rgba(61, 90, 254, 0.35); }
+.print:hover { transform: translateY(-1px); }
+
+.doc {
+  max-width: 800px; margin: 0 auto;
+  background: #faf8f3; color: #15161c;
+  border-radius: 14px;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+.docHead { border-bottom: 2px solid #15161c; padding-bottom: 1.2rem; margin-bottom: 1.6rem; }
+.brand { font-family: var(--font-mono), monospace; font-size: 0.66rem; letter-spacing: 0.22em; color: #3d5afe; }
+.docTitle { margin: 0.5rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(2rem, 1.4rem + 3vw, 3rem); letter-spacing: -0.03em; }
+.docSub { margin: 0.6rem 0 0; max-width: 60ch; color: #4a4b55; font-size: 0.96rem; line-height: 1.5; }
+
+.loop { list-style: none; margin: 0; padding: 0; }
+.step { display: flex; gap: 1rem; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
+.stepN { flex-shrink: 0; width: 2.2rem; font-family: var(--font-mono), monospace; font-weight: 700; font-size: 0.92rem; color: #3d5afe; }
+.stepLabel { display: block; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.02rem; }
+.stepWhy { display: block; color: #5a5b66; font-size: 0.86rem; margin-top: 1px; }
+
+.intensities { margin-top: 1.8rem; }
+.h2 { margin: 0 0 0.8rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.3rem; }
+.table { width: 100%; border-collapse: collapse; }
+.table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(0, 0, 0, 0.08); vertical-align: top; }
+.iName { font-family: var(--font-display), sans-serif; font-weight: 700; white-space: nowrap; }
+.iTime { font-family: var(--font-mono), monospace; font-size: 0.84rem; color: #3d5afe; white-space: nowrap; }
+.iBlurb { color: #4a4b55; font-size: 0.9rem; }
+
+.docFoot { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(0, 0, 0, 0.1); font-family: var(--font-mono), monospace; font-size: 0.7rem; color: #8a8b96; text-align: center; }
+
+@media print {
+  .sheet { background: #fff; padding: 0; }
+  .toolbar { display: none; }
+  .doc { box-shadow: none; border-radius: 0; max-width: none; padding: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .print:hover { transform: none; } }

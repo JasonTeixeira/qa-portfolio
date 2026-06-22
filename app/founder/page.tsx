@@ -50,10 +50,17 @@ const breadcrumbSchema = {
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/founder' },
-  title: 'Founder',
+  title: 'Founder — Jason Teixeira',
   description:
     'Jason Teixeira — founder and principal of Sage Ideas. Fintech engineer, full-stack practitioner, and the person behind every studio engagement.',
   openGraph: {
+    title: 'Founder — Jason Teixeira',
+    description: 'The person behind every Sage Ideas engagement.',
+    url: 'https://www.sageideas.dev/founder',
+    images: ['/og?title=Founder&subtitle=The+person+behind+the+studio.'],
+  },
+  twitter: {
+    card: 'summary_large_image',
     title: 'Founder — Jason Teixeira',
     description: 'The person behind every Sage Ideas engagement.',
     images: ['/og?title=Founder&subtitle=The+person+behind+the+studio.'],

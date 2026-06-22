@@ -1,0 +1,64 @@
+.page {
+  --ink: #f2efe9;
+  --dim: #c4c5cd;
+  --muted: #8a8b96;
+  --line: rgba(255, 255, 255, 0.08);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(6rem, 5rem + 3vw, 8rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  color: var(--ink);
+}
+
+/* hero */
+.hero {
+  position: relative;
+  padding: clamp(1.6rem, 1rem + 2vw, 2.4rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    radial-gradient(80% 120% at 0% 0%, color-mix(in srgb, var(--topic) 12%, transparent), transparent 60%),
+    rgba(255, 255, 255, 0.015);
+  overflow: hidden;
+}
+.hero::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--topic); }
+.eyebrow { margin: 0; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.tag { color: var(--topic); }
+.sep { color: var(--muted); }
+.level { color: var(--muted); }
+.title { margin: 0.7rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(2.1rem, 1.4rem + 2.4vw, 3.2rem); letter-spacing: -0.035em; line-height: 1.02; }
+.subtitle { margin: 0.7rem 0 0; max-width: 56ch; color: var(--dim); font-size: 1.08rem; line-height: 1.5; }
+.meta { margin: 1rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); }
+.bar { margin: 1rem 0 0; height: 6px; max-width: 320px; border-radius: 3px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--topic); border-radius: 3px; }
+.actions { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.cta { display: inline-flex; align-items: center; padding: 0.8rem 1.5rem; border-radius: 26px; background: var(--topic); color: #08080b; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 0.98rem; text-decoration: none; box-shadow: 0 0 24px color-mix(in srgb, var(--topic) 40%, transparent); transition: transform 0.2s ease; }
+.cta:hover { transform: translateY(-1px); }
+.soon { font-family: var(--font-mono), monospace; font-size: 0.8rem; color: var(--muted); }
+.back { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
+.back:hover { color: var(--ink); }
+
+/* syllabus */
+.syllabus { margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem); }
+.syllabusHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.h2 { margin: 0; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.02em; }
+.syllabusMeta { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
+.module { margin-top: 1.6rem; }
+.moduleTitle { margin: 0 0 0.6rem; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.lessons { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.lessons li + li .lesson { border-top: 1px solid var(--line); }
+.lesson { display: grid; grid-template-columns: 2rem 1fr auto auto; align-items: center; gap: 0.9rem; padding: 0.9rem 1.1rem; text-decoration: none; color: inherit; transition: background 0.18s ease; }
+.lesson:hover { background: var(--topic-soft); }
+.lessonNum { font-family: var(--font-mono), monospace; font-size: 0.78rem; color: var(--muted); text-align: center; }
+.lesson[data-done='true'] .lessonNum { color: var(--topic); }
+.lessonTitle { font-family: var(--font-display), sans-serif; font-weight: 500; font-size: 1rem; letter-spacing: -0.01em; }
+.free { padding: 0.18rem 0.5rem; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--topic) 40%, transparent); background: var(--topic-soft); font-family: var(--font-mono), monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--topic) 85%, white); }
+.lessonMin { font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
+
+@media (max-width: 560px) {
+  .lesson { grid-template-columns: 1.6rem 1fr auto; }
+  .lessonMin { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta { transition: none; }
+}

@@ -4185,6 +4185,70 @@ test('traffic os: builds source campaigns distribution discord and conversion gr
   assert.equal(run.readiness.grade, 'institutional_beta');
 });
 
+// ---------------------------------------------------- learning-engine V2
+
+test('engine: LOOP steps + keys are unique and ordered', async () => {
+  const { LOOP, INTENSITIES, REQUIRED_SECTIONS } = await import('../../lib/academy/engine.ts');
+  const keys = LOOP.map((s) => s.key);
+  assert.equal(new Set(keys).size, keys.length, 'loop keys unique');
+  const steps = LOOP.map((s) => s.step);
+  assert.deepEqual([...steps].sort((a, b) => a - b), steps, 'steps already ordered');
+  assert.ok(['micro', 'standard', 'deep', 'capstone'].every((k) => INTENSITIES[k] && REQUIRED_SECTIONS[k]));
+});
+
+test('engine: every required section maps to a known loop step', async () => {
+  const { REQUIRED_SECTIONS, loopStep } = await import('../../lib/academy/engine.ts');
+  for (const [intensity, keys] of Object.entries(REQUIRED_SECTIONS)) {
+    for (const k of keys) {
+      assert.ok(loopStep(k), `${intensity} requires unknown section "${k}"`);
+    }
+  }
+});
+
+test('scaffold: scaffoldSections covers all required sections, in loop order', async () => {
+  const { scaffoldSections } = await import('../../lib/academy/scaffold.ts');
+  const { REQUIRED_SECTIONS, loopStep } = await import('../../lib/academy/engine.ts');
+  for (const intensity of ['micro', 'standard', 'deep', 'capstone']) {
+    const blocks = scaffoldSections(intensity);
+    const types = blocks.map((b) => b.type);
+    for (const req of REQUIRED_SECTIONS[intensity]) {
+      assert.ok(types.includes(req), `${intensity} scaffold missing ${req}`);
+    }
+    const stepNums = types.map((t) => loopStep(t)?.step ?? 99);
+    assert.deepEqual([...stepNums].sort((a, b) => a - b), stepNums, `${intensity} not loop-ordered`);
+  }
+});
+
+test('scaffold: defaultBlock returns a block whose type matches the request', async () => {
+  const { defaultBlock } = await import('../../lib/academy/scaffold.ts');
+  const { LOOP } = await import('../../lib/academy/engine.ts');
+  const all = [...LOOP.map((s) => s.key), 'prose', 'code', 'video', 'callout'];
+  for (const t of all) {
+    assert.equal(defaultBlock(t).type, t, `defaultBlock(${t}) wrong type`);
+  }
+  assert.equal(defaultBlock('sprint-contract', 'deep').intensity, 'deep');
+});
+
+test('scaffold: checkCompleteness flags missing then clears when scaffolded', async () => {
+  const { scaffoldSections, checkCompleteness } = await import('../../lib/academy/scaffold.ts');
+  const empty = checkCompleteness([], 'standard');
+  assert.equal(empty.complete, false);
+  assert.equal(empty.missing.length, empty.required.length);
+  const full = checkCompleteness(scaffoldSections('standard'), 'standard');
+  assert.equal(full.complete, true);
+  assert.equal(full.missing.length, 0);
+});
+
+test('scaffold: mergeScaffold preserves authored blocks and adds only missing', async () => {
+  const { mergeScaffold, checkCompleteness } = await import('../../lib/academy/scaffold.ts');
+  const authored = [{ type: 'mission', text: 'keep me' }, { type: 'prose', text: 'extra' }];
+  const merged = mergeScaffold(authored, 'standard');
+  assert.equal(merged.filter((b) => b.type === 'mission').length, 1);
+  assert.equal(merged.find((b) => b.type === 'mission').text, 'keep me');
+  assert.ok(merged.some((b) => b.type === 'prose' && b.text === 'extra'));
+  assert.equal(checkCompleteness(merged, 'standard').complete, true);
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

@@ -17,5 +17,7 @@ export function SplashBackdrop({ className }: { className?: string }) {
     setSrc(visitBackdrop())
   }, [])
 
-  return <Image src={src} alt="" fill priority sizes="100vw" className={className} />
+  // No `priority`: this lives in a display:none container until the splash plays,
+  // so an eager high-priority fetch would only steal bandwidth from the real LCP.
+  return <Image src={src} alt="" fill loading="lazy" sizes="100vw" className={className} />
 }

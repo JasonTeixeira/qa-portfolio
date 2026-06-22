@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
 import { RouteFinderHeroExperiment } from '@/components/cro/RouteFinderHeroExperiment'
 import { ServicesEl } from './services-el'
+import { JsonLd } from '@/components/json-ld'
+import { buildCollectionPage } from '@/lib/seo/jsonld'
+import { tiers } from '@/data/services/tiers'
 
 const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'Services',
+  title: 'AI Engineering & Studio Services',
   description:
-    'Thirty-plus engagements from Sage Ideas: productized engineering and QA tiers, AI reliability audits, RAG and agent ops, automation pipelines, customer-facing AI products, productized retainers, diagnostic on-ramps, and a 90-day done-for-you bundle. Fixed scope, transparent pricing, custom welcome.',
+    'Fixed-scope, fixed-price studio engagements — AI reliability audits, RAG & agent ops, automation pipelines, and full-stack product builds. No hourly billing, no surprise change orders.',
   alternates: { canonical: `${SITE}/services` },
   openGraph: {
-    title: 'Services',
+    title: 'AI Engineering & Studio Services',
     description: 'Engineering, QA, AI, and automation engagements. Fixed scope. Custom welcome.',
     images: [{ url: '/og?title=Services&subtitle=Engineering%2C+AI%2C+automation%2C+and+retainers.' }],
   },
@@ -23,7 +26,18 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <div className="px-5 pt-28 sm:px-8 lg:px-12">
+      <JsonLd
+        data={[
+          buildCollectionPage({
+            name: 'AI Engineering & Studio Services',
+            description:
+              'Fixed-scope, fixed-price studio engagements — AI reliability audits, RAG & agent ops, automation, and full-stack product builds.',
+            url: `${SITE}/services`,
+            itemUrls: tiers.map((t) => `${SITE}/services/${t.slug}`),
+          }),
+        ]}
+      />
+      <div className="px-5 pt-6 sm:px-8 lg:px-12">
         <RouteFinderHeroExperiment surface="services" />
       </div>
       <ServicesEl />

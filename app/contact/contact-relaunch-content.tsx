@@ -155,7 +155,7 @@ function Field({
           {label}
         </MonoLabel>
         {required && (
-          <MonoLabel tone="accent" className="text-[10px]">
+          <MonoLabel tone="accent" className="text-[10px]" aria-hidden="true">
             required
           </MonoLabel>
         )}
@@ -449,6 +449,7 @@ function ContactInner() {
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your full name"
                     className={inputClass}
+                    autoComplete="name"
                     required
                     maxLength={120}
                   />
@@ -460,6 +461,7 @@ function ContactInner() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@company.com"
                     className={inputClass}
+                    autoComplete="email"
                     required
                     maxLength={200}
                   />
@@ -474,6 +476,7 @@ function ContactInner() {
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="Acme Inc."
                     className={inputClass}
+                    autoComplete="organization"
                     maxLength={200}
                   />
                 </Field>
@@ -484,6 +487,7 @@ function ContactInner() {
                     onChange={(e) => setRole(e.target.value)}
                     placeholder="CTO, Head of Eng, Founder…"
                     className={inputClass}
+                    autoComplete="organization-title"
                     maxLength={120}
                   />
                 </Field>
@@ -539,6 +543,8 @@ function ContactInner() {
               <AnimatePresence>
                 {error && (
                   <motion.div
+                    role="alert"
+                    aria-live="assertive"
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}

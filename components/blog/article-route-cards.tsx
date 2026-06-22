@@ -133,7 +133,7 @@ export function ArticleRouteCards({
         </Link>
 
         <Link
-          href={`/academy/${academyTrack.slug}/enroll`}
+          href="/academy/catalog"
           className="group bg-[var(--sage-surface-1)] p-5 transition-colors hover:bg-[var(--sage-surface-2)] sm:p-6"
         >
           <div className="mb-6 flex items-center justify-between gap-4">

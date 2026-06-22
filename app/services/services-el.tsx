@@ -163,7 +163,7 @@ export function ServicesEl() {
                 proposal, no asterisks.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-                <CtaLink variant="text" href="#ai-and-automation">jump to ai &amp; automation</CtaLink>
+                <CtaLink variant="text" href="/artifacts/sample-audit">see a real sample deliverable</CtaLink>
                 <CtaLink variant="text" href="/pricing">compare every tier</CtaLink>
                 <CtaLink variant="text" href="/capabilities">capability matrix</CtaLink>
                 <CtaLink variant="text" href="/industries">browse by industry</CtaLink>

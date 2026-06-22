@@ -42,6 +42,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         `/og?title=${encodeURIComponent(page.h1)}&subtitle=${encodeURIComponent(page.industry.tagline)}`,
       ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: page.title,
+      description: page.description,
+      images: [`/og?title=${encodeURIComponent(page.h1)}&subtitle=${encodeURIComponent(page.industry.tagline)}`],
+    },
   }
 }
 

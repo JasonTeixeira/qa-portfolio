@@ -50,7 +50,7 @@ export function PostCover({
         />
       ) : (
         <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FAFAFA]/80 px-3 py-1 rounded-full bg-[#09090B]/60 border border-[#FAFAFA]/10 backdrop-blur-sm">
+          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#F2EFE9]/80 px-3 py-1 rounded-full bg-[#0B0B0E]/60 border border-[#F2EFE9]/10 backdrop-blur-sm">
             {category}
           </span>
         </div>

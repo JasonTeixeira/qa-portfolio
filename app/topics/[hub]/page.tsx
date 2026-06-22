@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cluster = getClusterBySlug(hub)
   if (!cluster) return { title: 'Topic not found' }
 
+  const ogImage = `/og?title=${encodeURIComponent(cluster.title)}&subtitle=${encodeURIComponent(cluster.description.slice(0, 80))}`
   return {
     title: cluster.title,
     description: cluster.description,
@@ -39,6 +40,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: cluster.description,
       url: `${SITE}/topics/${cluster.slug}`,
       type: 'website',
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: cluster.title,
+      description: cluster.description,
+      images: [ogImage],
     },
   }
 }

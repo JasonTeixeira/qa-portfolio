@@ -59,7 +59,16 @@ function isPortalChrome(pathname: string) {
     pathname.startsWith('/login/') ||
     pathname.startsWith('/signup/') ||
     pathname.startsWith('/portal') ||
-    pathname.startsWith('/admin')
+    pathname.startsWith('/admin') ||
+    // Authoring studio + full-screen learning views render their own chrome.
+    pathname.startsWith('/academy-admin') ||
+    pathname === '/academy/preview' ||
+    pathname === '/academy/join' ||
+    pathname === '/academy/resources/sprint-loop' ||
+    pathname === '/artifacts/sample-audit' ||
+    pathname.startsWith('/academy/engine') ||
+    pathname.startsWith('/academy/learn/') ||
+    (pathname.startsWith('/academy/') && pathname.endsWith('/learn'))
   );
 }
 

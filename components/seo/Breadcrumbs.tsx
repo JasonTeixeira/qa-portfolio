@@ -55,11 +55,8 @@ export function Breadcrumbs({ pathname }: { pathname: string }) {
   return (
     <>
       <JsonLd data={buildBreadcrumbList(items)} />
-      <nav
-        aria-label="Breadcrumb"
-        className="sr-only focus-within:not-sr-only focus-within:fixed focus-within:left-4 focus-within:top-20 focus-within:z-[80] focus-within:border focus-within:border-[var(--sage-border)] focus-within:bg-[var(--sage-bg)] focus-within:p-3"
-      >
-        <ol className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-muted)]">
+      <nav aria-label="Breadcrumb" className="mx-auto w-full max-w-6xl px-5 pt-24 pb-2 sm:px-8">
+        <ol className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
           {items.map((item, index) => {
             const isLast = index === items.length - 1
             return (

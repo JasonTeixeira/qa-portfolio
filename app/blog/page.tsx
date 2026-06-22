@@ -11,6 +11,14 @@ export const metadata: Metadata = {
     title: 'Sage Ideas Journal',
     description:
       'A content engine for builders, buyers, and future academy students: real notes from products, AI systems, infrastructure, and studio operations.',
+    url: 'https://www.sageideas.dev/blog',
+    images: [{ url: '/og?title=The+Build+Record&subtitle=AI+%C2%B7+Product+%C2%B7+Infrastructure' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sage Ideas Journal',
+    description: 'Real build notes on AI systems, product architecture, and the solo studio operating model.',
+    images: ['/og?title=The+Build+Record&subtitle=AI+%C2%B7+Product+%C2%B7+Infrastructure'],
   },
 }
 

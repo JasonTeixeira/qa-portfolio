@@ -56,6 +56,9 @@ const nextConfig: NextConfig = {
       { source: '/case-studies', destination: '/work', permanent: true },
       { source: '/case-studies/:slug*', destination: '/work/:slug*', permanent: true },
       { source: '/projects', destination: '/lab', permanent: true },
+      // Academy consolidation — one canonical /academy door (collapsed /learn + /learn/waitlist)
+      { source: '/learn', destination: '/academy', permanent: false },
+      { source: '/learn/waitlist', destination: '/academy', permanent: false },
       // Phase 2A.5 — /portal/home was a duplicate dashboard, consolidated into /portal
       { source: '/portal/home', destination: '/portal', permanent: true },
       // Phase 2H — Files feature lives at /portal/documents; stale /portal/files links 404'd.

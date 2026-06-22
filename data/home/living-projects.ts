@@ -46,9 +46,9 @@ export const workProjects: readonly WorkProject[] = [
     href: 'https://github.com/JasonTeixeira/Nexural_Automation',
     linkLabel: 'Open-source lab ↗',
     featured: true,
-    image: '/work/nexural-cockpit.png',
+    image: '/work/nexural-io.webp',
     imageAlt:
-      'Nexural cockpit — the Command dashboard showing market temperature, the signal desk, and best opportunities ranked by expected value.',
+      'Nexural.io — the live marketing site: "Institutional trading for the rest of us", with a regime-aware terminal showing ranked setups and risk checks.',
   },
   {
     slug: 'athanor',

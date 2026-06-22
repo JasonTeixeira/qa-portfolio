@@ -33,6 +33,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/compare', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/changelog', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/reports/ai-search-readiness-2026', priority: 0.74, changeFrequency: 'monthly' },
+  { path: '/artifacts/sample-audit', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/tools/route-finder', priority: 0.76, changeFrequency: 'weekly' },
   { path: '/tools/seo-audit', priority: 0.76, changeFrequency: 'weekly' },
   { path: '/legal', priority: 0.4, changeFrequency: 'yearly' },
@@ -64,49 +65,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes.map((r) => ({
       url: `${SITE}${r.path}`,
-      lastModified: now,
       changeFrequency: r.changeFrequency,
       priority: r.priority,
     })),
     ...tiers.map((t) => ({
       url: `${SITE}/services/${t.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.85,
     })),
     ...careTiers.map((c) => ({
       url: `${SITE}/services/${c.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     ...verticals.map((v) => ({
       url: `${SITE}/industries/${v.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.85,
     })),
     ...workSlugs.map((slug) => ({
       url: `${SITE}/work/${slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.85,
     })),
     ...labSlugs.map((slug) => ({
       url: `${SITE}/lab/${slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     ...academyTracks.map((track) => ({
       url: `${SITE}/academy/${track.slug}`,
-      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.78,
     })),
     ...academyTracks.map((track) => ({
       url: `${SITE}/academy/${track.slug}/enroll`,
-      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.74,
     })),
@@ -118,19 +111,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...clusterList.map((cluster) => ({
       url: `${SITE}/topics/${cluster.slug}`,
-      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.72,
     })),
     ...comparisons.map((c) => ({
       url: `${SITE}/compare/${c.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     })),
     ...serviceIndustryPages.map((page) => ({
       url: `${SITE}${page.path}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.62,
     })),

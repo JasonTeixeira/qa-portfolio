@@ -22,6 +22,14 @@ export function IntentGate() {
   const [phase, setPhase] = useState<Phase>('hidden')
   const [bg, setBg] = useState(DEFAULT_BACKDROP)
   const shownRef = useRef(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  // Pull keyboard focus into the modal when it opens (WCAG 2.4.3 / 2.1.2).
+  useEffect(() => {
+    if (phase === 'in') {
+      requestAnimationFrame(() => dialogRef.current?.querySelector('button')?.focus())
+    }
+  }, [phase])
 
   useEffect(() => {
     let stored: string | null = null
@@ -87,13 +95,14 @@ export function IntentGate() {
 
   return (
     <div
+      ref={dialogRef}
       className={`${styles.gate} ${phase === 'out' ? styles.gateOut : styles.gateIn}`}
       role="dialog"
       aria-modal="true"
       aria-label="Why are you here?"
     >
       <div className={styles.scene} aria-hidden="true">
-        <Image src={bg} alt="" fill priority sizes="100vw" className={styles.sceneImg} />
+        <Image src={bg} alt="" fill loading="eager" sizes="100vw" className={styles.sceneImg} />
       </div>
       <div className={styles.inner}>
         <p className={styles.kicker}>Before you go in</p>

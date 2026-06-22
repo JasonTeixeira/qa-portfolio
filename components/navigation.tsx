@@ -12,16 +12,11 @@ import {
   Command,
   Briefcase,
   BookOpen,
-  FlaskConical,
   Users,
   Wrench,
   ShieldCheck,
   Gauge,
-  Calculator,
-  FileText,
-  GitCompare,
   Building2,
-  History,
   Mail,
   CircuitBoard,
   Search,
@@ -53,7 +48,7 @@ type RouteConsoleMode = 'services' | 'resources'
 
 const servicesMega: MegaSection[] = [
   {
-    title: 'AI Flagship',
+    title: 'AI services',
     items: [
       {
         href: '/services/ai-implementation-consulting',
@@ -74,22 +69,10 @@ const servicesMega: MegaSection[] = [
         description: 'From $1,800 · 3 weeks · Build',
         icon: CircuitBoard,
       },
-      {
-        href: '/services/ai-lead-engine',
-        label: 'AI Lead Engine',
-        description: 'From $2,200 · 4 weeks · Build',
-        icon: CircuitBoard,
-      },
-      {
-        href: '/services/agent-operations-retainer',
-        label: 'Agent Operations Retainer',
-        description: 'From $600/mo · Operate',
-        icon: CircuitBoard,
-      },
     ],
   },
   {
-    title: 'Productized engagements',
+    title: 'Engagements',
     items: [
       {
         href: '/services',
@@ -109,17 +92,17 @@ const servicesMega: MegaSection[] = [
         description: 'Site · brand · content care',
         icon: ShieldCheck,
       },
-      {
-        href: '/services#cat-platform',
-        label: 'Platform & Cloud',
-        description: 'AWS · Vercel · Supabase',
-        icon: Building2,
-      },
     ],
   },
   {
-    title: 'By context',
+    title: 'Explore',
     items: [
+      {
+        href: '/pricing',
+        label: 'Pricing & comparison',
+        description: 'Every tier, side-by-side',
+        icon: Briefcase,
+      },
       {
         href: '/industries',
         label: 'Browse by industry',
@@ -131,12 +114,6 @@ const servicesMega: MegaSection[] = [
         label: 'Capability matrix',
         description: 'What we ship, end-to-end',
         icon: Wrench,
-      },
-      {
-        href: '/pricing',
-        label: 'Pricing & comparison',
-        description: 'Every tier, side-by-side',
-        icon: Briefcase,
       },
     ],
   },
@@ -165,22 +142,10 @@ const resourcesMega: MegaSection[] = [
         description: 'Opinions, hot takes, principles',
         icon: BookOpen,
       },
-      {
-        href: '/changelog',
-        label: 'Changelog',
-        description: 'What we shipped recently',
-        icon: History,
-      },
-      {
-        href: '/compare',
-        label: 'Compare',
-        description: 'Sage vs in-house, Big-4, AI platforms',
-        icon: GitCompare,
-      },
     ],
   },
   {
-    title: 'Use',
+    title: 'Tools',
     items: [
       {
         href: '/tools/route-finder',
@@ -202,46 +167,10 @@ const resourcesMega: MegaSection[] = [
         description: '10-question diagnostic with personalized roadmap',
         icon: Gauge,
       },
-      {
-        href: '/lab/calculators',
-        label: 'ROI calculators',
-        description: 'SDR, support, RAG, voice, churn',
-        icon: Calculator,
-      },
-      {
-        href: '/lab/templates',
-        label: 'Free templates',
-        description: 'Prompt library, eval harness, RFP, more',
-        icon: FileText,
-      },
-      {
-        href: '/lab',
-        label: 'Lab products',
-        description: 'What we built and operate ourselves',
-        icon: FlaskConical,
-      },
-      {
-        href: '/engineering-os',
-        label: 'Engineering OS',
-        description: 'Public proof of the internal resource factory',
-        icon: CircuitBoard,
-      },
-      {
-        href: '/how-it-works',
-        label: 'How it works',
-        description: 'Our process, demystified',
-        icon: Wrench,
-      },
-      {
-        href: '/trust',
-        label: 'Trust center',
-        description: 'Security, evals, compliance',
-        icon: ShieldCheck,
-      },
     ],
   },
   {
-    title: 'About',
+    title: 'Studio',
     items: [
       {
         href: '/founder',
@@ -250,10 +179,10 @@ const resourcesMega: MegaSection[] = [
         icon: Users,
       },
       {
-        href: '/studio',
-        label: 'The studio',
-        description: 'How we operate',
-        icon: Building2,
+        href: '/how-it-works',
+        label: 'How it works',
+        description: 'Our process, demystified',
+        icon: Wrench,
       },
       {
         href: '/contact',
@@ -666,6 +595,18 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
     setIsMobileOpen(false)
     setOpenMenu(null)
   }, [pathname])
+
+  // Escape closes any open menu — fixes the keyboard trap in the mega-menu/drawer (WCAG 2.1.2).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenMenu(null)
+        setIsMobileOpen(false)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [])
 
   useEffect(() => {
     setIsMac(

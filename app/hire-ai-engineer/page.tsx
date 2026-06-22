@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     'Recruiter proof page for Jason Teixeira: AI applications engineering, LLM workflows, RAG, eval harnesses, agents, full-stack product engineering, and production deployment evidence.',
   alternates: {
-    canonical: '/hire-ai-engineer',
+    canonical: 'https://www.sageideas.dev/hire-ai-engineer',
   },
   keywords: [
     'Jason Teixeira AI engineer',

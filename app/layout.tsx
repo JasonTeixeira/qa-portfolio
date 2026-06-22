@@ -206,7 +206,9 @@ export default async function RootLayout({
         {/* Preconnect to Google Fonts CDN to shave ~100–200 ms off font fetch */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="icon" href="data:," />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/brand/favicon-mark.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/brand/sage-favicon-180.png" />
         {/* DNS-prefetch for GitHub API (GitHubActivity widget) */}
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>

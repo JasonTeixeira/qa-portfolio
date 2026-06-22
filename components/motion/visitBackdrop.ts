@@ -13,7 +13,7 @@
  */
 
 const ART = [
-  '/art/inkwash-cliffs.png',
+  '/art/inkwash-cliffs.avif',
 ]
 
 /** SSR-stable default — components render this first, then swap on mount. */

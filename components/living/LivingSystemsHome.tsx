@@ -4,10 +4,10 @@ import type { ReactNode } from 'react'
 import { workProjects, type WorkProject } from '@/data/home/living-projects'
 import { attributedTestimonials, permissionedLogos } from '@/data/social-proof/attributed'
 import { TrackedLink } from '@/components/analytics/tracked-link'
-import { NewsletterSignup } from '@/components/newsletter-signup'
 import { LivingSoundControl } from './LivingSoundControl'
 import { LivingSystemsMotion } from './LivingSystemsMotion'
-import { SystemDiagram } from './SystemDiagram'
+import { OperatorConsole } from './OperatorConsole'
+import { StudioAcademySwitch } from '@/components/studio-academy-switch'
 import { IntentGate } from './IntentGate'
 import { MobileCtaBar } from './MobileCtaBar'
 import { SplashBackdrop } from './SplashBackdrop'
@@ -22,10 +22,10 @@ const services = [
 ] as const
 
 const receipts = [
-  ['11', 'Products shipped'],
-  ['398', 'Tests · flagship CI'],
-  ['130+', 'Public repos'],
-  ['2020', 'Building since'],
+  ['11', 'Products in production'],
+  ['100%', 'Verifiable before you sign'],
+  ['0', 'Surprise change orders'],
+  ['2020', 'Shipping since'],
 ] as const
 
 const funnel = [
@@ -53,15 +53,6 @@ const funnel = [
     price: 'monthly retainer',
     text: 'Measure, improve, and publish so the system compounds instead of quietly decaying.',
   },
-] as const
-
-const academyTracks = [
-  'AI-native product building',
-  'Premium landing pages',
-  'Content engines',
-  'SaaS offer design',
-  'Automation systems',
-  'Builder-led personal brand',
 ] as const
 
 const trustSignals = [
@@ -137,9 +128,9 @@ export function LivingSystemsHome() {
             </h1>
             <div className={styles.heroLower} data-living-reveal>
               <p>
-                A solo, AI-native studio. I run my own products every day and put the same system —
-                AI, apps, SaaS, brand, growth — to work for yours. From someone who
-                <strong> builds</strong>, not someone who just pitches.
+                No handoff, no telephone game — the person who pitches you is the person who
+                <strong> writes the code</strong>. I run my own products in production every day and put
+                the same system — AI, apps, SaaS, brand, growth — to work for yours.
               </p>
               <div className={styles.heroCtas}>
                 <TrackedLink
@@ -165,27 +156,14 @@ export function LivingSystemsHome() {
             </div>
             <span className={`${styles.heroTick} ${styles.heroTickBL}`} aria-hidden="true">nexural.system</span>
           </div>
-
-          <div className={styles.heroPanel} data-living-reveal>
-            <figure className={styles.heroShot}>
-              <span className={styles.heroShotBar} aria-hidden="true" />
-              <Image
-                src="/work/nexural-cockpit.webp"
-                alt="Nexural cockpit — the studio's flagship product, live in production"
-                width={1280}
-                height={800}
-                className={styles.heroShotImg}
-                priority
-              />
-              <span className={styles.heroShotTag}>Nexural · live in production</span>
-            </figure>
-            <p className={styles.heroSerif}>One operator. The whole stack.</p>
-          </div>
         </div>
       </section>
 
-      <section className={styles.systemSection} aria-label="What the studio builds">
-        <SystemDiagram />
+      <section className={styles.systemSection} id="system" aria-label="What the studio builds">
+        <p className={styles.systemLede} data-living-reveal>
+          One operator. The whole stack — and the AI that runs it.
+        </p>
+        <OperatorConsole />
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">
           <span>AI Systems</span><i>·</i><span>Applications</span><i>·</i><span>SaaS</span><i>·</i><span>Brand &amp; Web</span><i>·</i><span>Growth &amp; SEO</span>
         </div>
@@ -219,9 +197,9 @@ export function LivingSystemsHome() {
             <span className={styles.kicker}>Live in production</span>
             <h2>This is what “shipped” looks like.</h2>
             <p>
-              Not a mockup — a real desk inside Nexural: live market reads, convergence signals,
-              sector rotation, and risk in one operator-grade surface. The same depth and finish go
-              into what I build for you.
+              Not a mockup — the live Swing Desk: a ranked board of setups that pass the regime gate
+              and the composite-z threshold across the US stock universe, every candidate gauntlet-tested
+              and scored. The same depth and finish go into what I build for you.
             </p>
             <TrackedLink
               className={styles.textLink}
@@ -233,12 +211,14 @@ export function LivingSystemsHome() {
             </TrackedLink>
           </div>
           <figure className={styles.showcaseShot}>
-            <span className={styles.workShotBar} aria-hidden="true"><i /><i /><i /></span>
+            <span className={styles.workShotBar} aria-hidden="true">
+              <i /><i /><i /><span className={styles.workShotUrl}>nexural.io/swing-desk</span>
+            </span>
             <Image
-              src="/work/nexural-swing.webp"
-              alt="Nexural Swing Desk — live market read, convergence signal, sector rotation, and risk in one view."
-              width={1600}
-              height={1000}
+              src="/work/nexural-desk.webp"
+              alt="Nexural Swing Desk — a live ranked board of setups (AAPL, MSFT, NVDA…) passing the regime gate and composite-z threshold, scored with side calls."
+              width={1512}
+              height={875}
               sizes="(max-width: 900px) 100vw, 1100px"
               className={styles.showcaseImg}
             />
@@ -288,46 +268,25 @@ export function LivingSystemsHome() {
         </ol>
       </section>
 
-      <section className={styles.academy} id="academy" aria-labelledby="academy-heading">
-        <div className={styles.academyCopy} data-living-reveal>
-          <span className={styles.kicker}>005 — Academy</span>
-          <h2 id="academy-heading">Learn the system while the studio keeps shipping it.</h2>
+      <section className={styles.academyDoor} id="academy" aria-labelledby="academy-heading">
+        <div className={styles.academyDoorInner} data-living-reveal>
+          <span className={styles.kicker}>005 — Two ways in</span>
+          <h2 id="academy-heading">Hire the studio — or learn to build it yourself.</h2>
           <p>
-            A practical curriculum for do-it-yourself builders: product thinking, AI systems,
-            conversion pages, content engines, and the operating discipline behind premium brands.
+            Everything I run for clients, taught as a practical curriculum: code foundations,
+            AI engineering, and shipping real products. <strong>$20/mo</strong>, founding cohort forming.
           </p>
-          <div className={styles.academyActions}>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonPrimary}`}
-              href="/academy"
-              event="cta_click"
-              eventProps={{ location: 'living_academy', label: 'view_academy' }}
-            >
-              <span>View academy</span><span aria-hidden="true">→</span>
-            </TrackedLink>
-            <TrackedLink
-              className={`${styles.button} ${styles.buttonGhost}`}
-              href="/blog"
-              event="cta_click"
-              eventProps={{ location: 'living_academy', label: 'read_journal' }}
-            >
-              <span>Read the journal</span><span aria-hidden="true">↘</span>
-            </TrackedLink>
+          <div className={styles.academyDoorSwitch}>
+            <StudioAcademySwitch variant="full" />
           </div>
-        </div>
-        <div className={styles.academyPanel} data-living-reveal>
-          <span>curriculum.map(track)</span>
-          <ul>
-            {academyTracks.map((track) => (
-              <li key={track}>{track}</li>
-            ))}
-          </ul>
-          <NewsletterSignup
-            source="home_academy"
-            variant="inline"
-            headline="Join the build list."
-            blurb="Weekly build notes, teardown lessons, and course drops as they ship."
-          />
+          <TrackedLink
+            className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg}`}
+            href="/academy"
+            event="cta_click"
+            eventProps={{ location: 'living_academy', label: 'enter_academy' }}
+          >
+            <span>Enter the Academy</span><span aria-hidden="true">→</span>
+          </TrackedLink>
         </div>
       </section>
 
@@ -342,8 +301,9 @@ export function LivingSystemsHome() {
           ))}
         </div>
         <p className={styles.proofNote} data-living-reveal>
-          No fabricated metrics, no invented testimonials, no fake screenshots presented as real.
-          Proof gets stronger as real client assets and permissioned references are added.
+          No fabricated metrics, no invented testimonials, no fake screenshots. Every number above is
+          openable on GitHub — and before you sign, you can get a real collaborator on the phone to
+          verify exactly how I work.
         </p>
       </section>
 
@@ -501,8 +461,12 @@ function SectionHead({
   )
 }
 
+// electric → moon → slate ramp for the tech stack bar (no rainbow)
+const STACK_RAMP = ['#3d5afe', '#5e78ff', '#8ea6ff', '#bcd2ff', '#5b6172', '#3a3f4d']
+
 function WorkCard({ project }: { project: WorkProject }) {
   const statusKey = project.status.toLowerCase().replace(/\s+/g, '-')
+  const techs = project.stack.split(' · ')
   return (
     <article
       className={`${styles.workCard} ${project.featured ? styles.workCardFeatured : ''} ${project.image ? styles.workCardShot : ''}`}
@@ -512,21 +476,26 @@ function WorkCard({ project }: { project: WorkProject }) {
       <div className={styles.workCardBody}>
         <div className={styles.workCardHead}>
           <span className={styles.workIndex}>{project.index}</span>
-          <span className={styles.workStatus}>{project.status}</span>
+          <span className={styles.workStatus} data-status={statusKey}>{project.status}</span>
         </div>
         <h3 className={styles.workName}>{project.name}</h3>
         <p className={styles.workDomain}>{project.domain}</p>
         <p className={styles.workTagline}>{project.tagline}</p>
-        <dl className={styles.workMetrics}>
+        <div className={styles.workStackBar} aria-hidden="true">
+          {techs.map((t, i) => (
+            <i key={t} style={{ background: STACK_RAMP[Math.min(i, STACK_RAMP.length - 1)] }} />
+          ))}
+        </div>
+        <p className={styles.workStack}>{project.stack}</p>
+        <div className={styles.workMetrics}>
           {project.metrics.map((metric) => (
             <div key={metric.label}>
-              <dt>{metric.value}</dt>
-              <dd>{metric.label}</dd>
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
             </div>
           ))}
-        </dl>
+        </div>
         <div className={styles.workFoot}>
-          <span className={styles.workStack}>{project.stack}</span>
           {project.href ? (
             <a className={styles.workLink} href={project.href} target="_blank" rel="noopener noreferrer">
               {project.linkLabel}
@@ -534,11 +503,14 @@ function WorkCard({ project }: { project: WorkProject }) {
           ) : (
             <span className={styles.workYear}>{project.year}</span>
           )}
+          <span className={styles.workArrow} aria-hidden="true">→</span>
         </div>
       </div>
       {project.image ? (
         <figure className={styles.workShot}>
-          <span className={styles.workShotBar} aria-hidden="true"><i /><i /><i /></span>
+          <span className={styles.workShotBar} aria-hidden="true">
+            <i /><i /><i /><span className={styles.workShotUrl}>nexural.io</span>
+          </span>
           <Image
             src={project.image}
             alt={project.imageAlt ?? `${project.name} product screenshot`}

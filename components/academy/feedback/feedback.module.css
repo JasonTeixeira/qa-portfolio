@@ -1,0 +1,82 @@
+/* Shared loading / empty / error feedback for the Academy.
+   Background-agnostic: built from translucent overlays so it sits on any surface. */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  isolation: isolate;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, currentColor 10%, transparent),
+    transparent
+  );
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.line { height: 0.85rem; border-radius: 6px; }
+.block { width: 100%; }
+
+/* a generic course-card skeleton grid */
+.shell { padding: clamp(1.5rem, 4vw, 3rem); max-width: 1200px; margin: 0 auto; }
+.shellHead { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2.2rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+.card { display: flex; flex-direction: column; gap: 0.9rem; padding: 1.3rem; border-radius: 16px; border: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+.cardRow { display: flex; gap: 0.6rem; }
+
+/* designed error + empty states */
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+.glyph {
+  width: 60px; height: 60px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  font-size: 1.5rem;
+}
+.stateTitle { font-family: var(--font-display, var(--display)), sans-serif; font-weight: 700; font-size: clamp(1.3rem, 3vw, 1.7rem); letter-spacing: -0.01em; }
+.stateBody { max-width: 46ch; color: color-mix(in srgb, currentColor 62%, transparent); font-size: 0.95rem; line-height: 1.6; }
+.actions { display: flex; gap: 0.7rem; margin-top: 0.6rem; flex-wrap: wrap; justify-content: center; }
+.primary {
+  border: 0; cursor: pointer; text-decoration: none;
+  padding: 0.7rem 1.4rem; border-radius: 24px;
+  background: var(--action, #3d5afe); color: #fff;
+  font-family: var(--font-display, var(--display)), sans-serif; font-weight: 600; font-size: 0.9rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px color-mix(in srgb, var(--action, #3d5afe) 35%, transparent); }
+.ghost {
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  background: transparent; color: inherit; cursor: pointer; text-decoration: none;
+  padding: 0.7rem 1.3rem; border-radius: 24px;
+  font-family: var(--font-mono, monospace); font-size: 0.82rem;
+  transition: border-color 0.18s ease;
+}
+.ghost:hover { border-color: color-mix(in srgb, currentColor 36%, transparent); }
+
+.primary:focus-visible, .ghost:focus-visible { outline: 2px solid var(--action, #3d5afe); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+  .primary:hover { transform: none; }
+}

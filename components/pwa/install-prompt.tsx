@@ -82,7 +82,7 @@ export function InstallPrompt() {
           </span>
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#3D5AFE]">
+          <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#6E8BFF]">
             Install
           </div>
           <p className="text-sm text-[#F4F2EF] mt-1 font-medium">
@@ -95,7 +95,7 @@ export function InstallPrompt() {
             <button
               type="button"
               onClick={install}
-              className="text-xs font-semibold px-3 py-1.5 rounded-md bg-[#3D5AFE] text-[#09090B] hover:bg-[#5670ff] transition-colors"
+              className="text-xs font-semibold px-3 py-1.5 rounded-md bg-[#3D5AFE] text-white hover:bg-[#5670ff] transition-colors"
             >
               Install
             </button>

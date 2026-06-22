@@ -6,6 +6,8 @@ import { careTiersBySlug } from '@/data/services/tiers'
 import { isSelfServe } from '@/data/services/tier-classification'
 import { rateLimit } from '@/lib/rate-limit'
 import { getStripe, isStripeConfigured } from '@/lib/stripe/client'
+import { getAcademyPriceId, type PlanInterval } from '@/lib/academy/plans'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export const runtime = 'nodejs'
 
@@ -15,19 +17,71 @@ export async function POST(req: NextRequest) {
   if (limited) return limited
 
   // Parse + validate body first — these steps need no Stripe env.
-  let body: { slug?: string; kind?: string }
+  let body: { slug?: string; kind?: string; interval?: string }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
+  const kind = typeof body?.kind === 'string' ? body.kind.trim() : ''
+
+  // All-access Academy membership ($20/mo · $200/yr). No slug — keyed to the
+  // signed-in learner so the subscription maps to their account.
+  if (kind === 'academy_allaccess') {
+    const interval: PlanInterval = body?.interval === 'yearly' ? 'yearly' : 'monthly'
+    const priceId = getAcademyPriceId(interval)
+    if (!priceId) {
+      return NextResponse.json({ error: 'Membership checkout is not live yet.' }, { status: 409 })
+    }
+    if (!isStripeConfigured()) {
+      return NextResponse.json({ error: 'Checkout unavailable' }, { status: 503 })
+    }
+
+    const sb = await createSupabaseServerClient()
+    const { data: { user } } = await sb.auth.getUser()
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Sign in to start your membership.', signIn: '/login?next=/academy/join' },
+        { status: 401 },
+      )
+    }
+
+    const stripe = getStripe()
+    const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
+    const dayBucket = new Date().toISOString().slice(0, 10)
+    const idempotencyKey = createHash('sha256')
+      .update(`academy_allaccess:${user.id}:${interval}:${dayBucket}`)
+      .digest('hex')
+
+    const meta = { kind: 'academy_allaccess', user_id: user.id, email: user.email ?? '', plan_interval: interval }
+
+    try {
+      const session = await stripe.checkout.sessions.create(
+        {
+          mode: 'subscription',
+          line_items: [{ price: priceId, quantity: 1 }],
+          customer_email: user.email ?? undefined,
+          success_url: `${base}/academy/dashboard?welcome=1&session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${base}/academy/join?checkout=cancelled`,
+          billing_address_collection: 'auto',
+          allow_promotion_codes: true,
+          metadata: meta,
+          subscription_data: { metadata: meta },
+        },
+        { idempotencyKey },
+      )
+      return NextResponse.json({ url: session.url })
+    } catch (err) {
+      console.error('[checkout] academy_allaccess stripe error:', err)
+      return NextResponse.json({ error: "Couldn't start checkout. Please try again." }, { status: 502 })
+    }
+  }
+
   const slug = typeof body?.slug === 'string' ? body.slug.trim() : ''
   if (!slug || slug.length > 64) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
-
-  const kind = typeof body?.kind === 'string' ? body.kind.trim() : ''
 
   if (kind === 'academy') {
     const product = getAcademyProductBySlug(slug)

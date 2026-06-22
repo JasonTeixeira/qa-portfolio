@@ -5,6 +5,10 @@ import { getStripe, isStripeConfigured } from '@/lib/stripe/client';
 import { captureLead } from '@/lib/leads/capture';
 import { fulfillAcademyCheckout } from '@/lib/academy/fulfillment';
 import {
+  upsertAcademyMembershipFromSubscription,
+  cancelAcademyMembership,
+} from '@/lib/academy/membership';
+import {
   syncDiscordPremiumFromCheckout,
   syncDiscordPremiumFromSubscription,
 } from '@/lib/discord/premium';
@@ -159,6 +163,18 @@ async function handleCheckoutCompleted(sb: Sb, session: Stripe.Checkout.Session)
     return;
   }
 
+  // All-access Academy membership (subscription). Grant access immediately by
+  // retrieving the subscription and upserting — the customer.subscription.created
+  // event also fires and upserts the same row idempotently.
+  if (session.metadata?.kind === 'academy_allaccess') {
+    const subId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
+    if (subId) {
+      const sub = await getStripe().subscriptions.retrieve(subId);
+      await upsertAcademyMembershipFromSubscription(sb, sub);
+    }
+    return;
+  }
+
   if (session.metadata?.kind === 'discord_premium') {
     await syncDiscordPremiumFromCheckout(session);
     return;
@@ -280,6 +296,13 @@ async function handleInvoicePaymentFailed(sb: Sb, invoice: Stripe.Invoice) {
 }
 
 async function upsertSubscription(sb: Sb, sub: Stripe.Subscription) {
+  // All-access Academy memberships live in their own user-keyed table, not the
+  // org/engagement stripe_subscriptions table. Route them and return early.
+  if (sub.metadata?.kind === 'academy_allaccess') {
+    await upsertAcademyMembershipFromSubscription(sb, sub);
+    return;
+  }
+
   await syncDiscordPremiumFromSubscription(sub);
 
   const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
@@ -328,6 +351,11 @@ async function upsertSubscription(sb: Sb, sub: Stripe.Subscription) {
 }
 
 async function markSubscriptionCanceled(sb: Sb, sub: Stripe.Subscription) {
+  if (sub.metadata?.kind === 'academy_allaccess') {
+    await cancelAcademyMembership(sb, sub.id);
+    return;
+  }
+
   await syncDiscordPremiumFromSubscription(sub);
 
   await sb

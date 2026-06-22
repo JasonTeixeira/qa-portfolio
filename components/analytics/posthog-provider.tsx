@@ -17,10 +17,9 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       capture_pageview: true,
       capture_pageleave: true,
       person_profiles: 'identified_only',
-      session_recording: {
-        maskAllInputs: true,
-        maskTextSelector: '[data-private]',
-      },
+      // No session recording on marketing — keeps the ~50-80KB rrweb recorder
+      // out of the bundle and avoids recording prospects on the public site.
+      disable_session_recording: true,
     })
     initialized = true
   }, [])

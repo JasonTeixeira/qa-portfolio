@@ -29,6 +29,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const post = getBlogPostBySlug(slug)
   if (!post) return { title: 'Post not found' }
+  // Every post gets a social card: the cover image if set, else a generated one.
+  const ogImage = post.coverImage
+    ? (post.coverImage.startsWith('http') ? post.coverImage : `${SITE}${post.coverImage}`)
+    : `${SITE}/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent(post.category)}`
   return {
     title: `${post.title} — Jason Teixeira`,
     description: post.excerpt,
@@ -38,9 +42,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: post.excerpt,
       type: 'article',
       url: `${SITE}/blog/${post.slug}`,
-      images: post.coverImage ? [{ url: post.coverImage }] : undefined,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
       publishedTime: post.date,
       tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [ogImage],
     },
   }
 }

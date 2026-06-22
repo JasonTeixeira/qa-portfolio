@@ -24,7 +24,7 @@ export function AcademyCheckoutButton({
       <Button
         asChild
         size="lg"
-        className="bg-[#3D5AFE] font-medium text-[#09090B] hover:bg-[#2F46D8]"
+        className="bg-[var(--sage-accent)] font-medium text-white hover:bg-[#2F46D8]"
       >
         <a href={earlyAccessHref}>
           Join early access <ArrowRight className="ml-1 h-4 w-4" />
@@ -66,7 +66,7 @@ export function AcademyCheckoutButton({
         size="lg"
         disabled={loading}
         onClick={onClick}
-        className="bg-[#3D5AFE] font-medium text-[#09090B] hover:bg-[#2F46D8]"
+        className="bg-[var(--sage-accent)] font-medium text-white hover:bg-[#2F46D8]"
       >
         {loading ? 'Loading...' : `Enroll for ${product.priceLabel}`}{' '}
         <ArrowRight className="ml-1 h-4 w-4" />

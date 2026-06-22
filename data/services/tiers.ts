@@ -208,9 +208,9 @@ export const tiers: Tier[] = [
     sampleArtifact: {
       title: 'Sample Audit Report (redacted)',
       description:
-        'A real Sage Audit deliverable — recommendations doc, scorecard, and risk register — with client identifiers redacted.',
-      href: '/artifacts/sample-audit-report.pdf',
-      comingSoon: true,
+        'A real Sage Audit deliverable — scorecard, severity-ranked findings, risk register, and a four-week remediation plan — with client identifiers redacted.',
+      href: '/artifacts/sample-audit',
+      comingSoon: false,
     },
     schemaSummary: 'Strategic engineering and SEO audit delivered in 5 business days.',
   },

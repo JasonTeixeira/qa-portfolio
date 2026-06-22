@@ -154,10 +154,11 @@ Pass 5 verified:
 6. Weekly cron route now defaults to approval-gated draft creation instead of direct posting.
 7. Weekly cron route supports `?mode=publish`, which only publishes an already-approved weekly recap draft.
 8. Approved weekly recap smoke creates a future weekly draft, approves it through the admin review path, publishes it to `wins-showcase`, proves duplicate publish is skipped as `already_published`, records scheduled run and event rows, deletes the Discord smoke message, and cleans Supabase rows. Evidence: `docs/evidence/discord/weekly-approval-publish-smoke.json`.
+9. Production deployment is live and aliased to `sageideas.dev`.
+10. Manual protected production route proof created a real pending weekly recap draft for `2026-W26`; publish mode returned `no_approved_weekly_recap_draft` and did not post publicly. Evidence: `docs/evidence/discord/weekly-production-route-proof.json`.
 
 Pass 5 still needs proof:
-1. Production deployment of the weekly approval-gated cron route.
-2. Real calendar-scheduled Vercel cron run proof. Manual smoke proof exists, but the actual weekly clock run cannot be honestly proven until the scheduled time occurs.
+1. Real calendar-scheduled Vercel cron run proof. Manual production route proof exists, but the actual weekly clock run cannot be honestly proven until the scheduled time occurs.
 
 TARGET MEMBER EXPERIENCE
 New member:

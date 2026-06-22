@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "route": "https://www.sageideas.dev/api/cron/discord/weekly",
+  "deployment": "https://qa-portfolio-hez3n45oz-sage-ideas.vercel.app",
+  "proofType": "manual protected production route call",
+  "draft": {
+    "status": 200,
+    "ok": true,
+    "draftId": "f8b91fc0-b18d-43d5-a99f-551370fe3bbb",
+    "weekKey": "2026-W26",
+    "leaderboardSnapshotId": "9b45769a-7cc5-417c-b79d-330aee812ed6",
+    "leaderboardCount": 0,
+    "qualityScore": 100
+  },
+  "publish": {
+    "status": 202,
+    "ok": false,
+    "posted": false,
+    "skipped": true,
+    "reason": "no_approved_weekly_recap_draft",
+    "weekKey": "2026-W26",
+    "draftId": null,
+    "messageId": null
+  },
+  "note": "Draft mode created a real pending approval weekly recap draft. Publish mode correctly refused to post because no admin-approved draft existed.",
+  "finishedAt": "2026-06-22T04:31:00.000Z"
+}

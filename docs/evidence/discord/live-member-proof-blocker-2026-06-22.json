@@ -1,0 +1,22 @@
+{
+  "ok": false,
+  "blocked": "no_eligible_non_admin_member",
+  "checkedAt": "2026-06-22T12:26:43.665Z",
+  "guildMemberCount": 2,
+  "eligibleNonAdminMembers": [],
+  "startChannel": {
+    "id": "1516813595063750719",
+    "name": "🙋-introduce-yourself"
+  },
+  "createdTestInvite": {
+    "url": "https://discord.gg/rkHwEMq6",
+    "maxAgeSeconds": 86400,
+    "maxUses": 1
+  },
+  "whatThisProves": [
+    "The live guild currently has no non-bot, non-Founder/Admin/Moderator member available for onboarding proof.",
+    "A scoped one-use invite exists so a separate test Discord account can join and run the real /apply -> /approve -> role-routing proof.",
+    "The bot/API cannot create a real human Discord member or invoke slash commands as a human Discord client."
+  ],
+  "nextAction": "Join with a separate non-admin Discord account using the one-use invite, then rerun npm run discord:prove-onboarding."
+}

@@ -4,5 +4,5 @@
   "reason": "The guild has no non-bot, non-Founder/Admin/Moderator member to run the live onboarding proof against.",
   "nextStep": "Join Sage Ideas with a test Discord account, then rerun npm run discord:prove-onboarding. Optionally set DISCORD_TEST_MEMBER_ID to that account id.",
   "requestedMemberId": null,
-  "finishedAt": "2026-06-22T04:24:02.622Z"
+  "finishedAt": "2026-06-22T12:26:43.665Z"
 }

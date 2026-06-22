@@ -11,6 +11,8 @@ import { JsonLd } from '@/components/json-ld'
 import { injectHeadingIds } from '@/lib/blog-toc'
 import { buildArticle, buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { resolveWikiLinks } from '@/lib/seo/internal-links'
+import { localizedAlternates } from '@/lib/i18n/alternates'
+import { getLocale } from '@/lib/i18n/server'
 import { CLUSTERS } from '@/data/content/clusters'
 import { ArticleConversionSystem } from '@/components/blog/article-conversion-system'
 import { ArticleRouteCards } from '@/components/blog/article-route-cards'
@@ -30,6 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const post = getBlogPostBySlug(slug)
   if (!post) return { title: 'Post not found' }
+  const locale = await getLocale()
   // Every post gets a social card: the cover image if set, else a generated one.
   const ogImage = post.coverImage
     ? (post.coverImage.startsWith('http') ? post.coverImage : `${SITE}${post.coverImage}`)
@@ -37,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} — Jason Teixeira`,
     description: post.excerpt,
-    alternates: { canonical: `${SITE}/blog/${post.slug}` },
+    alternates: localizedAlternates(`/blog/${post.slug}`, locale),
     openGraph: {
       title: post.title,
       description: post.excerpt,

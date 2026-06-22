@@ -16,6 +16,8 @@ import {
   SystemHeroPanel,
 } from '@/components/living/LivingPageSystem'
 import { buildBreadcrumbList, buildCollectionPage } from '@/lib/seo/jsonld'
+import { localizedAlternates } from '@/lib/i18n/alternates'
+import { getLocale } from '@/lib/i18n/server'
 
 interface PageProps {
   params: Promise<{ hub: string }>
@@ -31,15 +33,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { hub } = await params
   const cluster = getClusterBySlug(hub)
   if (!cluster) return { title: 'Topic not found' }
+  const locale = await getLocale()
 
   const ogImage = `/og?title=${encodeURIComponent(cluster.title)}&subtitle=${encodeURIComponent(cluster.description.slice(0, 80))}`
   return {
     title: cluster.title,
     description: cluster.description,
-    alternates: {
-      canonical: `${SITE}/topics/${cluster.slug}`,
+    alternates: localizedAlternates(`/topics/${cluster.slug}`, locale, {
       types: { 'application/rss+xml': `${SITE}/feed/${cluster.slug}.xml` },
-    },
+    }),
     openGraph: {
       title: cluster.title,
       description: cluster.description,

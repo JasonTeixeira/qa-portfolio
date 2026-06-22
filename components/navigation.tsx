@@ -1,6 +1,7 @@
 'use client'
 
-import Link from 'next/link'
+import { LocaleLink as Link } from '@/components/i18n/locale-link'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -720,6 +721,9 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               />
               accepting
             </span>
+
+            {/* Language switcher */}
+            <LanguageSwitcher />
 
             {/* Login / Portal — ghost link styled to EL */}
             {isSignedIn ? (

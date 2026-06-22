@@ -1,13 +1,51 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { defaultLocale, isLocale } from '@/lib/i18n/config';
 
+/**
+ * Whole-site i18n + auth, composed (BLOG_SEO_ENGINE §8):
+ *  - Default locale (en) and all unprefixed paths: unchanged auth/session pipeline,
+ *    just tagged with `x-locale: en`. Production English behavior is identical.
+ *  - `/<locale>/…` paths: run the SAME session/auth pipeline against the de-prefixed
+ *    canonical path (so portal/admin gating keeps working), then rewrite onto the real
+ *    route carrying the refreshed session cookies + `x-locale`. No route files moved.
+ */
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const { pathname, search } = request.nextUrl;
+  const firstSegment = pathname.split('/')[1];
+
+  if (isLocale(firstSegment) && firstSegment !== defaultLocale) {
+    const locale = firstSegment;
+    const canonicalPath = pathname.slice(locale.length + 1) || '/';
+
+    // Run auth/session against the canonical path so gating + cookie refresh behave
+    // exactly as they do for English.
+    const canonicalUrl = request.nextUrl.clone();
+    canonicalUrl.pathname = canonicalPath;
+    const sessionResponse = await updateSession(new NextRequest(canonicalUrl, request));
+
+    // Auth gating issued a redirect/rewrite (e.g. someone hit /es/portal) — honor it.
+    if (sessionResponse.headers.get('location') || sessionResponse.headers.get('x-middleware-rewrite')) {
+      return sessionResponse;
+    }
+
+    // Rewrite the prefixed URL onto the real route, in this locale.
+    const headers = new Headers(request.headers);
+    headers.set('x-locale', locale);
+    headers.set('x-pathname', canonicalPath + (search || ''));
+    const rewrite = NextResponse.rewrite(canonicalUrl, { request: { headers } });
+    sessionResponse.cookies.getAll().forEach((cookie) => rewrite.cookies.set(cookie));
+    return rewrite;
+  }
+
+  const response = await updateSession(request);
+  response.headers.set('x-locale', defaultLocale);
+  return response;
 }
 
 export const config = {
   matcher: [
-    // Run on everything except static assets and image files.
+    // Run on everything except static assets and image/feed files.
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 };

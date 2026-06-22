@@ -15,6 +15,10 @@ import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-regis
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { UpdateToast } from '@/components/pwa/update-toast'
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs'
+import { getLocale } from '@/lib/i18n/server'
+import { isRtl, localeHrefLang } from '@/lib/i18n/config'
+import { localizedAlternates } from '@/lib/i18n/alternates'
+import { LocaleProvider } from '@/components/i18n/locale-provider'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -88,7 +92,7 @@ export const metadata: Metadata = {
     google: 'FSkeMXEvQz0bdu-hz9pQVnZ9zN5rsMv7yk2xk9B26TU',
   },
   alternates: {
-    canonical: SITE_URL,
+    ...localizedAlternates('/'),
     types: {
       'application/rss+xml': `${SITE_URL}/feed.xml`,
       'application/atom+xml': `${SITE_URL}/atom.xml`,
@@ -191,6 +195,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const h = await headers()
+  const locale = await getLocale()
   const isPortal = h.get('x-portal') === '1'
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
@@ -198,7 +203,8 @@ export default async function RootLayout({
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html
-      lang="en"
+      lang={localeHrefLang[locale]}
+      dir={isRtl(locale) ? 'rtl' : 'ltr'}
       data-scroll-behavior="smooth"
       className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#0B0B0E]`}
     >
@@ -232,20 +238,22 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
         />
-        <PostHogProvider>
-          {!isPortal && <AttributionCapture />}
-          {!isCinematicPath && <MarketingChrome position="top" />}
-          {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
-          {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-          {!isCinematicPath && <MarketingChrome position="bottom" />}
-          {!isPortal && !isCinematicPath && <CookieBanner />}
-          {!isPortal && !isPremiumLanding && <ExitIntentModal />}
-          <WebVitalsReporter />
-          <ClientErrorReporter />
-          <ServiceWorkerRegistration />
-          {!isPortal && !isPremiumLanding && <InstallPrompt />}
-          <UpdateToast />
-        </PostHogProvider>
+        <LocaleProvider locale={locale}>
+          <PostHogProvider>
+            {!isPortal && <AttributionCapture />}
+            {!isCinematicPath && <MarketingChrome position="top" />}
+            {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
+            {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+            {!isCinematicPath && <MarketingChrome position="bottom" />}
+            {!isPortal && !isCinematicPath && <CookieBanner />}
+            {!isPortal && !isPremiumLanding && <ExitIntentModal />}
+            <WebVitalsReporter />
+            <ClientErrorReporter />
+            <ServiceWorkerRegistration />
+            {!isPortal && !isPremiumLanding && <InstallPrompt />}
+            <UpdateToast />
+          </PostHogProvider>
+        </LocaleProvider>
         <GoogleAnalytics />
         {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
       </body>

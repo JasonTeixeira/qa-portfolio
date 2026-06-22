@@ -5,7 +5,9 @@ import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { checkRateLimitFromHeaders } from '@/lib/rate-limit'
 import { computeOpenSlots, type AvailabilityWindow, type BusyWindow } from '@/lib/booking/slots'
-import { sendBookingConfirmation } from '@/lib/booking/confirm-email'
+import { sendBookingConfirmation, sendBookingNotification } from '@/lib/booking/confirm-email'
+
+const BOOKING_HORIZON_DAYS = 60
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -48,7 +50,7 @@ export async function POST(req: Request) {
   const { slots, durationMinutes } = computeOpenSlots(
     (availabilityRes.data ?? []) as AvailabilityWindow[],
     (bookingsRes.data ?? []) as BusyWindow[],
-    { horizonDays: 21, minNoticeHours: 12 },
+    { horizonDays: BOOKING_HORIZON_DAYS, minNoticeHours: 12 },
   )
   const requested = new Date(body.slot).toISOString()
   if (!slots.includes(requested)) {
@@ -101,14 +103,18 @@ export async function POST(req: Request) {
   } catch {
     /* non-fatal */
   }
-  void sendBookingConfirmation({
+  const emailPayload = {
     to: body.email,
     name: body.name,
     startUtc,
     durationMinutes,
     icsUid,
     notes: body.notes,
-  }).catch(() => undefined)
+    company: body.company,
+  }
+  // Confirmation to the booker AND a notification to the operator — both with the .ics.
+  void sendBookingConfirmation(emailPayload).catch(() => undefined)
+  void sendBookingNotification(emailPayload).catch(() => undefined)
 
   return NextResponse.json({ ok: true, startsAt: inserted.starts_at })
 }

@@ -3,22 +3,23 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Hairline, MonoLabel, Surface } from '@/components/el'
 
-type DayGroup = { key: string; date: Date; slots: string[] }
-
 const fmtDayLong = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
-const fmtDayShort = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric' })
-const fmtMonth = new Intl.DateTimeFormat(undefined, { month: 'short' })
+const fmtMonthYear = new Intl.DateTimeFormat(undefined, { month: 'long', year: 'numeric' })
 const fmtTime = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' })
+const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 const SERIF: React.CSSProperties = {
   fontFamily: 'var(--font-serif)',
   fontVariationSettings: "'opsz' 120, 'SOFT' 0, 'WONK' 0",
 }
 
+const dayKey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+
 export function PublicScheduler() {
   const [slots, setSlots] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [failed, setFailed] = useState(false)
-  const [dayKey, setDayKey] = useState<string | null>(null)
+  const [view, setView] = useState<{ y: number; m: number } | null>(null)
+  const [selectedKey, setSelectedKey] = useState<string | null>(null)
   const [slot, setSlot] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -54,22 +55,43 @@ export function PublicScheduler() {
     }
   }, [])
 
-  const days: DayGroup[] = useMemo(() => {
-    const map = new Map<string, DayGroup>()
+  // local-day key → slots
+  const byDay = useMemo(() => {
+    const map = new Map<string, string[]>()
     for (const iso of slots) {
-      const date = new Date(iso)
-      const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-      if (!map.has(key)) map.set(key, { key, date, slots: [] })
-      map.get(key)!.slots.push(iso)
+      const k = dayKey(new Date(iso))
+      if (!map.has(k)) map.set(k, [])
+      map.get(k)!.push(iso)
     }
-    return [...map.values()].slice(0, 14)
+    return map
+  }, [slots])
+
+  // navigable month range: from the first available month to the last
+  const range = useMemo(() => {
+    if (slots.length === 0) return null
+    const first = new Date(slots[0])
+    const last = new Date(slots[slots.length - 1])
+    return {
+      min: { y: first.getFullYear(), m: first.getMonth() },
+      max: { y: last.getFullYear(), m: last.getMonth() },
+    }
   }, [slots])
 
   useEffect(() => {
-    if (!dayKey && days.length) setDayKey(days[0].key)
-  }, [days, dayKey])
+    if (!view && range) setView(range.min)
+  }, [range, view])
 
-  const activeDay = days.find((d) => d.key === dayKey) ?? null
+  const monthSlots = view ? buildMonthCells(view.y, view.m, byDay) : []
+  const selectedSlots = selectedKey ? byDay.get(selectedKey) ?? [] : []
+  const selectedDate = selectedSlots.length ? new Date(selectedSlots[0]) : null
+
+  const canPrev = view && range ? view.y * 12 + view.m > range.min.y * 12 + range.min.m : false
+  const canNext = view && range ? view.y * 12 + view.m < range.max.y * 12 + range.max.m : false
+  const shift = (delta: number) => {
+    if (!view) return
+    const total = view.y * 12 + view.m + delta
+    setView({ y: Math.floor(total / 12), m: total % 12 })
+  }
 
   async function book() {
     if (!slot) return
@@ -87,7 +109,6 @@ export function PublicScheduler() {
       if (!res.ok) {
         setError(data?.error || 'Could not book that slot. Try another time.')
         if (res.status === 409) {
-          // slot taken — refresh
           fetch('/api/book/slots').then((r) => r.json()).then((d) => setSlots(d.slots ?? []))
           setSlot(null)
         }
@@ -101,7 +122,6 @@ export function PublicScheduler() {
     }
   }
 
-  // ── Success ──
   if (bookedAt) {
     return (
       <Surface level={2} bordered className="p-8 sm:p-10 text-center">
@@ -118,7 +138,6 @@ export function PublicScheduler() {
     )
   }
 
-  // ── Loading / no availability ──
   if (loading) {
     return (
       <Surface level={2} bordered className="p-10 text-center">
@@ -126,7 +145,7 @@ export function PublicScheduler() {
       </Surface>
     )
   }
-  if (failed || days.length === 0) {
+  if (failed || !view) {
     return (
       <Surface level={2} bordered className="p-8">
         <MonoLabel tone="faint" className="text-[10px]">{'// scheduler'}</MonoLabel>
@@ -144,50 +163,68 @@ export function PublicScheduler() {
         <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)]">Times in {tz}</span>
       </div>
 
-      <div className="grid gap-0 md:grid-cols-[200px_1fr]">
-        {/* Day rail */}
-        <div className="flex gap-2 overflow-x-auto border-b border-[var(--sage-border)] p-3 md:flex-col md:overflow-visible md:border-b-0 md:border-r">
-          {days.map((d) => {
-            const on = d.key === dayKey
-            return (
-              <button
-                key={d.key}
-                type="button"
-                onClick={() => {
-                  setDayKey(d.key)
-                  setSlot(null)
-                }}
-                className={`flex shrink-0 items-baseline justify-between gap-3 rounded-[6px] px-3 py-2.5 text-left transition-colors md:shrink ${
-                  on ? 'bg-[#3D5AFE]/10 text-[var(--sage-ink)]' : 'text-[var(--sage-ink-muted)] hover:bg-[var(--sage-surface-2)]'
-                }`}
-              >
-                <span className="text-[13px] font-medium">{fmtDayShort.format(d.date)}</span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.1em] opacity-60">
-                  {fmtMonth.format(d.date)} · {d.slots.length}
-                </span>
-              </button>
-            )
-          })}
+      <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_300px]">
+        {/* Month calendar */}
+        <div className="border-b border-[var(--sage-border)] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-[17px] text-[var(--sage-ink)]" style={SERIF}>{fmtMonthYear.format(new Date(view.y, view.m, 1))}</h3>
+            <div className="flex items-center gap-1">
+              <button type="button" onClick={() => shift(-1)} disabled={!canPrev} aria-label="Previous month"
+                className="grid h-8 w-8 place-items-center rounded-[6px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-border-strong)] hover:text-[var(--sage-ink)] disabled:opacity-30 disabled:pointer-events-none">←</button>
+              <button type="button" onClick={() => shift(1)} disabled={!canNext} aria-label="Next month"
+                className="grid h-8 w-8 place-items-center rounded-[6px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-border-strong)] hover:text-[var(--sage-ink)] disabled:opacity-30 disabled:pointer-events-none">→</button>
+            </div>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center">
+            {WEEKDAYS.map((w) => (
+              <span key={w} className="pb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--sage-ink-faint)]">{w}</span>
+            ))}
+            {monthSlots.map((cell, i) =>
+              cell === null ? (
+                <span key={`b${i}`} />
+              ) : (
+                <button
+                  key={cell.key}
+                  type="button"
+                  disabled={!cell.available}
+                  onClick={() => {
+                    setSelectedKey(cell.key)
+                    setSlot(null)
+                  }}
+                  aria-pressed={selectedKey === cell.key}
+                  className={`relative mx-auto flex h-10 w-10 items-center justify-center rounded-full text-[14px] tabular-nums transition-colors ${
+                    selectedKey === cell.key
+                      ? 'bg-[#3D5AFE] font-semibold text-white'
+                      : cell.available
+                        ? 'font-medium text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
+                        : 'text-[var(--sage-ink-faint)]/40 pointer-events-none'
+                  }`}
+                >
+                  {cell.day}
+                  {cell.available && selectedKey !== cell.key && (
+                    <span className="absolute bottom-1.5 h-1 w-1 rounded-full bg-[#18b663]" aria-hidden />
+                  )}
+                </button>
+              ),
+            )}
+          </div>
         </div>
 
         {/* Times + form */}
-        <div className="p-4 sm:p-6">
-          {!slot ? (
+        <div className="p-5 sm:p-6">
+          {!selectedKey ? (
+            <p className="text-[14px] leading-relaxed text-[var(--sage-ink-faint)]">
+              Pick a date with a <span className="text-[#18b663]">•</span> to see open times.
+            </p>
+          ) : !slot ? (
             <>
               <p className="mb-4 text-[15px] font-medium text-[var(--sage-ink)]" style={SERIF}>
-                {activeDay ? fmtDayLong.format(activeDay.date) : ''}
+                {selectedDate ? fmtDayLong.format(selectedDate) : ''}
               </p>
-              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {activeDay?.slots.map((iso) => (
-                  <button
-                    key={iso}
-                    type="button"
-                    onClick={() => {
-                      setSlot(iso)
-                      setError(null)
-                    }}
-                    className="rounded-[6px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] px-2 py-2.5 text-[13px] tabular-nums text-[var(--sage-ink-muted)] transition-colors hover:border-[#3D5AFE] hover:text-[var(--sage-ink)]"
-                  >
+              <div className="grid max-h-[320px] grid-cols-2 gap-2 overflow-y-auto pr-1">
+                {selectedSlots.map((iso) => (
+                  <button key={iso} type="button" onClick={() => { setSlot(iso); setError(null) }}
+                    className="rounded-[6px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-1)] px-2 py-2.5 text-[13px] tabular-nums text-[var(--sage-ink-muted)] transition-colors hover:border-[#3D5AFE] hover:text-[var(--sage-ink)]">
                     {fmtTime.format(new Date(iso))}
                   </button>
                 ))}
@@ -195,28 +232,19 @@ export function PublicScheduler() {
             </>
           ) : (
             <div className="space-y-4">
-              <button
-                type="button"
-                onClick={() => setSlot(null)}
-                className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink)]"
-              >
-                ← {fmtDayLong.format(new Date(slot))} · {fmtTime.format(new Date(slot))} (change)
+              <button type="button" onClick={() => setSlot(null)}
+                className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] hover:text-[var(--sage-ink)]">
+                ← {fmtTime.format(new Date(slot))} (change)
               </button>
               <Hairline />
               <input type="text" tabIndex={-1} autoComplete="off" aria-hidden value={honey} onChange={(e) => setHoney(e.target.value)} className="hidden" />
-              <div className="grid gap-3 sm:grid-cols-2">
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoComplete="name" className="w-full rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@company.com" autoComplete="email" className="w-full rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
-              </div>
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoComplete="name" className="w-full rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
+              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="you@company.com" autoComplete="email" className="w-full rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
               <input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company (optional)" autoComplete="organization" className="w-full rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="What do you want to cover? (optional)" className="w-full resize-y rounded-[4px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)] px-3 py-2.5 text-[14px] text-[var(--sage-ink)] placeholder:text-[var(--sage-ink-faint)] focus:border-[#3D5AFE] focus:outline-none" />
               {error && <p role="alert" className="text-[13px] text-red-300">{error}</p>}
-              <button
-                type="button"
-                onClick={book}
-                disabled={submitting}
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[4px] bg-[#3D5AFE] px-6 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#08110F] transition-[transform,background] hover:-translate-y-px hover:bg-[#5670ff] disabled:opacity-50 sm:w-auto [font-family:var(--font-mono),ui-monospace,monospace]"
-              >
+              <button type="button" onClick={book} disabled={submitting}
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[4px] bg-[#3D5AFE] px-6 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#08110F] transition-[transform,background] hover:-translate-y-px hover:bg-[#5670ff] disabled:opacity-50 [font-family:var(--font-mono),ui-monospace,monospace]">
                 {submitting ? 'Booking…' : 'Confirm booking →'}
               </button>
             </div>
@@ -225,4 +253,19 @@ export function PublicScheduler() {
       </div>
     </Surface>
   )
+}
+
+type Cell = { key: string; day: number; available: boolean } | null
+
+function buildMonthCells(year: number, month: number, byDay: Map<string, string[]>): Cell[] {
+  const first = new Date(year, month, 1)
+  const lead = first.getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const cells: Cell[] = []
+  for (let i = 0; i < lead; i++) cells.push(null)
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${year}-${month}-${d}`
+    cells.push({ key, day: d, available: byDay.has(key) })
+  }
+  return cells
 }

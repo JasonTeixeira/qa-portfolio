@@ -25,7 +25,7 @@ export async function GET() {
     const { slots, durationMinutes } = computeOpenSlots(
       (availabilityRes.data ?? []) as AvailabilityWindow[],
       (bookingsRes.data ?? []) as BusyWindow[],
-      { horizonDays: 21, minNoticeHours: 12 },
+      { horizonDays: 60, minNoticeHours: 12 },
     )
 
     return NextResponse.json(

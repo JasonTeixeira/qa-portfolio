@@ -4,6 +4,8 @@ import { createEvent } from 'ics'
 const FROM = 'Sage Ideas <sage@sageideas.dev>'
 const SITE = 'https://www.sageideas.dev'
 
+const OPERATOR_EMAIL = process.env.BOOKING_NOTIFY_EMAIL || 'sage@sageideas.dev'
+
 interface ConfirmInput {
   to: string
   name?: string
@@ -11,6 +13,7 @@ interface ConfirmInput {
   durationMinutes: number
   icsUid: string
   notes?: string
+  company?: string
 }
 
 function escapeHtml(s: string) {
@@ -83,6 +86,54 @@ export async function sendBookingConfirmation(input: ConfirmInput): Promise<{ ok
       subject: `Confirmed: discovery call — ${when}`,
       html,
       text: `${input.name ? `Hi ${input.name}` : 'Hi there'} — your 30-minute discovery call with Sage Ideas is confirmed for ${when}. A calendar invite is attached; I'll send the meeting link before the call. Reply to reschedule.\n\n— Jason, Sage Ideas (${SITE})`,
+      attachments: ics ? [{ filename: 'sage-discovery-call.ics', content: Buffer.from(ics).toString('base64') }] : undefined,
+    })
+    return { ok: !error }
+  } catch {
+    return { ok: false }
+  }
+}
+
+/** Notify the operator (you) the moment someone books — with the .ics so it lands on your calendar. */
+export async function sendBookingNotification(input: ConfirmInput): Promise<{ ok: boolean }> {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return { ok: false }
+  const when = whenLabel(input.startUtc)
+  const ics = buildIcs(input)
+  const rows = [
+    ['Name', input.name || '—'],
+    ['Email', input.to],
+    ['Company', input.company || '—'],
+    ['When', when],
+    ['Notes', input.notes || '—'],
+  ]
+  const html = `<!doctype html><html><body style="margin:0;background:#0B0B0E;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#F2EFE9;">
+  <table role="presentation" width="100%" style="background:#0B0B0E;padding:28px 16px;"><tr><td align="center">
+  <table role="presentation" width="560" style="max-width:560px;background:#141418;border:1px solid #1E1E24;border-radius:14px;overflow:hidden;"><tr>
+  <td style="padding:22px 28px;border-bottom:1px solid #1E1E24;">
+    <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#18b663;font-family:ui-monospace,monospace;">New discovery-call booking</div>
+    <div style="font-size:20px;color:#F2EFE9;font-weight:600;margin-top:6px;">${escapeHtml(input.name || 'Someone')} booked you</div>
+  </td></tr><tr><td style="padding:18px 28px 24px;">
+    <table role="presentation" width="100%" style="font-size:14px;line-height:1.7;">
+      ${rows
+        .map(
+          ([k, v]) =>
+            `<tr><td style="color:#8A8A94;width:90px;vertical-align:top;padding:3px 0;">${k}</td><td style="color:#F2EFE9;padding:3px 0;">${escapeHtml(String(v))}</td></tr>`,
+        )
+        .join('')}
+    </table>
+    <p style="margin:16px 0 0;font-size:13px;color:#8A8A94;">Calendar invite attached. Reply to ${escapeHtml(input.to)} to send the meeting link.</p>
+  </td></tr></table></td></tr></table></body></html>`
+
+  try {
+    const resend = new Resend(apiKey)
+    const { error } = await resend.emails.send({
+      from: FROM,
+      to: OPERATOR_EMAIL,
+      replyTo: input.to,
+      subject: `📅 New booking: ${input.name || 'Discovery call'} — ${when}`,
+      html,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join('\n'),
       attachments: ics ? [{ filename: 'sage-discovery-call.ics', content: Buffer.from(ics).toString('base64') }] : undefined,
     })
     return { ok: !error }

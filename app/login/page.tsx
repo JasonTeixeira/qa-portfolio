@@ -37,7 +37,7 @@ const COPY = {
     mobileLabel: 'Sage Academy',
     accent: '#18b663',
     newPrompt: 'New to the Academy?',
-    newCta: 'Join — $20/mo, instant access →',
+    newCta: 'Create your free account →',
   },
 } as const;
 
@@ -51,7 +51,7 @@ export default async function LoginPage({ searchParams }: Props) {
   const c = COPY[audience];
   const signupHref =
     audience === 'academy'
-      ? '/academy/join'
+      ? '/academy/signup'
       : next !== '/auth/redirect'
         ? `/signup?next=${encodeURIComponent(next)}`
         : '/signup';

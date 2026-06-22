@@ -24,13 +24,15 @@ export default async function AuthRedirectPage() {
     .maybeSingle();
 
   // Route by audience. Admins → admin; approved studio CLIENTS → the project portal;
-  // academy CUSTOMERS (paying member or enrolled) → their learning dashboard — NOT the
-  // studio "pending approval" waiting room. Clients are preferred on a tie (dual identity).
+  // academy CUSTOMERS → their learning dashboard — NOT the studio "pending approval"
+  // waiting room. Clients are preferred on a tie (dual identity).
   if (profile?.app_role === 'admin') redirect('/admin');
   if (profile?.approval_status === 'approved') redirect('/portal');
 
-  const academy = await getAcademyAccess();
-  if (academy.hasFullAccess) redirect('/academy/dashboard');
+  // Academy customer = signed up via the academy door (metadata flag) OR has paid access.
+  const isAcademyCustomer =
+    user.user_metadata?.audience === 'academy' || (await getAcademyAccess()).hasFullAccess;
+  if (isAcademyCustomer) redirect('/academy/dashboard');
 
   redirect('/pending-approval');
 }

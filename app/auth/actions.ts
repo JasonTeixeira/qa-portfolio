@@ -296,6 +296,70 @@ export async function resendVerification(formData: FormData): Promise<void> {
   redirect(`/onboarding?email=${encodeURIComponent(email)}&resent=1`);
 }
 
+/**
+ * Self-serve ACADEMY signup — the customer path (distinct from the studio "request access"
+ * flow). Creates a CONFIRMED account via the admin API so there's no email round-trip to
+ * break (instant access), tags audience='academy' so the post-login router sends them to the
+ * learning area, then signs them in. Doubles as a sign-in if the email already exists.
+ */
+export async function signUpAcademy(formData: FormData): Promise<void> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  const password = String(formData.get('password') ?? '');
+  const fullName = String(formData.get('full_name') ?? '').trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    redirect(`/academy/signup?error=${encodeURIComponent('Enter a valid email address.')}`);
+  }
+  if (!password || password.length < 8) {
+    redirect(
+      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be at least 8 characters.')}`,
+    );
+  }
+
+  const h = await headers();
+  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:academy-signup' });
+  if (!rl.ok) {
+    redirect(`/academy/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
+  }
+
+  const admin = supabaseAdmin();
+  const { error: createError } = await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name: fullName, audience: 'academy' },
+  });
+  const alreadyExists = createError != null && /already|exists|registered/i.test(createError.message);
+  if (createError && !alreadyExists) {
+    redirect(`/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent(createError.message)}`);
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+  if (signInError) {
+    if (alreadyExists) {
+      redirect(
+        `/login?audience=academy&next=/academy/dashboard&error=${encodeURIComponent('That email already has an account — sign in below.')}`,
+      );
+    }
+    redirect(`/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Could not sign you in. Try again.')}`);
+  }
+
+  if (data.user) {
+    await logAudit({
+      actorId: data.user.id,
+      actorEmail: data.user.email ?? email,
+      action: alreadyExists ? 'auth.login' : 'auth.signup',
+      entityType: 'session',
+      entityId: data.user.id,
+      after: { method: 'academy_password', audience: 'academy' },
+    });
+  }
+  if (!alreadyExists) void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
+
+  redirect('/academy/dashboard');
+}
+
 export async function signOut(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();

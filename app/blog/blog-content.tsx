@@ -196,6 +196,10 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
   const [activeCluster, setActiveCluster] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(12)
+  // Ranked Postgres FTS results (progressive enhancement). Instant local filtering
+  // stays the default; when the server responds with matches it refines the ranking;
+  // on error/empty/fallback the local filter is the net so search never breaks.
+  const [serverSearch, setServerSearch] = useState<{ q: string; slugs: string[]; fallback: boolean } | null>(null)
 
   const sortedPosts = useMemo(
     () => [...posts].sort((a, b) => (a.date < b.date ? 1 : -1)),
@@ -203,6 +207,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
   )
   const featuredPost = sortedPosts[0]
   const nextFeatured = sortedPosts.slice(1, 4)
+  const postBySlug = useMemo(() => new Map(sortedPosts.map((p) => [p.slug, p])), [sortedPosts])
 
   const clusterCounts = useMemo(() => {
     return sortedPosts.reduce<Record<string, number>>((acc, post) => {
@@ -211,19 +216,58 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
     }, {})
   }, [sortedPosts])
 
+  useEffect(() => {
+    const q = searchQuery.trim()
+    if (q.length < 2) {
+      setServerSearch(null)
+      return
+    }
+    const controller = new AbortController()
+    const timer = setTimeout(() => {
+      fetch(`/api/blog/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+        .then((res) => res.json())
+        .then((data: { results?: { slug: string }[]; fallback?: boolean }) => {
+          setServerSearch({ q, slugs: (data.results ?? []).map((r) => r.slug), fallback: Boolean(data.fallback) })
+        })
+        .catch(() => {
+          /* keep the instant local filter as the fallback */
+        })
+    }, 220)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [searchQuery])
+
   const filteredPosts = useMemo(() => {
     const query = normalize(searchQuery)
+    const matchesCluster = (post: BlogPost) => activeCluster === 'all' || post.cluster === activeCluster
+
+    // Ranked server path — only when FTS is confident (returned matches for this exact query).
+    if (
+      query !== '' &&
+      serverSearch &&
+      serverSearch.q === searchQuery.trim() &&
+      !serverSearch.fallback &&
+      serverSearch.slugs.length > 0
+    ) {
+      return serverSearch.slugs
+        .map((slug) => postBySlug.get(slug))
+        .filter((post): post is BlogPost => Boolean(post))
+        .filter(matchesCluster)
+    }
+
+    // Instant local filter (default + fallback net for partial words / offline).
     return sortedPosts.filter((post) => {
-      const matchesCluster = activeCluster === 'all' || post.cluster === activeCluster
       const matchesSearch =
         query === '' ||
         normalize(post.title).includes(query) ||
         normalize(post.excerpt).includes(query) ||
         post.tags.some((tag) => normalize(tag).includes(query)) ||
         post.keywords.some((keyword) => normalize(keyword).includes(query))
-      return matchesCluster && matchesSearch
+      return matchesCluster(post) && matchesSearch
     })
-  }, [activeCluster, searchQuery, sortedPosts])
+  }, [activeCluster, searchQuery, sortedPosts, serverSearch, postBySlug])
 
   const archivePosts =
     activeCluster === 'all' && searchQuery.trim() === ''

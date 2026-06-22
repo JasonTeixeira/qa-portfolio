@@ -6,6 +6,7 @@
     { "path": "/api/cron/discord/daily", "schedule": "0 13 * * 1-6" },
     { "path": "/api/cron/discord/daily/publish", "schedule": "0 21 * * 1-6" },
     { "path": "/api/cron/discord/weekly", "schedule": "0 22 * * 0" },
-    { "path": "/api/cron/academy-sequence", "schedule": "0 15 * * *" }
+    { "path": "/api/cron/academy-sequence", "schedule": "0 15 * * *" },
+    { "path": "/api/cron/blog-search-sync", "schedule": "0 16 * * *" }
   ]
 }

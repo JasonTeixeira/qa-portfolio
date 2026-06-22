@@ -61,6 +61,8 @@ Pass 0 verified:
 7. Live onboarding proof harness exists as npm run discord:prove-onboarding.
 8. Live onboarding proof harness refuses to run without a non-admin test member.
 9. Headless onboarding proof exists as npm run discord:prove-onboarding:headless.
+10. Headless onboarding proof writes `docs/evidence/discord/onboarding-headless-proof.json`.
+11. Live onboarding proof writes `docs/evidence/discord/onboarding-live-proof.json`, including the current blocking reason when no test member exists.
 
 Pass 0 still needs live member proof:
 1. A real or test non-admin account must join.
@@ -133,10 +135,10 @@ Pass 4 verified:
 5. Project submissions persist to `discord_project_submissions`.
 6. Project submissions create content queue candidates.
 7. Challenge/project onboarding steps are recorded.
+8. Admin dashboard E2E proof seeds a pending challenge submission, clicks approve in `/admin/discord`, verifies approved status, verifies challenge points ledger, verifies review event, and cleans all smoke rows.
 
 Pass 4 still needs proof:
 1. Live slash-command proof with a real approved member after Pass 0 live onboarding proof exists.
-2. Live admin dashboard click proof for approve/feature/reject after a real submission exists.
 
 Pass 5 status:
 Implemented locally.

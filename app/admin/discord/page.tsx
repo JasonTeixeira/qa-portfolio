@@ -605,7 +605,11 @@ export default async function AdminDiscordPage() {
             </div>
             <Rows empty="No challenge submissions waiting for review.">
               {challengeSubmissions.map((submission) => (
-                <div key={submission.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
+                <div
+                  key={submission.id}
+                  className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center"
+                  data-testid={`discord-challenge-submission-${submission.id}`}
+                >
                   <div className="col-span-2">
                     <Badge tone={submission.status === 'pending' ? 'emerald' : 'neutral'}>{submission.status}</Badge>
                   </div>
@@ -619,6 +623,7 @@ export default async function AdminDiscordPage() {
                         <input type="hidden" name="id" value={submission.id} />
                         <input type="hidden" name="status" value={status} />
                         <button
+                          data-testid={`discord-challenge-${status}-${submission.id}`}
                           className={status === 'featured' ? 'rounded-full bg-[#34d399] px-2 py-1 text-[10px] font-medium text-[#07110d]' : 'rounded-full border border-[#3f3f46] px-2 py-1 text-[10px] text-[#fafafa]'}
                           type="submit"
                         >

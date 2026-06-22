@@ -1,4 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { submitMemberApplication, reviewMemberApplication } from '@/lib/discord/engagement';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
 import { upsertDiscordMember } from '@/lib/discord/analytics';
@@ -33,6 +35,7 @@ function env(name: string): string {
 
 const token = env('DISCORD_BOT_TOKEN');
 const guildId = env('DISCORD_GUILD_ID');
+const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord');
 const supabase = createClient(env('NEXT_PUBLIC_SUPABASE_URL'), env('SUPABASE_SERVICE_ROLE_KEY'), {
   auth: { persistSession: false },
 });
@@ -82,16 +85,31 @@ async function findTargetMember(): Promise<{
   ]);
   const rolesById = new Map(roles.map((role) => [role.id, role]));
   const requested = cleanEnv(process.env.DISCORD_TEST_MEMBER_ID);
-  const member = requested
-    ? members.find((item) => item.user.id === requested) ?? null
-    : members.find((item) => !isPrivileged(item, guild.owner_id, rolesById)) ?? null;
+  let member: DiscordMember | null = null;
+  if (requested) {
+    member = members.find((item) => item.user.id === requested) ?? null;
+    if (!member) {
+      try {
+        member = await getMember(requested);
+      } catch {
+        member = null;
+      }
+    }
+  } else {
+    member = members.find((item) => !isPrivileged(item, guild.owner_id, rolesById)) ?? null;
+  }
   return { member, ownerId: guild.owner_id, roles, rolesById };
 }
 
 async function deleteExistingRows(discordUserId: string): Promise<void> {
   await supabase.from('discord_member_applications').delete().eq('discord_user_id', discordUserId);
   await supabase.from('discord_members').delete().eq('discord_user_id', discordUserId);
-  await supabase.from('discord_onboarding_steps').delete().eq('discord_user_id', discordUserId);
+  await supabase.from('discord_member_onboarding_steps').delete().eq('discord_user_id', discordUserId);
+}
+
+async function writeEvidence(name: string, evidence: Record<string, unknown>): Promise<void> {
+  await mkdir(evidenceDir, { recursive: true });
+  await writeFile(path.join(evidenceDir, name), `${JSON.stringify(evidence, null, 2)}\n`);
 }
 
 async function verifyDatabase(discordUserId: string) {
@@ -197,7 +215,7 @@ async function runHeadlessProof(): Promise<void> {
   const keepRows = process.env.DISCORD_PROOF_KEEP_ROWS === 'true';
   if (!keepRows) await deleteExistingRows(syntheticUserId);
 
-  console.log(JSON.stringify({
+  const evidence = {
     ok: true,
     mode: 'headless',
     syntheticUserId,
@@ -218,7 +236,10 @@ async function runHeadlessProof(): Promise<void> {
       'Discord native member screening',
       'Discord API role mutation on a real non-admin member',
     ],
-  }, null, 2));
+    finishedAt: new Date().toISOString(),
+  };
+  await writeEvidence('onboarding-headless-proof.json', evidence);
+  console.log(JSON.stringify(evidence, null, 2));
 }
 
 function hasRoles(actual: string[], expected: string[]): string[] {
@@ -238,30 +259,39 @@ async function main(): Promise<void> {
       blocked: 'no_non_admin_test_member',
       reason: 'The guild has no non-bot, non-Founder/Admin/Moderator member to run the live onboarding proof against.',
       nextStep: 'Join Sage Ideas with a test Discord account, then rerun npm run discord:prove-onboarding. Optionally set DISCORD_TEST_MEMBER_ID to that account id.',
+      requestedMemberId: cleanEnv(process.env.DISCORD_TEST_MEMBER_ID) ?? null,
+      finishedAt: new Date().toISOString(),
     };
+    await writeEvidence('onboarding-live-proof.json', result);
     console.log(JSON.stringify(result, null, 2));
     process.exit(2);
   }
 
   if (isPrivileged(target, ownerId, rolesById)) {
-    console.log(JSON.stringify({
+    const result = {
       ok: false,
       blocked: 'target_is_privileged',
       target: { id: target.user.id, username: target.user.username, roles: roleNames(target, rolesById) },
       reason: 'Pass 0 requires a non-admin member because privileged members bypass normal community assumptions.',
-    }, null, 2));
+      finishedAt: new Date().toISOString(),
+    };
+    await writeEvidence('onboarding-live-proof.json', result);
+    console.log(JSON.stringify(result, null, 2));
     process.exit(2);
   }
 
   const initialRoles = roleNames(target, rolesById);
   const initialControlledRoles = initialRoles.filter((role) => controlledRoles.includes(role));
   if (initialControlledRoles.length) {
-    console.log(JSON.stringify({
+    const result = {
       ok: false,
       blocked: 'target_already_has_member_roles',
       target: { id: target.user.id, username: target.user.username, roles: initialRoles },
       reason: 'The test member must start unapproved with no Sage member/path/level/premium roles.',
-    }, null, 2));
+      finishedAt: new Date().toISOString(),
+    };
+    await writeEvidence('onboarding-live-proof.json', result);
+    console.log(JSON.stringify(result, null, 2));
     process.exit(2);
   }
 
@@ -333,7 +363,7 @@ async function main(): Promise<void> {
     throw new Error('discord_members routing row did not update after reroute');
   }
 
-  console.log(JSON.stringify({
+  const evidence = {
     ok: true,
     target: { id: target.user.id, username: target.user.username },
     initialRoles,
@@ -348,7 +378,10 @@ async function main(): Promise<void> {
       'role rerouting kept Academy Member',
       'discord_members and discord_member_applications verified',
     ],
-  }, null, 2));
+    finishedAt: new Date().toISOString(),
+  };
+  await writeEvidence('onboarding-live-proof.json', evidence);
+  console.log(JSON.stringify(evidence, null, 2));
 }
 
 main().catch((err) => {

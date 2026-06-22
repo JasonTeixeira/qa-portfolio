@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "mode": "headless",
+  "syntheticUserId": "proof-1782101013306",
+  "cleanedUp": true,
+  "approvalPlan": {
+    "finalPathKey": "full_stack",
+    "finalLevelKey": "shipping",
+    "pathRole": "Builder",
+    "levelRole": "Builder",
+    "channel": "build-lab",
+    "rolesToAdd": [
+      "Academy Member",
+      "Builder"
+    ],
+    "rolesToRemove": []
+  },
+  "reroutePlan": {
+    "finalPathKey": "web_design",
+    "finalLevelKey": "starting",
+    "pathRole": "Web Builder",
+    "levelRole": "Beginner",
+    "channel": "build-lab",
+    "rolesToAdd": [
+      "Academy Member",
+      "Web Builder",
+      "Beginner"
+    ],
+    "rolesToRemove": [
+      "Builder"
+    ]
+  },
+  "database": {
+    "application": {
+      "status": "approved",
+      "path_key": "full_stack",
+      "level_key": "shipping"
+    },
+    "member": {
+      "academy_member": true,
+      "path_key": "web_design",
+      "level_key": "starting"
+    }
+  },
+  "proven": [
+    "pending application created in Supabase",
+    "application approved in Supabase",
+    "approval role-routing plan includes Academy Member and Builder",
+    "reroute plan adds Academy Member, Web Builder, and Beginner",
+    "reroute plan removes stale Builder",
+    "discord_members and discord_member_applications verified"
+  ],
+  "notProvenHeadlessly": [
+    "Discord client join screen",
+    "Discord native member screening",
+    "Discord API role mutation on a real non-admin member"
+  ],
+  "finishedAt": "2026-06-22T04:03:35.327Z"
+}

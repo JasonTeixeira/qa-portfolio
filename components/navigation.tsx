@@ -886,6 +886,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
 
                 <div className="sticky bottom-0 -mx-4 mt-5 border-t border-[var(--sage-border)] bg-[rgba(11,11,14,0.94)] px-4 py-3 backdrop-blur-xl">
                   <div className="flex items-center gap-2">
+                    <LanguageSwitcher />
                     {isSignedIn ? (
                       <Link
                         href="/auth/redirect"

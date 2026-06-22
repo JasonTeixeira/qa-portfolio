@@ -1,7 +1,6 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { locales, localeNames, localeHrefLang, isRtl } from '@/lib/i18n/config'
 import { useLocale } from './locale-provider'
@@ -57,7 +56,9 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
             const isActive = locale === active
             return (
               <li key={locale} role="option" aria-selected={isActive}>
-                <Link
+                {/* Plain <a> = full page load on language change, so <html lang/dir>,
+                    RTL, fonts, and server-rendered translations all reset correctly. */}
+                <a
                   href={localizeHref(here, locale)}
                   hrefLang={localeHrefLang[locale]}
                   dir={isRtl(locale) ? 'rtl' : 'ltr'}
@@ -70,7 +71,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
                 >
                   <span>{localeNames[locale]}</span>
                   <span className="font-mono text-[10px] uppercase tracking-[0.12em] opacity-60">{locale}</span>
-                </Link>
+                </a>
               </li>
             )
           })}

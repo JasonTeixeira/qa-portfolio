@@ -1,4 +1,24 @@
 import type { ReactNode } from 'react';
+import {
+  Activity,
+  AlertTriangle,
+  Award,
+  CalendarDays,
+  ChevronRight,
+  FileCheck2,
+  GitPullRequestArrow,
+  HeartPulse,
+  Inbox,
+  Layers3,
+  MessageCircle,
+  Radio,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Trophy,
+  Users,
+  Zap,
+} from 'lucide-react';
 import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { AdminTopbar } from '@/components/admin/topbar';
@@ -13,7 +33,9 @@ import {
 } from './actions';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Discord', robots: { index: false, follow: false } };
+export const metadata = { title: 'Discord Command Center', robots: { index: false, follow: false } };
+
+type Tone = 'neutral' | 'cyan' | 'emerald' | 'amber' | 'rose' | 'violet';
 
 type DiscordEventRow = {
   id: string;
@@ -132,7 +154,6 @@ type DiscordQuestionRow = {
 
 type DiscordAnswerRow = {
   id: string;
-  question_id: string;
   answer: string;
   discord_username: string | null;
   helpful: boolean;
@@ -147,6 +168,25 @@ type DiscordGatewayHeartbeatRow = {
   last_seen_at: string;
   last_close_code: number | null;
   last_close_reason: string | null;
+};
+
+const statusTone: Record<string, Tone> = {
+  approved: 'emerald',
+  archived: 'neutral',
+  captured: 'cyan',
+  draft: 'amber',
+  drafted: 'violet',
+  failed: 'rose',
+  featured: 'emerald',
+  heartbeat_ack: 'emerald',
+  pending: 'amber',
+  pending_approval: 'amber',
+  published: 'emerald',
+  ready: 'emerald',
+  rejected: 'rose',
+  resumed: 'emerald',
+  skipped: 'amber',
+  triaged: 'cyan',
 };
 
 export default async function AdminDiscordPage() {
@@ -183,9 +223,9 @@ export default async function AdminDiscordPage() {
       .select('id, event_type, command_name, discord_username, discord_user_id, channel_base_name, created_at')
       .order('created_at', { ascending: false })
       .limit(80),
-	    sb
-	      .from('discord_members')
-	      .select('discord_user_id, username, path_key, level_key, weekly_time_budget, preferred_support, premium_member, premium_status, last_seen_at')
+    sb
+      .from('discord_members')
+      .select('discord_user_id, username, path_key, level_key, weekly_time_budget, preferred_support, premium_member, premium_status, last_seen_at')
       .order('last_seen_at', { ascending: false })
       .limit(80),
     sb
@@ -218,10 +258,10 @@ export default async function AdminDiscordPage() {
       .in('status', ['draft', 'pending_approval'])
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
-      .limit(10),
-	    sb
-	      .from('discord_member_applications')
-	      .select('id, discord_user_id, discord_username, goal, experience, intended_build, path_key, level_key, timezone, weekly_time_budget, preferred_support, status, submitted_at')
+      .limit(12),
+    sb
+      .from('discord_member_applications')
+      .select('id, discord_user_id, discord_username, goal, experience, intended_build, path_key, level_key, timezone, weekly_time_budget, preferred_support, status, submitted_at')
       .eq('status', 'pending')
       .order('submitted_at', { ascending: true })
       .limit(20),
@@ -229,12 +269,12 @@ export default async function AdminDiscordPage() {
       .from('discord_quizzes')
       .select('quiz_key, prompt, active, created_at')
       .order('created_at', { ascending: false })
-      .limit(5),
+      .limit(6),
     sb
       .from('discord_challenges')
       .select('challenge_key, title, active, points, created_at')
       .order('created_at', { ascending: false })
-      .limit(5),
+      .limit(6),
     sb
       .from('discord_challenge_submissions')
       .select('id, challenge_key, discord_user_id, discord_username, summary, link, status, points_awarded, created_at')
@@ -253,7 +293,7 @@ export default async function AdminDiscordPage() {
       .limit(10),
     sb
       .from('discord_answers')
-      .select('id, question_id, answer, discord_username, helpful, created_at')
+      .select('id, answer, discord_username, helpful, created_at')
       .order('created_at', { ascending: false })
       .limit(10),
     sb
@@ -290,9 +330,542 @@ export default async function AdminDiscordPage() {
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
   const gatewayHeartbeats = (gatewayHeartbeatsRes.data ?? []) as DiscordGatewayHeartbeatRow[];
-  const commandInvokes = events.filter((event) => event.event_type === 'command_invoked').length;
-  const failedEvents = events.filter((event) => event.event_type.includes('failed')).length;
-  const leaderboard = [...pointsRows.reduce((map, row) => {
+  const failures = events.filter((event) => event.event_type.includes('failed')).length;
+  const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
+  const activeWorker = gatewayHeartbeats.some((heartbeat) => ['ready', 'resumed', 'heartbeat_ack'].includes(heartbeat.status));
+  const pendingDrafts = contentDrafts.filter((draft) => draft.status === 'pending_approval').length;
+  const pendingReviews = applications.length + pendingDrafts + challengeSubmissions.filter((item) => item.status === 'pending').length;
+  const capturedMessages = gatewayMessageCountRes.count ?? 0;
+  const operatingScore = scoreOperatingHealth({
+    activeWorker,
+    failures,
+    openDeadLetters,
+    pendingReviews,
+    capturedMessages,
+  });
+  const leaderboard = buildLeaderboard(pointsRows);
+  const lastRun = runs[0] ?? null;
+
+  return (
+    <>
+      <AdminTopbar
+        crumbs={[{ label: 'Discord Command Center' }]}
+        email={profile.email}
+        fullName={profile.full_name}
+      />
+      <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8" data-testid="admin-discord">
+        <section className="relative overflow-hidden rounded-lg border border-[#27272a] bg-[#0c0c10]">
+          <div className="absolute inset-x-0 top-0 h-px bg-[#22d3ee]" />
+          <div className="grid gap-6 p-5 lg:grid-cols-[1.45fr_0.55fr] lg:p-6">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge tone="cyan" className="uppercase tracking-wider">SageBot OS</Badge>
+                <Badge tone={activeWorker ? 'emerald' : 'rose'}>{activeWorker ? 'worker live' : 'worker down'}</Badge>
+                <Badge tone={pendingReviews > 0 ? 'amber' : 'neutral'}>{pendingReviews} review items</Badge>
+              </div>
+              <div className="mt-5 max-w-4xl">
+                <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa] sm:text-3xl">
+                  Discord operating dashboard
+                </h1>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-[#a1a1aa]">
+                  Manage member approvals, content drafts, challenges, points, scheduled posts, captured questions, and worker health from one command surface.
+                </p>
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <MetricCard icon={ShieldCheck} label="Operating score" value={`${operatingScore}%`} tone={operatingScore >= 85 ? 'emerald' : operatingScore >= 65 ? 'amber' : 'rose'} />
+                <MetricCard icon={Users} label="Tracked members" value={members.length} detail={`${premiumCountRes.count ?? 0} premium`} />
+                <MetricCard icon={MessageCircle} label="Captured messages" value={capturedMessages} detail={`${gatewayEventCountRes.count ?? 0} events / ${gatewayReactionCountRes.count ?? 0} reactions`} />
+                <MetricCard icon={Inbox} label="Open review queue" value={pendingReviews} tone={pendingReviews ? 'amber' : 'emerald'} />
+              </div>
+            </div>
+            <Card className="rounded-lg border-[#2a2a31] bg-[#111116]">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs uppercase tracking-wider text-[#71717a]">Next operator move</div>
+                    <div className="mt-1 text-base font-semibold text-[#fafafa]">{nextOperatorMove({ applications, contentDrafts, challengeSubmissions })}</div>
+                  </div>
+                  <div className="flex size-10 items-center justify-center rounded-lg border border-[#06b6d4]/30 bg-[#06b6d4]/10 text-[#22d3ee]">
+                    <GitPullRequestArrow className="size-5" />
+                  </div>
+                </div>
+                <div className="mt-5 space-y-3">
+                  <HealthLine label="Gateway worker" value={activeWorker ? 'Online' : 'Needs attention'} tone={activeWorker ? 'emerald' : 'rose'} />
+                  <HealthLine label="Open dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
+                  <HealthLine label="Last scheduled run" value={lastRun ? `${lastRun.kind} / ${lastRun.status}` : 'No run yet'} tone={lastRun?.status === 'failed' ? 'rose' : lastRun ? 'emerald' : 'amber'} />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Panel
+            icon={Users}
+            title="Member approval queue"
+            meta={`${applications.length} pending`}
+            empty="No pending SageBot applications. Native Discord application approvals will populate after members enter the bot/onboarding flow."
+          >
+            {applications.map((application) => (
+              <ApplicationRow key={application.id} application={application} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={Sparkles}
+            title="AI content approval"
+            meta={`${contentDrafts.length} drafts`}
+            empty="No generated drafts waiting for approval."
+          >
+            {contentDrafts.map((draft) => (
+              <DraftRow key={draft.id} draft={draft} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <Panel
+            icon={Award}
+            title="Challenge review desk"
+            meta={`Challenge submissions: ${challengeSubmissions.length} active`}
+            empty="No challenge submissions waiting for review."
+          >
+            {challengeSubmissions.map((submission) => (
+              <ChallengeSubmissionRow key={submission.id} submission={submission} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={Trophy}
+            title="Leaderboard and rewards"
+            meta={`${leaderboard.length} ranked`}
+            empty="No points recorded yet."
+          >
+            {leaderboard.map((row, index) => (
+              <div key={row.discord_user_id} className="grid grid-cols-[36px_1fr_auto] items-center gap-3 px-3 py-2.5">
+                <div className="flex size-8 items-center justify-center rounded-md border border-[#27272a] bg-[#18181b] text-xs font-semibold text-[#a1a1aa]">
+                  {index + 1}
+                </div>
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium text-[#fafafa]">{row.username}</div>
+                  <div className="text-xs text-[#71717a]">member score</div>
+                </div>
+                <div className="text-right text-sm font-semibold tabular-nums text-[#34d399]">{row.points} pts</div>
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-3">
+          <Panel
+            icon={Layers3}
+            title="Content queue"
+            meta={`${contentQueue.length} ideas`}
+            empty="No content ideas captured yet."
+          >
+            {contentQueue.map((item) => (
+              <ContentQueueRow key={item.id} item={item} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={CalendarDays}
+            title="Publishing calendar"
+            meta={`${calendar.length} days`}
+            empty="No planned content dates yet."
+          >
+            {calendar.map((item) => (
+              <CompactRow
+                key={item.calendar_date}
+                eyebrow={item.calendar_date}
+                title={item.theme ?? item.daily_prompt ?? 'Planned content'}
+                meta={<StatusBadge status={item.status} />}
+              />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={Radio}
+            title="Scheduled automation"
+            meta={`${runs.length} runs`}
+            empty="No scheduled Discord runs recorded yet."
+          >
+            {runs.map((run) => (
+              <CompactRow
+                key={run.run_key}
+                eyebrow={run.kind}
+                title={run.run_key}
+                detail={formatDateTime(run.posted_at)}
+                meta={<StatusBadge status={run.status} />}
+              />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-3">
+          <Panel icon={Zap} title="Quiz bank" meta={`${quizzes.length} loaded`} empty="No quizzes seeded yet.">
+            {quizzes.map((quiz) => (
+              <CompactRow
+                key={quiz.quiz_key}
+                eyebrow={quiz.quiz_key}
+                title={quiz.prompt}
+                meta={<Badge tone={quiz.active ? 'emerald' : 'neutral'}>{quiz.active ? 'active' : 'off'}</Badge>}
+              />
+            ))}
+          </Panel>
+
+          <Panel icon={Star} title="Challenge bank" meta={`${challenges.length} loaded`} empty="No challenges seeded yet.">
+            {challenges.map((challenge) => (
+              <CompactRow
+                key={challenge.challenge_key}
+                eyebrow={`${challenge.points} points`}
+                title={challenge.title}
+                meta={<Badge tone={challenge.active ? 'emerald' : 'neutral'}>{challenge.active ? 'active' : 'off'}</Badge>}
+              />
+            ))}
+          </Panel>
+
+          <Panel icon={HeartPulse} title="Gateway health" meta={`${gatewayHeartbeats.length} workers`} empty="No gateway worker heartbeat recorded yet.">
+            {gatewayHeartbeats.map((heartbeat) => (
+              <CompactRow
+                key={heartbeat.worker_id}
+                eyebrow={`seq ${heartbeat.sequence ?? '-'}`}
+                title={heartbeat.worker_id}
+                detail={formatDateTime(heartbeat.last_seen_at)}
+                meta={<StatusBadge status={heartbeat.status} />}
+              />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+          <Panel icon={MessageCircle} title="Question intelligence" meta={`${questions.length} questions`} empty="No tracked questions yet.">
+            {questions.map((question) => (
+              <CompactRow
+                key={question.id}
+                eyebrow={question.discord_username ?? 'member'}
+                title={question.question}
+                detail={formatDateTime(question.created_at)}
+                meta={<StatusBadge status={question.status} />}
+              />
+            ))}
+          </Panel>
+
+          <Panel icon={FileCheck2} title="Answer intelligence" meta={`${answers.length} answers`} empty="No tracked answers yet.">
+            {answers.map((answer) => (
+              <CompactRow
+                key={answer.id}
+                eyebrow={answer.discord_username ?? 'member'}
+                title={answer.answer}
+                detail={formatDateTime(answer.created_at)}
+                meta={<Badge tone={answer.helpful ? 'emerald' : 'neutral'}>{answer.helpful ? 'helpful' : 'new'}</Badge>}
+              />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <Panel icon={Users} title="Tracked members" meta={`${members.length} members`} empty="No Discord members tracked yet.">
+            {members.slice(0, 14).map((member) => (
+              <CompactRow
+                key={member.discord_user_id}
+                eyebrow={[member.path_key, member.level_key, member.preferred_support].filter(Boolean).join(' / ') || 'not routed'}
+                title={member.username ?? member.discord_user_id}
+                detail={formatDateTime(member.last_seen_at)}
+                meta={<Badge tone={member.premium_member ? 'emerald' : 'neutral'}>{member.premium_status ?? (member.premium_member ? 'premium' : 'free')}</Badge>}
+              />
+            ))}
+          </Panel>
+
+          <Panel icon={Activity} title="Event stream" meta={`${eventCountRes.count ?? 0} events, 30d`} empty="No Discord events recorded yet.">
+            {events.slice(0, 18).map((event) => (
+              <CompactRow
+                key={event.id}
+                eyebrow={event.command_name ?? event.channel_base_name ?? 'system'}
+                title={event.event_type}
+                detail={`${event.discord_username ?? event.discord_user_id ?? '-'} / ${formatDateTime(event.created_at)}`}
+                meta={<StatusBadge status={event.event_type.includes('failed') ? 'failed' : 'ok'} />}
+              />
+            ))}
+          </Panel>
+        </section>
+      </main>
+    </>
+  );
+}
+
+function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{application.discord_username ?? application.discord_user_id}</div>
+          <StatusBadge status={application.status} />
+          {application.path_key ? <Badge tone="cyan">{application.path_key}</Badge> : null}
+          {application.level_key ? <Badge tone="violet">{application.level_key}</Badge> : null}
+        </div>
+        <div className="mt-2 grid gap-2 text-xs text-[#a1a1aa] sm:grid-cols-3">
+          <Field label="Goal" value={application.goal} />
+          <Field label="Experience" value={application.experience} />
+          <Field label="Build" value={application.intended_build} />
+        </div>
+      </div>
+      <div className="flex items-center gap-2 lg:justify-end">
+        <form action={approveDiscordApplication}>
+          <input type="hidden" name="discord_user_id" value={application.discord_user_id} />
+          <input type="hidden" name="discord_username" value={application.discord_username ?? ''} />
+          <ActionButton tone="emerald" type="submit">Approve</ActionButton>
+        </form>
+        <form action={rejectDiscordApplication}>
+          <input type="hidden" name="discord_user_id" value={application.discord_user_id} />
+          <input type="hidden" name="discord_username" value={application.discord_username ?? ''} />
+          <ActionButton type="submit">Reject</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={draft.status} />
+          <Badge tone="cyan">{draft.draft_type}</Badge>
+          <Badge tone={draft.quality_score >= 80 ? 'emerald' : draft.quality_score >= 60 ? 'amber' : 'rose'}>{draft.quality_score} quality</Badge>
+          <Badge tone="neutral">{draft.target_channel_base_name}</Badge>
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{draft.title ?? draft.body}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{draft.body}</p>
+      </div>
+      <div className="flex items-center gap-2 lg:justify-end">
+        <form action={reviewDiscordContentDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="approved" />
+          <ActionButton tone="emerald" type="submit">Approve</ActionButton>
+        </form>
+        <form action={reviewDiscordContentDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="rejected" />
+          <ActionButton type="submit">Reject</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ChallengeSubmissionRow({ submission }: { submission: DiscordChallengeSubmissionRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]" data-testid={`discord-challenge-submission-${submission.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={submission.status} />
+          <Badge tone="violet">{submission.challenge_key}</Badge>
+          <Badge tone="emerald">{submission.points_awarded} pts</Badge>
+          {submission.link ? <Badge tone="cyan">artifact</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{submission.discord_username ?? submission.discord_user_id}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{submission.summary}</p>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {['approved', 'featured', 'rejected'].map((status) => (
+          <form action={reviewDiscordChallengeSubmissionAction} key={status}>
+            <input type="hidden" name="id" value={submission.id} />
+            <input type="hidden" name="status" value={status} />
+            <ActionButton
+              data-testid={`discord-challenge-${status}-${submission.id}`}
+              tone={status === 'featured' ? 'emerald' : undefined}
+              type="submit"
+            >
+              {status}
+            </ActionButton>
+          </form>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
+  return (
+    <div className="space-y-3 px-3 py-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="truncate text-sm font-medium text-[#fafafa]">{item.idea}</div>
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[#71717a]">
+            <span>{item.source}</span>
+            <span>{item.discord_username ?? 'system'}</span>
+            <span>priority {item.priority}</span>
+          </div>
+        </div>
+        <StatusBadge status={item.status} />
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {['triaged', 'drafted', 'published'].map((status) => (
+          <form action={updateDiscordContentQueueStatus} key={status}>
+            <input type="hidden" name="id" value={item.id} />
+            <input type="hidden" name="status" value={status} />
+            <ActionButton type="submit">{status}</ActionButton>
+          </form>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Panel({
+  icon: Icon,
+  title,
+  meta,
+  empty,
+  children,
+}: {
+  icon: typeof Activity;
+  title: string;
+  meta: string;
+  empty: string;
+  children: ReactNode[];
+}) {
+  return (
+    <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+      <CardContent className="p-0">
+        <div className="flex items-center justify-between gap-4 border-b border-[#27272a] px-4 py-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-[#27272a] bg-[#18181b] text-[#22d3ee]">
+              <Icon className="size-4" />
+            </div>
+            <div className="min-w-0">
+              <h2 className="truncate text-sm font-semibold text-[#fafafa]">{title}</h2>
+              <p className="text-xs text-[#71717a]">{meta}</p>
+            </div>
+          </div>
+          <ChevronRight className="size-4 shrink-0 text-[#3f3f46]" />
+        </div>
+        <Rows empty={empty}>{children}</Rows>
+      </CardContent>
+    </Card>
+  );
+}
+
+function MetricCard({
+  icon: Icon,
+  label,
+  value,
+  detail,
+  tone = 'cyan',
+}: {
+  icon: typeof Activity;
+  label: string;
+  value: string | number;
+  detail?: string;
+  tone?: Tone;
+}) {
+  const toneClass = {
+    amber: 'text-[#f59e0b] border-[#f59e0b]/30 bg-[#f59e0b]/10',
+    cyan: 'text-[#22d3ee] border-[#06b6d4]/30 bg-[#06b6d4]/10',
+    emerald: 'text-[#34d399] border-[#10b981]/30 bg-[#10b981]/10',
+    neutral: 'text-[#a1a1aa] border-[#27272a] bg-[#18181b]',
+    rose: 'text-[#fb7185] border-[#f43f5e]/30 bg-[#f43f5e]/10',
+    violet: 'text-[#a78bfa] border-[#8b5cf6]/30 bg-[#8b5cf6]/10',
+  }[tone];
+
+  return (
+    <div className="rounded-lg border border-[#27272a] bg-[#111116] p-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="truncate text-xs uppercase tracking-wider text-[#71717a]">{label}</div>
+          <div className="mt-2 text-2xl font-semibold tabular-nums text-[#fafafa]">{value}</div>
+          {detail ? <div className="mt-1 truncate text-xs text-[#71717a]">{detail}</div> : null}
+        </div>
+        <div className={`flex size-10 shrink-0 items-center justify-center rounded-lg border ${toneClass}`}>
+          <Icon className="size-5" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CompactRow({
+  eyebrow,
+  title,
+  detail,
+  meta,
+}: {
+  eyebrow: string;
+  title: string;
+  detail?: string;
+  meta?: ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-[1fr_auto] items-center gap-3 px-3 py-2.5">
+      <div className="min-w-0">
+        <div className="truncate text-[11px] uppercase tracking-wider text-[#71717a]">{eyebrow}</div>
+        <div className="mt-0.5 truncate text-sm font-medium text-[#fafafa]">{title}</div>
+        {detail ? <div className="mt-0.5 truncate text-xs text-[#71717a]">{detail}</div> : null}
+      </div>
+      {meta}
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value: string | null }) {
+  return (
+    <div className="min-w-0 rounded-md border border-[#27272a] bg-[#0b0b0e] px-2.5 py-2">
+      <div className="text-[10px] uppercase tracking-wider text-[#52525b]">{label}</div>
+      <div className="mt-1 truncate text-xs text-[#d4d4d8]">{value || '-'}</div>
+    </div>
+  );
+}
+
+function ActionButton({
+  tone = 'neutral',
+  className = '',
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'neutral' | 'emerald' }) {
+  const classes = tone === 'emerald'
+    ? 'border-[#10b981]/30 bg-[#10b981]/15 text-[#34d399] hover:bg-[#10b981]/25'
+    : 'border-[#3f3f46] bg-[#18181b] text-[#d4d4d8] hover:border-[#52525b] hover:bg-[#27272a]';
+  return (
+    <button
+      className={`inline-flex h-8 items-center justify-center rounded-md border px-3 text-xs font-medium transition-colors ${classes} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+function HealthLine({ label, value, tone }: { label: string; value: string; tone: Tone }) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-md border border-[#27272a] bg-[#0b0b0e] px-3 py-2">
+      <span className="text-xs text-[#a1a1aa]">{label}</span>
+      <Badge tone={tone}>{value}</Badge>
+    </div>
+  );
+}
+
+function StatusBadge({ status }: { status: string }) {
+  return <Badge tone={statusTone[status] ?? 'neutral'}>{status}</Badge>;
+}
+
+function Rows({ children, empty }: { children: ReactNode[]; empty: string }) {
+  if (children.length === 0) {
+    return (
+      <div className="p-4">
+        <div className="flex items-start gap-3 rounded-lg border border-dashed border-[#27272a] bg-[#0b0b0e] p-4">
+          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-[#71717a]" />
+          <p className="text-sm leading-5 text-[#71717a]">{empty}</p>
+        </div>
+      </div>
+    );
+  }
+  return <div className="divide-y divide-[#1f1f23]">{children}</div>;
+}
+
+function buildLeaderboard(rows: DiscordPointsRow[]) {
+  return [...rows.reduce((map, row) => {
     const current = map.get(row.discord_user_id) ?? {
       discord_user_id: row.discord_user_id,
       username: row.discord_username ?? row.discord_user_id,
@@ -305,396 +878,40 @@ export default async function AdminDiscordPage() {
   }, new Map<string, { discord_user_id: string; username: string; points: number }>()).values()]
     .sort((a, b) => b.points - a.points)
     .slice(0, 10);
-
-  return (
-    <>
-      <AdminTopbar
-        crumbs={[{ label: 'Discord' }]}
-        email={profile.email}
-        fullName={profile.full_name}
-      />
-      <div className="px-6 lg:px-8 py-8 max-w-6xl mx-auto space-y-6" data-testid="admin-discord">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa]">Discord</h1>
-          <p className="text-sm text-[#a1a1aa] mt-1">
-            SageBot commands, onboarding, premium role sync, and scheduled community content.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <Stat label="Events, 30d" value={eventCountRes.count ?? 0} />
-          <Stat label="Tracked members" value={members.length} />
-          <Stat label="Premium members" value={premiumCountRes.count ?? 0} />
-          <Stat label="Failures visible" value={failedEvents} tone={failedEvents > 0 ? 'rose' : 'emerald'} />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Stat label="Gateway events" value={gatewayEventCountRes.count ?? 0} />
-          <Stat label="Captured messages" value={gatewayMessageCountRes.count ?? 0} />
-          <Stat label="Open dead letters" value={gatewayDeadLetterCountRes.count ?? 0} tone={(gatewayDeadLetterCountRes.count ?? 0) > 0 ? 'rose' : 'emerald'} />
-        </div>
-
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-sm font-medium text-[#fafafa]">Gateway worker health</h2>
-              <span className="text-xs text-[#71717a]">{gatewayReactionCountRes.count ?? 0} captured reactions</span>
-            </div>
-            <Rows empty="No gateway worker heartbeat recorded yet.">
-              {gatewayHeartbeats.map((heartbeat) => (
-                <div key={heartbeat.worker_id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                  <div className="col-span-3 text-[#fafafa] truncate">{heartbeat.worker_id}</div>
-                  <div className="col-span-2">
-                    <Badge tone={['ready', 'resumed', 'heartbeat_ack'].includes(heartbeat.status) ? 'emerald' : heartbeat.status === 'failed' ? 'rose' : 'neutral'}>
-                      {heartbeat.status}
-                    </Badge>
-                  </div>
-                  <div className="col-span-2 font-mono text-[#71717a] truncate">{heartbeat.sequence ?? '-'}</div>
-                  <div className="col-span-3 text-[#a1a1aa] truncate">{new Date(heartbeat.last_seen_at).toLocaleString()}</div>
-                  <div className="col-span-2 text-[#71717a] truncate">{heartbeat.last_close_code ?? ''} {heartbeat.last_close_reason ?? ''}</div>
-                </div>
-              ))}
-            </Rows>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-sm font-medium text-[#fafafa]">Pending applications</h2>
-              <span className="text-xs text-[#71717a]">Review before member access is granted</span>
-            </div>
-            <Rows empty="No pending member applications.">
-              {applications.map((application) => (
-	                <div key={application.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-	                  <div className="col-span-2 text-[#fafafa] truncate">
-	                    {application.discord_username ?? application.discord_user_id}
-	                  </div>
-	                  <div className="col-span-2 text-[#a1a1aa] truncate">{application.goal}</div>
-	                  <div className="col-span-2 text-[#a1a1aa] truncate">{application.path_key ?? application.experience}</div>
-	                  <div className="col-span-2 text-[#a1a1aa] truncate">{application.level_key ?? application.intended_build}</div>
-	                  <div className="col-span-2 text-[#71717a] truncate">{application.preferred_support ?? application.weekly_time_budget ?? application.timezone ?? '-'}</div>
-	                  <div className="col-span-2 flex items-center justify-end gap-2">
-                    <form action={approveDiscordApplication}>
-                      <input type="hidden" name="discord_user_id" value={application.discord_user_id} />
-                      <input type="hidden" name="discord_username" value={application.discord_username ?? ''} />
-                      <button className="rounded-full bg-[#34d399] px-3 py-1 font-medium text-[#07110d]" type="submit">
-                        Approve
-                      </button>
-                    </form>
-                    <form action={rejectDiscordApplication}>
-                      <input type="hidden" name="discord_user_id" value={application.discord_user_id} />
-                      <input type="hidden" name="discord_username" value={application.discord_username ?? ''} />
-                      <button className="rounded-full border border-[#3f3f46] px-3 py-1 font-medium text-[#fafafa]" type="submit">
-                        Reject
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              ))}
-            </Rows>
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Quiz bank</h2>
-              <Rows empty="No quizzes seeded yet.">
-                {quizzes.map((quiz) => (
-                  <div key={quiz.quiz_key} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-8 text-[#fafafa] truncate">{quiz.prompt}</div>
-                    <div className="col-span-4 text-right">
-                      <Badge tone={quiz.active ? 'emerald' : 'neutral'}>{quiz.active ? 'active' : 'off'}</Badge>
-                    </div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Challenge bank</h2>
-              <Rows empty="No challenges seeded yet.">
-                {challenges.map((challenge) => (
-                  <div key={challenge.challenge_key} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-8 text-[#fafafa] truncate">{challenge.title}</div>
-                    <div className="col-span-2 text-[#34d399] text-right tabular-nums">{challenge.points}</div>
-                    <div className="col-span-2 text-right">
-                      <Badge tone={challenge.active ? 'emerald' : 'neutral'}>{challenge.active ? 'on' : 'off'}</Badge>
-                    </div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Content calendar</h2>
-              <Rows empty="No planned content dates yet.">
-                {calendar.map((item) => (
-                  <div key={item.calendar_date} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-3 font-mono text-[#71717a]">{item.calendar_date}</div>
-                    <div className="col-span-6 text-[#fafafa] truncate">{item.theme ?? item.daily_prompt ?? 'planned'}</div>
-                    <div className="col-span-3 text-right"><Badge tone="neutral">{item.status}</Badge></div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Questions</h2>
-              <Rows empty="No tracked questions yet.">
-                {questions.map((question) => (
-                  <div key={question.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-6 text-[#fafafa] truncate">{question.question}</div>
-                    <div className="col-span-2 text-[#a1a1aa] truncate">{question.discord_username ?? '-'}</div>
-                    <div className="col-span-2"><Badge tone={question.status === 'open' ? 'emerald' : 'neutral'}>{question.status}</Badge></div>
-                    <div className="col-span-2 font-mono text-[#71717a] truncate">{question.id.slice(0, 8)}</div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Answers</h2>
-              <Rows empty="No tracked answers yet.">
-                {answers.map((answer) => (
-                  <div key={answer.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-6 text-[#fafafa] truncate">{answer.answer}</div>
-                    <div className="col-span-2 text-[#a1a1aa] truncate">{answer.discord_username ?? '-'}</div>
-                    <div className="col-span-2"><Badge tone={answer.helpful ? 'emerald' : 'neutral'}>{answer.helpful ? 'helpful' : 'new'}</Badge></div>
-                    <div className="col-span-2 font-mono text-[#71717a] truncate">{answer.id.slice(0, 8)}</div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-5">
-              <div className="flex items-baseline justify-between mb-3">
-                <h2 className="text-sm font-medium text-[#fafafa]">Recent events</h2>
-                <span className="text-xs text-[#71717a]">{commandInvokes} commands in view</span>
-              </div>
-              <Rows empty="No Discord events recorded yet.">
-                {events.map((event) => (
-                  <div key={event.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-3">
-                      <Badge tone={event.event_type.includes('failed') ? 'rose' : 'neutral'}>
-                        {event.event_type}
-                      </Badge>
-                    </div>
-                    <div className="col-span-3 text-[#a1a1aa] truncate font-mono">
-                      {event.command_name ?? event.channel_base_name ?? 'system'}
-                    </div>
-                    <div className="col-span-3 text-[#a1a1aa] truncate">
-                      {event.discord_username ?? event.discord_user_id ?? '-'}
-                    </div>
-                    <div className="col-span-3 text-[#71717a] truncate">
-                      {new Date(event.created_at).toLocaleString()}
-                    </div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Members</h2>
-              <Rows empty="No Discord members tracked yet.">
-                {members.map((member) => (
-                  <div key={member.discord_user_id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-3 text-[#fafafa] truncate">
-                      {member.username ?? member.discord_user_id}
-                    </div>
-	                    <div className="col-span-3 text-[#a1a1aa] truncate">
-	                      {member.path_key ?? '-'} / {member.level_key ?? '-'}{member.preferred_support ? ` / ${member.preferred_support}` : ''}
-                    </div>
-                    <div className="col-span-3">
-                      <Badge tone={member.premium_member ? 'emerald' : 'neutral'}>
-                        {member.premium_status ?? (member.premium_member ? 'premium' : 'free')}
-                      </Badge>
-                    </div>
-                    <div className="col-span-3 text-[#71717a] truncate">
-                      {new Date(member.last_seen_at).toLocaleString()}
-                    </div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card>
-          <CardContent className="p-5">
-            <h2 className="text-sm font-medium text-[#fafafa] mb-3">Scheduled content runs</h2>
-            <Rows empty="No scheduled Discord runs recorded yet.">
-              {runs.map((run) => (
-                <div key={run.run_key} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                  <div className="col-span-4 font-mono text-[#a1a1aa] truncate">{run.run_key}</div>
-                  <div className="col-span-2"><Badge tone={run.status === 'failed' ? 'rose' : 'emerald'}>{run.status}</Badge></div>
-                  <div className="col-span-3 text-[#a1a1aa] truncate">{run.kind}</div>
-                  <div className="col-span-3 text-[#71717a] truncate">{new Date(run.posted_at).toLocaleString()}</div>
-                </div>
-              ))}
-            </Rows>
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Leaderboard</h2>
-              <Rows empty="No points recorded yet.">
-                {leaderboard.map((row, index) => (
-                  <div key={row.discord_user_id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-2 text-[#71717a]">#{index + 1}</div>
-                    <div className="col-span-7 text-[#fafafa] truncate">{row.username}</div>
-                    <div className="col-span-3 text-[#34d399] text-right tabular-nums">{row.points} pts</div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-5">
-              <h2 className="text-sm font-medium text-[#fafafa] mb-3">Content queue</h2>
-              <Rows empty="No content ideas captured yet.">
-                {contentQueue.map((item) => (
-                  <div key={item.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                    <div className="col-span-5 text-[#fafafa] truncate">{item.idea}</div>
-                    <div className="col-span-2 text-[#a1a1aa] truncate">{item.source}</div>
-                    <div className="col-span-2"><Badge tone={item.status === 'captured' ? 'emerald' : 'neutral'}>{item.status}</Badge></div>
-                    <div className="col-span-1 text-[#71717a] text-right tabular-nums">{item.priority}</div>
-                    <div className="col-span-2 flex justify-end gap-1">
-                      {['triaged', 'drafted', 'published'].map((status) => (
-                        <form action={updateDiscordContentQueueStatus} key={status}>
-                          <input type="hidden" name="id" value={item.id} />
-                          <input type="hidden" name="status" value={status} />
-                          <button className="rounded-full border border-[#3f3f46] px-2 py-1 text-[10px] text-[#fafafa]" type="submit">
-                            {status}
-                          </button>
-                        </form>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </Rows>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-sm font-medium text-[#fafafa]">Challenge submissions</h2>
-              <span className="text-xs text-[#71717a]">Approve for points or feature in wins-showcase</span>
-            </div>
-            <Rows empty="No challenge submissions waiting for review.">
-              {challengeSubmissions.map((submission) => (
-                <div
-                  key={submission.id}
-                  className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center"
-                  data-testid={`discord-challenge-submission-${submission.id}`}
-                >
-                  <div className="col-span-2">
-                    <Badge tone={submission.status === 'pending' ? 'emerald' : 'neutral'}>{submission.status}</Badge>
-                  </div>
-                  <div className="col-span-2 text-[#a1a1aa] truncate">{submission.discord_username ?? submission.discord_user_id}</div>
-                  <div className="col-span-2 text-[#71717a] truncate">{submission.challenge_key}</div>
-                  <div className="col-span-3 text-[#fafafa] truncate">{submission.summary}</div>
-                  <div className="col-span-1 text-[#34d399] text-right tabular-nums">{submission.points_awarded}</div>
-                  <div className="col-span-2 flex justify-end gap-1">
-                    {['approved', 'featured', 'rejected'].map((status) => (
-                      <form action={reviewDiscordChallengeSubmissionAction} key={status}>
-                        <input type="hidden" name="id" value={submission.id} />
-                        <input type="hidden" name="status" value={status} />
-                        <button
-                          data-testid={`discord-challenge-${status}-${submission.id}`}
-                          className={status === 'featured' ? 'rounded-full bg-[#34d399] px-2 py-1 text-[10px] font-medium text-[#07110d]' : 'rounded-full border border-[#3f3f46] px-2 py-1 text-[10px] text-[#fafafa]'}
-                          type="submit"
-                        >
-                          {status}
-                        </button>
-                      </form>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </Rows>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-sm font-medium text-[#fafafa]">AI content approval</h2>
-              <span className="text-xs text-[#71717a]">Drafts require approval before publishing</span>
-            </div>
-            <Rows empty="No generated drafts waiting for approval.">
-              {contentDrafts.map((draft) => (
-                <div key={draft.id} className="grid grid-cols-12 gap-2 px-3 py-2 text-xs items-center">
-                  <div className="col-span-2">
-                    <Badge tone={draft.status === 'pending_approval' ? 'emerald' : 'neutral'}>{draft.status}</Badge>
-                  </div>
-                  <div className="col-span-2 text-[#a1a1aa] truncate">{draft.draft_type}</div>
-                  <div className="col-span-1 text-[#34d399] text-right tabular-nums">{draft.quality_score}</div>
-                  <div className="col-span-4 text-[#fafafa] truncate">{draft.title ?? draft.body}</div>
-                  <div className="col-span-1 text-[#71717a] truncate">{draft.target_channel_base_name}</div>
-                  <div className="col-span-2 flex justify-end gap-1">
-                    <form action={reviewDiscordContentDraftAction}>
-                      <input type="hidden" name="id" value={draft.id} />
-                      <input type="hidden" name="status" value="approved" />
-                      <button className="rounded-full bg-[#34d399] px-2 py-1 text-[10px] font-medium text-[#07110d]" type="submit">
-                        Approve
-                      </button>
-                    </form>
-                    <form action={reviewDiscordContentDraftAction}>
-                      <input type="hidden" name="id" value={draft.id} />
-                      <input type="hidden" name="status" value="rejected" />
-                      <button className="rounded-full border border-[#3f3f46] px-2 py-1 text-[10px] text-[#fafafa]" type="submit">
-                        Reject
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              ))}
-            </Rows>
-          </CardContent>
-        </Card>
-      </div>
-    </>
-  );
 }
 
-function Stat({ label, value, tone = 'neutral' }: { label: string; value: number; tone?: 'neutral' | 'emerald' | 'rose' }) {
-  const color = tone === 'emerald' ? 'text-[#34d399]' : tone === 'rose' ? 'text-[#fb7185]' : 'text-[#fafafa]';
-  return (
-    <Card>
-      <CardContent className="p-4">
-        <div className="text-xs uppercase tracking-wider text-[#71717a]">{label}</div>
-        <div className={`mt-2 text-2xl font-semibold tabular-nums ${color}`}>{value}</div>
-      </CardContent>
-    </Card>
-  );
+function scoreOperatingHealth(input: {
+  activeWorker: boolean;
+  failures: number;
+  openDeadLetters: number;
+  pendingReviews: number;
+  capturedMessages: number;
+}) {
+  let score = 100;
+  if (!input.activeWorker) score -= 35;
+  score -= Math.min(20, input.failures * 4);
+  score -= Math.min(25, input.openDeadLetters * 8);
+  if (input.pendingReviews > 12) score -= 8;
+  if (input.capturedMessages === 0) score -= 8;
+  return Math.max(0, Math.min(100, score));
 }
 
-function Rows({ children, empty }: { children: ReactNode[]; empty: string }) {
-  if (children.length === 0) {
-    return <p className="text-xs text-[#71717a]">{empty}</p>;
-  }
-  return <div className="rounded-lg border border-[#27272a] divide-y divide-[#1f1f23]">{children}</div>;
+function nextOperatorMove(input: {
+  applications: DiscordApplicationRow[];
+  contentDrafts: DiscordContentDraftRow[];
+  challengeSubmissions: DiscordChallengeSubmissionRow[];
+}) {
+  if (input.applications.length) return 'Review member applications';
+  if (input.contentDrafts.some((draft) => draft.status === 'pending_approval')) return 'Approve daily content drafts';
+  if (input.challengeSubmissions.some((submission) => submission.status === 'pending')) return 'Review challenge submissions';
+  return 'Seed the next content cycle';
+}
+
+function formatDateTime(value: string) {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(new Date(value));
 }

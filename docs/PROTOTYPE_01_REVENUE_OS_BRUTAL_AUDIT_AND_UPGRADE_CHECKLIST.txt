@@ -1,0 +1,439 @@
+PROTOTYPE 01 BRUTAL AUDIT AND UPGRADE CHECKLIST
+Revenue OS - AI Client Acquisition Command Center
+
+Current Posture
+This is a promising Figma Make prototype scaffold, not yet a 95-99+ flagship demo.
+
+Confirmed accessible through Figma MCP:
+- Figma Make file: Prototype-Development
+- Main source entry: src/app/App.tsx
+- UI library: shadcn-style components under src/app/components/ui
+- Styling stack: Tailwind, globals, theme, fonts
+- Embedded plan: revenue-os-prototype-plan.md
+- Assets: 8 PNG files
+
+Important limitation:
+The MCP can see the Make project and file inventory. The running browser page timed out under Playwright, and the generic MCP resource reader could not open individual Make source files. So this audit is based on accessible project structure, the known intended Revenue OS concept, and the quality standard required for a public/private sales prototype. A final visual audit still needs a screenshot or exported source.
+
+Target
+Build a 95-99+ interactive flagship prototype that a business owner, recruiter, or hiring manager can touch, click through, understand in under 60 seconds, and immediately believe:
+"This person/agency can build real AI systems that create revenue outcomes."
+
+Current Estimated Score
+Strategy: 95/100
+Concept strength: 96/100
+Technical scaffold: 82/100
+Visual confidence: unknown pending screenshot/source, assume 78-85/100 until proven
+Interaction depth: likely 65-78/100 until proven
+Business outcome clarity: 80/100
+Portfolio readiness: 70/100
+Outbound readiness: 65/100
+Overall current posture: 78/100
+Target after upgrade: 95-99/100
+
+Brutal Findings
+
+1. It cannot feel like a generic dashboard.
+Risk:
+Most AI dashboards look interchangeable: dark UI, cards, charts, fake metrics. That will not create a premium agency perception.
+
+Fix:
+The first screen must immediately communicate a concrete revenue system:
+- pipeline value
+- qualified accounts
+- next actions
+- campaign lift
+- replies generated
+- meetings booked
+- risks/compliance
+- proof of AI work
+
+Acceptance:
+Within 5 seconds, a viewer understands this is a client acquisition operating system, not a random analytics screen.
+
+2. The demo needs a clear "AI did work" moment.
+Risk:
+If the UI only shows static metrics, it feels like a mockup.
+
+Fix:
+Add an interactive AI workflow:
+- click a lead
+- see AI research brief
+- see pain points detected
+- see offer angle chosen
+- see personalized email generated
+- see approval queue
+- see follow-up scheduled
+- see outcome logged
+
+Acceptance:
+User can click through one complete lead-to-outreach-to-follow-up path.
+
+3. The business story needs to be sharper.
+Risk:
+"Revenue OS" sounds impressive but can be abstract.
+
+Fix:
+Frame it as:
+"Find better-fit accounts, research them, create personalized outreach, track replies, and turn interest into booked calls."
+
+Acceptance:
+Every screen maps to a revenue outcome: find, qualify, personalize, send, follow up, convert, learn.
+
+4. The sample data must be realistic.
+Risk:
+Fake names, generic company labels, and vague metrics destroy credibility.
+
+Fix:
+Use believable companies and verticals:
+- Orlando med spa
+- Austin roofing company
+- B2B SaaS consultant
+- local dental clinic
+- boutique law firm
+- ecommerce brand
+
+Each account needs:
+- score
+- reason for fit
+- website issue
+- offer angle
+- recommended prototype
+- next action
+- risk flag
+
+Acceptance:
+The data should read like a real sales operator could use it today.
+
+5. The prototype needs opinionated navigation.
+Risk:
+If all screens are equal, the story gets flat.
+
+Fix:
+Use a guided demo path:
+1. Command Center
+2. Opportunity Queue
+3. Account Intelligence
+4. Prototype Match
+5. Outreach Composer
+6. Approval Queue
+7. Reply Inbox
+8. Analytics / Learning Loop
+9. Build This For My Business CTA
+
+Acceptance:
+A viewer can follow the path without explanation.
+
+6. The design system must feel premium and consistent.
+Risk:
+shadcn defaults can feel clean but common.
+
+Fix:
+Create a Sage Ideas product language:
+- restrained high-contrast interface
+- premium typography
+- tight spacing
+- strong tables and command surfaces
+- minimal decoration
+- useful status colors
+- no cheap gradients
+- no generic SaaS fluff
+
+Acceptance:
+Looks like a serious operating tool, not a template.
+
+7. The CTA must be embedded into the product narrative.
+Risk:
+If the CTA is only "book a call", it feels bolted on.
+
+Fix:
+Add a final state:
+"This prototype can be customized for your business."
+
+CTA options:
+- Get a private demo for my business
+- Build this system for my agency
+- Send me a personalized version
+- Audit my current lead flow
+
+Acceptance:
+The CTA feels like the natural next step after seeing the workflow.
+
+8. It needs proof and caveats.
+Risk:
+Unproven claims can feel fake or legally risky.
+
+Fix:
+Use careful proof language:
+- "designed to increase qualified replies"
+- "tracks every lead-to-meeting step"
+- "prioritizes accounts by fit and urgency"
+- "production version connects to Gmail, Resend, CRM, analytics"
+
+Acceptance:
+Strong promise, no dishonest guarantee.
+
+9. It needs private personalization slots.
+Risk:
+A public showcase is useful, but outbound needs one-to-one personalization.
+
+Fix:
+Add fields that can be swapped per lead:
+- business name
+- industry
+- location
+- website diagnosis
+- recommended prototype
+- offer angle
+- first email
+- follow-up copy
+- before/after website notes
+
+Acceptance:
+We can create a personalized packet in under 15 minutes.
+
+10. It needs mobile behavior.
+Risk:
+Dashboard prototypes often break on mobile.
+
+Fix:
+Mobile version should not cram everything. It should become:
+- executive summary
+- lead queue
+- selected account brief
+- next action
+- CTA
+
+Acceptance:
+No overlapping text, no unusable tables, no horizontal chaos.
+
+95-99+ Screen Specification
+
+Screen 1: Executive Command Center
+Purpose:
+Show the whole revenue machine in one glance.
+
+Must include:
+- pipeline value
+- meetings booked
+- qualified accounts
+- reply rate
+- top campaign
+- next best actions
+- risks/compliance queue
+- live activity feed
+
+Score target: 98/100
+
+Screen 2: Opportunity Queue
+Purpose:
+Show how businesses are found and prioritized.
+
+Must include:
+- lead score
+- vertical
+- digital gap
+- urgency
+- suggested offer
+- prototype match
+- next action
+
+Score target: 97/100
+
+Screen 3: Account Intelligence Brief
+Purpose:
+Show research depth.
+
+Must include:
+- public website diagnosis
+- likely revenue leak
+- customer journey gap
+- suggested system
+- objections
+- personalization facts
+- proof asset recommendation
+
+Score target: 98/100
+
+Screen 4: Prototype Match / Preview
+Purpose:
+Connect the warehouse strategy directly to sales.
+
+Must include:
+- selected prototype
+- why it fits
+- personalization fields
+- preview card
+- private demo link state
+
+Score target: 99/100
+
+Screen 5: Outreach Composer
+Purpose:
+Show better-than-generic outbound.
+
+Must include:
+- email subject options
+- short personalized email
+- proof/demo link
+- follow-up sequence
+- compliance/suppression guardrails
+- approval button
+
+Score target: 98/100
+
+Screen 6: Manual Approval Queue
+Purpose:
+Show trust and control.
+
+Must include:
+- pending sends
+- risk flags
+- edit/reject/approve
+- send window
+- audit log
+
+Score target: 96/100
+
+Screen 7: Reply Inbox / Intent Classifier
+Purpose:
+Show closed-loop revenue operations.
+
+Must include:
+- positive reply
+- objection
+- not now
+- unsubscribe
+- meeting request
+- suggested response
+- calendar handoff state
+
+Score target: 97/100
+
+Screen 8: Analytics And Learning Loop
+Purpose:
+Show compounding improvement.
+
+Must include:
+- reply rate by vertical
+- demo click rate
+- booked calls
+- prototype performance
+- subject line winners
+- recommendation engine
+
+Score target: 98/100
+
+Screen 9: Client-Facing Offer Page
+Purpose:
+Convert viewers.
+
+Must include:
+- what the system does
+- who it is for
+- outcomes
+- implementation package
+- CTA
+- trust/proof
+
+Score target: 97/100
+
+Interaction Requirements
+Minimum:
+- tabs or left nav between screens
+- selectable leads
+- generated email state
+- approval action changes status
+- demo link generated state
+- analytics update illusion
+
+Excellent:
+- guided "Run Revenue Sprint" action
+- before/after lead status changes
+- AI reasoning panel
+- toast/log event stream
+- saved proof asset
+- simulated reply classification
+
+Visual Design Requirements
+- No crowded hero marketing section inside the product.
+- No oversized decorative cards.
+- No generic purple/blue gradient dominance.
+- Use tight, serious SaaS information density.
+- Maintain readable hierarchy.
+- Tables must be dense but not cramped.
+- Buttons use icons where appropriate.
+- Status colors must mean something.
+- Empty/loading/success/error states should exist.
+
+Copy Requirements
+Bad:
+"AI-powered insights for better growth."
+
+Good:
+"AI found 17 high-fit local businesses with broken quote funnels. 6 are ready for personalized prototype outreach today."
+
+Every major label must be concrete.
+
+Data Requirements
+Use data like:
+- Fit score: 91
+- Gap: No booking CTA above fold
+- Suggested offer: 72-hour quote funnel rebuild
+- Prototype: Contractor Quote Engine
+- Next action: Send private demo
+- Risk: verify owner email before send
+- Outcome: clicked demo, replied with budget question
+
+Portfolio Requirements
+For public showcase:
+- Add overview
+- Add interactive demo
+- Add screens
+- Add stack
+- Add outcome story
+- Add "customize this for my business" CTA
+
+For outbound private packet:
+- Prospect-specific route
+- Prospect-specific business name
+- Prospect-specific diagnosis
+- Relevant prototype match
+- Short email
+- Follow-up
+
+Definition Of Done
+This prototype is 95-99+ only when:
+1. It has 8-9 complete screens.
+2. A user can complete a guided revenue workflow.
+3. It has realistic data.
+4. It has high-end visual polish.
+5. It is responsive.
+6. It has a clear business outcome.
+7. It supports public portfolio use.
+8. It supports private outbound use.
+9. It has a repeatable pattern for the next prototypes.
+10. It has been screenshot/audited on desktop and mobile.
+
+Immediate Build Plan
+1. Extract or recreate the current Figma Make app locally if source export is available.
+2. Build a matching production-grade version in sageideas.dev.
+3. Use the production version as the canonical interactive showcase.
+4. Keep Figma Make as design/prototype exploration.
+5. Add the prototype to the prototype warehouse metadata.
+6. Add one private demo packet example.
+7. Test desktop and mobile.
+
+Brutal Final Take
+The concept is strong enough to become a flagship agency asset.
+The current artifact is not yet enough.
+
+To reach 95-99+, it must stop being "a dashboard prototype" and become a convincing, end-to-end revenue workflow that shows:
+- how leads are found
+- why they are worth contacting
+- what personalized prototype they get
+- how outbound is generated
+- how replies are classified
+- how results improve the next sprint
+
+That is the difference between a nice UI and a sales weapon.

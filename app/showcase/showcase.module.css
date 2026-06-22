@@ -1,0 +1,118 @@
+.shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(70% 60% at 50% -10%, rgba(61, 90, 254, 0.14), transparent 58%),
+    #09090b;
+  color: #f2efe9;
+  padding: clamp(5rem, 10vw, 9rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
+}
+
+.hero {
+  max-width: 1080px;
+  margin: 0 auto clamp(2rem, 5vw, 4rem);
+}
+
+.kicker {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 12ch;
+  margin: 1rem 0 1.2rem;
+  color: #f8f4ec;
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+
+.hero p {
+  max-width: 68ch;
+  margin: 0;
+  color: #d9d3ca;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+  min-height: 360px;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 12px;
+  background: rgba(18, 18, 23, 0.82);
+  padding: clamp(1rem, 2vw, 1.4rem);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(61, 90, 254, 0.58);
+  background: rgba(24, 24, 31, 0.92);
+}
+
+.cardTop,
+.cardMeta,
+.cardMeta span,
+.cardMeta strong {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.cardTop {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.card h2 {
+  margin: 0;
+  color: #f8f4ec;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.card p {
+  margin: 0;
+  color: #d9d3ca;
+  line-height: 1.65;
+}
+
+.cardMeta {
+  align-self: end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(242, 239, 233, 0.1);
+  padding-top: 1rem;
+  color: #aaa6b2;
+  font-size: 0.82rem;
+}
+
+.cardMeta strong {
+  color: #f8f4ec;
+}
+
+@media (max-width: 920px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: 260px;
+  }
+}

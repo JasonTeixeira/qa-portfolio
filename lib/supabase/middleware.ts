@@ -62,6 +62,8 @@ function isPortalChrome(pathname: string) {
     pathname.startsWith('/admin') ||
     // Authoring studio + full-screen learning views render their own chrome.
     pathname.startsWith('/academy-admin') ||
+    // The signed-in learner area uses the Academy shell, not the studio marketing nav.
+    pathname === '/academy/dashboard' ||
     pathname === '/academy/preview' ||
     pathname === '/academy/join' ||
     pathname === '/academy/resources/sprint-loop' ||

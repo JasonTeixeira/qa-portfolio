@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getLearnerDashboard } from '@/lib/academy/learner'
 import { Dashboard } from '@/components/academy/dashboard/Dashboard'
+import { AcademyShell } from '@/components/academy/academy-shell'
 
 export const metadata: Metadata = {
   title: 'My Learning — Sage Academy',
@@ -9,5 +10,9 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
   const dash = await getLearnerDashboard()
-  return <Dashboard dash={dash} />
+  return (
+    <AcademyShell active="dashboard" signedIn={dash.signedIn}>
+      <Dashboard dash={dash} />
+    </AcademyShell>
+  )
 }

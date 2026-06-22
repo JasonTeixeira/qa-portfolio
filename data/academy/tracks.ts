@@ -85,6 +85,16 @@ export function getAcademyTrackForCluster(cluster: ClusterKey): AcademyTrack {
   return getAcademyTrack(academyTrackByCluster[cluster]) ?? academyTracks[0]
 }
 
+/**
+ * Reverse of `academyTrackByCluster`: which blog clusters feed a given track.
+ * Single source of truth so hub→track and track→hub cross-links stay symmetric.
+ */
+export function clustersForTrack(trackSlug: string): ClusterKey[] {
+  return (Object.entries(academyTrackByCluster) as [ClusterKey, string][])
+    .filter(([, track]) => track === trackSlug)
+    .map(([cluster]) => cluster)
+}
+
 export const academyPrinciples = [
   'Operator-led: lessons come from real builds, not theory slides.',
   'Proof-backed: every claim needs an artifact, example, or constraint.',

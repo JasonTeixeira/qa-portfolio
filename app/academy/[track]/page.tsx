@@ -6,8 +6,9 @@ import { NewsletterSignup } from '@/components/newsletter-signup'
 import { TrackedLink } from '@/components/analytics/tracked-link'
 import { MotionProofStrip, SurfaceSystemPanel, SystemHeroPanel } from '@/components/living/LivingPageSystem'
 import { RouteConversionCta } from '@/components/living/RouteConversionCta'
-import { academyTracks, getAcademyTrack } from '@/data/academy/tracks'
+import { academyTracks, clustersForTrack, getAcademyTrack } from '@/data/academy/tracks'
 import { getAllBlogPosts } from '@/lib/blog-server'
+import { CLUSTERS } from '@/data/content/clusters'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
 
 interface PageProps {
@@ -54,14 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 function relatedPostsForTrack(slug: string) {
-  const clusterByTrack: Record<string, string[]> = {
-    'ai-native-product-building': ['ai-engineering', 'product-systems'],
-    'premium-conversion-sites': ['product-systems', 'solo-studio'],
-    'content-engine': ['solo-studio', 'product-systems'],
-    'ai-automation-systems': ['ai-engineering', 'cloud-infra'],
-  }
-
-  const clusters = clusterByTrack[slug] ?? []
+  const clusters = clustersForTrack(slug)
   return getAllBlogPosts()
     .filter((post) => clusters.includes(post.cluster))
     .slice(0, 4)
@@ -74,6 +68,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
 
   const trackUrl = `${SITE}/academy/${track.slug}`
   const relatedPosts = relatedPostsForTrack(track.slug)
+  const trackClusters = clustersForTrack(track.slug).map((key) => CLUSTERS[key])
   const courseSchema = {
     '@context': 'https://schema.org',
     '@type': 'Course',
@@ -239,6 +234,23 @@ export default async function AcademyTrackPage({ params }: PageProps) {
               </Link>
             ))}
           </div>
+
+          {trackClusters.length > 0 ? (
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-subtle)]">
+                Topic hubs
+              </span>
+              {trackClusters.map((hub) => (
+                <Link
+                  key={hub.key}
+                  href={`/topics/${hub.slug}`}
+                  className="rounded-full border border-[var(--sage-border)] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-accent)] hover:text-[var(--sage-accent-readable)]"
+                >
+                  {hub.title} -&gt;
+                </Link>
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
 

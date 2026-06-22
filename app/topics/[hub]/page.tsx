@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { CLUSTERS, clusterList, getClusterBySlug } from '@/data/content/clusters'
 import { getAllBlogPosts, getBlogPostsByCluster } from '@/lib/blog-server'
 import { getHubRelatedClusters } from '@/lib/seo/internal-links'
+import { getAcademyTrackForCluster } from '@/data/academy/tracks'
 import { JsonLd } from '@/components/json-ld'
 import {
   ConversionMap,
@@ -35,7 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: cluster.title,
     description: cluster.description,
-    alternates: { canonical: `${SITE}/topics/${cluster.slug}` },
+    alternates: {
+      canonical: `${SITE}/topics/${cluster.slug}`,
+      types: { 'application/rss+xml': `${SITE}/feed/${cluster.slug}.xml` },
+    },
     openGraph: {
       title: cluster.title,
       description: cluster.description,
@@ -69,6 +73,7 @@ export default async function TopicHubPage({ params }: PageProps) {
   const posts = getBlogPostsByCluster(cluster.key)
   const hubUrl = `${SITE}/topics/${cluster.slug}`
   const relatedClusters = getHubRelatedClusters(cluster.key, getAllBlogPosts(), 3).map((key) => CLUSTERS[key])
+  const academyTrack = getAcademyTrackForCluster(cluster.key)
 
   return (
     <LivingPageShell>
@@ -207,6 +212,37 @@ export default async function TopicHubPage({ params }: PageProps) {
                   </span>
                 ))}
               </div>
+            </div>
+
+            <div className="rounded-[8px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                Go deeper — Academy
+              </p>
+              <p className="mt-4 text-sm leading-6 text-[var(--sage-ink-muted)]">
+                Reading is the entry point. The matching academy track turns this topic into a hands-on build.
+              </p>
+              <Link
+                href={`/academy/${academyTrack.slug}`}
+                className="mt-4 block text-[15px] font-semibold text-[var(--sage-ink)] hover:text-[var(--sage-accent-readable)]"
+              >
+                {academyTrack.title} -&gt;
+              </Link>
+              <p className="mt-1 text-[13px] leading-5 text-[var(--sage-ink-faint)]">{academyTrack.outcome}</p>
+            </div>
+
+            <div className="rounded-[8px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
+                Subscribe
+              </p>
+              <p className="mt-4 text-sm leading-6 text-[var(--sage-ink-muted)]">
+                Follow just this cluster as new field notes ship.
+              </p>
+              <a
+                href={`/feed/${cluster.slug}.xml`}
+                className="mt-4 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted)] hover:text-[var(--sage-accent-readable)]"
+              >
+                {cluster.title} RSS -&gt;
+              </a>
             </div>
           </aside>
         </div>

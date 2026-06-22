@@ -114,13 +114,42 @@ function clusterValue(value: unknown): ClusterKey | undefined {
     : undefined
 }
 
+/**
+ * Parse-once content cache (the "fast builds at 1000+ posts" lever, BLOG_SEO_ENGINE §5).
+ * `getAllBlogPosts()` is called 10+ times per build (sitemap, RSS, every page, feeds),
+ * and each call previously re-read + YAML-parsed + Zod-validated every file. We cache the
+ * parsed array keyed on a cheap directory signature (filename:mtime), so repeat calls are
+ * O(1) yet the cache still invalidates the instant any post is added, removed, or edited —
+ * correct in dev, fast in prod. This delivers Velite's core benefit without rewiring every
+ * consumer or adding a build step; a full content-layer migration is the upgrade path once
+ * post volume or an image pipeline justifies it.
+ */
+let postsCache: { signature: string; posts: BlogPost[] } | null = null
+
+function directorySignature(files: string[]): string {
+  return files
+    .map((f) => {
+      try {
+        return `${f}:${fs.statSync(path.join(BLOG_DIR, f)).mtimeMs}`
+      } catch {
+        return f
+      }
+    })
+    .join('|')
+}
+
 export function getAllBlogPosts(): BlogPost[] {
   if (!fs.existsSync(BLOG_DIR)) return []
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith('.mdx'))
-  return files
+  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith('.mdx')).sort()
+  const signature = directorySignature(files)
+  if (postsCache && postsCache.signature === signature) return postsCache.posts
+
+  const posts = files
     .map(parseMdxFile)
     .filter((p): p is BlogPost => p !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  postsCache = { signature, posts }
+  return posts
 }
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {

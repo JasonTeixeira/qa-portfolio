@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowRight, CheckCircle2, MonitorPlay, Target } from 'lucide-react'
+import { PrototypePlayground } from './prototype-playground'
 import { getPrototype, prototypes } from '../prototype-catalog'
 import styles from './prototype-detail.module.css'
 
@@ -57,6 +58,8 @@ export default async function PrototypeDetailPage({ params }: { params: Promise<
           </div>
         ))}
       </section>
+
+      <PrototypePlayground prototype={prototype} />
 
       <section className={styles.workflow}>
         <div className={styles.panel}>

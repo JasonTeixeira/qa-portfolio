@@ -17,6 +17,7 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByRole('link', { name: /open figma prototype/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /launch original figma build/i })).toBeVisible()
     await expect(page.getByText(/website-native version starts directly below/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: /the product demo is built directly/i })).toBeVisible()
 
     await page.getByRole('button', { name: /ironpeak roofing/i }).click()
     await expect(page.getByRole('heading', { name: /ironpeak roofing/i })).toBeVisible()
@@ -27,8 +28,51 @@ test.describe('Revenue OS showcase prototype', () => {
 
     await page.getByRole('button', { name: /approve packet/i }).click()
     await expect(page.getByText(/approved for controlled send/i)).toBeVisible()
-    await expect(page.getByText(/classify reply and book discovery call/i)).toBeVisible()
+    await expect(page.getByText(/send the approved packet/i)).toBeVisible()
+
+    await page.getByRole('button', { name: /send approved packet/i }).click()
+    await expect(page.getByText(/packet sent and tracked/i)).toBeVisible()
+    await expect(page.getByText(/watch reply intent/i)).toBeVisible()
 
     await expect(page.getByRole('link', { name: /build a packet for my business/i })).toBeVisible()
+  })
+
+  test('embeds usable product demos in the first warehouse prototypes', async ({ page }) => {
+    const prototypes = [
+      {
+        path: '/showcase/contractor-quote-engine',
+        heading: /quote funnel for service businesses/i,
+        account: /ironpeak roofing/i,
+      },
+      {
+        path: '/showcase/med-spa-consultation-funnel',
+        heading: /premium consultation path/i,
+        account: /vela med spa/i,
+      },
+      {
+        path: '/showcase/law-firm-intake-system',
+        heading: /consultation funnel for serious service firms/i,
+        account: /northline legal/i,
+      },
+      {
+        path: '/showcase/ai-support-agent-dashboard',
+        heading: /ai support cockpit/i,
+        account: /heliocart support/i,
+      },
+    ]
+
+    for (const prototype of prototypes) {
+      await page.goto(prototype.path)
+
+      await expect(page.getByRole('heading', { name: prototype.heading })).toBeVisible()
+      await expect(page.getByRole('heading', { name: /you can click through/i })).toBeVisible()
+      await expect(page.getByRole('heading', { name: prototype.account })).toBeVisible()
+
+      await page.getByRole('button', { name: /approve packet/i }).click()
+      await expect(page.getByRole('button', { name: /packet approved/i })).toBeVisible()
+
+      await page.getByRole('button', { name: /send handoff/i }).click()
+      await expect(page.getByText(/live handoff sent/i)).toBeVisible()
+    }
   })
 })

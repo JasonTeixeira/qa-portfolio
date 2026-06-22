@@ -199,6 +199,37 @@
   white-space: nowrap;
 }
 
+.nativeIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(320px, 0.7fr);
+  gap: 1rem;
+  align-items: end;
+  max-width: 1480px;
+  margin: 0 auto 1rem;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(61, 90, 254, 0.1), rgba(255, 255, 255, 0.025)),
+    rgba(18, 18, 23, 0.82);
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+.nativeIntro h2 {
+  max-width: 17ch;
+  margin: 0.55rem 0 0;
+  color: #f8f4ec;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+
+.nativeIntro p {
+  margin: 0;
+  color: #d9d3ca;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 .panelStatus {
   grid-column: 1 / -1;
   display: flex;
@@ -526,6 +557,48 @@
   color: #9c9ca6;
 }
 
+.sendBox {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(188, 210, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(188, 210, 255, 0.06);
+  padding: 1rem;
+}
+
+.sendBox div {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.sendBox span {
+  color: #d1ccd5;
+  line-height: 1.45;
+}
+
+.sendBox button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  justify-self: start;
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #f2efe9;
+  color: #0b0b0e;
+  padding: 0.65rem 0.85rem;
+  font-weight: 850;
+}
+
+.sendBox button:disabled {
+  cursor: not-allowed;
+  border-color: rgba(242, 239, 233, 0.14);
+  background: rgba(255, 255, 255, 0.055);
+  color: #aca8b2;
+}
+
 .progressTrack,
 .chartTrack {
   height: 8px;
@@ -649,7 +722,8 @@
 
 @media (max-width: 920px) {
   .hero,
-  .lowerGrid {
+  .lowerGrid,
+  .nativeIntro {
     grid-template-columns: 1fr;
   }
 

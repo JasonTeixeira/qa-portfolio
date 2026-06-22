@@ -12,6 +12,7 @@ import {
   MousePointer2,
   Play,
   Radar,
+  Send,
   ShieldCheck,
   Sparkles,
   Target,
@@ -128,11 +129,12 @@ export function RevenueOsShowcase() {
   const [stage, setStage] = useState(0)
   const [approved, setApproved] = useState(false)
   const [demoGenerated, setDemoGenerated] = useState(false)
+  const [sent, setSent] = useState(false)
 
   const selected = useMemo(() => leads.find((lead) => lead.id === selectedId) ?? leads[0], [selectedId])
 
-  const computedStatus: LeadStatus = approved ? 'Approved' : demoGenerated ? 'Demo ready' : selected.status
-  const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0))
+  const computedStatus: LeadStatus = sent ? 'Replied' : approved ? 'Approved' : demoGenerated ? 'Demo ready' : selected.status
+  const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0) + (sent ? 8 : 0))
 
   return (
     <main className={styles.shell}>
@@ -197,6 +199,17 @@ export function RevenueOsShowcase() {
             <ArrowRight size={16} />
           </a>
         </div>
+      </section>
+
+      <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
+        <div>
+          <span className={styles.kicker}>Embedded website-native prototype</span>
+          <h2>The product demo is built directly into this showcase.</h2>
+        </div>
+        <p>
+          The command center below is the usable Rev OS prototype: click accounts, generate private demos, approve
+          outreach packets, simulate sends, and inspect the learning loop without leaving the site.
+        </p>
       </section>
 
       <section className={styles.commandBar} aria-label="Revenue sprint workflow">
@@ -302,6 +315,31 @@ export function RevenueOsShowcase() {
                 </button>
               </div>
             </InsightCard>
+
+            <InsightCard icon={<Send size={18} />} title="Controlled Send Simulation">
+              <div className={styles.sendBox}>
+                <div>
+                  <strong>{sent ? 'Packet sent and tracked' : approved ? 'Ready for proof-based send' : 'Locked until approval'}</strong>
+                  <span>
+                    {sent
+                      ? 'Click, reply, and booked-call outcomes are now attributed to this private prototype packet.'
+                      : approved
+                        ? 'The send action is available because the demo, copy, and guardrails were approved.'
+                        : 'Institutional flow keeps outbound locked until the operator approves the packet.'}
+                  </span>
+                </div>
+                <button
+                  disabled={!approved}
+                  onClick={() => {
+                    setSent(true)
+                    setStage(7)
+                  }}
+                >
+                  <Send size={16} />
+                  {sent ? 'Send logged' : 'Send approved packet'}
+                </button>
+              </div>
+            </InsightCard>
           </div>
         </section>
 
@@ -317,7 +355,13 @@ export function RevenueOsShowcase() {
             <Target size={18} />
             <div>
               <strong>Next best action</strong>
-              <span>{approved ? 'Classify reply and book discovery call.' : 'Approve private demo packet after proof review.'}</span>
+              <span>
+                {sent
+                  ? 'Watch reply intent and route booked-call handoff.'
+                  : approved
+                    ? 'Send the approved packet and start reply tracking.'
+                    : 'Approve private demo packet after proof review.'}
+              </span>
             </div>
           </div>
           <div className={styles.activityFeed}>

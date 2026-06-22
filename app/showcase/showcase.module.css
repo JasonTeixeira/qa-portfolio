@@ -4,12 +4,12 @@
     radial-gradient(70% 60% at 50% -10%, rgba(61, 90, 254, 0.14), transparent 58%),
     #09090b;
   color: #f2efe9;
-  padding: clamp(5rem, 10vw, 9rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
 }
 
 .hero {
   max-width: 1080px;
-  margin: 0 auto clamp(2rem, 5vw, 4rem);
+  margin: 0 auto clamp(1.2rem, 3vw, 2rem);
 }
 
 .kicker {
@@ -21,11 +21,11 @@
 }
 
 .hero h1 {
-  max-width: 12ch;
-  margin: 1rem 0 1.2rem;
+  max-width: 15ch;
+  margin: 0.8rem 0 1rem;
   color: #f8f4ec;
-  font-size: clamp(3rem, 8vw, 7rem);
-  line-height: 0.92;
+  font-size: clamp(2.9rem, 6vw, 5.6rem);
+  line-height: 0.95;
   letter-spacing: -0.045em;
 }
 
@@ -35,6 +35,73 @@
   color: #d9d3ca;
   font-size: clamp(1rem, 1.3vw, 1.2rem);
   line-height: 1.7;
+}
+
+.heroLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.heroLinks a,
+.cardActions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  border: 1px solid rgba(242, 239, 233, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f8f4ec;
+  padding: 0.65rem 0.85rem;
+  font-weight: 800;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto 1rem;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 12px;
+  background: rgba(18, 18, 23, 0.82);
+  padding: 0.8rem;
+}
+
+.filterBar > span,
+.cardActions span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #bcd2ff;
+  font-size: 0.82rem;
+}
+
+.filterBar div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.filterBar button {
+  min-height: 36px;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d9d3ca;
+  padding: 0.45rem 0.75rem;
+  font-weight: 750;
+}
+
+.filterActive {
+  border-color: rgba(61, 90, 254, 0.68) !important;
+  background: rgba(61, 90, 254, 0.22) !important;
+  color: #f8f4ec !important;
 }
 
 .grid {
@@ -47,12 +114,12 @@
 
 .card {
   display: grid;
-  gap: 1rem;
+  gap: 0;
   min-height: 360px;
   border: 1px solid rgba(242, 239, 233, 0.12);
   border-radius: 12px;
   background: rgba(18, 18, 23, 0.82);
-  padding: clamp(1rem, 2vw, 1.4rem);
+  overflow: hidden;
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
@@ -60,6 +127,13 @@
   transform: translateY(-2px);
   border-color: rgba(61, 90, 254, 0.58);
   background: rgba(24, 24, 31, 0.92);
+}
+
+.cardMain {
+  display: grid;
+  gap: 1rem;
+  min-height: 300px;
+  padding: clamp(1rem, 2vw, 1.4rem);
 }
 
 .cardTop,
@@ -107,9 +181,30 @@
   color: #f8f4ec;
 }
 
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(242, 239, 233, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.85rem;
+}
+
+.cardActions a {
+  min-height: 34px;
+  padding: 0.45rem 0.62rem;
+  font-size: 0.78rem;
+}
+
 @media (max-width: 920px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .filterBar {
+    display: grid;
   }
 
   .card {

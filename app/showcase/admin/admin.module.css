@@ -1,0 +1,154 @@
+.shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(72% 62% at 50% -12%, rgba(61, 90, 254, 0.14), transparent 58%),
+    #09090b;
+  color: #f2efe9;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 6rem);
+}
+
+.hero,
+.grid,
+.panel,
+.table {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.hero {
+  margin-bottom: 1rem;
+}
+
+.kicker {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 16ch;
+  margin: 0.75rem 0;
+  color: #f8f4ec;
+  font-size: clamp(2.8rem, 6vw, 5.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+
+.hero p {
+  max-width: 72ch;
+  color: #d9d3ca;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.card,
+.panel,
+.table {
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 12px;
+  background: rgba(18, 18, 23, 0.84);
+}
+
+.card {
+  min-height: 126px;
+  padding: 1rem;
+}
+
+.card span,
+.row span,
+.panel li,
+.table em {
+  color: #bdb8c2;
+  font-style: normal;
+}
+
+.card strong {
+  display: block;
+  margin-top: 0.65rem;
+  color: #f8f4ec;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  letter-spacing: -0.04em;
+}
+
+.table {
+  display: grid;
+  gap: 0;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.1fr) 110px minmax(220px, 1fr) minmax(250px, 1.1fr);
+  gap: 1rem;
+  align-items: center;
+  border-top: 1px solid rgba(242, 239, 233, 0.09);
+  padding: 1rem;
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.row strong,
+.panel strong {
+  color: #f8f4ec;
+}
+
+.score {
+  display: inline-grid;
+  width: 54px;
+  height: 42px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(61, 90, 254, 0.22);
+  color: #f8f4ec;
+  font-weight: 900;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.links a,
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 34px;
+  border: 1px solid rgba(242, 239, 233, 0.14);
+  border-radius: 8px;
+  color: #f8f4ec;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.panel {
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.panel ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 980px) {
+  .grid,
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

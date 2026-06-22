@@ -6,6 +6,8 @@ test.describe('Revenue OS showcase prototype', () => {
 
     await expect(page.getByRole('heading', { name: /interactive systems/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /revenue os/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /local services/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /view proof wall/i })).toBeVisible()
   })
 
   test('supports the guided revenue workflow', async ({ page }) => {
@@ -74,5 +76,29 @@ test.describe('Revenue OS showcase prototype', () => {
       await page.getByRole('button', { name: /send handoff/i }).click()
       await expect(page.getByText(/live handoff sent/i)).toBeVisible()
     }
+  })
+
+  test('covers the required showcase operating routes', async ({ page }) => {
+    const routes = [
+      { path: '/showcase/private/revenue-os', text: /private demo packet/i },
+      { path: '/showcase/private/revenue-os/preview', text: /internal packet preview/i },
+      { path: '/showcase/admin', text: /admin proof board/i },
+      { path: '/showcase/admin/revenue-os', text: /proof and gap report/i },
+      { path: '/showcase/compare', text: /compare prototype packages/i },
+      { path: '/showcase/proof', text: /public proof wall/i },
+    ]
+
+    for (const route of routes) {
+      await page.goto(route.path)
+      await expect(page.getByText(route.text)).toBeVisible()
+    }
+
+    await page.goto('/showcase/admin')
+    await expect(page.getByRole('link', { name: /preview/i }).first()).toBeVisible()
+    await expect(page.getByText(/axe violations/i)).toBeVisible()
+
+    await page.goto('/showcase/proof')
+    await expect(page.getByText(/what is not proven yet/i)).toBeVisible()
+    await expect(page.getByText(/deployed preview qa is not captured/i)).toBeVisible()
   })
 })

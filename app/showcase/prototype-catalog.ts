@@ -3,6 +3,9 @@ export type Prototype = {
   name: string
   type: string
   status: string
+  category: 'Acquisition' | 'Local Services' | 'Healthcare' | 'Professional Services' | 'AI Operations'
+  proofLevel: 'Verified local' | 'Needs bespoke pass' | 'Design source only'
+  packageTier: string
   buyer: string
   outcome: string
   headline: string
@@ -19,6 +22,9 @@ export const prototypes: Prototype[] = [
     name: 'Revenue OS',
     type: 'AI client acquisition system',
     status: 'Flagship interactive build',
+    category: 'Acquisition',
+    proofLevel: 'Verified local',
+    packageTier: 'Revenue command center',
     buyer: 'B2B operators, agencies, service businesses',
     outcome: 'Find qualified accounts, match proof assets, approve outbound, classify replies, and learn from every sprint.',
     headline: 'A revenue command center that turns research into personalized outbound.',
@@ -44,6 +50,9 @@ export const prototypes: Prototype[] = [
     name: 'Contractor Quote Engine',
     type: 'Local service funnel',
     status: 'Warehouse prototype',
+    category: 'Local Services',
+    proofLevel: 'Verified local',
+    packageTier: 'Conversion funnel build',
     buyer: 'Roofing, HVAC, plumbing, electrical, landscaping',
     outcome: 'Turn high-intent visitors into quote requests with proof, urgency, routing, and fast follow-up.',
     headline: 'A quote funnel for service businesses that cannot afford missed calls.',
@@ -69,6 +78,9 @@ export const prototypes: Prototype[] = [
     name: 'Med Spa Consultation Funnel',
     type: 'Health and beauty funnel',
     status: 'Warehouse prototype',
+    category: 'Healthcare',
+    proofLevel: 'Verified local',
+    packageTier: 'Consultation funnel build',
     buyer: 'Med spas, salons, aesthetic clinics, wellness studios',
     outcome: 'Move treatment interest into compliant consultation bookings and nurture sequences.',
     headline: 'A premium consultation path for high-trust aesthetic services.',
@@ -94,6 +106,9 @@ export const prototypes: Prototype[] = [
     name: 'Law Firm Intake System',
     type: 'Professional services funnel',
     status: 'Warehouse prototype',
+    category: 'Professional Services',
+    proofLevel: 'Verified local',
+    packageTier: 'Trust and intake system',
     buyer: 'Boutique law firms and high-ticket professional services',
     outcome: 'Convert qualified visitors into consultations with trust proof, practice-area routing, and intake control.',
     headline: 'A consultation funnel for serious service firms where trust comes first.',
@@ -119,6 +134,9 @@ export const prototypes: Prototype[] = [
     name: 'AI Support Agent Dashboard',
     type: 'AI operations dashboard',
     status: 'Warehouse prototype',
+    category: 'AI Operations',
+    proofLevel: 'Verified local',
+    packageTier: 'AI operations cockpit',
     buyer: 'SaaS, ecommerce, support-heavy service teams',
     outcome: 'Deflect repetitive support, escalate risky cases, and measure resolution quality.',
     headline: 'An AI support cockpit that shows exactly what the assistant handled and why.',

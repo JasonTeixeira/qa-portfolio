@@ -42,6 +42,7 @@
     "discord:gateway:local": "tsx --env-file=.env.local scripts/discord/gateway-worker.ts",
     "discord:gateway:once": "tsx --env-file=.env.local scripts/discord/gateway-worker.ts --once",
     "discord:gateway:once:content": "tsx --env-file=.env.local scripts/discord/gateway-worker.ts --once --message-content",
+    "discord:gateway:once:members": "tsx --env-file=.env.local scripts/discord/gateway-worker.ts --once --guild-members",
     "discord:verify-message-content": "node --env-file-if-exists=.env.local scripts/discord/verify-message-content-intent.mjs",
     "discord:classify-messages": "tsx --env-file=.env.local scripts/discord/classify-messages.ts",
     "discord:smoke-classifier": "tsx --env-file=.env.local scripts/discord/smoke-message-classifier.ts",

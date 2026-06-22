@@ -1029,6 +1029,7 @@ test('discord gateway ingestion: classifies normal messages for capture', async 
     countLinks,
     detectDiscordMessageKind,
     normalizeDiscordGatewayMessage,
+    shouldRunNativeScreeningApproval,
   } = await import('../../lib/discord/gateway-ingestion.ts');
 
   assert.equal(countLinks('See https://example.com and http://demo.test'), 2);
@@ -1051,6 +1052,25 @@ test('discord gateway ingestion: classifies normal messages for capture', async 
   assert.equal(message.detectedKind, 'question');
   assert.equal(message.linkCount, 1);
   assert.equal(message.attachmentCount, 1);
+
+  assert.equal(shouldRunNativeScreeningApproval({
+    pending: false,
+    hadPendingMarker: true,
+    alreadyApproved: false,
+    bot: false,
+  }), true);
+  assert.equal(shouldRunNativeScreeningApproval({
+    pending: false,
+    hadPendingMarker: false,
+    alreadyApproved: false,
+    bot: false,
+  }), false);
+  assert.equal(shouldRunNativeScreeningApproval({
+    pending: false,
+    hadPendingMarker: true,
+    alreadyApproved: true,
+    bot: false,
+  }), false);
 });
 
 // -------------------------------------------------------------- rate-limit

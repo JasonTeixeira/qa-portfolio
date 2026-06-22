@@ -1,4 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isApprovedDiscordMember, type MemberApplicationProfile } from './engagement';
+import { approveDiscordMember } from './onboarding';
 import { baseDiscordName } from './sage-rest';
 
 type Json = Record<string, unknown>;
@@ -55,6 +57,20 @@ export type DiscordGatewayThreadPayload = {
   };
 };
 
+export type DiscordGatewayGuildMemberPayload = {
+  guild_id?: string;
+  user?: {
+    id?: string;
+    username?: string;
+    global_name?: string | null;
+    bot?: boolean;
+  };
+  nick?: string | null;
+  pending?: boolean;
+  roles?: string[];
+  joined_at?: string;
+};
+
 export type NormalizedDiscordMessage = {
   discordMessageId: string;
   guildId: string | null;
@@ -97,6 +113,15 @@ export function detectDiscordMessageKind(input: {
 
 export function countLinks(content: string): number {
   return content.match(URL_RE)?.length ?? 0;
+}
+
+export function shouldRunNativeScreeningApproval(input: {
+  pending?: boolean | null;
+  hadPendingMarker: boolean;
+  alreadyApproved: boolean;
+  bot?: boolean | null;
+}): boolean {
+  return input.pending === false && input.hadPendingMarker && !input.alreadyApproved && !input.bot;
 }
 
 export function normalizeDiscordGatewayMessage(
@@ -386,5 +411,108 @@ export async function recordDiscordThread(payload: DiscordGatewayThreadPayload):
     channelId: payload.parent_id ?? null,
     authorUserId: payload.owner_id ?? null,
     payload: { name: payload.name ?? null },
+  });
+}
+
+async function hasNativeScreeningPendingMarker(discordUserId: string): Promise<boolean> {
+  const { data, error } = await supabaseAdmin()
+    .from('discord_gateway_events')
+    .select('id')
+    .eq('event_type', 'member_screening_pending')
+    .eq('author_user_id', discordUserId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) return false;
+  return Boolean(data?.id);
+}
+
+function nativeScreeningProfile(payload: DiscordGatewayGuildMemberPayload): MemberApplicationProfile {
+  const user = payload.user ?? {};
+  const username = payload.nick ?? user.global_name ?? user.username ?? null;
+  return {
+    discordUserId: String(user.id ?? ''),
+    username,
+    goal: 'Completed Discord native member application.',
+    experience: 'Captured through Discord native screening.',
+    intendedBuild: 'Run Sage Ideas onboarding and choose a first project.',
+    pathKey: null,
+    levelKey: 'beginner',
+    timezone: null,
+    weeklyTimeBudget: null,
+    primaryGoal: 'Complete Sage Ideas Academy onboarding.',
+    preferredSupport: 'questions',
+    portfolioUrl: null,
+    referralSource: 'discord_native_screening',
+    submittedAt: new Date().toISOString(),
+  };
+}
+
+export async function recordDiscordGuildMemberUpdate(payload: DiscordGatewayGuildMemberPayload): Promise<void> {
+  const discordUserId = payload.user?.id ? String(payload.user.id) : null;
+  if (!discordUserId) {
+    await recordDiscordGatewayEvent({
+      eventType: 'guild_member_update_skipped',
+      payload: { reason: 'missing_user_id', pending: payload.pending ?? null },
+    });
+    return;
+  }
+
+  const username = payload.nick ?? payload.user?.global_name ?? payload.user?.username ?? null;
+  const basePayload = {
+    guild_id: payload.guild_id ?? null,
+    username,
+    pending: payload.pending ?? null,
+    role_count: payload.roles?.length ?? 0,
+  };
+
+  if (payload.user?.bot) {
+    await recordDiscordGatewayEvent({
+      eventType: 'guild_member_update_bot_skipped',
+      authorUserId: discordUserId,
+      payload: basePayload,
+    });
+    return;
+  }
+
+  if (payload.pending === true) {
+    await recordDiscordGatewayEvent({
+      eventType: 'member_screening_pending',
+      authorUserId: discordUserId,
+      payload: basePayload,
+    });
+    return;
+  }
+
+  const [hadPendingMarker, alreadyApproved] = await Promise.all([
+    hasNativeScreeningPendingMarker(discordUserId),
+    isApprovedDiscordMember(discordUserId),
+  ]);
+
+  if (!shouldRunNativeScreeningApproval({
+    pending: payload.pending,
+    hadPendingMarker,
+    alreadyApproved,
+    bot: payload.user?.bot,
+  })) {
+    await recordDiscordGatewayEvent({
+      eventType: 'guild_member_update_ignored',
+      authorUserId: discordUserId,
+      payload: { ...basePayload, had_pending_marker: hadPendingMarker, already_approved: alreadyApproved },
+    });
+    return;
+  }
+
+  await approveDiscordMember({
+    discordUserId,
+    username,
+    reviewer: 'discord-native-screening',
+    commandName: 'native-screening',
+    application: nativeScreeningProfile(payload),
+  });
+  await recordDiscordGatewayEvent({
+    eventType: 'member_screening_approved',
+    authorUserId: discordUserId,
+    payload: basePayload,
   });
 }

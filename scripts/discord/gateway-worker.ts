@@ -4,11 +4,13 @@ import {
   recordDiscordGatewayEvent,
   recordDiscordGatewayHeartbeat,
   recordDiscordGatewaySession,
+  recordDiscordGuildMemberUpdate,
   recordDiscordMessageCreate,
   recordDiscordMessageDelete,
   recordDiscordMessageUpdate,
   recordDiscordReaction,
   recordDiscordThread,
+  type DiscordGatewayGuildMemberPayload,
   type DiscordGatewayMessagePayload,
   type DiscordGatewayReactionPayload,
   type DiscordGatewayThreadPayload,
@@ -28,6 +30,8 @@ const BASE_INTENTS =
   (1 << 0) | // guilds
   (1 << 9) | // guild messages
   (1 << 10); // guild message reactions
+const GUILD_MEMBERS_INTENT = 1 << 1;
+const MESSAGE_CONTENT_INTENT = 1 << 15;
 
 type GatewayPacket = {
   op: number;
@@ -107,6 +111,7 @@ async function connectOnce(input: {
   once: boolean;
   intents: number;
   messageContentEnabled: boolean;
+  guildMembersEnabled: boolean;
   resume: ResumeState;
 }): Promise<{ result: ConnectionResult; resume: ResumeState }> {
   let sequence = input.resume.sequence;
@@ -122,7 +127,7 @@ async function connectOnce(input: {
     sessionId,
     sequence,
     resumeGatewayUrl,
-    metadata: { message_content_enabled: input.messageContentEnabled, intents: input.intents },
+    metadata: { message_content_enabled: input.messageContentEnabled, guild_members_enabled: input.guildMembersEnabled, intents: input.intents },
   });
 
   return new Promise((resolve) => {
@@ -250,7 +255,7 @@ async function connectOnce(input: {
               sequence,
               resumeGatewayUrl,
               status: 'ready',
-              metadata: { message_content_enabled: input.messageContentEnabled },
+              metadata: { message_content_enabled: input.messageContentEnabled, guild_members_enabled: input.guildMembersEnabled },
             });
             await recordDiscordGatewayHeartbeat({
               workerId: input.workerId,
@@ -311,6 +316,9 @@ async function connectOnce(input: {
             break;
           case 'MESSAGE_REACTION_REMOVE':
             await recordDiscordReaction('remove', packet.d as DiscordGatewayReactionPayload);
+            break;
+          case 'GUILD_MEMBER_UPDATE':
+            await recordDiscordGuildMemberUpdate(packet.d as DiscordGatewayGuildMemberPayload);
             break;
           case 'GUILD_CREATE':
             channelNames = await buildChannelNameCache();
@@ -386,10 +394,16 @@ async function main() {
   const id = workerId();
   const once = process.argv.includes('--once');
   const messageContentEnabled = process.argv.includes('--message-content') || enabled(process.env.DISCORD_GATEWAY_MESSAGE_CONTENT);
-  const intents = messageContentEnabled ? BASE_INTENTS | (1 << 15) : BASE_INTENTS;
+  const guildMembersEnabled = process.argv.includes('--guild-members') || enabled(process.env.DISCORD_GATEWAY_GUILD_MEMBERS);
+  const intents = BASE_INTENTS
+    | (messageContentEnabled ? MESSAGE_CONTENT_INTENT : 0)
+    | (guildMembersEnabled ? GUILD_MEMBERS_INTENT : 0);
   const stored = await getLatestDiscordGatewaySession(id);
   const storedMessageContentEnabled = stored?.metadata?.message_content_enabled === true;
-  const canResumeStoredSession = Boolean(stored) && (!messageContentEnabled || storedMessageContentEnabled);
+  const storedGuildMembersEnabled = stored?.metadata?.guild_members_enabled === true;
+  const canResumeStoredSession = Boolean(stored)
+    && (!messageContentEnabled || storedMessageContentEnabled)
+    && (!guildMembersEnabled || storedGuildMembersEnabled);
   let resume: ResumeState = {
     sessionId: canResumeStoredSession ? stored?.sessionId ?? null : null,
     sequence: canResumeStoredSession ? stored?.sequence ?? null : null,
@@ -404,6 +418,7 @@ async function main() {
       once,
       intents,
       messageContentEnabled,
+      guildMembersEnabled,
       resume,
     });
     resume = result.canResume ? nextResume : { sessionId: null, sequence: null, resumeGatewayUrl: null };

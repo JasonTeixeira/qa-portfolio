@@ -4,6 +4,7 @@ import { Mail, ArrowRight } from 'lucide-react'
 import { FounderPortrait } from '@/components/founder-portrait'
 import { Hairline, MonoLabel, Surface, CtaLink } from '@/components/el'
 import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
+import { PublicScheduler } from '@/components/booking/public-scheduler'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/book' },
@@ -106,11 +107,11 @@ export default function BookPage() {
               <div className="mt-10 flex flex-wrap items-center gap-3">
                 <CtaLink
                   variant="solid"
-                  href="/contact?type=consult&source=book"
+                  href="#schedule"
                   event="booking_click"
-                  eventProps={{ location: 'book_hero', label: 'structured_intake' }}
+                  eventProps={{ location: 'book_hero', label: 'pick_a_time' }}
                 >
-                  structured intake
+                  Pick a time
                 </CtaLink>
                 <a
                   href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
@@ -143,6 +144,21 @@ export default function BookPage() {
               ]}
             />
           </div>
+        </div>
+      </section>
+
+      {/* ── Live scheduler ── */}
+      <section id="schedule" aria-label="Pick a time" className="scroll-mt-24 border-b border-[var(--sage-border)] py-14 sm:py-18">
+        <div className="mx-auto max-w-4xl px-5 sm:px-8">
+          <div className="mb-6 flex items-center gap-4">
+            <MonoLabel tone="accent">{'// schedule'}</MonoLabel>
+            <Hairline className="flex-1" strong />
+            <MonoLabel tone="faint">{'// 30 min · free'}</MonoLabel>
+          </div>
+          <PublicScheduler />
+          <p className="mt-5 text-center text-[13px] text-[var(--sage-ink-faint)]">
+            Prefer not to pick a time now? Use the structured intake below — a written reply within 24 hours.
+          </p>
         </div>
       </section>
 

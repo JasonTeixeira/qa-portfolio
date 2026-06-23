@@ -15,26 +15,27 @@ test.describe('Revenue OS showcase prototype', () => {
 
     await expect(page.getByRole('heading', { name: /ai client acquisition command center/i })).toBeVisible()
     await expect(page.getByText('Live prototype')).toBeVisible()
-    await expect(page.getByRole('heading', { name: /the original rev os figma build is embedded here/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /figma blocks inline embeds/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /open figma prototype/i })).toBeVisible()
-    await expect(page.frameLocator('iframe[title="Revenue OS Figma Make prototype"]').locator('body')).toBeAttached()
+    await expect(page.locator('iframe[title="Revenue OS Figma Make prototype"]')).toHaveCount(0)
     await expect(page.getByText(/inline render status/i)).toBeVisible()
-    await expect(page.getByText(/figma make iframe is mounted here/i)).toBeVisible()
+    await expect(page.getByText(/figma make refuses iframe connections/i)).toBeVisible()
+    await expect(page.getByText(/revenue os make mirror/i)).toBeVisible()
     await expect(page.getByRole('heading', { name: /the product demo is built directly/i })).toBeVisible()
 
-    await page.getByRole('button', { name: /ironpeak roofing/i }).click()
-    await expect(page.getByRole('heading', { name: /ironpeak roofing/i })).toBeVisible()
-    await expect(page.getByText('Contractor Quote Engine', { exact: true })).toBeVisible()
+    await page.getByLabel(/revenue os main opportunity queue/i).getByRole('button', { name: /ironpeak roofing/i }).click()
+    await expect(page.getByLabel(/revenue os main selected account/i).getByRole('heading', { name: /ironpeak roofing/i })).toBeVisible()
+    await expect(page.getByLabel(/revenue os main selected account/i).getByText('Contractor Quote Engine', { exact: true })).toBeVisible()
 
     await page.getByRole('button', { name: /generate private demo link/i }).click()
     await expect(page.getByRole('button', { name: /outreach/i })).toHaveClass(/stepActive/)
 
     await page.getByRole('button', { name: /approve packet/i }).click()
-    await expect(page.getByText(/approved for controlled send/i)).toBeVisible()
-    await expect(page.getByText(/send the approved packet/i)).toBeVisible()
+    await expect(page.getByLabel(/revenue os main selected account/i).getByText(/approved for controlled send/i)).toBeVisible()
+    await expect(page.getByLabel(/revenue os main selected account/i).getByRole('button', { name: /send approved packet/i })).toBeVisible()
 
     await page.getByRole('button', { name: /send approved packet/i }).click()
-    await expect(page.getByText(/packet sent and tracked/i)).toBeVisible()
+    await expect(page.getByLabel(/revenue os main selected account/i).getByText(/packet sent and tracked/i)).toBeVisible()
     await expect(page.getByText(/watch reply intent/i)).toBeVisible()
 
     await expect(page.getByRole('link', { name: /build a packet for my business/i })).toBeVisible()

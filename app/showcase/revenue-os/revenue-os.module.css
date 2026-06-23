@@ -199,7 +199,7 @@
   white-space: nowrap;
 }
 
-.figmaEmbedGrid {
+.figmaMirrorGrid {
   display: grid;
   grid-template-columns: minmax(280px, 0.36fr) minmax(0, 1fr);
   gap: 1rem;
@@ -207,7 +207,7 @@
 }
 
 .figmaStatusCard,
-.figmaFrameWrap {
+.figmaMirror {
   overflow: hidden;
   border: 1px solid rgba(61, 90, 254, 0.28);
   border-radius: 12px;
@@ -255,13 +255,126 @@
   font-weight: 850;
 }
 
-.figmaFrameWrap iframe {
-  display: block;
-  width: 100%;
-  height: min(70vh, 720px);
+.figmaMirror {
   min-height: 520px;
+  padding: 0.85rem;
+}
+
+.mirrorTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid rgba(188, 210, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(61, 90, 254, 0.1);
+  padding: 0.85rem 1rem;
+}
+
+.mirrorTopbar span,
+.mirrorCanvas > span,
+.mirrorProof span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mirrorTopbar strong {
+  color: #f8f4ec;
+}
+
+.mirrorBoard {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.32fr) minmax(0, 1fr) minmax(190px, 0.3fr);
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.mirrorQueue,
+.mirrorCanvas,
+.mirrorProof {
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.85rem;
+}
+
+.mirrorQueue {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.mirrorQueue button {
+  display: grid;
+  gap: 0.32rem;
+  width: 100%;
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #d9d3ca;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.mirrorQueueActive {
+  border-color: rgba(61, 90, 254, 0.75) !important;
+  background: rgba(61, 90, 254, 0.16) !important;
+}
+
+.mirrorQueue strong,
+.mirrorCanvas h3,
+.mirrorCanvas b,
+.mirrorProof strong {
+  color: #f8f4ec;
+}
+
+.mirrorQueue span,
+.mirrorCanvas p,
+.mirrorCanvas em,
+.mirrorProof p {
+  color: #d9d3ca;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.mirrorCanvas {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.mirrorCanvas h3 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.mirrorCanvas div {
+  display: grid;
+  gap: 0.45rem;
+  border: 1px solid rgba(61, 90, 254, 0.24);
+  border-radius: 10px;
+  background: rgba(61, 90, 254, 0.1);
+  padding: 0.85rem;
+}
+
+.mirrorCanvas button {
+  justify-self: start;
   border: 0;
-  background: #0b0b0e;
+  border-radius: 8px;
+  background: #f8f4ec;
+  color: #09090b;
+  padding: 0.72rem 0.9rem;
+  font-weight: 850;
+}
+
+.mirrorProof {
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
 }
 
 .figmaNote {
@@ -816,7 +929,8 @@
     grid-template-columns: 1fr;
   }
 
-  .figmaEmbedGrid {
+  .figmaMirrorGrid,
+  .mirrorBoard {
     grid-template-columns: 1fr;
   }
 }

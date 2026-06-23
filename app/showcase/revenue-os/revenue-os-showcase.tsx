@@ -22,7 +22,6 @@ import styles from './revenue-os.module.css'
 
 const figmaPrototypeUrl =
   'https://www.figma.com/make/rWyEGQoNrkIvPKt1lF8waC/Prototype-Development?code-node-id=0-9&p=f&t=MMlMfdxCbTpVxvqO-0&fullscreen=1'
-const figmaEmbedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(figmaPrototypeUrl)}`
 
 type LeadStatus = 'Queued' | 'Researched' | 'Demo ready' | 'Approved' | 'Replied'
 
@@ -170,11 +169,11 @@ export function RevenueOsShowcase() {
         </div>
       </section>
 
-      <section className={styles.figmaSection} aria-label="Embedded Figma Make prototype">
+      <section className={styles.figmaSection} aria-label="Figma Make source and embedded mirror">
         <div className={styles.figmaHeader}>
           <div>
-            <span className={styles.kicker}>Embedded Figma Make prototype</span>
-            <h2>The original Rev OS Figma build is embedded here.</h2>
+            <span className={styles.kicker}>Figma Make source mirror</span>
+            <h2>Figma blocks inline embeds, so the working mirror is embedded here.</h2>
           </div>
           <a
             className={styles.secondaryButton}
@@ -186,32 +185,69 @@ export function RevenueOsShowcase() {
             <ArrowRight size={16} />
           </a>
         </div>
-        <div className={styles.figmaEmbedGrid}>
+        <div className={styles.figmaMirrorGrid}>
           <div className={styles.figmaStatusCard}>
             <span>Inline render status</span>
-            <strong>Figma Make iframe is mounted here, but Figma may block visual rendering.</strong>
+            <strong>Figma Make refuses iframe connections in this browser.</strong>
             <p>
-              The frame to the right is the actual Figma embed attempt for the file you provided. If your browser session
-              or Figma permissions allow it, the prototype renders there. If Figma returns a blank frame, open the source
-              file from the button above and use the website-native mirror below.
+              The source file opens from the Figma button. The embedded experience on the right is the website-native
+              mirror built from the same Rev OS concept so inbound prospects can still click through the product without
+              leaving the site.
             </p>
             <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
               Open source Figma file
               <ArrowRight size={16} />
             </a>
           </div>
-          <div className={styles.figmaFrameWrap}>
-            <iframe
-              title="Revenue OS Figma Make prototype"
-              src={figmaEmbedUrl}
-              allowFullScreen
-              loading="lazy"
-            />
+          <div className={styles.figmaMirror}>
+            <div className={styles.mirrorTopbar}>
+              <span>Revenue OS Make Mirror</span>
+              <strong>Playable source-backed preview</strong>
+            </div>
+            <div className={styles.mirrorBoard}>
+              <div className={styles.mirrorQueue}>
+                {leads.slice(0, 3).map((lead) => (
+                  <button
+                    key={lead.id}
+                    className={selected.id === lead.id ? styles.mirrorQueueActive : ''}
+                    onClick={() => {
+                      setSelectedId(lead.id)
+                      setStage(2)
+                    }}
+                  >
+                    <strong>{lead.business}</strong>
+                    <span>{lead.vertical} · {lead.score}</span>
+                  </button>
+                ))}
+              </div>
+              <div className={styles.mirrorCanvas}>
+                <span>Selected account</span>
+                <h3>{selected.business}</h3>
+                <p>{selected.gap}</p>
+                <div>
+                  <b>{selected.prototype}</b>
+                  <em>{selected.offer}</em>
+                </div>
+                <button
+                  onClick={() => {
+                    setDemoGenerated(true)
+                    setStage(4)
+                  }}
+                >
+                  Generate private demo
+                </button>
+              </div>
+              <div className={styles.mirrorProof}>
+                <span>Packet proof</span>
+                <strong>{demoGenerated ? 'Private demo ready' : 'Waiting for generation'}</strong>
+                <p>{approved ? 'Approved for controlled send.' : 'Approval required before outreach.'}</p>
+              </div>
+            </div>
           </div>
         </div>
         <p className={styles.figmaNote}>
-          This section is the Figma source embed attempt. The next section is the on-site Rev OS mirror that is guaranteed
-          to render and is what prospects can click through during inbound or outbound campaigns.
+          The broken iframe has been removed because Figma refuses the connection. This section now embeds the usable
+          local mirror and keeps the original Figma source one click away.
         </p>
       </section>
 
@@ -240,7 +276,7 @@ export function RevenueOsShowcase() {
       </section>
 
       <section className={styles.workspace}>
-        <div className={styles.leftRail}>
+        <div className={styles.leftRail} aria-label="Revenue OS main opportunity queue">
           <div className={styles.panelHeader}>
             <span>Opportunity Queue</span>
             <strong>{leads.length} accounts</strong>
@@ -266,7 +302,7 @@ export function RevenueOsShowcase() {
           </div>
         </div>
 
-        <section className={styles.mainStage}>
+        <section className={styles.mainStage} aria-label="Revenue OS main selected account">
           <div className={styles.stageHeader}>
             <div>
               <span className={styles.kicker}>Selected Account</span>

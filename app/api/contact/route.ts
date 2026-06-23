@@ -36,7 +36,7 @@ function row(label: string, value: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const limited = rateLimit(request, { limit: 10, windowMs: 60_000, prefix: 'contact' });
+  const limited = await rateLimit(request, { limit: 10, windowMs: 60_000, prefix: 'contact' });
   if (limited) return limited;
 
   let raw: unknown;

@@ -161,7 +161,12 @@ export async function updateSession(request: NextRequest) {
   // anon here keeps the admin UI bundle/RSC payload from rendering to the public.
   const needsAcademyAdmin = pathname === '/academy-admin' || pathname.startsWith('/academy-admin/');
 
-  if (needsAdmin && process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' && !process.env.VERCEL) {
+  if (
+    needsAdmin &&
+    process.env.NODE_ENV !== 'production' &&
+    process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' &&
+    !process.env.VERCEL
+  ) {
     return response;
   }
 

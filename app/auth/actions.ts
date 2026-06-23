@@ -42,7 +42,7 @@ export async function signInWithMagicLink(formData: FormData): Promise<void> {
   if (!email) redirect('/login?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:magic' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:magic' });
   if (!rl.ok) {
     redirect(`/login?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}&next=${encodeURIComponent(next)}`);
   }
@@ -76,7 +76,7 @@ export async function signInWithPassword(formData: FormData): Promise<void> {
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signin' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signin' });
   if (!rl.ok) {
     redirect(
       `/login?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}&next=${encodeURIComponent(next)}`,
@@ -111,7 +111,7 @@ export async function requestPasswordReset(formData: FormData): Promise<void> {
   if (!email) redirect('/auth/forgot-password?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:reset' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:reset' });
   if (!rl.ok) {
     redirect(`/auth/forgot-password?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -183,7 +183,7 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
   if (!email) redirect('/signup?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup-magic' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup-magic' });
   if (!rl.ok) {
     redirect(`/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -239,7 +239,7 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup' });
   if (!rl.ok) {
     redirect(`/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -285,7 +285,7 @@ export async function resendVerification(formData: FormData): Promise<void> {
   if (!email) redirect('/onboarding?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:resend' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:resend' });
   if (!rl.ok) {
     redirect(`/onboarding?email=${encodeURIComponent(email)}&error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -329,7 +329,7 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:academy-signup' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:academy-signup' });
   if (!rl.ok) {
     redirect(`/academy/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }

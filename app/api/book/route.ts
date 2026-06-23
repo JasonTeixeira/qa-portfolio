@@ -23,7 +23,7 @@ const schema = z.object({
 
 export async function POST(req: Request) {
   const h = await headers()
-  const rl = checkRateLimitFromHeaders(h, { limit: 5, windowMs: 15 * 60 * 1000, prefix: 'public-book' })
+  const rl = await checkRateLimitFromHeaders(h, { limit: 5, windowMs: 15 * 60 * 1000, prefix: 'public-book' })
   if (!rl.ok) {
     return NextResponse.json({ error: 'Too many attempts. Try again shortly.' }, { status: 429 })
   }

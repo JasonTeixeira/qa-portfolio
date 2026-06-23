@@ -22,7 +22,7 @@ function getClientIp(req: NextRequest): string {
 }
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'lab-newsletter' })
+  const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'lab-newsletter' })
   if (limited) return limited
 
   try {

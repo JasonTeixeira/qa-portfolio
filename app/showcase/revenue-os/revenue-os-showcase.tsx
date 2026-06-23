@@ -18,6 +18,7 @@ import {
   Target,
   TrendingUp,
 } from 'lucide-react'
+import { FigmaMakeRevenueOsPrototype } from './figma-make-revenue-os-prototype'
 import styles from './revenue-os.module.css'
 
 const figmaPrototypeUrl =
@@ -169,11 +170,11 @@ export function RevenueOsShowcase() {
         </div>
       </section>
 
-      <section className={styles.figmaSection} aria-label="Figma Make source and embedded mirror">
+      <section className={styles.figmaSection} aria-label="Extracted Figma Make prototype embedded as native code">
         <div className={styles.figmaHeader}>
           <div>
-            <span className={styles.kicker}>Figma Make source mirror</span>
-            <h2>Figma blocks inline embeds, so the working mirror is embedded here.</h2>
+            <span className={styles.kicker}>Extracted Figma Make source</span>
+            <h2>The original Rev OS Figma Make app is now embedded as native site code.</h2>
           </div>
           <a
             className={styles.secondaryButton}
@@ -187,67 +188,31 @@ export function RevenueOsShowcase() {
         </div>
         <div className={styles.figmaMirrorGrid}>
           <div className={styles.figmaStatusCard}>
-            <span>Inline render status</span>
-            <strong>Figma Make refuses iframe connections in this browser.</strong>
+            <span>Source extraction status</span>
+            <strong>Recovered from Figma Make cache and mounted locally.</strong>
             <p>
-              The source file opens from the Figma button. The embedded experience on the right is the website-native
-              mirror built from the same Rev OS concept so inbound prospects can still click through the product without
-              leaving the site.
+              This is not an iframe. The Figma Make source was extracted from the local Figma cache, adapted from Vite
+              to Next.js, and rendered as a real React component inside this page. Use the left nav inside the prototype
+              to click through all eight Figma Make screens.
             </p>
             <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
               Open source Figma file
               <ArrowRight size={16} />
             </a>
           </div>
-          <div className={styles.figmaMirror}>
-            <div className={styles.mirrorTopbar}>
-              <span>Revenue OS Make Mirror</span>
-              <strong>Playable source-backed preview</strong>
+          <div className={styles.figmaMakeAppFrame}>
+            <div className={styles.figmaMakeAppTopbar}>
+              <span>Figma Make App.tsx</span>
+              <strong>Native embedded prototype</strong>
             </div>
-            <div className={styles.mirrorBoard}>
-              <div className={styles.mirrorQueue}>
-                {leads.slice(0, 3).map((lead) => (
-                  <button
-                    key={lead.id}
-                    className={selected.id === lead.id ? styles.mirrorQueueActive : ''}
-                    onClick={() => {
-                      setSelectedId(lead.id)
-                      setStage(2)
-                    }}
-                  >
-                    <strong>{lead.business}</strong>
-                    <span>{lead.vertical} · {lead.score}</span>
-                  </button>
-                ))}
-              </div>
-              <div className={styles.mirrorCanvas}>
-                <span>Selected account</span>
-                <h3>{selected.business}</h3>
-                <p>{selected.gap}</p>
-                <div>
-                  <b>{selected.prototype}</b>
-                  <em>{selected.offer}</em>
-                </div>
-                <button
-                  onClick={() => {
-                    setDemoGenerated(true)
-                    setStage(4)
-                  }}
-                >
-                  Generate private demo
-                </button>
-              </div>
-              <div className={styles.mirrorProof}>
-                <span>Packet proof</span>
-                <strong>{demoGenerated ? 'Private demo ready' : 'Waiting for generation'}</strong>
-                <p>{approved ? 'Approved for controlled send.' : 'Approval required before outreach.'}</p>
-              </div>
+            <div className={styles.figmaMakeAppViewport}>
+              <FigmaMakeRevenueOsPrototype />
             </div>
           </div>
         </div>
         <p className={styles.figmaNote}>
-          The broken iframe has been removed because Figma refuses the connection. This section now embeds the usable
-          local mirror and keeps the original Figma source one click away.
+          The broken iframe has been removed. The prototype above is the recovered Figma Make app running inside the
+          website; the Figma source remains one click away for design review.
         </p>
       </section>
 

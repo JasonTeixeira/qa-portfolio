@@ -15,12 +15,15 @@ test.describe('Revenue OS showcase prototype', () => {
 
     await expect(page.getByRole('heading', { name: /ai client acquisition command center/i })).toBeVisible()
     await expect(page.getByText('Live prototype')).toBeVisible()
-    await expect(page.getByRole('heading', { name: /figma blocks inline embeds/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /original rev os figma make app is now embedded/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /open figma prototype/i })).toBeVisible()
     await expect(page.locator('iframe[title="Revenue OS Figma Make prototype"]')).toHaveCount(0)
-    await expect(page.getByText(/inline render status/i)).toBeVisible()
-    await expect(page.getByText(/figma make refuses iframe connections/i)).toBeVisible()
-    await expect(page.getByText(/revenue os make mirror/i)).toBeVisible()
+    await expect(page.getByText(/source extraction status/i)).toBeVisible()
+    await expect(page.getByText(/recovered from figma make cache/i)).toBeVisible()
+    await expect(page.getByText(/figma make app\.tsx/i)).toBeVisible()
+    await expect(page.getByText(/executive command center/i)).toBeVisible()
+    await page.getByRole('button', { name: /lead queue/i }).first().click()
+    await expect(page.getByText(/lead intelligence queue/i)).toBeVisible()
     await expect(page.getByRole('heading', { name: /the product demo is built directly/i })).toBeVisible()
 
     await page.getByLabel(/revenue os main opportunity queue/i).getByRole('button', { name: /ironpeak roofing/i }).click()
@@ -28,7 +31,7 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByLabel(/revenue os main selected account/i).getByText('Contractor Quote Engine', { exact: true })).toBeVisible()
 
     await page.getByRole('button', { name: /generate private demo link/i }).click()
-    await expect(page.getByRole('button', { name: /outreach/i })).toHaveClass(/stepActive/)
+    await expect(page.getByLabel(/revenue sprint workflow/i).getByRole('button', { name: /outreach/i })).toHaveClass(/stepActive/)
 
     await page.getByRole('button', { name: /approve packet/i }).click()
     await expect(page.getByLabel(/revenue os main selected account/i).getByText(/approved for controlled send/i)).toBeVisible()

@@ -207,7 +207,8 @@
 }
 
 .figmaStatusCard,
-.figmaMirror {
+.figmaMirror,
+.figmaMakeAppFrame {
   overflow: hidden;
   border: 1px solid rgba(61, 90, 254, 0.28);
   border-radius: 12px;
@@ -258,6 +259,47 @@
 .figmaMirror {
   min-height: 520px;
   padding: 0.85rem;
+}
+
+.figmaMakeAppFrame {
+  min-height: 760px;
+  height: min(88vh, 860px);
+  background: #080a0d;
+}
+
+.figmaMakeAppTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 44px;
+  border-bottom: 1px solid rgba(242, 239, 233, 0.08);
+  background: rgba(12, 15, 19, 0.96);
+  padding: 0.75rem 1rem;
+}
+
+.figmaMakeAppViewport {
+  height: calc(100% - 44px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.figmaMakeAppViewport > :global(div) {
+  height: 100%;
+  min-height: 100%;
+}
+
+.figmaMakeAppTopbar span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.figmaMakeAppTopbar strong {
+  color: #f8f4ec;
+  font-size: 0.82rem;
 }
 
 .mirrorTopbar {
@@ -932,6 +974,11 @@
   .figmaMirrorGrid,
   .mirrorBoard {
     grid-template-columns: 1fr;
+  }
+
+  .figmaMakeAppFrame {
+    min-height: 720px;
+    height: 82vh;
   }
 }
 

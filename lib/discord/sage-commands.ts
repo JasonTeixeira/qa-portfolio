@@ -6,7 +6,6 @@ import {
   sageLevelOptions,
   sagePathOptions,
   weeklyCadence,
-  type SageLevelKey,
   type SagePathKey,
 } from './sage-content';
 import {
@@ -152,7 +151,7 @@ async function requireApproved(payload: DiscordInteractionPayload): Promise<Inte
   if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
   const approved = await isApprovedDiscordMember(id);
   if (approved) return null;
-  return ephemeral('You need approval before using member commands. Read `start-here`, accept the rules, and submit `/apply` first.');
+  return ephemeral('You need approval before using member commands. Read `start-here`, complete the Discord application, and wait for manual approval first.');
 }
 
 export const sageCommandDefinitions = [
@@ -568,7 +567,7 @@ async function handleApply(payload: DiscordInteractionPayload): Promise<Interact
 	  });
 
   if (!result.ok) {
-    if (result.reason === 'rules_not_accepted') return ephemeral('You must accept the rules to apply. Read `start-here`, then run `/apply` with rules set to true.');
+    if (result.reason === 'rules_not_accepted') return ephemeral('You must accept the rules to apply. Read `start-here`, then confirm rules acceptance in the Discord application or `/apply` fallback.');
     if (result.reason === 'already_pending') return ephemeral('You already have a pending application. A moderator will review it.');
     return ephemeral(`Application could not be submitted: ${result.reason ?? 'unknown error'}`);
   }

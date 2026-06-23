@@ -4,16 +4,17 @@ const API = 'https://discord.com/api/v10';
 
 const posts = {
   'start-here': {
-    topic: 'Start here: read the rules, apply with /apply, wait for approval, then run /onboard.',
+    topic: 'Start here: complete the Discord application, wait for approval, then run /onboard.',
     title: 'Start Here',
     body: [
       'Sage Ideas Academy is for builders learning AI apps, websites, automation, cloud, content engines, and product systems by shipping useful work.',
       '',
       '**How to get access**',
       '1. Read the rules and quality bar below.',
-      '2. Run `/apply` with your goal, experience, first build, and rules accepted.',
-      '3. Wait for manual approval. Unapproved members only see this channel.',
-      '4. After approval, run `/onboard`, then `/checklist`.',
+      '2. Complete the Discord application questions.',
+      '3. Confirm the rules are accepted in the application.',
+      '4. Wait for manual approval. Unapproved members only see this channel.',
+      '5. After approval, run `/onboard`, then `/checklist`.',
       '',
       '**Quality bar**',
       '- Ask with context: goal, current attempt, blocker, link/screenshot when useful.',
@@ -241,7 +242,6 @@ async function discordApi(path, init = {}) {
 
 function contentFor(channelName, post) {
   return [
-    `<!-- SAGEBOT_OPERATING_POST:${channelName}:v1 -->`,
     `# ${post.title}`,
     '',
     ...post.body,
@@ -263,9 +263,12 @@ for (const [channelName, post] of Object.entries(posts)) {
     body: JSON.stringify({ topic: post.topic }),
   });
 
-  const marker = `SAGEBOT_OPERATING_POST:${channelName}:v1`;
+  const title = `# ${post.title}`;
   const recent = await discordApi(`/channels/${channel.id}/messages?limit=50`);
-  const existing = recent.find((message) => message.author?.bot && message.content?.includes(marker));
+  const existing = recent.find((message) => (
+    message.author?.bot
+    && message.content?.startsWith(title)
+  ));
   const content = contentFor(channelName, post);
   const message = existing
     ? await discordApi(`/channels/${channel.id}/messages/${existing.id}`, {

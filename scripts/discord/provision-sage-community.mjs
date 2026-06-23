@@ -5,7 +5,6 @@ const TEXT_CHANNEL = 0;
 const VIEW_CHANNEL = 1n << 10n;
 const SEND_MESSAGES = 1n << 11n;
 const READ_MESSAGE_HISTORY = 1n << 16n;
-const MANAGE_MESSAGES = 1n << 13n;
 
 const requiredRoles = [
   'AI Engineer',
@@ -42,8 +41,8 @@ const startHereMessage = [
   '',
   '## Start here',
   '1. Read the quality bar below.',
-  '2. Run `/apply`.',
-  '3. Answer the application questions and confirm rules acceptance.',
+  '2. Complete the Discord application questions.',
+  '3. Confirm rules acceptance in the application.',
   '4. Wait for manual approval.',
   '5. After approval, run `/onboard`.',
   '6. Post your intro in `questions` with the template below.',
@@ -200,7 +199,7 @@ for (const [position, channel] of channelPlan.entries()) {
 const startHere = existingByBaseName.get('start-here');
 if (startHere) {
   const messages = await discordApi(`/channels/${startHere.id}/messages?limit=20`);
-  const alreadyPosted = messages.some((message) => message.author?.bot && message.content.includes('Run `/apply`'));
+  const alreadyPosted = messages.some((message) => message.author?.bot && message.content.includes('# Welcome to Sage Ideas Academy'));
   if (!alreadyPosted) {
     await discordApi(`/channels/${startHere.id}/messages`, {
       method: 'POST',

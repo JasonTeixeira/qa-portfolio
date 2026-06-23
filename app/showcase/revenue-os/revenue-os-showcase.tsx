@@ -4,8 +4,6 @@ import { useMemo, useState } from 'react'
 import {
   ArrowRight,
   BarChart3,
-  ChevronLeft,
-  ChevronRight,
   CheckCircle2,
   Clock3,
   Expand,
@@ -19,13 +17,9 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
-  TrendingUp,
 } from 'lucide-react'
 import { FigmaMakeRevenueOsPrototype } from './figma-make-revenue-os-prototype'
 import styles from './revenue-os.module.css'
-
-const figmaPrototypeUrl =
-  'https://www.figma.com/make/rWyEGQoNrkIvPKt1lF8waC/Prototype-Development?code-node-id=0-9&p=f&t=MMlMfdxCbTpVxvqO-0&fullscreen=1'
 
 type LeadStatus = 'Queued' | 'Researched' | 'Demo ready' | 'Approved' | 'Replied'
 
@@ -156,11 +150,11 @@ const guidedSteps = [
 ] as const
 
 const proofBadges = [
-  'Interactive prototype',
-  'Personalized packet',
-  'E2E tested',
-  'Axe 0 violations',
-  'Build verified',
+  'Private URL',
+  'Buyer-specific diagnosis',
+  'Working prototype',
+  'Outreach copy included',
+  'Build path mapped',
 ]
 
 const offerPackages = [
@@ -225,7 +219,6 @@ export function RevenueOsShowcase() {
   const [approved, setApproved] = useState(false)
   const [demoGenerated, setDemoGenerated] = useState(false)
   const [sent, setSent] = useState(false)
-  const [guidedIndex, setGuidedIndex] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [prospectName, setProspectName] = useState('Luma Dental Studio')
   const [prospectIndustry, setProspectIndustry] = useState('Local healthcare')
@@ -233,9 +226,6 @@ export function RevenueOsShowcase() {
   const [prospectPain, setProspectPain] = useState('Paid traffic lands on a generic page with no clear appointment path')
 
   const selected = useMemo(() => leads.find((lead) => lead.id === selectedId) ?? leads[0], [selectedId])
-  const guided = guidedSteps[guidedIndex]
-  const nextGuidedStep = () => setGuidedIndex((current) => Math.min(guidedSteps.length - 1, current + 1))
-  const previousGuidedStep = () => setGuidedIndex((current) => Math.max(0, current - 1))
 
   const computedStatus: LeadStatus = sent ? 'Replied' : approved ? 'Approved' : demoGenerated ? 'Demo ready' : selected.status
   const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0) + (sent ? 8 : 0))
@@ -249,59 +239,62 @@ export function RevenueOsShowcase() {
     <div className={styles.shell}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <span className={styles.kicker}>Prototype 01 / Revenue OS</span>
-          <h1>Show a buyer their business inside the system.</h1>
+          <span className={styles.kicker}>Private prototype packets</span>
+          <h1>Send a buyer a preview of their future business.</h1>
           <p>
-            A private, playable sales demo that turns cold outreach into a working concept: their brand, their market,
-            their revenue leak, and the exact workflow you can build for them.
+            A private, playable concept page for one company: their brand, their bottleneck, the better customer path,
+            and the first version of the system you can build for them.
           </p>
           <div className={styles.heroActions}>
-            <button className={styles.primaryButton} onClick={() => setIsFullscreen(true)}>
+            <a className={styles.primaryButton} href="/book?source=private_packet_hero">
               <Play size={16} />
-              Open live demo
-            </button>
-            <a className={styles.secondaryButton} href="/book?source=revenue_os_showcase">
-              Build this for my market
+              Build a private packet
+            </a>
+            <a className={styles.secondaryButton} href="#sample-packet">
+              See sample packet
               <ArrowRight size={16} />
             </a>
           </div>
         </div>
-        <div className={styles.heroPanel} aria-label="Revenue OS proof metrics">
+        <div className={styles.heroPanel} aria-label="Private prototype packet sample">
           <div className={styles.panelStatus}>
-            <span>Sales outcome</span>
-            <strong>Give prospects a reason to reply</strong>
+            <span>Example packet</span>
+            <strong>Luma Dental Studio</strong>
           </div>
-          <Metric label="Private demo packet" value="1:1" trend="built for their business" />
-          <Metric label="Proof angle" value="3x" trend="research, prototype, CTA" />
-          <Metric label="Follow-up story" value="Clear" trend="what changes and why" />
-          <Metric label="Operator proof" value="Open" trend="dashboard below" />
+          <div className={styles.heroPacketPreview}>
+            <span>Private link</span>
+            <strong>/showcase/private/luma-dental-studio</strong>
+            <p>
+              Paid traffic is reaching the site, but patients have to hunt for the next step. This packet shows the
+              cleaner booking path before the sales call.
+            </p>
+            <div>
+              <b>Current path</b>
+              <em>Generic services page</em>
+            </div>
+            <div>
+              <b>Proposed path</b>
+              <em>Treatment pages, proof, and one clear consult CTA</em>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className={styles.figmaSection} aria-label="Revenue OS flagship live demo">
+      <section id="sample-packet" className={styles.figmaSection} aria-label="Customer-facing private packet showcase">
         <div className={styles.figmaHeader}>
           <div>
-            <span className={styles.kicker}>Flagship live demo</span>
-            <h2>Make the prospect feel like this already belongs to them.</h2>
+            <span className={styles.kicker}>The buyer experience</span>
+            <h2>A private sales asset they can actually click.</h2>
             <p>
-              The page should sell the transformation first: a broken website becomes a focused revenue path, a generic
-              email becomes a tailored concept, and the call becomes the obvious next step.
+              The page leads with their situation, shows a sharper version of the customer journey, then opens the live
+              prototype only when they want to inspect the system behind it.
             </p>
           </div>
           <div className={styles.demoHeaderActions}>
             <button className={styles.secondaryButton} onClick={() => setIsFullscreen(true)}>
               <Expand size={16} />
-              Focus mode
+              Open live demo
             </button>
-            <a
-              className={styles.secondaryButton}
-              href={figmaPrototypeUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open Figma prototype
-              <ArrowRight size={16} />
-            </a>
           </div>
         </div>
 
@@ -316,8 +309,8 @@ export function RevenueOsShowcase() {
 
         <section className={styles.contrastSection} aria-label="Cold email versus private prototype packet">
           <div className={styles.contrastHeader}>
-            <span className={styles.storyEyebrow}>The selling difference</span>
-            <h3>Stop asking buyers to imagine the outcome. Show it.</h3>
+            <span className={styles.storyEyebrow}>Why this gets attention</span>
+            <h3>Make the buyer feel seen before you ask for time.</h3>
           </div>
           <div className={styles.contrastGrid}>
             <article className={styles.coldCard}>
@@ -329,59 +322,62 @@ export function RevenueOsShowcase() {
             </article>
             <article className={styles.demoPacketCard}>
               <span>Private prototype packet</span>
-              <strong>“I built a working concept for {safeProspectName} showing how to {safeGoal.toLowerCase()}.”</strong>
+              <strong>“I built a working concept for {safeProspectName} showing the exact path to {safeGoal.toLowerCase()}.”</strong>
               <p>
-                Specific diagnosis, private URL, proof of thinking, and a clear next step. The buyer sees the future
-                state before the sales call.
+                Specific diagnosis, private link, visual proof, and one clean next step. The sales call becomes about
+                implementation instead of explanation.
               </p>
             </article>
           </div>
         </section>
 
-        <div className={styles.demoShowcaseGrid}>
-          <div className={styles.demoStoryCard}>
-            <span className={styles.storyEyebrow}>Guided walkthrough</span>
-            <strong>{guided.title}</strong>
-            <p>{guided.copy}</p>
-            <div className={styles.storyResult}>
-              <TrendingUp size={16} />
-              {guided.result}
+        <div className={styles.samplePacketShowcase} aria-label="Sample private prototype packet">
+          <article className={styles.browserPreview}>
+            <div className={styles.browserChrome}>
+              <span />
+              <span />
+              <span />
+              <strong>luma-dental-studio.sageideas.dev</strong>
             </div>
-            <div className={styles.storySteps} aria-label="Guided demo steps">
-              {guidedSteps.map((step, index) => (
-                <button
-                  key={step.label}
-                  className={index === guidedIndex ? styles.storyStepActive : ''}
-                  onClick={() => setGuidedIndex(index)}
-                >
-                  <span>{index + 1}</span>
-                  {step.label}
-                </button>
-              ))}
+            <div className={styles.browserHero}>
+              <span>Private concept for Luma Dental Studio</span>
+              <h3>Turn paid clicks into booked consults.</h3>
+              <p>
+                A rebuilt booking path that gets emergency, cosmetic, and insurance-driven patients to the right next
+                step in one screen.
+              </p>
+              <a href="/book?source=luma_packet_preview">Review the build path <ArrowRight size={15} /></a>
             </div>
-            <div className={styles.storyControls}>
-              <button onClick={previousGuidedStep} disabled={guidedIndex === 0}>
-                <ChevronLeft size={16} />
-                Back
-              </button>
-              <button onClick={nextGuidedStep} disabled={guidedIndex === guidedSteps.length - 1}>
-                Next
-                <ChevronRight size={16} />
-              </button>
-              <button onClick={() => setGuidedIndex(guidedSteps.length - 1)}>
-                View result
-                <ArrowRight size={16} />
-              </button>
+            <div className={styles.beforeAfterStrip}>
+              <div>
+                <b>Before</b>
+                <strong>Visitors browse services and leave.</strong>
+              </div>
+              <div>
+                <b>After</b>
+                <strong>Visitors choose a need, see proof, and book.</strong>
+              </div>
             </div>
-          </div>
+          </article>
 
-          <div className={styles.personalizationCard} aria-label="Private outbound personalization controls">
-            <span className={styles.storyEyebrow}>Private packet inputs</span>
-            <strong>Make the demo feel built for one buyer.</strong>
-            <p>
-              Change the business, segment, and outcome to make the packet read like it was prepared for one company,
-              not a list.
-            </p>
+          <article className={styles.packetNarrative}>
+            <span className={styles.storyEyebrow}>Why it works</span>
+            <h3>It looks like you already understand their business.</h3>
+            <ul>
+              <li><CheckCircle2 size={15} /> Names the leak in plain business language.</li>
+              <li><CheckCircle2 size={15} /> Shows the improved customer path visually.</li>
+              <li><CheckCircle2 size={15} /> Gives the buyer a private URL worth opening.</li>
+              <li><CheckCircle2 size={15} /> Leads naturally into a build call.</li>
+            </ul>
+          </article>
+        </div>
+
+        <details className={styles.personalizationDetails} aria-label="Private outbound personalization controls">
+          <summary>
+            <span>Customize this sample</span>
+            <strong>Swap in the buyer, market, current leak, and desired outcome.</strong>
+          </summary>
+          <div className={styles.personalizationCard}>
             <label>
               Business
               <input value={prospectName} onChange={(event) => setProspectName(event.target.value)} />
@@ -406,7 +402,7 @@ export function RevenueOsShowcase() {
               </p>
             </div>
           </div>
-        </div>
+        </details>
 
         <section className={styles.livePacketPreview} aria-label="Live private packet preview">
           <div>
@@ -433,19 +429,26 @@ export function RevenueOsShowcase() {
           </div>
         </section>
 
-        <div className={styles.figmaMakeAppFrame}>
-          <div className={styles.figmaMakeAppTopbar}>
-            <span>Live Revenue OS prototype</span>
-            <strong>Native embedded app · click the left navigation</strong>
-            <button onClick={() => setIsFullscreen(true)}>
-              <Expand size={16} />
-              Focus mode
-            </button>
+        <details className={styles.embeddedDemoDetails}>
+          <summary>
+            <span>Open the full working demo</span>
+            <strong>View the interactive Rev OS prototype when the buyer wants more depth.</strong>
+            <em>The page sells the concept first. The full app is available on demand.</em>
+          </summary>
+          <div className={styles.figmaMakeAppFrame}>
+            <div className={styles.figmaMakeAppTopbar}>
+              <span>Live Revenue OS prototype</span>
+              <strong>Native embedded app · click the left navigation</strong>
+              <button onClick={() => setIsFullscreen(true)}>
+                <Expand size={16} />
+                Focus mode
+              </button>
+            </div>
+            <div className={styles.figmaMakeAppViewport}>
+              <FigmaMakeRevenueOsPrototype />
+            </div>
           </div>
-          <div className={styles.figmaMakeAppViewport}>
-            <FigmaMakeRevenueOsPrototype />
-          </div>
-        </div>
+        </details>
 
         <div className={styles.mobileDemoStory} aria-label="Mobile demo summary">
           <span className={styles.storyEyebrow}>Mobile view</span>
@@ -463,24 +466,16 @@ export function RevenueOsShowcase() {
             Open full demo
           </button>
         </div>
-
-        <details className={styles.technicalProof}>
-          <summary>Technical proof for reviewers</summary>
-          <p>
-            The broken iframe was removed. This prototype is the recovered Figma Make React source running natively in
-            the website, with automated route coverage and accessibility checks.
-          </p>
-        </details>
       </section>
 
       <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
         <div>
-          <span className={styles.kicker}>Behind the sales page</span>
-          <h2>The dense command center is proof, not the first impression.</h2>
+          <span className={styles.kicker}>When they ask how it works</span>
+          <h2>Open the system layer after the packet earns interest.</h2>
         </div>
         <p>
-          Open the operator layer when you want to show how the system finds accounts, assembles packets, controls
-          approval, and learns from replies. Keep the default buyer journey clean and outcome-led.
+          The private packet sells the outcome first. The system layer is there for serious buyers who want to see how
+          targeting, approvals, replies, and reporting would run after launch.
         </p>
       </section>
 
@@ -504,9 +499,9 @@ export function RevenueOsShowcase() {
 
       <details className={styles.operatorDetails}>
         <summary>
-          <span>Operator proof layer</span>
-          <strong>Open the command center that powers the sales demo.</strong>
-          <em>Account scoring, packet approval, controlled send, reply learning, and proof assets.</em>
+          <span>System walkthrough</span>
+          <strong>Show the engine only when the buyer wants the operational depth.</strong>
+          <em>Targeting, packet approval, controlled sending, reply learning, and reporting.</em>
         </summary>
 
         <section className={styles.commandBar} aria-label="Revenue sprint workflow">
@@ -751,7 +746,7 @@ export function RevenueOsShowcase() {
       <section className={styles.finalCta} aria-label="Revenue OS final call to action">
         <div>
           <span className={styles.kicker}>Build the version for your market</span>
-          <h2>Send a working concept, not another pitch.</h2>
+          <h2>Give one buyer a reason to reply this week.</h2>
           <p>
             We can turn one target account, one vertical, or one campaign into a personalized prototype packet that
             makes the buyer feel the outcome before the first call.
@@ -768,16 +763,6 @@ export function RevenueOsShowcase() {
           </a>
         </div>
       </section>
-    </div>
-  )
-}
-
-function Metric({ label, value, trend }: { label: string; value: string; trend: string }) {
-  return (
-    <div className={styles.metric}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <em><TrendingUp size={13} /> {trend}</em>
     </div>
   )
 }

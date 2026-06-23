@@ -24,7 +24,7 @@ export type CourseItem = {
 }
 
 export const paths: PathItem[] = [
-  { slug: 'foundations', name: 'Foundations', topic: 'foundations', level: 'Beginner', courses: 6, hours: 18, progress: 0.32 },
+  { slug: 'foundations', name: 'Foundations', topic: 'foundations', level: 'Beginner', courses: 6, hours: 18 },
   { slug: 'ai-engineering', name: 'AI Engineering', topic: 'ai-engineering', level: 'Intermediate', courses: 8, hours: 26 },
   { slug: 'ship-real-products', name: 'Ship Real Products', topic: 'ship-it', level: 'Advanced', courses: 7, hours: 22 },
 ]

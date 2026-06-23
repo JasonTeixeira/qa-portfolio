@@ -71,15 +71,18 @@ export function AuthShell({
         <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
           <div className="auth-card w-full max-w-[440px]" style={{ ['--accent']: t.accent } as CSSProperties}>
             <style>{`
-              .auth-card .auth-field { transition: border-color .15s, box-shadow .15s, background .15s; }
-              .auth-card .auth-field:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,.62); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent); }
-              .auth-card .auth-submit { background: var(--accent); color: #06120c; box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--accent) 60%, transparent); }
-              .auth-card .auth-submit:hover { filter: brightness(1.07); }
+              .auth-card .auth-field { transition: border-color .15s, box-shadow .15s, background .15s; box-shadow: inset 0 1px 2px rgba(0,0,0,.28); }
+              .auth-card .auth-field:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,.62); box-shadow: inset 0 1px 2px rgba(0,0,0,.28), 0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent); }
+              .auth-card .auth-submit { background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 86%, white 14%), var(--accent)); color: #06120c; box-shadow: inset 0 1px 0 rgba(255,255,255,.30), 0 12px 32px -12px color-mix(in oklab, var(--accent) 66%, transparent); }
+              .auth-card .auth-submit:hover { filter: brightness(1.06) saturate(1.04); }
+              .auth-card .auth-submit:active { transform: translateY(0.5px); }
               .auth-card .auth-submit:focus-visible { outline: 2px solid rgba(255,255,255,.5); outline-offset: 2px; }
-              .auth-card .auth-seg-on { background: color-mix(in oklab, var(--accent) 16%, transparent); color: var(--accent); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 32%, transparent); }
+              .auth-card .auth-seg-on { background: color-mix(in oklab, var(--accent) 16%, transparent); color: var(--accent); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 34%, transparent), 0 1px 0 rgba(255,255,255,.04); }
+              .auth-card .auth-surface { position: relative; box-shadow: 0 40px 120px -30px rgba(0,0,0,.85), 0 0 90px -52px color-mix(in oklab, var(--accent) 50%, transparent); }
+              .auth-card .auth-surface::before { content: ''; position: absolute; left: 14%; right: 14%; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent); pointer-events: none; }
             `}</style>
 
-            <div className="rounded-2xl border border-white/[0.07] bg-[#0c0c10]/80 backdrop-blur-xl shadow-[0_40px_120px_-30px_rgba(0,0,0,0.85)] p-7 sm:p-9">
+            <div className="auth-surface rounded-2xl border border-white/[0.09] bg-[#0c0c10]/80 backdrop-blur-xl p-7 sm:p-9">
               <div className="lg:hidden flex items-center gap-2.5 text-white mb-7">
                 <SageLogo className="w-8 h-8" />
                 <span className="font-semibold text-[15px]">{t.mobileLabel}</span>

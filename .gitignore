@@ -64,3 +64,8 @@ playwright-report/
 # Built artifacts (keep source, not bundles)
 infra/**/dist/
 .env*.local
+
+# Academy build-your-own-path route/component are SOURCE, not build output.
+# Override the global gitignore `build/` rule that was swallowing them.
+!app/academy/build/
+!components/academy/build/

@@ -1005,7 +1005,7 @@ async function handleWeeklyRecap(payload: DiscordInteractionPayload): Promise<In
   const content = await buildWeeklyRecapContent();
   if (mode === 'post') {
     await postWeeklyRecap('slash-command');
-    return ephemeral('Posted the weekly recap to `wins`.');
+    return ephemeral('Posted the weekly recap to `wins-showcase`.');
   }
   return ephemeral(content);
 }
@@ -1035,7 +1035,7 @@ export async function buildDailySignalContent(now = new Date()): Promise<string>
 
 export async function buildWeeklyRecapContent(): Promise<string> {
   const [ships, wins, contentIdeas, leaderboard, queue, challengeRecap, openQuestions] = await Promise.all([
-    getRecentChannelMessages('wins', 20),
+    getRecentChannelMessages('wins-showcase', 20),
     getRecentChannelMessages('build-lab', 20),
     getRecentChannelMessages('questions', 20),
     getLeaderboard(5),
@@ -1103,7 +1103,7 @@ export async function postWeeklyRecap(source: string): Promise<string | null> {
   await recordDiscordEvent({
     eventType: 'weekly_recap_posted',
     commandName: source,
-    channelBaseName: 'wins',
+    channelBaseName: 'wins-showcase',
     metadata: { message_id: messageId },
   });
   return messageId;

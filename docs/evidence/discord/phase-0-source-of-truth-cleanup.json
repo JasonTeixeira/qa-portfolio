@@ -1,0 +1,93 @@
+{
+  "ok": true,
+  "phase": "phase_0_source_of_truth_cleanup",
+  "completedAt": "2026-06-23T23:19:30.000Z",
+  "scope": [
+    "Align Discord source-of-truth docs with native Discord Apply to Join flow.",
+    "Remove stale primary onboarding instructions that told normal members to run /apply.",
+    "Align wins channel references to wins-showcase.",
+    "Rebuild RAG source sync, chunks, and local embeddings.",
+    "Prove /ask-sage and RAG answer smoke now teach native Discord application flow."
+  ],
+  "deliverables": {
+    "docsUpdated": [
+      "docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "docs/DISCORD_APP_SETUP.md",
+      "docs/DISCORD_CONTENT_ENGINE_BUILD_PLAN.txt"
+    ],
+    "codeUpdated": [
+      "lib/discord/sage-commands.ts",
+      "lib/discord/engagement.ts",
+      "lib/discord/gateway-ingestion.ts",
+      "tests/unit/run.mjs"
+    ],
+    "ragEvidence": [
+      "docs/evidence/rag/source-sync-sample.json",
+      "docs/evidence/rag/chunk-run.json",
+      "docs/evidence/rag/local-embedding-run.json",
+      "docs/evidence/rag/retrieval-smoke.json",
+      "docs/evidence/rag/answer-smoke.json"
+    ],
+    "discordEvidence": [
+      "docs/evidence/discord/ask-sage-smoke.json"
+    ]
+  },
+  "verifiedCommands": [
+    {
+      "command": "npm run rag:sync-sources",
+      "result": "passed",
+      "proof": "65 sources upserted, 0 failures"
+    },
+    {
+      "command": "npm run rag:chunk",
+      "result": "passed",
+      "proof": "65 documents chunked, 110 chunks upserted, 0 failures"
+    },
+    {
+      "command": "npm run rag:embed",
+      "result": "passed",
+      "proof": "110 chunks embedded with Supabase/gte-small, 0 failures"
+    },
+    {
+      "command": "npm run rag:smoke-retrieval",
+      "result": "passed",
+      "proof": "5 relevant retrieval results returned"
+    },
+    {
+      "command": "npm run rag:smoke-answer",
+      "result": "passed",
+      "proof": "Answer preview says complete the Discord native application questions and does not instruct normal users to run /apply"
+    },
+    {
+      "command": "npm run discord:smoke-ask-sage",
+      "result": "passed",
+      "proof": "Ask Sage answer uses native Discord Apply to Join"
+    },
+    {
+      "command": "npm run discord:smoke && npm run discord:approval-audit && npm run discord:role-sync",
+      "result": "passed",
+      "proof": "37 commands registered, approval gate clean, 7 approved members already synced, 0 role actions pending"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "proof": "tsc --noEmit passed"
+    },
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "proof": "155 passed, 0 failed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "proof": "Next.js production build completed successfully"
+    }
+  ],
+  "knownRemainingGaps": [
+    "No real Discord question/answer/content queue corpus exists yet; current RAG Discord knowledge still comes primarily from docs/blog resources.",
+    "Native Discord application answers are not reliably exposed to SageBot, so precise path/level role assignment still requires /onboard after approval.",
+    "A brand-new non-admin member should still be run through the native join application path during Phase 1 live onboarding proof."
+  ]
+}

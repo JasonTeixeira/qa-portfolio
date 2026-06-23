@@ -102,7 +102,7 @@ export function detectDiscordMessageKind(input: {
 }): NormalizedDiscordMessage['detectedKind'] {
   const channel = input.channelBaseName ?? '';
   const content = (input.content ?? '').toLowerCase();
-  if (channel === 'wins') return 'win';
+  if (channel === 'wins-showcase') return 'win';
   if (channel === 'review-queue') return 'review';
   if (channel === 'resources') return 'resource';
   if (channel === 'build-lab') return 'project';

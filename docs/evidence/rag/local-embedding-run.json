@@ -1,16 +1,16 @@
 {
   "ok": true,
-  "runKey": "rag-local-embed-2026-06-20T16-17-08-146Z",
+  "runKey": "rag-local-embed-2026-06-23T23-18-02-355Z",
   "status": "completed",
   "model": "Supabase/gte-small",
   "dimensions": 384,
   "stats": {
     "chunksSeen": 110,
-    "chunksEmbedded": 0,
-    "chunksSkipped": 110,
+    "chunksEmbedded": 110,
+    "chunksSkipped": 0,
     "failures": 0
   },
   "embeddedCount": 110,
-  "startedAt": "2026-06-20T16:17:08.146Z",
-  "finishedAt": "2026-06-20T16:17:09.094Z"
+  "startedAt": "2026-06-23T23:18:02.355Z",
+  "finishedAt": "2026-06-23T23:18:25.816Z"
 }

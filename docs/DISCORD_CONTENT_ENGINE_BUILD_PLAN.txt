@@ -32,8 +32,8 @@ NON-NEGOTIABLE QUALITY BAR
 CURRENT FOUNDATION
 Already built or partially built:
 1. Lean 11-channel Discord structure.
-2. Approval-gated onboarding with /apply, /approve, /reject, /pending.
-3. Role assignment from application path and level.
+2. Approval-gated onboarding through Discord native Apply to Join, with SageBot `/apply`, `/approve`, `/reject`, and `/pending` retained as fallback/admin tools.
+3. Role assignment from SageBot application data, `/onboard` path/level selection, and native-approved default role sync.
 4. Supabase tables for Discord members, applications, quizzes, challenges, points, messages, content queue, premium workflows, and gateway events.
 5. SageBot slash commands for daily, quiz, challenge, leaderboard, ask-sage, content queue, premium review, office hours, and weekly recap.
 6. RAG system over current site/docs corpus.
@@ -43,13 +43,13 @@ Already built or partially built:
 10. Discord smoke and unit test coverage.
 
 KNOWN LIVE GAP
-The server has not yet had real members pass through /apply and /approve after the reset. Until that happens, discord_members and discord_member_applications are expected to be empty.
+Native Discord applications are reviewed in Discord, but Discord does not reliably expose every native questionnaire answer to SageBot. Native-approved members are therefore synced to `Academy Member` plus a safe default level role, then routed precisely when they run `/onboard`.
 
 EXECUTION STATUS
-Last updated: 2026-06-22
+Last updated: 2026-06-23
 
 Pass 0 status:
-Partially complete.
+Live approval and role-sync foundation complete; Phase 0 source-of-truth cleanup in progress.
 
 Pass 0 verified:
 1. Approval audit passes.
@@ -57,7 +57,7 @@ Pass 0 verified:
 3. Discord migration check passes.
 4. Typecheck passes.
 5. Unit tests pass.
-6. Existing unapproved members were removed so the server is reset to owner plus SageBot.
+6. Existing native-approved human members were reconciled into Sage access roles after owner approval.
 7. Live onboarding proof harness exists as npm run discord:prove-onboarding.
 8. Live onboarding proof harness refuses to run without a non-admin test member.
 9. Headless onboarding proof exists as npm run discord:prove-onboarding:headless.
@@ -65,13 +65,12 @@ Pass 0 verified:
 11. Live onboarding proof writes `docs/evidence/discord/onboarding-live-proof.json`, including the current blocking reason when no test member exists.
 
 Pass 0 still needs live member proof:
-1. A real or test non-admin account must join.
-2. That account must confirm only start-here is visible.
-3. That account must run /apply.
-4. Admin must run /approve.
-5. Roles and Supabase rows must be verified after approval.
-6. Current blocker: the live server currently has no eligible non-admin test member.
-7. Headless proof is acceptable for database and routing verification, but it cannot prove Discord's real join screen or role mutation against a real user.
+1. A brand-new non-admin account should join through the native Discord application path.
+2. That account must confirm only start-here is visible before approval.
+3. Owner/admin must approve the native Discord application in Discord.
+4. SageBot role sync must grant Academy Member plus the default level role.
+5. The member must run `/onboard` and prove precise path/level routing.
+6. Headless proof is acceptable for database and routing verification, but it cannot prove Discord's real join screen.
 
 Pass 1 status:
 Implemented locally and verified by automated tests.
@@ -165,10 +164,10 @@ New member:
 1. Joins server.
 2. Sees start-here only.
 3. Accepts rules and reads the expectations.
-4. Runs /apply.
-5. Answers goal, experience, first build, path, level, support need, time budget, timezone, source, portfolio.
-6. Waits for admin/mod approval.
-7. On approval, gets Academy Member plus path and level roles.
+4. Completes the Discord native application questions.
+5. Waits for admin/mod approval inside Discord.
+6. On approval, gets Academy Member plus a safe default level role.
+7. Runs `/onboard` to choose path and level roles.
 8. Receives welcome and first-week checklist.
 9. Completes first action within 24 hours.
 
@@ -197,7 +196,7 @@ SERVER CHANNEL OPERATING MODEL
 1. start-here
 Purpose: rules, application instructions, quality bar, first action.
 Permissions: unapproved members can view; cannot spam.
-Bot behavior: explains /apply, approval process, and expectations.
+Bot behavior: explains the native Discord application, approval process, and expectations.
 
 2. daily-signal
 Purpose: daily prompt, quiz, challenge, news-to-action update.
@@ -269,8 +268,8 @@ Acceptance criteria:
 3. npm run discord:migration-check exits 0.
 4. npm run typecheck exits 0.
 5. npm run test:unit exits 0.
-6. Manual test user can submit /apply.
-7. Admin can /approve and user receives correct roles.
+6. Manual test user can submit the native Discord application.
+7. Admin can approve the native Discord application and SageBot role sync grants access roles.
 
 Tests:
 1. Unit tests for command registry and onboarding.
@@ -279,7 +278,7 @@ Tests:
 4. Database verification for discord_member_applications and discord_members.
 
 Do not move on until:
-At least one real or test member has completed /apply -> /approve -> role assignment -> database record.
+At least one real or test member has completed native Discord application -> admin approval -> SageBot role sync -> database record.
 
 PROGRAM 1: WORLD-CLASS ONBOARDING AND ROLE ROUTING
 Objective:
@@ -287,7 +286,7 @@ Make joining feel intentional, high-quality, and controlled. Every member should
 
 Phase 1.1: Application polish
 Deliverables:
-1. Rewrite /apply field descriptions for clarity and quality.
+1. Rewrite Discord native application questions for clarity and quality.
 2. Add stronger validation for shallow answers.
 3. Add admin-visible application summary score.
 4. Add "recommended path" and "recommended level" inference from goal/experience/build if member does not select them.
@@ -945,12 +944,12 @@ Pass 0 deliverables:
 1. Create or use a test Discord account.
 2. Join Sage Ideas server.
 3. Confirm only start-here is visible.
-4. Run /apply with real answers.
-5. Confirm pending application appears in Supabase and team-ops.
-6. Run /approve.
-7. Confirm Academy Member, path role, and level role are assigned.
+4. Complete the native Discord application with real answers.
+5. Confirm pending application appears in Discord’s member/application review UI.
+6. Approve the application in Discord.
+7. Confirm Academy Member and safe default level role are assigned.
 8. Confirm discord_members row exists.
-9. Confirm /onboard works only after approval.
+9. Run `/onboard` and confirm path/level roles are assigned after approval.
 10. Confirm approval audit passes.
 
 Pass 1 deliverables:

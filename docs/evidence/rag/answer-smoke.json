@@ -2,11 +2,17 @@
   "ok": true,
   "question": "What is the right Discord onboarding path for an education community?",
   "model": "deepseek-v4-flash",
-  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community (specifically Sage Ideas Academy) is a structured, gated flow that starts in the `start-here` channel [2][3]. The steps are:\n\n1.  Read the quality bar and rules in `start-here` [3].\n2.  Run `/apply` and answer the application questions [3].\n3.  Confirm rules acceptance in the command [3].\n4.  Wait for manual approval [3].\n5.  After approval, run `/onboard` to choose a path and level [3][4].\n6.  Post an in",
+  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community is a structured, gated flow that starts in the `start-here` channel [1][4]. The steps are:\n\n1. Read the quality bar and rules [1].\n2. Complete the Discord native application questions [1].\n3. Confirm rules acceptance in the Discord application [1].\n4. Wait for manual approval [1].\n5. After approval, run `/onboard` to select a path and level [1][5].\n6. Post your intro in `questions` using the provided temp",
   "citationCount": 5,
-  "retrievalLogId": "03801e23-4226-4b2f-9dc6-f3c00eaee19e",
-  "answerId": "87796550-2cd2-4015-b3db-d80dee838c70",
+  "retrievalLogId": "4ebe16eb-3e95-4a1e-910f-ca1f81919318",
+  "answerId": "a2a9856f-8fef-4ff0-bed2-dd23436d261f",
   "citations": [
+    {
+      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_type": "resource"
+    },
     {
       "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
       "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
@@ -20,24 +26,18 @@
       "source_type": "resource"
     },
     {
-      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
-      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_type": "resource"
-    },
-    {
       "chunk_id": "c8cd2764-eeca-48d9-8457-009cd5d81e43",
       "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
       "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
       "source_type": "resource"
     },
     {
-      "chunk_id": "782fbcf7-55aa-49a8-aae1-0574f6760350",
-      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
-      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "chunk_id": "79623708-1409-402e-8f03-647ed6862950",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource"
     }
   ],
-  "startedAt": "2026-06-21T13:32:53.515Z",
-  "finishedAt": "2026-06-21T13:32:58.214Z"
+  "startedAt": "2026-06-23T23:18:35.911Z",
+  "finishedAt": "2026-06-23T23:18:39.997Z"
 }

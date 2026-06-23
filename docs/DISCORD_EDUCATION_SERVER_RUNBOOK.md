@@ -12,13 +12,13 @@ The server should feel small, serious, useful, and easy to navigate. Do not crea
 
 | Channel | Job | Primary action |
 | --- | --- | --- |
-| `start-here` | Rules, application, first action | `/apply` |
+| `start-here` | Rules, native Discord application, first action | Discord Apply to Join |
 | `daily-signal` | Daily prompt, quiz, challenge | `/daily`, `/quiz`, `/challenge` |
 | `questions` | Main Q&A, answers, helpful marks | `/ask`, `/answer`, `/mark-helpful` |
 | `build-lab` | Project specs and build work | `/submit-project` |
 | `review-queue` | Focused critique | `/request-review` |
 | `resources` | Reusable templates and guides | resource drops |
-| `wins` | Ships, proof, wins, recap inputs | challenge submissions |
+| `wins-showcase` | Ships, proof, wins, recap inputs | challenge submissions |
 | `premium` | Priority/deeper support | `/premium` |
 | `team-ops` | Moderation, approvals, analytics | `/pending`, admin dashboard |
 
@@ -116,8 +116,8 @@ Current persistence status:
 
 Daily:
 
-- Review pending applications.
-- Approve/reject from Discord or `/admin/discord`.
+- Review pending native Discord applications.
+- Approve/reject from Discord. Use `/admin/discord` for SageBot fallback rows, drafts, challenges, and content queues.
 - Watch reports in `team-ops`.
 - Remove spam quickly.
 

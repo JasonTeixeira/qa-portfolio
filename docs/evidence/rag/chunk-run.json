@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "rag-chunk-2026-06-20T15-46-54-080Z",
+  "runKey": "rag-chunk-2026-06-23T23-17-25-147Z",
   "status": "completed",
   "stats": {
     "documentsSeen": 65,
@@ -12,6 +12,6 @@
   "totalChunks": 110,
   "embeddingStatus": "not_configured",
   "note": "Chunks are created from real sources. Embeddings remain null until a real embedding provider is configured and proven.",
-  "startedAt": "2026-06-20T15:46:54.080Z",
-  "finishedAt": "2026-06-20T15:47:19.922Z"
+  "startedAt": "2026-06-23T23:17:25.147Z",
+  "finishedAt": "2026-06-23T23:17:51.943Z"
 }

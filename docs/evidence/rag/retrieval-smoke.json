@@ -17,7 +17,7 @@
       "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
       "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "vector_score": 0.854631,
+      "vector_score": 0.855944,
       "keyword_score": 0,
       "hybrid_score": 0.010484
     },
@@ -40,15 +40,15 @@
       "hybrid_score": 0.010156
     },
     {
-      "chunk_id": "471156d9-992b-4512-8333-44188ffd3ec4",
-      "title": "rag-system-build-plan.txt",
+      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
-      "source_url": "/docs/specs/rag-system-build-plan.txt",
-      "vector_score": 0.832324,
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "vector_score": 0.832015,
       "keyword_score": 0,
       "hybrid_score": 0.01
     }
   ],
-  "startedAt": "2026-06-21T13:32:53.514Z",
-  "finishedAt": "2026-06-21T13:32:54.460Z"
+  "startedAt": "2026-06-23T23:18:35.869Z",
+  "finishedAt": "2026-06-23T23:18:36.535Z"
 }

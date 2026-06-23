@@ -57,7 +57,7 @@ npm run discord:register
 
 Registered commands:
 
-- `/apply`
+- `/apply` (legacy/fallback; native Discord Apply to Join is primary)
 - `/approve`
 - `/reject`
 - `/pending`
@@ -114,8 +114,8 @@ npm run discord:approval-gate
 Required lean channels:
 
 - `start-here`
-- `introductions`
 - `daily-signal`
+- `questions`
 - `build-lab`
 - `review-queue`
 - `content-lab`

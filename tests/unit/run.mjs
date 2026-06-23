@@ -1122,7 +1122,7 @@ test('discord gateway ingestion: classifies normal messages for capture', async 
   assert.equal(countLinks('See https://example.com and http://demo.test'), 2);
   assert.equal(detectDiscordMessageKind({ channelBaseName: 'questions', content: 'How do I deploy this?' }), 'question');
   assert.equal(detectDiscordMessageKind({ channelBaseName: 'build-lab', content: 'I shipped a draft' }), 'project');
-  assert.equal(detectDiscordMessageKind({ channelBaseName: 'wins', content: 'Launched today' }), 'win');
+  assert.equal(detectDiscordMessageKind({ channelBaseName: 'wins-showcase', content: 'Launched today' }), 'win');
   assert.equal(detectDiscordMessageKind({ channelBaseName: 'questions', content: 'Here is the fix', referencedMessageId: 'm1' }), 'answer');
 
   const message = normalizeDiscordGatewayMessage({
@@ -1171,10 +1171,10 @@ test('rate-limit: checkRateLimitFromHeaders blocks after limit', async () => {
   };
   const opts = { limit: 3, windowMs: 60_000, prefix: 'unit-test:burst' };
   for (let i = 0; i < 3; i++) {
-    const r = mod.checkRateLimitFromHeaders(headers, opts);
+    const r = await mod.checkRateLimitFromHeaders(headers, opts);
     assert.equal(r.ok, true, `hit ${i + 1} should pass`);
   }
-  const blocked = mod.checkRateLimitFromHeaders(headers, opts);
+  const blocked = await mod.checkRateLimitFromHeaders(headers, opts);
   assert.equal(blocked.ok, false);
   if (blocked.ok === false) {
     assert.ok(blocked.retryAfterSeconds >= 1);
@@ -1188,12 +1188,12 @@ test('rate-limit: separate prefixes do not share buckets', async () => {
       return name.toLowerCase() === 'x-forwarded-for' ? '198.51.100.7' : null;
     },
   };
-  const a = mod.checkRateLimitFromHeaders(headers, {
+  const a = await mod.checkRateLimitFromHeaders(headers, {
     limit: 1,
     windowMs: 60_000,
     prefix: 'unit-test:a',
   });
-  const b = mod.checkRateLimitFromHeaders(headers, {
+  const b = await mod.checkRateLimitFromHeaders(headers, {
     limit: 1,
     windowMs: 60_000,
     prefix: 'unit-test:b',

@@ -160,6 +160,19 @@ export async function updateSession(request: NextRequest) {
   // getAdminUser enforces the academy admin/owner role — the canonical check). Gating
   // anon here keeps the admin UI bundle/RSC payload from rendering to the public.
   const needsAcademyAdmin = pathname === '/academy-admin' || pathname.startsWith('/academy-admin/');
+  // The academy PRODUCT (catalog, courses, lessons, labs, dashboard, build, evidence,
+  // resources) requires a signed-in account — you must log in to see the actual academy.
+  // Public stays: the marketing landing (/academy), signup, pricing (/join), the sprint
+  // demo (/engine), the printable sprint-loop, and shareable certificates.
+  const isAcademyPublic =
+    pathname === '/academy' ||
+    pathname === '/academy/signup' ||
+    pathname === '/academy/join' ||
+    pathname === '/academy/engine' ||
+    pathname === '/academy/engine/lab' ||
+    pathname === '/academy/resources/sprint-loop' ||
+    pathname.startsWith('/academy/certificate/');
+  const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
   if (
     needsAdmin &&
@@ -168,6 +181,15 @@ export async function updateSession(request: NextRequest) {
     !process.env.VERCEL
   ) {
     return response;
+  }
+
+  // Academy product: just needs a signed-in account (any user), routed to the academy
+  // login door. No approval/role check — academy learners aren't studio-approved.
+  if (!user && needsAcademyLogin) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    url.search = `?audience=academy&next=${encodeURIComponent(pathname + (search || ''))}`;
+    return redirectWithSessionCookies(url, response);
   }
 
   if (!user && (needsAdmin || needsApprovedUser || needsAcademyAdmin)) {

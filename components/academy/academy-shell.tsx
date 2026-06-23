@@ -66,12 +66,6 @@ export function AcademyShell({
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
-            <Link
-              href="/"
-              className="hidden font-mono text-[11px] uppercase tracking-[0.12em] text-[#8a8b96] transition-colors hover:text-[#c4c5cd] sm:block"
-            >
-              ← Studio
-            </Link>
             {signedIn ? (
               <form action={signOut}>
                 <button

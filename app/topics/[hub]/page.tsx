@@ -224,7 +224,7 @@ export default async function TopicHubPage({ params }: PageProps) {
                 Reading is the entry point. The matching academy track turns this topic into a hands-on build.
               </p>
               <Link
-                href="/academy/catalog"
+                href="/academy"
                 className="mt-4 block text-[15px] font-semibold text-[var(--sage-ink)] hover:text-[var(--sage-accent-readable)]"
               >
                 {academyTrack.title} -&gt;

@@ -22,7 +22,7 @@ export function CatalogClient({
   courses,
   totalCourses,
 }: {
-  resume: ResumeCard
+  resume: ResumeCard | null
   paths: PathItem[]
   courses: CourseItem[]
   totalCourses: number
@@ -128,19 +128,21 @@ export function CatalogClient({
         </div>
       </section>
 
-      {/* resume */}
-      <Link href={resume.href} className={styles.resume}>
-        <span className={styles.resumeAccent} aria-hidden="true" />
-        <div className={styles.resumeBody}>
-          <span className={styles.resumeKicker}>▸ {resume.kicker}</span>
-          <span className={styles.resumeTitle}>{resume.title}</span>
-        </div>
-        <div className={styles.resumeMeta}>
-          <span className={styles.resumeSub}>{resume.sub}</span>
-          <span className={styles.resumeBar} aria-hidden="true"><span style={{ width: `${resume.pct}%` }} /></span>
-        </div>
-        <span className={styles.resumeBtn}>Resume →</span>
-      </Link>
+      {/* resume — only when there is real recorded progress */}
+      {resume && (
+        <Link href={resume.href} className={styles.resume}>
+          <span className={styles.resumeAccent} aria-hidden="true" />
+          <div className={styles.resumeBody}>
+            <span className={styles.resumeKicker}>▸ {resume.kicker}</span>
+            <span className={styles.resumeTitle}>{resume.title}</span>
+          </div>
+          <div className={styles.resumeMeta}>
+            <span className={styles.resumeSub}>{resume.sub}</span>
+            <span className={styles.resumeBar} aria-hidden="true"><span style={{ width: `${resume.pct}%` }} /></span>
+          </div>
+          <span className={styles.resumeBtn}>{resume.pct > 0 ? 'Resume →' : 'Start →'}</span>
+        </Link>
+      )}
 
       {/* curated paths */}
       <section className={styles.section} aria-labelledby="paths-h">

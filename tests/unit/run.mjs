@@ -991,6 +991,93 @@ test('sage discord role routing: removes stale path and level roles without stri
   assert.deepEqual(academyOverlap.rolesToRemove, []);
 });
 
+test('sage discord native approval sync: assigns only approved non-privileged members missing access', async () => {
+  const { planNativeApprovalSync } = await import('../../lib/discord/native-approval-sync.ts');
+  const application = {
+    discordUserId: 'applicant-1',
+    username: 'applicant',
+    goal: 'Build AI apps',
+    experience: 'Learning',
+    intendedBuild: 'Support bot',
+    pathKey: 'ai_apps',
+    levelKey: 'shipping',
+    timezone: 'ET',
+    weeklyTimeBudget: '5 hours',
+    primaryGoal: 'Ship',
+    preferredSupport: 'review',
+    portfolioUrl: null,
+    referralSource: null,
+    submittedAt: '2026-01-01T00:00:00.000Z',
+  };
+
+  const plan = planNativeApprovalSync([
+    {
+      discordUserId: 'pending-1',
+      username: 'pending',
+      bot: false,
+      pending: true,
+      privileged: false,
+      approvedInDatabase: false,
+      hasAcademyRole: false,
+      pendingApplication: null,
+    },
+    {
+      discordUserId: 'admin-1',
+      username: 'admin',
+      bot: false,
+      pending: false,
+      privileged: true,
+      approvedInDatabase: false,
+      hasAcademyRole: false,
+      pendingApplication: null,
+    },
+    {
+      discordUserId: 'approved-1',
+      username: 'approved',
+      bot: false,
+      pending: false,
+      privileged: false,
+      approvedInDatabase: true,
+      hasAcademyRole: true,
+      pendingApplication: null,
+    },
+    {
+      discordUserId: 'applicant-1',
+      username: 'applicant',
+      bot: false,
+      pending: false,
+      privileged: false,
+      approvedInDatabase: false,
+      hasAcademyRole: false,
+      pendingApplication: application,
+    },
+    {
+      discordUserId: 'native-1',
+      username: 'native',
+      bot: false,
+      pending: false,
+      privileged: false,
+      approvedInDatabase: false,
+      hasAcademyRole: false,
+      pendingApplication: null,
+    },
+  ]);
+
+  assert.deepEqual(plan.map((action) => action.type), [
+    'skip',
+    'skip',
+    'skip',
+    'approve_from_application',
+    'approve_native_default',
+  ]);
+  assert.equal(plan[0].reason, 'pending_native_screening');
+  assert.equal(plan[1].reason, 'privileged');
+  assert.equal(plan[2].reason, 'already_approved');
+  assert.equal(plan[3].application.pathKey, 'ai_apps');
+  assert.equal(plan[3].application.levelKey, 'shipping');
+  assert.equal(plan[4].application.levelKey, 'starting');
+});
+
 test('sage discord onboarding: application profile input is normalized before persistence', async () => {
   const { normalizeMemberApplicationProfile } = await import('../../lib/discord/engagement.ts');
   const normalized = normalizeMemberApplicationProfile({

@@ -31,6 +31,8 @@
     "discord:approval-gate": "node --env-file-if-exists=.env.local scripts/discord/enforce-approval-gate.mjs",
     "discord:approval-audit": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs",
     "discord:approval-enforce": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs --enforce",
+    "discord:role-sync": "tsx --env-file=.env.local scripts/discord/sync-native-approved-roles.ts",
+    "discord:role-sync:enforce": "tsx --env-file=.env.local scripts/discord/sync-native-approved-roles.ts --enforce",
     "discord:prove-onboarding": "tsx --env-file=.env.local scripts/discord/prove-onboarding-live.ts",
     "discord:prove-onboarding:headless": "tsx --env-file=.env.local scripts/discord/prove-onboarding-live.ts --headless",
     "discord:categorize": "node --env-file-if-exists=.env.local scripts/discord/categorize-lean-community.mjs",

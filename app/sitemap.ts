@@ -2,7 +2,6 @@ import type { MetadataRoute } from 'next'
 import { tiers, careTiers } from '@/data/services/tiers'
 import { verticals } from '@/data/industries/verticals'
 import { comparisons } from '@/data/compare/comparisons'
-import { academyTracks } from '@/data/academy/tracks'
 import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { getServiceIndustryPages } from '@/lib/seo/service-industry-pages'
@@ -93,16 +92,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE}/lab/${slug}`,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
-    })),
-    ...academyTracks.map((track) => ({
-      url: `${SITE}/academy/${track.slug}`,
-      changeFrequency: 'weekly' as const,
-      priority: 0.78,
-    })),
-    ...academyTracks.map((track) => ({
-      url: `${SITE}/academy/${track.slug}/enroll`,
-      changeFrequency: 'weekly' as const,
-      priority: 0.74,
     })),
     ...blogPosts.map((post) => ({
       url: `${SITE}/blog/${post.slug}`,

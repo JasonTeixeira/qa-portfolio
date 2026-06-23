@@ -9,7 +9,6 @@ import { signOut } from '@/app/auth/actions'
  */
 const NAV = [
   { href: '/academy/dashboard', label: 'My Learning', key: 'dashboard' },
-  { href: '/academy/my-courses', label: 'My Courses', key: 'courses' },
   { href: '/academy/catalog', label: 'Catalog', key: 'catalog' },
   { href: '/academy/evidence', label: 'Certificates', key: 'evidence' },
   { href: '/academy/resources', label: 'Tools', key: 'resources' },

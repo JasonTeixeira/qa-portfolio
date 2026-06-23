@@ -51,6 +51,15 @@ const nextConfig: NextConfig = {
       { source: '/start', destination: '/contact', permanent: true },
       { source: '/about', destination: '/studio', permanent: true },
       { source: '/resume', destination: '/founder', permanent: true },
+      // Legacy per-track academy → the one canonical academy. These 4 track URLs
+      // (+ /enroll, /learn) were indexed with Course/Offer JSON-LD; 301 them into
+      // the catalog so no indexed URL 404s. Explicit slugs (not a wildcard) keep
+      // the new /academy/catalog, /course, /build, /engine routes untouched.
+      { source: '/academy/ai-native-product-building/:path*', destination: '/academy/catalog', permanent: true },
+      { source: '/academy/premium-conversion-sites/:path*', destination: '/academy/catalog', permanent: true },
+      { source: '/academy/content-engine/:path*', destination: '/academy/catalog', permanent: true },
+      { source: '/academy/ai-automation-systems/:path*', destination: '/academy/catalog', permanent: true },
+      { source: '/academy/my-courses', destination: '/academy/dashboard', permanent: true },
       { source: '/services/all', destination: '/services', permanent: false },
       // Old case-study URLs → new /work URLs
       { source: '/case-studies', destination: '/work', permanent: true },

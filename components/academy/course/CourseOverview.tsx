@@ -4,6 +4,34 @@ import type { CourseOverview as Overview } from '@/lib/academy/content'
 import type { CSSProperties } from 'react'
 import styles from './course.module.css'
 
+/** Honest progress ring (real %), tinted to the course's topic colour. */
+function Ring({ pct, color, size = 72, stroke = 6 }: { pct: number; color: string; size?: number; stroke?: number }) {
+  const r = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const clamped = Math.max(0, Math.min(100, pct))
+  const offset = circ * (1 - clamped / 100)
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className={styles.ring} aria-hidden="true">
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={stroke} />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke={color}
+        strokeWidth={stroke}
+        strokeLinecap="round"
+        strokeDasharray={circ}
+        strokeDashoffset={offset}
+        transform={`rotate(-90 ${size / 2} ${size / 2})`}
+      />
+      <text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" className={styles.ringText}>
+        {clamped}%
+      </text>
+    </svg>
+  )
+}
+
 export function CourseOverview({
   overview,
   completed,
@@ -24,6 +52,11 @@ export function CourseOverview({
   return (
     <div className={styles.page} style={rootStyle}>
       <header className={styles.hero}>
+        {started ? (
+          <div className={styles.heroRing}>
+            <Ring pct={pct} color={t.color} />
+          </div>
+        ) : null}
         <p className={styles.eyebrow}>
           <span className={styles.tag}>{TOPICS[overview.topic].label}</span>
           <span className={styles.sep}>·</span>
@@ -34,13 +67,10 @@ export function CourseOverview({
         <p className={styles.meta}>
           {overview.lessonsTotal} lessons · {overview.hours}h · {overview.level}
         </p>
-        {started ? (
-          <div className={styles.bar} aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
-        ) : null}
         <div className={styles.actions}>
           {ctaSlug ? (
             <Link href={`/academy/learn/${overview.slug}/${ctaSlug}`} className={styles.cta}>
-              {started ? `Continue · ${pct}%` : 'Start course'} →
+              {started ? 'Continue' : 'Start course'} →
             </Link>
           ) : (
             <span className={styles.soon}>Lessons coming soon</span>

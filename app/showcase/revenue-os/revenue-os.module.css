@@ -199,6 +199,77 @@
   white-space: nowrap;
 }
 
+.figmaEmbedGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.36fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.figmaStatusCard,
+.figmaFrameWrap {
+  overflow: hidden;
+  border: 1px solid rgba(61, 90, 254, 0.28);
+  border-radius: 12px;
+  background: #0b0b0e;
+}
+
+.figmaStatusCard {
+  display: grid;
+  align-content: center;
+  gap: 0.85rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.figmaStatusCard span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.figmaStatusCard strong {
+  color: #f8f4ec;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  line-height: 1.12;
+}
+
+.figmaStatusCard p {
+  margin: 0;
+  color: #d9d3ca;
+  line-height: 1.58;
+}
+
+.figmaStatusCard a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  justify-self: start;
+  min-height: 42px;
+  border-radius: 8px;
+  background: #f8f4ec;
+  color: #09090b;
+  padding: 0.72rem 0.9rem;
+  font-weight: 850;
+}
+
+.figmaFrameWrap iframe {
+  display: block;
+  width: 100%;
+  height: min(70vh, 720px);
+  min-height: 520px;
+  border: 0;
+  background: #0b0b0e;
+}
+
+.figmaNote {
+  margin: 0.85rem 0 0;
+  color: #d9d3ca;
+  line-height: 1.6;
+}
+
 .nativeIntro {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(320px, 0.7fr);
@@ -742,6 +813,10 @@
   }
 
   .figmaLaunch {
+    grid-template-columns: 1fr;
+  }
+
+  .figmaEmbedGrid {
     grid-template-columns: 1fr;
   }
 }

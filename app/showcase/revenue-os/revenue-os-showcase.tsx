@@ -22,6 +22,7 @@ import styles from './revenue-os.module.css'
 
 const figmaPrototypeUrl =
   'https://www.figma.com/make/rWyEGQoNrkIvPKt1lF8waC/Prototype-Development?code-node-id=0-9&p=f&t=MMlMfdxCbTpVxvqO-0&fullscreen=1'
+const figmaEmbedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(figmaPrototypeUrl)}`
 
 type LeadStatus = 'Queued' | 'Researched' | 'Demo ready' | 'Approved' | 'Replied'
 
@@ -167,6 +168,51 @@ export function RevenueOsShowcase() {
           <Metric label="Demo clicks" value="31%" trend="+9.4%" />
           <Metric label="Booked calls" value="7" trend="this sprint" />
         </div>
+      </section>
+
+      <section className={styles.figmaSection} aria-label="Embedded Figma Make prototype">
+        <div className={styles.figmaHeader}>
+          <div>
+            <span className={styles.kicker}>Embedded Figma Make prototype</span>
+            <h2>The original Rev OS Figma build is embedded here.</h2>
+          </div>
+          <a
+            className={styles.secondaryButton}
+            href={figmaPrototypeUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Figma prototype
+            <ArrowRight size={16} />
+          </a>
+        </div>
+        <div className={styles.figmaEmbedGrid}>
+          <div className={styles.figmaStatusCard}>
+            <span>Inline render status</span>
+            <strong>Figma Make iframe is mounted here, but Figma may block visual rendering.</strong>
+            <p>
+              The frame to the right is the actual Figma embed attempt for the file you provided. If your browser session
+              or Figma permissions allow it, the prototype renders there. If Figma returns a blank frame, open the source
+              file from the button above and use the website-native mirror below.
+            </p>
+            <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
+              Open source Figma file
+              <ArrowRight size={16} />
+            </a>
+          </div>
+          <div className={styles.figmaFrameWrap}>
+            <iframe
+              title="Revenue OS Figma Make prototype"
+              src={figmaEmbedUrl}
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <p className={styles.figmaNote}>
+          This section is the Figma source embed attempt. The next section is the on-site Rev OS mirror that is guaranteed
+          to render and is what prospects can click through during inbound or outbound campaigns.
+        </p>
       </section>
 
       <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
@@ -370,38 +416,6 @@ export function RevenueOsShowcase() {
           </ul>
           <a href="/book?source=revenue_os_packet" className={styles.packetCta}>
             Build a packet for my business
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </section>
-
-      <section className={styles.figmaSection} aria-label="Original Figma Make prototype">
-        <div className={styles.figmaHeader}>
-          <div>
-            <span className={styles.kicker}>Original Figma Make build</span>
-            <h2>Open and inspect the Rev OS prototype we built in Figma.</h2>
-          </div>
-          <a
-            className={styles.secondaryButton}
-            href={figmaPrototypeUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open Figma prototype
-            <ArrowRight size={16} />
-          </a>
-        </div>
-        <div className={styles.figmaLaunch}>
-          <div>
-            <span>Figma Make does not render reliably inside this page.</span>
-            <strong>The on-site Rev OS prototype above is the embedded demo. Figma opens as the source artifact.</strong>
-            <p>
-              Prospects can use the native command center directly on this page, while the Figma build remains available
-              for design inspection.
-            </p>
-          </div>
-          <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
-            Launch original Figma build
             <ArrowRight size={16} />
           </a>
         </div>

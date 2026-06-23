@@ -163,6 +163,62 @@ const proofBadges = [
   'Build verified',
 ]
 
+const offerPackages = [
+  {
+    name: 'Private Prototype Packet',
+    timeline: '48-72 hours',
+    bestFor: 'One high-value prospect or one warm inbound lead',
+    deliverables: [
+      'Research brief and revenue leak diagnosis',
+      'Private demo page with buyer-specific copy',
+      'First email, follow-up, and call CTA',
+    ],
+  },
+  {
+    name: 'Outbound Sprint Kit',
+    timeline: '5-7 days',
+    bestFor: 'Testing one vertical with 5-10 target accounts',
+    deliverables: [
+      'Vertical prototype angle and proof pattern',
+      'Personalized packets for each account',
+      'Reply/click tracking and next-step recommendations',
+    ],
+  },
+  {
+    name: 'Full Revenue OS Build',
+    timeline: '2-6 weeks',
+    bestFor: 'Turning the winning packet into an operating system',
+    deliverables: [
+      'Lead scoring, approval workflow, and CRM routing',
+      'Reusable prototype warehouse',
+      'Analytics loop for replies, calls, and closed revenue',
+    ],
+  },
+]
+
+const faqs = [
+  {
+    question: 'Is this only a mockup?',
+    answer:
+      'The first packet is a high-fidelity playable prototype. If the offer works, the same flow can become a production build with forms, CRM, email, analytics, and automation connected.',
+  },
+  {
+    question: 'What do you need from a client?',
+    answer:
+      'One target account or vertical, the offer you want to sell, your preferred call CTA, and any proof assets you already have. The system fills the rest with research and a private demo route.',
+  },
+  {
+    question: 'Why would this beat a normal cold email?',
+    answer:
+      'A normal cold email asks the buyer to imagine the value. A private prototype shows the buyer the value in their own context before they reply.',
+  },
+  {
+    question: 'How is this measured?',
+    answer:
+      'Each packet should track opens, clicks, replies, booked calls, objections, and follow-up outcomes. Real campaign data is the proof needed to move from a strong showcase to a proven sales machine.',
+  },
+]
+
 export function RevenueOsShowcase() {
   const [selectedId, setSelectedId] = useState(leads[0].id)
   const [stage, setStage] = useState(0)
@@ -174,6 +230,7 @@ export function RevenueOsShowcase() {
   const [prospectName, setProspectName] = useState('Luma Dental Studio')
   const [prospectIndustry, setProspectIndustry] = useState('Local healthcare')
   const [prospectGoal, setProspectGoal] = useState('Book more qualified calls from website traffic')
+  const [prospectPain, setProspectPain] = useState('Paid traffic lands on a generic page with no clear appointment path')
 
   const selected = useMemo(() => leads.find((lead) => lead.id === selectedId) ?? leads[0], [selectedId])
   const guided = guidedSteps[guidedIndex]
@@ -182,6 +239,11 @@ export function RevenueOsShowcase() {
 
   const computedStatus: LeadStatus = sent ? 'Replied' : approved ? 'Approved' : demoGenerated ? 'Demo ready' : selected.status
   const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0) + (sent ? 8 : 0))
+  const safeProspectName = prospectName.trim() || 'Your business'
+  const safeIndustry = prospectIndustry.trim() || 'your market'
+  const safeGoal = prospectGoal.trim() || 'turn attention into qualified pipeline'
+  const safePain = prospectPain.trim() || 'the current path makes buyers work too hard before they can take action'
+  const privateSlug = safeProspectName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'your-business'
 
   return (
     <div className={styles.shell}>
@@ -252,6 +314,30 @@ export function RevenueOsShowcase() {
           ))}
         </div>
 
+        <section className={styles.contrastSection} aria-label="Cold email versus private prototype packet">
+          <div className={styles.contrastHeader}>
+            <span className={styles.storyEyebrow}>The selling difference</span>
+            <h3>Stop asking buyers to imagine the outcome. Show it.</h3>
+          </div>
+          <div className={styles.contrastGrid}>
+            <article className={styles.coldCard}>
+              <span>Generic cold email</span>
+              <strong>“We help businesses improve their website and get more leads.”</strong>
+              <p>
+                Easy to ignore. No proof. No context. The buyer has to do all the imagination before they trust you.
+              </p>
+            </article>
+            <article className={styles.demoPacketCard}>
+              <span>Private prototype packet</span>
+              <strong>“I built a working concept for {safeProspectName} showing how to {safeGoal.toLowerCase()}.”</strong>
+              <p>
+                Specific diagnosis, private URL, proof of thinking, and a clear next step. The buyer sees the future
+                state before the sales call.
+              </p>
+            </article>
+          </div>
+        </section>
+
         <div className={styles.demoShowcaseGrid}>
           <div className={styles.demoStoryCard}>
             <span className={styles.storyEyebrow}>Guided walkthrough</span>
@@ -305,18 +391,47 @@ export function RevenueOsShowcase() {
               <input value={prospectIndustry} onChange={(event) => setProspectIndustry(event.target.value)} />
             </label>
             <label>
+              Current leak
+              <textarea value={prospectPain} onChange={(event) => setProspectPain(event.target.value)} />
+            </label>
+            <label>
               Desired outcome
               <textarea value={prospectGoal} onChange={(event) => setProspectGoal(event.target.value)} />
             </label>
             <div className={styles.packetPreview}>
               <span>Preview headline</span>
-              <strong>{prospectName || 'Your business'} Revenue OS concept</strong>
+              <strong>{safeProspectName} Revenue OS concept</strong>
               <p>
-                Built for {prospectIndustry || 'your market'} to {prospectGoal.toLowerCase() || 'turn attention into pipeline'}.
+                Built for {safeIndustry} to {safeGoal.toLowerCase()}.
               </p>
             </div>
           </div>
         </div>
+
+        <section className={styles.livePacketPreview} aria-label="Live private packet preview">
+          <div>
+            <span className={styles.storyEyebrow}>Private URL preview</span>
+            <strong>/showcase/private/{privateSlug}</strong>
+            <p>
+              Diagnosis: {safePain}. The packet leads with a specific observation, shows the improved path, and asks
+              for a build call only after the prospect sees the working concept.
+            </p>
+          </div>
+          <div className={styles.emailPreviewCard}>
+            <span>Email opener</span>
+            <p>
+              Subject: quick concept for {safeProspectName}
+              <br />
+              I noticed {safePain.toLowerCase()}. I mocked up a private concept showing how {safeProspectName} could
+              {` ${safeGoal.toLowerCase()}`} without making visitors guess the next step.
+            </p>
+          </div>
+          <div className={styles.packetOutcomeCard}>
+            <span>Call CTA</span>
+            <strong>Want me to turn this into the live version?</strong>
+            <p>CTA path: private demo view → reply → build call → implementation plan.</p>
+          </div>
+        </section>
 
         <div className={styles.figmaMakeAppFrame}>
           <div className={styles.figmaMakeAppTopbar}>
@@ -589,6 +704,49 @@ export function RevenueOsShowcase() {
           </div>
         </section>
       </details>
+
+      <section className={styles.offerSection} aria-label="Revenue OS productized offers">
+        <div className={styles.offerHeader}>
+          <span className={styles.kicker}>What a client can buy</span>
+          <h2>Start with one packet. Scale the pattern after it earns replies.</h2>
+          <p>
+            This turns the showcase into a practical offer: a buyer can order one private concept, a vertical sprint, or
+            the full system once the proof shows traction.
+          </p>
+        </div>
+        <div className={styles.packageGrid}>
+          {offerPackages.map((offer) => (
+            <article key={offer.name} className={styles.packageCard}>
+              <span>{offer.timeline}</span>
+              <h3>{offer.name}</h3>
+              <p>{offer.bestFor}</p>
+              <ul>
+                {offer.deliverables.map((item) => (
+                  <li key={item}>
+                    <CheckCircle2 size={15} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.faqSection} aria-label="Revenue OS objection handling">
+        <div>
+          <span className={styles.kicker}>Objection handling</span>
+          <h2>Answer the questions that stop buyers from booking.</h2>
+        </div>
+        <div className={styles.faqGrid}>
+          {faqs.map((faq) => (
+            <article key={faq.question}>
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className={styles.finalCta} aria-label="Revenue OS final call to action">
         <div>

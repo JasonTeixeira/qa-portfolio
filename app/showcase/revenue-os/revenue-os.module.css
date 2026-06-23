@@ -232,10 +232,100 @@
 .personalizationCard p,
 .packetPreview p,
 .technicalProof p,
-.finalCta p {
+.finalCta p,
+.contrastSection p,
+.livePacketPreview p,
+.offerSection p,
+.faqSection p {
   margin: 0;
   color: #d9d3ca;
   line-height: 1.62;
+}
+
+.contrastSection {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(188, 210, 255, 0.16);
+  border-radius: 16px;
+  background:
+    radial-gradient(60% 110% at 92% 10%, rgba(61, 90, 254, 0.16), transparent 58%),
+    rgba(255, 255, 255, 0.035);
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+.contrastHeader {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.contrastHeader h3 {
+  max-width: 18ch;
+  margin: 0;
+  color: #f8f4ec;
+  font-size: clamp(1.8rem, 3vw, 3.15rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.contrastGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 1rem;
+}
+
+.coldCard,
+.demoPacketCard,
+.livePacketPreview > div,
+.packageCard,
+.faqGrid article {
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.022)),
+    rgba(10, 11, 15, 0.76);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.coldCard,
+.demoPacketCard {
+  display: grid;
+  gap: 0.8rem;
+  min-height: 230px;
+  padding: clamp(1rem, 2vw, 1.2rem);
+}
+
+.coldCard {
+  opacity: 0.74;
+}
+
+.demoPacketCard {
+  border-color: rgba(61, 90, 254, 0.38);
+  background:
+    linear-gradient(145deg, rgba(61, 90, 254, 0.16), rgba(255, 255, 255, 0.035)),
+    rgba(10, 11, 15, 0.86);
+}
+
+.coldCard span,
+.demoPacketCard span,
+.livePacketPreview span,
+.packageCard span,
+.emailPreviewCard span,
+.packetOutcomeCard span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.coldCard strong,
+.demoPacketCard strong,
+.livePacketPreview strong {
+  color: #f8f4ec;
+  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
 }
 
 .storyResult {
@@ -361,6 +451,28 @@
 
 .packetPreview strong {
   font-size: 1.1rem;
+}
+
+.livePacketPreview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.95fr) minmax(260px, 0.72fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.livePacketPreview > div {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  padding: clamp(1rem, 2vw, 1.2rem);
+}
+
+.emailPreviewCard {
+  border-left: 2px solid #3d5afe !important;
+}
+
+.packetOutcomeCard {
+  border-color: rgba(61, 90, 254, 0.3) !important;
 }
 
 .figmaMirrorGrid {
@@ -746,6 +858,98 @@
 
 .operatorDetails[open] > summary {
   margin-bottom: 0.85rem;
+}
+
+.operatorDetails:not([open]) > :not(summary) {
+  display: none !important;
+}
+
+.offerSection,
+.faqSection {
+  max-width: 1480px;
+  margin: 1rem auto 0;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(61, 90, 254, 0.08), rgba(255, 255, 255, 0.022)),
+    rgba(18, 18, 23, 0.82);
+  padding: clamp(1rem, 2vw, 1.45rem);
+}
+
+.offerHeader {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.offerHeader h2,
+.faqSection h2 {
+  max-width: 18ch;
+  margin: 0;
+  color: #f8f4ec;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+
+.offerHeader p {
+  max-width: 78ch;
+}
+
+.packageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.packageCard {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  min-height: 330px;
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+.packageCard h3,
+.faqGrid h3 {
+  margin: 0;
+  color: #f8f4ec;
+  font-size: 1.25rem;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.packageCard ul {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.packageCard li {
+  display: flex;
+  gap: 0.55rem;
+  color: #ece6dc;
+  line-height: 1.45;
+}
+
+.faqSection {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.55fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.faqGrid article {
+  display: grid;
+  gap: 0.65rem;
+  padding: clamp(1rem, 2vw, 1.2rem);
 }
 
 .panelStatus {
@@ -1269,7 +1473,12 @@
   .lowerGrid,
   .nativeIntro,
   .demoShowcaseGrid,
-  .finalCta {
+  .finalCta,
+  .contrastGrid,
+  .livePacketPreview,
+  .packageGrid,
+  .faqSection,
+  .faqGrid {
     grid-template-columns: 1fr;
   }
 
@@ -1381,5 +1590,48 @@
 
   .insightCard {
     min-height: auto;
+  }
+
+  .offerSection,
+  .faqSection,
+  .finalCta {
+    margin-top: 0.75rem;
+    padding: 1rem;
+  }
+
+  .offerHeader {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .offerHeader h2,
+  .faqSection h2,
+  .finalCta h2 {
+    font-size: clamp(1.8rem, 11vw, 2.65rem);
+  }
+
+  .offerHeader p,
+  .faqSection > div:first-child p {
+    display: none;
+  }
+
+  .packageGrid,
+  .faqGrid {
+    gap: 0.65rem;
+  }
+
+  .packageCard,
+  .faqGrid article {
+    min-height: auto;
+    padding: 0.85rem;
+  }
+
+  .packageCard ul {
+    gap: 0.45rem;
+  }
+
+  .packageCard li:nth-child(n + 3),
+  .faqGrid article p {
+    display: none;
   }
 }

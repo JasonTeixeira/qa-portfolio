@@ -20,6 +20,8 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByLabel(/revenue os verified proof badges/i).getByText(/private url/i)).toBeVisible()
     await expect(page.getByLabel(/revenue os verified proof badges/i).getByText(/working prototype/i)).toBeVisible()
     await expect(page.getByLabel(/sample private prototype packet/i)).toContainText(/turn paid clicks into booked consults/i)
+    await expect(page.getByLabel(/prototype packet prospect examples/i)).toContainText(/ironpeak roofing/i)
+    await expect(page.getByLabel(/prototype packet prospect examples/i)).toContainText(/northline legal/i)
     await expect(page.getByLabel(/cold email versus private prototype packet/i)).toContainText(/make the buyer feel seen/i)
     await expect(page.getByText(/generic cold email/i)).toBeVisible()
     await expect(page.getByLabel(/cold email versus private prototype packet/i)).toContainText(/private prototype packet/i)
@@ -60,10 +62,10 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByText(/watch reply intent/i)).toBeVisible()
 
     await expect(page.getByRole('link', { name: /book the build call/i })).toBeVisible()
-    await expect(page.getByLabel(/revenue os productized offers/i)).toContainText(/private prototype packet/i)
-    await expect(page.getByLabel(/revenue os productized offers/i)).toContainText(/outbound sprint kit/i)
-    await expect(page.getByLabel(/revenue os objection handling/i)).toContainText(/is this only a mockup/i)
-    await expect(page.getByLabel(/revenue os objection handling/i)).toContainText(/why would this beat a normal cold email/i)
+    await expect(page.getByLabel(/private prototype packet deliverables/i)).toContainText(/one private packet/i)
+    await expect(page.getByLabel(/private prototype packet deliverables/i)).toContainText(/private concept page/i)
+    await expect(page.getByLabel(/private prototype packet deliverables/i)).toContainText(/short outbound note/i)
+    await expect(page.getByLabel(/private prototype packet deliverables/i)).toContainText(/build path/i)
   })
 
   test('embeds usable product demos in the first warehouse prototypes', async ({ page }) => {

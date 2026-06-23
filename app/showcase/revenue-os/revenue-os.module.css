@@ -7,6 +7,36 @@
   padding: clamp(1rem, 2vw, 2rem);
 }
 
+.heroCopy,
+.heroPanel,
+.figmaSection,
+.nativeIntro,
+.operatorDetails,
+.packetDeliverableSection,
+.finalCta {
+  animation: packetFadeUp 720ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.heroPanel {
+  animation-delay: 90ms;
+}
+
+.figmaSection {
+  animation-delay: 160ms;
+}
+
+@keyframes packetFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 480px);
@@ -80,7 +110,7 @@
   padding: 0.75rem 1rem;
   font-weight: 700;
   line-height: 1;
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1), border-color 260ms cubic-bezier(0.32, 0.72, 0, 1), background 260ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .primaryButton {
@@ -104,7 +134,7 @@
 .secondaryButton:hover,
 .successButton:hover,
 .packetCta:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   border-color: rgba(188, 210, 255, 0.48);
 }
 
@@ -172,6 +202,56 @@
   color: #f8f4ec;
   font-style: normal;
   line-height: 1.42;
+}
+
+.artifactStack {
+  position: relative;
+  min-height: 132px;
+  margin-top: 0.1rem;
+}
+
+.artifactStack article {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.035)),
+    rgba(10, 11, 15, 0.9);
+  padding: 0.82rem 0.9rem;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.26);
+}
+
+.artifactStack article:nth-child(1) {
+  top: 0;
+  transform: rotate(-1.4deg);
+}
+
+.artifactStack article:nth-child(2) {
+  top: 38px;
+  transform: rotate(1deg);
+}
+
+.artifactStack article:nth-child(3) {
+  top: 76px;
+  transform: rotate(-0.5deg);
+}
+
+.artifactStack b {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.artifactStack span {
+  color: #f8f4ec;
+  font-size: 0.92rem;
+  font-weight: 760;
 }
 
 .figmaSection {
@@ -270,7 +350,38 @@
 }
 
 .browserPreview {
+  position: relative;
   min-height: 540px;
+}
+
+.browserPreview::after {
+  content: "";
+  position: absolute;
+  inset: 54px 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(188, 210, 255, 0.7), transparent);
+  animation: packetScan 4.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes packetScan {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  78% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(484px);
+  }
 }
 
 .browserChrome {
@@ -426,6 +537,44 @@
   gap: 0.62rem;
   align-items: flex-start;
   color: #ece6dc;
+  line-height: 1.5;
+}
+
+.prospectStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.prospectStrip article {
+  display: grid;
+  gap: 0.45rem;
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.022)),
+    rgba(10, 11, 15, 0.76);
+  padding: clamp(1rem, 2vw, 1.1rem);
+}
+
+.prospectStrip span,
+.artifactGrid span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.prospectStrip strong {
+  color: #f8f4ec;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+}
+
+.prospectStrip p {
+  margin: 0;
+  color: #d9d3ca;
   line-height: 1.5;
 }
 
@@ -1202,7 +1351,8 @@
 }
 
 .offerSection,
-.faqSection {
+.faqSection,
+.packetDeliverableSection {
   max-width: 1480px;
   margin: 1rem auto 0;
   border: 1px solid rgba(242, 239, 233, 0.12);
@@ -1213,14 +1363,16 @@
   padding: clamp(1rem, 2vw, 1.45rem);
 }
 
-.offerHeader {
+.offerHeader,
+.packetDeliverableHeader {
   display: grid;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
 .offerHeader h2,
-.faqSection h2 {
+.faqSection h2,
+.packetDeliverableHeader h2 {
   max-width: 18ch;
   margin: 0;
   color: #f8f4ec;
@@ -1231,6 +1383,47 @@
 
 .offerHeader p {
   max-width: 78ch;
+}
+
+.packetDeliverableHeader p {
+  max-width: 70ch;
+  margin: 0;
+  color: #d9d3ca;
+  line-height: 1.65;
+}
+
+.artifactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.artifactGrid article {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  min-height: 210px;
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(10, 11, 15, 0.78);
+  padding: clamp(1rem, 2vw, 1.25rem);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.artifactGrid h3 {
+  margin: 0;
+  color: #f8f4ec;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.artifactGrid p {
+  margin: 0;
+  color: #d9d3ca;
+  line-height: 1.58;
 }
 
 .packageGrid {
@@ -1814,6 +2007,8 @@
   .finalCta,
   .contrastGrid,
   .livePacketPreview,
+  .prospectStrip,
+  .artifactGrid,
   .packageGrid,
   .faqSection,
   .faqGrid {
@@ -1896,6 +2091,17 @@
     grid-template-columns: 1fr;
   }
 
+  .artifactStack {
+    display: grid;
+    gap: 0.55rem;
+    min-height: 0;
+  }
+
+  .artifactStack article {
+    position: static;
+    transform: none !important;
+  }
+
   .commandBar {
     display: flex;
     overflow-x: auto;
@@ -1950,46 +2156,49 @@
     min-height: auto;
   }
 
-  .offerSection,
-  .faqSection,
+  .packetDeliverableSection,
   .finalCta {
     margin-top: 0.75rem;
     padding: 1rem;
   }
 
-  .offerHeader {
+  .packetDeliverableHeader {
     gap: 0.5rem;
     margin-bottom: 0.75rem;
   }
 
-  .offerHeader h2,
-  .faqSection h2,
+  .packetDeliverableHeader h2,
   .finalCta h2 {
     font-size: clamp(1.8rem, 11vw, 2.65rem);
   }
 
-  .offerHeader p,
-  .faqSection > div:first-child p {
-    display: none;
-  }
-
-  .packageGrid,
-  .faqGrid {
+  .artifactGrid {
     gap: 0.65rem;
   }
 
-  .packageCard,
-  .faqGrid article {
+  .artifactGrid article {
     min-height: auto;
     padding: 0.85rem;
   }
+}
 
-  .packageCard ul {
-    gap: 0.45rem;
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy,
+  .heroPanel,
+  .figmaSection,
+  .nativeIntro,
+  .operatorDetails,
+  .packetDeliverableSection,
+  .finalCta,
+  .browserPreview::after {
+    animation: none;
   }
 
-  .packageCard li:nth-child(n + 3),
-  .faqGrid article p {
-    display: none;
+  .primaryButton,
+  .secondaryButton,
+  .successButton,
+  .packetCta,
+  .browserHero a {
+    transition: none;
   }
 }

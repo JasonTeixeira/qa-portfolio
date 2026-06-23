@@ -212,6 +212,7 @@ export default async function RootLayout({
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
   const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn') || pathname.startsWith('/proto')
+  const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html
@@ -256,8 +257,8 @@ export default async function RootLayout({
             {!isCinematicPath && <MarketingChrome position="top" />}
             {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
             {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && <MarketingChrome position="bottom" />}
-            {!isPortal && !isCinematicPath && <CookieBanner />}
+            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+            {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
             {!isPortal && !isPremiumLanding && <ExitIntentModal />}
             <WebVitalsReporter />
             <ClientErrorReporter />

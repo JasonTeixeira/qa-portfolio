@@ -157,59 +157,36 @@ const proofBadges = [
   'Build path mapped',
 ]
 
-const offerPackages = [
+const packetArtifacts = [
   {
-    name: 'Private Prototype Packet',
-    timeline: '48-72 hours',
-    bestFor: 'One high-value prospect or one warm inbound lead',
-    deliverables: [
-      'Research brief and revenue leak diagnosis',
-      'Private demo page with buyer-specific copy',
-      'First email, follow-up, and call CTA',
-    ],
+    title: 'Private concept page',
+    copy: 'A polished URL built around one buyer, one leak, and one improved path.',
   },
   {
-    name: 'Outbound Sprint Kit',
-    timeline: '5-7 days',
-    bestFor: 'Testing one vertical with 5-10 target accounts',
-    deliverables: [
-      'Vertical prototype angle and proof pattern',
-      'Personalized packets for each account',
-      'Reply/click tracking and next-step recommendations',
-    ],
+    title: 'Short outbound note',
+    copy: 'A specific opener that points to the working concept instead of pitching in the abstract.',
   },
   {
-    name: 'Full Revenue OS Build',
-    timeline: '2-6 weeks',
-    bestFor: 'Turning the winning packet into an operating system',
-    deliverables: [
-      'Lead scoring, approval workflow, and CRM routing',
-      'Reusable prototype warehouse',
-      'Analytics loop for replies, calls, and closed revenue',
-    ],
+    title: 'Build path',
+    copy: 'A simple next step: what to ship first, what it connects to, and how success gets measured.',
   },
 ]
 
-const faqs = [
+const prospectExamples = [
   {
-    question: 'Is this only a mockup?',
-    answer:
-      'The first packet is a high-fidelity playable prototype. If the offer works, the same flow can become a production build with forms, CRM, email, analytics, and automation connected.',
+    name: 'Luma Dental Studio',
+    market: 'Dental',
+    angle: 'Paid clicks into booked consults',
   },
   {
-    question: 'What do you need from a client?',
-    answer:
-      'One target account or vertical, the offer you want to sell, your preferred call CTA, and any proof assets you already have. The system fills the rest with research and a private demo route.',
+    name: 'IronPeak Roofing',
+    market: 'Contractor',
+    angle: 'Storm demand into quote requests',
   },
   {
-    question: 'Why would this beat a normal cold email?',
-    answer:
-      'A normal cold email asks the buyer to imagine the value. A private prototype shows the buyer the value in their own context before they reply.',
-  },
-  {
-    question: 'How is this measured?',
-    answer:
-      'Each packet should track opens, clicks, replies, booked calls, objections, and follow-up outcomes. Real campaign data is the proof needed to move from a strong showcase to a proven sales machine.',
+    name: 'Northline Legal',
+    market: 'Law firm',
+    angle: 'Trust signals into qualified consults',
   },
 ]
 
@@ -276,6 +253,20 @@ export function RevenueOsShowcase() {
               <b>Proposed path</b>
               <em>Treatment pages, proof, and one clear consult CTA</em>
             </div>
+          </div>
+          <div className={styles.artifactStack} aria-label="Prototype packet artifacts">
+            <article>
+              <b>Audit</b>
+              <span>Homepage leak found</span>
+            </article>
+            <article>
+              <b>Concept</b>
+              <span>Booking path mocked</span>
+            </article>
+            <article>
+              <b>CTA</b>
+              <span>Build call framed</span>
+            </article>
           </div>
         </div>
       </section>
@@ -466,6 +457,16 @@ export function RevenueOsShowcase() {
             Open full demo
           </button>
         </div>
+
+        <section className={styles.prospectStrip} aria-label="Prototype packet prospect examples">
+          {prospectExamples.map((example) => (
+            <article key={example.name}>
+              <span>{example.market}</span>
+              <strong>{example.name}</strong>
+              <p>{example.angle}</p>
+            </article>
+          ))}
+        </section>
       </section>
 
       <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
@@ -700,44 +701,21 @@ export function RevenueOsShowcase() {
         </section>
       </details>
 
-      <section className={styles.offerSection} aria-label="Revenue OS productized offers">
-        <div className={styles.offerHeader}>
-          <span className={styles.kicker}>What a client can buy</span>
-          <h2>Start with one packet. Scale the pattern after it earns replies.</h2>
+      <section className={styles.packetDeliverableSection} aria-label="Private prototype packet deliverables">
+        <div className={styles.packetDeliverableHeader}>
+          <span className={styles.kicker}>What the buyer receives</span>
+          <h2>One private packet. One reason to reply.</h2>
           <p>
-            This turns the showcase into a practical offer: a buyer can order one private concept, a vertical sprint, or
-            the full system once the proof shows traction.
+            No long proposal. No generic capability deck. The buyer gets a focused, working preview of the business
+            outcome you can build for them.
           </p>
         </div>
-        <div className={styles.packageGrid}>
-          {offerPackages.map((offer) => (
-            <article key={offer.name} className={styles.packageCard}>
-              <span>{offer.timeline}</span>
-              <h3>{offer.name}</h3>
-              <p>{offer.bestFor}</p>
-              <ul>
-                {offer.deliverables.map((item) => (
-                  <li key={item}>
-                    <CheckCircle2 size={15} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.faqSection} aria-label="Revenue OS objection handling">
-        <div>
-          <span className={styles.kicker}>Objection handling</span>
-          <h2>Answer the questions that stop buyers from booking.</h2>
-        </div>
-        <div className={styles.faqGrid}>
-          {faqs.map((faq) => (
-            <article key={faq.question}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
+        <div className={styles.artifactGrid}>
+          {packetArtifacts.map((artifact, index) => (
+            <article key={artifact.title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{artifact.title}</h3>
+              <p>{artifact.copy}</p>
             </article>
           ))}
         </div>

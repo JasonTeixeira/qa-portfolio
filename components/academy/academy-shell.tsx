@@ -14,7 +14,7 @@ const NAV = [
   { href: '/academy/resources', label: 'Tools', key: 'resources' },
 ] as const
 
-const ACCENT = '#18b663'
+const ACCENT = '#3D6BFF'
 
 export function AcademyShell({
   children,
@@ -31,7 +31,7 @@ export function AcademyShell({
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
           <Link href="/academy/dashboard" className="group flex items-center gap-2.5 shrink-0">
             <span
-              className="grid h-7 w-7 place-items-center rounded-[8px] text-[13px] font-bold text-[#04130c]"
+              className="grid h-7 w-7 place-items-center rounded-[8px] text-[13px] font-bold text-[#ffffff]"
               style={{ background: ACCENT, boxShadow: `0 0 18px ${ACCENT}55` }}
               aria-hidden
             >
@@ -55,7 +55,7 @@ export function AcademyShell({
                   aria-current={on ? 'page' : undefined}
                   className={`rounded-[10px] px-3 py-2 text-[13px] font-medium transition-colors ${
                     on
-                      ? 'bg-[#18b663]/12 text-white'
+                      ? 'bg-[#3D6BFF]/12 text-white'
                       : 'text-[#c4c5cd] hover:bg-white/[0.04] hover:text-white'
                   }`}
                 >
@@ -78,7 +78,7 @@ export function AcademyShell({
             ) : (
               <Link
                 href="/login?audience=academy&next=/academy/dashboard"
-                className="rounded-full px-3.5 py-1.5 text-[12px] font-semibold text-[#04130c]"
+                className="rounded-full px-3.5 py-1.5 text-[12px] font-semibold text-[#ffffff]"
                 style={{ background: ACCENT }}
               >
                 Sign in

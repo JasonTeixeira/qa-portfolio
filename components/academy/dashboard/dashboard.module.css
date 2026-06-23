@@ -1,5 +1,5 @@
 .page {
-  --accent: #18b663;
+  --accent: #3D6BFF;
   --ink: #f2efe9;
   --dim: #c4c5cd;
   --muted: #8a8b96;
@@ -23,7 +23,7 @@
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(50% 50% at 50% 28%, rgba(24, 182, 99, 0.16), transparent 70%),
+    radial-gradient(50% 50% at 50% 28%, rgba(61, 107, 255, 0.16), transparent 70%),
     radial-gradient(38% 38% at 72% 8%, rgba(61, 90, 254, 0.07), transparent 70%);
   filter: blur(6px);
 }
@@ -32,7 +32,7 @@
 .gate { position: relative; z-index: 1; max-width: 480px; margin: 4rem auto 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
 .gateTitle { margin: 0.4rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.7rem); letter-spacing: -0.02em; }
 .gateBody { margin: 0; color: var(--muted); }
-.gateBtn { margin-top: 0.8rem; padding: 0.8rem 1.7rem; border-radius: 26px; background: var(--accent); color: #04130c; font-family: var(--font-display), sans-serif; font-weight: 700; text-decoration: none; box-shadow: 0 10px 28px -10px rgba(24, 182, 99, 0.6); }
+.gateBtn { margin-top: 0.8rem; padding: 0.8rem 1.7rem; border-radius: 26px; background: var(--accent); color: #ffffff; font-family: var(--font-display), sans-serif; font-weight: 700; text-decoration: none; box-shadow: 0 10px 28px -10px rgba(61, 107, 255, 0.6); }
 .gateAlt { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); text-decoration: none; }
 .gateAlt:hover { color: var(--ink); }
 
@@ -45,7 +45,7 @@
 /* quick nav */
 .quickNav { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 1.4rem; }
 .quickNav a { font-family: var(--font-mono), monospace; font-size: 0.76rem; color: var(--dim); text-decoration: none; border: 1px solid var(--line); border-radius: 100px; padding: 0.45rem 0.95rem; transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease; }
-.quickNav a:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; background: rgba(24, 182, 99, 0.06); }
+.quickNav a:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; background: rgba(61, 107, 255, 0.06); }
 .quickNav a:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
 
 /* metric strip — one elevated surface, hairline-divided */
@@ -83,7 +83,7 @@
 .resumeKicker { font-family: var(--font-mono), monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
 .resumeTitle { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem); letter-spacing: -0.02em; }
 .resumeCourse { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
-.resumeBtn { padding: 0.72rem 1.4rem; border-radius: 26px; background: var(--accent); color: #04130c; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--accent) 60%, transparent); }
+.resumeBtn { padding: 0.72rem 1.4rem; border-radius: 26px; background: var(--accent); color: #ffffff; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--accent) 60%, transparent); }
 
 /* sections */
 .section { position: relative; z-index: 1; margin-top: clamp(2.4rem, 1.8rem + 2vw, 3.4rem); }

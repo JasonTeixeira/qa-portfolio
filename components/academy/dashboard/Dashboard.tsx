@@ -4,7 +4,7 @@ import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
 import styles from './dashboard.module.css'
 
-const ACCENT = '#18b663'
+const ACCENT = '#3D6BFF'
 
 function tvars(t: ReturnType<typeof topic>): CSSProperties {
   return { ['--topic']: t.color, ['--topic-soft']: t.soft } as CSSProperties

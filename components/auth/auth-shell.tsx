@@ -8,7 +8,7 @@ type Audience = 'studio' | 'academy';
 
 const THEME: Record<Audience, { bg: string; accent: string; mobileLabel: string }> = {
   studio: { bg: '#09090B', accent: '#3D5AFE', mobileLabel: 'Sage Ideas Studio' },
-  academy: { bg: '#080A09', accent: '#18b663', mobileLabel: 'Sage Academy' },
+  academy: { bg: '#080A09', accent: '#3D6BFF', mobileLabel: 'Sage Academy' },
 };
 
 /** Shared input styling. Focus behaviour is driven by the scoped CSS in AuthShell. */

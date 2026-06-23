@@ -54,9 +54,9 @@ const VARIANTS: Record<AuthAudience, PanelVariant> = {
   },
   academy: {
     bg: '#0C0E0D',
-    accent: '#18b663',
+    accent: '#3D6BFF',
     glow:
-      'radial-gradient(60% 50% at 18% 18%, rgba(24,182,99,0.20), transparent 60%), radial-gradient(50% 60% at 82% 78%, rgba(61,90,254,0.12), transparent 60%)',
+      'radial-gradient(60% 50% at 18% 18%, rgba(61,107,255,0.20), transparent 60%), radial-gradient(50% 60% at 82% 78%, rgba(61,90,254,0.12), transparent 60%)',
     kicker: 'Sage Academy · Learn to build',
     headline: 'Pick up exactly where you left off.',
     sub: 'Project-based courses, guided labs you actually ship, and certificates you keep — your whole learning record in one place.',

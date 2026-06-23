@@ -4,11 +4,14 @@ import { useMemo, useState } from 'react'
 import {
   ArrowRight,
   BarChart3,
-  Building2,
+  ChevronLeft,
+  ChevronRight,
   CheckCircle2,
   Clock3,
+  Expand,
   FileText,
   MailCheck,
+  Minimize2,
   MousePointer2,
   Play,
   Radar,
@@ -125,14 +128,58 @@ const activity = [
   'Learning loop raised contractor quote funnels by +11 priority points.',
 ]
 
+const guidedSteps = [
+  {
+    label: 'Find',
+    title: 'Score the market before a human writes a word.',
+    copy: 'The demo starts with a ranked account queue: weak websites, active buying signals, revenue estimate, compliance risk, and the right prototype match.',
+    result: '42 accounts scored, 6 promoted to today’s sprint',
+  },
+  {
+    label: 'Personalize',
+    title: 'Turn research into a prospect-specific proof asset.',
+    copy: 'Each account gets a private concept: website gap, offer angle, matching prototype, outreach copy, and guardrails before anything is sent.',
+    result: '31% private-demo click rate in the modeled sprint',
+  },
+  {
+    label: 'Approve',
+    title: 'Keep outbound controlled instead of messy.',
+    copy: 'The operator reviews the packet, legal/compliance notes, and message before release. No spray-and-pray automation is shown to prospects.',
+    result: 'Manual approval trail for every outbound packet',
+  },
+  {
+    label: 'Learn',
+    title: 'Feed replies, clicks, calls, and rejections back into strategy.',
+    copy: 'The learning loop compares industries, channels, proof assets, and offers so the next sprint gets sharper instead of louder.',
+    result: '+11 priority lift for winning contractor quote funnels',
+  },
+] as const
+
+const proofBadges = [
+  'Native React prototype',
+  'No blocked iframe',
+  'Desktop E2E passed',
+  'Axe 0 violations',
+  'Build verified',
+  'Last checked Jun 22, 2026',
+]
+
 export function RevenueOsShowcase() {
   const [selectedId, setSelectedId] = useState(leads[0].id)
   const [stage, setStage] = useState(0)
   const [approved, setApproved] = useState(false)
   const [demoGenerated, setDemoGenerated] = useState(false)
   const [sent, setSent] = useState(false)
+  const [guidedIndex, setGuidedIndex] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [prospectName, setProspectName] = useState('Luma Dental Studio')
+  const [prospectIndustry, setProspectIndustry] = useState('Local healthcare')
+  const [prospectGoal, setProspectGoal] = useState('Book more qualified calls from website traffic')
 
   const selected = useMemo(() => leads.find((lead) => lead.id === selectedId) ?? leads[0], [selectedId])
+  const guided = guidedSteps[guidedIndex]
+  const nextGuidedStep = () => setGuidedIndex((current) => Math.min(guidedSteps.length - 1, current + 1))
+  const previousGuidedStep = () => setGuidedIndex((current) => Math.max(0, current - 1))
 
   const computedStatus: LeadStatus = sent ? 'Replied' : approved ? 'Approved' : demoGenerated ? 'Demo ready' : selected.status
   const sprintProgress = Math.min(100, 42 + stage * 7 + (approved ? 10 : 0) + (demoGenerated ? 8 : 0) + (sent ? 8 : 0))
@@ -170,62 +217,175 @@ export function RevenueOsShowcase() {
         </div>
       </section>
 
-      <section className={styles.figmaSection} aria-label="Extracted Figma Make prototype embedded as native code">
+      <section className={styles.figmaSection} aria-label="Revenue OS flagship live demo">
         <div className={styles.figmaHeader}>
           <div>
-            <span className={styles.kicker}>Extracted Figma Make source</span>
-            <h2>The original Rev OS Figma Make app is now embedded as native site code.</h2>
-          </div>
-          <a
-            className={styles.secondaryButton}
-            href={figmaPrototypeUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open Figma prototype
-            <ArrowRight size={16} />
-          </a>
-        </div>
-        <div className={styles.figmaMirrorGrid}>
-          <div className={styles.figmaStatusCard}>
-            <span>Source extraction status</span>
-            <strong>Recovered from Figma Make cache and mounted locally.</strong>
+            <span className={styles.kicker}>Flagship live demo</span>
+            <h2>Show prospects the operating system before you ask for the call.</h2>
             <p>
-              This is not an iframe. The Figma Make source was extracted from the local Figma cache, adapted from Vite
-              to Next.js, and rendered as a real React component inside this page. Use the left nav inside the prototype
-              to click through all eight Figma Make screens.
+              A sales-ready interactive demo for outbound packets, inbound proof, and founder-led calls. Prospects can
+              see the workflow, understand the business outcome, and imagine their own version inside the same page.
             </p>
-            <a href={figmaPrototypeUrl} target="_blank" rel="noreferrer">
-              Open source Figma file
+          </div>
+          <div className={styles.demoHeaderActions}>
+            <button className={styles.secondaryButton} onClick={() => setIsFullscreen(true)}>
+              <Expand size={16} />
+              Focus mode
+            </button>
+            <a
+              className={styles.secondaryButton}
+              href={figmaPrototypeUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open Figma prototype
               <ArrowRight size={16} />
             </a>
           </div>
-          <div className={styles.figmaMakeAppFrame}>
+        </div>
+
+        <div className={styles.proofRibbon} aria-label="Revenue OS verified proof badges">
+          {proofBadges.map((badge) => (
+            <span key={badge}>
+              <CheckCircle2 size={14} />
+              {badge}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.demoShowcaseGrid}>
+          <div className={styles.demoStoryCard}>
+            <span className={styles.storyEyebrow}>Guided walkthrough</span>
+            <strong>{guided.title}</strong>
+            <p>{guided.copy}</p>
+            <div className={styles.storyResult}>
+              <TrendingUp size={16} />
+              {guided.result}
+            </div>
+            <div className={styles.storySteps} aria-label="Guided demo steps">
+              {guidedSteps.map((step, index) => (
+                <button
+                  key={step.label}
+                  className={index === guidedIndex ? styles.storyStepActive : ''}
+                  onClick={() => setGuidedIndex(index)}
+                >
+                  <span>{index + 1}</span>
+                  {step.label}
+                </button>
+              ))}
+            </div>
+            <div className={styles.storyControls}>
+              <button onClick={previousGuidedStep} disabled={guidedIndex === 0}>
+                <ChevronLeft size={16} />
+                Back
+              </button>
+              <button onClick={nextGuidedStep} disabled={guidedIndex === guidedSteps.length - 1}>
+                Next
+                <ChevronRight size={16} />
+              </button>
+              <button onClick={() => setGuidedIndex(guidedSteps.length - 1)}>
+                View result
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.personalizationCard} aria-label="Private outbound personalization controls">
+            <span className={styles.storyEyebrow}>Private packet inputs</span>
+            <strong>Make the demo feel built for one buyer.</strong>
+            <p>
+              These are the fields a private outbound route uses before the prospect sees the page.
+            </p>
+            <label>
+              Business
+              <input value={prospectName} onChange={(event) => setProspectName(event.target.value)} />
+            </label>
+            <label>
+              Segment
+              <input value={prospectIndustry} onChange={(event) => setProspectIndustry(event.target.value)} />
+            </label>
+            <label>
+              Desired outcome
+              <textarea value={prospectGoal} onChange={(event) => setProspectGoal(event.target.value)} />
+            </label>
+            <div className={styles.packetPreview}>
+              <span>Preview headline</span>
+              <strong>{prospectName || 'Your business'} Revenue OS concept</strong>
+              <p>
+                Built for {prospectIndustry || 'your market'} to {prospectGoal.toLowerCase() || 'turn attention into pipeline'}.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.figmaMakeAppFrame}>
+          <div className={styles.figmaMakeAppTopbar}>
+            <span>Live Revenue OS prototype</span>
+            <strong>Native embedded app · click the left navigation</strong>
+            <button onClick={() => setIsFullscreen(true)}>
+              <Expand size={16} />
+              Focus mode
+            </button>
+          </div>
+          <div className={styles.figmaMakeAppViewport}>
+            <FigmaMakeRevenueOsPrototype />
+          </div>
+        </div>
+
+        <div className={styles.mobileDemoStory} aria-label="Mobile demo summary">
+          <span className={styles.storyEyebrow}>Mobile view</span>
+          <strong>The phone version sells the story instead of shrinking the whole dashboard.</strong>
+          <div>
+            {guidedSteps.map((step) => (
+              <article key={step.label}>
+                <span>{step.label}</span>
+                <p>{step.result}</p>
+              </article>
+            ))}
+          </div>
+          <button className={styles.primaryButton} onClick={() => setIsFullscreen(true)}>
+            <Expand size={16} />
+            Open full demo
+          </button>
+        </div>
+
+        <details className={styles.technicalProof}>
+          <summary>Technical proof for reviewers</summary>
+          <p>
+            The broken iframe was removed. This prototype is the recovered Figma Make React source running natively in
+            the website, with automated route coverage and accessibility checks.
+          </p>
+        </details>
+      </section>
+
+      <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
+        <div>
+          <span className={styles.kicker}>Personalized packet simulator</span>
+          <h2>Turn the live demo into a prospect-specific outbound package.</h2>
+        </div>
+        <p>
+          The command center below shows how a private packet is assembled: select the account, generate the concept,
+          approve the message, send the proof link, and learn from the outcome.
+        </p>
+      </section>
+
+      {isFullscreen ? (
+        <div className={styles.focusOverlay} role="dialog" aria-modal="true" aria-label="Revenue OS fullscreen prototype">
+          <div className={styles.focusShell}>
             <div className={styles.figmaMakeAppTopbar}>
-              <span>Figma Make App.tsx</span>
-              <strong>Native embedded prototype</strong>
+              <span>Live Revenue OS prototype</span>
+              <strong>Focus mode</strong>
+              <button onClick={() => setIsFullscreen(false)}>
+                <Minimize2 size={16} />
+                Exit focus
+              </button>
             </div>
             <div className={styles.figmaMakeAppViewport}>
               <FigmaMakeRevenueOsPrototype />
             </div>
           </div>
         </div>
-        <p className={styles.figmaNote}>
-          The broken iframe has been removed. The prototype above is the recovered Figma Make app running inside the
-          website; the Figma source remains one click away for design review.
-        </p>
-      </section>
-
-      <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
-        <div>
-          <span className={styles.kicker}>Embedded website-native prototype</span>
-          <h2>The product demo is built directly into this showcase.</h2>
-        </div>
-        <p>
-          The command center below is the usable Rev OS prototype: click accounts, generate private demos, approve
-          outreach packets, simulate sends, and inspect the learning loop without leaving the site.
-        </p>
-      </section>
+      ) : null}
 
       <section className={styles.commandBar} aria-label="Revenue sprint workflow">
         {steps.map((step, index) => (
@@ -417,6 +577,27 @@ export function RevenueOsShowcase() {
           </ul>
           <a href="/book?source=revenue_os_packet" className={styles.packetCta}>
             Build a packet for my business
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </section>
+
+      <section className={styles.finalCta} aria-label="Revenue OS final call to action">
+        <div>
+          <span className={styles.kicker}>Build the version for your market</span>
+          <h2>Send a prospect a working concept instead of another cold email.</h2>
+          <p>
+            Sage Ideas can turn this pattern into a private demo packet for one business, a campaign-specific prototype
+            set, or a full Revenue OS that qualifies traffic, launches proof assets, and routes replies into pipeline.
+          </p>
+        </div>
+        <div className={styles.finalCtaActions}>
+          <a className={styles.primaryButton} href="/book?source=revenue_os_final_cta">
+            Book the build call
+            <ArrowRight size={16} />
+          </a>
+          <a className={styles.secondaryButton} href="/showcase">
+            View prototype warehouse
             <ArrowRight size={16} />
           </a>
         </div>

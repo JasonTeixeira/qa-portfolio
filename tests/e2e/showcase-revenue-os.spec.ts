@@ -15,16 +15,25 @@ test.describe('Revenue OS showcase prototype', () => {
 
     await expect(page.getByRole('heading', { name: /ai client acquisition command center/i })).toBeVisible()
     await expect(page.getByText('Live prototype')).toBeVisible()
-    await expect(page.getByRole('heading', { name: /original rev os figma make app is now embedded/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /show prospects the operating system/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /open figma prototype/i })).toBeVisible()
     await expect(page.locator('iframe[title="Revenue OS Figma Make prototype"]')).toHaveCount(0)
-    await expect(page.getByText(/source extraction status/i)).toBeVisible()
-    await expect(page.getByText(/recovered from figma make cache/i)).toBeVisible()
-    await expect(page.getByText(/figma make app\.tsx/i)).toBeVisible()
+    await expect(page.getByLabel(/revenue os verified proof badges/i).getByText(/native react prototype/i)).toBeVisible()
+    await expect(page.getByLabel(/revenue os verified proof badges/i).getByText(/axe 0 violations/i)).toBeVisible()
+    await expect(page.getByText(/guided walkthrough/i)).toBeVisible()
+    await page.getByLabel(/guided demo steps/i).getByRole('button', { name: /personalize/i }).click()
+    await expect(page.getByText(/turn research into a prospect-specific proof asset/i)).toBeVisible()
+    await page.getByLabel(/private outbound personalization controls/i).getByLabel(/business/i).fill('Nova Dental')
+    await expect(page.getByText(/nova dental revenue os concept/i)).toBeVisible()
+    await page.getByRole('button', { name: /focus mode/i }).first().click()
+    await expect(page.getByRole('dialog', { name: /revenue os fullscreen prototype/i })).toBeVisible()
+    await page.getByRole('button', { name: /exit focus/i }).click()
+    await expect(page.getByRole('dialog', { name: /revenue os fullscreen prototype/i })).toHaveCount(0)
+    await expect(page.getByText(/technical proof for reviewers/i)).toBeVisible()
     await expect(page.getByText(/executive command center/i)).toBeVisible()
     await page.getByRole('button', { name: /lead queue/i }).first().click()
     await expect(page.getByText(/lead intelligence queue/i)).toBeVisible()
-    await expect(page.getByRole('heading', { name: /the product demo is built directly/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /turn the live demo into a prospect-specific outbound package/i })).toBeVisible()
 
     await page.getByLabel(/revenue os main opportunity queue/i).getByRole('button', { name: /ironpeak roofing/i }).click()
     await expect(page.getByLabel(/revenue os main selected account/i).getByRole('heading', { name: /ironpeak roofing/i })).toBeVisible()
@@ -42,6 +51,7 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByText(/watch reply intent/i)).toBeVisible()
 
     await expect(page.getByRole('link', { name: /build a packet for my business/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /book the build call/i })).toBeVisible()
   })
 
   test('embeds usable product demos in the first warehouse prototypes', async ({ page }) => {

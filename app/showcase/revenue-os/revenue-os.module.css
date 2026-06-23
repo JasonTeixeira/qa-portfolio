@@ -121,12 +121,14 @@
 
 .figmaSection {
   max-width: 1480px;
-  margin: 0 auto 1rem;
-  border: 1px solid rgba(242, 239, 233, 0.12);
-  border-radius: 14px;
-  background: rgba(18, 18, 23, 0.82);
-  padding: clamp(1rem, 2vw, 1.25rem);
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
+  margin: 0 auto 1.2rem;
+  border: 1px solid rgba(188, 210, 255, 0.16);
+  border-radius: 18px;
+  background:
+    radial-gradient(80% 90% at 78% 8%, rgba(61, 90, 254, 0.18), transparent 50%),
+    linear-gradient(145deg, rgba(20, 21, 29, 0.96), rgba(9, 10, 14, 0.94));
+  padding: clamp(1rem, 2vw, 1.45rem);
+  box-shadow: 0 30px 120px rgba(0, 0, 0, 0.34);
 }
 
 .figmaHeader {
@@ -134,11 +136,11 @@
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 
 .figmaHeader h2 {
-  max-width: 18ch;
+  max-width: 19ch;
   margin: 0.5rem 0 0;
   color: #f8f4ec;
   font-size: clamp(1.9rem, 4vw, 3.2rem);
@@ -146,25 +148,71 @@
   letter-spacing: -0.035em;
 }
 
-.figmaLaunch {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
+.figmaHeader p {
+  max-width: 70ch;
+  margin: 0.8rem 0 0;
+  color: #d9d3ca;
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.demoHeaderActions,
+.storyControls,
+.finalCtaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.proofRibbon {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.proofRibbon span {
+  display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(61, 90, 254, 0.28);
-  border-radius: 12px;
-  background:
-    linear-gradient(135deg, rgba(61, 90, 254, 0.16), rgba(255, 255, 255, 0.035)),
-    rgba(255, 255, 255, 0.04);
-  padding: clamp(1rem, 2vw, 1.4rem);
+  gap: 0.42rem;
+  min-height: 32px;
+  border: 1px solid rgba(188, 210, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(188, 210, 255, 0.07);
+  color: #dfe7ff;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 750;
 }
 
-.figmaLaunch div {
+.demoShowcaseGrid {
   display: grid;
-  gap: 0.5rem;
+  grid-template-columns: minmax(280px, 0.88fr) minmax(280px, 0.62fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.figmaLaunch span {
+.demoStoryCard,
+.personalizationCard,
+.packetPreview {
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025)),
+    rgba(10, 11, 15, 0.76);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.demoStoryCard,
+.personalizationCard {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+.storyEyebrow {
   color: #bcd2ff;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.72rem;
@@ -172,31 +220,147 @@
   text-transform: uppercase;
 }
 
-.figmaLaunch strong {
+.demoStoryCard strong,
+.personalizationCard strong {
   color: #f8f4ec;
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
-  line-height: 1.1;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
 }
 
-.figmaLaunch p {
-  max-width: 72ch;
+.demoStoryCard p,
+.personalizationCard p,
+.packetPreview p,
+.technicalProof p,
+.finalCta p {
   margin: 0;
   color: #d9d3ca;
-  line-height: 1.6;
+  line-height: 1.62;
 }
 
-.figmaLaunch a {
+.storyResult {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  justify-self: start;
+  border: 1px solid rgba(61, 90, 254, 0.26);
+  border-radius: 999px;
+  background: rgba(61, 90, 254, 0.14);
+  color: #dfe7ff;
+  padding: 0.58rem 0.75rem;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.storySteps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.storySteps button,
+.storyControls button,
+.figmaMakeAppTopbar button,
+.personalizationCard input,
+.personalizationCard textarea {
+  border: 1px solid rgba(242, 239, 233, 0.12);
+  background: rgba(255, 255, 255, 0.045);
+  color: #f2efe9;
+}
+
+.storySteps button {
+  display: grid;
+  gap: 0.28rem;
+  min-height: 58px;
+  border-radius: 10px;
+  padding: 0.65rem;
+  text-align: left;
+  font-weight: 800;
+  transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1), border-color 220ms cubic-bezier(0.32, 0.72, 0, 1), background 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.storySteps button:hover,
+.storyControls button:hover,
+.figmaMakeAppTopbar button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(188, 210, 255, 0.42);
+}
+
+.storySteps span {
+  color: #9ca8c8;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+}
+
+.storyStepActive {
+  border-color: rgba(61, 90, 254, 0.74) !important;
+  background: rgba(61, 90, 254, 0.16) !important;
+}
+
+.storyControls {
+  justify-content: flex-start;
+}
+
+.storyControls button,
+.figmaMakeAppTopbar button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  border-radius: 8px;
-  background: #f8f4ec;
-  color: #09090b;
-  padding: 0.75rem 1rem;
-  font-weight: 850;
-  white-space: nowrap;
+  gap: 0.45rem;
+  min-height: 38px;
+  border-radius: 9px;
+  padding: 0.62rem 0.75rem;
+  font-weight: 820;
+}
+
+.storyControls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+  transform: none;
+}
+
+.personalizationCard label {
+  display: grid;
+  gap: 0.4rem;
+  color: #bdb8c2;
+  font-size: 0.78rem;
+  font-weight: 780;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.personalizationCard input,
+.personalizationCard textarea {
+  width: 100%;
+  border-radius: 10px;
+  padding: 0.75rem 0.8rem;
+  color: #f8f4ec;
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.personalizationCard textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.packetPreview {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem;
+}
+
+.packetPreview span {
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.packetPreview strong {
+  font-size: 1.1rem;
 }
 
 .figmaMirrorGrid {
@@ -265,6 +429,7 @@
   min-height: 760px;
   height: min(88vh, 860px);
   background: #080a0d;
+  margin-top: 1rem;
 }
 
 .figmaMakeAppTopbar {
@@ -300,6 +465,78 @@
 .figmaMakeAppTopbar strong {
   color: #f8f4ec;
   font-size: 0.82rem;
+}
+
+.mobileDemoStory {
+  display: none;
+  margin-top: 1rem;
+  border: 1px solid rgba(188, 210, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  padding: 1rem;
+}
+
+.mobileDemoStory strong {
+  display: block;
+  margin-top: 0.55rem;
+  color: #f8f4ec;
+  font-size: 1.35rem;
+  line-height: 1.08;
+}
+
+.mobileDemoStory > div {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0;
+}
+
+.mobileDemoStory article {
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.75rem;
+}
+
+.mobileDemoStory article span {
+  color: #bcd2ff;
+  font-weight: 850;
+}
+
+.mobileDemoStory article p {
+  margin: 0.25rem 0 0;
+  color: #d9d3ca;
+  line-height: 1.45;
+}
+
+.technicalProof {
+  margin-top: 0.85rem;
+  color: #bdb8c2;
+}
+
+.technicalProof summary {
+  cursor: pointer;
+  color: #dfe7ff;
+  font-weight: 780;
+}
+
+.focusOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(4, 5, 8, 0.92);
+  padding: clamp(0.5rem, 2vw, 1.25rem);
+}
+
+.focusShell {
+  width: min(1680px, 100%);
+  height: min(960px, 94dvh);
+  overflow: hidden;
+  border: 1px solid rgba(188, 210, 255, 0.24);
+  border-radius: 18px;
+  background: #080a0d;
+  box-shadow: 0 30px 130px rgba(0, 0, 0, 0.7);
 }
 
 .mirrorTopbar {
@@ -431,7 +668,7 @@
   gap: 1rem;
   align-items: end;
   max-width: 1480px;
-  margin: 0 auto 0.75rem;
+  margin: 1.2rem auto 0.75rem;
   border: 1px solid rgba(242, 239, 233, 0.12);
   border-radius: 14px;
   background:
@@ -884,6 +1121,35 @@
   margin: 1rem auto 0;
 }
 
+.finalCta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: end;
+  max-width: 1480px;
+  margin: 1rem auto 0;
+  border: 1px solid rgba(188, 210, 255, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(70% 120% at 90% 10%, rgba(61, 90, 254, 0.18), transparent 54%),
+    linear-gradient(145deg, rgba(22, 23, 31, 0.95), rgba(10, 10, 14, 0.94));
+  padding: clamp(1.2rem, 3vw, 2rem);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
+}
+
+.finalCta h2 {
+  max-width: 17ch;
+  margin: 0.55rem 0 0.8rem;
+  color: #f8f4ec;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+
+.finalCta p {
+  max-width: 74ch;
+}
+
 .analyticsPanel,
 .packetPanel {
   padding: clamp(1rem, 2vw, 1.4rem);
@@ -949,7 +1215,9 @@
 @media (max-width: 920px) {
   .hero,
   .lowerGrid,
-  .nativeIntro {
+  .nativeIntro,
+  .demoShowcaseGrid,
+  .finalCta {
     grid-template-columns: 1fr;
   }
 
@@ -980,6 +1248,11 @@
     min-height: 720px;
     height: 82vh;
   }
+
+  .demoHeaderActions,
+  .finalCtaActions {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 620px) {
@@ -996,9 +1269,32 @@
     line-height: 0.92;
   }
 
-  .heroPanel,
+  .heroPanel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .commandBar {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    border-radius: 12px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .step {
+    flex: 0 0 132px;
+    scroll-snap-align: start;
+  }
+
+  .figmaMakeAppFrame {
+    display: none;
+  }
+
+  .mobileDemoStory {
+    display: block;
+  }
+
+  .storySteps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .metric {
@@ -1015,6 +1311,19 @@
   }
 
   .mainStage {
+    min-height: auto;
+  }
+
+  .leftRail,
+  .rightRail {
+    display: none;
+  }
+
+  .lowerGrid {
+    display: none;
+  }
+
+  .insightCard {
     min-height: auto;
   }
 }

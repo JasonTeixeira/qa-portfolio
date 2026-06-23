@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ResourcesHub } from '@/components/academy/resources/ResourcesHub'
+import { AcademyShell } from '@/components/academy/academy-shell'
 
 export const metadata: Metadata = {
   title: 'Tools & Resources — Sage Academy',
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function ResourcesPage() {
-  return <ResourcesHub />
+  return (
+    <AcademyShell active="resources">
+      <ResourcesHub />
+    </AcademyShell>
+  )
 }

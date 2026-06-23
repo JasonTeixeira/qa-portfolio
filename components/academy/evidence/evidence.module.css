@@ -13,14 +13,14 @@
 
 .kicker { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #6e8bff; }
 .head { margin-bottom: 2.4rem; }
-.title { margin: 1rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.2rem); letter-spacing: -0.03em; text-transform: capitalize; }
+.title { margin: 1rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.2rem); letter-spacing: -0.03em; text-transform: capitalize; }
 .sub { margin: 0.9rem 0 0; max-width: 56ch; color: var(--dim); font-size: 1.06rem; line-height: 1.55; }
 .sub em { font-style: italic; color: var(--ink); }
 
 /* stat band */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 3rem; }
 .stat { padding: 1.4rem 1.3rem; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)); }
-.statN { display: block; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(2rem, 1.4rem + 2vw, 3rem); letter-spacing: -0.03em; line-height: 1; color: #6e8bff; }
+.statN { display: block; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.4rem + 2vw, 3rem); letter-spacing: -0.03em; line-height: 1; color: #6e8bff; }
 .statLabel { display: block; margin-top: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 
 .section { margin-top: 2.6rem; }
@@ -44,12 +44,12 @@
 .entryTitle { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.04rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
 .entryTitle:hover { color: var(--c); }
 .entryMeta { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
-.entryTag { flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52, 211, 153, 0.35); border-radius: 100px; padding: 0.25rem 0.6rem; }
+.entryTag { flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #3D6BFF; border: 1px solid rgba(61, 107, 255, 0.35); border-radius: 100px; padding: 0.25rem 0.6rem; }
 
 /* empty / signed-out */
 .empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.9rem; padding: 3.5rem 1.5rem; border: 1px dashed var(--line); border-radius: 18px; }
 .emptyGlyph { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 15px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); font-size: 1.5rem; color: #6e8bff; }
-.emptyTitle { margin: 0; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.7rem; letter-spacing: -0.02em; }
+.emptyTitle { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: 1.7rem; letter-spacing: -0.02em; }
 .emptyBody { margin: 0; max-width: 48ch; color: var(--dim); line-height: 1.55; }
 .primary { display: inline-flex; align-items: center; margin-top: 0.5rem; padding: 0.8rem 1.5rem; border-radius: 14px; background: var(--action); color: #fff; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; box-shadow: 0 10px 28px rgba(61, 90, 254, 0.32); transition: transform 0.18s ease; }
 .primary:hover { transform: translateY(-2px); }

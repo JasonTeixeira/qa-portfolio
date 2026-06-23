@@ -66,6 +66,9 @@ function isPortalChrome(pathname: string) {
     pathname === '/academy/dashboard' ||
     pathname === '/academy/catalog' ||
     pathname.startsWith('/academy/course/') ||
+    pathname === '/academy/evidence' ||
+    pathname === '/academy/resources' ||
+    pathname === '/academy/build' ||
     pathname === '/academy/my-courses' ||
     pathname === '/academy/signup' ||
     pathname === '/academy/preview' ||

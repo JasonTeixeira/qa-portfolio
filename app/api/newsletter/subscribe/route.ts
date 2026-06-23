@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
 
     return json(200, { ok: true });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : 'Subscription failed';
-    return json(500, { error: msg });
+    console.error('[newsletter/subscribe] subscription failed', e);
+    return json(500, { error: 'Subscription failed. Please try again.' });
   }
 }

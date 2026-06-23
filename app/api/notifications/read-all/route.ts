@@ -22,7 +22,8 @@ export async function POST() {
     .select('id');
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[notifications/read-all] update failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
   return NextResponse.json({ updated: data?.length ?? 0 });
 }

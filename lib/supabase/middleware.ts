@@ -156,12 +156,16 @@ export async function updateSession(request: NextRequest) {
   // Protected zones.
   const needsAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
   const needsApprovedUser = pathname === '/portal' || pathname.startsWith('/portal/');
+  // Academy authoring studio: must at least be signed in to reach it (the page-level
+  // getAdminUser enforces the academy admin/owner role — the canonical check). Gating
+  // anon here keeps the admin UI bundle/RSC payload from rendering to the public.
+  const needsAcademyAdmin = pathname === '/academy-admin' || pathname.startsWith('/academy-admin/');
 
   if (needsAdmin && process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' && !process.env.VERCEL) {
     return response;
   }
 
-  if (!user && (needsAdmin || needsApprovedUser)) {
+  if (!user && (needsAdmin || needsApprovedUser || needsAcademyAdmin)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     url.search = `?next=${encodeURIComponent(pathname + (search || ''))}`;

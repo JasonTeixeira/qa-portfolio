@@ -24,9 +24,21 @@ function rateLimitMessage(retryAfterSeconds: number): string {
   return `Too many attempts. Please try again in ${minutes} minute${minutes === 1 ? '' : 's'}.`;
 }
 
+/**
+ * Sanitize a post-auth `next` destination. Only same-origin relative paths are allowed —
+ * absolute URLs and protocol-relative ('//evil.com', '/\evil.com') are rejected so a crafted
+ * login link can't redirect an authenticated user off-site (open-redirect).
+ */
+function safeNext(raw: FormDataEntryValue | null | undefined): string {
+  const v = String(raw ?? '/auth/redirect').trim();
+  if (!v.startsWith('/')) return '/auth/redirect';
+  if (v.startsWith('//') || v.startsWith('/\\')) return '/auth/redirect';
+  return v;
+}
+
 export async function signInWithMagicLink(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!email) redirect('/login?error=missing_email');
 
   const h = await headers();
@@ -56,7 +68,7 @@ export async function signInWithMagicLink(formData: FormData): Promise<void> {
 export async function signInWithPassword(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const password = String(formData.get('password') ?? '');
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!email || !password) {
     redirect(
       `/login?error=${encodeURIComponent('Email and password are required.')}&next=${encodeURIComponent(next)}`,
@@ -139,7 +151,7 @@ export async function updatePassword(formData: FormData): Promise<void> {
 
 export async function signInWithProvider(formData: FormData): Promise<void> {
   const provider = String(formData.get('provider') ?? '') as Provider;
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!['google', 'github', 'linkedin_oidc'].includes(provider)) {
     redirect('/login?error=invalid_provider');
   }
@@ -331,7 +343,10 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
   });
   const alreadyExists = createError != null && /already|exists|registered/i.test(createError.message);
   if (createError && !alreadyExists) {
-    redirect(`/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent(createError.message)}`);
+    console.error('[auth] academy createUser failed', createError);
+    redirect(
+      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Could not create your account. Please try again.')}`,
+    );
   }
 
   const supabase = await createSupabaseServerClient();

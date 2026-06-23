@@ -53,6 +53,7 @@ export function CatalogClient({
 
   return (
     <div className={styles.page}>
+      <div className={styles.atmosphere} aria-hidden="true" />
       {/* hero */}
       <header className={styles.hero}>
         <span className={styles.heroKicker}>◆ Sage Academy</span>
@@ -216,7 +217,6 @@ export function CatalogClient({
                   <span className={styles.courseLevel}>{c.level}</span>
                 </div>
                 <h3 className={styles.courseTitle}>{c.title}</h3>
-                <span className={styles.skillBar} aria-hidden="true"><i /><i /><i /><i /></span>
                 <span className={styles.courseMeta}>{c.lessons} lessons · {c.hours}h</span>
                 <div className={styles.courseFoot}>
                   <span className={styles.courseStart}>Start →</span>

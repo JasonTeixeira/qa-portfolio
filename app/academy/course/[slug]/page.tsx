@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getCourseOverview } from '@/lib/academy/content'
 import { getCourseProgress } from '@/lib/academy/progress'
 import { CourseOverview } from '@/components/academy/course/CourseOverview'
+import { AcademyShell } from '@/components/academy/academy-shell'
 
 export async function generateMetadata({
   params,
@@ -28,6 +29,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const continueSlug = (all.find((l) => !completed.has(l.slug)) ?? all[0])?.slug ?? null
 
   return (
-    <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
+    <AcademyShell active="catalog">
+      <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
+    </AcademyShell>
   )
 }

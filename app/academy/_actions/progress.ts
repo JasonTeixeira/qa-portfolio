@@ -29,7 +29,10 @@ export async function markLessonComplete(
     },
     { onConflict: 'user_id,lesson_slug' },
   )
-  if (error) return { ok: false, signedIn: true }
+  if (error) {
+    console.error('[academy/progress] markLessonComplete upsert failed', error)
+    return { ok: false, signedIn: true }
+  }
 
   await maybeAwardCertificate(user.id, courseSlug, user.email ?? null)
 
@@ -67,7 +70,8 @@ async function maybeAwardCertificate(userId: string, courseSlug: string, email: 
       },
       { onConflict: 'user_id,course_slug', ignoreDuplicates: true },
     )
-  } catch {
-    // certificate is best-effort; never block completion
+  } catch (err) {
+    // certificate is best-effort; never block completion — but surface the failure
+    console.error('[academy/progress] maybeAwardCertificate failed', err)
   }
 }

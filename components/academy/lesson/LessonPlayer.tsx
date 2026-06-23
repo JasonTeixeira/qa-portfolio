@@ -109,12 +109,14 @@ function Block({ block, labHref }: { block: LessonBlock; labHref: string }) {
     case 'code':
       return <CodeBlock block={block} />
     case 'video':
+      // No video player is wired yet — render an honest, non-interactive placeholder
+      // (a real Play control would announce an action it can't perform).
       return (
         <figure className={styles.video}>
-          <button type="button" className={styles.play} aria-label={`Play: ${block.title}`}>
-            <span aria-hidden="true">▶</span>
-          </button>
-          <figcaption className={styles.videoCap}>WATCH · {block.duration} · {block.title}</figcaption>
+          <div className={styles.play} aria-hidden="true">
+            <span>▶</span>
+          </div>
+          <figcaption className={styles.videoCap}>{block.title} · video walkthrough coming soon</figcaption>
         </figure>
       )
     case 'lab':

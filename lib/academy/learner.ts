@@ -94,7 +94,8 @@ export async function getLearnerDashboard(): Promise<LearnerDashboard> {
       certificates,
       paths: (pathsRaw ?? []).map((p) => ({ id: p.id, name: p.name, courseSlugs: (p.course_slugs as string[]) ?? [] })),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/learner] getLearnerDashboard failed', err)
     return empty
   }
 }
@@ -129,7 +130,8 @@ export async function getCertificate(code: string): Promise<CertificateView | nu
       topic: (course?.topic ?? 'foundations') as TopicKey,
       issuedAt: cert.issued_at,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/learner] getCertificate failed', err)
     return null
   }
 }

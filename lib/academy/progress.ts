@@ -24,7 +24,8 @@ export async function getCourseProgress(courseSlug: string): Promise<CourseProgr
       signedIn: true,
       completed: new Set((data ?? []).map((r: { lesson_slug: string }) => r.lesson_slug)),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/progress] getCourseProgress failed', err)
     return { signedIn: false, completed: new Set() }
   }
 }
@@ -45,7 +46,8 @@ export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: s
       .limit(1)
       .maybeSingle()
     return data ? { courseSlug: data.course_slug, lessonSlug: data.lesson_slug } : null
-  } catch {
+  } catch (err) {
+    console.error('[academy/progress] getContinue failed', err)
     return null
   }
 }

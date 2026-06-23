@@ -50,7 +50,8 @@ export async function getAcademyAccess(): Promise<AcademyAccess> {
     const hasFullAccess = !!membership || !!enrollment?.data || isAdmin
 
     return { signedIn: true, userId: user.id, email, membership, hasFullAccess, isAdmin }
-  } catch {
+  } catch (err) {
+    console.error('[academy/access] getAcademyAccess failed', err)
     return empty
   }
 }

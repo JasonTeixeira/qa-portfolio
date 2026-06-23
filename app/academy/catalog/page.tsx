@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { getContinue, getCourseProgress } from '@/lib/academy/progress'
 import { getCatalogCourses, getCourse } from '@/lib/academy/content'
-import { paths } from '@/data/academy/learn-catalog'
 import { CatalogClient } from '@/components/academy/catalog/CatalogClient'
 
 export const metadata: Metadata = {
@@ -42,7 +41,10 @@ export default async function CatalogPage() {
   return (
     <CatalogClient
       resume={resume}
-      paths={paths}
+      // Curated multi-course paths are hidden until they're real (the hardcoded ones
+      // advertised invented course/hour counts and all routed to a single lesson).
+      // Real paths get rebuilt from the academy methodology docs.
+      paths={[]}
       courses={dbCourses}
       totalCourses={dbCourses.length}
     />

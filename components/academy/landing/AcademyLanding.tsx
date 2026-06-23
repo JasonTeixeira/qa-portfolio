@@ -77,7 +77,7 @@ export function AcademyLanding() {
       <section className={styles.section}>
         <div className={styles.sectionHead}>
           <p className={styles.kicker}>Built to scale</p>
-          <h2 className={styles.h2}>Twelve engineering tracks today. Design, mobile & more next.</h2>
+          <h2 className={styles.h2}>Twelve engineering tracks mapped — two live now, the rest in build.</h2>
           <p className={styles.sectionSub}>
             One operating system, many domains. The curriculum grows continuously — and your membership
             includes every track we ship.

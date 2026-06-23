@@ -98,7 +98,7 @@ export function CatalogClient({
       <section className={styles.section} aria-labelledby="tracks-h">
         <div className={styles.sectionHead}>
           <p className={styles.kicker}>{liveCategory.name}</p>
-          <h2 id="tracks-h" className={styles.h2}>Twelve tracks, one operating system for mastery.</h2>
+          <h2 id="tracks-h" className={styles.h2}>Twelve tracks mapped — two live, the rest in build.</h2>
         </div>
         <div className={styles.trackGrid}>
           {liveTracks.map((t) => {
@@ -183,7 +183,7 @@ export function CatalogClient({
               {trackFilter ? (
                 <>Courses in this track. <button type="button" className={styles.clearFilter} onClick={() => setTrackFilter(null)}>clear ✕</button></>
               ) : (
-                <>Browse the catalog. <span className={styles.count}>{totalCourses}+ courses rolling out</span></>
+                <>Browse the catalog. <span className={styles.count}>{totalCourses} live · more rolling out</span></>
               )}
             </h2>
           </div>

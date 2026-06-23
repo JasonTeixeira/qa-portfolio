@@ -40,5 +40,3 @@ export const courses: CourseItem[] = [
   { slug: 'nextjs-supabase', title: 'Next.js + Supabase', topic: 'ship-it', level: 'Advanced', lessons: 14, hours: 6 },
   { slug: 'stripe-auth', title: 'Stripe & Auth', topic: 'ship-it', level: 'Advanced', lessons: 8, hours: 3 },
 ]
-
-export const TOTAL_COURSES = 42 // catalog grows; grid paginates

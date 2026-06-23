@@ -21,7 +21,8 @@ export async function getCatalogCourses(): Promise<CourseItem[]> {
       lessons: r.lessons,
       hours: r.hours,
     }))
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] getCatalogCourses failed', err)
     return []
   }
 }
@@ -67,7 +68,8 @@ export async function getCourse(slug: string): Promise<Course | null> {
       lessonsDone: 0,
       modules,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
   }
 }
@@ -133,7 +135,8 @@ export async function getCourseOverview(slug: string): Promise<CourseOverview | 
       firstLessonSlug: ls[0]?.slug ?? null,
       modules: order.map((t) => ({ title: t, lessons: byModule.get(t)! })),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
   }
 }
@@ -170,7 +173,8 @@ export async function getLesson(courseSlug: string, lessonSlug: string): Promise
       nextSlug: next?.slug,
       nextLabel: next?.title,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
   }
 }

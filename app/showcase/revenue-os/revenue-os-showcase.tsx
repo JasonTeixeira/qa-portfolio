@@ -156,12 +156,11 @@ const guidedSteps = [
 ] as const
 
 const proofBadges = [
-  'Native React prototype',
-  'No blocked iframe',
-  'Desktop E2E passed',
+  'Interactive prototype',
+  'Personalized packet',
+  'E2E tested',
   'Axe 0 violations',
   'Build verified',
-  'Last checked Jun 22, 2026',
 ]
 
 export function RevenueOsShowcase() {
@@ -189,31 +188,31 @@ export function RevenueOsShowcase() {
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <span className={styles.kicker}>Prototype 01 / Revenue OS</span>
-          <h1>AI client acquisition command center.</h1>
+          <h1>Show a buyer their business inside the system.</h1>
           <p>
-            A playable front-end prototype showing how Sage Ideas finds qualified accounts, creates personalized proof
-            assets, controls outbound approvals, classifies replies, and learns from every sprint.
+            A private, playable sales demo that turns cold outreach into a working concept: their brand, their market,
+            their revenue leak, and the exact workflow you can build for them.
           </p>
           <div className={styles.heroActions}>
-            <button className={styles.primaryButton} onClick={() => setStage(1)}>
+            <button className={styles.primaryButton} onClick={() => setIsFullscreen(true)}>
               <Play size={16} />
-              Run revenue sprint
+              Open live demo
             </button>
             <a className={styles.secondaryButton} href="/book?source=revenue_os_showcase">
-              Customize this for my business
+              Build this for my market
               <ArrowRight size={16} />
             </a>
           </div>
         </div>
         <div className={styles.heroPanel} aria-label="Revenue OS proof metrics">
           <div className={styles.panelStatus}>
-            <span>Live prototype</span>
-            <strong>Click through the revenue workflow</strong>
+            <span>Sales outcome</span>
+            <strong>Give prospects a reason to reply</strong>
           </div>
-          <Metric label="Pipeline surfaced" value="$87k" trend="+18%" />
-          <Metric label="Qualified accounts" value="42" trend="6 ready" />
-          <Metric label="Demo clicks" value="31%" trend="+9.4%" />
-          <Metric label="Booked calls" value="7" trend="this sprint" />
+          <Metric label="Private demo packet" value="1:1" trend="built for their business" />
+          <Metric label="Proof angle" value="3x" trend="research, prototype, CTA" />
+          <Metric label="Follow-up story" value="Clear" trend="what changes and why" />
+          <Metric label="Operator proof" value="Open" trend="dashboard below" />
         </div>
       </section>
 
@@ -221,10 +220,10 @@ export function RevenueOsShowcase() {
         <div className={styles.figmaHeader}>
           <div>
             <span className={styles.kicker}>Flagship live demo</span>
-            <h2>Show prospects the operating system before you ask for the call.</h2>
+            <h2>Make the prospect feel like this already belongs to them.</h2>
             <p>
-              A sales-ready interactive demo for outbound packets, inbound proof, and founder-led calls. Prospects can
-              see the workflow, understand the business outcome, and imagine their own version inside the same page.
+              The page should sell the transformation first: a broken website becomes a focused revenue path, a generic
+              email becomes a tailored concept, and the call becomes the obvious next step.
             </p>
           </div>
           <div className={styles.demoHeaderActions}>
@@ -294,7 +293,8 @@ export function RevenueOsShowcase() {
             <span className={styles.storyEyebrow}>Private packet inputs</span>
             <strong>Make the demo feel built for one buyer.</strong>
             <p>
-              These are the fields a private outbound route uses before the prospect sees the page.
+              Change the business, segment, and outcome to make the packet read like it was prepared for one company,
+              not a list.
             </p>
             <label>
               Business
@@ -360,12 +360,12 @@ export function RevenueOsShowcase() {
 
       <section className={styles.nativeIntro} aria-label="Website-native embedded prototype">
         <div>
-          <span className={styles.kicker}>Personalized packet simulator</span>
-          <h2>Turn the live demo into a prospect-specific outbound package.</h2>
+          <span className={styles.kicker}>Behind the sales page</span>
+          <h2>The dense command center is proof, not the first impression.</h2>
         </div>
         <p>
-          The command center below shows how a private packet is assembled: select the account, generate the concept,
-          approve the message, send the proof link, and learn from the outcome.
+          Open the operator layer when you want to show how the system finds accounts, assembles packets, controls
+          approval, and learns from replies. Keep the default buyer journey clean and outcome-led.
         </p>
       </section>
 
@@ -387,47 +387,54 @@ export function RevenueOsShowcase() {
         </div>
       ) : null}
 
-      <section className={styles.commandBar} aria-label="Revenue sprint workflow">
-        {steps.map((step, index) => (
-          <button
-            key={step}
-            className={`${styles.step} ${stage === index ? styles.stepActive : ''} ${index < stage ? styles.stepDone : ''}`}
-            onClick={() => setStage(index)}
-          >
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            {step}
-          </button>
-        ))}
-      </section>
+      <details className={styles.operatorDetails}>
+        <summary>
+          <span>Operator proof layer</span>
+          <strong>Open the command center that powers the sales demo.</strong>
+          <em>Account scoring, packet approval, controlled send, reply learning, and proof assets.</em>
+        </summary>
 
-      <section className={styles.workspace}>
-        <div className={styles.leftRail} aria-label="Revenue OS main opportunity queue">
-          <div className={styles.panelHeader}>
-            <span>Opportunity Queue</span>
-            <strong>{leads.length} accounts</strong>
-          </div>
-          <div className={styles.leadList}>
-            {leads.map((lead) => (
-              <button
-                key={lead.id}
-                className={`${styles.leadCard} ${selected.id === lead.id ? styles.leadCardActive : ''}`}
-                onClick={() => {
-                  setSelectedId(lead.id)
-                  setStage(2)
-                }}
-              >
-                <span className={styles.leadTopline}>
-                  <strong>{lead.business}</strong>
-                  <b>{lead.score}</b>
-                </span>
-                <span>{lead.vertical} · {lead.location}</span>
-                <em>{lead.gap}</em>
-              </button>
-            ))}
-          </div>
-        </div>
+        <section className={styles.commandBar} aria-label="Revenue sprint workflow">
+          {steps.map((step, index) => (
+            <button
+              key={step}
+              className={`${styles.step} ${stage === index ? styles.stepActive : ''} ${index < stage ? styles.stepDone : ''}`}
+              onClick={() => setStage(index)}
+            >
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {step}
+            </button>
+          ))}
+        </section>
 
-        <section className={styles.mainStage} aria-label="Revenue OS main selected account">
+        <section className={styles.workspace}>
+          <div className={styles.leftRail} aria-label="Revenue OS main opportunity queue">
+            <div className={styles.panelHeader}>
+              <span>Opportunity Queue</span>
+              <strong>{leads.length} accounts</strong>
+            </div>
+            <div className={styles.leadList}>
+              {leads.map((lead) => (
+                <button
+                  key={lead.id}
+                  className={`${styles.leadCard} ${selected.id === lead.id ? styles.leadCardActive : ''}`}
+                  onClick={() => {
+                    setSelectedId(lead.id)
+                    setStage(2)
+                  }}
+                >
+                  <span className={styles.leadTopline}>
+                    <strong>{lead.business}</strong>
+                    <b>{lead.score}</b>
+                  </span>
+                  <span>{lead.vertical} · {lead.location}</span>
+                  <em>{lead.gap}</em>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <section className={styles.mainStage} aria-label="Revenue OS main selected account">
           <div className={styles.stageHeader}>
             <div>
               <span className={styles.kicker}>Selected Account</span>
@@ -516,9 +523,9 @@ export function RevenueOsShowcase() {
               </div>
             </InsightCard>
           </div>
-        </section>
+          </section>
 
-        <div className={styles.rightRail}>
+          <div className={styles.rightRail}>
           <div className={styles.panelHeader}>
             <span>Live Sprint</span>
             <strong>{sprintProgress}%</strong>
@@ -547,48 +554,49 @@ export function RevenueOsShowcase() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section className={styles.lowerGrid}>
-        <div className={styles.analyticsPanel}>
-          <div className={styles.sectionTitle}>
-            <BarChart3 size={18} />
-            <h2>Learning loop</h2>
+        <section className={styles.lowerGrid}>
+          <div className={styles.analyticsPanel}>
+            <div className={styles.sectionTitle}>
+              <BarChart3 size={18} />
+              <h2>Learning loop</h2>
+            </div>
+            <div className={styles.chartRows}>
+              <ChartRow label="Contractor quote engines" value={82} note="+11 priority" />
+              <ChartRow label="Dental booking funnels" value={76} note="+8 reply lift" />
+              <ChartRow label="Med spa consult paths" value={69} note="copy needs compliance pass" />
+              <ChartRow label="Law firm intake pages" value={61} note="higher value, slower close" />
+            </div>
           </div>
-          <div className={styles.chartRows}>
-            <ChartRow label="Contractor quote engines" value={82} note="+11 priority" />
-            <ChartRow label="Dental booking funnels" value={76} note="+8 reply lift" />
-            <ChartRow label="Med spa consult paths" value={69} note="copy needs compliance pass" />
-            <ChartRow label="Law firm intake pages" value={61} note="higher value, slower close" />
-          </div>
-        </div>
 
-        <div className={styles.packetPanel}>
-          <div className={styles.sectionTitle}>
-            <FileText size={18} />
-            <h2>Outbound packet</h2>
+          <div className={styles.packetPanel}>
+            <div className={styles.sectionTitle}>
+              <FileText size={18} />
+              <h2>Outbound packet</h2>
+            </div>
+            <ul>
+              <li><CheckCircle2 size={15} /> Private demo route with business-specific headline</li>
+              <li><CheckCircle2 size={15} /> Website diagnosis and revenue leak summary</li>
+              <li><CheckCircle2 size={15} /> Matched prototype with personalized offer angle</li>
+              <li><CheckCircle2 size={15} /> Short email plus one proof-based follow-up</li>
+            </ul>
+            <a href="/book?source=revenue_os_packet" className={styles.packetCta}>
+              Build a packet for my business
+              <ArrowRight size={16} />
+            </a>
           </div>
-          <ul>
-            <li><CheckCircle2 size={15} /> Private demo route with business-specific headline</li>
-            <li><CheckCircle2 size={15} /> Website diagnosis and revenue leak summary</li>
-            <li><CheckCircle2 size={15} /> Matched prototype with personalized offer angle</li>
-            <li><CheckCircle2 size={15} /> Short email plus one proof-based follow-up</li>
-          </ul>
-          <a href="/book?source=revenue_os_packet" className={styles.packetCta}>
-            Build a packet for my business
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </section>
+        </section>
+      </details>
 
       <section className={styles.finalCta} aria-label="Revenue OS final call to action">
         <div>
           <span className={styles.kicker}>Build the version for your market</span>
-          <h2>Send a prospect a working concept instead of another cold email.</h2>
+          <h2>Send a working concept, not another pitch.</h2>
           <p>
-            Sage Ideas can turn this pattern into a private demo packet for one business, a campaign-specific prototype
-            set, or a full Revenue OS that qualifies traffic, launches proof assets, and routes replies into pipeline.
+            We can turn one target account, one vertical, or one campaign into a personalized prototype packet that
+            makes the buyer feel the outcome before the first call.
           </p>
         </div>
         <div className={styles.finalCtaActions}>

@@ -1,0 +1,105 @@
+{
+  "phase": "Phase 1 - Langfuse-ready AI observability",
+  "status": "passed_with_local_fallback",
+  "capturedAt": "2026-06-24T15:20:30Z",
+  "branch": "feat/community-rag-content-ops-cleanup",
+  "baseCommit": "08541f0",
+  "objective": "Add Langfuse-compatible AI tracing with a no-op local fallback, persist trace IDs for /ask-sage and daily content drafts, and prove the traced flows end to end.",
+  "deliverables": [
+    "Installed @langfuse/client, @langfuse/tracing, @langfuse/otel, and @opentelemetry/sdk-trace-node.",
+    "Added lib/ai/observability.ts with Langfuse SDK initialization, local fallback trace IDs, child observations, flushing, and sensitive payload redaction.",
+    "Wrapped DeepSeek chat calls as generation observations.",
+    "Wrapped RAG retrieval and RAG answer generation under a root chain observation.",
+    "Persisted AI trace metadata into rag_retrieval_logs.metadata, rag_answers.metadata, and daily draft metadata.",
+    "Updated /ask-sage, daily planner, and RAG smoke evidence to require trace IDs.",
+    "Added unit coverage for local fallback trace IDs and redaction."
+  ],
+  "mode": {
+    "configuredProvider": "local",
+    "reason": "LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY were not configured in the local environment. The Langfuse export path is installed and wired, but cloud export was not claimed as proven.",
+    "fallbackBehavior": "AI flows still emit non-empty trace IDs and observation IDs and persist them to evidence/database metadata."
+  },
+  "proof": {
+    "sdkDocsVerified": {
+      "source": "Context7",
+      "libraryId": "/langfuse/langfuse-js",
+      "topics": [
+        "TypeScript SDK initialization",
+        "manual observations",
+        "OpenTelemetry LangfuseSpanProcessor",
+        "flush and shutdown patterns"
+      ]
+    },
+    "commands": [
+      {
+        "command": "npm install @langfuse/client @langfuse/tracing",
+        "status": "passed",
+        "notes": "Installed Langfuse client/tracing packages."
+      },
+      {
+        "command": "npm install @langfuse/otel @opentelemetry/sdk-trace-node",
+        "status": "passed",
+        "notes": "Installed OTel processor and Node tracer provider packages."
+      },
+      {
+        "command": "npm run typecheck",
+        "status": "passed",
+        "notes": "tsc --noEmit passed after the final smoke-evidence change."
+      },
+      {
+        "command": "npm run test:unit",
+        "status": "passed",
+        "notes": "157 passed, 0 failed."
+      },
+      {
+        "command": "npm audit --audit-level=high",
+        "status": "passed",
+        "notes": "0 vulnerabilities."
+      },
+      {
+        "command": "npm run discord:smoke-ask-sage",
+        "status": "passed",
+        "traceId": "8f6e653e421401c74c8b258334a5013a",
+        "observabilityProvider": "local",
+        "answerId": "cd44546d-ce53-4a3a-a2d6-be46e09dd4e1",
+        "retrievalLogId": "3f5b9ce1-411e-41fd-845b-90de5be1e691",
+        "evidencePath": "docs/evidence/discord/ask-sage-smoke.json"
+      },
+      {
+        "command": "npm run discord:smoke-daily-planner",
+        "status": "passed",
+        "traceId": "5cdd39adb89b149de722e10dfd4681df",
+        "observabilityProvider": "local",
+        "draftId": "8435ba6e-750c-4665-a3c2-4895f9611c4a",
+        "evidencePath": "docs/evidence/discord/daily-planner-smoke.json",
+        "notes": "Smoke draft was cleaned up after proof."
+      },
+      {
+        "command": "npm run rag:smoke-answer",
+        "status": "passed",
+        "traceId": "efb9598302525f3d89578716d3d35431",
+        "observabilityProvider": "local",
+        "answerId": "29ab7015-553c-4d30-ba95-5bdf2af04259",
+        "retrievalLogId": "789c04cd-ebfd-4dfb-b59c-acd2f9bf47ee",
+        "evidencePath": "docs/evidence/rag/answer-smoke.json"
+      },
+      {
+        "command": "npm run discord:smoke",
+        "status": "passed",
+        "notes": "37 commands present, Discord tables reachable, 0 gateway dead letters."
+      },
+      {
+        "command": "npm run build",
+        "status": "passed",
+        "notes": "Next build completed. Existing dynamic-server-usage warnings appeared for academy pages and did not fail the build."
+      }
+    ]
+  },
+  "notYetProven": [
+    "Actual Langfuse cloud traces are not proven because Langfuse credentials are not configured.",
+    "The admin UI does not yet expose trace search, trace drill-down, or quality triage by trace ID.",
+    "Quiz, challenge, premium, and content-quality jobs inherit DeepSeek generation tracing when they call deepSeekChat, but they do not all persist workflow-level parent trace metadata yet.",
+    "Formal RAG eval scoring is still not built; that remains Phase 2."
+  ],
+  "nextPhase": "Phase 2 - formal RAG evaluation harness, golden questions, answer scoring, regression gates, and trace-linked eval runs."
+}

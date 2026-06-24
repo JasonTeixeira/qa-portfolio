@@ -48,6 +48,11 @@ export type DiscordDailyPlannerResult = {
   model: string | null;
   title: string;
   bodyPreview: string;
+  observability?: {
+    traceId: string;
+    observationId: string;
+    provider: 'langfuse' | 'local';
+  };
 };
 
 export type DiscordDailySignalScheduleResult = {
@@ -200,6 +205,10 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
         selected_source_url: news.items[0]?.draft.sourceUrl ?? null,
         error_count: news.errors.length,
       },
+      ai_trace_id: generation.observability.traceId,
+      ai_observation_id: generation.observability.observationId,
+      ai_observability_provider: generation.observability.provider,
+      langfuse_trace_id: generation.observability.provider === 'langfuse' ? generation.observability.traceId : null,
       ...(input.metadata ?? {}),
     },
   });
@@ -212,6 +221,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     model: generation.model,
     title: `Daily Signal - ${dateKey}`,
     bodyPreview: body.slice(0, 300),
+    observability: generation.observability,
   };
 }
 

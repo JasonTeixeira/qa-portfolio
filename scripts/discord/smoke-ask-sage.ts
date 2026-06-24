@@ -53,13 +53,17 @@ async function main() {
     answerId = answerMatch?.[1] ?? null;
     const { data: answerRow } = await sb
       .from('rag_answers')
-      .select('id, retrieval_log_id, answer, citations')
+      .select('id, retrieval_log_id, answer, citations, metadata')
       .eq('question', normalizedQuestion)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
     answerId = answerId ?? answerRow?.id ?? null;
     retrievalLogId = answerRow?.retrieval_log_id ?? null;
+    const traceId = typeof answerRow?.metadata?.ai_trace_id === 'string' ? answerRow.metadata.ai_trace_id : null;
+    const observabilityProvider = typeof answerRow?.metadata?.ai_observability_provider === 'string'
+      ? answerRow.metadata.ai_observability_provider
+      : null;
 
     const [{ count: queueCount }, { count: pointsCount }] = await Promise.all([
       sb.from('discord_content_queue').select('*', { count: 'exact', head: true }).eq('discord_user_id', smokeUserId).eq('source', 'ask_sage'),
@@ -73,12 +77,15 @@ async function main() {
         && content.includes('**Sources**')
         && Boolean(answerId)
         && Boolean(retrievalLogId)
+        && Boolean(traceId)
         && Number(queueCount ?? 0) > 0
         && Number(pointsCount ?? 0) > 0,
       responseType: response.type,
       ephemeral: response.data?.flags === 64,
       answerId,
       retrievalLogId,
+      traceId,
+      observabilityProvider,
       queueCount,
       pointsCount,
       answerPreview: content.slice(0, 500),

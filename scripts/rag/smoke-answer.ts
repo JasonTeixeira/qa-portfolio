@@ -19,13 +19,15 @@ async function main() {
   const startedAt = new Date().toISOString();
   const result = await answerRagQuestion(sb, question, { limit: 5, persist: true });
   const evidence = {
-    ok: Boolean(result.answer && result.citations.length && result.retrievalLogId && result.answerId),
+    ok: Boolean(result.answer && result.citations.length && result.retrievalLogId && result.answerId && result.observability.traceId),
     question,
     model: result.model,
     answerPreview: result.answer.slice(0, 500),
     citationCount: result.citations.length,
     retrievalLogId: result.retrievalLogId,
     answerId: result.answerId,
+    traceId: result.observability.traceId,
+    observabilityProvider: result.observability.provider,
     citations: result.citations,
     startedAt,
     finishedAt: new Date().toISOString(),

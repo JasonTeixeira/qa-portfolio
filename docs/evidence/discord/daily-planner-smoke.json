@@ -1,13 +1,20 @@
 {
   "ok": true,
   "skipped": false,
-  "draftId": "aec40782-c799-4419-a687-80abf3b34112",
+  "draftId": "8435ba6e-750c-4665-a3c2-4895f9611c4a",
   "dateKey": "2099-01-01",
   "model": "deepseek-v4-flash",
   "title": "Daily Signal - 2099-01-01",
-  "bodyPreview": "# Daily Signal\n**Theme:** Automation and AI – Building safe, auditable workflows\n\n**Build prompt:** Create a simple automation that reads a CSV of new user emails, checks each against a blocklist (local .txt file), and sends a welcome email only to non-blocked addresses. Use a tool like n8n, Make, o",
+  "bodyPreview": "# Daily Signal\n**Theme:** Automation and AI – Build trust into your workflows\n\n**Build prompt:** Create a simple daily Slack/email digest that scrapes a public API (e.g., weather, crypto price, or a GitHub repo star count) and sends it to you at 8 AM. Use a free cron job (GitHub Actions or Pipedream",
+  "observability": {
+    "traceId": "5cdd39adb89b149de722e10dfd4681df",
+    "observationId": "b553e94d129b161b",
+    "provider": "local"
+  },
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-21T19:34:31.824Z",
-  "finishedAt": "2026-06-21T19:34:38.543Z"
+  "traceId": "5cdd39adb89b149de722e10dfd4681df",
+  "observabilityProvider": "local",
+  "startedAt": "2026-06-24T15:18:33.020Z",
+  "finishedAt": "2026-06-24T15:18:38.814Z"
 }

@@ -379,12 +379,38 @@ test('rag deepseek: builds authenticated chat requests and parses content', asyn
     });
     assert.equal(result.content, 'rag-ok');
     assert.equal(result.usage.total_tokens, 5);
+    assert.equal(result.observability.provider, 'local');
+    assert.match(result.observability.traceId, /^[a-f0-9]{32}$/);
     assert.equal(calls[0].url, 'https://api.deepseek.com/chat/completions');
   assert.equal(calls[0].init.headers.Authorization, 'Bearer unit-key');
   assert.match(String(calls[0].init.body), /"model":"deepseek-chat"/);
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test('ai observability: local fallback trace ids and redaction are deterministic enough for evidence', async () => {
+  const { aiObservabilityMode, aiTraceMetadata, redactAiPayload, startAiObservation } = await import('../../lib/ai/observability.ts');
+  assert.equal(aiObservabilityMode({}), 'local');
+  assert.equal(aiObservabilityMode({ LANGFUSE_PUBLIC_KEY: 'pk', LANGFUSE_SECRET_KEY: 'sk' }), 'langfuse');
+
+  const observation = startAiObservation('unit-test', { input: { safe: true } });
+  const metadata = aiTraceMetadata(observation);
+  assert.equal(metadata.ai_observability_provider, 'local');
+  assert.equal(metadata.langfuse_trace_id, null);
+  assert.match(String(metadata.ai_trace_id), /^[a-f0-9]{32}$/);
+  assert.match(String(metadata.ai_observation_id), /^[a-f0-9]{16}$/);
+
+  const redacted = redactAiPayload({
+    apiKey: 'abc',
+    nested: { authorization: 'Bearer secret', ok: true },
+    messages: [{ token: 'secret', content: 'safe' }],
+  });
+  assert.equal(redacted.apiKey, '[redacted]');
+  assert.equal(redacted.nested.authorization, '[redacted]');
+  assert.equal(redacted.nested.ok, true);
+  assert.equal(redacted.messages[0].token, '[redacted]');
+  assert.equal(redacted.messages[0].content, 'safe');
 });
 
 test('rag embeddings and retrieval: local vector lane and hybrid RPC are wired', async () => {

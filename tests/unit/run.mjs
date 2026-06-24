@@ -1223,6 +1223,52 @@ test('discord learning lab v2: source-grounded quiz and challenge gates are stri
   assert.match(smoke, /quizMetadata\.source_ids\.includes\(sourceId\)/);
 });
 
+test('discord learning lab scheduler: drafts inactive items and publishes only after approval', async () => {
+  const {
+    DISCORD_LEARNING_LAB_SCHEDULER_VERSION,
+    learningLabRunKey,
+    createScheduledLearningLabDraft,
+    publishApprovedLearningLabItems,
+    reviewScheduledLearningLabItems,
+  } = await import('../../lib/discord/learning-lab-scheduler.ts');
+  const analytics = await readFile(new URL('../../lib/discord/analytics.ts', import.meta.url), 'utf8');
+  const scheduler = await readFile(new URL('../../lib/discord/learning-lab-scheduler.ts', import.meta.url), 'utf8');
+  const cronRoute = await readFile(new URL('../../app/api/cron/discord/learning-lab/route.ts', import.meta.url), 'utf8');
+  const publishRoute = await readFile(new URL('../../app/api/cron/discord/learning-lab/publish/route.ts', import.meta.url), 'utf8');
+  const weeklyRoute = await readFile(new URL('../../app/api/cron/discord/learning-lab/weekly/route.ts', import.meta.url), 'utf8');
+  const migration = await readFile(new URL('../../supabase/migrations/0086_discord_learning_lab_scheduled_runs.sql', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-learning-lab-scheduler.ts', import.meta.url), 'utf8');
+  const vercel = await readFile(new URL('../../vercel.json', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(DISCORD_LEARNING_LAB_SCHEDULER_VERSION, 'discord-learning-lab-scheduler-v1');
+  assert.equal(learningLabRunKey({ cadence: 'daily', date: new Date('2099-01-15T12:00:00.000Z') }), 'learning-lab-daily-2099-01-15');
+  assert.equal(typeof createScheduledLearningLabDraft, 'function');
+  assert.equal(typeof reviewScheduledLearningLabItems, 'function');
+  assert.equal(typeof publishApprovedLearningLabItems, 'function');
+  assert.match(scheduler, /active: false/);
+  assert.match(scheduler, /workflowStatus: 'pending_approval'/);
+  assert.match(scheduler, /workflowStatus: 'published'/);
+  assert.match(scheduler, /reason: 'no_approved_learning_lab_items'/);
+  assert.match(scheduler, /reason: 'already_published'/);
+  assert.match(analytics, /'learning_lab'/);
+  assert.match(analytics, /'drafted'/);
+  assert.match(analytics, /'published'/);
+  assert.match(migration, /learning_lab/);
+  assert.match(migration, /drafted/);
+  assert.match(cronRoute, /createScheduledLearningLabDraft/);
+  assert.match(cronRoute, /publishApprovedLearningLabItems/);
+  assert.match(publishRoute, /mode', 'publish'/);
+  assert.match(weeklyRoute, /cadence', 'weekly'/);
+  assert.match(vercel, /\/api\/cron\/discord\/learning-lab/);
+  assert.match(vercel, /\/api\/cron\/discord\/learning-lab\/publish/);
+  assert.match(vercel, /\/api\/cron\/discord\/learning-lab\/weekly/);
+  assert.equal(pkg.scripts['discord:smoke-learning-lab-scheduler'], 'tsx --env-file=.env.local scripts/discord/smoke-learning-lab-scheduler.ts');
+  assert.match(smoke, /blockedPublish\.reason === 'no_approved_learning_lab_items'/);
+  assert.match(smoke, /duplicatePublish\.reason === 'already_published'/);
+  assert.match(smoke, /quizAttempt\.quiz\.key === quizKey/);
+});
+
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {
   const { createLeaderboardSnapshot, discordLeaderboardPeriod } = await import('../../lib/discord/engagement.ts');
   const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, publishApprovedWeeklyRecapDraft, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');

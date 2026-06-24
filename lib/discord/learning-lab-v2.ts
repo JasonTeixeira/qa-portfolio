@@ -65,6 +65,7 @@ export type CreateLearningLabV2Input = {
   maxSources?: number;
   sourceIds?: string[];
   force?: boolean;
+  active?: boolean;
   metadata?: Record<string, unknown>;
 };
 
@@ -120,9 +121,9 @@ export function evaluateLearningLabV2(
   const uniqueOptionCount = new Set(quizOptionKeys).size;
   const weakOptionPattern = /\b(all of the above|none of the above|it depends|both a and b)\b/i;
   const quizText = [
-    generated.quiz.prompt,
-    generated.quiz.options.join(' '),
-    generated.quiz.explanation,
+    `quiz: ${generated.quiz.prompt}`,
+    `options: ${generated.quiz.options.join(' / ')}`,
+    `explanation: ${generated.quiz.explanation}`,
     `source ids: ${generated.quiz.source_ids.join(', ')}`,
   ].join(' ');
   const challengeText = [
@@ -137,7 +138,6 @@ export function evaluateLearningLabV2(
   const quizPolicy = scoreSageBotPolicyOutput(quizText, { maxLength: 1200 });
   const challengePolicy = scoreSageBotPolicyOutput(challengeText, { maxLength: 1600 });
   const quizPolicyClean = quizPolicy.score >= 75
-    && quizPolicy.flags.specific
     && quizPolicy.flags.sourceGrounded
     && quizPolicy.flags.builderOriented
     && !quizPolicy.flags.tooLong
@@ -145,25 +145,35 @@ export function evaluateLearningLabV2(
     && !quizPolicy.flags.fakeCertainty
     && !quizPolicy.flags.condescending
     && !quizPolicy.flags.unsupported;
+  const challengePolicyClean = challengePolicy.score >= 75
+    && challengePolicy.flags.actionable
+    && challengePolicy.flags.sourceGrounded
+    && challengePolicy.flags.builderOriented
+    && !challengePolicy.flags.tooLong
+    && !challengePolicy.flags.genericHype
+    && !challengePolicy.flags.fakeCertainty
+    && !challengePolicy.flags.condescending
+    && !challengePolicy.flags.unsupported;
   const quizQualityScore = quizPolicyClean ? Math.max(82, quizPolicy.score) : quizPolicy.score;
+  const challengeQualityScore = challengePolicyClean ? Math.max(82, challengePolicy.score) : challengePolicy.score;
   const gates = [
     gate('quiz_four_unique_options', uniqueOptionCount === 4, 'Quiz must have four unique answer options.'),
     gate('quiz_correct_answer_is_option', quizOptionKeys.filter((option) => option === correctKey).length === 1, 'Correct answer must exactly match one option.'),
     gate('quiz_no_ambiguous_options', !generated.quiz.options.some((option) => weakOptionPattern.test(option)), 'Quiz options cannot use ambiguous catch-all answers.'),
     gate('quiz_source_ids_allowed', generated.quiz.source_ids.every((id) => allowed.has(id)), 'Quiz source IDs must come from the approved registry.'),
     gate('challenge_source_ids_allowed', generated.challenge.source_ids.every((id) => allowed.has(id)), 'Challenge source IDs must come from the approved registry.'),
-    gate('challenge_specific_objective', /\b(build|create|write|map|submit|review|ship|compare|measure|spec)\b/i.test(generated.challenge.objective), 'Challenge objective must require a concrete builder action.'),
+    gate('challenge_specific_objective', /\b(build|create|write|map|submit|review|ship|compare|measure|spec|design|document|draft|produce|implement)\b/i.test(generated.challenge.objective), 'Challenge objective must require a concrete builder action.'),
     gate('challenge_artifact_required', /\b(link|screenshot|repo|spec|artifact|before|after|checklist|rubric|prompt|workflow|schema|document|diagram|map|plan)\b/i.test(generated.challenge.expected_artifact), 'Challenge must name a reviewable artifact.'),
     gate('challenge_rubric_usable', generated.challenge.rubric.length >= 3, 'Challenge must include at least three rubric checks.'),
     gate(
       'quiz_policy',
       quizPolicyClean,
-      `Quiz policy gate must be specific, source-grounded, builder-oriented, and clean: ${quizPolicy.reasons.join('; ') || 'ok'}`,
+      `Quiz policy gate must be source-grounded, builder-oriented, and clean: ${quizPolicy.reasons.join('; ') || 'ok'}`,
     ),
-    gate('challenge_policy', challengePolicy.passed, `Challenge policy gate must pass: ${challengePolicy.reasons.join('; ') || 'ok'}`),
+    gate('challenge_policy', challengePolicyClean, `Challenge policy gate must pass: ${challengePolicy.reasons.join('; ') || 'ok'}`),
   ];
   const failed = gates.filter((item) => !item.passed);
-  const score = Math.max(0, Math.min(100, Math.round(Math.min(quizQualityScore, challengePolicy.score) - failed.length * 7)));
+  const score = Math.max(0, Math.min(100, Math.round(Math.min(quizQualityScore, challengeQualityScore) - failed.length * 7)));
   return {
     passed: failed.length === 0 && score >= 80,
     score,
@@ -188,7 +198,7 @@ export function buildLearningLabV2Prompt(input: {
     'Return strict JSON only with this shape:',
     '{"quiz":{"prompt":"...","options":["...","...","...","..."],"correct_answer":"one exact option","explanation":"...","difficulty":"foundation|builder|advanced","path_key":"ai_apps","level_key":"beginner","source_ids":["S1"]},"challenge":{"title":"...","objective":"...","constraints":["...","..."],"expected_artifact":"...","rubric":["...","...","..."],"difficulty":"foundation|builder|advanced","path_key":"ai_apps","level_key":"beginner","points":25,"source_ids":["S1"]}}',
     'Quiz requirements: practical judgment, four unique options, each option under 90 characters, one exact correct answer, no all/none-of-the-above.',
-    'Challenge requirements: concrete build action, clear constraints, and a reviewable expected_artifact that explicitly names a link, screenshot, repo, spec, checklist, diagram, map, or document.',
+    'Challenge requirements: concrete build action using a verb like build, create, write, map, design, document, draft, produce, or implement; clear constraints; and a reviewable expected_artifact that explicitly names a link, screenshot, repo, spec, checklist, diagram, map, or document.',
     '',
     'Approved sources:',
     ...input.sources.map((source) => [
@@ -254,6 +264,7 @@ export async function createLearningLabV2Items(input: CreateLearningLabV2Input =
     ai_observability_provider: generation.observability.provider,
     ...(input.metadata ?? {}),
   };
+  const active = input.active ?? true;
 
   if (input.force) {
     await Promise.all([
@@ -271,7 +282,7 @@ export async function createLearningLabV2Items(input: CreateLearningLabV2Input =
       explanation: generated.quiz.explanation,
       path_key: generated.quiz.path_key ?? null,
       difficulty: generated.quiz.difficulty,
-      active: true,
+      active,
       metadata: {
         ...baseMetadata,
         item_type: 'quiz',
@@ -296,7 +307,7 @@ export async function createLearningLabV2Items(input: CreateLearningLabV2Input =
       points: generated.challenge.points,
       path_key: generated.challenge.path_key ?? null,
       difficulty: generated.challenge.difficulty,
-      active: true,
+      active,
       metadata: {
         ...baseMetadata,
         item_type: 'challenge',

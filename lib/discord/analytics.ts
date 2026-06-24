@@ -118,8 +118,8 @@ export async function updateDiscordPremium(input: {
 
 export async function recordDiscordScheduledRun(input: {
   runKey: string;
-  kind: 'daily_signal' | 'weekly_recap';
-  status: 'posted' | 'skipped' | 'failed';
+  kind: 'daily_signal' | 'weekly_recap' | 'learning_lab';
+  status: 'drafted' | 'published' | 'posted' | 'skipped' | 'failed';
   messageId?: string | null;
   metadata?: Json;
 }): Promise<void> {

@@ -79,6 +79,7 @@
     "rag:migration-check": "node scripts/rag/check-rag-migrations.mjs",
     "rag:smoke-foundation": "node --env-file-if-exists=.env.local scripts/rag/smoke-rag-foundation.mjs",
     "rag:sync-sources": "tsx --env-file=.env.local scripts/rag/sync-sources.ts",
+    "rag:smoke-discord-authoritative-sync": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
     "rag:smoke-deepseek": "tsx --env-file=.env.local scripts/rag/smoke-deepseek.ts",
     "rag:chunk": "tsx --env-file=.env.local scripts/rag/chunk-documents.ts",
     "rag:smoke-embeddings": "tsx --env-file=.env.local scripts/rag/smoke-local-embeddings.ts",

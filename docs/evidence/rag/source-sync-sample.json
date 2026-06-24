@@ -1,7 +1,18 @@
 {
   "ok": true,
-  "runKey": "rag-source-sync-2026-06-24T14-44-01-192Z",
+  "runKey": "rag-source-sync-2026-06-24T19-07-48-036Z",
   "status": "completed",
+  "approvalPolicy": "discord-authoritative-rag-sync-v1",
+  "approvedDiscordStats": {
+    "questionsSeen": 0,
+    "questionsApproved": 0,
+    "answersSeen": 0,
+    "answersApproved": 0,
+    "contentQueueSeen": 0,
+    "contentQueueApproved": 0,
+    "contentDraftsSeen": 5,
+    "contentDraftsApproved": 0
+  },
   "stats": {
     "sourcesSeen": 65,
     "sourcesUpserted": 65,
@@ -12,7 +23,7 @@
       "resource": 3
     }
   },
-  "blocker": "No Discord knowledge-source rows were available to sync. Message Content Intent/member activity still required for Discord corpus.",
+  "blocker": "No approved Discord knowledge-source rows were available to sync. Raw/unapproved Discord rows are intentionally excluded from authoritative RAG.",
   "sampleSources": [
     {
       "source_key": "blog_post:authentication-is-harder-than-you-think",

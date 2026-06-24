@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "runId": "phase5-1782328055387",
+  "approvalPolicy": "discord-authoritative-rag-sync-v1",
+  "approvedSourceKeys": [
+    "discord_content_queue:d933a9aa-ab67-41de-bd82-635e7e6d42e4",
+    "lesson:discord_content_draft:3b301ca4-cd12-4928-852b-84f4a1667bf5"
+  ],
+  "blockedSourceKeys": [
+    "discord_content_queue:1db171f0-cff6-482a-a7a7-6294485da1ea",
+    "lesson:discord_content_draft:5c21c087-d8ec-486b-b59a-8fb56d36b275"
+  ],
+  "collectorStats": {
+    "questionsSeen": 0,
+    "questionsApproved": 0,
+    "answersSeen": 0,
+    "answersApproved": 0,
+    "contentQueueSeen": 2,
+    "contentQueueApproved": 1,
+    "contentDraftsSeen": 7,
+    "contentDraftsApproved": 1
+  },
+  "collectedSourceKeys": [
+    "discord_content_queue:d933a9aa-ab67-41de-bd82-635e7e6d42e4",
+    "lesson:discord_content_draft:3b301ca4-cd12-4928-852b-84f4a1667bf5"
+  ],
+  "ragSourceKeys": [
+    "discord_content_queue:d933a9aa-ab67-41de-bd82-635e7e6d42e4",
+    "lesson:discord_content_draft:3b301ca4-cd12-4928-852b-84f4a1667bf5"
+  ],
+  "approvedPresent": true,
+  "blockedAbsent": true,
+  "documentsPresent": true,
+  "finishedAt": "2026-06-24T19:07:37.514Z",
+  "evidencePath": "/Users/Sage/code/active/sageideas.dev/docs/evidence/rag/discord-authoritative-sync-smoke.json"
+}

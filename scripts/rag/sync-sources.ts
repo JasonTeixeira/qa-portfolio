@@ -3,8 +3,11 @@ import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { parseFrontmatter } from '../../lib/frontmatter';
 import { normalizeRagSource, type NormalizedRagRecord, type RagSourceInput } from '../../lib/rag/source-normalizer';
-
-type SupabaseClient = ReturnType<typeof createClient<any>>;
+import {
+  DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
+  collectApprovedDiscordRagInputs,
+  type DiscordAuthoritativeSyncStats,
+} from '../../lib/rag/discord-authoritative-sources';
 
 const root = process.cwd();
 const evidenceDir = path.join(root, 'docs', 'evidence', 'rag');
@@ -23,14 +26,15 @@ async function main() {
   const { data: run, error: runError } = await sb.from('rag_ingestion_runs').insert({
     run_key: runKey,
     status: 'running',
-    source_types: ['discord_message', 'discord_question', 'discord_answer', 'discord_content_queue', 'blog_post', 'resource'],
-    metadata: { phase: 'phase_2_source_registry' },
+    source_types: ['discord_question', 'discord_answer', 'discord_content_queue', 'blog_post', 'resource', 'lesson', 'admin_note'],
+    metadata: { phase: 'phase_5_authoritative_discord_rag', approval_policy: DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION },
   }).select('id').single();
   if (runError) throw runError;
 
   let status: 'completed' | 'failed' = 'completed';
   let error: string | null = null;
   let records: NormalizedRagRecord[] = [];
+  let approvedDiscordStats: DiscordAuthoritativeSyncStats | null = null;
   const stats = {
     sourcesSeen: 0,
     sourcesUpserted: 0,
@@ -40,11 +44,10 @@ async function main() {
   };
 
   try {
+    const approvedDiscord = await collectApprovedDiscordRagInputs(sb);
+    approvedDiscordStats = approvedDiscord.stats;
     const inputs = [
-      ...(await discordMessageInputs(sb)),
-      ...(await discordQuestionInputs(sb)),
-      ...(await discordAnswerInputs(sb)),
-      ...(await discordContentQueueInputs(sb)),
+      ...approvedDiscord.inputs,
       ...(await blogPostInputs()),
       ...(await resourceInputs()),
     ];
@@ -86,7 +89,12 @@ async function main() {
     documents_upserted: stats.documentsUpserted,
     failures: stats.failures,
     error,
-    metadata: { phase: 'phase_2_source_registry', by_type: stats.byType },
+    metadata: {
+      phase: 'phase_5_authoritative_discord_rag',
+      approval_policy: DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
+      approved_discord_stats: approvedDiscordStats,
+      by_type: stats.byType,
+    },
     finished_at: new Date().toISOString(),
   }).eq('id', run.id);
 
@@ -95,10 +103,12 @@ async function main() {
     ok: status === 'completed',
     runKey,
     status,
+    approvalPolicy: DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
+    approvedDiscordStats,
     stats,
-    blocker: stats.byType.discord_message || stats.byType.discord_question || stats.byType.discord_answer || stats.byType.discord_content_queue
+    blocker: stats.byType.discord_question || stats.byType.discord_answer || stats.byType.discord_content_queue || stats.byType.lesson || stats.byType.admin_note
       ? null
-      : 'No Discord knowledge-source rows were available to sync. Message Content Intent/member activity still required for Discord corpus.',
+      : 'No approved Discord knowledge-source rows were available to sync. Raw/unapproved Discord rows are intentionally excluded from authoritative RAG.',
     sampleSources: records.slice(0, 5).map((record) => ({
       source_key: record.source.source_key,
       source_type: record.source.source_type,
@@ -110,96 +120,6 @@ async function main() {
   await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
   console.log(JSON.stringify({ ...evidence, evidencePath }, null, 2));
   if (status !== 'completed') process.exit(1);
-}
-
-async function discordMessageInputs(sb: SupabaseClient): Promise<RagSourceInput[]> {
-  const { data, error } = await sb
-    .from('discord_messages')
-    .select('discord_message_id, guild_id, channel_id, channel_base_name, author_user_id, author_username, content, detected_kind, captured_at, link_count, attachment_count')
-    .eq('author_bot', false)
-    .is('deleted_at', null)
-    .neq('content', '')
-    .limit(1000);
-  if (error) throw error;
-  return (data ?? []).map((row: any) => ({
-    sourceType: 'discord_message',
-    externalId: row.discord_message_id,
-    title: `Discord ${row.detected_kind ?? 'message'} in ${row.channel_base_name ?? row.channel_id}`,
-    body: row.content,
-    sourceTable: 'discord_messages',
-    sourceRecordId: row.discord_message_id,
-    authorUserId: row.author_user_id,
-    authorName: row.author_username,
-    channelId: row.channel_id,
-    channelBaseName: row.channel_base_name,
-    sourceCreatedAt: row.captured_at,
-    metadata: { guild_id: row.guild_id, detected_kind: row.detected_kind, link_count: row.link_count, attachment_count: row.attachment_count },
-  }));
-}
-
-async function discordQuestionInputs(sb: SupabaseClient): Promise<RagSourceInput[]> {
-  const { data, error } = await sb
-    .from('discord_questions')
-    .select('id, discord_user_id, discord_username, question, context, status, channel_base_name, message_id, created_at')
-    .limit(1000);
-  if (error) throw error;
-  return (data ?? []).map((row: any) => ({
-    sourceType: 'discord_question',
-    externalId: row.id,
-    title: `Discord question: ${String(row.question).slice(0, 80)}`,
-    body: [row.question, row.context].filter(Boolean).join('\n\nContext:\n'),
-    sourceTable: 'discord_questions',
-    sourceRecordId: row.id,
-    authorUserId: row.discord_user_id,
-    authorName: row.discord_username,
-    channelBaseName: row.channel_base_name,
-    sourceCreatedAt: row.created_at,
-    metadata: { status: row.status, message_id: row.message_id },
-  }));
-}
-
-async function discordAnswerInputs(sb: SupabaseClient): Promise<RagSourceInput[]> {
-  const { data, error } = await sb
-    .from('discord_answers')
-    .select('id, question_id, discord_user_id, discord_username, answer, helpful, points_awarded, message_id, created_at')
-    .limit(1000);
-  if (error) throw error;
-  return (data ?? []).map((row: any) => ({
-    sourceType: 'discord_answer',
-    externalId: row.id,
-    title: `Discord answer ${row.helpful ? '(helpful)' : ''}`.trim(),
-    body: row.answer,
-    sourceTable: 'discord_answers',
-    sourceRecordId: row.id,
-    authorUserId: row.discord_user_id,
-    authorName: row.discord_username,
-    sourceCreatedAt: row.created_at,
-    qualityScore: row.helpful ? 90 : 70,
-    metadata: { question_id: row.question_id, helpful: row.helpful, points_awarded: row.points_awarded, message_id: row.message_id },
-  }));
-}
-
-async function discordContentQueueInputs(sb: SupabaseClient): Promise<RagSourceInput[]> {
-  const { data, error } = await sb
-    .from('discord_content_queue')
-    .select('id, source, discord_user_id, discord_username, channel_base_name, idea, angle, status, priority, created_at, metadata')
-    .neq('status', 'archived')
-    .limit(1000);
-  if (error) throw error;
-  return (data ?? []).map((row: any) => ({
-    sourceType: 'discord_content_queue',
-    externalId: row.id,
-    title: `Content queue: ${String(row.idea).slice(0, 80)}`,
-    body: [row.idea, row.angle].filter(Boolean).join('\n\nAngle:\n'),
-    sourceTable: 'discord_content_queue',
-    sourceRecordId: row.id,
-    authorUserId: row.discord_user_id,
-    authorName: row.discord_username,
-    channelBaseName: row.channel_base_name,
-    sourceCreatedAt: row.created_at,
-    qualityScore: row.priority,
-    metadata: { source: row.source, status: row.status, metadata: row.metadata },
-  }));
 }
 
 async function blogPostInputs(): Promise<RagSourceInput[]> {

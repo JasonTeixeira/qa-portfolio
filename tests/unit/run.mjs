@@ -160,6 +160,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.equal(packageJson.scripts['rag:migration-check'], 'node scripts/rag/check-rag-migrations.mjs');
   assert.equal(packageJson.scripts['rag:smoke-foundation'], 'node --env-file-if-exists=.env.local scripts/rag/smoke-rag-foundation.mjs');
   assert.equal(packageJson.scripts['rag:sync-sources'], 'tsx --env-file=.env.local scripts/rag/sync-sources.ts');
+  assert.equal(packageJson.scripts['rag:smoke-discord-authoritative-sync'], 'tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts');
   assert.equal(packageJson.scripts['rag:smoke-deepseek'], 'tsx --env-file=.env.local scripts/rag/smoke-deepseek.ts');
   assert.equal(packageJson.scripts['rag:chunk'], 'tsx --env-file=.env.local scripts/rag/chunk-documents.ts');
   assert.equal(packageJson.scripts['rag:smoke-embeddings'], 'tsx --env-file=.env.local scripts/rag/smoke-local-embeddings.ts');
@@ -211,6 +212,48 @@ again`);
   assert.equal(record.document.document_key, 'doc:discord_answer:answer-1');
   assert.equal(record.document.body_hash, record.source.content_hash);
   assert.equal(record.document.status, 'pending');
+});
+
+test('discord authoritative rag sync: excludes raw and unapproved community data', async () => {
+  const {
+    DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
+    isApprovedDiscordAnswer,
+    isApprovedDiscordContentDraft,
+    isApprovedDiscordContentQueue,
+    isApprovedDiscordQuestion,
+    sourceTypeForApprovedDiscordDraft,
+  } = await import('../../lib/rag/discord-authoritative-sources.ts');
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const syncScript = await readFile(new URL('../../scripts/rag/sync-sources.ts', import.meta.url), 'utf8');
+  const smokeScript = await readFile(new URL('../../scripts/rag/smoke-discord-authoritative-sync.ts', import.meta.url), 'utf8');
+
+  assert.equal(DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION, 'discord-authoritative-rag-sync-v1');
+  assert.equal(isApprovedDiscordQuestion({ status: 'answered' }), true);
+  assert.equal(isApprovedDiscordQuestion({ status: 'closed' }), true);
+  assert.equal(isApprovedDiscordQuestion({ status: 'open' }), false);
+  assert.equal(isApprovedDiscordAnswer({ helpful: true }), true);
+  assert.equal(isApprovedDiscordAnswer({ helpful: false }), false);
+  assert.equal(isApprovedDiscordContentQueue({ status: 'published' }), true);
+  assert.equal(isApprovedDiscordContentQueue({ status: 'drafted' }), false);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 80, metadata: { policy_passed: true } }), true);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'published', quality_score: 95 }), true);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 79 }), false);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 95, metadata: { policy_passed: false } }), false);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'rejected', quality_score: 100 }), false);
+  assert.equal(sourceTypeForApprovedDiscordDraft('lesson'), 'lesson');
+  assert.equal(sourceTypeForApprovedDiscordDraft('resource_drop'), 'resource');
+  assert.equal(sourceTypeForApprovedDiscordDraft('weekly_recap'), 'resource');
+  assert.equal(sourceTypeForApprovedDiscordDraft('daily_signal'), 'admin_note');
+
+  assert.equal(packageJson.scripts['rag:smoke-discord-authoritative-sync'], 'tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts');
+  assert.match(syncScript, /collectApprovedDiscordRagInputs/);
+  assert.match(syncScript, /phase_5_authoritative_discord_rag/);
+  assert.match(syncScript, /approved_discord_stats/);
+  assert.doesNotMatch(syncScript, /from\('discord_messages'\)/);
+  assert.doesNotMatch(syncScript, /source_types: \[[^\]]*discord_message/);
+  assert.match(smokeScript, /blockedAbsent/);
+  assert.match(smokeScript, /approvedPresent/);
+  assert.match(smokeScript, /discord-authoritative-sync-smoke\.json/);
 });
 
 test('discord message classifier: labels useful community moments with actions', async () => {

@@ -1,0 +1,155 @@
+{
+  "phase": "Phase 3 - RAG query rewriting and deterministic reranking",
+  "status": "passed_with_material_eval_improvement",
+  "capturedAt": "2026-06-24T16:12:20Z",
+  "branch": "feat/community-rag-content-ops-cleanup",
+  "baseCommit": "a8c4157",
+  "objective": "Improve answer quality by improving what context reaches DeepSeek: normalize queries, rewrite command/category questions, collect multi-query candidates, rerank deterministically, and prove before/after eval improvement.",
+  "deliverables": [
+    "Added lib/rag/query-planning.ts with intent detection, slash-command expansion, preferred source hints, and rewritten search queries.",
+    "Added lib/rag/reranking.ts with deterministic reranking, source-priority policy, query-term overlap, preferred-source overlap, and keyword-score boost.",
+    "Updated lib/rag/retrieval.ts to use multi-query candidate retrieval and reranking before answer generation.",
+    "Persisted retrieval metadata: original_query, rewritten_queries, query_intent, query_planner_version, reranker_version, source_priority_policy, selected_source_types, rerank scores, and rerank reasons.",
+    "Added unit coverage for query planning, source priority, and reranker ordering.",
+    "Ran RAG smoke, RAG answer smoke, /ask-sage smoke, full eval, smoke eval, typecheck, unit tests, and production build."
+  ],
+  "beforeAfter": {
+    "baselinePhase2Run": {
+      "runId": "240f42a8-2db9-4d31-8e75-19fbef395caa",
+      "runKey": "full-20260624153910",
+      "passed": 35,
+      "failed": 15,
+      "passRate": 0.7,
+      "avgScore": 0.6964,
+      "retrievalHitRate": 0.72,
+      "citationCoverage": 0.72,
+      "contextPrecision": 0.32,
+      "faithfulness": 0.878,
+      "groundedness": 0.692,
+      "answerUsefulness": 0.6467
+    },
+    "phase3Run": {
+      "runId": "35b48a5b-38b9-4ae8-a6db-b3558c2888c5",
+      "runKey": "full-20260624160852",
+      "passed": 44,
+      "failed": 6,
+      "passRate": 0.88,
+      "avgScore": 0.8454,
+      "retrievalHitRate": 0.92,
+      "citationCoverage": 0.91,
+      "contextPrecision": 0.488,
+      "faithfulness": 0.924,
+      "groundedness": 0.8255,
+      "answerUsefulness": 0.8133
+    },
+    "delta": {
+      "passed": 9,
+      "failed": -9,
+      "passRate": 0.18,
+      "avgScore": 0.149,
+      "retrievalHitRate": 0.2,
+      "citationCoverage": 0.19,
+      "contextPrecision": 0.168,
+      "faithfulness": 0.046,
+      "groundedness": 0.1335,
+      "answerUsefulness": 0.1666
+    }
+  },
+  "proof": {
+    "commands": [
+      {
+        "command": "npm run typecheck",
+        "status": "passed"
+      },
+      {
+        "command": "npm run test:unit",
+        "status": "passed",
+        "notes": "159 passed, 0 failed."
+      },
+      {
+        "command": "npm run rag:smoke-retrieval",
+        "status": "passed",
+        "notes": "Returned 5 results with Discord community/runbook sources."
+      },
+      {
+        "command": "npm run rag:smoke-answer",
+        "status": "passed",
+        "answerId": "8e9e0af0-6843-41ca-bf13-4cddf42b6f18",
+        "retrievalLogId": "8844f66b-4426-46db-be50-c2580bad5fe2",
+        "traceId": "756900aba28f22372ad69289d3d1ab74"
+      },
+      {
+        "command": "npm run discord:smoke-ask-sage",
+        "status": "passed",
+        "answerId": "28669794-4c20-4cde-8779-df9cfada787f",
+        "retrievalLogId": "1e6c105b-75fd-4efa-8d8b-46b2ba604410",
+        "traceId": "424baea83513d1de02bddee1b58e5a7e"
+      },
+      {
+        "command": "npm run rag:evaluate",
+        "status": "passed",
+        "runId": "35b48a5b-38b9-4ae8-a6db-b3558c2888c5",
+        "evaluated": 50,
+        "passed": 44,
+        "failed": 6,
+        "passRate": 0.88
+      },
+      {
+        "command": "npm run rag:evaluate:smoke",
+        "status": "passed",
+        "runId": "18dd1b74-6b5b-467c-b595-5567e836d246",
+        "evaluated": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": 1
+      },
+      {
+        "command": "npm run build",
+        "status": "passed",
+        "notes": "Next build completed. Existing academy dynamic-server-usage warnings appeared and did not fail the build."
+      }
+    ]
+  },
+  "honestResult": {
+    "phaseGatePassed": true,
+    "qualityPosture": "meaningfully improved but not complete",
+    "reason": "The full eval improved from 35/50 to 44/50 and all required Phase 3 exit metrics improved or stayed stable.",
+    "remainingFailedEvalKeys": [
+      "rag_ai_007",
+      "rag_ai_008",
+      "rag_ai_009",
+      "rag_content_008",
+      "rag_onboarding_009",
+      "rag_points_008"
+    ],
+    "remainingFailurePattern": "Remaining failures are narrow: blog/AI article retrieval for three AI questions, one content-loop source miss, one answer wording miss for question quality bar, and one first-project-template retrieval miss."
+  },
+  "roadmapStatus": {
+    "totalPlannedPhases": 11,
+    "completedPhases": [
+      "Phase 0 - Baseline, cleanup, inventory, risk lock",
+      "Phase 1 - Langfuse-ready observability with local fallback",
+      "Phase 2 - Deterministic RAG eval harness",
+      "Phase 3 - Query rewriting and deterministic reranking"
+    ],
+    "remainingPhases": [
+      "Phase 4 - SageBot personality, answer policy, refusal style, and command UX consistency",
+      "Phase 5 - Discord knowledge/content ingestion approvals into authoritative RAG",
+      "Phase 6 - RAG-grounded content, quiz, challenge, and lesson generation",
+      "Phase 7 - Admin operating dashboard for RAG health, eval failures, traces, jobs, and content queues",
+      "Phase 8 - ML/member intelligence scoring and engagement personalization",
+      "Phase 9 - RAG eval hardening with model-based judge/RAGAS or DeepEval after deterministic suite is stable",
+      "Phase 10 - LangGraph or agent workflows for multi-step human-in-loop operations"
+    ],
+    "phasesComplete": 4,
+    "phasesRemaining": 7
+  },
+  "notYetDone": [
+    "No admin/debug UI for retrieved chunks or eval failures yet.",
+    "No hosted/local cross-encoder reranker yet.",
+    "No model-based judge/RAGAS/DeepEval yet.",
+    "Six deterministic evals still fail.",
+    "Eval pass rate is 88%, not 95-99%."
+  ],
+  "nextPhase": "Phase 4 - SageBot personality, answer policy, refusal style, and command UX consistency."
+}

@@ -2,6 +2,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { aiTraceMetadata, startAiObservation, type AiObservation } from '@/lib/ai/observability';
 import { embedTextLocal, LOCAL_EMBEDDING_MODEL } from './embeddings';
 import { deepSeekChat } from './deepseek';
+import { planRagQuery, type RagQueryPlan } from './query-planning';
+import { RAG_RERANKER_VERSION, rerankRagResults, type RerankedRagSearchResult } from './reranking';
 
 export type RagSearchResult = {
   chunk_id: string;
@@ -39,33 +41,34 @@ export type RagAnswerResult = {
 export async function retrieveRagChunks(
   sb: SupabaseClient<any>,
   query: string,
-  options: { limit?: number; vectorWeight?: number; observability?: { parent?: AiObservation } } = {},
-): Promise<RagSearchResult[]> {
+  options: { limit?: number; vectorWeight?: number; candidateLimit?: number; observability?: { parent?: AiObservation } } = {},
+): Promise<RerankedRagSearchResult[]> {
+  const plan = planRagQuery(query);
   const observation = startAiObservation(
     'rag.retrieve_chunks',
     {
-      input: { query, limit: options.limit ?? 6, vectorWeight: options.vectorWeight ?? 0.65 },
-      metadata: { embedding_model: LOCAL_EMBEDDING_MODEL, retrieval_provider: 'supabase_hybrid' },
+      input: { query, rewrittenQueries: plan.searchQueries, limit: options.limit ?? 6, vectorWeight: options.vectorWeight ?? 0.65 },
+      metadata: {
+        embedding_model: LOCAL_EMBEDDING_MODEL,
+        retrieval_provider: 'supabase_hybrid_multi_query',
+        query_planner_version: plan.metadata.plannerVersion,
+        reranker_version: RAG_RERANKER_VERSION,
+      },
     },
     { asType: 'retriever', parent: options.observability?.parent },
   );
   try {
-    const embedding = await embedTextLocal(query);
-    const { data, error } = await sb.rpc('match_rag_chunks_hybrid', {
-      query_text: query,
-      query_embedding: `[${embedding.vector.join(',')}]`,
-      match_count: options.limit ?? 6,
-      vector_weight: options.vectorWeight ?? 0.65,
+    const candidates = await retrieveRagCandidates(sb, plan, {
+      candidateLimit: options.candidateLimit ?? 20,
+      vectorWeight: options.vectorWeight ?? 0.65,
     });
-    if (error) {
-      observation.update({ level: 'ERROR', statusMessage: error.message });
-      throw error;
-    }
-    const results = (data ?? []) as RagSearchResult[];
+    const results = rerankRagResults(plan, candidates, options.limit ?? 6);
     observation.update({
       output: {
+        candidate_count: candidates.length,
         result_count: results.length,
         top_chunk_ids: results.slice(0, 5).map((result) => result.chunk_id),
+        top_rerank_scores: results.slice(0, 5).map((result) => result.rerank_score),
       },
     });
     return results;
@@ -74,15 +77,47 @@ export async function retrieveRagChunks(
   }
 }
 
+async function retrieveRagCandidates(
+  sb: SupabaseClient<any>,
+  plan: RagQueryPlan,
+  options: { candidateLimit: number; vectorWeight: number },
+): Promise<RagSearchResult[]> {
+  const byChunkId = new Map<string, RagSearchResult>();
+  const perQueryLimit = Math.max(options.candidateLimit, 12);
+  for (const searchQuery of plan.searchQueries) {
+    const embedding = await embedTextLocal(searchQuery);
+    const { data, error } = await sb.rpc('match_rag_chunks_hybrid', {
+      query_text: searchQuery,
+      query_embedding: `[${embedding.vector.join(',')}]`,
+      match_count: perQueryLimit,
+      vector_weight: options.vectorWeight,
+    });
+    if (error) throw error;
+    for (const candidate of (data ?? []) as RagSearchResult[]) {
+      const existing = byChunkId.get(candidate.chunk_id);
+      if (!existing || candidate.hybrid_score > existing.hybrid_score) {
+        byChunkId.set(candidate.chunk_id, candidate);
+      }
+    }
+  }
+  return [...byChunkId.values()];
+}
+
 export async function answerRagQuestion(
   sb: SupabaseClient<any>,
   question: string,
   options: { limit?: number; persist?: boolean } = {},
 ): Promise<RagAnswerResult> {
   const startedAt = Date.now();
+  const queryPlan = planRagQuery(question);
   const rootObservation = startAiObservation('rag.answer_question', {
-    input: { question, limit: options.limit ?? 5 },
-    metadata: { prompt_version: 'rag_answer_v1', generation_provider: 'deepseek' },
+    input: { question, rewrittenQueries: queryPlan.searchQueries, limit: options.limit ?? 5 },
+    metadata: {
+      prompt_version: 'rag_answer_v1',
+      generation_provider: 'deepseek',
+      query_planner_version: queryPlan.metadata.plannerVersion,
+      reranker_version: RAG_RERANKER_VERSION,
+    },
   }, { asType: 'chain' });
   const traceMetadata = aiTraceMetadata(rootObservation);
 
@@ -144,8 +179,18 @@ export async function answerRagQuestion(
         confidence: results.length ? 0.7 : 0.1,
         latency_ms: latencyMs,
         metadata: {
-          provider: 'local_hybrid',
+          provider: 'local_hybrid_multi_query_rerank',
           generation_provider: 'deepseek',
+          original_query: question,
+          rewritten_queries: queryPlan.searchQueries,
+          query_intent: queryPlan.intent,
+          query_planner_version: queryPlan.metadata.plannerVersion,
+          query_rewrite_reasons: queryPlan.metadata.rewriteReasons,
+          reranker_version: RAG_RERANKER_VERSION,
+          source_priority_policy: 'approved_core_resources_first_v1',
+          selected_source_types: [...new Set(results.map((result) => result.source_type))],
+          selected_rerank_scores: results.map((result) => result.rerank_score),
+          selected_rerank_reasons: results.map((result) => result.rerank_reasons),
           ...traceMetadata,
           root_observation_id: rootObservation.observationId,
         },

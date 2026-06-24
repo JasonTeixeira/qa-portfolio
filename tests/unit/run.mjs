@@ -473,6 +473,55 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
   assert.equal(ragEvalSummaryPassed(summary), false);
 });
 
+test('rag query planning and reranking: expands command questions and prioritizes approved sources', async () => {
+  const { planRagQuery } = await import('../../lib/rag/query-planning.ts');
+  const { rerankRagResults, sourcePriorityScore } = await import('../../lib/rag/reranking.ts');
+  const plan = planRagQuery('What does /mark-helpful do?');
+  assert.equal(plan.intent, 'reputation');
+  assert.ok(plan.searchQueries.some((query) => /15 points/.test(query)));
+  assert.ok(plan.preferredSources.includes('DISCORD_EDUCATION_SERVER_RUNBOOK.md'));
+
+  const priority = sourcePriorityScore({
+    title: 'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+    source_url: '/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+    source_type: 'resource',
+  });
+  assert.ok(priority.score > 0);
+  assert.ok(priority.reasons.includes('approved_core_resource'));
+
+  const low = {
+    chunk_id: 'raw',
+    document_id: 'doc-raw',
+    source_id: 'source-raw',
+    chunk_key: 'raw',
+    content: 'general chat without the command answer',
+    title: 'raw discord message',
+    source_type: 'discord_message',
+    source_url: null,
+    metadata: {},
+    vector_score: 0.99,
+    keyword_score: 0,
+    hybrid_score: 0.99,
+  };
+  const high = {
+    chunk_id: 'runbook',
+    document_id: 'doc-runbook',
+    source_id: 'source-runbook',
+    chunk_key: 'runbook',
+    content: 'mark helpful lets an admin mark an answer helpful and awards a 15 point quality bonus',
+    title: 'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+    source_type: 'resource',
+    source_url: '/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+    metadata: {},
+    vector_score: 0.7,
+    keyword_score: 0.4,
+    hybrid_score: 0.7,
+  };
+  const ranked = rerankRagResults(plan, [low, high], 2);
+  assert.equal(ranked[0].chunk_id, 'runbook');
+  assert.ok(ranked[0].rerank_score > ranked[1].rerank_score);
+});
+
 test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
   const { formatAskSageDiscordAnswer, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
   const { isDeferredSageCommand } = await import('../../lib/discord/sage-commands.ts');

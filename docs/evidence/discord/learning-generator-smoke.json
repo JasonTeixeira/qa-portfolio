@@ -2,13 +2,13 @@
   "ok": true,
   "dateKey": "2099-01-02",
   "model": "deepseek-v4-flash",
-  "quizDraftId": "29195677-7134-4eb6-8cbe-179ba8c3b5e4",
-  "challengeDraftId": "175ced46-c1d5-4bbb-9fde-a89258b83240",
-  "quizPreview": "You are building an AI-powered content approval system for a marketing team. The system must generate draft social posts using an LLM, then hold them for human review before publishing. Which architecture best enforces the approval gate?",
-  "challengePreview": "Build a Human-in-the-Loop Content Moderator",
+  "quizDraftId": "dffd9bc9-4e2f-4064-933b-70d4106b73cf",
+  "challengeDraftId": "d4364d9c-e958-448d-9a23-38925032a521",
+  "quizPreview": "You are building an approval-gated AI automation for a client. The system generates draft blog posts using a large language model, then sends them to a human reviewer for approval before publishing. Which of the following design choices best ensures that the human reviewer can meaningfully evaluate the draft without being overwhelmed?",
+  "challengePreview": "Approval-Gated Content Drafting Workflow",
   "theme": "approval-gated AI automations",
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-24T16:49:51.259Z",
-  "finishedAt": "2026-06-24T16:49:57.137Z"
+  "startedAt": "2026-06-24T18:18:08.580Z",
+  "finishedAt": "2026-06-24T18:18:14.760Z"
 }

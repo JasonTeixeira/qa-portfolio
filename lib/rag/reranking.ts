@@ -6,7 +6,7 @@ export type RerankedRagSearchResult = RagSearchResult & {
   rerank_reasons: string[];
 };
 
-export const RAG_RERANKER_VERSION = 'deterministic_reranker_v1';
+export const RAG_RERANKER_VERSION = 'deterministic_reranker_v2';
 
 const SOURCE_PRIORITY: Array<[RegExp, number, string]> = [
   [/DISCORD_COMMUNITY_OPERATING_SYSTEM\.md|DISCORD_EDUCATION_SERVER_RUNBOOK\.md|rag-system-build-plan\.txt/i, 0.28, 'approved_core_resource'],
@@ -24,7 +24,7 @@ export function rerankRagResults(
   const maxHybrid = Math.max(...candidates.map((candidate) => Number(candidate.hybrid_score) || 0), 0.000001);
   return candidates
     .map((candidate) => scoreCandidate(plan, candidate, maxHybrid))
-    .sort((a, b) => b.rerank_score - a.rerank_score)
+    .sort((a, b) => Number(b.rerank_reasons.includes('exact_preferred_source_match')) - Number(a.rerank_reasons.includes('exact_preferred_source_match')) || b.rerank_score - a.rerank_score)
     .slice(0, limit);
 }
 
@@ -53,6 +53,7 @@ function scoreCandidate(plan: RagQueryPlan, candidate: RagSearchResult, maxHybri
   const preferredTerms = significantTerms(plan.preferredSources.join(' '));
   const overlap = overlapRatio(queryTerms, text);
   const preferredOverlap = overlapRatio(preferredTerms, text);
+  const exactPreferred = exactPreferredSourceScore(plan.preferredSources, text);
   const sourcePriority = sourcePriorityScore(candidate);
   const hybrid = Math.min(1, Math.max(0, Number(candidate.hybrid_score) / maxHybrid));
   const keywordBoost = Math.min(0.12, Math.max(0, Number(candidate.keyword_score)) * 0.08);
@@ -60,6 +61,7 @@ function scoreCandidate(plan: RagQueryPlan, candidate: RagSearchResult, maxHybri
     hybrid * 0.34
     + overlap * 0.28
     + preferredOverlap * 0.16
+    + exactPreferred.score
     + sourcePriority.score
     + keywordBoost,
   );
@@ -70,9 +72,18 @@ function scoreCandidate(plan: RagQueryPlan, candidate: RagSearchResult, maxHybri
       ...sourcePriority.reasons,
       overlap > 0 ? 'query_term_overlap' : '',
       preferredOverlap > 0 ? 'preferred_source_overlap' : '',
+      exactPreferred.score > 0 ? exactPreferred.reason : '',
       keywordBoost > 0 ? 'keyword_score_boost' : '',
     ].filter(Boolean),
   };
+}
+
+function exactPreferredSourceScore(preferredSources: string[], candidateText: string): { score: number; reason: string } {
+  const matched = preferredSources.some((source) => {
+    const normalizedSource = normalize(source);
+    return normalizedSource.length >= 8 && candidateText.includes(normalizedSource);
+  });
+  return matched ? { score: 0.62, reason: 'exact_preferred_source_match' } : { score: 0, reason: '' };
 }
 
 function significantTerms(text: string): string[] {

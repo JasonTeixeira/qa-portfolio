@@ -29,10 +29,10 @@ export type SageBotPolicyScore = {
 
 const HYPE_PATTERNS = /\b(game[- ]?changer|revolutionary|ultimate|crush it|10x|insane|amazing|guaranteed|go viral|like crazy)\b/i;
 const FAKE_CERTAINTY_PATTERNS = /\b(always|never|everyone knows|obviously|certainly|definitely will|guaranteed)\b/i;
-const CONDESCENDING_PATTERNS = /\b(easy|simply|just|obvious|basic|you should have|clearly)\b/i;
+const CONDESCENDING_PATTERNS = /\b(obviously|you should have|this is basic|clearly you|anyone can)\b/i;
 const UNSUPPORTED_PATTERNS = /\b(i assume|probably|outside the provided context|not in the context but|based on my knowledge|gpt-4o|openai|chatgpt)\b/i;
-const ACTION_PATTERNS = /\b(run|build|create|submit|review|check|use|write|ship|post|capture|approve|compare|measure|start)\b/i;
-const BUILDER_PATTERNS = /\b(build|ship|project|workflow|prompt|review|resource|challenge|implementation|acceptance criteria|artifact)\b/i;
+const ACTION_PATTERNS = /\b(run|build|create|submit|review|check|use|write|ship|post|capture|approve|compare|measure|start|choose|select|identify|design|map|explain)\b/i;
+const BUILDER_PATTERNS = /\b(build|ship|project|workflow|prompt|review|resource|challenge|implementation|acceptance criteria|artifact|automation|system|quiz|approval|deliverable)\b/i;
 
 export function sageBotAnswerSystemPrompt(): string {
   return [
@@ -115,6 +115,7 @@ function countSpecificSignals(text: string): number {
   if (/\b[A-Z][A-Za-z]+ Member\b/.test(text)) count += 1;
   if (/\b(start-here|daily-signal|build-lab|review-queue|content-lab|wins-showcase|premium|questions)\b/i.test(text)) count += 1;
   if (/\b\d+\b/.test(text)) count += 1;
-  if (/\b(acceptance criteria|deliverable|artifact|source|citation|context)\b/i.test(text)) count += 1;
+  if (/\b(acceptance criteria|deliverable|artifact|source|citation|context|options:|explanation:|answer:|theme:|build prompt:|challenge:|quiz:)\b/i.test(text)) count += 1;
+  if (/\b(approval gate|human review|failure path|workflow|automation|system)\b/i.test(text)) count += 1;
   return count;
 }

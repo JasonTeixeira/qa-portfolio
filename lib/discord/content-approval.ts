@@ -18,11 +18,13 @@ export type DiscordContentDraftInput = {
   metadata?: Record<string, unknown>;
 };
 
+export const DISCORD_CONTENT_DRAFT_MIN_PUBLIC_SCORE = 80;
+
 export function normalizeDiscordContentDraft(input: DiscordContentDraftInput) {
   const body = input.body.replace(/\\n/g, '\n').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
   if (!body) throw new Error('Draft body is required.');
   const targetChannelBaseName = input.targetChannelBaseName.trim() || 'daily-signal';
-  return {
+  const row = {
     content_queue_id: input.contentQueueId ?? null,
     source_message_id: input.sourceMessageId ?? null,
     draft_type: input.draftType,
@@ -37,6 +39,8 @@ export function normalizeDiscordContentDraft(input: DiscordContentDraftInput) {
     metadata: input.metadata ?? {},
     updated_at: new Date().toISOString(),
   };
+  assertPublicDraftMeetsQualityGate(row);
+  return row;
 }
 
 export async function createDiscordContentDraft(input: DiscordContentDraftInput): Promise<{ id: string }> {
@@ -84,4 +88,28 @@ export async function reviewDiscordContentDraft(input: {
 function cleanOptional(value?: string | null): string | null {
   const cleaned = String(value ?? '').trim();
   return cleaned ? cleaned : null;
+}
+
+function assertPublicDraftMeetsQualityGate(row: {
+  draft_type: DiscordContentDraftInput['draftType'];
+  status: DiscordContentDraftStatus;
+  quality_score: number;
+  metadata: Record<string, unknown>;
+}) {
+  if (!isPublicReviewStatus(row.status) || !isPublicGeneratedDraftType(row.draft_type)) return;
+  const policyPassed = row.metadata.policy_passed;
+  if (row.quality_score < DISCORD_CONTENT_DRAFT_MIN_PUBLIC_SCORE) {
+    throw new Error(`Content draft blocked by quality gate: score ${row.quality_score} is below ${DISCORD_CONTENT_DRAFT_MIN_PUBLIC_SCORE}.`);
+  }
+  if (policyPassed === false) {
+    throw new Error('Content draft blocked by policy gate.');
+  }
+}
+
+function isPublicReviewStatus(status: DiscordContentDraftStatus): boolean {
+  return ['pending_approval', 'approved', 'published'].includes(status);
+}
+
+function isPublicGeneratedDraftType(draftType: DiscordContentDraftInput['draftType']): boolean {
+  return ['daily_signal', 'quiz', 'challenge', 'resource_drop', 'weekly_recap', 'social_post', 'lesson', 'announcement'].includes(draftType);
 }

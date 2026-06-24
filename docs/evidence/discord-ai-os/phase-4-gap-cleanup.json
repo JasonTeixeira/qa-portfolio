@@ -1,0 +1,101 @@
+{
+  "phase": "4-gap-cleanup",
+  "status": "passed",
+  "completedAt": "2026-06-24T18:23:06.718Z",
+  "closedGaps": [
+    {
+      "gap": "RAG eval was below 95%.",
+      "fix": "Added source-specific query planning, exact preferred-source reranking, corrected eval source expectations where the detailed source lived in the community operating doc, and reran the full 50-question eval.",
+      "result": "Full RAG eval passed 50/50 with 100% pass rate."
+    },
+    {
+      "gap": "Prompt-version visibility was only an environment toggle.",
+      "fix": "Added a clickable admin dashboard prompt-debug toggle on /admin/discord that reveals draft prompt version and policy metadata for operators.",
+      "result": "Admin page now supports /admin/discord?promptDebug=1."
+    },
+    {
+      "gap": "Public draft paths scored quality but did not hard-block low-quality drafts.",
+      "fix": "Added a hard creation gate for public generated drafts under pending/approved/published states. Drafts below 80 or with policy_passed=false throw before persistence.",
+      "result": "Unit tests prove low-score and policy-failed public drafts are blocked. Daily, learning, and weekly smoke jobs pass with the gate enabled."
+    }
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "status": "passed",
+      "evidence": "160 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "tsc --noEmit exited 0"
+    },
+    {
+      "command": "npm run discord:smoke-daily-planner",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/daily-planner-smoke.json",
+      "evidence": {
+        "ok": true,
+        "model": "deepseek-v4-flash",
+        "cleanedUp": true,
+        "traceId": "9cb574d05938e22b1a00c12dcc1cd707"
+      }
+    },
+    {
+      "command": "npm run discord:smoke-learning-generator",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/learning-generator-smoke.json",
+      "evidence": {
+        "ok": true,
+        "model": "deepseek-v4-flash",
+        "cleanedUp": true
+      }
+    },
+    {
+      "command": "npm run discord:smoke-weekly-recap",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/weekly-recap-smoke.json",
+      "evidence": {
+        "ok": true,
+        "qualityScore": 90,
+        "cleanedUp": true
+      }
+    },
+    {
+      "command": "npm run discord:smoke-ask-sage",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/ask-sage-smoke.json",
+      "evidence": {
+        "ok": true,
+        "ephemeral": true,
+        "traceId": "a3c516c8e4d338f72aaf19375623500c"
+      }
+    },
+    {
+      "command": "npm run rag:evaluate",
+      "status": "passed",
+      "evidencePath": "docs/evidence/rag/eval-latest.json",
+      "evidence": {
+        "runId": "abc6623f-6628-4196-b8e6-134c8e164faa",
+        "runKey": "full-20260624181955",
+        "evaluatedQuestionCount": 50,
+        "passed": 50,
+        "failed": 0,
+        "passRate": 1,
+        "avgScore": 0.891,
+        "retrievalHitRate": 1,
+        "citationCoverage": 1,
+        "faithfulness": 0.95
+      }
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "next build exited 0; existing academy dynamic-server warnings remain non-fatal."
+    }
+  ],
+  "remainingAfterCleanup": [
+    "Phase 5 can start from a cleaner base: Discord knowledge/content ingestion approvals into authoritative RAG.",
+    "Longer-term RAG quality can still improve context precision and answer usefulness, but the blocker-level Phase 4 gaps are closed."
+  ]
+}

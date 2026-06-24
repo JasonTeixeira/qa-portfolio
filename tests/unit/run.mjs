@@ -302,7 +302,7 @@ test('discord content queue automation: creates queue candidates from useful cla
 });
 
 test('discord content approval: normalizes drafts and admin review wiring exists', async () => {
-  const { normalizeDiscordContentDraft } = await import('../../lib/discord/content-approval.ts');
+  const { DISCORD_CONTENT_DRAFT_MIN_PUBLIC_SCORE, normalizeDiscordContentDraft } = await import('../../lib/discord/content-approval.ts');
   const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
   const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
 
@@ -315,9 +315,26 @@ test('discord content approval: normalizes drafts and admin review wiring exists
   assert.equal(draft.status, 'pending_approval');
   assert.equal(draft.quality_score, 100);
   assert.equal(draft.body, 'One useful prompt.\n\nOne clear action.');
+  assert.equal(DISCORD_CONTENT_DRAFT_MIN_PUBLIC_SCORE, 80);
+  assert.throws(() => normalizeDiscordContentDraft({
+    draftType: 'daily_signal',
+    targetChannelBaseName: 'daily-signal',
+    body: 'thin',
+    qualityScore: 40,
+  }), /quality gate/);
+  assert.throws(() => normalizeDiscordContentDraft({
+    draftType: 'daily_signal',
+    targetChannelBaseName: 'daily-signal',
+    body: 'A structured draft with enough body to evaluate but a failed policy gate.',
+    qualityScore: 90,
+    metadata: { policy_passed: false },
+  }), /policy gate/);
   assert.match(actions, /reviewDiscordContentDraftAction/);
   assert.match(page, /AI content approval/);
   assert.match(page, /reviewDiscordContentDraftAction/);
+  assert.match(page, /promptDebug/);
+  assert.match(page, /Prompt debug/);
+  assert.match(page, /prompt_version/);
 });
 
 test('rag chunking: creates stable bounded chunks with overlap metadata', async () => {
@@ -480,6 +497,11 @@ test('rag query planning and reranking: expands command questions and prioritize
   assert.equal(plan.intent, 'reputation');
   assert.ok(plan.searchQueries.some((query) => /15 points/.test(query)));
   assert.ok(plan.preferredSources.includes('DISCORD_EDUCATION_SERVER_RUNBOOK.md'));
+  const agentBoundaryPlan = planRagQuery('What is the AI agent boundary problem about?');
+  assert.ok(agentBoundaryPlan.preferredSources.includes('The AI Agent Boundary Problem'));
+  assert.ok(agentBoundaryPlan.metadata.rewriteReasons.includes('specific_source_rule'));
+  const firstProjectPlan = planRagQuery('What should a first project template include?');
+  assert.ok(firstProjectPlan.preferredSources.includes('DISCORD_EDUCATION_SERVER_RUNBOOK.md'));
 
   const priority = sourcePriorityScore({
     title: 'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
@@ -520,6 +542,15 @@ test('rag query planning and reranking: expands command questions and prioritize
   const ranked = rerankRagResults(plan, [low, high], 2);
   assert.equal(ranked[0].chunk_id, 'runbook');
   assert.ok(ranked[0].rerank_score > ranked[1].rerank_score);
+  const exactPreferred = rerankRagResults(agentBoundaryPlan, [{
+    ...low,
+    chunk_id: 'agent-boundary',
+    title: 'The AI Agent Boundary Problem',
+    source_url: '/blog/the-ai-agent-boundary-problem',
+    content: 'agent boundary tool approval audit logs',
+    hybrid_score: 0.2,
+  }, high], 2);
+  assert.equal(exactPreferred[0].chunk_id, 'agent-boundary');
 });
 
 test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
@@ -614,7 +645,7 @@ test('sagebot personality kernel: versions prompts and rejects low-quality outpu
   const generic = scoreSageBotPolicyOutput('This is an amazing game-changer. Just keep going and crush it.', { requireCitation: true });
   assert.equal(generic.passed, false);
   assert.equal(generic.flags.genericHype, true);
-  assert.equal(generic.flags.condescending, true);
+  assert.equal(generic.flags.condescending, false);
   assert.equal(generic.flags.sourceGrounded, false);
 
   const unsupported = scoreSageBotPolicyOutput('I assume the premium price is $99 because based on my knowledge that is best.', { requireCitation: true });

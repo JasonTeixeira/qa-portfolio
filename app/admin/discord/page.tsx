@@ -91,6 +91,8 @@ type DiscordContentDraftRow = {
   body: string;
   status: string;
   quality_score: number;
+  prompt_version: string | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 };
 
@@ -189,9 +191,11 @@ const statusTone: Record<string, Tone> = {
   triaged: 'cyan',
 };
 
-export default async function AdminDiscordPage() {
+export default async function AdminDiscordPage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined> }) {
   const { profile } = await requireAdmin();
   const sb = supabaseAdmin();
+  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
+  const promptDebug = resolvedSearchParams.promptDebug === '1';
 
   const since = new Date();
   since.setDate(since.getDate() - 30);
@@ -254,7 +258,7 @@ export default async function AdminDiscordPage() {
       .limit(20),
     sb
       .from('discord_content_drafts')
-      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, created_at')
+      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
       .in('status', ['draft', 'pending_approval'])
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
@@ -362,6 +366,12 @@ export default async function AdminDiscordPage() {
                 <Badge tone="cyan" className="uppercase tracking-wider">SageBot OS</Badge>
                 <Badge tone={activeWorker ? 'emerald' : 'rose'}>{activeWorker ? 'worker live' : 'worker down'}</Badge>
                 <Badge tone={pendingReviews > 0 ? 'amber' : 'neutral'}>{pendingReviews} review items</Badge>
+                <a
+                  href={promptDebug ? '/admin/discord' : '/admin/discord?promptDebug=1'}
+                  className="inline-flex h-6 items-center rounded border border-[#3f3f46] px-2 text-[11px] font-medium text-[#d4d4d8] transition hover:border-[#22d3ee] hover:text-[#fafafa]"
+                >
+                  Prompt debug {promptDebug ? 'on' : 'off'}
+                </a>
               </div>
               <div className="mt-5 max-w-4xl">
                 <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa] sm:text-3xl">
@@ -418,7 +428,7 @@ export default async function AdminDiscordPage() {
             empty="No generated drafts waiting for approval."
           >
             {contentDrafts.map((draft) => (
-              <DraftRow key={draft.id} draft={draft} />
+              <DraftRow key={draft.id} draft={draft} promptDebug={promptDebug} />
             ))}
           </Panel>
         </section>
@@ -626,7 +636,9 @@ function ApplicationRow({ application }: { application: DiscordApplicationRow })
   );
 }
 
-function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
+function DraftRow({ draft, promptDebug }: { draft: DiscordContentDraftRow; promptDebug: boolean }) {
+  const policyScore = typeof draft.metadata?.policy_score === 'number' ? draft.metadata.policy_score : null;
+  const policyPassed = typeof draft.metadata?.policy_passed === 'boolean' ? draft.metadata.policy_passed : null;
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
       <div className="min-w-0">
@@ -638,6 +650,13 @@ function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
         </div>
         <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{draft.title ?? draft.body}</div>
         <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{draft.body}</p>
+        {promptDebug ? (
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-[#a1a1aa]">
+            <span>Prompt: {draft.prompt_version ?? 'none'}</span>
+            {policyScore !== null ? <span>Policy: {policyScore}</span> : null}
+            {policyPassed !== null ? <Badge tone={policyPassed ? 'emerald' : 'rose'}>{policyPassed ? 'policy pass' : 'policy fail'}</Badge> : null}
+          </div>
+        ) : null}
       </div>
       <div className="flex items-center gap-2 lg:justify-end">
         <form action={reviewDiscordContentDraftAction}>

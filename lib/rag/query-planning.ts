@@ -19,7 +19,39 @@ export type RagQueryPlan = {
   };
 };
 
-const PLANNER_VERSION = 'query_planner_v1';
+const PLANNER_VERSION = 'query_planner_v2';
+
+const SPECIFIC_QUERY_RULES: Array<{
+  patterns: RegExp[];
+  expansion: string;
+  preferredSources: string[];
+}> = [
+  {
+    patterns: [/ai feature.*ready|ready before shipping|evaluate ai features/i],
+    expansion: 'AI feature readiness evaluation risk quality failure set human in the loop product quality citations source tool before shipping',
+    preferredSources: ['How to Evaluate AI Features Before You Ship Them'],
+  },
+  {
+    patterns: [/agent boundary|boundary problem|tool.*approval|approval.*tool/i],
+    expansion: 'AI agent boundary problem tool permissions approval gates audit logs human accountability narrow tools stop conditions',
+    preferredSources: ['The AI Agent Boundary Problem'],
+  },
+  {
+    patterns: [/repeated questions|durable assets|promoted into durable/i],
+    expansion: 'Discord repeated questions promote into resources lessons durable assets content queue capture-content publish content-lab',
+    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+  },
+  {
+    patterns: [/first project template|first project|project template/i],
+    expansion: 'Discord first project template project acceptance criteria reviewed build lab spec artifact review request',
+    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+  },
+  {
+    patterns: [/challenge submissions|challenge submission|submit challenge|handled/i],
+    expansion: 'Discord submit-challenge challenge submissions wins-showcase points award artifact review featured approved rejected',
+    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+  },
+];
 
 const INTENT_RULES: Array<{
   intent: RagQueryIntent;
@@ -63,24 +95,28 @@ export function planRagQuery(query: string): RagQueryPlan {
   const normalizedQuery = normalizeQuery(query);
   const commandExpanded = expandCommandTerms(normalizedQuery);
   const matched = INTENT_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(commandExpanded)));
+  const specific = SPECIFIC_QUERY_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(commandExpanded)));
   const intent = matched?.intent ?? 'general';
   const rewriteReasons = [];
-  const preferredSources = matched?.preferredSources ?? [];
+  const preferredSources = uniqueNonEmpty([...(specific?.preferredSources ?? []), ...(matched?.preferredSources ?? [])]);
   const searchQueries = uniqueNonEmpty([
     normalizedQuery,
     commandExpanded,
+    specific ? `${commandExpanded} ${specific.expansion}` : '',
+    specific && preferredSources.length ? `${specific.expansion} ${preferredSources.join(' ')}` : '',
     matched ? `${commandExpanded} ${matched.expansion}` : '',
     matched && preferredSources.length ? `${matched.expansion} ${preferredSources.join(' ')}` : '',
   ]);
   if (commandExpanded !== normalizedQuery) rewriteReasons.push('expanded_slash_command_terms');
   if (matched) rewriteReasons.push(`intent:${matched.intent}`);
+  if (specific) rewriteReasons.push('specific_source_rule');
 
   return {
     originalQuery: query,
     normalizedQuery,
     intent,
     searchQueries,
-    rerankText: uniqueNonEmpty([commandExpanded, matched?.expansion ?? '', preferredSources.join(' ')]).join(' '),
+    rerankText: uniqueNonEmpty([commandExpanded, specific?.expansion ?? '', matched?.expansion ?? '', preferredSources.join(' ')]).join(' '),
     preferredSources,
     metadata: {
       plannerVersion: PLANNER_VERSION,

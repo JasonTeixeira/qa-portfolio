@@ -107,7 +107,7 @@ export async function generateDiscordLearningDrafts(input: GenerateDiscordLearni
       { role: 'user', content: buildLearningGeneratorPrompt({ theme: input.theme, dateKey }) },
     ],
     temperature: 0.35,
-    maxTokens: 520,
+    maxTokens: 900,
   });
   const items = parseGeneratedLearningItems(generation.content);
   const quizBody = [

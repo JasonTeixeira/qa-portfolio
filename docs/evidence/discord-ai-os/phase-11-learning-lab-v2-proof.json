@@ -1,0 +1,125 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "generated": {
+    "ok": true,
+    "dateKey": "2099-01-08",
+    "quizKey": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+    "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+    "quizId": "104572be-32d1-43a2-ae9a-1bdb42a92193",
+    "challengeId": "87f9b7a6-d9c2-413a-8f0f-b360d3149090",
+    "qualityScore": 82,
+    "sourceIds": [
+      "discord_content_queue:f72dd850-3a16-4479-ab6e-f3ac55078283"
+    ],
+    "model": "deepseek-v4-flash",
+    "observability": {
+      "traceId": "c951e136a7c6f7be2ae0576e70fae1b6",
+      "observationId": "3e9f1bdf0d610b01",
+      "provider": "local"
+    }
+  },
+  "sourceId": "discord_content_queue:f72dd850-3a16-4479-ab6e-f3ac55078283",
+  "quizDate": "2099-01-13T12:00:00.000Z",
+  "challengeDate": "2099-01-13T12:00:00.000Z",
+  "firstQuiz": {
+    "quiz": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+      "prompt": "You are building an approval-gated AI automation that posts customer invoices. Which step must include a human decision point?",
+      "options": [
+        "Trigger detection",
+        "Invoice generation",
+        "External send",
+        "Data validation"
+      ],
+      "correctAnswer": "External send",
+      "explanation": "The source states that approval-gated automations need a human decision point before external sends, charges, or public posts. The external send is the irreversible action that requires human approval."
+    },
+    "correct": true,
+    "points": 10,
+    "alreadyAttempted": false
+  },
+  "secondQuiz": {
+    "quiz": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+      "prompt": "You are building an approval-gated AI automation that posts customer invoices. Which step must include a human decision point?",
+      "options": [
+        "Trigger detection",
+        "Invoice generation",
+        "External send",
+        "Data validation"
+      ],
+      "correctAnswer": "External send",
+      "explanation": "The source states that approval-gated automations need a human decision point before external sends, charges, or public posts. The external send is the irreversible action that requires human approval."
+    },
+    "correct": true,
+    "points": 0,
+    "alreadyAttempted": true
+  },
+  "firstSubmission": {
+    "id": "83b9b4c0-0e76-4de7-9fef-e2122f6448d2",
+    "challenge": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "title": "Approval-Gated Automation Spec",
+      "prompt": "Write a spec for an approval-gated AI automation that sends a summary email to a client. Include trigger, data input, irreversible action, human approval owner, failure path, and a diagram or checklist plus one test case.\n\nConstraints:\n- The irreversible action must be the email send.\n- The human approval owner must be a named role (e.g., 'Account Manager').\n\nRubric:\n- Spec includes all required elements: trigger, data input, irreversible action, human approval owner, failure path.\n- Includes a diagram or checklist plus one test case.\n- The irreversible action is correctly identified as the email send.",
+      "deliverable": "A document (link or screenshot) containing the spec: trigger, data input, irreversible action, human approval owner, failure path, and a diagram or checklist plus one test case.",
+      "points": 25
+    },
+    "points": 0,
+    "status": "pending",
+    "alreadySubmitted": false
+  },
+  "duplicateSubmission": {
+    "id": "83b9b4c0-0e76-4de7-9fef-e2122f6448d2",
+    "challenge": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "title": "Approval-Gated Automation Spec",
+      "prompt": "Write a spec for an approval-gated AI automation that sends a summary email to a client. Include trigger, data input, irreversible action, human approval owner, failure path, and a diagram or checklist plus one test case.\n\nConstraints:\n- The irreversible action must be the email send.\n- The human approval owner must be a named role (e.g., 'Account Manager').\n\nRubric:\n- Spec includes all required elements: trigger, data input, irreversible action, human approval owner, failure path.\n- Includes a diagram or checklist plus one test case.\n- The irreversible action is correctly identified as the email send.",
+      "deliverable": "A document (link or screenshot) containing the spec: trigger, data input, irreversible action, human approval owner, failure path, and a diagram or checklist plus one test case.",
+      "points": 25
+    },
+    "points": 0,
+    "status": "duplicate",
+    "alreadySubmitted": true
+  },
+  "approved": {
+    "ok": true,
+    "pointsAwarded": 25,
+    "submission": {
+      "id": "83b9b4c0-0e76-4de7-9fef-e2122f6448d2",
+      "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "discordUserId": "phase-11-learning-member",
+      "username": "phase-11-learning-smoke",
+      "summary": "Built an approval-gated automation spec with trigger, input, human decision point, failure path, artifact link, and test case proof.",
+      "link": "https://example.com/phase-11-learning-lab-proof",
+      "status": "approved",
+      "pointsAwarded": 25
+    }
+  },
+  "featured": {
+    "ok": true,
+    "pointsAwarded": 25,
+    "submission": {
+      "id": "83b9b4c0-0e76-4de7-9fef-e2122f6448d2",
+      "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "discordUserId": "phase-11-learning-member",
+      "username": "phase-11-learning-smoke",
+      "summary": "Built an approval-gated automation spec with trigger, input, human decision point, failure path, artifact link, and test case proof.",
+      "link": "https://example.com/phase-11-learning-lab-proof",
+      "status": "featured",
+      "pointsAwarded": 25
+    }
+  },
+  "attemptsCount": 1,
+  "quizLedgerCount": 1,
+  "challengeLedgerCount": 1,
+  "submissionsCount": 1,
+  "points": {
+    "total": 35,
+    "streak": 1,
+    "longestStreak": 1,
+    "rank": 1
+  },
+  "startedAt": "2026-06-24T22:43:52.390Z",
+  "finishedAt": "2026-06-24T22:44:02.611Z"
+}

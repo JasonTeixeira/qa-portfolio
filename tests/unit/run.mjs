@@ -1145,6 +1145,84 @@ test('discord challenge lab: submissions are review-gated and projects feed cont
   assert.match(smoke, /projectRows\?\.\[0\]\?\.content_queue_id === project\.contentQueueId/);
 });
 
+test('discord learning lab v2: source-grounded quiz and challenge gates are strict', async () => {
+  const {
+    DISCORD_LEARNING_LAB_V2_PROMPT_VERSION,
+    buildLearningLabV2Prompt,
+    evaluateLearningLabV2,
+    parseGeneratedLearningLabV2,
+  } = await import('../../lib/discord/learning-lab-v2.ts');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-learning-lab-v2.ts', import.meta.url), 'utf8');
+
+  assert.equal(DISCORD_LEARNING_LAB_V2_PROMPT_VERSION, 'sagebot_learning_lab_v2');
+  const source = {
+    id: 'S1',
+    sourceId: 'discord_content_queue:test-source',
+    sourceType: 'discord_content_queue',
+    sourceTable: 'discord_content_queue',
+    recordId: 'test-source',
+    title: 'Approval-gated automation',
+    body: 'Automation specs should include trigger, input, human approval owner, failure path, and a proof artifact.',
+    channelBaseName: 'build-lab',
+    createdAt: '2099-01-08T00:00:00.000Z',
+    qualityScore: 96,
+  };
+  const prompt = buildLearningLabV2Prompt({
+    dateKey: '2099-01-08',
+    topic: 'approval gates',
+    sources: [source],
+  });
+  assert.match(prompt, /Use only the approved sources/);
+  assert.match(prompt, /no all\/none-of-the-above/i);
+  assert.match(prompt, /\[S1\]/);
+
+  const generated = parseGeneratedLearningLabV2(JSON.stringify({
+    quiz: {
+      prompt: 'Which artifact best proves an approval-gated automation is ready for review?',
+      options: ['A workflow map with owner and failure path', 'A vague idea', 'A motivational post', 'An empty checklist'],
+      correct_answer: 'A workflow map with owner and failure path',
+      explanation: 'A workflow map lets a reviewer inspect trigger, input, approval owner, failure path, and proof before anything external runs.',
+      difficulty: 'foundation',
+      path_key: 'agents_automation',
+      level_key: 'starting',
+      source_ids: ['S1'],
+    },
+    challenge: {
+      title: 'Approval-gated automation spec',
+      objective: 'Build a one-page spec for an automation that includes trigger, input, approval owner, and failure path.',
+      constraints: ['Name the irreversible action.', 'Include one test case and expected result.'],
+      expected_artifact: 'Post a spec link or screenshot with the workflow checklist.',
+      rubric: ['Trigger and input are clear.', 'Approval owner is named.', 'Failure path is testable.'],
+      difficulty: 'foundation',
+      path_key: 'agents_automation',
+      level_key: 'starting',
+      points: 25,
+      source_ids: ['S1'],
+    },
+  }));
+  const good = evaluateLearningLabV2(generated, { allowedSourceIds: ['S1'] });
+  assert.equal(good.passed, true);
+  assert.ok(good.score >= 80);
+
+  const bad = evaluateLearningLabV2({
+    ...generated,
+    quiz: {
+      ...generated.quiz,
+      options: ['All of the above', 'All of the above', 'Maybe', 'It depends'],
+      correct_answer: 'All of the above',
+      source_ids: ['S99'],
+    },
+  }, { allowedSourceIds: ['S1'] });
+  assert.equal(bad.passed, false);
+  assert.ok(bad.reasons.some((reason) => /unique answer options/i.test(reason)));
+  assert.ok(bad.reasons.some((reason) => /approved registry/i.test(reason)));
+  assert.equal(pkg.scripts['discord:smoke-learning-lab-v2'], 'tsx --env-file=.env.local scripts/discord/smoke-learning-lab-v2.ts');
+  assert.match(smoke, /createLearningLabV2Items/);
+  assert.match(smoke, /duplicateSubmission\.alreadySubmitted/);
+  assert.match(smoke, /quizMetadata\.source_ids\.includes\(sourceId\)/);
+});
+
 test('discord weekly automation: drafts leaderboard recap for approval', async () => {
   const { createLeaderboardSnapshot, discordLeaderboardPeriod } = await import('../../lib/discord/engagement.ts');
   const { DISCORD_WEEKLY_RECAP_PROMPT_VERSION, discordWeekKey, publishApprovedWeeklyRecapDraft, scoreWeeklyRecap } = await import('../../lib/discord/weekly-automation.ts');

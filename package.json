@@ -65,6 +65,7 @@
     "discord:smoke-news-ingestion": "tsx --env-file=.env.local scripts/discord/smoke-news-ingestion.ts",
     "discord:smoke-quiz-scoring": "tsx --env-file=.env.local scripts/discord/smoke-quiz-scoring.ts",
     "discord:smoke-challenge-lab": "tsx --env-file=.env.local scripts/discord/smoke-challenge-lab.ts",
+    "discord:smoke-learning-lab-v2": "tsx --env-file=.env.local scripts/discord/smoke-learning-lab-v2.ts",
     "discord:smoke-approved-slash-flows": "tsx --env-file=.env.local scripts/discord/smoke-approved-member-slash-flows.ts",
     "discord:generate-learning": "tsx --env-file=.env.local scripts/discord/generate-learning-content.ts",
     "discord:smoke-learning-generator": "tsx --env-file=.env.local scripts/discord/generate-learning-content.ts --smoke --date=2099-01-02 --theme=\"approval-gated AI automations\"",

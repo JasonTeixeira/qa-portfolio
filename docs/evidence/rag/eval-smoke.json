@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "runId": "25bd0842-b6ca-482a-94fa-f7bda98cf9f0",
-  "runKey": "smoke-20260624190905",
+  "runId": "64fa15fe-8891-4810-a844-44b4cdbcf7c2",
+  "runKey": "smoke-20260624200535",
   "smoke": true,
   "seededQuestionCount": 50,
   "evaluatedQuestionCount": 3,
@@ -37,9 +37,9 @@
       "faithfulness": 0.95,
       "groundedness": 0.95,
       "answerUsefulness": 0.6667,
-      "answerId": "775c093d-d053-48ba-9fb0-12b1a81a3e8a",
-      "retrievalLogId": "9db8b471-98fe-4306-9370-1e2f6f2d221e",
-      "traceId": "3519e3c3f9342b1199c42c080829ecf4",
+      "answerId": "a4494700-8fae-4195-b062-c7e6d5fd2f0e",
+      "retrievalLogId": "a8ab779d-4412-4e0a-8289-14b86fa2f6e4",
+      "traceId": "0410db47c136b119a4caf780d7f50c78",
       "missingSources": [],
       "missingRequiredTerms": [
         "TypeScript"
@@ -56,9 +56,9 @@
       "faithfulness": 0.95,
       "groundedness": 0.95,
       "answerUsefulness": 1,
-      "answerId": "9464eb2c-8cc6-49dc-aadb-d256bd11e998",
-      "retrievalLogId": "0514e1b9-b0bf-469c-8bc5-b57907478c36",
-      "traceId": "46a4a9a33487e246269c9c59b35b5e4f",
+      "answerId": "1ab602a4-280d-4dee-b567-b266d47db7a2",
+      "retrievalLogId": "31c48ab7-069d-46b0-b78d-d77e9e20e09e",
+      "traceId": "9495a13ea8573e9edb6fd6937db4a915",
       "missingSources": [],
       "missingRequiredTerms": []
     },
@@ -73,13 +73,13 @@
       "faithfulness": 0.95,
       "groundedness": 0.9,
       "answerUsefulness": 1,
-      "answerId": "96ab958d-309f-4871-afbd-28a0108a55c8",
-      "retrievalLogId": "d110770b-7c8b-4dec-9da3-ead11665ce82",
-      "traceId": "a3b97b52c78c9ad2c12ee50564dcc34a",
+      "answerId": "7f14fb8f-71ad-4497-a252-ec8daa98baf5",
+      "retrievalLogId": "7e15392e-fc2c-45ce-9fb9-b933f62c703f",
+      "traceId": "ae9e2f919d2dccb4a21aeff2c4469853",
       "missingSources": [],
       "missingRequiredTerms": []
     }
   ],
-  "startedAt": "2026-06-24T19:09:05.763Z",
-  "finishedAt": "2026-06-24T19:09:18.284Z"
+  "startedAt": "2026-06-24T20:05:35.870Z",
+  "finishedAt": "2026-06-24T20:05:48.667Z"
 }

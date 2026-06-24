@@ -1,0 +1,79 @@
+{
+  "phase": 6,
+  "name": "Discord authoritative RAG admin UX and corpus health",
+  "status": "passed",
+  "completedAt": "2026-06-24T20:05:48.667Z",
+  "capabilityEvals": {
+    "adminCorpusHealthSummary": true,
+    "eligibleBlockedStaleSyncedStates": true,
+    "questionApprovalAction": true,
+    "answerApprovalAction": true,
+    "contentQueueApprovalAction": true,
+    "draftApprovalReuse": true,
+    "dashboardToRagSourceE2E": true
+  },
+  "implemented": [
+    "Added deterministic Discord corpus health classification for questions, answers, content queue rows, and content drafts.",
+    "Added the Authoritative RAG corpus health panel to /admin/discord.",
+    "Added the RAG knowledge approval desk to /admin/discord.",
+    "Added admin actions that move Discord rows into Phase 5 approved states: questions -> closed, answers -> helpful, content queue -> published.",
+    "Reused existing draft approval action for content drafts, preserving the quality/policy gate.",
+    "Added Playwright E2E proof from dashboard approval to rag_sources/rag_documents."
+  ],
+  "verifiedCommands": [
+    {
+      "command": "npm run test:unit",
+      "status": "passed",
+      "result": "162 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed"
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-rag-corpus.spec.ts --project=chromium",
+      "status": "passed",
+      "result": "1 passed"
+    },
+    {
+      "command": "npm run rag:sync-sources",
+      "status": "passed",
+      "result": "65 sources upserted after temporary E2E proof cleanup; no approved live Discord rows remained."
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "result": "Next production build completed successfully."
+    },
+    {
+      "command": "npm run rag:evaluate:smoke",
+      "status": "passed",
+      "result": "3/3 passed; passRate 1.0; retrievalHitRate 1.0; citationCoverage 1.0"
+    }
+  ],
+  "e2eProof": {
+    "test": "tests/e2e/admin/discord-rag-corpus.spec.ts",
+    "flow": [
+      "Insert a captured discord_content_queue row.",
+      "Open /admin/discord as admin.",
+      "Verify the row appears in the RAG knowledge approval desk as blocked.",
+      "Click Publish for RAG.",
+      "Verify the source row status becomes published.",
+      "Run rag:sync-sources.",
+      "Verify rag_sources contains discord_content_queue:<id> with approved_for_rag=true.",
+      "Verify rag_documents contains doc:discord_content_queue:<id>.",
+      "Reload dashboard and verify the row shows synced.",
+      "Clean up temporary source, document cascade, queue row, and events."
+    ]
+  },
+  "honestNotes": [
+    "The current real production Discord corpus still has no approved live knowledge rows after cleanup.",
+    "The E2E proves the complete mechanism with a temporary row, then removes that row so production data is not polluted.",
+    "A direct Playwright JSON reporter run failed because it bypassed the env-loading wrapper; the authoritative E2E proof used npm run test:e2e:local with .env.local loaded and passed."
+  ],
+  "whatIsLeft": [
+    "Phase 7 should add a one-click admin sync action or job trigger so admins do not need to wait for cron/CLI after approving knowledge.",
+    "Add corpus drilldown filters for source kind, state, author, and channel once the real Discord corpus has more rows.",
+    "Add alerts when approved/stale rows remain unsynced beyond the SLA."
+  ]
+}

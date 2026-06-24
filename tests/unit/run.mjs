@@ -256,6 +256,81 @@ test('discord authoritative rag sync: excludes raw and unapproved community data
   assert.match(smokeScript, /discord-authoritative-sync-smoke\.json/);
 });
 
+test('discord authoritative rag admin UX: classifies corpus health and wires approval actions', async () => {
+  const {
+    buildDiscordCorpusAnswerItem,
+    buildDiscordCorpusDraftItem,
+    buildDiscordCorpusQueueItem,
+    buildDiscordCorpusQuestionItem,
+    summarizeDiscordCorpusHealth,
+  } = await import('../../lib/rag/discord-corpus-health.ts');
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+
+  const sourceKeys = new Set(['discord_answer:a1']);
+  const now = new Date('2099-01-03T00:00:00.000Z');
+  const question = buildDiscordCorpusQuestionItem({
+    id: 'q1',
+    question: 'How do I approve Discord knowledge into RAG?',
+    status: 'open',
+    created_at: '2099-01-02T23:00:00.000Z',
+  }, sourceKeys, now);
+  const answer = buildDiscordCorpusAnswerItem({
+    id: 'a1',
+    answer: 'Mark the useful answer helpful, then sync sources.',
+    helpful: true,
+    created_at: '2099-01-02T23:00:00.000Z',
+  }, sourceKeys, now);
+  const queue = buildDiscordCorpusQueueItem({
+    id: 'c1',
+    idea: 'Turn approved Discord answers into a resource',
+    status: 'published',
+    priority: 90,
+    created_at: '2099-01-01T00:00:00.000Z',
+  }, sourceKeys, now);
+  const draft = buildDiscordCorpusDraftItem({
+    id: 'd1',
+    draft_type: 'lesson',
+    body: 'Approved lesson body',
+    status: 'approved',
+    quality_score: 92,
+    metadata: { policy_passed: true },
+    created_at: '2099-01-02T23:00:00.000Z',
+  }, sourceKeys, now);
+  const blockedDraft = buildDiscordCorpusDraftItem({
+    id: 'd2',
+    draft_type: 'lesson',
+    body: 'Rejected lesson body',
+    status: 'approved',
+    quality_score: 92,
+    metadata: { policy_passed: false },
+    created_at: '2099-01-02T23:00:00.000Z',
+  }, sourceKeys, now);
+
+  assert.equal(question.state, 'blocked');
+  assert.match(String(question.blocker), /answered or closed/);
+  assert.equal(answer.state, 'synced');
+  assert.equal(queue.state, 'stale');
+  assert.equal(draft.state, 'eligible');
+  assert.equal(blockedDraft.state, 'blocked');
+  const summary = summarizeDiscordCorpusHealth([question, answer, queue, draft, blockedDraft], 1);
+  assert.equal(summary.synced, 1);
+  assert.equal(summary.eligible, 1);
+  assert.equal(summary.stale, 1);
+  assert.equal(summary.blocked, 2);
+  assert.equal(summary.missing, 2);
+
+  assert.match(page, /RAG knowledge approval desk/);
+  assert.match(page, /discord-rag-corpus-ops/);
+  assert.match(page, /rag-corpus-/);
+  assert.match(page, /approveDiscordQuestionForRagAction/);
+  assert.match(page, /approveDiscordAnswerForRagAction/);
+  assert.match(page, /approveDiscordQueueItemForRagAction/);
+  assert.match(actions, /rag_question_approved/);
+  assert.match(actions, /rag_answer_approved/);
+  assert.match(actions, /rag_content_queue_approved/);
+});
+
 test('discord message classifier: labels useful community moments with actions', async () => {
   const { classifyDiscordMessage, DISCORD_MESSAGE_CLASSIFIER_VERSION } = await import('../../lib/discord/message-classifier.ts');
 

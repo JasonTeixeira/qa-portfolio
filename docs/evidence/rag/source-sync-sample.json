@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "rag-source-sync-2026-06-24T19-07-48-036Z",
+  "runKey": "rag-source-sync-2026-06-24T20-04-31-727Z",
   "status": "completed",
   "approvalPolicy": "discord-authoritative-rag-sync-v1",
   "approvedDiscordStats": {

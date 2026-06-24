@@ -3,6 +3,7 @@ import {
   Activity,
   AlertTriangle,
   Award,
+  BookOpenCheck,
   CalendarDays,
   ChevronRight,
   FileCheck2,
@@ -25,7 +26,18 @@ import { AdminTopbar } from '@/components/admin/topbar';
 import { Card, CardContent } from '@/components/portal/ui/card';
 import { Badge } from '@/components/portal/ui/badge';
 import {
+  buildDiscordCorpusAnswerItem,
+  buildDiscordCorpusDraftItem,
+  buildDiscordCorpusQueueItem,
+  buildDiscordCorpusQuestionItem,
+  summarizeDiscordCorpusHealth,
+  type DiscordCorpusItem,
+} from '@/lib/rag/discord-corpus-health';
+import {
+  approveDiscordAnswerForRagAction,
   approveDiscordApplication,
+  approveDiscordQueueItemForRagAction,
+  approveDiscordQuestionForRagAction,
   rejectDiscordApplication,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
@@ -76,6 +88,7 @@ type DiscordPointsRow = {
 type DiscordContentQueueRow = {
   id: string;
   idea: string;
+  angle: string | null;
   source: string;
   discord_username: string | null;
   status: string;
@@ -149,6 +162,7 @@ type DiscordCalendarRow = {
 type DiscordQuestionRow = {
   id: string;
   question: string;
+  context: string | null;
   discord_username: string | null;
   status: string;
   created_at: string;
@@ -157,9 +171,18 @@ type DiscordQuestionRow = {
 type DiscordAnswerRow = {
   id: string;
   answer: string;
+  question_id: string;
   discord_username: string | null;
   helpful: boolean;
   created_at: string;
+};
+
+type RagSourceRow = {
+  source_key: string;
+  source_type: string;
+  source_record_id: string | null;
+  source_table: string | null;
+  updated_at: string;
 };
 
 type DiscordGatewayHeartbeatRow = {
@@ -209,6 +232,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     pointsRes,
     contentQueueRes,
     contentDraftsRes,
+    ragDraftsRes,
     applicationsRes,
     quizzesRes,
     challengesRes,
@@ -221,6 +245,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     gatewayReactionCountRes,
     gatewayHeartbeatsRes,
     gatewayDeadLetterCountRes,
+    ragSourcesRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -252,7 +277,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .limit(1000),
     sb
       .from('discord_content_queue')
-      .select('id, idea, source, discord_username, status, priority, created_at')
+      .select('id, idea, angle, source, discord_username, status, priority, created_at')
       .order('priority', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(20),
@@ -263,6 +288,12 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(12),
+    sb
+      .from('discord_content_drafts')
+      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
+      .in('status', ['draft', 'pending_approval', 'approved', 'published', 'rejected'])
+      .order('created_at', { ascending: false })
+      .limit(30),
     sb
       .from('discord_member_applications')
       .select('id, discord_user_id, discord_username, goal, experience, intended_build, path_key, level_key, timezone, weekly_time_budget, preferred_support, status, submitted_at')
@@ -292,14 +323,14 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .limit(7),
     sb
       .from('discord_questions')
-      .select('id, question, discord_username, status, created_at')
+      .select('id, question, context, discord_username, status, created_at')
       .order('created_at', { ascending: false })
-      .limit(10),
+      .limit(20),
     sb
       .from('discord_answers')
-      .select('id, answer, discord_username, helpful, created_at')
+      .select('id, question_id, answer, discord_username, helpful, created_at')
       .order('created_at', { ascending: false })
-      .limit(10),
+      .limit(20),
     sb
       .from('discord_gateway_events')
       .select('id', { count: 'exact', head: true }),
@@ -318,6 +349,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .from('discord_gateway_dead_letters')
       .select('id', { count: 'exact', head: true })
       .is('resolved_at', null),
+    sb
+      .from('rag_sources')
+      .select('source_key, source_type, source_record_id, source_table, updated_at')
+      .in('source_type', ['discord_question', 'discord_answer', 'discord_content_queue', 'lesson', 'resource', 'admin_note'])
+      .limit(1000),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -326,6 +362,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const pointsRows = (pointsRes.data ?? []) as DiscordPointsRow[];
   const contentQueue = (contentQueueRes.data ?? []) as DiscordContentQueueRow[];
   const contentDrafts = (contentDraftsRes.data ?? []) as DiscordContentDraftRow[];
+  const ragDrafts = (ragDraftsRes.data ?? []) as DiscordContentDraftRow[];
   const applications = (applicationsRes.data ?? []) as DiscordApplicationRow[];
   const quizzes = (quizzesRes.data ?? []) as DiscordQuizRow[];
   const challenges = (challengesRes.data ?? []) as DiscordChallengeRow[];
@@ -333,6 +370,18 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const calendar = (calendarRes.data ?? []) as DiscordCalendarRow[];
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
+  const ragSources = (ragSourcesRes.data ?? []) as RagSourceRow[];
+  const discordRagSourceKeys = new Set(ragSources.map((source) => source.source_key));
+  const corpusItems = [
+    ...questions.map((question) => buildDiscordCorpusQuestionItem(question, discordRagSourceKeys)),
+    ...answers.map((answer) => buildDiscordCorpusAnswerItem(answer, discordRagSourceKeys)),
+    ...contentQueue.map((item) => buildDiscordCorpusQueueItem(item, discordRagSourceKeys)),
+    ...ragDrafts.map((draft) => buildDiscordCorpusDraftItem(draft, discordRagSourceKeys)),
+  ].sort(sortCorpusItems);
+  const corpusHealth = summarizeDiscordCorpusHealth(
+    corpusItems,
+    ragSources.filter((source) => source.source_type.startsWith('discord_') || source.source_table === 'discord_content_drafts').length,
+  );
   const gatewayHeartbeats = (gatewayHeartbeatsRes.data ?? []) as DiscordGatewayHeartbeatRow[];
   const failures = events.filter((event) => event.event_type.includes('failed')).length;
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
@@ -386,6 +435,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <MetricCard icon={Users} label="Tracked members" value={members.length} detail={`${premiumCountRes.count ?? 0} premium`} />
                 <MetricCard icon={MessageCircle} label="Captured messages" value={capturedMessages} detail={`${gatewayEventCountRes.count ?? 0} events / ${gatewayReactionCountRes.count ?? 0} reactions`} />
                 <MetricCard icon={Inbox} label="Open review queue" value={pendingReviews} tone={pendingReviews ? 'amber' : 'emerald'} />
+                <MetricCard icon={BookOpenCheck} label="RAG corpus health" value={`${corpusHealth.healthScore}%`} detail={`${corpusHealth.authoritativeSources} authoritative / ${corpusHealth.missing} missing`} tone={corpusHealth.healthScore >= 85 ? 'emerald' : corpusHealth.healthScore >= 65 ? 'amber' : 'rose'} />
               </div>
             </div>
             <Card className="rounded-lg border-[#2a2a31] bg-[#111116]">
@@ -407,6 +457,42 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.85fr_1.15fr]" data-testid="discord-rag-corpus-ops">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#10b981]/30 bg-[#10b981]/10 text-[#34d399]">
+                  <BookOpenCheck className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">Authoritative RAG corpus health</h2>
+                  <p className="text-xs text-[#71717a]">Approval-gated Discord knowledge only. Raw messages are excluded.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Synced sources" value={String(corpusHealth.synced)} tone={corpusHealth.synced ? 'emerald' : 'neutral'} />
+                <HealthLine label="Eligible to sync" value={String(corpusHealth.eligible)} tone={corpusHealth.eligible ? 'cyan' : 'neutral'} />
+                <HealthLine label="Stale eligible" value={String(corpusHealth.stale)} tone={corpusHealth.stale ? 'amber' : 'emerald'} />
+                <HealthLine label="Blocked candidates" value={String(corpusHealth.blocked)} tone={corpusHealth.blocked ? 'amber' : 'emerald'} />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                Approving here changes the source row into the Phase 5 approved state. The `rag:sync-sources` job then creates or updates `rag_sources` and `rag_documents`.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={BookOpenCheck}
+            title="RAG knowledge approval desk"
+            meta={`${corpusItems.length} candidates / ${corpusHealth.missing} missing from RAG`}
+            empty="No Discord knowledge candidates found yet."
+          >
+            {corpusItems.slice(0, 18).map((item) => (
+              <RagCorpusRow key={`${item.kind}:${item.id}`} item={item} />
+            ))}
+          </Panel>
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
@@ -733,6 +819,67 @@ function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
   );
 }
 
+function RagCorpusRow({ item }: { item: DiscordCorpusItem }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]" data-testid={`rag-corpus-${item.kind}-${item.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">{item.kind.replace('_', ' ')}</Badge>
+          <Badge tone={corpusStateTone(item.state)}>{item.state}</Badge>
+          {item.status ? <StatusBadge status={item.status} /> : null}
+          {typeof item.helpful === 'boolean' ? <Badge tone={item.helpful ? 'emerald' : 'neutral'}>{item.helpful ? 'helpful' : 'not helpful'}</Badge> : null}
+          {typeof item.qualityScore === 'number' ? <Badge tone={item.qualityScore >= 80 ? 'emerald' : 'amber'}>{item.qualityScore} quality</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{item.title}</div>
+        <div className="mt-1 truncate text-[11px] text-[#71717a]">{item.sourceKey}</div>
+        {item.blocker ? <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{item.blocker}</p> : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {item.state === 'blocked' ? <ApproveForRagForm item={item} /> : null}
+        {item.state === 'eligible' || item.state === 'stale' ? <Badge tone="amber">run sync</Badge> : null}
+        {item.state === 'synced' ? <Badge tone="emerald">in RAG</Badge> : null}
+      </div>
+    </div>
+  );
+}
+
+function ApproveForRagForm({ item }: { item: DiscordCorpusItem }) {
+  if (item.kind === 'question') {
+    return (
+      <form action={approveDiscordQuestionForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-question-${item.id}`} tone="emerald" type="submit">Approve for RAG</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'answer') {
+    return (
+      <form action={approveDiscordAnswerForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-answer-${item.id}`} tone="emerald" type="submit">Mark helpful</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'content_queue') {
+    return (
+      <form action={approveDiscordQueueItemForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-queue-${item.id}`} tone="emerald" type="submit">Publish for RAG</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'content_draft' && Number(item.qualityScore ?? 0) >= 80) {
+    return (
+      <form action={reviewDiscordContentDraftAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <input type="hidden" name="status" value="approved" />
+        <ActionButton data-testid={`rag-approve-draft-${item.id}`} tone="emerald" type="submit">Approve draft</ActionButton>
+      </form>
+    );
+  }
+  return <Badge tone="neutral">not approvable</Badge>;
+}
+
 function Panel({
   icon: Icon,
   title,
@@ -869,6 +1016,13 @@ function StatusBadge({ status }: { status: string }) {
   return <Badge tone={statusTone[status] ?? 'neutral'}>{status}</Badge>;
 }
 
+function corpusStateTone(state: DiscordCorpusItem['state']): Tone {
+  if (state === 'synced') return 'emerald';
+  if (state === 'eligible') return 'cyan';
+  if (state === 'stale') return 'amber';
+  return 'neutral';
+}
+
 function Rows({ children, empty }: { children: ReactNode[]; empty: string }) {
   if (children.length === 0) {
     return (
@@ -924,6 +1078,13 @@ function nextOperatorMove(input: {
   if (input.contentDrafts.some((draft) => draft.status === 'pending_approval')) return 'Approve daily content drafts';
   if (input.challengeSubmissions.some((submission) => submission.status === 'pending')) return 'Review challenge submissions';
   return 'Seed the next content cycle';
+}
+
+function sortCorpusItems(a: DiscordCorpusItem, b: DiscordCorpusItem) {
+  const rank = { stale: 0, eligible: 1, blocked: 2, synced: 3 } as Record<DiscordCorpusItem['state'], number>;
+  const byRank = rank[a.state] - rank[b.state];
+  if (byRank !== 0) return byRank;
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 }
 
 function formatDateTime(value: string) {

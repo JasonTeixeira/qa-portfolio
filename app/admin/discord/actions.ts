@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { recordDiscordEvent } from '@/lib/discord/analytics';
 import { reviewDiscordContentDraft } from '@/lib/discord/content-approval';
-import { reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
+import { markDiscordAnswerHelpful, reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
 import { postToChannelByBaseName } from '@/lib/discord/sage-rest';
 
@@ -163,6 +163,72 @@ export async function reviewDiscordChallengeSubmissionAction(formData: FormData)
     discordUsername: result.submission.username,
     channelBaseName: status === 'featured' ? 'wins-showcase' : 'team-ops',
     metadata: { id, status, reviewer: profile.email, note: note || null, points_awarded: result.pointsAwarded, message_id: messageId },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function approveDiscordQuestionForRagAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  if (!id) throw new Error('Missing question id.');
+
+  const { error } = await supabaseAdmin()
+    .from('discord_questions')
+    .update({ status: 'closed', updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .eq('status', 'open');
+  if (error) throw new Error(error.message);
+
+  await recordDiscordEvent({
+    eventType: 'rag_question_approved',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: { id, reviewer: profile.email, approved_state: 'closed' },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function approveDiscordAnswerForRagAction(formData: FormData) {
+  const { user, profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  if (!id) throw new Error('Missing answer id.');
+
+  const result = await markDiscordAnswerHelpful({
+    answerId: id,
+    reviewerDiscordUserId: user.id,
+    reviewerUsername: profile.email,
+  });
+  if (!result.ok && result.reason !== 'already_helpful') {
+    throw new Error(`Could not mark answer helpful: ${result.reason ?? 'unknown error'}`);
+  }
+
+  await recordDiscordEvent({
+    eventType: 'rag_answer_approved',
+    commandName: 'admin_dashboard',
+    discordUserId: result.answererDiscordUserId,
+    discordUsername: result.answererUsername,
+    channelBaseName: 'team-ops',
+    metadata: { id, reviewer: profile.email, question_id: result.questionId ?? null },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function approveDiscordQueueItemForRagAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  if (!id) throw new Error('Missing content queue id.');
+
+  const { error } = await supabaseAdmin()
+    .from('discord_content_queue')
+    .update({ status: 'published', updated_at: new Date().toISOString() })
+    .eq('id', id);
+  if (error) throw new Error(error.message);
+
+  await recordDiscordEvent({
+    eventType: 'rag_content_queue_approved',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: { id, reviewer: profile.email, approved_state: 'published' },
   });
   revalidatePath('/admin/discord');
 }

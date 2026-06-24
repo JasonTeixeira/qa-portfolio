@@ -46,6 +46,7 @@ import {
   createRagEvalKnowledgeTaskAction,
   publishDiscordContentDraftAction,
   rejectDiscordApplication,
+  reviewDiscordMemberNudgeAction,
   reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
@@ -78,6 +79,37 @@ type DiscordMemberRow = {
   premium_member: boolean;
   premium_status: string | null;
   last_seen_at: string;
+};
+
+type DiscordMemberIntelligenceProfileRow = {
+  discord_user_id: string;
+  username: string | null;
+  segment: string;
+  segment_confidence: number;
+  segment_reasons: string[] | null;
+  next_best_action: string;
+  next_nudge_key: string | null;
+  next_nudge_reason: string | null;
+  risk_flags: string[] | null;
+  strengths: string[] | null;
+  total_points: number;
+  current_streak: number;
+  onboarding_steps_completed: number;
+  last_activity_at: string | null;
+  calculated_at: string;
+};
+
+type DiscordMemberNudgeQueueRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  nudge_key: string;
+  reason: string;
+  status: string;
+  priority: number;
+  rate_limit_until: string | null;
+  created_at: string;
+  metadata: Record<string, unknown> | null;
 };
 
 type DiscordRunRow = {
@@ -241,7 +273,9 @@ const statusTone: Record<string, Tone> = {
   ready: 'emerald',
   rejected: 'rose',
   resumed: 'emerald',
+  queued: 'amber',
   skipped: 'amber',
+  suppressed: 'neutral',
   triaged: 'cyan',
 };
 
@@ -257,6 +291,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const [
     eventsRes,
     membersRes,
+    memberIntelligenceRes,
+    memberNudgesRes,
     runsRes,
     eventCountRes,
     premiumCountRes,
@@ -295,6 +331,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .select('discord_user_id, username, path_key, level_key, weekly_time_budget, preferred_support, premium_member, premium_status, last_seen_at')
       .order('last_seen_at', { ascending: false })
       .limit(80),
+    sb
+      .from('discord_member_intelligence_profiles')
+      .select('discord_user_id, username, segment, segment_confidence, segment_reasons, next_best_action, next_nudge_key, next_nudge_reason, risk_flags, strengths, total_points, current_streak, onboarding_steps_completed, last_activity_at, calculated_at')
+      .order('segment_confidence', { ascending: false })
+      .order('calculated_at', { ascending: false })
+      .limit(24),
+    sb
+      .from('discord_member_nudge_queue')
+      .select('id, discord_user_id, discord_username, nudge_key, reason, status, priority, rate_limit_until, created_at, metadata')
+      .in('status', ['queued', 'approved'])
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(24),
     sb
       .from('discord_scheduled_runs')
       .select('run_key, kind, status, message_id, posted_at')
@@ -416,6 +465,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
   const members = (membersRes.data ?? []) as DiscordMemberRow[];
+  const memberIntelligence = (memberIntelligenceRes.data ?? []) as DiscordMemberIntelligenceProfileRow[];
+  const memberNudges = (memberNudgesRes.data ?? []) as DiscordMemberNudgeQueueRow[];
   const runs = (runsRes.data ?? []) as DiscordRunRow[];
   const pointsRows = (pointsRes.data ?? []) as DiscordPointsRow[];
   const contentQueue = (contentQueueRes.data ?? []) as DiscordContentQueueRow[];
@@ -457,7 +508,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
   const activeWorker = gatewayHeartbeats.some((heartbeat) => ['ready', 'resumed', 'heartbeat_ack'].includes(heartbeat.status));
   const pendingDrafts = contentDrafts.filter((draft) => draft.status === 'pending_approval').length;
-  const pendingReviews = applications.length + pendingDrafts + challengeSubmissions.filter((item) => item.status === 'pending').length;
+  const pendingReviews = applications.length + pendingDrafts + challengeSubmissions.filter((item) => item.status === 'pending').length + memberNudges.filter((item) => item.status === 'queued').length;
   const capturedMessages = gatewayMessageCountRes.count ?? 0;
   const operatingScore = scoreOperatingHealth({
     activeWorker,
@@ -627,6 +678,30 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           >
             {applications.map((application) => (
               <ApplicationRow key={application.id} application={application} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={HeartPulse}
+            title="Member intelligence"
+            meta={`${memberIntelligence.length} profiles`}
+            empty="No member intelligence profiles yet. Run the rebuild job after members have activity."
+          >
+            {memberIntelligence.map((member) => (
+              <MemberIntelligenceRow key={member.discord_user_id} member={member} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Panel
+            icon={Inbox}
+            title="Member nudge queue"
+            meta={`${memberNudges.length} active nudges`}
+            empty="No queued member nudges. Stuck, inactive, or pending-review members will appear here after the rebuild job runs."
+          >
+            {memberNudges.map((nudge) => (
+              <MemberNudgeRow key={nudge.id} nudge={nudge} />
             ))}
           </Panel>
 
@@ -839,6 +914,75 @@ function ApplicationRow({ application }: { application: DiscordApplicationRow })
           <input type="hidden" name="discord_user_id" value={application.discord_user_id} />
           <input type="hidden" name="discord_username" value={application.discord_username ?? ''} />
           <ActionButton type="submit">Reject</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function MemberIntelligenceRow({ member }: { member: DiscordMemberIntelligenceProfileRow }) {
+  const riskFlags = member.risk_flags ?? [];
+  const strengths = member.strengths ?? [];
+  const reasons = member.segment_reasons ?? [];
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{member.username ?? member.discord_user_id}</div>
+          <Badge tone={segmentTone(member.segment)}>{member.segment}</Badge>
+          <Badge tone={member.segment_confidence >= 85 ? 'emerald' : member.segment_confidence >= 70 ? 'amber' : 'neutral'}>{member.segment_confidence}% confidence</Badge>
+          {member.next_nudge_key ? <Badge tone="cyan">{member.next_nudge_key}</Badge> : null}
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{member.next_best_action}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{member.total_points} pts</span>
+          <span>{member.current_streak} day streak</span>
+          <span>{member.onboarding_steps_completed} onboarding steps</span>
+          {member.last_activity_at ? <span>Last: {formatDateTime(member.last_activity_at)}</span> : null}
+        </div>
+        {reasons.length ? (
+          <div className="mt-2 text-[11px] leading-5 text-[#a1a1aa]">Why: {reasons.slice(0, 2).join(' / ')}</div>
+        ) : null}
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {riskFlags.slice(0, 4).map((risk) => <Badge key={risk} tone="amber">{risk}</Badge>)}
+          {strengths.slice(0, 4).map((strength) => <Badge key={strength} tone="emerald">{strength}</Badge>)}
+        </div>
+      </div>
+      <div className="flex items-center gap-2 lg:justify-end">
+        {member.next_nudge_reason ? <div className="max-w-[220px] text-right text-xs leading-5 text-[#71717a]">{member.next_nudge_reason}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+function MemberNudgeRow({ nudge }: { nudge: DiscordMemberNudgeQueueRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{nudge.discord_username ?? nudge.discord_user_id}</div>
+          <StatusBadge status={nudge.status} />
+          <Badge tone="cyan">{nudge.nudge_key}</Badge>
+          <Badge tone={nudge.priority >= 85 ? 'rose' : nudge.priority >= 70 ? 'amber' : 'neutral'}>{nudge.priority} priority</Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{nudge.reason}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>Queued {formatDateTime(nudge.created_at)}</span>
+          {nudge.rate_limit_until ? <span>Rate limited until {formatDateTime(nudge.rate_limit_until)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {nudge.status === 'queued' ? (
+          <form action={reviewDiscordMemberNudgeAction}>
+            <input type="hidden" name="id" value={nudge.id} />
+            <input type="hidden" name="status" value="approved" />
+            <ActionButton tone="emerald" type="submit">Approve nudge</ActionButton>
+          </form>
+        ) : null}
+        <form action={reviewDiscordMemberNudgeAction}>
+          <input type="hidden" name="id" value={nudge.id} />
+          <input type="hidden" name="status" value="suppressed" />
+          <ActionButton type="submit">Suppress</ActionButton>
         </form>
       </div>
     </div>
@@ -1205,6 +1349,13 @@ function HealthLine({ label, value, tone }: { label: string; value: string; tone
 
 function StatusBadge({ status }: { status: string }) {
   return <Badge tone={statusTone[status] ?? 'neutral'}>{status}</Badge>;
+}
+
+function segmentTone(segment: string): Tone {
+  if (segment === 'premium_member' || segment === 'mentor_candidate') return 'emerald';
+  if (segment === 'premium_lead' || segment === 'active_builder' || segment === 'helper') return 'cyan';
+  if (segment === 'stuck_onboarding' || segment === 'at_risk_inactive') return 'amber';
+  return 'neutral';
 }
 
 function corpusStateTone(state: DiscordCorpusItem['state']): Tone {

@@ -376,3 +376,54 @@ export async function reviewDiscordKnowledgeCandidateAction(formData: FormData) 
   });
   revalidatePath('/admin/discord');
 }
+
+export async function reviewDiscordMemberNudgeAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const status = value(formData, 'status');
+  if (!id || !['approved', 'suppressed', 'skipped'].includes(status)) {
+    throw new Error('Invalid member nudge review.');
+  }
+  const reviewedAt = new Date().toISOString();
+
+  const { data: existing, error: existingError } = await supabaseAdmin()
+    .from('discord_member_nudge_queue')
+    .select('metadata')
+    .eq('id', id)
+    .maybeSingle();
+  if (existingError) throw new Error(existingError.message);
+
+  const { data, error } = await supabaseAdmin()
+    .from('discord_member_nudge_queue')
+    .update({
+      status,
+      updated_at: reviewedAt,
+      metadata: {
+        ...(typeof existing?.metadata === 'object' && existing.metadata ? existing.metadata : {}),
+        reviewed_by: profile.email,
+        reviewed_at: reviewedAt,
+        review_source: 'admin_dashboard',
+      },
+    })
+    .eq('id', id)
+    .in('status', ['queued', 'approved'])
+    .select('id, discord_user_id, discord_username, nudge_key, reason')
+    .single();
+  if (error) throw new Error(error.message);
+
+  await recordDiscordEvent({
+    eventType: 'member_nudge_reviewed',
+    commandName: 'admin_dashboard',
+    discordUserId: data.discord_user_id,
+    discordUsername: data.discord_username,
+    channelBaseName: 'team-ops',
+    metadata: {
+      id,
+      nudge_key: data.nudge_key,
+      status,
+      reason: data.reason,
+      reviewer: profile.email,
+    },
+  });
+  revalidatePath('/admin/discord');
+}

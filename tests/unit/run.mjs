@@ -1319,8 +1319,9 @@ test('discord weekly automation: drafts leaderboard recap for approval', async (
 });
 
 test('discord member intelligence: classifies member segments and persists rollups', async () => {
-  const { classifyDiscordMemberProfile } = await import('../../lib/discord/member-intelligence.ts');
+  const { classifyDiscordMemberProfile, shouldQueueMemberNudge } = await import('../../lib/discord/member-intelligence.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0071_discord_member_intelligence_profiles.sql', import.meta.url), 'utf8');
+  const v2Migration = await readFile(new URL('../../supabase/migrations/0087_discord_member_intelligence_v2_nudges.sql', import.meta.url), 'utf8');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const script = await readFile(new URL('../../scripts/discord/rebuild-member-intelligence.ts', import.meta.url), 'utf8');
 
@@ -1335,15 +1336,78 @@ test('discord member intelligence: classifies member segments and persists rollu
     answerCount: 3,
     helpfulAnswerCount: 2,
     challengeSubmissionCount: 1,
+    pendingChallengeSubmissionCount: 0,
+    projectSubmissionCount: 0,
+    pendingProjectSubmissionCount: 0,
     contentCaptureCount: 1,
     onboardingStepsCompleted: 5,
+    premiumReviewRequestCount: 0,
+    officeHoursRequestCount: 0,
   });
-  assert.equal(profile.segment, 'premium_candidate');
-  assert.equal(profile.nextBestAction, 'offer_premium_review_or_member_spotlight');
+  assert.equal(profile.segment, 'premium_lead');
+  assert.equal(profile.nextBestAction, 'offer_contextual_premium_review_or_member_spotlight');
   assert.ok(profile.strengths.includes('helps_members'));
+
+  const stuck = classifyDiscordMemberProfile({
+    discordUserId: 'stuck',
+    academyMember: true,
+    premiumMember: false,
+    totalPoints: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    questionCount: 0,
+    openQuestionCount: 0,
+    answerCount: 0,
+    helpfulAnswerCount: 0,
+    challengeSubmissionCount: 0,
+    pendingChallengeSubmissionCount: 0,
+    projectSubmissionCount: 0,
+    pendingProjectSubmissionCount: 0,
+    contentCaptureCount: 0,
+    onboardingStepsCompleted: 1,
+    premiumReviewRequestCount: 0,
+    officeHoursRequestCount: 0,
+  });
+  assert.equal(stuck.segment, 'stuck_onboarding');
+  assert.equal(stuck.nextNudge?.key, 'complete_onboarding');
+  assert.ok(stuck.riskFlags.includes('routing_missing'));
+  assert.equal(shouldQueueMemberNudge({ recommendation: stuck.nextNudge, recentNudgeKeys: new Set() }), true);
+  assert.equal(shouldQueueMemberNudge({ recommendation: stuck.nextNudge, recentNudgeKeys: new Set(['complete_onboarding']) }), false);
+
+  const inactive = classifyDiscordMemberProfile({
+    discordUserId: 'inactive',
+    academyMember: true,
+    premiumMember: false,
+    pathKey: 'websites',
+    levelKey: 'beginner',
+    totalPoints: 20,
+    currentStreak: 0,
+    longestStreak: 1,
+    questionCount: 0,
+    openQuestionCount: 0,
+    answerCount: 0,
+    helpfulAnswerCount: 0,
+    challengeSubmissionCount: 0,
+    pendingChallengeSubmissionCount: 0,
+    projectSubmissionCount: 0,
+    pendingProjectSubmissionCount: 0,
+    contentCaptureCount: 0,
+    onboardingStepsCompleted: 3,
+    premiumReviewRequestCount: 0,
+    officeHoursRequestCount: 0,
+    lastActivityAt: '2026-06-01T00:00:00.000Z',
+  }, new Date('2026-06-24T00:00:00.000Z'));
+  assert.equal(inactive.segment, 'at_risk_inactive');
+  assert.equal(inactive.nextNudge?.key, 'first_action');
+
   assert.match(migration, /create table if not exists public\.discord_member_intelligence_profiles/);
   assert.match(migration, /segment text not null/);
+  assert.match(v2Migration, /create table if not exists public\.discord_member_nudge_queue/);
+  assert.match(v2Migration, /segment_confidence/);
+  assert.match(v2Migration, /mentor_candidate/);
   assert.match(script, /rebuildDiscordMemberIntelligenceProfiles/);
+  assert.match(script, /phase-12-member-intelligence-v2-proof\.json/);
+  assert.match(script, /duplicate_rate_limit/);
   assert.equal(pkg.scripts['discord:member-intelligence'], 'tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts');
   assert.match(pkg.scripts['discord:smoke-member-intelligence'], /--smoke/);
 });

@@ -34,10 +34,16 @@ import {
   type DiscordCorpusItem,
 } from '@/lib/rag/discord-corpus-health';
 import {
+  buildRagEvalDrilldownRow,
+  summarizeRagCorpusHealth,
+  type RagEvalDrilldownRow,
+} from '@/lib/rag/admin-health';
+import {
   approveDiscordAnswerForRagAction,
   approveDiscordApplication,
   approveDiscordQueueItemForRagAction,
   approveDiscordQuestionForRagAction,
+  createRagEvalKnowledgeTaskAction,
   rejectDiscordApplication,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
@@ -186,6 +192,24 @@ type RagSourceRow = {
   updated_at: string;
 };
 
+type RagIngestionRunRow = {
+  run_key: string;
+  status: string;
+  started_at: string;
+  finished_at: string | null;
+  failures: number | null;
+};
+
+type RagEvalRunRow = {
+  run_key: string;
+  status: string;
+  total_questions: number;
+  passed: number;
+  failed: number;
+  metrics: Record<string, unknown> | null;
+  finished_at: string | null;
+};
+
 type DiscordGatewayHeartbeatRow = {
   worker_id: string;
   status: string;
@@ -247,6 +271,13 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     gatewayHeartbeatsRes,
     gatewayDeadLetterCountRes,
     ragSourcesRes,
+    ragSourceCountRes,
+    ragDocumentCountRes,
+    ragChunkCountRes,
+    ragEmbeddedChunkCountRes,
+    newestIngestionRunRes,
+    latestEvalRunRes,
+    latestEvalResultsRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -355,6 +386,26 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .select('source_key, source_type, source_record_id, source_table, updated_at')
       .in('source_type', ['discord_question', 'discord_answer', 'discord_content_queue', 'lesson', 'resource', 'admin_note'])
       .limit(1000),
+    sb.from('rag_sources').select('id', { count: 'exact', head: true }),
+    sb.from('rag_documents').select('id', { count: 'exact', head: true }),
+    sb.from('rag_chunks').select('id', { count: 'exact', head: true }),
+    sb.from('rag_chunks').select('id', { count: 'exact', head: true }).not('embedding_local', 'is', null),
+    sb
+      .from('rag_ingestion_runs')
+      .select('run_key, status, started_at, finished_at, failures')
+      .order('started_at', { ascending: false })
+      .limit(1),
+    sb
+      .from('rag_eval_runs')
+      .select('run_key, status, total_questions, passed, failed, metrics, finished_at')
+      .order('started_at', { ascending: false })
+      .limit(1),
+    sb
+      .from('rag_eval_results')
+      .select('id, passed, score, citation_coverage, faithfulness, metadata, answer_id, retrieval_log_id, rag_eval_questions(eval_key, question)')
+      .order('passed', { ascending: true })
+      .order('created_at', { ascending: false })
+      .limit(12),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -372,6 +423,9 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
   const ragSources = (ragSourcesRes.data ?? []) as RagSourceRow[];
+  const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
+  const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
+  const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
   const discordRagSourceKeys = new Set(ragSources.map((source) => source.source_key));
   const corpusItems = [
     ...questions.map((question) => buildDiscordCorpusQuestionItem(question, discordRagSourceKeys)),
@@ -383,6 +437,15 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     corpusItems,
     ragSources.filter((source) => source.source_type.startsWith('discord_') || source.source_table === 'discord_content_drafts').length,
   );
+  const ragOperationalHealth = summarizeRagCorpusHealth({
+    sources: ragSourceCountRes.count ?? 0,
+    documents: ragDocumentCountRes.count ?? 0,
+    chunks: ragChunkCountRes.count ?? 0,
+    embeddedChunks: ragEmbeddedChunkCountRes.count ?? 0,
+    blockedDiscordCandidates: corpusHealth.blocked,
+    newestIngestionRun: latestIngestionRun,
+    latestEvalRun,
+  });
   const gatewayHeartbeats = (gatewayHeartbeatsRes.data ?? []) as DiscordGatewayHeartbeatRow[];
   const failures = events.filter((event) => event.event_type.includes('failed')).length;
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
@@ -437,6 +500,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <MetricCard icon={MessageCircle} label="Captured messages" value={capturedMessages} detail={`${gatewayEventCountRes.count ?? 0} events / ${gatewayReactionCountRes.count ?? 0} reactions`} />
                 <MetricCard icon={Inbox} label="Open review queue" value={pendingReviews} tone={pendingReviews ? 'amber' : 'emerald'} />
                 <MetricCard icon={BookOpenCheck} label="RAG corpus health" value={`${corpusHealth.healthScore}%`} detail={`${corpusHealth.authoritativeSources} authoritative / ${corpusHealth.missing} missing`} tone={corpusHealth.healthScore >= 85 ? 'emerald' : corpusHealth.healthScore >= 65 ? 'amber' : 'rose'} />
+                <MetricCard icon={HeartPulse} label="RAG ops health" value={ragOperationalHealth.status} detail={`${Math.round(ragOperationalHealth.embeddingCoverage * 100)}% embedded / ${latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} eval` : 'no eval'}`} tone={ragOperationalHealth.status === 'healthy' ? 'emerald' : ragOperationalHealth.status === 'watch' ? 'amber' : 'rose'} />
               </div>
             </div>
             <Card className="rounded-lg border-[#2a2a31] bg-[#111116]">
@@ -458,6 +522,55 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" data-testid="rag-health-eval-drilldown">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#8b5cf6]/30 bg-[#8b5cf6]/10 text-[#a78bfa]">
+                  <HeartPulse className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">RAG operational health</h2>
+                  <p className="text-xs text-[#71717a]">Live source, chunk, embedding, ingestion, and eval posture.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Sources" value={String(ragOperationalHealth.sources)} tone={ragOperationalHealth.sources ? 'emerald' : 'rose'} />
+                <HealthLine label="Documents" value={`${ragOperationalHealth.documents} / ${ragOperationalHealth.missingDocuments} missing`} tone={ragOperationalHealth.missingDocuments ? 'amber' : 'emerald'} />
+                <HealthLine label="Chunks" value={`${ragOperationalHealth.chunks} / ${ragOperationalHealth.missingChunks} missing`} tone={ragOperationalHealth.missingChunks ? 'amber' : 'emerald'} />
+                <HealthLine label="Embeddings" value={`${ragOperationalHealth.embeddedChunks} / ${ragOperationalHealth.missingEmbeddings} missing`} tone={ragOperationalHealth.missingEmbeddings ? 'rose' : 'emerald'} />
+                <HealthLine label="Latest ingestion" value={latestIngestionRun ? `${latestIngestionRun.status} / ${latestIngestionRun.run_key}` : 'none'} tone={latestIngestionRun?.status === 'failed' ? 'rose' : latestIngestionRun ? 'emerald' : 'amber'} />
+                <HealthLine label="Latest eval" value={latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} passed` : 'none'} tone={latestEvalRun?.status === 'failed' ? 'rose' : latestEvalRun ? 'emerald' : 'amber'} />
+              </div>
+              <div className="mt-4 space-y-2">
+                {ragOperationalHealth.issues.length ? ragOperationalHealth.issues.slice(0, 4).map((issue) => (
+                  <div key={issue} className="rounded-md border border-[#f59e0b]/25 bg-[#f59e0b]/10 px-3 py-2 text-xs leading-5 text-[#facc15]">
+                    {issue}
+                  </div>
+                )) : (
+                  <div className="rounded-md border border-[#10b981]/25 bg-[#10b981]/10 px-3 py-2 text-xs leading-5 text-[#34d399]">
+                    RAG source, chunk, embedding, ingestion, and eval posture is currently healthy.
+                  </div>
+                )}
+              </div>
+              <form action={syncDiscordRagSourcesAction} className="mt-4">
+                <ActionButton data-testid="rag-health-sync-now" tone="emerald" type="submit">Sync approved Discord knowledge</ActionButton>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={BookOpenCheck}
+            title="RAG eval drilldown"
+            meta={latestEvalRun ? `${latestEvalRun.run_key} / ${latestEvalRun.failed} failed` : 'No eval run yet'}
+            empty="No eval results found yet. Run the RAG smoke or full eval to populate this table."
+          >
+            {ragEvalDrilldown.map((row) => (
+              <RagEvalRow key={row.id} row={row} />
+            ))}
+          </Panel>
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.85fr_1.15fr]" data-testid="discord-rag-corpus-ops">
@@ -882,6 +995,43 @@ function ApproveForRagForm({ item }: { item: DiscordCorpusItem }) {
     );
   }
   return <Badge tone="neutral">not approvable</Badge>;
+}
+
+function RagEvalRow({ row }: { row: RagEvalDrilldownRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]" data-testid={`rag-eval-row-${row.evalKey}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone={row.passed ? 'emerald' : row.severity === 'critical' ? 'rose' : 'amber'}>{row.passed ? 'pass' : 'failed'}</Badge>
+          <Badge tone="cyan">{row.evalKey}</Badge>
+          <Badge tone={row.score >= 0.8 ? 'emerald' : row.score >= 0.6 ? 'amber' : 'rose'}>{Math.round(row.score * 100)} score</Badge>
+          <Badge tone={row.retrievalHitRate ? 'emerald' : 'rose'}>{Math.round(row.retrievalHitRate * 100)} retrieval</Badge>
+          <Badge tone={row.citationCoverage >= 0.85 ? 'emerald' : 'amber'}>{Math.round(row.citationCoverage * 100)} citations</Badge>
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{row.question}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{row.suggestedFix}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {row.missingSources.length ? <span>Missing sources: {row.missingSources.join(', ')}</span> : null}
+          {row.missingRequiredTerms.length ? <span>Missing terms: {row.missingRequiredTerms.join(', ')}</span> : null}
+          {row.traceId ? <span>Trace: {row.traceId.slice(0, 10)}</span> : null}
+          {row.answerId ? <span>Answer: {row.answerId.slice(0, 8)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {!row.passed ? (
+          <form action={createRagEvalKnowledgeTaskAction}>
+            <input type="hidden" name="result_id" value={row.id} />
+            <input type="hidden" name="eval_key" value={row.evalKey} />
+            <input type="hidden" name="question" value={row.question} />
+            <input type="hidden" name="suggested_fix" value={row.suggestedFix} />
+            <ActionButton data-testid={`rag-eval-create-task-${row.evalKey}`} tone="emerald" type="submit">Create source task</ActionButton>
+          </form>
+        ) : (
+          <Badge tone="emerald">covered</Badge>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function Panel({

@@ -620,6 +620,60 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
   assert.equal(ragEvalSummaryPassed(summary), false);
 });
 
+test('rag admin health: summarizes corpus gaps and eval fixes', async () => {
+  const {
+    buildRagEvalDrilldownRow,
+    summarizeRagCorpusHealth,
+    suggestEvalFix,
+  } = await import('../../lib/rag/admin-health.ts');
+
+  const health = summarizeRagCorpusHealth({
+    sources: 10,
+    documents: 8,
+    chunks: 20,
+    embeddedChunks: 15,
+    blockedDiscordCandidates: 3,
+    newestIngestionRun: { run_key: 'sync-1', status: 'completed', started_at: '2026-06-24T00:00:00Z' },
+    latestEvalRun: { run_key: 'eval-1', status: 'failed', total_questions: 10, passed: 8, failed: 2, metrics: {}, finished_at: '2026-06-24T00:01:00Z' },
+  });
+  assert.equal(health.missingDocuments, 2);
+  assert.equal(health.missingEmbeddings, 5);
+  assert.equal(health.embeddingCoverage, 0.75);
+  assert.equal(health.evalPassRate, 0.8);
+  assert.equal(health.status, 'critical');
+  assert.ok(health.issues.some((issue) => /missing local embeddings/i.test(issue)));
+  assert.ok(health.issues.some((issue) => /below 95%/i.test(issue)));
+
+  const failed = buildRagEvalDrilldownRow({
+    id: 'result-1',
+    passed: false,
+    score: 0.4,
+    citation_coverage: 0,
+    faithfulness: 0.35,
+    answer_id: 'answer-1',
+    retrieval_log_id: 'retrieval-1',
+    rag_eval_questions: { eval_key: 'rag_gap_001', question: 'How should RAG gaps be fixed?' },
+    metadata: {
+      missing_sources: ['DISCORD_RUNBOOK.md'],
+      missing_required_terms: ['approval'],
+      observability: { traceId: 'abc123trace' },
+      metrics: { retrieval_hit_rate: 0 },
+    },
+  });
+  assert.equal(failed.severity, 'critical');
+  assert.equal(failed.evalKey, 'rag_gap_001');
+  assert.match(failed.suggestedFix, /DISCORD_RUNBOOK\.md/);
+  assert.equal(failed.traceId, 'abc123trace');
+  assert.match(suggestEvalFix({
+    passed: false,
+    missingSources: [],
+    missingRequiredTerms: ['citations'],
+    retrievalHitRate: 1,
+    citationCoverage: 1,
+    faithfulness: 1,
+  }), /citations/);
+});
+
 test('rag query planning and reranking: expands command questions and prioritizes approved sources', async () => {
   const { planRagQuery } = await import('../../lib/rag/query-planning.ts');
   const { rerankRagResults, sourcePriorityScore } = await import('../../lib/rag/reranking.ts');

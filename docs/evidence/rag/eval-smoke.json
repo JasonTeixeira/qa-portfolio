@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "runId": "927abc55-e41f-4132-a1c8-8e50540ff84c",
-  "runKey": "smoke-20260624202921",
+  "runId": "73926e5b-3c52-413d-83bc-d172ea8d1eaf",
+  "runKey": "smoke-20260624214222",
   "smoke": true,
   "seededQuestionCount": 50,
   "evaluatedQuestionCount": 3,
@@ -37,9 +37,9 @@
       "faithfulness": 0.95,
       "groundedness": 0.95,
       "answerUsefulness": 1,
-      "answerId": "993ba23c-d2d2-41a3-8c72-75d18edacfee",
-      "retrievalLogId": "c85b6c70-79c8-45fa-b17a-67c4a07f46c7",
-      "traceId": "b667f036df2f745961b63773c6309be3",
+      "answerId": "01fcf25c-4242-449f-8120-de4bea76e2f0",
+      "retrievalLogId": "5827e79b-636e-4c42-a8ff-353e84874403",
+      "traceId": "c03214e41331845d9fcb25c9d3bb4828",
       "missingSources": [],
       "missingRequiredTerms": []
     },
@@ -54,9 +54,9 @@
       "faithfulness": 0.95,
       "groundedness": 0.95,
       "answerUsefulness": 1,
-      "answerId": "ddde62f0-bb7a-4d33-bcc4-a059873d91a1",
-      "retrievalLogId": "b5d49c49-6e53-4d51-92c6-251cb9e938a4",
-      "traceId": "b4a45f028dc5e9f8982843419c6d4e32",
+      "answerId": "9546d9d5-39a2-4987-a040-1e9802cc3feb",
+      "retrievalLogId": "5105b71c-b7a2-46db-854b-2adc09b54ddf",
+      "traceId": "43434f395af63f986655c5ede79447ba",
       "missingSources": [],
       "missingRequiredTerms": []
     },
@@ -71,13 +71,13 @@
       "faithfulness": 0.95,
       "groundedness": 0.9,
       "answerUsefulness": 1,
-      "answerId": "91999fc1-c779-4634-bd36-a8b028f2e7f9",
-      "retrievalLogId": "7ebad4fa-e2e7-4437-9775-5b6bd1c6b246",
-      "traceId": "8beba98e63c1319cfb3ab71fb987ec7b",
+      "answerId": "d391a9b2-97e5-40a1-9b7d-a12f9ac2b082",
+      "retrievalLogId": "dfa746e2-7a13-47d8-b103-3e247435f320",
+      "traceId": "2793ff1a9607648c6d25aced15a1ac5c",
       "missingSources": [],
       "missingRequiredTerms": []
     }
   ],
-  "startedAt": "2026-06-24T20:29:21.277Z",
-  "finishedAt": "2026-06-24T20:29:34.789Z"
+  "startedAt": "2026-06-24T21:42:22.088Z",
+  "finishedAt": "2026-06-24T21:42:36.004Z"
 }

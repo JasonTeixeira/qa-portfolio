@@ -260,3 +260,57 @@ export async function syncDiscordRagSourcesAction() {
   revalidatePath('/admin/discord');
   if (!result.ok) throw new Error(result.error ?? 'RAG source sync failed.');
 }
+
+export async function createRagEvalKnowledgeTaskAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const evalKey = value(formData, 'eval_key');
+  const question = value(formData, 'question');
+  const suggestedFix = value(formData, 'suggested_fix');
+  const resultId = value(formData, 'result_id');
+  if (!evalKey || !question || !resultId) throw new Error('Missing eval failure details.');
+
+  const { data: existing, error: existingError } = await supabaseAdmin()
+    .from('discord_content_queue')
+    .select('id')
+    .eq('source', 'rag_eval_failure')
+    .contains('metadata', { rag_eval_result_id: resultId })
+    .maybeSingle();
+  if (existingError) throw new Error(existingError.message);
+
+  const metadata = {
+    rag_eval_result_id: resultId,
+    eval_key: evalKey,
+    reviewer: profile.email,
+    created_from: 'admin_discord_rag_eval_drilldown',
+  };
+  const payload = {
+    source: 'rag_eval_failure',
+    discord_username: 'SageBot',
+    channel_base_name: 'content-lab',
+    idea: `Improve RAG source coverage for ${evalKey}`,
+    angle: `${question}\n\nSuggested fix: ${suggestedFix || 'Inspect failed eval and add or approve a better source.'}`,
+    status: 'captured',
+    priority: 88,
+    metadata,
+    updated_at: new Date().toISOString(),
+  };
+
+  const { data, error } = existing?.id
+    ? await supabaseAdmin().from('discord_content_queue').update(payload).eq('id', existing.id).select('id').single()
+    : await supabaseAdmin().from('discord_content_queue').insert(payload).select('id').single();
+  if (error) throw new Error(error.message);
+
+  await recordDiscordEvent({
+    eventType: 'rag_eval_knowledge_task_created',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: {
+      reviewer: profile.email,
+      eval_key: evalKey,
+      rag_eval_result_id: resultId,
+      content_queue_id: data?.id ?? existing?.id ?? null,
+      deduped: Boolean(existing?.id),
+    },
+  });
+  revalidatePath('/admin/discord');
+}

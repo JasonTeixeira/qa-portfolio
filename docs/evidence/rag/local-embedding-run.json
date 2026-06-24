@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "rag-local-embed-2026-06-23T23-18-02-355Z",
+  "runKey": "rag-local-embed-2026-06-24T14-44-48-841Z",
   "status": "completed",
   "model": "Supabase/gte-small",
   "dimensions": 384,
@@ -11,6 +11,6 @@
     "failures": 0
   },
   "embeddedCount": 110,
-  "startedAt": "2026-06-23T23:18:02.355Z",
-  "finishedAt": "2026-06-23T23:18:25.816Z"
+  "startedAt": "2026-06-24T14:44:48.841Z",
+  "finishedAt": "2026-06-24T14:45:14.013Z"
 }

@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process';
 import { createClient } from '@supabase/supabase-js';
 import { test, expect } from '../../fixtures/auth';
 
@@ -55,12 +54,16 @@ test.describe('Admin Discord authoritative RAG corpus', () => {
         return data?.status;
       }, { timeout: 30_000 }).toBe('published');
 
-      execFileSync('npm', ['run', 'rag:sync-sources'], {
-        cwd: process.cwd(),
-        env: process.env,
-        stdio: 'pipe',
-        timeout: 60_000,
-      });
+      await adminPage.getByTestId('rag-sync-now').click();
+
+      await expect.poll(async () => {
+        const { data } = await sb
+          .from('rag_sources')
+          .select('source_key')
+          .eq('source_key', sourceKey)
+          .maybeSingle();
+        return data?.source_key ?? null;
+      }, { timeout: 30_000 }).toBe(sourceKey);
 
       const { data: source, error: sourceError } = await sb
         .from('rag_sources')

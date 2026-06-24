@@ -41,6 +41,7 @@ import {
   rejectDiscordApplication,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
+  syncDiscordRagSourcesAction,
   updateDiscordContentQueueStatus,
 } from './actions';
 
@@ -478,8 +479,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <HealthLine label="Blocked candidates" value={String(corpusHealth.blocked)} tone={corpusHealth.blocked ? 'amber' : 'emerald'} />
               </div>
               <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
-                Approving here changes the source row into the Phase 5 approved state. The `rag:sync-sources` job then creates or updates `rag_sources` and `rag_documents`.
+                Approving here changes the source row into the Phase 5 approved state. Syncing creates or updates `rag_sources` and `rag_documents`.
               </div>
+              <form action={syncDiscordRagSourcesAction} className="mt-4">
+                <ActionButton data-testid="rag-sync-now" tone="emerald" type="submit">Sync RAG now</ActionButton>
+              </form>
             </CardContent>
           </Card>
 
@@ -836,7 +840,7 @@ function RagCorpusRow({ item }: { item: DiscordCorpusItem }) {
       </div>
       <div className="flex flex-wrap items-center gap-2 lg:justify-end">
         {item.state === 'blocked' ? <ApproveForRagForm item={item} /> : null}
-        {item.state === 'eligible' || item.state === 'stale' ? <Badge tone="amber">run sync</Badge> : null}
+        {item.state === 'eligible' || item.state === 'stale' ? <Badge tone="amber">sync ready</Badge> : null}
         {item.state === 'synced' ? <Badge tone="emerald">in RAG</Badge> : null}
       </div>
     </div>

@@ -225,6 +225,8 @@ test('discord authoritative rag sync: excludes raw and unapproved community data
   } = await import('../../lib/rag/discord-authoritative-sources.ts');
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const syncScript = await readFile(new URL('../../scripts/rag/sync-sources.ts', import.meta.url), 'utf8');
+  const sourceSync = await readFile(new URL('../../lib/rag/source-sync.ts', import.meta.url), 'utf8');
+  const discordSourceSync = await readFile(new URL('../../lib/rag/discord-source-sync.ts', import.meta.url), 'utf8');
   const smokeScript = await readFile(new URL('../../scripts/rag/smoke-discord-authoritative-sync.ts', import.meta.url), 'utf8');
 
   assert.equal(DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION, 'discord-authoritative-rag-sync-v1');
@@ -246,11 +248,16 @@ test('discord authoritative rag sync: excludes raw and unapproved community data
   assert.equal(sourceTypeForApprovedDiscordDraft('daily_signal'), 'admin_note');
 
   assert.equal(packageJson.scripts['rag:smoke-discord-authoritative-sync'], 'tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts');
-  assert.match(syncScript, /collectApprovedDiscordRagInputs/);
-  assert.match(syncScript, /phase_5_authoritative_discord_rag/);
-  assert.match(syncScript, /approved_discord_stats/);
-  assert.doesNotMatch(syncScript, /from\('discord_messages'\)/);
-  assert.doesNotMatch(syncScript, /source_types: \[[^\]]*discord_message/);
+  assert.match(syncScript, /runAuthoritativeRagSourceSync/);
+  assert.match(sourceSync, /collectApprovedDiscordRagInputs/);
+  assert.match(discordSourceSync, /phase_5_authoritative_discord_rag/);
+  assert.match(discordSourceSync, /approved_discord_stats/);
+  assert.doesNotMatch(sourceSync, /from\('discord_messages'\)/);
+  assert.doesNotMatch(sourceSync, /source_types: \[[^\]]*discord_message/);
+  assert.match(discordSourceSync, /runApprovedDiscordRagSourceSync/);
+  assert.match(discordSourceSync, /runRagSourceSyncFromInputs/);
+  assert.match(discordSourceSync, /approved_discord_stats/);
+  assert.doesNotMatch(discordSourceSync, /node:fs/);
   assert.match(smokeScript, /blockedAbsent/);
   assert.match(smokeScript, /approvedPresent/);
   assert.match(smokeScript, /discord-authoritative-sync-smoke\.json/);
@@ -326,9 +333,14 @@ test('discord authoritative rag admin UX: classifies corpus health and wires app
   assert.match(page, /approveDiscordQuestionForRagAction/);
   assert.match(page, /approveDiscordAnswerForRagAction/);
   assert.match(page, /approveDiscordQueueItemForRagAction/);
+  assert.match(page, /syncDiscordRagSourcesAction/);
+  assert.match(page, /rag-sync-now/);
   assert.match(actions, /rag_question_approved/);
   assert.match(actions, /rag_answer_approved/);
   assert.match(actions, /rag_content_queue_approved/);
+  assert.match(actions, /runApprovedDiscordRagSourceSync/);
+  assert.doesNotMatch(actions, /runAuthoritativeRagSourceSync/);
+  assert.match(actions, /rag_source_sync_completed/);
 });
 
 test('discord message classifier: labels useful community moments with actions', async () => {

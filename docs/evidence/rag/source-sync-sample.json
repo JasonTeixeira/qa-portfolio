@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "rag-source-sync-2026-06-24T20-04-31-727Z",
+  "runKey": "rag-source-sync-2026-06-24T20-31-09-926Z",
   "status": "completed",
   "approvalPolicy": "discord-authoritative-rag-sync-v1",
   "approvedDiscordStats": {
@@ -55,5 +55,7 @@
       "title": "Building a Fintech Platform Solo: 185 Tables, 69 APIs, 7 Systems",
       "token_estimate": 649
     }
-  ]
+  ],
+  "error": null,
+  "evidencePath": "/Users/Sage/code/active/sageideas.dev/docs/evidence/rag/source-sync-sample.json"
 }

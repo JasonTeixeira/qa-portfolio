@@ -232,3 +232,31 @@ export async function approveDiscordQueueItemForRagAction(formData: FormData) {
   });
   revalidatePath('/admin/discord');
 }
+
+export async function syncDiscordRagSourcesAction() {
+  const { profile } = await requireAdmin();
+  const { runApprovedDiscordRagSourceSync } = await import('@/lib/rag/discord-source-sync');
+  const result = await runApprovedDiscordRagSourceSync(supabaseAdmin(), {
+    trigger: 'admin_dashboard',
+  });
+
+  await recordDiscordEvent({
+    eventType: result.ok ? 'rag_source_sync_completed' : 'rag_source_sync_failed',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: {
+      reviewer: profile.email,
+      run_key: result.runKey,
+      status: result.status,
+      sources_seen: result.stats.sourcesSeen,
+      sources_upserted: result.stats.sourcesUpserted,
+      documents_upserted: result.stats.documentsUpserted,
+      failures: result.stats.failures,
+      by_type: result.stats.byType,
+      blocker: result.blocker,
+      error: result.error ?? null,
+    },
+  });
+  revalidatePath('/admin/discord');
+  if (!result.ok) throw new Error(result.error ?? 'RAG source sync failed.');
+}

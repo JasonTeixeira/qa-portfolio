@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "runId": "64fa15fe-8891-4810-a844-44b4cdbcf7c2",
-  "runKey": "smoke-20260624200535",
+  "runId": "927abc55-e41f-4132-a1c8-8e50540ff84c",
+  "runKey": "smoke-20260624202921",
   "smoke": true,
   "seededQuestionCount": 50,
   "evaluatedQuestionCount": 3,
@@ -10,13 +10,13 @@
     "passed": 3,
     "failed": 0,
     "passRate": 1,
-    "avgScore": 0.9367,
+    "avgScore": 0.9533,
     "retrievalHitRate": 1,
     "citationCoverage": 1,
     "contextPrecision": 0.7333,
     "faithfulness": 0.95,
     "groundedness": 0.9333,
-    "answerUsefulness": 0.8889
+    "answerUsefulness": 1
   },
   "thresholds": {
     "minOverallScore": 0.68,
@@ -30,20 +30,18 @@
       "evalKey": "rag_ai_001",
       "question": "What stack should Sage Ideas use for the first RAG implementation?",
       "passed": true,
-      "score": 0.9125,
+      "score": 0.9625,
       "retrievalHitRate": 1,
       "citationCoverage": 1,
       "contextPrecision": 0.8,
       "faithfulness": 0.95,
       "groundedness": 0.95,
-      "answerUsefulness": 0.6667,
-      "answerId": "a4494700-8fae-4195-b062-c7e6d5fd2f0e",
-      "retrievalLogId": "a8ab779d-4412-4e0a-8289-14b86fa2f6e4",
-      "traceId": "0410db47c136b119a4caf780d7f50c78",
+      "answerUsefulness": 1,
+      "answerId": "993ba23c-d2d2-41a3-8c72-75d18edacfee",
+      "retrievalLogId": "c85b6c70-79c8-45fa-b17a-67c4a07f46c7",
+      "traceId": "b667f036df2f745961b63773c6309be3",
       "missingSources": [],
-      "missingRequiredTerms": [
-        "TypeScript"
-      ]
+      "missingRequiredTerms": []
     },
     {
       "evalKey": "rag_ai_002",
@@ -56,9 +54,9 @@
       "faithfulness": 0.95,
       "groundedness": 0.95,
       "answerUsefulness": 1,
-      "answerId": "1ab602a4-280d-4dee-b567-b266d47db7a2",
-      "retrievalLogId": "31c48ab7-069d-46b0-b78d-d77e9e20e09e",
-      "traceId": "9495a13ea8573e9edb6fd6937db4a915",
+      "answerId": "ddde62f0-bb7a-4d33-bcc4-a059873d91a1",
+      "retrievalLogId": "b5d49c49-6e53-4d51-92c6-251cb9e938a4",
+      "traceId": "b4a45f028dc5e9f8982843419c6d4e32",
       "missingSources": [],
       "missingRequiredTerms": []
     },
@@ -73,13 +71,13 @@
       "faithfulness": 0.95,
       "groundedness": 0.9,
       "answerUsefulness": 1,
-      "answerId": "7f14fb8f-71ad-4497-a252-ec8daa98baf5",
-      "retrievalLogId": "7e15392e-fc2c-45ce-9fb9-b933f62c703f",
-      "traceId": "ae9e2f919d2dccb4a21aeff2c4469853",
+      "answerId": "91999fc1-c779-4634-bd36-a8b028f2e7f9",
+      "retrievalLogId": "7ebad4fa-e2e7-4437-9775-5b6bd1c6b246",
+      "traceId": "8beba98e63c1319cfb3ab71fb987ec7b",
       "missingSources": [],
       "missingRequiredTerms": []
     }
   ],
-  "startedAt": "2026-06-24T20:05:35.870Z",
-  "finishedAt": "2026-06-24T20:05:48.667Z"
+  "startedAt": "2026-06-24T20:29:21.277Z",
+  "finishedAt": "2026-06-24T20:29:34.789Z"
 }

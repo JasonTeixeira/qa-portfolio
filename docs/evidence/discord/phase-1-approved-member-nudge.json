@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "sent": false,
+  "force": false,
+  "sinceHours": 24,
+  "messageId": null,
+  "scannedApprovedMembers": 7,
+  "actionableCount": 0,
+  "actionable": [],
+  "skipped": {
+    "recently_nudged": 7
+  },
+  "nextStep": "Dry run only. Run npm run discord:onboarding-nudge:send to post the nudge in questions."
+}

@@ -1,0 +1,117 @@
+{
+  "ok": true,
+  "phase": "Phase 1 approved-member activation nudge",
+  "captured_at": "2026-06-24T01:16:03Z",
+  "live_mutations": [
+    {
+      "action": "posted_approved_member_onboarding_nudge",
+      "channel_base_name": "questions",
+      "message_id": "1519148883194937406",
+      "target_count": 7,
+      "targets": [
+        {
+          "discord_user_id": "788564846182400040",
+          "username": "bc",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "870111405519568976",
+          "username": "InfiniteFlow369",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "885203053920276491",
+          "username": "JD_PGA",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "375355118897332224",
+          "username": "Nams",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "912444998916657196",
+          "username": "Roei_-L-_#35",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "763735878090096701",
+          "username": "SS",
+          "path_key": null,
+          "level_key": "starting"
+        },
+        {
+          "discord_user_id": "274753671017791489",
+          "username": "Zeus Syndicate",
+          "path_key": null,
+          "level_key": "starting"
+        }
+      ]
+    }
+  ],
+  "jd_pga_live_proof": {
+    "discord_user_id": "885203053920276491",
+    "discord_username": "jrdtrading",
+    "global_name": "JD_PGA",
+    "pending": false,
+    "discord_roles": [
+      "Academy Member",
+      "Beginner"
+    ],
+    "supabase_member": {
+      "academy_member": true,
+      "path_key": null,
+      "level_key": "starting",
+      "preferred_support": "questions",
+      "referral_source": "discord_native_application",
+      "onboarding_completed_at": "2026-06-23T14:54:46.186+00:00"
+    }
+  },
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "pass",
+      "details": "156 passed, 0 failed"
+    },
+    {
+      "command": "npm run discord:onboarding-nudge",
+      "result": "pass",
+      "details": "Dry run before send found 7 approved default-routed members, including JD_PGA."
+    },
+    {
+      "command": "npm run discord:onboarding-nudge:send",
+      "result": "pass",
+      "details": "Posted one questions-channel nudge and recorded approved_member_onboarding_nudge events."
+    },
+    {
+      "command": "npm run discord:onboarding-nudge",
+      "result": "pass",
+      "details": "Dry run after send found actionableCount 0 and skipped.recently_nudged 7."
+    },
+    {
+      "command": "npm run discord:approval-audit",
+      "result": "pass",
+      "details": "Approval gate clean: approvedRecords 7, unapprovedWithAccess 0, approvedMissingAccess 0."
+    },
+    {
+      "command": "npm run discord:role-sync",
+      "result": "pass",
+      "details": "No missing role actions: already_approved 7, privileged 1, bot 1."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "pass",
+      "details": "tsc --noEmit completed without errors."
+    }
+  ],
+  "remaining_phase_1_gaps": [
+    "The 7 approved members still need to run /onboard themselves so path_key and stronger level routing become real member-selected data.",
+    "Live path/level role routing cannot be honestly claimed until a real member runs /onboard or the owner explicitly approves assigning a test route to a specific real member.",
+    "A brand-new non-admin member still needs to go through Discord native application -> manual approval -> role sync -> /onboard for final end-to-end proof."
+  ]
+}

@@ -959,6 +959,31 @@ test('sage discord onboarding: post-approval welcome explains the lean approved-
   assert.match(message, /First-week checklist/);
 });
 
+test('sage discord onboarding nudges: targets approved members stuck at default route', async () => {
+  const {
+    buildApprovedMemberOnboardingNudgeContent,
+    planApprovedMemberOnboardingNudges,
+  } = await import('../../lib/discord/onboarding-nudge.ts');
+
+  const plan = planApprovedMemberOnboardingNudges([
+    { discordUserId: '1', username: 'JD_PGA', academyMember: true, pathKey: null, levelKey: 'starting' },
+    { discordUserId: '2', username: 'Routed', academyMember: true, pathKey: 'ai_apps', levelKey: 'builder' },
+    { discordUserId: '3', username: 'Pending', academyMember: false, pathKey: null, levelKey: null },
+    { discordUserId: '4', username: 'Recent', academyMember: true, pathKey: null, levelKey: 'starting' },
+  ], new Set(['4']));
+
+  assert.deepEqual(plan.targets.map((target) => target.discordUserId), ['1']);
+  assert.equal(plan.skipped.filter((item) => item.reason === 'already_routed').length, 1);
+  assert.equal(plan.skipped.filter((item) => item.reason === 'not_approved').length, 1);
+  assert.equal(plan.skipped.filter((item) => item.reason === 'recently_nudged').length, 1);
+
+  const content = buildApprovedMemberOnboardingNudgeContent(plan.targets);
+  assert.match(content, /<@1>/);
+  assert.match(content, /`\/onboard`/);
+  assert.match(content, /`\/checklist`/);
+  assert.ok(content.length < 2000);
+});
+
 test('sage discord role routing: removes stale path and level roles without stripping overlapping valid roles', async () => {
   const { planDiscordRoleRouting } = await import('../../lib/discord/role-routing.ts');
 

@@ -33,6 +33,8 @@
     "discord:approval-enforce": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs --enforce",
     "discord:role-sync": "tsx --env-file=.env.local scripts/discord/sync-native-approved-roles.ts",
     "discord:role-sync:enforce": "tsx --env-file=.env.local scripts/discord/sync-native-approved-roles.ts --enforce",
+    "discord:onboarding-nudge": "tsx --env-file=.env.local scripts/discord/nudge-approved-onboarding.ts",
+    "discord:onboarding-nudge:send": "tsx --env-file=.env.local scripts/discord/nudge-approved-onboarding.ts --send",
     "discord:prove-onboarding": "tsx --env-file=.env.local scripts/discord/prove-onboarding-live.ts",
     "discord:prove-onboarding:headless": "tsx --env-file=.env.local scripts/discord/prove-onboarding-live.ts --headless",
     "discord:categorize": "node --env-file-if-exists=.env.local scripts/discord/categorize-lean-community.mjs",

@@ -43,9 +43,12 @@ import {
   approveDiscordApplication,
   approveDiscordQueueItemForRagAction,
   approveDiscordQuestionForRagAction,
+  cancelDiscordJobRunAction,
   createRagEvalKnowledgeTaskAction,
   publishDiscordContentDraftAction,
   rejectDiscordApplication,
+  resolveDiscordJobDeadLetterAction,
+  retryDiscordJobDeadLetterAction,
   reviewDiscordMemberNudgeAction,
   reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
@@ -258,10 +261,84 @@ type DiscordGatewayHeartbeatRow = {
   last_close_reason: string | null;
 };
 
+type DiscordJobRegistryRow = {
+  job_key: string;
+  job_name: string;
+  schedule: string | null;
+  owner: string;
+  idempotency_scope: string;
+  max_retries: number;
+  retryable: boolean;
+  enabled: boolean;
+  side_effects: string[] | null;
+  updated_at: string;
+};
+
+type DiscordJobRunRow = {
+  run_key: string;
+  job_key: string;
+  status: string;
+  idempotency_key: string;
+  attempt: number;
+  max_retries: number;
+  next_retry_at: string | null;
+  error_code: string | null;
+  error_message: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  created_at: string;
+};
+
+type DiscordJobDeadLetterRow = {
+  id: string;
+  run_key: string;
+  job_key: string;
+  reason: string;
+  retryable: boolean;
+  resolved_at: string | null;
+  retry_run_key: string | null;
+  created_at: string;
+};
+
+type DiscordPremiumReviewRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  review_type: string;
+  status: string;
+  priority: number;
+  summary: string;
+  created_at: string;
+};
+
+type DiscordOfficeHoursRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  status: string;
+  priority: number;
+  question: string;
+  premium_member: boolean;
+  created_at: string;
+};
+
+const cockpitTabs = [
+  ['overview', 'Overview'],
+  ['members', 'Members'],
+  ['knowledge', 'Knowledge/RAG'],
+  ['content', 'Content'],
+  ['learning', 'Learning'],
+  ['jobs', 'Jobs'],
+  ['premium', 'Premium'],
+  ['audit', 'Audit'],
+] as const;
+
 const statusTone: Record<string, Tone> = {
   approved: 'emerald',
   archived: 'neutral',
   captured: 'cyan',
+  canceled: 'neutral',
+  dead_lettered: 'rose',
   draft: 'amber',
   drafted: 'violet',
   failed: 'rose',
@@ -272,7 +349,10 @@ const statusTone: Record<string, Tone> = {
   published: 'emerald',
   ready: 'emerald',
   rejected: 'rose',
+  requeued: 'cyan',
   resumed: 'emerald',
+  running: 'cyan',
+  succeeded: 'emerald',
   queued: 'amber',
   skipped: 'amber',
   suppressed: 'neutral',
@@ -284,6 +364,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const sb = supabaseAdmin();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
+  const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
+  const activeTab = cockpitTabs.some(([key]) => key === requestedTab) ? requestedTab : 'overview';
 
   const since = new Date();
   since.setDate(since.getDate() - 30);
@@ -320,6 +402,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     newestIngestionRunRes,
     latestEvalRunRes,
     latestEvalResultsRes,
+    jobRegistryRes,
+    jobRunsRes,
+    jobDeadLettersRes,
+    premiumReviewsRes,
+    officeHoursRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -461,6 +548,38 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('passed', { ascending: true })
       .order('created_at', { ascending: false })
       .limit(12),
+    sb
+      .from('discord_job_registry')
+      .select('job_key, job_name, schedule, owner, idempotency_scope, max_retries, retryable, enabled, side_effects, updated_at')
+      .order('owner', { ascending: true })
+      .order('job_key', { ascending: true })
+      .limit(40),
+    sb
+      .from('discord_job_runs')
+      .select('run_key, job_key, status, idempotency_key, attempt, max_retries, next_retry_at, error_code, error_message, started_at, finished_at, created_at')
+      .order('created_at', { ascending: false })
+      .limit(30),
+    sb
+      .from('discord_job_dead_letters')
+      .select('id, run_key, job_key, reason, retryable, resolved_at, retry_run_key, created_at')
+      .is('resolved_at', null)
+      .order('created_at', { ascending: false })
+      .limit(20),
+    sb
+      .from('discord_premium_review_requests')
+      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, created_at')
+      .in('status', ['queued', 'in_review'])
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(20),
+    sb
+      .from('discord_office_hours_queue')
+      .select('id, discord_user_id, discord_username, status, priority, question, premium_member, created_at')
+      .in('status', ['queued', 'selected'])
+      .order('premium_member', { ascending: false })
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(20),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -480,6 +599,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
   const ragSources = (ragSourcesRes.data ?? []) as RagSourceRow[];
+  const jobRegistry = (jobRegistryRes.data ?? []) as DiscordJobRegistryRow[];
+  const jobRuns = (jobRunsRes.data ?? []) as DiscordJobRunRow[];
+  const jobDeadLetters = (jobDeadLettersRes.data ?? []) as DiscordJobDeadLetterRow[];
+  const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
+  const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
   const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
@@ -508,7 +632,13 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
   const activeWorker = gatewayHeartbeats.some((heartbeat) => ['ready', 'resumed', 'heartbeat_ack'].includes(heartbeat.status));
   const pendingDrafts = contentDrafts.filter((draft) => draft.status === 'pending_approval').length;
-  const pendingReviews = applications.length + pendingDrafts + challengeSubmissions.filter((item) => item.status === 'pending').length + memberNudges.filter((item) => item.status === 'queued').length;
+  const pendingReviews = applications.length
+    + pendingDrafts
+    + challengeSubmissions.filter((item) => item.status === 'pending').length
+    + memberNudges.filter((item) => item.status === 'queued').length
+    + premiumReviews.length
+    + officeHours.length
+    + jobDeadLetters.length;
   const capturedMessages = gatewayMessageCountRes.count ?? 0;
   const operatingScore = scoreOperatingHealth({
     activeWorker,
@@ -528,6 +658,21 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
         fullName={profile.full_name}
       />
       <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8" data-testid="admin-discord">
+        <nav className="mb-4 flex flex-wrap gap-2" aria-label="Discord cockpit sections">
+          {cockpitTabs.map(([key, label]) => (
+            <a
+              key={key}
+              href={`/admin/discord?tab=${key}${promptDebug ? '&promptDebug=1' : ''}`}
+              className={`inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium transition ${
+                activeTab === key
+                  ? 'border-[#22d3ee]/50 bg-[#06b6d4]/15 text-[#67e8f9]'
+                  : 'border-[#27272a] bg-[#111116] text-[#a1a1aa] hover:border-[#3f3f46] hover:text-[#fafafa]'
+              }`}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
         <section className="relative overflow-hidden rounded-lg border border-[#27272a] bg-[#0c0c10]">
           <div className="absolute inset-x-0 top-0 h-px bg-[#22d3ee]" />
           <div className="grid gap-6 p-5 lg:grid-cols-[1.45fr_0.55fr] lg:p-6">
@@ -556,6 +701,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <MetricCard icon={Users} label="Tracked members" value={members.length} detail={`${premiumCountRes.count ?? 0} premium`} />
                 <MetricCard icon={MessageCircle} label="Captured messages" value={capturedMessages} detail={`${gatewayEventCountRes.count ?? 0} events / ${gatewayReactionCountRes.count ?? 0} reactions`} />
                 <MetricCard icon={Inbox} label="Open review queue" value={pendingReviews} tone={pendingReviews ? 'amber' : 'emerald'} />
+                <MetricCard icon={Radio} label="Durable jobs" value={jobRegistry.length} detail={`${jobDeadLetters.length} open dead letters`} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
                 <MetricCard icon={BookOpenCheck} label="RAG corpus health" value={`${corpusHealth.healthScore}%`} detail={`${corpusHealth.authoritativeSources} authoritative / ${corpusHealth.missing} missing`} tone={corpusHealth.healthScore >= 85 ? 'emerald' : corpusHealth.healthScore >= 65 ? 'amber' : 'rose'} />
                 <MetricCard icon={HeartPulse} label="RAG ops health" value={ragOperationalHealth.status} detail={`${Math.round(ragOperationalHealth.embeddingCoverage * 100)}% embedded / ${latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} eval` : 'no eval'}`} tone={ragOperationalHealth.status === 'healthy' ? 'emerald' : ragOperationalHealth.status === 'watch' ? 'amber' : 'rose'} />
               </div>
@@ -573,7 +719,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 </div>
                 <div className="mt-5 space-y-3">
                   <HealthLine label="Gateway worker" value={activeWorker ? 'Online' : 'Needs attention'} tone={activeWorker ? 'emerald' : 'rose'} />
-                  <HealthLine label="Open dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
+                  <HealthLine label="Gateway dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
+                  <HealthLine label="Job dead letters" value={String(jobDeadLetters.length)} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
                   <HealthLine label="Last scheduled run" value={lastRun ? `${lastRun.kind} / ${lastRun.status}` : 'No run yet'} tone={lastRun?.status === 'failed' ? 'rose' : lastRun ? 'emerald' : 'amber'} />
                 </div>
               </CardContent>
@@ -796,6 +943,61 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]" id="jobs" data-testid="discord-durable-jobs">
+          <Panel
+            icon={Radio}
+            title="Durable job control"
+            meta={`${jobRegistry.length} registered / ${jobRuns.length} recent runs`}
+            empty="No durable Discord jobs registered yet. Run the Phase 14 registry sync or durable job smoke."
+          >
+            {jobRegistry.map((job) => (
+              <DurableJobRegistryRow
+                key={job.job_key}
+                job={job}
+                latestRun={jobRuns.find((run) => run.job_key === job.job_key) ?? null}
+              />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Job dead letters"
+            meta={`${jobDeadLetters.length} open`}
+            empty="No unresolved durable job dead letters."
+          >
+            {jobDeadLetters.map((deadLetter) => (
+              <JobDeadLetterRow key={deadLetter.id} deadLetter={deadLetter} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]" id="premium">
+          <Panel
+            icon={Sparkles}
+            title="Premium operations"
+            meta={`${premiumReviews.length} reviews / ${officeHours.length} office-hours`}
+            empty="No active premium review or office-hours queue items."
+          >
+            {[
+              ...premiumReviews.map((review) => ({ kind: 'review' as const, item: review })),
+              ...officeHours.map((slot) => ({ kind: 'office-hours' as const, item: slot })),
+            ].map((entry) => (
+              <PremiumOpsRow key={`${entry.kind}:${entry.item.id}`} entry={entry} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={Users}
+            title="Premium leads"
+            meta={`${memberIntelligence.filter((member) => member.segment === 'premium_lead').length} leads`}
+            empty="No premium leads identified yet."
+          >
+            {memberIntelligence.filter((member) => ['premium_lead', 'premium_member'].includes(member.segment)).slice(0, 12).map((member) => (
+              <MemberIntelligenceRow key={`premium:${member.discord_user_id}`} member={member} />
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6 grid gap-6 xl:grid-cols-3">
           <Panel icon={Zap} title="Quiz bank" meta={`${quizzes.length} loaded`} empty="No quizzes seeded yet.">
             {quizzes.map((quiz) => (
@@ -871,7 +1073,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             ))}
           </Panel>
 
-          <Panel icon={Activity} title="Event stream" meta={`${eventCountRes.count ?? 0} events, 30d`} empty="No Discord events recorded yet.">
+          <Panel icon={Activity} title="Audit stream" meta={`${eventCountRes.count ?? 0} events, 30d`} empty="No Discord audit events recorded yet.">
             {events.slice(0, 18).map((event) => (
               <CompactRow
                 key={event.id}
@@ -986,6 +1188,91 @@ function MemberNudgeRow({ nudge }: { nudge: DiscordMemberNudgeQueueRow }) {
         </form>
       </div>
     </div>
+  );
+}
+
+function DurableJobRegistryRow({ job, latestRun }: { job: DiscordJobRegistryRow; latestRun: DiscordJobRunRow | null }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{job.job_name}</div>
+          <Badge tone={job.enabled ? 'emerald' : 'neutral'}>{job.enabled ? 'enabled' : 'disabled'}</Badge>
+          <Badge tone={job.retryable ? 'cyan' : 'amber'}>{job.retryable ? 'retryable' : 'manual recovery'}</Badge>
+          {latestRun ? <StatusBadge status={latestRun.status} /> : null}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{job.job_key}</span>
+          <span>{job.owner}</span>
+          <span>{job.schedule ?? 'manual'}</span>
+          <span>idempotency: {job.idempotency_scope}</span>
+          <span>{job.max_retries} retries</span>
+        </div>
+        {latestRun?.error_message ? (
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#fb7185]">{latestRun.error_code}: {latestRun.error_message}</p>
+        ) : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {latestRun && ['queued', 'failed'].includes(latestRun.status) ? (
+          <form action={cancelDiscordJobRunAction}>
+            <input type="hidden" name="run_key" value={latestRun.run_key} />
+            <input type="hidden" name="reason" value="Canceled from Discord admin cockpit." />
+            <ActionButton type="submit">Cancel</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function JobDeadLetterRow({ deadLetter }: { deadLetter: DiscordJobDeadLetterRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{deadLetter.job_key}</div>
+          <Badge tone={deadLetter.retryable ? 'amber' : 'rose'}>{deadLetter.retryable ? 'retryable' : 'inspect only'}</Badge>
+          <Badge tone="rose">dead letter</Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{deadLetter.reason}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{deadLetter.run_key}</span>
+          <span>{formatDateTime(deadLetter.created_at)}</span>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {deadLetter.retryable ? (
+          <form action={retryDiscordJobDeadLetterAction}>
+            <input type="hidden" name="id" value={deadLetter.id} />
+            <ActionButton tone="emerald" type="submit">Retry</ActionButton>
+          </form>
+        ) : null}
+        <form action={resolveDiscordJobDeadLetterAction}>
+          <input type="hidden" name="id" value={deadLetter.id} />
+          <input type="hidden" name="notes" value="Resolved from Discord admin cockpit." />
+          <ActionButton type="submit">Resolve</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function PremiumOpsRow({ entry }: {
+  entry:
+    | { kind: 'review'; item: DiscordPremiumReviewRow }
+    | { kind: 'office-hours'; item: DiscordOfficeHoursRow };
+}) {
+  const title = entry.kind === 'review' ? entry.item.summary : entry.item.question;
+  const eyebrow = entry.kind === 'review'
+    ? `${entry.item.review_type} review`
+    : `${entry.item.premium_member ? 'premium' : 'community'} office-hours`;
+  return (
+    <CompactRow
+      eyebrow={eyebrow}
+      title={title}
+      detail={`${entry.item.discord_username ?? entry.item.discord_user_id} / ${formatDateTime(entry.item.created_at)}`}
+      meta={<StatusBadge status={entry.item.status} />}
+    />
   );
 }
 

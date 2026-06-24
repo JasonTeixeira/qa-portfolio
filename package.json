@@ -76,6 +76,8 @@
     "discord:smoke-weekly-approval-publish": "tsx --env-file=.env.local scripts/discord/smoke-weekly-approval-publish.ts",
     "discord:member-intelligence": "tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts",
     "discord:smoke-member-intelligence": "tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts --smoke",
+    "discord:smoke-admin-cockpit-v2": "tsx --env-file=.env.local scripts/discord/smoke-admin-cockpit-v2.ts",
+    "discord:smoke-durable-jobs": "tsx --env-file=.env.local scripts/discord/smoke-durable-jobs.ts",
     "discord:smoke-premium-workflows": "tsx --env-file=.env.local scripts/discord/smoke-premium-workflows.ts",
     "discord:evaluate-content": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts",
     "discord:smoke-content-quality": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts --smoke",

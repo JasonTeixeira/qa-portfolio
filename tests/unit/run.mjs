@@ -1412,6 +1412,84 @@ test('discord member intelligence: classifies member segments and persists rollu
   assert.match(pkg.scripts['discord:smoke-member-intelligence'], /--smoke/);
 });
 
+test('discord admin cockpit v2: exposes operational tabs and live recovery surfaces', async () => {
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-admin-cockpit-v2.ts', import.meta.url), 'utf8');
+
+  for (const tab of ['overview', 'members', 'knowledge', 'content', 'learning', 'jobs', 'premium', 'audit']) {
+    assert.match(page, new RegExp(`tab=\\$\\{key\\}|tab=${tab}|${tab}`));
+  }
+  for (const surface of [
+    'Member approval queue',
+    'Member intelligence',
+    'RAG operational health',
+    'RAG knowledge approval desk',
+    'AI content approval',
+    'Challenge review desk',
+    'Durable job control',
+    'Job dead letters',
+    'Premium operations',
+    'Audit stream',
+  ]) {
+    assert.match(page, new RegExp(surface.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.match(page, /discord_job_registry/);
+  assert.match(page, /discord_job_runs/);
+  assert.match(page, /discord_job_dead_letters/);
+  assert.match(page, /discord_premium_review_requests/);
+  assert.match(page, /discord_office_hours_queue/);
+  assert.match(actions, /retryDiscordJobDeadLetterAction/);
+  assert.match(actions, /cancelDiscordJobRunAction/);
+  assert.match(actions, /resolveDiscordJobDeadLetterAction/);
+  assert.match(actions, /requireAdmin/);
+  assert.match(smoke, /phase-13-admin-cockpit-v2-proof\.json/);
+  assert.equal(pkg.scripts['discord:smoke-admin-cockpit-v2'], 'tsx --env-file=.env.local scripts/discord/smoke-admin-cockpit-v2.ts');
+});
+
+test('discord durable jobs: registry, idempotency, retry, and dead-letter wiring exist', async () => {
+  const {
+    DISCORD_DURABLE_JOB_REGISTRY,
+    buildDiscordJobRunKey,
+    calculateDiscordJobBackoffSeconds,
+  } = await import('../../lib/discord/durable-jobs.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0088_discord_durable_jobs.sql', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-durable-jobs.ts', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(DISCORD_DURABLE_JOB_REGISTRY.length, 12);
+  assert.deepEqual(
+    DISCORD_DURABLE_JOB_REGISTRY.map((job) => job.jobKey),
+    [
+      'daily_draft',
+      'daily_publish',
+      'news_ingestion',
+      'quiz_generation',
+      'challenge_generation',
+      'weekly_leaderboard',
+      'weekly_recap',
+      'member_intelligence_rebuild',
+      'rag_sync',
+      'rag_chunk_embed',
+      'rag_eval',
+      'content_queue_enrichment',
+    ],
+  );
+  assert.equal(buildDiscordJobRunKey({ jobKey: 'RAG Sync', idempotencyKey: 'Source 1' }), 'rag-sync:source-1:a1');
+  assert.equal(calculateDiscordJobBackoffSeconds(1), 60);
+  assert.equal(calculateDiscordJobBackoffSeconds(3), 240);
+  assert.equal(calculateDiscordJobBackoffSeconds(99), 3600);
+  assert.match(migration, /create table if not exists public\.discord_job_registry/);
+  assert.match(migration, /create table if not exists public\.discord_job_runs/);
+  assert.match(migration, /create table if not exists public\.discord_job_dead_letters/);
+  assert.match(migration, /discord_job_runs_idempotency_idx/);
+  assert.match(smoke, /retryable_failed_not_dead_lettered/);
+  assert.match(smoke, /dead_letter_created/);
+  assert.match(smoke, /phase-14-durable-jobs-proof\.json/);
+  assert.equal(pkg.scripts['discord:smoke-durable-jobs'], 'tsx --env-file=.env.local scripts/discord/smoke-durable-jobs.ts');
+});
+
 test('discord premium workflows: review, deeper answer, and office-hours queues are wired', async () => {
   const { normalizePremiumReviewType } = await import('../../lib/discord/premium-workflows.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0072_discord_premium_workflows.sql', import.meta.url), 'utf8');

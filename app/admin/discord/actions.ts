@@ -6,6 +6,12 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { recordDiscordEvent } from '@/lib/discord/analytics';
 import { reviewDiscordContentDraft } from '@/lib/discord/content-approval';
 import { publishApprovedDiscordContentDraft } from '@/lib/discord/content-jobs-v2';
+import {
+  cancelDiscordDurableJobRun,
+  resolveDiscordDurableDeadLetter,
+  retryDiscordDurableDeadLetter,
+  syncDiscordDurableJobRegistry,
+} from '@/lib/discord/durable-jobs';
 import { markDiscordAnswerHelpful, reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
 import { promoteKnowledgeCandidateForRag, type KnowledgeCandidateDecision } from '@/lib/discord/knowledge-candidates';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
@@ -424,6 +430,47 @@ export async function reviewDiscordMemberNudgeAction(formData: FormData) {
       reason: data.reason,
       reviewer: profile.email,
     },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function retryDiscordJobDeadLetterAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  if (!id) throw new Error('Missing dead letter id.');
+
+  await syncDiscordDurableJobRegistry();
+  await retryDiscordDurableDeadLetter({
+    deadLetterId: id,
+    reviewer: profile.email,
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function cancelDiscordJobRunAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const runKey = value(formData, 'run_key');
+  const reason = value(formData, 'reason');
+  if (!runKey) throw new Error('Missing job run key.');
+
+  await cancelDiscordDurableJobRun({
+    runKey,
+    reviewer: profile.email,
+    reason: reason || null,
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function resolveDiscordJobDeadLetterAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const notes = value(formData, 'notes');
+  if (!id) throw new Error('Missing dead letter id.');
+
+  await resolveDiscordDurableDeadLetter({
+    deadLetterId: id,
+    reviewer: profile.email,
+    notes: notes || null,
   });
   revalidatePath('/admin/discord');
 }

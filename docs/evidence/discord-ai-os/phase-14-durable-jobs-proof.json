@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "checks": {
+    "registry_complete": true,
+    "idempotency_duplicate_detected": true,
+    "retryable_failed_not_dead_lettered": true,
+    "dead_letter_created": true,
+    "retry_queued": true,
+    "dead_letter_resolved": true,
+    "backoff_bounded": true
+  },
+  "registry": {
+    "synced": 12
+  },
+  "startedRetryable": {
+    "runKey": "member_intelligence_rebuild:smoke-1782344726378-retryable:a1",
+    "status": "running",
+    "duplicate": false
+  },
+  "duplicate": {
+    "runKey": "member_intelligence_rebuild:smoke-1782344726378-retryable:a1",
+    "status": "running",
+    "duplicate": true
+  },
+  "retryableFailure": {
+    "runKey": "member_intelligence_rebuild:smoke-1782344726378-retryable:a1",
+    "status": "failed",
+    "nextRetryAt": "2026-06-24T12:01:00.000Z",
+    "deadLetterId": null
+  },
+  "deadFailure": {
+    "runKey": "rag_eval:smoke-1782344726378-dead:a1",
+    "status": "dead_lettered",
+    "nextRetryAt": null,
+    "deadLetterId": "50dcbe20-ec18-4866-8727-a42730b631a3"
+  },
+  "retry": {
+    "retryRunKey": "rag_eval:smoke-1782344726378-dead:a1:retry:1782303120000"
+  },
+  "runs": [
+    {
+      "run_key": "member_intelligence_rebuild:smoke-1782344726378-retryable:a1",
+      "job_key": "member_intelligence_rebuild",
+      "status": "failed",
+      "next_retry_at": "2026-06-24T12:01:00+00:00",
+      "error_code": "smoke_retryable",
+      "error_message": "Synthetic retryable failure for durable job smoke."
+    },
+    {
+      "run_key": "rag_eval:smoke-1782344726378-dead:a1",
+      "job_key": "rag_eval",
+      "status": "dead_lettered",
+      "next_retry_at": null,
+      "error_code": "smoke_dead_letter",
+      "error_message": "Synthetic terminal failure for durable job smoke."
+    }
+  ],
+  "retryRun": {
+    "run_key": "rag_eval:smoke-1782344726378-dead:a1:retry:1782303120000",
+    "status": "queued",
+    "metadata": {
+      "source": "dead_letter_retry",
+      "payload": {
+        "kind": "dead_letter",
+        "smoke": true
+      },
+      "dead_letter_id": "50dcbe20-ec18-4866-8727-a42730b631a3",
+      "original_run_key": "rag_eval:smoke-1782344726378-dead:a1"
+    }
+  },
+  "resolvedDeadLetter": {
+    "id": "50dcbe20-ec18-4866-8727-a42730b631a3",
+    "resolved_at": "2026-06-24T12:12:00+00:00",
+    "retry_run_key": "rag_eval:smoke-1782344726378-dead:a1:retry:1782303120000"
+  },
+  "startedAt": "2026-06-24T23:45:26.378Z",
+  "finishedAt": "2026-06-24T23:45:30.504Z"
+}

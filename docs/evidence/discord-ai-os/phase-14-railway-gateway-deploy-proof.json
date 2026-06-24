@@ -1,0 +1,53 @@
+{
+  "phase": 14,
+  "name": "Railway gateway deploy verification",
+  "completed_at": "2026-06-24T22:32:00Z",
+  "status": "deployed_and_verified",
+  "commit_deployed": "6c333cd fix(discord): clean up gateway reconnect closes",
+  "railway": {
+    "project": "sageideas-discord-worker",
+    "environment": "production",
+    "service": "sagebot-gateway",
+    "deployment_id": "80f2cc1a-6ca4-45b6-a4c7-c4d5c5a6e6ee",
+    "deployment_status": "SUCCESS"
+  },
+  "verification": [
+    {
+      "command": "railway up",
+      "result": "passed",
+      "evidence": "Railway accepted upload and created deployment 80f2cc1a-6ca4-45b6-a4c7-c4d5c5a6e6ee."
+    },
+    {
+      "command": "railway deployment list --json",
+      "result": "passed",
+      "evidence": "Deployment 80f2cc1a-6ca4-45b6-a4c7-c4d5c5a6e6ee moved BUILDING -> DEPLOYING -> SUCCESS."
+    },
+    {
+      "command": "railway logs 80f2cc1a-6ca4-45b6-a4c7-c4d5c5a6e6ee --lines 160 --json",
+      "result": "passed",
+      "evidence": "New deployment logs show Starting Container, npm run discord:gateway, and [discord/gateway] socket open at 2026-06-24T22:30:15.125Z. No close 4000 appeared in the new deployment logs during the verification window."
+    },
+    {
+      "command": "Supabase gateway verification query since 2026-06-24T22:30:00Z",
+      "result": "passed",
+      "evidence": "sagebot-main heartbeat status heartbeat_ack, session 860c9ec7afc671e5916af8cf453dbe5e, sequence 2, last_close_code null, last_seen_at 2026-06-24T22:31:37.484Z; 0 gateway_socket_closed events; 0 dead letters."
+    },
+    {
+      "command": "Supabase discord_messages query since deploy",
+      "result": "observed_no_new_human_messages",
+      "evidence": "0 new discord_messages since deploy. This does not prove capture is broken; it means no non-bot member message arrived during the verification window. Previous last-24h proof showed real JD_PGA messages captured before deploy."
+    }
+  ],
+  "what_is_real": [
+    "The gateway fix is deployed to Railway production.",
+    "The new production container opened the Discord gateway socket.",
+    "The production heartbeat advanced after deploy and reached heartbeat_ack.",
+    "The old repeated close 4000 loop did not recur during the post-deploy verification window.",
+    "No gateway dead letters were recorded after deploy."
+  ],
+  "what_is_left": [
+    "Post-deploy human message capture still needs a real member to send a new message after 2026-06-24T22:30:00Z.",
+    "Continue observing Railway logs over a longer window to catch future Discord-requested reconnect cycles."
+  ],
+  "next_phase": "Phase 11 - Quiz/challenge/lab engine v2"
+}

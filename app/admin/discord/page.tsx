@@ -44,6 +44,7 @@ import {
   approveDiscordQueueItemForRagAction,
   approveDiscordQuestionForRagAction,
   createRagEvalKnowledgeTaskAction,
+  publishDiscordContentDraftAction,
   rejectDiscordApplication,
   reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
@@ -321,7 +322,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     sb
       .from('discord_content_drafts')
       .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
-      .in('status', ['draft', 'pending_approval'])
+      .in('status', ['draft', 'pending_approval', 'approved'])
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(12),
@@ -877,6 +878,12 @@ function DraftRow({ draft, promptDebug }: { draft: DiscordContentDraftRow; promp
           <input type="hidden" name="status" value="rejected" />
           <ActionButton type="submit">Reject</ActionButton>
         </form>
+        {draft.status === 'approved' ? (
+          <form action={publishDiscordContentDraftAction}>
+            <input type="hidden" name="id" value={draft.id} />
+            <ActionButton data-testid={`content-draft-publish-${draft.id}`} tone="emerald" type="submit">Publish</ActionButton>
+          </form>
+        ) : null}
       </div>
     </div>
   );

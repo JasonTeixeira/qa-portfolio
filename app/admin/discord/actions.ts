@@ -5,6 +5,7 @@ import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { recordDiscordEvent } from '@/lib/discord/analytics';
 import { reviewDiscordContentDraft } from '@/lib/discord/content-approval';
+import { publishApprovedDiscordContentDraft } from '@/lib/discord/content-jobs-v2';
 import { markDiscordAnswerHelpful, reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
 import { promoteKnowledgeCandidateForRag, type KnowledgeCandidateDecision } from '@/lib/discord/knowledge-candidates';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
@@ -117,6 +118,34 @@ export async function reviewDiscordContentDraftAction(formData: FormData) {
     metadata: { id, status, reviewer: profile.email, note: note || null },
   });
   revalidatePath('/admin/discord');
+}
+
+export async function publishDiscordContentDraftAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  if (!id) throw new Error('Missing content draft id.');
+
+  const result = await publishApprovedDiscordContentDraft({
+    draftId: id,
+    source: 'admin_dashboard',
+  });
+  await recordDiscordEvent({
+    eventType: result.posted ? 'content_draft_admin_published' : 'content_draft_admin_publish_skipped',
+    commandName: 'admin_dashboard',
+    channelBaseName: result.targetChannelBaseName ?? 'team-ops',
+    metadata: {
+      id,
+      reviewer: profile.email,
+      posted: result.posted,
+      skipped: result.skipped,
+      reason: result.reason ?? null,
+      message_id: result.messageId,
+    },
+  });
+  revalidatePath('/admin/discord');
+  if (!result.ok && result.reason !== 'already_published') {
+    throw new Error(`Could not publish content draft: ${result.reason ?? 'unknown error'}`);
+  }
 }
 
 export async function reviewDiscordChallengeSubmissionAction(formData: FormData) {

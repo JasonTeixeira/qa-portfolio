@@ -479,6 +479,95 @@ test('discord content approval: normalizes drafts and admin review wiring exists
   assert.match(page, /prompt_version/);
 });
 
+test('discord content jobs v2: strict source-grounded draft gates and publish wiring exist', async () => {
+  const {
+    DISCORD_CONTENT_JOBS_V2_PROMPT_VERSION,
+    DISCORD_CONTENT_JOBS_V2_VERSION,
+    GeneratedContentJobDraftSchema,
+    buildContentJobPrompt,
+    contentJobTypes,
+    evaluateContentJobDraftV2,
+    parseGeneratedContentJobDraft,
+    publishApprovedDiscordContentDraft,
+  } = await import('../../lib/discord/content-jobs-v2.ts');
+  const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-content-jobs-v2.ts', import.meta.url), 'utf8');
+  const e2e = await readFile(new URL('../../tests/e2e/admin/discord-content-jobs-v2.spec.ts', import.meta.url), 'utf8');
+
+  const source = {
+    id: 'S1',
+    sourceId: 'discord_content_queue:source-1',
+    sourceType: 'discord_content_queue',
+    sourceTable: 'discord_content_queue',
+    recordId: 'source-1',
+    title: 'Approved content source',
+    body: 'Approved Discord knowledge says to capture a member question, approve the answer, and turn it into a concrete builder checklist.',
+    channelBaseName: 'resources',
+    createdAt: '2099-01-01T00:00:00.000Z',
+    qualityScore: 96,
+  };
+  const prompt = buildContentJobPrompt({
+    jobType: 'resource_drop',
+    topic: 'approval-gated capture',
+    sources: [source],
+  });
+  const parsed = parseGeneratedContentJobDraft(JSON.stringify({
+    title: 'Approval-Gated Knowledge Capture',
+    body: '# Resource Drop\n**Source:** Approved Discord knowledge [S1].\n**Use it for:** Build an approval-gated content loop from real member questions.\n**Next action:** Pick one captured question, write the answer, approve it, and publish one checklist from the approved source.\nDeliverable: a source-cited checklist and one action a builder can complete today.',
+    draft_type: 'resource_drop',
+    target_channel_base_name: 'resources',
+    source_ids: ['S1'],
+    citations: [{ source_id: 'S1', label: 'Approved content source', quote: 'capture a member question' }],
+    quality_notes: ['Specific and source grounded.'],
+  }));
+  const quality = evaluateContentJobDraftV2(parsed, {
+    expectedDraftType: 'resource_drop',
+    expectedTargetChannel: 'resources',
+    allowedSourceIds: ['S1'],
+  });
+  const privateLeak = evaluateContentJobDraftV2({
+    ...parsed,
+    body: `${parsed.body}\nContact sage@example.com for the private token.`,
+  }, {
+    expectedDraftType: 'resource_drop',
+    expectedTargetChannel: 'resources',
+    allowedSourceIds: ['S1'],
+  });
+  const noCitation = evaluateContentJobDraftV2({
+    ...parsed,
+    body: parsed.body.replace(/\[S1\]/g, ''),
+  }, {
+    expectedDraftType: 'resource_drop',
+    expectedTargetChannel: 'resources',
+    allowedSourceIds: ['S1'],
+  });
+
+  assert.equal(DISCORD_CONTENT_JOBS_V2_VERSION, 'discord-content-jobs-v2');
+  assert.equal(DISCORD_CONTENT_JOBS_V2_PROMPT_VERSION, 'sagebot_content_jobs_v2');
+  assert.ok(contentJobTypes.includes('newsletter_draft'));
+  assert.ok(GeneratedContentJobDraftSchema.safeParse(parsed).success);
+  assert.match(prompt, /Use only the approved sources/);
+  assert.match(prompt, /Expected target_channel_base_name: resources/);
+  assert.equal(quality.passed, true);
+  assert.ok(quality.score >= 80);
+  assert.equal(privateLeak.passed, false);
+  assert.ok(privateLeak.reasons.some((reason) => /private/i.test(reason)));
+  assert.equal(noCitation.passed, false);
+  assert.ok(noCitation.reasons.some((reason) => /source marker/i.test(reason)));
+  assert.equal(typeof publishApprovedDiscordContentDraft, 'function');
+  assert.equal(pkg.scripts['discord:smoke-content-jobs-v2'], 'tsx --env-file=.env.local scripts/discord/smoke-content-jobs-v2.ts');
+  assert.match(actions, /publishDiscordContentDraftAction/);
+  assert.match(actions, /publishApprovedDiscordContentDraft/);
+  assert.match(page, /content-draft-publish-/);
+  assert.match(page, /'draft', 'pending_approval', 'approved'/);
+  assert.match(smoke, /createDiscordContentJobDraftV2/);
+  assert.match(smoke, /already_published/);
+  assert.match(smoke, /method: 'DELETE'/);
+  assert.match(e2e, /content-draft-publish-/);
+});
+
 test('rag chunking: creates stable bounded chunks with overlap metadata', async () => {
   const { chunkRagDocument } = await import('../../lib/rag/chunking.ts');
   const section = `First paragraph explains the system clearly with operational details, owner expectations, review standards, and proof requirements.

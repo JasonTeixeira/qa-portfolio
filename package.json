@@ -52,6 +52,7 @@
     "discord:smoke-classifier": "tsx --env-file=.env.local scripts/discord/smoke-message-classifier.ts",
     "discord:queue-content": "tsx --env-file=.env.local scripts/discord/queue-content-from-messages.ts",
     "discord:smoke-content-queue": "tsx --env-file=.env.local scripts/discord/smoke-content-queue-automation.ts",
+    "discord:smoke-knowledge-capture": "tsx --env-file=.env.local scripts/discord/smoke-knowledge-capture.ts",
     "discord:smoke-content-approval": "tsx --env-file=.env.local scripts/discord/smoke-content-approval.ts",
     "discord:smoke-ask-sage": "tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts",
     "discord:plan-daily": "tsx --env-file=.env.local scripts/discord/plan-daily-content.ts",

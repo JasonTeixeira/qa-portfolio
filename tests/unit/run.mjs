@@ -367,6 +367,7 @@ test('discord message classifier: labels useful community moments with actions',
   });
   assert.equal(review.category, 'review_request');
   assert.equal(review.recommended_action, 'candidate_review');
+  assert.ok(review.confidence >= 0.5);
 
   const spam = classifyDiscordMessage({
     discordMessageId: 'm3',
@@ -387,10 +388,14 @@ test('discord message classifier: labels useful community moments with actions',
     detectedKind: 'question',
   });
   assert.equal(bot.recommended_action, 'ignore');
+  assert.equal(DISCORD_MESSAGE_CLASSIFIER_VERSION, 'discord-message-classifier-v1');
 });
 
 test('discord content queue automation: creates queue candidates from useful classifications', async () => {
   const { buildContentQueueCandidate } = await import('../../lib/discord/content-queue-automation.ts');
+  const { captureDiscordKnowledgeCandidateFromMessage, promoteKnowledgeCandidateForRag } = await import('../../lib/discord/knowledge-candidates.ts');
+  const gateway = await readFile(new URL('../../lib/discord/gateway-ingestion.ts', import.meta.url), 'utf8');
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   const candidate = buildContentQueueCandidate({
     discord_message_id: 'm1',
     channel_base_name: 'questions-to-content',
@@ -413,6 +418,13 @@ test('discord content queue automation: creates queue candidates from useful cla
   assert.equal(candidate.status, 'captured');
   assert.ok(candidate.priority > 70);
   assert.match(candidate.idea, /Answer this member question/);
+  assert.equal(candidate.metadata.classifier_category, 'question');
+  assert.match(gateway, /captureDiscordKnowledgeCandidateFromMessage/);
+  assert.match(gateway, /message_candidate_queued/);
+  assert.match(gateway, /message_candidate_failed/);
+  assert.equal(packageJson.scripts['discord:smoke-knowledge-capture'], 'tsx --env-file=.env.local scripts/discord/smoke-knowledge-capture.ts');
+  assert.equal(typeof captureDiscordKnowledgeCandidateFromMessage, 'function');
+  assert.equal(typeof promoteKnowledgeCandidateForRag, 'function');
 
   const ignored = buildContentQueueCandidate({
     discord_message_id: 'm2',

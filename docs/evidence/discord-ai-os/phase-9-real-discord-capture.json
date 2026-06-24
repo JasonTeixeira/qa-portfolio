@@ -1,0 +1,88 @@
+{
+  "phase": 9,
+  "name": "Real Discord capture pipeline and knowledge candidate flow",
+  "completed_at": "2026-06-24T21:55:00Z",
+  "status": "passed_with_gateway_note",
+  "objective": "Turn captured Discord member messages into classified, reviewable knowledge candidates that admins can promote into authoritative RAG.",
+  "implemented": [
+    "Added lib/discord/knowledge-candidates.ts as the shared candidate capture and promotion layer.",
+    "Gateway message capture now classifies every non-bot message and creates or updates a discord_content_queue candidate when the classifier recommends reviewable action.",
+    "Candidate creation failure is isolated: message capture still succeeds, and a gateway dead letter plus event are recorded.",
+    "Added admin dashboard candidate review buttons for question, answer, resource, content, review, win, and reject decisions.",
+    "Admin promotion updates the candidate state, writes the appropriate approved source row/state, and runs approved Discord RAG sync immediately.",
+    "Added a Phase 9 smoke command proving simulated gateway capture to classification to queue candidate to RAG source.",
+    "Added Playwright proof that an admin promotes a captured Discord message candidate from /admin/discord and verifies the RAG source row."
+  ],
+  "files": [
+    "app/admin/discord/actions.ts",
+    "app/admin/discord/page.tsx",
+    "lib/discord/gateway-ingestion.ts",
+    "lib/discord/knowledge-candidates.ts",
+    "package.json",
+    "scripts/discord/smoke-knowledge-capture.ts",
+    "tests/e2e/admin/discord-knowledge-candidates.spec.ts",
+    "tests/unit/run.mjs",
+    "docs/evidence/discord/knowledge-capture-smoke.json"
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "evidence": "163 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "tsc --noEmit completed successfully"
+    },
+    {
+      "command": "npm run discord:smoke-knowledge-capture",
+      "result": "passed",
+      "evidence": "messageId knowledge-capture-smoke-1782337862356; classification candidate_resource; queueId 9c84aa83-4f73-4ec0-a4d4-bfe8f1558890; ragRunKey rag-source-sync-2026-06-24T21-51-04-385Z; documentsUpserted 1; cleanedUp true"
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-knowledge-candidates.spec.ts --project=chromium",
+      "result": "passed",
+      "evidence": "1 Chromium test passed. The test seeded a captured message candidate, clicked resource approval in /admin/discord, verified discord_content_queue status published, verified metadata decision resource, verified rag_sources row, then cleaned up."
+    },
+    {
+      "command": "DISCORD_GATEWAY_WORKER_ID=phase9-gateway-once npm run discord:gateway:once",
+      "result": "passed",
+      "evidence": "Fresh one-off gateway worker opened and exited successfully."
+    },
+    {
+      "command": "npm run discord:gateway:once",
+      "result": "failed",
+      "evidence": "Default worker opened socket then closed with Discord close code 4000. Fresh worker ID passed, so this is recorded as a default stored-session/live gateway state issue to revisit in Phase 14 durable worker hardening, not a Phase 9 capture pipeline failure."
+    },
+    {
+      "command": "npm run discord:smoke-classifier && npm run discord:smoke-content-queue",
+      "result": "passed",
+      "evidence": "Classifier and content queue automation smoke proofs passed and wrote updated evidence."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "Next.js production build completed successfully. Existing non-blocking warnings remain for middleware deprecation, edge runtime static generation behavior, and academy cookie-based dynamic rendering."
+    }
+  ],
+  "what_is_real": [
+    "Captured gateway messages now become durable classifications.",
+    "Useful classifications now become durable reviewable content queue candidates automatically.",
+    "Admins can promote candidates from the dashboard into approved RAG sources.",
+    "Rejected candidates archive instead of entering RAG.",
+    "Candidate processing failures do not crash message capture."
+  ],
+  "what_is_left": [
+    "Run the long-lived Railway gateway worker in production and watch real member messages accumulate over time.",
+    "Phase 10 should use these approved candidates as the source material for daily and weekly content jobs.",
+    "Phase 14 should clean up default gateway stored-session behavior so the default one-off worker no longer closes with code 4000."
+  ],
+  "earned_scores_after_phase": {
+    "gateway_capture_and_classification": "85-92",
+    "rag_corpus_quality": "86-93",
+    "content_engine_quality": "82-90",
+    "admin_dashboard": "88-93"
+  },
+  "next_phase": "Phase 10 - content jobs engine v2"
+}

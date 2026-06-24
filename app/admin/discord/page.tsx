@@ -45,6 +45,7 @@ import {
   approveDiscordQuestionForRagAction,
   createRagEvalKnowledgeTaskAction,
   rejectDiscordApplication,
+  reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
   syncDiscordRagSourcesAction,
@@ -97,9 +98,13 @@ type DiscordContentQueueRow = {
   idea: string;
   angle: string | null;
   source: string;
+  source_message_id: string | null;
+  source_classification_action: string | null;
+  source_classification_category: string | null;
   discord_username: string | null;
   status: string;
   priority: number;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 };
 
@@ -309,7 +314,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .limit(1000),
     sb
       .from('discord_content_queue')
-      .select('id, idea, angle, source, discord_username, status, priority, created_at')
+      .select('id, idea, angle, source, source_message_id, source_classification_action, source_classification_category, discord_username, status, priority, metadata, created_at')
       .order('priority', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(20),
@@ -910,8 +915,9 @@ function ChallengeSubmissionRow({ submission }: { submission: DiscordChallengeSu
 }
 
 function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
+  const isClassifierCandidate = item.source === 'discord_message_classifier' && Boolean(item.source_message_id) && item.status === 'captured';
   return (
-    <div className="space-y-3 px-3 py-3">
+    <div className="space-y-3 px-3 py-3" data-testid={`content-queue-row-${item.id}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="truncate text-sm font-medium text-[#fafafa]">{item.idea}</div>
@@ -919,11 +925,35 @@ function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
             <span>{item.source}</span>
             <span>{item.discord_username ?? 'system'}</span>
             <span>priority {item.priority}</span>
+            {item.source_classification_category ? <span>{item.source_classification_category}</span> : null}
+            {item.source_classification_action ? <span>{item.source_classification_action}</span> : null}
           </div>
         </div>
         <StatusBadge status={item.status} />
       </div>
       <div className="flex flex-wrap gap-2">
+        {isClassifierCandidate ? (
+          <>
+            {(['question', 'answer', 'resource', 'content', 'review', 'win'] as const).map((decision) => (
+              <form action={reviewDiscordKnowledgeCandidateAction} key={decision}>
+                <input type="hidden" name="id" value={item.id} />
+                <input type="hidden" name="decision" value={decision} />
+                <ActionButton
+                  data-testid={`knowledge-candidate-${decision}-${item.id}`}
+                  tone={decision === 'content' || decision === 'resource' ? 'emerald' : undefined}
+                  type="submit"
+                >
+                  {decision}
+                </ActionButton>
+              </form>
+            ))}
+            <form action={reviewDiscordKnowledgeCandidateAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <input type="hidden" name="decision" value="reject" />
+              <ActionButton data-testid={`knowledge-candidate-reject-${item.id}`} type="submit">reject</ActionButton>
+            </form>
+          </>
+        ) : null}
         {['triaged', 'drafted', 'published'].map((status) => (
           <form action={updateDiscordContentQueueStatus} key={status}>
             <input type="hidden" name="id" value={item.id} />

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "messageId": "knowledge-capture-smoke-1782337862356",
+  "queueId": "9c84aa83-4f73-4ec0-a4d4-bfe8f1558890",
+  "classification": {
+    "category": "resource",
+    "recommended_action": "candidate_resource",
+    "confidence": 0.6867,
+    "quality_score": 50
+  },
+  "promotion": {
+    "ok": true,
+    "decision": "resource",
+    "sourceType": "discord_content_queue",
+    "ragRunKey": "rag-source-sync-2026-06-24T21-51-04-385Z",
+    "documentsUpserted": 1
+  },
+  "ragSource": {
+    "source_key": "discord_content_queue:9c84aa83-4f73-4ec0-a4d4-bfe8f1558890",
+    "source_type": "discord_content_queue",
+    "source_table": "discord_content_queue",
+    "source_record_id": "9c84aa83-4f73-4ec0-a4d4-bfe8f1558890"
+  },
+  "cleanedUp": true,
+  "startedAt": "2026-06-24T21:51:02.355Z",
+  "finishedAt": "2026-06-24T21:51:05.117Z"
+}

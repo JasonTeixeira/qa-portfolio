@@ -6,6 +6,7 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { recordDiscordEvent } from '@/lib/discord/analytics';
 import { reviewDiscordContentDraft } from '@/lib/discord/content-approval';
 import { markDiscordAnswerHelpful, reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
+import { promoteKnowledgeCandidateForRag, type KnowledgeCandidateDecision } from '@/lib/discord/knowledge-candidates';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
 import { postToChannelByBaseName } from '@/lib/discord/sage-rest';
 
@@ -310,6 +311,38 @@ export async function createRagEvalKnowledgeTaskAction(formData: FormData) {
       rag_eval_result_id: resultId,
       content_queue_id: data?.id ?? existing?.id ?? null,
       deduped: Boolean(existing?.id),
+    },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function reviewDiscordKnowledgeCandidateAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const decision = value(formData, 'decision') as KnowledgeCandidateDecision;
+  if (!id || !['question', 'answer', 'resource', 'content', 'review', 'win', 'reject'].includes(decision)) {
+    throw new Error('Invalid knowledge candidate decision.');
+  }
+
+  const result = await promoteKnowledgeCandidateForRag(supabaseAdmin(), {
+    queueId: id,
+    decision,
+    reviewer: profile.email,
+  });
+
+  await recordDiscordEvent({
+    eventType: decision === 'reject' ? 'knowledge_candidate_rejected' : 'knowledge_candidate_promoted',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: {
+      reviewer: profile.email,
+      queue_id: id,
+      decision,
+      source_id: result.sourceId,
+      source_type: result.sourceType,
+      rag_run_key: result.ragSync?.runKey ?? null,
+      rag_documents_upserted: result.ragSync?.stats.documentsUpserted ?? 0,
+      reason: result.reason ?? null,
     },
   });
   revalidatePath('/admin/discord');

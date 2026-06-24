@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { isApprovedDiscordMember, type MemberApplicationProfile } from './engagement';
+import { captureDiscordKnowledgeCandidateFromMessage } from './knowledge-candidates';
 import { approveDiscordMember } from './onboarding';
 import { baseDiscordName } from './sage-rest';
 
@@ -317,6 +318,38 @@ export async function recordDiscordMessageCreate(
       authorUserId: message.authorUserId,
       payload: { detected_kind: message.detectedKind, channel_base_name: message.channelBaseName },
     });
+    try {
+      const candidate = await captureDiscordKnowledgeCandidateFromMessage(sb, message);
+      await recordDiscordGatewayEvent({
+        eventType: candidate.queued ? 'message_candidate_queued' : 'message_candidate_skipped',
+        discordMessageId: message.discordMessageId,
+        channelId: message.channelId,
+        authorUserId: message.authorUserId,
+        payload: {
+          category: candidate.classification.category,
+          recommended_action: candidate.classification.recommended_action,
+          confidence: candidate.classification.confidence,
+          quality_score: candidate.classification.quality_score,
+          content_value_score: candidate.classification.content_value_score,
+          queue_id: candidate.queueId,
+          reason: candidate.reason,
+        },
+      });
+    } catch (err) {
+      await recordDiscordGatewayDeadLetter({
+        workerId: 'gateway-ingestion',
+        eventType: 'message_candidate_failed',
+        error: err instanceof Error ? err.message : String(err),
+        payload: { discord_message_id: message.discordMessageId, channel_id: message.channelId },
+      });
+      await recordDiscordGatewayEvent({
+        eventType: 'message_candidate_failed',
+        discordMessageId: message.discordMessageId,
+        channelId: message.channelId,
+        authorUserId: message.authorUserId,
+        payload: { error: err instanceof Error ? err.message : String(err) },
+      });
+    }
     return message;
   } catch (err) {
     await recordDiscordGatewayEvent({

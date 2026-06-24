@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "runId": "4e5dc1b7-927d-4c19-87a7-e74aa6371f05",
+  "runKey": "smoke-20260624154129",
+  "smoke": true,
+  "seededQuestionCount": 50,
+  "evaluatedQuestionCount": 3,
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "passRate": 1,
+    "avgScore": 0.9258,
+    "retrievalHitRate": 1,
+    "citationCoverage": 1,
+    "contextPrecision": 0.5333,
+    "faithfulness": 0.95,
+    "groundedness": 0.8833,
+    "answerUsefulness": 1
+  },
+  "thresholds": {
+    "minOverallScore": 0.68,
+    "minPassRate": 0.7,
+    "minRetrievalHitRate": 0.7,
+    "minCitationCoverage": 0.55,
+    "minFaithfulness": 0.65
+  },
+  "results": [
+    {
+      "evalKey": "rag_ai_001",
+      "question": "What stack should Sage Ideas use for the first RAG implementation?",
+      "passed": true,
+      "score": 0.9625,
+      "retrievalHitRate": 1,
+      "citationCoverage": 1,
+      "contextPrecision": 0.8,
+      "faithfulness": 0.95,
+      "groundedness": 0.95,
+      "answerUsefulness": 1,
+      "answerId": "db363e59-93c3-4847-b580-2d910700f0ba",
+      "retrievalLogId": "a90318ab-190d-4db3-aa6a-d44fe72642e2",
+      "traceId": "675551e646e2bdb8d3bf6b9886e6fb34",
+      "missingSources": [],
+      "missingRequiredTerms": []
+    },
+    {
+      "evalKey": "rag_ai_002",
+      "question": "Why should DeepSeek be used for generation in this system?",
+      "passed": true,
+      "score": 0.9075,
+      "retrievalHitRate": 1,
+      "citationCoverage": 1,
+      "contextPrecision": 0.4,
+      "faithfulness": 0.95,
+      "groundedness": 0.85,
+      "answerUsefulness": 1,
+      "answerId": "c11bf918-1628-4f7a-9da7-e69c1d40efca",
+      "retrievalLogId": "5a105532-1bc9-498f-bcfa-901c60cc740f",
+      "traceId": "5b343196200ef8b13693fba090360ea8",
+      "missingSources": [],
+      "missingRequiredTerms": []
+    },
+    {
+      "evalKey": "rag_ai_003",
+      "question": "Why are embeddings separate from DeepSeek generation?",
+      "passed": true,
+      "score": 0.9075,
+      "retrievalHitRate": 1,
+      "citationCoverage": 1,
+      "contextPrecision": 0.4,
+      "faithfulness": 0.95,
+      "groundedness": 0.85,
+      "answerUsefulness": 1,
+      "answerId": "4068614f-3ac2-41f9-b7c2-5580d310514a",
+      "retrievalLogId": "10c419e1-e9da-46bd-89d8-15145b423527",
+      "traceId": "e19b59ce865bb8663becef0e249fcff8",
+      "missingSources": [],
+      "missingRequiredTerms": []
+    }
+  ],
+  "startedAt": "2026-06-24T15:41:29.361Z",
+  "finishedAt": "2026-06-24T15:41:37.528Z"
+}

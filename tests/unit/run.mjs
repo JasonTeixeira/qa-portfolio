@@ -429,6 +429,50 @@ test('rag embeddings and retrieval: local vector lane and hybrid RPC are wired',
   assert.match(retrieval, /answerRagQuestion/);
 });
 
+test('rag evals: golden set and deterministic scoring expose pass/fail signals', async () => {
+  const {
+    RAG_EVAL_QUESTION_SEEDS,
+    ragEvalSummaryPassed,
+    scoreRagEvalAnswer,
+    summarizeRagEvalScores,
+  } = await import('../../lib/rag/evals.ts');
+  assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 50);
+  assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 50);
+  assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.expected_sources.length > 0), true);
+  assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.metadata.required_terms.length > 0), true);
+
+  const seed = RAG_EVAL_QUESTION_SEEDS.find((item) => item.eval_key === 'rag_onboarding_001');
+  const passing = scoreRagEvalAnswer(seed, {
+    answer: 'New members should start in the application and approval path through start-here [1].',
+    citations: [
+      { title: 'DISCORD_COMMUNITY_OPERATING_SYSTEM.md', source_url: '/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md', source_type: 'resource' },
+      { title: 'DISCORD_EDUCATION_SERVER_RUNBOOK.md', source_url: '/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md', source_type: 'resource' },
+    ],
+    retrievalLogId: 'retrieval-1',
+    answerId: 'answer-1',
+    model: 'unit',
+    observability: { traceId: 'a'.repeat(32), observationId: 'b'.repeat(16), provider: 'local' },
+  });
+  assert.equal(passing.passed, true);
+  assert.equal(passing.missingRequiredTerms.length, 0);
+
+  const failing = scoreRagEvalAnswer(seed, {
+    answer: 'Just join and chat.',
+    citations: [],
+    retrievalLogId: null,
+    answerId: null,
+    model: 'unit',
+    observability: { traceId: 'a'.repeat(32), observationId: 'b'.repeat(16), provider: 'local' },
+  });
+  assert.equal(failing.passed, false);
+  assert.ok(failing.missingSources.length > 0);
+
+  const summary = summarizeRagEvalScores([passing, failing]);
+  assert.equal(summary.total, 2);
+  assert.equal(summary.passed, 1);
+  assert.equal(ragEvalSummaryPassed(summary), false);
+});
+
 test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
   const { formatAskSageDiscordAnswer, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
   const { isDeferredSageCommand } = await import('../../lib/discord/sage-commands.ts');
@@ -448,6 +492,7 @@ test('discord ask-sage: formats RAG answers and wires the slash command', async 
     retrievalLogId: 'log-1',
     answerId: 'answer-1',
     model: 'deepseek-chat',
+    observability: { traceId: 'a'.repeat(32), observationId: 'b'.repeat(16), provider: 'local' },
   });
   assert.match(formatted, /# SageBot answer/);
   assert.match(formatted, /Discord runbook/);

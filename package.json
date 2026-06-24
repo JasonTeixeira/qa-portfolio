@@ -85,6 +85,8 @@
     "rag:embed": "tsx --env-file=.env.local scripts/rag/embed-chunks-local.ts",
     "rag:smoke-retrieval": "tsx --env-file=.env.local scripts/rag/smoke-retrieval.ts",
     "rag:smoke-answer": "tsx --env-file=.env.local scripts/rag/smoke-answer.ts",
+    "rag:evaluate": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts",
+    "rag:evaluate:smoke": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --smoke",
     "seo:baseline": "node scripts/seo/baseline.mjs",
     "seo:content-audit": "node scripts/seo/content-audit.mjs",
     "seo:metadata-audit": "node scripts/seo/metadata-audit.mjs",

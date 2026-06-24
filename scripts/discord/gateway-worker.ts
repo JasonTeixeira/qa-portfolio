@@ -51,6 +51,7 @@ type ConnectionResult = {
   reason: string;
   shouldReconnect: boolean;
   canResume: boolean;
+  requestedByWorker?: boolean;
 };
 
 function cleanEnv(value: string | undefined): string {
@@ -105,6 +106,10 @@ function closeIsFatal(code: number): boolean {
   return [4004, 4010, 4011, 4013, 4014].includes(code);
 }
 
+function closeInvalidatesSession(code: number): boolean {
+  return closeIsFatal(code) || [4007, 4009].includes(code);
+}
+
 async function connectOnce(input: {
   token: string;
   workerId: string;
@@ -120,6 +125,7 @@ async function connectOnce(input: {
   let heartbeatTimer: NodeJS.Timeout | null = null;
   let channelNames = await buildChannelNameCache();
   let closeResolved = false;
+  let requestedCloseResult: ConnectionResult | null = null;
 
   await recordDiscordGatewayHeartbeat({
     workerId: input.workerId,
@@ -219,7 +225,14 @@ async function connectOnce(input: {
 
       if (packet.op === OPCODE_RECONNECT) {
         await recordDiscordGatewayEvent({ eventType: 'gateway_reconnect_requested', payload: { worker_id: input.workerId, sequence } });
-        socket.close(4000, 'discord-reconnect-requested');
+        requestedCloseResult = {
+          code: 1000,
+          reason: 'discord-reconnect-requested',
+          shouldReconnect: !input.once,
+          canResume: Boolean(sessionId && sequence != null && resumeGatewayUrl),
+          requestedByWorker: true,
+        };
+        socket.close(1000, 'discord-reconnect-requested');
         return;
       }
 
@@ -238,7 +251,14 @@ async function connectOnce(input: {
             status: 'invalidated',
           });
         }
-        socket.close(4000, 'invalid-session');
+        requestedCloseResult = {
+          code: 1000,
+          reason: resumable ? 'invalid-session-resumable' : 'invalid-session-identify-required',
+          shouldReconnect: !input.once,
+          canResume: resumable && Boolean(sessionId && sequence != null && resumeGatewayUrl),
+          requestedByWorker: true,
+        };
+        socket.close(1000, requestedCloseResult.reason);
         return;
       }
 
@@ -346,36 +366,51 @@ async function connectOnce(input: {
     });
 
     socket.addEventListener('close', async (event) => {
+      const closeCode = requestedCloseResult?.code ?? event.code;
+      const closeReason = requestedCloseResult?.reason ?? event.reason;
+      const invalidatesSession = closeInvalidatesSession(event.code) || (requestedCloseResult?.canResume === false && closeReason.includes('invalid-session'));
       await recordDiscordGatewayHeartbeat({
         workerId: input.workerId,
-        status: event.code === 1000 ? 'closed' : closeIsFatal(event.code) ? 'failed' : 'reconnecting',
+        status: requestedCloseResult?.shouldReconnect ? 'reconnecting' : event.code === 1000 ? 'closed' : closeIsFatal(event.code) ? 'failed' : 'reconnecting',
         sessionId,
         sequence,
         resumeGatewayUrl,
         lastCloseCode: event.code,
-        lastCloseReason: event.reason,
+        lastCloseReason: closeReason,
+        metadata: requestedCloseResult?.requestedByWorker ? { requested_by_worker: true, original_close_code: event.code } : undefined,
       });
-      await recordDiscordGatewayEvent({ eventType: 'gateway_socket_closed', payload: { worker_id: input.workerId, code: event.code, reason: event.reason } });
+      await recordDiscordGatewayEvent({
+        eventType: 'gateway_socket_closed',
+        payload: {
+          worker_id: input.workerId,
+          code: event.code,
+          reason: closeReason,
+          requested_by_worker: Boolean(requestedCloseResult?.requestedByWorker),
+          should_reconnect: requestedCloseResult?.shouldReconnect ?? (event.code !== 1000 && !input.once && !closeIsFatal(event.code)),
+          can_resume: requestedCloseResult?.canResume ?? Boolean(sessionId && sequence != null && resumeGatewayUrl && !closeInvalidatesSession(event.code)),
+        },
+      });
       if (sessionId) {
         await recordDiscordGatewaySession({
           workerId: input.workerId,
           sessionId,
           sequence,
           resumeGatewayUrl,
-          status: closeIsFatal(event.code) ? 'invalidated' : 'closed',
+          status: invalidatesSession ? 'invalidated' : 'closed',
         });
       }
-      console.log('[discord/gateway] socket closed', event.code, event.reason);
+      console.log('[discord/gateway] socket closed', event.code, closeReason);
       if (event.code === 4014 && input.messageContentEnabled) {
         const portalUrl = discordDeveloperBotUrl();
         console.error('[discord/gateway] Message Content Intent is still disabled for this application.');
         if (portalUrl) console.error(`[discord/gateway] Enable it here: ${portalUrl}`);
       }
       finish({
-        code: event.code,
-        reason: event.reason,
-        shouldReconnect: event.code !== 1000 && !input.once && !closeIsFatal(event.code),
-        canResume: Boolean(sessionId && sequence != null && resumeGatewayUrl && !closeIsFatal(event.code)),
+        code: closeCode,
+        reason: closeReason,
+        shouldReconnect: requestedCloseResult?.shouldReconnect ?? (event.code !== 1000 && !input.once && !closeIsFatal(event.code)),
+        canResume: requestedCloseResult?.canResume ?? Boolean(sessionId && sequence != null && resumeGatewayUrl && !closeInvalidatesSession(event.code)),
+        requestedByWorker: requestedCloseResult?.requestedByWorker,
       });
     });
 

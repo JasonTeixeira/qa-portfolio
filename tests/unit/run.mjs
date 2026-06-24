@@ -84,6 +84,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   const engagementMigration = await readFile(new URL('../../supabase/migrations/0050_discord_engagement_engine.sql', import.meta.url), 'utf8');
   const approvalMigration = await readFile(new URL('../../supabase/migrations/0051_discord_member_approval_gate.sql', import.meta.url), 'utf8');
   const gatewayMigration = await readFile(new URL('../../supabase/migrations/0060_discord_gateway_worker.sql', import.meta.url), 'utf8');
+  const gatewayWorker = await readFile(new URL('../../scripts/discord/gateway-worker.ts', import.meta.url), 'utf8');
   const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
   const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
@@ -104,6 +105,13 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_heartbeats/);
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_sessions/);
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_dead_letters/);
+  assert.match(gatewayWorker, /requestedCloseResult/);
+  assert.match(gatewayWorker, /discord-reconnect-requested/);
+  assert.match(gatewayWorker, /socket\.close\(1000, 'discord-reconnect-requested'\)/);
+  assert.match(gatewayWorker, /invalid-session-identify-required/);
+  assert.match(gatewayWorker, /requested_by_worker/);
+  assert.match(gatewayWorker, /closeInvalidatesSession/);
+  assert.doesNotMatch(gatewayWorker, /socket\.close\(4000/);
   const classifierMigration = await readFile(new URL('../../supabase/migrations/0068_discord_message_classifier.sql', import.meta.url), 'utf8');
   assert.match(classifierMigration, /create table if not exists public\.discord_message_classifications/);
   assert.match(classifierMigration, /recommended_action in/);

@@ -1,0 +1,68 @@
+{
+  "phase": 14,
+  "name": "Gateway close handling cleanup",
+  "completed_at": "2026-06-24T22:20:00Z",
+  "status": "code_fixed_local_verified_not_deployed",
+  "objective": "Stop normal Discord gateway reconnect control paths from being recorded as noisy 4000 socket close loops, and make resume invalidation explicit.",
+  "root_cause": [
+    "The gateway worker used socket.close(4000, ...) for internal control flow when Discord sent OP 7 RECONNECT or OP 9 INVALID_SESSION.",
+    "Those worker-requested closes appeared in logs as repeated socket closed 4000, making normal reconnect behavior look like Discord-side errors.",
+    "Non-resumable invalid sessions were not represented clearly in close metadata."
+  ],
+  "implemented": [
+    "Added requestedCloseResult so worker-requested reconnects use socket.close(1000, ...) while preserving shouldReconnect and canResume semantics.",
+    "Changed OP 7 RECONNECT handling to close with code 1000 and reason discord-reconnect-requested, then reconnect with resume when possible.",
+    "Changed OP 9 INVALID_SESSION handling to close with code 1000 and reason invalid-session-resumable or invalid-session-identify-required.",
+    "Added closeInvalidatesSession so fatal and non-resumable close paths invalidate stored sessions instead of preserving bad resume state.",
+    "Gateway close events now record requested_by_worker, should_reconnect, and can_resume metadata.",
+    "Heartbeat metadata now distinguishes worker-requested closes from real socket failures."
+  ],
+  "files": [
+    "scripts/discord/gateway-worker.ts",
+    "tests/unit/run.mjs"
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "evidence": "164 passed, 0 failed. Unit assertions verify requestedCloseResult, socket.close(1000, 'discord-reconnect-requested'), invalid-session-identify-required, requested_by_worker metadata, closeInvalidatesSession, and no socket.close(4000...) remains."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "tsc --noEmit completed successfully."
+    },
+    {
+      "command": "DISCORD_GATEWAY_WORKER_ID=phase14-fix-once npm run discord:gateway:once -- --message-content",
+      "result": "passed",
+      "evidence": "Gateway socket opened and one-off worker exited successfully."
+    },
+    {
+      "command": "Supabase heartbeat query for worker phase14-fix-once",
+      "result": "passed",
+      "evidence": "status ready; sequence 2; no last_close_code; last_seen_at 2026-06-24T22:17:23.229Z."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "Next.js production build completed. Existing non-blocking warnings remain for middleware deprecation, edge runtime static generation behavior, and academy cookie dynamic-render logs."
+    }
+  ],
+  "what_is_real": [
+    "The local worker no longer uses 4000 as an internal reconnect close code.",
+    "Worker-requested reconnects are now observable as normal close code 1000 with explicit metadata.",
+    "Non-resumable invalid sessions clear resume state and reconnect by identify.",
+    "The worker still reconnects and resumes where appropriate."
+  ],
+  "what_is_left": [
+    "This fix is committed locally but not deployed to Railway in this pass.",
+    "Production Railway logs will continue showing old behavior until the committed worker is deployed.",
+    "After deployment, observe Railway logs for at least one reconnect cycle and verify no worker-requested reconnect appears as close code 4000."
+  ],
+  "next_verification_after_deploy": [
+    "railway up",
+    "railway logs --lines 120 --json",
+    "Supabase query: latest discord_gateway_heartbeats for sagebot-main",
+    "Confirm gateway_socket_closed events with requested_by_worker=true use code 1000, not 4000"
+  ]
+}

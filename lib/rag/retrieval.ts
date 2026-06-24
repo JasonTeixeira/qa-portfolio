@@ -4,6 +4,7 @@ import { embedTextLocal, LOCAL_EMBEDDING_MODEL } from './embeddings';
 import { deepSeekChat } from './deepseek';
 import { planRagQuery, type RagQueryPlan } from './query-planning';
 import { RAG_RERANKER_VERSION, rerankRagResults, type RerankedRagSearchResult } from './reranking';
+import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS, sageBotAnswerSystemPrompt } from '@/lib/discord/sagebot-personality';
 
 export type RagSearchResult = {
   chunk_id: string;
@@ -113,7 +114,8 @@ export async function answerRagQuestion(
   const rootObservation = startAiObservation('rag.answer_question', {
     input: { question, rewrittenQueries: queryPlan.searchQueries, limit: options.limit ?? 5 },
     metadata: {
-      prompt_version: 'rag_answer_v1',
+      prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
+      personality_version: SAGEBOT_PERSONALITY_VERSION,
       generation_provider: 'deepseek',
       query_planner_version: queryPlan.metadata.plannerVersion,
       reranker_version: RAG_RERANKER_VERSION,
@@ -141,11 +143,7 @@ export async function answerRagQuestion(
       messages: [
         {
           role: 'system',
-          content: [
-            'You answer only from the provided RAG context.',
-            'If the context is insufficient, say what is missing.',
-            'Keep the answer concise and include citation numbers like [1].',
-          ].join(' '),
+          content: sageBotAnswerSystemPrompt(),
         },
         {
           role: 'user',
@@ -157,7 +155,11 @@ export async function answerRagQuestion(
       observability: {
         parent: rootObservation,
         name: 'rag.answer_generation',
-        metadata: { prompt_version: 'rag_answer_v1', citation_count: citations.length },
+        metadata: {
+          prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
+          personality_version: SAGEBOT_PERSONALITY_VERSION,
+          citation_count: citations.length,
+        },
       },
     });
 
@@ -172,6 +174,8 @@ export async function answerRagQuestion(
         selected_chunk_ids: results.map((result) => result.chunk_id),
         score_summary: {
           embedding_model: LOCAL_EMBEDDING_MODEL,
+          prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
+          personality_version: SAGEBOT_PERSONALITY_VERSION,
           top_hybrid_score: results[0]?.hybrid_score ?? null,
           top_vector_score: results[0]?.vector_score ?? null,
           top_keyword_score: results[0]?.keyword_score ?? null,
@@ -206,10 +210,11 @@ export async function answerRagQuestion(
         confidence: results.length ? 0.7 : 0.1,
         citations,
         model: generation.model,
-        prompt_version: 'rag_answer_v1',
+        prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
         metadata: {
           usage: generation.usage,
           embedding_model: LOCAL_EMBEDDING_MODEL,
+          personality_version: SAGEBOT_PERSONALITY_VERSION,
           ...traceMetadata,
           generation_observation_id: generation.observability.observationId,
         },

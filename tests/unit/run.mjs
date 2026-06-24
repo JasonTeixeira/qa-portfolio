@@ -524,6 +524,7 @@ test('rag query planning and reranking: expands command questions and prioritize
 
 test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
   const { formatAskSageDiscordAnswer, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
+  const { SAGEBOT_PROMPT_VERSIONS } = await import('../../lib/discord/sagebot-personality.ts');
   const { isDeferredSageCommand } = await import('../../lib/discord/sage-commands.ts');
   const { buildDiscordFollowupRequest } = await import('../../lib/discord/followup.ts');
   const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
@@ -546,7 +547,23 @@ test('discord ask-sage: formats RAG answers and wires the slash command', async 
   assert.match(formatted, /# SageBot answer/);
   assert.match(formatted, /Discord runbook/);
   assert.match(formatted, /Answer ID: `answer-1`/);
+  assert.doesNotMatch(formatted, /Prompt: `sagebot_answer_v2`/);
   assert.ok(formatted.length <= 1900);
+  process.env.DISCORD_SHOW_PROMPT_VERSION = 'true';
+  try {
+    const debugFormatted = formatAskSageDiscordAnswer('How do I onboard members?', {
+      answer: 'Use /apply, review start-here, and approve the Academy Member role with source context [1].',
+      citations: [{ chunk_id: 'c1', title: 'Discord runbook', source_url: null, source_type: 'doc' }],
+      retrievalLogId: 'log-1',
+      answerId: 'answer-1',
+      model: 'deepseek-chat',
+      observability: { traceId: 'a'.repeat(32), observationId: 'b'.repeat(16), provider: 'local' },
+    });
+    assert.ok(debugFormatted.includes(`Prompt: \`${SAGEBOT_PROMPT_VERSIONS.answer}\``));
+    assert.match(debugFormatted, /Policy score:/);
+  } finally {
+    delete process.env.DISCORD_SHOW_PROMPT_VERSION;
+  }
   assert.match(commands, /name: 'ask-sage'/);
   assert.match(commands, /handleAskSage/);
   assert.match(commands, /handleDeferredSageCommand/);
@@ -558,6 +575,58 @@ test('discord ask-sage: formats RAG answers and wires the slash command', async 
   assert.match(String(followup.init.body), /"flags":64/);
   assert.match(register, /name: 'ask-sage'/);
   assert.equal(pkg.scripts['discord:smoke-ask-sage'], 'tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts');
+});
+
+test('sagebot personality kernel: versions prompts and rejects low-quality output', async () => {
+  const {
+    SAGEBOT_PERSONALITY_VERSION,
+    SAGEBOT_PROMPT_VERSIONS,
+    sageBotAnswerSystemPrompt,
+    sageBotDailySignalSystemPrompt,
+    sageBotLearningGeneratorSystemPrompt,
+    sageBotWeeklyRecapPolicyLine,
+    scoreSageBotPolicyOutput,
+  } = await import('../../lib/discord/sagebot-personality.ts');
+  const docs = await readFile(new URL('../../docs/SAGEBOT_PERSONALITY_KERNEL.txt', import.meta.url), 'utf8');
+
+  assert.equal(SAGEBOT_PERSONALITY_VERSION, 'sagebot-personality-v1');
+  assert.equal(SAGEBOT_PROMPT_VERSIONS.answer, 'sagebot_answer_v2');
+  assert.equal(SAGEBOT_PROMPT_VERSIONS.dailySignal, 'sagebot_daily_signal_v2');
+  assert.equal(SAGEBOT_PROMPT_VERSIONS.quizGenerator, 'sagebot_quiz_generator_v2');
+  assert.equal(SAGEBOT_PROMPT_VERSIONS.challengeGenerator, 'sagebot_challenge_generator_v2');
+  assert.equal(SAGEBOT_PROMPT_VERSIONS.weeklyRecap, 'sagebot_weekly_recap_v2');
+  assert.match(sageBotAnswerSystemPrompt(), /Answer only from the provided RAG context/);
+  assert.match(sageBotAnswerSystemPrompt(), /Do not invent policy, pricing, channels, roles/);
+  assert.match(sageBotDailySignalSystemPrompt(), /approval-ready Discord education drafts/);
+  assert.match(sageBotDailySignalSystemPrompt(), /Do not recommend OpenAI/);
+  assert.match(sageBotLearningGeneratorSystemPrompt(), /strict JSON/);
+  assert.match(sageBotWeeklyRecapPolicyLine(), /sagebot_weekly_recap_v2/);
+  assert.match(docs, /Refusal \/ Insufficient Context Style/);
+  assert.match(docs, /DISCORD_SHOW_PROMPT_VERSION=true/);
+
+  const good = scoreSageBotPolicyOutput(
+    'Use /apply in start-here, review the Academy Member approval artifact, then build a 3-step checklist with source context [1].',
+    { requireCitation: true },
+  );
+  assert.equal(good.passed, true);
+  assert.ok(good.score >= 80);
+
+  const generic = scoreSageBotPolicyOutput('This is an amazing game-changer. Just keep going and crush it.', { requireCitation: true });
+  assert.equal(generic.passed, false);
+  assert.equal(generic.flags.genericHype, true);
+  assert.equal(generic.flags.condescending, true);
+  assert.equal(generic.flags.sourceGrounded, false);
+
+  const unsupported = scoreSageBotPolicyOutput('I assume the premium price is $99 because based on my knowledge that is best.', { requireCitation: true });
+  assert.equal(unsupported.passed, false);
+  assert.equal(unsupported.flags.unsupported, true);
+  const providerDrift = scoreSageBotPolicyOutput('Build the project artifact with GPT-4o-mini and publish the result [1].', { requireCitation: true });
+  assert.equal(providerDrift.passed, false);
+  assert.equal(providerDrift.flags.unsupported, true);
+
+  const tooLong = scoreSageBotPolicyOutput(`Build the project artifact with context [1]. ${'x'.repeat(2000)}`, { requireCitation: true });
+  assert.equal(tooLong.passed, false);
+  assert.equal(tooLong.flags.tooLong, true);
 });
 
 test('discord daily planner: builds approval-gated DeepSeek draft jobs', async () => {
@@ -625,12 +694,13 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
       <pubDate>Thu, 14 Jan 2099 12:00:00 GMT</pubDate>
     </item></channel></rss>
   `);
-  assert.equal(DISCORD_DAILY_PLANNER_PROMPT_VERSION, 'discord-daily-planner-v1');
+  assert.equal(DISCORD_DAILY_PLANNER_PROMPT_VERSION, 'sagebot_daily_signal_v2');
   assert.equal(DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION, 'discord-daily-signal-scheduler-v1');
   assert.equal(DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION, 'discord-news-to-action-registry-v1');
   assert.equal(DISCORD_NEWS_TO_ACTION_INGESTION_VERSION, 'discord-news-to-action-ingestion-v1');
   assert.match(prompt, /Format exactly:/);
   assert.match(prompt, /concrete action/);
+  assert.match(prompt, /Model policy/);
   assert.match(prompt, /\*\*News-to-action:\*\*/);
   assert.match(prompt, /Approval gates/);
   assert.match(prompt, /Automation map/);
@@ -676,7 +746,9 @@ test('discord daily planner: builds approval-gated DeepSeek draft jobs', async (
 
 test('discord learning generator: validates quiz and challenge drafts', async () => {
   const {
+    DISCORD_CHALLENGE_GENERATOR_PROMPT_VERSION,
     DISCORD_LEARNING_GENERATOR_PROMPT_VERSION,
+    DISCORD_QUIZ_GENERATOR_PROMPT_VERSION,
     buildLearningGeneratorPrompt,
     parseGeneratedLearningItems,
     scoreGeneratedLearningItems,
@@ -685,8 +757,11 @@ test('discord learning generator: validates quiz and challenge drafts', async ()
   const script = await readFile(new URL('../../scripts/discord/generate-learning-content.ts', import.meta.url), 'utf8');
 
   const prompt = buildLearningGeneratorPrompt({ theme: 'approval gates', dateKey: '2099-01-02' });
-  assert.equal(DISCORD_LEARNING_GENERATOR_PROMPT_VERSION, 'discord-learning-generator-v1');
+  assert.equal(DISCORD_LEARNING_GENERATOR_PROMPT_VERSION, 'sagebot_quiz_generator_v2');
+  assert.equal(DISCORD_QUIZ_GENERATOR_PROMPT_VERSION, 'sagebot_quiz_generator_v2');
+  assert.equal(DISCORD_CHALLENGE_GENERATOR_PROMPT_VERSION, 'sagebot_challenge_generator_v2');
   assert.match(prompt, /Return strict JSON only/);
+  assert.match(prompt, /Model policy/);
   assert.match(prompt, /approval gates/);
   const items = parseGeneratedLearningItems(JSON.stringify({
     quiz: {
@@ -756,7 +831,7 @@ test('discord weekly automation: drafts leaderboard recap for approval', async (
   const snapshotSmoke = await readFile(new URL('../../scripts/discord/smoke-weekly-leaderboard-recap.ts', import.meta.url), 'utf8');
   const publishSmoke = await readFile(new URL('../../scripts/discord/smoke-weekly-approval-publish.ts', import.meta.url), 'utf8');
 
-  assert.equal(DISCORD_WEEKLY_RECAP_PROMPT_VERSION, 'discord-weekly-recap-automation-v1');
+  assert.equal(DISCORD_WEEKLY_RECAP_PROMPT_VERSION, 'sagebot_weekly_recap_v2');
   assert.equal(typeof publishApprovedWeeklyRecapDraft, 'function');
   assert.match(discordWeekKey(new Date('2026-06-21T12:00:00.000Z')), /^2026-W\d{2}$/);
   assert.match(discordLeaderboardPeriod(new Date('2026-06-21T12:00:00.000Z')).periodKey, /^2026-W\d{2}$/);

@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { answerRagQuestion } from '@/lib/rag/retrieval';
+import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS } from './sagebot-personality';
 
 export type PremiumReviewType = 'code' | 'design' | 'ai' | 'architecture' | 'seo' | 'cloud' | 'growth' | 'general';
 
@@ -97,7 +98,12 @@ export async function answerPremiumQuestion(input: {
       retrieval_log_id: result.retrievalLogId,
       model: result.model,
       status: 'answered',
-      metadata: { citation_count: result.citations.length, source: 'slash_command' },
+      metadata: {
+        citation_count: result.citations.length,
+        source: 'slash_command',
+        prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
+        personality_version: SAGEBOT_PERSONALITY_VERSION,
+      },
     })
     .select('id')
     .single();

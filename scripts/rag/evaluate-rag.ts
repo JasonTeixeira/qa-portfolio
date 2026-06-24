@@ -10,6 +10,7 @@ import {
   type RagEvalQuestionSeed,
 } from '../../lib/rag/evals';
 import { answerRagQuestion } from '../../lib/rag/retrieval';
+import { SAGEBOT_PROMPT_VERSIONS } from '../../lib/discord/sagebot-personality';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'rag');
 
@@ -105,7 +106,7 @@ async function main() {
       deterministic_grader: true,
       thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
     },
-    prompt_version: 'rag_answer_v1',
+    prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
     total_questions: selectedRows.length,
   }).select('id, run_key').single();
   if (runError) throw runError;

@@ -2,13 +2,13 @@
   "ok": true,
   "responseType": 4,
   "ephemeral": true,
-  "answerId": "28669794-4c20-4cde-8779-df9cfada787f",
-  "retrievalLogId": "1e6c105b-75fd-4efa-8d8b-46b2ba604410",
-  "traceId": "424baea83513d1de02bddee1b58e5a7e",
+  "answerId": "49cd9e38-cecd-4105-bfc0-01e378c02801",
+  "retrievalLogId": "43316188-610c-4654-baa4-81dd3a760c17",
+  "traceId": "fcc828026ff93b7619d5e872b06aa5fb",
   "observabilityProvider": "local",
   "queueCount": 1,
   "pointsCount": 1,
-  "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nBased on the provided context, a high-quality education Discord should onboard new members using a structured, gated process with a clear first-week checklist [2].\n\nThe onboarding flow begins in the `start-here` channel, which is read-only and contains the rules and a native Discord \"Apply to Join\" application [1][2]. Members are approved based on a standard that requires them to accept the rules, hav",
-  "startedAt": "2026-06-24T16:08:34.547Z",
-  "finishedAt": "2026-06-24T16:08:41.368Z"
+  "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nBased on the provided context, here is how a high-quality education Discord should onboard new members:\n\n**1. Gated Entry via Native Application**\n- Use Discord's native \"Apply to Join\" feature as the primary intake method [1][2].\n- Approve members who accept the rules, have a clear learning/building goal, name a real first build, and show enough context to route them [2].\n- Reject vague answers, spam",
+  "startedAt": "2026-06-24T16:50:11.767Z",
+  "finishedAt": "2026-06-24T16:50:19.288Z"
 }

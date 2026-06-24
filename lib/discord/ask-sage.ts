@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { answerRagQuestion, type RagAnswerResult } from '@/lib/rag/retrieval';
+import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS, scoreSageBotPolicyOutput } from './sagebot-personality';
 
 const DISCORD_LIMIT = 1900;
 
@@ -35,6 +36,7 @@ export async function askSageFromDiscord(input: AskSageDiscordInput): Promise<As
 }
 
 export function formatAskSageDiscordAnswer(question: string, result: RagAnswerResult): string {
+  const showPromptVersion = process.env.DISCORD_SHOW_PROMPT_VERSION === 'true';
   const citations = result.citations
     .slice(0, 5)
     .map((citation, index) => {
@@ -51,6 +53,8 @@ export function formatAskSageDiscordAnswer(question: string, result: RagAnswerRe
     citations.length ? '**Sources**' : '**Sources:** No matching source chunks found.',
     ...citations,
     '',
+    showPromptVersion ? `Prompt: \`${SAGEBOT_PROMPT_VERSIONS.answer}\` / \`${SAGEBOT_PERSONALITY_VERSION}\`` : null,
+    showPromptVersion ? `Policy score: \`${scoreSageBotPolicyOutput(result.answer, { requireCitation: citations.length > 0 }).score}\`` : null,
     result.answerId ? `Answer ID: \`${result.answerId}\`` : null,
   ].filter(Boolean).join('\n');
 

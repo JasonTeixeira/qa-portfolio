@@ -1,0 +1,171 @@
+{
+  "phase": 4,
+  "name": "SageBot personality, answer policy, refusal style, and command UX consistency",
+  "status": "passed",
+  "completedAt": "2026-06-24T16:53:41.357Z",
+  "scope": [
+    "Versioned SageBot personality kernel",
+    "Shared answer/content policy prompts",
+    "Prompt version registry for answer, daily signal, quiz, challenge, and weekly recap paths",
+    "Tone and policy scoring for public generated content paths",
+    "Admin/debug prompt version toggle for ask-sage responses",
+    "DeepSeek-first/provider-disciplined public content policy"
+  ],
+  "promptVersions": {
+    "personality": "sagebot-personality-v1",
+    "answer": "sagebot_answer_v2",
+    "dailySignal": "sagebot_daily_signal_v2",
+    "quizGenerator": "sagebot_quiz_generator_v2",
+    "challengeGenerator": "sagebot_challenge_generator_v2",
+    "weeklyRecap": "sagebot_weekly_recap_v2"
+  },
+  "implemented": [
+    {
+      "area": "personality_kernel",
+      "files": [
+        "lib/discord/sagebot-personality.ts",
+        "docs/SAGEBOT_PERSONALITY_KERNEL.txt"
+      ],
+      "result": "Added shared personality prompt builders, prompt version registry, refusal/insufficient-context policy, and deterministic policy scoring."
+    },
+    {
+      "area": "rag_answers",
+      "files": [
+        "lib/rag/retrieval.ts",
+        "scripts/rag/evaluate-rag.ts"
+      ],
+      "result": "Replaced rag_answer_v1 with sagebot_answer_v2 and included personality version in answer generation, observability metadata, retrieval logs, persisted answers, and eval runs."
+    },
+    {
+      "area": "daily_content",
+      "files": [
+        "lib/discord/daily-planner.ts"
+      ],
+      "result": "Daily Signal drafts now use sagebot_daily_signal_v2, shared policy prompt, policy scoring, and DeepSeek-first/provider-disciplined wording."
+    },
+    {
+      "area": "learning_content",
+      "files": [
+        "lib/discord/quiz-challenge-generator.ts"
+      ],
+      "result": "Quiz and challenge drafts now store separate sagebot_quiz_generator_v2 and sagebot_challenge_generator_v2 prompt versions with policy scores and metadata."
+    },
+    {
+      "area": "weekly_recap",
+      "files": [
+        "lib/discord/weekly-automation.ts"
+      ],
+      "result": "Weekly recap drafts now use sagebot_weekly_recap_v2 and store the shared policy score and policy metadata."
+    },
+    {
+      "area": "command_ux",
+      "files": [
+        "lib/discord/ask-sage.ts",
+        "lib/discord/premium-workflows.ts"
+      ],
+      "result": "Ask-sage has an admin/debug prompt version toggle via DISCORD_SHOW_PROMPT_VERSION=true, and premium answer requests persist prompt/personality metadata."
+    }
+  ],
+  "verification": [
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "tsc --noEmit exited 0"
+    },
+    {
+      "command": "npm run test:unit",
+      "status": "passed",
+      "evidence": "160 passed, 0 failed"
+    },
+    {
+      "command": "npm run discord:smoke-ask-sage",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/ask-sage-smoke.json",
+      "evidence": {
+        "ok": true,
+        "ephemeral": true,
+        "traceId": "fcc828026ff93b7619d5e872b06aa5fb",
+        "observabilityProvider": "local"
+      }
+    },
+    {
+      "command": "npm run discord:smoke-daily-planner",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/daily-planner-smoke.json",
+      "evidence": {
+        "ok": true,
+        "model": "deepseek-v4-flash",
+        "bodyPreviewIncludesDeepSeek": true,
+        "traceId": "cfb40077a8cbd04b7f4429b173502eba"
+      }
+    },
+    {
+      "command": "npm run discord:smoke-learning-generator",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/learning-generator-smoke.json",
+      "evidence": {
+        "ok": true,
+        "model": "deepseek-v4-flash",
+        "cleanedUp": true
+      }
+    },
+    {
+      "command": "npm run discord:smoke-weekly-recap",
+      "status": "passed",
+      "evidencePath": "docs/evidence/discord/weekly-recap-smoke.json",
+      "evidence": {
+        "ok": true,
+        "qualityScore": 90,
+        "cleanedUp": true
+      }
+    },
+    {
+      "command": "npm run rag:evaluate",
+      "status": "passed",
+      "evidencePath": "docs/evidence/rag/eval-latest.json",
+      "evidence": {
+        "runId": "aeecfb79-efa1-4bb3-8e91-725e4285fe0a",
+        "runKey": "full-20260624165011",
+        "evaluatedQuestionCount": 50,
+        "passed": 45,
+        "failed": 5,
+        "passRate": 0.9,
+        "avgScore": 0.8509,
+        "retrievalHitRate": 0.92,
+        "citationCoverage": 0.91,
+        "faithfulness": 0.932
+      }
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "next build exited 0; dynamic server usage warnings were emitted for existing academy cookie-backed pages but build completed successfully."
+    }
+  ],
+  "knownGapsAfterPhase": [
+    "Full RAG eval still has 5 failing golden questions, mostly retrieval/source misses. This is improved from Phase 3's 44/50 to 45/50 but not yet 95%+.",
+    "The admin prompt-version toggle is environment-based, not yet a clickable admin UI setting.",
+    "Policy scoring is stored on generated draft paths, but hard blocking of low-scoring drafts is still a future quality-gate hardening step."
+  ],
+  "roadmapStatus": {
+    "totalPhases": 11,
+    "completedPhases": 5,
+    "remainingPhases": 6,
+    "completed": [
+      "Phase 0 - Baseline and cleanup",
+      "Phase 1 - Langfuse-ready observability",
+      "Phase 2 - Deterministic RAG eval harness",
+      "Phase 3 - Query rewriting and reranking",
+      "Phase 4 - SageBot personality kernel and command UX consistency"
+    ],
+    "remaining": [
+      "Phase 5 - Discord knowledge/content ingestion approvals into authoritative RAG",
+      "Phase 6 - RAG-grounded content, quiz, challenge, and lesson generation",
+      "Phase 7 - Admin operating dashboard",
+      "Phase 8 - ML/member intelligence scoring and personalization",
+      "Phase 9 - Eval hardening with model judge/RAGAS/DeepEval",
+      "Phase 10 - LangGraph/agent workflows"
+    ]
+  },
+  "nextPhase": "Phase 5 - Discord knowledge/content ingestion approvals into authoritative RAG."
+}

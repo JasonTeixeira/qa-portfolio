@@ -74,12 +74,27 @@ test('next proxy convention: root request boundary uses proxy.ts, not deprecated
 
 test('ops scripts: local e2e and Supabase commands load env and use durable wrappers', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const localVerificationEvidence = await readFile(
+    new URL('../../scripts/ops/write-local-verification-evidence.mjs', import.meta.url),
+    'utf8',
+  );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local && npm run verify:local:evidence',
   );
+  assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
+  assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
+  assert.equal(packageJson.scripts['verify:local:evidence'].includes('rag:evaluate'), false);
+  assert.match(localVerificationEvidence, /local-verification-latest\.json/);
+  assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
+  assert.match(localVerificationEvidence, /phase-20-final-scorecard\.json/);
+  assert.match(localVerificationEvidence, /phase-21-operating-proof-cycle\.json/);
+  assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);
+  assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
+  assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
+  assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

@@ -1,0 +1,110 @@
+{
+  "ok": true,
+  "version": "local-verification-evidence-v1",
+  "timestamp": "2026-06-25T22:03:44.729Z",
+  "command": "npm run verify:local",
+  "mutationMode": "local_file_evidence_only",
+  "gates": [
+    {
+      "command": "npm run test:unit",
+      "passed": true
+    },
+    {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    {
+      "command": "npm run lint",
+      "passed": true
+    },
+    {
+      "command": "npm run build",
+      "passed": true
+    },
+    {
+      "command": "npm run discord:release-local",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": {
+    "finalScorecard": "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+    "operatingCycle": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+    "contentFactory": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+    "evalSeedQuality": "docs/evidence/rag/eval-seed-quality.json",
+    "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json"
+  },
+  "scorecard": {
+    "averageScore": 83,
+    "worldClassEligible": false,
+    "worldClassThreshold": 95,
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ],
+    "runKey": "phase-20-final-1782425021232"
+  },
+  "operatingCycle": {
+    "status": "blocked",
+    "ok": false,
+    "cycleKey": "2026-W26",
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 0,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "approvedMembers": 7,
+    "onboardedMembers": 7,
+    "activeMembers7d": 7,
+    "premiumMembers": 0,
+    "knownBlockers": [
+      "approved_discord_knowledge_sources_empty",
+      "rag_discord_sources_empty",
+      "public_proof_drafts_empty",
+      "premium_workflow_live_proof_empty"
+    ]
+  },
+  "ragEvalSeeds": {
+    "ok": true,
+    "dryRunOk": true,
+    "seedCount": 60,
+    "seededDryRun": 60,
+    "categoryCounts": {
+      "onboarding": 10,
+      "content_engine": 15,
+      "quiz_challenge_points": 10,
+      "premium": 10,
+      "rag_ai_build": 15
+    },
+    "issues": []
+  },
+  "contentFactory": {
+    "ok": true,
+    "dryRun": true,
+    "planned": 36,
+    "created": 0,
+    "failed": 0
+  },
+  "remainingGaps": [
+    "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",
+    "Approve Discord candidates into authoritative RAG and rerun non-dry-run RAG eval with explicit approval.",
+    "Run weekly public proof/growth cycles with approved public drafts and measured conversion.",
+    "Prove premium workflows with real or deliberately seeded premium-member scenarios.",
+    "Rerun the final scorecard after each operating cycle until category evidence earns 95+."
+  ]
+}

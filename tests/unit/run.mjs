@@ -1491,17 +1491,39 @@ test('discord durable jobs: registry, idempotency, retry, and dead-letter wiring
 });
 
 test('discord premium workflows: review, deeper answer, and office-hours queues are wired', async () => {
-  const { normalizePremiumReviewType } = await import('../../lib/discord/premium-workflows.ts');
+  const {
+    PREMIUM_RESPONSE_MIN_QUALITY_SCORE,
+    evaluatePremiumResponseQuality,
+    normalizePremiumReviewType,
+    premiumReviewSlaDueAt,
+  } = await import('../../lib/discord/premium-workflows.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0072_discord_premium_workflows.sql', import.meta.url), 'utf8');
+  const v2Migration = await readFile(new URL('../../supabase/migrations/0089_discord_premium_workflows_v2.sql', import.meta.url), 'utf8');
   const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
   const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
+  const actions = await readFile(new URL('../../app/admin/discord/actions.ts', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 
   assert.equal(normalizePremiumReviewType('AI'), 'ai');
   assert.equal(normalizePremiumReviewType('nonsense'), 'general');
+  assert.equal(premiumReviewSlaDueAt(new Date('2026-06-24T00:00:00.000Z')), '2026-06-26T00:00:00.000Z');
+  const quality = evaluatePremiumResponseQuality({
+    response: 'Premium review completed: the riskiest approval boundary is the missing manual gate. Next step: ship one test member flow, verify the role sync, and review the database row. Key tradeoff: keep free access useful while premium gets priority depth.',
+    judgmentBasis: 'Based on the submitted onboarding flow, admin quality bar, and premium promise.',
+  });
+  assert.equal(quality.passed, true);
+  assert.ok(quality.score >= PREMIUM_RESPONSE_MIN_QUALITY_SCORE);
+  assert.equal(evaluatePremiumResponseQuality({ response: 'Looks good.', judgmentBasis: '' }).passed, false);
   assert.match(migration, /create table if not exists public\.discord_premium_review_requests/);
   assert.match(migration, /create table if not exists public\.discord_premium_answer_requests/);
   assert.match(migration, /create table if not exists public\.discord_office_hours_queue/);
+  assert.match(v2Migration, /discord_premium_workflow_events/);
+  assert.match(v2Migration, /sla_due_at/);
+  assert.match(v2Migration, /response_quality_score/);
+  assert.match(actions, /assignDiscordPremiumReviewAction/);
+  assert.match(actions, /completeDiscordPremiumReviewAction/);
+  assert.match(page, /SLA active|SLA overdue/);
   assert.match(commands, /name: 'premium-review'/);
   assert.match(commands, /name: 'premium-ask'/);
   assert.match(commands, /createOfficeHoursQueueItem/);
@@ -1509,6 +1531,38 @@ test('discord premium workflows: review, deeper answer, and office-hours queues 
   assert.match(register, /name: 'premium-review'/);
   assert.match(register, /name: 'premium-ask'/);
   assert.equal(pkg.scripts['discord:smoke-premium-workflows'], 'tsx --env-file=.env.local scripts/discord/smoke-premium-workflows.ts');
+});
+
+test('discord public proof growth: privacy-gated public drafts and funnel page are wired', async () => {
+  const {
+    buildPublicGrowthDraft,
+    evaluatePublicGrowthDraft,
+    scorePublicProofPrivacy,
+  } = await import('../../lib/discord/public-proof.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0090_discord_public_proof_growth.sql', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../../app/discord/page.tsx', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-public-proof-growth.ts', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(scorePublicProofPrivacy('A useful anonymized community lesson about AI onboarding.').passed, true);
+  assert.equal(scorePublicProofPrivacy('Email sage@example.com and token=abcdefghijklmnop').passed, false);
+  const draft = buildPublicGrowthDraft({
+    draftType: 'newsletter',
+    title: 'Question became a review checklist',
+    summary: 'An approved community question became a concrete review checklist for builders.',
+    body: 'The approved lesson was to define one user, one input, one output, and one acceptance test before adding automation.',
+  });
+  const quality = evaluatePublicGrowthDraft({ title: draft.title, body: draft.body, privacyScore: 100 });
+  assert.equal(quality.passed, true);
+  assert.match(draft.body, /approved community source/);
+  assert.match(migration, /create table if not exists public\.discord_public_proof_sources/);
+  assert.match(migration, /create table if not exists public\.discord_public_growth_drafts/);
+  assert.match(migration, /create table if not exists public\.discord_growth_events/);
+  assert.match(page, /Sage Ideas Discord/);
+  assert.match(page, /Apply to join/);
+  assert.match(page, /discord_public_proof/);
+  assert.match(smoke, /privacy_blocks_private_data/);
+  assert.equal(pkg.scripts['discord:smoke-public-proof-growth'], 'tsx --env-file=.env.local scripts/discord/smoke-public-proof-growth.ts');
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

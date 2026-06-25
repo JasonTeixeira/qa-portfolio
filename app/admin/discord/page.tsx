@@ -43,7 +43,9 @@ import {
   approveDiscordApplication,
   approveDiscordQueueItemForRagAction,
   approveDiscordQuestionForRagAction,
+  assignDiscordPremiumReviewAction,
   cancelDiscordJobRunAction,
+  completeDiscordPremiumReviewAction,
   createRagEvalKnowledgeTaskAction,
   publishDiscordContentDraftAction,
   rejectDiscordApplication,
@@ -308,6 +310,10 @@ type DiscordPremiumReviewRow = {
   status: string;
   priority: number;
   summary: string;
+  assigned_to: string | null;
+  sla_due_at: string | null;
+  completed_at: string | null;
+  response_quality_score: number | null;
   created_at: string;
 };
 
@@ -567,7 +573,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .limit(20),
     sb
       .from('discord_premium_review_requests')
-      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, created_at')
+      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, assigned_to, sla_due_at, completed_at, response_quality_score, created_at')
       .in('status', ['queued', 'in_review'])
       .order('priority', { ascending: false })
       .order('created_at', { ascending: true })
@@ -1266,13 +1272,66 @@ function PremiumOpsRow({ entry }: {
   const eyebrow = entry.kind === 'review'
     ? `${entry.item.review_type} review`
     : `${entry.item.premium_member ? 'premium' : 'community'} office-hours`;
+  if (entry.kind === 'office-hours') {
+    return (
+      <CompactRow
+        eyebrow={eyebrow}
+        title={title}
+        detail={`${entry.item.discord_username ?? entry.item.discord_user_id} / ${formatDateTime(entry.item.created_at)}`}
+        meta={<StatusBadge status={entry.item.status} />}
+      />
+    );
+  }
+  const overdue = Boolean(entry.item.sla_due_at && new Date(entry.item.sla_due_at).getTime() < Date.now() && !entry.item.completed_at);
   return (
-    <CompactRow
-      eyebrow={eyebrow}
-      title={title}
-      detail={`${entry.item.discord_username ?? entry.item.discord_user_id} / ${formatDateTime(entry.item.created_at)}`}
-      meta={<StatusBadge status={entry.item.status} />}
-    />
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{title}</div>
+          <StatusBadge status={entry.item.status} />
+          <Badge tone={overdue ? 'rose' : 'emerald'}>{overdue ? 'SLA overdue' : 'SLA active'}</Badge>
+          {entry.item.response_quality_score !== null ? <Badge tone="emerald">{entry.item.response_quality_score} quality</Badge> : null}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{eyebrow}</span>
+          <span>{entry.item.discord_username ?? entry.item.discord_user_id}</span>
+          {entry.item.assigned_to ? <span>assigned: {entry.item.assigned_to}</span> : null}
+          {entry.item.sla_due_at ? <span>SLA: {formatDateTime(entry.item.sla_due_at)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {entry.item.status === 'queued' ? (
+          <form action={assignDiscordPremiumReviewAction}>
+            <input type="hidden" name="id" value={entry.item.id} />
+            <ActionButton tone="emerald" type="submit">Assign</ActionButton>
+          </form>
+        ) : null}
+        {entry.item.status === 'in_review' ? (
+          <form action={completeDiscordPremiumReviewAction} className="grid w-full min-w-[280px] gap-2 lg:w-[360px]">
+            <input type="hidden" name="id" value={entry.item.id} />
+            <textarea
+              name="response"
+              required
+              minLength={180}
+              rows={4}
+              placeholder="Write the premium review response. Include the recommendation, next step, and key risk or tradeoff."
+              className="min-h-[96px] resize-y rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#fafafa] outline-none placeholder:text-[#52525b] focus:border-[#10b981]"
+            />
+            <textarea
+              name="judgment_basis"
+              required
+              minLength={40}
+              rows={2}
+              placeholder="Explain what artifact, source, or member context this judgment is based on."
+              className="min-h-[56px] resize-y rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#fafafa] outline-none placeholder:text-[#52525b] focus:border-[#10b981]"
+            />
+            <div className="flex justify-end">
+              <ActionButton tone="emerald" type="submit">Complete</ActionButton>
+            </div>
+          </form>
+        ) : null}
+      </div>
+    </div>
   );
 }
 

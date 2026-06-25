@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "checks": {
+    "privacy_blocks_private_data": true,
+    "source_created": true,
+    "draft_created": true,
+    "provenance_visible": true,
+    "funnel_page_present": true,
+    "growth_tables_present": true
+  },
+  "unsafe": {
+    "passed": false,
+    "score": 65,
+    "reasons": [
+      "private_identifier_or_secret"
+    ]
+  },
+  "source": {
+    "id": "6291b2ff-fd73-460d-9755-8527496cec62",
+    "privacyScore": 100
+  },
+  "draft": {
+    "id": "75438059-f6ce-4c2f-b39f-c3f4f8a56acb",
+    "privacyScore": 100,
+    "qualityScore": 100
+  },
+  "sourceRow": {
+    "id": "6291b2ff-fd73-460d-9755-8527496cec62",
+    "permission_status": "anonymized",
+    "privacy_score": 100
+  },
+  "draftRow": {
+    "id": "75438059-f6ce-4c2f-b39f-c3f4f8a56acb",
+    "draft_type": "newsletter",
+    "status": "pending_approval",
+    "privacy_score": 100,
+    "quality_score": 100,
+    "utm_campaign": "discord_public_proof",
+    "bodyPreview": "This week inside Sage Ideas:\n\nSource: approved community source.\n\nWhat happened: An approved community question became a concrete review checklist for builders.\n\nLearning loop: a member question or build signal became a concrete lesson, review path, or resource instead of disappearing in chat.\n\nQuality bar: no private member data, no vague AI dump, and every public asset must be approved before pu"
+  },
+  "startedAt": "2026-06-25T00:02:16.903Z",
+  "finishedAt": "2026-06-25T00:02:18.418Z"
+}

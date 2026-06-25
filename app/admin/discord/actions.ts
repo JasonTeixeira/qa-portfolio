@@ -15,6 +15,7 @@ import {
 import { markDiscordAnswerHelpful, reviewChallengeSubmission, reviewMemberApplication } from '@/lib/discord/engagement';
 import { promoteKnowledgeCandidateForRag, type KnowledgeCandidateDecision } from '@/lib/discord/knowledge-candidates';
 import { approveDiscordMember } from '@/lib/discord/onboarding';
+import { assignPremiumReviewRequest, completePremiumReviewRequest } from '@/lib/discord/premium-workflows';
 import { postToChannelByBaseName } from '@/lib/discord/sage-rest';
 
 function value(formData: FormData, key: string): string {
@@ -471,6 +472,50 @@ export async function resolveDiscordJobDeadLetterAction(formData: FormData) {
     deadLetterId: id,
     reviewer: profile.email,
     notes: notes || null,
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function assignDiscordPremiumReviewAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const assignedTo = value(formData, 'assigned_to') || profile.email;
+  if (!id) throw new Error('Missing premium review id.');
+
+  await assignPremiumReviewRequest({
+    requestId: id,
+    actor: profile.email,
+    assignedTo,
+    note: 'Assigned from Discord admin cockpit.',
+  });
+  await recordDiscordEvent({
+    eventType: 'premium_review_assigned',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: { request_id: id, assigned_to: assignedTo, reviewer: profile.email },
+  });
+  revalidatePath('/admin/discord');
+}
+
+export async function completeDiscordPremiumReviewAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const response = value(formData, 'response');
+  const judgmentBasis = value(formData, 'judgment_basis');
+  if (!id || !response) throw new Error('Missing premium review completion details.');
+
+  const result = await completePremiumReviewRequest({
+    requestId: id,
+    actor: profile.email,
+    response,
+    judgmentBasis: judgmentBasis || 'Admin reviewed the submitted artifact and gave implementation-specific judgment based on the member request, quality bar, and current Sage Ideas premium promise.',
+    citations: [],
+  });
+  await recordDiscordEvent({
+    eventType: 'premium_review_completed',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: { request_id: id, quality_score: result.qualityScore, follow_up_due_at: result.followUpDueAt, reviewer: profile.email },
   });
   revalidatePath('/admin/discord');
 }

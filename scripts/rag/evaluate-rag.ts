@@ -71,6 +71,7 @@ function seedFromRow(row: any): RagEvalQuestionSeed {
 async function main() {
   const smoke = hasFlag('smoke');
   const seedOnly = hasFlag('seed-only');
+  const dryRun = hasFlag('dry-run');
   const limit = Number(arg('limit') ?? (smoke ? 3 : RAG_EVAL_QUESTION_SEEDS.length));
   const runKey = arg('run-key') ?? buildRunKey(smoke);
   const startedAt = new Date().toISOString();
@@ -78,7 +79,17 @@ async function main() {
     auth: { persistSession: false },
   });
 
-  const seededRows = await seedEvalQuestions(sb);
+  const seededRows = dryRun
+    ? RAG_EVAL_QUESTION_SEEDS.map((seed) => ({
+      id: seed.eval_key,
+      eval_key: seed.eval_key,
+      question: seed.question,
+      expected_sources: seed.expected_sources,
+      expected_answer_notes: seed.expected_answer_notes,
+      tags: seed.tags,
+      metadata: seed.metadata,
+    }))
+    : await seedEvalQuestions(sb);
   const selectedRows = seededRows
     .sort((a: any, b: any) => String(a.eval_key).localeCompare(String(b.eval_key)))
     .slice(0, Math.max(1, Math.min(limit, seededRows.length)));
@@ -86,30 +97,25 @@ async function main() {
   if (seedOnly) {
     const evidence = {
       ok: seededRows.length === RAG_EVAL_QUESTION_SEEDS.length,
+      dryRun,
       seeded: seededRows.length,
       expected: RAG_EVAL_QUESTION_SEEDS.length,
       startedAt,
       finishedAt: new Date().toISOString(),
     };
-    await writeEvidence(smoke ? 'eval-smoke.json' : 'eval-latest.json', evidence);
+    await writeEvidence(dryRun ? 'eval-seed-dry-run.json' : smoke ? 'eval-smoke.json' : 'eval-latest.json', evidence);
     console.log(JSON.stringify(evidence, null, 2));
     if (!evidence.ok) process.exit(1);
     return;
   }
 
-  const { data: run, error: runError } = await sb.from('rag_eval_runs').insert({
-    run_key: runKey,
-    status: 'running',
-    retrieval_config: {
-      limit: 'adaptive_expected_source_count',
-      mode: smoke ? 'smoke' : 'full',
-      deterministic_grader: true,
-      thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
-    },
-    prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
-    total_questions: selectedRows.length,
-  }).select('id, run_key').single();
-  if (runError) throw runError;
+  const run = dryRun
+    ? { id: null, run_key: `${runKey}-dry-run` }
+    : await createEvalRun(sb, {
+      runKey,
+      smoke,
+      totalQuestions: selectedRows.length,
+    });
 
   const scores = [];
   const results = [];
@@ -117,7 +123,7 @@ async function main() {
     for (const row of selectedRows) {
       const seed = seedFromRow(row);
       const retrievalLimit = 1;
-      const answer = await answerRagQuestion(sb, seed.question, { limit: retrievalLimit, persist: true });
+      const answer = await answerRagQuestion(sb, seed.question, { limit: retrievalLimit, persist: !dryRun });
       const score = scoreRagEvalAnswer(seed, answer);
       const metadata = {
         eval_key: seed.eval_key,
@@ -135,19 +141,21 @@ async function main() {
           refusal_correctness: score.refusalCorrectness,
         },
       };
-      const { error: resultError } = await sb.from('rag_eval_results').insert({
-        eval_run_id: run.id,
-        eval_question_id: row.id,
-        answer_id: answer.answerId,
-        retrieval_log_id: answer.retrievalLogId,
-        passed: score.passed,
-        score: score.score,
-        citation_coverage: score.citationCoverage,
-        faithfulness: score.faithfulness,
-        notes: score.notes,
-        metadata,
-      });
-      if (resultError) throw resultError;
+      if (!dryRun) {
+        const { error: resultError } = await sb.from('rag_eval_results').insert({
+          eval_run_id: run.id,
+          eval_question_id: row.id,
+          answer_id: answer.answerId,
+          retrieval_log_id: answer.retrievalLogId,
+          passed: score.passed,
+          score: score.score,
+          citation_coverage: score.citationCoverage,
+          faithfulness: score.faithfulness,
+          notes: score.notes,
+          metadata,
+        });
+        if (resultError) throw resultError;
+      }
       scores.push(score);
       results.push({
         evalKey: seed.eval_key,
@@ -171,24 +179,27 @@ async function main() {
     const summary = summarizeRagEvalScores(scores);
     const ok = ragEvalSummaryPassed(summary);
     const finishedAt = new Date().toISOString();
-    await sb.from('rag_eval_runs').update({
-      status: ok ? 'completed' : 'failed',
-      model: results.length ? 'deepseek' : null,
-      passed: summary.passed,
-      failed: summary.failed,
-      metrics: {
-        ...summary,
-        thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
-      },
-      error: ok ? null : 'RAG eval run failed configured deterministic thresholds.',
-      finished_at: finishedAt,
-    }).eq('id', run.id);
+    if (!dryRun) {
+      await sb.from('rag_eval_runs').update({
+        status: ok ? 'completed' : 'failed',
+        model: results.length ? 'deepseek' : null,
+        passed: summary.passed,
+        failed: summary.failed,
+        metrics: {
+          ...summary,
+          thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
+        },
+        error: ok ? null : 'RAG eval run failed configured deterministic thresholds.',
+        finished_at: finishedAt,
+      }).eq('id', run.id);
+    }
 
     const evidence = {
       ok,
       runId: run.id,
       runKey: run.run_key,
       smoke,
+      dryRun,
       seededQuestionCount: seededRows.length,
       evaluatedQuestionCount: selectedRows.length,
       summary,
@@ -202,13 +213,35 @@ async function main() {
     if (!ok) process.exit(1);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    await sb.from('rag_eval_runs').update({
-      status: 'failed',
-      error: message,
-      finished_at: new Date().toISOString(),
-    }).eq('id', run.id);
+    if (!dryRun) {
+      await sb.from('rag_eval_runs').update({
+        status: 'failed',
+        error: message,
+        finished_at: new Date().toISOString(),
+      }).eq('id', run.id);
+    }
     throw error;
   }
+}
+
+async function createEvalRun(
+  sb: any,
+  input: { runKey: string; smoke: boolean; totalQuestions: number },
+): Promise<{ id: string; run_key: string }> {
+  const { data: run, error: runError } = await sb.from('rag_eval_runs').insert({
+    run_key: input.runKey,
+    status: 'running',
+    retrieval_config: {
+      limit: 'adaptive_expected_source_count',
+      mode: input.smoke ? 'smoke' : 'full',
+      deterministic_grader: true,
+      thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
+    },
+    prompt_version: SAGEBOT_PROMPT_VERSIONS.answer,
+    total_questions: input.totalQuestions,
+  }).select('id, run_key').single();
+  if (runError) throw runError;
+  return run;
 }
 
 async function writeEvidence(fileName: string, evidence: unknown) {

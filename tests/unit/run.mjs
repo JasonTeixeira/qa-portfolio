@@ -692,10 +692,17 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
     scoreRagEvalAnswer,
     summarizeRagEvalScores,
   } = await import('../../lib/rag/evals.ts');
-  assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 50);
-  assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 50);
+  assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 60);
+  assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 60);
+  assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_content_011'));
+  assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_ai_015'));
   assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.expected_sources.length > 0), true);
   assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.metadata.required_terms.length > 0), true);
+  const evalScript = await readFile(new URL('../../scripts/rag/evaluate-rag.ts', import.meta.url), 'utf8');
+  assert.match(evalScript, /const dryRun = hasFlag\('dry-run'\)/);
+  assert.match(evalScript, /persist: !dryRun/);
+  assert.match(evalScript, /dryRun\s+\?\s+RAG_EVAL_QUESTION_SEEDS/);
+  assert.match(evalScript, /if \(!dryRun\) \{/);
 
   const seed = RAG_EVAL_QUESTION_SEEDS.find((item) => item.eval_key === 'rag_onboarding_001');
   const passing = scoreRagEvalAnswer(seed, {
@@ -1767,6 +1774,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);
+  assert.match(smoke, />= 50/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);
   assert.equal(pkg.scripts['discord:smoke-final-scorecard'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts');

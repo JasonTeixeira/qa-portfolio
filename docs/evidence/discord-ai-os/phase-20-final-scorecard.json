@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782422749008",
+  "runKey": "phase-20-final-1782423322113",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -630,6 +630,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T21:25:49.008Z",
-  "finishedAt": "2026-06-25T21:25:51.756Z"
+  "startedAt": "2026-06-25T21:35:22.113Z",
+  "finishedAt": "2026-06-25T21:35:24.449Z"
 }

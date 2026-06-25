@@ -78,6 +78,11 @@ export const RAG_EVAL_QUESTION_SEEDS: RagEvalQuestionSeed[] = [
     ['rag_content_008', 'How should repeated questions be promoted into durable assets?', ['resources', 'content', 'lesson']],
     ['rag_content_009', 'What admin steps move content from capture to publication?', ['triaged', 'draft', 'published']],
     ['rag_content_010', 'Why should generated content be reviewed before public posting?', ['quality', 'approval', 'useful']],
+    ['rag_content_011', 'How should the content factory use introductions without creating channel noise?', ['introductions', 'path', 'blocker'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
+    ['rag_content_012', 'What should members submit in project-submissions?', ['project', 'screenshot', 'risk'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
+    ['rag_content_013', 'How should office-hours questions be prepared?', ['artifact', 'blocker', 'decision'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
+    ['rag_content_014', 'What should accountability check-ins include?', ['committed', 'shipped', 'next action'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
+    ['rag_content_015', 'How should review-queue requests be framed?', ['specific', 'critique', 'artifact'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
   ], [DISCORD_FAQ, DISCORD_COMMUNITY, DISCORD_RUNBOOK, RAG_BUILD_PLAN]),
   ...buildCategoryQuestions('quiz_challenge_points', [
     ['rag_points_001', 'How do quizzes and challenges fit into daily engagement?', ['quiz', 'challenge', 'daily']],
@@ -114,6 +119,11 @@ export const RAG_EVAL_QUESTION_SEEDS: RagEvalQuestionSeed[] = [
     ['rag_ai_008', 'What makes an AI feature ready before shipping?', ['eval', 'risk', 'quality'], [DISCORD_FAQ, 'How to Evaluate AI Features Before You Ship Them']],
     ['rag_ai_009', 'What is the AI agent boundary problem about?', ['boundary', 'tool', 'approval'], [DISCORD_FAQ, 'The AI Agent Boundary Problem']],
     ['rag_ai_010', 'How should observability fit into production AI systems?', ['logs', 'trace', 'monitoring'], [DISCORD_FAQ, RAG_BUILD_PLAN, 'How to Evaluate AI Features Before You Ship Them']],
+    ['rag_ai_011', 'What source types should feed the RAG source registry?', ['discord_questions', 'discord_answers', 'discord_content_queue'], [RAG_BUILD_PLAN]],
+    ['rag_ai_012', 'What does the admin RAG dashboard need to inspect?', ['sources', 'chunks', 'feedback'], [RAG_BUILD_PLAN]],
+    ['rag_ai_013', 'Why should RAG content generation require admin approval?', ['content', 'approval', 'publishing'], [RAG_BUILD_PLAN, DISCORD_FAQ]],
+    ['rag_ai_014', 'When should Haystack or RAGFlow be avoided for this implementation?', ['first implementation', 'Python', 'RAGFlow'], [RAG_BUILD_PLAN]],
+    ['rag_ai_015', 'What makes the RAG system production-ready?', ['retrieval', 'citations', 'evals'], [RAG_BUILD_PLAN]],
   ], [RAG_BUILD_PLAN]),
 ];
 

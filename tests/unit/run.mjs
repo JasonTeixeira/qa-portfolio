@@ -2136,7 +2136,9 @@ test('discord content factory: creates approval-gated channel drafts from editor
     buildDiscordContentFactorySlots,
     evaluateDiscordContentFactorySlot,
     runDiscordContentFactory,
+    validateDiscordContentFactoryChannels,
   } = await import('../../lib/discord/content-factory.ts');
+  const { leanDiscordChannels } = await import('../../lib/discord/sage-content.ts');
   const script = await readFile(new URL('../../scripts/discord/run-content-factory.ts', import.meta.url), 'utf8');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 
@@ -2156,6 +2158,11 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.ok(channels.has('accountability'));
   assert.ok(channels.has('resources'));
   assert.ok(channels.has('wins-showcase'));
+  const validation = validateDiscordContentFactoryChannels(slots);
+  const canonicalChannels = new Set(leanDiscordChannels.map((channel) => channel.name));
+  assert.equal(validation.ok, true);
+  assert.equal(validation.unknownChannels.length, 0);
+  assert.ok([...channels].every((channel) => canonicalChannels.has(channel)));
   const body = buildDiscordContentFactoryBody(slots[0], new Date(Date.UTC(2026, 5, 25)));
   assert.match(body, /# /);
   assert.match(body, /How to participate/);
@@ -2172,6 +2179,7 @@ test('discord content factory: creates approval-gated channel drafts from editor
     runKey: 'unit-content-factory',
   });
   assert.equal(dryRun.ok, true);
+  assert.equal(dryRun.channelValidation.ok, true);
   assert.equal(dryRun.created, 0);
   assert.ok(dryRun.planned >= 9);
   assert.ok(dryRun.drafts.every((draft) => draft.draftType));
@@ -2182,6 +2190,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(script, /docs', 'evidence', 'discord-ai-os'/);
   assert.match(script, /phase-22-content-factory-dry-run\.json/);
   assert.match(script, /channelCoverage/);
+  assert.match(script, /canonicalChannels/);
+  assert.match(script, /unknownChannels/);
   assert.match(script, /draftTypeCoverage/);
   assert.match(script, /topicCoverage/);
   assert.match(script, /readOnly/);

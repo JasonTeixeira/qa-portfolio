@@ -50,6 +50,8 @@ async function main() {
     createdDrafts: result.created,
     skippedDrafts: result.skipped,
     failedDrafts: result.failed,
+    canonicalChannels: result.channelValidation.ok,
+    unknownChannels: result.channelValidation.unknownChannels,
     channelCoverage,
     draftTypeCoverage,
     topicCoverage,

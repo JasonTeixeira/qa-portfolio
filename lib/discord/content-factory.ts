@@ -7,6 +7,7 @@ import {
   SAGEBOT_PROMPT_VERSIONS,
   scoreSageBotPolicyOutput,
 } from './sagebot-personality';
+import { leanDiscordChannels } from './sage-content';
 
 export const DISCORD_CONTENT_FACTORY_VERSION = 'discord-content-factory-v1';
 export const DISCORD_CONTENT_FACTORY_PROMPT_VERSION = 'sagebot_content_factory_v1';
@@ -28,6 +29,7 @@ export type DiscordContentFactoryResult = {
   runKey: string;
   version: string;
   dryRun: boolean;
+  channelValidation: ReturnType<typeof validateDiscordContentFactoryChannels>;
   created: number;
   planned: number;
   skipped: number;
@@ -254,6 +256,23 @@ export function buildDiscordContentFactoryBody(slot: DiscordContentFactorySlot, 
   ].join('\n\n');
 }
 
+export function validateDiscordContentFactoryChannels(slots: DiscordContentFactorySlot[]): {
+  ok: boolean;
+  unknownChannels: string[];
+  knownChannelCount: number;
+} {
+  const knownChannels = new Set(leanDiscordChannels.map((channel) => channel.name));
+  const unknownChannels = [...new Set(slots
+    .map((slot) => slot.targetChannelBaseName)
+    .filter((channel) => !knownChannels.has(channel)))]
+    .sort();
+  return {
+    ok: unknownChannels.length === 0,
+    unknownChannels,
+    knownChannelCount: knownChannels.size,
+  };
+}
+
 export function evaluateDiscordContentFactorySlot(
   slot: DiscordContentFactorySlot,
   input: { startDate?: Date } = {},
@@ -318,6 +337,10 @@ export async function runDiscordContentFactory(
   const days = Math.max(1, Math.min(28, input.days ?? 7));
   const runKey = input.runKey ?? `content-factory-${startDate.toISOString().slice(0, 10)}-${now.toISOString().replace(/[:.]/g, '-')}`;
   const slots = buildDiscordContentFactorySlots(startDate, days);
+  const channelValidation = validateDiscordContentFactoryChannels(slots);
+  if (!channelValidation.ok) {
+    throw new Error(`Content factory targets unknown channels: ${channelValidation.unknownChannels.join(', ')}`);
+  }
   const drafts: DiscordContentFactoryResult['drafts'] = [];
   const dryRun = Boolean(input.dryRun);
 
@@ -453,6 +476,7 @@ export async function runDiscordContentFactory(
     runKey,
     version: DISCORD_CONTENT_FACTORY_VERSION,
     dryRun,
+    channelValidation,
     created,
     planned,
     skipped,

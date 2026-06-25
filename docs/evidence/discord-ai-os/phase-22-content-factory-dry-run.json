@@ -1,8 +1,13 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-25-2026-06-25T23-02-39-093Z",
+  "runKey": "content-factory-2026-06-25-2026-06-25T23-05-43-183Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
+  "channelValidation": {
+    "ok": true,
+    "unknownChannels": [],
+    "knownChannelCount": 20
+  },
   "created": 0,
   "planned": 36,
   "skipped": 0,
@@ -450,6 +455,8 @@
     "createdDrafts": 0,
     "skippedDrafts": 0,
     "failedDrafts": 0,
+    "canonicalChannels": true,
+    "unknownChannels": [],
     "channelCoverage": [
       "accountability",
       "announcements",
@@ -490,6 +497,6 @@
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-25T23:02:39.092Z",
-  "finishedAt": "2026-06-25T23:02:39.097Z"
+  "startedAt": "2026-06-25T23:05:43.182Z",
+  "finishedAt": "2026-06-25T23:05:43.187Z"
 }

@@ -1526,10 +1526,18 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Premium operations',
     'Final scorecard',
     '95+ blockers',
+    'World-class proof backlog',
+    'Proof lanes',
     'Audit stream',
   ]) {
     assert.match(page, new RegExp(surface.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
+  assert.match(page, /buildDiscordProofBacklogReport/);
+  assert.match(page, /ProofBacklogLaneRow/);
+  assert.match(page, /data-testid="discord-proof-backlog"/);
+  assert.match(page, /discord_public_growth_drafts/);
+  assert.match(page, /source_type\.in\.\(discord_question,discord_answer,discord_content_queue\),source_table\.eq\.discord_content_drafts/);
+  assert.match(page, /This panel reads current database counts/);
   assert.match(page, /discord_job_registry/);
   assert.match(page, /discord_job_runs/);
   assert.match(page, /discord_job_dead_letters/);

@@ -40,6 +40,10 @@ import {
 } from '@/lib/rag/admin-health';
 import { loadDiscordObservabilityQualityRollup } from '@/lib/discord/observability-quality';
 import {
+  buildDiscordProofBacklogReport,
+  type DiscordProofBacklogLane,
+} from '@/lib/discord/proof-backlog';
+import {
   approveDiscordAnswerForRagAction,
   approveDiscordApplication,
   approveDiscordQueueItemForRagAction,
@@ -424,6 +428,13 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     premiumReviewsRes,
     officeHoursRes,
     latestFinalScorecardRes,
+    questionsApprovedCountRes,
+    answersHelpfulCountRes,
+    contentQueuePublishedCountRes,
+    draftsApprovedCountRes,
+    discordRagSourceCountRes,
+    pendingPublicDraftsCountRes,
+    publishedPublicDraftsCountRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -602,6 +613,34 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .select('run_key, status, average_score, blocked_below_95, created_at')
       .order('created_at', { ascending: false })
       .limit(1),
+    sb
+      .from('discord_questions')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['answered', 'closed']),
+    sb
+      .from('discord_answers')
+      .select('id', { count: 'exact', head: true })
+      .eq('helpful', true),
+    sb
+      .from('discord_content_queue')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'published'),
+    sb
+      .from('discord_content_drafts')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['approved', 'published']),
+    sb
+      .from('rag_sources')
+      .select('id', { count: 'exact', head: true })
+      .or('source_type.in.(discord_question,discord_answer,discord_content_queue),source_table.eq.discord_content_drafts'),
+    sb
+      .from('discord_public_growth_drafts')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'pending_approval'),
+    sb
+      .from('discord_public_growth_drafts')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'published'),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -627,6 +666,26 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
   const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
   const latestFinalScorecard = ((latestFinalScorecardRes.data ?? []) as DiscordFinalScorecardRunRow[])[0] ?? null;
+  const approvedDiscordKnowledgeSources = (questionsApprovedCountRes.count ?? 0)
+    + (answersHelpfulCountRes.count ?? 0)
+    + (contentQueuePublishedCountRes.count ?? 0)
+    + (draftsApprovedCountRes.count ?? 0);
+  const proofBacklog = buildDiscordProofBacklogReport({
+    generatedAt: new Date().toISOString(),
+    metrics: {
+      approvedDiscordKnowledgeSources,
+      ragDiscordSources: discordRagSourceCountRes.count ?? 0,
+      pendingKnowledgeCandidates: contentQueue.filter((item) => ['captured', 'candidate', 'pending_review'].includes(item.status)).length,
+      pendingPublicDrafts: pendingPublicDraftsCountRes.count ?? 0,
+      publishedPublicDrafts: publishedPublicDraftsCountRes.count ?? 0,
+      approvedMembers: members.length,
+      onboardedMembers: members.filter((member) => Boolean(member.path_key || member.level_key)).length,
+      activeMembers7d: members.length,
+      premiumMembers: premiumCountRes.count ?? 0,
+      applicationsSubmitted: applications.length,
+      applicationsApproved: 0,
+    },
+  });
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
   const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
@@ -761,6 +820,53 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.8fr_1.2fr]" data-testid="discord-proof-backlog">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#f59e0b]/30 bg-[#f59e0b]/10 text-[#fbbf24]">
+                  <AlertTriangle className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">World-class proof backlog</h2>
+                  <p className="text-xs text-[#71717a]">The exact proof lanes blocking a 95+ claim.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2">
+                <HealthLine
+                  label="Release claim"
+                  value={proofBacklog.status === 'passed' ? 'eligible' : 'blocked'}
+                  tone={proofBacklog.status === 'passed' ? 'emerald' : 'rose'}
+                />
+                <HealthLine
+                  label="Blocked lanes"
+                  value={String(proofBacklog.lanes.filter((lane) => lane.status === 'blocked').length)}
+                  tone={proofBacklog.status === 'passed' ? 'emerald' : 'amber'}
+                />
+                <HealthLine
+                  label="Source of truth"
+                  value="live counts"
+                  tone="cyan"
+                />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                This panel reads current database counts. It does not count dry-run content, raw unapproved Discord chatter, or synthetic smoke rows as world-class proof.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Proof lanes"
+            meta={`${proofBacklog.lanes.filter((lane) => lane.status === 'blocked').length} blocked / ${proofBacklog.lanes.length} total`}
+            empty="All proof lanes have met their current target."
+          >
+            {proofBacklog.lanes.map((lane) => (
+              <ProofBacklogLaneRow key={lane.key} lane={lane} />
+            ))}
+          </Panel>
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" data-testid="rag-health-eval-drilldown">
@@ -1265,6 +1371,30 @@ function MemberNudgeRow({ nudge }: { nudge: DiscordMemberNudgeQueueRow }) {
           <input type="hidden" name="status" value="suppressed" />
           <ActionButton type="submit">Suppress</ActionButton>
         </form>
+      </div>
+    </div>
+  );
+}
+
+function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone={lane.currentCount >= lane.targetCount ? 'emerald' : 'amber'}>
+            {lane.currentCount}/{lane.targetCount}
+          </Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{lane.liveActionRequired}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {lane.sourceTables.slice(0, 4).map((table) => <span key={table}>{table}</span>)}
+          {lane.safeLocalCommand ? <span>{lane.safeLocalCommand}</span> : null}
+        </div>
+      </div>
+      <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {lane.evidenceRequired}
       </div>
     </div>
   );

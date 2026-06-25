@@ -2044,6 +2044,28 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.nextActions.length, 0);
 });
 
+test('discord proof controls: documents the non-fake path to 95+ operating proof', async () => {
+  const controls = await readFile(
+    new URL('../../docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(controls, /Approved Discord knowledge/);
+  assert.match(controls, /Discord Knowledge Synced Into RAG/);
+  assert.match(controls, /Public Proof Growth Assets/);
+  assert.match(controls, /Premium Workflow Proof/);
+  assert.match(controls, /Dry-run content, synthetic smoke rows, raw unapproved chatter, and private messages do not count/);
+  assert.match(controls, /discord_questions\.status in \('answered', 'closed'\)/);
+  assert.match(controls, /discord_answers\.helpful = true/);
+  assert.match(controls, /discord_content_queue\.status = 'published'/);
+  assert.match(controls, /source_type in \('discord_question', 'discord_answer', 'discord_content_queue'\)/);
+  assert.match(controls, /npm run discord:operating-cycle:dry-run/);
+  assert.match(controls, /npm run discord:operating-cycle/);
+  assert.match(controls, /npm run verify:local/);
+  assert.match(controls, /worldClassEligible/);
+  assert.match(controls, /Any proof backlog lane is blocked/);
+});
+
 test('discord content factory: creates approval-gated channel drafts from editorial slots', async () => {
   const {
     DISCORD_CONTENT_FACTORY_VERSION,

@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { signOut } from '@/app/auth/actions'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { getGamification } from '@/lib/academy/gamification'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
- * every authenticated academy page a consistent, premium "learning product" chrome that
- * is visually distinct from the studio (green accent, progress-forward), so a customer
- * always knows they're in the Academy, not the Studio.
+ * every authenticated academy page a consistent, premium "learning product" chrome
+ * (electric blue, progress-forward) so a learner always knows they're in the Academy.
+ * Renders the habit widget (streak + level + XP) in the header on every academy page.
  */
 const NAV = [
   { href: '/academy/dashboard', label: 'My Learning', key: 'dashboard' },
@@ -16,7 +18,50 @@ const NAV = [
 
 const ACCENT = '#3D6BFF'
 
-export function AcademyShell({
+function Flame({ active }: { active: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+      <path
+        d="M12 2c1 3-1.5 4.5-1.5 7A2.5 2.5 0 0 0 13 11c.8-.6 1-1.6 1-1.6 1.6 1.2 3 3.2 3 5.6a5 5 0 1 1-10 0c0-2.6 1.8-4.2 3-6 .8-1.2 1.5-3.5 1.5-7Z"
+        fill={active ? '#F5A623' : '#52525B'}
+      />
+    </svg>
+  )
+}
+
+async function HabitWidget() {
+  const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return null
+  const g = await getGamification(user.id)
+
+  return (
+    <Link
+      href="/academy/dashboard"
+      aria-label={`${g.streak.current}-day streak · level ${g.xp.level}`}
+      className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-3.5 transition-colors hover:border-white/20"
+    >
+      <span className="flex items-center gap-1" title="Day streak">
+        <Flame active={g.streak.activeToday} />
+        <span className="font-mono text-[13px] font-semibold tabular-nums text-[#f2efe9]">{g.streak.current}</span>
+      </span>
+      <span className="hidden h-5 w-px bg-white/10 sm:block" aria-hidden />
+      <span className="hidden flex-col gap-0.5 sm:flex" title={`${g.xp.intoLevel}/${150} XP to next level`}>
+        <span className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[#8a8b96]">
+          <span>Lv {g.xp.level}</span>
+          <span className="tabular-nums">{g.xp.total} XP</span>
+        </span>
+        <span className="block h-1 w-24 overflow-hidden rounded-full bg-white/10">
+          <span className="block h-full rounded-full" style={{ width: `${g.xp.pct}%`, background: ACCENT }} />
+        </span>
+      </span>
+    </Link>
+  )
+}
+
+export async function AcademyShell({
   children,
   active,
   signedIn = true,
@@ -65,16 +110,19 @@ export function AcademyShell({
             })}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2.5">
             {signedIn ? (
-              <form action={signOut}>
-                <button
-                  type="submit"
-                  className="rounded-full border border-white/10 px-3.5 py-1.5 text-[12px] font-medium text-[#c4c5cd] transition-colors hover:border-white/25 hover:text-white"
-                >
-                  Sign out
-                </button>
-              </form>
+              <>
+                <HabitWidget />
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="rounded-full border border-white/10 px-3.5 py-1.5 text-[12px] font-medium text-[#c4c5cd] transition-colors hover:border-white/25 hover:text-white"
+                  >
+                    Sign out
+                  </button>
+                </form>
+              </>
             ) : (
               <Link
                 href="/login?audience=academy&next=/academy/dashboard"

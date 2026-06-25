@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
+import { recordActivityAndAward } from '@/lib/academy/gamification'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -16,6 +17,15 @@ export async function markLessonComplete(
     data: { user },
   } = await sb.auth.getUser()
   if (!user) return { ok: false, signedIn: false }
+
+  // First-completion check so XP/streak award exactly once per lesson (anti-cheat).
+  const { data: existing } = await sb
+    .from('academy_progress')
+    .select('status')
+    .eq('user_id', user.id)
+    .eq('lesson_slug', lessonSlug)
+    .maybeSingle()
+  const alreadyDone = existing?.status === 'completed'
 
   const now = new Date().toISOString()
   const { error } = await sb.from('academy_progress').upsert(
@@ -34,10 +44,19 @@ export async function markLessonComplete(
     return { ok: false, signedIn: true }
   }
 
-  await maybeAwardCertificate(user.id, courseSlug, user.email ?? null)
+  if (!alreadyDone) {
+    await maybeAwardCertificate(user.id, courseSlug, user.email ?? null)
+    // Habit core: award XP + advance streak + daily goal (best-effort, never block).
+    try {
+      await recordActivityAndAward(user.id, 'lesson')
+    } catch (err) {
+      console.error('[academy/progress] gamification award failed', err)
+    }
+  }
 
   revalidatePath('/academy/preview')
   revalidatePath('/academy/dashboard')
+  revalidatePath('/academy/learn', 'layout')
   return { ok: true, signedIn: true }
 }
 

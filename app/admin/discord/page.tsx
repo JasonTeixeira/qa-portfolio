@@ -38,6 +38,7 @@ import {
   summarizeRagCorpusHealth,
   type RagEvalDrilldownRow,
 } from '@/lib/rag/admin-health';
+import { loadDiscordObservabilityQualityRollup } from '@/lib/discord/observability-quality';
 import {
   approveDiscordAnswerForRagAction,
   approveDiscordApplication,
@@ -336,6 +337,7 @@ const cockpitTabs = [
   ['learning', 'Learning'],
   ['jobs', 'Jobs'],
   ['premium', 'Premium'],
+  ['quality', 'Quality'],
   ['audit', 'Audit'],
 ] as const;
 
@@ -633,6 +635,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     newestIngestionRun: latestIngestionRun,
     latestEvalRun,
   });
+  const observabilityQuality = await loadDiscordObservabilityQualityRollup({ windowHours: 24, persist: false });
   const gatewayHeartbeats = (gatewayHeartbeatsRes.data ?? []) as DiscordGatewayHeartbeatRow[];
   const failures = events.filter((event) => event.event_type.includes('failed')).length;
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
@@ -710,6 +713,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <MetricCard icon={Radio} label="Durable jobs" value={jobRegistry.length} detail={`${jobDeadLetters.length} open dead letters`} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
                 <MetricCard icon={BookOpenCheck} label="RAG corpus health" value={`${corpusHealth.healthScore}%`} detail={`${corpusHealth.authoritativeSources} authoritative / ${corpusHealth.missing} missing`} tone={corpusHealth.healthScore >= 85 ? 'emerald' : corpusHealth.healthScore >= 65 ? 'amber' : 'rose'} />
                 <MetricCard icon={HeartPulse} label="RAG ops health" value={ragOperationalHealth.status} detail={`${Math.round(ragOperationalHealth.embeddingCoverage * 100)}% embedded / ${latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} eval` : 'no eval'}`} tone={ragOperationalHealth.status === 'healthy' ? 'emerald' : ragOperationalHealth.status === 'watch' ? 'amber' : 'rose'} />
+                <MetricCard icon={Activity} label="Quality intelligence" value={`${observabilityQuality.healthScore}%`} detail={`${Math.round(observabilityQuality.traceCoverage * 100)}% traced / $${observabilityQuality.cost.estimatedUsd.toFixed(4)}`} tone={observabilityQuality.status === 'healthy' ? 'emerald' : observabilityQuality.status === 'watch' ? 'amber' : 'rose'} />
               </div>
             </div>
             <Card className="rounded-lg border-[#2a2a31] bg-[#111116]">
@@ -779,6 +783,50 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           >
             {ragEvalDrilldown.map((row) => (
               <RagEvalRow key={row.id} row={row} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" id="quality" data-testid="discord-observability-quality">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#22d3ee]/30 bg-[#06b6d4]/10 text-[#67e8f9]">
+                  <Activity className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">Observability, cost, and quality</h2>
+                  <p className="text-xs text-[#71717a]">Last {observabilityQuality.window.hours}h trace, DeepSeek usage, eval, content, premium, and job posture.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Trace coverage" value={`${Math.round(observabilityQuality.traceCoverage * 100)}%`} tone={observabilityQuality.traceCoverage >= 0.8 ? 'emerald' : 'amber'} />
+                <HealthLine label="DeepSeek estimated cost" value={`$${observabilityQuality.cost.estimatedUsd.toFixed(4)}`} tone={observabilityQuality.cost.estimatedUsd <= 5 ? 'emerald' : 'amber'} />
+                <HealthLine label="RAG eval pass rate" value={`${Math.round(observabilityQuality.quality.ragEvalPassRate * 100)}%`} tone={observabilityQuality.quality.ragEvalPassRate >= 0.8 ? 'emerald' : 'amber'} />
+                <HealthLine label="Content quality" value={`${Math.round(observabilityQuality.quality.avgContentQuality)} / 100`} tone={observabilityQuality.quality.avgContentQuality >= 80 ? 'emerald' : observabilityQuality.quality.avgContentQuality > 0 ? 'amber' : 'neutral'} />
+                <HealthLine label="Premium quality" value={`${Math.round(observabilityQuality.quality.avgPremiumQuality)} / 100`} tone={observabilityQuality.quality.avgPremiumQuality >= 80 ? 'emerald' : observabilityQuality.quality.avgPremiumQuality > 0 ? 'amber' : 'neutral'} />
+                <HealthLine label="Job success" value={`${Math.round(observabilityQuality.jobs.successRate * 100)}%`} tone={observabilityQuality.jobs.successRate >= 0.9 ? 'emerald' : 'rose'} />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                Cost is estimated from persisted DeepSeek usage tokens in `rag_answers.metadata.usage`. Trace coverage counts recent RAG answers, retrieval logs, durable job runs, and content drafts with `ai_trace_id` or Langfuse trace metadata.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Quality alerts"
+            meta={`${observabilityQuality.alerts.length} active / ${observabilityQuality.status}`}
+            empty="No Phase 17 quality, cost, trace, or job alerts in the current window."
+          >
+            {observabilityQuality.alerts.map((alert) => (
+              <CompactRow
+                key={alert}
+                eyebrow="phase 17 alert"
+                title={alert}
+                detail={`${observabilityQuality.trace.tracedArtifacts}/${observabilityQuality.trace.totalTraceableArtifacts} traced / ${observabilityQuality.cost.totalTokens} tokens / ${observabilityQuality.jobs.openDeadLetters} dead letters`}
+                meta={<Badge tone={observabilityQuality.status === 'critical' ? 'rose' : 'amber'}>{observabilityQuality.status}</Badge>}
+              />
             ))}
           </Panel>
         </section>

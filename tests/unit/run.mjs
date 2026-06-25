@@ -1565,6 +1565,45 @@ test('discord public proof growth: privacy-gated public drafts and funnel page a
   assert.equal(pkg.scripts['discord:smoke-public-proof-growth'], 'tsx --env-file=.env.local scripts/discord/smoke-public-proof-growth.ts');
 });
 
+test('discord observability quality v2: traces cost quality and job rollups are wired', async () => {
+  const {
+    DISCORD_OBSERVABILITY_QUALITY_VERSION,
+    buildDiscordObservabilityQualityRollup,
+    estimateDeepSeekCostUsd,
+  } = await import('../../lib/discord/observability-quality.ts');
+  const migration = await readFile(new URL('../../supabase/migrations/0091_discord_observability_quality_rollups.sql', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  const smoke = await readFile(new URL('../../scripts/discord/smoke-observability-quality-v2.ts', import.meta.url), 'utf8');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+
+  assert.equal(DISCORD_OBSERVABILITY_QUALITY_VERSION, 'discord-observability-quality-v1');
+  assert.ok(estimateDeepSeekCostUsd({ promptTokens: 1200, completionTokens: 400 }) > 0);
+  const rollup = buildDiscordObservabilityQualityRollup({
+    ragAnswers: [{ metadata: { usage: { prompt_tokens: 1200, completion_tokens: 400, total_tokens: 1600 }, ai_trace_id: 'a'.repeat(32), ai_observability_provider: 'local' } }],
+    retrievalLogs: [{ metadata: { ai_trace_id: 'a'.repeat(32), ai_observability_provider: 'local' } }],
+    jobRuns: [{ status: 'succeeded', duration_ms: 60000, metadata: { ai_trace_id: 'a'.repeat(32), ai_observability_provider: 'local' } }],
+    openDeadLetters: 0,
+    ragEvalRuns: [{ total_questions: 1, passed: 1, failed: 0, metrics: { avgScore: 0.92 } }],
+    ragEvalResults: [{ passed: true, score: 0.92, citation_coverage: 0.9, faithfulness: 0.95 }],
+    contentDrafts: [{ quality_score: 92, status: 'pending_approval', metadata: { ai_trace_id: 'a'.repeat(32), ai_observability_provider: 'local' } }],
+    contentEvaluations: [{ score: 92, passed: true }],
+    premiumReviews: [{ response_quality_score: 94, status: 'answered', sla_due_at: '2026-06-25T01:00:00.000Z', completed_at: '2026-06-25T00:00:00.000Z' }],
+  }, { now: new Date('2026-06-25T00:00:00.000Z'), windowHours: 1 });
+  assert.equal(rollup.status, 'healthy');
+  assert.equal(rollup.traceCoverage, 1);
+  assert.ok(rollup.healthScore >= 90);
+  assert.equal(rollup.cost.totalTokens, 1600);
+  assert.equal(rollup.quality.avgContentQuality, 92);
+  assert.equal(rollup.quality.avgPremiumQuality, 94);
+  assert.match(migration, /create table if not exists public\.discord_observability_rollups/);
+  assert.match(migration, /estimated_deepseek_cost_usd/);
+  assert.match(migration, /trace_coverage/);
+  assert.match(page, /Observability, cost, and quality/);
+  assert.match(page, /data-testid="discord-observability-quality"/);
+  assert.match(smoke, /phase-17-observability-quality-v2\.json/);
+  assert.equal(pkg.scripts['discord:smoke-observability-quality'], 'tsx --env-file=.env.local scripts/discord/smoke-observability-quality-v2.ts');
+});
+
 test('discord content quality: evaluates drafts before approval', async () => {
   const {
     DISCORD_CONTENT_QUALITY_EVALUATOR_VERSION,

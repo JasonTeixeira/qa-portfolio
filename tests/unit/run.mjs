@@ -5,7 +5,7 @@
 // framework just for a handful of assertions.
 
 import { strict as assert } from 'node:assert';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 
 // .ts imports work via the tsx loader, which is registered through the
 // package script (`tsx tests/unit/run.mjs` or `node --import tsx ...`).
@@ -14,6 +14,15 @@ import { readFile } from 'node:fs/promises';
 const suites = [];
 function test(name, fn) {
   suites.push({ name, fn });
+}
+
+async function exists(pathname) {
+  try {
+    await access(new URL(pathname, import.meta.url));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 // -------------------------------------------------------------- api-errors
@@ -54,6 +63,13 @@ test('api-errors: fromZodError returns 400 with first message', async () => {
   const body = await res.json();
   assert.equal(body.code, 'invalid_request');
   assert.ok(typeof body.error === 'string' && body.error.length > 0);
+});
+
+test('next proxy convention: root request boundary uses proxy.ts, not deprecated middleware.ts', async () => {
+  const proxy = await readFile(new URL('../../proxy.ts', import.meta.url), 'utf8');
+  assert.match(proxy, /export async function proxy\(request: NextRequest\)/);
+  assert.match(proxy, /export const config = \{/);
+  assert.equal(await exists('../../middleware.ts'), false);
 });
 
 test('ops scripts: local e2e and Supabase commands load env and use durable wrappers', async () => {

@@ -262,7 +262,7 @@ RESEND_API_KEY=your_key_here
 
 ### Phase-1 security flags
 
-These flags are read at the edge by `middleware.ts` and `next.config.ts`. They
+These flags are read by the request proxy (`proxy.ts`) and `next.config.ts`. They
 ship OFF by default so the new behavior can be enabled per-environment:
 
 | Variable | Default | Effect when `=true` |

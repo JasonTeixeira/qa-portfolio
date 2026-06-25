@@ -121,7 +121,7 @@ After deploy:
 - `lib/supabase/middleware.ts`
 - `lib/auth.ts`
 - `lib/portal/auth.ts` (refactored to use Supabase auth)
-- `middleware.ts`
+- `proxy.ts`
 - `app/auth/actions.ts`
 - `app/auth/callback/route.ts`
 - `app/auth/redirect/route.ts`

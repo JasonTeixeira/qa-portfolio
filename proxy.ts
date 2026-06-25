@@ -10,7 +10,7 @@ import { defaultLocale, isLocale } from '@/lib/i18n/config';
  *    canonical path (so portal/admin gating keeps working), then rewrite onto the real
  *    route carrying the refreshed session cookies + `x-locale`. No route files moved.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const firstSegment = pathname.split('/')[1];
 

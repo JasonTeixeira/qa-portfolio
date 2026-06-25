@@ -1,10 +1,10 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782421768624",
+  "runKey": "phase-20-final-1782422749008",
   "dryRun": true,
   "auditRowId": null,
-  "averageScore": 82,
+  "averageScore": 83,
   "categoryCount": 18,
   "blockedBelow95": [
     "server_access_onboarding",
@@ -36,7 +36,7 @@
     "Review failed/low-scoring eval examples monthly and add source fixes.",
     "Add eval questions from top weekly RAG failures and member questions.",
     "Run Discord smoke after command changes.",
-    "Weekly approve/reject drafts and tag why rejected.",
+    "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
     "Review quiz/challenge completion and quality weekly.",
     "Audit top point earners weekly for farming or duplicate awards.",
     "Review stuck/inactive/premium-lead nudges weekly.",
@@ -172,19 +172,20 @@
     },
     {
       "category": "content_engine_quality",
-      "score": 78,
+      "score": 84,
       "evidence": [
         "docs/evidence/discord-ai-os/phase-10-content-jobs-v2.json",
-        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json"
+        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json",
+        "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json"
       ],
       "knownGaps": [
-        "Real conversion feedback is still early."
+        "The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early."
       ],
-      "nextAction": "Weekly approve/reject drafts and tag why rejected.",
+      "nextAction": "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
       "blocker": {
         "owner": "system operator",
-        "reason": "Real conversion feedback is still early.",
-        "nextAction": "Weekly approve/reject drafts and tag why rejected."
+        "reason": "The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early.",
+        "nextAction": "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes."
       }
     },
     {
@@ -359,7 +360,7 @@
     }
   ],
   "summary": {
-    "averageScore": 82,
+    "averageScore": 83,
     "categoryCount": 18,
     "blockedBelow95": [
       "server_access_onboarding",
@@ -391,7 +392,7 @@
       "Review failed/low-scoring eval examples monthly and add source fixes.",
       "Add eval questions from top weekly RAG failures and member questions.",
       "Run Discord smoke after command changes.",
-      "Weekly approve/reject drafts and tag why rejected.",
+      "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
       "Review quiz/challenge completion and quality weekly.",
       "Audit top point earners weekly for farming or duplicate awards.",
       "Review stuck/inactive/premium-lead nudges weekly.",
@@ -408,7 +409,7 @@
     "ok": true,
     "failures": [],
     "categoryCount": 18,
-    "averageScore": 82,
+    "averageScore": 83,
     "blockedBelow95": [
       "server_access_onboarding",
       "role_routing_member_state",
@@ -540,6 +541,11 @@
         "status": "true"
       },
       {
+        "path": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
         "path": "docs/evidence/rag/eval-latest.json",
         "ok": true,
         "status": "true"
@@ -573,12 +579,12 @@
     {
       "name": "scorecard_schema",
       "passed": true,
-      "evidence": "18 categories / avg 82"
+      "evidence": "18 categories / avg 83"
     },
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "15/15 required evidence files pass"
+      "evidence": "16/16 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -624,6 +630,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T21:09:28.624Z",
-  "finishedAt": "2026-06-25T21:09:30.652Z"
+  "startedAt": "2026-06-25T21:25:49.008Z",
+  "finishedAt": "2026-06-25T21:25:51.756Z"
 }

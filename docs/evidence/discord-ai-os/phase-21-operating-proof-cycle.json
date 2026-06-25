@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-25T21:19:31.901Z",
-  "finishedAt": "2026-06-25T21:19:32.779Z",
+  "startedAt": "2026-06-25T21:25:59.890Z",
+  "finishedAt": "2026-06-25T21:26:00.653Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -58,7 +58,7 @@
     "blocker": "Dry run does not create public proof drafts."
   },
   "finalScorecard": {
-    "averageScore": 82,
+    "averageScore": 83,
     "blockedBelow95": [
       "server_access_onboarding",
       "role_routing_member_state",
@@ -79,7 +79,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "latestRunKey": "phase-20-final-1782421768624"
+    "latestRunKey": "phase-20-final-1782422749008"
   },
   "gates": [
     {
@@ -108,13 +108,13 @@
     {
       "name": "final_scorecard_current",
       "passed": true,
-      "evidence": "average 82, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
+      "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
       "nextAction": "Run npm run rag:evaluate and npm run discord:smoke-final-scorecard after operating proof cycle."
     },
     {
       "name": "world_class_score_threshold",
       "passed": false,
-      "evidence": "average 82, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
+      "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
       "nextAction": "Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard."
     }
   ],

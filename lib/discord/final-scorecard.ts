@@ -71,6 +71,7 @@ export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json',
   'docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json',
   'docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json',
+  'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
   'docs/evidence/rag/eval-latest.json',
 ];
 
@@ -155,13 +156,14 @@ export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {
     },
     {
       category: 'content_engine_quality',
-      score: 78,
+      score: 84,
       evidence: [
         'docs/evidence/discord-ai-os/phase-10-content-jobs-v2.json',
         'docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json',
+        'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
       ],
-      knownGaps: ['Real conversion feedback is still early.'],
-      nextAction: 'Weekly approve/reject drafts and tag why rejected.',
+      knownGaps: ['The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early.'],
+      nextAction: 'Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.',
     },
     {
       category: 'quiz_challenge_learning_engine',

@@ -1748,11 +1748,16 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.equal(summary.worldClassThreshold, 95);
   assert.ok(summary.requiredOperatingProof.some((action) => /four weekly public proof cycles/i.test(action)));
   assert.ok(summary.requiredOperatingProof.some((action) => /collect two weeks of real questions/i.test(action)));
+  const contentEngine = scorecard.find((item) => item.category === 'content_engine_quality');
+  assert.equal(contentEngine?.score, 84);
+  assert.ok(contentEngine?.evidence.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
+  assert.ok(contentEngine?.knownGaps.some((gap) => /real approved posts/i.test(gap)));
   assert.equal(rhythmValidation.ok, true);
   assert.ok(rhythm.weekly.length >= 10);
   assert.ok(rhythm.monthly.length >= 7);
   assert.ok(rhythm.quarterly.length >= 5);
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);

@@ -2147,6 +2147,8 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.ok(report.lanes.every((item) => item.qualifyingEvidence.length >= 2));
   assert.ok(report.lanes.every((item) => item.rejectionRules.length >= 2));
   assert.ok(report.lanes.every((item) => item.weeklyOperatorSteps.length >= 3));
+  assert.ok(report.lanes.every((item) => item.adminSurface.includes('/admin/discord')));
+  assert.ok(report.lanes.every((item) => item.verificationCommand.startsWith('npm run')));
   assert.match(report.lanes[0].qualifyingEvidence.join(' '), /Specific member question/);
   assert.match(report.lanes[0].rejectionRules.join(' '), /private details/);
   assert.match(report.lanes[1].rejectionRules.join(' '), /raw Discord messages/);
@@ -2159,6 +2161,8 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(report.weeklyChecklist[0].liveCommand, null);
   assert.equal(report.weeklyChecklist[1].liveCommand, 'npm run discord:operating-cycle');
   assert.match(report.weeklyChecklist[2].evidencePath, /phase-21-operating-proof-cycle\.json/);
+  assert.match(report.weeklyChecklist[2].adminSurface, /Public Proof Sources/);
+  assert.match(report.weeklyChecklist[3].verificationCommand, /discord:smoke-premium-workflows/);
   assert.match(report.weeklyChecklist[3].acceptanceCriteria, /Premium workflow proof reaches 1\/1/);
   assert.ok(report.nextActions.some((action) => action.includes('Approve high-signal')));
 

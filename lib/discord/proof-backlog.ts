@@ -11,6 +11,8 @@ export type DiscordProofBacklogLane = {
   rejectionRules: string[];
   weeklyOperatorSteps: string[];
   safeLocalCommand: string | null;
+  adminSurface: string;
+  verificationCommand: string;
   liveActionRequired: string;
   evidenceRequired: string;
 };
@@ -22,6 +24,8 @@ export type DiscordProofChecklistStep = {
   operatorAction: string;
   safeLocalCommand: string | null;
   liveCommand: string | null;
+  adminSurface: string;
+  verificationCommand: string;
   evidencePath: string;
   acceptanceCriteria: string;
 };
@@ -66,6 +70,8 @@ function checklistStep(laneItem: DiscordProofBacklogLane, order: number): Discor
     operatorAction: laneItem.liveActionRequired,
     safeLocalCommand: laneItem.safeLocalCommand,
     liveCommand: LIVE_COMMANDS_BY_LANE[laneItem.key] ?? null,
+    adminSurface: laneItem.adminSurface,
+    verificationCommand: laneItem.verificationCommand,
     evidencePath: EVIDENCE_PATHS_BY_LANE[laneItem.key] ?? 'docs/evidence/engineering-loop/discord-proof-backlog-latest.json',
     acceptanceCriteria: `${laneItem.title} reaches ${laneItem.targetCount}/${laneItem.targetCount}; current evidence is ${laneItem.currentCount}/${laneItem.targetCount}. ${laneItem.evidenceRequired}`,
   };
@@ -102,6 +108,8 @@ export function buildDiscordProofBacklogReport(input: {
         'Record why the source is useful before syncing it into RAG.',
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
+      adminSurface: '/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels',
+      verificationCommand: 'npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog',
       liveActionRequired: 'Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.',
       evidenceRequired: 'At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement.',
     }),
@@ -125,6 +133,8 @@ export function buildDiscordProofBacklogReport(input: {
         'Review any low-scoring eval examples before claiming score improvement.',
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
+      adminSurface: '/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels',
+      verificationCommand: 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard',
       liveActionRequired: 'Run the approved Discord RAG sync after approving knowledge candidates.',
       evidenceRequired: 'RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.',
     }),
@@ -153,6 +163,8 @@ export function buildDiscordProofBacklogReport(input: {
         'Approve/publish manually and track applications or engagement from that asset.',
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
+      adminSurface: '/admin/discord -> Public Proof Sources and Public Growth Drafts panels',
+      verificationCommand: 'npm run discord:operating-cycle && npm run discord:proof-backlog',
       liveActionRequired: 'Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.',
       evidenceRequired: 'Four weekly proof drafts or published assets with application/source tracking.',
     }),
@@ -181,6 +193,8 @@ export function buildDiscordProofBacklogReport(input: {
         'Run premium workflow smoke after changes to Stripe, roles, or premium commands.',
       ],
       safeLocalCommand: 'npm run discord:smoke-premium-workflows',
+      adminSurface: '/admin/discord -> Premium, Office Hours, and Member Intelligence panels',
+      verificationCommand: 'npm run discord:smoke-premium-workflows && npm run discord:proof-backlog',
       liveActionRequired: 'Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.',
       evidenceRequired: 'At least one premium member/request path proves authorization, SLA, and fulfillment behavior.',
     }),

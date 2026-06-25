@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-25T23:45:34.240Z",
+  "generatedAt": "2026-06-25T23:49:38.664Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -31,6 +31,8 @@
         "Record why the source is useful before syncing it into RAG."
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
+      "verificationCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",
       "liveActionRequired": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "evidenceRequired": "At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement.",
       "status": "blocked"
@@ -59,6 +61,8 @@
         "Review any low-scoring eval examples before claiming score improvement."
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
+      "verificationCommand": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "liveActionRequired": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "evidenceRequired": "RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.",
       "status": "blocked"
@@ -88,6 +92,8 @@
         "Approve/publish manually and track applications or engagement from that asset."
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
+      "verificationCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
       "liveActionRequired": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "evidenceRequired": "Four weekly proof drafts or published assets with application/source tracking.",
       "status": "blocked"
@@ -117,6 +123,8 @@
         "Run premium workflow smoke after changes to Stripe, roles, or premium commands."
       ],
       "safeLocalCommand": "npm run discord:smoke-premium-workflows",
+      "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
+      "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
       "evidenceRequired": "At least one premium member/request path proves authorization, SLA, and fulfillment behavior.",
       "status": "blocked"
@@ -130,6 +138,8 @@
       "operatorAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveCommand": null,
+      "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
+      "verificationCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Approved Discord knowledge reaches 10/10; current evidence is 0/10. At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement."
     },
@@ -140,6 +150,8 @@
       "operatorAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveCommand": "npm run discord:operating-cycle",
+      "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
+      "verificationCommand": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
     },
@@ -150,6 +162,8 @@
       "operatorAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveCommand": "npm run discord:operating-cycle",
+      "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
+      "verificationCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Public proof growth assets reaches 4/4; current evidence is 0/4. Four weekly proof drafts or published assets with application/source tracking."
     },
@@ -160,6 +174,8 @@
       "operatorAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
       "safeLocalCommand": "npm run discord:smoke-premium-workflows",
       "liveCommand": "npm run discord:smoke-premium-workflows",
+      "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
+      "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
       "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one premium member/request path proves authorization, SLA, and fulfillment behavior."
     }

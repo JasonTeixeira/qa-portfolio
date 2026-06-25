@@ -1717,6 +1717,14 @@ function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
           {lane.sourceTables.slice(0, 4).map((table) => <span key={table}>{table}</span>)}
           {lane.safeLocalCommand ? <span>{lane.safeLocalCommand}</span> : null}
         </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Admin: </span>{lane.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Verify: </span>{lane.verificationCommand}
+          </div>
+        </div>
       </div>
       <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
         {lane.evidenceRequired}
@@ -1751,6 +1759,14 @@ function ProofChecklistStepRow({ step }: { step: DiscordProofChecklistStep }) {
           {step.safeLocalCommand ? <span>check: {step.safeLocalCommand}</span> : null}
           {step.liveCommand ? <span>live: {step.liveCommand}</span> : null}
           <span>evidence: {step.evidencePath}</span>
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Admin: </span>{step.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Verify: </span>{step.verificationCommand}
+          </div>
         </div>
       </div>
       <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">

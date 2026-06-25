@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import {
   Activity,
   AlertTriangle,
@@ -413,6 +415,33 @@ type DiscordFinalScorecardRunRow = {
   created_at: string;
 };
 
+type ProofRehearsalLaneRow = {
+  key: string;
+  title: string;
+  command: string;
+  evidencePath: string;
+  mutationMode: string;
+  requiredContracts: string[];
+  checks: Record<string, boolean>;
+  ok: boolean;
+  latestEvidence: {
+    path: string;
+    ok: boolean;
+    timestamp: string | null;
+    ageHours: number | null;
+  } | null;
+  note: string;
+};
+
+type ProofRehearsalReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  lanes: ProofRehearsalLaneRow[];
+  missingOrStale: Array<{ key: string; failedChecks: string[] }>;
+};
+
 const cockpitTabs = [
   ['overview', 'Overview'],
   ['members', 'Members'],
@@ -457,6 +486,7 @@ const statusTone: Record<string, Tone> = {
 export default async function AdminDiscordPage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined> }) {
   const { profile } = await requireAdmin();
   const sb = supabaseAdmin();
+  const proofRehearsalReadiness = await loadProofRehearsalReadiness();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1053,6 +1083,27 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Proof rehearsal readiness"
+            meta={`${proofRehearsalReadiness.lanes.filter((lane) => lane.ok).length}/${proofRehearsalReadiness.lanes.length} rehearsal lanes ready`}
+            empty="Proof rehearsal readiness has not been generated. Run npm run discord:proof-rehearsal-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {proofRehearsalReadiness.releaseMeaning}
+            </div>
+            {proofRehearsalReadiness.lanes.map((lane) => (
+              <ProofRehearsalLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofRehearsalReadiness.missingOrStale.map((item) => (
+              <div key={item.key} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {item.key}: {item.failedChecks.join(', ')}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-world-class-readiness-triage">
           <Panel
             icon={Trophy}
@@ -1525,6 +1576,25 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   );
 }
 
+async function loadProofRehearsalReadiness(): Promise<ProofRehearsalReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofRehearsalReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof rehearsal readiness evidence is missing. Run npm run discord:proof-rehearsal-readiness.',
+      lanes: [],
+      missingOrStale: [{ key: 'proof_rehearsal_readiness_missing', failedChecks: ['evidence_present'] }],
+    };
+  }
+}
+
 function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
@@ -1685,6 +1755,34 @@ function ProofChecklistStepRow({ step }: { step: DiscordProofChecklistStep }) {
       </div>
       <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">
         {step.acceptanceCriteria}
+      </div>
+    </div>
+  );
+}
+
+function ProofRehearsalLaneRow({ lane }: { lane: ProofRehearsalLaneRow }) {
+  const failedChecks = Object.entries(lane.checks).filter(([, passed]) => !passed).map(([key]) => key);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.ok ? 'emerald' : 'rose'}>{lane.ok ? 'ready' : 'attention'}</Badge>
+          <Badge tone="neutral">{lane.mutationMode}</Badge>
+          {lane.latestEvidence ? <Badge tone={lane.latestEvidence.ok ? 'emerald' : 'rose'}>{lane.latestEvidence.ageHours ?? '?'}h old</Badge> : null}
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{lane.note}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title="Contracts" items={lane.requiredContracts} tone="cyan" />
+          <ProofRuleGroup title={failedChecks.length ? 'Failed checks' : 'Checks'} items={failedChecks.length ? failedChecks : Object.keys(lane.checks)} tone={failedChecks.length ? 'rose' : 'emerald'} />
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{lane.command}</span>
+          <span>evidence: {lane.evidencePath}</span>
+        </div>
+      </div>
+      <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {lane.latestEvidence?.timestamp ? `last proof: ${formatDateTime(lane.latestEvidence.timestamp)}` : 'no proof evidence yet'}
       </div>
     </div>
   );

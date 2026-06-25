@@ -41,6 +41,7 @@ import {
 import { loadDiscordObservabilityQualityRollup } from '@/lib/discord/observability-quality';
 import {
   buildDiscordProofBacklogReport,
+  type DiscordProofChecklistStep,
   type DiscordProofBacklogLane,
 } from '@/lib/discord/proof-backlog';
 import {
@@ -911,6 +912,17 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               <ProofBacklogLaneRow key={lane.key} lane={lane} />
             ))}
           </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="Weekly proof checklist"
+            meta={`${proofBacklog.weeklyChecklist.length} operator steps`}
+            empty="No blocked proof lanes. Keep running weekly scorecard verification."
+          >
+            {proofBacklog.weeklyChecklist.map((step) => (
+              <ProofChecklistStepRow key={step.laneKey} step={step} />
+            ))}
+          </Panel>
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" data-testid="rag-health-eval-drilldown">
@@ -1439,6 +1451,28 @@ function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
       </div>
       <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
         {lane.evidenceRequired}
+      </div>
+    </div>
+  );
+}
+
+function ProofChecklistStepRow({ step }: { step: DiscordProofChecklistStep }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">Step {step.order}</Badge>
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{step.title}</div>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{step.operatorAction}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {step.safeLocalCommand ? <span>check: {step.safeLocalCommand}</span> : null}
+          {step.liveCommand ? <span>live: {step.liveCommand}</span> : null}
+          <span>evidence: {step.evidencePath}</span>
+        </div>
+      </div>
+      <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {step.acceptanceCriteria}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-25T22:34:41.578Z",
+  "generatedAt": "2026-06-25T22:39:43.165Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -65,6 +65,48 @@
       "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
       "evidenceRequired": "At least one premium member/request path proves authorization, SLA, and fulfillment behavior.",
       "status": "blocked"
+    }
+  ],
+  "weeklyChecklist": [
+    {
+      "order": 1,
+      "laneKey": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "operatorAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveCommand": null,
+      "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      "acceptanceCriteria": "Approved Discord knowledge reaches 10/10; current evidence is 0/10. At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement."
+    },
+    {
+      "order": 2,
+      "laneKey": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "operatorAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveCommand": "npm run discord:operating-cycle",
+      "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
+    },
+    {
+      "order": 3,
+      "laneKey": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "operatorAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveCommand": "npm run discord:operating-cycle",
+      "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      "acceptanceCriteria": "Public proof growth assets reaches 4/4; current evidence is 0/4. Four weekly proof drafts or published assets with application/source tracking."
+    },
+    {
+      "order": 4,
+      "laneKey": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "operatorAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
+      "safeLocalCommand": "npm run discord:smoke-premium-workflows",
+      "liveCommand": "npm run discord:smoke-premium-workflows",
+      "evidencePath": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
+      "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one premium member/request path proves authorization, SLA, and fulfillment behavior."
     }
   ],
   "nextActions": [

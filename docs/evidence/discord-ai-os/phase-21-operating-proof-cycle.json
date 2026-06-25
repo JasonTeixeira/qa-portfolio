@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-25T22:34:39.562Z",
-  "finishedAt": "2026-06-25T22:34:40.305Z",
+  "startedAt": "2026-06-25T22:39:41.258Z",
+  "finishedAt": "2026-06-25T22:39:41.923Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -81,7 +81,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "latestRunKey": "phase-20-final-1782426876867"
+    "latestRunKey": "phase-20-final-1782427178581"
   },
   "gates": [
     {

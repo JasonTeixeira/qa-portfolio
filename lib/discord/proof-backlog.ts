@@ -12,6 +12,17 @@ export type DiscordProofBacklogLane = {
   evidenceRequired: string;
 };
 
+export type DiscordProofChecklistStep = {
+  order: number;
+  laneKey: string;
+  title: string;
+  operatorAction: string;
+  safeLocalCommand: string | null;
+  liveCommand: string | null;
+  evidencePath: string;
+  acceptanceCriteria: string;
+};
+
 export type DiscordProofBacklogReport = {
   ok: true;
   version: 'discord-proof-backlog-v1';
@@ -19,6 +30,7 @@ export type DiscordProofBacklogReport = {
   mutationMode: 'local_file_evidence_only';
   status: 'passed' | 'blocked';
   lanes: DiscordProofBacklogLane[];
+  weeklyChecklist: DiscordProofChecklistStep[];
   nextActions: string[];
 };
 
@@ -26,6 +38,33 @@ function lane(input: Omit<DiscordProofBacklogLane, 'status'>): DiscordProofBackl
   return {
     ...input,
     status: input.currentCount >= input.targetCount ? 'passed' : 'blocked',
+  };
+}
+
+const LIVE_COMMANDS_BY_LANE: Record<string, string | null> = {
+  approved_discord_knowledge: null,
+  rag_discord_sources: 'npm run discord:operating-cycle',
+  public_proof_assets: 'npm run discord:operating-cycle',
+  premium_workflow_proof: 'npm run discord:smoke-premium-workflows',
+};
+
+const EVIDENCE_PATHS_BY_LANE: Record<string, string> = {
+  approved_discord_knowledge: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
+  rag_discord_sources: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
+  public_proof_assets: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
+  premium_workflow_proof: 'docs/evidence/engineering-loop/discord-proof-backlog-latest.json',
+};
+
+function checklistStep(laneItem: DiscordProofBacklogLane, order: number): DiscordProofChecklistStep {
+  return {
+    order,
+    laneKey: laneItem.key,
+    title: laneItem.title,
+    operatorAction: laneItem.liveActionRequired,
+    safeLocalCommand: laneItem.safeLocalCommand,
+    liveCommand: LIVE_COMMANDS_BY_LANE[laneItem.key] ?? null,
+    evidencePath: EVIDENCE_PATHS_BY_LANE[laneItem.key] ?? 'docs/evidence/engineering-loop/discord-proof-backlog-latest.json',
+    acceptanceCriteria: `${laneItem.title} reaches ${laneItem.targetCount}/${laneItem.targetCount}; current evidence is ${laneItem.currentCount}/${laneItem.targetCount}. ${laneItem.evidenceRequired}`,
   };
 }
 
@@ -90,6 +129,7 @@ export function buildDiscordProofBacklogReport(input: {
   ];
 
   const blocked = lanes.filter((item) => item.status === 'blocked');
+  const weeklyChecklist = blocked.map((item, index) => checklistStep(item, index + 1));
   return {
     ok: true,
     version: 'discord-proof-backlog-v1',
@@ -97,6 +137,7 @@ export function buildDiscordProofBacklogReport(input: {
     mutationMode: 'local_file_evidence_only',
     status: blocked.length === 0 ? 'passed' : 'blocked',
     lanes,
+    weeklyChecklist,
     nextActions: blocked.map((item) => item.liveActionRequired),
   };
 }

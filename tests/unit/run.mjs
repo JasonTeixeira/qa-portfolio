@@ -1535,7 +1535,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   }
   assert.match(page, /buildDiscordProofBacklogReport/);
   assert.match(page, /ProofBacklogLaneRow/);
+  assert.match(page, /ProofChecklistStepRow/);
   assert.match(page, /data-testid="discord-proof-backlog"/);
+  assert.match(page, /Weekly proof checklist/);
+  assert.match(page, /weeklyChecklist/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /pendingKnowledgeCandidatesCountRes/);
   assert.match(page, /approvedMemberCountRes/);
@@ -2036,6 +2039,13 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.ok(report.lanes.every((item) => item.status === 'blocked'));
   assert.ok(report.lanes[0].sourceTables.includes('discord_content_queue'));
   assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
+  assert.equal(report.weeklyChecklist.length, 4);
+  assert.deepEqual(report.weeklyChecklist.map((item) => item.order), [1, 2, 3, 4]);
+  assert.equal(report.weeklyChecklist[0].laneKey, 'approved_discord_knowledge');
+  assert.equal(report.weeklyChecklist[0].liveCommand, null);
+  assert.equal(report.weeklyChecklist[1].liveCommand, 'npm run discord:operating-cycle');
+  assert.match(report.weeklyChecklist[2].evidencePath, /phase-21-operating-proof-cycle\.json/);
+  assert.match(report.weeklyChecklist[3].acceptanceCriteria, /Premium workflow proof reaches 1\/1/);
   assert.ok(report.nextActions.some((action) => action.includes('Approve high-signal')));
 
   const passing = buildDiscordProofBacklogReport({
@@ -2056,6 +2066,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
     },
   });
   assert.equal(passing.status, 'passed');
+  assert.equal(passing.weeklyChecklist.length, 0);
   assert.equal(passing.nextActions.length, 0);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
 });

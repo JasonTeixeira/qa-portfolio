@@ -48,6 +48,7 @@ export async function runDiscordOperatingProofCycle(
     cycleDate?: Date;
     draftType?: PublicProofDraftType;
     dryRun?: boolean;
+    finalScorecardOverride?: DiscordOperatingProofCycleResult['finalScorecard'];
     now?: Date;
   } = {},
 ): Promise<DiscordOperatingProofCycleResult> {
@@ -65,7 +66,7 @@ export async function runDiscordOperatingProofCycle(
       draftType: options.draftType ?? 'newsletter',
     });
   const metricsAfter = await loadOperatingCycleMetrics(sb, now);
-  const finalScorecard = await loadLatestFinalScorecard(sb);
+  const finalScorecard = options.finalScorecardOverride ?? await loadLatestFinalScorecard(sb);
   const gates = operatingCycleGates({
     metrics: metricsAfter,
     ragSyncOk: ragSync.ok,

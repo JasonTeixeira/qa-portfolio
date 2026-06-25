@@ -1807,6 +1807,8 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(migration, /create table if not exists public\.discord_operating_cycles/);
   assert.match(migration, /metrics_after jsonb not null/);
   assert.match(script, /runDiscordOperatingProofCycle/);
+  assert.match(script, /loadLocalFinalScorecardEvidence/);
+  assert.match(script, /finalScorecardOverride/);
   assert.match(runbook, /Four-Week Growth Proof/);
   assert.match(runbook, /Do not auto-publish externally/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');

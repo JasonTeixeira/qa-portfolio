@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { runDiscordOperatingProofCycle } from '@/lib/discord/operating-proof-cycle';
@@ -15,13 +15,27 @@ function hasFlag(name: string): boolean {
   return process.argv.includes(name);
 }
 
+async function loadLocalFinalScorecardEvidence() {
+  const evidencePath = path.join(evidenceDir, 'phase-20-final-scorecard.json');
+  const payload = JSON.parse(await readFile(evidencePath, 'utf8'));
+  const averageScore = payload.averageScore ?? payload.summary?.averageScore ?? payload.scorecardValidation?.averageScore ?? null;
+  const blockedBelow95 = payload.blockedBelow95 ?? payload.summary?.blockedBelow95 ?? payload.scorecardValidation?.blockedBelow95 ?? [];
+  return {
+    averageScore: averageScore === null || averageScore === undefined ? null : Number(averageScore),
+    blockedBelow95: Array.isArray(blockedBelow95) ? blockedBelow95.map(String) : [],
+    latestRunKey: payload.runKey ? String(payload.runKey) : null,
+  };
+}
+
 async function main() {
+  const dryRun = hasFlag('--dry-run');
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false, autoRefreshToken: false },
   });
   const result = await runDiscordOperatingProofCycle(sb, {
-    dryRun: hasFlag('--dry-run'),
+    dryRun,
     draftType: hasFlag('--linkedin') ? 'linkedin' : hasFlag('--article') ? 'article' : 'newsletter',
+    finalScorecardOverride: dryRun ? await loadLocalFinalScorecardEvidence() : undefined,
   });
   const evidence = {
     ...result,

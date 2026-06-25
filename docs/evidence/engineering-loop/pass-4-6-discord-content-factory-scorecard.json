@@ -1,0 +1,139 @@
+{
+  "ok": true,
+  "status": "local_loop_passed_with_external_operating_blockers",
+  "scope": "Discord/SageBot operating-cycle dry-run integrity, content factory cadence, final scorecard evidence index",
+  "startedAt": "2026-06-25T21:19:31.901Z",
+  "finishedAt": "2026-06-25T21:31:00.000Z",
+  "commits": [
+    {
+      "sha": "642ada9",
+      "message": "chore: keep operating cycle dry runs read-only current",
+      "summary": "Dry-run operating-cycle proof now reads the current local final scorecard evidence instead of a stale Supabase scorecard row."
+    },
+    {
+      "sha": "575dba1",
+      "message": "feat: expand discord content factory cadence",
+      "summary": "Content factory now plans 36 approval-gated drafts across 12 Academy operating channels and writes Phase 22 evidence under discord-ai-os."
+    },
+    {
+      "sha": "86255af",
+      "message": "chore: require content factory proof in discord scorecard",
+      "summary": "Final scorecard now requires Phase 22 content-factory evidence and scores content_engine_quality at 84 while keeping world-class blocked."
+    }
+  ],
+  "proof": {
+    "contentFactoryDryRun": {
+      "evidence": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+      "planned": 36,
+      "created": 0,
+      "failed": 0,
+      "dryRun": true,
+      "readOnly": true,
+      "channelCoverage": [
+        "accountability",
+        "announcements",
+        "build-lab",
+        "content-queue",
+        "daily-signal",
+        "introductions",
+        "office-hours",
+        "project-submissions",
+        "questions",
+        "resources",
+        "review-queue",
+        "wins-showcase"
+      ],
+      "minQualityScore": 90
+    },
+    "finalScorecard": {
+      "evidence": "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+      "averageScore": 83,
+      "worldClassEligible": false,
+      "requiredEvidenceFiles": 16,
+      "blockedBelow95": 18
+    },
+    "operatingCycleDryRun": {
+      "evidence": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      "status": "blocked",
+      "auditRowId": null,
+      "approvedDiscordKnowledgeSources": 0,
+      "ragDiscordSources": 0,
+      "pendingPublicDrafts": 0,
+      "publishedPublicDrafts": 0,
+      "approvedMembers": 7,
+      "activeMembers7d": 7,
+      "premiumMembers": 0
+    }
+  },
+  "commands": [
+    {
+      "command": "npm run discord:operating-cycle -- --dry-run",
+      "result": "blocked_as_expected",
+      "summary": "Read-only proof; no audit row; real operating blockers remain visible."
+    },
+    {
+      "command": "npm run discord:content-factory:week -- --dry-run",
+      "result": "passed",
+      "summary": "36 planned drafts, 12 channel lanes, 0 created, 0 failed, min quality 90."
+    },
+    {
+      "command": "npm run discord:smoke-final-scorecard:dry-run",
+      "result": "passed",
+      "summary": "Average score 83, required evidence 16/16, worldClassEligible false."
+    },
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "summary": "227 passed, 0 failed."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "summary": "tsc --noEmit passed."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "summary": "eslint . passed."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed_with_known_warnings",
+      "summary": "Next.js production build passed. Known warnings remain: deprecated middleware convention, edge runtime static-generation warning, Academy cookie dynamic-server messages."
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed",
+      "summary": "No whitespace errors before each commit."
+    }
+  ],
+  "remainingBlockers": [
+    {
+      "category": "approved_discord_knowledge_corpus",
+      "evidence": "0 approved Discord knowledge sources and 0 Discord RAG sources in Phase 21 dry-run.",
+      "nextAction": "Collect real member questions, answers, builds, resources, wins, and reviews; approve high-signal candidates; run approved Discord RAG sync."
+    },
+    {
+      "category": "public_growth_loop",
+      "evidence": "0 pending or published public proof drafts in Phase 21 dry-run.",
+      "nextAction": "Create privacy-gated public proof drafts from approved source material and run four weekly growth cycles."
+    },
+    {
+      "category": "premium_workflows",
+      "evidence": "0 premium members in Phase 21 dry-run; scorecard premium score remains 74.",
+      "nextAction": "Prove real Stripe role sync, premium requests, SLA, office-hours queue, and fulfillment quality."
+    },
+    {
+      "category": "world_class_claim",
+      "evidence": "Average score 83, 18 categories blocked below 95, worldClassEligible false.",
+      "nextAction": "Do not claim 95-99+ until real operating proof exists and the scorecard earns it."
+    }
+  ],
+  "externalActionsAvoided": [
+    "No push to GitHub.",
+    "No Vercel or Railway deploy.",
+    "No live Discord mutation.",
+    "No Stripe mutation.",
+    "No Supabase production insert/update/delete from this loop's dry-run commands."
+  ]
+}

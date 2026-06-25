@@ -1442,6 +1442,8 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord_premium_review_requests/);
   assert.match(page, /discord_office_hours_queue/);
   assert.match(page, /discord_final_scorecard_runs/);
+  assert.match(smoke, /final_scorecard_runs/);
+  assert.match(smoke, /95\+ blockers/);
   assert.match(actions, /retryDiscordJobDeadLetterAction/);
   assert.match(actions, /cancelDiscordJobRunAction/);
   assert.match(actions, /resolveDiscordJobDeadLetterAction/);

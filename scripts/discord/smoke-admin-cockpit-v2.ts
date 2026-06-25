@@ -17,6 +17,8 @@ const requiredSurfaces = [
   'Durable job control',
   'Job dead letters',
   'Premium operations',
+  'Final scorecard',
+  '95+ blockers',
   'Audit stream',
 ];
 
@@ -56,6 +58,7 @@ async function main() {
     dead_letters: await count(sb, 'discord_job_dead_letters', (query) => query.is('resolved_at', null)),
     premium_reviews: await count(sb, 'discord_premium_review_requests'),
     office_hours: await count(sb, 'discord_office_hours_queue'),
+    final_scorecard_runs: await count(sb, 'discord_final_scorecard_runs'),
     events: await count(sb, 'discord_events'),
   };
   const checks = {
@@ -69,6 +72,7 @@ async function main() {
       'discord_job_dead_letters',
       'discord_premium_review_requests',
       'discord_office_hours_queue',
+      'discord_final_scorecard_runs',
     ].every((table) => page.includes(table)),
     safe_actions_authed: [
       'reviewDiscordMemberNudgeAction',

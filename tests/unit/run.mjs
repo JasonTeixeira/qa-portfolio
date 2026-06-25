@@ -74,6 +74,12 @@ test('next proxy convention: root request boundary uses proxy.ts, not deprecated
 
 test('ops scripts: local e2e and Supabase commands load env and use durable wrappers', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  assert.equal(
+    packageJson.scripts['verify:local'],
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local',
+  );
+  assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
+  assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

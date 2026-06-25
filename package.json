@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
+    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local",
     "verify:prod": "node scripts/verify-prod.mjs",
     "dev": "next dev -p 3040",
     "build": "next build",

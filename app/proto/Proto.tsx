@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion'
 import Lenis from 'lenis'
 import styles from './proto.module.css'
@@ -251,7 +252,7 @@ export function Proto() {
         <div className={styles.navLinks}>
           <a href="#work" data-cursor>Work</a>
           <a href="#process" data-cursor>Process</a>
-          <a href="/academy" data-cursor>Academy</a>
+          <Link href="/academy" data-cursor>Academy</Link>
           <a href="/pricing" data-cursor>Pricing</a>
         </div>
         <Magnetic href="/book?source=proto_nav" className={styles.pill}>
@@ -411,7 +412,7 @@ export function Proto() {
           </Reveal>
           <div className={styles.foot}>
             <span>© 2026 Sage Ideas LLC · Orlando, FL</span>
-            <span>// design-first prototype · ink and circuitry</span>
+            <span>Design-first prototype · ink and circuitry</span>
           </div>
         </div>
       </section>

@@ -8,7 +8,6 @@ import { INTENSITIES, loopStep, type SprintIntensity } from '@/lib/academy/engin
 import { defaultBlock, mergeScaffold, checkCompleteness, SECTION_TYPES, CONTENT_TYPES } from '@/lib/academy/scaffold'
 import styles from './studio.module.css'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Block = Record<string, any> & { type: string }
 
 const INTENSITY_KEYS: SprintIntensity[] = ['micro', 'standard', 'deep', 'capstone']
@@ -38,9 +37,11 @@ export function LessonEditor({
   // Stable, SSR-safe block ids that travel with each block through reorder, so
   // React keys never collide on move/remove. Deterministic on first render
   // (index-based), then a counter for blocks added client-side.
-  const idRef = useRef(0)
+  const [blocks, setBlocks] = useState<Block[]>(() =>
+    (initial.blocks ?? []).map((b: Block, index: number) => (b._id ? b : { ...b, _id: `blk-${index}` })),
+  )
+  const idRef = useRef(blocks.length)
   const withId = (b: Block): Block => (b._id ? b : { ...b, _id: `blk-${idRef.current++}` })
-  const [blocks, setBlocks] = useState<Block[]>(() => (initial.blocks ?? []).map(withId))
   const [saving, start] = useTransition()
   const [msg, setMsg] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
 

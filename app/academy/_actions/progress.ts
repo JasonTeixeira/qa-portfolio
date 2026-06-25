@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
 import { recordActivityAndAward } from '@/lib/academy/gamification'
+import { ensureReviewCardsForCompleted } from '@/lib/academy/fsrs'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -49,6 +50,7 @@ export async function markLessonComplete(
     // Habit core: award XP + advance streak + daily goal (best-effort, never block).
     try {
       await recordActivityAndAward(user.id, 'lesson')
+      await ensureReviewCardsForCompleted(user.id) // seed an FSRS review card for the lesson
     } catch (err) {
       console.error('[academy/progress] gamification award failed', err)
     }

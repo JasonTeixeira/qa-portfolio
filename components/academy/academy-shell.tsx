@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { signOut } from '@/app/auth/actions'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getGamification } from '@/lib/academy/gamification'
+import { getDueCount } from '@/lib/academy/fsrs'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
@@ -11,6 +12,7 @@ import { getGamification } from '@/lib/academy/gamification'
  */
 const NAV = [
   { href: '/academy/dashboard', label: 'My Learning', key: 'dashboard' },
+  { href: '/academy/review', label: 'Review', key: 'review' },
   { href: '/academy/catalog', label: 'Catalog', key: 'catalog' },
   { href: '/academy/evidence', label: 'Certificates', key: 'evidence' },
   { href: '/academy/resources', label: 'Tools', key: 'resources' },
@@ -70,6 +72,19 @@ export async function AcademyShell({
   active?: string
   signedIn?: boolean
 }) {
+  let dueCount = 0
+  if (signedIn) {
+    try {
+      const supabase = await createSupabaseServerClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (user) dueCount = await getDueCount(user.id)
+    } catch {
+      dueCount = 0
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#0b0d0c] text-[#f2efe9]">
       <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b0d0c]/85 backdrop-blur-xl">
@@ -93,18 +108,24 @@ export async function AcademyShell({
           <nav aria-label="Academy" className="ml-2 hidden items-center gap-1 md:flex">
             {NAV.map((item) => {
               const on = active === item.key
+              const badge = item.key === 'review' && dueCount > 0 ? dueCount : null
               return (
                 <Link
                   key={item.key}
                   href={item.href}
                   aria-current={on ? 'page' : undefined}
-                  className={`rounded-[10px] px-3 py-2 text-[13px] font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1.5 rounded-[10px] px-3 py-2 text-[13px] font-medium transition-colors ${
                     on
                       ? 'bg-[#3D6BFF]/12 text-white'
                       : 'text-[#c4c5cd] hover:bg-white/[0.04] hover:text-white'
                   }`}
                 >
                   {item.label}
+                  {badge ? (
+                    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#3D6BFF] px-1 text-[10px] font-semibold leading-none text-white">
+                      {badge}
+                    </span>
+                  ) : null}
                 </Link>
               )
             })}

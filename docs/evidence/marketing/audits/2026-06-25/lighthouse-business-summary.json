@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-06-25T15:12:15.450Z",
+  "baseUrl": "http://127.0.0.1:3041",
+  "routes": [
+    {
+      "route": "/?source=lighthouse_business",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json",
+      "scores": {
+        "performance": 0.95,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1481,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/services",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-services.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1194,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/book?source=lighthouse_business",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-book.json",
+      "scores": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1260,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/showcase/revenue-os",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-revenue-os.json",
+      "scores": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1298,
+        "cls": 0,
+        "tbt": 0
+      }
+    }
+  ]
+}

@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { saveCourse } from './_actions'
 import styles from './studio.module.css'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const TOPICS = ['foundations', 'ai-engineering', 'ship-it', 'growth', 'data']
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 

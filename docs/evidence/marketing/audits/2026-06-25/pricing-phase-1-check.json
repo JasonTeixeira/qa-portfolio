@@ -1,0 +1,97 @@
+{
+  "route": "/pricing",
+  "timestamp": "2026-06-25T16:37:30.082Z",
+  "checks": {
+    "desktop": {
+      "title": "Pricing for AI Systems, Conversion Sites, and Build Sprints | Sage Ideas — Sage Ideas",
+      "noHorizontalOverflow": true,
+      "scrollWidth": 1440,
+      "viewportWidth": 1440,
+      "hasThreePaths": true,
+      "hasDecisionMap": true,
+      "hasFinalCta": true,
+      "pricingBookLinks": [
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_prototype_sprint"
+        },
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_conversion_build"
+        },
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_revenue_os_build"
+        },
+        {
+          "text": "Book the build call→",
+          "href": "/book?source=pricing_final"
+        },
+        {
+          "text": "Book the build call",
+          "href": "/book?source=pricing_final"
+        }
+      ],
+      "showcaseLinks": [
+        {
+          "text": "Open demos first",
+          "href": "/showcase?source=pricing_hero"
+        },
+        {
+          "text": "Open the prototype warehouse→",
+          "href": "/showcase?source=pricing_final"
+        },
+        {
+          "text": "See live systems",
+          "href": "/showcase?source=pricing_final_showcase"
+        }
+      ]
+    },
+    "mobile": {
+      "title": "Pricing for AI Systems, Conversion Sites, and Build Sprints | Sage Ideas — Sage Ideas",
+      "noHorizontalOverflow": true,
+      "scrollWidth": 390,
+      "viewportWidth": 390,
+      "hasThreePaths": true,
+      "hasDecisionMap": true,
+      "hasFinalCta": true,
+      "pricingBookLinks": [
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_prototype_sprint"
+        },
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_conversion_build"
+        },
+        {
+          "text": "Book this path",
+          "href": "/book?source=pricing_revenue_os_build"
+        },
+        {
+          "text": "Book the build call→",
+          "href": "/book?source=pricing_final"
+        },
+        {
+          "text": "Book the build call",
+          "href": "/book?source=pricing_final"
+        }
+      ],
+      "showcaseLinks": [
+        {
+          "text": "Open demos first",
+          "href": "/showcase?source=pricing_hero"
+        },
+        {
+          "text": "Open the prototype warehouse→",
+          "href": "/showcase?source=pricing_final"
+        },
+        {
+          "text": "See live systems",
+          "href": "/showcase?source=pricing_final_showcase"
+        }
+      ]
+    }
+  },
+  "pass": true
+}

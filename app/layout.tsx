@@ -231,7 +231,7 @@ export default async function RootLayout({
         {/* DNS-prefetch for GitHub API (GitHubActivity widget) */}
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>
-      <body className="font-sans antialiased min-h-screen flex flex-col">
+      <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         {/* Pre-paint intro state — sets body.living-intro synchronously on the
             first homepage visit so the cinematic splash covers from frame 1.
             Without this, the homepage hero paints for one frame before JS adds
@@ -240,7 +240,7 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{if(location.pathname!=='/')return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
+              "(function(){try{if(location.pathname!=='/')return;var p=new URLSearchParams(location.search);if(p.get('intent')==='hire'||p.has('source')||p.has('utm_source')||p.has('utm_campaign'))return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
           }}
         />
         <script

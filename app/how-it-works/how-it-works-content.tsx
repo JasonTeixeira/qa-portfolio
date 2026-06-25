@@ -50,27 +50,27 @@ export function HowItWorksContent() {
             <div className="mb-7 flex items-center gap-4">
               <MonoLabel tone="accent">01</MonoLabel>
               <Hairline className="flex-1" />
-              <MonoLabel tone="muted">{'// pipelines'}</MonoLabel>
+              <MonoLabel tone="muted">{'// build path'}</MonoLabel>
               <Hairline className="flex-1" strong />
             </div>
             <h1
               className="text-[var(--sage-ink)] font-normal text-[clamp(2.4rem,1.2rem+4vw,5rem)]"
               style={HEADING_STYLE}
             >
-              Every service, end to end —{' '}
-              <em className="not-italic text-[#3D5AFE]">visualized stage by stage.</em>
+              See the system before you{' '}
+              <em className="not-italic text-[#3D5AFE]">buy the build.</em>
             </h1>
             <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-              No more guessing what you are paying for. Each engagement is mapped
-              as an interactive pipeline so you can see what happens on day one,
-              what we ship at handoff, and what optional Care looks like after.
+              The engagement starts by making the outcome visible: what is leaking,
+              what the workflow should do, what the buyer can click, and what gets
+              built after the call.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <CtaLink href="/contact" variant="solid" event="cta_how_it_works_hero">
-                Book a free intro chat
+              <CtaLink href="/book?source=how-it-works" variant="solid" event="cta_how_it_works_hero">
+                Book the build call
               </CtaLink>
-              <CtaLink href="/services" variant="ghost" arrow={false}>
-                See pricing
+              <CtaLink href="/showcase" variant="ghost" arrow={false}>
+                Open live demos
               </CtaLink>
             </div>
           </motion.div>
@@ -85,7 +85,7 @@ export function HowItWorksContent() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Surface level={1} ticks className="p-6 md:p-10">
             <div className="mb-6 flex items-center gap-3">
-              <MonoLabel tone="accent">{'// the sage ideas studio journey'}</MonoLabel>
+              <MonoLabel tone="accent">{'// from idea to working route'}</MonoLabel>
             </div>
             <Pipeline pipeline={studioJourney} />
           </Surface>
@@ -100,18 +100,18 @@ export function HowItWorksContent() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 grid gap-px sm:grid-cols-3 rounded-[3px] overflow-hidden border border-[var(--sage-border)] bg-[var(--sage-border)]">
           <PromiseCard
             icon={Compass}
-            title="No surprises"
-            body="Plain-English scope, fixed price for productized tiers, written change-control if scope shifts."
+            title="See the route"
+            body="The buyer path, screens, CTAs, and handoff states are visible before the build gets expensive."
           />
           <PromiseCard
             icon={Sparkles}
             title="Built in the open"
-            body="Daily-updated staging links, weekly Loom walkthroughs, async status. You always know where things stand."
+            body="Staging links, screenshots, route checks, and proof artifacts show progress instead of vague status updates."
           />
           <PromiseCard
             icon={ShieldCheck}
-            title="Optional Care"
-            body="If you want me on call after launch, a Care retainer covers it monthly. Cancel anytime."
+            title="Proof before launch"
+            body="The claim is backed by desktop/mobile screenshots, links, accessibility checks, and handoff notes."
           />
         </div>
       </section>
@@ -126,9 +126,9 @@ export function HowItWorksContent() {
             <MonoLabel tone="faint" className="mr-2">Show:</MonoLabel>
             {(
               [
-                { id: 'all', label: 'All services' },
-                { id: 'productized', label: 'Productized tiers' },
-                { id: 'care', label: 'Care retainers' },
+                { id: 'all', label: 'All routes' },
+                { id: 'productized', label: 'Build paths' },
+                { id: 'care', label: 'Care paths' },
               ] as const
             ).map((g) => (
               <button
@@ -186,8 +186,8 @@ export function HowItWorksContent() {
                       <CtaLink href={ctaHref} variant="ghost" arrow={false}>
                         Service details
                       </CtaLink>
-                      <CtaLink href="/contact" variant="solid" event="cta_pipeline_book">
-                        Book a free intro
+                      <CtaLink href={`/book?source=how-it-works-${slug}`} variant="solid" event="cta_pipeline_book">
+                        Book build call
                       </CtaLink>
                     </div>
                   </div>
@@ -200,14 +200,14 @@ export function HowItWorksContent() {
 
       {/* CTA footer */}
       <Section
-        eyebrow="custom & retainers"
+        eyebrow="not sure yet"
         heading={<>Not sure which<br /><em className="not-italic text-[#3D5AFE]">pipeline fits?</em></>}
-        lede="If your project does not slot into a productized tier — bigger scope, hybrid engagement, or ongoing monthly work — we run a custom proposal off a 20-minute intro chat. No pressure, no pitch deck, just an honest fit check."
+        lede="If the route is unclear, start with the build call. We map the problem, decide what should be shown, and only scope the build if there is a real fit."
         centered
         grain
         action={
-          <CtaLink href="/contact" variant="solid" event="cta_how_it_works_footer">
-            Start with a free intro chat
+          <CtaLink href="/book?source=how-it-works-footer" variant="solid" event="cta_how_it_works_footer">
+            Book the build call
           </CtaLink>
         }
       />
@@ -230,7 +230,7 @@ function PromiseCard({
         <span className="grid h-9 w-9 place-items-center rounded-[3px] border border-[var(--sage-border-strong)] bg-[var(--sage-surface-2)]">
           <Icon className="h-4 w-4 text-[#3D5AFE]" aria-hidden />
         </span>
-        <h3 className="text-sm font-normal text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.1em]">{title}</h3>
+        <h2 className="text-sm font-normal text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace] uppercase tracking-[0.1em]">{title}</h2>
       </div>
       <p className="text-sm leading-relaxed text-[var(--sage-ink-muted)]">{body}</p>
     </div>

@@ -3,11 +3,13 @@ import { TrustContent } from './trust-content'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/trust' },
-  title: 'Trust',
+  title: 'Trust and Proof for Sage Ideas Builds',
   description:
-    'The engineering evidence behind Sage Ideas: 9 certifications, 13 testing frameworks, Terraform-managed infrastructure, CI/CD on every project, and a public GitHub record.',
+    'See how Sage Ideas backs business builds with public work, clear scope, testing standards, data handling, references, and written engagement terms.',
   openGraph: {
-    images: ['/og?title=Why+Teams+Trust+the+Studio&subtitle=The+receipts.'],
+    title: 'Trust and Proof for Sage Ideas Builds',
+    description: 'What gets tested, documented, and put in writing before you buy.',
+    images: ['/og?title=Trust%20and%20Proof&subtitle=What%20gets%20tested%2C%20documented%2C%20and%20put%20in%20writing.'],
   },
 }
 

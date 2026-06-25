@@ -52,9 +52,9 @@ const defaultNodes = ['Surface', 'Data', 'AI', 'Ops']
 
 export function LivingPageShell({ children, className = '' }: LivingPageShellProps) {
   return (
-    <main className={`min-h-screen overflow-hidden bg-[var(--sage-bg)] text-[var(--sage-ink)] ${className}`}>
+    <div className={`min-h-screen overflow-hidden bg-[var(--sage-bg)] text-[var(--sage-ink)] ${className}`}>
       {children}
-    </main>
+    </div>
   )
 }
 
@@ -302,7 +302,7 @@ export function ConversionMap({ steps }: { steps: Step[] }) {
           <p className="font-mono text-xs text-[var(--sage-accent-readable)]">
             {String(index + 1).padStart(2, '0')}
           </p>
-          <h3 className="mt-8 text-xl font-semibold text-[var(--sage-ink)]">{step.label}</h3>
+          <h2 className="mt-8 text-xl font-semibold text-[var(--sage-ink)]">{step.label}</h2>
           <p className="mt-3 text-sm leading-6 text-[var(--sage-ink-muted)]">{step.detail}</p>
         </li>
       ))}

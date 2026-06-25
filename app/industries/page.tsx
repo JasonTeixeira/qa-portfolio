@@ -9,63 +9,74 @@ import {
   LivingSection,
   LivingCTA,
 } from '@/components/living/LivingPageSystem'
+import { JsonLd } from '@/components/json-ld'
 
 const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'Industries',
+  title: 'Industries — Business Systems by Market',
   description:
-    'Sage Ideas industry expertise: fintech, SaaS, ecommerce, healthcare, and AI startups. Productized engagements tuned to the operational realities of each vertical.',
+    'Find the Sage Ideas system closest to your market: lead follow-up, quote qualification, intake automation, AI support, and conversion dashboards.',
   alternates: { canonical: `${SITE}/industries` },
   openGraph: {
-    title: 'Industries',
+    title: 'Industries — Business Systems by Market',
     description:
-      'Sage Ideas industry expertise: fintech, SaaS, ecommerce, healthcare, AI startups.',
-    images: [{ url: '/og?title=Industries&subtitle=Five+verticals.+Operator-grade+execution.' }],
+      'Find the interactive system closest to your market and open a working proof before the build call.',
+    images: [{ url: '/og?title=Business+systems+by+market&subtitle=Open+the+demo+closest+to+your+buyer' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og?title=Industries&subtitle=Five+verticals.+Operator-grade+execution.'],
+    images: ['/og?title=Business+systems+by+market&subtitle=Open+the+demo+closest+to+your+buyer'],
   },
 }
 
 export default function IndustriesPage() {
   return (
     <LivingPageShell>
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Sage Ideas industries and buyer routes',
+          description: metadata.description,
+          url: `${SITE}/industries`,
+          hasPart: verticals.map((vertical) => `${SITE}/industries/${vertical.slug}`),
+        }}
+      />
       <LivingHero
-        eyebrow="Industries / operator-grade systems"
+        eyebrow="Industries / working systems"
         title={
           <>
-            Vertical depth without the agency theater.
+            Find the system closest to your market.
           </>
         }
-        lede="Sage Ideas goes deepest where the work has real operational edge: fintech, SaaS, e-commerce, healthcare, and AI-native teams. Each vertical routes into the same product, AI, brand, and growth system."
+        lede="Open the route that matches your buyer: more leads, quote requests, intake, support, or conversion. The goal is simple: show what your business could become before you book."
         panel={
           <LivingDiagram
             eyebrow="vertical graph"
-            title="Industry routing"
+            title="Market routing"
             nodes={verticals.slice(0, 4).map((v) => v.shortName)}
             stats={[
               { label: 'verticals', value: String(verticals.length).padStart(2, '0') },
-              { label: 'model', value: 'systems' },
-              { label: 'proof', value: 'shipped' },
+              { label: 'model', value: 'demo' },
+              { label: 'proof', value: 'click' },
             ]}
           />
         }
         proof={[
           { label: 'core verticals', value: String(verticals.length) },
-          { label: 'entry point', value: 'audit' },
+          { label: 'entry point', value: 'demo' },
           { label: 'delivery model', value: 'build' },
-          { label: 'positioning', value: 'honest' },
+          { label: 'next step', value: 'call' },
         ]}
-        primaryCta={{ label: 'Book a fit call', href: '/book' }}
-        secondaryCta={{ label: 'Compare services', href: '/services' }}
+        primaryCta={{ label: 'Open the showcase', href: '/showcase' }}
+        secondaryCta={{ label: 'Book the build call', href: '/book?source=industries' }}
       />
 
       <LivingSection
-        eyebrow="where we go deep"
-        title="Pick the operating context."
-        lede="The work is not one-size-fits-all. Money-moving products, multi-tenant SaaS, DTC storefronts, healthcare workflows, and AI-native startups all break in different places."
+        eyebrow="where the demos point"
+        title="Pick the buyer context."
+        lede="Every market loses revenue in a different place. Start with the closest route, then open the demo or book the build conversation."
       >
         <div className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 lg:grid-cols-3">
           {verticals.map((vertical, index) => (
@@ -97,7 +108,7 @@ export default function IndustriesPage() {
                   : vertical.intro}
               </p>
               <span className="mt-8 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sage-accent-readable)]">
-                View system
+                View route
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">-&gt;</span>
               </span>
             </Link>
@@ -106,27 +117,27 @@ export default function IndustriesPage() {
       </LivingSection>
 
       <LivingSection
-        eyebrow="how the page should convert"
-        title="Industry pages are routing surfaces."
-        lede="Each vertical exists to clarify the problem, prove we understand the failure modes, and move the visitor into the right engagement without fake proof or generic claims."
+        eyebrow="how buyers move"
+        title="Each industry page should answer one question."
+        lede="Can Sage Ideas understand this market well enough to show a useful working system before asking for the sale?"
       >
         <ConversionMap
           steps={[
             {
-              label: 'Name the context',
-              detail: 'Show the industry-specific problem before pitching the service catalog.',
+              label: 'Name the leak',
+              detail: 'Show the specific missed revenue, slow follow-up, unclear intake, or support bottleneck.',
             },
             {
-              label: 'Expose the failure modes',
-              detail: 'Use concrete risks: webhooks, tenant boundaries, checkout friction, PHI, eval drift.',
+              label: 'Show the system',
+              detail: 'Route the buyer to a visual workflow they can understand without technical explanation.',
             },
             {
-              label: 'Route the offer',
-              detail: 'Move buyers to Audit, Build, Operate, SEO, or Academy based on their actual constraint.',
+              label: 'Open proof',
+              detail: 'Use a live demo, screenshot, or prototype packet instead of asking them to imagine it.',
             },
             {
-              label: 'Capture intent',
-              detail: 'Book a fit call when the problem is complex, or send the reader deeper into services.',
+              label: 'Book the build',
+              detail: 'Move serious visitors into a scoped conversation with the right source attached.',
             },
           ]}
         />
@@ -134,13 +145,13 @@ export default function IndustriesPage() {
 
       <LivingSection
         eyebrow="fit check"
-        title="Industry not listed?"
-        lede="That does not automatically disqualify the project. The real question is whether the work needs a product-minded operator who can connect software, AI, brand, and growth."
+        title="Do not see your exact market?"
+        lede="If your business has traffic, leads, support, intake, or manual follow-up, there is probably a system worth showing before the build call."
         className="border-b-0"
       >
         <div className="flex flex-wrap gap-3">
-          <LivingCTA href="/book">Book a strategy call</LivingCTA>
-          <LivingCTA href="/contact" variant="secondary">Send the context</LivingCTA>
+          <LivingCTA href="/book?source=industries">Book the build call</LivingCTA>
+          <LivingCTA href="/contact?source=industries" variant="secondary">Send the context</LivingCTA>
         </div>
       </LivingSection>
     </LivingPageShell>

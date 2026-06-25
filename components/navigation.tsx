@@ -196,19 +196,6 @@ const resourcesMega: MegaSection[] = [
   },
 ]
 
-const routeConsoleMetrics = {
-  services: [
-    ['route', 'audit -> build'],
-    ['scope', 'fixed or custom'],
-    ['handoff', 'operator-led'],
-  ],
-  resources: [
-    ['learn', 'academy'],
-    ['use', 'tools'],
-    ['proof', 'build record'],
-  ],
-} as const
-
 const mobileRouteCards = [
   {
     href: '/services',

@@ -806,7 +806,7 @@ a[class*="text-[#3D5AFE]"]:hover {
 
 @keyframes sage-nav-pulse {
   0% {
-    transform: translateX(-100%) scaleX(0.45);
+    transform: translateX(-40%) scaleX(0.45);
     opacity: 0;
   }
   18%,
@@ -814,7 +814,7 @@ a[class*="text-[#3D5AFE]"]:hover {
     opacity: 0.92;
   }
   100% {
-    transform: translateX(100%) scaleX(0.45);
+    transform: translateX(40%) scaleX(0.45);
     opacity: 0;
   }
 }
@@ -824,9 +824,18 @@ a[class*="text-[#3D5AFE]"]:hover {
   animation: sage-nav-pulse 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+@media (max-width: 640px) {
+  .sage-nav-pulse {
+    animation: none;
+    transform: none;
+    opacity: 0.72;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sage-nav-pulse {
     animation: none;
+    transform: none;
     opacity: 0.48;
   }
 }

@@ -22,6 +22,7 @@ import { attributedTestimonials, permissionedLogos } from '@/data/social-proof/a
 
 const navSections = [
   { id: 'certifications', label: 'Certifications' },
+  { id: 'proof-ledger', label: 'Proof ledger' },
   { id: 'quality', label: 'Code Quality' },
   { id: 'testing', label: 'Testing' },
   { id: 'cicd', label: 'CI/CD' },
@@ -35,9 +36,32 @@ const navSections = [
 
 const trustReceipts = [
   { metric: 'Reply window', value: '< 48h', detail: "Well-matched inquiries get a response within two business days. No \"I'll get back to you\" ghosting." },
-  { metric: 'NDA on request', value: 'Same day', detail: 'Mutual NDA available before scope discussion. Template at /legal/nda — sign electronically, no lawyer required.' },
+  { metric: 'NDA on request', value: 'Same day', detail: 'Mutual NDA available before scope discussion. Template at /legal/nda. Sign electronically, no lawyer required.' },
   { metric: 'Production posture', value: 'Stripe + Supabase + AWS', detail: 'Same stack we ship for clients. Daily encrypted backups, IAM-scoped access, OIDC-only deploys.' },
   { metric: 'Code transparency', value: 'Public repo', detail: "This site’s source is open. Every commit is auditable history of how the studio actually operates." },
+]
+
+const proofLedger = [
+  {
+    label: 'Technical proof captured',
+    status: 'Verified locally',
+    detail: 'Business routes have screenshot, link-check, metadata, Lighthouse, and axe evidence under docs/evidence/marketing.',
+  },
+  {
+    label: 'Interactive demos',
+    status: 'Live on site',
+    detail: 'Revenue OS, Contractor Quote Engine, Med Spa, Law Firm, and AI Support pages are openable and audited as public routes.',
+  },
+  {
+    label: 'Accessibility and overflow',
+    status: 'Clean audit',
+    detail: 'The latest business audit reports zero axe violations and zero horizontal overflow across the audited business routes.',
+  },
+  {
+    label: 'Live campaign outcomes',
+    status: 'Not claimed yet',
+    detail: 'Demo-to-booking analytics, real customer feedback, and campaign conversion screenshots need live traffic before they can be displayed.',
+  },
 ]
 
 const certifications = [
@@ -45,10 +69,10 @@ const certifications = [
   { provider: 'ISTQB', name: 'Test Automation Engineer (TAE)', tag: 'testing' },
   { provider: 'ISTQB', name: 'Certified Tester AI Testing (CT-AI)', tag: 'testing' },
   { provider: 'AWS', name: 'Certified Cloud Practitioner', tag: 'cloud' },
-  { provider: 'AWS', name: 'Certified Solutions Architect — Associate', tag: 'cloud' },
-  { provider: 'AWS', name: 'Certified Developer — Associate', tag: 'cloud' },
-  { provider: 'AWS', name: 'Certified SysOps Administrator — Associate', tag: 'cloud' },
-  { provider: 'AWS', name: 'Certified DevOps Engineer — Professional', tag: 'cloud' },
+  { provider: 'AWS', name: 'Certified Solutions Architect - Associate', tag: 'cloud' },
+  { provider: 'AWS', name: 'Certified Developer - Associate', tag: 'cloud' },
+  { provider: 'AWS', name: 'Certified SysOps Administrator - Associate', tag: 'cloud' },
+  { provider: 'AWS', name: 'Certified DevOps Engineer - Professional', tag: 'cloud' },
   { provider: 'Cisco', name: 'CCNA (Routing & Switching)', tag: 'networking' },
 ]
 
@@ -64,7 +88,7 @@ const codeQualityStandards = [
   'Husky pre-commit hooks (lint, type-check, test)',
   'Minimum test coverage: 60% line coverage enforced by CI gate',
   'All external API calls have error handling and retry logic',
-  'No hardcoded secrets — all credentials via environment variables or AWS Secrets Manager',
+  'No hardcoded secrets. Credentials use environment variables or AWS Secrets Manager.',
   'Dependency audits: npm audit / pip audit in CI, no known critical vulnerabilities shipped',
 ]
 
@@ -82,7 +106,7 @@ const testingFrameworks = [
 ]
 
 const cicdStandards = [
-  'TypeScript type check — every PR',
+  'TypeScript type check on every PR',
   'ESLint (zero warnings policy)',
   'Full unit test suite',
   'Build verification',
@@ -108,7 +132,7 @@ const infraStandards = [
 const dataHandling = [
   {
     label: 'Where data lives',
-    body: 'Customer data lives in Supabase (Postgres, US-East-2) and Stripe. No analytics platform stores PII beyond hashed identifiers — Vercel Analytics is privacy-first by design.',
+    body: 'Customer data lives in Supabase (Postgres, US-East-2) and Stripe. Analytics do not store PII beyond hashed identifiers.',
   },
   {
     label: 'Retention',
@@ -116,7 +140,7 @@ const dataHandling = [
   },
   {
     label: 'Access',
-    body: 'Service-role keys are server-side only. Row-level security on every customer-facing table. No third-party support seat has read access to customer data — the studio is one operator.',
+    body: 'Service-role keys are server-side only. Row-level security is used on customer-facing tables. No third-party support seat has read access to customer data.',
   },
   {
     label: 'Sub-processors',
@@ -124,7 +148,7 @@ const dataHandling = [
   },
   {
     label: 'Incident response',
-    body: 'Security incidents are disclosed to affected clients within 72 hours. Post-incident report includes root cause, blast radius, and remediation steps — no PR-spin.',
+    body: 'Security incidents are disclosed to affected clients within 72 hours. Post-incident reports include root cause, blast radius, and remediation steps.',
   },
   {
     label: 'Right to delete',
@@ -143,26 +167,26 @@ const guarantees = [
   },
   {
     title: 'Cancel monthly anytime',
-    body: 'Site Care, Brand Care, Content Care, Scale, Operate, Content Engine — all cancel through Stripe in two clicks. Billed through end-of-cycle. No 12-month lock-ins.',
+    body: 'Site Care, Brand Care, Content Care, Scale, Operate, and Content Engine all cancel through Stripe. Billed through end-of-cycle. No 12-month lock-ins.',
   },
   {
     title: 'Handoff that survives',
-    body: "Every engagement ships with documentation, runbooks, and a knowledge-transfer call. The system survives without me on the next call — that's the bar.",
+    body: 'Every engagement ships with documentation, runbooks, and a knowledge-transfer call. The system should survive without me on the next call.',
   },
   {
     title: 'No bait-and-switch staffing',
-    body: "The person who scopes the work is the person who builds it. There's no \"we'll assign a team\" — it's one operator on every line of code.",
+    body: 'The person who scopes the work is the person who builds it. There is no account-manager handoff.',
   },
 ]
 
 const honestyItems = [
   {
     scenario: 'You need a 10-person delivery team this quarter',
-    truth: 'Sage Ideas is one operator. We can do extraordinary depth on one or two parallel workstreams — not breadth across ten. If you need a staffing agency, we are the wrong fit and we will say so on the first call.',
+    truth: 'Sage Ideas is one operator. We can do depth on one or two parallel workstreams, not breadth across ten. If you need a staffing agency, we are the wrong fit and we will say so on the first call.',
   },
   {
     scenario: 'You want a full-time, on-call, replace-your-CTO arrangement',
-    truth: "Studio Engagement is up to 30 hours per week with defined response windows. It is not 24/7 on-call. If you need a fulltime engineering lead embedded in your team, hire one — we'll help you scope the role.",
+    truth: 'Studio Engagement is up to 30 hours per week with defined response windows. It is not 24/7 on-call. If you need a full-time engineering lead embedded in your team, hire one. We can help you scope the role.',
   },
   {
     scenario: "You're shopping on price alone",
@@ -174,7 +198,7 @@ const honestyItems = [
   },
   {
     scenario: 'You need someone to ship code fast and ask questions later',
-    truth: 'We scope before we build. Discovery and architecture come first — always. If you want a contractor who builds whatever you ask without pushback, we are the wrong choice.',
+    truth: 'We scope before we build. Discovery and architecture come first. If you want a contractor who builds whatever you ask without pushback, we are the wrong choice.',
   },
 ]
 
@@ -226,7 +250,7 @@ export function TrustContent() {
           >
             <MonoLabel tone="accent" className="tabular-nums">01</MonoLabel>
             <Hairline className="w-16" />
-            <MonoLabel tone="muted">{'// evidence'}</MonoLabel>
+            <MonoLabel tone="muted">Evidence</MonoLabel>
             <Hairline className="flex-1" strong />
           </motion.div>
 
@@ -245,7 +269,7 @@ export function TrustContent() {
                   fontSize: 'clamp(3rem, 1.5rem + 5vw, 6.3rem)',
                 }}
               >
-                Why teams trust<br />the studio.
+                What gets tested before you buy.
               </motion.h1>
 
               <motion.div
@@ -255,12 +279,11 @@ export function TrustContent() {
                 className="mt-8 max-w-3xl space-y-4 text-base leading-[1.75] text-[var(--sage-ink-muted)]"
               >
                 <p className="text-lg font-normal text-[var(--sage-ink-muted)]">
-                  We don&apos;t ask you to take our word for it. Here&apos;s the evidence.
+                  You should know how the work is scoped, tested, documented, and handed off before money changes hands.
                 </p>
                 <p>
-                  Trust in a software engagement comes from verifiable evidence, not assertions.
-                  Every claim on this page is backed by something you can check: a public GitHub
-                  repo, a certification verification link, a methodology document, a test suite count.
+                  This page turns the sales promise into receipts: public work, certifications,
+                  testing standards, data handling, references, and written engagement terms.
                 </p>
               </motion.div>
             </div>
@@ -320,9 +343,8 @@ export function TrustContent() {
       </section>
 
       <Section
-        index="01B"
-        eyebrow="trust architecture"
-        heading="Trust is an operating system."
+        eyebrow="How trust works"
+        heading="Every claim needs a receipt."
         ariaLabel="Trust architecture"
       >
         <SurfaceSystemPanel
@@ -365,13 +387,43 @@ export function TrustContent() {
         </div>
       </Section>
 
+      <Section
+        id="proof-ledger"
+        index="03"
+        eyebrow="proof ledger"
+        heading="What is proven now, and what still needs live traffic."
+        lede="The site should earn trust by separating technical proof from business-outcome proof. Local route evidence is real. Customer conversion evidence only appears after real campaigns produce it."
+        ariaLabel="Proof ledger"
+      >
+        <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] md:grid-cols-2">
+          {proofLedger.map((item, i) => (
+            <Reveal key={item.label} delay={i * 0.05}>
+              <div className="flex min-h-[180px] flex-col justify-between bg-[var(--sage-surface-1)] px-6 py-7">
+                <div>
+                  <MonoLabel tone={item.status === 'Not claimed yet' ? 'faint' : 'accent'} as="p">
+                    {item.status}
+                  </MonoLabel>
+                  <h3
+                    className="mt-4 text-xl font-normal text-[var(--sage-ink)]"
+                    style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}
+                  >
+                    {item.label}
+                  </h3>
+                </div>
+                <p className="mt-5 text-sm leading-[1.7] text-[var(--sage-ink-muted)]">{item.detail}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
       {/* ── Certifications ────────────────────────────────────────────────────── */}
       <Section
         id="certifications"
-        index="03"
+        index="04"
         eyebrow="certifications"
         heading="9 active certifications."
-        lede="All certifications are active. Verification links available on request — just ask during a discovery call."
+        lede="All certifications are active. Verification links are available on request during a build call."
         ariaLabel="Certifications"
       >
         <div className="space-y-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] max-w-3xl">
@@ -472,8 +524,8 @@ export function TrustContent() {
         id="oss"
         index="08"
         eyebrow="open-source record"
-        heading="106 public repositories."
-        lede="All open-source projects are publicly available and maintained. The commit history is not curated for appearances — it's the actual development record."
+        heading="130+ public repositories."
+        lede="Open-source projects are publicly available. The commit history is the actual development record, not a polished case-study page."
         ariaLabel="Open-source record"
         grain
       >
@@ -497,7 +549,7 @@ export function TrustContent() {
         index="09"
         eyebrow="data handling"
         heading="Where your data lives, who can read it, and how long."
-        lede="The facts. No SOC-2 certificate yet — the studio is too young to have one. Here's the operational equivalent: a plain-English description of how the studio handles client data, sub-processors, and incidents."
+        lede="The facts. No SOC-2 certificate yet. This is the plain-English description of how the studio handles client data, sub-processors, and incidents."
         ariaLabel="Data handling"
       >
         <div className="grid gap-px overflow-hidden rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-border)] md:grid-cols-2 max-w-4xl">
@@ -518,7 +570,7 @@ export function TrustContent() {
         index="10"
         eyebrow="engagement guarantees"
         heading="What we put in writing."
-        lede="Every engagement signs an MSA + SOW. These five guarantees show up in every one of them — not as marketing copy, as contractual terms."
+        lede="Every engagement signs an MSA and SOW. These five guarantees show up as contractual terms, not decorative copy."
         ariaLabel="Engagement guarantees"
         grain
       >
@@ -557,7 +609,7 @@ export function TrustContent() {
               <Surface level={2} className="p-6">
                 <div className="flex items-start gap-5">
                   <MonoLabel tone="faint" className="mt-0.5 shrink-0 tabular-nums">
-                    If —
+                    If
                   </MonoLabel>
                   <div>
                     <p className="text-sm font-medium text-[var(--sage-ink)] mb-3">{h.scenario}</p>
@@ -577,7 +629,7 @@ export function TrustContent() {
         index="12"
         eyebrow="references"
         heading="Talk to past collaborators directly."
-        lede="Sage Ideas is a young studio. Rather than ship cherry-picked testimonials, every prospective client gets the option to talk directly to people I've built things with — fintech engineers, founders, ops leads. Real phone numbers, real conversations, no scripts."
+        lede="Rather than ship cherry-picked testimonials, prospective clients can ask to talk directly to people I have built things with: engineers, founders, and operators. Real conversations, no scripts."
         ariaLabel="References"
         grain
       >
@@ -600,7 +652,7 @@ export function TrustContent() {
           <p className="mt-10 max-w-3xl text-sm text-[var(--sage-ink-faint)] leading-[1.75]">
             Reference contact details are shared with prospective clients during discovery, with
             both parties&apos; consent. As the client roster grows, quoted testimonials will
-            replace this honest stub — not before.
+            replace this honest stub when they are permissioned.
           </p>
         </Reveal>
       </Section>

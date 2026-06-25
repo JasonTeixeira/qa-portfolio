@@ -1,0 +1,449 @@
+SAGE IDEAS BUSINESS FRONT-END PAGE SCORE MATRIX
+Date: 2026-06-25
+Scope: Public business, marketing, showcase, legal, SEO support, conversion-support pages.
+Excluded from scoring: /admin, /portal authenticated app routes, /academy-admin, API routes, cron routes, internal admin showcase routes, and Academy curriculum pages unless they affect business positioning.
+
+SCORING METHOD
+
+Evidence levels:
+- A = Directly audited in the 2026-06-25 business-site audit and screenshot run.
+- B = Source inspected and included in sitemap/public route structure, but not in the 17-route audited set.
+- C = Template-family score. The route is generated from a shared template; individual content varies and has not been manually reviewed one-by-one.
+- D = Support/auth/utility route. Public route exists, but it is not a sales page.
+
+Categories:
+- Offer: how clearly the page says what Sage Ideas does or what the visitor can get.
+- Copy: buyer-facing language, clarity, and lack of internal/operator wording.
+- Design: visual polish, layout, spacing, and premium feel.
+- Story: visual or narrative progression from problem to outcome.
+- CTA: clear next action and path to demo/book/contact.
+- Proof: proof, trust, evidence, specificity, and lack of unsupported claims.
+- SEO: metadata, search intent, internal-link relevance, and indexability posture.
+- Mobile/A11y: mobile readiness plus accessibility posture. Direct audit routes had 0 axe violations and 0 overflow.
+- Perf: performance posture. Only Lighthouse-tested pages get fully earned high scores.
+- Overall: brutal commercial posture from 1-100.
+
+IMPORTANT HONESTY RULE
+
+Only the 17 audited business routes have direct audit evidence from:
+- docs/evidence/marketing/audits/2026-06-25/business-site-audit.json
+- docs/evidence/marketing/screenshots/2026-06-25/
+
+Only these Lighthouse routes have direct Lighthouse evidence:
+- /
+- /services
+- /book?source=lighthouse_business
+- /showcase/revenue-os
+- /pricing
+- /work
+- /work/nexural
+
+Legal pages are not attorney-reviewed in this score. They are scored as public website/legal-document UX and completeness, not as legal advice quality.
+
+
+TIER 0: HIGHEST IMPORTANCE MONEY PAGES
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/                                          A         94    93   94     94    94  93    96  96          95   94       Strong homepage. Best remaining decision is whether to keep, shorten, or bypass the first-visit gate for commercial traffic.
+/showcase/revenue-os                       A         95    94   95     95    95  94    95  95          97   95       Flagship-quality local proof. Still needs real demo-to-book analytics and market outcome proof.
+/book                                      A         95    94   94     92    95  93    94  96          97   95       Strong close route. Needs live booking-provider monitoring and real booked-call analytics.
+/services                                  A         94    93   93     93    94  92    96  96          98   94       Strong service hub. Could still reduce density and make outcome routes even more obvious.
+/showcase/contractor-quote-engine          A         94    93   93     94    94  92    94  94          93   93       Strong vertical demo. Needs one more motion/visual polish pass to match Revenue OS.
+/pricing                                   A         95    95   94     94    95  93    96  100         97   95       Phase 1 rebuilt into a three-path buyer decision page with focused proof: screenshots, no overflow, axe 0 violations, metadata present, Lighthouse 97/100/100/100.
+/showcase                                  A         94    92   93     92    94  93    94  94          93   94       Strong prototype warehouse. Needs filters/proof-level browsing to feel more like a productized proof library.
+/trust                                     A         93    93   92     91    91  94    93  95          93   94       Honest proof ledger is strong. Real customer/campaign evidence is the blocker to high-90 trust.
+/contact                                   A         91    92   90     88    91  89    91  94          91   92       Works. Could become more visual and less form-led.
+
+
+TIER 1: IMPORTANT SUPPORTING SALES PAGES
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/work                                      A         95    94   94     95    95  94    96  100         97   95       Phase 2 rebuilt into a proof-first case-study hub with buyer route map, case filters, source-tagged booking paths, screenshots, no overflow, axe 0 violations, and Lighthouse 97/100/100/100.
+/founder                                   A         90    91   90     89    90  89    90  93          91   91       Credible but still needs stronger personal proof assets and stronger buyer trust framing.
+/industries                                A         92    91   91     90    91  88    93  93          91   92       Good routing page. Needs deeper vertical landing pages and more specific industry examples.
+/process                                   A         92    91   90     91    90  90    91  93          91   92       Clear process. Could be more visual/animated and less explanatory.
+/how-it-works                              A         92    91   90     90    90  89    91  93          91   92       Clearer than before. Still not as visually decisive as the flagship demo pages.
+/showcase/med-spa-consultation-funnel      A         93    92   92     93    93  91    93  93          92   93       Bespoke and interactive. Needs richer treatment-selection, compliance, and consult-booking app states.
+/showcase/law-firm-intake-system           A         93    92   92     93    93  91    93  93          92   93       Bespoke and interactive. Needs richer legal qualification, trust, conflict-check, and urgency states.
+/showcase/ai-support-agent-dashboard       A         93    92   92     93    93  91    93  93          92   93       Bespoke and interactive. Needs richer queue, escalation, answer-quality, and analytics states.
+
+
+TIER 2: LEGAL AND TRUST INFRASTRUCTURE
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/legal                                     B         86    88   88     84    86  88    88  86          86   88       Solid legal hub. Good structure. Needs audit evidence and maybe simpler buyer language.
+/legal/privacy                             B         82    86   82     76    78  86    87  84          84   85       Necessary and indexable. Not attorney-reviewed here. Needs direct audit and clearer rights summary.
+/legal/terms                               B         82    85   82     76    78  86    86  84          84   84       Necessary and indexable. Needs legal review and better buyer/plain-English summary.
+/legal/cookies                             B         82    85   82     76    78  85    86  84          84   84       Necessary. Needs direct audit and stronger tie to actual cookie consent behavior.
+/legal/msa                                 B         84    86   82     78    80  87    85  84          84   85       Useful for serious buyers. Needs legal review and clearer “what this means before you sign” summary.
+/legal/nda                                 B         82    85   82     76    78  86    84  84          84   84       Useful but mostly document prose. Needs legal review and better request/signing CTA.
+/legal/sow-template                        B         84    86   82     78    80  86    85  84          84   85       Useful sales-enablement asset. Needs better public explanation and example scope visual.
+
+
+TIER 3: CONVERSION SUPPORT, SEO TOOLS, DECISION PAGES
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/tools/route-finder                        B         89    88   88     87    89  84    90  86          86   88       Good diagnostic concept. Needs direct audit evidence and stronger routing into demos/book.
+/tools/seo-audit                           B         90    88   88     87    89  85    91  86          86   89       Strong acquisition tool idea. Needs proof of report quality, abuse controls, and conversion analytics.
+/tools/seo-audit/r/[id]                    D         78    80   78     76    76  80    82  80          80   80       Report output route. Needs real sample report QA and noindex/index policy decision.
+/compare                                   B         88    88   87     87    87  84    89  86          86   88       Useful decision page. Needs stronger visual comparison and proof-backed differentiation.
+/compare/sage-vs-in-house-hire             C         87    87   86     86    87  83    88  85          85   87       Good generated comparison. Needs more concrete cost/time proof.
+/compare/sage-vs-big-consultancy           C         87    87   86     86    87  83    88  85          85   87       Good generated comparison. Needs more concrete proof and fewer broad claims.
+/compare/sage-vs-platform                  C         86    86   86     85    86  82    88  85          85   86       Good generated comparison. Needs clearer “when not to hire us” buyer trust section.
+/reports/ai-search-readiness-2026          B         86    88   86     85    85  84    90  85          85   87       Good SEO/thought-leadership page. Needs more original data or examples to become high-authority.
+/changelog                                 B         80    86   86     84    78  87    83  85          85   85       Good transparency page. Not a core closer. Needs stronger link into work/proof.
+/pov                                       B         83    88   87     87    82  84    83  85          85   86       Strong brand philosophy. Not a direct conversion page.
+/capabilities                              B         85    85   85     82    82  80    86  84          84   85       Business-adjacent but likely redundant with services. Could be consolidated or redirected.
+/studio                                    B         84    86   86     84    83  82    85  84          84   85       Useful context but overlaps with founder/process/services.
+/engineering-os                            B         84    86   87     86    82  85    85  84          84   86       Strong for technical buyers, weaker for normal business owners.
+/content-ops                               B         80    84   84     82    78  80    84  83          83   83       Business-adjacent but likely not core enough. Needs repositioning or consolidation.
+/discord                                   B         76    84   84     82    78  80    82  83          83   82       Academy/community-adjacent. Can distract business buyers unless clearly separated.
+/hire-ai-engineer                          B         76    86   86     84    76  84    82  84          84   83       Useful for job search/personal brand, but weak fit for agency/client funnel.
+/proto                                     B         78    84   86     85    78  80    80  83          83   83       Design prototype page. Should be hidden, repositioned, or clearly routed to showcase/work.
+/ascent                                    B         75    82   84     82    75  78    78  82          82   80       Brand/experimental page. Low client-acquisition priority.
+/path                                      B         74    82   83     82    74  78    78  82          82   80       Brand/learning path page. Low business-funnel value unless tied to Academy.
+/stack                                     B         76    82   82     80    74  78    79  82          82   80       Tech credibility page. Too resume-like for business buyers.
+
+
+TIER 4: SERVICE DETAIL ROUTES
+
+Core service detail template posture:
+Evidence: C
+Template score: Offer 88, Copy 87, Design 86, Story 84, CTA 87, Proof 82, SEO 89, Mobile/A11y 84, Perf 84, Overall 87
+
+Brutal posture:
+The service detail system is useful for SEO and long-tail intent, but these pages are not as polished or proof-rich as the core money pages. They should eventually be converted from offer descriptions into “problem -> demo/proof -> package -> book” pages.
+
+Routes:
+- /services/audit
+- /services/ship
+- /services/automate
+- /services/seo-sprint
+- /services/content-engine
+- /services/brand-sprint
+- /services/scale
+- /services/build
+- /services/operate
+- /services/app-development
+- /services/site-starter-landing
+- /services/site-starter-marketing
+- /services/site-starter-pro
+- /services/site-care
+- /services/brand-care
+- /services/content-care
+- /services/ai-reliability-audit
+- /services/rag-engineering
+- /services/agent-ops
+- /services/internal-ai-copilot
+- /services/prompt-eval-library
+- /services/ops-automation-sprint
+- /services/incident-postmortem-pipeline
+- /services/release-notes-automation
+- /services/customer-feedback-router
+- /services/data-hygiene-bot
+- /services/docs-as-product
+- /services/ai-onboarding-concierge
+- /services/support-deflection
+- /services/ai-quality-retainer
+- /services/automation-retainer
+- /services/reliability-retainer
+- /services/founders-tech-partner
+- /services/ai-readiness-assessment
+- /services/stack-xray
+- /services/hallucination-hunt
+- /services/studio-package
+- /services/bespoke-build
+- /services/ai-implementation-consulting
+- /services/ai-agent-development
+- /services/ai-voice-agent
+- /services/ai-lead-engine
+- /services/agent-operations-retainer
+
+Legacy service alias routes:
+Evidence: B/C
+Score: Offer 80, Copy 82, Design 81, Story 78, CTA 80, Proof 76, SEO 82, Mobile/A11y 82, Perf 82, Overall 80
+Routes:
+- /services/ai-development
+- /services/cloud-infrastructure
+- /services/enterprise-qa
+- /services/fintech
+- /services/technical-consulting
+- /services/trading-systems
+
+Brutal posture:
+These are not high-priority money pages anymore. They risk diluting the new business positioning unless redirected, merged, or rewritten around the new “working system before booking” offer.
+
+Named service entry pages:
+- /services/site-starter
+  Score: 84 overall. Useful, but should route into specific site-starter tier pages or the new demo-led offer.
+- /services/studio-engagement
+  Score: 86 overall. Stronger for qualified serious buyers, but too “application-only/operator” for cold business visitors.
+
+
+TIER 5: INDUSTRY AND VERTICAL ROUTES
+
+Industry index:
+- /industries
+  Evidence A. Overall 92.
+
+Generated industry detail template:
+Evidence: C
+Template score: Offer 86, Copy 86, Design 85, Story 83, CTA 85, Proof 78, SEO 88, Mobile/A11y 84, Perf 84, Overall 85
+
+Routes:
+- /industries/fintech
+- /industries/saas
+- /industries/ecommerce
+- /industries/healthcare
+- /industries/ai-startups
+
+Brutal posture:
+These are SEO-useful but underpowered for conversion. They need demo cards, industry-specific proof, and direct links into the relevant showcase assets.
+
+Service-for-industry generated routes:
+Evidence: C
+Score: Offer 82, Copy 83, Design 80, Story 78, CTA 81, Proof 74, SEO 86, Mobile/A11y 80, Perf 80, Overall 81
+
+Brutal posture:
+Good SEO architecture, not yet premium conversion pages. These should not be treated as flagship sales surfaces until manually polished.
+
+
+TIER 6: WORK / CASE STUDY ROUTES
+
+Work index:
+- /work
+  Evidence A. Overall 95.
+
+Case-study detail template:
+Evidence: C
+Template score: Offer 91, Copy 91, Design 90, Story 92, CTA 91, Proof 90, SEO 90, Mobile/A11y 90, Perf 90, Overall 91
+
+Routes:
+- /work/nexural
+- /work/alphastream
+- /work/jobpoise
+- /work/trayd
+- /work/aws-landing-zone
+- /work/quality-telemetry
+- /work/brand-sprint-rebuild
+- /work/site-care-retainer
+
+Brutal posture:
+The work system now has a buyer-facing proof bridge and `/work/nexural` has direct dynamic-page evidence: 200 route, 0 axe violations, 0 overflow, screenshots, source-tagged booking path, and Lighthouse 97/100/100/100. The template is stronger, but the full route family still needs each case manually reviewed and enriched before every detail page can honestly be called 95+.
+
+
+TIER 7: LAB, TOOLS, TEMPLATES, TOPICS, BLOG
+
+/lab
+Evidence B. Score: Offer 83, Copy 86, Design 86, Story 85, CTA 82, Proof 83, SEO 87, Mobile/A11y 84, Perf 84, Overall 85.
+Posture: Good proof/context hub, but not a primary business closer.
+
+Lab product routes:
+Evidence C. Template overall 83.
+Routes:
+- /lab/nexural
+- /lab/jobpoise
+- /lab/trayd
+- /lab/voza
+- /lab/owly
+- /lab/alphastream
+Posture: Useful portfolio/lab context. Needs better commercial routing into services/showcase/book.
+
+Lab utility pages:
+- /lab/ai-readiness
+  Overall 86. Good diagnostic concept; needs real scoring proof and lead capture analytics.
+- /lab/calculators
+  Overall 84. Useful, but needs stronger conversion bridge.
+- /lab/templates
+  Overall 83. Useful acquisition support; not a core client closer.
+
+Lab template routes:
+Evidence C. Template overall 82.
+Routes:
+- /lab/templates/prompt-library-starter
+- /lab/templates/eval-harness-starter
+- /lab/templates/agent-spec-template
+- /lab/templates/roi-calculator-template
+- /lab/templates/ai-vendor-rfp
+
+/topics
+Evidence B. Overall 84.
+Posture: Good content architecture page, but still reads partly like internal editorial ops.
+
+Topic hub routes:
+Evidence C. Template overall 83.
+Routes:
+- /topics/testing-qa
+- /topics/ai-engineering
+- /topics/fintech-trading
+- /topics/cloud-infra
+- /topics/solo-studio
+- /topics/product-systems
+Posture: SEO support, not direct conversion. Needs more links into money pages and prototype proof.
+
+/blog
+Evidence B. Overall 82.
+Posture: Useful content archive, but not currently a high-conversion business route.
+
+Blog post template:
+Evidence C. Template overall 80.
+Individual content quality varies across 62 posts. The template is adequate, but the content library needs tighter internal links to services/showcase/book and more proof-led CTAs.
+
+Blog routes found:
+- /blog/authentication-is-harder-than-you-think
+- /blog/aws-cost-optimization-how-i-keep-a-production-platform-under-50-month
+- /blog/build-a-product-surface-and-system-map
+- /blog/building-a-backtesting-engine-that-doesn
+- /blog/building-a-fintech-platform-solo-185-tables-69-apis-7-systems
+- /blog/building-a-production-ready-api-testing-framework
+- /blog/building-an-ai-discord-bot-for-a-trading-community
+- /blog/building-for-the-next-engineer-code-that-outlasts-you
+- /blog/designing-a-185-table-database-schema-lessons-from-building-nexural
+- /blog/docker-in-ci-cd-the-patterns-that-cut-my-pipeline-time-by-82
+- /blog/eliminating-flaky-tests-a-systematic-approach
+- /blog/environment-variables-the-security-hole-in-every-startup
+- /blog/error-handling-that-respects-your-users
+- /blog/everything-i-shipped-this-year-and-what-i
+- /blog/feature-engineering-for-trading-200-indicators-that-actually-matter
+- /blog/fixing-docker-compose-connection-errors-in-ci-cd
+- /blog/git-workflows-that-don
+- /blog/github-oidc-aws-no-long-lived-keys-cloud-automation-the-right-way
+- /blog/how-i-debug-production-issues-a-real-framework-not-guessing
+- /blog/how-i-structure-a-next-js-project-after-6-production-apps
+- /blog/how-to-build-a-wall-of-love-that-doesnt-feel-fake
+- /blog/how-to-evaluate-ai-features-before-you-ship-them
+- /blog/how-to-review-your-own-code-when-there
+- /blog/i-read-50-senior-engineer-job-descriptions-here
+- /blog/mobile-test-automation-with-appium-the-complete-guide
+- /blog/monitoring-that-actually-tells-you-something
+- /blog/monolith-vs-microservices-why-i-chose-a-modular-monolith-for-nexural
+- /blog/owasp-top-10-automated-testing-a-practical-implementation
+- /blog/page-object-model-beyond-the-basics
+- /blog/performance-testing-from-zero-to-production
+- /blog/portfolio-risk-math-explained-var-cvar-and-why-covariance-estimation-matters
+- /blog/rag-evaluation-without-the-benchmark-theater
+- /blog/rate-limiting-the-feature-nobody-thinks-about-until-it
+- /blog/real-time-websocket-architecture-patterns-that-actually-scale
+- /blog/running-an-llc-as-an-engineer-what-nobody-tells-you
+- /blog/seo-as-an-engineering-system-not-a-blog-calendar
+- /blog/stripe-integration-lessons-what-the-docs-don
+- /blog/supabase-in-production-what-i-wish-i-knew-before-185-tables
+- /blog/terraform-module-patterns-how-i-structure-iac-for-reuse
+- /blog/test-strategy-for-startups-what-to-test-when-you-can
+- /blog/the-ai-agent-boundary-problem
+- /blog/the-ai-implementation-audit-before-you-build
+- /blog/the-architecture-decision-nobody-writes-down
+- /blog/the-automation-mindset-if-you-do-it-twice-script-it
+- /blog/the-bug-that-taught-me-more-than-any-course-ever-did
+- /blog/the-case-against-over-engineering-from-someone-who
+- /blog/the-difference-between-testimonials-and-proof
+- /blog/the-myth-of-the-10x-developer
+- /blog/the-proof-page-system-behind-nexurals-track-record
+- /blog/the-recruiter-pack-why-i-give-away-my-qa-playbooks
+- /blog/the-solo-engineer
+- /blog/the-technical-interview-from-both-sides-of-the-table
+- /blog/turning-customer-receipts-into-seo-assets
+- /blog/what-an-ai-native-studio-actually-builds
+- /blog/what-i-learned-building-in-public-as-a-solo-engineer
+- /blog/what-trading-futures-taught-me-about-writing-software
+- /blog/why-i-document-every-system-i-build-and-the-template-i-use
+- /blog/why-i-treat-my-portfolio-like-a-production-system
+- /blog/why-i-use-raw-sql-instead-of-an-orm-most-of-the-time
+- /blog/why-most-api-documentation-is-useless-and-how-to-fix-yours
+- /blog/writing-a-120-000-word-book-while-building-software-full-time
+- /blog/your-test-coverage-number-is-lying-to-you
+
+
+TIER 8: SHOWCASE PACKET / PROOF SUPPORT ROUTES
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/showcase/compare                          B         84    82   80     80    82  82    82  80          80   82       Useful but currently uses admin-style visual language. Should be redesigned before public use.
+/showcase/proof                            B         86    84   80     80    82  88    82  80          80   84       Honest proof wall concept. Needs public-facing design polish.
+/showcase/private/[slug]                   B         88    86   84     84    86  84    70  82          82   86       Good private packet route. Noindex is correct. Needs personalization data integration.
+/showcase/private/[slug]/preview           B         82    84   82     82    82  86    65  82          82   83       Internal QA preview. Good operationally, not meant as public marketing.
+
+Excluded from public business score:
+- /showcase/admin
+- /showcase/admin/[slug]
+
+Reason:
+These are noindex internal/admin proof dashboards. They matter operationally but should not be judged as buyer-facing pages.
+
+
+TIER 9: AUTH, ACCOUNT, UTILITY, AND SUPPORT ROUTES
+
+Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
+/login                                     D         70    80   82     70    78  78    65  82          82   80       Functional account route. Not a marketing page.
+/signup                                    D         72    80   82     72    80  78    66  82          82   80       Functional portal access route. Not a sales page.
+/onboarding                                D         68    78   80     68    76  76    62  80          80   78       Functional access route.
+/pending-approval                          D         66    78   80     66    74  76    60  80          80   77       Functional status route.
+/unsubscribe                               D         70    82   80     70    78  82    70  80          80   80       Necessary compliance route. Needs direct audit but likely adequate.
+/offline                                   D         60    74   78     64    64  70    55  78          78   74       Utility fallback route. Low business importance.
+
+
+NOT BUSINESS-FRONT-END FOR THIS SCORE
+
+These routes exist but are excluded from the business front-end scoring request:
+- /admin/*
+- /portal/*
+- /api/*
+- /academy/*
+- /academy-admin/*
+- /auth/*
+- /checkout/*
+- /learn and /learn/waitlist, except as Academy acquisition pages
+
+Reason:
+They are product, auth, Academy, portal, internal admin, checkout, or API surfaces. They should get their own audits, not be mixed into the business marketing score.
+
+
+ORDER OF IMPORTANCE TO POLISH NEXT
+
+1. /work and /work/[slug]
+   Why: should be the proof bridge between demos and trust.
+   Target: index 91 -> 94, case-study template 86 -> 92.
+
+2. /founder
+   Why: trust page for a solo/small studio.
+   Target: 91 -> 94.
+
+3. /industries/[slug]
+   Why: major SEO and buyer-identification opportunity.
+   Target: 85 -> 91.
+
+4. /services/[slug]
+   Why: large SEO surface, but not yet conversion-grade.
+   Target: 87 -> 92.
+
+5. /showcase/compare and /showcase/proof
+   Why: useful concept, currently too admin-looking for public sales.
+   Target: 82/84 -> 90+.
+
+6. /legal and legal documents
+   Why: enough for now, but should be directly audited and attorney-reviewed.
+   Target: 84-88 -> 90.
+
+7. Blog/topic/lab support pages
+   Why: long-term inbound compounding, but lower immediate sales impact.
+   Target: 80-85 -> 88-90 through better internal linking and proof CTAs.
+
+
+BRUTAL OVERALL READ
+
+Core business funnel:
+93-95 / 100
+
+Business-support pages:
+86-92 / 100
+
+Legal pages:
+84-88 / 100 as website UX and content structure.
+Not scored as legal sufficiency because no attorney review was performed.
+
+SEO/content library:
+80-87 / 100
+
+Auth/utility:
+74-80 / 100
+
+The top money pages are genuinely strong. The biggest weakness is not the homepage anymore. It is the long tail: pricing density, case-study proof, industry detail depth, public proof-wall polish, legal audit coverage, and real market evidence.

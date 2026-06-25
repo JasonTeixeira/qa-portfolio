@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Clock3, FileText, MonitorPlay, MousePointer2, Send, Sparkles } from 'lucide-react'
 import type { Prototype } from '../prototype-catalog'
 import styles from './prototype-detail.module.css'
@@ -64,6 +66,7 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
   const sample = sampleBySlug[prototype.slug] ?? sampleBySlug['contractor-quote-engine']
 
   const selectedFlow = prototype.workflow[activeStep] ?? prototype.workflow[0]
+  const selectedDemo = prototype.demo?.steps[activeStep] ?? prototype.demo?.steps[0]
   const packetState = sent ? 'Live handoff sent' : approved ? 'Approved packet' : 'Draft packet'
   const progress = Math.min(100, 38 + activeStep * 14 + (approved ? 18 : 0) + (sent ? 16 : 0))
 
@@ -74,14 +77,14 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
   ], [prototype.personalization, prototype.screens.length, sample.proof])
 
   return (
-    <section className={styles.prototypeEmbed} aria-label={`${prototype.name} embedded prototype`}>
+    <section id="live-prototype" className={styles.prototypeEmbed} aria-label={`${prototype.name} embedded prototype`}>
       <div className={styles.embedHeader}>
         <div>
-          <span className={styles.kicker}>Embedded live prototype</span>
-          <h2>{prototype.name} you can click through.</h2>
+          <span className={styles.kicker}>Live buyer workflow</span>
+          <h2>Open the version a prospect would understand.</h2>
           <p>
-            This is the usable product layer inside the showcase, with real states, sample data, proof assets, and
-            a buyer-ready handoff path.
+            Click the steps, approve the packet, and send the handoff. The demo shows how the
+            business problem turns into a visible workflow, not a static mockup.
           </p>
         </div>
         <div className={styles.embedStatus}>
@@ -90,6 +93,48 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
           <span>{progress}% workflow proof</span>
         </div>
       </div>
+
+      {prototype.demo ? (
+        <div className={styles.decisionDemo} aria-label={`${prototype.name} decision demo`}>
+          <div className={styles.decisionSteps}>
+            {prototype.demo.steps.map((step, index) => (
+              <button
+                key={step.label}
+                className={`${styles.decisionStep} ${activeStep === index ? styles.decisionStepActive : ''}`}
+                onClick={() => setActiveStep(index)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{step.label}</strong>
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.decisionBoard}>
+            <article>
+              <span>Before</span>
+              <p>{selectedDemo?.before}</p>
+            </article>
+            <div className={styles.decisionCore}>
+              <span>{prototype.name}</span>
+              <strong>{selectedDemo?.system}</strong>
+            </div>
+            <article>
+              <span>Result</span>
+              <p>{selectedDemo?.result}</p>
+            </article>
+          </div>
+
+          <div className={styles.decisionFooter}>
+            <div>
+              <span>Buyer action</span>
+              <strong>{selectedDemo?.buyerAction}</strong>
+            </div>
+            <button onClick={() => setActiveStep((current) => (current + 1) % (prototype.demo?.steps.length ?? 1))}>
+              Next step <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       <div className={styles.playground}>
         <div className={styles.prototypeRail}>
@@ -152,9 +197,9 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
               <div className={styles.screenChips}>
                 {prototype.screens.map((screen) => (
                   <button key={screen} onClick={() => setActiveStep((current) => (current + 1) % prototype.workflow.length)}>
-                    {screen}
-                  </button>
-                ))}
+                {screen}
+              </button>
+            ))}
               </div>
             </article>
 
@@ -180,6 +225,31 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
           </div>
         </div>
       </div>
+
+      {prototype.demo ? (
+        <div className={styles.proofStatus} aria-label={`${prototype.name} verified proof status`}>
+          <span>Evidence-backed proof status</span>
+          <div>
+            {prototype.demo.proofStatus.map((item) => (
+              <strong key={item}>
+                <CheckCircle2 size={15} />
+                {item}
+              </strong>
+            ))}
+          </div>
+          <LinkButton href={`/book?source=${prototype.slug}_prototype_demo`}>
+            {prototype.demo.primaryCta}
+          </LinkButton>
+        </div>
+      ) : null}
     </section>
+  )
+}
+
+function LinkButton({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link className={styles.demoBookLink} href={href}>
+      {children} <ArrowRight size={16} />
+    </Link>
   )
 }

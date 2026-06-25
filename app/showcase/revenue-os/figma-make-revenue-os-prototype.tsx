@@ -9,7 +9,7 @@ import {
   MessageSquare, Phone, Plus, RefreshCw, Search, Send,
   Settings, Sparkles, Target, User, Users, Zap,
   CheckCircle2, XCircle, Globe, Check, Play, X,
-  Calendar, ExternalLink,
+  Calendar,
 } from 'lucide-react';
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis,

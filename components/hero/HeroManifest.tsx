@@ -32,7 +32,7 @@ const ROWS: ManifestRow[] = [
 
 export function HeroManifest() {
   return (
-    <aside
+    <div
       aria-hidden
       className="relative w-full select-none [font-family:var(--font-mono),ui-monospace,monospace]"
     >
@@ -89,7 +89,7 @@ export function HeroManifest() {
           </span>
         </footer>
       </div>
-    </aside>
+    </div>
   )
 }
 
@@ -102,7 +102,7 @@ export function HeroManifest() {
  */
 export function HeroManifestMobile() {
   return (
-    <aside
+    <div
       aria-hidden
       className="w-full select-none [font-family:var(--font-mono),ui-monospace,monospace]"
     >
@@ -148,7 +148,7 @@ export function HeroManifestMobile() {
           </span>
         </div>
       </div>
-    </aside>
+    </div>
   )
 }
 

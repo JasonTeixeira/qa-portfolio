@@ -1,0 +1,70 @@
+[
+  {
+    "route": "/",
+    "violations": []
+  },
+  {
+    "route": "/services",
+    "violations": []
+  },
+  {
+    "route": "/pricing",
+    "violations": []
+  },
+  {
+    "route": "/book?source=marketing_audit",
+    "violations": []
+  },
+  {
+    "route": "/contact",
+    "violations": []
+  },
+  {
+    "route": "/trust",
+    "violations": []
+  },
+  {
+    "route": "/work",
+    "violations": []
+  },
+  {
+    "route": "/founder",
+    "violations": []
+  },
+  {
+    "route": "/industries",
+    "violations": []
+  },
+  {
+    "route": "/process",
+    "violations": []
+  },
+  {
+    "route": "/how-it-works",
+    "violations": []
+  },
+  {
+    "route": "/showcase",
+    "violations": []
+  },
+  {
+    "route": "/showcase/revenue-os",
+    "violations": []
+  },
+  {
+    "route": "/showcase/contractor-quote-engine",
+    "violations": []
+  },
+  {
+    "route": "/showcase/med-spa-consultation-funnel",
+    "violations": []
+  },
+  {
+    "route": "/showcase/law-firm-intake-system",
+    "violations": []
+  },
+  {
+    "route": "/showcase/ai-support-agent-dashboard",
+    "violations": []
+  }
+]

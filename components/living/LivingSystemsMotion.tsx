@@ -30,8 +30,24 @@ export function LivingSystemsMotion() {
     let splashTracked = false
     let splashDone = false
     const splashStorageKey = 'sage_living_os_boot_seen'
+    const search = new URLSearchParams(window.location.search)
+    const auditMode = (() => {
+      if (search.get('audit') === '1') return true
+      try {
+        return window.localStorage.getItem('sage-audit-mode') === 'true'
+      } catch {
+        return false
+      }
+    })()
+    const commercialVisit =
+      auditMode ||
+      search.get('intent') === 'hire' ||
+      search.has('source') ||
+      search.has('utm_source') ||
+      search.has('utm_campaign')
     const splashEligible = (() => {
       if (reduced) return false
+      if (commercialVisit) return false
       try {
         return window.sessionStorage.getItem(splashStorageKey) !== 'true'
       } catch {
@@ -48,7 +64,9 @@ export function LivingSystemsMotion() {
     // Per-element scroll-reveal: each [data-living-reveal] rises + fades in as it
     // enters the viewport, staggered among siblings. This is the agency scroll-in
     // — content arrives as you scroll, instead of the whole page appearing at once.
-    const revealObserver = reduced
+    if (auditMode) body.classList.add('living-audit')
+
+    const revealObserver = reduced || auditMode
       ? null
       : new IntersectionObserver(
           (entries) => {
@@ -99,7 +117,7 @@ export function LivingSystemsMotion() {
 
     const timeout = window.setTimeout(() => {
       if (!splashDone) showEverything('timeout')
-    }, 4500)
+    }, 2200)
 
     const setBootProgress = (progress: number, status: string, activeIndex: number) => {
       const bar = document.querySelector<HTMLElement>('[data-living-boot-progress]')
@@ -133,16 +151,15 @@ export function LivingSystemsMotion() {
       cleanupFns.push(() => skip?.removeEventListener('click', onSkip))
 
       const steps: Array<[number, number, string, number]> = [
-        [150, 0.22, 'Mounting studio route', 0],
-        [820, 0.42, 'Loading academy path', 1],
-        [1600, 0.62, 'Indexing proof layer', 2],
-        [2400, 0.8, 'Priming diagnostic tools', 3],
-        [3200, 1, 'Opening content engine', 4],
+        [120, 0.3, 'Mounting buyer route', 0],
+        [420, 0.58, 'Loading live systems', 1],
+        [760, 0.82, 'Indexing proof layer', 2],
+        [1100, 1, 'Opening demos', 3],
       ]
       const timers = steps.map(([delay, progress, status, activeIndex]) =>
         window.setTimeout(() => setBootProgress(progress, status, activeIndex), delay),
       )
-      const finish = window.setTimeout(() => done('loaded'), 3500)
+      const finish = window.setTimeout(() => done('loaded'), 1400)
       cleanupFns.push(() => {
         timers.forEach((timer) => window.clearTimeout(timer))
         window.clearTimeout(finish)
@@ -230,7 +247,7 @@ export function LivingSystemsMotion() {
     }
 
     const initEnhanced = async () => {
-      if (reduced) {
+      if (reduced || auditMode) {
         initStatic()
         return
       }
@@ -375,7 +392,7 @@ export function LivingSystemsMotion() {
       cancelAnimationFrame(raf)
       cleanupFns.forEach((fn) => fn())
       root.classList.remove('living-ready')
-      body.classList.remove('living-ready', 'living-reel', 'living-visible')
+      body.classList.remove('living-ready', 'living-reel', 'living-visible', 'living-audit')
     }
   }, [])
 

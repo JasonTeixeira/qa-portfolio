@@ -58,7 +58,7 @@ export function ScrollDrawDiagram({
   stats = fallbackStats,
   variant = 'studio',
 }: ScrollDrawDiagramProps) {
-  const rootRef = useRef<HTMLElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const gradientId = useId().replace(/:/g, '')
   const reduced = useReducedMotion()
   const paddedNodes = [...nodes, ...fallbackNodes].slice(0, 4)
@@ -119,7 +119,7 @@ export function ScrollDrawDiagram({
   }, [reduced])
 
   return (
-    <aside
+    <div
       ref={rootRef}
       className={`${styles.systemPanel} ${styles.scrollDiagram} min-h-[360px] p-5 sm:p-6`}
       data-diagram-active="false"
@@ -224,6 +224,6 @@ export function ScrollDrawDiagram({
           ))}
         </dl>
       </div>
-    </aside>
+    </div>
   )
 }

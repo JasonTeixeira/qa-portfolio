@@ -1,0 +1,54 @@
+Sage Ideas Business Marketing Route Inventory
+Date: 2026-06-24
+Scope: Business-facing marketing pages only. Academy internals intentionally left out.
+
+Primary routes reviewed and exercised:
+- /?intent=hire&source=e2e
+- /services
+- /pricing
+- /book?source=revenue_os_showcase
+- /contact
+- /trust
+- /showcase
+- /showcase/revenue-os
+- /showcase/contractor-quote-engine
+- /showcase/med-spa-consultation-funnel
+- /showcase/law-firm-intake-system
+- /showcase/ai-support-agent-dashboard
+- /showcase/private/revenue-os
+- /showcase/private/revenue-os/preview
+- /showcase/admin
+- /showcase/admin/revenue-os
+- /showcase/compare
+- /showcase/proof
+
+Primary files changed in this pass:
+- app/page.tsx
+- components/living/LivingSystemsHome.tsx
+- components/living/RouteConversionCta.tsx
+- app/services/page.tsx
+- app/services/services-el.tsx
+- app/pricing/page.tsx
+- app/pricing/pricing-el.tsx
+- app/book/page.tsx
+- app/contact/page.tsx
+- app/contact/contact-relaunch-content.tsx
+- app/trust/page.tsx
+- app/trust/trust-content.tsx
+- app/showcase/page.tsx
+- app/showcase/showcase-index.tsx
+- app/showcase/revenue-os/revenue-os-showcase.tsx
+- app/showcase/contractor-quote-engine/contractor-quote-showcase.tsx
+- app/showcase/contractor-quote-engine/contractor-quote.module.css
+- tests/e2e/home-business.spec.ts
+- tests/e2e/showcase-revenue-os.spec.ts
+
+Verification artifacts:
+- Screenshots: docs/evidence/marketing/screenshots/2026-06-24/
+- Scorecard: docs/evidence/marketing/audits/2026-06-24/business-site-scorecard.txt
+
+Out-of-scope dirty files already present in the worktree:
+- Discord/API/RAG files
+- Academy-admin lint failures
+- Proto page lint failures
+- Script lint failures

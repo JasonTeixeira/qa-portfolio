@@ -767,6 +767,10 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
   assert.equal(failing.ok, false);
   assert.ok(failing.issues.some((item) => item.field === 'expected_sources' && item.message.includes('missing-source.md')));
   assert.equal(pkg.scripts['rag:validate-eval-seeds'], 'tsx scripts/rag/validate-eval-seeds.ts');
+  assert.equal(pkg.scripts['rag:evaluate:seed-dry-run'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --seed-only --dry-run');
+  assert.ok(pkg.scripts['discord:release-local'].includes('rag:validate-eval-seeds'));
+  assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:seed-dry-run'));
+  assert.equal(pkg.scripts['discord:release-local'].includes('npm run rag:evaluate &&'), false);
   assert.match(validatorScript, /eval-seed-quality\.json/);
   assert.match(validatorScript, /mutationMode: 'local_file_evidence_only'/);
 });
@@ -1815,6 +1819,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(runbook, /Release Gate/);
   assert.equal(pkg.scripts['discord:smoke-final-scorecard'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts');
   assert.equal(pkg.scripts['discord:smoke-final-scorecard:dry-run'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts --dry-run');
+  assert.ok(pkg.scripts['discord:release-local'].includes('discord:smoke-final-scorecard:dry-run'));
 });
 
 test('discord operating proof cycle: real operating blockers are measured not hidden', async () => {
@@ -1861,7 +1866,10 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(runbook, /Four-Week Growth Proof/);
   assert.match(runbook, /Do not auto-publish externally/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
+  assert.equal(pkg.scripts['discord:operating-cycle:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run');
   assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard');
+  assert.ok(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:dry-run'));
+  assert.equal(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:full'), false);
 });
 
 test('discord content factory: creates approval-gated channel drafts from editorial slots', async () => {
@@ -1912,6 +1920,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(factory, /content_factory_dry_run: false/);
   assert.equal(pkg.scripts['discord:content-factory'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts');
   assert.equal(pkg.scripts['discord:content-factory:week'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7');
+  assert.equal(pkg.scripts['discord:content-factory:week:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7 --dry-run');
+  assert.ok(pkg.scripts['discord:release-local'].includes('discord:content-factory:week:dry-run'));
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

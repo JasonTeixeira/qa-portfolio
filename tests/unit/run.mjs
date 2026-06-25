@@ -1977,11 +1977,14 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);
   assert.match(smoke, /worldClassEligible/);
   assert.match(smoke, /requiredOperatingProof/);
   assert.match(smoke, /dryRun/);
+  assert.match(smoke, /proof_rehearsal_readiness/);
+  assert.match(smoke, /Real 95\+ operating proof/);
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782430857805",
+  "runKey": "phase-20-final-1782431129497",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -556,6 +556,11 @@
         "path": "docs/evidence/rag/eval-seed-quality.json",
         "ok": true,
         "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+        "ok": true,
+        "status": "true"
       }
     ]
   },
@@ -582,6 +587,11 @@
       "rag_eval_results": 1192
     }
   },
+  "proofRehearsalValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
+  },
   "releaseGates": [
     {
       "name": "scorecard_schema",
@@ -591,7 +601,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "17/17 required evidence files pass"
+      "evidence": "18/18 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -607,6 +617,11 @@
       "name": "database_release_tables",
       "passed": true,
       "evidence": "discord_security_audit_runs, discord_scale_readiness_runs, discord_final_scorecard_runs, discord_job_runs, discord_job_dead_letters, discord_gateway_heartbeats, rag_eval_runs, rag_eval_results"
+    },
+    {
+      "name": "proof_rehearsal_readiness",
+      "passed": true,
+      "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
     },
     {
       "name": "migration_present",
@@ -637,6 +652,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T23:40:57.805Z",
-  "finishedAt": "2026-06-25T23:40:59.999Z"
+  "startedAt": "2026-06-25T23:45:29.497Z",
+  "finishedAt": "2026-06-25T23:45:31.287Z"
 }

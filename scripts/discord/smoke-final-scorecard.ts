@@ -85,6 +85,21 @@ async function validateDatabaseReleaseTables(sb: any) {
   };
 }
 
+function validateProofRehearsalReadiness(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  const lanes = Array.isArray(payload?.lanes) ? payload.lanes : [];
+  if (payload?.ok !== true) failures.push('proof_rehearsal_not_ok');
+  if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('proof_rehearsal_mutation_mode_not_read_only');
+  if (lanes.length < 3) failures.push('proof_rehearsal_missing_lanes');
+  if (!lanes.every((lane: any) => lane?.ok === true)) failures.push('proof_rehearsal_lane_failed');
+  if (!String(payload?.releaseMeaning ?? '').includes('Real 95+ operating proof')) failures.push('proof_rehearsal_operating_proof_disclaimer_missing');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${lanes.filter((lane: any) => lane?.ok === true).length}/${lanes.length} rehearsal lanes ready, mutation=${payload?.mutationMode ?? 'unknown'}`,
+  };
+}
+
 async function main() {
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false },
@@ -94,15 +109,17 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
     validateDatabaseReleaseTables(sb),
     readJsonFile('docs/evidence/rag/eval-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
     readFile(path.join(process.cwd(), 'docs', 'discord', 'FINAL_OPERATING_RHYTHM_RELEASE_STANDARD.md'), 'utf8'),
     readFile(path.join(process.cwd(), 'supabase', 'migrations', '0094_discord_final_scorecard_release.sql'), 'utf8'),
   ]);
+  const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
   const releaseGates: DiscordReleaseGate[] = [
     {
       name: 'scorecard_schema',
@@ -135,6 +152,11 @@ async function main() {
       evidence: Object.entries(databaseValidation.checks).filter(([, ok]) => ok).map(([table]) => table).join(', '),
     },
     {
+      name: 'proof_rehearsal_readiness',
+      passed: proofRehearsalValidation.ok,
+      evidence: proofRehearsalValidation.evidence,
+    },
+    {
       name: 'migration_present',
       passed: migration.includes('create table if not exists public.discord_final_scorecard_runs'),
       evidence: '0094_discord_final_scorecard_release.sql',
@@ -148,6 +170,7 @@ async function main() {
   const failures = [
     ...scorecardValidation.failures.map((failure) => `scorecard:${failure}`),
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
+    ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
     ...evidenceValidation.missing.map((failure) => `missing_evidence:${failure}`),
     ...evidenceValidation.failing.map((failure) => `failing_evidence:${failure}`),
     ...releaseGates.filter((gate) => !gate.passed).map((gate) => `release_gate:${gate.name}`),
@@ -189,6 +212,7 @@ async function main() {
     rhythmValidation,
     evidenceValidation,
     databaseValidation,
+    proofRehearsalValidation,
     releaseGates,
     ragEvalLatest: {
       ok: ragEval?.ok,

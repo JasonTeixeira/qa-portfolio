@@ -11,6 +11,7 @@ const evidencePaths = {
   contentFactory: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-22-content-factory-dry-run.json'),
   evalSeedQuality: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-quality.json'),
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
+  proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -45,7 +46,7 @@ function summarizeOperatingBlockers(operatingCycle) {
 }
 
 async function main() {
-  const [finalScorecard, operatingCycle, contentFactory, evalSeedQuality, evalSeedDryRun] = await Promise.all(
+  const [finalScorecard, operatingCycle, contentFactory, evalSeedQuality, evalSeedDryRun, proofRehearsalReadiness] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
 
@@ -55,6 +56,11 @@ async function main() {
   requireTruthy(evalSeedQuality.ok === true, 'RAG eval seed quality evidence is not ok.');
   requireTruthy(evalSeedDryRun.ok === true, 'RAG eval seed dry-run evidence is not ok.');
   requireTruthy(evalSeedDryRun.dryRun === true, 'RAG eval seed evidence must be dry-run for verify:local.');
+  requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
+  requireTruthy(
+    proofRehearsalReadiness.mutationMode === 'local_file_evidence_only',
+    'Proof rehearsal readiness must not mutate external systems.',
+  );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
   requireTruthy(
@@ -119,6 +125,13 @@ async function main() {
       created: contentFactory.created,
       failed: contentFactory.failed,
       channelCoverage: contentFactory.channelCoverage,
+    },
+    proofRehearsalReadiness: {
+      ok: proofRehearsalReadiness.ok,
+      mutationMode: proofRehearsalReadiness.mutationMode,
+      laneCount: Array.isArray(proofRehearsalReadiness.lanes) ? proofRehearsalReadiness.lanes.length : 0,
+      missingOrStale: proofRehearsalReadiness.missingOrStale ?? [],
+      releaseMeaning: proofRehearsalReadiness.releaseMeaning,
     },
     remainingGaps: [
       'Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.',

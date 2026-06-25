@@ -85,6 +85,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
+  assert.equal(packageJson.scripts['discord:proof-rehearsal-readiness'], 'tsx scripts/discord/write-proof-rehearsal-readiness.ts');
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
@@ -96,8 +98,18 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);
   assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
+  assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
+  const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
+  assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
+  assert.match(proofRehearsalScript, /transient_seed_cleanup/);
+  assert.match(proofRehearsalScript, /must not be counted as real operating proof/);
+  assert.match(proofRehearsalScript, /discord:smoke-public-proof-growth/);
+  assert.match(proofRehearsalScript, /discord:smoke-premium-workflows/);
+  assert.match(proofRehearsalScript, /rag:smoke-discord-authoritative-sync/);
+  assert.match(proofRehearsalScript, /local_file_evidence_only/);
   const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
   assert.match(readinessScript, /buildWorldClassReadinessReport/);

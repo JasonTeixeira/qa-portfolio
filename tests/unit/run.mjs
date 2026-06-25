@@ -1430,6 +1430,8 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Durable job control',
     'Job dead letters',
     'Premium operations',
+    'Final scorecard',
+    '95+ blockers',
     'Audit stream',
   ]) {
     assert.match(page, new RegExp(surface.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -1439,6 +1441,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord_job_dead_letters/);
   assert.match(page, /discord_premium_review_requests/);
   assert.match(page, /discord_office_hours_queue/);
+  assert.match(page, /discord_final_scorecard_runs/);
   assert.match(actions, /retryDiscordJobDeadLetterAction/);
   assert.match(actions, /cancelDiscordJobRunAction/);
   assert.match(actions, /resolveDiscordJobDeadLetterAction/);

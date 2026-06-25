@@ -329,6 +329,14 @@ type DiscordOfficeHoursRow = {
   created_at: string;
 };
 
+type DiscordFinalScorecardRunRow = {
+  run_key: string;
+  status: string;
+  average_score: number;
+  blocked_below_95: string[] | null;
+  created_at: string;
+};
+
 const cockpitTabs = [
   ['overview', 'Overview'],
   ['members', 'Members'],
@@ -415,6 +423,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     jobDeadLettersRes,
     premiumReviewsRes,
     officeHoursRes,
+    latestFinalScorecardRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -588,6 +597,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('priority', { ascending: false })
       .order('created_at', { ascending: true })
       .limit(20),
+    sb
+      .from('discord_final_scorecard_runs')
+      .select('run_key, status, average_score, blocked_below_95, created_at')
+      .order('created_at', { ascending: false })
+      .limit(1),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -612,6 +626,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const jobDeadLetters = (jobDeadLettersRes.data ?? []) as DiscordJobDeadLetterRow[];
   const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
   const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
+  const latestFinalScorecard = ((latestFinalScorecardRes.data ?? []) as DiscordFinalScorecardRunRow[])[0] ?? null;
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
   const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
@@ -732,6 +747,16 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   <HealthLine label="Gateway dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
                   <HealthLine label="Job dead letters" value={String(jobDeadLetters.length)} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
                   <HealthLine label="Last scheduled run" value={lastRun ? `${lastRun.kind} / ${lastRun.status}` : 'No run yet'} tone={lastRun?.status === 'failed' ? 'rose' : lastRun ? 'emerald' : 'amber'} />
+                  <HealthLine
+                    label="Final scorecard"
+                    value={latestFinalScorecard ? `${latestFinalScorecard.average_score}/100` : 'No run'}
+                    tone={!latestFinalScorecard ? 'amber' : latestFinalScorecard.average_score >= 95 ? 'emerald' : latestFinalScorecard.average_score >= 85 ? 'amber' : 'rose'}
+                  />
+                  <HealthLine
+                    label="95+ blockers"
+                    value={latestFinalScorecard ? String(latestFinalScorecard.blocked_below_95?.length ?? 0) : 'unknown'}
+                    tone={!latestFinalScorecard ? 'amber' : (latestFinalScorecard.blocked_below_95?.length ?? 0) === 0 ? 'emerald' : 'rose'}
+                  />
                 </div>
               </CardContent>
             </Card>

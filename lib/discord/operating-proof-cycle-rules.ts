@@ -8,6 +8,7 @@ export type OperatingCycleMetrics = {
   onboardedMembers: number;
   activeMembers7d: number;
   premiumMembers: number;
+  premiumWorkflowProofs: number;
   applicationsSubmitted: number;
   applicationsApproved: number;
 };
@@ -60,7 +61,7 @@ export function operatingCycleGates(input: {
         && input.metrics.approvedMembers >= 0
         && input.metrics.activeMembers7d >= 0
         && input.metrics.premiumMembers >= 0,
-      evidence: `${input.metrics.applicationsSubmitted} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium`,
+      evidence: `${input.metrics.applicationsSubmitted} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium / ${input.metrics.premiumWorkflowProofs} premium workflow proofs`,
     },
     {
       name: 'final_scorecard_current',

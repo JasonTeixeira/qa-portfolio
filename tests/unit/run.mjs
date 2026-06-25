@@ -96,6 +96,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);
   assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
+  assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
@@ -1542,6 +1543,9 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /activeMember7dCountRes/);
   assert.match(page, /applicationsSubmittedCountRes/);
   assert.match(page, /applicationsApprovedCountRes/);
+  assert.match(page, /premiumReviewProofCountRes/);
+  assert.match(page, /officeHoursProofCountRes/);
+  assert.match(page, /premiumWorkflowProofs/);
   assert.match(page, /academy_member/);
   assert.match(page, /onboarding_completed_at/);
   assert.match(page, /source_type\.in\.\(discord_question,discord_answer,discord_content_queue\),source_table\.eq\.discord_content_drafts/);
@@ -1909,6 +1913,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
       onboardedMembers: 3,
       activeMembers7d: 4,
       premiumMembers: 1,
+      premiumWorkflowProofs: 1,
       applicationsSubmitted: 8,
       applicationsApproved: 7,
     },
@@ -2011,6 +2016,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       onboardedMembers: 7,
       activeMembers7d: 7,
       premiumMembers: 0,
+      premiumWorkflowProofs: 0,
       applicationsSubmitted: 0,
       applicationsApproved: 0,
     },
@@ -2043,13 +2049,15 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       approvedMembers: 7,
       onboardedMembers: 7,
       activeMembers7d: 7,
-      premiumMembers: 1,
+      premiumMembers: 0,
+      premiumWorkflowProofs: 1,
       applicationsSubmitted: 4,
       applicationsApproved: 2,
     },
   });
   assert.equal(passing.status, 'passed');
   assert.equal(passing.nextActions.length, 0);
+  assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
 });
 
 test('discord proof controls: documents the non-fake path to 95+ operating proof', async () => {
@@ -2067,6 +2075,8 @@ test('discord proof controls: documents the non-fake path to 95+ operating proof
   assert.match(controls, /discord_answers\.helpful = true/);
   assert.match(controls, /discord_content_queue\.status = 'published'/);
   assert.match(controls, /source_type in \('discord_question', 'discord_answer', 'discord_content_queue'\)/);
+  assert.match(controls, /discord_premium_review_requests\.status in \('queued', 'in_review', 'completed'\)/);
+  assert.match(controls, /discord_office_hours_queue\.status in \('queued', 'selected', 'scheduled', 'completed'\)/);
   assert.match(controls, /npm run discord:operating-cycle:dry-run/);
   assert.match(controls, /npm run discord:operating-cycle/);
   assert.match(controls, /npm run verify:local/);

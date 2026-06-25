@@ -76,7 +76,7 @@ export function buildDiscordProofBacklogReport(input: {
     lane({
       key: 'premium_workflow_proof',
       title: 'Premium workflow proof',
-      currentCount: input.metrics.premiumMembers,
+      currentCount: input.metrics.premiumWorkflowProofs ?? input.metrics.premiumMembers,
       targetCount: 1,
       sourceTables: [
         'discord_members',

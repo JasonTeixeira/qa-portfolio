@@ -101,6 +101,7 @@ async function main() {
       onboardedMembers: metrics.onboardedMembers ?? 0,
       activeMembers7d: metrics.activeMembers7d ?? 0,
       premiumMembers: metrics.premiumMembers ?? 0,
+      premiumWorkflowProofs: metrics.premiumWorkflowProofs ?? metrics.premiumMembers ?? 0,
       knownBlockers,
     },
     ragEvalSeeds: {

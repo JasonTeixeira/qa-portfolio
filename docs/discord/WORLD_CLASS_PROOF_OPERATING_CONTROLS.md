@@ -107,8 +107,8 @@ Target:
 
 Counts from:
 - `discord_members.premium_member = true`
-- Premium workflow tables such as `discord_premium_review_requests`
-- Office-hours workflow tables such as `discord_office_hours_queue`
+- `discord_premium_review_requests.status in ('queued', 'in_review', 'completed')`
+- `discord_office_hours_queue.status in ('queued', 'selected', 'scheduled', 'completed')`
 
 Admin action:
 - Run one premium review, deeper answer, or office-hours queue flow with a real premium member or an intentionally seeded premium scenario.

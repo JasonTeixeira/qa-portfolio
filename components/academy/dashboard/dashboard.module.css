@@ -62,6 +62,43 @@
 .stat dd { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .statLive dt { color: var(--accent); }
 
+/* habit panel — Today: daily goal, streak, level */
+.habit {
+  position: relative; z-index: 1; margin: 0 0 1.6rem;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem;
+}
+.habitCard {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line); border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.habitActive { border-color: color-mix(in srgb, #f5a623 40%, transparent); box-shadow: 0 0 50px -38px #f5a623; }
+.habitMet { border-color: color-mix(in srgb, #2dd4bf 42%, transparent); box-shadow: 0 0 50px -38px #2dd4bf; }
+.habitMeta { display: flex; flex-direction: column; gap: 0.28rem; min-width: 0; }
+.habitLabel { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.habitValue { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.55rem; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+.habitDim { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.habitSub { font-family: var(--font-mono), monospace; font-size: 0.66rem; color: var(--dim); display: flex; align-items: center; gap: 0.35rem; }
+
+.flame { font-size: 2.5rem; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 0 14px rgba(245, 166, 35, 0.45)); }
+.freezePips { color: #7cc7ff; letter-spacing: 0.05em; }
+
+.levelBadge {
+  flex-shrink: 0; width: 56px; height: 56px; display: grid; place-items: center;
+  border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%);
+  font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.xpBar { display: block; width: 100%; min-width: 120px; height: 6px; border-radius: 100px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.xpBar > span { display: block; height: 100%; border-radius: 100px; background: var(--accent); transition: width 0.4s ease; }
+
+@media (max-width: 720px) {
+  .habit { grid-template-columns: 1fr; }
+}
+
 /* progress ring (real %) */
 .ring { display: block; flex-shrink: 0; }
 .ringText { fill: var(--ink); font-family: var(--font-mono), monospace; font-size: 12px; font-weight: 600; }

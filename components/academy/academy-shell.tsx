@@ -13,6 +13,9 @@ import { getDueCount } from '@/lib/academy/fsrs'
 const NAV = [
   { href: '/academy/dashboard', label: 'My Learning', key: 'dashboard' },
   { href: '/academy/review', label: 'Review', key: 'review' },
+  { href: '/academy/leagues', label: 'Leagues', key: 'leagues' },
+  { href: '/academy/community', label: 'Community', key: 'community' },
+  { href: '/academy/refer', label: 'Invite', key: 'refer' },
   { href: '/academy/catalog', label: 'Catalog', key: 'catalog' },
   { href: '/academy/evidence', label: 'Certificates', key: 'evidence' },
   { href: '/academy/resources', label: 'Tools', key: 'resources' },

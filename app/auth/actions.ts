@@ -1,8 +1,9 @@
 'use server';
 
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
+import { attributeReferral } from '@/lib/academy/referrals';
 import { logAudit } from '@/lib/admin-guard';
 import { sendWelcomeEmail } from '@/lib/welcomeEmail';
 import { checkRateLimitFromHeaders } from '@/lib/rate-limit';
@@ -317,14 +318,14 @@ export async function resendVerification(formData: FormData): Promise<void> {
 export async function signUpAcademy(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const password = String(formData.get('password') ?? '');
-  const fullName = String(formData.get('full_name') ?? '').trim();
+  const fullName = String(formData.get('full_name') ?? '').trim().slice(0, 200);
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     redirect(`/academy/signup?error=${encodeURIComponent('Enter a valid email address.')}`);
   }
-  if (!password || password.length < 8) {
+  if (!password || password.length < 8 || password.length > 128) {
     redirect(
-      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be at least 8 characters.')}`,
+      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be 8–128 characters.')}`,
     );
   }
 
@@ -371,6 +372,21 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
     });
   }
   if (!alreadyExists) void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
+
+  // Referral attribution: a new learner who arrived via a ?ref code (captured to
+  // the `sage_ref` cookie) is credited to their referrer + paid the welcome bonus.
+  if (!alreadyExists && data.user) {
+    const cookieStore = await cookies();
+    const ref = cookieStore.get('sage_ref')?.value;
+    if (ref) {
+      try {
+        await attributeReferral(data.user.id, ref);
+      } catch (err) {
+        console.error('[auth] referral attribution failed', err);
+      }
+      cookieStore.delete('sage_ref');
+    }
+  }
 
   // New academy learners go through onboarding (the "understand the game" first run);
   // returning learners go straight to their dashboard.

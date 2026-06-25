@@ -1,15 +1,20 @@
 import type { CSSProperties } from 'react'
 import { topic } from '@/lib/academy/topics'
 import type { CertificateView } from '@/lib/academy/learner'
+import { ShareRow } from '@/components/academy/share/ShareRow'
 import styles from './certificate.module.css'
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sageideas.dev'
 
 const cap = (s: string) =>
   s.split(/[\s.]+/).map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1) : w)).join(' ')
 
 export function Certificate({ cert }: { cert: CertificateView }) {
   const t = topic(cert.topic)
-  const date = new Date(cert.issuedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  const issued = new Date(cert.issuedAt)
+  const date = issued.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   const rootStyle = { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
+  const shareUrl = `${SITE}/academy/certificate/${cert.code}`
 
   return (
     <div className={styles.page} style={rootStyle}>
@@ -33,6 +38,18 @@ export function Certificate({ cert }: { cert: CertificateView }) {
       <p className={styles.verify}>
         Verify at sageideas.dev/academy/certificate/{cert.code}
       </p>
+      <div className={styles.shareWrap}>
+        <ShareRow
+          url={shareUrl}
+          text={`I earned a ${cert.courseTitle} certificate at Sage Academy.`}
+          cert={{
+            name: `${cert.courseTitle} — Sage Academy`,
+            issuedYear: issued.getFullYear(),
+            issuedMonth: issued.getMonth() + 1,
+            certId: cert.code,
+          }}
+        />
+      </div>
     </div>
   )
 }

@@ -8,7 +8,6 @@ import styles from './lab.module.css'
 const PYODIDE_VERSION = '0.26.4'
 const PYODIDE_BASE = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
     loadPyodide?: (opts: { indexURL: string }) => Promise<any>

@@ -40,3 +40,9 @@
 .signRole { font-family: var(--font-mono), monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 
 .verify { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); word-break: break-all; text-align: center; }
+
+.shareWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.4rem;
+}

@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { topic } from '@/lib/academy/topics'
 import type { Course, Lesson, LessonBlock } from '@/data/academy/sample-course'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
+import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
+import type { Celebration } from '@/lib/academy/gamification-logic'
 import { SprintBlock } from './SprintBlocks'
 import styles from './lesson.module.css'
 
@@ -165,6 +167,7 @@ export function LessonPlayer({
   const t = topic(course.topic)
   const router = useRouter()
   const [completed, setCompleted] = useState(initialCompleted)
+  const [celebration, setCelebration] = useState<Celebration | null>(null)
   const [pending, startTransition] = useTransition()
   const pct = course.lessonsTotal ? Math.round((course.lessonsDone / course.lessonsTotal) * 100) : 0
   const rootStyle = { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
@@ -176,8 +179,17 @@ export function LessonPlayer({
       const res = await markLessonComplete(course.slug, lesson.slug)
       if (res.ok) {
         setCompleted(true)
-        if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug)) // advance to the next lesson
-        else router.refresh()
+        const advance = () => {
+          if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug)) // advance to the next lesson
+          else router.refresh()
+        }
+        // Show the dopamine payoff first, then advance once it's been seen.
+        if (res.celebration) {
+          setCelebration(res.celebration)
+          setTimeout(advance, 2000)
+        } else {
+          advance()
+        }
       }
     })
   }
@@ -199,6 +211,7 @@ export function LessonPlayer({
 
   return (
     <div className={styles.root} style={rootStyle}>
+      <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
       {/* top bar */}
       <header className={styles.topbar}>
         <span className={styles.crumbCourse}>{course.title.toUpperCase()}</span>

@@ -2,8 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
-import { recordActivityAndAward } from '@/lib/academy/gamification'
+import { recordActivityAndAward, pickCelebration, type Celebration } from '@/lib/academy/gamification'
 import { ensureReviewCardsForCompleted } from '@/lib/academy/fsrs'
+import { maybeConvertReferral } from '@/lib/academy/referrals'
+import { updateFriendStreaks } from '@/lib/academy/community'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -12,7 +14,7 @@ import { ensureReviewCardsForCompleted } from '@/lib/academy/fsrs'
 export async function markLessonComplete(
   courseSlug: string,
   lessonSlug: string,
-): Promise<{ ok: boolean; signedIn: boolean }> {
+): Promise<{ ok: boolean; signedIn: boolean; celebration?: Celebration | null }> {
   const sb = await createSupabaseServerClient()
   const {
     data: { user },
@@ -20,6 +22,9 @@ export async function markLessonComplete(
   if (!user) return { ok: false, signedIn: false }
 
   // First-completion check so XP/streak award exactly once per lesson (anti-cheat).
+  // TODO(scale): read-before-write — two sub-second concurrent calls (double-click)
+  // can both see alreadyDone=false and double-award XP. Referral conversion is already
+  // race-safe (atomic claim); make this atomic via a Postgres fn before scale.
   const { data: existing } = await sb
     .from('academy_progress')
     .select('status')
@@ -45,12 +50,16 @@ export async function markLessonComplete(
     return { ok: false, signedIn: true }
   }
 
+  let celebration: Celebration | null = null
   if (!alreadyDone) {
     await maybeAwardCertificate(user.id, courseSlug, user.email ?? null)
     // Habit core: award XP + advance streak + daily goal (best-effort, never block).
     try {
-      await recordActivityAndAward(user.id, 'lesson')
+      const state = await recordActivityAndAward(user.id, 'lesson')
+      celebration = pickCelebration(state)
       await ensureReviewCardsForCompleted(user.id) // seed an FSRS review card for the lesson
+      await maybeConvertReferral(user.id) // convert a pending referral once the invitee engages
+      await updateFriendStreaks(user.id) // advance friend streaks for both-active pairs
     } catch (err) {
       console.error('[academy/progress] gamification award failed', err)
     }
@@ -59,7 +68,7 @@ export async function markLessonComplete(
   revalidatePath('/academy/preview')
   revalidatePath('/academy/dashboard')
   revalidatePath('/academy/learn', 'layout')
-  return { ok: true, signedIn: true }
+  return { ok: true, signedIn: true, celebration }
 }
 
 /** Issues a certificate (once) when every published lesson in the course is complete. Server-verified. */

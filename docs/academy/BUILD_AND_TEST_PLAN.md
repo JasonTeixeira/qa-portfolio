@@ -76,15 +76,15 @@ Emit PostHog events at every step from day one: `signup`, `onboarding_step`,
 ---
 
 ## Phase 2 — Proof + credibility  → dims 7, 12  (the premium moat)
-**Deliverables**
-- [ ] Pre/post assessment → **Hake's g** per learner + public aggregate (honest "collecting data" state under n-threshold).
-- [ ] Public proof-of-work **portfolio** (the shareable unit) at `/academy/u/[handle]`.
-- [ ] One-click LinkedIn certificate + auto proof-of-work/streak **social cards** at the aha.
+**Deliverables** _(2026-06-25 — built + e2e-verified; per-course question banks ride with content)_
+- [x] Pre/post assessment → **Hake's g** per learner + public aggregate (honest "collecting data" state under n-threshold).
+- [x] Public proof-of-work **portfolio** (the shareable unit) at `/academy/u/[handle]`.
+- [x] One-click LinkedIn certificate + auto proof-of-work/streak **social cards** at the aha.
 
 **Engineering**
 - [ ] Migrations: `academy_assessments` (course_slug, kind pretest|posttest, score, taken_at), `academy_profiles` (handle unique, is_public, bio), `academy_artifacts` (course/lesson, title, repo_url, demo_url).
 - [ ] `lib/academy/efficacy.ts` — Hake's g = (post−pre)/(100−pre); per-learner + aggregate.
-- [ ] Pretest gate at course start, posttest at end; gain display on course/dashboard.
+- [x] Pretest gate at course start, posttest at end; gain display on course/dashboard. _(2026-06-25 — `AssessmentGate` + `AssessmentBanner`, server-scored, modular per-course jsonb bank; e2e green.)_
 - [ ] Public profile page (own-vs-public RLS), `/academy/efficacy` public page (real aggregate only).
 - [ ] Social-card OG route (`/og/academy?kind=proof|streak|gain&...`); LinkedIn add-certificate (cert verify URL); share buttons at completion.
 
@@ -100,14 +100,14 @@ Emit PostHog events at every step from day one: `signup`, `onboarding_step`,
 
 ## Phase 3 — Growth loops  → dims 4, 8, 9  (the spread)
 **Deliverables**
-- [ ] Two-sided referral (status/access rewards, not discounts), surfaced at session-1 aha + milestones.
-- [ ] Engagement-tier **leagues** (weekly XP, promotion/relegation, fresh-start reset) at `/academy/leagues`.
-- [ ] Discord ↔ academy bridge (role sync on enroll), cohorts, friend streaks.
+- [x] Two-sided referral (status/access rewards, not discounts), surfaced at session-1 aha + milestones. _(2026-06-25 — codes + attribution + conversion + XP/freeze rewards + `/academy/refer` hub; e2e green.)_
+- [x] Engagement-tier **leagues** (weekly XP, promotion/relegation, fresh-start reset) at `/academy/leagues`. _(2026-06-25 — built + verified live; rollover cron is the P4 trigger.)_
+- [~] Discord ↔ academy bridge (role sync on enroll), cohorts, friend streaks. _(2026-06-25 — friends + friend streaks + cohorts + Discord-connect surface DONE; identity-linked role-sync pending.)_
 
 **Engineering**
 - [ ] Migrations: `academy_referrals` (code, referrer_id, invitee_id, reward_type, status), `academy_leagues` (week, tier), `academy_league_members` (league_id, user_id, weekly_xp, rank), `academy_cohorts`, `academy_friendships` (+ friend_streak).
-- [ ] `lib/academy/referrals.ts` — code gen, attribution at signup, idempotent give-get reward grant.
-- [ ] `lib/academy/leagues.ts` — assignment by engagement tier, weekly rank + promote/relegate (logic here; cron triggers it in P4).
+- [x] `lib/academy/referrals.ts` — code gen, attribution at signup, idempotent give-get reward grant. _(pure logic in `referral-logic.ts` + 6 unit tests; migration 0101.)_
+- [x] `lib/academy/leagues.ts` — assignment by engagement tier, weekly rank + promote/relegate (logic here; cron triggers it in P4). _(pure logic in `leagues-logic.ts` + DB seat/standings in `leagues.ts`; migration `0097`.)_
 - [ ] Discord role sync (reuse existing discord system) on enrollment.
 - [ ] UI: referral widget (code + status, at aha + milestones), leagues page (tier + leaderboard), friend streaks.
 
@@ -121,10 +121,10 @@ Emit PostHog events at every step from day one: `signup`, `onboarding_step`,
 ---
 
 ## Phase 4 — Engagement infrastructure  → dims 6, 14
-**Deliverables**
-- [ ] Background jobs (Vercel Cron + queue): due-review compute, streak check/reset, league rollover.
-- [ ] Notification engine: lifecycle email + **web push** (VAPID/service worker); streak-save reminders with send-time + frequency cap.
-- [ ] DB index pass (199 unindexed FKs); Upstash connected (rate limiter global).
+**Deliverables** _(2026-06-25 — cron + notifications built + e2e-verified; delivery needs VAPID/RESEND/Upstash keys)_
+- [x] Background jobs (Vercel Cron): streak sweep (hourly) + league rollover (weekly). _(due-review is computed on read.)_
+- [x] Notification engine: lifecycle email + **web push** (VAPID/service worker); streak-save reminders with send-time + frequency cap.
+- [~] DB index pass — academy hot-path FKs done; full 199-FK pass + Upstash keys pending.
 
 **Engineering**
 - [ ] Cron routes (`vercel.ts` crons): daily (reminders, streak, reviews), weekly (league rollover); guarded by `CRON_SECRET`.

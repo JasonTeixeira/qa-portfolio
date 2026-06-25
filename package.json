@@ -225,6 +225,7 @@
     "tailwind-merge": "^3.3.1",
     "ts-fsrs": "^5.4.1",
     "vaul": "^1.1.2",
+    "web-push": "^3.6.7",
     "web-vitals": "^5.2.0",
     "yauzl": "^2.10.0",
     "zod": "^3.24.1"
@@ -238,6 +239,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "@types/ws": "^8.18.1",
     "archiver": "^6.0.2",
     "axe-core": "^4.11.0",

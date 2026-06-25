@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { gradeReview } from '@/app/academy/_actions/reviews'
 import type { DueReview, ReviewGrade } from '@/lib/academy/fsrs'
+import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
+import type { Celebration } from '@/lib/academy/gamification-logic'
 import styles from './review.module.css'
 
 const GRADES: { key: ReviewGrade; label: string; sub: string }[] = [
@@ -20,6 +22,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   const [index, setIndex] = useState(0)
   const [revealed, setRevealed] = useState(false)
   const [pending, setPending] = useState(false)
+  const [celebration, setCelebration] = useState<Celebration | null>(null)
   const total = cards.length
   const current = cards[index]
 
@@ -27,7 +30,8 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
     if (!current || pending) return
     setPending(true)
     try {
-      await gradeReview(current.id, g)
+      const res = await gradeReview(current.id, g)
+      if (res && 'celebration' in res && res.celebration) setCelebration(res.celebration)
     } catch {
       /* best-effort; the queue advances regardless */
     }
@@ -74,6 +78,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
 
   return (
     <div className={styles.page}>
+      <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
       <div className={styles.head}>
         <p className={styles.kicker}>Spaced review</p>
         <span className={styles.counter}>

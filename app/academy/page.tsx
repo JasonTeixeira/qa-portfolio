@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { AcademyLanding } from '@/components/academy/landing/AcademyLanding'
+import { ReferralCapture } from '@/components/academy/referral/ReferralCapture'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -20,5 +22,12 @@ export const metadata: Metadata = {
 }
 
 export default function AcademyPage() {
-  return <AcademyLanding />
+  return (
+    <>
+      <Suspense fallback={null}>
+        <ReferralCapture />
+      </Suspense>
+      <AcademyLanding />
+    </>
+  )
 }

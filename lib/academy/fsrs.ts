@@ -1,7 +1,7 @@
 import 'server-only'
 import { fsrs, generatorParameters, createEmptyCard, Rating, type Card, type Grade } from 'ts-fsrs'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import { recordActivityAndAward } from '@/lib/academy/gamification'
+import { recordActivityAndAward, pickCelebration, type Celebration } from '@/lib/academy/gamification'
 
 /**
  * FSRS spaced-repetition engine (Phase 1, dim 5). Content-agnostic scaffold: a
@@ -117,7 +117,11 @@ export async function getDueCount(userId: string): Promise<number> {
 }
 
 /** Grade a review → FSRS schedules next due; awards review XP + advances streak. */
-export async function gradeReview(userId: string, cardId: string, grade: ReviewGrade): Promise<{ ok: boolean }> {
+export async function gradeReview(
+  userId: string,
+  cardId: string,
+  grade: ReviewGrade,
+): Promise<{ ok: boolean; celebration?: Celebration | null }> {
   const sb = supabaseAdmin()
   const { data: row } = await sb.from('academy_reviews').select('*').eq('id', cardId).eq('user_id', userId).maybeSingle()
   if (!row) return { ok: false }
@@ -137,10 +141,12 @@ export async function gradeReview(userId: string, cardId: string, grade: ReviewG
       updated_at: now.toISOString(),
     })
     .eq('id', cardId)
+  let celebration: Celebration | null = null
   try {
-    await recordActivityAndAward(userId, 'review', now)
+    const state = await recordActivityAndAward(userId, 'review', now)
+    celebration = pickCelebration(state)
   } catch (err) {
     console.error('[academy/fsrs] review award failed', err)
   }
-  return { ok: true }
+  return { ok: true, celebration }
 }

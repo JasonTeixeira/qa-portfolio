@@ -1,0 +1,28 @@
+import type { Metadata } from 'next'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { getLeagueStandings } from '@/lib/academy/leagues'
+import { AcademyShell } from '@/components/academy/academy-shell'
+import { Leagues } from '@/components/academy/leagues/Leagues'
+
+export const metadata: Metadata = {
+  title: 'Leagues — Sage Academy',
+  robots: { index: false, follow: false },
+}
+
+export const dynamic = 'force-dynamic'
+
+export default async function LeaguesPage() {
+  const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return null // middleware gates this; defensive
+
+  const standings = await getLeagueStandings(user.id)
+
+  return (
+    <AcademyShell active="leagues">
+      <Leagues standings={standings} />
+    </AcademyShell>
+  )
+}

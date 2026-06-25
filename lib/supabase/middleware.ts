@@ -70,6 +70,10 @@ function isPortalChrome(pathname: string) {
     pathname === '/academy/evidence' ||
     pathname === '/academy/resources' ||
     pathname === '/academy/review' ||
+    pathname === '/academy/leagues' ||
+    pathname === '/academy/profile' ||
+    pathname === '/academy/refer' ||
+    pathname === '/academy/community' ||
     pathname === '/academy/build' ||
     pathname === '/academy/my-courses' ||
     pathname === '/academy/signup' ||
@@ -178,6 +182,8 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/engine' ||
     pathname === '/academy/engine/lab' ||
     pathname === '/academy/resources/sprint-loop' ||
+    pathname === '/academy/efficacy' ||
+    pathname.startsWith('/academy/u/') ||
     pathname.startsWith('/academy/certificate/');
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 

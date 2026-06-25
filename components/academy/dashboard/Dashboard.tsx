@@ -2,6 +2,8 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
+import type { GamificationState } from '@/lib/academy/gamification-logic'
+import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
 import styles from './dashboard.module.css'
 
 const ACCENT = '#3D6BFF'
@@ -51,7 +53,71 @@ function Ring({
   )
 }
 
-export function Dashboard({ dash }: { dash: LearnerDashboard }) {
+/** Today panel — the habit core surfaced: daily-goal ring, streak + freezes, level/XP. */
+function HabitPanel({ game }: { game: GamificationState }) {
+  const { streak, xp, dailyGoal } = game
+  const goalPct = dailyGoal.goalXp > 0 ? Math.round((dailyGoal.todayXp / dailyGoal.goalXp) * 100) : 0
+  const freezePips = Array.from({ length: Math.max(streak.freezes, 0) })
+
+  return (
+    <section className={styles.habit} aria-label="Today">
+      {/* Daily goal */}
+      <div className={`${styles.habitCard} ${dailyGoal.met ? styles.habitMet : ''}`}>
+        <Ring pct={goalPct} size={64} stroke={6} color={dailyGoal.met ? '#2dd4bf' : ACCENT} />
+        <div className={styles.habitMeta}>
+          <span className={styles.habitLabel}>Daily goal</span>
+          <span className={styles.habitValue}>
+            {dailyGoal.todayXp} <span className={styles.habitDim}>/ {dailyGoal.goalXp} XP</span>
+          </span>
+          <span className={styles.habitSub}>{dailyGoal.met ? '✓ Goal hit today' : 'Earn XP to close the ring'}</span>
+        </div>
+      </div>
+
+      {/* Streak */}
+      <div className={`${styles.habitCard} ${streak.activeToday ? styles.habitActive : ''}`}>
+        <span className={styles.flame} aria-hidden="true">
+          {streak.current > 0 ? '🔥' : '○'}
+        </span>
+        <div className={styles.habitMeta}>
+          <span className={styles.habitLabel}>Streak</span>
+          <span className={styles.habitValue}>
+            {streak.current} <span className={styles.habitDim}>{streak.current === 1 ? 'day' : 'days'}</span>
+          </span>
+          <span className={styles.habitSub}>
+            {freezePips.length > 0 ? (
+              <>
+                <span className={styles.freezePips} aria-hidden="true">
+                  {freezePips.map((_, i) => (
+                    <span key={i}>❄</span>
+                  ))}
+                </span>
+                {streak.freezes} freeze{streak.freezes === 1 ? '' : 's'} banked
+              </>
+            ) : (
+              'No freezes — don’t miss a day'
+            )}
+          </span>
+        </div>
+      </div>
+
+      {/* Level / XP */}
+      <div className={styles.habitCard}>
+        <span className={styles.levelBadge} aria-hidden="true">
+          {xp.level}
+        </span>
+        <div className={styles.habitMeta}>
+          <span className={styles.habitLabel}>Level {xp.level}</span>
+          <span className={styles.xpBar} aria-hidden="true">
+            <span style={{ width: `${xp.pct}%` }} />
+          </span>
+          <span className={styles.habitSub}>{xp.toNext} XP to level {xp.level + 1}</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: GamificationState | null }) {
   if (!dash.signedIn) {
     return (
       <div className={styles.page}>
@@ -90,11 +156,16 @@ export function Dashboard({ dash }: { dash: LearnerDashboard }) {
         <h1 className={styles.title}>Welcome back, {cap(dash.name)}.</h1>
         <p className={styles.sub}>{subtitle}</p>
         <nav className={styles.quickNav} aria-label="Learner areas">
-          <Link href="/academy/evidence">⬡ Proof of work</Link>
-          <Link href="/academy/resources">◍ Tools &amp; resources</Link>
+          <Link href="/academy/refer">◆ Invite a friend</Link>
+          <Link href="/academy/profile">◆ Public profile</Link>
+          <Link href="/academy/efficacy">↗ Does it work?</Link>
           <Link href="/academy/catalog">Browse catalog →</Link>
         </nav>
       </header>
+
+      {game ? <HabitPanel game={game} /> : null}
+
+      <PushOptIn />
 
       <dl className={styles.stats}>
         <div className={styles.stat}>

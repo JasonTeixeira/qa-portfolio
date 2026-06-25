@@ -1,58 +1,30 @@
 import 'server-only'
 import { supabaseAdmin } from '@/lib/supabase/server'
+import { addLeagueXp } from '@/lib/academy/leagues'
+import {
+  XP_REWARDS,
+  levelForXp,
+  xpView,
+  dateInTz,
+  isoWeekStart,
+  computeStreakTransition,
+  type XpSource,
+  type GamificationState,
+} from '@/lib/academy/gamification-logic'
 
-/**
- * Phase 1 habit core — streaks (+freeze), XP/levels, daily goal.
- * All WRITES go through the service role (anti-cheat: a learner must never be
- * able to set their own XP/streak). See docs/academy/BUILD_AND_TEST_PLAN.md.
- */
-
-export const XP_REWARDS = { lesson: 20, lab: 30, quiz: 15, review: 10 } as const
-export type XpSource = keyof typeof XP_REWARDS
-
-const XP_PER_LEVEL = 150
-
-export function levelForXp(totalXp: number): number {
-  return Math.floor(Math.max(0, totalXp) / XP_PER_LEVEL) + 1
-}
-
-/** ISO date (YYYY-MM-DD) for `now` in the given IANA timezone. */
-function dateInTz(now: Date, timeZone: string): string {
-  try {
-    return new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(now)
-  } catch {
-    return now.toISOString().slice(0, 10)
-  }
-}
-
-function daysBetween(a: string, b: string): number {
-  return Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000)
-}
-
-export interface GamificationState {
-  streak: { current: number; longest: number; freezes: number; activeToday: boolean }
-  xp: { total: number; weekly: number; level: number; intoLevel: number; toNext: number; pct: number }
-  dailyGoal: { goalXp: number; todayXp: number; met: boolean }
-  awarded?: { xp: number; leveledUp: boolean; streakIncreased: boolean; freezeUsed: boolean; goalJustMet: boolean }
-}
-
-function xpView(total: number, weekly: number) {
-  const level = levelForXp(total)
-  const intoLevel = total - (level - 1) * XP_PER_LEVEL
-  return { total, weekly, level, intoLevel, toNext: XP_PER_LEVEL - intoLevel, pct: Math.round((intoLevel / XP_PER_LEVEL) * 100) }
-}
-
-function isoWeekStart(today: string): string {
-  const d = new Date(today + 'T00:00:00Z')
-  const dow = (d.getUTCDay() + 6) % 7 // Mon=0
-  d.setUTCDate(d.getUTCDate() - dow)
-  return d.toISOString().slice(0, 10)
-}
+// Re-export the pure surface so existing server importers are unaffected.
+export {
+  XP_REWARDS,
+  levelForXp,
+  pickCelebration,
+  STREAK_MILESTONES,
+} from '@/lib/academy/gamification-logic'
+export type { XpSource, GamificationState, Celebration } from '@/lib/academy/gamification-logic'
 
 /**
  * Award XP for a completed action AND advance the streak + daily goal.
- * Idempotent-ish per day for the streak (multiple actions in a day don't
- * inflate the streak); XP accrues per action. Service-role only.
+ * Streak math is delegated to the pure, unit-tested computeStreakTransition.
+ * Service-role only (anti-cheat).
  */
 export async function recordActivityAndAward(
   userId: string,
@@ -66,43 +38,27 @@ export async function recordActivityAndAward(
   const { data: sRow } = await sb.from('academy_streaks').select('*').eq('user_id', userId).maybeSingle()
   const tz = sRow?.timezone ?? 'UTC'
   const today = dateInTz(now, tz)
-  let current = sRow?.current_length ?? 0
-  let longest = sRow?.longest_length ?? 0
-  let freezes = sRow?.freezes_available ?? 2
   const freezeDates: string[] = sRow?.freeze_used_dates ?? []
-  let freezeUsed = false
-  const prevActive = sRow?.last_active_date as string | null | undefined
-  const activeTodayAlready = prevActive === today
-
-  if (!activeTodayAlready) {
-    if (!prevActive) {
-      current = 1
-    } else {
-      const gap = daysBetween(prevActive, today)
-      if (gap === 1) {
-        current += 1
-      } else if (gap === 2 && freezes > 0) {
-        current += 1
-        freezes -= 1
-        freezeUsed = true
-        const missed = new Date(Date.parse(today) - 86_400_000).toISOString().slice(0, 10)
-        freezeDates.push(missed)
-      } else {
-        current = 1
-      }
-    }
-    longest = Math.max(longest, current)
+  const t = computeStreakTransition(
+    {
+      current: sRow?.current_length ?? 0,
+      lastActive: (sRow?.last_active_date as string | null) ?? null,
+      freezes: sRow?.freezes_available ?? 2,
+    },
+    today,
+  )
+  const longest = Math.max(sRow?.longest_length ?? 0, t.current)
+  if (t.freezeUsed) {
+    freezeDates.push(new Date(Date.parse(today) - 86_400_000).toISOString().slice(0, 10))
   }
-  const streakIncreased = !activeTodayAlready
-
   await sb.from('academy_streaks').upsert(
     {
       user_id: userId,
-      current_length: current,
+      current_length: t.current,
       longest_length: longest,
       last_active_date: today,
       timezone: tz,
-      freezes_available: freezes,
+      freezes_available: t.freezes,
       freeze_used_dates: freezeDates,
       updated_at: now.toISOString(),
     },
@@ -139,11 +95,18 @@ export async function recordActivityAndAward(
     { onConflict: 'user_id' },
   )
 
+  // ---- league XP (best-effort; never block the core award) ----
+  try {
+    await addLeagueXp(userId, xpGain)
+  } catch (err) {
+    console.error('[academy/gamification] addLeagueXp failed', err)
+  }
+
   return {
-    streak: { current, longest, freezes, activeToday: true },
+    streak: { current: t.current, longest, freezes: t.freezes, activeToday: true },
     xp: xpView(total, weekly),
     dailyGoal: { goalXp, todayXp, met: goalJustMet || wasMet },
-    awarded: { xp: xpGain, leveledUp, streakIncreased, freezeUsed, goalJustMet },
+    awarded: { xp: xpGain, leveledUp, streakIncreased: t.increased, freezeUsed: t.freezeUsed, goalJustMet },
   }
 }
 
@@ -171,4 +134,55 @@ export async function getGamification(userId: string): Promise<GamificationState
       met: g?.last_met_date === today,
     },
   }
+}
+
+/**
+ * Award bonus XP OUTSIDE the activity loop (referral rewards, etc.) — bumps
+ * total/weekly XP + level + league standing, with no streak/daily-goal side
+ * effects. Service-role only.
+ */
+export async function awardBonusXp(userId: string, amount: number): Promise<void> {
+  if (!Number.isFinite(amount) || amount <= 0) return
+  const sb = supabaseAdmin()
+  const now = new Date()
+  const weekStart = isoWeekStart(dateInTz(now, 'UTC'))
+  const { data: x } = await sb.from('academy_xp').select('*').eq('user_id', userId).maybeSingle()
+  const total = (x?.total_xp ?? 0) + amount
+  const weekly = (x?.week_start === weekStart ? (x?.weekly_xp ?? 0) : 0) + amount
+  // NOTE: read-modify-write; safe under the first-completion guard, but two truly
+  // concurrent bonus awards could lose one. TODO: atomic SQL increment before scale.
+  const { error } = await sb.from('academy_xp').upsert(
+    { user_id: userId, total_xp: total, weekly_xp: weekly, week_start: weekStart, level: levelForXp(total), updated_at: now.toISOString() },
+    { onConflict: 'user_id' },
+  )
+  if (error) console.error('[academy/gamification] awardBonusXp upsert failed', error)
+  try {
+    await addLeagueXp(userId, amount)
+  } catch (err) {
+    console.error('[academy/gamification] awardBonusXp league bump failed', err)
+  }
+}
+
+/** Grant streak freezes (the referral reward currency). Service-role only. */
+export async function grantFreezes(userId: string, count: number): Promise<void> {
+  if (!Number.isInteger(count) || count <= 0) return
+  const sb = supabaseAdmin()
+  const { data: s } = await sb
+    .from('academy_streaks')
+    .select('freezes_available, timezone')
+    .eq('user_id', userId)
+    .maybeSingle()
+  // Partial upsert is intentional — it must NOT reset current_length/longest on an
+  // existing learner. All NOT-NULL streak columns have DB defaults, so a fresh
+  // insert is safe.
+  const { error } = await sb.from('academy_streaks').upsert(
+    {
+      user_id: userId,
+      freezes_available: (s?.freezes_available ?? 2) + count,
+      timezone: s?.timezone ?? 'UTC',
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id' },
+  )
+  if (error) console.error('[academy/gamification] grantFreezes upsert failed', error)
 }

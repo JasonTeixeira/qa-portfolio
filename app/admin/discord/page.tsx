@@ -45,6 +45,14 @@ import {
   type DiscordProofBacklogLane,
 } from '@/lib/discord/proof-backlog';
 import {
+  buildDiscordFinalScorecard,
+  buildDiscordFinalScorecardSummary,
+} from '@/lib/discord/final-scorecard';
+import {
+  buildWorldClassReadinessReport,
+  type WorldClassReadinessCategory,
+} from '@/lib/discord/world-class-readiness';
+import {
   approveDiscordAnswerForRagAction,
   approveDiscordApplication,
   approveDiscordQueueItemForRagAction,
@@ -69,6 +77,13 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Discord Command Center', robots: { index: false, follow: false } };
 
 type Tone = 'neutral' | 'cyan' | 'emerald' | 'amber' | 'rose' | 'violet';
+
+const PROOF_LANE_OPERATING_BLOCKERS: Record<string, string> = {
+  approved_discord_knowledge: 'approved_discord_knowledge_sources_empty',
+  rag_discord_sources: 'rag_discord_sources_empty',
+  public_proof_assets: 'public_proof_drafts_empty',
+  premium_workflow_proof: 'premium_workflow_live_proof_empty',
+};
 
 type DiscordEventRow = {
   id: string;
@@ -731,6 +746,20 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       applicationsApproved: applicationsApprovedCountRes.count ?? 0,
     },
   });
+  const localScorecard = buildDiscordFinalScorecard();
+  const localScorecardSummary = buildDiscordFinalScorecardSummary(localScorecard);
+  const worldClassReadiness = buildWorldClassReadinessReport({
+    generatedAt: new Date().toISOString(),
+    averageScore: localScorecardSummary.averageScore,
+    worldClassThreshold: localScorecardSummary.worldClassThreshold,
+    worldClassEligible: localScorecardSummary.worldClassEligible,
+    scorecard: localScorecard,
+    operatingBlockers: proofBacklog.lanes
+      .filter((lane) => lane.status === 'blocked')
+      .map((lane) => PROOF_LANE_OPERATING_BLOCKERS[lane.key])
+      .filter((blocker): blocker is string => Boolean(blocker)),
+    requiredOperatingProof: localScorecardSummary.requiredOperatingProof,
+  });
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
   const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
@@ -921,6 +950,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           >
             {proofBacklog.weeklyChecklist.map((step) => (
               <ProofChecklistStepRow key={step.laneKey} step={step} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-world-class-readiness-triage">
+          <Panel
+            icon={Trophy}
+            title="World-class readiness triage"
+            meta={`${worldClassReadiness.summary.categoriesBelow95} below 95 / ${worldClassReadiness.summary.categoriesBelow85} below 85`}
+            empty="All scorecard categories are at or above the current world-class threshold."
+          >
+            {worldClassReadiness.categories.slice(0, 8).map((category) => (
+              <WorldClassReadinessCategoryRow key={category.category} category={category} />
             ))}
           </Panel>
         </section>
@@ -1476,6 +1518,38 @@ function ProofChecklistStepRow({ step }: { step: DiscordProofChecklistStep }) {
       </div>
     </div>
   );
+}
+
+function WorldClassReadinessCategoryRow({ category }: { category: WorldClassReadinessCategory }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{category.category.replaceAll('_', ' ')}</div>
+          <Badge tone={category.score >= 95 ? 'emerald' : category.score >= 85 ? 'amber' : 'rose'}>{category.score}/100</Badge>
+          <Badge tone={readinessStatusTone(category.status)}>{category.status.replaceAll('_', ' ')}</Badge>
+          {category.scoreGapTo95 ? <Badge tone="amber">gap {category.scoreGapTo95}</Badge> : null}
+        </div>
+        {category.blockerReason ? (
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{category.blockerReason}</p>
+        ) : null}
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{category.evidenceCount} evidence items</span>
+          <span>threshold 95</span>
+        </div>
+      </div>
+      <div className="max-w-[320px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {category.nextAction}
+      </div>
+    </div>
+  );
+}
+
+function readinessStatusTone(status: WorldClassReadinessCategory['status']): Tone {
+  if (status === 'earned_95_plus') return 'emerald';
+  if (status === 'needs_operating_proof') return 'amber';
+  if (status === 'strong_but_not_world_class') return 'cyan';
+  return 'rose';
 }
 
 function DurableJobRegistryRow({ job, latestRun }: { job: DiscordJobRegistryRow; latestRun: DiscordJobRunRow | null }) {

@@ -1535,7 +1535,9 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'RAG operational health',
     'RAG knowledge approval desk',
     'AI content approval',
+    'Public proof source permissions',
     'Public proof growth drafts',
+    'Public proof growth event ledger',
     'Challenge review desk',
     'Durable job control',
     'Job dead letters',
@@ -1564,10 +1566,16 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /data-testid="discord-proof-backlog"/);
   assert.match(page, /Weekly proof checklist/);
   assert.match(page, /weeklyChecklist/);
+  assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
+  assert.match(page, /discord_growth_events/);
+  assert.match(page, /PublicProofSourceRow/);
   assert.match(page, /PublicGrowthDraftRow/);
+  assert.match(page, /GrowthEventRow/);
+  assert.match(page, /reviewDiscordPublicProofSourceAction/);
   assert.match(page, /reviewDiscordPublicGrowthDraftAction/);
-  assert.match(page, /data-testid="discord-public-proof-growth-drafts"/);
+  assert.match(page, /data-testid="discord-public-proof-growth-lane"/);
+  assert.match(page, /data-testid="discord-public-proof-growth-events"/);
   assert.match(page, /pendingKnowledgeCandidatesCountRes/);
   assert.match(page, /approvedMemberCountRes/);
   assert.match(page, /onboardedMemberCountRes/);
@@ -1593,6 +1601,9 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(actions, /retryDiscordJobDeadLetterAction/);
   assert.match(actions, /cancelDiscordJobRunAction/);
   assert.match(actions, /resolveDiscordJobDeadLetterAction/);
+  assert.match(actions, /reviewDiscordPublicProofSourceAction/);
+  assert.match(actions, /public_proof_source_reviewed/);
+  assert.match(actions, /blocked_drafts_archived/);
   assert.match(actions, /reviewDiscordPublicGrowthDraftAction/);
   assert.match(actions, /public_growth_draft_reviewed/);
   assert.match(actions, /public_growth_draft_published/);

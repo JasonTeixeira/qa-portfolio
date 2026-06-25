@@ -421,6 +421,52 @@ export async function reviewDiscordPublicGrowthDraftAction(formData: FormData) {
   revalidatePath('/admin/discord');
 }
 
+export async function reviewDiscordPublicProofSourceAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const permissionStatus = value(formData, 'permission_status');
+  const note = value(formData, 'note');
+  if (!id || !['explicit', 'anonymized', 'blocked'].includes(permissionStatus)) {
+    throw new Error('Invalid public proof source review.');
+  }
+
+  const reviewedAt = new Date().toISOString();
+  const { error } = await supabaseAdmin()
+    .from('discord_public_proof_sources')
+    .update({
+      permission_status: permissionStatus,
+      updated_at: reviewedAt,
+    })
+    .eq('id', id);
+  if (error) throw new Error(error.message);
+
+  if (permissionStatus === 'blocked') {
+    const { error: draftError } = await supabaseAdmin()
+      .from('discord_public_growth_drafts')
+      .update({
+        status: 'archived',
+        updated_at: reviewedAt,
+      })
+      .eq('source_id', id)
+      .in('status', ['draft', 'pending_approval', 'approved']);
+    if (draftError) throw new Error(draftError.message);
+  }
+
+  await recordDiscordEvent({
+    eventType: 'public_proof_source_reviewed',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: {
+      id,
+      permission_status: permissionStatus,
+      reviewer: profile.email,
+      note: note || null,
+      blocked_drafts_archived: permissionStatus === 'blocked',
+    },
+  });
+  revalidatePath('/admin/discord');
+}
+
 export async function reviewDiscordMemberNudgeAction(formData: FormData) {
   const { profile } = await requireAdmin();
   const id = value(formData, 'id');

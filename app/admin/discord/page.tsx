@@ -70,6 +70,7 @@ import {
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
   reviewDiscordPublicGrowthDraftAction,
+  reviewDiscordPublicProofSourceAction,
   syncDiscordRagSourcesAction,
   updateDiscordContentQueueStatus,
 } from './actions';
@@ -200,6 +201,28 @@ type DiscordPublicGrowthDraftRow = {
     permission_status: string | null;
     privacy_score: number | null;
   }> | null;
+};
+
+type DiscordPublicProofSourceRow = {
+  id: string;
+  source_type: string;
+  source_table: string | null;
+  source_record_id: string | null;
+  title: string;
+  summary: string;
+  permission_status: string;
+  privacy_score: number;
+  created_at: string;
+  updated_at: string;
+};
+
+type DiscordGrowthEventRow = {
+  id: string;
+  event_type: string;
+  source: string | null;
+  utm_campaign: string | null;
+  path: string | null;
+  created_at: string;
 };
 
 type DiscordApplicationRow = {
@@ -394,11 +417,14 @@ const cockpitTabs = [
 const statusTone: Record<string, Tone> = {
   approved: 'emerald',
   archived: 'neutral',
+  anonymized: 'emerald',
+  blocked: 'rose',
   captured: 'cyan',
   canceled: 'neutral',
   dead_lettered: 'rose',
   draft: 'amber',
   drafted: 'violet',
+  explicit: 'emerald',
   failed: 'rose',
   featured: 'emerald',
   heartbeat_ack: 'emerald',
@@ -468,6 +494,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     premiumReviewsRes,
     officeHoursRes,
     publicGrowthDraftsRes,
+    publicProofSourcesRes,
+    growthEventsRes,
     latestFinalScorecardRes,
     questionsApprovedCountRes,
     answersHelpfulCountRes,
@@ -665,6 +693,17 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('created_at', { ascending: false })
       .limit(16),
     sb
+      .from('discord_public_proof_sources')
+      .select('id, source_type, source_table, source_record_id, title, summary, permission_status, privacy_score, created_at, updated_at')
+      .order('privacy_score', { ascending: true })
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
+      .from('discord_growth_events')
+      .select('id, event_type, source, utm_campaign, path, created_at')
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
       .from('discord_final_scorecard_runs')
       .select('run_key, status, average_score, blocked_below_95, created_at')
       .order('created_at', { ascending: false })
@@ -753,6 +792,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
   const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
   const publicGrowthDrafts = (publicGrowthDraftsRes.data ?? []) as DiscordPublicGrowthDraftRow[];
+  const publicProofSources = (publicProofSourcesRes.data ?? []) as DiscordPublicProofSourceRow[];
+  const growthEvents = (growthEventsRes.data ?? []) as DiscordGrowthEventRow[];
   const latestFinalScorecard = ((latestFinalScorecardRes.data ?? []) as DiscordFinalScorecardRunRow[])[0] ?? null;
   const approvedDiscordKnowledgeSources = (questionsApprovedCountRes.count ?? 0)
     + (answersHelpfulCountRes.count ?? 0)
@@ -1178,7 +1219,18 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
-        <section className="mt-6" data-testid="discord-public-proof-growth-drafts">
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]" data-testid="discord-public-proof-growth-lane">
+          <Panel
+            icon={FileCheck2}
+            title="Public proof source permissions"
+            meta={`${publicProofSources.length} recent sources`}
+            empty="No public proof sources yet. Approve community knowledge first, then run the operating cycle."
+          >
+            {publicProofSources.map((source) => (
+              <PublicProofSourceRow key={source.id} source={source} />
+            ))}
+          </Panel>
+
           <Panel
             icon={GitPullRequestArrow}
             title="Public proof growth drafts"
@@ -1187,6 +1239,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           >
             {publicGrowthDrafts.map((draft) => (
               <PublicGrowthDraftRow key={draft.id} draft={draft} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-public-proof-growth-events">
+          <Panel
+            icon={Activity}
+            title="Public proof growth event ledger"
+            meta={`${growthEvents.length} recent events`}
+            empty="No tracked public proof growth events yet."
+          >
+            {growthEvents.map((event) => (
+              <GrowthEventRow key={event.id} event={event} />
             ))}
           </Panel>
         </section>
@@ -1796,6 +1861,48 @@ function DraftRow({ draft, promptDebug }: { draft: DiscordContentDraftRow; promp
   );
 }
 
+function PublicProofSourceRow({ source }: { source: DiscordPublicProofSourceRow }) {
+  const isBlocked = source.permission_status === 'blocked';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-proof-source-${source.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={source.permission_status} />
+          <Badge tone="cyan">{source.source_type}</Badge>
+          <Badge tone={source.privacy_score >= 90 ? 'emerald' : 'rose'}>{source.privacy_score} privacy</Badge>
+          {source.source_table ? <Badge tone="neutral">{source.source_table}</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{source.title}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{source.summary}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {source.source_record_id ? <span>record: {source.source_record_id}</span> : null}
+          <span>updated: {formatDateTime(source.updated_at)}</span>
+          <span>created: {formatDateTime(source.created_at)}</span>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <form action={reviewDiscordPublicProofSourceAction}>
+          <input type="hidden" name="id" value={source.id} />
+          <input type="hidden" name="permission_status" value="anonymized" />
+          <ActionButton data-testid={`public-proof-source-anonymized-${source.id}`} tone="emerald" type="submit">Anonymized</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicProofSourceAction}>
+          <input type="hidden" name="id" value={source.id} />
+          <input type="hidden" name="permission_status" value="explicit" />
+          <ActionButton data-testid={`public-proof-source-explicit-${source.id}`} type="submit">Explicit</ActionButton>
+        </form>
+        {!isBlocked ? (
+          <form action={reviewDiscordPublicProofSourceAction}>
+            <input type="hidden" name="id" value={source.id} />
+            <input type="hidden" name="permission_status" value="blocked" />
+            <ActionButton data-testid={`public-proof-source-block-${source.id}`} type="submit">Block</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function PublicGrowthDraftRow({ draft }: { draft: DiscordPublicGrowthDraftRow }) {
   const source = draft.discord_public_proof_sources?.[0] ?? null;
   const canMarkPublished = draft.status === 'approved';
@@ -1843,6 +1950,22 @@ function PublicGrowthDraftRow({ draft }: { draft: DiscordPublicGrowthDraftRow })
           </form>
         ) : null}
       </div>
+    </div>
+  );
+}
+
+function GrowthEventRow({ event }: { event: DiscordGrowthEventRow }) {
+  return (
+    <div className="grid gap-2 px-3 py-3 sm:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-proof-growth-event-${event.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="violet">{event.event_type}</Badge>
+          {event.source ? <Badge tone="neutral">{event.source}</Badge> : null}
+          {event.utm_campaign ? <Badge tone="cyan">{event.utm_campaign}</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-xs text-[#a1a1aa]">{event.path ?? 'internal event'}</div>
+      </div>
+      <div className="text-xs text-[#71717a] sm:text-right">{formatDateTime(event.created_at)}</div>
     </div>
   );
 }

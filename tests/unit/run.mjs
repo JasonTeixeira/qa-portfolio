@@ -80,10 +80,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
+  assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
@@ -100,6 +101,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
   assert.match(readinessScript, /buildWorldClassReadinessReport/);
   assert.match(readinessScript, /local-verification-latest\.json/);
+  const proofBacklogScript = await readFile(new URL('../../scripts/discord/write-proof-backlog.ts', import.meta.url), 'utf8');
+  assert.match(proofBacklogScript, /discord-proof-backlog-latest\.json/);
+  assert.match(proofBacklogScript, /buildDiscordProofBacklogReport/);
+  assert.match(proofBacklogScript, /phase-21-operating-proof-cycle\.json/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
@@ -1974,6 +1979,61 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Sync approved Discord candidates')));
   assert.equal(report.categories[0].category, 'growth_loop');
   assert.equal(report.categories[0].status, 'needs_build_work');
+});
+
+test('discord proof backlog: turns missing operating proof into concrete lanes', async () => {
+  const { buildDiscordProofBacklogReport } = await import('../../lib/discord/proof-backlog.ts');
+  const report = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    metrics: {
+      approvedDiscordKnowledgeSources: 0,
+      ragDiscordSources: 0,
+      pendingKnowledgeCandidates: 2,
+      pendingPublicDrafts: 0,
+      publishedPublicDrafts: 0,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 0,
+      applicationsSubmitted: 0,
+      applicationsApproved: 0,
+    },
+  });
+
+  assert.equal(report.ok, true);
+  assert.equal(report.version, 'discord-proof-backlog-v1');
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.status, 'blocked');
+  assert.equal(report.lanes.length, 4);
+  assert.deepEqual(report.lanes.map((item) => item.key), [
+    'approved_discord_knowledge',
+    'rag_discord_sources',
+    'public_proof_assets',
+    'premium_workflow_proof',
+  ]);
+  assert.ok(report.lanes.every((item) => item.status === 'blocked'));
+  assert.ok(report.lanes[0].sourceTables.includes('discord_content_queue'));
+  assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
+  assert.ok(report.nextActions.some((action) => action.includes('Approve high-signal')));
+
+  const passing = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    metrics: {
+      approvedDiscordKnowledgeSources: 10,
+      ragDiscordSources: 10,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 1,
+      applicationsSubmitted: 4,
+      applicationsApproved: 2,
+    },
+  });
+  assert.equal(passing.status, 'passed');
+  assert.equal(passing.nextActions.length, 0);
 });
 
 test('discord content factory: creates approval-gated channel drafts from editorial slots', async () => {

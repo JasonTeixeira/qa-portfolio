@@ -1,0 +1,76 @@
+{
+  "ok": true,
+  "version": "discord-proof-backlog-v1",
+  "generatedAt": "2026-06-25T22:15:53.831Z",
+  "mutationMode": "local_file_evidence_only",
+  "status": "blocked",
+  "lanes": [
+    {
+      "key": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "currentCount": 0,
+      "targetCount": 10,
+      "sourceTables": [
+        "discord_questions",
+        "discord_answers",
+        "discord_content_queue",
+        "discord_content_drafts"
+      ],
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveActionRequired": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "evidenceRequired": "At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement.",
+      "status": "blocked"
+    },
+    {
+      "key": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "currentCount": 0,
+      "targetCount": 10,
+      "sourceTables": [
+        "rag_sources",
+        "rag_documents",
+        "rag_chunks"
+      ],
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveActionRequired": "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "evidenceRequired": "RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.",
+      "status": "blocked"
+    },
+    {
+      "key": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "currentCount": 0,
+      "targetCount": 4,
+      "sourceTables": [
+        "discord_public_proof_sources",
+        "discord_public_growth_drafts",
+        "discord_growth_events"
+      ],
+      "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
+      "liveActionRequired": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "evidenceRequired": "Four weekly proof drafts or published assets with application/source tracking.",
+      "status": "blocked"
+    },
+    {
+      "key": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "currentCount": 0,
+      "targetCount": 1,
+      "sourceTables": [
+        "discord_members",
+        "discord_premium_review_requests",
+        "discord_office_hours_queue"
+      ],
+      "safeLocalCommand": "npm run discord:smoke-premium-workflows",
+      "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
+      "evidenceRequired": "At least one premium member/request path proves authorization, SLA, and fulfillment behavior.",
+      "status": "blocked"
+    }
+  ],
+  "nextActions": [
+    "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+    "Run the approved Discord RAG sync after approving knowledge candidates.",
+    "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+    "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+  ]
+}

@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness",
+    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog",
     "verify:local:evidence": "node scripts/ops/write-local-verification-evidence.mjs",
     "verify:prod": "node scripts/verify-prod.mjs",
     "dev": "next dev -p 3040",
@@ -99,6 +99,7 @@
     "discord:content-factory:week:dry-run": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7 --dry-run",
     "discord:release-local": "npm run rag:validate-eval-seeds && npm run rag:evaluate:seed-dry-run && npm run discord:content-factory:week:dry-run && npm run discord:smoke-final-scorecard:dry-run && npm run discord:operating-cycle:dry-run",
     "discord:world-class-readiness": "tsx scripts/discord/write-world-class-readiness.ts",
+    "discord:proof-backlog": "tsx scripts/discord/write-proof-backlog.ts",
     "discord:evaluate-content": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts",
     "discord:smoke-content-quality": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts --smoke",
     "rag:baseline": "node --env-file-if-exists=.env.local scripts/rag/baseline.mjs",

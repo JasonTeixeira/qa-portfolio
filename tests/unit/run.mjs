@@ -1555,6 +1555,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /data-testid="discord-world-class-readiness-triage"/);
   assert.match(page, /buildDiscordProofBacklogReport/);
   assert.match(page, /ProofBacklogLaneRow/);
+  assert.match(page, /ProofRuleGroup/);
+  assert.match(page, /qualifyingEvidence/);
+  assert.match(page, /rejectionRules/);
+  assert.match(page, /weeklyOperatorSteps/);
   assert.match(page, /ProofChecklistStepRow/);
   assert.match(page, /data-testid="discord-proof-backlog"/);
   assert.match(page, /Weekly proof checklist/);
@@ -2058,6 +2062,14 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   ]);
   assert.ok(report.lanes.every((item) => item.status === 'blocked'));
   assert.ok(report.lanes[0].sourceTables.includes('discord_content_queue'));
+  assert.ok(report.lanes.every((item) => item.qualifyingEvidence.length >= 2));
+  assert.ok(report.lanes.every((item) => item.rejectionRules.length >= 2));
+  assert.ok(report.lanes.every((item) => item.weeklyOperatorSteps.length >= 3));
+  assert.match(report.lanes[0].qualifyingEvidence.join(' '), /Specific member question/);
+  assert.match(report.lanes[0].rejectionRules.join(' '), /private details/);
+  assert.match(report.lanes[1].rejectionRules.join(' '), /raw Discord messages/);
+  assert.match(report.lanes[2].weeklyOperatorSteps.join(' '), /privacy-safe public proof draft/);
+  assert.match(report.lanes[3].qualifyingEvidence.join(' '), /authorization and SLA/);
   assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
   assert.equal(report.weeklyChecklist.length, 4);
   assert.deepEqual(report.weeklyChecklist.map((item) => item.order), [1, 2, 3, 4]);

@@ -1486,6 +1486,11 @@ function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
           </Badge>
         </div>
         <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{lane.liveActionRequired}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Qualifies" items={lane.qualifyingEvidence} tone="emerald" />
+          <ProofRuleGroup title="Reject" items={lane.rejectionRules} tone="rose" />
+          <ProofRuleGroup title="Weekly steps" items={lane.weeklyOperatorSteps} tone="cyan" />
+        </div>
         <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
           {lane.sourceTables.slice(0, 4).map((table) => <span key={table}>{table}</span>)}
           {lane.safeLocalCommand ? <span>{lane.safeLocalCommand}</span> : null}
@@ -1494,6 +1499,19 @@ function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
       <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
         {lane.evidenceRequired}
       </div>
+    </div>
+  );
+}
+
+function ProofRuleGroup({ title, items, tone }: { title: string; items: string[]; tone: Tone }) {
+  return (
+    <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+      <Badge tone={tone}>{title}</Badge>
+      <ul className="mt-2 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+        {items.slice(0, 3).map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

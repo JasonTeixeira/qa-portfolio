@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-25T22:52:09.139Z",
+  "generatedAt": "2026-06-25T22:56:40.410Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -15,6 +15,20 @@
         "discord_answers",
         "discord_content_queue",
         "discord_content_drafts"
+      ],
+      "qualifyingEvidence": [
+        "Specific member question with enough context to answer later.",
+        "Helpful answer or review that contains a reusable teaching point.",
+        "Build, win, resource, or draft that can be cited without exposing private data."
+      ],
+      "rejectionRules": [
+        "Reject generic chatter, private details, low-context praise, or unsupported claims.",
+        "Do not approve moderation-sensitive content or anything that needs member consent first."
+      ],
+      "weeklyOperatorSteps": [
+        "Review pending questions, answers, reviews, wins, resources, and drafts.",
+        "Approve only items that can become reusable lessons, RAG sources, or proof assets.",
+        "Record why the source is useful before syncing it into RAG."
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveActionRequired": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
@@ -31,6 +45,19 @@
         "rag_documents",
         "rag_chunks"
       ],
+      "qualifyingEvidence": [
+        "RAG source has approved Discord provenance and an approved source record.",
+        "RAG chunk is searchable, citeable, and tied back to the approved source."
+      ],
+      "rejectionRules": [
+        "Do not sync raw Discord messages directly into authoritative RAG.",
+        "Do not sync deleted, rejected, private, or low-quality source material."
+      ],
+      "weeklyOperatorSteps": [
+        "Run approved Discord RAG sync after knowledge approvals.",
+        "Re-embed and run retrieval/answer evals against the updated corpus.",
+        "Review any low-scoring eval examples before claiming score improvement."
+      ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveActionRequired": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "evidenceRequired": "RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.",
@@ -46,6 +73,20 @@
         "discord_public_growth_drafts",
         "discord_growth_events"
       ],
+      "qualifyingEvidence": [
+        "Approved source material can be shared publicly without exposing private member data.",
+        "Draft has a clear learning/proof angle and source provenance.",
+        "Application or attribution path can track the growth cycle."
+      ],
+      "rejectionRules": [
+        "Do not publish private member details, screenshots, or names without explicit approval.",
+        "Reject generic public posts that are not tied to a real approved Discord source."
+      ],
+      "weeklyOperatorSteps": [
+        "Select one approved source that shows a useful problem, build, win, or lesson.",
+        "Generate or review a privacy-safe public proof draft.",
+        "Approve/publish manually and track applications or engagement from that asset."
+      ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveActionRequired": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "evidenceRequired": "Four weekly proof drafts or published assets with application/source tracking.",
@@ -60,6 +101,20 @@
         "discord_members",
         "discord_premium_review_requests",
         "discord_office_hours_queue"
+      ],
+      "qualifyingEvidence": [
+        "Premium role or deliberately seeded premium scenario exists.",
+        "Review, deeper answer, or office-hours request proves authorization and SLA behavior.",
+        "Fulfillment outcome is logged with traceable status and no free-member bypass."
+      ],
+      "rejectionRules": [
+        "Do not count a premium proof unless authorization, request status, and fulfillment are all visible.",
+        "Do not use vague premium interest as proof of fulfilled premium workflow."
+      ],
+      "weeklyOperatorSteps": [
+        "Review premium role sync, open premium requests, and office-hours queue.",
+        "Fulfill one valid premium path and log the SLA/outcome.",
+        "Run premium workflow smoke after changes to Stripe, roles, or premium commands."
       ],
       "safeLocalCommand": "npm run discord:smoke-premium-workflows",
       "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",

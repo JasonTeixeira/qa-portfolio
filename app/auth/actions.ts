@@ -372,7 +372,9 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
   }
   if (!alreadyExists) void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
 
-  redirect('/academy/dashboard');
+  // New academy learners go through onboarding (the "understand the game" first run);
+  // returning learners go straight to their dashboard.
+  redirect(alreadyExists ? '/academy/dashboard' : '/academy/onboarding');
 }
 
 export async function signOut(): Promise<void> {

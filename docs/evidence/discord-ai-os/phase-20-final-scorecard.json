@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782423322113",
+  "runKey": "phase-20-final-1782423786396",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -141,6 +141,7 @@
       "score": 82,
       "evidence": [
         "docs/evidence/rag/eval-latest.json",
+        "docs/evidence/rag/eval-seed-quality.json",
         "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json"
       ],
       "knownGaps": [
@@ -549,6 +550,11 @@
         "path": "docs/evidence/rag/eval-latest.json",
         "ok": true,
         "status": "true"
+      },
+      {
+        "path": "docs/evidence/rag/eval-seed-quality.json",
+        "ok": true,
+        "status": "true"
       }
     ]
   },
@@ -584,7 +590,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "16/16 required evidence files pass"
+      "evidence": "17/17 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -630,6 +636,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T21:35:22.113Z",
-  "finishedAt": "2026-06-25T21:35:24.449Z"
+  "startedAt": "2026-06-25T21:43:06.396Z",
+  "finishedAt": "2026-06-25T21:43:08.537Z"
 }

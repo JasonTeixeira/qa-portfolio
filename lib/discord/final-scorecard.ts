@@ -73,6 +73,7 @@ export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json',
   'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
   'docs/evidence/rag/eval-latest.json',
+  'docs/evidence/rag/eval-seed-quality.json',
 ];
 
 export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {
@@ -139,6 +140,7 @@ export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {
       score: 82,
       evidence: [
         'docs/evidence/rag/eval-latest.json',
+        'docs/evidence/rag/eval-seed-quality.json',
         'docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json',
       ],
       knownGaps: ['Eval set must keep expanding from real failures.'],

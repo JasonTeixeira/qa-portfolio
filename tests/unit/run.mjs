@@ -735,6 +735,42 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
   assert.equal(ragEvalSummaryPassed(summary), false);
 });
 
+test('rag evals: seed quality validator blocks unknown sources and category drift', async () => {
+  const { RAG_EVAL_QUESTION_SEEDS } = await import('../../lib/rag/evals.ts');
+  const { validateRagEvalSeeds } = await import('../../lib/rag/eval-seed-validation.ts');
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const validatorScript = await readFile(new URL('../../scripts/rag/validate-eval-seeds.ts', import.meta.url), 'utf8');
+  const knownSources = [
+    'DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
+    'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+    'SAGEBOT_DISCORD_OPERATING_FAQ.md',
+    'rag-system-build-plan.txt',
+    'RAG Evaluation Without the Benchmark Theater',
+    'How to Evaluate AI Features Before You Ship Them',
+    'The AI Agent Boundary Problem',
+  ];
+
+  const passing = validateRagEvalSeeds({ knownSources });
+  assert.equal(passing.ok, true);
+  assert.equal(passing.seedCount, 60);
+  assert.deepEqual(passing.categoryCounts, {
+    onboarding: 10,
+    content_engine: 15,
+    quiz_challenge_points: 10,
+    premium: 10,
+    rag_ai_build: 15,
+  });
+
+  const broken = structuredClone(RAG_EVAL_QUESTION_SEEDS);
+  broken[0].expected_sources = ['missing-source.md'];
+  const failing = validateRagEvalSeeds({ seeds: broken, knownSources });
+  assert.equal(failing.ok, false);
+  assert.ok(failing.issues.some((item) => item.field === 'expected_sources' && item.message.includes('missing-source.md')));
+  assert.equal(pkg.scripts['rag:validate-eval-seeds'], 'tsx scripts/rag/validate-eval-seeds.ts');
+  assert.match(validatorScript, /eval-seed-quality\.json/);
+  assert.match(validatorScript, /mutationMode: 'local_file_evidence_only'/);
+});
+
 test('rag admin health: summarizes corpus gaps and eval fixes', async () => {
   const {
     buildRagEvalDrilldownRow,

@@ -70,7 +70,7 @@ export const RAG_EVAL_QUESTION_SEEDS: RagEvalQuestionSeed[] = [
   ...buildCategoryQuestions('content_engine', [
     ['rag_content_001', 'What is the Sage Ideas Discord content engine loop?', ['question', 'content queue', 'resource']],
     ['rag_content_002', 'How should a useful community question become reusable content?', ['capture', 'review', 'publish']],
-    ['rag_content_003', 'Which channel is responsible for content ideas and resource gaps?', ['content-queue', 'resource']],
+    ['rag_content_003', 'Which channel is responsible for content ideas and resource gaps?', ['content-queue', 'resource', 'gaps']],
     ['rag_content_004', 'How should daily-signal be used for content operations?', ['daily', 'quiz', 'challenge']],
     ['rag_content_005', 'What should weekly recap include for community growth?', ['leaderboard', 'challenge', 'wins']],
     ['rag_content_006', 'How should resources be managed in the Discord?', ['templates', 'guides', 'resource drops']],

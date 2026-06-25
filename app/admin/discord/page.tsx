@@ -389,6 +389,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
 
   const since = new Date();
   since.setDate(since.getDate() - 30);
+  const since7d = new Date();
+  since7d.setDate(since7d.getDate() - 7);
 
   const [
     eventsRes,
@@ -433,8 +435,14 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     contentQueuePublishedCountRes,
     draftsApprovedCountRes,
     discordRagSourceCountRes,
+    pendingKnowledgeCandidatesCountRes,
     pendingPublicDraftsCountRes,
     publishedPublicDraftsCountRes,
+    approvedMemberCountRes,
+    onboardedMemberCountRes,
+    activeMember7dCountRes,
+    applicationsSubmittedCountRes,
+    applicationsApprovedCountRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -634,6 +642,10 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .select('id', { count: 'exact', head: true })
       .or('source_type.in.(discord_question,discord_answer,discord_content_queue),source_table.eq.discord_content_drafts'),
     sb
+      .from('discord_content_queue')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['captured', 'candidate', 'pending_review']),
+    sb
       .from('discord_public_growth_drafts')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending_approval'),
@@ -641,6 +653,25 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .from('discord_public_growth_drafts')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'published'),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .eq('academy_member', true),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .not('onboarding_completed_at', 'is', null),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .gte('last_seen_at', since7d.toISOString()),
+    sb
+      .from('discord_member_applications')
+      .select('id', { count: 'exact', head: true }),
+    sb
+      .from('discord_member_applications')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'approved'),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -675,15 +706,15 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     metrics: {
       approvedDiscordKnowledgeSources,
       ragDiscordSources: discordRagSourceCountRes.count ?? 0,
-      pendingKnowledgeCandidates: contentQueue.filter((item) => ['captured', 'candidate', 'pending_review'].includes(item.status)).length,
+      pendingKnowledgeCandidates: pendingKnowledgeCandidatesCountRes.count ?? 0,
       pendingPublicDrafts: pendingPublicDraftsCountRes.count ?? 0,
       publishedPublicDrafts: publishedPublicDraftsCountRes.count ?? 0,
-      approvedMembers: members.length,
-      onboardedMembers: members.filter((member) => Boolean(member.path_key || member.level_key)).length,
-      activeMembers7d: members.length,
+      approvedMembers: approvedMemberCountRes.count ?? 0,
+      onboardedMembers: onboardedMemberCountRes.count ?? 0,
+      activeMembers7d: activeMember7dCountRes.count ?? 0,
       premiumMembers: premiumCountRes.count ?? 0,
-      applicationsSubmitted: applications.length,
-      applicationsApproved: 0,
+      applicationsSubmitted: applicationsSubmittedCountRes.count ?? 0,
+      applicationsApproved: applicationsApprovedCountRes.count ?? 0,
     },
   });
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;

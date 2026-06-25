@@ -1536,6 +1536,14 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /ProofBacklogLaneRow/);
   assert.match(page, /data-testid="discord-proof-backlog"/);
   assert.match(page, /discord_public_growth_drafts/);
+  assert.match(page, /pendingKnowledgeCandidatesCountRes/);
+  assert.match(page, /approvedMemberCountRes/);
+  assert.match(page, /onboardedMemberCountRes/);
+  assert.match(page, /activeMember7dCountRes/);
+  assert.match(page, /applicationsSubmittedCountRes/);
+  assert.match(page, /applicationsApprovedCountRes/);
+  assert.match(page, /academy_member/);
+  assert.match(page, /onboarding_completed_at/);
   assert.match(page, /source_type\.in\.\(discord_question,discord_answer,discord_content_queue\),source_table\.eq\.discord_content_drafts/);
   assert.match(page, /This panel reads current database counts/);
   assert.match(page, /discord_job_registry/);

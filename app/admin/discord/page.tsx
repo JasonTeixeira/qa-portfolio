@@ -69,6 +69,7 @@ import {
   reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
+  reviewDiscordPublicGrowthDraftAction,
   syncDiscordRagSourcesAction,
   updateDiscordContentQueueStatus,
 } from './actions';
@@ -178,6 +179,27 @@ type DiscordContentDraftRow = {
   prompt_version: string | null;
   metadata: Record<string, unknown> | null;
   created_at: string;
+};
+
+type DiscordPublicGrowthDraftRow = {
+  id: string;
+  draft_type: string;
+  title: string;
+  body: string;
+  status: string;
+  privacy_score: number;
+  quality_score: number;
+  utm_campaign: string;
+  reviewer_email: string | null;
+  reviewed_at: string | null;
+  published_at: string | null;
+  created_at: string;
+  discord_public_proof_sources?: Array<{
+    title: string | null;
+    source_type: string | null;
+    permission_status: string | null;
+    privacy_score: number | null;
+  }> | null;
 };
 
 type DiscordApplicationRow = {
@@ -445,6 +467,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     jobDeadLettersRes,
     premiumReviewsRes,
     officeHoursRes,
+    publicGrowthDraftsRes,
     latestFinalScorecardRes,
     questionsApprovedCountRes,
     answersHelpfulCountRes,
@@ -635,6 +658,13 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('created_at', { ascending: true })
       .limit(20),
     sb
+      .from('discord_public_growth_drafts')
+      .select('id, draft_type, title, body, status, privacy_score, quality_score, utm_campaign, reviewer_email, reviewed_at, published_at, created_at, discord_public_proof_sources(title, source_type, permission_status, privacy_score)')
+      .in('status', ['draft', 'pending_approval', 'approved'])
+      .order('quality_score', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
       .from('discord_final_scorecard_runs')
       .select('run_key, status, average_score, blocked_below_95, created_at')
       .order('created_at', { ascending: false })
@@ -693,7 +723,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     sb
       .from('discord_premium_review_requests')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['queued', 'in_review', 'completed']),
+      .in('status', ['queued', 'in_review', 'answered', 'completed']),
     sb
       .from('discord_office_hours_queue')
       .select('id', { count: 'exact', head: true })
@@ -722,6 +752,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const jobDeadLetters = (jobDeadLettersRes.data ?? []) as DiscordJobDeadLetterRow[];
   const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
   const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
+  const publicGrowthDrafts = (publicGrowthDraftsRes.data ?? []) as DiscordPublicGrowthDraftRow[];
   const latestFinalScorecard = ((latestFinalScorecardRes.data ?? []) as DiscordFinalScorecardRunRow[])[0] ?? null;
   const approvedDiscordKnowledgeSources = (questionsApprovedCountRes.count ?? 0)
     + (answersHelpfulCountRes.count ?? 0)
@@ -1143,6 +1174,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           >
             {contentDrafts.map((draft) => (
               <DraftRow key={draft.id} draft={draft} promptDebug={promptDebug} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-public-proof-growth-drafts">
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Public proof growth drafts"
+            meta={`${publicGrowthDrafts.length} approval-gated drafts`}
+            empty="No public proof drafts waiting for review. Run the operating cycle after approving source material."
+          >
+            {publicGrowthDrafts.map((draft) => (
+              <PublicGrowthDraftRow key={draft.id} draft={draft} />
             ))}
           </Panel>
         </section>
@@ -1745,6 +1789,57 @@ function DraftRow({ draft, promptDebug }: { draft: DiscordContentDraftRow; promp
           <form action={publishDiscordContentDraftAction}>
             <input type="hidden" name="id" value={draft.id} />
             <ActionButton data-testid={`content-draft-publish-${draft.id}`} tone="emerald" type="submit">Publish</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function PublicGrowthDraftRow({ draft }: { draft: DiscordPublicGrowthDraftRow }) {
+  const source = draft.discord_public_proof_sources?.[0] ?? null;
+  const canMarkPublished = draft.status === 'approved';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-growth-draft-${draft.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={draft.status} />
+          <Badge tone="cyan">{draft.draft_type}</Badge>
+          <Badge tone={draft.privacy_score >= 90 ? 'emerald' : 'rose'}>{draft.privacy_score} privacy</Badge>
+          <Badge tone={draft.quality_score >= 80 ? 'emerald' : 'amber'}>{draft.quality_score} quality</Badge>
+          <Badge tone="neutral">{draft.utm_campaign}</Badge>
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{draft.title}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{draft.body}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>source: {source?.title ?? 'unknown'}</span>
+          {source?.source_type ? <span>type: {source.source_type}</span> : null}
+          {source?.permission_status ? <span>permission: {source.permission_status}</span> : null}
+          {draft.reviewed_at ? <span>reviewed: {formatDateTime(draft.reviewed_at)}</span> : null}
+          {draft.published_at ? <span>published: {formatDateTime(draft.published_at)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="approved" />
+          <ActionButton data-testid={`public-growth-approve-${draft.id}`} tone="emerald" type="submit">Approve</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="rejected" />
+          <ActionButton data-testid={`public-growth-reject-${draft.id}`} type="submit">Reject</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="archived" />
+          <ActionButton type="submit">Archive</ActionButton>
+        </form>
+        {canMarkPublished ? (
+          <form action={reviewDiscordPublicGrowthDraftAction}>
+            <input type="hidden" name="id" value={draft.id} />
+            <input type="hidden" name="status" value="published" />
+            <ActionButton data-testid={`public-growth-published-${draft.id}`} tone="emerald" type="submit">Mark published</ActionButton>
           </form>
         ) : null}
       </div>

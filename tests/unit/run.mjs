@@ -1535,6 +1535,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'RAG operational health',
     'RAG knowledge approval desk',
     'AI content approval',
+    'Public proof growth drafts',
     'Challenge review desk',
     'Durable job control',
     'Job dead letters',
@@ -1564,6 +1565,9 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /Weekly proof checklist/);
   assert.match(page, /weeklyChecklist/);
   assert.match(page, /discord_public_growth_drafts/);
+  assert.match(page, /PublicGrowthDraftRow/);
+  assert.match(page, /reviewDiscordPublicGrowthDraftAction/);
+  assert.match(page, /data-testid="discord-public-proof-growth-drafts"/);
   assert.match(page, /pendingKnowledgeCandidatesCountRes/);
   assert.match(page, /approvedMemberCountRes/);
   assert.match(page, /onboardedMemberCountRes/);
@@ -1581,6 +1585,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord_job_runs/);
   assert.match(page, /discord_job_dead_letters/);
   assert.match(page, /discord_premium_review_requests/);
+  assert.match(page, /\['queued', 'in_review', 'answered', 'completed'\]/);
   assert.match(page, /discord_office_hours_queue/);
   assert.match(page, /discord_final_scorecard_runs/);
   assert.match(smoke, /final_scorecard_runs/);
@@ -1588,6 +1593,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(actions, /retryDiscordJobDeadLetterAction/);
   assert.match(actions, /cancelDiscordJobRunAction/);
   assert.match(actions, /resolveDiscordJobDeadLetterAction/);
+  assert.match(actions, /reviewDiscordPublicGrowthDraftAction/);
+  assert.match(actions, /public_growth_draft_reviewed/);
+  assert.match(actions, /public_growth_draft_published/);
+  assert.match(actions, /manual_external_publish_only/);
   assert.match(actions, /requireAdmin/);
   assert.match(smoke, /phase-13-admin-cockpit-v2-proof\.json/);
   assert.equal(pkg.scripts['discord:smoke-admin-cockpit-v2'], 'tsx --env-file=.env.local scripts/discord/smoke-admin-cockpit-v2.ts');

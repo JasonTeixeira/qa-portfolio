@@ -384,6 +384,43 @@ export async function reviewDiscordKnowledgeCandidateAction(formData: FormData) 
   revalidatePath('/admin/discord');
 }
 
+export async function reviewDiscordPublicGrowthDraftAction(formData: FormData) {
+  const { profile } = await requireAdmin();
+  const id = value(formData, 'id');
+  const status = value(formData, 'status');
+  const note = value(formData, 'note');
+  if (!id || !['approved', 'rejected', 'archived', 'published'].includes(status)) {
+    throw new Error('Invalid public growth draft review.');
+  }
+  const reviewedAt = new Date().toISOString();
+  const { error } = await supabaseAdmin()
+    .from('discord_public_growth_drafts')
+    .update({
+      status,
+      reviewer_email: profile.email,
+      reviewed_at: reviewedAt,
+      published_at: status === 'published' ? reviewedAt : null,
+      updated_at: reviewedAt,
+    })
+    .eq('id', id)
+    .in('status', ['draft', 'pending_approval', 'approved', 'rejected']);
+  if (error) throw new Error(error.message);
+
+  await recordDiscordEvent({
+    eventType: status === 'published' ? 'public_growth_draft_published' : 'public_growth_draft_reviewed',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'team-ops',
+    metadata: {
+      id,
+      status,
+      reviewer: profile.email,
+      note: note || null,
+      manual_external_publish_only: status === 'published',
+    },
+  });
+  revalidatePath('/admin/discord');
+}
+
 export async function reviewDiscordMemberNudgeAction(formData: FormData) {
   const { profile } = await requireAdmin();
   const id = value(formData, 'id');

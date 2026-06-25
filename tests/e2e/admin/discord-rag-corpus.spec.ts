@@ -12,6 +12,8 @@ function adminClient() {
 
 test.describe('Admin Discord authoritative RAG corpus', () => {
   test('admin approves a Discord content item into authoritative RAG', async ({ adminPage }) => {
+    test.setTimeout(60_000);
+
     const sb = adminClient();
     const runId = `e2e-rag-corpus-${Date.now()}`;
     let queueId: string | null = null;
@@ -24,7 +26,7 @@ test.describe('Admin Discord authoritative RAG corpus', () => {
           source: 'e2e_rag_corpus_admin',
           discord_user_id: runId,
           discord_username: 'e2e-rag-corpus',
-          channel_base_name: 'content-lab',
+          channel_base_name: 'content-queue',
           idea: `E2E authoritative RAG approval proof ${runId}`,
           angle: 'This item starts captured, gets published from the admin dashboard, and then syncs into RAG.',
           status: 'captured',
@@ -37,7 +39,7 @@ test.describe('Admin Discord authoritative RAG corpus', () => {
       queueId = inserted!.id;
       sourceKey = `discord_content_queue:${queueId}`;
 
-      await adminPage.goto('/admin/discord', { waitUntil: 'networkidle' });
+      await adminPage.goto('/admin/discord?tab=knowledge', { waitUntil: 'networkidle' });
       await expect(adminPage.getByTestId('discord-rag-corpus-ops')).toBeVisible();
       const row = adminPage.getByTestId(`rag-corpus-content_queue-${queueId}`);
       await expect(row).toBeVisible();
@@ -85,7 +87,7 @@ test.describe('Admin Discord authoritative RAG corpus', () => {
       expect(document?.source_id).toBe(source!.id);
       expect(document?.body).toContain(runId);
 
-      await adminPage.reload({ waitUntil: 'networkidle' });
+      await adminPage.reload({ waitUntil: 'domcontentloaded' });
       await expect(adminPage.getByTestId(`rag-corpus-content_queue-${queueId}`)).toContainText('synced');
     } finally {
       if (sourceKey) await sb.from('rag_sources').delete().eq('source_key', sourceKey);

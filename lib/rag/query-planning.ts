@@ -20,6 +20,11 @@ export type RagQueryPlan = {
 };
 
 const PLANNER_VERSION = 'query_planner_v2';
+const DISCORD_OPERATING_SOURCES = [
+  'SAGEBOT_DISCORD_OPERATING_FAQ.md',
+  'DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
+  'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+];
 
 const SPECIFIC_QUERY_RULES: Array<{
   patterns: RegExp[];
@@ -29,7 +34,7 @@ const SPECIFIC_QUERY_RULES: Array<{
   {
     patterns: [/ai feature.*ready|ready before shipping|evaluate ai features/i],
     expansion: 'AI feature readiness evaluation risk quality failure set human in the loop product quality citations source tool before shipping',
-    preferredSources: ['How to Evaluate AI Features Before You Ship Them'],
+    preferredSources: ['SAGEBOT_DISCORD_OPERATING_FAQ.md', 'How to Evaluate AI Features Before You Ship Them'],
   },
   {
     patterns: [/agent boundary|boundary problem|tool.*approval|approval.*tool/i],
@@ -38,18 +43,23 @@ const SPECIFIC_QUERY_RULES: Array<{
   },
   {
     patterns: [/repeated questions|durable assets|promoted into durable/i],
-    expansion: 'Discord repeated questions promote into resources lessons durable assets content queue capture-content publish content-lab',
-    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+    expansion: 'Discord repeated questions promote into resources lessons durable assets content queue capture-content publish content-queue',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/weekly recap|recap.*community growth|community growth.*recap/i],
+    expansion: 'Discord weekly recap leaderboard challenge wins featured builds top questions useful resources premium review next week build focus',
+    preferredSources: ['SAGEBOT_DISCORD_OPERATING_FAQ.md', 'DISCORD_COMMUNITY_OPERATING_SYSTEM.md'],
   },
   {
     patterns: [/first project template|first project|project template/i],
     expansion: 'Discord first project template project acceptance criteria reviewed build lab spec artifact review request',
-    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+    preferredSources: DISCORD_OPERATING_SOURCES,
   },
   {
     patterns: [/challenge submissions|challenge submission|submit challenge|handled/i],
     expansion: 'Discord submit-challenge challenge submissions wins-showcase points award artifact review featured approved rejected',
-    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+    preferredSources: DISCORD_OPERATING_SOURCES,
   },
 ];
 
@@ -63,25 +73,25 @@ const INTENT_RULES: Array<{
     intent: 'onboarding',
     patterns: [/onboard|approval|apply|application|member access|start here|intro|first week|rules/i],
     expansion: 'Discord onboarding start-here application approval rules intro first project first-week checklist Academy Member roles quality bar',
-    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md'],
+    preferredSources: DISCORD_OPERATING_SOURCES,
   },
   {
     intent: 'content_engine',
     patterns: [/capture|content|resource|lesson|daily signal|weekly recap|publish|triage|draft/i],
-    expansion: 'Discord content engine capture-content content-lab questions reusable lessons resources triaged draft published daily-signal weekly recap quality approval',
-    preferredSources: ['DISCORD_COMMUNITY_OPERATING_SYSTEM.md', 'DISCORD_EDUCATION_SERVER_RUNBOOK.md', 'rag-system-build-plan.txt'],
+    expansion: 'Discord content engine capture-content content-queue questions reusable lessons resources triaged draft published daily-signal weekly recap quality approval',
+    preferredSources: [...DISCORD_OPERATING_SOURCES, 'rag-system-build-plan.txt'],
   },
   {
     intent: 'reputation',
     patterns: [/quiz|challenge|points|leaderboard|rank|streak|mark helpful|helpful|submit project|review request|review queue|wins/i],
     expansion: 'Discord reputation quizzes challenges points leaderboard rank streak mark-helpful 15 point submit-project build-lab request-review review-queue wins-showcase',
-    preferredSources: ['DISCORD_EDUCATION_SERVER_RUNBOOK.md', 'DISCORD_COMMUNITY_OPERATING_SYSTEM.md'],
+    preferredSources: DISCORD_OPERATING_SOURCES,
   },
   {
     intent: 'premium',
     patterns: [/premium|stripe|checkout|paid|office hours|priority|deeper|private/i],
     expansion: 'Discord premium Premium Member Stripe checkout private ephemeral priority critique deeper review office-hours replays weekly recap $29 month',
-    preferredSources: ['DISCORD_EDUCATION_SERVER_RUNBOOK.md', 'DISCORD_COMMUNITY_OPERATING_SYSTEM.md'],
+    preferredSources: DISCORD_OPERATING_SOURCES,
   },
   {
     intent: 'rag_ai',

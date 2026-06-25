@@ -1,0 +1,160 @@
+{
+  "ok": true,
+  "status": "dirty_worktree_mapped",
+  "createdAt": "2026-06-25T20:47:00.000Z",
+  "branch": "feat/community-rag-content-ops-cleanup",
+  "workingTreePosture": "Large mixed worktree. Do not create one giant release commit.",
+  "recommendedCommitOrder": [
+    {
+      "commit": 1,
+      "name": "discord-rag-community-ai-os",
+      "include": [
+        "app/admin/discord/actions.ts",
+        "app/api/discord/interactions/route.ts",
+        "docs/DISCORD_APP_SETUP.md",
+        "docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "docs/DISCORD_CONTENT_ENGINE_BUILD_PLAN.txt",
+        "docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+        "docs/discord/",
+        "docs/evidence/discord/",
+        "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json",
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json",
+        "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+        "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+        "docs/evidence/engineering-loop/",
+        "docs/evidence/rag/",
+        "lib/discord/",
+        "lib/discord/content-factory.ts",
+        "lib/discord/final-scorecard.ts",
+        "lib/discord/operating-proof-cycle-rules.ts",
+        "lib/discord/operating-proof-cycle.ts",
+        "lib/discord/scale-readiness.ts",
+        "lib/discord/security-privacy.ts",
+        "lib/rag/evals.ts",
+        "lib/rag/query-planning.ts",
+        "lib/rag/reranking.ts",
+        "lib/rag/retrieval.ts",
+        "lib/rag/source-sync.ts",
+        "scripts/discord/",
+        "scripts/discord/run-content-factory.ts",
+        "scripts/discord/run-operating-proof-cycle.ts",
+        "scripts/discord/smoke-final-scorecard.ts",
+        "scripts/discord/smoke-scale-failure-readiness.ts",
+        "scripts/discord/smoke-security-privacy-abuse.ts",
+        "scripts/rag/evaluate-rag.ts",
+        "supabase/migrations/0092_discord_security_audit_runs.sql",
+        "supabase/migrations/0093_discord_scale_failure_readiness.sql",
+        "supabase/migrations/0094_discord_final_scorecard_release.sql",
+        "supabase/migrations/0095_discord_operating_cycles.sql",
+        "tests/e2e/admin/discord-knowledge-candidates.spec.ts",
+        "tests/e2e/admin/discord-rag-corpus.spec.ts",
+        "tests/e2e/admin/discord-rag-health.spec.ts",
+        "tests/unit/run.mjs"
+      ],
+      "exclude": [
+        "Business-site visual polish files outside Discord admin/API surfaces",
+        "Academy editor changes unless proven related",
+        "Revenue OS/site marketing screenshots unless needed by tests"
+      ],
+      "preCommitGate": [
+        "npm run test:unit",
+        "npm run typecheck",
+        "npm run lint",
+        "npm run build",
+        "npm run rag:evaluate",
+        "npm run discord:smoke-final-scorecard",
+        "npm run discord:content-factory:week -- --dry-run",
+        "git diff --check"
+      ]
+    },
+    {
+      "commit": 2,
+      "name": "discord-live-server-ops-evidence-review",
+      "include": [
+        "docs/evidence/discord/lean-channel-delete-run.json",
+        "docs/evidence/discord/premium-channel-icons-category-cleanup.json",
+        "docs/evidence/discord/premium-channel-icons-run.json",
+        "scripts/discord/archive-old-community-structure.mjs",
+        "scripts/discord/audit-sage-community.mjs",
+        "scripts/discord/categorize-lean-community.mjs",
+        "scripts/discord/enforce-approval-gate.mjs",
+        "scripts/discord/pin-sage-operating-posts.mjs",
+        "scripts/discord/provision-sage-community.mjs"
+      ],
+      "preCommitGate": [
+        "npm run test:unit",
+        "npm run typecheck",
+        "npm run lint",
+        "git diff --check"
+      ],
+      "note": "This is now a review lens inside commit 1, not necessarily a separate commit, because the live-op scripts share Discord helpers and evidence with the AI OS changes. Do not rerun live Discord mutations without explicit approval."
+    },
+    {
+      "commit": 3,
+      "name": "business-site-showcase-polish",
+      "include": [
+        "app/book/",
+        "app/contact/",
+        "app/founder/",
+        "app/how-it-works/",
+        "app/industries/",
+        "app/pricing/",
+        "app/process/",
+        "app/services/",
+        "app/showcase/",
+        "app/trust/",
+        "app/work/",
+        "components/booking/",
+        "components/el/work/",
+        "components/living/",
+        "components/work/",
+        "docs/design/",
+        "docs/evidence/marketing/",
+        "docs/marketing/",
+        "scripts/marketing/",
+        "tests/e2e/home-business.spec.ts",
+        "tests/e2e/work-proof.spec.ts",
+        "tests/e2e/showcase-revenue-os.spec.ts"
+      ],
+      "preCommitGate": [
+        "npm run test:unit",
+        "npm run typecheck",
+        "npm run lint",
+        "npm run build",
+        "focused Playwright business-site smoke",
+        "git diff --check"
+      ]
+    },
+    {
+      "commit": 4,
+      "name": "academy-and-shared-cleanup",
+      "include": [
+        "app/academy-admin/",
+        "app/layout.tsx",
+        "app/page.tsx",
+        "app/globals.css",
+        "components/navigation.tsx",
+        "components/hero/HeroManifest.tsx",
+        "components/pipeline/pipeline.tsx",
+        "components/studio/checkout-button.tsx",
+        "scripts/create-samurai-layers.cjs",
+        "scripts/i18n-audit.ts",
+        "scripts/i18n-verify.ts"
+      ],
+      "preCommitGate": [
+        "npm run test:unit",
+        "npm run typecheck",
+        "npm run lint",
+        "npm run build",
+        "git diff --check"
+      ],
+      "note": "Review manually because this group spans shared app shell behavior."
+    }
+  ],
+  "knownWarningsToTrack": [
+    "Next.js middleware convention is deprecated and should move to proxy when scheduled.",
+    "Academy cookie-using routes log dynamic server usage during build but do not fail the build.",
+    "Operating-cycle proof remains blocked until real approved Discord knowledge and public proof exist."
+  ],
+  "decision": "Use this map for scoped staging. Avoid one large commit."
+}

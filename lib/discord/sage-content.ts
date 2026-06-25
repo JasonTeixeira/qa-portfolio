@@ -81,6 +81,18 @@ export const leanDiscordChannels = [
     purpose: 'Read-only welcome, rules, onboarding instructions, and first action.',
   },
   {
+    name: 'academy-roadmap',
+    purpose: 'Read-only Academy map explaining paths, levels, projects, points, premium, and weekly operating rhythm.',
+  },
+  {
+    name: 'introductions',
+    purpose: 'Member introductions after approval: goal, skill level, current build, and what help they want first.',
+  },
+  {
+    name: 'announcements',
+    purpose: 'Read-only Academy updates, challenge launches, live sessions, releases, and important operating notices.',
+  },
+  {
     name: 'daily-signal',
     purpose: 'Bot-posted daily build prompt, AI pattern, and discussion question.',
   },
@@ -89,20 +101,40 @@ export const leanDiscordChannels = [
     purpose: 'Main member questions, answers, accepted/helpful replies, and unanswered-question tracking.',
   },
   {
+    name: 'ask-sage',
+    purpose: 'Dedicated SageBot and RAG question lane for bot-assisted help.',
+  },
+  {
+    name: 'lesson-discussion',
+    purpose: 'Lesson/module discussion so curriculum questions do not get buried in general Q&A.',
+  },
+  {
     name: 'build-lab',
     purpose: 'Project specs, shipping updates, technical questions, and general build work.',
+  },
+  {
+    name: 'project-submissions',
+    purpose: 'Structured project drops for review, progress tracking, points, and showcase candidates.',
   },
   {
     name: 'review-queue',
     purpose: 'Design, code, AI, SEO, cloud, and architecture review requests.',
   },
   {
-    name: 'content-lab',
-    purpose: 'Captured questions, lessons, content ideas, resource gaps, and growth work.',
+    name: 'content-queue',
+    purpose: 'Captured questions, content ideas, resource gaps, and approved draft inputs.',
   },
   {
     name: 'live-room',
     purpose: 'Office-hours queue, live session notes, and replay follow-up.',
+  },
+  {
+    name: 'office-hours',
+    purpose: 'Office-hours schedule, agenda, submitted questions, session notes, and replay links.',
+  },
+  {
+    name: 'accountability',
+    purpose: 'Weekly goals, check-ins, shipping commitments, and progress nudges.',
   },
   {
     name: 'resources',
@@ -115,6 +147,10 @@ export const leanDiscordChannels = [
   {
     name: 'premium',
     purpose: 'Premium member critique, advanced drops, replays, and deeper help.',
+  },
+  {
+    name: 'premium-reviews',
+    purpose: 'Premium-only structured reviews, deeper teardowns, and priority critique queue.',
   },
   {
     name: 'team-ops',

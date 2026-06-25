@@ -6,7 +6,7 @@ This is the operating standard for running Sage Ideas Academy as a focused educa
 
 Sage Ideas Academy is a gated builder room for people learning by shipping AI apps, websites, automations, cloud systems, content engines, and product foundations.
 
-The server should feel small, serious, useful, and easy to navigate. Do not create channels for every topic. Keep the lean 11-channel model and make each room’s job obvious through pinned posts, topics, and bot commands.
+The server should feel small, serious, useful, and easy to navigate. Do not create channels for every topic. Keep the lean 13-channel model and make each room’s job obvious through pinned posts, topics, and bot commands.
 
 ## Channel Operating Model
 

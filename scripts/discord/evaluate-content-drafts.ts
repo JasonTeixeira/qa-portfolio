@@ -20,6 +20,8 @@ function argValue(name: string): string | null {
 
 async function main() {
   const smoke = process.argv.includes('--smoke');
+  const limitArg = Number(argValue('limit') ?? 100);
+  const requestedLimit = Number.isFinite(limitArg) ? Math.max(1, Math.min(250, limitArg)) : 100;
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false },
   });
@@ -48,7 +50,7 @@ async function main() {
           .select('id')
           .in('status', ['draft', 'pending_approval'])
           .order('created_at', { ascending: false })
-          .limit(Number(argValue('limit') ?? 25));
+          .limit(requestedLimit);
         if (error) throw error;
         ids = (data ?? []).map((row) => String(row.id));
       }
@@ -62,6 +64,7 @@ async function main() {
     const evidence = {
       ok: results.length > 0 && results.every((result) => typeof result.score === 'number'),
       smoke,
+      requestedLimit,
       evaluated: results.length,
       results,
       startedAt,

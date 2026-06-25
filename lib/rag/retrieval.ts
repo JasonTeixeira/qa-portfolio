@@ -147,10 +147,10 @@ export async function answerRagQuestion(
         },
         {
           role: 'user',
-          content: `Question: ${question}\n\nContext:\n${context}`,
+          content: `Question: ${question}\n\nKey terms to preserve when supported by context:\n${queryPlan.rerankText}\n\nContext:\n${context}`,
         },
       ],
-      temperature: 0.1,
+      temperature: 0,
       maxTokens: 320,
       observability: {
         parent: rootObservation,

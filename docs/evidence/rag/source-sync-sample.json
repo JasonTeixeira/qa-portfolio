@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "rag-source-sync-2026-06-24T20-31-09-926Z",
+  "runKey": "rag-source-sync-2026-06-25T20-22-23-079Z",
   "status": "completed",
   "approvalPolicy": "discord-authoritative-rag-sync-v1",
   "approvedDiscordStats": {
@@ -10,17 +10,17 @@
     "answersApproved": 0,
     "contentQueueSeen": 0,
     "contentQueueApproved": 0,
-    "contentDraftsSeen": 5,
+    "contentDraftsSeen": 34,
     "contentDraftsApproved": 0
   },
   "stats": {
-    "sourcesSeen": 65,
-    "sourcesUpserted": 65,
-    "documentsUpserted": 65,
+    "sourcesSeen": 66,
+    "sourcesUpserted": 66,
+    "documentsUpserted": 66,
     "failures": 0,
     "byType": {
       "blog_post": 62,
-      "resource": 3
+      "resource": 4
     }
   },
   "blocker": "No approved Discord knowledge-source rows were available to sync. Raw/unapproved Discord rows are intentionally excluded from authoritative RAG.",

@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { answerRagQuestion, type RagAnswerResult } from '@/lib/rag/retrieval';
 import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS, scoreSageBotPolicyOutput } from './sagebot-personality';
+import { validateRagUserInputSecurity } from './security-privacy';
 
 const DISCORD_LIMIT = 1900;
 
@@ -22,6 +23,7 @@ export function normalizeAskSageQuestion(input: Pick<AskSageDiscordInput, 'quest
   if (question.length < 8) throw new Error('Ask a more specific question so SageBot can retrieve useful context.');
   if (question.length > 900) throw new Error('Question is too long. Keep it under 900 characters.');
   if (context && context.length > 700) throw new Error('Context is too long. Keep it under 700 characters.');
+  validateRagUserInputSecurity({ question, context });
   return context ? `${question}\n\nMember context: ${context}` : question;
 }
 

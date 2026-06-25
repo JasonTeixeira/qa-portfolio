@@ -8,23 +8,27 @@ const READ_MESSAGE_HISTORY = 1n << 16n;
 const layout = [
   {
     name: '01 START',
-    channels: ['start-here'],
+    channels: ['start-here', 'academy-roadmap', 'introductions', 'announcements'],
   },
   {
-    name: '02 BUILD',
-    channels: ['daily-signal', 'questions', 'build-lab', 'review-queue'],
+    name: '02 SIGNAL',
+    channels: ['daily-signal', 'questions', 'ask-sage', 'lesson-discussion'],
   },
   {
-    name: '03 CONTENT',
-    channels: ['content-lab', 'resources', 'wins-showcase'],
+    name: '03 BUILD',
+    channels: ['build-lab', 'project-submissions', 'review-queue', 'wins-showcase'],
   },
   {
-    name: '04 LIVE',
-    channels: ['live-room'],
+    name: '04 CONTENT',
+    channels: ['content-queue', 'resources'],
   },
   {
-    name: '05 PRIVATE',
-    channels: ['premium', 'team-ops'],
+    name: '05 LIVE',
+    channels: ['live-room', 'office-hours', 'accountability'],
+  },
+  {
+    name: '06 PRIVATE',
+    channels: ['premium', 'premium-reviews', 'team-ops'],
   },
 ];
 
@@ -73,7 +77,7 @@ function overwritesFor(channelName, ids) {
       },
     ];
   }
-  if (channelName === '05 PRIVATE') {
+  if (channelName === '06 PRIVATE') {
     return [
       { id: ids.everyone, type: 0, deny: String(VIEW_CHANNEL) },
       { id: ids.founder, type: 0, allow: String(VIEW_CHANNEL | SEND_MESSAGES | READ_MESSAGE_HISTORY) },
@@ -151,5 +155,5 @@ console.log(JSON.stringify({
   ok: true,
   categories: [...categoryIds.keys()],
   moved,
-  note: 'Lean 11-channel model categorized. No text channels were added.',
+  note: 'Lean 20-channel Academy model categorized. No text channels were added.',
 }, null, 2));

@@ -1,0 +1,122 @@
+{
+  "ok": true,
+  "status": "passed_with_external_operating_blockers",
+  "scope": "Discord/SageBot RAG, eval, content factory dry-run, final scorecard, operating proof gates",
+  "startedAt": "2026-06-25T20:34:38.520Z",
+  "finishedAt": "2026-06-25T20:46:30.000Z",
+  "localMutations": [
+    "Added authoritative Discord operating FAQ as a RAG source.",
+    "Raised RAG eval thresholds and added context precision / usefulness gates.",
+    "Adjusted retrieval query planning, reranking, and answer prompting to preserve exact supported operational terms.",
+    "Changed final scorecard to honest v2 scoring with blockers on every below-95 category.",
+    "Added content factory dry-run planning so weekly Discord content can be quality-gated without Supabase mutation.",
+    "Split operating-cycle gates into current scorecard proof and separate world-class threshold proof."
+  ],
+  "commands": [
+    {
+      "command": "npm run rag:evaluate",
+      "result": "passed",
+      "evidence": "docs/evidence/rag/eval-latest.json",
+      "summary": "50/50 passed, passRate 1, avgScore 0.986, retrievalHitRate 1, citationCoverage 1, contextPrecision 1, faithfulness 0.95, answerUsefulness 0.9733"
+    },
+    {
+      "command": "npm run rag:evaluate:smoke",
+      "result": "passed",
+      "evidence": "docs/evidence/rag/eval-smoke.json",
+      "summary": "3/3 passed, avgScore 0.99"
+    },
+    {
+      "command": "npm run discord:smoke-final-scorecard",
+      "result": "passed",
+      "evidence": "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+      "summary": "Release gates passed, average system score 82, all below-95 categories include blockers and next actions"
+    },
+    {
+      "command": "npm run rag:smoke-retrieval",
+      "result": "passed",
+      "evidence": "docs/evidence/rag/retrieval-smoke.json",
+      "summary": "5 retrieval results returned with approved docs/resources surfaced"
+    },
+    {
+      "command": "npm run rag:smoke-answer",
+      "result": "passed",
+      "evidence": "docs/evidence/rag/answer-smoke.json",
+      "summary": "Answer generated with 5 citations and local observability trace"
+    },
+    {
+      "command": "npm run discord:content-factory:week -- --dry-run",
+      "result": "passed",
+      "evidence": "docs/evidence/discord/content-factory-run.json",
+      "summary": "29 planned approval-gated Discord drafts, dryRun true, failed 0, qualityScore 90 for all planned slots"
+    },
+    {
+      "command": "npm run discord:operating-cycle -- --dry-run",
+      "result": "blocked_as_expected",
+      "evidence": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      "summary": "Read-only dry-run showed 0 approved Discord knowledge sources, 0 Discord RAG sources, 0 public proof drafts, current scorecard present, world-class threshold blocked"
+    },
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "summary": "227 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "summary": "tsc --noEmit passed"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "summary": "eslint . passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed_with_warnings",
+      "summary": "Next.js production build passed. Existing warnings: deprecated middleware convention, edge runtime disables static generation, Academy cookie routes log dynamic server usage during static generation."
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed",
+      "summary": "No whitespace errors"
+    }
+  ],
+  "scorePosture": {
+    "averageScore": 82,
+    "worldClassClaimAllowed": false,
+    "reason": "The local code and RAG eval gates are strong, but real operating proof is not yet present across Discord knowledge volume, public growth cycles, premium fulfillment, and live conversion."
+  },
+  "remainingBlockers": [
+    {
+      "category": "approved_discord_knowledge_corpus",
+      "status": "blocked",
+      "evidence": "0 approved Discord knowledge sources and 0 Discord RAG sources in phase-21 operating proof dry-run",
+      "nextAction": "Collect real member questions/answers/builds/resources, approve high-signal candidates, then run approved Discord RAG sync and re-embed."
+    },
+    {
+      "category": "public_growth_loop",
+      "status": "blocked",
+      "evidence": "0 pending or published public proof drafts in phase-21 operating proof dry-run",
+      "nextAction": "Create privacy-gated public proof drafts from approved Discord source material and run four weekly growth cycles."
+    },
+    {
+      "category": "premium_workflows",
+      "status": "not_world_class_yet",
+      "evidence": "Final scorecard v2 premium score 74",
+      "nextAction": "Prove real premium requests, SLA, Stripe economics, office-hours queue, and fulfillment quality."
+    },
+    {
+      "category": "production_external_proof",
+      "status": "requires_explicit_approval",
+      "evidence": "This loop avoided pushes, deploys, live Discord mutations, Stripe changes, and production Supabase mutations beyond already existing evidence reads/dry-run checks.",
+      "nextAction": "Request explicit approval for each push/deploy/live mutation when ready."
+    },
+    {
+      "category": "repo_hygiene",
+      "status": "dirty_worktree",
+      "evidence": "Large mixed worktree remains across Discord/RAG, business site, Academy, migrations, and evidence files.",
+      "nextAction": "Split into reviewable commits or stashes by subsystem before release."
+    }
+  ],
+  "decision": "Passes 1-3 are locally verified. The system is not honestly 95-99+ overall yet; the next engineering pass should be release hygiene and scoped commit separation, followed by real operating-cycle execution once approved Discord knowledge exists."
+}

@@ -74,7 +74,7 @@ test.describe('Admin Discord RAG health and eval drilldown', () => {
       expect(resultError).toBeNull();
       resultId = result!.id;
 
-      await adminPage.goto('/admin/discord', { waitUntil: 'networkidle' });
+      await adminPage.goto('/admin/discord?tab=knowledge', { waitUntil: 'networkidle' });
       await expect(adminPage.getByTestId('rag-health-eval-drilldown')).toBeVisible();
       await expect(adminPage.getByTestId(`rag-eval-row-${evalKey}`)).toContainText('missing-source.md');
       await adminPage.getByTestId(`rag-eval-create-task-${evalKey}`).click();

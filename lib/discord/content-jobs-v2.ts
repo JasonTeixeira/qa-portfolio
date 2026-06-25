@@ -55,9 +55,9 @@ const targetChannelMap: Record<DiscordContentJobType, string> = {
   weekly_recap: 'wins-showcase',
   member_win_highlight: 'wins-showcase',
   unanswered_question_roundup: 'questions',
-  article_draft: 'content-lab',
-  social_draft: 'content-lab',
-  newsletter_draft: 'content-lab',
+  article_draft: 'content-queue',
+  social_draft: 'content-queue',
+  newsletter_draft: 'content-queue',
 };
 
 export type DiscordContentSource = {

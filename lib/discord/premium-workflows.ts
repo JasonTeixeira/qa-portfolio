@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { answerRagQuestion } from '@/lib/rag/retrieval';
 import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS } from './sagebot-personality';
+import { validateRagUserInputSecurity } from './security-privacy';
 
 export type PremiumReviewType = 'code' | 'design' | 'ai' | 'architecture' | 'seo' | 'cloud' | 'growth' | 'general';
 export type PremiumWorkflowStatus = 'queued' | 'in_review' | 'answered' | 'closed' | 'archived';
@@ -229,6 +230,7 @@ export async function answerPremiumQuestion(input: {
 }): Promise<{ id: string; answer: string; answerId: string | null; retrievalLogId: string | null; model: string }> {
   const premiumMember = await isPremiumDiscordMember(input.discordUserId);
   if (!premiumMember) throw new Error('Premium answers require Premium Member access.');
+  validateRagUserInputSecurity({ question: input.question, context: input.context });
   const normalizedQuestion = [
     input.question.trim(),
     input.context?.trim() ? `Premium member context: ${input.context.trim()}` : null,

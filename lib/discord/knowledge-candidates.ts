@@ -148,7 +148,7 @@ async function promoteAsQuestion(sb: SupabaseClient<any>, queue: any, reviewer: 
       question: sourceBody(queue),
       context: `Promoted from Discord capture candidate ${queue.id}.`,
       status: 'closed',
-      channel_base_name: queue.channel_base_name ?? 'content-lab',
+      channel_base_name: queue.channel_base_name ?? 'content-queue',
       message_id: queue.source_message_id,
     })
     .select('id')
@@ -170,7 +170,7 @@ async function promoteAsAnswer(sb: SupabaseClient<any>, queue: any, reviewer: st
       question: `Context for approved Discord answer from ${queue.discord_username ?? queue.discord_user_id ?? 'member'}`,
       context: `Auto-created so this approved answer can enter authoritative RAG. Candidate: ${queue.id}.`,
       status: 'answered',
-      channel_base_name: queue.channel_base_name ?? 'content-lab',
+      channel_base_name: queue.channel_base_name ?? 'content-queue',
       message_id: `context:${queue.source_message_id ?? queue.id}`,
     })
     .select('id')

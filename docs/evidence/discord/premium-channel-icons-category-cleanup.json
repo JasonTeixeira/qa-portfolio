@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "deleted": [
+    {
+      "id": "1517246193623634100",
+      "name": "02 BUILD",
+      "base": "02 build",
+      "position": 10
+    },
+    {
+      "id": "1517246195792085115",
+      "name": "03 CONTENT",
+      "base": "03 content",
+      "position": 11
+    },
+    {
+      "id": "1518271297518305421",
+      "name": "04 LIVE",
+      "base": "04 live",
+      "position": 13
+    },
+    {
+      "id": "1518271298986578134",
+      "name": "05 PRIVATE",
+      "base": "05 private",
+      "position": 14
+    }
+  ],
+  "beforeCount": 23,
+  "afterCount": 19,
+  "unexpected": [],
+  "finishedAt": "2026-06-25T05:01:48.968Z"
+}

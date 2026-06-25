@@ -1,6 +1,7 @@
 import { after, NextResponse } from 'next/server';
 import { handleDeferredSageCommand, handleSageCommand, handleSageComponent, isDeferredSageCommand } from '@/lib/discord/sage-commands';
 import { verifyDiscordRequestSignature } from '@/lib/discord/signature';
+import { checkRateLimitFromHeaders } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -38,6 +39,18 @@ export async function POST(request: Request) {
   });
   if (!verified) {
     return NextResponse.json({ error: 'invalid_signature' }, { status: 401 });
+  }
+
+  const limited = await checkRateLimitFromHeaders(request.headers, {
+    limit: 120,
+    windowMs: 60_000,
+    prefix: 'discord-interactions',
+  });
+  if (!limited.ok) {
+    return NextResponse.json(
+      { error: 'too_many_discord_interactions' },
+      { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } },
+    );
   }
 
   let payload: Parameters<typeof handleSageCommand>[0];

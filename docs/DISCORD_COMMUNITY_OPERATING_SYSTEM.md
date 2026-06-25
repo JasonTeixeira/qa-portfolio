@@ -28,7 +28,7 @@ Do not create a channel for every topic. Use a small set of rooms with clear job
 | `daily-signal` | Daily build prompt, AI pattern, and community question. | Bot/admin first, replies allowed |
 | `build-lab` | Project specs, shipping updates, technical questions, and build help. | Members |
 | `review-queue` | Design, code, AI, SEO, cloud, and architecture review requests. | Members via `/request-review` |
-| `content-lab` | Captured questions, lessons, content ideas, resource gaps, and growth work. | Members/bot |
+| `questions` | Captured questions, lessons, content ideas, resource gaps, and growth work. | Members/bot |
 | `live-room` | Office-hours queue, live session notes, and replay follow-up. | Members/admin |
 | `resources` | Templates, stack guides, reading list, prompts, tools, and resource drops. | Admin/bot read-mostly |
 | `wins-showcase` | Ships, wins, proof screenshots, launches, weekly recap. | Members/bot |
@@ -66,7 +66,7 @@ Do not create a channel for every topic. Use a small set of rooms with clear job
 - `Content Builder`
 - `Growth Builder`
 
-Path roles are used for context and mentions, not channel sprawl. Members can discuss all paths inside `build-lab`, `review-queue`, and `content-lab`.
+Path roles are used for context and mentions, not channel sprawl. Members can discuss all paths inside `build-lab`, `review-queue`, and `questions`.
 
 ## SageBot Commands
 
@@ -80,10 +80,10 @@ Path roles are used for context and mentions, not channel sprawl. Members can di
 | `/choose-path` | Update path role. | ephemeral response |
 | `/submit-project` | Submit project spec into the build pipeline. | `build-lab` |
 | `/request-review` | Route code/design/AI/SEO/cloud/architecture review. | `review-queue` |
-| `/capture-content` | Turn a question, lesson, or win into a content-engine input. | `content-lab` |
+| `/capture-content` | Turn a question, lesson, or win into a content-engine input. | `questions` |
 | `/daily-prompt` | Preview or post the daily signal. | `daily-signal` |
 | `/weekly-recap` | Preview or post weekly community recap. | `wins-showcase` |
-| `/resource` | Route people to resources or content capture. | `resources` / `content-lab` |
+| `/resource` | Route people to resources or content capture. | `resources` / `questions` |
 | `/office-hours` | Submit a live-session question. | `live-room` |
 | `/report` | Route moderation or quality issues privately. | `team-ops` |
 | `/premium` | Create Stripe checkout for premium membership. | ephemeral response |
@@ -313,7 +313,7 @@ Do not invent a price in code. Stripe price is a business decision and belongs i
 | --- | --- |
 | `start-here` | Admin/bot only |
 | `daily-signal` | Bot/admin posts, members reply |
-| `resources` | Admin/bot posts, members can request gaps in `content-lab` |
+| `resources` | Admin/bot posts, members can request gaps in `questions` |
 | `premium` | Premium members and admin |
 | `team-ops` | Admin/moderator/bot only |
 | All other public rooms | Members can post |
@@ -355,7 +355,7 @@ For premium sync, the bot role must sit above `Premium Member`.
 Daily:
 
 - bot posts `daily-signal`
-- skim `build-lab`, `review-queue`, `content-lab`
+- skim `build-lab`, `review-queue`, `questions`
 - capture strong questions
 
 Weekly:

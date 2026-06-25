@@ -2,13 +2,13 @@
   "ok": true,
   "dryRun": false,
   "messageId": null,
-  "limit": 500,
+  "limit": 250,
   "classifiedMessagesSeen": 0,
   "candidatesBuilt": 0,
   "queueRowsUpserted": 0,
   "byAction": {},
   "byCategory": {},
   "sample": [],
-  "startedAt": "2026-06-21T02:18:39.967Z",
-  "finishedAt": "2026-06-21T02:18:40.178Z"
+  "startedAt": "2026-06-25T02:49:42.717Z",
+  "finishedAt": "2026-06-25T02:49:42.975Z"
 }

@@ -2,7 +2,7 @@
   "ok": true,
   "dryRun": false,
   "messageId": null,
-  "limit": 500,
+  "limit": 250,
   "messagesSeen": 0,
   "classificationsUpserted": 0,
   "summary": {
@@ -13,6 +13,6 @@
     "avgContentValue": 0
   },
   "sample": [],
-  "startedAt": "2026-06-21T02:18:39.116Z",
-  "finishedAt": "2026-06-21T02:18:39.331Z"
+  "startedAt": "2026-06-25T02:49:42.717Z",
+  "finishedAt": "2026-06-25T02:49:42.965Z"
 }

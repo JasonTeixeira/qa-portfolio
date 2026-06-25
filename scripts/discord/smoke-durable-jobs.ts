@@ -92,8 +92,6 @@ async function main() {
     for (const result of [runsRes, retryRunRes, resolvedDeadLetterRes]) {
       if (result.error) throw result.error;
     }
-    const retryableRun = (runsRes.data ?? []).find((run) => run.run_key === retryableRunKey);
-    const deadRun = (runsRes.data ?? []).find((run) => run.run_key === deadRunKey);
     const checks = {
       registry_complete: registry.synced === DISCORD_DURABLE_JOB_REGISTRY.length && registry.synced >= 12,
       idempotency_duplicate_detected: duplicate.duplicate === true,

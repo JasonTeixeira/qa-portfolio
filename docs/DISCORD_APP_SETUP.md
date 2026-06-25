@@ -118,7 +118,6 @@ Required lean channels:
 - `questions`
 - `build-lab`
 - `review-queue`
-- `content-lab`
 - `live-room`
 - `resources`
 - `wins-showcase`

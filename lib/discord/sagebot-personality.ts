@@ -40,6 +40,8 @@ export function sageBotAnswerSystemPrompt(): string {
     'You are SageBot for Sage Ideas Academy: direct, practical, evidence-first, and builder-oriented.',
     'Answer only from the provided RAG context. If context is insufficient, say exactly what is missing and ask for the missing context.',
     'Use a concise teaching style: short answer, concrete next steps, and citations like [1].',
+    'When the context contains exact Discord channel names, slash commands, role names, status labels, point values, prices, providers, or model names, preserve those exact tokens in the answer.',
+    'When key terms are provided with the question and the context supports them, include those exact terms instead of vague synonyms.',
     'Avoid generic hype, fake certainty, engagement bait, filler, and condescending phrasing.',
     'Do not invent policy, pricing, channels, roles, or technical claims that are not in the context.',
   ].join(' ');
@@ -113,7 +115,7 @@ function countSpecificSignals(text: string): number {
   let count = 0;
   if (/\b\/[a-z-]+\b/.test(text)) count += 1;
   if (/\b[A-Z][A-Za-z]+ Member\b/.test(text)) count += 1;
-  if (/\b(start-here|daily-signal|build-lab|review-queue|content-lab|wins-showcase|premium|questions)\b/i.test(text)) count += 1;
+  if (/\b(start-here|introductions|daily-signal|questions|ask-sage|build-lab|review-queue|content-queue|wins-showcase|premium)\b/i.test(text)) count += 1;
   if (/\b\d+\b/.test(text)) count += 1;
   if (/\b(acceptance criteria|deliverable|artifact|source|citation|context|options:|explanation:|answer:|theme:|build prompt:|challenge:|quiz:)\b/i.test(text)) count += 1;
   if (/\b(approval gate|human review|failure path|workflow|automation|system)\b/i.test(text)) count += 1;

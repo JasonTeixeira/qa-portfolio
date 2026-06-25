@@ -323,7 +323,7 @@ export async function createRagEvalKnowledgeTaskAction(formData: FormData) {
   const payload = {
     source: 'rag_eval_failure',
     discord_username: 'SageBot',
-    channel_base_name: 'content-lab',
+    channel_base_name: 'content-queue',
     idea: `Improve RAG source coverage for ${evalKey}`,
     angle: `${question}\n\nSuggested fix: ${suggestedFix || 'Inspect failed eval and add or approve a better source.'}`,
     status: 'captured',

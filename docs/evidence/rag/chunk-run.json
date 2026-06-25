@@ -1,17 +1,17 @@
 {
   "ok": true,
-  "runKey": "rag-chunk-2026-06-24T19-07-58-942Z",
+  "runKey": "rag-chunk-2026-06-25T20-22-24-684Z",
   "status": "completed",
   "stats": {
-    "documentsSeen": 65,
-    "documentsChunked": 65,
-    "chunksUpserted": 110,
+    "documentsSeen": 66,
+    "documentsChunked": 66,
+    "chunksUpserted": 115,
     "obsoleteChunksDeleted": 0,
     "failures": 0
   },
-  "totalChunks": 110,
+  "totalChunks": 115,
   "embeddingStatus": "not_configured",
   "note": "Chunks are created from real sources. Embeddings remain null until a real embedding provider is configured and proven.",
-  "startedAt": "2026-06-24T19:07:58.942Z",
-  "finishedAt": "2026-06-24T19:08:27.729Z"
+  "startedAt": "2026-06-25T20:22:24.684Z",
+  "finishedAt": "2026-06-25T20:22:52.833Z"
 }

@@ -1,3 +1,4 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { evaluateAndPersistDiscordContentDraft, latestPassingContentDraftEvaluation } from './content-quality';
 
@@ -43,8 +44,11 @@ export function normalizeDiscordContentDraft(input: DiscordContentDraftInput) {
   return row;
 }
 
-export async function createDiscordContentDraft(input: DiscordContentDraftInput): Promise<{ id: string }> {
-  const { data, error } = await supabaseAdmin()
+export async function createDiscordContentDraft(
+  input: DiscordContentDraftInput,
+  sb: SupabaseClient<any> = supabaseAdmin(),
+): Promise<{ id: string }> {
+  const { data, error } = await sb
     .from('discord_content_drafts')
     .insert(normalizeDiscordContentDraft(input))
     .select('id')

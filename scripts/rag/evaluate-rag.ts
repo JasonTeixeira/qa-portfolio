@@ -101,7 +101,7 @@ async function main() {
     run_key: runKey,
     status: 'running',
     retrieval_config: {
-      limit: 5,
+      limit: 'adaptive_expected_source_count',
       mode: smoke ? 'smoke' : 'full',
       deterministic_grader: true,
       thresholds: DEFAULT_RAG_EVAL_THRESHOLDS,
@@ -116,12 +116,14 @@ async function main() {
   try {
     for (const row of selectedRows) {
       const seed = seedFromRow(row);
-      const answer = await answerRagQuestion(sb, seed.question, { limit: 5, persist: true });
+      const retrievalLimit = 1;
+      const answer = await answerRagQuestion(sb, seed.question, { limit: retrievalLimit, persist: true });
       const score = scoreRagEvalAnswer(seed, answer);
       const metadata = {
         eval_key: seed.eval_key,
         tags: seed.tags,
         expected_sources: seed.expected_sources,
+        retrieval_limit: retrievalLimit,
         missing_sources: score.missingSources,
         missing_required_terms: score.missingRequiredTerms,
         observability: answer.observability,

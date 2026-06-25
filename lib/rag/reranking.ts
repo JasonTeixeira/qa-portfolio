@@ -9,6 +9,7 @@ export type RerankedRagSearchResult = RagSearchResult & {
 export const RAG_RERANKER_VERSION = 'deterministic_reranker_v2';
 
 const SOURCE_PRIORITY: Array<[RegExp, number, string]> = [
+  [/SAGEBOT_DISCORD_OPERATING_FAQ\.md/i, 0.36, 'approved_operating_faq'],
   [/DISCORD_COMMUNITY_OPERATING_SYSTEM\.md|DISCORD_EDUCATION_SERVER_RUNBOOK\.md|rag-system-build-plan\.txt/i, 0.28, 'approved_core_resource'],
   [/docs\/specs|docs\//i, 0.2, 'approved_doc'],
   [/blog\//i, 0.08, 'approved_blog'],
@@ -24,7 +25,10 @@ export function rerankRagResults(
   const maxHybrid = Math.max(...candidates.map((candidate) => Number(candidate.hybrid_score) || 0), 0.000001);
   return candidates
     .map((candidate) => scoreCandidate(plan, candidate, maxHybrid))
-    .sort((a, b) => Number(b.rerank_reasons.includes('exact_preferred_source_match')) - Number(a.rerank_reasons.includes('exact_preferred_source_match')) || b.rerank_score - a.rerank_score)
+    .sort((a, b) =>
+      Number(b.rerank_reasons.includes('exact_preferred_source_match')) - Number(a.rerank_reasons.includes('exact_preferred_source_match'))
+      || b.rerank_score - a.rerank_score
+      || Number(b.rerank_reasons.includes('approved_operating_faq')) - Number(a.rerank_reasons.includes('approved_operating_faq')))
     .slice(0, limit);
 }
 
@@ -57,14 +61,13 @@ function scoreCandidate(plan: RagQueryPlan, candidate: RagSearchResult, maxHybri
   const sourcePriority = sourcePriorityScore(candidate);
   const hybrid = Math.min(1, Math.max(0, Number(candidate.hybrid_score) / maxHybrid));
   const keywordBoost = Math.min(0.12, Math.max(0, Number(candidate.keyword_score)) * 0.08);
-  const score = clamp01(
+  const score =
     hybrid * 0.34
     + overlap * 0.28
     + preferredOverlap * 0.16
     + exactPreferred.score
     + sourcePriority.score
-    + keywordBoost,
-  );
+    + keywordBoost;
   return {
     ...candidate,
     rerank_score: Number(score.toFixed(6)),
@@ -99,8 +102,4 @@ function overlapRatio(terms: string[], text: string): number {
 
 function normalize(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9$+./-]+/g, ' ').trim();
-}
-
-function clamp01(value: number): number {
-  return Math.max(0, Math.min(1, value));
 }

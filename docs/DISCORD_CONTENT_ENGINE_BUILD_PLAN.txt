@@ -31,7 +31,7 @@ NON-NEGOTIABLE QUALITY BAR
 
 CURRENT FOUNDATION
 Already built or partially built:
-1. Lean 11-channel Discord structure.
+1. Lean 13-channel Discord structure.
 2. Approval-gated onboarding through Discord native Apply to Join, with SageBot `/apply`, `/approve`, `/reject`, and `/pending` retained as fallback/admin tools.
 3. Role assignment from SageBot application data, `/onboard` path/level selection, and native-approved default role sync.
 4. Supabase tables for Discord members, applications, quizzes, challenges, points, messages, content queue, premium workflows, and gateway events.
@@ -218,7 +218,7 @@ Purpose: code/design/AI/SEO/cloud/architecture critique.
 Permissions: approved members; premium can get priority.
 Bot behavior: tracks review requests, captures reusable lessons, routes premium reviews.
 
-6. content-lab
+6. questions
 Purpose: content ideas, captured questions, lessons, article/social/resource drafts.
 Permissions: approved members, with admin workflow for publishing.
 Bot behavior: queues items, labels source, supports approval buttons.

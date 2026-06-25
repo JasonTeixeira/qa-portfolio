@@ -1,0 +1,765 @@
+{
+  "ok": true,
+  "guildId": "1516813594468286575",
+  "keepChannels": [
+    "start-here",
+    "introductions",
+    "daily-signal",
+    "questions",
+    "build-lab",
+    "review-queue",
+    "resources",
+    "wins-showcase",
+    "live-room",
+    "premium",
+    "team-ops"
+  ],
+  "keepCategories": [
+    "01 start",
+    "02 build",
+    "03 content",
+    "04 live",
+    "05 private"
+  ],
+  "beforeCount": 91,
+  "plannedDeleteCount": 75,
+  "deletedCount": 75,
+  "failedCount": 0,
+  "afterCount": 16,
+  "deleted": [
+    {
+      "id": "1517164314765688833",
+      "name": "🚪-onboarding-gate",
+      "base": "onboarding-gate",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 60
+    },
+    {
+      "id": "1517164311921955007",
+      "name": "💳-membership-expectations",
+      "base": "membership-expectations",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 59
+    },
+    {
+      "id": "1517164309078212658",
+      "name": "🧱-support-boundaries",
+      "base": "support-boundaries",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 58
+    },
+    {
+      "id": "1517164306033279169",
+      "name": "📝-content-usage-policy",
+      "base": "content-usage-policy",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 57
+    },
+    {
+      "id": "1517161994665332946",
+      "name": "🔊-office-hours-room",
+      "base": "office-hours-room",
+      "type": 2,
+      "parent_id": "1517161479055347885",
+      "position": 56
+    },
+    {
+      "id": "1517164302795276550",
+      "name": "🤖-ai-disclaimer",
+      "base": "ai-disclaimer",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 56
+    },
+    {
+      "id": "1516813595671793714",
+      "name": "🎥-live-classroom",
+      "base": "live-classroom",
+      "type": 2,
+      "parent_id": "1517161479055347885",
+      "position": 55
+    },
+    {
+      "id": "1517164299909464116",
+      "name": "🤝-code-of-conduct",
+      "base": "code-of-conduct",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 55
+    },
+    {
+      "id": "1517161991330857020",
+      "name": "🎓-curriculum-planning",
+      "base": "curriculum-planning",
+      "type": 0,
+      "parent_id": "1517161487888679152",
+      "position": 54
+    },
+    {
+      "id": "1517161988940365854",
+      "name": "🗓-content-planning",
+      "base": "content-planning",
+      "type": 0,
+      "parent_id": "1517161487888679152",
+      "position": 53
+    },
+    {
+      "id": "1517161986033713203",
+      "name": "🤖-bot-log",
+      "base": "bot-log",
+      "type": 0,
+      "parent_id": "1517161487888679152",
+      "position": 52
+    },
+    {
+      "id": "1517161983311352021",
+      "name": "🚨-moderation",
+      "base": "moderation",
+      "type": 0,
+      "parent_id": "1517161487888679152",
+      "position": 51
+    },
+    {
+      "id": "1517161980903821466",
+      "name": "🛡-admin-ops",
+      "base": "admin-ops",
+      "type": 0,
+      "parent_id": "1517161487888679152",
+      "position": 50
+    },
+    {
+      "id": "1517161978391429323",
+      "name": "✅-accountability",
+      "base": "accountability",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 49
+    },
+    {
+      "id": "1517161975929372682",
+      "name": "📦-premium-downloads",
+      "base": "premium-downloads",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 48
+    },
+    {
+      "id": "1517161973601538068",
+      "name": "🎟-premium-office-hours",
+      "base": "premium-office-hours",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 47
+    },
+    {
+      "id": "1517161971416305866",
+      "name": "🔍-premium-reviews",
+      "base": "premium-reviews",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 46
+    },
+    {
+      "id": "1517161968497328399",
+      "name": "🧪-premium-labs",
+      "base": "premium-labs",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 45
+    },
+    {
+      "id": "1517161965850464268",
+      "name": "💎-premium-announcements",
+      "base": "premium-announcements",
+      "type": 0,
+      "parent_id": "1517161485627822171",
+      "position": 44
+    },
+    {
+      "id": "1517161963539398696",
+      "name": "🗂-swipe-files",
+      "base": "swipe-files",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 43
+    },
+    {
+      "id": "1517161961299771494",
+      "name": "📖-reading-list",
+      "base": "reading-list",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 42
+    },
+    {
+      "id": "1517161959068405880",
+      "name": "🔧-tools",
+      "base": "tools",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 41
+    },
+    {
+      "id": "1517161956249960618",
+      "name": "🧰-stack-guides",
+      "base": "stack-guides",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 40
+    },
+    {
+      "id": "1517161954161070301",
+      "name": "✨-prompts",
+      "base": "prompts",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 39
+    },
+    {
+      "id": "1517161951934021632",
+      "name": "📄-templates",
+      "base": "templates",
+      "type": 0,
+      "parent_id": "1517161482989736029",
+      "position": 38
+    },
+    {
+      "id": "1517161949752856706",
+      "name": "🏅-member-wins",
+      "base": "member-wins",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 37
+    },
+    {
+      "id": "1517161947596980405",
+      "name": "🎞-clip-ideas",
+      "base": "clip-ideas",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 36
+    },
+    {
+      "id": "1517161945323667527",
+      "name": "✉️-newsletter-queue",
+      "base": "newsletter-queue",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 35
+    },
+    {
+      "id": "1517161943033708674",
+      "name": "💭-content-ideas",
+      "base": "content-ideas",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 34
+    },
+    {
+      "id": "1517161940613599272",
+      "name": "🔬-build-breakdowns",
+      "base": "build-breakdowns",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 33
+    },
+    {
+      "id": "1517161938499408045",
+      "name": "❓-questions-to-content",
+      "base": "questions-to-content",
+      "type": 0,
+      "parent_id": "1517161481198764183",
+      "position": 32
+    },
+    {
+      "id": "1517161936402514012",
+      "name": "🌿-ask-sage",
+      "base": "ask-sage",
+      "type": 0,
+      "parent_id": "1517161479055347885",
+      "position": 31
+    },
+    {
+      "id": "1517161934342979695",
+      "name": "👥-cohort-room",
+      "base": "cohort-room",
+      "type": 0,
+      "parent_id": "1517161479055347885",
+      "position": 30
+    },
+    {
+      "id": "1517161932140843129",
+      "name": "🎬-replay-library",
+      "base": "replay-library",
+      "type": 0,
+      "parent_id": "1517161479055347885",
+      "position": 29
+    },
+    {
+      "id": "1517161930027176197",
+      "name": "🎙-workshop-chat",
+      "base": "workshop-chat",
+      "type": 0,
+      "parent_id": "1517161479055347885",
+      "position": 28
+    },
+    {
+      "id": "1517161927871299625",
+      "name": "🕒-office-hours",
+      "base": "office-hours",
+      "type": 0,
+      "parent_id": "1517161479055347885",
+      "position": 27
+    },
+    {
+      "id": "1517161925769822308",
+      "name": "🏆-portfolio-wins",
+      "base": "portfolio-wins",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 26
+    },
+    {
+      "id": "1517161923748036788",
+      "name": "🚀-ship-showcase",
+      "base": "ship-showcase",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 25
+    },
+    {
+      "id": "1517161921424392293",
+      "name": "🏗-architecture-review",
+      "base": "architecture-review",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 24
+    },
+    {
+      "id": "1517161918882648107",
+      "name": "🤖-ai-help",
+      "base": "ai-help",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 23
+    },
+    {
+      "id": "1517161916148219935",
+      "name": "🧩-code-help",
+      "base": "code-help",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 22
+    },
+    {
+      "id": "1517161913300025396",
+      "name": "🎨-design-review",
+      "base": "design-review",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 21
+    },
+    {
+      "id": "1517161908757729412",
+      "name": "📐-project-specs",
+      "base": "project-specs",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 20
+    },
+    {
+      "id": "1517161906111123568",
+      "name": "💡-project-ideas",
+      "base": "project-ideas",
+      "type": 0,
+      "parent_id": "1517161476614262815",
+      "position": 19
+    },
+    {
+      "id": "1517161904173351113",
+      "name": "🏗-path-architecture-systems",
+      "base": "path-architecture-systems",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 18
+    },
+    {
+      "id": "1517161901879070892",
+      "name": "📈-path-ads-growth",
+      "base": "path-ads-growth",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 17
+    },
+    {
+      "id": "1517161899249111142",
+      "name": "🔎-path-seo-content-engine",
+      "base": "path-seo-content-engine",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 16
+    },
+    {
+      "id": "1517161897428914206",
+      "name": "🕹-path-ai-agents-automation",
+      "base": "path-ai-agents-automation",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 15
+    },
+    {
+      "id": "1517161895289815071",
+      "name": "☁️-path-cloud-devops",
+      "base": "path-cloud-devops",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 14
+    },
+    {
+      "id": "1517161893125423154",
+      "name": "🎨-path-websites-design",
+      "base": "path-websites-design",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 13
+    },
+    {
+      "id": "1517161890801778789",
+      "name": "💻-path-full-stack-dev",
+      "base": "path-full-stack-dev",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 12
+    },
+    {
+      "id": "1517161888859820133",
+      "name": "🤖-path-ai-apps",
+      "base": "path-ai-apps",
+      "type": 0,
+      "parent_id": "1517161474676621513",
+      "position": 11
+    },
+    {
+      "id": "1517161886553079898",
+      "name": "📅-weekly-schedule",
+      "base": "weekly-schedule",
+      "type": 0,
+      "parent_id": "1517161472185077931",
+      "position": 10
+    },
+    {
+      "id": "1517161884061667338",
+      "name": "❓-daily-question",
+      "base": "daily-question",
+      "type": 0,
+      "parent_id": "1517161472185077931",
+      "position": 9
+    },
+    {
+      "id": "1517161881847074856",
+      "name": "🎁-daily-resource-drop",
+      "base": "daily-resource-drop",
+      "type": 0,
+      "parent_id": "1517161472185077931",
+      "position": 8
+    },
+    {
+      "id": "1517161879565500496",
+      "name": "🧠-daily-ai-tool",
+      "base": "daily-ai-tool",
+      "type": 0,
+      "parent_id": "1517161472185077931",
+      "position": 7
+    },
+    {
+      "id": "1517161876868300953",
+      "name": "⚒-daily-build-prompt",
+      "base": "daily-build-prompt",
+      "type": 0,
+      "parent_id": "1517161472185077931",
+      "position": 6
+    },
+    {
+      "id": "1517161874460774451",
+      "name": "📣-announcements",
+      "base": "announcements",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 5
+    },
+    {
+      "id": "1517198851465941123",
+      "name": "content-lab",
+      "base": "content-lab",
+      "type": 0,
+      "parent_id": "1517246195792085115",
+      "position": 5
+    },
+    {
+      "id": "1517331342801768539",
+      "name": "wins",
+      "base": "wins",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 5
+    },
+    {
+      "id": "1516813595063750719",
+      "name": "🙋-introduce-yourself",
+      "base": "introduce-yourself",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 4
+    },
+    {
+      "id": "1517161871575220394",
+      "name": "🧭-choose-your-path",
+      "base": "choose-your-path",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 3
+    },
+    {
+      "id": "1517161869197053962",
+      "name": "📜-rules-and-disclaimers",
+      "base": "rules-and-disclaimers",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 2
+    },
+    {
+      "id": "1517161866726740138",
+      "name": "🗺-server-map",
+      "base": "server-map",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 1
+    },
+    {
+      "id": "1517161864448966918",
+      "name": "👋-welcome",
+      "base": "welcome",
+      "type": 0,
+      "parent_id": "1517161469798518895",
+      "position": 0
+    },
+    {
+      "id": "1517246197683716116",
+      "name": "04 PRIVATE",
+      "base": "04 private",
+      "type": 4,
+      "parent_id": null,
+      "position": 12
+    },
+    {
+      "id": "1517161487888679152",
+      "name": "🛡 TEAM OPS",
+      "base": "team ops",
+      "type": 4,
+      "parent_id": null,
+      "position": 8
+    },
+    {
+      "id": "1517161485627822171",
+      "name": "💎 PREMIUM MEMBERS",
+      "base": "premium members",
+      "type": 4,
+      "parent_id": null,
+      "position": 7
+    },
+    {
+      "id": "1517161482989736029",
+      "name": "📚 RESOURCES",
+      "base": "resources",
+      "type": 4,
+      "parent_id": null,
+      "position": 6
+    },
+    {
+      "id": "1517161481198764183",
+      "name": "📝 CONTENT ENGINE",
+      "base": "content engine",
+      "type": 4,
+      "parent_id": null,
+      "position": 5
+    },
+    {
+      "id": "1517161479055347885",
+      "name": "🎥 LIVE EDUCATION",
+      "base": "live education",
+      "type": 4,
+      "parent_id": null,
+      "position": 4
+    },
+    {
+      "id": "1517161476614262815",
+      "name": "🛠 BUILD LAB",
+      "base": "build lab",
+      "type": 4,
+      "parent_id": null,
+      "position": 3
+    },
+    {
+      "id": "1517161474676621513",
+      "name": "🎓 LEARNING PATHS",
+      "base": "learning paths",
+      "type": 4,
+      "parent_id": null,
+      "position": 2
+    },
+    {
+      "id": "1517161472185077931",
+      "name": "⚡ DAILY SIGNAL",
+      "base": "daily signal",
+      "type": 4,
+      "parent_id": null,
+      "position": 1
+    },
+    {
+      "id": "1517161469798518895",
+      "name": "🧭 START HERE",
+      "base": "start here",
+      "type": 4,
+      "parent_id": null,
+      "position": 0
+    }
+  ],
+  "failed": [],
+  "remaining": [
+    {
+      "id": "1517198845530865857",
+      "name": "start-here",
+      "base": "start-here",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 0
+    },
+    {
+      "id": "1517198846328049765",
+      "name": "introductions",
+      "base": "introductions",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 1
+    },
+    {
+      "id": "1517198847120511039",
+      "name": "daily-signal",
+      "base": "daily-signal",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 1
+    },
+    {
+      "id": "1517331341132300352",
+      "name": "questions",
+      "base": "questions",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 2
+    },
+    {
+      "id": "1517198848034869379",
+      "name": "build-lab",
+      "base": "build-lab",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 3
+    },
+    {
+      "id": "1517198849410732214",
+      "name": "review-queue",
+      "base": "review-queue",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 4
+    },
+    {
+      "id": "1517198852828954857",
+      "name": "resources",
+      "base": "resources",
+      "type": 0,
+      "parent_id": "1517246195792085115",
+      "position": 6
+    },
+    {
+      "id": "1517198854221729802",
+      "name": "wins-showcase",
+      "base": "wins-showcase",
+      "type": 0,
+      "parent_id": "1517246195792085115",
+      "position": 7
+    },
+    {
+      "id": "1517198852355133691",
+      "name": "live-room",
+      "base": "live-room",
+      "type": 0,
+      "parent_id": "1518271297518305421",
+      "position": 8
+    },
+    {
+      "id": "1517198854892552342",
+      "name": "premium",
+      "base": "premium",
+      "type": 0,
+      "parent_id": "1518271298986578134",
+      "position": 9
+    },
+    {
+      "id": "1517246191140606153",
+      "name": "01 START",
+      "base": "01 start",
+      "type": 4,
+      "parent_id": null,
+      "position": 9
+    },
+    {
+      "id": "1517198855555256430",
+      "name": "team-ops",
+      "base": "team-ops",
+      "type": 0,
+      "parent_id": "1518271298986578134",
+      "position": 10
+    },
+    {
+      "id": "1517246193623634100",
+      "name": "02 BUILD",
+      "base": "02 build",
+      "type": 4,
+      "parent_id": null,
+      "position": 10
+    },
+    {
+      "id": "1517246195792085115",
+      "name": "03 CONTENT",
+      "base": "03 content",
+      "type": 4,
+      "parent_id": null,
+      "position": 11
+    },
+    {
+      "id": "1518271297518305421",
+      "name": "04 LIVE",
+      "base": "04 live",
+      "type": 4,
+      "parent_id": null,
+      "position": 13
+    },
+    {
+      "id": "1518271298986578134",
+      "name": "05 PRIVATE",
+      "base": "05 private",
+      "type": 4,
+      "parent_id": null,
+      "position": 14
+    }
+  ],
+  "unexpectedRemaining": [],
+  "note": "Deleted non-lean Sage Ideas Discord channels/categories per owner request. Kept only lean operating model channels and categories.",
+  "finishedAt": "2026-06-25T04:40:41.676Z"
+}

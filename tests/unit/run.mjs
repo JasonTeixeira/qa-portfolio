@@ -1925,6 +1925,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   } = await import('../../lib/discord/operating-proof-cycle-rules.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0095_discord_operating_cycles.sql', import.meta.url), 'utf8');
   const script = await readFile(new URL('../../scripts/discord/run-operating-proof-cycle.ts', import.meta.url), 'utf8');
+  const operatingCycle = await readFile(new URL('../../lib/discord/operating-proof-cycle.ts', import.meta.url), 'utf8');
   const runbook = await readFile(new URL('../../docs/discord/OPERATING_PROOF_CYCLE_RUNBOOK.md', import.meta.url), 'utf8');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 
@@ -1958,6 +1959,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(script, /runDiscordOperatingProofCycle/);
   assert.match(script, /loadLocalFinalScorecardEvidence/);
   assert.match(script, /finalScorecardOverride/);
+  assert.match(operatingCycle, /discord_premium_review_requests', 'status', \['queued', 'in_review', 'answered', 'completed'\]/);
   assert.match(runbook, /Four-Week Growth Proof/);
   assert.match(runbook, /Do not auto-publish externally/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');

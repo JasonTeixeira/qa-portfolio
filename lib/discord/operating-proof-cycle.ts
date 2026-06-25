@@ -138,7 +138,7 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     countNotNull(sb, 'discord_members', 'onboarding_completed_at'),
     countGte(sb, 'discord_members', 'last_seen_at', since7d),
     countRows(sb, 'discord_members', 'premium_member', true),
-    countIn(sb, 'discord_premium_review_requests', 'status', ['queued', 'in_review', 'completed']),
+    countIn(sb, 'discord_premium_review_requests', 'status', ['queued', 'in_review', 'answered', 'completed']),
     countIn(sb, 'discord_office_hours_queue', 'status', ['queued', 'selected', 'scheduled', 'completed']),
     countAll(sb, 'discord_member_applications'),
     countRows(sb, 'discord_member_applications', 'status', 'approved'),

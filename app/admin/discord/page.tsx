@@ -379,7 +379,18 @@ type DiscordPremiumReviewRow = {
   assigned_to: string | null;
   sla_due_at: string | null;
   completed_at: string | null;
+  follow_up_due_at?: string | null;
   response_quality_score: number | null;
+  created_at: string;
+};
+
+type DiscordPremiumWorkflowEventRow = {
+  id: string;
+  request_id: string | null;
+  event_type: string;
+  actor: string | null;
+  status: string | null;
+  note: string | null;
   created_at: string;
 };
 
@@ -492,6 +503,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     jobRunsRes,
     jobDeadLettersRes,
     premiumReviewsRes,
+    premiumProofReviewsRes,
+    premiumWorkflowEventsRes,
     officeHoursRes,
     publicGrowthDraftsRes,
     publicProofSourcesRes,
@@ -678,6 +691,18 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .order('created_at', { ascending: true })
       .limit(20),
     sb
+      .from('discord_premium_review_requests')
+      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, assigned_to, sla_due_at, completed_at, follow_up_due_at, response_quality_score, created_at')
+      .in('status', ['answered', 'closed'])
+      .order('completed_at', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(12),
+    sb
+      .from('discord_premium_workflow_events')
+      .select('id, request_id, event_type, actor, status, note, created_at')
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
       .from('discord_office_hours_queue')
       .select('id, discord_user_id, discord_username, status, priority, question, premium_member, created_at')
       .in('status', ['queued', 'selected'])
@@ -790,6 +815,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const jobRuns = (jobRunsRes.data ?? []) as DiscordJobRunRow[];
   const jobDeadLetters = (jobDeadLettersRes.data ?? []) as DiscordJobDeadLetterRow[];
   const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
+  const premiumProofReviews = (premiumProofReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
+  const premiumWorkflowEvents = (premiumWorkflowEventsRes.data ?? []) as DiscordPremiumWorkflowEventRow[];
   const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
   const publicGrowthDrafts = (publicGrowthDraftsRes.data ?? []) as DiscordPublicGrowthDraftRow[];
   const publicProofSources = (publicProofSourcesRes.data ?? []) as DiscordPublicProofSourceRow[];
@@ -1379,6 +1406,22 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
 
           <Panel
+            icon={FileCheck2}
+            title="Premium proof ledger"
+            meta={`${premiumProofReviews.length} fulfilled reviews / ${premiumWorkflowEvents.length} events`}
+            empty="No fulfilled premium review proof yet. Complete one premium review or seeded premium scenario to create proof."
+          >
+            {premiumProofReviews.map((review) => (
+              <PremiumProofReviewRow key={review.id} review={review} />
+            ))}
+            {premiumWorkflowEvents.slice(0, Math.max(0, 8 - premiumProofReviews.length)).map((event) => (
+              <PremiumWorkflowEventRow key={event.id} event={event} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+          <Panel
             icon={Users}
             title="Premium leads"
             meta={`${memberIntelligence.filter((member) => member.segment === 'premium_lead').length} leads`}
@@ -1813,6 +1856,49 @@ function PremiumOpsRow({ entry }: {
           </form>
         ) : null}
       </div>
+    </div>
+  );
+}
+
+function PremiumProofReviewRow({ review }: { review: DiscordPremiumReviewRow }) {
+  const title = review.summary || `${review.review_type} premium review`;
+  const completed = review.completed_at ? formatDateTime(review.completed_at) : 'not completed';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`premium-proof-review-${review.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={review.status} />
+          <Badge tone="violet">{review.review_type}</Badge>
+          {review.response_quality_score !== null ? (
+            <Badge tone={review.response_quality_score >= 80 ? 'emerald' : 'amber'}>{review.response_quality_score} quality</Badge>
+          ) : null}
+          {review.assigned_to ? <Badge tone="neutral">assigned</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{title}</div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{review.discord_username ?? review.discord_user_id}</span>
+          <span>completed: {completed}</span>
+          {review.follow_up_due_at ? <span>follow-up: {formatDateTime(review.follow_up_due_at)}</span> : null}
+          {review.sla_due_at ? <span>SLA: {formatDateTime(review.sla_due_at)}</span> : null}
+        </div>
+      </div>
+      <div className="text-xs text-[#71717a] lg:text-right">{formatDateTime(review.created_at)}</div>
+    </div>
+  );
+}
+
+function PremiumWorkflowEventRow({ event }: { event: DiscordPremiumWorkflowEventRow }) {
+  return (
+    <div className="grid gap-2 px-3 py-3 sm:grid-cols-[minmax(0,1fr)_auto]" data-testid={`premium-workflow-event-${event.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">{event.event_type}</Badge>
+          {event.status ? <StatusBadge status={event.status} /> : null}
+          {event.actor ? <Badge tone="neutral">{event.actor}</Badge> : null}
+        </div>
+        <div className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{event.note ?? event.request_id ?? 'premium workflow event'}</div>
+      </div>
+      <div className="text-xs text-[#71717a] sm:text-right">{formatDateTime(event.created_at)}</div>
     </div>
   );
 }

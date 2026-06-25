@@ -107,7 +107,7 @@ Target:
 
 Counts from:
 - `discord_members.premium_member = true`
-- `discord_premium_review_requests.status in ('queued', 'in_review', 'completed')`
+- `discord_premium_review_requests.status in ('queued', 'in_review', 'answered', 'completed')`
 - `discord_office_hours_queue.status in ('queued', 'selected', 'scheduled', 'completed')`
 
 Admin action:
@@ -122,7 +122,7 @@ Passing evidence:
 - Premium authorization passes.
 - Non-premium authorization fails.
 - SLA/status fields update.
-- The premium request is visible in `/admin/discord`.
+- The active premium request and fulfilled proof/event history are visible in `/admin/discord`.
 
 Failure response:
 - If Stripe role sync is not available, use a clearly marked seeded premium scenario for local workflow proof only.

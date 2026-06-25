@@ -1542,6 +1542,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Durable job control',
     'Job dead letters',
     'Premium operations',
+    'Premium proof ledger',
     'Final scorecard',
     '95+ blockers',
     'World-class proof backlog',
@@ -1594,6 +1595,9 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord_job_dead_letters/);
   assert.match(page, /discord_premium_review_requests/);
   assert.match(page, /\['queued', 'in_review', 'answered', 'completed'\]/);
+  assert.match(page, /discord_premium_workflow_events/);
+  assert.match(page, /PremiumProofReviewRow/);
+  assert.match(page, /PremiumWorkflowEventRow/);
   assert.match(page, /discord_office_hours_queue/);
   assert.match(page, /discord_final_scorecard_runs/);
   assert.match(smoke, /final_scorecard_runs/);
@@ -2175,8 +2179,9 @@ test('discord proof controls: documents the non-fake path to 95+ operating proof
   assert.match(controls, /discord_answers\.helpful = true/);
   assert.match(controls, /discord_content_queue\.status = 'published'/);
   assert.match(controls, /source_type in \('discord_question', 'discord_answer', 'discord_content_queue'\)/);
-  assert.match(controls, /discord_premium_review_requests\.status in \('queued', 'in_review', 'completed'\)/);
+  assert.match(controls, /discord_premium_review_requests\.status in \('queued', 'in_review', 'answered', 'completed'\)/);
   assert.match(controls, /discord_office_hours_queue\.status in \('queued', 'selected', 'scheduled', 'completed'\)/);
+  assert.match(controls, /fulfilled proof\/event history are visible in `\/admin\/discord`/);
   assert.match(controls, /npm run discord:operating-cycle:dry-run/);
   assert.match(controls, /npm run discord:operating-cycle/);
   assert.match(controls, /npm run verify:local/);

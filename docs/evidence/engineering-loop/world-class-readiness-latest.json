@@ -1,0 +1,221 @@
+{
+  "ok": true,
+  "version": "world-class-readiness-v1",
+  "generatedAt": "2026-06-25T22:08:48.371Z",
+  "releaseDecision": "do_not_claim_world_class",
+  "averageScore": 83,
+  "worldClassThreshold": 95,
+  "worldClassEligible": false,
+  "mutationMode": "local_file_evidence_only",
+  "summary": {
+    "categoryCount": 18,
+    "categoriesAtOrAbove95": 0,
+    "categoriesBelow95": 18,
+    "categoriesBelow85": 6,
+    "maxScoreGapTo95": 50,
+    "operatingBlockers": [
+      "approved_discord_knowledge_sources_empty",
+      "rag_discord_sources_empty",
+      "public_proof_drafts_empty",
+      "premium_workflow_live_proof_empty"
+    ]
+  },
+  "immediateActionOrder": [
+    "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+    "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
+    "Create and approve one privacy-safe public proof draft from approved Discord source material.",
+    "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.",
+    "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+    "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+    "Review open premium requests and SLA weekly.",
+    "Add eval questions from top weekly RAG failures and member questions.",
+    "Repeat Phase 19 after each major growth milestone.",
+    "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+    "Review stuck/inactive/premium-lead nudges weekly.",
+    "Review cost, quality, trace coverage, and job success weekly."
+  ],
+  "operatingProofRequired": [
+    "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+    "Run role/onboarding smoke after changing roles or channel permissions.",
+    "Review weekly capture volume and dead letters.",
+    "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+    "Review failed/low-scoring eval examples monthly and add source fixes.",
+    "Add eval questions from top weekly RAG failures and member questions.",
+    "Run Discord smoke after command changes.",
+    "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+    "Review quiz/challenge completion and quality weekly.",
+    "Audit top point earners weekly for farming or duplicate awards.",
+    "Review stuck/inactive/premium-lead nudges weekly.",
+    "Run Phase 19 dashboard query smoke monthly.",
+    "Review failed/dead-lettered jobs every operating day.",
+    "Review cost, quality, trace coverage, and job success weekly.",
+    "Review open premium requests and SLA weekly.",
+    "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+    "Run security/privacy smoke after permission, command, or RAG policy changes.",
+    "Repeat Phase 19 after each major growth milestone."
+  ],
+  "categories": [
+    {
+      "category": "rag_corpus_quality",
+      "score": 45,
+      "status": "needs_build_work",
+      "scoreGapTo95": 50,
+      "nextAction": "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+      "blockerReason": "Corpus quality cannot honestly score 95+ until more real member knowledge exists and is approved into RAG.",
+      "evidenceCount": 3
+    },
+    {
+      "category": "growth_loop",
+      "score": 58,
+      "status": "needs_build_work",
+      "scoreGapTo95": 37,
+      "nextAction": "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+      "blockerReason": "Growth cannot honestly be 95+ until published proof outputs produce measurable application/member conversion.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "premium_workflows",
+      "score": 74,
+      "status": "needs_build_work",
+      "scoreGapTo95": 21,
+      "nextAction": "Review open premium requests and SLA weekly.",
+      "blockerReason": "Premium promise must be checked against real fulfillment and Stripe economics.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "eval_coverage",
+      "score": 82,
+      "status": "needs_build_work",
+      "scoreGapTo95": 13,
+      "nextAction": "Add eval questions from top weekly RAG failures and member questions.",
+      "blockerReason": "Eval set must keep expanding from real failures.",
+      "evidenceCount": 3
+    },
+    {
+      "category": "scale_readiness",
+      "score": 82,
+      "status": "needs_build_work",
+      "scoreGapTo95": 13,
+      "nextAction": "Repeat Phase 19 after each major growth milestone.",
+      "blockerReason": "Synthetic load is not the same as a real 5,000-member live event.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "content_engine_quality",
+      "score": 84,
+      "status": "needs_build_work",
+      "scoreGapTo95": 11,
+      "nextAction": "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+      "blockerReason": "The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early.",
+      "evidenceCount": 3
+    },
+    {
+      "category": "member_intelligence",
+      "score": 86,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 9,
+      "nextAction": "Review stuck/inactive/premium-lead nudges weekly.",
+      "blockerReason": "Segmentation improves with larger member activity history.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "observability",
+      "score": 86,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 9,
+      "nextAction": "Review cost, quality, trace coverage, and job success weekly.",
+      "blockerReason": "Trace coverage needs monitoring as new jobs are added.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "points_leaderboard_integrity",
+      "score": 86,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 9,
+      "nextAction": "Audit top point earners weekly for farming or duplicate awards.",
+      "blockerReason": "Leaderboard anomaly checks need weekly human review.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "quiz_challenge_learning_engine",
+      "score": 87,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 8,
+      "nextAction": "Review quiz/challenge completion and quality weekly.",
+      "blockerReason": "Needs real learner outcome review as membership grows.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "gateway_capture_classification",
+      "score": 88,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 7,
+      "nextAction": "Review weekly capture volume and dead letters.",
+      "blockerReason": "Capture quality improves as real member questions accumulate.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "job_reliability",
+      "score": 88,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 7,
+      "nextAction": "Review failed/dead-lettered jobs every operating day.",
+      "blockerReason": "Provider outages still require operator review.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "security_privacy",
+      "score": 88,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 7,
+      "nextAction": "Run security/privacy smoke after permission, command, or RAG policy changes.",
+      "blockerReason": "Manual moderation decisions remain operator-owned.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "retrieval_answer_faithfulness",
+      "score": 89,
+      "status": "strong_but_not_world_class",
+      "scoreGapTo95": 6,
+      "nextAction": "Review failed/low-scoring eval examples monthly and add source fixes.",
+      "blockerReason": "Average usefulness can still improve with more high-quality approved Discord sources.",
+      "evidenceCount": 3
+    },
+    {
+      "category": "admin_dashboard",
+      "score": 90,
+      "status": "needs_operating_proof",
+      "scoreGapTo95": 5,
+      "nextAction": "Run Phase 19 dashboard query smoke monthly.",
+      "blockerReason": "Dashboard performance should be watched as tables grow.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "sagebot_command_ux_personality",
+      "score": 91,
+      "status": "needs_operating_proof",
+      "scoreGapTo95": 4,
+      "nextAction": "Run Discord smoke after command changes.",
+      "blockerReason": "Slash command UX should be rechecked after every command description update.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "role_routing_member_state",
+      "score": 92,
+      "status": "needs_operating_proof",
+      "scoreGapTo95": 3,
+      "nextAction": "Run role/onboarding smoke after changing roles or channel permissions.",
+      "blockerReason": "Role routing should be rechecked after any manual Discord role hierarchy changes.",
+      "evidenceCount": 2
+    },
+    {
+      "category": "server_access_onboarding",
+      "score": 93,
+      "status": "needs_operating_proof",
+      "scoreGapTo95": 2,
+      "nextAction": "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+      "blockerReason": "Native Discord application answers remain Discord-managed; SageBot only sees what members later provide or what admins approve.",
+      "evidenceCount": 2
+    }
+  ]
+}

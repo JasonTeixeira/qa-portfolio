@@ -80,9 +80,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local && npm run verify:local:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
+  assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
@@ -95,6 +96,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
+  const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');
+  assert.match(readinessScript, /world-class-readiness-latest\.json/);
+  assert.match(readinessScript, /buildWorldClassReadinessReport/);
+  assert.match(readinessScript, /local-verification-latest\.json/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
@@ -1907,6 +1912,68 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard');
   assert.ok(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:dry-run'));
   assert.equal(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:full'), false);
+});
+
+test('discord world-class readiness: converts scorecard gaps into explicit release actions', async () => {
+  const {
+    buildWorldClassReadinessReport,
+    classifyWorldClassCategory,
+  } = await import('../../lib/discord/world-class-readiness.ts');
+
+  assert.equal(classifyWorldClassCategory({ category: 'a', score: 96 }), 'earned_95_plus');
+  assert.equal(classifyWorldClassCategory({ category: 'b', score: 96, blocker: { reason: 'needs live proof' } }), 'needs_operating_proof');
+  assert.equal(classifyWorldClassCategory({ category: 'c', score: 87 }), 'strong_but_not_world_class');
+  assert.equal(classifyWorldClassCategory({ category: 'd', score: 72 }), 'needs_build_work');
+
+  const report = buildWorldClassReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    averageScore: 83,
+    worldClassThreshold: 95,
+    worldClassEligible: false,
+    operatingBlockers: [
+      'approved_discord_knowledge_sources_empty',
+      'rag_discord_sources_empty',
+      'public_proof_drafts_empty',
+      'premium_workflow_live_proof_empty',
+    ],
+    requiredOperatingProof: ['Run four weekly public proof cycles.'],
+    scorecard: [
+      {
+        category: 'growth_loop',
+        score: 58,
+        evidence: ['docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json'],
+        blocker: {
+          reason: 'Needs real public conversion data.',
+          nextAction: 'Run four weekly public proof cycles and measure applications.',
+        },
+      },
+      {
+        category: 'admin_dashboard',
+        score: 90,
+        evidence: ['docs/evidence/discord-ai-os/phase-13-admin-cockpit-v2-proof.json'],
+        nextAction: 'Run dashboard query smoke monthly.',
+      },
+      {
+        category: 'safe_category',
+        score: 96,
+        evidence: ['evidence.json'],
+      },
+    ],
+  });
+
+  assert.equal(report.ok, true);
+  assert.equal(report.version, 'world-class-readiness-v1');
+  assert.equal(report.releaseDecision, 'do_not_claim_world_class');
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.summary.categoryCount, 3);
+  assert.equal(report.summary.categoriesAtOrAbove95, 1);
+  assert.equal(report.summary.categoriesBelow95, 2);
+  assert.equal(report.summary.categoriesBelow85, 1);
+  assert.equal(report.summary.maxScoreGapTo95, 37);
+  assert.ok(report.immediateActionOrder[0].includes('Approve at least 10 high-signal Discord'));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('Sync approved Discord candidates')));
+  assert.equal(report.categories[0].category, 'growth_loop');
+  assert.equal(report.categories[0].status, 'needs_build_work');
 });
 
 test('discord content factory: creates approval-gated channel drafts from editorial slots', async () => {

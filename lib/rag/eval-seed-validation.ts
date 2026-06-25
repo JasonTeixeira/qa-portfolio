@@ -21,7 +21,7 @@ export type RagEvalSeedValidationResult = {
 
 const EXPECTED_CATEGORY_COUNTS: Record<RagEvalQuestionSeed['metadata']['category'], number> = {
   onboarding: 10,
-  content_engine: 15,
+  content_engine: 20,
   quiz_challenge_points: 10,
   premium: 10,
   rag_ai_build: 15,
@@ -31,6 +31,7 @@ const STATIC_RAG_RESOURCE_FILES = [
   'docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md',
   'docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
   'docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md',
+  'docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
   'docs/specs/rag-system-build-plan.txt',
 ] as const;
 

@@ -64,6 +64,7 @@ async function resourceInputs(): Promise<RagSourceInput[]> {
     'docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md',
     'docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
     'docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md',
+    'docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
     'docs/specs/rag-system-build-plan.txt',
   ];
   const inputs: RagSourceInput[] = [];

@@ -9,6 +9,7 @@ export type RerankedRagSearchResult = RagSearchResult & {
 export const RAG_RERANKER_VERSION = 'deterministic_reranker_v2';
 
 const SOURCE_PRIORITY: Array<[RegExp, number, string]> = [
+  [/WORLD_CLASS_PROOF_OPERATING_CONTROLS\.md/i, 0.38, 'approved_proof_controls'],
   [/SAGEBOT_DISCORD_OPERATING_FAQ\.md/i, 0.36, 'approved_operating_faq'],
   [/DISCORD_COMMUNITY_OPERATING_SYSTEM\.md|DISCORD_EDUCATION_SERVER_RUNBOOK\.md|rag-system-build-plan\.txt/i, 0.28, 'approved_core_resource'],
   [/docs\/specs|docs\//i, 0.2, 'approved_doc'],

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782427178581",
+  "runKey": "phase-20-final-1782427566122",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -138,19 +138,20 @@
     },
     {
       "category": "eval_coverage",
-      "score": 82,
+      "score": 84,
       "evidence": [
         "docs/evidence/rag/eval-latest.json",
         "docs/evidence/rag/eval-seed-quality.json",
-        "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json"
+        "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json",
+        "docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
       ],
       "knownGaps": [
-        "Eval set must keep expanding from real failures."
+        "Eval set now covers proof controls, but it must keep expanding from real failures."
       ],
       "nextAction": "Add eval questions from top weekly RAG failures and member questions.",
       "blocker": {
         "owner": "system operator",
-        "reason": "Eval set must keep expanding from real failures.",
+        "reason": "Eval set now covers proof controls, but it must keep expanding from real failures.",
         "nextAction": "Add eval questions from top weekly RAG failures and member questions."
       }
     },
@@ -636,6 +637,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T22:39:38.581Z",
-  "finishedAt": "2026-06-25T22:39:40.627Z"
+  "startedAt": "2026-06-25T22:46:06.122Z",
+  "finishedAt": "2026-06-25T22:46:08.009Z"
 }

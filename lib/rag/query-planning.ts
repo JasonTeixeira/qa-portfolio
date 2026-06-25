@@ -24,6 +24,7 @@ const DISCORD_OPERATING_SOURCES = [
   'SAGEBOT_DISCORD_OPERATING_FAQ.md',
   'DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
   'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
+  'WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
 ];
 
 const SPECIFIC_QUERY_RULES: Array<{
@@ -40,6 +41,11 @@ const SPECIFIC_QUERY_RULES: Array<{
     patterns: [/agent boundary|boundary problem|tool.*approval|approval.*tool/i],
     expansion: 'AI agent boundary problem tool permissions approval gates audit logs human accountability narrow tools stop conditions',
     preferredSources: ['The AI Agent Boundary Problem'],
+  },
+  {
+    patterns: [/world.?class proof|proof backlog|proof lane|weekly proof checklist|95\+|operating proof/i],
+    expansion: 'Discord world-class proof backlog proof lanes weekly proof checklist approved knowledge RAG sync public proof premium workflow evidence no synthetic smoke rows',
+    preferredSources: ['WORLD_CLASS_PROOF_OPERATING_CONTROLS.md', ...DISCORD_OPERATING_SOURCES],
   },
   {
     patterns: [/repeated questions|durable assets|promoted into durable/i],
@@ -77,8 +83,8 @@ const INTENT_RULES: Array<{
   },
   {
     intent: 'content_engine',
-    patterns: [/capture|content|resource|lesson|daily signal|weekly recap|publish|triage|draft/i],
-    expansion: 'Discord content engine capture-content content-queue questions reusable lessons resources triaged draft published daily-signal weekly recap quality approval',
+    patterns: [/capture|content|resource|lesson|daily signal|weekly recap|publish|triage|draft|proof backlog|proof lane|public proof|weekly proof/i],
+    expansion: 'Discord content engine capture-content content-queue questions reusable lessons resources triaged draft published daily-signal weekly recap quality approval proof backlog proof lanes public proof',
     preferredSources: [...DISCORD_OPERATING_SOURCES, 'rag-system-build-plan.txt'],
   },
   {

@@ -306,6 +306,7 @@ test('discord authoritative rag sync: excludes raw and unapproved community data
   assert.equal(packageJson.scripts['rag:smoke-discord-authoritative-sync'], 'tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts');
   assert.match(syncScript, /runAuthoritativeRagSourceSync/);
   assert.match(sourceSync, /collectApprovedDiscordRagInputs/);
+  assert.match(sourceSync, /WORLD_CLASS_PROOF_OPERATING_CONTROLS\.md/);
   assert.match(discordSourceSync, /phase_5_authoritative_discord_rag/);
   assert.match(discordSourceSync, /approved_discord_stats/);
   assert.doesNotMatch(sourceSync, /from\('discord_messages'\)/);
@@ -740,9 +741,10 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
     scoreRagEvalAnswer,
     summarizeRagEvalScores,
   } = await import('../../lib/rag/evals.ts');
-  assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 60);
-  assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 60);
+  assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 65);
+  assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 65);
   assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_content_011'));
+  assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_content_020'));
   assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_ai_015'));
   assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.expected_sources.length > 0), true);
   assert.equal(RAG_EVAL_QUESTION_SEEDS.every((item) => item.metadata.required_terms.length > 0), true);
@@ -792,6 +794,7 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
     'DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
     'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
     'SAGEBOT_DISCORD_OPERATING_FAQ.md',
+    'WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
     'rag-system-build-plan.txt',
     'RAG Evaluation Without the Benchmark Theater',
     'How to Evaluate AI Features Before You Ship Them',
@@ -800,10 +803,10 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
 
   const passing = validateRagEvalSeeds({ knownSources });
   assert.equal(passing.ok, true);
-  assert.equal(passing.seedCount, 60);
+  assert.equal(passing.seedCount, 65);
   assert.deepEqual(passing.categoryCounts, {
     onboarding: 10,
-    content_engine: 15,
+    content_engine: 20,
     quiz_challenge_points: 10,
     premium: 10,
     rag_ai_build: 15,
@@ -889,6 +892,10 @@ test('rag query planning and reranking: expands command questions and prioritize
   assert.ok(agentBoundaryPlan.metadata.rewriteReasons.includes('specific_source_rule'));
   const firstProjectPlan = planRagQuery('What should a first project template include?');
   assert.ok(firstProjectPlan.preferredSources.includes('DISCORD_EDUCATION_SERVER_RUNBOOK.md'));
+  const proofPlan = planRagQuery('What proof lanes block a 95+ Discord claim?');
+  assert.equal(proofPlan.intent, 'content_engine');
+  assert.ok(proofPlan.preferredSources.includes('WORLD_CLASS_PROOF_OPERATING_CONTROLS.md'));
+  assert.ok(proofPlan.searchQueries.some((query) => /proof lanes/i.test(query)));
 
   const priority = sourcePriorityScore({
     title: 'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
@@ -897,6 +904,13 @@ test('rag query planning and reranking: expands command questions and prioritize
   });
   assert.ok(priority.score > 0);
   assert.ok(priority.reasons.includes('approved_core_resource'));
+  const proofPriority = sourcePriorityScore({
+    title: 'WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
+    source_url: '/docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
+    source_type: 'resource',
+  });
+  assert.ok(proofPriority.score > priority.score);
+  assert.ok(proofPriority.reasons.includes('approved_proof_controls'));
 
   const low = {
     chunk_id: 'raw',

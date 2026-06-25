@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-25T22:39:42.214Z",
+  "timestamp": "2026-06-25T22:46:09.424Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -57,7 +57,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782427178581"
+    "runKey": "phase-20-final-1782427566122"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -83,11 +83,11 @@
   "ragEvalSeeds": {
     "ok": true,
     "dryRunOk": true,
-    "seedCount": 60,
-    "seededDryRun": 60,
+    "seedCount": 65,
+    "seededDryRun": 65,
     "categoryCounts": {
       "onboarding": 10,
-      "content_engine": 15,
+      "content_engine": 20,
       "quiz_challenge_points": 10,
       "premium": 10,
       "rag_ai_build": 15

@@ -137,13 +137,14 @@ export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {
     },
     {
       category: 'eval_coverage',
-      score: 82,
+      score: 84,
       evidence: [
         'docs/evidence/rag/eval-latest.json',
         'docs/evidence/rag/eval-seed-quality.json',
         'docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json',
+        'docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
       ],
-      knownGaps: ['Eval set must keep expanding from real failures.'],
+      knownGaps: ['Eval set now covers proof controls, but it must keep expanding from real failures.'],
       nextAction: 'Add eval questions from top weekly RAG failures and member questions.',
     },
     {

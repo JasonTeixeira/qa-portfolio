@@ -1,21 +1,21 @@
 {
   "ok": true,
-  "seedCount": 60,
+  "seedCount": 65,
   "categoryCounts": {
     "onboarding": 10,
-    "content_engine": 15,
+    "content_engine": 20,
     "quiz_challenge_points": 10,
     "premium": 10,
     "rag_ai_build": 15
   },
   "expectedCategoryCounts": {
     "onboarding": 10,
-    "content_engine": 15,
+    "content_engine": 20,
     "quiz_challenge_points": 10,
     "premium": 10,
     "rag_ai_build": 15
   },
-  "knownSourceCount": 66,
+  "knownSourceCount": 67,
   "knownSources": [
     "Authentication Is Harder Than You Think",
     "AWS Cost Optimization: How I Keep a Production Platform Under $50/Month",
@@ -81,11 +81,12 @@
     "Why I Treat My Portfolio Like a Production System",
     "Why I Use Raw SQL Instead of an ORM (Most of the Time)",
     "Why Most API Documentation Is Useless (And How to Fix Yours)",
+    "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md",
     "Writing a 120,000-Word Book While Building Software Full-Time",
     "Your Test Coverage Number Is Lying to You"
   ],
   "issues": [],
-  "startedAt": "2026-06-25T22:39:36.552Z",
-  "finishedAt": "2026-06-25T22:39:36.573Z",
+  "startedAt": "2026-06-25T22:46:04.101Z",
+  "finishedAt": "2026-06-25T22:46:04.121Z",
   "mutationMode": "local_file_evidence_only"
 }

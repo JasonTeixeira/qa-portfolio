@@ -52,6 +52,7 @@ export const DEFAULT_RAG_EVAL_THRESHOLDS: RagEvalThresholds = {
 const DISCORD_COMMUNITY = 'DISCORD_COMMUNITY_OPERATING_SYSTEM.md';
 const DISCORD_RUNBOOK = 'DISCORD_EDUCATION_SERVER_RUNBOOK.md';
 const DISCORD_FAQ = 'SAGEBOT_DISCORD_OPERATING_FAQ.md';
+const WORLD_CLASS_PROOF_CONTROLS = 'WORLD_CLASS_PROOF_OPERATING_CONTROLS.md';
 const RAG_BUILD_PLAN = 'rag-system-build-plan.txt';
 
 export const RAG_EVAL_QUESTION_SEEDS: RagEvalQuestionSeed[] = [
@@ -83,6 +84,11 @@ export const RAG_EVAL_QUESTION_SEEDS: RagEvalQuestionSeed[] = [
     ['rag_content_013', 'How should office-hours questions be prepared?', ['artifact', 'blocker', 'decision'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
     ['rag_content_014', 'What should accountability check-ins include?', ['committed', 'shipped', 'next action'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
     ['rag_content_015', 'How should review-queue requests be framed?', ['specific', 'critique', 'artifact'], [DISCORD_COMMUNITY, DISCORD_FAQ]],
+    ['rag_content_016', 'What proof lanes block a 95+ Sage Ideas Discord claim?', ['approved Discord knowledge', 'public proof', 'premium workflow'], [WORLD_CLASS_PROOF_CONTROLS]],
+    ['rag_content_017', 'What should not count as world-class Discord proof?', ['dry-run', 'synthetic', 'unapproved chatter'], [WORLD_CLASS_PROOF_CONTROLS]],
+    ['rag_content_018', 'What weekly checklist steps move approved Discord knowledge into RAG?', ['approve', 'operating-cycle', 'RAG sync'], [WORLD_CLASS_PROOF_CONTROLS]],
+    ['rag_content_019', 'What evidence proves public proof growth assets are ready?', ['four weekly', 'public proof drafts', 'application'], [WORLD_CLASS_PROOF_CONTROLS]],
+    ['rag_content_020', 'What evidence proves premium workflow readiness?', ['premium review', 'office-hours', 'SLA'], [WORLD_CLASS_PROOF_CONTROLS]],
   ], [DISCORD_FAQ, DISCORD_COMMUNITY, DISCORD_RUNBOOK, RAG_BUILD_PLAN]),
   ...buildCategoryQuestions('quiz_challenge_points', [
     ['rag_points_001', 'How do quizzes and challenges fit into daily engagement?', ['quiz', 'challenge', 'daily']],

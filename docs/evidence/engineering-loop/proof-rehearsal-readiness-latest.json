@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-rehearsal-readiness-v1",
-  "generatedAt": "2026-06-25T23:53:27.665Z",
+  "generatedAt": "2026-06-25T23:58:21.017Z",
   "mutationMode": "local_file_evidence_only",
   "maxEvidenceAgeDays": 14,
   "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment.",
@@ -34,7 +34,7 @@
         "path": "docs/evidence/rag/discord-authoritative-sync-smoke.json",
         "ok": true,
         "timestamp": "2026-06-24T19:07:37.514Z",
-        "ageHours": 28.76
+        "ageHours": 28.85
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     },
@@ -66,7 +66,7 @@
         "path": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
         "ok": true,
         "timestamp": "2026-06-25T00:02:18.418Z",
-        "ageHours": 23.85
+        "ageHours": 23.93
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     },
@@ -99,7 +99,7 @@
         "path": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
         "ok": true,
         "timestamp": "2026-06-25T00:02:28.145Z",
-        "ageHours": 23.85
+        "ageHours": 23.93
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     }

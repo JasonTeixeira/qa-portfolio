@@ -122,9 +122,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.md/);
-  assert.match(operatorBriefScript, /Do not claim world-class/);
-  assert.match(operatorBriefScript, /local_file_evidence_only/);
-  assert.match(operatorBriefScript, /proofBacklog\.weeklyChecklist/);
+  assert.match(operatorBriefScript, /buildDiscordOperatorBrief/);
+  assert.match(operatorBriefScript, /validateDiscordOperatorBrief/);
+  assert.match(operatorBriefScript, /renderDiscordOperatorBriefMarkdown/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
@@ -2194,6 +2194,60 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.weeklyChecklist.length, 0);
   assert.equal(passing.nextActions.length, 0);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
+});
+
+test('discord operator brief: typed handoff validates blocked proof lanes and commands', async () => {
+  const { buildDiscordProofBacklogReport } = await import('../../lib/discord/proof-backlog.ts');
+  const {
+    DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE,
+    buildDiscordOperatorBrief,
+    renderDiscordOperatorBriefMarkdown,
+    validateDiscordOperatorBrief,
+  } = await import('../../lib/discord/operator-brief.ts');
+  const proofBacklog = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    metrics: {
+      approvedDiscordKnowledgeSources: 0,
+      ragDiscordSources: 0,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 0,
+      publishedPublicDrafts: 0,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 0,
+      premiumWorkflowProofs: 0,
+      applicationsSubmitted: 0,
+      applicationsApproved: 0,
+    },
+  });
+  const brief = buildDiscordOperatorBrief({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    scorecard: { averageScore: 83, worldClassEligible: false },
+    operatingCycle: { status: 'blocked' },
+    proofBacklog,
+    readiness: { releaseDecision: 'do_not_claim_world_class' },
+    proofRehearsal: { ok: true, lanes: [{ key: 'a' }, { key: 'b' }, { key: 'c' }], releaseMeaning: 'proof rehearsal only' },
+  });
+  assert.equal(brief.ok, true);
+  assert.equal(brief.version, 'discord-operator-brief-v1');
+  assert.equal(brief.mutationMode, 'local_file_evidence_only');
+  assert.equal(brief.blockedLaneCount, 4);
+  assert.equal(brief.weeklyChecklist.length, 4);
+  assert.equal(brief.nonClaimRule, DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE);
+  assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
+  assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
+  assert.match(brief.currentReality, /real operating proof is still missing/);
+  assert.equal(validateDiscordOperatorBrief(brief).ok, true);
+  const markdown = renderDiscordOperatorBriefMarkdown(brief);
+  assert.match(markdown, /Sage Ideas Discord Operator Brief/);
+  assert.match(markdown, /Approved Discord knowledge/);
+  assert.match(markdown, /Do not claim world-class/);
+
+  const invalid = { ...brief, blockedLaneCount: 0 };
+  const validation = validateDiscordOperatorBrief(invalid);
+  assert.equal(validation.ok, false);
+  assert.ok(validation.failures.includes('blocked_lane_count_mismatch'));
 });
 
 test('discord proof controls: documents the non-fake path to 95+ operating proof', async () => {

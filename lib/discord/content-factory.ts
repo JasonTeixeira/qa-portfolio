@@ -38,6 +38,9 @@ export type DiscordContentFactoryResult = {
     status: 'created' | 'planned' | 'skipped' | 'failed';
     title: string;
     targetChannelBaseName: string;
+    draftType: DiscordContentFactorySlot['draftType'];
+    topic: string;
+    dayOffset: number;
     qualityScore: number | null;
     error: string | null;
   }>;
@@ -333,6 +336,9 @@ export async function runDiscordContentFactory(
           status: 'planned',
           title: planned.title,
           targetChannelBaseName: planned.targetChannelBaseName,
+          draftType: slot.draftType,
+          topic: slot.topic,
+          dayOffset: slot.dayOffset,
           qualityScore: planned.qualityScore,
           error: null,
         });
@@ -355,6 +361,9 @@ export async function runDiscordContentFactory(
             status: 'skipped',
             title: slot.title,
             targetChannelBaseName: slot.targetChannelBaseName,
+            draftType: slot.draftType,
+            topic: slot.topic,
+            dayOffset: slot.dayOffset,
             qualityScore: Number(existing.quality_score ?? 0),
             error: null,
           });
@@ -397,6 +406,9 @@ export async function runDiscordContentFactory(
         status: 'created',
         title: slot.title,
         targetChannelBaseName: slot.targetChannelBaseName,
+        draftType: slot.draftType,
+        topic: slot.topic,
+        dayOffset: slot.dayOffset,
         qualityScore: planned.qualityScore,
         error: null,
       });
@@ -407,6 +419,9 @@ export async function runDiscordContentFactory(
         status: 'failed',
         title: slot.title,
         targetChannelBaseName: slot.targetChannelBaseName,
+        draftType: slot.draftType,
+        topic: slot.topic,
+        dayOffset: slot.dayOffset,
         qualityScore: null,
         error: error instanceof Error ? error.message : String(error),
       });

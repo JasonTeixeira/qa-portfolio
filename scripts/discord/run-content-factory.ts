@@ -36,6 +36,8 @@ async function main() {
     dryRun,
   });
   const channelCoverage = [...new Set(result.drafts.map((draft) => draft.targetChannelBaseName))].sort();
+  const draftTypeCoverage = [...new Set(result.drafts.map((draft) => draft.draftType))].sort();
+  const topicCoverage = [...new Set(result.drafts.map((draft) => draft.topic))].sort();
   const qualityScores = result.drafts
     .map((draft) => draft.qualityScore)
     .filter((score): score is number => typeof score === 'number' && Number.isFinite(score));
@@ -49,6 +51,8 @@ async function main() {
     skippedDrafts: result.skipped,
     failedDrafts: result.failed,
     channelCoverage,
+    draftTypeCoverage,
+    topicCoverage,
     minQualityScore: qualityScores.length ? Math.min(...qualityScores) : null,
     maxQualityScore: qualityScores.length ? Math.max(...qualityScores) : null,
   };

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-25-2026-06-25T22-59-21-664Z",
+  "runKey": "content-factory-2026-06-25-2026-06-25T23-02-39-093Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
   "created": 0,
@@ -14,6 +14,9 @@
       "status": "planned",
       "title": "Daily Signal - Review-driven building",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Review-driven building",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -23,6 +26,9 @@
       "status": "planned",
       "title": "Daily Question - Review-driven building",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Review-driven building",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -32,6 +38,9 @@
       "status": "planned",
       "title": "Build Lab - Review-driven building",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Review-driven building",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -41,6 +50,9 @@
       "status": "planned",
       "title": "Resource Drop - Review-driven building",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Review-driven building",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -50,6 +62,9 @@
       "status": "planned",
       "title": "Daily Signal - Growth loops and public proof",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 1,
       "qualityScore": 90,
       "error": null
     },
@@ -59,6 +74,9 @@
       "status": "planned",
       "title": "Daily Question - Growth loops and public proof",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 1,
       "qualityScore": 90,
       "error": null
     },
@@ -68,6 +86,9 @@
       "status": "planned",
       "title": "Build Lab - Growth loops and public proof",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 1,
       "qualityScore": 90,
       "error": null
     },
@@ -77,6 +98,9 @@
       "status": "planned",
       "title": "Resource Drop - Growth loops and public proof",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 1,
       "qualityScore": 90,
       "error": null
     },
@@ -86,6 +110,9 @@
       "status": "planned",
       "title": "Daily Signal - Weekly synthesis",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Weekly synthesis",
+      "dayOffset": 2,
       "qualityScore": 90,
       "error": null
     },
@@ -95,6 +122,9 @@
       "status": "planned",
       "title": "Daily Question - Weekly synthesis",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Weekly synthesis",
+      "dayOffset": 2,
       "qualityScore": 90,
       "error": null
     },
@@ -104,6 +134,9 @@
       "status": "planned",
       "title": "Build Lab - Weekly synthesis",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Weekly synthesis",
+      "dayOffset": 2,
       "qualityScore": 90,
       "error": null
     },
@@ -113,6 +146,9 @@
       "status": "planned",
       "title": "Resource Drop - Weekly synthesis",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Weekly synthesis",
+      "dayOffset": 2,
       "qualityScore": 90,
       "error": null
     },
@@ -122,6 +158,9 @@
       "status": "planned",
       "title": "Daily Signal - Approval-gated AI apps",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 3,
       "qualityScore": 90,
       "error": null
     },
@@ -131,6 +170,9 @@
       "status": "planned",
       "title": "Daily Question - Approval-gated AI apps",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 3,
       "qualityScore": 90,
       "error": null
     },
@@ -140,6 +182,9 @@
       "status": "planned",
       "title": "Build Lab - Approval-gated AI apps",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 3,
       "qualityScore": 90,
       "error": null
     },
@@ -149,6 +194,9 @@
       "status": "planned",
       "title": "Resource Drop - Approval-gated AI apps",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 3,
       "qualityScore": 90,
       "error": null
     },
@@ -158,6 +206,9 @@
       "status": "planned",
       "title": "Daily Signal - Websites that convert from proof",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -167,6 +218,9 @@
       "status": "planned",
       "title": "Daily Question - Websites that convert from proof",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -176,6 +230,9 @@
       "status": "planned",
       "title": "Build Lab - Websites that convert from proof",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -185,6 +242,9 @@
       "status": "planned",
       "title": "Resource Drop - Websites that convert from proof",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -194,6 +254,9 @@
       "status": "planned",
       "title": "Daily Signal - Content engines from real questions",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Content engines from real questions",
+      "dayOffset": 5,
       "qualityScore": 90,
       "error": null
     },
@@ -203,6 +266,9 @@
       "status": "planned",
       "title": "Daily Question - Content engines from real questions",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Content engines from real questions",
+      "dayOffset": 5,
       "qualityScore": 90,
       "error": null
     },
@@ -212,6 +278,9 @@
       "status": "planned",
       "title": "Build Lab - Content engines from real questions",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Content engines from real questions",
+      "dayOffset": 5,
       "qualityScore": 90,
       "error": null
     },
@@ -221,6 +290,9 @@
       "status": "planned",
       "title": "Resource Drop - Content engines from real questions",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Content engines from real questions",
+      "dayOffset": 5,
       "qualityScore": 90,
       "error": null
     },
@@ -230,6 +302,9 @@
       "status": "planned",
       "title": "Daily Signal - Cloud and automation reliability",
       "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 6,
       "qualityScore": 90,
       "error": null
     },
@@ -239,6 +314,9 @@
       "status": "planned",
       "title": "Daily Question - Cloud and automation reliability",
       "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 6,
       "qualityScore": 90,
       "error": null
     },
@@ -248,6 +326,9 @@
       "status": "planned",
       "title": "Build Lab - Cloud and automation reliability",
       "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 6,
       "qualityScore": 90,
       "error": null
     },
@@ -257,6 +338,9 @@
       "status": "planned",
       "title": "Resource Drop - Cloud and automation reliability",
       "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 6,
       "qualityScore": 90,
       "error": null
     },
@@ -266,6 +350,9 @@
       "status": "planned",
       "title": "Weekly Launch - what to build, ask, and submit",
       "targetChannelBaseName": "announcements",
+      "draftType": "announcement",
+      "topic": "Weekly operating rhythm",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -275,6 +362,9 @@
       "status": "planned",
       "title": "Intro Prompt - make your first ask useful",
       "targetChannelBaseName": "introductions",
+      "draftType": "announcement",
+      "topic": "Member activation",
+      "dayOffset": 0,
       "qualityScore": 90,
       "error": null
     },
@@ -284,6 +374,9 @@
       "status": "planned",
       "title": "Project Submission Window - ship one artifact",
       "targetChannelBaseName": "project-submissions",
+      "draftType": "challenge",
+      "topic": "Project proof",
+      "dayOffset": 2,
       "qualityScore": 90,
       "error": null
     },
@@ -293,6 +386,9 @@
       "status": "planned",
       "title": "Review Queue - request specific critique",
       "targetChannelBaseName": "review-queue",
+      "draftType": "announcement",
+      "topic": "Review-driven building",
+      "dayOffset": 3,
       "qualityScore": 90,
       "error": null
     },
@@ -302,6 +398,9 @@
       "status": "planned",
       "title": "Content Queue - turn a question into a durable asset",
       "targetChannelBaseName": "content-queue",
+      "draftType": "lesson",
+      "topic": "Content engine from real activity",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -311,6 +410,9 @@
       "status": "planned",
       "title": "Office Hours Queue - bring the real blocker",
       "targetChannelBaseName": "office-hours",
+      "draftType": "announcement",
+      "topic": "Live help",
+      "dayOffset": 4,
       "qualityScore": 90,
       "error": null
     },
@@ -320,6 +422,9 @@
       "status": "planned",
       "title": "Accountability Check - what shipped this week",
       "targetChannelBaseName": "accountability",
+      "draftType": "announcement",
+      "topic": "Shipping rhythm",
+      "dayOffset": 5,
       "qualityScore": 90,
       "error": null
     },
@@ -329,6 +434,9 @@
       "status": "planned",
       "title": "Weekly Recap - builds, questions, wins, and next challenge",
       "targetChannelBaseName": "wins-showcase",
+      "draftType": "weekly_recap",
+      "topic": "Weekly synthesis",
+      "dayOffset": 6,
       "qualityScore": 90,
       "error": null
     }
@@ -356,9 +464,32 @@
       "review-queue",
       "wins-showcase"
     ],
+    "draftTypeCoverage": [
+      "announcement",
+      "challenge",
+      "daily_signal",
+      "lesson",
+      "resource_drop",
+      "weekly_recap"
+    ],
+    "topicCoverage": [
+      "Approval-gated AI apps",
+      "Cloud and automation reliability",
+      "Content engine from real activity",
+      "Content engines from real questions",
+      "Growth loops and public proof",
+      "Live help",
+      "Member activation",
+      "Project proof",
+      "Review-driven building",
+      "Shipping rhythm",
+      "Websites that convert from proof",
+      "Weekly operating rhythm",
+      "Weekly synthesis"
+    ],
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-25T22:59:21.663Z",
-  "finishedAt": "2026-06-25T22:59:21.668Z"
+  "startedAt": "2026-06-25T23:02:39.092Z",
+  "finishedAt": "2026-06-25T23:02:39.097Z"
 }

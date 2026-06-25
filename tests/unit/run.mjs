@@ -2135,6 +2135,7 @@ test('discord content factory: creates approval-gated channel drafts from editor
     buildDiscordContentFactoryBody,
     buildDiscordContentFactorySlots,
     evaluateDiscordContentFactorySlot,
+    runDiscordContentFactory,
   } = await import('../../lib/discord/content-factory.ts');
   const script = await readFile(new URL('../../scripts/discord/run-content-factory.ts', import.meta.url), 'utf8');
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
@@ -2164,11 +2165,25 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.ok(planned.qualityScore >= 80);
   assert.equal(planned.contentQualityPassed, true);
   assert.equal(planned.policyPassed, true);
+  const dryRun = await runDiscordContentFactory({}, {
+    startDate: new Date(Date.UTC(2026, 5, 25)),
+    days: 2,
+    dryRun: true,
+    runKey: 'unit-content-factory',
+  });
+  assert.equal(dryRun.ok, true);
+  assert.equal(dryRun.created, 0);
+  assert.ok(dryRun.planned >= 9);
+  assert.ok(dryRun.drafts.every((draft) => draft.draftType));
+  assert.ok(dryRun.drafts.every((draft) => draft.topic));
+  assert.ok(dryRun.drafts.every((draft) => Number.isInteger(draft.dayOffset)));
   assert.match(script, /runDiscordContentFactory/);
   assert.match(script, /--dry-run/);
   assert.match(script, /docs', 'evidence', 'discord-ai-os'/);
   assert.match(script, /phase-22-content-factory-dry-run\.json/);
   assert.match(script, /channelCoverage/);
+  assert.match(script, /draftTypeCoverage/);
+  assert.match(script, /topicCoverage/);
   assert.match(script, /readOnly/);
   const factory = await readFile(new URL('../../lib/discord/content-factory.ts', import.meta.url), 'utf8');
   assert.match(factory, /source_kind: 'editorial_seed'/);

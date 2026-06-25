@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog",
+    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief",
     "verify:local:evidence": "node scripts/ops/write-local-verification-evidence.mjs",
     "verify:prod": "node scripts/verify-prod.mjs",
     "dev": "next dev -p 3040",
@@ -101,6 +101,7 @@
     "discord:proof-rehearsal-readiness": "tsx scripts/discord/write-proof-rehearsal-readiness.ts",
     "discord:world-class-readiness": "tsx scripts/discord/write-world-class-readiness.ts",
     "discord:proof-backlog": "tsx scripts/discord/write-proof-backlog.ts",
+    "discord:operator-brief": "tsx scripts/discord/write-operator-brief.ts",
     "discord:evaluate-content": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts",
     "discord:smoke-content-quality": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts --smoke",
     "rag:baseline": "node --env-file-if-exists=.env.local scripts/rag/baseline.mjs",

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-25-2026-06-25T23-49-33-026Z",
+  "runKey": "content-factory-2026-06-25-2026-06-25T23-53-23-368Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
   "channelValidation": {
@@ -497,6 +497,6 @@
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-25T23:49:33.025Z",
-  "finishedAt": "2026-06-25T23:49:33.030Z"
+  "startedAt": "2026-06-25T23:53:23.367Z",
+  "finishedAt": "2026-06-25T23:53:23.372Z"
 }

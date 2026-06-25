@@ -80,11 +80,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
+  assert.equal(packageJson.scripts['discord:operator-brief'], 'tsx scripts/discord/write-operator-brief.ts');
   assert.equal(packageJson.scripts['discord:proof-rehearsal-readiness'], 'tsx scripts/discord/write-proof-rehearsal-readiness.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -118,6 +119,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(proofBacklogScript, /discord-proof-backlog-latest\.json/);
   assert.match(proofBacklogScript, /buildDiscordProofBacklogReport/);
   assert.match(proofBacklogScript, /phase-21-operating-proof-cycle\.json/);
+  const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
+  assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);
+  assert.match(operatorBriefScript, /discord-operator-brief-latest\.md/);
+  assert.match(operatorBriefScript, /Do not claim world-class/);
+  assert.match(operatorBriefScript, /local_file_evidence_only/);
+  assert.match(operatorBriefScript, /proofBacklog\.weeklyChecklist/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

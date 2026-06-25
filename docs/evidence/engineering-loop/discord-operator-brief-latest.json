@@ -1,10 +1,14 @@
 {
   "ok": true,
-  "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-25T23:53:28.958Z",
+  "version": "discord-operator-brief-v1",
+  "generatedAt": "2026-06-25T23:53:29.443Z",
   "mutationMode": "local_file_evidence_only",
-  "status": "blocked",
-  "lanes": [
+  "releaseDecision": "do_not_claim_world_class",
+  "averageScore": 83,
+  "worldClassEligible": false,
+  "currentReality": "The local system is verified, but real operating proof is still missing. Close the blocked proof lanes with real approved community activity before claiming 95+.",
+  "blockedLaneCount": 4,
+  "proofLanes": [
     {
       "key": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
@@ -180,10 +184,19 @@
       "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one premium member/request path proves authorization, SLA, and fulfillment behavior."
     }
   ],
-  "nextActions": [
-    "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
-    "Run the approved Discord RAG sync after approving knowledge candidates.",
-    "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
-    "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
-  ]
+  "proofRehearsal": {
+    "ok": true,
+    "laneCount": 3,
+    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
+  },
+  "commandOrder": [
+    "npm run discord:operating-cycle:dry-run",
+    "npm run discord:smoke-premium-workflows",
+    "npm run discord:operating-cycle",
+    "npm run rag:evaluate",
+    "npm run discord:smoke-final-scorecard",
+    "npm run discord:world-class-readiness",
+    "npm run discord:proof-backlog"
+  ],
+  "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
 }

@@ -15,6 +15,7 @@ export type PublicProofSourceInput = {
 
 export const PUBLIC_PROOF_MIN_PRIVACY_SCORE = 90;
 export const PUBLIC_PROOF_MIN_QUALITY_SCORE = 80;
+export const PUBLIC_PROOF_VERSION = 'public_proof_v1';
 
 const PRIVATE_PATTERNS = [
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i,
@@ -35,6 +36,32 @@ export function scorePublicProofPrivacy(text: string): { passed: boolean; score:
     passed: score >= PUBLIC_PROOF_MIN_PRIVACY_SCORE && reasons.length === 0,
     score,
     reasons: [...new Set(reasons)],
+  };
+}
+
+export function evaluatePublicProofSource(input: {
+  title: string;
+  summary: string;
+  body: string;
+  permissionStatus?: 'explicit' | 'anonymized' | 'blocked';
+}): {
+  passed: boolean;
+  privacyScore: number;
+  permissionStatus: 'explicit' | 'anonymized' | 'blocked';
+  reasons: string[];
+} {
+  const privacy = scorePublicProofPrivacy(`${input.title}\n${input.summary}\n${input.body}`);
+  const requestedPermission = input.permissionStatus ?? 'anonymized';
+  const permissionStatus = privacy.passed ? requestedPermission : 'blocked';
+  const reasons = [
+    ...privacy.reasons,
+    permissionStatus === 'blocked' ? 'public_proof_source_blocked' : null,
+  ].filter(Boolean) as string[];
+  return {
+    passed: privacy.passed && permissionStatus !== 'blocked',
+    privacyScore: privacy.score,
+    permissionStatus,
+    reasons,
   };
 }
 
@@ -70,9 +97,10 @@ export function evaluatePublicGrowthDraft(input: {
 }
 
 export async function createPublicProofSource(input: PublicProofSourceInput): Promise<{ id: string; privacyScore: number }> {
-  const combined = `${input.title}\n${input.summary}\n${input.body}`;
-  const privacy = scorePublicProofPrivacy(combined);
-  const permissionStatus = input.permissionStatus ?? (privacy.passed ? 'anonymized' : 'blocked');
+  const sourceGate = evaluatePublicProofSource(input);
+  if (!sourceGate.passed) {
+    throw new Error(`Public proof source failed privacy gate: ${sourceGate.reasons.join(', ')}`);
+  }
   const { data, error } = await supabaseAdmin()
     .from('discord_public_proof_sources')
     .insert({
@@ -82,18 +110,18 @@ export async function createPublicProofSource(input: PublicProofSourceInput): Pr
       title: input.title.trim(),
       summary: input.summary.trim(),
       body: input.body.trim(),
-      permission_status: permissionStatus,
-      privacy_score: privacy.score,
+      permission_status: sourceGate.permissionStatus,
+      privacy_score: sourceGate.privacyScore,
       metadata: {
         ...(input.metadata ?? {}),
-        privacy_reasons: privacy.reasons,
-        public_proof_version: 'public_proof_v1',
+        privacy_reasons: sourceGate.reasons,
+        public_proof_version: PUBLIC_PROOF_VERSION,
       },
     })
     .select('id')
     .single();
   if (error) throw new Error(error.message);
-  return { id: String(data.id), privacyScore: privacy.score };
+  return { id: String(data.id), privacyScore: sourceGate.privacyScore };
 }
 
 export function buildPublicGrowthDraft(input: {
@@ -169,7 +197,7 @@ export async function createPublicGrowthDraft(input: {
         ...(input.metadata ?? {}),
         privacy_reasons: privacy.reasons,
         quality_reasons: quality.reasons,
-        public_proof_version: 'public_proof_v1',
+        public_proof_version: PUBLIC_PROOF_VERSION,
       },
     })
     .select('id')

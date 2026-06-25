@@ -1681,7 +1681,9 @@ test('discord premium workflows: review, deeper answer, and office-hours queues 
 test('discord public proof growth: privacy-gated public drafts and funnel page are wired', async () => {
   const {
     buildPublicGrowthDraft,
+    evaluatePublicProofSource,
     evaluatePublicGrowthDraft,
+    PUBLIC_PROOF_VERSION,
     scorePublicProofPrivacy,
   } = await import('../../lib/discord/public-proof.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0090_discord_public_proof_growth.sql', import.meta.url), 'utf8');
@@ -1691,6 +1693,38 @@ test('discord public proof growth: privacy-gated public drafts and funnel page a
 
   assert.equal(scorePublicProofPrivacy('A useful anonymized community lesson about AI onboarding.').passed, true);
   assert.equal(scorePublicProofPrivacy('Email sage@example.com and token=abcdefghijklmnop').passed, false);
+  assert.equal(PUBLIC_PROOF_VERSION, 'public_proof_v1');
+  assert.deepEqual(
+    evaluatePublicProofSource({
+      title: 'Question became a review checklist',
+      summary: 'An approved community question became a reusable lesson.',
+      body: 'The lesson is anonymized and source-approved.',
+    }),
+    {
+      passed: true,
+      privacyScore: 100,
+      permissionStatus: 'anonymized',
+      reasons: [],
+    },
+  );
+  assert.equal(
+    evaluatePublicProofSource({
+      title: 'Explicit member win',
+      summary: 'A member explicitly approved this public proof.',
+      body: 'The approved proof removes private identifiers and teaches a reusable pattern.',
+      permissionStatus: 'explicit',
+    }).permissionStatus,
+    'explicit',
+  );
+  const unsafeSource = evaluatePublicProofSource({
+    title: 'Unsafe public proof',
+    summary: 'Email sage@example.com and token=abcdefghijklmnop',
+    body: 'Member <@123456789> private repo details.',
+    permissionStatus: 'explicit',
+  });
+  assert.equal(unsafeSource.passed, false);
+  assert.equal(unsafeSource.permissionStatus, 'blocked');
+  assert.ok(unsafeSource.reasons.includes('public_proof_source_blocked'));
   const draft = buildPublicGrowthDraft({
     draftType: 'newsletter',
     title: 'Question became a review checklist',
@@ -1707,6 +1741,7 @@ test('discord public proof growth: privacy-gated public drafts and funnel page a
   assert.match(page, /Apply to join/);
   assert.match(page, /discord_public_proof/);
   assert.match(smoke, /privacy_blocks_private_data/);
+  assert.match(smoke, /createPublicProofSource/);
   assert.equal(pkg.scripts['discord:smoke-public-proof-growth'], 'tsx --env-file=.env.local scripts/discord/smoke-public-proof-growth.ts');
 });
 

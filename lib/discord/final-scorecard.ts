@@ -47,6 +47,15 @@ export type DiscordReleaseGate = {
   evidence: string;
 };
 
+export type DiscordFinalScorecardSummary = {
+  averageScore: number;
+  categoryCount: number;
+  blockedBelow95: DiscordScorecardCategory[];
+  worldClassEligible: boolean;
+  worldClassThreshold: number;
+  requiredOperatingProof: string[];
+};
+
 export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json',
   'docs/evidence/discord-ai-os/phase-9-real-discord-capture.json',
@@ -314,7 +323,7 @@ export function validateDiscordFinalScorecard(scorecard: DiscordScorecardItem[])
   failures: string[];
   categoryCount: number;
   averageScore: number;
-  blockedBelow95: string[];
+  blockedBelow95: DiscordScorecardCategory[];
 } {
   const categories = new Set<DiscordScorecardCategory>();
   const failures: string[] = [];
@@ -337,6 +346,22 @@ export function validateDiscordFinalScorecard(scorecard: DiscordScorecardItem[])
     categoryCount: categories.size,
     averageScore,
     blockedBelow95,
+  };
+}
+
+export function buildDiscordFinalScorecardSummary(scorecard: DiscordScorecardItem[]): DiscordFinalScorecardSummary {
+  const validation = validateDiscordFinalScorecard(scorecard);
+  const requiredOperatingProof = Array.from(new Set(scorecard
+    .filter((item) => item.score < 95)
+    .map((item) => item.blocker?.nextAction || item.nextAction)
+    .filter((action) => action.trim().length > 0)));
+  return {
+    averageScore: validation.averageScore,
+    categoryCount: validation.categoryCount,
+    blockedBelow95: validation.blockedBelow95,
+    worldClassEligible: validation.ok && validation.averageScore >= 95 && validation.blockedBelow95.length === 0,
+    worldClassThreshold: 95,
+    requiredOperatingProof,
   };
 }
 

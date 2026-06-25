@@ -1714,6 +1714,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
     DISCORD_FINAL_SCORECARD_VERSION,
     REQUIRED_PHASE_EVIDENCE,
     buildDiscordFinalScorecard,
+    buildDiscordFinalScorecardSummary,
     buildDiscordOperatingRhythm,
     validateDiscordFinalScorecard,
     validateDiscordOperatingRhythm,
@@ -1725,6 +1726,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
 
   const scorecard = buildDiscordFinalScorecard();
   const validation = validateDiscordFinalScorecard(scorecard);
+  const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
   const rhythmValidation = validateDiscordOperatingRhythm(rhythm);
   assert.equal(DISCORD_FINAL_SCORECARD_VERSION, 'discord-final-scorecard-v2');
@@ -1735,6 +1737,12 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(validation.blockedBelow95.includes('growth_loop'));
   assert.ok(validation.blockedBelow95.includes('rag_corpus_quality'));
   assert.equal(validation.blockedBelow95.length, 18);
+  assert.equal(summary.averageScore, validation.averageScore);
+  assert.equal(summary.categoryCount, 18);
+  assert.equal(summary.worldClassEligible, false);
+  assert.equal(summary.worldClassThreshold, 95);
+  assert.ok(summary.requiredOperatingProof.some((action) => /four weekly public proof cycles/i.test(action)));
+  assert.ok(summary.requiredOperatingProof.some((action) => /collect two weeks of real questions/i.test(action)));
   assert.equal(rhythmValidation.ok, true);
   assert.ok(rhythm.weekly.length >= 10);
   assert.ok(rhythm.monthly.length >= 7);
@@ -1743,12 +1751,16 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);
+  assert.match(smoke, /worldClassEligible/);
+  assert.match(smoke, /requiredOperatingProof/);
+  assert.match(smoke, /dryRun/);
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);
   assert.equal(pkg.scripts['discord:smoke-final-scorecard'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts');
+  assert.equal(pkg.scripts['discord:smoke-final-scorecard:dry-run'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts --dry-run');
 });
 
 test('discord operating proof cycle: real operating blockers are measured not hidden', async () => {

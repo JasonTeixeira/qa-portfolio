@@ -87,6 +87,7 @@
     "discord:smoke-security-privacy": "tsx --env-file=.env.local scripts/discord/smoke-security-privacy-abuse.ts",
     "discord:smoke-scale-failure": "tsx --env-file=.env.local scripts/discord/smoke-scale-failure-readiness.ts",
     "discord:smoke-final-scorecard": "tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts",
+    "discord:smoke-final-scorecard:dry-run": "tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts --dry-run",
     "discord:operating-cycle": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked",
     "discord:operating-cycle:strict": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts",
     "discord:operating-cycle:full": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",

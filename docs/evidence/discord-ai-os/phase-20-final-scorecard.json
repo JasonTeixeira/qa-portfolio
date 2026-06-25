@@ -1,8 +1,53 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782420952696",
-  "auditRowId": "c281414e-0bae-4279-a548-89362eea5921",
+  "runKey": "phase-20-final-1782421768624",
+  "dryRun": true,
+  "auditRowId": null,
+  "averageScore": 82,
+  "categoryCount": 18,
+  "blockedBelow95": [
+    "server_access_onboarding",
+    "role_routing_member_state",
+    "gateway_capture_classification",
+    "rag_corpus_quality",
+    "retrieval_answer_faithfulness",
+    "eval_coverage",
+    "sagebot_command_ux_personality",
+    "content_engine_quality",
+    "quiz_challenge_learning_engine",
+    "points_leaderboard_integrity",
+    "member_intelligence",
+    "admin_dashboard",
+    "job_reliability",
+    "observability",
+    "premium_workflows",
+    "growth_loop",
+    "security_privacy",
+    "scale_readiness"
+  ],
+  "worldClassEligible": false,
+  "worldClassThreshold": 95,
+  "requiredOperatingProof": [
+    "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+    "Run role/onboarding smoke after changing roles or channel permissions.",
+    "Review weekly capture volume and dead letters.",
+    "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+    "Review failed/low-scoring eval examples monthly and add source fixes.",
+    "Add eval questions from top weekly RAG failures and member questions.",
+    "Run Discord smoke after command changes.",
+    "Weekly approve/reject drafts and tag why rejected.",
+    "Review quiz/challenge completion and quality weekly.",
+    "Audit top point earners weekly for farming or duplicate awards.",
+    "Review stuck/inactive/premium-lead nudges weekly.",
+    "Run Phase 19 dashboard query smoke monthly.",
+    "Review failed/dead-lettered jobs every operating day.",
+    "Review cost, quality, trace coverage, and job success weekly.",
+    "Review open premium requests and SLA weekly.",
+    "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+    "Run security/privacy smoke after permission, command, or RAG policy changes.",
+    "Repeat Phase 19 after each major growth milestone."
+  ],
   "scorecard": [
     {
       "category": "server_access_onboarding",
@@ -313,6 +358,52 @@
       }
     }
   ],
+  "summary": {
+    "averageScore": 82,
+    "categoryCount": 18,
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ],
+    "worldClassEligible": false,
+    "worldClassThreshold": 95,
+    "requiredOperatingProof": [
+      "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+      "Run role/onboarding smoke after changing roles or channel permissions.",
+      "Review weekly capture volume and dead letters.",
+      "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+      "Review failed/low-scoring eval examples monthly and add source fixes.",
+      "Add eval questions from top weekly RAG failures and member questions.",
+      "Run Discord smoke after command changes.",
+      "Weekly approve/reject drafts and tag why rejected.",
+      "Review quiz/challenge completion and quality weekly.",
+      "Audit top point earners weekly for farming or duplicate awards.",
+      "Review stuck/inactive/premium-lead nudges weekly.",
+      "Run Phase 19 dashboard query smoke monthly.",
+      "Review failed/dead-lettered jobs every operating day.",
+      "Review cost, quality, trace coverage, and job success weekly.",
+      "Review open premium requests and SLA weekly.",
+      "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+      "Run security/privacy smoke after permission, command, or RAG policy changes.",
+      "Repeat Phase 19 after each major growth milestone."
+    ]
+  },
   "scorecardValidation": {
     "ok": true,
     "failures": [],
@@ -470,12 +561,12 @@
     "counts": {
       "discord_security_audit_runs": 8,
       "discord_scale_readiness_runs": 2,
-      "discord_final_scorecard_runs": 7,
+      "discord_final_scorecard_runs": 8,
       "discord_job_runs": 0,
       "discord_job_dead_letters": 0,
       "discord_gateway_heartbeats": 9,
       "rag_eval_runs": 37,
-      "rag_eval_results": 1189
+      "rag_eval_results": 1192
     }
   },
   "releaseGates": [
@@ -533,6 +624,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T20:55:52.696Z",
-  "finishedAt": "2026-06-25T20:55:54.708Z"
+  "startedAt": "2026-06-25T21:09:28.624Z",
+  "finishedAt": "2026-06-25T21:09:30.652Z"
 }

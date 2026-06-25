@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import {
+  buildDiscordFinalScorecardSummary,
   buildDiscordFinalScorecard,
   buildDiscordOperatingRhythm,
   DISCORD_FINAL_SCORECARD_VERSION,
@@ -12,6 +13,7 @@ import {
 } from '@/lib/discord/final-scorecard';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord-ai-os');
+const dryRun = process.argv.includes('--dry-run') || process.env.DISCORD_FINAL_SCORECARD_DRY_RUN === 'true';
 
 function requireEnv(name: string): string {
   const value = process.env[name]?.trim();
@@ -90,6 +92,7 @@ async function main() {
   const runKey = `phase-20-final-${Date.now()}`;
   const startedAt = new Date().toISOString();
   const scorecard = buildDiscordFinalScorecard();
+  const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
   const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
@@ -150,25 +153,37 @@ async function main() {
     ...releaseGates.filter((gate) => !gate.passed).map((gate) => `release_gate:${gate.name}`),
   ];
   const status = failures.length ? 'failed' : 'passed';
-  const { data: row, error } = await (sb as any).from('discord_final_scorecard_runs').insert({
-    run_key: runKey,
-    status,
-    scorecard_version: DISCORD_FINAL_SCORECARD_VERSION,
-    average_score: scorecardValidation.averageScore,
-    category_count: scorecardValidation.categoryCount,
-    blocked_below_95: scorecardValidation.blockedBelow95,
-    release_gates: releaseGates,
-    scorecard,
-    operating_rhythm: rhythm,
-    failures,
-  }).select('id').single();
-  if (error) throw error;
+  let auditRowId: string | null = null;
+  if (!dryRun) {
+    const { data: row, error } = await (sb as any).from('discord_final_scorecard_runs').insert({
+      run_key: runKey,
+      status,
+      scorecard_version: DISCORD_FINAL_SCORECARD_VERSION,
+      average_score: scorecardValidation.averageScore,
+      category_count: scorecardValidation.categoryCount,
+      blocked_below_95: scorecardValidation.blockedBelow95,
+      release_gates: releaseGates,
+      scorecard,
+      operating_rhythm: rhythm,
+      failures,
+    }).select('id').single();
+    if (error) throw error;
+    auditRowId = row.id;
+  }
   const evidence = {
     ok: failures.length === 0,
     version: DISCORD_FINAL_SCORECARD_VERSION,
     runKey,
-    auditRowId: row.id,
+    dryRun,
+    auditRowId,
+    averageScore: summary.averageScore,
+    categoryCount: summary.categoryCount,
+    blockedBelow95: summary.blockedBelow95,
+    worldClassEligible: summary.worldClassEligible,
+    worldClassThreshold: summary.worldClassThreshold,
+    requiredOperatingProof: summary.requiredOperatingProof,
     scorecard,
+    summary,
     scorecardValidation,
     operatingRhythm: rhythm,
     rhythmValidation,

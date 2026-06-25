@@ -4564,6 +4564,17 @@ test('academy products: packages are priced and gated behind Stripe price env va
   }
 });
 
+test('academy auth-aware pages: cookie-backed routes opt out of static prerendering', async () => {
+  for (const routeFile of [
+    '../../app/academy/catalog/page.tsx',
+    '../../app/academy/dashboard/page.tsx',
+    '../../app/academy/join/page.tsx',
+  ]) {
+    const source = await readFile(new URL(routeFile, import.meta.url), 'utf8');
+    assert.match(source, /export const dynamic = 'force-dynamic'/, `${routeFile} must be dynamic`);
+  }
+});
+
 // -------------------------------------------------------------- ssrf guard
 
 test('ssrf: isPrivateIp — 10.x, 127.x, 169.254.x, 192.168.x, 172.16–31.x are private', async () => {

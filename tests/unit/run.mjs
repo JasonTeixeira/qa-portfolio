@@ -1830,7 +1830,15 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.equal(DISCORD_CONTENT_FACTORY_VERSION, 'discord-content-factory-v1');
   assert.ok(slots.length >= 9);
   assert.ok(channels.has('daily-signal'));
+  assert.ok(channels.has('questions'));
   assert.ok(channels.has('build-lab'));
+  assert.ok(channels.has('introductions'));
+  assert.ok(channels.has('announcements'));
+  assert.ok(channels.has('project-submissions'));
+  assert.ok(channels.has('review-queue'));
+  assert.ok(channels.has('content-queue'));
+  assert.ok(channels.has('office-hours'));
+  assert.ok(channels.has('accountability'));
   assert.ok(channels.has('resources'));
   assert.ok(channels.has('wins-showcase'));
   const body = buildDiscordContentFactoryBody(slots[0], new Date(Date.UTC(2026, 5, 25)));
@@ -1844,6 +1852,10 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.equal(planned.policyPassed, true);
   assert.match(script, /runDiscordContentFactory/);
   assert.match(script, /--dry-run/);
+  assert.match(script, /docs', 'evidence', 'discord-ai-os'/);
+  assert.match(script, /phase-22-content-factory-dry-run\.json/);
+  assert.match(script, /channelCoverage/);
+  assert.match(script, /readOnly/);
   const factory = await readFile(new URL('../../lib/discord/content-factory.ts', import.meta.url), 'utf8');
   assert.match(factory, /source_kind: 'editorial_seed'/);
   assert.match(factory, /requires_admin_approval: true/);

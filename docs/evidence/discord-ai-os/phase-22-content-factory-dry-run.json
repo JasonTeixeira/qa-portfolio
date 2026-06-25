@@ -1,0 +1,364 @@
+{
+  "ok": true,
+  "runKey": "content-factory-2026-06-25-2026-06-25T21-23-16-156Z",
+  "version": "discord-content-factory-v1",
+  "dryRun": true,
+  "created": 0,
+  "planned": 36,
+  "skipped": 0,
+  "failed": 0,
+  "drafts": [
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Review-driven building",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Review-driven building",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Review-driven building",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Review-driven building",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-26:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Growth loops and public proof",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-26:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Growth loops and public proof",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-26:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Growth loops and public proof",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-26:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Growth loops and public proof",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-27:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Weekly synthesis",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-27:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Weekly synthesis",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-27:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Weekly synthesis",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-27:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Weekly synthesis",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-28:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Approval-gated AI apps",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-28:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Approval-gated AI apps",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-28:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Approval-gated AI apps",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-28:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Approval-gated AI apps",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-29:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Websites that convert from proof",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-29:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Websites that convert from proof",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-29:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Websites that convert from proof",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-29:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Websites that convert from proof",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Content engines from real questions",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Content engines from real questions",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Content engines from real questions",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Content engines from real questions",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Cloud and automation reliability",
+      "targetChannelBaseName": "daily-signal",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Cloud and automation reliability",
+      "targetChannelBaseName": "questions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Cloud and automation reliability",
+      "targetChannelBaseName": "build-lab",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Cloud and automation reliability",
+      "targetChannelBaseName": "resources",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:weekly-announcement",
+      "draftId": null,
+      "status": "planned",
+      "title": "Weekly Launch - what to build, ask, and submit",
+      "targetChannelBaseName": "announcements",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:intro-prompt",
+      "draftId": null,
+      "status": "planned",
+      "title": "Intro Prompt - make your first ask useful",
+      "targetChannelBaseName": "introductions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:project-submissions",
+      "draftId": null,
+      "status": "planned",
+      "title": "Project Submission Window - ship one artifact",
+      "targetChannelBaseName": "project-submissions",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:review-queue",
+      "draftId": null,
+      "status": "planned",
+      "title": "Review Queue - request specific critique",
+      "targetChannelBaseName": "review-queue",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:content-queue",
+      "draftId": null,
+      "status": "planned",
+      "title": "Content Queue - turn a question into a durable asset",
+      "targetChannelBaseName": "content-queue",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:office-hours",
+      "draftId": null,
+      "status": "planned",
+      "title": "Office Hours Queue - bring the real blocker",
+      "targetChannelBaseName": "office-hours",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:accountability",
+      "draftId": null,
+      "status": "planned",
+      "title": "Accountability Check - what shipped this week",
+      "targetChannelBaseName": "accountability",
+      "qualityScore": 90,
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-25:weekly-recap",
+      "draftId": null,
+      "status": "planned",
+      "title": "Weekly Recap - builds, questions, wins, and next challenge",
+      "targetChannelBaseName": "wins-showcase",
+      "qualityScore": 90,
+      "error": null
+    }
+  ],
+  "safety": {
+    "dryRun": true,
+    "readOnly": true,
+    "noPublicPublish": true,
+    "adminApprovalRequired": true,
+    "plannedSlots": 36,
+    "createdDrafts": 0,
+    "skippedDrafts": 0,
+    "failedDrafts": 0,
+    "channelCoverage": [
+      "accountability",
+      "announcements",
+      "build-lab",
+      "content-queue",
+      "daily-signal",
+      "introductions",
+      "office-hours",
+      "project-submissions",
+      "questions",
+      "resources",
+      "review-queue",
+      "wins-showcase"
+    ],
+    "minQualityScore": 90,
+    "maxQualityScore": 90
+  },
+  "startedAt": "2026-06-25T21:23:16.155Z",
+  "finishedAt": "2026-06-25T21:23:16.160Z"
+}

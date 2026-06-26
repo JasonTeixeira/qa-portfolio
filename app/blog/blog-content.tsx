@@ -23,10 +23,10 @@ const mono = 'font-mono text-[11px] uppercase tracking-[0.16em]'
 
 const editorialTracks = [
   {
-    label: 'Builder notes',
-    title: 'How the systems are made',
-    body: 'Architecture, implementation decisions, debugging, and production lessons from the studio build record.',
-    href: '/topics/product-systems',
+    label: 'Buyer proof',
+    title: 'Open the working systems',
+    body: 'Skip the archive if you are evaluating Sage Ideas for a build. Start with the interactive demos and proof pages.',
+    href: '/showcase?source=blog_reader_routes',
   },
   {
     label: 'AI systems',
@@ -315,8 +315,8 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <LivingCTA href="#archive">Read the archive</LivingCTA>
-              <LivingCTA href="/academy" variant="secondary">
-                Enter the academy
+              <LivingCTA href="/showcase?source=blog_hero" variant="secondary">
+                Open working demos
               </LivingCTA>
             </div>
           </div>
@@ -588,7 +588,7 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
         title="Don't just read. Find the system to build."
         body="Start with the Route Finder, join the academy path, or bring the hard project straight to the studio."
         primary={{ label: 'Find your route', href: '/tools/route-finder?source=blog_final' }}
-        secondary={{ label: 'Book the studio', href: '/book' }}
+        secondary={{ label: 'Book the build call', href: '/book?source=blog_final' }}
         variant="growth"
         proof={[
           { label: 'reader', value: 'search' },

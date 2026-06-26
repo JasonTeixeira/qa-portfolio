@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-corpus-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:01.018Z",
+  "generatedAt": "2026-06-26T10:03:42.365Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "authoritativeSources": "lib/rag/discord-authoritative-sources.ts",
@@ -80,5 +80,11 @@
     "With explicit approval, rerun non-dry RAG eval and final scorecard after sync."
   ],
   "failures": [],
-  "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume."
+  "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume.",
+  "validation": {
+    "ok": true,
+    "validator": "discord-corpus-readiness-validator-v1",
+    "validatedAt": "2026-06-26T10:03:42.366Z",
+    "failures": []
+  }
 }

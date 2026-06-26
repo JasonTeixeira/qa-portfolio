@@ -153,6 +153,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-missing-preflight\.json/);
   assert.match(localVerificationEvidence, /eval-recovery-plan\.json/);
   assert.match(localVerificationEvidence, /discord-corpus-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Discord corpus readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Discord corpus readiness must block raw Discord messages from authoritative RAG proof/);
   assert.match(localVerificationEvidence, /Discord corpus readiness must block smoke rows from counting as live corpus volume/);
   assert.match(localVerificationEvidence, /durable-jobs-readiness-latest\.json/);
@@ -167,6 +168,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /Observability\/quality readiness must block estimated token cost from counting as billing truth/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Content factory readiness validation is not ok/);
   assert.match(localVerificationEvidence, /premium-workflow-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /Premium workflow readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Premium workflow readiness must block role-only proof/);
@@ -243,6 +245,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const evalMissingPreflightScript = await readFile(new URL('../../scripts/rag/write-missing-eval-preflight.ts', import.meta.url), 'utf8');
   const evalRecoveryPlanScript = await readFile(new URL('../../scripts/rag/write-eval-recovery-plan.ts', import.meta.url), 'utf8');
   const discordCorpusReadinessScript = await readFile(new URL('../../scripts/rag/write-discord-corpus-readiness.mjs', import.meta.url), 'utf8');
+  assert.match(discordCorpusReadinessScript, /validateDiscordCorpusReadiness/);
+  assert.match(discordCorpusReadinessScript, /discord-corpus-readiness-validator-v1/);
+  assert.match(discordCorpusReadinessScript, /missing_non_dry_eval_approval_guard/);
   const durableJobsReadinessScript = await readFile(new URL('../../scripts/discord/write-durable-jobs-readiness.mjs', import.meta.url), 'utf8');
   const securityPrivacyReadinessScript = await readFile(new URL('../../scripts/discord/write-security-privacy-readiness.mjs', import.meta.url), 'utf8');
   const observabilityQualityReadinessScript = await readFile(new URL('../../scripts/discord/write-observability-quality-readiness.mjs', import.meta.url), 'utf8');
@@ -319,6 +324,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const contentFactoryReadinessScript = await readFile(new URL('../../scripts/discord/write-content-factory-readiness.ts', import.meta.url), 'utf8');
   assert.match(contentFactoryReadinessScript, /content-factory-readiness-latest\.json/);
   assert.match(contentFactoryReadinessScript, /phase-22-content-factory-dry-run\.json/);
+  assert.match(contentFactoryReadinessScript, /discord-content-factory-readiness-validator-v1/);
   const premiumReadinessScript = await readFile(new URL('../../scripts/discord/write-premium-workflow-readiness.mjs', import.meta.url), 'utf8');
   assert.match(premiumReadinessScript, /premium-workflow-readiness-latest\.json/);
   assert.match(premiumReadinessScript, /phase-15-premium-workflows-proof\.json/);
@@ -2070,6 +2076,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /loadContentFactoryReadiness/);
   assert.match(page, /content-factory-readiness-latest\.json/);
   assert.match(page, /data-testid="discord-content-factory-readiness"/);
+  assert.match(page, /contentFactoryReadiness\.validation/);
   assert.match(page, /npm run discord:content-factory-readiness/);
   assert.match(page, /phase-22-content-factory-dry-run\.json/);
   assert.match(page, /operatingContractCoverage/);

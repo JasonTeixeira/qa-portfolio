@@ -333,6 +333,10 @@ async function main() {
   );
   requireTruthy(discordCorpusReadiness.ok === true, 'Discord corpus readiness evidence is not ok.');
   requireTruthy(
+    discordCorpusReadiness.validation?.ok === true,
+    'Discord corpus readiness validation is not ok.',
+  );
+  requireTruthy(
     discordCorpusReadiness.mutationMode === 'local_file_evidence_only',
     'Discord corpus readiness must not mutate external systems.',
   );
@@ -457,6 +461,10 @@ async function main() {
     'Proof rehearsal readiness must explicitly state live gateway capture remains required for operating proof.',
   );
   requireTruthy(contentFactoryReadiness.ok === true, 'Content factory readiness evidence is not ok.');
+  requireTruthy(
+    contentFactoryReadiness.validation?.ok === true,
+    'Content factory readiness validation is not ok.',
+  );
   requireTruthy(
     contentFactoryReadiness.mutationMode === 'local_file_evidence_only',
     'Content factory readiness must not mutate external systems.',

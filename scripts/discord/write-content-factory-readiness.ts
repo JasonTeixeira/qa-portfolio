@@ -20,9 +20,17 @@ async function main() {
   if (!validation.ok) {
     throw new Error(`Content factory readiness validation failed: ${validation.failures.join(', ')}`);
   }
+  const evidence = {
+    ...report,
+    validation: {
+      ...validation,
+      validator: 'discord-content-factory-readiness-validator-v1',
+      validatedAt: new Date().toISOString(),
+    },
+  };
 
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
+  await writeFile(outputPath, `${JSON.stringify(evidence, null, 2)}\n`);
   console.log(`Wrote ${path.relative(root, outputPath)}`);
 }
 

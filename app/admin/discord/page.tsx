@@ -454,6 +454,12 @@ type ContentFactoryReadiness = {
   ok: boolean;
   generatedAt: string;
   mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
   sourceEvidence: string;
   dryRun: boolean;
   planned: number;
@@ -2277,6 +2283,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 tone={contentFactoryReadiness.dryRun ? 'emerald' : 'rose'}
               />
               <HealthLine
+                label="Validation"
+                value={contentFactoryReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'}
+                tone={contentFactoryReadiness.validation?.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
                 label="Drafts"
                 value={`${contentFactoryReadiness.planned} planned / ${contentFactoryReadiness.created} created`}
                 tone={contentFactoryReadiness.created === 0 ? 'emerald' : 'rose'}
@@ -2332,6 +2343,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             {contentFactoryReadiness.failures.map((failure) => (
               <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
                 {failure}
+              </div>
+            ))}
+            {contentFactoryReadiness.validation?.failures?.map((failure) => (
+              <div key={`validation:${failure}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                validation: {failure}
               </div>
             ))}
           </Panel>
@@ -3235,6 +3251,12 @@ async function loadContentFactoryReadiness(): Promise<ContentFactoryReadiness> {
       ok: false,
       generatedAt: new Date(0).toISOString(),
       mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'discord-content-factory-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['content_factory_readiness_missing'],
+      },
       sourceEvidence: 'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
       dryRun: false,
       planned: 0,

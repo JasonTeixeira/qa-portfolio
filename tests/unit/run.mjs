@@ -1132,6 +1132,16 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
   assert.match(validatorScript, /mutationMode: 'local_file_evidence_only'/);
 });
 
+test('rag eval command docs require explicit approval guard for full evals', async () => {
+  const masterPlan = await readFile(new URL('../../docs/DISCORD_RAG_ML_OPERATING_SYSTEM_MASTER_PLAN.txt', import.meta.url), 'utf8');
+  const architecturePlan = await readFile(new URL('../../docs/specs/discord-rag-ai-os-master-architecture-95-plan.txt', import.meta.url), 'utf8');
+  const combined = `${masterPlan}\n${architecturePlan}`;
+
+  assert.match(combined, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
+  assert.doesNotMatch(combined, /^\s*-?\s*`?npm run rag:evaluate`?\s*$/m);
+  assert.doesNotMatch(combined, /^\s*\d+\.\s*`?npm run rag:evaluate`?\s*$/m);
+});
+
 test('rag admin health: summarizes corpus gaps and eval fixes', async () => {
   const {
     buildRagEvalDrilldownRow,

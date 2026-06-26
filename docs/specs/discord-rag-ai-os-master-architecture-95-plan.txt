@@ -370,7 +370,7 @@ RAG gates:
 - npm run rag:smoke-retrieval
 - npm run rag:smoke-answer
 - npm run rag:evaluate:smoke
-- npm run rag:evaluate
+- SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate
 
 Discord gates:
 - npm run discord:smoke
@@ -1415,7 +1415,7 @@ Proof gates:
 1. npm run test:unit
 2. npm run typecheck
 3. npm run build
-4. npm run rag:evaluate
+4. SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate
 5. npm run discord:smoke
 6. Admin Playwright suite
 7. Phase-specific scorecard validation

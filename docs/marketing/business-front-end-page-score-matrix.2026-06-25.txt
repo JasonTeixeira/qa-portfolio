@@ -51,6 +51,8 @@ Route                                      Evidence  Offer Copy Design Story CTA
 /showcase/contractor-quote-engine          A         94    93   93     94    94  92    94  94          93   93       Strong vertical demo. Needs one more motion/visual polish pass to match Revenue OS.
 /pricing                                   A         95    95   94     94    95  93    96  100         97   95       Phase 1 rebuilt into a three-path buyer decision page with focused proof: screenshots, no overflow, axe 0 violations, metadata present, Lighthouse 97/100/100/100.
 /showcase                                  A         94    92   93     92    94  93    94  94          93   94       Strong prototype warehouse. Needs filters/proof-level browsing to feel more like a productized proof library.
+/showcase/compare                          A         94    93   93     93    94  93    100 100         98   94       Phase 3 rebuilt and verified: buyer self-selection page, source-tagged CTAs, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
+/showcase/proof                            A         94    93   93     93    94  94    100 100         98   94       Phase 3 rebuilt and verified: public proof wall, visible gaps, evidence commands, source-tagged CTAs, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
 /trust                                     A         93    93   92     91    91  94    93  95          93   94       Honest proof ledger is strong. Real customer/campaign evidence is the blocker to high-90 trust.
 /contact                                   A         91    92   90     88    91  89    91  94          91   92       Works. Could become more visual and less form-led.
 
@@ -357,8 +359,8 @@ Blog routes found:
 TIER 8: SHOWCASE PACKET / PROOF SUPPORT ROUTES
 
 Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
-/showcase/compare                          B         84    82   80     80    82  82    82  80          80   82       Useful but currently uses admin-style visual language. Should be redesigned before public use.
-/showcase/proof                            B         86    84   80     80    82  88    82  80          80   84       Honest proof wall concept. Needs public-facing design polish.
+/showcase/compare                          A         94    93   93     93    94  93    100 100         98   94       Moved to Tier 0 money-page proof layer after Phase 3. Kept here for packet-support tracking.
+/showcase/proof                            A         94    93   93     93    94  94    100 100         98   94       Moved to Tier 0 money-page proof layer after Phase 3. Kept here for packet-support tracking.
 /showcase/private/[slug]                   B         88    86   84     84    86  84    70  82          82   86       Good private packet route. Noindex is correct. Needs personalization data integration.
 /showcase/private/[slug]/preview           B         82    84   82     82    82  86    65  82          82   83       Internal QA preview. Good operationally, not meant as public marketing.
 

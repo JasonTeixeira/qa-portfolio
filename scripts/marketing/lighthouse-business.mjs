@@ -9,7 +9,11 @@ const auditDir = join(process.cwd(), 'docs/evidence/marketing/audits', date)
 const routes = [
   { name: 'home', path: '/?source=lighthouse_business' },
   { name: 'services', path: '/services' },
+  { name: 'pricing', path: '/pricing' },
   { name: 'book', path: '/book?source=lighthouse_business' },
+  { name: 'trust', path: '/trust' },
+  { name: 'work', path: '/work' },
+  { name: 'industries', path: '/industries' },
   { name: 'showcase-proof', path: '/showcase/proof' },
   { name: 'showcase-compare', path: '/showcase/compare' },
   { name: 'showcase-revenue-os', path: '/showcase/revenue-os' },
@@ -17,6 +21,10 @@ const routes = [
   { name: 'showcase-med-spa-consultation-funnel', path: '/showcase/med-spa-consultation-funnel' },
   { name: 'showcase-law-firm-intake-system', path: '/showcase/law-firm-intake-system' },
   { name: 'showcase-ai-support-agent-dashboard', path: '/showcase/ai-support-agent-dashboard' },
+  { name: 'legal', path: '/legal' },
+  { name: 'blog', path: '/blog' },
+  { name: 'topics', path: '/topics' },
+  { name: 'lab', path: '/lab' },
 ]
 
 function run(command, args) {

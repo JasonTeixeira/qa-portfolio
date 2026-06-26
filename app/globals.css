@@ -31,9 +31,9 @@
 
   /* Warm Living neutrals */
   --sage-ink: #F2EFE9;
-  --sage-ink-muted: #9C9CA6;
-  --sage-ink-subtle: #B6B6C0;
-  --sage-ink-faint: #8A8A94;
+  --sage-ink-muted: #C0C0CA;
+  --sage-ink-subtle: #D2D2DC;
+  --sage-ink-faint: #AAAAB6;
 
   /* ── Layered surface ramp (real elevation, never one flat slab) ── */
   --sage-bg: #0B0B0E;
@@ -915,9 +915,10 @@ a[class*="text-[#3D5AFE]"]:hover {
   transform: translateX(-50%);
   z-index: 9999;
   padding: 1rem 2rem;
-  background: #F2EFE9;
-  color: #0B0B0E;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 600;
+  border: 2px solid #3D5AFE;
   border-radius: var(--radius);
   transition: top 0.3s ease;
 }

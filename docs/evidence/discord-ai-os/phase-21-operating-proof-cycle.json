@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-26T11:56:02.204Z",
-  "finishedAt": "2026-06-26T11:56:03.035Z",
+  "startedAt": "2026-06-26T12:06:44.382Z",
+  "finishedAt": "2026-06-26T12:06:45.103Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -83,7 +83,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "latestRunKey": "phase-20-final-1782474959830"
+    "latestRunKey": "phase-20-final-1782475602171"
   },
   "gates": [
     {
@@ -114,7 +114,7 @@
       "name": "final_scorecard_current",
       "passed": true,
       "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
-      "nextAction": "After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate and npm run discord:smoke-final-scorecard after the operating proof cycle."
+      "nextAction": "After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing after the operating proof cycle. Use the full rag:evaluate drift check only when source quality changed, not for routine missing-coverage repair."
     },
     {
       "name": "world_class_score_threshold",

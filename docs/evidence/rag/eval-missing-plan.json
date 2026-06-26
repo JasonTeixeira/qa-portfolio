@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "full-20260626115548",
+  "runKey": "full-20260626120630",
   "mutationMode": "local_file_evidence_only",
   "dryRun": true,
   "missingFromLatest": true,
@@ -45,6 +45,6 @@
   ],
   "releaseMeaning": "This is a local selection plan only. It does not call DeepSeek, run retrieval, seed Supabase, write eval results, or satisfy eval coverage.",
   "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
-  "startedAt": "2026-06-26T11:55:48.234Z",
-  "finishedAt": "2026-06-26T11:55:48.248Z"
+  "startedAt": "2026-06-26T12:06:30.388Z",
+  "finishedAt": "2026-06-26T12:06:30.401Z"
 }

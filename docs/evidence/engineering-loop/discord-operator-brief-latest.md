@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T11:56:05.108Z
+Generated: 2026-06-26T12:06:47.024Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -37,7 +37,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Current: 0/10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
 - Local check: npm run discord:operating-cycle:dry-run
-- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing
 - Evidence required: RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.
 - Live action: Run the approved Discord RAG sync after approving knowledge candidates.
 
@@ -103,7 +103,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Packet remaining: 1
 - Packet state: message_content_ready_needs_fresh_member_message
 - Message content: true via identify_event
-- Heartbeat: fresh (sagebot-main, age 1 minutes)
+- Heartbeat: fresh (sagebot-main, age 0 minutes)
 - Root causes:
   - Non-bot messages exist, but message content is empty.
 - Next actions:

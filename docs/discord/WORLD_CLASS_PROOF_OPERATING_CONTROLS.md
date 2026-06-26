@@ -174,7 +174,7 @@ Run this sequence once per week:
 8. If the dry-run shows approved knowledge is available, run `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`.
 9. Review any generated public proof draft for accuracy, privacy, and usefulness.
 10. Approve or reject the public proof draft.
-11. After explicit approval, run `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`.
+11. After explicit approval, run `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing` for routine missing-coverage repair. Run the full `rag:evaluate` drift check only when source quality or retrieval behavior changed materially.
 12. Run `npm run discord:smoke-final-scorecard`.
 13. Run `npm run discord:world-class-readiness`.
 14. Run `npm run discord:proof-backlog`.

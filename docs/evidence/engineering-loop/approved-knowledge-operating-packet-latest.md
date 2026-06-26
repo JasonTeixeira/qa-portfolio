@@ -1,6 +1,6 @@
 # Approved Discord Knowledge Operating Packet
 
-Generated: 2026-06-26T11:55:54.173Z
+Generated: 2026-06-26T12:06:36.989Z
 Status: ready_for_collection
 Mutation mode: local_file_evidence_only
 
@@ -107,7 +107,7 @@ Pass score: 80/100
 - `npm run discord:proof-source-scan`
 - `npm run discord:proof-source-recovery-plan`
 - `npm run discord:operating-cycle:dry-run`
-- `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing`
+- `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
 
 ## Anti-Fake Rules
 

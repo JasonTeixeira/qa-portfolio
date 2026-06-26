@@ -217,7 +217,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
       ],
       verificationCommands: [
         'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle',
-        'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate',
+        'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing',
         'npm run discord:smoke-final-scorecard',
       ],
       evidencePaths: [

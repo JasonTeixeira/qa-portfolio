@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T11:56:05.108Z",
+  "generatedAt": "2026-06-26T12:06:47.024Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -102,7 +102,7 @@
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
-      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "liveActionRequired": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "evidenceRequired": "RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.",
       "status": "blocked"
@@ -203,7 +203,7 @@
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "liveCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
-      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
     },
@@ -329,7 +329,7 @@
     "messageContentSignalSource": "identify_event",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
-    "heartbeatAgeMinutes": 1,
+    "heartbeatAgeMinutes": 0,
     "nextActions": [
       "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",

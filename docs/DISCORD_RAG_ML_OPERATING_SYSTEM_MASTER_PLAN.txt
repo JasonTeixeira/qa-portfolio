@@ -277,7 +277,7 @@ Deliverables:
    - answer usefulness
    - refusal correctness when context is missing
 4. CI-friendly command:
-   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`
+   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
 5. Smoke command:
    - `npm run rag:evaluate:smoke`
 6. Evidence file for eval run.
@@ -1069,7 +1069,7 @@ Tests:
    - `npm run discord:approval-audit`
    - `npm run rag:smoke-retrieval`
    - `npm run rag:smoke-answer`
-   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`
+   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
 2. Admin Playwright smoke.
 3. Discord live smoke where possible.
 

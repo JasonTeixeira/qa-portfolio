@@ -229,7 +229,7 @@ export function buildApprovedKnowledgeOperatingPacket(input: {
       'npm run discord:proof-source-scan',
       'npm run discord:proof-source-recovery-plan',
       'npm run discord:operating-cycle:dry-run',
-      'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing',
+      'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing',
     ],
     antiFakeRules: [
       'This packet is not operating proof; it is the review contract for collecting operating proof.',

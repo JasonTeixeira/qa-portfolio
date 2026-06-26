@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T11:56:04.069Z
+Generated: 2026-06-26T12:06:46.064Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -70,7 +70,7 @@ Next review action: Approve high-signal questions, answers, resources, wins, rev
 - Candidate count: 0
 - Remaining: 10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
-- Proving command: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Proving command: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
 - Critical lane fields: rag_source_key, chunk_count, eval_or_retrieval_proof
 

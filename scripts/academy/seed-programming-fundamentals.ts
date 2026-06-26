@@ -994,6 +994,186 @@ def charge(order):
   },
 ]
 
+// ---------------------------------------------------------------- lesson 6 blocks
+// "Files & I/O — Read Safely, Close Always". Grounded in the 01-fundamentals
+// "Files and I/O" cluster (anchors: leaked file handle; missing-file crash;
+// reading a huge file into memory) + established practice. Standard sprint.
+const FILES_LAB_STARTER = `def read_config(path):
+    # Open the file with a \`with\` block (it always closes), read "key=value"
+    # lines into a dict, skipping blank lines. If the file is MISSING, let it
+    # raise FileNotFoundError — do NOT silently return {}.
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+with open("app.conf", "w") as f:
+    f.write("host=localhost\\n\\nport=8080\\n")
+cfg = read_config("app.conf")
+ok = cfg == {"host": "localhost", "port": "8080"}
+try:
+    read_config("missing.conf")
+    missing_handled = False
+except FileNotFoundError:
+    missing_handled = True
+print("config:", cfg)
+print(f"PASS: {ok and missing_handled}")
+`
+
+const filesBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Read a file with a context manager so it always closes, parse it into a dict, stream large files instead of loading them, and handle the missing-file case explicitly.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A reader that uses `with`, parses key=value lines, and lets a missing file raise — plus a test for a valid and a missing file.',
+    unlock: 'All verification checks confirmed and the leak / swallowed-missing-file bugs fixed.',
+    doNotClaim:
+      "Don't claim mastery until your reader closes the file on every path and a missing file raises (not a silent empty dict).",
+  },
+  {
+    type: 'mission',
+    text: 'A nightly job crashed because a config file was missing — and even when it worked, it leaked open file handles until the process ran out. Read files the safe way: always close, and handle missing explicitly.',
+  },
+  {
+    type: 'context',
+    text: 'Reading and writing files (and stdin/stdout, network streams) is I/O — slow, fallible, and full of resources you must release. The `with` statement and explicit error handling are the difference between a robust job and a 3am page.',
+  },
+  {
+    type: 'pretest',
+    prompt: "Before you read on: why is `f = open('x'); data = f.read()` riskier than `with open('x') as f:`?",
+    reveal:
+      'If anything between `open` and `f.close()` raises, the file is never closed — you leak a file handle (and on some systems keep the file locked). `with open(...) as f:` guarantees the file closes even when an error occurs. Always use `with` for files.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Use a context manager — the file closes even if parsing fails, and a missing file surfaces:',
+    language: 'python',
+    code: `def read_config(path):
+    config = {}
+    with open(path) as f:            # raises FileNotFoundError if missing; always closes
+        for line in f:               # streams line by line, not the whole file at once
+            line = line.strip()
+            if not line:
+                continue             # skip blank lines
+            key, value = line.split("=", 1)
+            config[key] = value
+    return config`,
+    steps: [
+      'Open with `with` so the file closes on every path (success or error).',
+      'Iterate the file object — it streams line by line, not all into memory.',
+      'Skip blanks; parse each line defensively (`split("=", 1)`).',
+      "Let a missing file raise FileNotFoundError — don't swallow it.",
+      'Return a real value the caller can use.',
+    ],
+    commonMistake:
+      'A bare `open()` without `with` (or try/finally) — one exception before `close()` and the handle leaks.',
+  },
+  {
+    type: 'concept',
+    title: '`with` guarantees cleanup; I/O is slow and fallible',
+    text: 'A context manager (`with`) closes its resource automatically when the block exits — even on an exception. Iterate a file object to STREAM it line by line; don\'t `.read()` a multi-gigabyte file into memory. I/O fails in ways pure code doesn\'t — missing file, permission denied, bad encoding — so handle or surface those, never silently swallow. The same `with` pattern manages network connections, locks, and DB cursors.',
+  },
+  {
+    type: 'lab',
+    title: 'Read it safely',
+    summary:
+      'Implement read_config(path): open with a `with` block, parse "key=value" lines into a dict (skip blanks), and let a MISSING file raise FileNotFoundError — never a silent {}. The harness writes a file, reads it back, and checks the missing-file case.',
+    language: 'python',
+    starter: FILES_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: 'This config reader leaks file handles and silently returns {} when the file is missing.',
+    language: 'python',
+    brokenCode: `def read_config(path):
+    try:
+        f = open(path)                 # no \`with\` -> never closed on error
+        cfg = {}
+        for line in f.readlines():     # loads the whole file into memory
+            key, value = line.split("=", 1)
+            cfg[key] = value
+        return cfg
+    except Exception:
+        return {}                      # swallows missing-file / parse errors`,
+    task: 'Find the two bugs.',
+    fix: '(1) No `with`/close → the handle leaks if an error occurs mid-read. (2) `except Exception: return {}` swallows the missing-file (and parse) errors, so the job runs with empty config and fails mysteriously later. Use `with open(path)` and let FileNotFoundError surface.',
+  },
+  {
+    type: 'tradeoff',
+    question: 'Reading a large file: load it all, or stream it line by line?',
+    optionA: {
+      label: 'Read all',
+      text: '`data = f.read()` / `f.readlines()`: simple, gives random access — but loads the whole file into memory; a big file OOMs the process.',
+    },
+    optionB: {
+      label: 'Stream',
+      text: 'Iterate the file object line by line: constant memory, handles huge files — but you process sequentially, in one pass.',
+    },
+    guidance:
+      'Stream by default (`for line in f:`). Only load the whole file when it is small and you need random access — a log or dataset can be gigabytes.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'read_config uses `with`, so the file always closes',
+      'It parses key=value lines into a dict, skipping blanks',
+      "A MISSING file raises FileNotFoundError — it does NOT silently return {}",
+      'A large file would stream line-by-line, not load into memory',
+      'A test covers a valid file AND a missing file',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: 'Why use `with open(path) as f:` instead of `f = open(path)`?',
+    options: [
+      "It's faster",
+      'It guarantees the file closes even if an error occurs',
+      'It reads the whole file at once',
+      'It validates the file path',
+    ],
+    answer: 1,
+    explanation:
+      '`with` is a context manager: it closes the file automatically when the block exits — even on an exception. A manual `open()` leaks the handle if anything raises before `close()`.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'What does the `with` statement guarantee for a file?',
+      'Why stream a large file instead of reading it all at once?',
+      'Why is `except: return {}` on a missing config dangerous?',
+      'Name another resource (besides a file) that `with` can manage.',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your read_config() + its test',
+    weak: '"It reads the file." — might leak the handle or swallow a missing file.',
+    passing:
+      '"read_config uses `with`, parses key=value into a dict, and lets a missing file raise; a test covers both." — correct.',
+    excellent:
+      '"read_config opens with a context manager (always closes), streams line by line, skips blanks, parses defensively, and surfaces FileNotFoundError instead of returning {}. Tests cover valid, missing, and malformed-line files. The same with-block pattern manages DB cursors and locks." — specific, robust, transferable.',
+    note: 'Excellent streams, surfaces errors, AND transfers the pattern — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find file handling in your own code that uses a bare `open()` or swallows a missing-file error. Switch to `with`, stream if the file can be large, and let (or log-and-raise) the missing/unreadable case surface. Add a test for the missing file.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — valid file parses, missing file raises',
+      'Broken case understood (no `with` leaks; swallowed missing-file hides failures)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -1140,6 +1320,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l5Err) throw l5Err
+
+  // 2f. Lesson 6 — Files & I/O (grounded in the 01 "Files and I/O" cluster).
+  const { error: l6Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'files-and-io',
+      title: 'Files & I/O: Read Safely, Close Always',
+      eyebrow: 'Module 1 · Lesson 6 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 5,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: filesBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l6Err) throw l6Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

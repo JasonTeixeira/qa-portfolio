@@ -8,7 +8,7 @@
 
 ## Current focus
 **Active course → `programming-fundamentals`** (topic `engineering`).
-Next lesson → **`files-and-io`** (PENDING). Done: input-validation · error-handling · functions-and-modules · types-and-data · control-flow.
+Next lesson → **`testing-and-debugging`** (PENDING). Done: lessons 1–6 (input-validation → files-and-io).
 
 ## Active course: Programming Fundamentals (`programming-fundamentals`)
 Source: `01-programming-fundamentals/README.md` (9 clusters) + the matching `concepts/deep-nodes/*`.
@@ -21,7 +21,7 @@ Intensity: `standard`. Each cluster → one lesson.
 | 3 | `functions-and-modules` | Functions & modules | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓, 2-agent senior QA ✓; ⚠ browser-render reverify pending — dev `.next` cache corrupted by a concurrent Next process) |
 | 4 | `types-and-data` | Types | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 5 | `control-flow` | Data & control flow | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
-| 6 | `files-and-io` | Files & I/O | cluster + std CS | PENDING |
+| 6 | `files-and-io` | Files & I/O | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 7 | `testing-and-debugging` | (craft) testing/debug | `deep-nodes/testing-strategy.md` | PENDING |
 | 8 | `cli-workflow` | CLI workflow | `deep-nodes/cli-safety.md` | PENDING |
 | 9 | `git-fundamentals` | Git fundamentals | cluster + std CS | PENDING |
@@ -33,7 +33,7 @@ Each numbered mastery track → one flagship course. Build after the active cour
 
 | Order | Course (slug) | Topic | Source track | Lessons from | Status |
 |---|---|---|---|---|---|
-| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (5/9)** |
+| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (6/9)** |
 | 2 | `core-engineering-scenarios` | engineering | `scenario-pipelines/` (core 1–10) | 10 pipelines (System Is Slow first) | PENDING |
 | 3 | `dsa-patterns` | engineering | `02-dsa-leetcode-patterns` + `deep-nodes/dsa-pattern-recognition.md` | pattern bank | PENDING |
 | 4 | `software-craft` | engineering | `03-software-craft` + `deep-nodes/{code-review,testing-strategy}.md` | clusters | PENDING |

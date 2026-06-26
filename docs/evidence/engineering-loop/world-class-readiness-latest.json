@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T00:54:24.799Z",
+  "generatedAt": "2026-06-26T01:48:56.569Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -14,6 +14,7 @@
     "categoriesBelow85": 6,
     "maxScoreGapTo95": 50,
     "operatingBlockers": [
+      "discord_gateway_capture_blocked",
       "approved_discord_knowledge_sources_empty",
       "rag_discord_sources_empty",
       "public_proof_drafts_empty",
@@ -21,6 +22,7 @@
     ]
   },
   "immediateActionOrder": [
+    "Deploy or run the gateway worker with Message Content Intent proven, capture a fresh non-bot message, then rerun gateway capture diagnosis.",
     "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
     "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
     "Create and approve one privacy-safe public proof draft from approved Discord source material.",

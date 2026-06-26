@@ -6,6 +6,7 @@ import { buildWorldClassReadinessReport, type WorldClassScorecardItem } from '@/
 const root = process.cwd();
 const finalScorecardPath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-20-final-scorecard.json');
 const localVerificationPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'local-verification-latest.json');
+const gatewayCapturePath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json');
 const outputPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'world-class-readiness-latest.json');
 
 async function readJson(filePath: string) {
@@ -13,9 +14,10 @@ async function readJson(filePath: string) {
 }
 
 async function main() {
-  const [finalScorecard, localVerification] = await Promise.all([
+  const [finalScorecard, localVerification, gatewayCapture] = await Promise.all([
     readJson(finalScorecardPath),
     readJson(localVerificationPath),
+    readJson(gatewayCapturePath),
   ]);
 
   const scorecard = Array.isArray(finalScorecard.scorecard)
@@ -28,13 +30,18 @@ async function main() {
     throw new Error('Local verification evidence is not ok.');
   }
 
+  const operatingBlockers = [
+    ...(gatewayCapture.diagnosis?.status === 'blocked' ? ['discord_gateway_capture_blocked'] : []),
+    ...(localVerification.operatingCycle?.knownBlockers ?? []),
+  ];
+
   const report = buildWorldClassReadinessReport({
     generatedAt: new Date().toISOString(),
     averageScore: Number(finalScorecard.averageScore ?? localVerification.scorecard?.averageScore ?? 0),
     worldClassThreshold: Number(finalScorecard.worldClassThreshold ?? 95),
     worldClassEligible: Boolean(finalScorecard.worldClassEligible),
     scorecard,
-    operatingBlockers: localVerification.operatingCycle?.knownBlockers ?? [],
+    operatingBlockers,
     requiredOperatingProof: finalScorecard.requiredOperatingProof ?? [],
   });
 

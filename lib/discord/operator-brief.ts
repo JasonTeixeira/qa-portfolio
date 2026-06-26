@@ -22,6 +22,15 @@ export type DiscordOperatorBriefInput = {
     lanes?: unknown[] | null;
     releaseMeaning?: string | null;
   };
+  gatewayCapture?: {
+    ok?: boolean | null;
+    diagnosis?: {
+      status?: string | null;
+      rootCauses?: string[] | null;
+      nextActions?: string[] | null;
+    } | null;
+    counts?: Record<string, number> | null;
+  } | null;
 };
 
 export type DiscordOperatorBrief = {
@@ -41,6 +50,13 @@ export type DiscordOperatorBrief = {
     laneCount: number;
     releaseMeaning: string | null;
   };
+  gatewayCapture: {
+    ok: boolean;
+    status: string;
+    rootCauses: string[];
+    nextActions: string[];
+    usableMessageCount: number | null;
+  };
   commandOrder: string[];
   nonClaimRule: string;
 };
@@ -59,6 +75,12 @@ function uniqueCommands(commands: Array<string | null | undefined>): string[] {
 
 export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): DiscordOperatorBrief {
   const blockedLanes = input.proofBacklog.lanes.filter((lane) => lane.status === 'blocked');
+  const gatewayCaptureStatus = input.gatewayCapture?.diagnosis?.status ?? 'unknown';
+  const gatewayCaptureRootCauses = input.gatewayCapture?.diagnosis?.rootCauses ?? [];
+  const gatewayCaptureNextActions = input.gatewayCapture?.diagnosis?.nextActions ?? [];
+  const usableMessageCount = typeof input.gatewayCapture?.counts?.['discord_messages.non_bot_non_empty'] === 'number'
+    ? input.gatewayCapture.counts['discord_messages.non_bot_non_empty']
+    : null;
   const commandOrder = uniqueCommands([
     ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
     ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
@@ -70,7 +92,9 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:content-factory-readiness',
     'npm run discord:proof-intake-readiness',
     'npm run discord:weekly-proof-packet',
+    'npm run discord:gateway-capture-diagnosis',
   ]);
+  const gatewayCaptureBlocked = gatewayCaptureStatus === 'blocked' || usableMessageCount === 0;
   return {
     ok: true,
     version: 'discord-operator-brief-v1',
@@ -79,8 +103,8 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     releaseDecision: input.readiness.releaseDecision ?? 'do_not_claim_world_class',
     averageScore: input.scorecard.averageScore ?? input.scorecard.summary?.averageScore ?? null,
     worldClassEligible: Boolean(input.scorecard.worldClassEligible ?? input.scorecard.summary?.worldClassEligible),
-    currentReality: input.operatingCycle.status === 'blocked'
-      ? 'The local system is verified, but real operating proof is still missing. Close the blocked proof lanes with real approved community activity before claiming 95+.'
+    currentReality: input.operatingCycle.status === 'blocked' || gatewayCaptureBlocked
+      ? 'The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.'
       : 'The latest operating cycle passed. Keep running weekly proof and scorecard checks.',
     blockedLaneCount: blockedLanes.length,
     proofLanes: input.proofBacklog.lanes,
@@ -89,6 +113,13 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       ok: input.proofRehearsal.ok === true,
       laneCount: Array.isArray(input.proofRehearsal.lanes) ? input.proofRehearsal.lanes.length : 0,
       releaseMeaning: input.proofRehearsal.releaseMeaning ?? null,
+    },
+    gatewayCapture: {
+      ok: input.gatewayCapture?.ok === true,
+      status: gatewayCaptureStatus,
+      rootCauses: gatewayCaptureRootCauses,
+      nextActions: gatewayCaptureNextActions,
+      usableMessageCount,
     },
     commandOrder,
     nonClaimRule: DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE,
@@ -109,7 +140,9 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
+  if (!brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis')) failures.push('missing_gateway_capture_diagnosis_command');
   if (blockedLanes.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('blocked_reality_not_explicit');
+  if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {
     ok: failures.length === 0,
@@ -145,6 +178,20 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
       `- Live action: ${lane.liveActionRequired}`,
       '',
     ]).join('\n') : 'No blocked proof lanes.',
+    '## Gateway Capture',
+    '',
+    `- Status: ${brief.gatewayCapture.status}`,
+    `- OK: ${brief.gatewayCapture.ok ? 'yes' : 'no'}`,
+    `- Usable non-bot message count: ${brief.gatewayCapture.usableMessageCount ?? 'unknown'}`,
+    ...(brief.gatewayCapture.rootCauses.length ? [
+      '- Root causes:',
+      ...brief.gatewayCapture.rootCauses.map((cause) => `  - ${cause}`),
+    ] : ['- Root causes: none reported']),
+    ...(brief.gatewayCapture.nextActions.length ? [
+      '- Next actions:',
+      ...brief.gatewayCapture.nextActions.map((action) => `  - ${action}`),
+    ] : ['- Next actions: none reported']),
+    '',
     '## Required Command Order',
     '',
     ...brief.commandOrder.map((command, index) => `${index + 1}. \`${command}\``),

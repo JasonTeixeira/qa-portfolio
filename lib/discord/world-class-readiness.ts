@@ -54,6 +54,8 @@ export type WorldClassReadinessReport = {
 };
 
 const OPERATING_BLOCKER_ACTIONS: Record<string, string> = {
+  discord_gateway_capture_blocked:
+    'Deploy or run the gateway worker with Message Content Intent proven, capture a fresh non-bot message, then rerun gateway capture diagnosis.',
   approved_discord_knowledge_sources_empty:
     'Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.',
   rag_discord_sources_empty:
@@ -76,6 +78,7 @@ function uniqueActionList(actions: string[]): string[] {
 }
 
 export function buildWorldClassReadinessReport(input: WorldClassReadinessInput): WorldClassReadinessReport {
+  const operatingBlockers = uniqueActionList(input.operatingBlockers);
   const categories = input.scorecard
     .map((item) => {
       const blockerReason = item.blocker?.reason || item.knownGaps?.[0] || null;
@@ -99,7 +102,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
   const categoriesBelow85 = categories.filter((item) => item.score < 85).length;
   const maxScoreGapTo95 = categories.reduce((max, item) => Math.max(max, item.scoreGapTo95), 0);
 
-  const blockerActions = input.operatingBlockers.map(
+  const blockerActions = operatingBlockers.map(
     (blocker) => OPERATING_BLOCKER_ACTIONS[blocker] ?? `Resolve operating blocker: ${blocker}.`,
   );
   const categoryActions = categories
@@ -123,7 +126,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       categoriesBelow95,
       categoriesBelow85,
       maxScoreGapTo95,
-      operatingBlockers: input.operatingBlockers,
+      operatingBlockers,
     },
     immediateActionOrder,
     operatingProofRequired: input.requiredOperatingProof,

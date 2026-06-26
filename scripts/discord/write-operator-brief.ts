@@ -14,6 +14,7 @@ const operatingCyclePath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 
 const proofBacklogPath = path.join(evidenceRoot, 'discord-proof-backlog-latest.json');
 const readinessPath = path.join(evidenceRoot, 'world-class-readiness-latest.json');
 const proofRehearsalPath = path.join(evidenceRoot, 'proof-rehearsal-readiness-latest.json');
+const gatewayCapturePath = path.join(evidenceRoot, 'discord-gateway-capture-diagnosis-latest.json');
 const jsonOutputPath = path.join(evidenceRoot, 'discord-operator-brief-latest.json');
 const markdownOutputPath = path.join(evidenceRoot, 'discord-operator-brief-latest.md');
 
@@ -22,12 +23,13 @@ async function readJsonFile(filePath: string): Promise<any> {
 }
 
 async function main() {
-  const [scorecard, operatingCycle, proofBacklog, readiness, proofRehearsal] = await Promise.all([
+  const [scorecard, operatingCycle, proofBacklog, readiness, proofRehearsal, gatewayCapture] = await Promise.all([
     readJsonFile(scorecardPath),
     readJsonFile(operatingCyclePath),
     readJsonFile(proofBacklogPath),
     readJsonFile(readinessPath),
     readJsonFile(proofRehearsalPath),
+    readJsonFile(gatewayCapturePath),
   ]);
   const brief = buildDiscordOperatorBrief({
     generatedAt: new Date().toISOString(),
@@ -36,6 +38,7 @@ async function main() {
     proofBacklog,
     readiness,
     proofRehearsal,
+    gatewayCapture,
   });
   const validation = validateDiscordOperatorBrief(brief);
   if (!validation.ok) {

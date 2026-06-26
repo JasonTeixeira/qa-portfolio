@@ -1,12 +1,12 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T00:54:26.251Z",
+  "generatedAt": "2026-06-26T01:48:56.454Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassEligible": false,
-  "currentReality": "The local system is verified, but real operating proof is still missing. Close the blocked proof lanes with real approved community activity before claiming 95+.",
+  "currentReality": "The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.",
   "blockedLaneCount": 4,
   "proofLanes": [
     {
@@ -189,6 +189,19 @@
     "laneCount": 3,
     "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
   },
+  "gatewayCapture": {
+    "ok": true,
+    "status": "blocked",
+    "rootCauses": [
+      "Latest gateway heartbeat does not expose Message Content Intent metadata.",
+      "Non-bot messages exist, but message content is empty."
+    ],
+    "nextActions": [
+      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
+    ],
+    "usableMessageCount": 0
+  },
   "commandOrder": [
     "npm run discord:operating-cycle:dry-run",
     "npm run discord:smoke-premium-workflows",
@@ -200,7 +213,8 @@
     "npm run discord:operator-brief",
     "npm run discord:content-factory-readiness",
     "npm run discord:proof-intake-readiness",
-    "npm run discord:weekly-proof-packet"
+    "npm run discord:weekly-proof-packet",
+    "npm run discord:gateway-capture-diagnosis"
   ],
   "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
 }

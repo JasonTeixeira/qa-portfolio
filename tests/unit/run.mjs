@@ -2166,10 +2166,12 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
     worldClassThreshold: 95,
     worldClassEligible: false,
     operatingBlockers: [
+      'discord_gateway_capture_blocked',
       'approved_discord_knowledge_sources_empty',
       'rag_discord_sources_empty',
       'public_proof_drafts_empty',
       'premium_workflow_live_proof_empty',
+      'discord_gateway_capture_blocked',
     ],
     requiredOperatingProof: ['Run four weekly public proof cycles.'],
     scorecard: [
@@ -2205,7 +2207,9 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(report.summary.categoriesBelow95, 2);
   assert.equal(report.summary.categoriesBelow85, 1);
   assert.equal(report.summary.maxScoreGapTo95, 37);
-  assert.ok(report.immediateActionOrder[0].includes('Approve at least 10 high-signal Discord'));
+  assert.ok(report.immediateActionOrder[0].includes('gateway worker with Message Content Intent'));
+  assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('Approve at least 10 high-signal Discord')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Sync approved Discord candidates')));
   assert.equal(report.categories[0].category, 'growth_loop');
   assert.equal(report.categories[0].status, 'needs_build_work');
@@ -2321,6 +2325,15 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
     proofBacklog,
     readiness: { releaseDecision: 'do_not_claim_world_class' },
     proofRehearsal: { ok: true, lanes: [{ key: 'a' }, { key: 'b' }, { key: 'c' }], releaseMeaning: 'proof rehearsal only' },
+    gatewayCapture: {
+      ok: true,
+      diagnosis: {
+        status: 'blocked',
+        rootCauses: ['Non-bot messages exist, but message content is empty.'],
+        nextActions: ['Confirm Message Content Intent and capture a fresh message.'],
+      },
+      counts: { 'discord_messages.non_bot_non_empty': 0 },
+    },
   });
   assert.equal(brief.ok, true);
   assert.equal(brief.version, 'discord-operator-brief-v1');
@@ -2333,11 +2346,18 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:content-factory-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-intake-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:weekly-proof-packet'));
+  assert.ok(brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis'));
   assert.match(brief.currentReality, /real operating proof is still missing/);
+  assert.match(brief.currentReality, /gateway capture/);
+  assert.equal(brief.gatewayCapture.status, 'blocked');
+  assert.equal(brief.gatewayCapture.usableMessageCount, 0);
+  assert.deepEqual(brief.gatewayCapture.rootCauses, ['Non-bot messages exist, but message content is empty.']);
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
   assert.match(markdown, /Sage Ideas Discord Operator Brief/);
   assert.match(markdown, /Approved Discord knowledge/);
+  assert.match(markdown, /Gateway Capture/);
+  assert.match(markdown, /Non-bot messages exist/);
   assert.match(markdown, /Do not claim world-class/);
 
   const invalid = { ...brief, blockedLaneCount: 0 };

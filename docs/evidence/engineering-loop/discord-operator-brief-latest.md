@@ -1,13 +1,13 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T00:54:26.251Z
+Generated: 2026-06-26T01:48:56.454Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
 
 ## Current Reality
 
-The local system is verified, but real operating proof is still missing. Close the blocked proof lanes with real approved community activity before claiming 95+.
+The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.
 
 ## Blocked Proof Lanes
 
@@ -51,6 +51,18 @@ The local system is verified, but real operating proof is still missing. Close t
 - Evidence required: At least one premium member/request path proves authorization, SLA, and fulfillment behavior.
 - Live action: Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
 
+## Gateway Capture
+
+- Status: blocked
+- OK: yes
+- Usable non-bot message count: 0
+- Root causes:
+  - Latest gateway heartbeat does not expose Message Content Intent metadata.
+  - Non-bot messages exist, but message content is empty.
+- Next actions:
+  - Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
+  - Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.
+
 ## Required Command Order
 
 1. `npm run discord:operating-cycle:dry-run`
@@ -64,6 +76,7 @@ The local system is verified, but real operating proof is still missing. Close t
 9. `npm run discord:content-factory-readiness`
 10. `npm run discord:proof-intake-readiness`
 11. `npm run discord:weekly-proof-packet`
+12. `npm run discord:gateway-capture-diagnosis`
 
 ## Non-Claim Rule
 

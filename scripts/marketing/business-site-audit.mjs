@@ -29,6 +29,16 @@ const routes = [
   { name: 'showcase-med-spa-consultation-funnel', path: '/showcase/med-spa-consultation-funnel' },
   { name: 'showcase-law-firm-intake-system', path: '/showcase/law-firm-intake-system' },
   { name: 'showcase-ai-support-agent-dashboard', path: '/showcase/ai-support-agent-dashboard' },
+  { name: 'legal', path: '/legal' },
+  { name: 'legal-privacy', path: '/legal/privacy' },
+  { name: 'legal-terms', path: '/legal/terms' },
+  { name: 'legal-cookies', path: '/legal/cookies' },
+  { name: 'legal-msa', path: '/legal/msa' },
+  { name: 'legal-nda', path: '/legal/nda' },
+  { name: 'legal-sow-template', path: '/legal/sow-template' },
+  { name: 'blog', path: '/blog' },
+  { name: 'topics', path: '/topics' },
+  { name: 'lab', path: '/lab' },
 ]
 
 const viewports = [

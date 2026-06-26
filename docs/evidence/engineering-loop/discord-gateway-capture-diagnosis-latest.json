@@ -1,17 +1,16 @@
 {
   "ok": true,
   "version": "discord-gateway-capture-diagnosis-v1",
-  "generatedAt": "2026-06-26T02:53:19.146Z",
+  "generatedAt": "2026-06-26T02:56:53.885Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof.",
   "diagnosis": {
     "status": "blocked",
     "rootCauses": [
-      "Latest gateway heartbeat does not expose Message Content Intent metadata.",
       "Non-bot messages exist, but message content is empty."
     ],
     "nextActions": [
-      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
     ]
   },
@@ -19,7 +18,7 @@
     "latest": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "lastSeenAt": "2026-06-26T02:53:03.26+00:00",
+      "lastSeenAt": "2026-06-26T02:56:29.682+00:00",
       "ageMinutes": 0,
       "messageContentEnabled": null,
       "guildMembersEnabled": null,
@@ -31,7 +30,7 @@
       {
         "workerId": "sagebot-main",
         "status": "heartbeat_ack",
-        "lastSeenAt": "2026-06-26T02:53:03.26+00:00",
+        "lastSeenAt": "2026-06-26T02:56:29.682+00:00",
         "ageMinutes": 0,
         "lastCloseCode": null
       },
@@ -39,17 +38,26 @@
         "workerId": "phase14-fix-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:17:23.229+00:00",
-        "ageMinutes": 1716,
+        "ageMinutes": 1720,
         "lastCloseCode": null
       },
       {
         "workerId": "phase10-gateway-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:12:23.962+00:00",
-        "ageMinutes": 1721,
+        "ageMinutes": 1724,
         "lastCloseCode": null
       }
     ]
+  },
+  "identify": {
+    "latest": {
+      "messageContentEnabled": true,
+      "intents": 34307,
+      "createdAt": "2026-06-26T02:31:43.510638+00:00"
+    },
+    "messageContentSignalSource": "identify_event",
+    "effectiveMessageContentEnabled": true
   },
   "counts": {
     "discord_messages.total": 9,

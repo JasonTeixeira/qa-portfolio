@@ -156,6 +156,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(gatewayCaptureDiagnosisScript, /discord-gateway-capture-diagnosis-latest\.json/);
   assert.match(gatewayCaptureDiagnosisScript, /read_only_supabase_selects_and_local_file_evidence_only/);
   assert.match(gatewayCaptureDiagnosisScript, /does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof/);
+  assert.match(gatewayCaptureDiagnosisScript, /latestIdentifyIntentSignal/);
+  assert.match(gatewayCaptureDiagnosisScript, /gateway_identify_sent/);
+  assert.match(gatewayCaptureDiagnosisScript, /messageContentSignalSource/);
   assert.doesNotMatch(gatewayCaptureDiagnosisScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);

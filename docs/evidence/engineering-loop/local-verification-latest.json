@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T02:53:24.459Z",
+  "timestamp": "2026-06-26T02:56:54.615Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -93,11 +93,10 @@
     "status": "blocked",
     "usableMessageCount": 0,
     "rootCauses": [
-      "Latest gateway heartbeat does not expose Message Content Intent metadata.",
       "Non-bot messages exist, but message content is empty."
     ],
     "nextActions": [
-      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
     ],
     "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof."

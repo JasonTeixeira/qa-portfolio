@@ -49,6 +49,7 @@ function messageContentDiagnosis(input: {
   latestHeartbeatStatus: string | null;
   latestHeartbeatAgeMinutes: number | null;
   messageContentEnabled: boolean | null;
+  messageContentSignalSource: 'heartbeat' | 'identify_event' | 'missing';
   lastCloseCode: number | null;
   recentDeadLetters: number;
 }): { status: 'healthy' | 'blocked' | 'warning'; rootCauses: string[]; nextActions: string[] } {
@@ -69,11 +70,13 @@ function messageContentDiagnosis(input: {
   }
 
   if (input.messageContentEnabled === false) {
-    rootCauses.push('Worker metadata does not show Message Content Intent enabled.');
+    rootCauses.push(`Worker ${input.messageContentSignalSource === 'identify_event' ? 'identify event' : 'metadata'} does not show Message Content Intent enabled.`);
     nextActions.push('Set DISCORD_GATEWAY_MESSAGE_CONTENT=true and confirm the Developer Portal Message Content Intent is enabled.');
   } else if (input.messageContentEnabled === null) {
-    rootCauses.push('Latest gateway heartbeat does not expose Message Content Intent metadata.');
-    nextActions.push('Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.');
+    rootCauses.push('Neither latest gateway heartbeat nor recent identify events expose Message Content Intent metadata.');
+    nextActions.push('Confirm the deployed worker is running the current gateway metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.');
+  } else if (input.messageContentSignalSource === 'identify_event') {
+    nextActions.push('Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.');
   }
 
   if (input.totalMessages <= 0) {
@@ -136,6 +139,20 @@ async function countRows(sb: SupabaseClient, label: string, table: string, confi
   });
 }
 
+function latestIdentifyIntentSignal(events: any[]): {
+  messageContentEnabled: boolean | null;
+  intents: number | null;
+  createdAt: string | null;
+} {
+  const identify = events.find((row) => String(row.event_type) === 'gateway_identify_sent');
+  const payload = identify?.payload && typeof identify.payload === 'object' ? identify.payload as Record<string, unknown> : {};
+  return {
+    messageContentEnabled: typeof payload.message_content_enabled === 'boolean' ? Boolean(payload.message_content_enabled) : null,
+    intents: typeof payload.intents === 'number' ? Number(payload.intents) : null,
+    createdAt: identify?.created_at ? String(identify.created_at) : null,
+  };
+}
+
 async function main() {
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -173,9 +190,16 @@ async function main() {
   const primaryHeartbeat = latestHeartbeatRows[0] ?? null;
   const latestMessagesRows = messagesRead.data ?? [];
   const latestEventsRows = eventsRead.data ?? [];
-  const messageContentEnabled = typeof primaryHeartbeat?.metadata?.message_content_enabled === 'boolean'
+  const heartbeatMessageContentEnabled = typeof primaryHeartbeat?.metadata?.message_content_enabled === 'boolean'
     ? Boolean(primaryHeartbeat.metadata.message_content_enabled)
     : null;
+  const identifyIntent = latestIdentifyIntentSignal(latestEventsRows);
+  const messageContentEnabled = heartbeatMessageContentEnabled ?? identifyIntent.messageContentEnabled;
+  const messageContentSignalSource = heartbeatMessageContentEnabled != null
+    ? 'heartbeat'
+    : identifyIntent.messageContentEnabled != null
+      ? 'identify_event'
+      : 'missing';
   const diagnosis = messageContentDiagnosis({
     totalMessages: totalMessages.count,
     nonBotMessages: nonBotMessages.count,
@@ -185,6 +209,7 @@ async function main() {
     latestHeartbeatStatus: primaryHeartbeat?.status ? String(primaryHeartbeat.status) : null,
     latestHeartbeatAgeMinutes: isoAgeMinutes(primaryHeartbeat?.last_seen_at ? String(primaryHeartbeat.last_seen_at) : null),
     messageContentEnabled,
+    messageContentSignalSource,
     lastCloseCode: primaryHeartbeat?.last_close_code == null ? null : Number(primaryHeartbeat.last_close_code),
     recentDeadLetters: recentDeadLetters.count,
   });
@@ -215,7 +240,7 @@ async function main() {
         status: String(primaryHeartbeat.status),
         lastSeenAt: primaryHeartbeat.last_seen_at ? String(primaryHeartbeat.last_seen_at) : null,
         ageMinutes: isoAgeMinutes(primaryHeartbeat.last_seen_at ? String(primaryHeartbeat.last_seen_at) : null),
-        messageContentEnabled,
+        messageContentEnabled: heartbeatMessageContentEnabled,
         guildMembersEnabled: typeof primaryHeartbeat.metadata?.guild_members_enabled === 'boolean'
           ? Boolean(primaryHeartbeat.metadata.guild_members_enabled)
           : null,
@@ -230,6 +255,15 @@ async function main() {
         ageMinutes: isoAgeMinutes(row.last_seen_at ? String(row.last_seen_at) : null),
         lastCloseCode: row.last_close_code == null ? null : Number(row.last_close_code),
       })),
+    },
+    identify: {
+      latest: {
+        messageContentEnabled: identifyIntent.messageContentEnabled,
+        intents: identifyIntent.intents,
+        createdAt: identifyIntent.createdAt,
+      },
+      messageContentSignalSource,
+      effectiveMessageContentEnabled: messageContentEnabled,
     },
     counts: {
       [totalMessages.label]: totalMessages.count,

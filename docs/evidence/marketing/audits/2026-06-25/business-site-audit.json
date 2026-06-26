@@ -1,11 +1,11 @@
 {
   "summary": {
-    "generatedAt": "2026-06-26T01:22:28.928Z",
-    "baseUrl": "http://127.0.0.1:3041",
-    "routes": 19,
-    "linkTargets": 195,
+    "generatedAt": "2026-06-26T02:08:04.659Z",
+    "baseUrl": "http://127.0.0.1:3050",
+    "routes": 29,
+    "linkTargets": 231,
     "failedLinks": 0,
-    "routesWithAxeViolations": 0,
+    "routesWithAxeViolations": 7,
     "seriousAxeViolations": [],
     "routesWithOverflow": []
   },
@@ -666,12 +666,12 @@
             "href": "/book"
           },
           {
-            "text": "./book→",
+            "text": "Book the build call→",
             "href": "/book"
           },
           {
-            "text": "talk to sage→",
-            "href": "/contact?engagement=custom"
+            "text": "Send the context→",
+            "href": "/contact?source=services_final&engagement=custom"
           },
           {
             "text": "Sage Ideas",
@@ -4655,6 +4655,2233 @@
         "innerWidth": 1440
       },
       "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/legal",
+      "status": 200,
+      "metadata": {
+        "title": "Legal — Sage Ideas",
+        "description": "Privacy policy, terms of service, cookie policy, master services agreement, NDA template, and statement of work template for Sage Ideas LLC.",
+        "ogTitle": "Legal — Sage Ideas",
+        "ogDescription": "Privacy policy, terms of service, cookie policy, master services agreement, NDA template, and statement of work template for Sage Ideas LLC.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Plain language for serious work."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Read client documents->",
+            "href": "#client-docs"
+          },
+          {
+            "text": "Ask a question->",
+            "href": "/contact?source=legal"
+          },
+          {
+            "text": "Privacy PolicyHow Sage Ideas LLC collects, uses, and protects personal information, including GDPR and CCPA disclosures.Read ->",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms of ServiceThe terms governing access to sageideas.dev, studio services, academy content, and related properties.Read ->",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookie PolicyWhat cookies and tracking technologies the site uses, why they exist, and how to control them.Read ->",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "Master Services AgreementThe standard contract structure for client engagements: scope, payment terms, IP ownership, and liability.Read ->",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "Non-Disclosure AgreementMutual NDA template used for discovery calls and sensitive project discussions. Available for signature on request.Read ->",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "Statement of Work TemplateThe SOW structure used for productized engagements: scope, deliverables, timeline, and acceptance criteria.Read ->",
+            "href": "/legal/sow-template"
+          },
+          {
+            "text": "Run the diagnostic→",
+            "href": "/tools/route-finder?source=legal"
+          },
+          {
+            "text": "Ask directly→",
+            "href": "/contact?source=legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/legal/privacy",
+      "status": 200,
+      "metadata": {
+        "title": "Privacy Policy — Sage Ideas",
+        "description": "How Sage Ideas LLC collects, uses, and protects your information, including GDPR and CCPA rights disclosures.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Privacy Policy"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Stripe's Privacy Policy",
+            "href": "https://stripe.com/privacy"
+          },
+          {
+            "text": "Cookie Policy",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "resend.com/privacy",
+            "href": "https://resend.com/privacy"
+          },
+          {
+            "text": "aws.amazon.com/privacy",
+            "href": "https://aws.amazon.com/privacy"
+          },
+          {
+            "text": "vercel.com/legal/privacy-policy",
+            "href": "https://vercel.com/legal/privacy-policy"
+          },
+          {
+            "text": "cal.com/privacy",
+            "href": "https://cal.com/privacy"
+          },
+          {
+            "text": "stripe.com/privacy",
+            "href": "https://stripe.com/privacy"
+          },
+          {
+            "text": "supabase.com/privacy",
+            "href": "https://supabase.com/privacy"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/legal/terms",
+      "status": 200,
+      "metadata": {
+        "title": "Terms of Service — Sage Ideas",
+        "description": "Terms governing use of sageideas.dev and engagements with Sage Ideas LLC.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Terms of Use"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Privacy Policy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Cookie Policy",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/legal/cookies",
+      "status": 200,
+      "metadata": {
+        "title": "Cookie Policy — Sage Ideas",
+        "description": "How sageideas.dev uses cookies and similar technologies.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Cookie Policy"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "cal.com/privacy",
+            "href": "https://cal.com/privacy"
+          },
+          {
+            "text": "stripe.com/privacy",
+            "href": "https://stripe.com/privacy"
+          },
+          {
+            "text": "uBlock Origin",
+            "href": "https://ublockorigin.com/"
+          },
+          {
+            "text": "Privacy Badger",
+            "href": "https://privacybadger.org/"
+          },
+          {
+            "text": "Privacy Policy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/legal/msa",
+      "status": 200,
+      "metadata": {
+        "title": "Master Services Agreement — Sage Ideas",
+        "description": "The standard Master Services Agreement governing all client engagements with Sage Ideas LLC.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Master Services Agreement"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/legal/nda",
+      "status": 200,
+      "metadata": {
+        "title": "Mutual NDA — Sage Ideas",
+        "description": "Standard mutual non-disclosure agreement template.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Mutual Non-Disclosure Agreement"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/legal/sow-template",
+      "status": 200,
+      "metadata": {
+        "title": "SOW Template — Sage Ideas",
+        "description": "Statement of Work template for Sage Ideas client engagements.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Statement of Work — Template"
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Legal",
+            "href": "/legal"
+          },
+          {
+            "text": "← Back to legal documents",
+            "href": "/legal"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "route": "/blog",
+      "status": 200,
+      "metadata": {
+        "title": "Blog | Sage Ideas — Build Notes, AI Systems & Product Architecture — Sage Ideas",
+        "description": "Sage Ideas build notes on AI systems, product architecture, automation, trading platforms, cloud infrastructure, QA, and the solo studio operating model.",
+        "ogTitle": "Sage Ideas Journal",
+        "ogDescription": "A content engine for builders, buyers, and future academy students: real notes from products, AI systems, infrastructure, and studio operations.",
+        "canonical": "https://www.sageideas.dev/blog",
+        "h1": [
+          "The build record."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Read the archive->",
+            "href": "#archive"
+          },
+          {
+            "text": "Open working demos->",
+            "href": "/showcase?source=blog_hero"
+          },
+          {
+            "text": "01 · featuredopen article ->What an AI-Native Studio Actually BuildsAn AI-native studio is not a prompt shop. It builds the product surface, the operating system underneath it, and the measurement loop that keeps it honest.AI Engineering·9 min read·Jun 18, 2026",
+            "href": "/blog/what-an-ai-native-studio-actually-builds"
+          },
+          {
+            "text": "02ai engineeringThe AI Implementation Audit Before You BuildBefore you build an AI agent, copilot, RAG system, or workflow automation, audit the workflow, data, risk, cost, and measurement loop.",
+            "href": "/blog/the-ai-implementation-audit-before-you-build"
+          },
+          {
+            "text": "03product systemsSEO as an Engineering System, Not a Blog CalendarThe useful SEO system is technical health, content architecture, internal links, proof assets, measurement, and distribution working together.",
+            "href": "/blog/seo-as-an-engineering-system-not-a-blog-calendar"
+          },
+          {
+            "text": "04product systemsBuild a Product Surface and System MapA product is easier to build, sell, and teach when you separate the visible surface from the operating system underneath it.",
+            "href": "/blog/build-a-product-surface-and-system-map"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/testing-qa"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/ai-engineering"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/fintech-trading"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/cloud-infra"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/solo-studio"
+          },
+          {
+            "text": "Open hub ->",
+            "href": "/topics/product-systems"
+          },
+          {
+            "text": "01ai engineeringThe AI Implementation Audit Before You BuildBefore you build an AI agent, copilot, RAG system, or workflow automation, audit the workflow, data, risk, cost, and measurement loop.AI Engineering·10 min read·Jun 18, 2026",
+            "href": "/blog/the-ai-implementation-audit-before-you-build"
+          },
+          {
+            "text": "02product systemsSEO as an Engineering System, Not a Blog CalendarThe useful SEO system is technical health, content architecture, internal links, proof assets, measurement, and distribution working together.Growth·9 min read·Jun 18, 2026",
+            "href": "/blog/seo-as-an-engineering-system-not-a-blog-calendar"
+          },
+          {
+            "text": "03product systemsBuild a Product Surface and System MapA product is easier to build, sell, and teach when you separate the visible surface from the operating system underneath it.Product Systems·8 min read·Jun 18, 2026",
+            "href": "/blog/build-a-product-surface-and-system-map"
+          },
+          {
+            "text": "04product systemsTurning Customer Receipts Into SEO AssetsCustomer proof should not sit in a screenshot folder. It can become a search asset when you structure it with source, query intent, internal links, and disclaimers.Growth·8 min read·Jun 16, 2026",
+            "href": "/blog/turning-customer-receipts-into-seo-assets"
+          },
+          {
+            "text": "05fintech tradingThe Proof Page System Behind Nexural's Track RecordA breakdown of the proof architecture behind Nexural’s track-record page: receipts, member quotes, methodology, disclaimers, and conversion paths.Fintech·9 min read·Jun 16, 2026",
+            "href": "/blog/the-proof-page-system-behind-nexurals-track-record"
+          },
+          {
+            "text": "06solo studioThe Difference Between Testimonials and ProofTestimonials are quotes. Proof is a system: source, context, receipt, methodology, limits, and next action.Strategy·7 min read·Jun 16, 2026",
+            "href": "/blog/the-difference-between-testimonials-and-proof"
+          },
+          {
+            "text": "07ai engineeringThe AI Agent Boundary ProblemThe hard part of AI agents is not giving them tools. It is deciding where the agent stops, where software starts, and where a human must stay accountable.AI·8 min read·Jun 16, 2026",
+            "href": "/blog/the-ai-agent-boundary-problem"
+          },
+          {
+            "text": "08ai engineeringRAG Evaluation Without the Benchmark TheaterA grounded way to evaluate retrieval-augmented generation: source coverage, citation faithfulness, refusal behavior, and task-level usefulness.AI·10 min read·Jun 16, 2026",
+            "href": "/blog/rag-evaluation-without-the-benchmark-theater"
+          },
+          {
+            "text": "09ai engineeringHow to Evaluate AI Features Before You Ship ThemA practical evaluation loop for AI features: define the promise, build a failure set, test the boring cases, and keep a human in the loop until the system earns trust.AI·9 min read·Jun 16, 2026",
+            "href": "/blog/how-to-evaluate-ai-features-before-you-ship-them"
+          },
+          {
+            "text": "10product systemsHow to Build a Wall of Love That Does Not Feel FakeA proof page works when it shows source, method, receipts, and limits. Here is the system behind a testimonial wall that does not feel manufactured.Product·8 min read·Jun 16, 2026",
+            "href": "/blog/how-to-build-a-wall-of-love-that-doesnt-feel-fake"
+          },
+          {
+            "text": "11fintech tradingDesigning a 185-Table Database Schema: Lessons from Building NexuralHow I designed a normalized database schema for a fintech platform with 7 interconnected systems. Schema phases, RLS policies, denormalization trade-offs, and migration strategies.Architecture·12 min read·Apr 22, 2026",
+            "href": "/blog/designing-a-185-table-database-schema-lessons-from-building-nexural"
+          },
+          {
+            "text": "12fintech tradingBuilding a Fintech Platform Solo: 185 Tables, 69 APIs, 7 SystemsThe full story of architecting and building the Nexural ecosystem from scratch — database design, API architecture, Stripe integration, and lessons from being the sole engineer on a production fintech platform.Architecture·14 min read·Apr 20, 2026",
+            "href": "/blog/building-a-fintech-platform-solo-185-tables-69-apis-7-systems"
+          },
+          {
+            "text": "Browse the full archive ->",
+            "href": "/blog/page/1"
+          },
+          {
+            "text": "Buyer proofOpen the working systemsSkip the archive if you are evaluating Sage Ideas for a build. Start with the interactive demos and proof pages.Continue ->",
+            "href": "/showcase?source=blog_reader_routes"
+          },
+          {
+            "text": "AI systemsAgents, apps, and automationPractical AI engineering without fake demos: boundaries, evaluation, workflows, and product integration.Continue ->",
+            "href": "/topics/ai-engineering"
+          },
+          {
+            "text": "Academy pathTurn the lessons into capabilityRead the operating notes, then move into course tracks, templates, and build frameworks as they ship.Continue ->",
+            "href": "/academy"
+          },
+          {
+            "text": "Find your route→",
+            "href": "/tools/route-finder?source=blog_final"
+          },
+          {
+            "text": "Book the build call→",
+            "href": "/book?source=blog_final"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/topics",
+      "status": 200,
+      "metadata": {
+        "title": "Topics — Sage Ideas",
+        "description": "Browse Sage Ideas field notes by cluster: AI engineering, fintech systems, cloud infrastructure, testing, and solo studio operations.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev/topics",
+        "h1": [
+          "The content map."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Read the journal->",
+            "href": "/blog"
+          },
+          {
+            "text": "Open working demos->",
+            "href": "/showcase?source=topics_hero"
+          },
+          {
+            "text": "0109 postsTesting & QAField notes on API testing, flaky tests, automation frameworks, OWASP checks, and quality systems that survive production.QA automationAPI testingtest strategyOpen hub ->",
+            "href": "/topics/testing-qa"
+          },
+          {
+            "text": "0208 postsAI EngineeringPractical writing on agents, AI apps, automation, evaluation, and production workflows from a solo AI-native studio.AI engineeringAI agentsAI automationOpen hub ->",
+            "href": "/topics/ai-engineering"
+          },
+          {
+            "text": "0313 postsFintech & Trading SystemsArchitecture notes on Nexural, AlphaStream, backtesting, risk math, feature engineering, and fintech platform trade-offs.fintech softwaretrading systemsbacktesting engineOpen hub ->",
+            "href": "/topics/fintech-trading"
+          },
+          {
+            "text": "0410 postsCloud & InfrastructureDeep dives on AWS, Supabase, Terraform, Docker, monitoring, CI/CD, and production infrastructure patterns.cloud infrastructureAWS TerraformSupabase productionOpen hub ->",
+            "href": "/topics/cloud-infra"
+          },
+          {
+            "text": "0507 postsSolo Studio Operating SystemWriting on solo engineering, building in public, career leverage, LLC operations, documentation, and durable personal systems.solo engineerone-person studiobuilding in publicOpen hub ->",
+            "href": "/topics/solo-studio"
+          },
+          {
+            "text": "0615 postsProduct SystemsArchitecture, product strategy, documentation, and launch notes for building software that feels coherent end to end.product systemssoftware architectureproduct engineeringOpen hub ->",
+            "href": "/topics/product-systems"
+          },
+          {
+            "text": "Run the SEO audit->",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book the build call->",
+            "href": "/book?source=topics_reader_routing"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "status": 200,
+      "metadata": {
+        "title": "The Lab — Sage Ideas",
+        "description": "Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream. These are the businesses we'd want to run.",
+        "ogTitle": "The Lab",
+        "ogDescription": "Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream.",
+        "canonical": "https://www.sageideas.dev/lab",
+        "h1": [
+          "Products that prove the system."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Open client-facing demos",
+            "href": "/showcase?source=lab_hero"
+          },
+          {
+            "text": "Book the build call",
+            "href": "/book?source=lab_hero"
+          },
+          {
+            "text": "AI Readiness Score10-question diagnostic across data, infra, process, talent, and ROI clarity. Personalized next step.",
+            "href": "/lab/ai-readiness"
+          },
+          {
+            "text": "ROI calculatorsFive interactive estimates: AI SDR, support agent, RAG, voice, churn prediction.",
+            "href": "/lab/calculators"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/nexural"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/jobpoise"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/trayd"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/voza"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/owly"
+          },
+          {
+            "text": "View tearsheet",
+            "href": "/lab/alphastream"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "description": "Ensure the main landmark is at top level",
+          "nodes": 1
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "description": "Ensure the document has at most one main landmark",
+          "nodes": 1
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "description": "Ensure landmarks are unique",
+          "nodes": 1
+        }
+      ],
       "overflow": false
     }
   ]

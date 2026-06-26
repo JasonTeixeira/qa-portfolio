@@ -226,5 +226,125 @@
     ],
     "jsonLdCount": 4,
     "missing": []
+  },
+  {
+    "route": "/legal",
+    "status": 200,
+    "title": "Legal — Sage Ideas",
+    "description": "Privacy policy, terms of service, cookie policy, master services agreement, NDA template, and statement of work template for Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Plain language for serious work."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/privacy",
+    "status": 200,
+    "title": "Privacy Policy — Sage Ideas",
+    "description": "How Sage Ideas LLC collects, uses, and protects your information, including GDPR and CCPA rights disclosures.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Privacy Policy"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/terms",
+    "status": 200,
+    "title": "Terms of Service — Sage Ideas",
+    "description": "Terms governing use of sageideas.dev and engagements with Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Terms of Use"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/cookies",
+    "status": 200,
+    "title": "Cookie Policy — Sage Ideas",
+    "description": "How sageideas.dev uses cookies and similar technologies.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Cookie Policy"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/msa",
+    "status": 200,
+    "title": "Master Services Agreement — Sage Ideas",
+    "description": "The standard Master Services Agreement governing all client engagements with Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Master Services Agreement"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/nda",
+    "status": 200,
+    "title": "Mutual NDA — Sage Ideas",
+    "description": "Standard mutual non-disclosure agreement template.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Mutual Non-Disclosure Agreement"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/sow-template",
+    "status": 200,
+    "title": "SOW Template — Sage Ideas",
+    "description": "Statement of Work template for Sage Ideas client engagements.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Statement of Work — Template"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/blog",
+    "status": 200,
+    "title": "Blog | Sage Ideas — Build Notes, AI Systems & Product Architecture — Sage Ideas",
+    "description": "Sage Ideas build notes on AI systems, product architecture, automation, trading platforms, cloud infrastructure, QA, and the solo studio operating model.",
+    "canonical": "https://www.sageideas.dev/blog",
+    "h1": [
+      "The build record."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/topics",
+    "status": 200,
+    "title": "Topics — Sage Ideas",
+    "description": "Browse Sage Ideas field notes by cluster: AI engineering, fintech systems, cloud infrastructure, testing, and solo studio operations.",
+    "canonical": "https://www.sageideas.dev/topics",
+    "h1": [
+      "The content map."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/lab",
+    "status": 200,
+    "title": "The Lab — Sage Ideas",
+    "description": "Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream. These are the businesses we'd want to run.",
+    "canonical": "https://www.sageideas.dev/lab",
+    "h1": [
+      "Products that prove the system."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
   }
 ]

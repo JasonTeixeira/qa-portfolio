@@ -395,13 +395,11 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
       >
         <div className="grid gap-px bg-[var(--sage-border)] md:grid-cols-2 xl:grid-cols-3">
           {clusterList.map((cluster) => (
-            <button
+            <article
               className={`group min-h-[240px] bg-[var(--sage-surface-1)] p-5 text-left transition-colors hover:bg-[var(--sage-surface-2)] sm:p-6 ${
                 activeCluster === cluster.key ? 'outline outline-1 outline-[var(--sage-accent)]' : ''
               }`}
               key={cluster.key}
-              onClick={() => setActiveCluster(activeCluster === cluster.key ? 'all' : cluster.key)}
-              type="button"
             >
               <div className="mb-9 flex items-center justify-between gap-4">
                 <span className={`${mono} text-[var(--sage-accent-readable)]`}>
@@ -415,14 +413,22 @@ export function BlogContent({ posts }: { posts: BlogPost[] }) {
                 {cluster.title}
               </h3>
               <p className="mt-4 text-sm leading-6 text-[var(--sage-ink-muted)]">{cluster.description}</p>
-              <Link
-                className={`mt-6 inline-flex ${mono} text-[var(--sage-accent-readable)] hover:text-white`}
-                href={`/topics/${cluster.slug}`}
-                onClick={(event) => event.stopPropagation()}
-              >
-                Open hub -&gt;
-              </Link>
-            </button>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <button
+                  className={`inline-flex ${mono} text-[var(--sage-accent-readable)] transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sage-accent)]`}
+                  onClick={() => setActiveCluster(activeCluster === cluster.key ? 'all' : cluster.key)}
+                  type="button"
+                >
+                  Filter lane -&gt;
+                </button>
+                <Link
+                  className={`inline-flex ${mono} text-[var(--sage-ink-muted)] transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sage-accent)]`}
+                  href={`/topics/${cluster.slug}`}
+                >
+                  Open hub -&gt;
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       </LivingSection>

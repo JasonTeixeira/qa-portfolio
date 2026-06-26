@@ -17,3 +17,13 @@ showcase-contractor-quote-engine	/showcase/contractor-quote-engine
 showcase-med-spa-consultation-funnel	/showcase/med-spa-consultation-funnel
 showcase-law-firm-intake-system	/showcase/law-firm-intake-system
 showcase-ai-support-agent-dashboard	/showcase/ai-support-agent-dashboard
+legal	/legal
+legal-privacy	/legal/privacy
+legal-terms	/legal/terms
+legal-cookies	/legal/cookies
+legal-msa	/legal/msa
+legal-nda	/legal/nda
+legal-sow-template	/legal/sow-template
+blog	/blog
+topics	/topics
+lab	/lab

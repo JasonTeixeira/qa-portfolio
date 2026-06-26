@@ -2143,6 +2143,14 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /ProofRehearsalLaneRow/);
   assert.match(page, /data-testid="discord-proof-rehearsal-readiness"/);
   assert.match(page, /Run npm run discord:proof-rehearsal-readiness/);
+  assert.match(page, /loadChannelMatrixReadiness/);
+  assert.match(page, /discord-channel-matrix-readiness-latest\.json/);
+  assert.match(page, /data-testid="discord-channel-matrix-readiness"/);
+  assert.match(page, /Channel matrix readiness/);
+  assert.match(page, /npm run discord:channel-matrix-readiness/);
+  assert.match(page, /blockedVisibilityPolicy/);
+  assert.match(page, /preApprovalChannels/);
+  assert.match(page, /contentFactoryTargeting/);
   assert.match(page, /loadContentFactoryReadiness/);
   assert.match(page, /content-factory-readiness-latest\.json/);
   assert.match(page, /data-testid="discord-content-factory-readiness"/);

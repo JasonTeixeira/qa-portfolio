@@ -483,6 +483,53 @@ type ContentFactoryReadiness = {
   releaseMeaning: string;
 };
 
+type ChannelMatrixReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
+  channelCount: number;
+  approvedMemberChannelCount: number;
+  preApprovalChannels: string[];
+  premiumChannels: string[];
+  staffPrivateChannels: string[];
+  dailyChannels: string[];
+  weeklyChannels: string[];
+  proofLaneCoverage: string[];
+  categoryCoverage: string[];
+  postingModeCoverage: string[];
+  ownerCoverage: string[];
+  pinnedAssetCoverage: {
+    channelsWithPinnedAssets: number;
+    minimumPinnedAssetsPerChannel: number;
+  };
+  botJobCoverage: {
+    channelsWithBotJobs: number;
+    totalBotJobs: number;
+  };
+  antiSprawlCoverage: {
+    channelsWithRules: number;
+    examples: Array<{ channel: string; rule: string }>;
+  };
+  contentFactoryTargeting: {
+    ok: boolean;
+    knownChannelCount: number;
+    targetableChannelCount: number;
+    plannedSlotCount: number;
+    unknownChannels: string[];
+    blockedChannels: Array<{ channel: string; reason: string }>;
+    blockedVisibilityPolicy: Array<{ visibility: string; reason: string }>;
+  };
+  operatingChecks: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
 type ReadinessCheck = {
   name: string;
   passed: boolean;
@@ -1026,6 +1073,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const { profile } = await requireAdmin();
   const sb = supabaseAdmin();
   const proofRehearsalReadiness = await loadProofRehearsalReadiness();
+  const channelMatrixReadiness = await loadChannelMatrixReadiness();
   const contentFactoryReadiness = await loadContentFactoryReadiness();
   const operatorBrief = await loadDiscordOperatorBrief();
   const proofIntakeReadiness = await loadProofIntakeReadiness();
@@ -2277,6 +2325,92 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-channel-matrix-readiness">
+          <Panel
+            icon={Layers3}
+            title="Channel matrix readiness"
+            meta={channelMatrixReadiness.ok
+              ? `${channelMatrixReadiness.channelCount} channels / ${channelMatrixReadiness.approvedMemberChannelCount} approved-member / ${channelMatrixReadiness.contentFactoryTargeting.targetableChannelCount} content targets`
+              : `${channelMatrixReadiness.failures.length} readiness failures`}
+            empty="Channel matrix readiness has not been generated. Run npm run discord:channel-matrix-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {channelMatrixReadiness.releaseMeaning}
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-4">
+              <HealthLine
+                label="Validation"
+                value={channelMatrixReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'}
+                tone={channelMatrixReadiness.validation?.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Pre-approval"
+                value={channelMatrixReadiness.preApprovalChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.preApprovalChannels.length === 1 && channelMatrixReadiness.preApprovalChannels[0] === 'start-here' ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Premium"
+                value={channelMatrixReadiness.premiumChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.premiumChannels.length >= 2 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Staff private"
+                value={channelMatrixReadiness.staffPrivateChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.staffPrivateChannels.length === 1 && channelMatrixReadiness.staffPrivateChannels[0] === 'team-ops' ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Factory targeting"
+                value={`${channelMatrixReadiness.contentFactoryTargeting.targetableChannelCount} safe / ${channelMatrixReadiness.contentFactoryTargeting.knownChannelCount} known`}
+                tone={channelMatrixReadiness.contentFactoryTargeting.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Daily cadence"
+                value={`${channelMatrixReadiness.dailyChannels.length} channels`}
+                tone={channelMatrixReadiness.dailyChannels.length >= 4 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Weekly cadence"
+                value={`${channelMatrixReadiness.weeklyChannels.length} channels`}
+                tone={channelMatrixReadiness.weeklyChannels.length >= 8 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Bot jobs"
+                value={`${channelMatrixReadiness.botJobCoverage.totalBotJobs} jobs`}
+                tone={channelMatrixReadiness.botJobCoverage.channelsWithBotJobs === channelMatrixReadiness.channelCount ? 'emerald' : 'amber'}
+              />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-3">
+              <ProofRuleGroup title="Proof lanes" items={channelMatrixReadiness.proofLaneCoverage} tone="cyan" />
+              <ProofRuleGroup title="Blocked visibility policy" items={channelMatrixReadiness.contentFactoryTargeting.blockedVisibilityPolicy.map((item) => `${item.visibility}: ${item.reason}`)} tone="amber" />
+              <ProofRuleGroup title="Operating checks" items={channelMatrixReadiness.operatingChecks} tone="emerald" />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_auto]">
+              <div>
+                <div className="font-semibold text-[#fafafa]">Categories</div>
+                <div className="mt-1">{channelMatrixReadiness.categoryCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Anti-sprawl examples</div>
+                <div className="mt-1">{channelMatrixReadiness.antiSprawlCoverage.examples.slice(0, 2).map((item) => `${item.channel}: ${item.rule}`).join(' / ') || 'none'}</div>
+              </div>
+              <div className="lg:text-right">
+                <div className="font-semibold text-[#fafafa]">Refresh</div>
+                <div className="mt-1">npm run discord:channel-matrix-readiness</div>
+              </div>
+            </div>
+            {channelMatrixReadiness.contentFactoryTargeting.blockedChannels.map((blocked) => (
+              <div key={`${blocked.channel}:${blocked.reason}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                blocked target: {blocked.channel} / {blocked.reason}
+              </div>
+            ))}
+            {channelMatrixReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-content-factory-readiness">
           <Panel
             icon={CalendarDays}
@@ -3256,6 +3390,63 @@ async function loadProofRehearsalReadiness(): Promise<ProofRehearsalReadiness> {
       releaseMeaning: 'Proof rehearsal readiness evidence is missing. Run npm run discord:proof-rehearsal-readiness.',
       lanes: [],
       missingOrStale: [{ key: 'proof_rehearsal_readiness_missing', failedChecks: ['evidence_present'] }],
+    };
+  }
+}
+
+async function loadChannelMatrixReadiness(): Promise<ChannelMatrixReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-channel-matrix-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ChannelMatrixReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'discord-channel-matrix-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['channel_matrix_readiness_missing'],
+      },
+      channelCount: 0,
+      approvedMemberChannelCount: 0,
+      preApprovalChannels: [],
+      premiumChannels: [],
+      staffPrivateChannels: [],
+      dailyChannels: [],
+      weeklyChannels: [],
+      proofLaneCoverage: [],
+      categoryCoverage: [],
+      postingModeCoverage: [],
+      ownerCoverage: [],
+      pinnedAssetCoverage: {
+        channelsWithPinnedAssets: 0,
+        minimumPinnedAssetsPerChannel: 0,
+      },
+      botJobCoverage: {
+        channelsWithBotJobs: 0,
+        totalBotJobs: 0,
+      },
+      antiSprawlCoverage: {
+        channelsWithRules: 0,
+        examples: [],
+      },
+      contentFactoryTargeting: {
+        ok: false,
+        knownChannelCount: 0,
+        targetableChannelCount: 0,
+        plannedSlotCount: 0,
+        unknownChannels: [],
+        blockedChannels: [],
+        blockedVisibilityPolicy: [],
+      },
+      operatingChecks: [],
+      failures: ['channel_matrix_readiness_missing'],
+      releaseMeaning: 'Channel matrix readiness evidence is missing. Run npm run discord:channel-matrix-readiness.',
     };
   }
 }

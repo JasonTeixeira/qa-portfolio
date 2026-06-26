@@ -523,6 +523,26 @@ async function main() {
     'World-class readiness approved eval command must match the preflight.',
   );
   requireTruthy(
+    worldClassReadiness.ragEvalRecoveryPlan?.status !== 'missing',
+    'World-class readiness must include the RAG eval recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalRecoveryPlan?.missingEvalCount === (evalMissingPreflight.missingEvalKeys ?? []).length,
+    'World-class readiness RAG eval recovery missing count must match the preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalRecoveryPlan?.readyMissingEvalCount === evalMissingPreflight.summary?.readyForApprovedEvalCount,
+    'World-class readiness RAG eval recovery ready count must match the preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalRecoveryPlan?.approvedCommand === evalRecoveryPlan.approvedCommand,
+    'World-class readiness RAG eval recovery approved command must match the recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalRecoveryPlan?.releaseMeaning?.includes('does not seed Supabase'),
+    'World-class readiness RAG eval recovery plan must preserve the no-mutation/no-proof boundary.',
+  );
+  requireTruthy(
     worldClassReadiness.proofSourceRecoveryPlan?.status !== 'missing',
     'World-class readiness must include the proof source recovery plan.',
   );
@@ -533,6 +553,10 @@ async function main() {
   requireTruthy(
     worldClassReadiness.proofSourceRecoveryPlan?.nextLaneKey === proofSourceRecoveryPlan.summary?.nextLane,
     'World-class readiness next proof lane must match the recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:recovery-plan')),
+    'World-class readiness must put the RAG eval recovery plan in immediate actions.',
   );
   requireTruthy(
     worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:missing-preflight')),
@@ -792,6 +816,7 @@ async function main() {
       releaseDecision: worldClassReadiness.releaseDecision,
       releaseGateFailures: worldClassReadiness.summary?.releaseGateFailures ?? [],
       ragEvalMissingPreflight: worldClassReadiness.ragEvalMissingPreflight,
+      ragEvalRecoveryPlan: worldClassReadiness.ragEvalRecoveryPlan,
       proofSourceRecoveryPlan: worldClassReadiness.proofSourceRecoveryPlan,
       immediateActionCount: worldClassReadiness.immediateActionOrder?.length ?? 0,
     },

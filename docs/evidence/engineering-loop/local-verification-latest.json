@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T06:36:56.258Z",
+  "timestamp": "2026-06-26T06:42:07.921Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -692,6 +692,15 @@
       "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
       "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
     },
+    "ragEvalRecoveryPlan": {
+      "status": "blocked",
+      "ok": true,
+      "missingEvalCount": 15,
+      "readyMissingEvalCount": 15,
+      "failedEvalCount": 0,
+      "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+    },
     "proofSourceRecoveryPlan": {
       "status": "blocked",
       "ok": true,
@@ -700,7 +709,7 @@
       "nextLaneKey": "approvedDiscordKnowledge",
       "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
     },
-    "immediateActionCount": 19
+    "immediateActionCount": 20
   },
   "remainingGaps": [
     "Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.",

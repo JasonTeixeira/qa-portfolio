@@ -8,6 +8,7 @@ const finalScorecardPath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 
 const localVerificationPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'local-verification-latest.json');
 const gatewayCapturePath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json');
 const ragEvalMissingPreflightPath = path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json');
+const ragEvalRecoveryPlanPath = path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json');
 const proofSourceRecoveryPlanPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json');
 const outputPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'world-class-readiness-latest.json');
 
@@ -21,12 +22,14 @@ async function main() {
     localVerification,
     gatewayCapture,
     ragEvalMissingPreflight,
+    ragEvalRecoveryPlan,
     proofSourceRecoveryPlan,
   ] = await Promise.all([
     readJson(finalScorecardPath),
     readJson(localVerificationPath),
     readJson(gatewayCapturePath),
     readJson(ragEvalMissingPreflightPath),
+    readJson(ragEvalRecoveryPlanPath),
     readJson(proofSourceRecoveryPlanPath),
   ]);
 
@@ -62,6 +65,17 @@ async function main() {
       selectedMatchesCoverage: ragEvalMissingPreflight.selectedMatchesCoverage === true,
       approvedCommand: ragEvalMissingPreflight.approvedCommand,
       releaseMeaning: ragEvalMissingPreflight.releaseMeaning,
+    },
+    ragEvalRecoveryPlan: {
+      status: ragEvalRecoveryPlan.status,
+      ok: ragEvalRecoveryPlan.ok === true,
+      missingEvalCount: ragEvalRecoveryPlan.coverage?.missingEvalCount ?? ragEvalRecoveryPlan.coverage?.missingEvalKeys?.length ?? 0,
+      readyMissingEvalCount: Array.isArray(ragEvalRecoveryPlan.missingEvalBacklog)
+        ? ragEvalRecoveryPlan.missingEvalBacklog.filter((item: { readyForApprovedEval?: boolean }) => item.readyForApprovedEval === true).length
+        : 0,
+      failedEvalCount: ragEvalRecoveryPlan.latestEval?.failedCount ?? ragEvalRecoveryPlan.failedEvalBacklog?.length ?? 0,
+      approvedCommand: ragEvalRecoveryPlan.approvedCommand,
+      releaseMeaning: ragEvalRecoveryPlan.releaseMeaning,
     },
     proofSourceRecoveryPlan: {
       status: proofSourceRecoveryPlan.status,

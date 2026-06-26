@@ -33,6 +33,15 @@ export type WorldClassReadinessInput = {
     approvedCommand?: string;
     releaseMeaning?: string;
   } | null;
+  ragEvalRecoveryPlan?: {
+    status?: string;
+    ok?: boolean;
+    missingEvalCount?: number;
+    readyMissingEvalCount?: number;
+    failedEvalCount?: number;
+    approvedCommand?: string;
+    releaseMeaning?: string;
+  } | null;
   proofSourceRecoveryPlan?: {
     status?: string;
     ok?: boolean;
@@ -79,6 +88,15 @@ export type WorldClassReadinessReport = {
     missingEvalCount: number;
     readyForApprovedEvalCount: number;
     selectedMatchesCoverage: boolean;
+    approvedCommand: string | null;
+    releaseMeaning: string | null;
+  };
+  ragEvalRecoveryPlan: {
+    status: string;
+    ok: boolean;
+    missingEvalCount: number;
+    readyMissingEvalCount: number;
+    failedEvalCount: number;
     approvedCommand: string | null;
     releaseMeaning: string | null;
   };
@@ -159,12 +177,14 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
 
   const blockerActions = operatingBlockers.map(actionForOperatingBlocker);
   const ragEvalPreflight = input.ragEvalMissingPreflight ?? null;
+  const ragEvalRecoveryPlan = input.ragEvalRecoveryPlan ?? null;
   const proofSourceRecoveryPlan = input.proofSourceRecoveryPlan ?? null;
   const ragEvalActions = releaseGateFailures.some((failure) => failure.includes('rag_eval'))
     ? [
+        'Run npm run rag:evaluate:recovery-plan to review the local missing/failed eval backlog before any approved eval execution.',
         'Run npm run rag:evaluate:missing-preflight before any approved missing-eval execution to confirm local source coverage is still ready.',
-        ragEvalPreflight?.approvedCommand
-          ? `With explicit approval, run ${ragEvalPreflight.approvedCommand} to close missing RAG eval coverage.`
+        (ragEvalRecoveryPlan?.approvedCommand ?? ragEvalPreflight?.approvedCommand)
+          ? `With explicit approval, run ${ragEvalRecoveryPlan?.approvedCommand ?? ragEvalPreflight?.approvedCommand} to close missing RAG eval coverage.`
           : 'With explicit approval, run the missing RAG eval command after confirming the execution packet.',
       ]
     : [];
@@ -217,6 +237,15 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       selectedMatchesCoverage: ragEvalPreflight?.selectedMatchesCoverage === true,
       approvedCommand: ragEvalPreflight?.approvedCommand ?? null,
       releaseMeaning: ragEvalPreflight?.releaseMeaning ?? null,
+    },
+    ragEvalRecoveryPlan: {
+      status: ragEvalRecoveryPlan?.status ?? 'missing',
+      ok: ragEvalRecoveryPlan?.ok === true,
+      missingEvalCount: ragEvalRecoveryPlan?.missingEvalCount ?? 0,
+      readyMissingEvalCount: ragEvalRecoveryPlan?.readyMissingEvalCount ?? 0,
+      failedEvalCount: ragEvalRecoveryPlan?.failedEvalCount ?? 0,
+      approvedCommand: ragEvalRecoveryPlan?.approvedCommand ?? null,
+      releaseMeaning: ragEvalRecoveryPlan?.releaseMeaning ?? null,
     },
     proofSourceRecoveryPlan: {
       status: proofSourceRecoveryPlan?.status ?? 'missing',

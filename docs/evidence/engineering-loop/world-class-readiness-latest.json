@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T06:05:21.131Z",
+  "generatedAt": "2026-06-26T06:41:57.824Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -38,6 +38,15 @@
     "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
+  "ragEvalRecoveryPlan": {
+    "status": "blocked",
+    "ok": true,
+    "missingEvalCount": 15,
+    "readyMissingEvalCount": 15,
+    "failedEvalCount": 0,
+    "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
   "proofSourceRecoveryPlan": {
     "status": "blocked",
     "ok": true,
@@ -47,6 +56,7 @@
     "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
   },
   "immediateActionOrder": [
+    "Run npm run rag:evaluate:recovery-plan to review the local missing/failed eval backlog before any approved eval execution.",
     "Run npm run rag:evaluate:missing-preflight before any approved missing-eval execution to confirm local source coverage is still ready.",
     "With explicit approval, run npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence to close missing RAG eval coverage.",
     "Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan to refresh source-volume blockers.",

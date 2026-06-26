@@ -2556,6 +2556,15 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
       approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
       releaseMeaning: 'Preflight only; does not satisfy eval coverage.',
     },
+    ragEvalRecoveryPlan: {
+      ok: true,
+      status: 'blocked',
+      missingEvalCount: 15,
+      readyMissingEvalCount: 15,
+      failedEvalCount: 0,
+      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      releaseMeaning: 'This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.',
+    },
     proofSourceRecoveryPlan: {
       ok: true,
       status: 'blocked',
@@ -2616,11 +2625,18 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(report.ragEvalMissingPreflight.readyForApprovedEvalCount, 15);
   assert.equal(report.ragEvalMissingPreflight.selectedMatchesCoverage, true);
   assert.match(report.ragEvalMissingPreflight.approvedCommand, /rag:evaluate:missing/);
+  assert.equal(report.ragEvalRecoveryPlan.status, 'blocked');
+  assert.equal(report.ragEvalRecoveryPlan.missingEvalCount, 15);
+  assert.equal(report.ragEvalRecoveryPlan.readyMissingEvalCount, 15);
+  assert.equal(report.ragEvalRecoveryPlan.failedEvalCount, 0);
+  assert.match(report.ragEvalRecoveryPlan.approvedCommand, /rag:evaluate:missing/);
+  assert.match(report.ragEvalRecoveryPlan.releaseMeaning, /does not seed Supabase/);
   assert.equal(report.proofSourceRecoveryPlan.status, 'blocked');
   assert.equal(report.proofSourceRecoveryPlan.totalShortfall, 25);
   assert.equal(report.proofSourceRecoveryPlan.blockedLaneCount, 4);
   assert.equal(report.proofSourceRecoveryPlan.nextLaneKey, 'approvedDiscordKnowledge');
-  assert.ok(report.immediateActionOrder[0].includes('rag:evaluate:missing-preflight'));
+  assert.ok(report.immediateActionOrder[0].includes('rag:evaluate:recovery-plan'));
+  assert.ok(report.immediateActionOrder[1].includes('rag:evaluate:missing-preflight'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('proof-source-recovery-plan')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('gateway worker with Message Content Intent')));
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);

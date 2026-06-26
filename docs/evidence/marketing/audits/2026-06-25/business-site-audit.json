@@ -1,9 +1,9 @@
 {
   "summary": {
-    "generatedAt": "2026-06-26T02:14:57.789Z",
-    "baseUrl": "http://127.0.0.1:3050",
+    "generatedAt": "2026-06-26T03:26:13.822Z",
+    "baseUrl": "http://127.0.0.1:3051",
     "routes": 29,
-    "linkTargets": 231,
+    "linkTargets": 229,
     "failedLinks": 0,
     "routesWithAxeViolations": 0,
     "seriousAxeViolations": [],

@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-26T01:26:42.556Z",
-  "baseUrl": "http://127.0.0.1:3041",
+  "generatedAt": "2026-06-26T03:34:01.178Z",
+  "baseUrl": "http://127.0.0.1:3051",
   "routes": [
     {
       "route": "/?source=lighthouse_business",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json",
       "scores": {
-        "performance": 0.97,
+        "performance": 0.96,
         "accessibility": 1,
         "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1318,
+        "lcp": 1435,
         "cls": 0,
         "tbt": 0
       }
@@ -21,13 +21,28 @@
       "route": "/services",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-services.json",
       "scores": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1200,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/pricing",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-pricing.json",
+      "scores": {
         "performance": 0.98,
         "accessibility": 1,
         "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1189,
+        "lcp": 1194,
         "cls": 0,
         "tbt": 0
       }
@@ -42,7 +57,52 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1210,
+        "lcp": 1208,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/trust",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-trust.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1148,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/work",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-work.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1185,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/industries",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-industries.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1111,
         "cls": 0,
         "tbt": 0
       }
@@ -57,7 +117,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1176,
+        "lcp": 1144,
         "cls": 0,
         "tbt": 0
       }
@@ -72,7 +132,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1110,
+        "lcp": 1100,
         "cls": 0,
         "tbt": 0
       }
@@ -87,7 +147,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1256,
+        "lcp": 1251,
         "cls": 0,
         "tbt": 0
       }
@@ -102,7 +162,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1143,
+        "lcp": 1109,
         "cls": 0,
         "tbt": 0
       }
@@ -117,7 +177,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1111,
+        "lcp": 1112,
         "cls": 0,
         "tbt": 0
       }
@@ -132,7 +192,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1116,
+        "lcp": 1101,
         "cls": 0,
         "tbt": 0
       }
@@ -147,7 +207,67 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1107,
+        "lcp": 1135,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/legal",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-legal.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1175,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/blog",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-blog.json",
+      "scores": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1222,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/topics",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-topics.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1157,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/lab",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-lab.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1190,
         "cls": 0,
         "tbt": 0
       }

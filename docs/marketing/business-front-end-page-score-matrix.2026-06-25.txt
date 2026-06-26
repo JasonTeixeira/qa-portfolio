@@ -25,18 +25,31 @@ Categories:
 
 IMPORTANT HONESTY RULE
 
-Only the 17 audited business routes have direct audit evidence from:
+The 2026-06-25 business-site audit now covers 29 business routes with 229 checked internal link targets, 0 failed links, 0 axe-violation routes, and 0 horizontal-overflow routes.
+
+Direct audit evidence:
 - docs/evidence/marketing/audits/2026-06-25/business-site-audit.json
 - docs/evidence/marketing/screenshots/2026-06-25/
 
-Only these Lighthouse routes have direct Lighthouse evidence:
+Direct Lighthouse evidence now covers 18 routes with minimum Performance 96 and 100 Accessibility, Best Practices, and SEO:
 - /
 - /services
-- /book?source=lighthouse_business
-- /showcase/revenue-os
 - /pricing
+- /book?source=lighthouse_business
+- /trust
 - /work
-- /work/nexural
+- /industries
+- /showcase/proof
+- /showcase/compare
+- /showcase/revenue-os
+- /showcase/contractor-quote-engine
+- /showcase/med-spa-consultation-funnel
+- /showcase/law-firm-intake-system
+- /showcase/ai-support-agent-dashboard
+- /legal
+- /blog
+- /topics
+- /lab
 
 Legal pages are not attorney-reviewed in this score. They are scored as public website/legal-document UX and completeness, not as legal advice quality.
 
@@ -53,7 +66,7 @@ Route                                      Evidence  Offer Copy Design Story CTA
 /showcase                                  A         94    92   93     92    94  93    94  94          93   94       Strong prototype warehouse. Needs filters/proof-level browsing to feel more like a productized proof library.
 /showcase/compare                          A         94    93   93     93    94  93    100 100         98   94       Phase 3 rebuilt and verified: buyer self-selection page, source-tagged CTAs, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
 /showcase/proof                            A         94    93   93     93    94  94    100 100         98   94       Phase 3 rebuilt and verified: public proof wall, visible gaps, evidence commands, source-tagged CTAs, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
-/trust                                     A         93    93   92     91    91  94    93  95          93   94       Honest proof ledger is strong. Real customer/campaign evidence is the blocker to high-90 trust.
+/trust                                     A         94    93   93     92    92  94    100 100         98   94       Honest proof ledger is strong and directly Lighthouse-tested. Real customer/campaign evidence is the blocker to high-90 trust.
 /contact                                   A         91    92   90     88    91  89    91  94          91   92       Works. Could become more visual and less form-led.
 
 
@@ -62,7 +75,7 @@ TIER 1: IMPORTANT SUPPORTING SALES PAGES
 Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
 /work                                      A         95    94   94     95    95  94    96  100         97   95       Phase 2 rebuilt into a proof-first case-study hub with buyer route map, case filters, source-tagged booking paths, screenshots, no overflow, axe 0 violations, and Lighthouse 97/100/100/100.
 /founder                                   A         90    91   90     89    90  89    90  93          91   91       Credible but still needs stronger personal proof assets and stronger buyer trust framing.
-/industries                                A         92    91   91     90    91  88    93  93          91   92       Good routing page. Needs deeper vertical landing pages and more specific industry examples.
+/industries                                A         93    92   92     91    92  89    100 100         98   93       Good routing page with direct Lighthouse evidence. Needs deeper vertical landing pages and more specific industry examples.
 /process                                   A         92    91   90     91    90  90    91  93          91   92       Clear process. Could be more visual/animated and less explanatory.
 /how-it-works                              A         92    91   90     90    90  89    91  93          91   92       Clearer than before. Still not as visually decisive as the flagship demo pages.
 /showcase/med-spa-consultation-funnel      A         93    92   92     93    93  91    93  93          92   93       Bespoke and interactive. Needs richer treatment-selection, compliance, and consult-booking app states.
@@ -73,7 +86,7 @@ Route                                      Evidence  Offer Copy Design Story CTA
 TIER 2: LEGAL AND TRUST INFRASTRUCTURE
 
 Route                                      Evidence  Offer Copy Design Story CTA Proof SEO Mobile/A11y Perf Overall  Brutal posture
-/legal                                     B         86    88   88     84    86  88    88  86          86   88       Solid legal hub. Good structure. Needs audit evidence and maybe simpler buyer language.
+/legal                                     A         87    88   88     84    86  88    100 100         98   89       Solid legal hub with direct audit and Lighthouse evidence. Needs attorney review and maybe simpler buyer language.
 /legal/privacy                             B         82    86   82     76    78  86    87  84          84   85       Necessary and indexable. Not attorney-reviewed here. Needs direct audit and clearer rights summary.
 /legal/terms                               B         82    85   82     76    78  86    86  84          84   84       Necessary and indexable. Needs legal review and better buyer/plain-English summary.
 /legal/cookies                             B         82    85   82     76    78  85    86  84          84   84       Necessary. Needs direct audit and stronger tie to actual cookie consent behavior.

@@ -1,17 +1,14 @@
 SAGE IDEAS BUSINESS SITE SCORECARD
 Date: 2026-06-25
-Scope: Business/marketing pages, services, proof, showcase, and booking routes.
-Out of scope: Academy page polish, Discord/Admin systems, and unrelated product systems.
+Last evidence refresh: 2026-06-26T03:34:01Z
+Scope: Business/marketing pages, services, proof, showcase, legal hub, blog/topic/lab routing, and booking routes.
+Out of scope: Academy curriculum polish, authenticated portals/admin, live customer analytics, and attorney legal review.
 
 CURRENT POSTURE
 
-Earned business-site posture: 93-95 / 100
+Earned business-site posture: 94-96 / 100.
 
-This is evidence-backed for the business-site slice. It is not a claim that live
-customer outcomes have been proven, and it is not a claim that every secondary
-showcase is as deep as the Revenue OS flagship. It does mean the local business
-site routes passed lint, typecheck, build, Playwright, axe, link, metadata,
-overflow, and Lighthouse evidence gates listed below.
+This is an evidence-backed score for the audited business-site slice. It is not a claim that live customer ROI, live booked-call lift, or legal sufficiency has been proven. The current claim is narrower and stronger: the local production business surface now passes repo lint, typecheck, clean build, business route audit, link audit, metadata audit, accessibility audit, overflow checks, screenshots, focused E2E, and Lighthouse gates.
 
 EVIDENCE
 
@@ -26,208 +23,134 @@ docs/evidence/marketing/audits/2026-06-25/link-check.txt
 docs/evidence/marketing/audits/2026-06-25/axe-results.json
 docs/evidence/marketing/audits/2026-06-25/route-inventory.txt
 docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-services.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-book.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-proof.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-compare.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-revenue-os.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-work.json
-docs/evidence/marketing/audits/2026-06-25/lighthouse-work-nexural.json
-docs/evidence/marketing/audits/2026-06-25/work-phase-2-check.json
 
 Verification run:
 PASS npm run lint
 PASS npm run typecheck
-PASS npm run build
-PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts --config=playwright.e2e.config.ts --project=chromium
-PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/work-proof.spec.ts --config=playwright.e2e.config.ts --project=chromium
+PASS npm run build:clean
+PASS BASE_URL=http://127.0.0.1:3051 AUDIT_DATE=2026-06-25 node scripts/marketing/business-site-audit.mjs
+PASS BASE_URL=http://127.0.0.1:3051 AUDIT_DATE=2026-06-25 node scripts/marketing/lighthouse-business.mjs
 PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium
-PASS BASE_URL=http://127.0.0.1:3041 npm run audit:business-site
-PASS BASE_URL=http://127.0.0.1:3041 npm run lh:business-site
 
 Business audit summary:
-- Generated: 2026-06-26T00:21:35.175Z
-- Base URL: http://127.0.0.1:3041
-- Routes audited: 19
-- Internal link targets checked: 195
+- Generated: 2026-06-26T03:26:13.822Z
+- Base URL: http://127.0.0.1:3051
+- Routes audited: 29
+- Internal link targets checked: 229
 - Failed internal links: 0
 - Routes with axe violations: 0
 - Serious/critical axe violations: 0
 - Routes with horizontal overflow: 0
-- All 19 audited routes have title, description, and h1 present.
 
-Lighthouse desktop:
-- /?source=lighthouse_business: Performance 96, Accessibility 100, Best Practices 100, SEO 100, LCP 1391ms, CLS 0, TBT 0
-- /services: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1188ms, CLS 0, TBT 0
-- /book?source=lighthouse_business: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1199ms, CLS 0, TBT 0
-- /showcase/proof: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1146ms, CLS 0, TBT 0
-- /showcase/compare: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1108ms, CLS 0, TBT 0
-- /showcase/revenue-os: Performance 97, Accessibility 92, Best Practices 96, SEO 100, LCP 1212ms, CLS 0, TBT 0
-- /work: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1309ms, CLS 0, TBT 0
-- /work/nexural: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1306ms, CLS 0, TBT 0
+Lighthouse desktop summary:
+- Generated: 2026-06-26T03:34:01.178Z
+- Base URL: http://127.0.0.1:3051
+- Routes audited: 18
+- Minimum Performance: 96
+- Minimum Accessibility: 100
+- Minimum Best Practices: 100
+- Minimum SEO: 100
+- CLS: 0 on all 18 Lighthouse routes
+- TBT: 0 on all 18 Lighthouse routes
 
-GLOBAL LINT STATUS
+Routes with direct Lighthouse evidence:
+- /
+- /services
+- /pricing
+- /book?source=lighthouse_business
+- /trust
+- /work
+- /industries
+- /showcase/proof
+- /showcase/compare
+- /showcase/revenue-os
+- /showcase/contractor-quote-engine
+- /showcase/med-spa-consultation-funnel
+- /showcase/law-firm-intake-system
+- /showcase/ai-support-agent-dashboard
+- /legal
+- /blog
+- /topics
+- /lab
 
-PASS npm run lint
+WHAT WAS COMPLETED
 
-The repo-wide lint blockers called out earlier were fixed:
-- app/academy-admin/LessonEditor.tsx no longer reads the ref during render.
-- app/proto/Proto.tsx uses Next Link for internal navigation and removes JSX comment text.
-- scripts/create-samurai-layers.cjs now has an explicit CJS lint boundary.
-- scripts/i18n-verify.ts now uses a top-level child_process import.
-- Stale unused-disable and unused-variable warnings were cleaned in the touched Academy, navigation, Discord, and script files.
+1. Repo quality gates:
+- Repo-wide lint passes.
+- Typecheck passes.
+- Clean production build passes across 315 app routes.
+- Previous repo-wide lint blockers in Academy/proto/scripts are resolved.
 
-BUILD STATUS
+2. Secondary showcases:
+- Med spa, law firm, and AI support now have bespoke buyer-facing visual stories.
+- Each has a click-through prototype state loop.
+- Each has source-tagged booking CTAs.
+- Each is included in the route audit and Lighthouse set.
 
-PASS npm run build
+3. Services and industries:
+- Services and industry routes now route buyers toward demos, proof, and book paths.
+- Industry pages map vertical problems to relevant showcase routes.
+- Blog, topics, and lab now feed the business funnel instead of acting as isolated content islands.
 
-Build still logs existing Academy dynamic/static-generation warnings around cookie
-usage on Academy routes, but the build exits successfully. Those warnings are
-not business-site blockers, but they should be cleaned before claiming the
-Academy surface is fully polished.
+4. Legal and trust:
+- Legal hub is now directly audited and Lighthouse-tested.
+- Trust page separates verified local proof from unproven live business outcomes.
+- Legal pages are technically clean, but not attorney-reviewed.
 
-WHAT WAS IMPLEMENTED THIS PASS
-
-1. Repo-wide lint cleanup:
-- Fixed the listed Academy, proto, CJS script, and i18n script lint blockers.
-- Removed stale eslint-disable comments and unused variables surfaced by repo lint.
-- Verified global npm run lint now passes.
-
-2. Typecheck cleanup:
-- Updated the FSRS card mapping for the current ts-fsrs type shape.
-- Added the missing learning_steps field and typed grade mapping.
-- Verified npm run typecheck passes.
-
-3. Secondary showcase interactivity:
-- /showcase/med-spa-consultation-funnel now has a 4-step buyer decision demo.
-- /showcase/law-firm-intake-system now has a 4-step buyer decision demo.
-- /showcase/ai-support-agent-dashboard now has a 4-step buyer decision demo.
-- Each demo now shows a buyer-facing Before, System, Result, and Buyer action state.
-- Each demo has a direct CTA to /book?source=<showcase>_prototype_demo.
-- Each demo has proof-status chips that correspond to captured technical evidence, not fake outcome claims.
-
-4. Trust/proof ledger:
-- /trust now separates verified local proof from unclaimed live business outcomes.
-- The public trust page can now say the routes are tested, accessible, linked, and rendered locally.
-- The page does not claim real campaign results, client revenue, or booking conversion proof that we have not captured.
-
-5. E2E coverage:
-- Showcase E2E now checks secondary bespoke demos, step switching, proof status, buyer action copy, and booking source links.
-- Home/business E2E and showcase E2E pass together in Chromium.
-
-6. Work and case-study proof phase:
-- /work now leads with a proof-before-pitch buyer route map.
-- Work cards now show leak, system, result, proof link, and source-tagged build CTA.
-- /work/[slug] pages now include a buyer proof bridge with before/system/result framing.
-- /work/nexural was directly audited as the first dynamic case-study detail route.
-- Case-study accessibility semantics were cleaned: no nested main landmark, no nested complementary landmark, and no malformed visual definition-list structure.
-
-7. Showcase proof and compare phase:
-- /showcase/proof was rebuilt from an internal proof table into a public buyer-facing proof wall.
-- /showcase/proof now shows working demo count, proof cards, visible gaps, evidence commands, and source-tagged booking CTAs.
-- /showcase/compare was rebuilt from an admin-style comparison table into a buyer self-selection route.
-- /showcase/compare now routes buyers by problem: qualified leads, quote requests, intake, and support control.
-- The business audit now includes /showcase/proof and /showcase/compare directly.
-- Lighthouse now captures /showcase/proof and /showcase/compare directly.
+5. Evidence system:
+- Business audit covers 29 routes.
+- Lighthouse covers 18 routes.
+- Screenshots, metadata, link check, route inventory, axe results, and Lighthouse JSON are stored under the evidence folders above.
 
 SCORECARD
 
-Offer clarity: 94
-Business-owner language: 93
-Visual design: 93
+Offer clarity: 95
+Business-owner language: 94
+Visual design: 94
 Visual storytelling: 94
-CTA clarity: 94
-Funnel continuity: 94
+CTA clarity: 95
+Funnel continuity: 95
 Interactive proof quality: 95
-Trust and proof: 94
+Trust and proof: 91
 SEO technical foundation: 96
-SEO content architecture: 93
-Mobile readiness: 94
-Accessibility: 96
+SEO content architecture: 94
+Mobile readiness: 96
+Accessibility: 100 for audited routes
 Performance: 96
-Information architecture: 93
-Closing strength: 93
+Information architecture: 94
+Closing strength: 92
 
-PAGE-BY-PAGE POSTURE
+HONEST OVERALL READ
 
-/: 94
-Strong buyer-facing homepage with live-system routes, clear CTAs, and clean Lighthouse. Remaining risk: decide final first-visit gate behavior for paid/commercial traffic.
+Technical execution: 96 / 100
+Business front-end polish: 94 / 100
+Marketing clarity: 94 / 100
+Visual storytelling: 94 / 100
+Conversion readiness: 93 / 100
+Trust with local evidence: 91 / 100
 
-/services: 94
-Clear service-to-outcome mapping and strong Lighthouse. Remaining risk: one more simplification pass could make the offer grid even sharper.
-
-/pricing: 95
-Phase 1 rebuilt this into a simpler three-path decision page with source-tagged booking CTAs, demo-first routing, no desktop/mobile overflow, axe 0 violations, complete metadata, and Lighthouse 97/100/100/100. Remaining risk: real buyer analytics are still needed to prove conversion lift.
-
-/book: 95
-Low-friction booking route with source-aware paths and strong Lighthouse. Remaining risk: production booking provider availability still needs live monitoring.
-
-/contact: 92
-Cleaner buyer intake route with no current axe violations. Remaining risk: can be made more visual and less form-led.
-
-/trust: 94
-Better proof framing with an honest evidence ledger. Remaining risk: real customer/campaign proof is still missing.
-
-/work: 95
-Phase 2 rebuilt this into a proof-first case-study hub with buyer route map, filters, source-tagged CTAs, screenshots, no overflow, axe 0 violations, and Lighthouse 97/100/100/100. Remaining risk: every case-study detail route still needs individual proof enrichment before the full family can be called 95+.
-
-/work/nexural: 94
-Audited dynamic case-study route with buyer proof bridge, source-tagged booking path, screenshots, no overflow, axe 0 violations, and Lighthouse 97/100/100/100. Remaining risk: needs stronger external/customer outcome proof before scoring 95+.
-
-/founder: 91
-Better buyer value and credibility language. Remaining risk: stronger founder proof assets would improve closing confidence.
-
-/industries: 92
-Clearer market routing. Remaining risk: deeper vertical pages are still future SEO/conversion leverage.
-
-/process: 92
-Clear diagnose/prototype/build/prove flow. Remaining risk: could use more animated visual explanation.
-
-/how-it-works: 92
-Buyer path is clearer and accessibility issues are fixed. Remaining risk: still benefits from one more visual reduction pass.
-
-/showcase: 94
-Strong prototype warehouse posture. Remaining risk: filtering/proof levels can become more interactive.
-
-/showcase/proof: 94
-Phase 3 rebuilt this into a public buyer-facing proof wall with evidence-backed proof cards, visible gaps, source-tagged booking paths, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100. Remaining risk: real campaign outcomes are still required before trust can score in the high 90s.
-
-/showcase/compare: 94
-Phase 3 rebuilt this into a buyer self-selection page with system matching, outcome routing, source-tagged CTAs, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100. Remaining risk: live buyer analytics are needed to prove which system path converts best.
-
-/showcase/revenue-os: 95
-Flagship proof page with strong E2E and Lighthouse evidence. Remaining risk: real demo-to-book analytics are still needed.
-
-/showcase/contractor-quote-engine: 93
-Good vertical proof page and diagram foundation. Remaining risk: can receive another motion/polish pass.
-
-/showcase/med-spa-consultation-funnel: 93
-Now has a bespoke healthcare visual story and click-through buyer decision demo. Remaining risk: not yet a full flagship app with deep analytics states.
-
-/showcase/law-firm-intake-system: 93
-Now has a legal-specific intake/trust visual story and click-through buyer decision demo. Remaining risk: needs richer qualification and conflict-check states for flagship depth.
-
-/showcase/ai-support-agent-dashboard: 93
-Now has a support-specific triage/escalation visual story and click-through buyer decision demo. Remaining risk: needs richer support queue interactions and response-quality proof for flagship depth.
+The site is now strong enough to use as a serious business acquisition surface. It is not a real 99 yet because high-90 trust and closing strength require live proof: real prospects, demo analytics, booked-call conversion, before/after examples, and customer feedback.
 
 REMAINING GAPS
 
-1. Real customer/campaign proof is still missing.
-   The site now proves the routes, links, accessibility, metadata, screenshots, E2E, and Lighthouse posture. It does not yet prove real booked calls, real conversion lift, real client revenue, or live campaign ROI.
+1. Real customer/campaign proof:
+- Add anonymized outreach packets.
+- Add demo-to-book analytics.
+- Add before/after screenshots.
+- Add real buyer feedback and objections.
+- Add case studies with real outcomes.
 
-2. Secondary showcases are deeper, but not Revenue OS depth.
-   Med spa, law firm, and AI support now have 4-step buyer demos. To make them full flagships, each needs a richer native app surface with industry-specific queues, analytics, and more realistic state changes.
+2. Secondary flagship depth:
+- Med spa, law firm, and AI support are credible demos, but still lighter than Revenue OS.
+- To become flagship-grade, each needs richer native app surfaces, deeper state transitions, and industry-specific analytics/proof.
 
-3. Academy build warnings remain.
-   Repo build passes, but Academy cookie-related static-generation warnings still appear. They are not business-site blockers, but they should be cleaned before calling the whole public site polished.
+3. Legal review:
+- Legal UX passes technical audits.
+- The documents still need attorney review before making legal-completeness claims.
 
-4. Final commercial decision remains on the first-visit homepage gate.
-   Keep it, shorten it, bypass it for UTM/commercial traffic, or remove it. This is a conversion strategy decision, not a technical blocker.
+4. Commercial decision:
+- Decide whether the first-visit/homepage gate stays, shortens, or is bypassed for paid/commercial traffic.
 
 NEXT POSTURE
 
-1. Run one human buyer-read review across desktop and mobile.
-2. Decide first-visit gate behavior for commercial traffic.
-3. Either ship this business-site slice or build the next flagship-level showcase from the master pattern.
-4. Start collecting real campaign/customer evidence so trust and closing strength can honestly move beyond the low-to-mid 90s.
+Ship the business-site slice if you want to start using it for outreach now. The next high-ROI build loop is real proof capture: instrument demo clicks, connect booking analytics, publish anonymized outbound packets, and turn early conversations into outcome-backed case studies.

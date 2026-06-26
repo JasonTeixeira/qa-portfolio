@@ -26,6 +26,7 @@ const evidencePaths = {
   evalRecoveryPlan: path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
   discordCorpusReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-corpus-readiness-latest.json'),
   durableJobsReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'durable-jobs-readiness-latest.json'),
+  securityPrivacyReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'security-privacy-readiness-latest.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
@@ -165,6 +166,7 @@ async function main() {
     evalRecoveryPlan,
     discordCorpusReadiness,
     durableJobsReadiness,
+    securityPrivacyReadiness,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
@@ -369,6 +371,31 @@ async function main() {
   requireTruthy(
     (durableJobsReadiness.antiFakeRules ?? []).some((rule) => rule.includes('empty dead-letter table')),
     'Durable jobs readiness must block empty dead-letter table from counting as production health by itself.',
+  );
+  requireTruthy(securityPrivacyReadiness.ok === true, 'Security/privacy readiness evidence is not ok.');
+  requireTruthy(
+    securityPrivacyReadiness.mutationMode === 'local_file_evidence_only',
+    'Security/privacy readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    securityPrivacyReadiness.releaseMeaning?.includes('does not mutate Supabase, call Discord, create audit rows, moderate members'),
+    'Security/privacy readiness must avoid claiming live audit or moderation actions.',
+  );
+  requireTruthy(
+    securityPrivacyReadiness.proofSummary?.promptInjectionBlocked === true
+      && securityPrivacyReadiness.proofSummary?.privacyGuardBlocksPrivateData === true
+      && securityPrivacyReadiness.proofSummary?.reportAbuseWired === true
+      && securityPrivacyReadiness.proofSummary?.adminActionsGuarded === true
+      && securityPrivacyReadiness.proofSummary?.publicProofPrivacyGate === true,
+    'Security/privacy readiness must prove AI guard, privacy guard, abuse reporting, admin guard, and public proof privacy gate.',
+  );
+  requireTruthy(
+    (securityPrivacyReadiness.antiFakeRules ?? []).some((rule) => rule.includes('fresh live Discord permission audit')),
+    'Security/privacy readiness must block local evidence from counting as fresh live Discord permission audit.',
+  );
+  requireTruthy(
+    (securityPrivacyReadiness.antiFakeRules ?? []).some((rule) => rule.includes('moderator decision')),
+    'Security/privacy readiness must block abuse classification from counting as moderation decision.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -915,6 +942,16 @@ async function main() {
       antiFakeRules: durableJobsReadiness.antiFakeRules,
       nextOperatingProofRequired: durableJobsReadiness.nextOperatingProofRequired,
       releaseMeaning: durableJobsReadiness.releaseMeaning,
+    },
+    securityPrivacyReadiness: {
+      ok: securityPrivacyReadiness.ok,
+      mutationMode: securityPrivacyReadiness.mutationMode,
+      proofSummary: securityPrivacyReadiness.proofSummary,
+      checkCount: securityPrivacyReadiness.checks?.length ?? 0,
+      failures: securityPrivacyReadiness.failures ?? [],
+      antiFakeRules: securityPrivacyReadiness.antiFakeRules,
+      nextOperatingProofRequired: securityPrivacyReadiness.nextOperatingProofRequired,
+      releaseMeaning: securityPrivacyReadiness.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

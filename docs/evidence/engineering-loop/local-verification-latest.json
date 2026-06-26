@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:53:06.345Z",
+  "timestamp": "2026-06-26T08:00:11.588Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -43,6 +43,7 @@
     "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
     "discordCorpusReadiness": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
     "durableJobsReadiness": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+    "securityPrivacyReadiness": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
@@ -86,7 +87,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782460378363"
+    "runKey": "phase-20-final-1782460802960"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -311,6 +312,34 @@
       "Track job success rate and dead-letter count in the admin dashboard during each operating cycle."
     ],
     "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health."
+  },
+  "securityPrivacyReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "smokeProofOk": true,
+      "livePermissionAuditPassed": true,
+      "promptInjectionBlocked": true,
+      "privacyGuardBlocksPrivateData": true,
+      "reportAbuseWired": true,
+      "adminActionsGuarded": true,
+      "publicProofPrivacyGate": true
+    },
+    "checkCount": 9,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count this local readiness file as a fresh live Discord permission audit.",
+      "Do not treat automated abuse classification as a moderator decision or ban/mute action.",
+      "Do not publish public proof unless privacy score passes and permission status is explicit or anonymized.",
+      "Do not process RAG or premium questions that include prompt injection, secrets, credentials, or private member/client data."
+    ],
+    "nextOperatingProofRequired": [
+      "Run the live security/privacy smoke after role, channel permission, interaction, RAG, premium, or public-proof policy changes.",
+      "Review moderator decisions for reported abuse and false positives during each operating cycle.",
+      "Audit unapproved member visibility and premium/team-ops restrictions after Discord channel changes.",
+      "Exercise export/delete handling when a real member privacy request arrives."
+    ],
+    "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit."
   },
   "contentFactory": {
     "ok": true,

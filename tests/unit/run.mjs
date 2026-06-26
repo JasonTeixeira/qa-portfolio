@@ -1990,12 +1990,14 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'RAG operational health',
     'RAG knowledge approval desk',
     'AI content approval',
+    'Public growth readiness',
     'Public proof source permissions',
     'Public proof growth drafts',
     'Public proof growth event ledger',
     'Challenge review desk',
     'Durable job control',
     'Job dead letters',
+    'Premium workflow readiness',
     'Premium operations',
     'Premium proof ledger',
     'Final scorecard',
@@ -2057,6 +2059,18 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /proofEligibleDrafts/);
   assert.match(page, /Operating contract/);
   assert.match(page, /Proof slots/);
+  assert.match(page, /loadPremiumWorkflowReadiness/);
+  assert.match(page, /premium-workflow-readiness-latest\.json/);
+  assert.match(page, /data-testid="discord-premium-workflow-readiness"/);
+  assert.match(page, /Premium workflow readiness/);
+  assert.match(page, /premiumWorkflowReadiness\.nextOperatingProofRequired/);
+  assert.match(page, /premiumWorkflowReadiness\.antiFakeRules/);
+  assert.match(page, /loadPublicGrowthReadiness/);
+  assert.match(page, /public-growth-readiness-latest\.json/);
+  assert.match(page, /data-testid="discord-public-growth-readiness"/);
+  assert.match(page, /Public growth readiness/);
+  assert.match(page, /publicGrowthReadiness\.nextOperatingProofRequired/);
+  assert.match(page, /publicGrowthReadiness\.antiFakeRules/);
   assert.match(page, /loadProofIntakeReadiness/);
   assert.match(page, /discord-proof-intake-readiness-latest\.json/);
   assert.match(page, /ProofIntakeLaneRow/);

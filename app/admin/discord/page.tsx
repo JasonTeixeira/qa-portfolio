@@ -475,6 +475,57 @@ type ContentFactoryReadiness = {
   releaseMeaning: string;
 };
 
+type ReadinessCheck = {
+  name: string;
+  passed: boolean;
+  evidence: string;
+};
+
+type PremiumWorkflowReadiness = {
+  ok: boolean;
+  version: string;
+  generatedAt: string;
+  mutationMode: string;
+  sourceEvidence: Record<string, string>;
+  checks: ReadinessCheck[];
+  proofSummary: {
+    seededProofOk: boolean;
+    reviewStatus: string | null;
+    qualityScore: number | null;
+    lifecycleEvents: string[];
+    officeHoursPremiumMember: boolean;
+    ragAnswerPresent: boolean;
+    retrievalLogPresent: boolean;
+  };
+  antiFakeRules: string[];
+  nextOperatingProofRequired: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
+type PublicGrowthReadiness = {
+  ok: boolean;
+  version: string;
+  generatedAt: string;
+  mutationMode: string;
+  sourceEvidence: Record<string, string>;
+  checks: ReadinessCheck[];
+  proofSummary: {
+    seededProofOk: boolean;
+    privacyBlocksPrivateData: boolean;
+    sourceCreated: boolean;
+    draftCreated: boolean;
+    draftStatus: string | null;
+    privacyScore: number | null;
+    qualityScore: number | null;
+    utmCampaign: string | null;
+  };
+  antiFakeRules: string[];
+  nextOperatingProofRequired: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
 type ProofIntakeField = {
   key: string;
   label: string;
@@ -949,6 +1000,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const ragEvalRecoveryPlan = await loadRagEvalRecoveryPlan();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const gatewayOperatingPacket = await loadGatewayOperatingPacket();
+  const publicGrowthReadiness = await loadPublicGrowthReadiness();
+  const premiumWorkflowReadiness = await loadPremiumWorkflowReadiness();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -2730,6 +2783,38 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-public-growth-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Public growth readiness"
+            meta={`${publicGrowthReadiness.checks.filter((check) => check.passed).length}/${publicGrowthReadiness.checks.length} checks`}
+            empty="Public growth readiness evidence is missing. Run the readiness command before operating this lane."
+          >
+            <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="space-y-2">
+                <HealthLine label="Readiness" value={publicGrowthReadiness.ok ? 'local wiring proven' : 'blocked'} tone={publicGrowthReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Mutation mode" value={publicGrowthReadiness.mutationMode} tone="neutral" />
+                <HealthLine label="Draft status" value={publicGrowthReadiness.proofSummary.draftStatus ?? 'none'} tone={publicGrowthReadiness.proofSummary.draftStatus === 'pending_approval' ? 'amber' : 'neutral'} />
+                <HealthLine label="Quality / privacy" value={`${publicGrowthReadiness.proofSummary.qualityScore ?? 0}/${publicGrowthReadiness.proofSummary.privacyScore ?? 0}`} tone={publicGrowthReadiness.proofSummary.qualityScore && publicGrowthReadiness.proofSummary.privacyScore ? 'emerald' : 'amber'} />
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <ProofRuleGroup title="Next proof" items={publicGrowthReadiness.nextOperatingProofRequired} tone="cyan" />
+                <ProofRuleGroup title="Do not count" items={publicGrowthReadiness.antiFakeRules} tone="amber" />
+              </div>
+            </div>
+            <p className="mt-3 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#a1a1aa]">
+              {publicGrowthReadiness.releaseMeaning}
+            </p>
+            {publicGrowthReadiness.failures.length ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {publicGrowthReadiness.failures.map((failure) => (
+                  <Badge key={failure} tone="rose">{failure}</Badge>
+                ))}
+              </div>
+            ) : null}
+          </Panel>
+        </section>
+
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]" data-testid="discord-public-proof-growth-lane">
           <Panel
             icon={FileCheck2}
@@ -2871,6 +2956,39 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             {jobDeadLetters.map((deadLetter) => (
               <JobDeadLetterRow key={deadLetter.id} deadLetter={deadLetter} />
             ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-premium-workflow-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Premium workflow readiness"
+            meta={`${premiumWorkflowReadiness.checks.filter((check) => check.passed).length}/${premiumWorkflowReadiness.checks.length} checks`}
+            empty="Premium workflow readiness evidence is missing. Run the readiness command before operating this lane."
+          >
+            <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="space-y-2">
+                <HealthLine label="Readiness" value={premiumWorkflowReadiness.ok ? 'local wiring proven' : 'blocked'} tone={premiumWorkflowReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Mutation mode" value={premiumWorkflowReadiness.mutationMode} tone="neutral" />
+                <HealthLine label="Review status" value={premiumWorkflowReadiness.proofSummary.reviewStatus ?? 'none'} tone={premiumWorkflowReadiness.proofSummary.reviewStatus === 'answered' ? 'emerald' : 'amber'} />
+                <HealthLine label="Quality score" value={`${premiumWorkflowReadiness.proofSummary.qualityScore ?? 0}`} tone={(premiumWorkflowReadiness.proofSummary.qualityScore ?? 0) >= 90 ? 'emerald' : 'amber'} />
+                <HealthLine label="RAG proof" value={premiumWorkflowReadiness.proofSummary.ragAnswerPresent && premiumWorkflowReadiness.proofSummary.retrievalLogPresent ? 'answer + retrieval' : 'missing'} tone={premiumWorkflowReadiness.proofSummary.ragAnswerPresent && premiumWorkflowReadiness.proofSummary.retrievalLogPresent ? 'emerald' : 'rose'} />
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <ProofRuleGroup title="Next proof" items={premiumWorkflowReadiness.nextOperatingProofRequired} tone="cyan" />
+                <ProofRuleGroup title="Do not count" items={premiumWorkflowReadiness.antiFakeRules} tone="amber" />
+              </div>
+            </div>
+            <p className="mt-3 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#a1a1aa]">
+              {premiumWorkflowReadiness.releaseMeaning}
+            </p>
+            {premiumWorkflowReadiness.failures.length ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {premiumWorkflowReadiness.failures.map((failure) => (
+                  <Badge key={failure} tone="rose">{failure}</Badge>
+                ))}
+              </div>
+            ) : null}
           </Panel>
         </section>
 
@@ -3088,6 +3206,71 @@ async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence>
       },
       commandOrder: ['npm run discord:operator-brief'],
       nonClaimRule: 'Do not claim world-class, 95+, production-complete, or operating-proof complete until the operator brief is regenerated from current evidence.',
+    };
+  }
+}
+
+async function loadPremiumWorkflowReadiness(): Promise<PremiumWorkflowReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as PremiumWorkflowReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'premium-workflow-readiness-v1',
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      sourceEvidence: {},
+      checks: [],
+      proofSummary: {
+        seededProofOk: false,
+        reviewStatus: null,
+        qualityScore: null,
+        lifecycleEvents: [],
+        officeHoursPremiumMember: false,
+        ragAnswerPresent: false,
+        retrievalLogPresent: false,
+      },
+      antiFakeRules: ['Missing readiness evidence cannot count as premium workflow proof.'],
+      nextOperatingProofRequired: ['Run npm run discord:premium-workflow-readiness, then fulfill a real or explicitly seeded premium item.'],
+      failures: ['premium_workflow_readiness_missing'],
+      releaseMeaning: 'Premium workflow readiness evidence is missing. Run npm run discord:premium-workflow-readiness before claiming premium workflow proof.',
+    };
+  }
+}
+
+async function loadPublicGrowthReadiness(): Promise<PublicGrowthReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'public-growth-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as PublicGrowthReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'public-growth-readiness-v1',
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      sourceEvidence: {},
+      checks: [],
+      proofSummary: {
+        seededProofOk: false,
+        privacyBlocksPrivateData: false,
+        sourceCreated: false,
+        draftCreated: false,
+        draftStatus: null,
+        privacyScore: null,
+        qualityScore: null,
+        utmCampaign: null,
+      },
+      antiFakeRules: ['Missing readiness evidence cannot count as public growth proof.'],
+      nextOperatingProofRequired: ['Run npm run discord:public-growth-readiness, then complete real public proof cycles from approved Discord sources.'],
+      failures: ['public_growth_readiness_missing'],
+      releaseMeaning: 'Public growth readiness evidence is missing. Run npm run discord:public-growth-readiness before claiming public growth loop proof.',
     };
   }
 }

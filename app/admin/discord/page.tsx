@@ -442,6 +442,30 @@ type ProofRehearsalReadiness = {
   missingOrStale: Array<{ key: string; failedChecks: string[] }>;
 };
 
+type ContentFactoryReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  sourceEvidence: string;
+  dryRun: boolean;
+  planned: number;
+  created: number;
+  skipped: number;
+  failed: number;
+  draftCount: number;
+  minQualityScore: number | null;
+  channelCoverage: string[];
+  draftTypeCoverage: string[];
+  topicCoverageCount: number;
+  approvalGate: {
+    noPublicPublish: boolean;
+    adminApprovalRequired: boolean;
+    readOnly: boolean;
+  };
+  failures: string[];
+  releaseMeaning: string;
+};
+
 const cockpitTabs = [
   ['overview', 'Overview'],
   ['members', 'Members'],
@@ -487,6 +511,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const { profile } = await requireAdmin();
   const sb = supabaseAdmin();
   const proofRehearsalReadiness = await loadProofRehearsalReadiness();
+  const contentFactoryReadiness = await loadContentFactoryReadiness();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1104,6 +1129,62 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-content-factory-readiness">
+          <Panel
+            icon={CalendarDays}
+            title="Content factory readiness"
+            meta={contentFactoryReadiness.ok
+              ? `${contentFactoryReadiness.planned} planned / min quality ${contentFactoryReadiness.minQualityScore ?? 'n/a'}`
+              : `${contentFactoryReadiness.failures.length} readiness failures`}
+            empty="Content factory readiness has not been generated. Run npm run discord:content-factory-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {contentFactoryReadiness.releaseMeaning}
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-4">
+              <HealthLine
+                label="Dry run"
+                value={contentFactoryReadiness.dryRun ? 'yes' : 'no'}
+                tone={contentFactoryReadiness.dryRun ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Drafts"
+                value={`${contentFactoryReadiness.planned} planned / ${contentFactoryReadiness.created} created`}
+                tone={contentFactoryReadiness.created === 0 ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Quality"
+                value={contentFactoryReadiness.minQualityScore === null ? 'missing' : `${contentFactoryReadiness.minQualityScore}/100`}
+                tone={(contentFactoryReadiness.minQualityScore ?? 0) >= 90 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Approval gate"
+                value={contentFactoryReadiness.approvalGate.adminApprovalRequired ? 'required' : 'missing'}
+                tone={contentFactoryReadiness.approvalGate.adminApprovalRequired ? 'emerald' : 'rose'}
+              />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_auto]">
+              <div>
+                <div className="font-semibold text-[#fafafa]">Channels</div>
+                <div className="mt-1">{contentFactoryReadiness.channelCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Draft types</div>
+                <div className="mt-1">{contentFactoryReadiness.draftTypeCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div className="lg:text-right">
+                <div className="font-semibold text-[#fafafa]">Refresh</div>
+                <div className="mt-1">npm run discord:content-factory-readiness</div>
+              </div>
+            </div>
+            {contentFactoryReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-world-class-readiness-triage">
           <Panel
             icon={Trophy}
@@ -1591,6 +1672,40 @@ async function loadProofRehearsalReadiness(): Promise<ProofRehearsalReadiness> {
       releaseMeaning: 'Proof rehearsal readiness evidence is missing. Run npm run discord:proof-rehearsal-readiness.',
       lanes: [],
       missingOrStale: [{ key: 'proof_rehearsal_readiness_missing', failedChecks: ['evidence_present'] }],
+    };
+  }
+}
+
+async function loadContentFactoryReadiness(): Promise<ContentFactoryReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ContentFactoryReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      sourceEvidence: 'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
+      dryRun: false,
+      planned: 0,
+      created: 0,
+      skipped: 0,
+      failed: 0,
+      draftCount: 0,
+      minQualityScore: null,
+      channelCoverage: [],
+      draftTypeCoverage: [],
+      topicCoverageCount: 0,
+      approvalGate: {
+        noPublicPublish: false,
+        adminApprovalRequired: false,
+        readOnly: false,
+      },
+      failures: ['content_factory_readiness_missing'],
+      releaseMeaning: 'Content factory readiness evidence is missing. Run npm run discord:content-factory-readiness.',
     };
   }
 }

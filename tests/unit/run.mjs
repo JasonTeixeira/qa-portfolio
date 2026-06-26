@@ -1575,6 +1575,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'World-class proof backlog',
     'Proof lanes',
     'Proof rehearsal readiness',
+    'Content factory readiness',
     'World-class readiness triage',
     'Audit stream',
   ]) {
@@ -1600,6 +1601,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /ProofRehearsalLaneRow/);
   assert.match(page, /data-testid="discord-proof-rehearsal-readiness"/);
   assert.match(page, /Run npm run discord:proof-rehearsal-readiness/);
+  assert.match(page, /loadContentFactoryReadiness/);
+  assert.match(page, /content-factory-readiness-latest\.json/);
+  assert.match(page, /data-testid="discord-content-factory-readiness"/);
+  assert.match(page, /npm run discord:content-factory-readiness/);
+  assert.match(page, /phase-22-content-factory-dry-run\.json/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);

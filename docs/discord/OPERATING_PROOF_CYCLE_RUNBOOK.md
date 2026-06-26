@@ -9,7 +9,7 @@ This runbook turns the remaining real-world blockers into a weekly operating loo
 3. Approve only high-signal items into the content queue or final approved states.
 4. Run `npm run discord:operating-cycle`.
 5. Review the generated public proof draft and approve/publish only if it is accurate and privacy-safe.
-6. Run `npm run rag:evaluate`.
+6. After explicit approval, run `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`.
 7. Run `npm run discord:smoke-final-scorecard`.
 8. Review `docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json`.
 

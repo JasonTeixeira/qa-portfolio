@@ -77,7 +77,7 @@ export function operatingCycleGates(input: {
       evidence: input.finalScorecardAverage === null
         ? 'No final scorecard found'
         : `average ${input.finalScorecardAverage}, blocked below 95: ${input.finalScorecardBlockedBelow95.join(', ') || 'none'}`,
-      nextAction: 'Run npm run rag:evaluate and npm run discord:smoke-final-scorecard after operating proof cycle.',
+      nextAction: 'After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate and npm run discord:smoke-final-scorecard after the operating proof cycle.',
     },
     {
       name: 'world_class_score_threshold',

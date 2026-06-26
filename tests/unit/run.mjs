@@ -2445,6 +2445,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.ok(gates.some((gate) => gate.name === 'approved_knowledge_synced_to_rag' && !gate.passed && gate.evidence.includes('0/10')));
   assert.ok(gates.some((gate) => gate.name === 'growth_metrics_tracked' && gate.passed && gate.evidence.includes('8/1 applications')));
   assert.ok(gates.some((gate) => gate.name === 'final_scorecard_current' && gate.passed));
+  assert.match(gates.find((gate) => gate.name === 'final_scorecard_current')?.nextAction ?? '', /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
   assert.ok(gates.some((gate) => gate.name === 'world_class_score_threshold' && !gate.passed));
   const partialKnowledgeGates = operatingCycleGates({
     metrics: {
@@ -2547,6 +2548,8 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(operatingCycle, /discord_premium_review_requests', 'status', \['answered', 'completed'\]/);
   assert.match(runbook, /Four-Week Growth Proof/);
   assert.match(runbook, /Do not auto-publish externally/);
+  assert.match(runbook, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
+  assert.doesNotMatch(runbook, /Run `npm run rag:evaluate`/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
   assert.equal(pkg.scripts['discord:operating-cycle:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run');
   assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard');
@@ -3453,6 +3456,8 @@ test('discord proof controls: documents the non-fake path to 95+ operating proof
   assert.match(controls, /fulfilled proof\/event history are visible in `\/admin\/discord`/);
   assert.match(controls, /npm run discord:operating-cycle:dry-run/);
   assert.match(controls, /npm run discord:operating-cycle/);
+  assert.match(controls, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
+  assert.doesNotMatch(controls, /Run `npm run rag:evaluate`/);
   assert.match(controls, /npm run verify:local/);
   assert.match(controls, /worldClassEligible/);
   assert.match(controls, /Any proof backlog lane is blocked/);

@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-26T06:05:18.921Z",
-  "finishedAt": "2026-06-26T06:05:19.609Z",
+  "startedAt": "2026-06-26T07:11:05.191Z",
+  "finishedAt": "2026-06-26T07:11:07.470Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -83,7 +83,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "latestRunKey": "phase-20-final-1782453916807"
+    "latestRunKey": "phase-20-final-1782457605788"
   },
   "gates": [
     {
@@ -114,7 +114,7 @@
       "name": "final_scorecard_current",
       "passed": true,
       "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
-      "nextAction": "Run npm run rag:evaluate and npm run discord:smoke-final-scorecard after operating proof cycle."
+      "nextAction": "After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate and npm run discord:smoke-final-scorecard after the operating proof cycle."
     },
     {
       "name": "world_class_score_threshold",

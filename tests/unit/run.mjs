@@ -378,6 +378,7 @@ again`);
 test('discord authoritative rag sync: excludes raw and unapproved community data', async () => {
   const {
     DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
+    hasDiscordContentDraftProvenance,
     isApprovedDiscordAnswer,
     isApprovedDiscordContentDraft,
     isApprovedDiscordContentQueue,
@@ -398,10 +399,14 @@ test('discord authoritative rag sync: excludes raw and unapproved community data
   assert.equal(isApprovedDiscordAnswer({ helpful: false }), false);
   assert.equal(isApprovedDiscordContentQueue({ status: 'published' }), true);
   assert.equal(isApprovedDiscordContentQueue({ status: 'drafted' }), false);
-  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 80, metadata: { policy_passed: true } }), true);
-  assert.equal(isApprovedDiscordContentDraft({ status: 'published', quality_score: 95 }), true);
+  assert.equal(hasDiscordContentDraftProvenance({ content_queue_id: 'queue-1' }), true);
+  assert.equal(hasDiscordContentDraftProvenance({ metadata: { source_table: 'discord_questions' } }), true);
+  assert.equal(hasDiscordContentDraftProvenance({ metadata: { source_table: 'blog_posts' } }), false);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 80, content_queue_id: 'queue-1', metadata: { policy_passed: true } }), true);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'published', quality_score: 95, metadata: { source_table: 'discord_answers' } }), true);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 95, metadata: { policy_passed: true } }), false);
   assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 79 }), false);
-  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 95, metadata: { policy_passed: false } }), false);
+  assert.equal(isApprovedDiscordContentDraft({ status: 'approved', quality_score: 95, content_queue_id: 'queue-1', metadata: { policy_passed: false } }), false);
   assert.equal(isApprovedDiscordContentDraft({ status: 'rejected', quality_score: 100 }), false);
   assert.equal(sourceTypeForApprovedDiscordDraft('lesson'), 'lesson');
   assert.equal(sourceTypeForApprovedDiscordDraft('resource_drop'), 'resource');
@@ -463,6 +468,16 @@ test('discord authoritative rag admin UX: classifies corpus health and wires app
     body: 'Approved lesson body',
     status: 'approved',
     quality_score: 92,
+    content_queue_id: 'c1',
+    metadata: { policy_passed: true },
+    created_at: '2099-01-02T23:00:00.000Z',
+  }, sourceKeys, now);
+  const sourceLessDraft = buildDiscordCorpusDraftItem({
+    id: 'd0',
+    draft_type: 'lesson',
+    body: 'Approved but source-less lesson body',
+    status: 'approved',
+    quality_score: 92,
     metadata: { policy_passed: true },
     created_at: '2099-01-02T23:00:00.000Z',
   }, sourceKeys, now);
@@ -481,12 +496,14 @@ test('discord authoritative rag admin UX: classifies corpus health and wires app
   assert.equal(answer.state, 'synced');
   assert.equal(queue.state, 'stale');
   assert.equal(draft.state, 'eligible');
+  assert.equal(sourceLessDraft.state, 'blocked');
+  assert.match(String(sourceLessDraft.blocker), /approved Discord source/);
   assert.equal(blockedDraft.state, 'blocked');
-  const summary = summarizeDiscordCorpusHealth([question, answer, queue, draft, blockedDraft], 1);
+  const summary = summarizeDiscordCorpusHealth([question, answer, queue, draft, sourceLessDraft, blockedDraft], 1);
   assert.equal(summary.synced, 1);
   assert.equal(summary.eligible, 1);
   assert.equal(summary.stale, 1);
-  assert.equal(summary.blocked, 2);
+  assert.equal(summary.blocked, 3);
   assert.equal(summary.missing, 2);
 
   assert.match(page, /RAG knowledge approval desk/);

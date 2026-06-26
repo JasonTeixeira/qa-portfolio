@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-source-volume-scan-v1",
-  "generatedAt": "2026-06-26T03:36:17.888Z",
+  "generatedAt": "2026-06-26T03:43:35.978Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof.",
   "counts": {
@@ -18,7 +18,7 @@
     "discord_answers.all": 0,
     "discord_answers.helpful=true": 0,
     "discord_content_drafts.all": 34,
-    "discord_content_drafts.status.in": 0,
+    "discord_content_drafts.approved_with_discord_provenance": 0,
     "rag_sources.or": 0,
     "discord_public_proof_sources.all": 0,
     "discord_public_growth_drafts.status=pending_approval": 0,
@@ -65,6 +65,6 @@
     "Create public proof drafts only after approved Discord source material exists.",
     "Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness."
   ],
-  "startedAt": "2026-06-26T03:36:16.921Z",
-  "finishedAt": "2026-06-26T03:36:17.888Z"
+  "startedAt": "2026-06-26T03:43:34.935Z",
+  "finishedAt": "2026-06-26T03:43:35.978Z"
 }

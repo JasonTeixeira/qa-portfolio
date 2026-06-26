@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { createClient } from '@supabase/supabase-js';
+import { isApprovedDiscordContentDraft } from '../../lib/rag/discord-authoritative-sources';
 
 type SupabaseClient = ReturnType<typeof createClient<any>>;
 
@@ -45,6 +46,22 @@ async function countIn(sb: SupabaseClient, table: string, column: string, values
 
 async function countOr(sb: SupabaseClient, table: string, expression: string) {
   return safeCount(`${table}.or`, () => sb.from(table).select('*', { count: 'exact', head: true }).or(expression));
+}
+
+async function countApprovedDiscordDrafts(sb: SupabaseClient) {
+  const label = 'discord_content_drafts.approved_with_discord_provenance';
+  try {
+    const { data, error } = await sb
+      .from('discord_content_drafts')
+      .select('status, quality_score, content_queue_id, metadata')
+      .in('status', ['approved', 'published'])
+      .gte('quality_score', 80)
+      .limit(1000);
+    if (error) return { label, count: 0, error: error instanceof Error ? error.message : String(error) };
+    return { label, count: (data ?? []).filter(isApprovedDiscordContentDraft).length, error: null };
+  } catch (error) {
+    return { label, count: 0, error: error instanceof Error ? error.message : String(error) };
+  }
 }
 
 async function countNonEmptyMessages(sb: SupabaseClient) {
@@ -131,7 +148,7 @@ async function main() {
     countAll(sb, 'discord_answers'),
     countRows(sb, 'discord_answers', 'helpful', true),
     countAll(sb, 'discord_content_drafts'),
-    countIn(sb, 'discord_content_drafts', 'status', ['approved', 'published']),
+    countApprovedDiscordDrafts(sb),
     countOr(sb, 'rag_sources', 'source_type.in.(discord_question,discord_answer,discord_content_queue),source_table.eq.discord_content_drafts'),
     countAll(sb, 'discord_public_proof_sources'),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'pending_approval'),

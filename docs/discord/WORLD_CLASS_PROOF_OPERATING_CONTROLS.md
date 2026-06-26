@@ -56,7 +56,7 @@ Counts from:
 - `discord_questions.status in ('answered', 'closed')`
 - `discord_answers.helpful = true`
 - `discord_content_queue.status = 'published'`
-- `discord_content_drafts.status in ('approved', 'published')`
+- `discord_content_drafts.status in ('approved', 'published')` only when quality is at least 80 and the draft has Discord-source provenance such as `content_queue_id` or `metadata.source_table`
 
 Admin action:
 - Review captured questions, answers, resources, wins, project submissions, and review requests in `/admin/discord`.
@@ -81,7 +81,7 @@ Target:
 
 Counts from:
 - `rag_sources` where `source_type in ('discord_question', 'discord_answer', 'discord_content_queue')`
-- `rag_sources` where `source_table = 'discord_content_drafts'`
+- `rag_sources` where `source_table = 'discord_content_drafts'` only when the source draft has approved Discord provenance
 
 Admin action:
 - After weekly approval, run the approved Discord RAG sync.

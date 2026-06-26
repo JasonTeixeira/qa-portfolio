@@ -36,6 +36,7 @@ import {
   summarizeDiscordCorpusHealth,
   type DiscordCorpusItem,
 } from '@/lib/rag/discord-corpus-health';
+import { isApprovedDiscordContentDraft } from '@/lib/rag/discord-authoritative-sources';
 import {
   buildRagEvalDrilldownRow,
   summarizeRagCorpusHealth,
@@ -812,14 +813,14 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .limit(20),
     sb
       .from('discord_content_drafts')
-      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
+      .select('id, content_queue_id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
       .in('status', ['draft', 'pending_approval', 'approved'])
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(12),
     sb
       .from('discord_content_drafts')
-      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
+      .select('id, content_queue_id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
       .in('status', ['draft', 'pending_approval', 'approved', 'published', 'rejected'])
       .order('created_at', { ascending: false })
       .limit(30),
@@ -984,8 +985,10 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .eq('status', 'published'),
     sb
       .from('discord_content_drafts')
-      .select('id', { count: 'exact', head: true })
-      .in('status', ['approved', 'published']),
+      .select('status, quality_score, content_queue_id, metadata')
+      .in('status', ['approved', 'published'])
+      .gte('quality_score', 80)
+      .limit(1000),
     sb
       .from('rag_sources')
       .select('id', { count: 'exact', head: true })
@@ -1062,7 +1065,12 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const approvedDiscordKnowledgeSources = (questionsApprovedCountRes.count ?? 0)
     + (answersHelpfulCountRes.count ?? 0)
     + (contentQueuePublishedCountRes.count ?? 0)
-    + (draftsApprovedCountRes.count ?? 0);
+    + ((draftsApprovedCountRes.data ?? []) as Array<{
+      status?: string | null;
+      quality_score?: number | null;
+      content_queue_id?: string | null;
+      metadata?: Record<string, unknown> | null;
+    }>).filter(isApprovedDiscordContentDraft).length;
   const proofBacklog = buildDiscordProofBacklogReport({
     generatedAt: new Date().toISOString(),
     metrics: {

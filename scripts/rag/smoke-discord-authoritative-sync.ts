@@ -56,13 +56,14 @@ async function main() {
       title: `Approved authoritative RAG lesson ${runId}`,
       body: `# Approved authoritative RAG lesson ${runId}\n\nThis approved lesson explains why only reviewed Discord knowledge should become retrievable source material.`,
       citations: [],
+      content_queue_id: approvedQueue.id,
       model: 'smoke',
       prompt_version: DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
       quality_score: 92,
       status: 'approved',
       reviewer_email: 'phase5-smoke@sageideas.dev',
       reviewed_at: new Date().toISOString(),
-      metadata: { smoke_run_id: runId, policy_passed: true },
+      metadata: { smoke_run_id: runId, policy_passed: true, source_table: 'discord_content_queue', source_record_id: approvedQueue.id },
     }).select('id').single();
     if (approvedDraftError) throw approvedDraftError;
     insertedDraftIds.push(approvedDraft.id);
@@ -73,13 +74,14 @@ async function main() {
       title: `Blocked rejected RAG lesson ${runId}`,
       body: `# Blocked rejected RAG lesson ${runId}\n\nThis rejected lesson must not enter authoritative RAG even with a high quality score.`,
       citations: [],
+      content_queue_id: blockedQueue.id,
       model: 'smoke',
       prompt_version: DISCORD_AUTHORITATIVE_RAG_SYNC_VERSION,
       quality_score: 95,
       status: 'rejected',
       reviewer_email: 'phase5-smoke@sageideas.dev',
       reviewed_at: new Date().toISOString(),
-      metadata: { smoke_run_id: runId, policy_passed: true },
+      metadata: { smoke_run_id: runId, policy_passed: true, source_table: 'discord_content_queue', source_record_id: blockedQueue.id },
     }).select('id').single();
     if (blockedDraftError) throw blockedDraftError;
     insertedDraftIds.push(blockedDraft.id);

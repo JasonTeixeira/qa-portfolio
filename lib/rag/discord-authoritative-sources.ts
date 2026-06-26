@@ -51,10 +51,27 @@ export function isApprovedDiscordContentQueue(row: { status?: string | null }): 
   return String(row.status ?? '').toLowerCase() === 'published';
 }
 
-export function isApprovedDiscordContentDraft(row: { status?: string | null; quality_score?: number | null; metadata?: Record<string, unknown> | null }): boolean {
+export function hasDiscordContentDraftProvenance(row: {
+  content_queue_id?: string | null;
+  metadata?: Record<string, unknown> | null;
+}): boolean {
+  const metadata = row.metadata ?? {};
+  const sourceTable = String(metadata.source_table ?? metadata.sourceTable ?? '').toLowerCase();
+  return Boolean(row.content_queue_id)
+    || Boolean(metadata.content_queue_id)
+    || ['discord_questions', 'discord_answers', 'discord_content_queue'].includes(sourceTable);
+}
+
+export function isApprovedDiscordContentDraft(row: {
+  status?: string | null;
+  quality_score?: number | null;
+  content_queue_id?: string | null;
+  metadata?: Record<string, unknown> | null;
+}): boolean {
   return ['approved', 'published'].includes(String(row.status ?? '').toLowerCase())
     && Number(row.quality_score ?? 0) >= 80
-    && row.metadata?.policy_passed !== false;
+    && row.metadata?.policy_passed !== false
+    && hasDiscordContentDraftProvenance(row);
 }
 
 export function sourceTypeForApprovedDiscordDraft(draftType?: string | null): RagSourceType {

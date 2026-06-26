@@ -3,6 +3,7 @@ import {
   isApprovedDiscordContentDraft,
   isApprovedDiscordContentQueue,
   isApprovedDiscordQuestion,
+  hasDiscordContentDraftProvenance,
   sourceTypeForApprovedDiscordDraft,
 } from './discord-authoritative-sources';
 
@@ -125,6 +126,7 @@ export function buildDiscordCorpusDraftItem(row: {
   body: string;
   status?: string | null;
   quality_score?: number | null;
+  content_queue_id?: string | null;
   metadata?: Record<string, unknown> | null;
   created_at: string;
 }, sourceKeys: SourceKeySet, now = new Date()): DiscordCorpusItem {
@@ -183,11 +185,19 @@ function finalizeCorpusItem(item: Omit<DiscordCorpusItem, 'state'>, now: Date): 
   return { ...item, state };
 }
 
-function draftBlocker(row: { status?: string | null; quality_score?: number | null; metadata?: Record<string, unknown> | null }) {
+function draftBlocker(row: {
+  status?: string | null;
+  quality_score?: number | null;
+  content_queue_id?: string | null;
+  metadata?: Record<string, unknown> | null;
+}) {
   if (!['approved', 'published'].includes(String(row.status ?? '').toLowerCase())) {
     return 'Draft must be approved or published before it becomes authoritative RAG.';
   }
   if (Number(row.quality_score ?? 0) < 80) return 'Draft quality score must be at least 80.';
   if (row.metadata?.policy_passed === false) return 'Draft failed the SageBot policy gate.';
+  if (!hasDiscordContentDraftProvenance(row)) {
+    return 'Draft must reference an approved Discord source such as content_queue_id or source_table metadata before it becomes authoritative RAG.';
+  }
   return 'Draft is not eligible for authoritative RAG.';
 }

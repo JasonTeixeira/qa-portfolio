@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createPublicGrowthDraft, createPublicProofSource, type PublicProofDraftType } from './public-proof';
 import { runApprovedDiscordRagSourceSync } from '@/lib/rag/discord-source-sync';
+import { isApprovedDiscordContentDraft } from '@/lib/rag/discord-authoritative-sources';
 import {
   buildOperatingCycleKey,
   operatingCycleGates,
@@ -128,7 +129,7 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     questionsApproved,
     answersApproved,
     contentQueuePublished,
-    draftsApproved,
+    draftsApprovedRows,
     ragDiscordSources,
     pendingKnowledgeCandidates,
     pendingPublicDrafts,
@@ -145,12 +146,13 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     countIn(sb, 'discord_questions', 'status', ['answered', 'closed']),
     countRows(sb, 'discord_answers', 'helpful', true),
     countRows(sb, 'discord_content_queue', 'status', 'published'),
-    countIn(sb, 'discord_content_drafts', 'status', ['approved', 'published']),
+    selectApprovedDiscordDraftCandidateRows(sb),
     countOr(sb, 'rag_sources', 'source_type.in.(discord_question,discord_answer,discord_content_queue),source_table.eq.discord_content_drafts'),
     countIn(sb, 'discord_content_queue', 'status', ['captured', 'candidate', 'pending_review']),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'pending_approval'),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'published'),
   ]);
+  const draftsApproved = draftsApprovedRows.filter(isApprovedDiscordContentDraft).length;
   return {
     approvedDiscordKnowledgeSources: questionsApproved + answersApproved + contentQueuePublished + draftsApproved,
     ragDiscordSources,
@@ -399,6 +401,22 @@ async function countIn(sb: SupabaseAny, table: string, column: string, values: u
   const { count, error } = await sb.from(table).select('*', { count: 'exact', head: true }).in(column, values);
   if (error) throw error;
   return count ?? 0;
+}
+
+async function selectApprovedDiscordDraftCandidateRows(sb: SupabaseAny): Promise<Array<{
+  status?: string | null;
+  quality_score?: number | null;
+  content_queue_id?: string | null;
+  metadata?: Record<string, unknown> | null;
+}>> {
+  const { data, error } = await sb
+    .from('discord_content_drafts')
+    .select('status, quality_score, content_queue_id, metadata')
+    .in('status', ['approved', 'published'])
+    .gte('quality_score', 80)
+    .limit(1000);
+  if (error) throw error;
+  return data ?? [];
 }
 
 async function countGte(sb: SupabaseAny, table: string, column: string, value: string): Promise<number> {

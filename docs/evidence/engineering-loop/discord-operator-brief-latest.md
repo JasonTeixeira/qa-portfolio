@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T11:27:46.462Z
+Generated: 2026-06-26T11:37:58.156Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -103,7 +103,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Packet remaining: 1
 - Packet state: message_content_ready_needs_fresh_member_message
 - Message content: true via identify_event
-- Heartbeat: fresh (sagebot-main, age 1 minutes)
+- Heartbeat: fresh (sagebot-main, age 0 minutes)
 - Root causes:
   - Non-bot messages exist, but message content is empty.
 - Next actions:
@@ -113,7 +113,7 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ## Release Gates
 
-- Passed: 14/16
+- Passed: 15/17
 - Failures:
   - rag_eval_latest
   - rag_eval_coverage_readiness

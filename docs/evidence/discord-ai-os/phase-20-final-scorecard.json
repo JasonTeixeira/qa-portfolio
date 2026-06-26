@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782473261743",
+  "runKey": "phase-20-final-1782473873192",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -609,6 +609,11 @@
         "status": "true"
       },
       {
+        "path": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
         "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
         "ok": true,
         "status": "true"
@@ -628,8 +633,14 @@
   "readinessValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "9/9 readiness validators passed",
+    "evidence": "10/10 readiness validators passed",
     "artifacts": [
+      {
+        "path": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-channel-matrix-readiness-validator-v1"
+      },
       {
         "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
         "ok": true,
@@ -758,12 +769,12 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "25/25 required evidence files pass"
+      "evidence": "26/26 required evidence files pass"
     },
     {
       "name": "readiness_validations",
       "passed": true,
-      "evidence": "9/9 readiness validators passed"
+      "evidence": "10/10 readiness validators passed"
     },
     {
       "name": "operating_rhythm",
@@ -789,6 +800,11 @@
       "name": "proof_rehearsal_readiness",
       "passed": true,
       "evidence": "5/5 rehearsal lanes ready, mutation=local_file_evidence_only"
+    },
+    {
+      "name": "channel_matrix_readiness",
+      "passed": true,
+      "evidence": "20 channels / 16 approved-member / 16 targetable / mutation=local_file_evidence_only"
     },
     {
       "name": "content_factory_readiness",
@@ -885,6 +901,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T11:27:41.743Z",
-  "finishedAt": "2026-06-26T11:27:43.317Z"
+  "startedAt": "2026-06-26T11:37:53.192Z",
+  "finishedAt": "2026-06-26T11:37:54.749Z"
 }

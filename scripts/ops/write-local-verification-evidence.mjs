@@ -29,6 +29,7 @@ const evidencePaths = {
   securityPrivacyReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'security-privacy-readiness-latest.json'),
   observabilityQualityReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'observability-quality-readiness-latest.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
+  channelMatrixReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-channel-matrix-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
   publicGrowthReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'public-growth-readiness-latest.json'),
@@ -172,6 +173,7 @@ async function main() {
     securityPrivacyReadiness,
     observabilityQualityReadiness,
     proofRehearsalReadiness,
+    channelMatrixReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
     publicGrowthReadiness,
@@ -478,6 +480,27 @@ async function main() {
   requireTruthy(
     proofRehearsalReadiness.releaseMeaning?.includes('live gateway capture'),
     'Proof rehearsal readiness must explicitly state live gateway capture remains required for operating proof.',
+  );
+  requireTruthy(channelMatrixReadiness.ok === true, 'Discord channel matrix readiness evidence is not ok.');
+  requireTruthy(
+    channelMatrixReadiness.validation?.ok === true,
+    'Discord channel matrix readiness validation is not ok.',
+  );
+  requireTruthy(
+    channelMatrixReadiness.mutationMode === 'local_file_evidence_only',
+    'Discord channel matrix readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    channelMatrixReadiness.releaseMeaning?.includes('does not create, delete, rename, reorder, or mutate live Discord channels'),
+    'Discord channel matrix readiness must explicitly avoid claiming live Discord mutation.',
+  );
+  requireTruthy(
+    channelMatrixReadiness.preApprovalChannels?.length === 1 && channelMatrixReadiness.preApprovalChannels[0] === 'start-here',
+    'Discord channel matrix readiness must keep pre-approval limited to start-here.',
+  );
+  requireTruthy(
+    channelMatrixReadiness.contentFactoryTargeting?.ok === true,
+    'Discord channel matrix readiness must prove content factory channel targeting is safe.',
   );
   requireTruthy(contentFactoryReadiness.ok === true, 'Content factory readiness evidence is not ok.');
   requireTruthy(
@@ -1191,6 +1214,19 @@ async function main() {
       approvalChecklistCount: contentFactoryReadiness.approvalChecklist?.length ?? 0,
       proofPromotionRequirements: contentFactoryReadiness.proofPromotionRequirements,
       releaseMeaning: contentFactoryReadiness.releaseMeaning,
+    },
+    channelMatrixReadiness: {
+      ok: channelMatrixReadiness.ok,
+      mutationMode: channelMatrixReadiness.mutationMode,
+      channelCount: channelMatrixReadiness.channelCount,
+      approvedMemberChannelCount: channelMatrixReadiness.approvedMemberChannelCount,
+      preApprovalChannels: channelMatrixReadiness.preApprovalChannels,
+      premiumChannels: channelMatrixReadiness.premiumChannels,
+      staffPrivateChannels: channelMatrixReadiness.staffPrivateChannels,
+      targetableChannelCount: channelMatrixReadiness.contentFactoryTargeting?.targetableChannelCount ?? 0,
+      blockedVisibilityPolicy: channelMatrixReadiness.contentFactoryTargeting?.blockedVisibilityPolicy ?? [],
+      proofLaneCoverage: channelMatrixReadiness.proofLaneCoverage,
+      releaseMeaning: channelMatrixReadiness.releaseMeaning,
     },
     premiumWorkflowReadiness: {
       ok: premiumWorkflowReadiness.ok,

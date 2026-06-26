@@ -106,6 +106,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:approved-knowledge-packet'], 'tsx scripts/discord/write-approved-knowledge-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['discord:gateway-operating-packet'], 'tsx scripts/discord/write-gateway-operating-packet.ts');
+  assert.equal(packageJson.scripts['discord:channel-matrix-readiness'], 'tsx scripts/discord/write-channel-matrix-readiness.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
   assert.equal(packageJson.scripts['discord:observability-quality-readiness'], 'node scripts/discord/write-observability-quality-readiness.mjs');
@@ -140,6 +141,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assertReleaseBefore('discord:durable-jobs-readiness', 'discord:smoke-final-scorecard:dry-run');
   assertReleaseBefore('discord:security-privacy-readiness', 'discord:smoke-final-scorecard:dry-run');
   assertReleaseBefore('discord:observability-quality-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:channel-matrix-readiness', 'discord:content-factory-readiness');
   assertReleaseBefore('discord:content-factory-readiness', 'discord:smoke-final-scorecard:dry-run');
   assertReleaseBefore('discord:premium-readiness', 'discord:smoke-final-scorecard:dry-run');
   assertReleaseBefore('discord:public-growth-readiness', 'discord:smoke-final-scorecard:dry-run');
@@ -162,6 +164,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['verify:business-site:evidence'].includes('next'), false);
   assert.match(localVerificationEvidence, /local-verification-latest\.json/);
   assert.match(localVerificationEvidence, /approval-boundary-check-latest\.json/);
+  assert.match(localVerificationEvidence, /discord-channel-matrix-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /Approval-boundary check must identify db:push as requiring explicit approval/);
   assert.match(localVerificationEvidence, /Approval-boundary check must verify full-cycle RAG eval requires external explicit approval/);
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
@@ -2649,6 +2652,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-execution-packet.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-missing-preflight.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json'));
@@ -2662,6 +2666,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /actionPlanValidation/);
   assert.match(smoke, /dryRun/);
   assert.match(smoke, /proof_rehearsal_readiness/);
+  assert.match(smoke, /channel_matrix_readiness/);
   assert.match(smoke, /content_factory_readiness/);
   assert.match(smoke, /proof_source_volume_scan/);
   assert.match(smoke, /proof_source_recovery_plan/);
@@ -2695,6 +2700,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /proof_source_recovery_plan_missing_global_dry_run_rule/);
   assert.match(smoke, /READINESS_VALIDATION_EVIDENCE/);
   assert.match(smoke, /validateReadinessValidationArtifacts/);
+  assert.match(smoke, /validateChannelMatrixReadiness/);
   assert.match(smoke, /readiness_validations/);
   assert.match(smoke, /readiness_validation_not_ok/);
   assert.match(smoke, /!dryRun/);
@@ -4445,6 +4451,64 @@ test('discord content factory readiness: validates dry-run quality and approval 
   });
   assert.equal(missingChannel.ok, false);
   assert.ok(missingChannel.failures.includes('missing_required_operating_channels'));
+});
+
+test('discord channel matrix readiness: proves lean channel governance and safe factory targets', async () => {
+  const {
+    buildDiscordChannelMatrixReadinessReport,
+    validateDiscordChannelMatrixReadinessReport,
+  } = await import('../../lib/discord/channel-matrix-readiness.ts');
+  const { leanDiscordChannels } = await import('../../lib/discord/sage-content.ts');
+  const script = await readFile(new URL('../../scripts/discord/write-channel-matrix-readiness.ts', import.meta.url), 'utf8');
+
+  const report = buildDiscordChannelMatrixReadinessReport({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+  });
+  const validation = validateDiscordChannelMatrixReadinessReport(report);
+
+  assert.equal(report.ok, true);
+  assert.equal(validation.ok, true);
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.channelCount, 20);
+  assert.equal(report.approvedMemberChannelCount, 16);
+  assert.deepEqual(report.preApprovalChannels, ['start-here']);
+  assert.deepEqual(report.premiumChannels, ['premium', 'premium-reviews']);
+  assert.deepEqual(report.staffPrivateChannels, ['team-ops']);
+  assert.equal(report.contentFactoryTargeting.ok, true);
+  assert.equal(report.contentFactoryTargeting.knownChannelCount, 20);
+  assert.equal(report.contentFactoryTargeting.targetableChannelCount, 16);
+  assert.equal(report.contentFactoryTargeting.plannedSlotCount, 36);
+  assert.deepEqual(report.contentFactoryTargeting.blockedChannels, []);
+  assert.ok(report.contentFactoryTargeting.blockedVisibilityPolicy.some((item) => item.visibility === 'pre_approval'));
+  assert.ok(report.contentFactoryTargeting.blockedVisibilityPolicy.some((item) => item.visibility === 'premium_members'));
+  assert.ok(report.contentFactoryTargeting.blockedVisibilityPolicy.some((item) => item.visibility === 'staff_private'));
+  assert.ok(report.proofLaneCoverage.includes('approved_discord_knowledge'));
+  assert.ok(report.proofLaneCoverage.includes('premium_workflow_proof'));
+  assert.ok(report.proofLaneCoverage.includes('operating_admin'));
+  assert.equal(report.pinnedAssetCoverage.channelsWithPinnedAssets, 20);
+  assert.equal(report.botJobCoverage.channelsWithBotJobs, 20);
+  assert.equal(report.antiSprawlCoverage.channelsWithRules, 20);
+  assert.match(report.releaseMeaning, /does not create, delete, rename, reorder, or mutate live Discord channels/);
+  assert.match(script, /discord-channel-matrix-readiness-latest\.json/);
+  assert.match(script, /discord-channel-matrix-readiness-validator-v1/);
+
+  const unsafe = buildDiscordChannelMatrixReadinessReport({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    channels: [
+      ...leanDiscordChannels,
+      { ...leanDiscordChannels[0], name: 'extra-start', visibility: 'pre_approval' },
+    ],
+  });
+  assert.equal(unsafe.ok, false);
+  assert.ok(unsafe.failures.includes('pre_approval_not_limited_to_start_here'));
+  assert.ok(validateDiscordChannelMatrixReadinessReport({
+    ...report,
+    contentFactoryTargeting: {
+      ...report.contentFactoryTargeting,
+      ok: false,
+      blockedChannels: [{ channel: 'premium', reason: 'premium_requires_separate_workflow' }],
+    },
+  }).failures.includes('content_factory_targeting_not_ok'));
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

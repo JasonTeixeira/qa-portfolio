@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-26T11:27:28.796Z",
+  "timestamp": "2026-06-26T11:37:39.519Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -11,6 +11,7 @@
   "localReleaseScriptNames": [
     "build",
     "discord:approved-knowledge-packet",
+    "discord:channel-matrix-readiness",
     "discord:content-factory-readiness",
     "discord:content-factory:week:dry-run",
     "discord:durable-jobs-readiness",
@@ -124,6 +125,10 @@
     {
       "from": "discord:release-local",
       "to": "discord:content-factory:week:dry-run"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:channel-matrix-readiness"
     },
     {
       "from": "discord:release-local",

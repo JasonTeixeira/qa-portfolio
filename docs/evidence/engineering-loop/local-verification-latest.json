@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T11:27:46.739Z",
+  "timestamp": "2026-06-26T11:37:58.433Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -105,6 +105,7 @@
     "securityPrivacyReadiness": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
     "observabilityQualityReadiness": "docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+    "channelMatrixReadiness": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
     "publicGrowthReadiness": "docs/evidence/engineering-loop/public-growth-readiness-latest.json",
@@ -149,7 +150,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782473261743"
+    "runKey": "phase-20-final-1782473873192"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -644,6 +645,46 @@
     },
     "releaseMeaning": "Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence."
   },
+  "channelMatrixReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "channelCount": 20,
+    "approvedMemberChannelCount": 16,
+    "preApprovalChannels": [
+      "start-here"
+    ],
+    "premiumChannels": [
+      "premium",
+      "premium-reviews"
+    ],
+    "staffPrivateChannels": [
+      "team-ops"
+    ],
+    "targetableChannelCount": 16,
+    "blockedVisibilityPolicy": [
+      {
+        "visibility": "pre_approval",
+        "reason": "Content factory must not post into the application gate."
+      },
+      {
+        "visibility": "premium_members",
+        "reason": "Premium content uses premium workflows, not free daily/weekly factory slots."
+      },
+      {
+        "visibility": "staff_private",
+        "reason": "Staff operations are private and not public engagement targets."
+      }
+    ],
+    "proofLaneCoverage": [
+      "approved_discord_knowledge",
+      "onboarding",
+      "operating_admin",
+      "premium_workflow_proof",
+      "public_proof_assets",
+      "rag_discord_sources"
+    ],
+    "releaseMeaning": "Channel matrix readiness proves the local operating design and content-factory targeting rules only. It does not create, delete, rename, reorder, or mutate live Discord channels."
+  },
   "premiumWorkflowReadiness": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
@@ -982,8 +1023,8 @@
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "ageMinutes": 1,
-      "lastSeenAt": "2026-06-26T11:27:00.897+00:00",
+      "ageMinutes": 0,
+      "lastSeenAt": "2026-06-26T11:37:20.17+00:00",
       "fresh": true,
       "lastCloseCode": null
     },

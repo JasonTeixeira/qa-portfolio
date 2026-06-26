@@ -14,10 +14,12 @@ import {
   type DiscordReleaseGate,
 } from '@/lib/discord/final-scorecard';
 import { RAG_EVAL_QUESTION_SEEDS } from '@/lib/rag/evals';
+import { validateDiscordChannelMatrixReadinessReport } from '@/lib/discord/channel-matrix-readiness';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord-ai-os');
 const dryRun = process.argv.includes('--dry-run') || process.env.DISCORD_FINAL_SCORECARD_DRY_RUN === 'true';
 const READINESS_VALIDATION_EVIDENCE = [
+  'docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json',
   'docs/evidence/engineering-loop/content-factory-readiness-latest.json',
   'docs/evidence/engineering-loop/discord-corpus-readiness-latest.json',
   'docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json',
@@ -171,6 +173,18 @@ function validateContentFactoryReadiness(payload: any): { ok: boolean; failures:
     ok: failures.length === 0,
     failures,
     evidence: `${payload?.planned ?? 0} planned / min quality ${payload?.minQualityScore ?? 'n/a'} / mutation=${payload?.mutationMode ?? 'unknown'}`,
+  };
+}
+
+function validateChannelMatrixReadiness(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const validation = validateDiscordChannelMatrixReadinessReport(payload);
+  const failures = [...validation.failures];
+  if (payload?.validation?.ok !== true) failures.push('channel_matrix_embedded_validation_not_ok');
+  if (payload?.validation?.validator !== 'discord-channel-matrix-readiness-validator-v1') failures.push('channel_matrix_validator_missing');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${payload?.channelCount ?? 0} channels / ${payload?.approvedMemberChannelCount ?? 0} approved-member / ${payload?.contentFactoryTargeting?.targetableChannelCount ?? 0} targetable / mutation=${payload?.mutationMode ?? 'unknown'}`,
   };
 }
 
@@ -350,7 +364,7 @@ async function main() {
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const actionPlan = buildDiscordFinalScorecardActionPlan();
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, actionPlanValidation, rhythmValidation, evidenceValidation, readinessValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
+  const [scorecardValidation, actionPlanValidation, rhythmValidation, evidenceValidation, readinessValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, channelMatrixReadiness, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordFinalScorecardActionPlan(actionPlan)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
@@ -360,6 +374,7 @@ async function main() {
     readJsonFile('docs/evidence/rag/eval-latest.json'),
     readJsonFile('docs/evidence/rag/eval-coverage-readiness.json'),
     readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/content-factory-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json'),
@@ -370,6 +385,7 @@ async function main() {
   ]);
   const ragEvalCoverageReadinessValidation = validateRagEvalCoverageReadiness(ragEvalCoverageReadiness);
   const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
+  const channelMatrixReadinessValidation = validateChannelMatrixReadiness(channelMatrixReadiness);
   const contentFactoryReadinessValidation = validateContentFactoryReadiness(contentFactoryReadiness);
   const proofSourceVolumeScanValidation = validateProofSourceVolumeScan(proofSourceVolumeScan);
   const proofSourceRecoveryPlanValidation = validateProofSourceRecoveryPlan(proofSourceRecoveryPlan);
@@ -427,6 +443,11 @@ async function main() {
       name: 'proof_rehearsal_readiness',
       passed: proofRehearsalValidation.ok,
       evidence: proofRehearsalValidation.evidence,
+    },
+    {
+      name: 'channel_matrix_readiness',
+      passed: channelMatrixReadinessValidation.ok,
+      evidence: channelMatrixReadinessValidation.evidence,
     },
     {
       name: 'content_factory_readiness',

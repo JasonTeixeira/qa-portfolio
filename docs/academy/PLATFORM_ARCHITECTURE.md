@@ -114,3 +114,39 @@ A course is canonical only when: built through the Factory · passes `validate_g
 + `run_all_checks.sh` · every required file is `senior_review_pass` in the audit ledger ·
 imported to the runtime · the runtime runs all 5 beats with evidence-gating + board assets +
 score caps. Anything less is content, not a Sage course.
+
+## 12. The last 5 points — what takes the FOUNDATION from ~91 to 95–97
+The loop above is a 91 as a *spec*. It describes the 6 stickiness enrichments as prose. A
+95+ foundation **enforces and measures** them — and, per §5, **98–99 is honestly gated on
+real learner outcomes** (no faking the top of the scale). Six foundation pieces close it:
+
+1. **The 6 enrichments are CONTRACT, not prose — each with its own cap.** A course cannot
+   claim ≥95 unless it ships all six: scenario-first HOOK · the 5-beat shape · habit triggers
+   wired (trigger→reward→investment) · an AI-guide hook per lesson · a mastery-map entry · a
+   social surface. Caps when missing: no scenario-first → 90 · no AI-guide grounding → 93 ·
+   no habit triggers → 92 · no mastery-map entry → 92 · no social surface → 94. These stack
+   with the V3/Board caps in §5 (the binding score is the **minimum** of all caps).
+2. **Measurement contract (you can't claim 95 you can't measure).** The loop must emit the
+   metrics that prove it works: **CURR** (retention) · **mastery-gain** (Hake's normalized
+   `g = (post−pre)/(100−pre)`) · evidence-completion funnel per beat · confidence calibration
+   (predicted vs actual) · beat-level drop-off. Internal score is capped at 97 until these
+   read green on real n; 98–99 requires real learner outcome + independent-review evidence.
+3. **Onboarding-to-the-loop (Course 00).** The learner's first run *teaches the 5-beat method
+   itself* — so the habit/expectation forms on day one, not by accident over weeks. Every new
+   learner completes Course 00 before any track. (Upstream: AI_CAREER Course 00 — wire it.)
+4. **A gold exemplar per beat.** One reference 95+ HOOK / MODEL / DO / PROVE / LOCK lives in
+   the Factory; every authored beat is built and audited against it, so quality is one bar
+   across every domain — not a per-author guess. The validator diffs structure against it.
+5. **Disengagement-recovery path (repair, don't punish).** When a learner stalls or fails a
+   gate repeatedly, the loop must respond: easier on-ramp, scaffolded hint escalation, a
+   re-engagement trigger, and an affective reset — never a dead end. Failing the gate routes
+   to the repair queue, not to a wall. This is the affective half of the habit loop.
+6. **Genuine-evidence / anti-gaming contract.** Evidence must be *real* or the caps mean
+   nothing: retrieval is closed-note, **confidence is recorded before the answer**, the lab
+   actually verifies output, and the explain-back / oral-defense is **graded by the AI guide**
+   (not self-marked). The AI guide is therefore load-bearing — it is the grader that makes
+   explain-back, repair, and oral defense count as evidence rather than clicks.
+
+**Net:** with §12 enforced the foundation is a defensible **95–97**; the remaining 2–3 points
+are unlocked only by real learners (CURR + mastery-gain + external review). That ceiling is
+correct — a foundation that could self-grade 99 would be lying.

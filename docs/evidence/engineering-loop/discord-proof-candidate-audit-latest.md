@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T03:36:18.393Z
+Generated: 2026-06-26T04:05:37.575Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -36,7 +36,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 Blockers:
 - Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
 
-Next review action: Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
+Next review action: Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
 
 ### Approved Discord knowledge
 
@@ -112,7 +112,7 @@ Next review action: Run one premium review, deeper-answer, or office-hours flow 
 
 ## Next Actions
 
-- Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
+- Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

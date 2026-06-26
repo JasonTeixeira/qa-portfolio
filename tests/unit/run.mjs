@@ -167,6 +167,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(gatewayCaptureDiagnosisScript, /latestIdentifyIntentSignal/);
   assert.match(gatewayCaptureDiagnosisScript, /gateway_identify_sent/);
   assert.match(gatewayCaptureDiagnosisScript, /messageContentSignalSource/);
+  assert.match(gatewayCaptureDiagnosisScript, /Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event/);
+  assert.match(gatewayCaptureDiagnosisScript, /redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata/);
   assert.doesNotMatch(gatewayCaptureDiagnosisScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);

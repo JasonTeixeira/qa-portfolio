@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T03:21:30.268Z",
+  "generatedAt": "2026-06-26T04:05:38.539Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -37,7 +37,7 @@
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "liveActionRequired": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+      "liveActionRequired": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
       "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..",
       "status": "blocked"
     },
@@ -146,7 +146,7 @@
       ],
       "qualifyingEvidence": [
         "Premium role or deliberately seeded premium scenario exists.",
-        "Review, deeper answer, or office-hours request proves authorization and SLA behavior.",
+        "Answered/completed premium review or completed office-hours request proves authorization and SLA behavior.",
         "Fulfillment outcome is logged with traceable status and no free-member bypass."
       ],
       "rejectionRules": [
@@ -162,7 +162,7 @@
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
-      "evidenceRequired": "At least one premium member/request path proves authorization, SLA, and fulfillment behavior.",
+      "evidenceRequired": "At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count.",
       "status": "blocked"
     }
   ],
@@ -171,7 +171,7 @@
       "order": 1,
       "laneKey": "gateway_capture",
       "title": "Gateway message capture",
-      "operatorAction": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+      "operatorAction": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "liveCommand": null,
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
@@ -225,7 +225,7 @@
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
-      "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one premium member/request path proves authorization, SLA, and fulfillment behavior."
+      "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count."
     }
   ],
   "proofRehearsal": {
@@ -240,8 +240,8 @@
       "Non-bot messages exist, but message content is empty."
     ],
     "nextActions": [
-      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
-      "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
+      "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
+      "Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event."
     ],
     "usableMessageCount": 0
   },

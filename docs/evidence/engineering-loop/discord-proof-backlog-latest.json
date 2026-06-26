@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T03:36:18.905Z",
+  "generatedAt": "2026-06-26T04:05:36.546Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -33,7 +33,7 @@
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "liveActionRequired": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+      "liveActionRequired": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
       "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..",
       "status": "blocked"
     },
@@ -167,7 +167,7 @@
       "order": 1,
       "laneKey": "gateway_capture",
       "title": "Gateway message capture",
-      "operatorAction": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+      "operatorAction": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "liveCommand": null,
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
@@ -225,7 +225,7 @@
     }
   ],
   "nextActions": [
-    "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+    "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

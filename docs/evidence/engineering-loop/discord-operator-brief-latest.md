@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T03:21:30.268Z
+Generated: 2026-06-26T04:05:38.539Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -19,7 +19,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Local check: npm run discord:gateway-capture-diagnosis
 - Verification: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
 - Evidence required: Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..
-- Live action: Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
+- Live action: Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
 
 ### Approved Discord knowledge
 
@@ -58,7 +58,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Admin surface: /admin/discord -> Premium, Office Hours, and Member Intelligence panels
 - Local check: npm run discord:smoke-premium-workflows
 - Verification: npm run discord:smoke-premium-workflows && npm run discord:proof-backlog
-- Evidence required: At least one premium member/request path proves authorization, SLA, and fulfillment behavior.
+- Evidence required: At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count.
 - Live action: Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
 
 ## Gateway Capture
@@ -69,8 +69,8 @@ The local system is verified, but real operating proof is still missing. Close g
 - Root causes:
   - Non-bot messages exist, but message content is empty.
 - Next actions:
-  - Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
-  - Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.
+  - Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
+  - Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event.
 
 ## Release Gates
 

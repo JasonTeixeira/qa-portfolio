@@ -76,7 +76,7 @@ function messageContentDiagnosis(input: {
     rootCauses.push('Neither latest gateway heartbeat nor recent identify events expose Message Content Intent metadata.');
     nextActions.push('Confirm the deployed worker is running the current gateway metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.');
   } else if (input.messageContentSignalSource === 'identify_event') {
-    nextActions.push('Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.');
+    nextActions.push('Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.');
   }
 
   if (input.totalMessages <= 0) {
@@ -87,7 +87,9 @@ function messageContentDiagnosis(input: {
     nextActions.push('Verify the gateway worker is subscribed to guild message events and test with a non-bot member account.');
   } else if (input.nonBotMessages > 0 && input.nonBotNonEmptyMessages <= 0) {
     rootCauses.push('Non-bot messages exist, but message content is empty.');
-    nextActions.push('Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.');
+    nextActions.push(input.messageContentEnabled === true
+      ? 'Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event.'
+      : 'Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.');
   } else if (input.nonBotNonEmptyMessages > 0) {
     nextActions.push('Run npm run discord:classify-messages, then npm run discord:queue-content to create reviewable candidates.');
   }

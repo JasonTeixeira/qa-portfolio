@@ -165,6 +165,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /ragEvalApprovedCommand/);
   assert.match(localVerificationEvidence, /requiresExplicitApproval/);
   assert.match(localVerificationEvidence, /proofBacklogBlockedLanes/);
+  assert.match(localVerificationEvidence, /worldClassReadiness\.actionPlan\?\.localOnlyCommands/);
+  assert.match(localVerificationEvidence, /explicitApprovalCommands/);
+  assert.match(localVerificationEvidence, /liveOperatorActions/);
   assert.match(localVerificationEvidence, /releaseGateFailures/);
   assert.match(localVerificationEvidence, /worldClassEligible === false/);
   assert.match(localVerificationEvidence, /World-class readiness validator must pass/);
@@ -2967,6 +2970,14 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.ok(report.immediateActionOrder.some((action) => action.includes('four privacy-safe public proof assets')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('tracked apply/join intent')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('measured Discord application')));
+  assert.ok(report.actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:recovery-plan')));
+  assert.ok(report.actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
+  assert.ok(report.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(report.actionPlan.localOnlyCommands.every((command) => !command.includes('discord:operating-cycle')));
+  assert.ok(report.actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(report.actionPlan.explicitApprovalCommands.some((command) => command.includes('discord:operating-cycle')));
+  assert.ok(report.actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
+  assert.ok(report.actionPlan.liveOperatorActions.some((action) => action.includes('Approve at least 10 high-signal Discord')));
   assert.equal(report.categories[0].category, 'growth_loop');
   assert.equal(report.categories[0].status, 'needs_build_work');
 
@@ -3009,6 +3020,21 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(invalidRagValidation.ok, false);
   assert.ok(invalidRagValidation.failures.includes('rag_eval_preflight_keys_do_not_match_coverage'));
   assert.ok(invalidRagValidation.failures.includes('rag_eval_preflight_missing_guarded_approved_command'));
+
+  const invalidActionPlan = {
+    ...report,
+    actionPlan: {
+      ...report.actionPlan,
+      localOnlyCommands: [...report.actionPlan.localOnlyCommands, 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing'],
+      explicitApprovalCommands: [],
+      liveOperatorActions: [],
+    },
+  };
+  const invalidActionPlanValidation = validateWorldClassReadinessReport(invalidActionPlan);
+  assert.equal(invalidActionPlanValidation.ok, false);
+  assert.ok(invalidActionPlanValidation.failures.includes('action_plan_local_commands_include_mutating_command'));
+  assert.ok(invalidActionPlanValidation.failures.includes('action_plan_missing_guarded_rag_eval_command'));
+  assert.ok(invalidActionPlanValidation.failures.includes('action_plan_missing_live_operator_actions'));
 });
 
 test('discord proof backlog: turns missing operating proof into concrete lanes', async () => {
@@ -3516,6 +3542,13 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.gatewayOperatingPacket.messageContentSignalSource, 'identify_event');
   assert.equal(brief.gatewayOperatingPacket.heartbeatFresh, true);
   assert.deepEqual(brief.releaseGates, { total: 11, passed: 9, failures: ['rag_eval_latest', 'rag_eval_coverage_readiness'] });
+  assert.ok(brief.actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
+  assert.ok(brief.actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:missing-preflight')));
+  assert.ok(brief.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(brief.actionPlan.localOnlyCommands.every((command) => command !== 'npm run discord:operating-cycle'));
+  assert.ok(brief.actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(brief.actionPlan.explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle'));
+  assert.ok(brief.actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
   assert.match(markdown, /Sage Ideas Discord Operator Brief/);
@@ -3535,6 +3568,10 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.match(markdown, /fresh non-bot member message/);
   assert.match(markdown, /Release Gates/);
   assert.match(markdown, /Passed: 9\/11/);
+  assert.match(markdown, /Action Plan By Permission Boundary/);
+  assert.match(markdown, /Safe Local Commands/);
+  assert.match(markdown, /Explicit Approval Commands/);
+  assert.match(markdown, /Live Operator Actions/);
   assert.match(markdown, /Non-bot messages exist/);
   assert.match(markdown, /Do not claim world-class/);
 
@@ -3553,6 +3590,9 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:proof-rehearsal-readiness') }).failures.includes('missing_proof_rehearsal_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:proof-candidate-audit') }).failures.includes('missing_proof_candidate_audit_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run verify:local:evidence') }).failures.includes('missing_local_evidence_verification_command'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, actionPlan: { ...brief.actionPlan, localOnlyCommands: ['SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing'] } }).failures.includes('action_plan_local_commands_include_approval_command'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, actionPlan: { ...brief.actionPlan, explicitApprovalCommands: [] } }).failures.includes('action_plan_missing_guarded_rag_eval_command'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, actionPlan: { ...brief.actionPlan, liveOperatorActions: [] } }).failures.includes('action_plan_missing_live_operator_actions'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, status: 'missing' } }).failures.includes('missing_rag_eval_preflight'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, selectedMatchesCoverage: false } }).failures.includes('rag_eval_preflight_keys_do_not_match_coverage'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalRecoveryPlan: { ...brief.ragEvalRecoveryPlan, status: 'missing' } }).failures.includes('missing_rag_eval_recovery_plan'));

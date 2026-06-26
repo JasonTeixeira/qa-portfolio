@@ -172,6 +172,11 @@ export type DiscordOperatorBrief = {
     passed: number;
     failures: string[];
   };
+  actionPlan: {
+    localOnlyCommands: string[];
+    explicitApprovalCommands: string[];
+    liveOperatorActions: string[];
+  };
   commandOrder: string[];
   nonClaimRule: string;
 };
@@ -186,6 +191,12 @@ export const DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE =
 
 function uniqueCommands(commands: Array<string | null | undefined>): string[] {
   return [...new Set(commands.map((command) => command?.trim()).filter((command): command is string => Boolean(command)))];
+}
+
+function commandRequiresExplicitApproval(command: string): boolean {
+  return command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || command === 'npm run discord:operating-cycle'
+    || command === 'npm run discord:operating-cycle:full';
 }
 
 export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): DiscordOperatorBrief {
@@ -285,6 +296,39 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:gateway-operating-packet',
     'npm run verify:local:evidence',
   ]);
+  const localOnlyCommands = uniqueCommands([
+    ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
+    'npm run discord:proof-source-recovery-plan',
+    'npm run rag:evaluate:missing-preflight',
+    'npm run rag:evaluate:recovery-plan',
+    'npm run rag:evaluate:coverage-readiness',
+    'npm run rag:discord-corpus-readiness',
+    'npm run discord:durable-jobs-readiness',
+    'npm run discord:security-privacy-readiness',
+    'npm run discord:observability-quality-readiness',
+    'npm run discord:content-factory-readiness',
+    'npm run discord:premium-readiness',
+    'npm run discord:public-growth-readiness',
+    'npm run discord:proof-intake-readiness',
+    'npm run discord:weekly-proof-packet',
+    'npm run discord:proof-rehearsal-readiness',
+    'npm run discord:proof-backlog',
+    'npm run discord:proof-candidate-audit',
+    'npm run discord:world-class-readiness',
+    'npm run discord:operator-brief',
+    'npm run discord:gateway-capture-diagnosis',
+    'npm run discord:gateway-operating-packet',
+    'npm run verify:local:evidence',
+  ]).filter((command) => !commandRequiresExplicitApproval(command));
+  const explicitApprovalCommands = uniqueCommands([
+    ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
+    ragEvalMissingPreflight.approvedCommand,
+  ]).filter(commandRequiresExplicitApproval);
+  const liveOperatorActions = uniqueCommands([
+    ...blockedLanes.map((lane) => lane.liveActionRequired),
+    ...gatewayOperatingPacket.nextActions,
+    ...gatewayCaptureNextActions,
+  ]).filter((action) => action.length > 0);
   const gatewayCaptureBlocked = gatewayCaptureStatus === 'blocked' || usableMessageCount === 0 || gatewayOperatingPacket.remaining > 0;
   return {
     ok: true,
@@ -321,6 +365,11 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       passed: releaseGatesPassed,
       failures: releaseGateFailures,
     },
+    actionPlan: {
+      localOnlyCommands,
+      explicitApprovalCommands,
+      liveOperatorActions,
+    },
     commandOrder,
     nonClaimRule: DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE,
   };
@@ -352,6 +401,10 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis')) failures.push('missing_gateway_capture_diagnosis_command');
   if (!brief.commandOrder.includes('npm run discord:gateway-operating-packet')) failures.push('missing_gateway_operating_packet_command');
   if (!brief.commandOrder.includes('npm run verify:local:evidence')) failures.push('missing_local_evidence_verification_command');
+  if (!brief.actionPlan?.localOnlyCommands?.some((command) => command.includes('discord:proof-backlog'))) failures.push('action_plan_missing_safe_backlog_command');
+  if (brief.actionPlan?.localOnlyCommands?.some(commandRequiresExplicitApproval)) failures.push('action_plan_local_commands_include_approval_command');
+  if (brief.releaseGates.failures.includes('rag_eval_coverage_readiness') && !brief.actionPlan?.explicitApprovalCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'))) failures.push('action_plan_missing_guarded_rag_eval_command');
+  if (blockedLanes.length > 0 && !brief.actionPlan?.liveOperatorActions?.length) failures.push('action_plan_missing_live_operator_actions');
   if (brief.releaseGates.total <= 0) failures.push('missing_release_gate_summary');
   if (brief.releaseGates.passed > brief.releaseGates.total) failures.push('invalid_release_gate_counts');
   if (brief.releaseGates.failures.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('release_gate_failure_reality_not_explicit');
@@ -476,6 +529,20 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
     '## Required Command Order',
     '',
     ...brief.commandOrder.map((command, index) => `${index + 1}. \`${command}\``),
+    '',
+    '## Action Plan By Permission Boundary',
+    '',
+    '### Safe Local Commands',
+    '',
+    ...brief.actionPlan.localOnlyCommands.map((command) => `- \`${command}\``),
+    '',
+    '### Explicit Approval Commands',
+    '',
+    ...(brief.actionPlan.explicitApprovalCommands.length ? brief.actionPlan.explicitApprovalCommands.map((command) => `- \`${command}\``) : ['- None']),
+    '',
+    '### Live Operator Actions',
+    '',
+    ...(brief.actionPlan.liveOperatorActions.length ? brief.actionPlan.liveOperatorActions.map((action) => `- ${action}`) : ['- None']),
     '',
     '## Non-Claim Rule',
     '',

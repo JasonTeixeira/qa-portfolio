@@ -1010,6 +1010,11 @@ async function main() {
         blockedLanes: proofBacklogBlockedLanes,
         knownBlockers,
       },
+      actionPlan: {
+        localOnlyCommands: worldClassReadiness.actionPlan?.localOnlyCommands ?? [],
+        explicitApprovalCommands: worldClassReadiness.actionPlan?.explicitApprovalCommands ?? [],
+        liveOperatorActions: worldClassReadiness.actionPlan?.liveOperatorActions ?? [],
+      },
       nonClaimRule: 'Local verification passing does not mean world-class or 95+ until RAG coverage and real operating proof lanes pass.',
     },
     gates: [

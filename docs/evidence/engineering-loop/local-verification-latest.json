@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T10:41:09.091Z",
+  "timestamp": "2026-06-26T10:47:57.222Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -36,6 +36,29 @@
         "public_proof_apply_clicks_below_target:0/1",
         "applications_submitted_below_target:0/1",
         "premium_workflow_proof_below_target:0/1"
+      ]
+    },
+    "actionPlan": {
+      "localOnlyCommands": [
+        "npm run rag:evaluate:recovery-plan",
+        "npm run rag:evaluate:missing-preflight",
+        "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+        "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+        "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+        "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+      ],
+      "explicitApprovalCommands": [
+        "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+        "npm run discord:operating-cycle"
+      ],
+      "liveOperatorActions": [
+        "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+        "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+        "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
+        "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+        "Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.",
+        "Drive at least one measured Discord application from the approval-gated growth funnel.",
+        "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
       ]
     },
     "nonClaimRule": "Local verification passing does not mean world-class or 95+ until RAG coverage and real operating proof lanes pass."
@@ -126,7 +149,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782470343368"
+    "runKey": "phase-20-final-1782470780127"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -960,7 +983,7 @@
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
       "ageMinutes": 0,
-      "lastSeenAt": "2026-06-26T10:38:51.053+00:00",
+      "lastSeenAt": "2026-06-26T10:45:43.888+00:00",
       "fresh": true,
       "lastCloseCode": null
     },

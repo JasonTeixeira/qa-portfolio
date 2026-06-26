@@ -135,6 +135,11 @@ export type WorldClassReadinessReport = {
     releaseMeaning: string | null;
   };
   immediateActionOrder: string[];
+  actionPlan: {
+    localOnlyCommands: string[];
+    explicitApprovalCommands: string[];
+    liveOperatorActions: string[];
+  };
   operatingProofRequired: string[];
   categories: WorldClassReadinessCategory[];
 };
@@ -170,6 +175,10 @@ function uniqueActionList(actions: string[]): string[] {
 function actionForOperatingBlocker(blocker: string): string {
   const blockerKey = blocker.split(':')[0] ?? blocker;
   return OPERATING_BLOCKER_ACTIONS[blockerKey] ?? `Resolve operating blocker: ${blocker}.`;
+}
+
+function uniqueValues(values: Array<string | null | undefined>): string[] {
+  return [...new Set(values.map((value) => value?.trim()).filter((value): value is string => Boolean(value)))];
 }
 
 export function buildWorldClassReadinessReport(input: WorldClassReadinessInput): WorldClassReadinessReport {
@@ -245,6 +254,25 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
     ...adjustedBlockerActions,
     ...categoryActions,
   ]);
+  const guardedRagEvalCommand = ragEvalRecoveryPlan?.approvedCommand ?? ragEvalPreflight?.approvedCommand ?? null;
+  const actionPlan = {
+    localOnlyCommands: uniqueValues([
+      releaseGateFailures.some((failure) => failure.includes('rag_eval')) ? 'npm run rag:evaluate:recovery-plan' : null,
+      releaseGateFailures.some((failure) => failure.includes('rag_eval')) ? 'npm run rag:evaluate:missing-preflight' : null,
+      gatewayOperatingPacket ? 'npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet' : null,
+      proofSourceRecoveryPlan?.totalShortfall ? 'npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan' : null,
+      'npm run discord:proof-backlog && npm run discord:proof-candidate-audit',
+      'npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence',
+    ]),
+    explicitApprovalCommands: uniqueValues([
+      guardedRagEvalCommand,
+      proofSourceRecoveryPlan?.totalShortfall ? 'npm run discord:operating-cycle' : null,
+    ]),
+    liveOperatorActions: uniqueActionList([
+      ...gatewayOperatingActions,
+      ...adjustedBlockerActions,
+    ]),
+  };
 
   return {
     ok: true,
@@ -308,6 +336,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       releaseMeaning: gatewayOperatingPacket?.releaseMeaning ?? null,
     },
     immediateActionOrder,
+    actionPlan,
     operatingProofRequired: input.requiredOperatingProof,
     categories,
   };
@@ -391,6 +420,20 @@ export function validateWorldClassReadinessReport(report: WorldClassReadinessRep
 
   if (report.summary.operatingBlockers.length > 0 && report.immediateActionOrder.length === 0) {
     failures.push('operating_blockers_without_immediate_actions');
+  }
+  if (report.summary.operatingBlockers.length > 0) {
+    if (!report.actionPlan?.localOnlyCommands?.some((command) => command.includes('discord:proof-backlog'))) {
+      failures.push('action_plan_missing_safe_local_backlog_command');
+    }
+    if (!report.actionPlan?.liveOperatorActions?.length) {
+      failures.push('action_plan_missing_live_operator_actions');
+    }
+  }
+  if (ragGateFailed && !report.actionPlan?.explicitApprovalCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'))) {
+    failures.push('action_plan_missing_guarded_rag_eval_command');
+  }
+  if (report.actionPlan?.localOnlyCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command.includes('discord:operating-cycle'))) {
+    failures.push('action_plan_local_commands_include_mutating_command');
   }
   if (categoriesBelowThreshold.some((category) => category.evidenceCount < 1)) {
     failures.push('category_below_threshold_missing_evidence_reference');

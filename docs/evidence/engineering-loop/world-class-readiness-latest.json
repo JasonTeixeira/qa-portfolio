@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T10:39:07.744Z",
+  "generatedAt": "2026-06-26T10:46:24.723Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -94,6 +94,29 @@
     "Review stuck/inactive/premium-lead nudges weekly.",
     "Review cost, quality, trace coverage, and job success weekly."
   ],
+  "actionPlan": {
+    "localOnlyCommands": [
+      "npm run rag:evaluate:recovery-plan",
+      "npm run rag:evaluate:missing-preflight",
+      "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+      "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+      "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+    ],
+    "explicitApprovalCommands": [
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "npm run discord:operating-cycle"
+    ],
+    "liveOperatorActions": [
+      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+      "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
+      "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+      "Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.",
+      "Drive at least one measured Discord application from the approval-gated growth funnel.",
+      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+    ]
+  },
   "operatingProofRequired": [
     "Weekly check pending applications, stuck approvals, and unapproved visibility.",
     "Run role/onboarding smoke after changing roles or channel permissions.",

@@ -502,6 +502,46 @@
   box-shadow: 0 16px 44px rgba(61, 90, 254, 0.2);
 }
 
+.liveStateBoard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.liveStateBoard article {
+  min-height: 132px;
+  border: 1px solid rgba(242, 239, 233, 0.1);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+    rgba(8, 10, 20, 0.68);
+  padding: 0.95rem;
+}
+
+.liveStateBoard span {
+  display: block;
+  color: #bcd2ff;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.liveStateBoard strong {
+  display: block;
+  margin-top: 0.55rem;
+  color: #f8f4ec;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.15;
+}
+
+.liveStateBoard p {
+  margin: 0.55rem 0 0;
+  color: #d9d3ca;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .embedHeader {
   display: flex;
   align-items: end;
@@ -895,6 +935,7 @@
   .canvasGrid,
   .decisionSteps,
   .decisionBoard,
+  .liveStateBoard,
   .storyStrip,
   .visualHeader,
   .visualDiagram,

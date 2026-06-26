@@ -16,6 +16,8 @@ const sampleBySlug: Record<string, {
   output: string
   proof: string
   conversion: string
+  signals: string[]
+  stateLabel: string
 }> = {
   'contractor-quote-engine': {
     account: 'IronPeak Roofing',
@@ -26,6 +28,8 @@ const sampleBySlug: Record<string, {
     output: 'A mobile-first quote page with emergency routing, before/after proof, warranty framing, and a two-step estimate request.',
     proof: 'Before/after gallery, local reviews, service-area map, and 12-minute response promise.',
     conversion: 'Quote request ready',
+    signals: ['Emergency keyword', '$7.8k estimate range', '12 minute response path', 'Storm-area proof matched'],
+    stateLabel: 'Walkthrough queue',
   },
   'med-spa-consultation-funnel': {
     account: 'Vela Med Spa',
@@ -36,6 +40,8 @@ const sampleBySlug: Record<string, {
     output: 'A compliant treatment finder that routes by concern, readiness, budget range, and preferred appointment window.',
     proof: 'Provider credentials, treatment education, safety notes, consult expectations, and nurture follow-up.',
     conversion: 'Consult booked',
+    signals: ['Concern selected', 'Provider proof shown', 'Claim-safe language', 'Nurture path ready'],
+    stateLabel: 'Consult queue',
   },
   'law-firm-intake-system': {
     account: 'Northline Legal',
@@ -46,6 +52,8 @@ const sampleBySlug: Record<string, {
     output: 'A practice-area intake flow that captures urgency, conflict-safe basics, response expectations, and consultation intent.',
     proof: 'Attorney profile, case-safe process summary, jurisdiction fit, and response SLA.',
     conversion: 'Qualified consult',
+    signals: ['Matter type captured', 'Deadline risk marked', 'Jurisdiction checked', 'Consult path ready'],
+    stateLabel: 'Matter queue',
   },
   'ai-support-agent-dashboard': {
     account: 'HelioCart Support',
@@ -56,6 +64,8 @@ const sampleBySlug: Record<string, {
     output: 'A support cockpit that drafts grounded answers, cites knowledge matches, escalates uncertain tickets, and scores QA quality.',
     proof: 'Knowledge citation, policy match, confidence score, escalation trail, and resolution analytics.',
     conversion: 'Ticket resolved',
+    signals: ['Intent classified', 'Knowledge cited', 'Risk escalated', 'QA score recorded'],
+    stateLabel: 'Support queue',
   },
 }
 
@@ -132,6 +142,24 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
             <button onClick={() => setActiveStep((current) => (current + 1) % (prototype.demo?.steps.length ?? 1))}>
               Next step <ArrowRight size={16} />
             </button>
+          </div>
+
+          <div className={styles.liveStateBoard} aria-label={`${prototype.name} live state board`}>
+            <article>
+              <span>{sample.stateLabel}</span>
+              <strong>{sample.conversion}</strong>
+              <p>{sample.signals[activeStep] ?? sample.signals[0]}</p>
+            </article>
+            <article>
+              <span>Operator view</span>
+              <strong>{approved ? 'Approved' : 'Needs review'}</strong>
+              <p>{approved ? 'The packet can be sent with proof and next-step context.' : 'Review the generated path before sending anything to a buyer.'}</p>
+            </article>
+            <article>
+              <span>Handoff</span>
+              <strong>{sent ? 'Sent' : 'Waiting'}</strong>
+              <p>{sent ? 'The workflow has a visible follow-up state.' : 'The system keeps the next action visible until the handoff is complete.'}</p>
+            </article>
           </div>
         </div>
       ) : null}

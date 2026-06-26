@@ -26,7 +26,7 @@
   font-size: 12px;
 }
 .crumbCourse { color: var(--topic); letter-spacing: 0.1em; }
-.crumbSep { color: #6b6c78; letter-spacing: 0.03em; }
+.crumbSep { color: #8a8b96; letter-spacing: 0.03em; }
 .spacer { flex: 1; }
 .topProgress { width: 140px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
 .topProgressFill { display: block; height: 100%; background: var(--topic); border-radius: 2px; }
@@ -43,12 +43,12 @@
   overflow-y: auto;
 }
 .courseTitle { margin: 0 0 0.25rem; padding: 0 1.5rem; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.2rem; letter-spacing: -0.02em; }
-.courseSub { margin: 0; padding: 0 1.5rem; font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: #6b6c78; }
+.courseSub { margin: 0; padding: 0 1.5rem; font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: #8a8b96; }
 .bar { margin: 0.9rem 1.5rem 0.45rem; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
 .bar span { display: block; height: 100%; background: var(--topic); border-radius: 3px; }
 .barLabel { margin: 0 1.5rem; font-family: var(--font-mono), monospace; font-size: 0.62rem; color: var(--muted); }
 .module { margin-top: 1.4rem; }
-.moduleTitle { margin: 0 1.5rem 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #5e5f6b; }
+.moduleTitle { margin: 0 1.5rem 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #8a8b96; }
 .lessonList { margin: 0; padding: 0; list-style: none; }
 .lessonItem { position: relative; display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 1.5rem; cursor: pointer; text-decoration: none; color: inherit; transition: background 0.2s ease; }
 .lessonItem:hover { background: rgba(255, 255, 255, 0.025); }

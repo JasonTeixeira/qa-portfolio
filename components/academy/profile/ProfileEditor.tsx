@@ -109,6 +109,7 @@ export function ProfileEditor({
             type="button"
             role="switch"
             aria-checked={isPublic}
+            aria-label={isPublic ? 'Make profile private' : 'Make profile public'}
             className={styles.switch}
             data-on={isPublic}
             onClick={togglePublic}

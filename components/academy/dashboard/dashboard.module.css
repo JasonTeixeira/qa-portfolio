@@ -38,7 +38,7 @@
 
 /* hero */
 .head { position: relative; z-index: 1; margin-bottom: 2rem; }
-.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
+.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ac-accent-text); }
 .title { margin: 0.55rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2.2rem, 1.5rem + 2.6vw, 3.4rem); letter-spacing: -0.02em; line-height: 1.02; }
 .sub { margin: 0.7rem 0 0; max-width: 54ch; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem); line-height: 1.5; color: var(--dim); }
 
@@ -60,7 +60,7 @@
 .stat:first-child { border-left: none; }
 .stat dt { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(1.9rem, 1.5rem + 1vw, 2.4rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
 .stat dd { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
-.statLive dt { color: var(--accent); }
+.statLive dt { color: var(--ac-accent-text); }
 
 /* habit panel — Today: daily goal, streak, level */
 .habit {
@@ -117,7 +117,7 @@
 .resume:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
 .resumeGlow { position: absolute; z-index: -1; left: -8%; top: -70%; width: 46%; height: 240%; pointer-events: none; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%); }
 .resumeBody { display: flex; flex-direction: column; gap: 0.32rem; min-width: 0; }
-.resumeKicker { font-family: var(--font-mono), monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+.resumeKicker { font-family: var(--font-mono), monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ac-accent-text); }
 .resumeTitle { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem); letter-spacing: -0.02em; }
 .resumeCourse { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
 .resumeBtn { padding: 0.72rem 1.4rem; border-radius: 26px; background: var(--accent); color: #ffffff; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--accent) 60%, transparent); }
@@ -130,7 +130,7 @@
 .sectionLink:hover { color: var(--ink); }
 .h2 { margin: 0 0 1.2rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
 .empty { color: var(--muted); }
-.empty a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.empty a { color: var(--ac-accent-text); text-decoration: underline; text-underline-offset: 2px; }
 
 /* course cards */
 .courseGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
@@ -157,7 +157,7 @@
 .pathRow { display: flex; align-items: center; gap: 1rem; padding: 0.95rem 1.2rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.02); }
 .pathName { font-family: var(--font-display), sans-serif; font-weight: 600; }
 .pathMeta { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--muted); }
-.pathEdit { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--accent); text-decoration: none; }
+.pathEdit { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--ac-accent-text); text-decoration: none; }
 
 @media (max-width: 920px) {
   .stats { grid-template-columns: repeat(2, 1fr); }

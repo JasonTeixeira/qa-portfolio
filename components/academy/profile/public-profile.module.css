@@ -4,6 +4,8 @@
   --muted: #8a8b96;
   --line: rgba(255, 255, 255, 0.08);
   --accent: #3d6bff;
+  /* Accent used as TEXT on the dark bg must go lighter to clear AA 4.5:1. */
+  --accent-text: var(--ac-accent-text, #8fa0ff);
   position: relative;
   min-height: 100vh;
   max-width: 880px;
@@ -29,7 +31,7 @@
   font-family: var(--font-serif), Georgia, serif; font-size: 2rem; color: var(--ink);
 }
 .name { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 2.8rem); letter-spacing: -0.02em; }
-.handle { margin: 0.3rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.85rem; color: var(--accent); }
+.handle { margin: 0.3rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.85rem; color: var(--accent-text); }
 .bio { margin: 1rem auto 0; max-width: 52ch; color: var(--dim); line-height: 1.55; }
 .share { display: flex; justify-content: center; margin-top: 1.4rem; }
 
@@ -73,10 +75,10 @@
 .cert:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
 .certSeal { font-size: 1.4rem; color: var(--accent); }
 .certTitle, .artifactTitle { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em; }
-.certCta { margin-top: 0.4rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--accent); }
+.certCta { margin-top: 0.4rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--accent-text); }
 .artifactCourse { font-family: var(--font-mono), monospace; font-size: 0.66rem; color: var(--muted); }
 .artifactLinks { display: flex; gap: 1rem; margin-top: 0.4rem; }
-.artifactLinks a { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--accent); text-decoration: none; }
+.artifactLinks a { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--accent-text); text-decoration: none; }
 
 .cta {
   position: relative; z-index: 1; margin-top: 3rem; text-align: center;

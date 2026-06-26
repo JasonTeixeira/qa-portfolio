@@ -1726,7 +1726,8 @@ a:focus-visible {
   --ac-rule: #1e1e24;
   --ac-rule-strong: #2a2a33;
   --ac-accent: #3d6bff; /* non-text accent: tints, underlines, rings, focus */
-  --ac-accent-strong: #3458e0; /* text-bearing accent: white-on-accent ≥ AA 4.5 (buttons, badges) */
+  --ac-accent-strong: #3458e0; /* white-on-accent ≥ AA 4.5 (button/badge backgrounds) */
+  --ac-accent-text: #8fa0ff; /* accent AS TEXT on the dark bg ≥ AA 4.5 (links, eyebrows) */
 
   /* semantic state — meaning only (8-state machine + score caps) */
   --ac-mastery: #4ade80; /* proven / complete */

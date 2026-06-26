@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T04:17:14.504Z",
+  "timestamp": "2026-06-26T04:19:56.388Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -69,7 +69,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782446519488"
+    "runKey": "phase-20-final-1782447588862"
   },
   "operatingCycle": {
     "status": "blocked",

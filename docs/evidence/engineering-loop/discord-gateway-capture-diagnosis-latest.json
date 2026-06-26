@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-gateway-capture-diagnosis-v1",
-  "generatedAt": "2026-06-26T04:05:36.061Z",
+  "generatedAt": "2026-06-26T04:19:47.195Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof.",
   "diagnosis": {
@@ -18,7 +18,7 @@
     "latest": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "lastSeenAt": "2026-06-26T04:05:18.141+00:00",
+      "lastSeenAt": "2026-06-26T04:19:44.98+00:00",
       "ageMinutes": 0,
       "messageContentEnabled": null,
       "guildMembersEnabled": null,
@@ -30,7 +30,7 @@
       {
         "workerId": "sagebot-main",
         "status": "heartbeat_ack",
-        "lastSeenAt": "2026-06-26T04:05:18.141+00:00",
+        "lastSeenAt": "2026-06-26T04:19:44.98+00:00",
         "ageMinutes": 0,
         "lastCloseCode": null
       },
@@ -38,14 +38,14 @@
         "workerId": "phase14-fix-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:17:23.229+00:00",
-        "ageMinutes": 1788,
+        "ageMinutes": 1802,
         "lastCloseCode": null
       },
       {
         "workerId": "phase10-gateway-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:12:23.962+00:00",
-        "ageMinutes": 1793,
+        "ageMinutes": 1807,
         "lastCloseCode": null
       }
     ]

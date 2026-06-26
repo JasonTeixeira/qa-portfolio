@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T01:16:27.947Z",
+  "timestamp": "2026-06-26T02:30:45.189Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -35,8 +35,11 @@
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+    "proofBacklog": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
     "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
-    "proofCandidateAudit": "docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json"
+    "proofCandidateAudit": "docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json",
+    "operatorBrief": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
+    "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json"
   },
   "scorecard": {
     "averageScore": 83,
@@ -84,6 +87,20 @@
       "public_proof_drafts_empty",
       "premium_workflow_live_proof_empty"
     ]
+  },
+  "gatewayCapture": {
+    "ok": true,
+    "status": "blocked",
+    "usableMessageCount": 0,
+    "rootCauses": [
+      "Latest gateway heartbeat does not expose Message Content Intent metadata.",
+      "Non-bot messages exist, but message content is empty."
+    ],
+    "nextActions": [
+      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
+    ],
+    "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof."
   },
   "ragEvalSeeds": {
     "ok": true,
@@ -138,9 +155,17 @@
   "proofIntakeReadiness": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "laneCount": 4,
-    "requiredFieldCount": 45,
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "requiredFieldCount": 57,
     "weeklyIntakeOrder": [
+      "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
       "Review candidates and fill required proof fields.",
       "Reject private, generic, low-context, or unsupported material.",
       "Approve reusable knowledge and sync only approved items into RAG.",
@@ -150,12 +175,47 @@
     ],
     "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist."
   },
+  "proofBacklog": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "blockedLanes": [
+      "gateway_capture:0/1",
+      "approved_discord_knowledge:0/10",
+      "rag_discord_sources:0/10",
+      "public_proof_assets:0/4",
+      "premium_workflow_proof:0/1"
+    ],
+    "nextActions": [
+      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+    ]
+  },
   "weeklyProofPacket": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
     "backlogStatus": "blocked",
-    "laneCount": 4,
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
     "blockedLanes": [
+      "gateway_capture:0/1",
       "approved_discord_knowledge:0/10",
       "rag_discord_sources:0/10",
       "public_proof_assets:0/4",
@@ -167,14 +227,23 @@
     "ok": true,
     "mutationMode": "local_file_evidence_only",
     "status": "blocked",
-    "laneCount": 4,
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
     "candidateStates": [
+      "gateway_capture:needs_source_volume:0/1",
       "approved_discord_knowledge:needs_source_volume:0/10",
       "rag_discord_sources:needs_source_volume:0/10",
       "public_proof_assets:needs_source_volume:0/4",
       "premium_workflow_proof:needs_source_volume:0/1"
     ],
     "nextActions": [
+      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
       "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -182,7 +251,22 @@
     ],
     "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof."
   },
+  "operatorBrief": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "blockedLaneCount": 5,
+    "proofLaneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "currentReality": "The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.",
+    "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
+  },
   "remainingGaps": [
+    "Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.",
     "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",
     "Approve Discord candidates into authoritative RAG and rerun non-dry-run RAG eval with explicit approval.",
     "Run weekly public proof/growth cycles with approved public drafts and measured conversion.",

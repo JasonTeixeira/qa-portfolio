@@ -14,8 +14,11 @@ const evidencePaths = {
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
+  proofBacklog: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-backlog-latest.json'),
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
   proofCandidateAudit: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
+  operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
+  gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -59,8 +62,11 @@ async function main() {
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
+    proofBacklog,
     weeklyProofPacket,
     proofCandidateAudit,
+    operatorBrief,
+    gatewayCaptureDiagnosis,
   ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
@@ -95,8 +101,29 @@ async function main() {
     'Proof intake readiness must explicitly avoid claiming real operating proof.',
   );
   requireTruthy(
-    Array.isArray(proofIntakeReadiness.lanes) && proofIntakeReadiness.lanes.length === 4,
-    'Proof intake readiness must cover all four blocked proof lanes.',
+    Array.isArray(proofIntakeReadiness.lanes) && proofIntakeReadiness.lanes.length === 5,
+    'Proof intake readiness must cover all five proof lanes, including gateway capture.',
+  );
+  requireTruthy(
+    proofIntakeReadiness.lanes[0]?.key === 'gateway_capture',
+    'Proof intake readiness must start with gateway_capture.',
+  );
+  requireTruthy(proofBacklog.ok === true, 'Proof backlog evidence is not ok.');
+  requireTruthy(
+    proofBacklog.mutationMode === 'local_file_evidence_only',
+    'Proof backlog must not mutate external systems.',
+  );
+  requireTruthy(
+    Array.isArray(proofBacklog.lanes) && proofBacklog.lanes.length === 5,
+    'Proof backlog must cover all five proof lanes, including gateway capture.',
+  );
+  requireTruthy(
+    proofBacklog.lanes[0]?.key === 'gateway_capture',
+    'Proof backlog must start with gateway_capture.',
+  );
+  requireTruthy(
+    proofBacklog.weeklyChecklist?.[0]?.laneKey === 'gateway_capture',
+    'Proof backlog weekly checklist must start with gateway_capture.',
   );
   requireTruthy(weeklyProofPacket.ok === true, 'Weekly proof packet evidence is not ok.');
   requireTruthy(
@@ -108,8 +135,12 @@ async function main() {
     'Weekly proof packet must explicitly avoid claiming real operating proof.',
   );
   requireTruthy(
-    Array.isArray(weeklyProofPacket.lanes) && weeklyProofPacket.lanes.length === 4,
-    'Weekly proof packet must cover all four blocked proof lanes.',
+    Array.isArray(weeklyProofPacket.lanes) && weeklyProofPacket.lanes.length === 5,
+    'Weekly proof packet must cover all five proof lanes, including gateway capture.',
+  );
+  requireTruthy(
+    weeklyProofPacket.lanes[0]?.key === 'gateway_capture',
+    'Weekly proof packet must start with gateway_capture.',
   );
   requireTruthy(
     weeklyProofPacket.lanes.every((lane) => lane.intakeTemplate?.privacy_status),
@@ -125,8 +156,12 @@ async function main() {
     'Proof candidate audit must explicitly avoid claiming operating proof.',
   );
   requireTruthy(
-    Array.isArray(proofCandidateAudit.lanes) && proofCandidateAudit.lanes.length === 4,
-    'Proof candidate audit must cover all four proof lanes.',
+    Array.isArray(proofCandidateAudit.lanes) && proofCandidateAudit.lanes.length === 5,
+    'Proof candidate audit must cover all five proof lanes, including gateway capture.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes[0]?.key === 'gateway_capture',
+    'Proof candidate audit must start with gateway_capture.',
   );
   requireTruthy(
     proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('privacy_status')),
@@ -135,6 +170,28 @@ async function main() {
   requireTruthy(
     proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('decision_reason')),
     'Proof candidate audit must require decision_reason for every lane.',
+  );
+  requireTruthy(operatorBrief.ok === true, 'Operator brief evidence is not ok.');
+  requireTruthy(
+    operatorBrief.mutationMode === 'local_file_evidence_only',
+    'Operator brief must not mutate external systems.',
+  );
+  requireTruthy(
+    operatorBrief.blockedLaneCount === 5,
+    'Operator brief must report all five blocked proof lanes.',
+  );
+  requireTruthy(
+    operatorBrief.proofLanes?.[0]?.key === 'gateway_capture',
+    'Operator brief must start proof lanes with gateway_capture.',
+  );
+  requireTruthy(gatewayCaptureDiagnosis.ok === true, 'Gateway capture diagnosis evidence is not ok.');
+  requireTruthy(
+    gatewayCaptureDiagnosis.mutationMode === 'read_only_supabase_selects_and_local_file_evidence_only',
+    'Gateway capture diagnosis must be read-only.',
+  );
+  requireTruthy(
+    gatewayCaptureDiagnosis.releaseMeaning?.includes('does not post messages'),
+    'Gateway capture diagnosis must explicitly avoid claiming live mutation or proof satisfaction.',
   );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
@@ -185,6 +242,14 @@ async function main() {
       premiumWorkflowProofs: metrics.premiumWorkflowProofs ?? metrics.premiumMembers ?? 0,
       knownBlockers,
     },
+    gatewayCapture: {
+      ok: gatewayCaptureDiagnosis.ok,
+      status: gatewayCaptureDiagnosis.diagnosis?.status ?? 'unknown',
+      usableMessageCount: gatewayCaptureDiagnosis.counts?.['discord_messages.non_bot_non_empty'] ?? 0,
+      rootCauses: gatewayCaptureDiagnosis.diagnosis?.rootCauses ?? [],
+      nextActions: gatewayCaptureDiagnosis.diagnosis?.nextActions ?? [],
+      releaseMeaning: gatewayCaptureDiagnosis.releaseMeaning,
+    },
     ragEvalSeeds: {
       ok: evalSeedQuality.ok,
       dryRunOk: evalSeedDryRun.ok,
@@ -221,15 +286,28 @@ async function main() {
       ok: proofIntakeReadiness.ok,
       mutationMode: proofIntakeReadiness.mutationMode,
       laneCount: Array.isArray(proofIntakeReadiness.lanes) ? proofIntakeReadiness.lanes.length : 0,
+      laneKeys: proofIntakeReadiness.lanes.map((lane) => lane.key),
       requiredFieldCount: proofIntakeReadiness.requiredFieldCount,
       weeklyIntakeOrder: proofIntakeReadiness.weeklyIntakeOrder,
       releaseMeaning: proofIntakeReadiness.releaseMeaning,
+    },
+    proofBacklog: {
+      ok: proofBacklog.ok,
+      mutationMode: proofBacklog.mutationMode,
+      status: proofBacklog.status,
+      laneCount: Array.isArray(proofBacklog.lanes) ? proofBacklog.lanes.length : 0,
+      laneKeys: proofBacklog.lanes.map((lane) => lane.key),
+      blockedLanes: proofBacklog.lanes
+        .filter((lane) => lane.status === 'blocked')
+        .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
+      nextActions: proofBacklog.nextActions,
     },
     weeklyProofPacket: {
       ok: weeklyProofPacket.ok,
       mutationMode: weeklyProofPacket.mutationMode,
       backlogStatus: weeklyProofPacket.backlogStatus,
       laneCount: Array.isArray(weeklyProofPacket.lanes) ? weeklyProofPacket.lanes.length : 0,
+      laneKeys: weeklyProofPacket.lanes.map((lane) => lane.key),
       blockedLanes: weeklyProofPacket.lanes
         .filter((lane) => lane.status === 'blocked')
         .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
@@ -240,11 +318,21 @@ async function main() {
       mutationMode: proofCandidateAudit.mutationMode,
       status: proofCandidateAudit.status,
       laneCount: Array.isArray(proofCandidateAudit.lanes) ? proofCandidateAudit.lanes.length : 0,
+      laneKeys: proofCandidateAudit.lanes.map((lane) => lane.key),
       candidateStates: proofCandidateAudit.lanes.map((lane) => `${lane.key}:${lane.candidateState}:${lane.currentCount}/${lane.targetCount}`),
       nextActions: proofCandidateAudit.nextActions,
       releaseMeaning: proofCandidateAudit.releaseMeaning,
     },
+    operatorBrief: {
+      ok: operatorBrief.ok,
+      mutationMode: operatorBrief.mutationMode,
+      blockedLaneCount: operatorBrief.blockedLaneCount,
+      proofLaneKeys: operatorBrief.proofLanes.map((lane) => lane.key),
+      currentReality: operatorBrief.currentReality,
+      nonClaimRule: operatorBrief.nonClaimRule,
+    },
     remainingGaps: [
+      'Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.',
       'Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.',
       'Approve Discord candidates into authoritative RAG and rerun non-dry-run RAG eval with explicit approval.',
       'Run weekly public proof/growth cycles with approved public drafts and measured conversion.',

@@ -6,16 +6,48 @@ The rule is simple: local tests prove code quality; live operating proof proves 
 
 ## Current Release Rule
 
-Do not claim the Discord/SageBot system is world-class until all four proof lanes below pass from real operating data:
+Do not claim the Discord/SageBot system is world-class until all five proof lanes below pass from real operating data:
 
-1. Approved Discord knowledge
-2. Discord knowledge synced into RAG
-3. Public proof growth assets
-4. Premium workflow proof
+1. Gateway message capture
+2. Approved Discord knowledge
+3. Discord knowledge synced into RAG
+4. Public proof growth assets
+5. Premium workflow proof
 
 Dry-run content, synthetic smoke rows, raw unapproved chatter, and private messages do not count as world-class proof.
 
-## Proof Lane 1: Approved Discord Knowledge
+## Proof Lane 1: Gateway Message Capture
+
+Target:
+- At least 1 fresh non-bot Discord message captured with non-empty visible content through the long-lived gateway worker.
+
+Counts from:
+- `discord_gateway_heartbeats`
+- `discord_gateway_events`
+- `discord_messages`
+- `discord_gateway_dead_letters`
+
+Admin/operator action:
+- Confirm the deployed worker heartbeat is fresh.
+- Confirm heartbeat metadata exposes Message Content Intent state.
+- Confirm Message Content Intent is enabled both in Discord Developer Portal and worker environment.
+- Post or wait for a real approved-channel member message, then rerun capture diagnosis.
+
+Safe local command:
+- `npm run discord:gateway-capture-diagnosis`
+
+Passing evidence:
+- `docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json` shows diagnosis status `healthy`.
+- `docs/evidence/engineering-loop/discord-proof-backlog-latest.json` shows the `gateway_capture` lane as `passed`.
+- The captured proof message is non-bot, non-empty, visible, and not deleted.
+
+Failure response:
+- If the heartbeat is stale, restart/redeploy the gateway worker.
+- If Message Content Intent metadata is missing, confirm the deployed worker is current and has `DISCORD_GATEWAY_MESSAGE_CONTENT=true`.
+- If non-bot messages exist but content is empty, fix Discord Developer Portal intent/env and capture a fresh message.
+- Do not review downstream knowledge proof lanes until gateway capture is healthy.
+
+## Proof Lane 2: Approved Discord Knowledge
 
 Target:
 - At least 10 approved Discord knowledge sources.
@@ -42,7 +74,7 @@ Failure response:
 - If the count is zero, the issue is not code. The system needs real member activity and admin approval.
 - If candidates exist but are not approved, use the admin dashboard to approve, reject, or request more context.
 
-## Proof Lane 2: Discord Knowledge Synced Into RAG
+## Proof Lane 3: Discord Knowledge Synced Into RAG
 
 Target:
 - At least 10 Discord RAG sources from approved Discord records.
@@ -70,7 +102,7 @@ Failure response:
 - If approved knowledge exists but RAG sources stay at zero, inspect `runApprovedDiscordRagSourceSync`, `rag_sources`, `rag_documents`, and `rag_chunks`.
 - Do not promote raw message captures directly into authoritative RAG.
 
-## Proof Lane 3: Public Proof Growth Assets
+## Proof Lane 4: Public Proof Growth Assets
 
 Target:
 - At least 4 pending or published public proof drafts from approved Discord source material.
@@ -100,7 +132,7 @@ Failure response:
 - If there is no approved source material, do not create generic public proof.
 - If draft quality is low, reject it and improve the source material or prompt.
 
-## Proof Lane 4: Premium Workflow Proof
+## Proof Lane 5: Premium Workflow Proof
 
 Target:
 - At least 1 premium member/request path proves authorization, SLA, and fulfillment behavior.
@@ -134,17 +166,19 @@ Run this sequence once per week:
 
 1. Review new Discord applications and approve or reject them in Discord.
 2. Confirm approved members can see free channels and unapproved members cannot.
-3. Review knowledge candidates in `/admin/discord`.
-4. Approve at least the highest-signal questions, helpful answers, builds, resources, and wins.
-5. Run `npm run discord:operating-cycle:dry-run`.
-6. If the dry-run shows approved knowledge is available, run `npm run discord:operating-cycle`.
-7. Review any generated public proof draft for accuracy, privacy, and usefulness.
-8. Approve or reject the public proof draft.
-9. Run `npm run rag:evaluate`.
-10. Run `npm run discord:smoke-final-scorecard`.
-11. Run `npm run discord:world-class-readiness`.
-12. Run `npm run discord:proof-backlog`.
-13. Save the evidence artifacts and update the weekly operating notes.
+3. Run `npm run discord:gateway-capture-diagnosis`.
+4. If gateway capture is blocked, fix the worker/intent/message-capture issue before reviewing downstream proof lanes.
+5. Review knowledge candidates in `/admin/discord`.
+6. Approve at least the highest-signal questions, helpful answers, builds, resources, and wins.
+7. Run `npm run discord:operating-cycle:dry-run`.
+8. If the dry-run shows approved knowledge is available, run `npm run discord:operating-cycle`.
+9. Review any generated public proof draft for accuracy, privacy, and usefulness.
+10. Approve or reject the public proof draft.
+11. Run `npm run rag:evaluate`.
+12. Run `npm run discord:smoke-final-scorecard`.
+13. Run `npm run discord:world-class-readiness`.
+14. Run `npm run discord:proof-backlog`.
+15. Save the evidence artifacts and update the weekly operating notes.
 
 ## Release Gate
 

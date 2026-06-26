@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
+import { verifyLab } from '@/app/academy/_actions/evidence'
 import styles from './lab.module.css'
 
 const PYODIDE_VERSION = '0.26.4'
@@ -40,6 +41,9 @@ export function LabRunner({
   const [completed, setCompleted] = useState(false)
   const [completing, startComplete] = useTransition()
   const pyodideRef = useRef<any>(null)
+  // The exact stdout buffer from the run that passed the checkpoint — sent to the
+  // server so it can re-verify the lab against the server-held `check` string.
+  const passedOutputRef = useRef<string>('')
 
   useEffect(() => {
     let cancelled = false
@@ -81,13 +85,20 @@ export function LabRunner({
       setOutput((buf ? buf + '\n' : '') + msg)
       buf = ''
     }
-    if (check && buf.toLowerCase().includes(check.trim().toLowerCase())) setPassed(true)
+    if (check && buf.toLowerCase().includes(check.trim().toLowerCase())) {
+      passedOutputRef.current = buf // capture the passing stdout for server re-verification
+      setPassed(true)
+    }
     setStatus('ready')
   }
 
   const complete = () => {
     startComplete(async () => {
-      const res = await markLessonComplete(courseSlug, lessonSlug, { labVerified: true })
+      // Record the server-verified lab fact (re-checks stdout against the
+      // server-held `check`), then mark the lesson done. The verified flag is
+      // never client-supplied — markLessonComplete no longer accepts one.
+      await verifyLab(courseSlug, lessonSlug, passedOutputRef.current)
+      const res = await markLessonComplete(courseSlug, lessonSlug)
       if (res.ok) setCompleted(true)
     })
   }

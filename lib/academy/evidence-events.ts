@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import {
   deriveUnitState,
   deriveSignals,
+  EVIDENCE_EVENT_TYPES,
   type EvidenceEvent,
   type EvidenceEventType,
   type EvidencePayload,
@@ -46,8 +47,42 @@ export type RecordEvidenceInput = {
  *     by a learner-triggered flow.
  *  3. Emit the event only AFTER the underlying check passed — this is the write
  *     of record, not a request to check.
+ *
+ * Defense-in-depth (independent of the caller contract above):
+ *  - `type` is validated against the known event-type allowlist before insert.
+ *  - Grader/admin-only payload keys (externalOutcome, boardAsset, …) are STRIPPED
+ *    unless `opts.trusted` is set — so even a buggy caller forwarding a client
+ *    payload can't lift a cap. No flow today sets `trusted` (no real grader yet),
+ *    so these keys are always stripped — which is correct.
  */
-export async function recordEvidenceEvent(input: RecordEvidenceInput): Promise<void> {
+
+/** Payload keys that lift score caps and may only be set by a trusted grader/admin flow. */
+const GRADER_ONLY_PAYLOAD_KEYS: readonly (keyof EvidencePayload)[] = [
+  'externalOutcome',
+  'boardAsset',
+  'explainBackGraded',
+  'brokenCaseHandled',
+  'reviewed',
+]
+
+export async function recordEvidenceEvent(
+  input: RecordEvidenceInput,
+  opts?: { trusted?: boolean },
+): Promise<void> {
+  // Allowlist the event type — never insert an unknown/forged type.
+  if (!EVIDENCE_EVENT_TYPES.includes(input.type)) {
+    throw new Error(`evidence insert rejected: unknown event type "${input.type}"`)
+  }
+
+  // Strip grader-only payload keys unless an explicit trusted flag is set. Keeps
+  // legitimately server-set keys (e.g. spacingScheduled) intact.
+  let payload: EvidencePayload = input.payload ?? {}
+  if (!opts?.trusted) {
+    const sanitized: EvidencePayload = { ...payload }
+    for (const key of GRADER_ONLY_PAYLOAD_KEYS) delete sanitized[key]
+    payload = sanitized
+  }
+
   const admin = supabaseAdmin()
   const { error } = await admin.from('academy_evidence_events').insert({
     user_id: input.userId,
@@ -55,7 +90,7 @@ export async function recordEvidenceEvent(input: RecordEvidenceInput): Promise<v
     lesson_slug: input.lessonSlug,
     unit_id: input.unitId,
     event_type: input.type,
-    payload: input.payload ?? {},
+    payload,
   })
   if (error) throw new Error(`evidence insert failed: ${error.message}`)
 }

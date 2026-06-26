@@ -1,9 +1,13 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useState, useTransition, type ReactNode } from 'react'
 import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
+import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
 import styles from './sprint.module.css'
+
+/** Slugs threaded down so a sprint section can emit evidence for the right unit. */
+type EvidenceProps = { courseSlug?: string; lessonSlug?: string }
 
 /** Loop-rail wrapper. Every sprint section carries its loop-step label so the
  *  learner perceives the engine, not just the content. */
@@ -54,9 +58,24 @@ function SprintContract({ b }: { b: Extract<LessonBlock, { type: 'sprint-contrac
   )
 }
 
-function Pretest({ b }: { b: Extract<LessonBlock, { type: 'pretest' }> }) {
+function Pretest({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'pretest' }> } & EvidenceProps) {
   const [val, setVal] = useState('')
   const [shown, setShown] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [, startTransition] = useTransition()
+
+  // Revealing the model answer after a memory-first attempt = the learner ran the
+  // diagnostic AND attempted retrieval. Emit both, at most once per mount.
+  const reveal = () => {
+    setShown(true)
+    if (sent || !courseSlug || !lessonSlug) return
+    setSent(true)
+    startTransition(() => {
+      void recordSprintEvidence(courseSlug, lessonSlug, 'diagnostic_completed')
+      void recordSprintEvidence(courseSlug, lessonSlug, 'retrieval_attempted')
+    })
+  }
+
   return (
     <Section blockKey="pretest" tone="warm">
       <p className={styles.lead}>{b.prompt}</p>
@@ -68,7 +87,7 @@ function Pretest({ b }: { b: Extract<LessonBlock, { type: 'pretest' }> }) {
         aria-label="Pretest answer"
       />
       {!shown ? (
-        <button type="button" className={styles.ghostBtn} onClick={() => setShown(true)} disabled={!val.trim()}>
+        <button type="button" className={styles.ghostBtn} onClick={reveal} disabled={!val.trim()}>
           {val.trim() ? 'Reveal the answer →' : 'Write a guess to reveal'}
         </button>
       ) : (
@@ -199,10 +218,29 @@ function Calibration({ b }: { b: Extract<LessonBlock, { type: 'calibration' }> }
   )
 }
 
-function Transfer({ b }: { b: Extract<LessonBlock, { type: 'transfer' }> }) {
+function Transfer({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'transfer' }> } & EvidenceProps) {
+  const [sent, setSent] = useState(false)
+  const [, startTransition] = useTransition()
+  const canEmit = !!courseSlug && !!lessonSlug
+
+  // Engaging the transfer section = the learner attempted to apply the skill to a
+  // new context. Fire once per mount; never block the UI.
+  const markAttempted = () => {
+    if (sent || !courseSlug || !lessonSlug) return
+    setSent(true)
+    startTransition(() => {
+      void recordSprintEvidence(courseSlug, lessonSlug, 'transfer_attempted')
+    })
+  }
+
   return (
     <Section blockKey="transfer">
       <p className={styles.lead}>{b.text}</p>
+      {canEmit ? (
+        <button type="button" className={styles.ghostBtn} onClick={markAttempted} disabled={sent} data-on={sent}>
+          {sent ? '✓ Transfer attempt logged' : 'Mark transfer attempted →'}
+        </button>
+      ) : null}
     </Section>
   )
 }
@@ -253,12 +291,12 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
 }
 
 /** Returns a renderer for an engine section block, or null for legacy content blocks. */
-export function SprintBlock({ block }: { block: LessonBlock }): ReactNode {
+export function SprintBlock({ block, courseSlug, lessonSlug }: { block: LessonBlock } & EvidenceProps): ReactNode {
   switch (block.type) {
     case 'sprint-contract': return <SprintContract b={block} />
     case 'mission': return <Section blockKey="mission"><p className={styles.missionText}>{block.text}</p></Section>
     case 'context': return <Section blockKey="context"><p className={styles.lead}>{block.text}</p></Section>
-    case 'pretest': return <Pretest b={block} />
+    case 'pretest': return <Pretest b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'worked-example': return <WorkedExample b={block} />
     case 'concept': return <Concept b={block} />
     case 'debug': return <DebugBlock b={block} />
@@ -266,7 +304,7 @@ export function SprintBlock({ block }: { block: LessonBlock }): ReactNode {
     case 'verification': return <Verification b={block} />
     case 'teachback': return <Teachback b={block} />
     case 'calibration': return <Calibration b={block} />
-    case 'transfer': return <Transfer b={block} />
+    case 'transfer': return <Transfer b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'spaced-review': return <SpacedReview b={block} />
     case 'unlock-gate': return <UnlockGate b={block} />
     default: return null

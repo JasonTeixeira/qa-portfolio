@@ -15,7 +15,6 @@ import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 export async function markLessonComplete(
   courseSlug: string,
   lessonSlug: string,
-  opts?: { labVerified?: boolean },
 ): Promise<{ ok: boolean; signedIn: boolean; celebration?: Celebration | null }> {
   const sb = await createSupabaseServerClient()
   const {
@@ -68,7 +67,9 @@ export async function markLessonComplete(
 
     // Tier-0 evidence spine (best-effort, never block completion). userId is the
     // authenticated session id; payload is built server-side from verified facts.
-    // unitId = lessonSlug (one lesson = one unit).
+    // unitId = lessonSlug (one lesson = one unit). The lab_verified /
+    // sprint_artifact_created events are NOT emitted here — they are server-verified
+    // in verifyLab (app/academy/_actions/evidence.ts) so the client cannot forge them.
     try {
       await recordEvidenceEvent({
         userId: user.id,
@@ -78,15 +79,6 @@ export async function markLessonComplete(
         type: 'lesson_completed',
         payload: { spacingScheduled: true }, // FSRS review cards are created above, so spacing is genuinely scheduled
       })
-      if (opts?.labVerified) {
-        await recordEvidenceEvent({
-          userId: user.id,
-          courseSlug,
-          lessonSlug,
-          unitId: lessonSlug,
-          type: 'lab_verified',
-        })
-      }
     } catch (err) {
       console.error('[academy/progress] evidence record failed', err)
     }

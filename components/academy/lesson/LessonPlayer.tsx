@@ -108,7 +108,17 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
   )
 }
 
-function Block({ block, labHref }: { block: LessonBlock; labHref: string }) {
+function Block({
+  block,
+  labHref,
+  courseSlug,
+  lessonSlug,
+}: {
+  block: LessonBlock
+  labHref: string
+  courseSlug?: string
+  lessonSlug?: string
+}) {
   switch (block.type) {
     case 'prose':
       return <p className={styles.prose}>{block.text}</p>
@@ -147,7 +157,7 @@ function Block({ block, labHref }: { block: LessonBlock; labHref: string }) {
       return <QuizBlock block={block} />
     default:
       // Sage Learning Engine V2 sprint sections render themselves.
-      return <SprintBlock block={block} />
+      return <SprintBlock block={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
   }
 }
 
@@ -269,21 +279,33 @@ export function LessonPlayer({
           <p className={styles.eyebrow}>{lesson.eyebrow}</p>
           <h1 className={styles.title}>{lesson.title}</h1>
           {(unitState || unitScore) ? (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                flexWrap: 'wrap',
-                margin: '0.5rem 0 1.25rem',
-              }}
-            >
-              {unitState ? <StateBadge state={unitState} /> : null}
-              {unitScore ? (
-                <div style={{ minWidth: '12rem', flex: '1 1 12rem', maxWidth: '20rem' }}>
-                  <ScoreCapMeter resolution={unitScore} />
-                </div>
-              ) : null}
+            <div style={{ margin: '0.5rem 0 1.25rem' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {unitState ? <StateBadge state={unitState} /> : null}
+                {unitScore ? (
+                  <div style={{ minWidth: '12rem', flex: '1 1 12rem', maxWidth: '20rem' }}>
+                    <ScoreCapMeter resolution={unitScore} />
+                  </div>
+                ) : null}
+              </div>
+              {/* The rail can read 'done' while the spine reads 'transfer due': mastery is
+                  evidence-gated, not completion-gated. One short clarifier for that dual truth. */}
+              <p
+                style={{
+                  margin: '0.5rem 0 0',
+                  fontSize: '0.75rem',
+                  color: 'var(--muted, var(--ac-ink-muted))',
+                }}
+              >
+                Mastery is evidence-gated — complete the sprint to reach 100.
+              </p>
             </div>
           ) : null}
           {locked ? (
@@ -309,7 +331,7 @@ export function LessonPlayer({
             </div>
           ) : (
             lesson.blocks.map((b, i) => (
-              <Block key={i} block={b} labHref={resolvedLabHref} />
+              <Block key={i} block={b} labHref={resolvedLabHref} courseSlug={course.slug} lessonSlug={lesson.slug} />
             ))
           )}
         </article>

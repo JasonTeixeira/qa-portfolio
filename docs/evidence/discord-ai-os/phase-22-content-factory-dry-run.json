@@ -1,8 +1,13 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-26-2026-06-26T04-01-58-347Z",
+  "runKey": "content-factory-2026-06-26-2026-06-26T04-17-00-136Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
+  "sourcePolicy": {
+    "sourceKind": "editorial_seed",
+    "operatingProofEligible": false,
+    "requiresApprovedSourceBeforePublicProof": true
+  },
   "channelValidation": {
     "ok": true,
     "unknownChannels": [],
@@ -497,6 +502,6 @@
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-26T04:01:58.346Z",
-  "finishedAt": "2026-06-26T04:01:58.352Z"
+  "startedAt": "2026-06-26T04:17:00.135Z",
+  "finishedAt": "2026-06-26T04:17:00.140Z"
 }

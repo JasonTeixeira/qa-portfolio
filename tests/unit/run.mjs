@@ -2958,6 +2958,11 @@ test('discord content factory: creates approval-gated channel drafts from editor
   });
   assert.equal(dryRun.ok, true);
   assert.equal(dryRun.channelValidation.ok, true);
+  assert.deepEqual(dryRun.sourcePolicy, {
+    sourceKind: 'editorial_seed',
+    operatingProofEligible: false,
+    requiresApprovedSourceBeforePublicProof: true,
+  });
   assert.equal(dryRun.created, 0);
   assert.ok(dryRun.planned >= 9);
   assert.ok(dryRun.drafts.every((draft) => draft.draftType));
@@ -2975,6 +2980,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(script, /readOnly/);
   const factory = await readFile(new URL('../../lib/discord/content-factory.ts', import.meta.url), 'utf8');
   assert.match(factory, /source_kind: 'editorial_seed'/);
+  assert.match(factory, /operating_proof_eligible: false/);
+  assert.match(factory, /requires_approved_source_before_public_proof: true/);
   assert.match(factory, /requires_admin_approval: true/);
   assert.match(factory, /publish_allowed_before_approval: false/);
   assert.match(factory, /content_factory_dry_run: false/);
@@ -3043,6 +3050,11 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(report.draftTypeCoverage.includes('weekly_recap'));
   assert.equal(report.approvalGate.adminApprovalRequired, true);
   assert.equal(report.approvalGate.noPublicPublish, true);
+  assert.deepEqual(report.sourcePolicy, {
+    sourceKind: 'editorial_seed',
+    operatingProofEligible: false,
+    requiresApprovedSourceBeforePublicProof: true,
+  });
   assert.match(report.releaseMeaning, /Real operating proof still requires admin-approved publishing/);
 
   const unsafe = buildDiscordContentFactoryReadinessReport({
@@ -3050,6 +3062,11 @@ test('discord content factory readiness: validates dry-run quality and approval 
     evidence: {
       ...source,
       created: 1,
+      sourcePolicy: {
+        sourceKind: 'unknown',
+        operatingProofEligible: true,
+        requiresApprovedSourceBeforePublicProof: false,
+      },
       drafts: source.drafts.map((draft, index) => index === 0 ? { ...draft, qualityScore: 70 } : draft),
       safety: {
         dryRun: true,
@@ -3073,6 +3090,9 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(unsafe.failures.includes('dry_run_created_drafts'));
   assert.ok(unsafe.failures.includes('dry_run_not_read_only'));
   assert.ok(unsafe.failures.includes('quality_score_below_gate'));
+  assert.ok(unsafe.failures.includes('source_policy_not_editorial_seed'));
+  assert.ok(unsafe.failures.includes('editorial_seed_marked_operating_proof'));
+  assert.ok(unsafe.failures.includes('approved_source_requirement_missing'));
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

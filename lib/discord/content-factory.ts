@@ -29,6 +29,11 @@ export type DiscordContentFactoryResult = {
   runKey: string;
   version: string;
   dryRun: boolean;
+  sourcePolicy: {
+    sourceKind: 'editorial_seed';
+    operatingProofEligible: false;
+    requiresApprovedSourceBeforePublicProof: true;
+  };
   channelValidation: ReturnType<typeof validateDiscordContentFactoryChannels>;
   created: number;
   planned: number;
@@ -405,6 +410,8 @@ export async function runDiscordContentFactory(
         metadata: {
           source: DISCORD_CONTENT_FACTORY_VERSION,
           source_kind: 'editorial_seed',
+          operating_proof_eligible: false,
+          requires_approved_source_before_public_proof: true,
           factory_key: factoryKey,
           run_key: runKey,
           requires_admin_approval: true,
@@ -476,6 +483,11 @@ export async function runDiscordContentFactory(
     runKey,
     version: DISCORD_CONTENT_FACTORY_VERSION,
     dryRun,
+    sourcePolicy: {
+      sourceKind: 'editorial_seed',
+      operatingProofEligible: false,
+      requiresApprovedSourceBeforePublicProof: true,
+    },
     channelValidation,
     created,
     planned,

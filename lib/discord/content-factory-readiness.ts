@@ -26,6 +26,11 @@ export type DiscordContentFactoryReadinessReport = {
     adminApprovalRequired: boolean;
     readOnly: boolean;
   };
+  sourcePolicy: {
+    sourceKind: string | null;
+    operatingProofEligible: boolean | null;
+    requiresApprovedSourceBeforePublicProof: boolean | null;
+  };
   failures: string[];
   releaseMeaning: string;
 };
@@ -63,6 +68,9 @@ export function buildDiscordContentFactoryReadinessReport(
   if (evidence.safety?.readOnly !== true) failures.push('dry_run_not_read_only');
   if (evidence.safety?.noPublicPublish !== true) failures.push('public_publish_not_blocked');
   if (evidence.safety?.adminApprovalRequired !== true) failures.push('admin_approval_not_required');
+  if (evidence.sourcePolicy?.sourceKind !== 'editorial_seed') failures.push('source_policy_not_editorial_seed');
+  if (evidence.sourcePolicy?.operatingProofEligible !== false) failures.push('editorial_seed_marked_operating_proof');
+  if (evidence.sourcePolicy?.requiresApprovedSourceBeforePublicProof !== true) failures.push('approved_source_requirement_missing');
   if (evidence.channelValidation?.ok !== true || evidence.safety?.canonicalChannels !== true) failures.push('canonical_channel_validation_failed');
   if ((evidence.channelValidation?.unknownChannels ?? evidence.safety?.unknownChannels ?? []).length > 0) failures.push('unknown_channels_present');
   if (Number(evidence.planned ?? 0) < minPlannedDrafts) failures.push('insufficient_planned_drafts');
@@ -93,6 +101,15 @@ export function buildDiscordContentFactoryReadinessReport(
       noPublicPublish: evidence.safety?.noPublicPublish === true,
       adminApprovalRequired: evidence.safety?.adminApprovalRequired === true,
       readOnly: evidence.safety?.readOnly === true,
+    },
+    sourcePolicy: {
+      sourceKind: typeof evidence.sourcePolicy?.sourceKind === 'string' ? evidence.sourcePolicy.sourceKind : null,
+      operatingProofEligible: typeof evidence.sourcePolicy?.operatingProofEligible === 'boolean'
+        ? evidence.sourcePolicy.operatingProofEligible
+        : null,
+      requiresApprovedSourceBeforePublicProof: typeof evidence.sourcePolicy?.requiresApprovedSourceBeforePublicProof === 'boolean'
+        ? evidence.sourcePolicy.requiresApprovedSourceBeforePublicProof
+        : null,
     },
     failures,
     releaseMeaning: 'Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence.',

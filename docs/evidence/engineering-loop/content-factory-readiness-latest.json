@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-content-factory-readiness-v1",
-  "generatedAt": "2026-06-26T04:01:58.828Z",
+  "generatedAt": "2026-06-26T04:17:00.662Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
   "dryRun": true,
@@ -38,6 +38,11 @@
     "noPublicPublish": true,
     "adminApprovalRequired": true,
     "readOnly": true
+  },
+  "sourcePolicy": {
+    "sourceKind": "editorial_seed",
+    "operatingProofEligible": false,
+    "requiresApprovedSourceBeforePublicProof": true
   },
   "failures": [],
   "releaseMeaning": "Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence."

@@ -223,6 +223,9 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
           : 'With explicit approval, run the missing RAG eval command after confirming the execution packet.',
       ]
     : [];
+  const gatewayOperatingActions = gatewayReadyForFreshMessageAction
+    ? [gatewayReadyForFreshMessageAction]
+    : [];
   const proofRecoveryActions = proofSourceRecoveryPlan?.totalShortfall
     ? [
         'Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan to refresh source-volume blockers.',
@@ -237,6 +240,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
     .map((item) => item.nextAction);
   const immediateActionOrder = uniqueActionList([
     ...ragEvalActions,
+    ...gatewayOperatingActions,
     ...proofRecoveryActions,
     ...adjustedBlockerActions,
     ...categoryActions,

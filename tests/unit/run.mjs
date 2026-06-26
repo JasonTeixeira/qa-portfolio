@@ -2843,6 +2843,10 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.ok(report.immediateActionOrder[1].includes('rag:evaluate:missing-preflight'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('proof-source-recovery-plan')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('fresh non-bot member message')));
+  assert.ok(
+    report.immediateActionOrder.findIndex((action) => action.includes('fresh non-bot member message'))
+      < report.immediateActionOrder.findIndex((action) => action.includes('Work the next proof lane')),
+  );
   assert.equal(report.immediateActionOrder.some((action) => action.includes('gateway worker with Message Content Intent')), false);
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
   assert.ok(report.summary.operatingBlockers.includes('approved_discord_knowledge_sources_below_target:0/10'));

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T08:47:33.683Z",
+  "timestamp": "2026-06-26T08:50:23.642Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -90,7 +90,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782463644887"
+    "runKey": "phase-20-final-1782457605788"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -872,7 +872,7 @@
       }
     ],
     "nextActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
       "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -922,8 +922,8 @@
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "ageMinutes": 0,
-      "lastSeenAt": "2026-06-26T08:47:14.075+00:00",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-26T08:32:47.167+00:00",
       "fresh": true,
       "lastCloseCode": null
     },

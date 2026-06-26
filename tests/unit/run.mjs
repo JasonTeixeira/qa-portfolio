@@ -80,9 +80,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:durable-jobs-readiness && npm run discord:security-privacy-readiness && npm run discord:observability-quality-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:durable-jobs-readiness && npm run discord:security-privacy-readiness && npm run discord:observability-quality-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence && npm run verify:business-site:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
+  assert.equal(packageJson.scripts['verify:business-site:evidence'], 'node scripts/marketing/verify-business-site-evidence.mjs');
   assert.equal(packageJson.scripts['ops:approval-boundaries'], 'node scripts/ops/check-approval-boundaries.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
@@ -126,6 +127,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('rag:evaluate'), false);
+  assert.equal(packageJson.scripts['verify:business-site:evidence'].includes('lighthouse'), false);
+  assert.equal(packageJson.scripts['verify:business-site:evidence'].includes('next'), false);
   assert.match(localVerificationEvidence, /local-verification-latest\.json/);
   assert.match(localVerificationEvidence, /approval-boundary-check-latest\.json/);
   assert.match(localVerificationEvidence, /Approval-boundary check must identify db:push as requiring explicit approval/);
@@ -3855,6 +3858,25 @@ test('discord proof controls: documents the non-fake path to 95+ operating proof
   assert.match(controls, /npm run verify:local/);
   assert.match(controls, /worldClassEligible/);
   assert.match(controls, /Any proof backlog lane is blocked/);
+});
+
+test('business site evidence verifier: gates marketing proof claims against audit artifacts', async () => {
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const script = await readFile(new URL('../../scripts/marketing/verify-business-site-evidence.mjs', import.meta.url), 'utf8');
+
+  assert.equal(pkg.scripts['verify:business-site:evidence'], 'node scripts/marketing/verify-business-site-evidence.mjs');
+  assert.ok(pkg.scripts['verify:local'].includes('verify:business-site:evidence'));
+  assert.ok(pkg.scripts['lint:business'].includes('scripts/marketing/verify-business-site-evidence.mjs'));
+  assert.match(script, /minRoutesAudited:\s*29/);
+  assert.match(script, /minLighthouseRoutes:\s*18/);
+  assert.match(script, /minPerformance:\s*0\.96/);
+  assert.match(script, /maxFailedLinks:\s*0/);
+  assert.match(script, /maxAxeViolationRoutes:\s*0/);
+  assert.match(script, /maxOverflowRoutes:\s*0/);
+  assert.match(script, /scorecard_has_no_100_claim/);
+  assert.match(script, /scorecard_has_live_proof_disclaimer/);
+  assert.match(script, /matrix_keeps_trust_below_high_90s/);
+  assert.match(script, /does not run the site, rerun Lighthouse, deploy, publish, or prove live customer outcomes/);
 });
 
 test('discord content factory: creates approval-gated channel drafts from editorial slots', async () => {

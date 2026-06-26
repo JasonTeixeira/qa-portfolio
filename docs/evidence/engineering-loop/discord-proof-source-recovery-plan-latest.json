@@ -1,10 +1,10 @@
 {
   "ok": true,
   "version": "discord-proof-source-recovery-plan-v1",
-  "generatedAt": "2026-06-26T09:27:54.722Z",
+  "generatedAt": "2026-06-26T10:24:05.851Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof.",
-  "scanGeneratedAt": "2026-06-26T09:27:54.200Z",
+  "scanGeneratedAt": "2026-06-26T10:24:05.319Z",
   "status": "blocked",
   "summary": {
     "laneCount": 4,

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approved-knowledge-operating-packet-v1",
-  "generatedAt": "2026-06-26T09:27:55.231Z",
+  "generatedAt": "2026-06-26T10:24:06.318Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof.",
   "status": "ready_for_collection",

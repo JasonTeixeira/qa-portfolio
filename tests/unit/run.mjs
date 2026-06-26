@@ -4570,7 +4570,14 @@ test('discord signatures: verifies signed interaction payloads and rejects tampe
 
 test('sage discord commands: command registry covers onboarding content engine and ops commands', async () => {
   const { sageCommandDefinitions } = await import('../../lib/discord/sage-commands.ts');
-  const { sagePathOptions, sageLevelOptions, dailyBuildPrompts, weeklyCadence, leanDiscordChannels } = await import('../../lib/discord/sage-content.ts');
+  const {
+    sagePathOptions,
+    sageLevelOptions,
+    dailyBuildPrompts,
+    weeklyCadence,
+    leanDiscordChannels,
+    validateLeanDiscordChannelOperatingMatrix,
+  } = await import('../../lib/discord/sage-content.ts');
   const names = sageCommandDefinitions.map((command) => command.name);
 
   assert.deepEqual(names, [
@@ -4638,6 +4645,38 @@ test('sage discord commands: command registry covers onboarding content engine a
     'team-ops',
   ]);
   assert.ok(sagePathOptions.every((option) => ['build-lab', 'questions'].includes(option.channel)));
+  const channelMatrix = validateLeanDiscordChannelOperatingMatrix();
+  assert.equal(channelMatrix.ok, true);
+  assert.deepEqual(channelMatrix.failures, []);
+  assert.equal(channelMatrix.coverage.count, 20);
+  assert.ok(channelMatrix.coverage.dailyChannels.includes('daily-signal'));
+  assert.ok(channelMatrix.coverage.dailyChannels.includes('questions'));
+  assert.ok(channelMatrix.coverage.weeklyChannels.includes('project-submissions'));
+  assert.ok(channelMatrix.coverage.weeklyChannels.includes('wins-showcase'));
+  assert.deepEqual(channelMatrix.coverage.proofLanes, [
+    'approved_discord_knowledge',
+    'onboarding',
+    'operating_admin',
+    'premium_workflow_proof',
+    'public_proof_assets',
+    'rag_discord_sources',
+  ]);
+  assert.ok(leanDiscordChannels.every((channel) => channel.botJobs.length > 0));
+  assert.ok(leanDiscordChannels.every((channel) => channel.pinnedAssets.length >= 2));
+  assert.ok(leanDiscordChannels.every((channel) => channel.antiSprawlRule.length >= 40));
+  assert.equal(leanDiscordChannels.filter((channel) => channel.visibility === 'pre_approval').length, 1);
+  assert.deepEqual(
+    leanDiscordChannels
+      .filter((channel) => channel.visibility === 'premium_members')
+      .map((channel) => channel.name),
+    ['premium', 'premium-reviews'],
+  );
+  assert.equal(
+    validateLeanDiscordChannelOperatingMatrix([
+      { ...leanDiscordChannels[0], name: 'bad channel', botJobs: [], proofLanes: [], pinnedAssets: [], antiSprawlRule: 'weak' },
+    ]).ok,
+    false,
+  );
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
   assert.ok(packageJson.scripts['discord:approval-audit'].includes('audit-member-approval.mjs'));
   assert.ok(packageJson.scripts['discord:approval-enforce'].includes('--enforce'));

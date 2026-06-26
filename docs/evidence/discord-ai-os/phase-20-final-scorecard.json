@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782472688143",
+  "runKey": "phase-20-final-1782473064696",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -885,6 +885,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T11:18:08.143Z",
-  "finishedAt": "2026-06-26T11:18:09.711Z"
+  "startedAt": "2026-06-26T11:24:24.696Z",
+  "finishedAt": "2026-06-26T11:24:26.237Z"
 }

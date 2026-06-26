@@ -393,6 +393,6 @@
     "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "Refresh final scorecard and local verification evidence after the approved eval run."
   ],
-  "startedAt": "2026-06-26T11:17:58.961Z",
-  "finishedAt": "2026-06-26T11:17:58.984Z"
+  "startedAt": "2026-06-26T11:24:15.497Z",
+  "finishedAt": "2026-06-26T11:24:15.522Z"
 }

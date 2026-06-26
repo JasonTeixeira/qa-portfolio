@@ -635,6 +635,177 @@ def price_with_tax(amount):
   },
 ]
 
+// ---------------------------------------------------------------- lesson 4 blocks
+// "Types & Data — Know What a Value Really Is". Grounded in the
+// 01-programming-fundamentals "Types" cluster (anchor: type-confusion bugs like
+// '2' + '3' == '23', silent coercion) + established practice. Standard sprint.
+const TYPES_LAB_STARTER = `def total_quantity(values):
+    # values is a list of STRINGS, e.g. ["2", "3", "5"]. Convert each to an int
+    # and RETURN the integer sum. If a value isn't a whole number, raise ValueError.
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+print("sum:", total_quantity(["2", "3", "5"]))     # must be 10 (int), not "235"
+ok = total_quantity(["2", "3", "5"]) == 10
+try:
+    total_quantity(["2", "oops"])
+    rejected = False
+except ValueError:
+    rejected = True
+print(f"PASS: {ok and rejected}")
+`
+
+const typesBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      "Identify a value's type, convert input safely at the boundary, choose the right data structure, and write a function that can't be fooled by a string that looks like a number.",
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A function that converts string input to int, rejects non-numbers, returns the right type — plus a test covering a good and a bad case.',
+    unlock: 'All verification checks confirmed and the type-confusion bug fixed.',
+    doNotClaim:
+      "Don't claim mastery until your function turns ['2','3'] into 5 (not '23') and rejects a non-number with a clear error.",
+  },
+  {
+    type: 'mission',
+    text: "Your form adds two quantities and shows '23' instead of 5. The inputs arrived as strings ('2' and '3'), and `+` concatenated them. Your job: know what your values actually are, and convert them deliberately.",
+  },
+  {
+    type: 'context',
+    text: "Type confusion is a top source of subtle bugs: '5' + '5' = '55', `if count:` silently skipping zero, a list used where a dict belonged. Knowing types — and converting at the boundary — underpins everything from form handling to APIs to data pipelines.",
+  },
+  {
+    type: 'pretest',
+    prompt: "Before you read on: in Python, what is `'2' + '3'`? And `2 + 3`? Why does the first one surprise people?",
+    reveal:
+      "`'2' + '3'` is `'23'` (string concatenation); `2 + 3` is `5` (integer addition). `+` does different things depending on the operand TYPE. Input from forms, files, and APIs usually arrives as STRINGS — so you must convert deliberately (`int('2')`) before doing math.",
+  },
+  {
+    type: 'worked-example',
+    intro: 'Convert at the boundary, then compute on real types:',
+    language: 'python',
+    code: `def order_total(qty_str, price_str):
+    # input from a form/API arrives as strings -> convert at the boundary
+    try:
+        qty = int(qty_str)
+        price = float(price_str)
+    except ValueError:
+        raise ValueError("quantity and price must be numbers")
+    if qty < 0 or price < 0:
+        raise ValueError("quantity and price must be non-negative")
+    return qty * price        # now we compute on real numeric types`,
+    steps: [
+      'Know the incoming type — form/file/API data is usually `str`.',
+      'Convert explicitly at the edge: `int(...)`, `float(...)`.',
+      'Handle conversion failure (`int("oops")` raises ValueError).',
+      'Compute on the real type — never `str + int`.',
+      'Pick the right structure: list (ordered), dict (keyed lookup), set (uniqueness).',
+    ],
+    commonMistake:
+      'Assuming input is already the right type. Form/file/API data is usually a string — convert before you compute, or `+` will concatenate.',
+  },
+  {
+    type: 'concept',
+    title: 'A value has a type; the type decides what operations mean',
+    text: "Python's core types: int, float, str, bool, list, dict, set, None. A value's TYPE decides what `+`, `==`, and truthiness do — `'2' + '3'` concatenates, `2 + 3` adds. Watch truthiness pitfalls: `0`, `''`, `[]`, and `{}` are all falsy, so `if count:` skips a real zero. Choose structures by access pattern: list for order, dict for keyed lookup, set for uniqueness. Using the right type makes whole classes of bad state impossible to represent.",
+  },
+  {
+    type: 'lab',
+    title: "Don't be fooled by a string",
+    summary:
+      "Implement total_quantity(values) where values is a list of strings like ['2','3','5']. Convert each to an int and RETURN the sum — '2'+'3' must give 5, not '23'. Reject any value that isn't a whole number.",
+    language: 'python',
+    starter: TYPES_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: "This sums quantities but returns '235' instead of 10.",
+    language: 'python',
+    brokenCode: `def total_quantity(values):
+    result = values[0]
+    for v in values[1:]:
+        result = result + v     # values are strings -> this concatenates
+    return result`,
+    task: 'Why does it concatenate instead of add?',
+    fix: "`values` are strings, and `+` on strings concatenates. Convert each to int first: `return sum(int(v) for v in values)` — and let `int()` reject non-numbers.",
+  },
+  {
+    type: 'tradeoff',
+    question: 'User input arrives as a string. Convert it early, or pass the string around?',
+    optionA: {
+      label: 'Convert at the boundary',
+      text: 'Parse to the real type (int / date) the moment it enters. The rest of the code works with real types — you just handle conversion failures at the edge.',
+    },
+    optionB: {
+      label: 'Keep it a string',
+      text: 'Pass the raw string deeper. Simpler at the edge — but every downstream caller must remember to convert, and bugs hide far from the source.',
+    },
+    guidance:
+      'Convert at the boundary — “parse, don’t smear.” Once past the edge, code should work with real types, not stringly-typed data.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      "total_quantity(['2','3','5']) returns 10 (an int, not '235')",
+      "'2' + '3' produces 5, not '23' — values are converted, not concatenated",
+      'A non-numeric value is REJECTED with a ValueError',
+      'The function returns the right TYPE (int, not str)',
+      'A test covers a normal case AND a bad-input case',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: "Input from a web form arrives as `age = '25'`. What does `age + 1` do?",
+    options: [
+      'Returns 26',
+      "Returns '251'",
+      'Raises TypeError (can’t add str + int)',
+      'Returns 25',
+    ],
+    answer: 2,
+    explanation:
+      "`age` is the string '25'. `'25' + 1` raises TypeError — you can't add a str and an int. Convert first: `int(age) + 1` → 26. Form/API input is strings; convert deliberately.",
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      "Why does '2' + '3' give '23' but 2 + 3 give 5?",
+      'Where should you convert input types — and why there?',
+      'Name a truthiness pitfall (e.g. with 0 or an empty list).',
+      'When would you reach for a dict instead of a list?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your total_quantity() + its test',
+    weak: '"It adds the numbers." — it might be concatenating strings.',
+    passing:
+      '"total_quantity converts each string to int and sums; it rejects non-numbers with a ValueError; a test covers both." — correct and typed.',
+    excellent:
+      '"total_quantity parses at the boundary (int() per value), rejects non-integers with a clear error, and returns an int. Tests cover normal, empty, and bad-input cases. I used a list for ordered values and would reach for a dict if I needed keyed lookup. The same convert-at-the-edge pattern applies to our API params." — specific, typed, structure-aware, transferable.',
+    note: 'Excellent converts at the boundary AND reasons about data structures — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find a place in your own code where input crosses a boundary (a form field, CLI arg, JSON value). Convert it to its real type at the edge with explicit error handling, and pick the data structure that fits the access pattern.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      "Lab checkpoint passed — ['2','3'] sums to 5 and a non-number is rejected",
+      'Broken case understood (string `+` concatenates)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -741,6 +912,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l3Err) throw l3Err
+
+  // 2d. Lesson 4 — Types & Data (grounded in the 01 fundamentals "Types" cluster).
+  const { error: l4Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'types-and-data',
+      title: 'Types & Data: Know What a Value Really Is',
+      eyebrow: 'Module 1 · Lesson 4 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 3,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: typesBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l4Err) throw l4Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

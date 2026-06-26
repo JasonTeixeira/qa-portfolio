@@ -467,6 +467,39 @@ type ContentFactoryReadiness = {
   releaseMeaning: string;
 };
 
+type ProofIntakeField = {
+  key: string;
+  label: string;
+  description: string;
+  required: boolean;
+};
+
+type ProofIntakeLane = {
+  key: string;
+  title: string;
+  targetCount: number;
+  adminSurface: string;
+  sourceTables: string[];
+  requiredFields: ProofIntakeField[];
+  acceptanceChecks: string[];
+  rejectionChecks: string[];
+  privacyChecks: string[];
+  verificationCommands: string[];
+  evidencePaths: string[];
+};
+
+type ProofIntakeReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  lanes: ProofIntakeLane[];
+  requiredLaneCount: number;
+  requiredFieldCount: number;
+  failures: string[];
+  weeklyIntakeOrder: string[];
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -527,6 +560,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const proofRehearsalReadiness = await loadProofRehearsalReadiness();
   const contentFactoryReadiness = await loadContentFactoryReadiness();
   const operatorBrief = await loadDiscordOperatorBrief();
+  const proofIntakeReadiness = await loadProofIntakeReadiness();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1160,6 +1194,46 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-proof-intake-readiness">
+          <Panel
+            icon={FileCheck2}
+            title="Proof intake readiness"
+            meta={proofIntakeReadiness.ok
+              ? `${proofIntakeReadiness.requiredLaneCount} lanes / ${proofIntakeReadiness.requiredFieldCount} fields`
+              : `${proofIntakeReadiness.failures.length} failures`}
+            empty="Proof intake readiness has not been generated. Run npm run discord:proof-intake-readiness."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofIntakeReadiness.ok ? 'emerald' : 'rose'}>{proofIntakeReadiness.ok ? 'contract ready' : 'missing contract'}</Badge>
+                  <Badge tone="neutral">{proofIntakeReadiness.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofIntakeReadiness.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Weekly intake order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofIntakeReadiness.weeklyIntakeOrder.slice(0, 6).map((step, index) => (
+                    <li key={step} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            {proofIntakeReadiness.lanes.map((lane) => (
+              <ProofIntakeLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofIntakeReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
           <Panel
             icon={ShieldCheck}
@@ -1785,6 +1859,28 @@ async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence>
   }
 }
 
+async function loadProofIntakeReadiness(): Promise<ProofIntakeReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofIntakeReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof intake readiness evidence is missing. Run npm run discord:proof-intake-readiness. This does not satisfy real operating proof lanes.',
+      lanes: [],
+      requiredLaneCount: 0,
+      requiredFieldCount: 0,
+      failures: ['proof_intake_readiness_missing'],
+      weeklyIntakeOrder: ['Run npm run discord:proof-intake-readiness before operating proof intake.'],
+    };
+  }
+}
+
 function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
@@ -1989,6 +2085,41 @@ function ProofRehearsalLaneRow({ lane }: { lane: ProofRehearsalLaneRow }) {
       </div>
       <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
         {lane.latestEvidence?.timestamp ? `last proof: ${formatDateTime(lane.latestEvidence.timestamp)}` : 'no proof evidence yet'}
+      </div>
+    </div>
+  );
+}
+
+function ProofIntakeLaneRow({ lane }: { lane: ProofIntakeLane }) {
+  const requiredFields = lane.requiredFields.filter((field) => field.required);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone="cyan">target {lane.targetCount}</Badge>
+          <Badge tone="neutral">{requiredFields.length} required fields</Badge>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.adminSurface}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Required fields" items={requiredFields.slice(0, 6).map((field) => field.label)} tone="cyan" />
+          <ProofRuleGroup title="Acceptance checks" items={lane.acceptanceChecks.slice(0, 5)} tone="emerald" />
+          <ProofRuleGroup title="Privacy checks" items={lane.privacyChecks.slice(0, 5)} tone="amber" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Sources: </span>{lane.sourceTables.join(', ')}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Verify: </span>{lane.verificationCommands[0] ?? 'no verification command'}
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">
+        <div className="text-[#a1a1aa]">Evidence</div>
+        {lane.evidencePaths.slice(0, 3).map((evidencePath) => (
+          <div key={evidencePath} className="break-words">{evidencePath}</div>
+        ))}
       </div>
     </div>
   );

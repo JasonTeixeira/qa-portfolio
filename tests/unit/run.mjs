@@ -147,6 +147,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /discord-operator-brief-latest\.json/);
   assert.match(discordAdminPage, /Do not claim world-class/);
   assert.match(discordAdminPage, /Command order/);
+  assert.match(discordAdminPage, /data-testid="discord-proof-intake-readiness"/);
+  assert.match(discordAdminPage, /loadProofIntakeReadiness/);
+  assert.match(discordAdminPage, /discord-proof-intake-readiness-latest\.json/);
+  assert.match(discordAdminPage, /does not satisfy real operating proof lanes/);
   assert.match(discordAdminPage, /data-testid="discord-content-factory-readiness"/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
@@ -1621,6 +1625,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /data-testid="discord-content-factory-readiness"/);
   assert.match(page, /npm run discord:content-factory-readiness/);
   assert.match(page, /phase-22-content-factory-dry-run\.json/);
+  assert.match(page, /loadProofIntakeReadiness/);
+  assert.match(page, /discord-proof-intake-readiness-latest\.json/);
+  assert.match(page, /ProofIntakeLaneRow/);
+  assert.match(page, /data-testid="discord-proof-intake-readiness"/);
+  assert.match(page, /Run npm run discord:proof-intake-readiness/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);

@@ -130,7 +130,7 @@
 .sectionLink:hover { color: var(--ink); }
 .h2 { margin: 0 0 1.2rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
 .empty { color: var(--muted); }
-.empty a { color: var(--accent); text-decoration: none; }
+.empty a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 
 /* course cards */
 .courseGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }

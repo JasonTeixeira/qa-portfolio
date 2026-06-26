@@ -393,6 +393,6 @@
     "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "Refresh final scorecard and local verification evidence after the approved eval run."
   ],
-  "startedAt": "2026-06-26T17:44:38.619Z",
-  "finishedAt": "2026-06-26T17:44:38.641Z"
+  "startedAt": "2026-06-26T18:48:17.622Z",
+  "finishedAt": "2026-06-26T18:48:17.646Z"
 }

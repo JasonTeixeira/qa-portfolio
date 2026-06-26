@@ -79,6 +79,7 @@ export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json',
   'docs/evidence/engineering-loop/content-factory-readiness-latest.json',
   'docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json',
+  'docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json',
 ];
 
 export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {

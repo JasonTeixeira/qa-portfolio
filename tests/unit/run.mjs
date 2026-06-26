@@ -92,6 +92,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
+  assert.equal(packageJson.scripts['discord:proof-source-recovery-plan'], 'tsx scripts/discord/write-proof-source-recovery-plan.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['rag:evaluate:coverage-readiness'], 'tsx scripts/rag/write-eval-coverage-readiness.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing-plan'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only');
@@ -99,6 +100,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-recovery-plan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:coverage-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
   assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
@@ -2175,6 +2177,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);
   assert.match(smoke, /worldClassEligible/);
@@ -2620,6 +2623,98 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.status, 'blocked');
   assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 0);
   assert.match(warningGateway.weeklyChecklist[0].acceptanceCriteria, /Gateway heartbeat is stale/);
+});
+
+test('discord proof source recovery plan: turns source-volume gaps into auditable collection plan', async () => {
+  const {
+    buildDiscordProofSourceRecoveryPlan,
+    renderDiscordProofSourceRecoveryPlanMarkdown,
+    validateDiscordProofSourceRecoveryPlan,
+  } = await import('../../lib/discord/proof-source-recovery-plan.ts');
+
+  const plan = buildDiscordProofSourceRecoveryPlan({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    scan: {
+      ok: true,
+      generatedAt: '2026-06-26T00:00:00.000Z',
+      mutationMode: 'read_only_supabase_selects_and_local_file_evidence_only',
+      laneReadiness: {
+        approvedDiscordKnowledge: {
+          current: 0,
+          target: 10,
+          reviewableCandidates: 3,
+          blocker: 'Approved knowledge is 0/10.',
+        },
+        ragDiscordSources: {
+          current: 0,
+          target: 10,
+          approvedKnowledgeAvailable: 0,
+          blocker: 'No approved Discord knowledge exists to sync into RAG.',
+        },
+        publicProofAssets: {
+          current: 0,
+          target: 4,
+          approvedKnowledgeAvailable: 0,
+          applyClicks: 0,
+          blocker: 'Public proof requires approved Discord knowledge first.',
+        },
+        premiumWorkflowProof: {
+          current: 0,
+          target: 1,
+          premiumMembers: 1,
+          premiumReviews: 0,
+          officeHours: 0,
+          blocker: 'No completed premium workflow proof row is visible.',
+        },
+      },
+    },
+  });
+
+  assert.equal(plan.ok, true);
+  assert.equal(plan.version, 'discord-proof-source-recovery-plan-v1');
+  assert.equal(plan.mutationMode, 'local_file_evidence_only');
+  assert.equal(plan.status, 'blocked');
+  assert.equal(plan.summary.laneCount, 4);
+  assert.equal(plan.summary.blockedLaneCount, 4);
+  assert.equal(plan.summary.totalShortfall, 25);
+  assert.equal(plan.summary.nextLane, 'approvedDiscordKnowledge');
+  assert.deepEqual(plan.lanes.map((lane) => lane.key), [
+    'approvedDiscordKnowledge',
+    'ragDiscordSources',
+    'publicProofAssets',
+    'premiumWorkflowProof',
+  ]);
+  assert.equal(plan.lanes[0].sourceVolumeState, 'needs_review');
+  assert.equal(plan.lanes[1].sourceVolumeState, 'no_source_volume');
+  assert.equal(plan.lanes[3].sourceVolumeState, 'needs_fulfillment');
+  assert.ok(plan.lanes.every((lane) => lane.safeLocalCommand.startsWith('npm run')));
+  assert.ok(plan.lanes.every((lane) => lane.verificationCommand.startsWith('npm run')));
+  assert.ok(plan.lanes.every((lane) => lane.evidenceToCollect.length >= 3));
+  assert.ok(plan.lanes.every((lane) => lane.doNotCount.length >= 3));
+  assert.ok(plan.antiFakeRules.some((rule) => rule.includes('dry-run')));
+  assert.ok(plan.immediateActionOrder[0].includes('Collect and approve'));
+  assert.equal(validateDiscordProofSourceRecoveryPlan(plan).ok, true);
+
+  const markdown = renderDiscordProofSourceRecoveryPlanMarkdown(plan);
+  assert.match(markdown, /Discord Proof Source Recovery Plan/);
+  assert.match(markdown, /approvedDiscordKnowledge/);
+  assert.match(markdown, /Do not count/);
+
+  const passed = buildDiscordProofSourceRecoveryPlan({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    scan: {
+      ok: true,
+      laneReadiness: {
+        approvedDiscordKnowledge: { current: 10, target: 10 },
+        ragDiscordSources: { current: 10, target: 10 },
+        publicProofAssets: { current: 4, target: 4 },
+        premiumWorkflowProof: { current: 1, target: 1 },
+      },
+    },
+  });
+  assert.equal(passed.status, 'passed');
+  assert.equal(passed.summary.totalShortfall, 0);
+  assert.equal(passed.immediateActionOrder.length, 0);
 });
 
 test('discord operator brief: typed handoff validates blocked proof lanes and commands', async () => {

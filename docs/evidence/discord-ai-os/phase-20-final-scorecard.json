@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782450015220",
+  "runKey": "phase-20-final-1782450541861",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -581,6 +581,11 @@
         "path": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
         "ok": true,
         "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+        "ok": true,
+        "status": "blocked"
       }
     ]
   },
@@ -646,7 +651,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "22/22 required evidence files pass"
+      "evidence": "23/23 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -763,6 +768,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T05:00:15.220Z",
-  "finishedAt": "2026-06-26T05:00:16.730Z"
+  "startedAt": "2026-06-26T05:09:01.861Z",
+  "finishedAt": "2026-06-26T05:09:03.335Z"
 }

@@ -22,6 +22,34 @@ const STACK_PHRASE: Record<string, string> = {
   'ai-startups': 'AI',
 }
 
+const DEMO_ROUTE_BY_VERTICAL: Record<string, { label: string; href: string; outcome: string }> = {
+  ecommerce: {
+    label: 'Revenue OS demo',
+    href: '/showcase/revenue-os?source=industry_ecommerce',
+    outcome: 'rank leads, replies, follow-ups, and revenue risk in one daily queue',
+  },
+  healthcare: {
+    label: 'Med spa consultation demo',
+    href: '/showcase/med-spa-consultation-funnel?source=industry_healthcare',
+    outcome: 'turn interest into a claim-safe consultation path',
+  },
+  saas: {
+    label: 'AI support dashboard demo',
+    href: '/showcase/ai-support-agent-dashboard?source=industry_saas',
+    outcome: 'route tickets, risky replies, and support QA before customers churn',
+  },
+  fintech: {
+    label: 'Revenue OS demo',
+    href: '/showcase/revenue-os?source=industry_fintech',
+    outcome: 'make pipeline, risk, and follow-up visible before opportunities drift',
+  },
+  'ai-startups': {
+    label: 'AI support dashboard demo',
+    href: '/showcase/ai-support-agent-dashboard?source=industry_ai_startups',
+    outcome: 'show the workflow, guardrails, and operating dashboard before the build',
+  },
+}
+
 export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const tiers = v.recommendedTiers
     .map((slug) => tiersBySlug[slug])
@@ -33,6 +61,12 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
   const primaryStudy = studies[0]
 
   const stackPhrase = STACK_PHRASE[v.slug] ?? v.shortName
+  const demoRoute =
+    DEMO_ROUTE_BY_VERTICAL[v.slug] ?? {
+      label: 'Prototype warehouse',
+      href: `/showcase?source=industry_${v.slug}`,
+      outcome: 'open the closest working system before the build call',
+    }
 
   return (
     <LivingPageShell>
@@ -67,23 +101,81 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
         proof={[
           { label: 'vertical', value: v.shortName },
           { label: 'first route', value: tiers[0]?.shortName ?? 'Audit' },
-          { label: 'proof links', value: String(studies.length) },
-          { label: 'motion', value: 'build' },
+          { label: 'closest demo', value: demoRoute.label.replace(' demo', '') },
+          { label: 'next step', value: 'build call' },
         ]}
         actions={
           <>
-            <LivingCTA href={`/book?industry=${v.slug}`}>Book a discovery call</LivingCTA>
-            <LivingCTA href="/services" variant="secondary">Browse all services</LivingCTA>
+            <LivingCTA href={demoRoute.href}>{demoRoute.label}</LivingCTA>
+            <LivingCTA href={`/book?source=industry_${v.slug}&industry=${v.slug}`} variant="secondary">
+              Book the build call
+            </LivingCTA>
             <LivingCTA href="/industries" variant="text">Industries index</LivingCTA>
           </>
         }
       />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-24 space-y-0">
+        <Section
+          eyebrow="buyer route"
+          heading="What a buyer should see first."
+          lede={`For ${v.shortName.toLowerCase()}, the page should not just describe capability. It should name the leak, open the closest working proof, and make the next conversation concrete.`}
+          ariaLabel="Industry buyer route"
+        >
+          <div className="grid gap-px overflow-hidden rounded-[6px] border border-[var(--sage-border)] bg-[var(--sage-border)] lg:grid-cols-3">
+            {[
+              {
+                label: 'Leak',
+                title: v.challenges[0]?.title ?? 'The revenue path is unclear',
+                body: v.challenges[0]?.description ?? v.intro,
+              },
+              {
+                label: 'Closest proof',
+                title: demoRoute.label,
+                body: `Open the proof that shows how Sage Ideas would ${demoRoute.outcome}.`,
+                href: demoRoute.href,
+              },
+              {
+                label: 'Build path',
+                title: tiers[0]?.name ?? 'Scoped build call',
+                body: `If the proof fits, book with the ${v.shortName.toLowerCase()} context attached so the call starts at the system, not a generic pitch.`,
+                href: `/book?source=industry_${v.slug}_route&industry=${v.slug}`,
+              },
+            ].map((item) => {
+              const content = (
+                <div className="flex min-h-[310px] flex-col bg-[var(--sage-surface-1)] p-6 transition-colors hover:bg-[var(--sage-surface-2)]">
+                  <MonoLabel tone="accent" as="p">{item.label}</MonoLabel>
+                  <h2
+                    className="mt-8 text-3xl font-extrabold leading-none text-[var(--sage-ink)]"
+                    style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}
+                  >
+                    {item.title}
+                  </h2>
+                  <p className="mt-5 line-clamp-6 text-sm leading-6 text-[var(--sage-ink-muted)]">
+                    {item.body}
+                  </p>
+                  {item.href ? (
+                    <span className="mt-auto pt-8 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sage-accent-readable)]">
+                      Open route -&gt;
+                    </span>
+                  ) : null}
+                </div>
+              )
+              return item.href ? (
+                <Link href={item.href} key={item.label} className="group">
+                  {content}
+                </Link>
+              ) : (
+                <div key={item.label}>{content}</div>
+              )
+            })}
+          </div>
+        </Section>
+
         {/* Why us */}
         <Section
           eyebrow="why us"
-          heading={`Why Sage Ideas for ${v.shortName}`}
+          heading={`Why this matters for ${v.shortName} buyers`}
           ariaLabel="Why choose us"
         >
           <div className="grid sm:grid-cols-2 gap-4">
@@ -339,19 +431,19 @@ export function IndustryPageContent({ vertical: v }: { vertical: Vertical }) {
               detail: 'Only show client logos, quotes, or outcomes after explicit permission.',
             },
           ]}
-          cta={{ label: `Book ${v.shortName} discovery`, href: `/book?industry=${v.slug}` }}
+          cta={{ label: `Book ${v.shortName} build call`, href: `/book?source=industry_${v.slug}_system&industry=${v.slug}` }}
         />
 
         {/* CTA */}
         <Section
           eyebrow="discovery"
           heading={<>{v.ctaLine}</>}
-          lede={`Book a 30-minute discovery call. We'll talk through your ${stackPhrase} stack and tell you directly which engagement — if any — is the right fit.`}
+          lede={`Book a 30-minute build call. We'll talk through your ${stackPhrase} stack, open the closest proof, and tell you directly which engagement — if any — is the right fit.`}
           centered
           grain
           action={
-            <CtaLink href={`/book?industry=${v.slug}`} variant="solid" event={`cta_industry_${v.slug}_footer`}>
-              Book a Discovery Call
+            <CtaLink href={`/book?source=industry_${v.slug}_footer&industry=${v.slug}`} variant="solid" event={`cta_industry_${v.slug}_footer`}>
+              Book the build call
             </CtaLink>
           }
         />

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T09:28:04.981Z
+Generated: 2026-06-26T09:33:37.626Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -18,6 +18,124 @@ Weekly proof packet is an operator collection template. It does not create or sa
 5. Create privacy-safe public proof assets from approved sources.
 6. Fulfill and log one premium path when premium activity exists.
 7. Rerun operating cycle, proof backlog, operator brief, and final scorecard.
+
+## Execution Plan
+
+### 1. Gateway message capture
+
+- Lane: gateway_capture
+- Status: blocked
+- Dependency: none
+- Operator action: Post or request one fresh non-bot member message, then confirm gateway capture stores non-empty content.
+- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts
+- Verify: npm run discord:gateway-capture-diagnosis
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
+
+Exit criteria:
+- Target reaches 1/1.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Fresh heartbeat and Message Content Intent evidence are present.
+- At least one non-bot non-empty non-deleted message is visible in capture evidence.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- A gateway identify event with Message Content Intent but no captured non-empty message.
+
+### 2. Approved Discord knowledge
+
+- Lane: approved_discord_knowledge
+- Status: blocked
+- Dependency: gateway_capture
+- Operator action: Review captured questions, answers, builds, reviews, wins, and resources; approve only reusable privacy-safe knowledge.
+- Admin surface: /admin/discord -> Knowledge/RAG -> candidate review
+- Verify: npm run discord:proof-backlog
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, source_type, reuse_category, rag_safe
+
+Exit criteria:
+- Target reaches 10/10.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Approved items are specific, reusable, and privacy-safe.
+- Rejected or low-context items are excluded from the count.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Raw Discord messages that were captured but not reviewed.
+
+### 3. Discord knowledge synced into RAG
+
+- Lane: rag_discord_sources
+- Status: blocked
+- Dependency: approved_discord_knowledge
+- Operator action: After approved knowledge exists, run the approved Discord RAG sync and verify chunks/retrieval evidence.
+- Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
+- Verify: npm run discord:operating-cycle
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
+
+Exit criteria:
+- Target reaches 10/10.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Every RAG source traces back to an approved Discord knowledge item.
+- Retrieval or eval evidence proves the synced source can be cited.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Existing docs/blog RAG chunks that do not come from approved Discord knowledge.
+
+### 4. Public proof growth assets
+
+- Lane: public_proof_assets
+- Status: blocked
+- Dependency: approved_discord_knowledge
+- Operator action: Create one privacy-safe public proof draft from approved Discord knowledge and keep it approval-gated until review.
+- Admin surface: /admin/discord -> Content -> public proof sources and public growth drafts
+- Verify: npm run discord:operating-cycle
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status, growth_tracking_status
+
+Exit criteria:
+- Target reaches 4/4.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Each public asset traces to approved Discord source material.
+- UTM or growth tracking status is recorded before counting conversion proof.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Generic marketing content that is not tied to approved community activity.
+
+### 5. Premium workflow proof
+
+- Lane: premium_workflow_proof
+- Status: blocked
+- Dependency: premium_member_or_seeded_premium_scenario
+- Operator action: Fulfill one real or explicitly seeded premium review, deeper answer, or office-hours workflow with SLA and authorization evidence.
+- Admin surface: /admin/discord -> Premium, Office Hours, and Member Intelligence
+- Verify: npm run discord:smoke-premium-workflows
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
+
+Exit criteria:
+- Target reaches 1/1.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Authorization, request/SLA state, and fulfilled outcome are present together.
+- Role membership alone is not counted as workflow fulfillment.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.
+
 
 ## Proof Lanes
 

@@ -392,6 +392,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /loadWeeklyProofPacket/);
   assert.match(discordAdminPage, /discord-weekly-proof-packet-latest\.json/);
   assert.match(discordAdminPage, /Weekly proof packet/);
+  assert.match(discordAdminPage, /Execution plan/);
+  assert.match(discordAdminPage, /weeklyProofPacket\.executionPlan/);
   assert.match(discordAdminPage, /does not satisfy real operating proof lanes/);
   assert.match(discordAdminPage, /data-testid="discord-content-factory-readiness"/);
   assert.match(discordAdminPage, /data-testid="discord-gateway-capture-diagnosis"/);
@@ -3649,6 +3651,17 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.evidence_artifact_path));
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.operator_attestation));
   assert.ok(packet.lanes.find((lane) => lane.key === 'public_proof_assets')?.intakeTemplate.growth_tracking_status);
+  assert.equal(packet.executionPlan.length, packet.lanes.length);
+  assert.deepEqual(packet.executionPlan.map((step) => step.laneKey), packet.lanes.map((lane) => lane.key));
+  assert.equal(packet.executionPlan.find((step) => step.laneKey === 'gateway_capture')?.dependency, null);
+  assert.equal(packet.executionPlan.find((step) => step.laneKey === 'approved_discord_knowledge')?.dependency, 'gateway_capture');
+  assert.equal(packet.executionPlan.find((step) => step.laneKey === 'rag_discord_sources')?.dependency, 'approved_discord_knowledge');
+  assert.equal(packet.executionPlan.find((step) => step.laneKey === 'public_proof_assets')?.dependency, 'approved_discord_knowledge');
+  assert.ok(packet.executionPlan.every((step) => step.operatorAction.length > 40));
+  assert.ok(packet.executionPlan.every((step) => step.requiredEvidenceFields.includes('privacy_status')));
+  assert.ok(packet.executionPlan.every((step) => step.requiredEvidenceFields.includes('operator_attestation')));
+  assert.ok(packet.executionPlan.every((step) => step.exitCriteria.length >= 4));
+  assert.ok(packet.executionPlan.every((step) => step.doNotCount.length >= 4));
   assert.ok(packet.lanes.every((lane) => lane.privacyChecks.length >= 2));
   assert.ok(packet.lanes.every((lane) => lane.qualityGates.length >= 4));
   assert.ok(packet.lanes.every((lane) => lane.nonProofExamples.length >= 4));
@@ -3660,6 +3673,9 @@ test('discord weekly proof packet: combines backlog counts with intake templates
 
   const markdown = renderDiscordWeeklyProofPacketMarkdown(packet);
   assert.match(markdown, /Sage Ideas Discord Weekly Proof Packet/);
+  assert.match(markdown, /Execution Plan/);
+  assert.match(markdown, /Operator action/);
+  assert.match(markdown, /Exit criteria/);
   assert.match(markdown, /Required intake template/);
   assert.match(markdown, /Quality gates/);
   assert.match(markdown, /Does not count as proof/);
@@ -3670,6 +3686,7 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   const validation = validateDiscordWeeklyProofPacket(invalid);
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('missing_non_proof_disclaimer'));
+  assert.ok(validateDiscordWeeklyProofPacket({ ...packet, executionPlan: [] }).failures.includes('execution_plan_lane_mismatch'));
 });
 
 test('discord proof candidate audit: explains blocked proof lanes without mutating systems', async () => {

@@ -21,6 +21,20 @@ export type DiscordWeeklyProofPacketLane = {
   intakeTemplate: Record<string, string>;
 };
 
+export type DiscordWeeklyProofExecutionStep = {
+  priority: number;
+  laneKey: string;
+  laneTitle: string;
+  status: 'passed' | 'blocked';
+  dependency: string | null;
+  operatorAction: string;
+  adminSurface: string;
+  verificationCommand: string;
+  requiredEvidenceFields: string[];
+  exitCriteria: string[];
+  doNotCount: string[];
+};
+
 export type DiscordWeeklyProofPacket = {
   ok: boolean;
   version: 'discord-weekly-proof-packet-v1';
@@ -29,6 +43,7 @@ export type DiscordWeeklyProofPacket = {
   releaseMeaning: string;
   backlogStatus: 'passed' | 'blocked';
   lanes: DiscordWeeklyProofPacketLane[];
+  executionPlan: DiscordWeeklyProofExecutionStep[];
   weeklyIntakeOrder: string[];
   nextActions: string[];
   failures: string[];
@@ -55,6 +70,100 @@ function ragEvalCommandIsGuarded(command: string): boolean {
     || command.includes(':execution-packet')
     || command.includes(':missing-preflight')
     || command.includes(':recovery-plan');
+}
+
+function executionDependency(laneKey: string): string | null {
+  switch (laneKey) {
+    case 'gateway_capture':
+      return null;
+    case 'approved_discord_knowledge':
+      return 'gateway_capture';
+    case 'rag_discord_sources':
+      return 'approved_discord_knowledge';
+    case 'public_proof_assets':
+      return 'approved_discord_knowledge';
+    case 'premium_workflow_proof':
+      return 'premium_member_or_seeded_premium_scenario';
+    default:
+      return null;
+  }
+}
+
+function operatorActionForLane(lane: DiscordWeeklyProofPacketLane): string {
+  if (lane.status === 'passed') return `Maintain ${lane.title} evidence and rerun the scorecard after the next operating cycle.`;
+  switch (lane.key) {
+    case 'gateway_capture':
+      return 'Post or request one fresh non-bot member message, then confirm gateway capture stores non-empty content.';
+    case 'approved_discord_knowledge':
+      return 'Review captured questions, answers, builds, reviews, wins, and resources; approve only reusable privacy-safe knowledge.';
+    case 'rag_discord_sources':
+      return 'After approved knowledge exists, run the approved Discord RAG sync and verify chunks/retrieval evidence.';
+    case 'public_proof_assets':
+      return 'Create one privacy-safe public proof draft from approved Discord knowledge and keep it approval-gated until review.';
+    case 'premium_workflow_proof':
+      return 'Fulfill one real or explicitly seeded premium review, deeper answer, or office-hours workflow with SLA and authorization evidence.';
+    default:
+      return `Collect evidence for ${lane.title}.`;
+  }
+}
+
+function exitCriteriaForLane(lane: DiscordWeeklyProofPacketLane): string[] {
+  const shared = [
+    `Target reaches ${lane.targetCount}/${lane.targetCount}.`,
+    'Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.',
+  ];
+  switch (lane.key) {
+    case 'gateway_capture':
+      return [
+        ...shared,
+        'Fresh heartbeat and Message Content Intent evidence are present.',
+        'At least one non-bot non-empty non-deleted message is visible in capture evidence.',
+      ];
+    case 'approved_discord_knowledge':
+      return [
+        ...shared,
+        'Approved items are specific, reusable, and privacy-safe.',
+        'Rejected or low-context items are excluded from the count.',
+      ];
+    case 'rag_discord_sources':
+      return [
+        ...shared,
+        'Every RAG source traces back to an approved Discord knowledge item.',
+        'Retrieval or eval evidence proves the synced source can be cited.',
+      ];
+    case 'public_proof_assets':
+      return [
+        ...shared,
+        'Each public asset traces to approved Discord source material.',
+        'UTM or growth tracking status is recorded before counting conversion proof.',
+      ];
+    case 'premium_workflow_proof':
+      return [
+        ...shared,
+        'Authorization, request/SLA state, and fulfilled outcome are present together.',
+        'Role membership alone is not counted as workflow fulfillment.',
+      ];
+    default:
+      return shared;
+  }
+}
+
+function buildExecutionPlan(lanes: DiscordWeeklyProofPacketLane[]): DiscordWeeklyProofExecutionStep[] {
+  return lanes
+    .map((lane, index) => ({
+      priority: lane.status === 'blocked' ? index + 1 : index + 100,
+      laneKey: lane.key,
+      laneTitle: lane.title,
+      status: lane.status,
+      dependency: executionDependency(lane.key),
+      operatorAction: operatorActionForLane(lane),
+      adminSurface: lane.adminSurface,
+      verificationCommand: lane.verificationCommands[0] ?? '',
+      requiredEvidenceFields: Object.keys(lane.intakeTemplate),
+      exitCriteria: exitCriteriaForLane(lane),
+      doNotCount: lane.nonProofExamples.slice(0, 5),
+    }))
+    .sort((a, b) => a.priority - b.priority);
 }
 
 export function buildDiscordWeeklyProofPacket(input: {
@@ -113,6 +222,11 @@ export function buildDiscordWeeklyProofPacket(input: {
   if (!lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
   if (!lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
   if (!lanes.every((lane) => lane.verificationCommands.every(ragEvalCommandIsGuarded))) failures.push('unguarded_rag_eval_command');
+  const executionPlan = buildExecutionPlan(lanes);
+  if (!executionPlan.every((step) => step.operatorAction.length > 40)) failures.push('thin_execution_operator_action');
+  if (!executionPlan.every((step) => step.exitCriteria.length >= 4)) failures.push('thin_execution_exit_criteria');
+  if (!executionPlan.every((step) => step.requiredEvidenceFields.includes('privacy_status'))) failures.push('execution_missing_privacy_status');
+  if (!executionPlan.every((step) => step.doNotCount.length >= 4)) failures.push('execution_missing_anti_fake_rules');
 
   return {
     ok: failures.length === 0,
@@ -122,6 +236,7 @@ export function buildDiscordWeeklyProofPacket(input: {
     releaseMeaning: 'Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.',
     backlogStatus: input.backlog.status,
     lanes,
+    executionPlan,
     weeklyIntakeOrder: input.intake.weeklyIntakeOrder,
     nextActions: input.backlog.nextActions,
     failures,
@@ -146,6 +261,11 @@ export function validateDiscordWeeklyProofPacket(packet: DiscordWeeklyProofPacke
   if (!packet.weeklyIntakeOrder.some((step) => step.includes('sync only approved items into RAG'))) failures.push('missing_approved_rag_step');
   if (!packet.lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
   if (!packet.lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
+  if (packet.executionPlan.length !== packet.lanes.length) failures.push('execution_plan_lane_mismatch');
+  if (!packet.executionPlan.every((step) => step.requiredEvidenceFields.includes('privacy_status'))) failures.push('execution_missing_privacy_status');
+  if (!packet.executionPlan.every((step) => step.requiredEvidenceFields.includes('operator_attestation'))) failures.push('execution_missing_operator_attestation');
+  if (!packet.executionPlan.every((step) => step.exitCriteria.length >= 4)) failures.push('thin_execution_exit_criteria');
+  if (!packet.executionPlan.every((step) => step.doNotCount.length >= 4)) failures.push('execution_missing_anti_fake_rules');
   return {
     ok: packet.ok === true && failures.length === 0,
     failures,
@@ -168,6 +288,27 @@ export function renderDiscordWeeklyProofPacketMarkdown(packet: DiscordWeeklyProo
     '## Weekly Intake Order',
     '',
     ...packet.weeklyIntakeOrder.map((step, index) => `${index + 1}. ${step}`),
+    '',
+    '## Execution Plan',
+    '',
+    ...packet.executionPlan.flatMap((step) => [
+      `### ${step.priority}. ${step.laneTitle}`,
+      '',
+      `- Lane: ${step.laneKey}`,
+      `- Status: ${step.status}`,
+      `- Dependency: ${step.dependency ?? 'none'}`,
+      `- Operator action: ${step.operatorAction}`,
+      `- Admin surface: ${step.adminSurface}`,
+      `- Verify: ${step.verificationCommand}`,
+      `- Required evidence fields: ${step.requiredEvidenceFields.join(', ')}`,
+      '',
+      'Exit criteria:',
+      ...step.exitCriteria.map((item) => `- ${item}`),
+      '',
+      'Do not count:',
+      ...step.doNotCount.map((item) => `- ${item}`),
+      '',
+    ]),
     '',
     '## Proof Lanes',
     '',

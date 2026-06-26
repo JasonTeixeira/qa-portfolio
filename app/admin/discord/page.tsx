@@ -581,6 +581,20 @@ type WeeklyProofPacketLane = {
   intakeTemplate: Record<string, string>;
 };
 
+type WeeklyProofExecutionStep = {
+  priority: number;
+  laneKey: string;
+  laneTitle: string;
+  status: 'passed' | 'blocked';
+  dependency: string | null;
+  operatorAction: string;
+  adminSurface: string;
+  verificationCommand: string;
+  requiredEvidenceFields: string[];
+  exitCriteria: string[];
+  doNotCount: string[];
+};
+
 type WeeklyProofPacket = {
   ok: boolean;
   generatedAt: string;
@@ -588,6 +602,7 @@ type WeeklyProofPacket = {
   releaseMeaning: string;
   backlogStatus: 'passed' | 'blocked';
   lanes: WeeklyProofPacketLane[];
+  executionPlan: WeeklyProofExecutionStep[];
   weeklyIntakeOrder: string[];
   nextActions: string[];
   failures: string[];
@@ -1790,6 +1805,30 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                     </li>
                   ))}
                 </ol>
+              </div>
+            </div>
+            <div className="px-3 py-3">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Execution plan</div>
+                <div className="mt-3 grid gap-2">
+                  {weeklyProofPacket.executionPlan.slice(0, 5).map((step) => (
+                    <div key={`${step.priority}:${step.laneKey}`} className="grid gap-2 rounded-md border border-[#27272a] bg-[#0f0f12] p-2.5 lg:grid-cols-[36px_1fr_auto]">
+                      <Badge tone={step.status === 'passed' ? 'emerald' : 'rose'}>{step.priority}</Badge>
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-sm font-semibold text-[#fafafa]">{step.laneTitle}</span>
+                          {step.dependency ? <Badge tone="neutral">after {step.dependency}</Badge> : null}
+                        </div>
+                        <p className="mt-1 text-xs leading-5 text-[#a1a1aa]">{step.operatorAction}</p>
+                        <div className="mt-1 text-[11px] text-[#71717a]">Exit: {step.exitCriteria[0]}</div>
+                      </div>
+                      <div className="max-w-[280px] text-[11px] leading-4 text-[#71717a] lg:text-right">
+                        <div>{step.adminSurface}</div>
+                        <div className="mt-1 text-[#a1a1aa]">{step.verificationCommand}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             {weeklyProofPacket.lanes.map((lane) => (
@@ -3312,6 +3351,7 @@ async function loadWeeklyProofPacket(): Promise<WeeklyProofPacket> {
       releaseMeaning: 'Weekly proof packet evidence is missing. Run npm run discord:weekly-proof-packet. This does not create or satisfy operating proof.',
       backlogStatus: 'blocked',
       lanes: [],
+      executionPlan: [],
       weeklyIntakeOrder: ['Run npm run discord:weekly-proof-packet before weekly proof review.'],
       nextActions: ['Generate the weekly proof packet from current backlog and proof-intake evidence.'],
       failures: ['weekly_proof_packet_missing'],

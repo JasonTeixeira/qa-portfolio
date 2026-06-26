@@ -119,8 +119,8 @@ test.describe('Revenue OS showcase prototype', () => {
       { path: '/showcase/private/revenue-os/preview', text: /internal packet preview/i },
       { path: '/showcase/admin', text: /admin proof board/i },
       { path: '/showcase/admin/revenue-os', text: /proof and gap report/i },
-      { path: '/showcase/compare', text: /compare prototype packages/i },
-      { path: '/showcase/proof', text: /public proof wall/i },
+      { path: '/showcase/compare', text: /find the system your business needs first/i },
+      { path: '/showcase/proof', text: /open the proof before the call/i },
     ]
 
     for (const route of routes) {
@@ -133,7 +133,14 @@ test.describe('Revenue OS showcase prototype', () => {
     await expect(page.getByText(/axe violations/i)).toBeVisible()
 
     await page.goto('/showcase/proof')
-    await expect(page.getByText(/what is not proven yet/i)).toBeVisible()
-    await expect(page.getByText(/deployed preview qa is not captured/i)).toBeVisible()
+    await expect(page.getByLabel(/showcase proof summary/i)).toContainText(/working demos/i)
+    await expect(page.getByLabel(/prototype proof cards/i)).toContainText(/Revenue OS/i)
+    await expect(page.getByLabel(/prototype proof cards/i)).toContainText(/Build my version/i)
+    await expect(page.getByLabel(/commands used for the current proof snapshot/i)).toContainText(/npm run typecheck/i)
+
+    await page.goto('/showcase/compare')
+    await expect(page.getByLabel(/buyer decision paths/i)).toContainText(/I need more qualified leads/i)
+    await expect(page.getByLabel(/all prototype systems compared/i)).toContainText(/Revenue OS/i)
+    await expect(page.getByRole('link', { name: /map my system/i })).toHaveAttribute('href', '/book?source=showcase_compare')
   })
 })

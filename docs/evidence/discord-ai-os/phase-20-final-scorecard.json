@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782447588862",
+  "runKey": "phase-20-final-1782448470008",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -566,6 +566,11 @@
         "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
         "ok": true,
         "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+        "ok": true,
+        "status": "true"
       }
     ]
   },
@@ -602,6 +607,11 @@
     "failures": [],
     "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
   },
+  "proofSourceVolumeScanValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "approved 0/10 / rag 0/10 / public 0/4 / premium 0/1"
+  },
   "proofIntakeAntiFakeValidation": {
     "ok": true,
     "failures": [],
@@ -621,7 +631,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "19/19 required evidence files pass"
+      "evidence": "20/20 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -647,6 +657,11 @@
       "name": "content_factory_readiness",
       "passed": true,
       "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
+    },
+    {
+      "name": "proof_source_volume_scan",
+      "passed": true,
+      "evidence": "approved 0/10 / rag 0/10 / public 0/4 / premium 0/1"
     },
     {
       "name": "proof_intake_anti_fake_controls",
@@ -691,6 +706,6 @@
   "failures": [
     "release_gate:rag_eval_latest"
   ],
-  "startedAt": "2026-06-26T04:19:48.862Z",
-  "finishedAt": "2026-06-26T04:19:50.476Z"
+  "startedAt": "2026-06-26T04:34:30.008Z",
+  "finishedAt": "2026-06-26T04:34:31.526Z"
 }

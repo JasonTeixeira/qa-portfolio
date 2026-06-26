@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T04:19:53.571Z",
+  "generatedAt": "2026-06-26T04:34:34.189Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -22,8 +22,8 @@
       "applications_submitted_below_target:0/1",
       "premium_workflow_proof_below_target:0/1"
     ],
-    "releaseGateCount": 11,
-    "releaseGatesPassed": 10,
+    "releaseGateCount": 12,
+    "releaseGatesPassed": 11,
     "releaseGateFailures": [
       "rag_eval_latest"
     ]

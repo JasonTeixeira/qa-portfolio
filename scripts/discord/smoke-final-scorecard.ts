@@ -123,6 +123,39 @@ function validateContentFactoryReadiness(payload: any): { ok: boolean; failures:
   };
 }
 
+function validateProofSourceVolumeScan(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  const lanes = payload?.laneReadiness ?? {};
+  const approvedKnowledge = lanes.approvedDiscordKnowledge ?? {};
+  const ragDiscordSources = lanes.ragDiscordSources ?? {};
+  const publicProofAssets = lanes.publicProofAssets ?? {};
+  const premiumWorkflowProof = lanes.premiumWorkflowProof ?? {};
+  if (payload?.ok !== true) failures.push('proof_source_volume_scan_not_ok');
+  if (payload?.mutationMode !== 'read_only_supabase_selects_and_local_file_evidence_only') failures.push('proof_source_volume_scan_mutation_mode_not_read_only');
+  if (!String(payload?.releaseMeaning ?? '').includes('does not approve, sync, publish, assign roles, or satisfy operating proof')) failures.push('proof_source_volume_scan_non_proof_disclaimer_missing');
+  if (Number(approvedKnowledge.target ?? 0) !== 10) failures.push('proof_source_volume_scan_approved_knowledge_target_wrong');
+  if (Number(ragDiscordSources.target ?? 0) !== 10) failures.push('proof_source_volume_scan_rag_target_wrong');
+  if (Number(publicProofAssets.target ?? 0) !== 4) failures.push('proof_source_volume_scan_public_proof_target_wrong');
+  if (Number(premiumWorkflowProof.target ?? 0) !== 1) failures.push('proof_source_volume_scan_premium_target_wrong');
+  for (const [key, lane] of Object.entries(lanes)) {
+    const current = Number((lane as any)?.current ?? 0);
+    const target = Number((lane as any)?.target ?? 0);
+    if (current < target && !String((lane as any)?.blocker ?? '').trim()) {
+      failures.push(`proof_source_volume_scan_missing_blocker:${key}`);
+    }
+  }
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: [
+      `approved ${approvedKnowledge.current ?? 0}/${approvedKnowledge.target ?? 0}`,
+      `rag ${ragDiscordSources.current ?? 0}/${ragDiscordSources.target ?? 0}`,
+      `public ${publicProofAssets.current ?? 0}/${publicProofAssets.target ?? 0}`,
+      `premium ${premiumWorkflowProof.current ?? 0}/${premiumWorkflowProof.target ?? 0}`,
+    ].join(' / '),
+  };
+}
+
 function laneHasRequiredEvidenceFields(lane: any): boolean {
   const fields = Array.isArray(lane?.requiredFields) ? lane.requiredFields : [];
   const keys = new Set(fields.map((field: any) => String(field?.key ?? '')));
@@ -202,7 +235,7 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
@@ -210,6 +243,7 @@ async function main() {
     readJsonFile('docs/evidence/rag/eval-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/content-factory-readiness-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json'),
     readFile(path.join(process.cwd(), 'docs', 'discord', 'FINAL_OPERATING_RHYTHM_RELEASE_STANDARD.md'), 'utf8'),
@@ -217,6 +251,7 @@ async function main() {
   ]);
   const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
   const contentFactoryReadinessValidation = validateContentFactoryReadiness(contentFactoryReadiness);
+  const proofSourceVolumeScanValidation = validateProofSourceVolumeScan(proofSourceVolumeScan);
   const proofIntakeAntiFakeValidation = validateProofIntakeAntiFakeControls(proofIntakeReadiness);
   const weeklyProofPacketAntiFakeValidation = validateWeeklyProofPacketAntiFakeControls(weeklyProofPacket);
   const releaseGates: DiscordReleaseGate[] = [
@@ -262,6 +297,11 @@ async function main() {
       evidence: contentFactoryReadinessValidation.evidence,
     },
     {
+      name: 'proof_source_volume_scan',
+      passed: proofSourceVolumeScanValidation.ok,
+      evidence: proofSourceVolumeScanValidation.evidence,
+    },
+    {
       name: 'proof_intake_anti_fake_controls',
       passed: proofIntakeAntiFakeValidation.ok,
       evidence: proofIntakeAntiFakeValidation.evidence,
@@ -287,6 +327,7 @@ async function main() {
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
     ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
     ...contentFactoryReadinessValidation.failures.map((failure) => `content_factory_readiness:${failure}`),
+    ...proofSourceVolumeScanValidation.failures.map((failure) => `proof_source_volume_scan:${failure}`),
     ...proofIntakeAntiFakeValidation.failures.map((failure) => `proof_intake:${failure}`),
     ...weeklyProofPacketAntiFakeValidation.failures.map((failure) => `weekly_proof_packet:${failure}`),
     ...evidenceValidation.missing.map((failure) => `missing_evidence:${failure}`),
@@ -332,6 +373,7 @@ async function main() {
     databaseValidation,
     proofRehearsalValidation,
     contentFactoryReadinessValidation,
+    proofSourceVolumeScanValidation,
     proofIntakeAntiFakeValidation,
     weeklyProofPacketAntiFakeValidation,
     releaseGates,

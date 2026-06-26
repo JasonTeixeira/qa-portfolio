@@ -25,6 +25,7 @@ const evidencePaths = {
   proofBacklog: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-backlog-latest.json'),
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
   proofCandidateAudit: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
+  proofSourceVolumeScan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-volume-scan-latest.json'),
   operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
   gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
 };
@@ -122,6 +123,7 @@ async function main() {
     proofBacklog,
     weeklyProofPacket,
     proofCandidateAudit,
+    proofSourceVolumeScan,
     operatorBrief,
     gatewayCaptureDiagnosis,
   ] = await Promise.all(
@@ -271,6 +273,31 @@ async function main() {
   requireTruthy(
     proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('decision_reason')),
     'Proof candidate audit must require decision_reason for every lane.',
+  );
+  requireTruthy(proofSourceVolumeScan.ok === true, 'Proof source volume scan evidence is not ok.');
+  requireTruthy(
+    proofSourceVolumeScan.mutationMode === 'read_only_supabase_selects_and_local_file_evidence_only',
+    'Proof source volume scan must be read-only.',
+  );
+  requireTruthy(
+    proofSourceVolumeScan.releaseMeaning?.includes('does not approve, sync, publish, assign roles, or satisfy operating proof'),
+    'Proof source volume scan must explicitly avoid claiming operating proof.',
+  );
+  requireTruthy(
+    proofSourceVolumeScan.laneReadiness?.approvedDiscordKnowledge?.target === OPERATING_TARGETS.approvedDiscordKnowledgeSources,
+    'Proof source volume scan must enforce the approved knowledge target.',
+  );
+  requireTruthy(
+    proofSourceVolumeScan.laneReadiness?.ragDiscordSources?.target === OPERATING_TARGETS.ragDiscordSources,
+    'Proof source volume scan must enforce the Discord RAG source target.',
+  );
+  requireTruthy(
+    proofSourceVolumeScan.laneReadiness?.publicProofAssets?.target === OPERATING_TARGETS.publicProofAssets,
+    'Proof source volume scan must enforce the public proof asset target.',
+  );
+  requireTruthy(
+    proofSourceVolumeScan.laneReadiness?.premiumWorkflowProof?.target === OPERATING_TARGETS.premiumWorkflowProofs,
+    'Proof source volume scan must enforce the premium workflow proof target.',
   );
   requireTruthy(operatorBrief.ok === true, 'Operator brief evidence is not ok.');
   requireTruthy(
@@ -440,6 +467,14 @@ async function main() {
       candidateStates: proofCandidateAudit.lanes.map((lane) => `${lane.key}:${lane.candidateState}:${lane.currentCount}/${lane.targetCount}`),
       nextActions: proofCandidateAudit.nextActions,
       releaseMeaning: proofCandidateAudit.releaseMeaning,
+    },
+    proofSourceVolumeScan: {
+      ok: proofSourceVolumeScan.ok,
+      mutationMode: proofSourceVolumeScan.mutationMode,
+      laneReadiness: proofSourceVolumeScan.laneReadiness,
+      counts: proofSourceVolumeScan.counts,
+      queryErrors: proofSourceVolumeScan.queryErrors ?? [],
+      releaseMeaning: proofSourceVolumeScan.releaseMeaning,
     },
     operatorBrief: {
       ok: operatorBrief.ok,

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T04:19:56.107Z",
+  "generatedAt": "2026-06-26T04:34:36.584Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -246,8 +246,8 @@
     "usableMessageCount": 0
   },
   "releaseGates": {
-    "total": 11,
-    "passed": 10,
+    "total": 12,
+    "passed": 11,
     "failures": [
       "rag_eval_latest"
     ]

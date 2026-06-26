@@ -95,6 +95,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
@@ -120,6 +121,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
+  assert.match(localVerificationEvidence, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /gateway_capture_rehearsal/);
   assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
@@ -128,12 +130,14 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /weeklyProofPacket/);
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
+  assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
   assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
   assert.match(localVerificationEvidence, /antiFakeGateSummary/);
   assert.match(localVerificationEvidence, /blocksSyntheticProof/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
+  assert.match(localVerificationEvidence, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
@@ -2134,6 +2138,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);
   assert.match(smoke, /worldClassEligible/);
@@ -2141,6 +2146,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /dryRun/);
   assert.match(smoke, /proof_rehearsal_readiness/);
   assert.match(smoke, /content_factory_readiness/);
+  assert.match(smoke, /proof_source_volume_scan/);
   assert.match(smoke, /proof_intake_anti_fake_controls/);
   assert.match(smoke, /weekly_proof_packet_anti_fake_controls/);
   assert.match(smoke, /proof_intake_missing_required_evidence_fields/);
@@ -2157,6 +2163,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /answerUsefulness/);
   assert.match(smoke, /RAG_EVAL_QUESTION_SEEDS\.length/);
   assert.match(smoke, /seededQuestionCount/);
+  assert.match(smoke, /proof_source_volume_scan_approved_knowledge_target_wrong/);
+  assert.match(smoke, /proof_source_volume_scan_missing_blocker/);
   assert.match(smoke, /!dryRun/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);

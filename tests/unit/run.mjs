@@ -94,6 +94,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
@@ -112,6 +113,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
+  assert.match(localVerificationEvidence, /gateway_capture_rehearsal/);
+  assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
+  assert.match(localVerificationEvidence, /live gateway capture/);
   assert.match(localVerificationEvidence, /contentFactoryReadiness/);
   assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /weeklyProofPacket/);

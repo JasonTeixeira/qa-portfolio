@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-gateway-capture-diagnosis-v1",
-  "generatedAt": "2026-06-26T01:31:29.871Z",
+  "generatedAt": "2026-06-26T02:45:38.618Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof.",
   "diagnosis": {
@@ -19,8 +19,8 @@
     "latest": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "lastSeenAt": "2026-06-26T01:30:59.858+00:00",
-      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-26T02:45:29.146+00:00",
+      "ageMinutes": 0,
       "messageContentEnabled": null,
       "guildMembersEnabled": null,
       "intents": null,
@@ -31,22 +31,22 @@
       {
         "workerId": "sagebot-main",
         "status": "heartbeat_ack",
-        "lastSeenAt": "2026-06-26T01:30:59.858+00:00",
-        "ageMinutes": 1,
+        "lastSeenAt": "2026-06-26T02:45:29.146+00:00",
+        "ageMinutes": 0,
         "lastCloseCode": null
       },
       {
         "workerId": "phase14-fix-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:17:23.229+00:00",
-        "ageMinutes": 1634,
+        "ageMinutes": 1708,
         "lastCloseCode": null
       },
       {
         "workerId": "phase10-gateway-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:12:23.962+00:00",
-        "ageMinutes": 1639,
+        "ageMinutes": 1713,
         "lastCloseCode": null
       }
     ]
@@ -159,6 +159,78 @@
       "eventType": "gateway_guild_create",
       "hasMessageId": false,
       "channelId": null,
+      "createdAt": "2026-06-26T02:31:43.957259+00:00"
+    },
+    {
+      "eventType": "gateway_ready",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:43.909992+00:00"
+    },
+    {
+      "eventType": "gateway_socket_open",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:43.542792+00:00"
+    },
+    {
+      "eventType": "gateway_identify_sent",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:43.510638+00:00"
+    },
+    {
+      "eventType": "gateway_reconnect_scheduled",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:12.899036+00:00"
+    },
+    {
+      "eventType": "gateway_socket_closed",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:12.837198+00:00"
+    },
+    {
+      "eventType": "gateway_invalid_session",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:12.569847+00:00"
+    },
+    {
+      "eventType": "gateway_resume_sent",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:12.515682+00:00"
+    },
+    {
+      "eventType": "gateway_socket_open",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:31:12.501224+00:00"
+    },
+    {
+      "eventType": "gateway_reconnect_scheduled",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:30:41.660046+00:00"
+    },
+    {
+      "eventType": "gateway_socket_closed",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:30:41.483574+00:00"
+    },
+    {
+      "eventType": "gateway_reconnect_requested",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-26T02:30:41.167377+00:00"
+    },
+    {
+      "eventType": "gateway_guild_create",
+      "hasMessageId": false,
+      "channelId": null,
       "createdAt": "2026-06-25T23:46:25.294223+00:00"
     },
     {
@@ -202,78 +274,6 @@
       "hasMessageId": false,
       "channelId": null,
       "createdAt": "2026-06-25T23:45:53.678965+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T23:45:53.650627+00:00"
-    },
-    {
-      "eventType": "gateway_reconnect_scheduled",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T23:45:22.778397+00:00"
-    },
-    {
-      "eventType": "gateway_socket_closed",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T23:45:22.570295+00:00"
-    },
-    {
-      "eventType": "gateway_reconnect_requested",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T23:45:22.35589+00:00"
-    },
-    {
-      "eventType": "gateway_guild_create",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:31:26.862705+00:00"
-    },
-    {
-      "eventType": "gateway_ready",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:31:26.816022+00:00"
-    },
-    {
-      "eventType": "gateway_identify_sent",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:31:26.38654+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:31:26.31545+00:00"
-    },
-    {
-      "eventType": "gateway_reconnect_scheduled",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:30:55.352575+00:00"
-    },
-    {
-      "eventType": "gateway_socket_closed",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:30:55.280712+00:00"
-    },
-    {
-      "eventType": "gateway_invalid_session",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:30:54.932413+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-25T21:30:54.840203+00:00"
     }
   ],
   "errors": []

@@ -82,6 +82,26 @@ async function main() {
     proofRehearsalReadiness.mutationMode === 'local_file_evidence_only',
     'Proof rehearsal readiness must not mutate external systems.',
   );
+  requireTruthy(
+    Array.isArray(proofRehearsalReadiness.lanes) && proofRehearsalReadiness.lanes.length === 5,
+    'Proof rehearsal readiness must cover all five rehearsal lanes, including gateway capture and content factory readiness.',
+  );
+  requireTruthy(
+    proofRehearsalReadiness.lanes[0]?.key === 'gateway_capture_rehearsal',
+    'Proof rehearsal readiness must start with gateway_capture_rehearsal.',
+  );
+  requireTruthy(
+    proofRehearsalReadiness.lanes[1]?.key === 'content_factory_readiness_rehearsal',
+    'Proof rehearsal readiness must include content_factory_readiness_rehearsal immediately after gateway capture.',
+  );
+  requireTruthy(
+    (proofRehearsalReadiness.missingOrStale ?? []).length === 0,
+    'Proof rehearsal readiness must not have missing or stale rehearsal evidence.',
+  );
+  requireTruthy(
+    proofRehearsalReadiness.releaseMeaning?.includes('live gateway capture'),
+    'Proof rehearsal readiness must explicitly state live gateway capture remains required for operating proof.',
+  );
   requireTruthy(contentFactoryReadiness.ok === true, 'Content factory readiness evidence is not ok.');
   requireTruthy(
     contentFactoryReadiness.mutationMode === 'local_file_evidence_only',

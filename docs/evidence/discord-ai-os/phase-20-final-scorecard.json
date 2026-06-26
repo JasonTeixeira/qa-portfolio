@@ -1,9 +1,9 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782467025155",
-  "dryRun": false,
-  "auditRowId": "f3a3bc4a-33fd-4f6b-baec-afa38a7a8f89",
+  "runKey": "phase-20-final-1782467359671",
+  "dryRun": true,
+  "auditRowId": null,
   "averageScore": 83,
   "categoryCount": 18,
   "blockedBelow95": [
@@ -614,7 +614,7 @@
     "counts": {
       "discord_security_audit_runs": 8,
       "discord_scale_readiness_runs": 2,
-      "discord_final_scorecard_runs": 8,
+      "discord_final_scorecard_runs": 9,
       "discord_job_runs": 0,
       "discord_job_dead_letters": 0,
       "discord_gateway_heartbeats": 9,
@@ -788,6 +788,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T09:43:45.155Z",
-  "finishedAt": "2026-06-26T09:43:48.098Z"
+  "startedAt": "2026-06-26T09:49:19.671Z",
+  "finishedAt": "2026-06-26T09:49:21.416Z"
 }

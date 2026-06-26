@@ -1,7 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import { buildWorldClassReadinessReport, type WorldClassScorecardItem } from '@/lib/discord/world-class-readiness';
+import {
+  buildWorldClassReadinessReport,
+  validateWorldClassReadinessReport,
+  type WorldClassScorecardItem,
+} from '@/lib/discord/world-class-readiness';
 
 const root = process.cwd();
 const finalScorecardPath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-20-final-scorecard.json');
@@ -102,9 +106,16 @@ async function main() {
       releaseMeaning: gatewayOperatingPacket.releaseMeaning,
     },
   });
+  const validation = validateWorldClassReadinessReport(report);
+  if (!validation.ok) {
+    throw new Error(`World-class readiness validation failed: ${validation.failures.join(', ')}`);
+  }
 
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
+  await writeFile(outputPath, `${JSON.stringify({
+    ...report,
+    validation,
+  }, null, 2)}\n`);
   console.log(`Wrote ${path.relative(root, outputPath)}`);
 }
 

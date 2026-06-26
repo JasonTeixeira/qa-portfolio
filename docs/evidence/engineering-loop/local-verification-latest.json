@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T09:43:02.765Z",
+  "timestamp": "2026-06-26T09:49:22.222Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -90,7 +90,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782466076927"
+    "runKey": "phase-20-final-1782467359671"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -1131,6 +1131,10 @@
     "ok": true,
     "mutationMode": "local_file_evidence_only",
     "releaseDecision": "do_not_claim_world_class",
+    "validation": {
+      "ok": true,
+      "failures": []
+    },
     "releaseGateFailures": [
       "rag_eval_latest",
       "rag_eval_coverage_readiness"

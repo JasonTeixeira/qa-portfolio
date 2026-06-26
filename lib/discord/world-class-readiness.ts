@@ -312,3 +312,92 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
     categories,
   };
 }
+
+export function validateWorldClassReadinessReport(report: WorldClassReadinessReport): {
+  ok: boolean;
+  failures: string[];
+} {
+  const failures: string[] = [];
+  const releaseGateFailures = report.summary.releaseGateFailures ?? [];
+  const categories = report.categories ?? [];
+  const categoriesBelowThreshold = categories.filter((category) => category.score < report.worldClassThreshold);
+
+  if (report.ok !== true) failures.push('report_not_ok');
+  if (report.version !== 'world-class-readiness-v1') failures.push('invalid_version');
+  if (report.mutationMode !== 'local_file_evidence_only') failures.push('invalid_mutation_mode');
+  if (report.summary.categoryCount !== categories.length) failures.push('category_count_mismatch');
+  if (report.summary.categoriesBelow95 !== categoriesBelowThreshold.length) failures.push('categories_below_threshold_mismatch');
+  if (report.summary.releaseGateFailures.length !== report.summary.releaseGateCount - report.summary.releaseGatesPassed) {
+    failures.push('release_gate_count_mismatch');
+  }
+
+  if (releaseGateFailures.length > 0 && report.releaseDecision === 'eligible_for_world_class_claim') {
+    failures.push('eligible_despite_release_gate_failures');
+  }
+  if (categoriesBelowThreshold.length > 0 && report.releaseDecision === 'eligible_for_world_class_claim') {
+    failures.push('eligible_despite_categories_below_threshold');
+  }
+  if (report.summary.operatingBlockers.length > 0 && report.releaseDecision === 'eligible_for_world_class_claim') {
+    failures.push('eligible_despite_operating_blockers');
+  }
+  if (report.releaseDecision === 'eligible_for_world_class_claim' && report.worldClassEligible !== true) {
+    failures.push('eligible_decision_without_scorecard_eligibility');
+  }
+  if (report.releaseDecision === 'eligible_for_world_class_claim' && report.averageScore < report.worldClassThreshold) {
+    failures.push('eligible_decision_with_average_below_threshold');
+  }
+
+  const ragGateFailed = releaseGateFailures.some((failure) => failure.includes('rag_eval'));
+  if (ragGateFailed) {
+    if (report.ragEvalMissingPreflight.ok !== true) failures.push('missing_rag_eval_preflight');
+    if (report.ragEvalMissingPreflight.selectedMatchesCoverage !== true) failures.push('rag_eval_preflight_keys_do_not_match_coverage');
+    if (report.ragEvalMissingPreflight.missingEvalCount !== report.ragEvalMissingPreflight.readyForApprovedEvalCount) {
+      failures.push('rag_eval_preflight_not_ready_for_all_missing_keys');
+    }
+    if (!report.ragEvalMissingPreflight.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
+      failures.push('rag_eval_preflight_missing_guarded_approved_command');
+    }
+    if (!report.ragEvalMissingPreflight.releaseMeaning?.includes('does not')) {
+      failures.push('rag_eval_preflight_missing_non_claim_disclaimer');
+    }
+    if (report.ragEvalRecoveryPlan.ok !== true) failures.push('missing_rag_eval_recovery_plan');
+    if (report.ragEvalRecoveryPlan.missingEvalCount !== report.ragEvalRecoveryPlan.readyMissingEvalCount) {
+      failures.push('rag_eval_recovery_not_ready_for_all_missing_keys');
+    }
+    if (!report.ragEvalRecoveryPlan.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
+      failures.push('rag_eval_recovery_missing_guarded_approved_command');
+    }
+  }
+
+  if (report.proofSourceRecoveryPlan.totalShortfall > 0) {
+    if (report.proofSourceRecoveryPlan.ok !== true) failures.push('missing_proof_source_recovery_plan');
+    if (report.proofSourceRecoveryPlan.blockedLaneCount < 1) failures.push('proof_source_recovery_missing_blocked_lanes');
+    if (!report.proofSourceRecoveryPlan.releaseMeaning?.includes('does not')) {
+      failures.push('proof_source_recovery_missing_non_claim_disclaimer');
+    }
+  }
+
+  if (report.gatewayOperatingPacket.status === 'ready_for_fresh_message') {
+    if (report.gatewayOperatingPacket.messageContentEnabled !== true) failures.push('gateway_ready_without_message_content_signal');
+    if (report.gatewayOperatingPacket.heartbeatFresh !== true) failures.push('gateway_ready_without_fresh_heartbeat');
+    if (report.gatewayOperatingPacket.remaining < 1) failures.push('gateway_ready_without_remaining_target');
+    if (!report.gatewayOperatingPacket.nextActions.some((action) => action.includes('fresh non-bot member message'))) {
+      failures.push('gateway_ready_missing_fresh_message_action');
+    }
+    if (!report.gatewayOperatingPacket.releaseMeaning?.includes('does not')) {
+      failures.push('gateway_packet_missing_non_claim_disclaimer');
+    }
+  }
+
+  if (report.summary.operatingBlockers.length > 0 && report.immediateActionOrder.length === 0) {
+    failures.push('operating_blockers_without_immediate_actions');
+  }
+  if (categoriesBelowThreshold.some((category) => category.evidenceCount < 1)) {
+    failures.push('category_below_threshold_missing_evidence_reference');
+  }
+
+  return {
+    ok: failures.length === 0,
+    failures,
+  };
+}

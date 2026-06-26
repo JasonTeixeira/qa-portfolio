@@ -136,6 +136,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
   assert.match(localVerificationEvidence, /releaseGateFailures/);
   assert.match(localVerificationEvidence, /worldClassEligible === false/);
+  assert.match(localVerificationEvidence, /World-class readiness validator must pass/);
   assert.match(localVerificationEvidence, /dryRun === true/);
   assert.match(localVerificationEvidence, /OPERATING_TARGETS/);
   assert.match(localVerificationEvidence, /approved_discord_knowledge_sources_below_target/);
@@ -188,6 +189,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
   assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
   assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
+  assert.match(localVerificationEvidence, /worldClassReadiness/);
   assert.match(localVerificationEvidence, /approvedKnowledgePacket/);
   assert.match(localVerificationEvidence, /ragEvalExecutionPacket/);
   assert.match(localVerificationEvidence, /ragEvalMissingPreflight/);
@@ -333,6 +335,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
   assert.match(readinessScript, /buildWorldClassReadinessReport/);
+  assert.match(readinessScript, /validateWorldClassReadinessReport/);
   assert.match(readinessScript, /local-verification-latest\.json/);
   assert.match(readinessScript, /gateway-operating-packet-latest\.json/);
   const proofBacklogScript = await readFile(new URL('../../scripts/discord/write-proof-backlog.ts', import.meta.url), 'utf8');
@@ -2747,6 +2750,7 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   const {
     buildWorldClassReadinessReport,
     classifyWorldClassCategory,
+    validateWorldClassReadinessReport,
   } = await import('../../lib/discord/world-class-readiness.ts');
 
   assert.equal(classifyWorldClassCategory({ category: 'a', score: 96 }), 'earned_95_plus');
@@ -2840,6 +2844,7 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   });
 
   assert.equal(report.ok, true);
+  assert.equal(validateWorldClassReadinessReport(report).ok, true);
   assert.equal(report.version, 'world-class-readiness-v1');
   assert.equal(report.releaseDecision, 'do_not_claim_world_class');
   assert.equal(report.mutationMode, 'local_file_evidence_only');
@@ -2906,6 +2911,30 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   });
   assert.equal(blockedByReleaseGate.releaseDecision, 'do_not_claim_world_class');
   assert.deepEqual(blockedByReleaseGate.summary.releaseGateFailures, ['proof_intake_anti_fake_controls']);
+  assert.equal(validateWorldClassReadinessReport(blockedByReleaseGate).ok, true);
+
+  const invalidEligible = {
+    ...report,
+    releaseDecision: 'eligible_for_world_class_claim',
+  };
+  const invalidEligibleValidation = validateWorldClassReadinessReport(invalidEligible);
+  assert.equal(invalidEligibleValidation.ok, false);
+  assert.ok(invalidEligibleValidation.failures.includes('eligible_despite_release_gate_failures'));
+  assert.ok(invalidEligibleValidation.failures.includes('eligible_despite_categories_below_threshold'));
+  assert.ok(invalidEligibleValidation.failures.includes('eligible_despite_operating_blockers'));
+
+  const invalidRag = {
+    ...report,
+    ragEvalMissingPreflight: {
+      ...report.ragEvalMissingPreflight,
+      selectedMatchesCoverage: false,
+      approvedCommand: 'npm run rag:evaluate:missing',
+    },
+  };
+  const invalidRagValidation = validateWorldClassReadinessReport(invalidRag);
+  assert.equal(invalidRagValidation.ok, false);
+  assert.ok(invalidRagValidation.failures.includes('rag_eval_preflight_keys_do_not_match_coverage'));
+  assert.ok(invalidRagValidation.failures.includes('rag_eval_preflight_missing_guarded_approved_command'));
 });
 
 test('discord proof backlog: turns missing operating proof into concrete lanes', async () => {

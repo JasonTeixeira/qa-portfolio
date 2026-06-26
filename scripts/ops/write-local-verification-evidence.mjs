@@ -792,6 +792,10 @@ async function main() {
   );
   requireTruthy(worldClassReadiness.ok === true, 'World-class readiness evidence is not ok.');
   requireTruthy(
+    worldClassReadiness.validation?.ok === true && (worldClassReadiness.validation?.failures ?? []).length === 0,
+    'World-class readiness validator must pass before local verification can pass.',
+  );
+  requireTruthy(
     worldClassReadiness.mutationMode === 'local_file_evidence_only',
     'World-class readiness must not mutate external systems.',
   );
@@ -1272,6 +1276,7 @@ async function main() {
       ok: worldClassReadiness.ok,
       mutationMode: worldClassReadiness.mutationMode,
       releaseDecision: worldClassReadiness.releaseDecision,
+      validation: worldClassReadiness.validation,
       releaseGateFailures: worldClassReadiness.summary?.releaseGateFailures ?? [],
       ragEvalMissingPreflight: worldClassReadiness.ragEvalMissingPreflight,
       ragEvalRecoveryPlan: worldClassReadiness.ragEvalRecoveryPlan,

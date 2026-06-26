@@ -15,27 +15,35 @@ decoration. Every surface must demonstrate ≥4 of design-quality.md's required 
 default ones here are: scale-contrast hierarchy · intentional rhythm · quiet depth (surfaces +
 rule-lines) · a real type pairing · semantic-only color · designed states.
 
-## Color (semantic, not decorative) — oklch
-A near-monochrome ink/bone base + exactly **one** accent. Color carries *meaning* only.
+## Color (semantic, not decorative) — disciplined DARK
+**Reconciliation (2026-06-26):** the parent site (Sage Living OS) and the existing ~30 academy
+pages + `components/academy/academy-shell.tsx` are committed dark. Institutional Editorial is
+therefore expressed as a **disciplined dark** treatment — cohesive with the site, but stripped
+of neon/bloom/glow for institutional restraint. A light "library" inversion is a future option,
+not the default. Tokens alias the existing `--sage-*` dark ramp so the academy stays one product.
 ```css
 :root {
-  /* base — light editorial (default); dark is a disciplined inversion, not auto-on */
-  --ac-bg:        oklch(98.5% 0.004 95);   /* bone */
-  --ac-surface:   oklch(100% 0 0);          /* paper */
-  --ac-surface-2: oklch(96% 0.004 95);      /* recessed */
-  --ac-ink:       oklch(22% 0.012 270);     /* near-black text */
-  --ac-ink-soft:  oklch(45% 0.012 270);     /* secondary text */
-  --ac-rule:      oklch(88% 0.006 270);     /* hairline rules/borders */
-  --ac-accent:    oklch(48% 0.13 255);      /* the single accent — links, focus, active */
-  /* semantic state (used ONLY for meaning) */
-  --ac-mastery:   oklch(56% 0.13 150);      /* proven / complete */
-  --ac-pending:   oklch(70% 0.12 85);       /* in-progress / proof-pending */
-  --ac-locked:    oklch(60% 0.01 270);      /* locked / neutral */
-  --ac-danger:    oklch(55% 0.17 25);       /* failure / repair-required */
+  /* base — aliases the Sage Living OS dark ramp (no new palette) */
+  --ac-bg:        #0B0B0E;   /* = --sage-bg */
+  --ac-surface:   #111115;   /* = --sage-surface-1 */
+  --ac-surface-2: #141418;   /* = --sage-surface-2 (recessed/raised) */
+  --ac-ink:       #F2EFE9;   /* = --sage-ink (primary text) */
+  --ac-ink-soft:  #C0C0CA;   /* = --sage-ink-muted (secondary) */
+  --ac-ink-faint: #8A8B96;   /* labels, mono captions */
+  --ac-rule:      #1E1E24;   /* = --sage-border — hairline rules, NOT glow */
+  --ac-rule-strong: #2A2A33; /* = --sage-border-strong */
+  --ac-accent:    #3D6BFF;   /* the single disciplined accent — links, focus, active */
+  /* semantic state — used ONLY for meaning (the 8-state machine + caps) */
+  --ac-mastery:   #4ADE80;   /* proven / complete */
+  --ac-pending:   #E8B75A;   /* = --warm-gold — in-progress / proof-pending / capped */
+  --ac-locked:    #52525B;   /* locked / neutral */
+  --ac-danger:    #FF5436;   /* = --warm-ember — failure / repair-required */
 }
 ```
-Rule: locked/ready/complete/repair states in the 8-state machine use `--ac-locked / accent /
-mastery / danger` — color = state, never ornament. Score-cap UI uses `--ac-pending` for "capped".
+Rule: NO bloom/glow shadows on academy chrome — depth is surfaces + hairline rules only. The
+8-state machine maps state→color (locked `--ac-locked` · ready/active `--ac-accent` · complete
+`--ac-mastery` · repair `--ac-danger`). Score-cap UI uses `--ac-pending` for "capped". Color is
+never ornament. (Light inversion, if ever built, flips bg/ink and keeps the same accent + states.)
 
 ## Typography (a real pairing, big scale contrast)
 Two families, deliberate: a **serif display** (editorial authority) + a **grotesk/sans body**

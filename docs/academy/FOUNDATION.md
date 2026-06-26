@@ -100,4 +100,12 @@ gap — do not patch the runtime per course.
   (scripted sequence drives locked→complete + capped score; stray-repair + reopened-repair edge
   cases). 2-agent adversarial audit clean: 1 logic bug (stray `repair_completed` lifting the cap)
   + RLS/append-only hardening fixed; CRITICAL/HIGH addressed via the `@security` caller contract.
-- Tiers 1–4: NOT started. Tier 1 (shell + IA consolidation) is next.
+- **Tier 1 — SHELL: started (2026-06-26).** Design direction reconciled to **disciplined-dark
+  Institutional Editorial** (preserves the existing dark `AcademyShell` + ~30 pages + site
+  cohesion; strips neon/bloom). Institutional-editorial `--ac-*` tokens pinned in `app/globals.css`
+  (one source: base/state/type/space/motion). REMAINING (loop-driven): promote `AcademyShell`
+  into a route-group `layout.tsx` + align nav to the 6 canonical destinations · build the shell
+  components (TabBar/SubTabBar, Surface/Card/RuleList, StateBadge, ScoreCapMeter, MasteryMap,
+  GuidePanel, EmptyState) on the tokens · consolidate the IA (redirect the 2 learn paths / 2
+  course entries / orphan surfaces per INFORMATION_ARCHITECTURE.md) · axe + responsive gates.
+- Tiers 2–4: NOT started.

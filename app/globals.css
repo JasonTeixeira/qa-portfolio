@@ -1710,3 +1710,49 @@ a:focus-visible {
     animation: none;
   }
 }
+
+/* ─── Sage Academy — Institutional Editorial tokens (Tier-1 foundation) ─── */
+/* Source of truth: docs/academy/DESIGN_SYSTEM.md. Disciplined dark, cohesive
+   with the Sage Living OS ramp above — NO bloom/glow on academy chrome. Every
+   academy surface/component reads from --ac-* so the shell has one source. */
+:root {
+  /* base (aliases the --sage-* dark ramp — one product, no new palette) */
+  --ac-bg: #0b0b0e;
+  --ac-surface: #111115;
+  --ac-surface-2: #141418;
+  --ac-ink: #f2efe9;
+  --ac-ink-soft: #c0c0ca;
+  --ac-ink-faint: #8a8b96;
+  --ac-rule: #1e1e24;
+  --ac-rule-strong: #2a2a33;
+  --ac-accent: #3d6bff;
+
+  /* semantic state — meaning only (8-state machine + score caps) */
+  --ac-mastery: #4ade80; /* proven / complete */
+  --ac-pending: #e8b75a; /* in-progress / proof-pending / capped */
+  --ac-locked: #52525b; /* locked / neutral */
+  --ac-danger: #ff5436; /* failure / repair-required */
+
+  /* typography — a real pairing: serif display + grotesk body + mono data */
+  --ac-font-display: var(--font-newsreader, 'Newsreader', Georgia, serif);
+  --ac-font-body: var(--font-inter, Inter, system-ui, sans-serif);
+  --ac-font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', monospace;
+  --ac-step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --ac-step-0: clamp(1rem, 0.95rem + 0.25vw, 1.075rem);
+  --ac-step-2: clamp(1.4rem, 1.2rem + 1vw, 1.85rem);
+  --ac-step-4: clamp(2.2rem, 1.6rem + 2.6vw, 3.4rem);
+  --ac-step-6: clamp(3rem, 2rem + 5vw, 5.5rem);
+
+  /* space · rhythm · restrained depth (surfaces + rules, never glow) */
+  --ac-space: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --ac-gutter: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+  --ac-maxw-prose: 68ch;
+  --ac-maxw-shell: 1320px;
+  --ac-radius: 6px;
+  --ac-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 8px 24px rgb(0 0 0 / 0.28);
+
+  /* motion — purposeful, compositor-only */
+  --ac-dur-fast: 150ms;
+  --ac-dur: 300ms;
+  --ac-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

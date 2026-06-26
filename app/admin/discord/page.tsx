@@ -500,6 +500,36 @@ type ProofIntakeReadiness = {
   weeklyIntakeOrder: string[];
 };
 
+type WeeklyProofPacketLane = {
+  key: string;
+  title: string;
+  status: 'passed' | 'blocked';
+  currentCount: number;
+  targetCount: number;
+  remainingCount: number;
+  adminSurface: string;
+  sourceTables: string[];
+  requiredFields: ProofIntakeField[];
+  acceptanceChecks: string[];
+  rejectionChecks: string[];
+  privacyChecks: string[];
+  verificationCommands: string[];
+  evidencePaths: string[];
+  intakeTemplate: Record<string, string>;
+};
+
+type WeeklyProofPacket = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  backlogStatus: 'passed' | 'blocked';
+  lanes: WeeklyProofPacketLane[];
+  weeklyIntakeOrder: string[];
+  nextActions: string[];
+  failures: string[];
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -561,6 +591,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const contentFactoryReadiness = await loadContentFactoryReadiness();
   const operatorBrief = await loadDiscordOperatorBrief();
   const proofIntakeReadiness = await loadProofIntakeReadiness();
+  const weeklyProofPacket = await loadWeeklyProofPacket();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1234,6 +1265,47 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-weekly-proof-packet">
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Weekly proof packet"
+            meta={weeklyProofPacket.ok
+              ? `${weeklyProofPacket.lanes.filter((lane) => lane.status === 'blocked').length} blocked / ${weeklyProofPacket.lanes.length} lanes`
+              : `${weeklyProofPacket.failures.length} failures`}
+            empty="Weekly proof packet has not been generated. Run npm run discord:weekly-proof-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={weeklyProofPacket.backlogStatus === 'passed' ? 'emerald' : 'rose'}>{weeklyProofPacket.backlogStatus}</Badge>
+                  <Badge tone={weeklyProofPacket.ok ? 'emerald' : 'rose'}>{weeklyProofPacket.ok ? 'packet ready' : 'packet invalid'}</Badge>
+                  <Badge tone="neutral">{weeklyProofPacket.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{weeklyProofPacket.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {weeklyProofPacket.nextActions.slice(0, 5).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            {weeklyProofPacket.lanes.map((lane) => (
+              <WeeklyProofPacketLaneRow key={lane.key} lane={lane} />
+            ))}
+            {weeklyProofPacket.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
           <Panel
             icon={ShieldCheck}
@@ -1881,6 +1953,28 @@ async function loadProofIntakeReadiness(): Promise<ProofIntakeReadiness> {
   }
 }
 
+async function loadWeeklyProofPacket(): Promise<WeeklyProofPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as WeeklyProofPacket;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Weekly proof packet evidence is missing. Run npm run discord:weekly-proof-packet. This does not create or satisfy operating proof.',
+      backlogStatus: 'blocked',
+      lanes: [],
+      weeklyIntakeOrder: ['Run npm run discord:weekly-proof-packet before weekly proof review.'],
+      nextActions: ['Generate the weekly proof packet from current backlog and proof-intake evidence.'],
+      failures: ['weekly_proof_packet_missing'],
+    };
+  }
+}
+
 function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
@@ -2120,6 +2214,47 @@ function ProofIntakeLaneRow({ lane }: { lane: ProofIntakeLane }) {
         {lane.evidencePaths.slice(0, 3).map((evidencePath) => (
           <div key={evidencePath} className="break-words">{evidencePath}</div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function WeeklyProofPacketLaneRow({ lane }: { lane: WeeklyProofPacketLane }) {
+  const templateEntries = Object.entries(lane.intakeTemplate);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.55fr)]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone="amber">{lane.currentCount}/{lane.targetCount}</Badge>
+          {lane.remainingCount ? <Badge tone="neutral">remaining {lane.remainingCount}</Badge> : null}
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.adminSurface}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Accept" items={lane.acceptanceChecks.slice(0, 4)} tone="emerald" />
+          <ProofRuleGroup title="Reject" items={lane.rejectionChecks.slice(0, 4)} tone="rose" />
+          <ProofRuleGroup title="Privacy" items={lane.privacyChecks.slice(0, 4)} tone="amber" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Sources: </span>{lane.sourceTables.join(', ')}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Verify: </span>{lane.verificationCommands[0] ?? 'no verification command'}
+          </div>
+        </div>
+      </div>
+      <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Intake template</div>
+        <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+          {templateEntries.slice(0, 8).map(([key, value]) => (
+            <div key={key} className="grid grid-cols-[minmax(80px,0.45fr)_1fr] gap-2">
+              <span className="break-words text-[#71717a]">{key}</span>
+              <code className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-1.5 py-0.5 text-[#d4d4d8]">{value}</code>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

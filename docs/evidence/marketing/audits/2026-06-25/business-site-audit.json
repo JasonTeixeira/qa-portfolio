@@ -1,11 +1,11 @@
 {
   "summary": {
-    "generatedAt": "2026-06-26T02:08:04.659Z",
+    "generatedAt": "2026-06-26T02:14:57.789Z",
     "baseUrl": "http://127.0.0.1:3050",
     "routes": 29,
     "linkTargets": 231,
     "failedLinks": 0,
-    "routesWithAxeViolations": 7,
+    "routesWithAxeViolations": 0,
     "seriousAxeViolations": [],
     "routesWithOverflow": []
   },
@@ -5096,14 +5096,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -5304,14 +5297,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -5524,14 +5510,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -5724,14 +5703,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -5924,14 +5896,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -6124,14 +6089,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     },
     {
@@ -6862,26 +6820,7 @@
         "scrollWidth": 1440,
         "innerWidth": 1440
       },
-      "axeViolations": [
-        {
-          "id": "landmark-main-is-top-level",
-          "impact": "moderate",
-          "description": "Ensure the main landmark is at top level",
-          "nodes": 1
-        },
-        {
-          "id": "landmark-no-duplicate-main",
-          "impact": "moderate",
-          "description": "Ensure the document has at most one main landmark",
-          "nodes": 1
-        },
-        {
-          "id": "landmark-unique",
-          "impact": "moderate",
-          "description": "Ensure landmarks are unique",
-          "nodes": 1
-        }
-      ],
+      "axeViolations": [],
       "overflow": false
     }
   ]

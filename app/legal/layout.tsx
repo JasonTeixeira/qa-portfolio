@@ -27,7 +27,7 @@ export default async function LegalLayout({ children }: { children: ReactNode })
       <div className="relative mx-auto max-w-3xl px-4 py-28 sm:px-6 lg:px-8">
         <nav
           className="mb-8 flex items-center gap-2 text-sm text-[var(--sage-ink-faint)]"
-          aria-label="Breadcrumb"
+          aria-label="Legal document breadcrumb"
         >
           <FileText className="h-4 w-4 text-[var(--sage-accent-readable)]" />
           <Link href="/" className="inline-flex min-h-11 items-center transition-colors hover:text-[var(--sage-ink-muted)]">

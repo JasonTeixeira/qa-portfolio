@@ -33,7 +33,7 @@ const HEADING_STYLE: React.CSSProperties = {
 
 export default function LabPage() {
   return (
-    <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+    <div className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
       <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
@@ -197,6 +197,6 @@ export default function LabPage() {
           <LabGrid products={labProducts} />
         </section>
       </div>
-    </main>
+    </div>
   )
 }

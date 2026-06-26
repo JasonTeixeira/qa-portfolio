@@ -589,6 +589,23 @@ type ProofSourceVolumeScan = {
   nextActions: string[];
 };
 
+type RagEvalCoverageReadiness = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  latestEvalPath: string;
+  expectedQuestionCount: number;
+  seededQuestionCount: number;
+  evaluatedQuestionCount: number;
+  evaluatedKeyCount: number;
+  missingEvalKeys: string[];
+  unexpectedEvalKeys: string[];
+  releaseReady: boolean;
+  blockers: string[];
+  nextActions: string[];
+};
+
 type GatewayCaptureDiagnosis = {
   ok: boolean;
   generatedAt: string;
@@ -699,6 +716,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const weeklyProofPacket = await loadWeeklyProofPacket();
   const proofCandidateAudit = await loadProofCandidateAudit();
   const proofSourceVolumeScan = await loadProofSourceVolumeScan();
+  const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
@@ -1724,6 +1742,57 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Card>
 
           <Panel
+            icon={ClipboardCheck}
+            title="RAG eval coverage readiness"
+            meta={`${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount} evaluated`}
+            empty="RAG eval coverage readiness has not been generated. Run npm run rag:evaluate:coverage-readiness."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalCoverageReadiness.releaseReady ? 'emerald' : 'rose'}>
+                    {ragEvalCoverageReadiness.releaseReady ? 'coverage ready' : 'coverage blocked'}
+                  </Badge>
+                  <Badge tone="neutral">{ragEvalCoverageReadiness.mutationMode}</Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Seeded" value={`${ragEvalCoverageReadiness.seededQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount}`} tone={ragEvalCoverageReadiness.seededQuestionCount >= ragEvalCoverageReadiness.expectedQuestionCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Evaluated" value={`${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount}`} tone={ragEvalCoverageReadiness.evaluatedQuestionCount >= ragEvalCoverageReadiness.expectedQuestionCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Missing keys" value={String(ragEvalCoverageReadiness.missingEvalKeys.length)} tone={ragEvalCoverageReadiness.missingEvalKeys.length ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next eval actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalCoverageReadiness.nextActions.slice(0, 3).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            {ragEvalCoverageReadiness.missingEvalKeys.length ? (
+              <div className="border-t border-[#27272a] px-3 py-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Missing eval keys</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {ragEvalCoverageReadiness.missingEvalKeys.map((key) => (
+                    <span key={key} className="rounded border border-[#7f1d1d] bg-[#450a0a] px-2 py-1 text-[11px] font-medium text-[#fecaca]">
+                      {key}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {ragEvalCoverageReadiness.blockers.map((blocker) => (
+              <div key={blocker} className="border-t border-[#27272a] px-3 py-2 text-xs text-[#fca5a5]">
+                {blocker}
+              </div>
+            ))}
+          </Panel>
+
+          <Panel
             icon={BookOpenCheck}
             title="RAG eval drilldown"
             meta={latestEvalRun ? `${latestEvalRun.run_key} / ${latestEvalRun.failed} failed` : 'No eval run yet'}
@@ -2317,6 +2386,33 @@ async function loadProofSourceVolumeScan(): Promise<ProofSourceVolumeScan> {
       },
       errors: [{ label: 'proof_source_volume_scan_missing', error: 'missing evidence' }],
       nextActions: ['Run npm run discord:proof-source-scan to read current Supabase source-volume counts.'],
+    };
+  }
+}
+
+async function loadRagEvalCoverageReadiness(): Promise<RagEvalCoverageReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalCoverageReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-coverage-readiness-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval coverage readiness evidence is missing. Run npm run rag:evaluate:coverage-readiness. This reads local evidence only and does not run generation.',
+      latestEvalPath: 'docs/evidence/rag/eval-latest.json',
+      expectedQuestionCount: 65,
+      seededQuestionCount: 0,
+      evaluatedQuestionCount: 0,
+      evaluatedKeyCount: 0,
+      missingEvalKeys: [],
+      unexpectedEvalKeys: [],
+      releaseReady: false,
+      blockers: ['rag_eval_coverage_readiness_missing'],
+      nextActions: ['Run npm run rag:evaluate:coverage-readiness to inspect latest eval coverage before claiming RAG eval readiness.'],
     };
   }
 }

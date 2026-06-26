@@ -1754,6 +1754,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(page, /data-testid="discord-proof-source-volume-scan"/);
   assert.match(page, /Run npm run discord:proof-source-scan/);
+  assert.match(page, /loadRagEvalCoverageReadiness/);
+  assert.match(page, /eval-coverage-readiness\.json/);
+  assert.match(page, /RAG eval coverage readiness/);
+  assert.match(page, /npm run rag:evaluate:coverage-readiness/);
+  assert.match(page, /ragEvalCoverageReadiness\.missingEvalKeys/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);

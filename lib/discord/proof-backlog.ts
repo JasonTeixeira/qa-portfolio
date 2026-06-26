@@ -101,7 +101,7 @@ export function buildDiscordProofBacklogReport(input: {
     lane({
       key: 'gateway_capture',
       title: 'Gateway message capture',
-      currentCount: gatewayCapture.status === 'healthy' || gatewayCapture.usableMessageCount > 0 ? gatewayCapture.usableMessageCount || 1 : 0,
+      currentCount: gatewayCapture.status === 'healthy' && gatewayCapture.usableMessageCount > 0 ? gatewayCapture.usableMessageCount : 0,
       targetCount: 1,
       sourceTables: [
         'discord_gateway_heartbeats',

@@ -2366,6 +2366,34 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.nextActions.length, 0);
   assert.equal(passing.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 1);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
+
+  const warningGateway = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    gatewayCapture: {
+      status: 'warning',
+      usableMessageCount: 3,
+      rootCauses: ['Gateway heartbeat is stale.'],
+      nextActions: ['Restart the worker before counting capture proof.'],
+    },
+    metrics: {
+      approvedDiscordKnowledgeSources: 10,
+      ragDiscordSources: 10,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 0,
+      premiumWorkflowProofs: 1,
+      applicationsSubmitted: 4,
+      applicationsApproved: 2,
+    },
+  });
+  assert.equal(warningGateway.status, 'blocked');
+  assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.status, 'blocked');
+  assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 0);
+  assert.match(warningGateway.weeklyChecklist[0].acceptanceCriteria, /Gateway heartbeat is stale/);
 });
 
 test('discord operator brief: typed handoff validates blocked proof lanes and commands', async () => {

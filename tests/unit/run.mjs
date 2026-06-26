@@ -158,7 +158,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /RAG missing eval preflight selected keys must match coverage plan and execution packet keys/);
   assert.match(localVerificationEvidence, /RAG missing eval preflight must prove local sources and required terms are ready for every missing eval key/);
   assert.match(localVerificationEvidence, /Operator brief must include the proof source recovery plan/);
+  assert.match(localVerificationEvidence, /Operator brief must include the RAG missing eval preflight/);
   assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
+  assert.match(localVerificationEvidence, /Operator brief missing eval count must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
   assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
@@ -2824,12 +2826,27 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
     operatingCycle: { status: 'blocked' },
     proofBacklog,
     proofSourceRecoveryPlan,
+    ragEvalMissingPreflight: {
+      ok: true,
+      status: 'ready_for_explicitly_approved_eval',
+      selectedMatchesCoverage: true,
+      missingEvalKeys: ['rag_ai_011', 'rag_content_011'],
+      summary: {
+        missingEvalCount: 2,
+        sourceReadyCount: 2,
+        termCoverageReadyCount: 2,
+        readyForApprovedEvalCount: 2,
+        blockerCount: 0,
+      },
+      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      releaseMeaning: 'This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.',
+    },
     readiness: {
       releaseDecision: 'do_not_claim_world_class',
       summary: {
         releaseGateCount: 11,
-        releaseGatesPassed: 11,
-        releaseGateFailures: [],
+        releaseGatesPassed: 9,
+        releaseGateFailures: ['rag_eval_latest', 'rag_eval_coverage_readiness'],
       },
     },
     proofRehearsal: { ok: true, lanes: [{ key: 'a' }, { key: 'b' }, { key: 'c' }], releaseMeaning: 'proof rehearsal only' },
@@ -2861,21 +2878,29 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:proof-intake-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:weekly-proof-packet'));
   assert.ok(brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis'));
+  assert.ok(brief.commandOrder.includes('npm run rag:evaluate:missing-preflight'));
+  assert.ok(brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing')));
   assert.match(brief.currentReality, /real operating proof is still missing/);
   assert.match(brief.currentReality, /gateway capture/);
+  assert.equal(brief.ragEvalMissingPreflight.status, 'ready_for_explicitly_approved_eval');
+  assert.equal(brief.ragEvalMissingPreflight.missingEvalCount, 2);
+  assert.equal(brief.ragEvalMissingPreflight.readyForApprovedEvalCount, 2);
+  assert.equal(brief.ragEvalMissingPreflight.selectedMatchesCoverage, true);
   assert.equal(brief.gatewayCapture.status, 'blocked');
   assert.equal(brief.gatewayCapture.usableMessageCount, 0);
   assert.deepEqual(brief.gatewayCapture.rootCauses, ['Non-bot messages exist, but message content is empty.']);
-  assert.deepEqual(brief.releaseGates, { total: 11, passed: 11, failures: [] });
+  assert.deepEqual(brief.releaseGates, { total: 11, passed: 9, failures: ['rag_eval_latest', 'rag_eval_coverage_readiness'] });
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
   assert.match(markdown, /Sage Ideas Discord Operator Brief/);
   assert.match(markdown, /Approved Discord knowledge/);
   assert.match(markdown, /Proof Source Recovery/);
   assert.match(markdown, /approvedDiscordKnowledge: 0\/10/);
+  assert.match(markdown, /RAG Missing Eval Preflight/);
+  assert.match(markdown, /Ready: 2\/2/);
   assert.match(markdown, /Gateway Capture/);
   assert.match(markdown, /Release Gates/);
-  assert.match(markdown, /Passed: 11\/11/);
+  assert.match(markdown, /Passed: 9\/11/);
   assert.match(markdown, /Non-bot messages exist/);
   assert.match(markdown, /Do not claim world-class/);
 
@@ -2885,6 +2910,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(validation.failures.includes('blocked_lane_count_mismatch'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, releaseGates: { total: 0, passed: 0, failures: [] } }).failures.includes('missing_release_gate_summary'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, proofSourceRecoveryPlan: { ...brief.proofSourceRecoveryPlan, status: 'missing' } }).failures.includes('missing_proof_source_recovery_plan'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, status: 'missing' } }).failures.includes('missing_rag_eval_preflight'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, selectedMatchesCoverage: false } }).failures.includes('rag_eval_preflight_keys_do_not_match_coverage'));
 });
 
 test('discord proof intake readiness: defines auditable fields for real operating proof', async () => {

@@ -419,8 +419,24 @@ async function main() {
     'Operator brief proof source recovery shortfall must match the recovery plan.',
   );
   requireTruthy(
+    operatorBrief.ragEvalMissingPreflight?.status !== 'missing',
+    'Operator brief must include the RAG missing eval preflight.',
+  );
+  requireTruthy(
+    operatorBrief.ragEvalMissingPreflight?.missingEvalCount === (evalMissingPreflight.missingEvalKeys ?? []).length,
+    'Operator brief missing eval count must match the preflight.',
+  );
+  requireTruthy(
+    operatorBrief.ragEvalMissingPreflight?.readyForApprovedEvalCount === evalMissingPreflight.summary?.readyForApprovedEvalCount,
+    'Operator brief ready missing eval count must match the preflight.',
+  );
+  requireTruthy(
     operatorBrief.commandOrder?.includes('npm run discord:proof-source-recovery-plan'),
     'Operator brief must include the proof source recovery plan refresh command.',
+  );
+  requireTruthy(
+    operatorBrief.commandOrder?.includes('npm run rag:evaluate:missing-preflight'),
+    'Operator brief must include the RAG missing eval preflight command.',
   );
   requireTruthy(gatewayCaptureDiagnosis.ok === true, 'Gateway capture diagnosis evidence is not ok.');
   requireTruthy(

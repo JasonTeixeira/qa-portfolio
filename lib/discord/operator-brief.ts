@@ -16,6 +16,21 @@ export type DiscordOperatorBriefInput = {
   };
   proofBacklog: DiscordProofBacklogReport;
   proofSourceRecoveryPlan?: DiscordProofSourceRecoveryPlan | null;
+  ragEvalMissingPreflight?: {
+    ok?: boolean | null;
+    status?: string | null;
+    selectedMatchesCoverage?: boolean | null;
+    missingEvalKeys?: string[] | null;
+    summary?: {
+      missingEvalCount?: number | null;
+      sourceReadyCount?: number | null;
+      termCoverageReadyCount?: number | null;
+      readyForApprovedEvalCount?: number | null;
+      blockerCount?: number | null;
+    } | null;
+    approvedCommand?: string | null;
+    releaseMeaning?: string | null;
+  } | null;
   readiness: {
     releaseDecision?: string | null;
     summary?: {
@@ -65,6 +80,18 @@ export type DiscordOperatorBrief = {
       target: number;
       shortfall: number;
     }>;
+  };
+  ragEvalMissingPreflight: {
+    ok: boolean;
+    status: string;
+    selectedMatchesCoverage: boolean;
+    missingEvalCount: number;
+    sourceReadyCount: number;
+    termCoverageReadyCount: number;
+    readyForApprovedEvalCount: number;
+    blockerCount: number;
+    approvedCommand: string | null;
+    releaseMeaning: string | null;
   };
   proofRehearsal: {
     ok: boolean;
@@ -128,11 +155,26 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       shortfall: lane.shortfall,
     })),
   };
+  const missingEvalSummary = input.ragEvalMissingPreflight?.summary ?? {};
+  const ragEvalMissingPreflight = {
+    ok: input.ragEvalMissingPreflight?.ok === true,
+    status: input.ragEvalMissingPreflight?.status ?? 'missing',
+    selectedMatchesCoverage: input.ragEvalMissingPreflight?.selectedMatchesCoverage === true,
+    missingEvalCount: Number(missingEvalSummary.missingEvalCount ?? input.ragEvalMissingPreflight?.missingEvalKeys?.length ?? 0),
+    sourceReadyCount: Number(missingEvalSummary.sourceReadyCount ?? 0),
+    termCoverageReadyCount: Number(missingEvalSummary.termCoverageReadyCount ?? 0),
+    readyForApprovedEvalCount: Number(missingEvalSummary.readyForApprovedEvalCount ?? 0),
+    blockerCount: Number(missingEvalSummary.blockerCount ?? 0),
+    approvedCommand: input.ragEvalMissingPreflight?.approvedCommand ?? null,
+    releaseMeaning: input.ragEvalMissingPreflight?.releaseMeaning ?? null,
+  };
   const commandOrder = uniqueCommands([
     ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
     ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
     'npm run discord:proof-source-recovery-plan',
-    'npm run rag:evaluate',
+    'npm run rag:evaluate:missing-preflight',
+    ragEvalMissingPreflight.approvedCommand,
+    'npm run rag:evaluate:coverage-readiness',
     'npm run discord:smoke-final-scorecard',
     'npm run discord:world-class-readiness',
     'npm run discord:proof-backlog',
@@ -158,6 +200,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     proofLanes: input.proofBacklog.lanes,
     weeklyChecklist: input.proofBacklog.weeklyChecklist,
     proofSourceRecoveryPlan,
+    ragEvalMissingPreflight,
     proofRehearsal: {
       ok: input.proofRehearsal.ok === true,
       laneCount: Array.isArray(input.proofRehearsal.lanes) ? input.proofRehearsal.lanes.length : 0,
@@ -204,6 +247,15 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (brief.proofSourceRecoveryPlan.status === 'blocked' && brief.proofSourceRecoveryPlan.totalShortfall <= 0) failures.push('blocked_recovery_plan_without_shortfall');
   if (brief.proofSourceRecoveryPlan.status === 'blocked' && !brief.proofSourceRecoveryPlan.nextLane) failures.push('blocked_recovery_plan_without_next_lane');
   if (brief.proofSourceRecoveryPlan.laneStates.length > 0 && brief.proofSourceRecoveryPlan.blockedLaneCount !== brief.proofSourceRecoveryPlan.laneStates.filter((lane) => lane.status === 'blocked').length) failures.push('recovery_blocked_lane_count_mismatch');
+  if (!brief.commandOrder.includes('npm run rag:evaluate:missing-preflight')) failures.push('missing_rag_eval_missing_preflight_command');
+  if (!brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing'))) failures.push('missing_approved_missing_eval_command');
+  if (brief.releaseGates.failures.includes('rag_eval_coverage_readiness')) {
+    if (brief.ragEvalMissingPreflight.status === 'missing') failures.push('missing_rag_eval_preflight');
+    if (brief.ragEvalMissingPreflight.missingEvalCount <= 0) failures.push('rag_eval_preflight_without_missing_count');
+    if (brief.ragEvalMissingPreflight.readyForApprovedEvalCount !== brief.ragEvalMissingPreflight.missingEvalCount) failures.push('rag_eval_preflight_not_ready_for_all_missing_keys');
+    if (!brief.ragEvalMissingPreflight.selectedMatchesCoverage) failures.push('rag_eval_preflight_keys_do_not_match_coverage');
+    if (!brief.ragEvalMissingPreflight.releaseMeaning?.includes('does not seed Supabase')) failures.push('rag_eval_preflight_claim_boundary_missing');
+  }
   if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {
@@ -250,6 +302,17 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
       '- Lane states:',
       ...brief.proofSourceRecoveryPlan.laneStates.map((lane) => `  - ${lane.key}: ${lane.current}/${lane.target}, ${lane.sourceVolumeState}, shortfall ${lane.shortfall}`),
     ] : ['- Lane states: none']),
+    '',
+    '## RAG Missing Eval Preflight',
+    '',
+    `- Status: ${brief.ragEvalMissingPreflight.status}`,
+    `- OK: ${brief.ragEvalMissingPreflight.ok ? 'yes' : 'no'}`,
+    `- Keys match coverage: ${brief.ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'}`,
+    `- Ready: ${brief.ragEvalMissingPreflight.readyForApprovedEvalCount}/${brief.ragEvalMissingPreflight.missingEvalCount}`,
+    `- Sources ready: ${brief.ragEvalMissingPreflight.sourceReadyCount}/${brief.ragEvalMissingPreflight.missingEvalCount}`,
+    `- Terms ready: ${brief.ragEvalMissingPreflight.termCoverageReadyCount}/${brief.ragEvalMissingPreflight.missingEvalCount}`,
+    `- Approved command after explicit approval: ${brief.ragEvalMissingPreflight.approvedCommand ?? 'none'}`,
+    `- Boundary: ${brief.ragEvalMissingPreflight.releaseMeaning ?? 'none'}`,
     '',
     '## Gateway Capture',
     '',

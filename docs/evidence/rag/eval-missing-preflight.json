@@ -393,6 +393,6 @@
     "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "Refresh final scorecard and local verification evidence after the approved eval run."
   ],
-  "startedAt": "2026-06-26T05:50:44.867Z",
-  "finishedAt": "2026-06-26T05:50:44.891Z"
+  "startedAt": "2026-06-26T05:58:16.033Z",
+  "finishedAt": "2026-06-26T05:58:16.058Z"
 }

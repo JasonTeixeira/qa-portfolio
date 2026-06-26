@@ -1,0 +1,398 @@
+{
+  "ok": true,
+  "version": "rag-missing-eval-preflight-v1",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.",
+  "status": "ready_for_explicitly_approved_eval",
+  "sourceEvidence": {
+    "coverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
+    "missingPlan": "docs/evidence/rag/eval-missing-plan.json",
+    "executionPacket": "docs/evidence/rag/eval-execution-packet.json"
+  },
+  "selectedMatchesCoverage": true,
+  "expectedQuestionCount": 65,
+  "evaluatedQuestionCount": 50,
+  "missingEvalKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "selectedKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "executionPacketKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "summary": {
+    "missingEvalCount": 15,
+    "sourceReadyCount": 15,
+    "termCoverageReadyCount": 15,
+    "readyForApprovedEvalCount": 15,
+    "blockerCount": 0
+  },
+  "staticSources": [
+    {
+      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "path": "docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "exists": true,
+      "byteLength": 7675
+    },
+    {
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "path": "docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "exists": true,
+      "byteLength": 15008
+    },
+    {
+      "title": "SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "path": "docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "exists": true,
+      "byteLength": 10935
+    },
+    {
+      "title": "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md",
+      "path": "docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md",
+      "exists": true,
+      "byteLength": 9391
+    },
+    {
+      "title": "rag-system-build-plan.txt",
+      "path": "docs/specs/rag-system-build-plan.txt",
+      "exists": true,
+      "byteLength": 19305
+    }
+  ],
+  "items": [
+    {
+      "evalKey": "rag_ai_011",
+      "category": "rag_ai_build",
+      "question": "What source types should feed the RAG source registry?",
+      "expectedSources": [
+        "rag-system-build-plan.txt"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "discord_questions",
+        "discord_answers",
+        "discord_content_queue"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_ai_012",
+      "category": "rag_ai_build",
+      "question": "What does the admin RAG dashboard need to inspect?",
+      "expectedSources": [
+        "rag-system-build-plan.txt"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "sources",
+        "chunks",
+        "feedback"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_ai_013",
+      "category": "rag_ai_build",
+      "question": "Why should RAG content generation require admin approval?",
+      "expectedSources": [
+        "rag-system-build-plan.txt",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "content",
+        "approval",
+        "publishing"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_ai_014",
+      "category": "rag_ai_build",
+      "question": "When should Haystack or RAGFlow be avoided for this implementation?",
+      "expectedSources": [
+        "rag-system-build-plan.txt"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "first implementation",
+        "Python",
+        "RAGFlow"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_ai_015",
+      "category": "rag_ai_build",
+      "question": "What makes the RAG system production-ready?",
+      "expectedSources": [
+        "rag-system-build-plan.txt"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "retrieval",
+        "citations",
+        "evals"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_011",
+      "category": "content_engine",
+      "question": "How should the content factory use introductions without creating channel noise?",
+      "expectedSources": [
+        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "introductions",
+        "path",
+        "blocker"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_012",
+      "category": "content_engine",
+      "question": "What should members submit in project-submissions?",
+      "expectedSources": [
+        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "project",
+        "screenshot",
+        "risk"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_013",
+      "category": "content_engine",
+      "question": "How should office-hours questions be prepared?",
+      "expectedSources": [
+        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "artifact",
+        "blocker",
+        "decision"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_014",
+      "category": "content_engine",
+      "question": "What should accountability check-ins include?",
+      "expectedSources": [
+        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "committed",
+        "shipped",
+        "next action"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_015",
+      "category": "content_engine",
+      "question": "How should review-queue requests be framed?",
+      "expectedSources": [
+        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "specific",
+        "critique",
+        "artifact"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_016",
+      "category": "content_engine",
+      "question": "What proof lanes block a 95+ Sage Ideas Discord claim?",
+      "expectedSources": [
+        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "approved Discord knowledge",
+        "public proof",
+        "premium workflow"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_017",
+      "category": "content_engine",
+      "question": "What should not count as world-class Discord proof?",
+      "expectedSources": [
+        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "dry-run",
+        "synthetic",
+        "unapproved chatter"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_018",
+      "category": "content_engine",
+      "question": "What weekly checklist steps move approved Discord knowledge into RAG?",
+      "expectedSources": [
+        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "approve",
+        "operating-cycle",
+        "RAG sync"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_019",
+      "category": "content_engine",
+      "question": "What evidence proves public proof growth assets are ready?",
+      "expectedSources": [
+        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "four weekly",
+        "public proof drafts",
+        "application"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    },
+    {
+      "evalKey": "rag_content_020",
+      "category": "content_engine",
+      "question": "What evidence proves premium workflow readiness?",
+      "expectedSources": [
+        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "missingSources": [],
+      "requiredTerms": [
+        "premium review",
+        "office-hours",
+        "SLA"
+      ],
+      "missingRequiredTerms": [],
+      "sourceReady": true,
+      "termCoverageReady": true,
+      "readyForApprovedEval": true
+    }
+  ],
+  "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+  "antiFakeRules": [
+    "This preflight is not an eval run and must not be counted as eval coverage.",
+    "Dry-run, seed-only, smoke-only, source-only, or preflight-only outputs do not satisfy eval coverage.",
+    "Every missing eval key still needs an explicitly approved non-dry-run eval row before release gates can pass.",
+    "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
+  ],
+  "blockers": [],
+  "nextActions": [
+    "Obtain explicit approval before running the non-dry-run missing eval command.",
+    "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "Refresh final scorecard and local verification evidence after the approved eval run."
+  ],
+  "startedAt": "2026-06-26T05:50:44.867Z",
+  "finishedAt": "2026-06-26T05:50:44.891Z"
+}

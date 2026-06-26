@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T05:32:25.874Z",
+  "timestamp": "2026-06-26T05:50:57.020Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -34,6 +34,7 @@
     "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json",
     "evalCoverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
     "evalExecutionPacket": "docs/evidence/rag/eval-execution-packet.json",
+    "evalMissingPreflight": "docs/evidence/rag/eval-missing-preflight.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
@@ -74,7 +75,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782451938741"
+    "runKey": "phase-20-final-1782453049636"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -191,6 +192,35 @@
     "requiresExplicitApproval": true,
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
+  "ragEvalMissingPreflight": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready_for_explicitly_approved_eval",
+    "selectedMatchesCoverage": true,
+    "missingEvalKeys": [
+      "rag_ai_011",
+      "rag_ai_012",
+      "rag_ai_013",
+      "rag_ai_014",
+      "rag_ai_015",
+      "rag_content_011",
+      "rag_content_012",
+      "rag_content_013",
+      "rag_content_014",
+      "rag_content_015",
+      "rag_content_016",
+      "rag_content_017",
+      "rag_content_018",
+      "rag_content_019",
+      "rag_content_020"
+    ],
+    "sourceReadyCount": 15,
+    "termCoverageReadyCount": 15,
+    "readyForApprovedEvalCount": 15,
+    "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
   "contentFactory": {
     "ok": true,

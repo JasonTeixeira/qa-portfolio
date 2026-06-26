@@ -78,6 +78,6 @@
     "Passing 50/50 old evals does not satisfy the 65-question gate.",
     "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
   ],
-  "startedAt": "2026-06-26T05:32:14.199Z",
-  "finishedAt": "2026-06-26T05:32:14.201Z"
+  "startedAt": "2026-06-26T05:50:44.360Z",
+  "finishedAt": "2026-06-26T05:50:44.361Z"
 }

@@ -21,6 +21,7 @@ const evidencePaths = {
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
   evalCoverageReadiness: path.join(root, 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
   evalExecutionPacket: path.join(root, 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
+  evalMissingPreflight: path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
@@ -122,6 +123,7 @@ async function main() {
     evalSeedDryRun,
     evalCoverageReadiness,
     evalExecutionPacket,
+    evalMissingPreflight,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
@@ -183,6 +185,37 @@ async function main() {
   requireTruthy(
     (evalExecutionPacket.antiFakeRules ?? []).some((rule) => rule.includes('Dry-run')),
     'RAG eval execution packet must block dry-run evidence from satisfying eval coverage.',
+  );
+  requireTruthy(evalMissingPreflight.ok === true, 'RAG missing eval preflight evidence is not ok.');
+  requireTruthy(
+    evalMissingPreflight.mutationMode === 'local_file_evidence_only',
+    'RAG missing eval preflight must not mutate external systems.',
+  );
+  requireTruthy(
+    evalMissingPreflight.releaseMeaning?.includes('does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage'),
+    'RAG missing eval preflight must explicitly avoid claiming eval proof.',
+  );
+  requireTruthy(
+    evalMissingPreflight.selectedMatchesCoverage === true,
+    'RAG missing eval preflight selected keys must match coverage plan and execution packet keys.',
+  );
+  requireTruthy(
+    Array.isArray(evalMissingPreflight.missingEvalKeys)
+      && evalMissingPreflight.missingEvalKeys.length === (evalExecutionPacket.missingEvalKeys ?? []).length
+      && evalMissingPreflight.missingEvalKeys.every((key) => (evalExecutionPacket.missingEvalKeys ?? []).includes(key)),
+    'RAG missing eval preflight missing keys must match the execution packet.',
+  );
+  requireTruthy(
+    (evalMissingPreflight.items ?? []).every((item) => item.sourceReady === true && item.termCoverageReady === true && item.readyForApprovedEval === true),
+    'RAG missing eval preflight must prove local sources and required terms are ready for every missing eval key.',
+  );
+  requireTruthy(
+    evalMissingPreflight.approvedCommand?.includes('npm run rag:evaluate:missing'),
+    'RAG missing eval preflight must repeat the approved missing-eval command.',
+  );
+  requireTruthy(
+    (evalMissingPreflight.antiFakeRules ?? []).some((rule) => rule.includes('preflight-only')),
+    'RAG missing eval preflight must block preflight-only evidence from satisfying eval coverage.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -488,6 +521,19 @@ async function main() {
       requiresExplicitApproval: evalExecutionPacket.commandPlan?.requiresExplicitApproval,
       antiFakeRuleCount: evalExecutionPacket.antiFakeRules?.length ?? 0,
       releaseMeaning: evalExecutionPacket.releaseMeaning,
+    },
+    ragEvalMissingPreflight: {
+      ok: evalMissingPreflight.ok,
+      mutationMode: evalMissingPreflight.mutationMode,
+      status: evalMissingPreflight.status,
+      selectedMatchesCoverage: evalMissingPreflight.selectedMatchesCoverage,
+      missingEvalKeys: evalMissingPreflight.missingEvalKeys,
+      sourceReadyCount: evalMissingPreflight.summary?.sourceReadyCount,
+      termCoverageReadyCount: evalMissingPreflight.summary?.termCoverageReadyCount,
+      readyForApprovedEvalCount: evalMissingPreflight.summary?.readyForApprovedEvalCount,
+      approvedCommand: evalMissingPreflight.approvedCommand,
+      antiFakeRuleCount: evalMissingPreflight.antiFakeRules?.length ?? 0,
+      releaseMeaning: evalMissingPreflight.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

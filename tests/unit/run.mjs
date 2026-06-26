@@ -97,6 +97,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['rag:evaluate:coverage-readiness'], 'tsx scripts/rag/write-eval-coverage-readiness.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing-plan'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only');
   assert.equal(packageJson.scripts['rag:evaluate:execution-packet'], 'tsx scripts/rag/write-eval-execution-packet.ts');
+  assert.equal(packageJson.scripts['rag:evaluate:missing-preflight'], 'tsx scripts/rag/write-missing-eval-preflight.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
@@ -105,6 +106,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:coverage-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:execution-packet'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-preflight'));
   assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -128,6 +130,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
   assert.match(localVerificationEvidence, /eval-coverage-readiness\.json/);
   assert.match(localVerificationEvidence, /eval-execution-packet\.json/);
+  assert.match(localVerificationEvidence, /eval-missing-preflight\.json/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
@@ -147,9 +150,13 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
   assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
   assert.match(localVerificationEvidence, /ragEvalExecutionPacket/);
+  assert.match(localVerificationEvidence, /ragEvalMissingPreflight/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must explicitly avoid claiming eval proof/);
   assert.match(localVerificationEvidence, /RAG eval execution packet selected keys must match missing coverage keys/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must include the approved missing-eval command/);
+  assert.match(localVerificationEvidence, /RAG missing eval preflight must explicitly avoid claiming eval proof/);
+  assert.match(localVerificationEvidence, /RAG missing eval preflight selected keys must match coverage plan and execution packet keys/);
+  assert.match(localVerificationEvidence, /RAG missing eval preflight must prove local sources and required terms are ready for every missing eval key/);
   assert.match(localVerificationEvidence, /Operator brief must include the proof source recovery plan/);
   assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
@@ -166,6 +173,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const evalCoverageReadinessScript = await readFile(new URL('../../scripts/rag/write-eval-coverage-readiness.ts', import.meta.url), 'utf8');
   const evalExecutionPacketScript = await readFile(new URL('../../scripts/rag/write-eval-execution-packet.ts', import.meta.url), 'utf8');
+  const evalMissingPreflightScript = await readFile(new URL('../../scripts/rag/write-missing-eval-preflight.ts', import.meta.url), 'utf8');
   assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);
   assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
   assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
@@ -176,6 +184,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(evalExecutionPacketScript, /does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage/);
   assert.match(evalExecutionPacketScript, /requiresExplicitApproval/);
   assert.match(evalExecutionPacketScript, /Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage/);
+  assert.match(evalMissingPreflightScript, /eval-missing-preflight\.json/);
+  assert.match(evalMissingPreflightScript, /local_file_evidence_only/);
+  assert.match(evalMissingPreflightScript, /does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage/);
+  assert.match(evalMissingPreflightScript, /preflight-only outputs do not satisfy eval coverage/);
+  assert.doesNotMatch(evalMissingPreflightScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
@@ -1007,11 +1020,13 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
   assert.equal(pkg.scripts['rag:evaluate:seed-dry-run'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --seed-only --dry-run');
   assert.equal(pkg.scripts['rag:evaluate:missing-plan'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only');
   assert.equal(pkg.scripts['rag:evaluate:execution-packet'], 'tsx scripts/rag/write-eval-execution-packet.ts');
+  assert.equal(pkg.scripts['rag:evaluate:missing-preflight'], 'tsx scripts/rag/write-missing-eval-preflight.ts');
   assert.equal(pkg.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:validate-eval-seeds'));
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:seed-dry-run'));
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:execution-packet'));
+  assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing-preflight'));
   assert.equal(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
   assert.equal(pkg.scripts['discord:release-local'].includes('npm run rag:evaluate &&'), false);
   assert.match(validatorScript, /eval-seed-quality\.json/);
@@ -1813,6 +1828,13 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /npm run rag:evaluate:execution-packet/);
   assert.match(page, /ragEvalExecutionPacket\.selectedMatchesCoverage/);
   assert.match(page, /ragEvalExecutionPacket\.commandPlan\.approvedCommand/);
+  assert.match(page, /loadRagEvalMissingPreflight/);
+  assert.match(page, /eval-missing-preflight\.json/);
+  assert.match(page, /RAG missing eval preflight/);
+  assert.match(page, /npm run rag:evaluate:missing-preflight/);
+  assert.match(page, /ragEvalMissingPreflight\.summary\.readyForApprovedEvalCount/);
+  assert.match(page, /ragEvalMissingPreflight\.selectedMatchesCoverage/);
+  assert.match(page, /preflight-only evidence does not satisfy eval coverage/i);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);
@@ -2209,6 +2231,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-missing-plan.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-coverage-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-execution-packet.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-missing-preflight.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'));

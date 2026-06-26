@@ -663,6 +663,47 @@ type RagEvalExecutionPacket = {
   antiFakeRules: string[];
 };
 
+type RagEvalMissingPreflight = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: string;
+  selectedMatchesCoverage: boolean;
+  missingEvalKeys: string[];
+  selectedKeys: string[];
+  executionPacketKeys: string[];
+  summary: {
+    missingEvalCount: number;
+    sourceReadyCount: number;
+    termCoverageReadyCount: number;
+    readyForApprovedEvalCount: number;
+    blockerCount: number;
+  };
+  staticSources: Array<{
+    title: string;
+    path: string;
+    exists: boolean;
+    byteLength: number;
+  }>;
+  items: Array<{
+    evalKey: string;
+    category: string;
+    question: string | null;
+    expectedSources: string[];
+    missingSources: string[];
+    requiredTerms: string[];
+    missingRequiredTerms: string[];
+    sourceReady: boolean;
+    termCoverageReady: boolean;
+    readyForApprovedEval: boolean;
+  }>;
+  approvedCommand: string;
+  antiFakeRules: string[];
+  blockers: string[];
+  nextActions: string[];
+};
+
 type GatewayCaptureDiagnosis = {
   ok: boolean;
   generatedAt: string;
@@ -781,6 +822,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const proofSourceRecoveryPlan = await loadProofSourceRecoveryPlan();
   const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
   const ragEvalExecutionPacket = await loadRagEvalExecutionPacket();
+  const ragEvalMissingPreflight = await loadRagEvalMissingPreflight();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
@@ -1994,6 +2036,74 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
 
           <Panel
+            icon={ClipboardCheck}
+            title="RAG missing eval preflight"
+            meta={`${ragEvalMissingPreflight.summary.readyForApprovedEvalCount}/${ragEvalMissingPreflight.summary.missingEvalCount} ready`}
+            empty="RAG missing eval preflight is missing. Run npm run rag:evaluate:missing-preflight."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalMissingPreflight.status === 'ready_for_explicitly_approved_eval' ? 'emerald' : 'rose'}>
+                    {ragEvalMissingPreflight.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={ragEvalMissingPreflight.ok ? 'emerald' : 'rose'}>{ragEvalMissingPreflight.ok ? 'preflight ok' : 'preflight blocked'}</Badge>
+                  <Badge tone="neutral">{ragEvalMissingPreflight.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{ragEvalMissingPreflight.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Keys match packet" value={ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'} tone={ragEvalMissingPreflight.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                  <HealthLine label="Sources ready" value={`${ragEvalMissingPreflight.summary.sourceReadyCount}/${ragEvalMissingPreflight.summary.missingEvalCount}`} tone={ragEvalMissingPreflight.summary.sourceReadyCount === ragEvalMissingPreflight.summary.missingEvalCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Terms ready" value={`${ragEvalMissingPreflight.summary.termCoverageReadyCount}/${ragEvalMissingPreflight.summary.missingEvalCount}`} tone={ragEvalMissingPreflight.summary.termCoverageReadyCount === ragEvalMissingPreflight.summary.missingEvalCount ? 'emerald' : 'rose'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalMissingPreflight.approvedCommand}
+                </code>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalMissingPreflight.nextActions.slice(0, 3).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-2 border-t border-[#27272a] px-3 py-3 md:grid-cols-2 xl:grid-cols-3">
+              {ragEvalMissingPreflight.items.map((item) => (
+                <div key={item.evalKey} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="truncate text-xs font-semibold text-[#fafafa]">{item.evalKey}</div>
+                    <Badge tone={item.readyForApprovedEval ? 'emerald' : 'rose'}>{item.readyForApprovedEval ? 'ready' : 'blocked'}</Badge>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <Badge tone={item.sourceReady ? 'emerald' : 'rose'}>sources</Badge>
+                    <Badge tone={item.termCoverageReady ? 'emerald' : 'rose'}>terms</Badge>
+                    <Badge tone="neutral">{item.category}</Badge>
+                  </div>
+                  {item.missingSources.length ? (
+                    <p className="mt-3 text-[11px] leading-4 text-[#fca5a5]">missing sources: {item.missingSources.join(', ')}</p>
+                  ) : null}
+                  {item.missingRequiredTerms.length ? (
+                    <p className="mt-3 text-[11px] leading-4 text-[#fca5a5]">missing terms: {item.missingRequiredTerms.join(', ')}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {ragEvalMissingPreflight.antiFakeRules.slice(0, 4).map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+
+          <Panel
             icon={BookOpenCheck}
             title="RAG eval drilldown"
             meta={latestEvalRun ? `${latestEvalRun.run_key} / ${latestEvalRun.failed} failed` : 'No eval run yet'}
@@ -2681,6 +2791,41 @@ async function loadRagEvalExecutionPacket(): Promise<RagEvalExecutionPacket> {
       postRunChecks: ['Regenerate eval coverage readiness and final scorecard evidence after the eval run.'],
       failureHandling: ['Keep RAG eval gates blocked until every seeded eval key is represented and thresholds pass.'],
       antiFakeRules: ['Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage.'],
+    };
+  }
+}
+
+async function loadRagEvalMissingPreflight(): Promise<RagEvalMissingPreflight> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalMissingPreflight;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-missing-eval-preflight-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG missing eval preflight evidence is missing. Run npm run rag:evaluate:missing-preflight. This writes local evidence only and does not run the eval.',
+      status: 'blocked',
+      selectedMatchesCoverage: false,
+      missingEvalKeys: [],
+      selectedKeys: [],
+      executionPacketKeys: [],
+      summary: {
+        missingEvalCount: 0,
+        sourceReadyCount: 0,
+        termCoverageReadyCount: 0,
+        readyForApprovedEvalCount: 0,
+        blockerCount: 1,
+      },
+      staticSources: [],
+      items: [],
+      approvedCommand: 'npm run rag:evaluate:missing',
+      antiFakeRules: ['Preflight-only evidence does not satisfy eval coverage.'],
+      blockers: ['rag_missing_eval_preflight_missing'],
+      nextActions: ['Run npm run rag:evaluate:missing-preflight before any approved missing eval command.'],
     };
   }
 }

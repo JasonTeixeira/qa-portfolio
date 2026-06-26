@@ -27,7 +27,7 @@ const EXPECTED_CATEGORY_COUNTS: Record<RagEvalQuestionSeed['metadata']['category
   rag_ai_build: 15,
 };
 
-const STATIC_RAG_RESOURCE_FILES = [
+export const STATIC_RAG_RESOURCE_FILES = [
   'docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md',
   'docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
   'docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md',

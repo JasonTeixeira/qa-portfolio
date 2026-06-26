@@ -76,6 +76,7 @@ export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/rag/eval-missing-plan.json',
   'docs/evidence/rag/eval-coverage-readiness.json',
   'docs/evidence/rag/eval-execution-packet.json',
+  'docs/evidence/rag/eval-missing-preflight.json',
   'docs/evidence/rag/eval-seed-quality.json',
   'docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json',
   'docs/evidence/engineering-loop/content-factory-readiness-latest.json',

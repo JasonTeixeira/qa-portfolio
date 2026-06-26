@@ -79,6 +79,8 @@ export type DiscordOperatorBrief = {
       current: number;
       target: number;
       shortfall: number;
+      collectionCadenceCount: number;
+      acceptanceChecklistCount: number;
     }>;
   };
   ragEvalMissingPreflight: {
@@ -153,6 +155,8 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       current: lane.current,
       target: lane.target,
       shortfall: lane.shortfall,
+      collectionCadenceCount: lane.collectionCadence?.length ?? 0,
+      acceptanceChecklistCount: lane.acceptanceChecklist?.length ?? 0,
     })),
   };
   const missingEvalSummary = input.ragEvalMissingPreflight?.summary ?? {};
@@ -247,6 +251,8 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (brief.proofSourceRecoveryPlan.status === 'blocked' && brief.proofSourceRecoveryPlan.totalShortfall <= 0) failures.push('blocked_recovery_plan_without_shortfall');
   if (brief.proofSourceRecoveryPlan.status === 'blocked' && !brief.proofSourceRecoveryPlan.nextLane) failures.push('blocked_recovery_plan_without_next_lane');
   if (brief.proofSourceRecoveryPlan.laneStates.length > 0 && brief.proofSourceRecoveryPlan.blockedLaneCount !== brief.proofSourceRecoveryPlan.laneStates.filter((lane) => lane.status === 'blocked').length) failures.push('recovery_blocked_lane_count_mismatch');
+  if (brief.proofSourceRecoveryPlan.laneStates.some((lane) => lane.collectionCadenceCount < 3)) failures.push('recovery_lane_missing_collection_cadence');
+  if (brief.proofSourceRecoveryPlan.laneStates.some((lane) => lane.acceptanceChecklistCount < 3)) failures.push('recovery_lane_missing_acceptance_checklist');
   if (!brief.commandOrder.includes('npm run rag:evaluate:missing-preflight')) failures.push('missing_rag_eval_missing_preflight_command');
   if (!brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing'))) failures.push('missing_approved_missing_eval_command');
   if (brief.releaseGates.failures.includes('rag_eval_coverage_readiness')) {
@@ -300,7 +306,7 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
     `- Next lane: ${brief.proofSourceRecoveryPlan.nextLane ?? 'none'}`,
     ...(brief.proofSourceRecoveryPlan.laneStates.length ? [
       '- Lane states:',
-      ...brief.proofSourceRecoveryPlan.laneStates.map((lane) => `  - ${lane.key}: ${lane.current}/${lane.target}, ${lane.sourceVolumeState}, shortfall ${lane.shortfall}`),
+      ...brief.proofSourceRecoveryPlan.laneStates.map((lane) => `  - ${lane.key}: ${lane.current}/${lane.target}, ${lane.sourceVolumeState}, shortfall ${lane.shortfall}, cadence checks ${lane.collectionCadenceCount}, acceptance checks ${lane.acceptanceChecklistCount}`),
     ] : ['- Lane states: none']),
     '',
     '## RAG Missing Eval Preflight',

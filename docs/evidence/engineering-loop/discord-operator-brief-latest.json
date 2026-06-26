@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T06:05:23.682Z",
+  "generatedAt": "2026-06-26T06:16:58.838Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -240,7 +240,9 @@
         "sourceVolumeState": "no_source_volume",
         "current": 0,
         "target": 10,
-        "shortfall": 10
+        "shortfall": 10,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
       },
       {
         "key": "ragDiscordSources",
@@ -248,7 +250,9 @@
         "sourceVolumeState": "no_source_volume",
         "current": 0,
         "target": 10,
-        "shortfall": 10
+        "shortfall": 10,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
       },
       {
         "key": "publicProofAssets",
@@ -256,7 +260,9 @@
         "sourceVolumeState": "no_source_volume",
         "current": 0,
         "target": 4,
-        "shortfall": 4
+        "shortfall": 4,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
       },
       {
         "key": "premiumWorkflowProof",
@@ -264,7 +270,9 @@
         "sourceVolumeState": "needs_fulfillment",
         "current": 0,
         "target": 1,
-        "shortfall": 1
+        "shortfall": 1,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
       }
     ]
   },

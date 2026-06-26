@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T06:05:23.682Z
+Generated: 2026-06-26T06:16:58.838Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -68,10 +68,10 @@ The local system is verified, but real operating proof is still missing. Close g
 - Total shortfall: 25
 - Next lane: approvedDiscordKnowledge
 - Lane states:
-  - approvedDiscordKnowledge: 0/10, no_source_volume, shortfall 10
-  - ragDiscordSources: 0/10, no_source_volume, shortfall 10
-  - publicProofAssets: 0/4, no_source_volume, shortfall 4
-  - premiumWorkflowProof: 0/1, needs_fulfillment, shortfall 1
+  - approvedDiscordKnowledge: 0/10, no_source_volume, shortfall 10, cadence checks 3, acceptance checks 3
+  - ragDiscordSources: 0/10, no_source_volume, shortfall 10, cadence checks 3, acceptance checks 3
+  - publicProofAssets: 0/4, no_source_volume, shortfall 4, cadence checks 3, acceptance checks 3
+  - premiumWorkflowProof: 0/1, needs_fulfillment, shortfall 1, cadence checks 3, acceptance checks 3
 
 ## RAG Missing Eval Preflight
 

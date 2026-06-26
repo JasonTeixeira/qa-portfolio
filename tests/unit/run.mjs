@@ -2912,6 +2912,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.proofSourceRecoveryPlan.totalShortfall, 25);
   assert.equal(brief.proofSourceRecoveryPlan.nextLane, 'approvedDiscordKnowledge');
   assert.equal(brief.proofSourceRecoveryPlan.laneStates.length, 4);
+  assert.ok(brief.proofSourceRecoveryPlan.laneStates.every((lane) => lane.collectionCadenceCount >= 3));
+  assert.ok(brief.proofSourceRecoveryPlan.laneStates.every((lane) => lane.acceptanceChecklistCount >= 3));
   assert.equal(brief.nonClaimRule, DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE);
   assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
@@ -2938,6 +2940,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.match(markdown, /Approved Discord knowledge/);
   assert.match(markdown, /Proof Source Recovery/);
   assert.match(markdown, /approvedDiscordKnowledge: 0\/10/);
+  assert.match(markdown, /cadence checks 3/);
+  assert.match(markdown, /acceptance checks 3/);
   assert.match(markdown, /RAG Missing Eval Preflight/);
   assert.match(markdown, /Ready: 2\/2/);
   assert.match(markdown, /Gateway Capture/);

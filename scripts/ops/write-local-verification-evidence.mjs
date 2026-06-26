@@ -429,6 +429,14 @@ async function main() {
     'Operator brief proof source recovery shortfall must match the recovery plan.',
   );
   requireTruthy(
+    operatorBrief.proofSourceRecoveryPlan?.laneStates?.every((lane) => lane.collectionCadenceCount >= 3),
+    'Operator brief proof source recovery lanes must preserve collection cadence counts.',
+  );
+  requireTruthy(
+    operatorBrief.proofSourceRecoveryPlan?.laneStates?.every((lane) => lane.acceptanceChecklistCount >= 3),
+    'Operator brief proof source recovery lanes must preserve acceptance checklist counts.',
+  );
+  requireTruthy(
     operatorBrief.ragEvalMissingPreflight?.status !== 'missing',
     'Operator brief must include the RAG missing eval preflight.',
   );

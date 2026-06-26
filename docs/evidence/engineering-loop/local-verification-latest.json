@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T06:15:12.221Z",
+  "timestamp": "2026-06-26T06:16:59.130Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -562,7 +562,9 @@
           "sourceVolumeState": "no_source_volume",
           "current": 0,
           "target": 10,
-          "shortfall": 10
+          "shortfall": 10,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
         },
         {
           "key": "ragDiscordSources",
@@ -570,7 +572,9 @@
           "sourceVolumeState": "no_source_volume",
           "current": 0,
           "target": 10,
-          "shortfall": 10
+          "shortfall": 10,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
         },
         {
           "key": "publicProofAssets",
@@ -578,7 +582,9 @@
           "sourceVolumeState": "no_source_volume",
           "current": 0,
           "target": 4,
-          "shortfall": 4
+          "shortfall": 4,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
         },
         {
           "key": "premiumWorkflowProof",
@@ -586,7 +592,9 @@
           "sourceVolumeState": "needs_fulfillment",
           "current": 0,
           "target": 1,
-          "shortfall": 1
+          "shortfall": 1,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
         }
       ]
     },

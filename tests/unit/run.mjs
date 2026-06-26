@@ -2023,6 +2023,13 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /Immediate action order/);
   assert.match(page, /RAG eval blocker/);
   assert.match(page, /Recovery backlog/);
+  assert.match(page, /RAG eval execution packet/);
+  assert.match(page, /Post-run proof checks/);
+  assert.match(page, /Selected eval keys/);
+  assert.match(page, /Failure handling/);
+  assert.match(page, /ragEvalExecutionPacket\.postRunChecks/);
+  assert.match(page, /ragEvalExecutionPacket\.selectedKeys/);
+  assert.match(page, /ragEvalExecutionPacket\.failureHandling/);
   assert.match(page, /Proof source blocker/);
   assert.match(page, /collectionCadence/);
   assert.match(page, /acceptanceChecklist/);

@@ -2411,13 +2411,46 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 </ol>
               </div>
               <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Post-run proof checks</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalExecutionPacket.postRunChecks.slice(0, 4).map((check, index) => (
+                    <li key={check} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{check}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Selected eval keys</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {ragEvalExecutionPacket.selectedKeys.length ? ragEvalExecutionPacket.selectedKeys.map((key) => (
+                    <span key={key} className="rounded border border-[#713f12] bg-[#451a03] px-2 py-1 text-[11px] font-medium text-[#fde68a]">
+                      {key}
+                    </span>
+                  )) : (
+                    <span className="text-[11px] text-[#71717a]">No missing eval keys selected.</span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Failure handling</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fbbf24]">
+                  {ragEvalExecutionPacket.failureHandling.slice(0, 4).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
                 <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
                   {ragEvalExecutionPacket.antiFakeRules.slice(0, 4).map((rule) => (
                     <li key={rule}>{rule}</li>
                   ))}
                 </ul>
-              </div>
             </div>
           </Panel>
 

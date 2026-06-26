@@ -950,6 +950,11 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
     scoreRagEvalAnswer,
     summarizeRagEvalScores,
   } = await import('../../lib/rag/evals.ts');
+  const {
+    assertNonDryRunRagEvalApproved,
+    NON_DRY_RAG_EVAL_APPROVAL_ENV,
+    NON_DRY_RAG_EVAL_APPROVAL_VALUE,
+  } = await import('../../lib/rag/eval-approval.ts');
   assert.equal(RAG_EVAL_QUESTION_SEEDS.length, 65);
   assert.equal(new Set(RAG_EVAL_QUESTION_SEEDS.map((item) => item.eval_key)).size, 65);
   assert.ok(RAG_EVAL_QUESTION_SEEDS.some((item) => item.eval_key === 'rag_content_011'));
@@ -962,12 +967,23 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
   assert.match(evalScript, /const missingFromLatest = hasFlag\('missing-from-latest'\)/);
   assert.match(evalScript, /const mergeLatest = hasFlag\('merge-latest'\)/);
   assert.match(evalScript, /const planOnly = hasFlag\('plan-only'\)/);
+  assert.match(evalScript, /assertNonDryRunRagEvalApproved\(\{ dryRun \}\)/);
+  assert.match(evalScript, /lib\/rag\/eval-approval/);
   assert.match(evalScript, /function mergeEvalResults/);
   assert.match(evalScript, /eval-missing-plan\.json/);
   assert.match(evalScript, /missingKeysAtStart/);
   assert.match(evalScript, /persist: !dryRun/);
   assert.match(evalScript, /dryRun\s+\?\s+RAG_EVAL_QUESTION_SEEDS/);
   assert.match(evalScript, /if \(!dryRun\) \{/);
+  assert.doesNotThrow(() => assertNonDryRunRagEvalApproved({ dryRun: true, env: {} }));
+  assert.doesNotThrow(() => assertNonDryRunRagEvalApproved({
+    dryRun: false,
+    env: { [NON_DRY_RAG_EVAL_APPROVAL_ENV]: NON_DRY_RAG_EVAL_APPROVAL_VALUE },
+  }));
+  assert.throws(
+    () => assertNonDryRunRagEvalApproved({ dryRun: false, env: {} }),
+    /Non-dry RAG eval blocked/,
+  );
 
   const seed = RAG_EVAL_QUESTION_SEEDS.find((item) => item.eval_key === 'rag_onboarding_001');
   const passing = scoreRagEvalAnswer(seed, {
@@ -1034,7 +1050,7 @@ test('rag eval recovery plan: converts missing and failed evals into local-only 
       blockers: ['missing_eval_keys:rag_ai_011'],
     },
     missingPreflight: {
-      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
       items: [
         {
           evalKey: 'rag_ai_011',
@@ -2562,7 +2578,7 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
       missingEvalCount: 15,
       readyForApprovedEvalCount: 15,
       selectedMatchesCoverage: true,
-      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
       releaseMeaning: 'Preflight only; does not satisfy eval coverage.',
     },
     ragEvalRecoveryPlan: {
@@ -2571,7 +2587,7 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
       missingEvalCount: 15,
       readyMissingEvalCount: 15,
       failedEvalCount: 0,
-      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
       releaseMeaning: 'This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.',
     },
     proofSourceRecoveryPlan: {
@@ -2988,7 +3004,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
         readyForApprovedEvalCount: 2,
         blockerCount: 0,
       },
-      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
       releaseMeaning: 'This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.',
     },
     ragEvalRecoveryPlan: {
@@ -3004,7 +3020,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
         { readyForApprovedEval: true },
       ],
       failedEvalBacklog: [],
-      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
       releaseMeaning: 'This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.',
     },
     readiness: {

@@ -32,7 +32,7 @@ async function main() {
   const coverageStillBlocked = coverageReadiness.releaseReady !== true && missingEvalKeys.length > 0;
 
   const approvedCommand = selectedKeys.length
-    ? `npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
+    ? `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
     : 'npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence';
   const dryRunCommand = 'npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness';
 
@@ -63,6 +63,7 @@ async function main() {
     preRunChecks: [
       'Confirm NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present in .env.local.',
       'Confirm DEEPSEEK_API_KEY is present before any non-dry-run eval command.',
+      'Confirm SAGE_ALLOW_NON_DRY_RAG_EVAL=approved is set only after explicit approval for this eval run.',
       'Run npm run rag:evaluate:missing-plan and confirm selectedKeys exactly match missingEvalKeys.',
       'Do not run from a dirty staged state unless the staged files are intentionally part of the eval pass.',
       'Confirm this is an eval coverage run, not a content-generation or public-posting action.',

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T06:35:44.217Z
+Generated: 2026-06-26T06:54:29.469Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -81,7 +81,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Ready: 15/15
 - Sources ready: 15/15
 - Terms ready: 15/15
-- Approved command after explicit approval: npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence
+- Approved command after explicit approval: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence
 - Boundary: This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.
 
 ## RAG Eval Recovery Plan
@@ -90,7 +90,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - OK: yes
 - Missing eval backlog ready: 15/15
 - Failed eval backlog: 0
-- Approved command after explicit approval: npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence
+- Approved command after explicit approval: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence
 - Boundary: This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.
 
 ## Gateway Capture
@@ -120,7 +120,7 @@ The local system is verified, but real operating proof is still missing. Close g
 5. `npm run discord:proof-source-recovery-plan`
 6. `npm run rag:evaluate:missing-preflight`
 7. `npm run rag:evaluate:recovery-plan`
-8. `npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
+8. `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
 9. `npm run rag:evaluate:coverage-readiness`
 10. `npm run discord:smoke-final-scorecard`
 11. `npm run discord:world-class-readiness`

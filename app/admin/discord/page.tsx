@@ -2986,7 +2986,7 @@ async function loadRagEvalExecutionPacket(): Promise<RagEvalExecutionPacket> {
       selectedKeys: [],
       commandPlan: {
         dryRunCommand: 'npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness',
-        approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+        approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
         mutationWarning: 'Approved command can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.',
         requiresExplicitApproval: true,
       },
@@ -3025,7 +3025,7 @@ async function loadRagEvalMissingPreflight(): Promise<RagEvalMissingPreflight> {
       },
       staticSources: [],
       items: [],
-      approvedCommand: 'npm run rag:evaluate:missing',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing',
       antiFakeRules: ['Preflight-only evidence does not satisfy eval coverage.'],
       blockers: ['rag_missing_eval_preflight_missing'],
       nextActions: ['Run npm run rag:evaluate:missing-preflight before any approved missing eval command.'],
@@ -3060,7 +3060,7 @@ async function loadRagEvalRecoveryPlan(): Promise<RagEvalRecoveryPlan> {
       },
       missingEvalBacklog: [],
       failedEvalBacklog: [],
-      approvedCommand: 'npm run rag:evaluate:missing',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing',
       nextActions: ['Run npm run rag:evaluate:recovery-plan before any approved missing eval command.'],
       antiFakeRules: ['Recovery-plan-only evidence does not satisfy eval coverage.'],
     };

@@ -193,6 +193,10 @@ async function main() {
     'RAG eval execution packet must include the approved missing-eval command.',
   );
   requireTruthy(
+    evalExecutionPacket.commandPlan?.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'),
+    'RAG eval execution packet approved command must include the non-dry-run approval guard.',
+  );
+  requireTruthy(
     (evalExecutionPacket.antiFakeRules ?? []).some((rule) => rule.includes('Dry-run')),
     'RAG eval execution packet must block dry-run evidence from satisfying eval coverage.',
   );
@@ -224,6 +228,10 @@ async function main() {
     'RAG missing eval preflight must repeat the approved missing-eval command.',
   );
   requireTruthy(
+    evalMissingPreflight.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'),
+    'RAG missing eval preflight approved command must include the non-dry-run approval guard.',
+  );
+  requireTruthy(
     (evalMissingPreflight.antiFakeRules ?? []).some((rule) => rule.includes('preflight-only')),
     'RAG missing eval preflight must block preflight-only evidence from satisfying eval coverage.',
   );
@@ -247,6 +255,10 @@ async function main() {
   requireTruthy(
     (evalRecoveryPlan.antiFakeRules ?? []).some((rule) => rule.includes('plan-only')),
     'RAG eval recovery plan must block plan-only evidence from satisfying eval coverage.',
+  );
+  requireTruthy(
+    evalRecoveryPlan.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'),
+    'RAG eval recovery plan approved command must include the non-dry-run approval guard.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(

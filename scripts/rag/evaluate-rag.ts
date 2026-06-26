@@ -11,6 +11,7 @@ import {
 } from '../../lib/rag/evals';
 import { answerRagQuestion } from '../../lib/rag/retrieval';
 import { SAGEBOT_PROMPT_VERSIONS } from '../../lib/discord/sagebot-personality';
+import { assertNonDryRunRagEvalApproved } from '../../lib/rag/eval-approval';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'rag');
 const latestEvalPath = path.join(evidenceDir, 'eval-latest.json');
@@ -91,6 +92,7 @@ async function main() {
   const missingFromLatest = hasFlag('missing-from-latest');
   const mergeLatest = hasFlag('merge-latest');
   const planOnly = hasFlag('plan-only');
+  assertNonDryRunRagEvalApproved({ dryRun });
   const requestedKeys = listArg('keys');
   const limit = Number(arg('limit') ?? (smoke ? 3 : RAG_EVAL_QUESTION_SEEDS.length));
   const runKey = arg('run-key') ?? buildRunKey(smoke);
@@ -165,7 +167,7 @@ async function main() {
       missingKeys,
       selectedKeys: selectedRows.map((row: any) => String(row.eval_key)),
       releaseMeaning: 'This is a local selection plan only. It does not call DeepSeek, run retrieval, seed Supabase, write eval results, or satisfy eval coverage.',
-      approvedCommand: 'npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
       startedAt,
       finishedAt: new Date().toISOString(),
     };

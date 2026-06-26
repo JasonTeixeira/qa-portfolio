@@ -152,7 +152,7 @@ export function buildRagEvalRecoveryPlan(input: {
   const status = blockers.length || missingEvalBacklog.length || failedEvalBacklog.length ? 'blocked' : 'ready';
   const approvedCommand = String(
     input.missingPreflight.approvedCommand
-      ?? 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      ?? 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
   );
 
   return {

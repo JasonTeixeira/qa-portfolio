@@ -73,8 +73,8 @@ async function main() {
       : [
         'Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.',
         'Safe local planning command: npm run rag:evaluate:missing-plan',
-        'If only coverage is stale, the lower-cost approved command is: npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
-        'Expected full command after approval when quality drift is suspected: npm run rag:evaluate && npm run discord:smoke-final-scorecard',
+        'If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
+        'Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard',
         'Keep dry-run release gates blocked until eval-latest covers every seeded eval question.',
       ],
     startedAt,

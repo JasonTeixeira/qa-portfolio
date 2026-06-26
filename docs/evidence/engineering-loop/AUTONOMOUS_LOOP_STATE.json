@@ -1,0 +1,152 @@
+{
+  "ok": true,
+  "version": "autonomous-engineering-loop-state-v1",
+  "generatedAt": "2026-06-26T17:43:14.212Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This state audit reads local evidence and git status, then writes local evidence only. It does not push, deploy, mutate Discord, mutate Supabase, change Stripe, or run non-dry RAG eval.",
+  "current": {
+    "localVerificationPassed": true,
+    "worldClassEligible": false,
+    "averageScore": 83,
+    "targetScoreRange": "95-99",
+    "releaseGateFailures": [
+      "rag_eval_latest",
+      "rag_eval_coverage_readiness"
+    ],
+    "operatingProofBlockedLanes": [
+      "gateway_capture:0/1",
+      "approved_discord_knowledge:0/10",
+      "rag_discord_sources:0/10",
+      "public_proof_assets:0/4",
+      "premium_workflow_proof:0/1"
+    ],
+    "operatingProofKnownBlockers": [
+      "approved_discord_knowledge_sources_below_target:0/10",
+      "rag_discord_sources_below_target:0/10",
+      "public_proof_assets_below_target:0/4",
+      "public_proof_apply_clicks_below_target:0/1",
+      "applications_submitted_below_target:0/1",
+      "premium_workflow_proof_below_target:0/1"
+    ],
+    "ragEvalCoverage": {
+      "releaseReady": false,
+      "evaluatedQuestionCount": 50,
+      "expectedQuestionCount": 65,
+      "missingEvalKeyCount": 15,
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "requiresExplicitApproval": true
+    }
+  },
+  "commandPlan": {
+    "safeLocalCommands": [
+      "npm run rag:evaluate:recovery-plan",
+      "npm run rag:evaluate:missing-preflight",
+      "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+      "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+      "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+    ],
+    "explicitApprovalCommands": [
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
+    ],
+    "liveOperatorActions": [
+      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+      "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
+      "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+      "Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.",
+      "Drive at least one measured Discord application from the approval-gated growth funnel.",
+      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+    ],
+    "defaultLoopCommands": [
+      "npm run loop:audit",
+      "npm run discord:release-local",
+      "npm run ops:approval-boundaries",
+      "npm run verify:local:evidence",
+      "npm run loop:audit"
+    ]
+  },
+  "stopPolicy": {
+    "maxCyclesDefault": 3,
+    "stopOnRepeatedFingerprint": true,
+    "stopOnExternalApprovalBoundary": true,
+    "stopOnDirtyUncommittedWork": false,
+    "explicitApprovalRequiredFor": [
+      "pushing to GitHub",
+      "deploying to Vercel or Railway",
+      "mutating live Discord structure, members, roles, or posts",
+      "changing Stripe or Supabase production state",
+      "running non-dry RAG eval commands that write rows or call DeepSeek",
+      "spending money or creating paid jobs",
+      "deleting remote or live resources"
+    ]
+  },
+  "sourceEvidence": {
+    "localVerificationPath": "docs/evidence/engineering-loop/local-verification-latest.json",
+    "worldClassReadinessPath": "docs/evidence/engineering-loop/world-class-readiness-latest.json",
+    "operatorBriefPath": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
+    "worldClassReadinessStatus": null,
+    "operatorBriefStatus": null
+  },
+  "git": {
+    "statusCommand": "git status --short",
+    "statusExitCode": 0,
+    "statusShort": [
+      "M docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+      " M docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      " M docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+      " M docs/evidence/engineering-loop/approval-boundary-check-latest.json",
+      " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
+      " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.md",
+      " M docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+      " M docs/evidence/engineering-loop/discord-operator-brief-latest.json",
+      " M docs/evidence/engineering-loop/discord-operator-brief-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+      " M docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
+      " M docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.md",
+      " M docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+      " M docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
+      " M docs/evidence/engineering-loop/gateway-operating-packet-latest.md",
+      " M docs/evidence/engineering-loop/local-verification-latest.json",
+      " M docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
+      " M docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+      " M docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+      " M docs/evidence/engineering-loop/public-growth-readiness-latest.json",
+      " M docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+      " M docs/evidence/engineering-loop/world-class-readiness-latest.json",
+      " M docs/evidence/rag/eval-coverage-readiness.json",
+      " M docs/evidence/rag/eval-execution-packet.json",
+      " M docs/evidence/rag/eval-missing-plan.json",
+      " M docs/evidence/rag/eval-missing-preflight.json",
+      " M docs/evidence/rag/eval-recovery-plan.json",
+      " M docs/evidence/rag/eval-seed-dry-run.json",
+      " M docs/evidence/rag/eval-seed-quality.json",
+      " M package.json",
+      " M tests/unit/run.mjs",
+      "?? docs/evidence/engineering-loop/AUTONOMOUS_LOOP_STATE.json",
+      "?? docs/evidence/engineering-loop/autonomous-loop-dry-run-latest.json",
+      "?? docs/evidence/engineering-loop/autonomous-loop-harness-verification-latest.json",
+      "?? docs/evidence/engineering-loop/autonomous-loop-run-latest.json",
+      "?? tools/"
+    ],
+    "statusError": null
+  },
+  "stopReasons": [
+    "release_gates_blocked:rag_eval_latest,rag_eval_coverage_readiness",
+    "operating_proof_blocked:gateway_capture:0/1,approved_discord_knowledge:0/10,rag_discord_sources:0/10,public_proof_assets:0/4,premium_workflow_proof:0/1",
+    "score_below_95:83"
+  ],
+  "nextHarnessAction": "Run safe local loop commands until the fingerprint repeats, then stop at the explicit approval/live proof boundary.",
+  "blockerFingerprint": "{\"score\":83,\"releaseGateFailures\":[\"rag_eval_latest\",\"rag_eval_coverage_readiness\"],\"operatingProofBlockedLanes\":[\"gateway_capture:0/1\",\"approved_discord_knowledge:0/10\",\"rag_discord_sources:0/10\",\"public_proof_assets:0/4\",\"premium_workflow_proof:0/1\"],\"explicitApprovalCommands\":[\"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\",\"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\"],\"liveOperatorActions\":[\"Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.\",\"Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.\",\"Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.\",\"Create and approve four privacy-safe public proof assets from approved Discord source material.\",\"Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.\",\"Drive at least one measured Discord application from the approval-gated growth funnel.\",\"Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.\"]}"
+}

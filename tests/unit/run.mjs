@@ -501,6 +501,51 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(packageJson.scripts['qa:cwv-budget'], /node scripts\/qa\/cwv-budget-report\.mjs/);
 });
 
+test('engineering loop harness: local-only scripts, approval boundaries, and stop rules are wired', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const audit = await readFile(new URL('../../tools/engineering-loop/audit-state.mjs', import.meta.url), 'utf8');
+  const runner = await readFile(new URL('../../tools/engineering-loop/run-world-class-loop.mjs', import.meta.url), 'utf8');
+  const verifier = await readFile(new URL('../../tools/engineering-loop/verify-harness.mjs', import.meta.url), 'utf8');
+
+  assert.equal(packageJson.scripts['loop:audit'], 'node tools/engineering-loop/audit-state.mjs');
+  assert.equal(packageJson.scripts['loop:verify'], 'node tools/engineering-loop/verify-harness.mjs && npm run loop:audit && npm run loop:world-class:dry-run');
+  assert.equal(packageJson.scripts['loop:world-class'], 'node tools/engineering-loop/run-world-class-loop.mjs');
+  assert.equal(packageJson.scripts['loop:world-class:once'], 'node tools/engineering-loop/run-world-class-loop.mjs --once');
+  assert.equal(packageJson.scripts['loop:world-class:dry-run'], 'node tools/engineering-loop/run-world-class-loop.mjs --once --dry-run');
+
+  for (const scriptName of ['loop:audit', 'loop:verify', 'loop:world-class', 'loop:world-class:once', 'loop:world-class:dry-run']) {
+    const command = packageJson.scripts[scriptName];
+    assert.equal(command.includes('SAGE_ALLOW_'), false, `${scriptName} must not inline approval env`);
+    assert.equal(command.includes('git push'), false, `${scriptName} must not push`);
+    assert.equal(command.includes('vercel'), false, `${scriptName} must not deploy Vercel`);
+    assert.equal(command.includes('railway up'), false, `${scriptName} must not deploy Railway`);
+    assert.equal(command.includes('stripe '), false, `${scriptName} must not call Stripe`);
+    assert.equal(command.includes('supabase db push'), false, `${scriptName} must not push Supabase`);
+  }
+
+  assert.match(audit, /AUTONOMOUS_LOOP_STATE\.json/);
+  assert.match(audit, /local_file_evidence_only/);
+  assert.match(audit, /explicitApprovalRequiredFor/);
+  assert.match(audit, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing/);
+  assert.match(audit, /SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle/);
+  assert.match(audit, /blockerFingerprint/);
+
+  assert.match(runner, /FORBIDDEN_COMMAND_PATTERNS/);
+  assert.match(runner, /external_approval_or_live_proof_required/);
+  assert.match(runner, /blocked_fingerprint_repeated/);
+  assert.match(runner, /discord:release-local/);
+  assert.match(runner, /verify:local:evidence/);
+  assert.match(runner, /autonomous-loop-dry-run-latest\.json/);
+  assert.match(runner, /autonomous-loop-run-latest\.json/);
+  assert.match(runner, /SAGE_ALLOW_/);
+  assert.match(runner, /rag:\(\?:sync-sources\|chunk\|embed\|evaluate\|evaluate:missing\|evaluate:approved-missing\|evaluate:smoke\)/);
+  assert.doesNotMatch(runner, /LOOP_COMMANDS[\s\S]*SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing/);
+
+  assert.match(verifier, /autonomous-loop-harness-verification-latest\.json/);
+  assert.match(verifier, /forbiddenScriptReferences/);
+  assert.match(verifier, /loop_script_contains_forbidden_reference/);
+});
+
 test('ops scripts: approval-boundary verifier blocks risky commands from local release graph', async () => {
   const approvalBoundaryScript = await readFile(
     new URL('../../scripts/ops/check-approval-boundaries.mjs', import.meta.url),

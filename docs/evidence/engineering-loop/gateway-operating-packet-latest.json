@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "gateway-operating-packet-v1",
-  "generatedAt": "2026-06-26T12:06:33.735Z",
+  "generatedAt": "2026-06-26T17:44:40.626Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.",
   "status": "ready_for_fresh_message",
@@ -18,13 +18,13 @@
     "source": "identify_event",
     "identifyEnabled": true,
     "heartbeatEnabled": null,
-    "identifyCreatedAt": "2026-06-26T10:29:54.381227+00:00"
+    "identifyCreatedAt": "2026-06-26T16:34:11.608494+00:00"
   },
   "heartbeat": {
     "workerId": "sagebot-main",
     "status": "heartbeat_ack",
-    "ageMinutes": 0,
-    "lastSeenAt": "2026-06-26T12:06:14.062+00:00",
+    "ageMinutes": 1,
+    "lastSeenAt": "2026-06-26T17:44:01.21+00:00",
     "fresh": true,
     "lastCloseCode": null
   },

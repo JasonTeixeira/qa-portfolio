@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "version": "autonomous-loop-harness-verification-v1",
+  "generatedAt": "2026-06-26T17:43:13.858Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This verifier reads package scripts and harness source files, then writes local evidence only. It does not run the loop, push, deploy, mutate Discord, mutate Supabase, change Stripe, or run non-dry RAG eval.",
+  "requiredScripts": {
+    "loop:audit": "node tools/engineering-loop/audit-state.mjs",
+    "loop:verify": "node tools/engineering-loop/verify-harness.mjs && npm run loop:audit && npm run loop:world-class:dry-run",
+    "loop:world-class": "node tools/engineering-loop/run-world-class-loop.mjs",
+    "loop:world-class:once": "node tools/engineering-loop/run-world-class-loop.mjs --once",
+    "loop:world-class:dry-run": "node tools/engineering-loop/run-world-class-loop.mjs --once --dry-run"
+  },
+  "forbiddenScriptReferences": [
+    "git push",
+    "vercel deploy",
+    "railway up",
+    "stripe ",
+    "supabase db push",
+    "npm run db:push",
+    "npm run discord:operating-cycle",
+    "npm run discord:operating-cycle:full",
+    "npm run discord:content-factory",
+    "npm run discord:content-factory:week",
+    "npm run rag:evaluate",
+    "npm run rag:evaluate:missing",
+    "npm run rag:evaluate:approved-missing",
+    "SAGE_ALLOW_"
+  ],
+  "checkedFiles": [
+    "package.json",
+    "tools/engineering-loop/audit-state.mjs",
+    "tools/engineering-loop/run-world-class-loop.mjs",
+    "tools/engineering-loop/verify-harness.mjs"
+  ],
+  "failures": []
+}

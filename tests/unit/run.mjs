@@ -120,6 +120,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /weeklyProofPacket/);
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
+  assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
+  assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
+  assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
+  assert.match(localVerificationEvidence, /antiFakeGateSummary/);
+  assert.match(localVerificationEvidence, /blocksSyntheticProof/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T03:07:58.273Z",
+  "timestamp": "2026-06-26T03:10:16.867Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -163,6 +163,43 @@
       "premium_workflow_proof"
     ],
     "requiredFieldCount": 77,
+    "antiFakeGateSummary": [
+      {
+        "key": "gateway_capture",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "rag_discord_sources",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "public_proof_assets",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "premium_workflow_proof",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      }
+    ],
     "weeklyIntakeOrder": [
       "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
       "Review candidates and fill required proof fields.",
@@ -219,6 +256,43 @@
       "rag_discord_sources:0/10",
       "public_proof_assets:0/4",
       "premium_workflow_proof:0/1"
+    ],
+    "antiFakeGateSummary": [
+      {
+        "key": "gateway_capture",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "rag_discord_sources",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "public_proof_assets",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "premium_workflow_proof",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      }
     ],
     "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records."
   },

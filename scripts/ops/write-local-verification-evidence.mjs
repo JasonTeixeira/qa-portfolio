@@ -52,6 +52,42 @@ function summarizeOperatingBlockers(operatingCycle) {
   return blockers;
 }
 
+function laneHasRequiredEvidenceFields(lane) {
+  const fields = lane.requiredFields ?? [];
+  const keys = new Set(fields.map((field) => field.key));
+  return [
+    'proof_cycle_key',
+    'source_record_id',
+    'source_created_at',
+    'decision_reason',
+    'evidence_artifact_path',
+    'operator_attestation',
+    'privacy_status',
+  ].every((key) => keys.has(key));
+}
+
+function laneHasAntiFakeControls(lane) {
+  const qualityGates = lane.qualityGates ?? [];
+  const nonProofExamples = lane.nonProofExamples ?? [];
+  const nonProofText = nonProofExamples.join(' ').toLowerCase();
+  return qualityGates.length >= 4
+    && nonProofExamples.length >= 4
+    && (nonProofText.includes('smoke') || nonProofText.includes('dry-run') || nonProofText.includes('synthetic'));
+}
+
+function packetLaneHasRequiredTemplate(lane) {
+  const template = lane.intakeTemplate ?? {};
+  return [
+    'proof_cycle_key',
+    'source_record_id',
+    'source_created_at',
+    'decision_reason',
+    'evidence_artifact_path',
+    'operator_attestation',
+    'privacy_status',
+  ].every((key) => template[key]);
+}
+
 async function main() {
   const [
     finalScorecard,
@@ -128,6 +164,14 @@ async function main() {
     proofIntakeReadiness.lanes[0]?.key === 'gateway_capture',
     'Proof intake readiness must start with gateway_capture.',
   );
+  requireTruthy(
+    proofIntakeReadiness.lanes.every(laneHasRequiredEvidenceFields),
+    'Proof intake readiness must require proof cycle, source timestamp, evidence artifact, operator attestation, decision reason, and privacy status for every lane.',
+  );
+  requireTruthy(
+    proofIntakeReadiness.lanes.every(laneHasAntiFakeControls),
+    'Proof intake readiness must include quality gates and non-proof examples that block smoke, dry-run, or synthetic evidence from being counted.',
+  );
   requireTruthy(proofBacklog.ok === true, 'Proof backlog evidence is not ok.');
   requireTruthy(
     proofBacklog.mutationMode === 'local_file_evidence_only',
@@ -165,6 +209,14 @@ async function main() {
   requireTruthy(
     weeklyProofPacket.lanes.every((lane) => lane.intakeTemplate?.privacy_status),
     'Weekly proof packet must include privacy_status intake placeholders.',
+  );
+  requireTruthy(
+    weeklyProofPacket.lanes.every(packetLaneHasRequiredTemplate),
+    'Weekly proof packet must include proof cycle, source timestamp, evidence artifact, operator attestation, decision reason, and privacy placeholders.',
+  );
+  requireTruthy(
+    weeklyProofPacket.lanes.every(laneHasAntiFakeControls),
+    'Weekly proof packet must include quality gates and non-proof examples that block smoke, dry-run, or synthetic evidence from being counted.',
   );
   requireTruthy(proofCandidateAudit.ok === true, 'Proof candidate audit evidence is not ok.');
   requireTruthy(
@@ -308,6 +360,13 @@ async function main() {
       laneCount: Array.isArray(proofIntakeReadiness.lanes) ? proofIntakeReadiness.lanes.length : 0,
       laneKeys: proofIntakeReadiness.lanes.map((lane) => lane.key),
       requiredFieldCount: proofIntakeReadiness.requiredFieldCount,
+      antiFakeGateSummary: proofIntakeReadiness.lanes.map((lane) => ({
+        key: lane.key,
+        qualityGateCount: lane.qualityGates?.length ?? 0,
+        nonProofExampleCount: lane.nonProofExamples?.length ?? 0,
+        hasRequiredEvidenceFields: laneHasRequiredEvidenceFields(lane),
+        blocksSyntheticProof: laneHasAntiFakeControls(lane),
+      })),
       weeklyIntakeOrder: proofIntakeReadiness.weeklyIntakeOrder,
       releaseMeaning: proofIntakeReadiness.releaseMeaning,
     },
@@ -331,6 +390,13 @@ async function main() {
       blockedLanes: weeklyProofPacket.lanes
         .filter((lane) => lane.status === 'blocked')
         .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
+      antiFakeGateSummary: weeklyProofPacket.lanes.map((lane) => ({
+        key: lane.key,
+        qualityGateCount: lane.qualityGates?.length ?? 0,
+        nonProofExampleCount: lane.nonProofExamples?.length ?? 0,
+        hasRequiredTemplateFields: packetLaneHasRequiredTemplate(lane),
+        blocksSyntheticProof: laneHasAntiFakeControls(lane),
+      })),
       releaseMeaning: weeklyProofPacket.releaseMeaning,
     },
     proofCandidateAudit: {

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "security-privacy-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:01.587Z",
+  "generatedAt": "2026-06-26T10:08:12.093Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "securityPrivacy": "lib/discord/security-privacy.ts",
@@ -87,5 +87,11 @@
     "Exercise export/delete handling when a real member privacy request arrives."
   ],
   "failures": [],
-  "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit."
+  "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit.",
+  "validation": {
+    "ok": true,
+    "validator": "security-privacy-readiness-validator-v1",
+    "validatedAt": "2026-06-26T10:08:12.094Z",
+    "failures": []
+  }
 }

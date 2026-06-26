@@ -29,6 +29,40 @@ function includesAll(text, patterns) {
   return patterns.every((pattern) => text.includes(pattern));
 }
 
+function validateSecurityPrivacyReadiness(evidence) {
+  const failures = [];
+  const checkNames = new Set((evidence.checks ?? []).map((check) => check.name));
+  const failedChecks = (evidence.checks ?? []).filter((check) => check.passed !== true).map((check) => check.name);
+
+  if (evidence.version !== 'security-privacy-readiness-v1') failures.push('invalid_version');
+  if (evidence.mutationMode !== 'local_file_evidence_only') failures.push('invalid_mutation_mode');
+  if (evidence.ok !== (failedChecks.length === 0)) failures.push('ok_does_not_match_check_failures');
+  if ((evidence.failures ?? []).join('|') !== failedChecks.join('|')) failures.push('failures_do_not_match_failed_checks');
+  for (const checkName of [
+    'security_privacy_core_guards_wired',
+    'discord_interactions_have_signature_freshness_and_rate_limit',
+    'admin_mutations_are_auth_guarded',
+    'phase_18_smoke_proof_covers_live_permission_and_abuse_controls',
+  ]) {
+    if (!checkNames.has(checkName)) failures.push(`missing_check:${checkName}`);
+  }
+  if (evidence.proofSummary?.smokeProofOk !== true) failures.push('smoke_proof_not_ok');
+  if (evidence.proofSummary?.promptInjectionBlocked !== true) failures.push('prompt_injection_not_blocked');
+  if (evidence.proofSummary?.privacyGuardBlocksPrivateData !== true) failures.push('privacy_guard_not_proven');
+  if (evidence.proofSummary?.adminActionsGuarded !== true) failures.push('admin_actions_not_guarded');
+  if (evidence.proofSummary?.publicProofPrivacyGate !== true) failures.push('public_proof_privacy_gate_not_proven');
+  if (!(evidence.releaseMeaning ?? '').includes('does not mutate Supabase, call Discord, create audit rows')) failures.push('release_meaning_overclaims');
+  if (!(evidence.antiFakeRules ?? []).some((rule) => rule.includes('fresh live Discord permission audit'))) failures.push('missing_live_audit_anti_fake_rule');
+  if (!(evidence.nextOperatingProofRequired ?? []).some((item) => item.includes('live security/privacy smoke'))) failures.push('missing_live_smoke_next_proof');
+
+  return {
+    ok: failures.length === 0,
+    validator: 'security-privacy-readiness-validator-v1',
+    validatedAt: new Date().toISOString(),
+    failures,
+  };
+}
+
 async function main() {
   const [
     securityPrivacy,
@@ -203,10 +237,11 @@ async function main() {
     failures,
     releaseMeaning: 'Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit.',
   };
+  evidence.validation = validateSecurityPrivacyReadiness(evidence);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, `${JSON.stringify(evidence, null, 2)}\n`);
-  if (!evidence.ok) {
+  if (!evidence.ok || evidence.validation.ok !== true) {
     console.error(JSON.stringify(evidence, null, 2));
     process.exit(1);
   }

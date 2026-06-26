@@ -359,6 +359,10 @@ async function main() {
   );
   requireTruthy(durableJobsReadiness.ok === true, 'Durable jobs readiness evidence is not ok.');
   requireTruthy(
+    durableJobsReadiness.validation?.ok === true,
+    'Durable jobs readiness validation is not ok.',
+  );
+  requireTruthy(
     durableJobsReadiness.mutationMode === 'local_file_evidence_only',
     'Durable jobs readiness must not mutate external systems.',
   );
@@ -384,6 +388,10 @@ async function main() {
   );
   requireTruthy(securityPrivacyReadiness.ok === true, 'Security/privacy readiness evidence is not ok.');
   requireTruthy(
+    securityPrivacyReadiness.validation?.ok === true,
+    'Security/privacy readiness validation is not ok.',
+  );
+  requireTruthy(
     securityPrivacyReadiness.mutationMode === 'local_file_evidence_only',
     'Security/privacy readiness must not mutate external systems.',
   );
@@ -408,6 +416,10 @@ async function main() {
     'Security/privacy readiness must block abuse classification from counting as moderation decision.',
   );
   requireTruthy(observabilityQualityReadiness.ok === true, 'Observability/quality readiness evidence is not ok.');
+  requireTruthy(
+    observabilityQualityReadiness.validation?.ok === true,
+    'Observability/quality readiness validation is not ok.',
+  );
   requireTruthy(
     observabilityQualityReadiness.mutationMode === 'local_file_evidence_only',
     'Observability/quality readiness must not mutate external systems.',
@@ -436,6 +448,10 @@ async function main() {
     'Observability/quality readiness must block smoke rows from counting as production health.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
+  requireTruthy(
+    proofRehearsalReadiness.validation?.ok === true,
+    'Proof rehearsal readiness validation is not ok.',
+  );
   requireTruthy(
     proofRehearsalReadiness.mutationMode === 'local_file_evidence_only',
     'Proof rehearsal readiness must not mutate external systems.',

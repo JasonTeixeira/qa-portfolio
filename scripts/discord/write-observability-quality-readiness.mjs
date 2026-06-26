@@ -23,6 +23,41 @@ function includesAll(text, patterns) {
   return patterns.every((pattern) => text.includes(pattern));
 }
 
+function validateObservabilityQualityReadiness(evidence) {
+  const failures = [];
+  const checkNames = new Set((evidence.checks ?? []).map((check) => check.name));
+  const failedChecks = (evidence.checks ?? []).filter((check) => check.passed !== true).map((check) => check.name);
+
+  if (evidence.version !== 'observability-quality-readiness-v1') failures.push('invalid_version');
+  if (evidence.mutationMode !== 'local_file_evidence_only') failures.push('invalid_mutation_mode');
+  if (evidence.ok !== (failedChecks.length === 0)) failures.push('ok_does_not_match_check_failures');
+  if ((evidence.failures ?? []).join('|') !== failedChecks.join('|')) failures.push('failures_do_not_match_failed_checks');
+  for (const checkName of [
+    'langfuse_local_fallback_and_redaction_wired',
+    'rollup_tracks_trace_cost_quality_and_jobs',
+    'admin_surface_exposes_trace_cost_quality_and_job_posture',
+    'phase_17_smoke_proves_rollup_persistence_and_cleanup_path',
+  ]) {
+    if (!checkNames.has(checkName)) failures.push(`missing_check:${checkName}`);
+  }
+  if (evidence.proofSummary?.smokeProofOk !== true) failures.push('smoke_proof_not_ok');
+  if (evidence.proofSummary?.localFallbackAndRedaction !== true) failures.push('fallback_redaction_not_proven');
+  if (evidence.proofSummary?.traceCostQualityJobRollup !== true) failures.push('rollup_not_proven');
+  if (evidence.proofSummary?.adminSurface !== true) failures.push('admin_surface_not_proven');
+  if (evidence.proofSummary?.schemaRls !== true) failures.push('schema_rls_not_proven');
+  if (!(evidence.releaseMeaning ?? '').includes('does not mutate Supabase, call Discord, call DeepSeek')) failures.push('release_meaning_overclaims');
+  if (!(evidence.antiFakeRules ?? []).some((rule) => rule.includes('live Langfuse trace coverage'))) failures.push('missing_langfuse_anti_fake_rule');
+  if (!(evidence.antiFakeRules ?? []).some((rule) => rule.includes('billing truth'))) failures.push('missing_cost_anti_fake_rule');
+  if (!(evidence.nextOperatingProofRequired ?? []).some((item) => item.includes('Configure Langfuse env in production'))) failures.push('missing_langfuse_production_next_proof');
+
+  return {
+    ok: failures.length === 0,
+    validator: 'observability-quality-readiness-validator-v1',
+    validatedAt: new Date().toISOString(),
+    failures,
+  };
+}
+
 async function main() {
   const [
     aiObservability,
@@ -190,10 +225,11 @@ async function main() {
     failures,
     releaseMeaning: 'Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health.',
   };
+  evidence.validation = validateObservabilityQualityReadiness(evidence);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, `${JSON.stringify(evidence, null, 2)}\n`);
-  if (!evidence.ok) {
+  if (!evidence.ok || evidence.validation.ok !== true) {
     console.error(JSON.stringify(evidence, null, 2));
     process.exit(1);
   }

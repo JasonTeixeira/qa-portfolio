@@ -157,16 +157,20 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /Discord corpus readiness must block raw Discord messages from authoritative RAG proof/);
   assert.match(localVerificationEvidence, /Discord corpus readiness must block smoke rows from counting as live corpus volume/);
   assert.match(localVerificationEvidence, /durable-jobs-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Durable jobs readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Durable jobs readiness must prove registry, idempotency, dead letters, retry, and admin surface/);
   assert.match(localVerificationEvidence, /Durable jobs readiness must block smoke rows from counting as production job health/);
   assert.match(localVerificationEvidence, /security-privacy-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Security\/privacy readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Security\/privacy readiness must prove AI guard, privacy guard, abuse reporting, admin guard, and public proof privacy gate/);
   assert.match(localVerificationEvidence, /Security\/privacy readiness must block local evidence from counting as fresh live Discord permission audit/);
   assert.match(localVerificationEvidence, /observability-quality-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Observability\/quality readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Observability\/quality readiness must prove local fallback, redaction, trace\/cost\/quality\/job rollup, admin surface, and schema\/RLS/);
   assert.match(localVerificationEvidence, /Observability\/quality readiness must block local evidence from counting as live Langfuse trace coverage/);
   assert.match(localVerificationEvidence, /Observability\/quality readiness must block estimated token cost from counting as billing truth/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Proof rehearsal readiness validation is not ok/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /Content factory readiness validation is not ok/);
   assert.match(localVerificationEvidence, /premium-workflow-readiness-latest\.json/);
@@ -278,6 +282,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordCorpusReadinessScript, /does not mutate Supabase, sync live RAG, create knowledge rows/);
   assert.doesNotMatch(discordCorpusReadinessScript, /@supabase\/supabase-js/);
   assert.match(durableJobsReadinessScript, /durable-jobs-readiness-latest\.json/);
+  assert.match(durableJobsReadinessScript, /validateDurableJobsReadiness/);
+  assert.match(durableJobsReadinessScript, /durable-jobs-readiness-validator-v1/);
   assert.match(durableJobsReadinessScript, /durable_registry_covers_core_discord_jobs/);
   assert.match(durableJobsReadinessScript, /idempotency_retry_backoff_and_dead_letter_paths_wired/);
   assert.match(durableJobsReadinessScript, /admin_job_dashboard_and_dead_letter_actions_wired/);
@@ -286,6 +292,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(durableJobsReadinessScript, /does not mutate Supabase, run jobs, publish Discord posts/);
   assert.doesNotMatch(durableJobsReadinessScript, /@supabase\/supabase-js/);
   assert.match(securityPrivacyReadinessScript, /security-privacy-readiness-latest\.json/);
+  assert.match(securityPrivacyReadinessScript, /validateSecurityPrivacyReadiness/);
+  assert.match(securityPrivacyReadinessScript, /security-privacy-readiness-validator-v1/);
   assert.match(securityPrivacyReadinessScript, /security_privacy_core_guards_wired/);
   assert.match(securityPrivacyReadinessScript, /discord_interactions_have_signature_freshness_and_rate_limit/);
   assert.match(securityPrivacyReadinessScript, /phase_18_smoke_proof_covers_live_permission_and_abuse_controls/);
@@ -294,6 +302,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(securityPrivacyReadinessScript, /does not mutate Supabase, call Discord, create audit rows, moderate members/);
   assert.doesNotMatch(securityPrivacyReadinessScript, /@supabase\/supabase-js/);
   assert.match(observabilityQualityReadinessScript, /observability-quality-readiness-latest\.json/);
+  assert.match(observabilityQualityReadinessScript, /validateObservabilityQualityReadiness/);
+  assert.match(observabilityQualityReadinessScript, /observability-quality-readiness-validator-v1/);
   assert.match(observabilityQualityReadinessScript, /langfuse_local_fallback_and_redaction_wired/);
   assert.match(observabilityQualityReadinessScript, /rollup_tracks_trace_cost_quality_and_jobs/);
   assert.match(observabilityQualityReadinessScript, /admin_surface_exposes_trace_cost_quality_and_job_posture/);
@@ -312,6 +322,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
+  assert.match(proofRehearsalScript, /validateProofRehearsalReadiness/);
+  assert.match(proofRehearsalScript, /proof-rehearsal-readiness-validator-v1/);
+  assert.match(proofRehearsalScript, /ok_does_not_match_lane_failures/);
   assert.match(proofRehearsalScript, /gateway_capture_rehearsal/);
   assert.match(proofRehearsalScript, /content_factory_readiness_rehearsal/);
   assert.match(proofRehearsalScript, /discord:gateway-capture-diagnosis/);

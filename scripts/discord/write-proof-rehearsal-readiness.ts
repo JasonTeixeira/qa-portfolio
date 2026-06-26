@@ -158,6 +158,44 @@ function evidenceTimestamp(payload: Record<string, unknown> | null): string | nu
   return null;
 }
 
+function validateProofRehearsalReadiness(evidence: {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  lanes: Array<{ key: string; ok: boolean; mutationMode: string; checks: Record<string, boolean> }>;
+  missingOrStale: Array<{ key: string; failedChecks: string[] }>;
+}) {
+  const failures: string[] = [];
+  const failedLanes = evidence.lanes.filter((lane) => lane.ok !== true).map((lane) => lane.key);
+  if (evidence.version !== 'discord-proof-rehearsal-readiness-v2') failures.push('invalid_version');
+  if (evidence.mutationMode !== 'local_file_evidence_only') failures.push('invalid_mutation_mode');
+  if (evidence.ok !== (failedLanes.length === 0)) failures.push('ok_does_not_match_lane_failures');
+  if (evidence.lanes.length !== lanes.length) failures.push('lane_count_mismatch');
+  for (const lane of lanes) {
+    const result = evidence.lanes.find((candidate) => candidate.key === lane.key);
+    if (!result) {
+      failures.push(`missing_lane:${lane.key}`);
+      continue;
+    }
+    if (result.mutationMode !== lane.mutationMode) failures.push(`mutation_mode_mismatch:${lane.key}`);
+    for (const checkName of ['npm_script_present', 'source_contract_present', 'evidence_present', 'evidence_ok', 'evidence_recent_or_absent', 'evidence_not_operating_proof']) {
+      if (result.checks[checkName] !== true) failures.push(`lane_check_failed:${lane.key}:${checkName}`);
+    }
+  }
+  if ((evidence.missingOrStale ?? []).length !== failedLanes.length) failures.push('missing_or_stale_count_mismatch');
+  if (!(evidence.releaseMeaning ?? '').includes('Real 95+ operating proof still requires live gateway capture')) failures.push('release_meaning_overclaims');
+  if (!evidence.lanes.some((lane) => lane.mutationMode === 'transient_seed_cleanup')) failures.push('transient_cleanup_lanes_missing');
+  if (!evidence.lanes.some((lane) => lane.mutationMode === 'read_only')) failures.push('read_only_lanes_missing');
+
+  return {
+    ok: failures.length === 0,
+    validator: 'proof-rehearsal-readiness-validator-v1',
+    validatedAt: new Date().toISOString(),
+    failures,
+  };
+}
+
 async function main() {
   const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8')) as { scripts?: Record<string, string> };
   const now = Date.now();
@@ -214,11 +252,13 @@ async function main() {
         failedChecks: Object.entries(lane.checks).filter(([, passed]) => !passed).map(([key]) => key),
       })),
   };
+  const validation = validateProofRehearsalReadiness(evidence);
+  const evidenceWithValidation = { ...evidence, validation };
 
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(evidence, null, 2)}\n`);
+  await writeFile(outputPath, `${JSON.stringify(evidenceWithValidation, null, 2)}\n`);
   console.log(`Wrote ${path.relative(root, outputPath)}`);
-  if (!evidence.ok) process.exitCode = 1;
+  if (!evidence.ok || validation.ok !== true) process.exitCode = 1;
 }
 
 main().catch((error) => {

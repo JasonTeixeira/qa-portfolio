@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "durable-jobs-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:01.301Z",
+  "generatedAt": "2026-06-26T10:08:12.028Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "durableJobs": "lib/discord/durable-jobs.ts",
@@ -73,5 +73,11 @@
     "Track job success rate and dead-letter count in the admin dashboard during each operating cycle."
   ],
   "failures": [],
-  "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health."
+  "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health.",
+  "validation": {
+    "ok": true,
+    "validator": "durable-jobs-readiness-validator-v1",
+    "validatedAt": "2026-06-26T10:08:12.029Z",
+    "failures": []
+  }
 }

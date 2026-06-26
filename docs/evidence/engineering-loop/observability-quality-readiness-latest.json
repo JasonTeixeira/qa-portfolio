@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "observability-quality-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:01.864Z",
+  "generatedAt": "2026-06-26T10:08:12.115Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "aiObservability": "lib/ai/observability.ts",
@@ -73,5 +73,11 @@
     "Review open alerts and dead letters from /admin/discord during every operating cycle."
   ],
   "failures": [],
-  "releaseMeaning": "Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health."
+  "releaseMeaning": "Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health.",
+  "validation": {
+    "ok": true,
+    "validator": "observability-quality-readiness-validator-v1",
+    "validatedAt": "2026-06-26T10:08:12.116Z",
+    "failures": []
+  }
 }

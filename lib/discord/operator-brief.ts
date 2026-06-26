@@ -1,4 +1,5 @@
 import type { DiscordProofBacklogReport } from './proof-backlog';
+import type { DiscordProofSourceRecoveryPlan } from './proof-source-recovery-plan';
 
 export type DiscordOperatorBriefInput = {
   generatedAt: string;
@@ -14,6 +15,7 @@ export type DiscordOperatorBriefInput = {
     status?: string | null;
   };
   proofBacklog: DiscordProofBacklogReport;
+  proofSourceRecoveryPlan?: DiscordProofSourceRecoveryPlan | null;
   readiness: {
     releaseDecision?: string | null;
     summary?: {
@@ -50,6 +52,20 @@ export type DiscordOperatorBrief = {
   blockedLaneCount: number;
   proofLanes: DiscordProofBacklogReport['lanes'];
   weeklyChecklist: DiscordProofBacklogReport['weeklyChecklist'];
+  proofSourceRecoveryPlan: {
+    status: 'passed' | 'blocked' | 'missing';
+    blockedLaneCount: number;
+    totalShortfall: number;
+    nextLane: string | null;
+    laneStates: Array<{
+      key: string;
+      status: string;
+      sourceVolumeState: string;
+      current: number;
+      target: number;
+      shortfall: number;
+    }>;
+  };
   proofRehearsal: {
     ok: boolean;
     laneCount: number;
@@ -96,9 +112,26 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
   const releaseGateFailures = Array.isArray(input.readiness.summary?.releaseGateFailures)
     ? input.readiness.summary.releaseGateFailures
     : [];
+  const recoveryLanes = Array.isArray(input.proofSourceRecoveryPlan?.lanes) ? input.proofSourceRecoveryPlan.lanes : [];
+  const recoveryPlanStatus: DiscordOperatorBrief['proofSourceRecoveryPlan']['status'] = input.proofSourceRecoveryPlan?.status ?? 'missing';
+  const proofSourceRecoveryPlan = {
+    status: recoveryPlanStatus,
+    blockedLaneCount: recoveryLanes.filter((lane) => lane.status === 'blocked').length,
+    totalShortfall: Number(input.proofSourceRecoveryPlan?.summary?.totalShortfall ?? 0),
+    nextLane: input.proofSourceRecoveryPlan?.summary?.nextLane ?? null,
+    laneStates: recoveryLanes.map((lane) => ({
+      key: lane.key,
+      status: lane.status,
+      sourceVolumeState: lane.sourceVolumeState,
+      current: lane.current,
+      target: lane.target,
+      shortfall: lane.shortfall,
+    })),
+  };
   const commandOrder = uniqueCommands([
     ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
     ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
+    'npm run discord:proof-source-recovery-plan',
     'npm run rag:evaluate',
     'npm run discord:smoke-final-scorecard',
     'npm run discord:world-class-readiness',
@@ -124,6 +157,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     blockedLaneCount: blockedLanes.length,
     proofLanes: input.proofBacklog.lanes,
     weeklyChecklist: input.proofBacklog.weeklyChecklist,
+    proofSourceRecoveryPlan,
     proofRehearsal: {
       ok: input.proofRehearsal.ok === true,
       laneCount: Array.isArray(input.proofRehearsal.lanes) ? input.proofRehearsal.lanes.length : 0,
@@ -157,6 +191,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.nonClaimRule.includes('Do not claim world-class')) failures.push('missing_non_claim_rule');
   if (!brief.commandOrder.includes('npm run discord:operator-brief')) failures.push('missing_operator_brief_refresh_command');
   if (!brief.commandOrder.includes('npm run discord:proof-backlog')) failures.push('missing_proof_backlog_command');
+  if (!brief.commandOrder.includes('npm run discord:proof-source-recovery-plan')) failures.push('missing_proof_source_recovery_plan_command');
   if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
@@ -165,6 +200,10 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (brief.releaseGates.passed > brief.releaseGates.total) failures.push('invalid_release_gate_counts');
   if (brief.releaseGates.failures.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('release_gate_failure_reality_not_explicit');
   if (blockedLanes.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('blocked_reality_not_explicit');
+  if (brief.proofSourceRecoveryPlan.status === 'missing') failures.push('missing_proof_source_recovery_plan');
+  if (brief.proofSourceRecoveryPlan.status === 'blocked' && brief.proofSourceRecoveryPlan.totalShortfall <= 0) failures.push('blocked_recovery_plan_without_shortfall');
+  if (brief.proofSourceRecoveryPlan.status === 'blocked' && !brief.proofSourceRecoveryPlan.nextLane) failures.push('blocked_recovery_plan_without_next_lane');
+  if (brief.proofSourceRecoveryPlan.laneStates.length > 0 && brief.proofSourceRecoveryPlan.blockedLaneCount !== brief.proofSourceRecoveryPlan.laneStates.filter((lane) => lane.status === 'blocked').length) failures.push('recovery_blocked_lane_count_mismatch');
   if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {
@@ -201,6 +240,17 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
       `- Live action: ${lane.liveActionRequired}`,
       '',
     ]).join('\n') : 'No blocked proof lanes.',
+    '## Proof Source Recovery',
+    '',
+    `- Status: ${brief.proofSourceRecoveryPlan.status}`,
+    `- Blocked lanes: ${brief.proofSourceRecoveryPlan.blockedLaneCount}`,
+    `- Total shortfall: ${brief.proofSourceRecoveryPlan.totalShortfall}`,
+    `- Next lane: ${brief.proofSourceRecoveryPlan.nextLane ?? 'none'}`,
+    ...(brief.proofSourceRecoveryPlan.laneStates.length ? [
+      '- Lane states:',
+      ...brief.proofSourceRecoveryPlan.laneStates.map((lane) => `  - ${lane.key}: ${lane.current}/${lane.target}, ${lane.sourceVolumeState}, shortfall ${lane.shortfall}`),
+    ] : ['- Lane states: none']),
+    '',
     '## Gateway Capture',
     '',
     `- Status: ${brief.gatewayCapture.status}`,

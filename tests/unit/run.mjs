@@ -143,6 +143,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
   assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
   assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
+  assert.match(localVerificationEvidence, /Operator brief must include the proof source recovery plan/);
+  assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
   assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
@@ -2727,6 +2729,7 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
 
 test('discord operator brief: typed handoff validates blocked proof lanes and commands', async () => {
   const { buildDiscordProofBacklogReport } = await import('../../lib/discord/proof-backlog.ts');
+  const { buildDiscordProofSourceRecoveryPlan } = await import('../../lib/discord/proof-source-recovery-plan.ts');
   const {
     DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE,
     buildDiscordOperatorBrief,
@@ -2751,11 +2754,25 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
       publicProofApplyClicks: 0,
     },
   });
+  const proofSourceRecoveryPlan = buildDiscordProofSourceRecoveryPlan({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    scan: {
+      ok: true,
+      generatedAt: '2026-06-25T00:00:00.000Z',
+      laneReadiness: {
+        approvedDiscordKnowledge: { current: 0, target: 10, blocker: 'No approved Discord knowledge.' },
+        ragDiscordSources: { current: 0, target: 10, blocker: 'No approved Discord RAG sources.' },
+        publicProofAssets: { current: 0, target: 4, blocker: 'No public proof assets.' },
+        premiumWorkflowProof: { current: 0, target: 1, blocker: 'No premium workflow proof.' },
+      },
+    },
+  });
   const brief = buildDiscordOperatorBrief({
     generatedAt: '2026-06-25T00:00:00.000Z',
     scorecard: { averageScore: 83, worldClassEligible: false },
     operatingCycle: { status: 'blocked' },
     proofBacklog,
+    proofSourceRecoveryPlan,
     readiness: {
       releaseDecision: 'do_not_claim_world_class',
       summary: {
@@ -2780,9 +2797,15 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.mutationMode, 'local_file_evidence_only');
   assert.equal(brief.blockedLaneCount, 5);
   assert.equal(brief.weeklyChecklist.length, 5);
+  assert.equal(brief.proofSourceRecoveryPlan.status, 'blocked');
+  assert.equal(brief.proofSourceRecoveryPlan.blockedLaneCount, 4);
+  assert.equal(brief.proofSourceRecoveryPlan.totalShortfall, 25);
+  assert.equal(brief.proofSourceRecoveryPlan.nextLane, 'approvedDiscordKnowledge');
+  assert.equal(brief.proofSourceRecoveryPlan.laneStates.length, 4);
   assert.equal(brief.nonClaimRule, DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE);
   assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
+  assert.ok(brief.commandOrder.includes('npm run discord:proof-source-recovery-plan'));
   assert.ok(brief.commandOrder.includes('npm run discord:content-factory-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-intake-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:weekly-proof-packet'));
@@ -2797,6 +2820,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
   assert.match(markdown, /Sage Ideas Discord Operator Brief/);
   assert.match(markdown, /Approved Discord knowledge/);
+  assert.match(markdown, /Proof Source Recovery/);
+  assert.match(markdown, /approvedDiscordKnowledge: 0\/10/);
   assert.match(markdown, /Gateway Capture/);
   assert.match(markdown, /Release Gates/);
   assert.match(markdown, /Passed: 11\/11/);
@@ -2808,6 +2833,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('blocked_lane_count_mismatch'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, releaseGates: { total: 0, passed: 0, failures: [] } }).failures.includes('missing_release_gate_summary'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, proofSourceRecoveryPlan: { ...brief.proofSourceRecoveryPlan, status: 'missing' } }).failures.includes('missing_proof_source_recovery_plan'));
 });
 
 test('discord proof intake readiness: defines auditable fields for real operating proof', async () => {

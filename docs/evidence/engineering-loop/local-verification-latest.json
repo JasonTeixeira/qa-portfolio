@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T05:17:47.335Z",
+  "timestamp": "2026-06-26T05:26:48.202Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -73,7 +73,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782451060421"
+    "runKey": "phase-20-final-1782451601011"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -483,6 +483,46 @@
     "ok": true,
     "mutationMode": "local_file_evidence_only",
     "blockedLaneCount": 5,
+    "proofSourceRecoveryPlan": {
+      "status": "blocked",
+      "blockedLaneCount": 4,
+      "totalShortfall": 25,
+      "nextLane": "approvedDiscordKnowledge",
+      "laneStates": [
+        {
+          "key": "approvedDiscordKnowledge",
+          "status": "blocked",
+          "sourceVolumeState": "no_source_volume",
+          "current": 0,
+          "target": 10,
+          "shortfall": 10
+        },
+        {
+          "key": "ragDiscordSources",
+          "status": "blocked",
+          "sourceVolumeState": "no_source_volume",
+          "current": 0,
+          "target": 10,
+          "shortfall": 10
+        },
+        {
+          "key": "publicProofAssets",
+          "status": "blocked",
+          "sourceVolumeState": "no_source_volume",
+          "current": 0,
+          "target": 4,
+          "shortfall": 4
+        },
+        {
+          "key": "premiumWorkflowProof",
+          "status": "blocked",
+          "sourceVolumeState": "needs_fulfillment",
+          "current": 0,
+          "target": 1,
+          "shortfall": 1
+        }
+      ]
+    },
     "proofLaneKeys": [
       "gateway_capture",
       "approved_discord_knowledge",

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T05:17:47.053Z
+Generated: 2026-06-26T05:26:47.917Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -61,6 +61,18 @@ The local system is verified, but real operating proof is still missing. Close g
 - Evidence required: At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count.
 - Live action: Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
 
+## Proof Source Recovery
+
+- Status: blocked
+- Blocked lanes: 4
+- Total shortfall: 25
+- Next lane: approvedDiscordKnowledge
+- Lane states:
+  - approvedDiscordKnowledge: 0/10, no_source_volume, shortfall 10
+  - ragDiscordSources: 0/10, no_source_volume, shortfall 10
+  - publicProofAssets: 0/4, no_source_volume, shortfall 4
+  - premiumWorkflowProof: 0/1, needs_fulfillment, shortfall 1
+
 ## Gateway Capture
 
 - Status: blocked
@@ -85,14 +97,15 @@ The local system is verified, but real operating proof is still missing. Close g
 2. `npm run discord:operating-cycle:dry-run`
 3. `npm run discord:smoke-premium-workflows`
 4. `npm run discord:operating-cycle`
-5. `npm run rag:evaluate`
-6. `npm run discord:smoke-final-scorecard`
-7. `npm run discord:world-class-readiness`
-8. `npm run discord:proof-backlog`
-9. `npm run discord:operator-brief`
-10. `npm run discord:content-factory-readiness`
-11. `npm run discord:proof-intake-readiness`
-12. `npm run discord:weekly-proof-packet`
+5. `npm run discord:proof-source-recovery-plan`
+6. `npm run rag:evaluate`
+7. `npm run discord:smoke-final-scorecard`
+8. `npm run discord:world-class-readiness`
+9. `npm run discord:proof-backlog`
+10. `npm run discord:operator-brief`
+11. `npm run discord:content-factory-readiness`
+12. `npm run discord:proof-intake-readiness`
+13. `npm run discord:weekly-proof-packet`
 
 ## Non-Claim Rule
 

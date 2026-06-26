@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T05:17:47.053Z",
+  "generatedAt": "2026-06-26T05:26:47.917Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -228,6 +228,46 @@
       "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count."
     }
   ],
+  "proofSourceRecoveryPlan": {
+    "status": "blocked",
+    "blockedLaneCount": 4,
+    "totalShortfall": 25,
+    "nextLane": "approvedDiscordKnowledge",
+    "laneStates": [
+      {
+        "key": "approvedDiscordKnowledge",
+        "status": "blocked",
+        "sourceVolumeState": "no_source_volume",
+        "current": 0,
+        "target": 10,
+        "shortfall": 10
+      },
+      {
+        "key": "ragDiscordSources",
+        "status": "blocked",
+        "sourceVolumeState": "no_source_volume",
+        "current": 0,
+        "target": 10,
+        "shortfall": 10
+      },
+      {
+        "key": "publicProofAssets",
+        "status": "blocked",
+        "sourceVolumeState": "no_source_volume",
+        "current": 0,
+        "target": 4,
+        "shortfall": 4
+      },
+      {
+        "key": "premiumWorkflowProof",
+        "status": "blocked",
+        "sourceVolumeState": "needs_fulfillment",
+        "current": 0,
+        "target": 1,
+        "shortfall": 1
+      }
+    ]
+  },
   "proofRehearsal": {
     "ok": true,
     "laneCount": 5,
@@ -258,6 +298,7 @@
     "npm run discord:operating-cycle:dry-run",
     "npm run discord:smoke-premium-workflows",
     "npm run discord:operating-cycle",
+    "npm run discord:proof-source-recovery-plan",
     "npm run rag:evaluate",
     "npm run discord:smoke-final-scorecard",
     "npm run discord:world-class-readiness",

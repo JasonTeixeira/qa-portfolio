@@ -350,6 +350,18 @@ async function main() {
     operatorBrief.proofLanes?.[0]?.key === 'gateway_capture',
     'Operator brief must start proof lanes with gateway_capture.',
   );
+  requireTruthy(
+    operatorBrief.proofSourceRecoveryPlan?.status !== 'missing',
+    'Operator brief must include the proof source recovery plan.',
+  );
+  requireTruthy(
+    operatorBrief.proofSourceRecoveryPlan?.totalShortfall === proofSourceRecoveryPlan.summary?.totalShortfall,
+    'Operator brief proof source recovery shortfall must match the recovery plan.',
+  );
+  requireTruthy(
+    operatorBrief.commandOrder?.includes('npm run discord:proof-source-recovery-plan'),
+    'Operator brief must include the proof source recovery plan refresh command.',
+  );
   requireTruthy(gatewayCaptureDiagnosis.ok === true, 'Gateway capture diagnosis evidence is not ok.');
   requireTruthy(
     gatewayCaptureDiagnosis.mutationMode === 'read_only_supabase_selects_and_local_file_evidence_only',
@@ -546,6 +558,7 @@ async function main() {
       ok: operatorBrief.ok,
       mutationMode: operatorBrief.mutationMode,
       blockedLaneCount: operatorBrief.blockedLaneCount,
+      proofSourceRecoveryPlan: operatorBrief.proofSourceRecoveryPlan,
       proofLaneKeys: operatorBrief.proofLanes.map((lane) => lane.key),
       currentReality: operatorBrief.currentReality,
       nonClaimRule: operatorBrief.nonClaimRule,

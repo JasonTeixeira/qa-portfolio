@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "full-20260626051735",
+  "runKey": "full-20260626052635",
   "mutationMode": "local_file_evidence_only",
   "dryRun": true,
   "missingFromLatest": true,
@@ -45,6 +45,6 @@
   ],
   "releaseMeaning": "This is a local selection plan only. It does not call DeepSeek, run retrieval, seed Supabase, write eval results, or satisfy eval coverage.",
   "approvedCommand": "npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard",
-  "startedAt": "2026-06-26T05:17:35.522Z",
-  "finishedAt": "2026-06-26T05:17:35.535Z"
+  "startedAt": "2026-06-26T05:26:35.908Z",
+  "finishedAt": "2026-06-26T05:26:35.922Z"
 }

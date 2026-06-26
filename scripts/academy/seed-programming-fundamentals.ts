@@ -271,6 +271,178 @@ const blocks = [
   },
 ]
 
+// ---------------------------------------------------------------- lesson 2 blocks
+// "Error Handling — Make Failures Loud, Safe, and Diagnosable".
+// Grounded in concepts/deep-nodes/error-handling.md (mental models, failure modes,
+// implementation pattern). Standard sprint with a runnable "surface the error" lab.
+const ERROR_LAB_STARTER = `def safe_divide(a, b):
+    # Don't swallow it. Catch ZeroDivisionError, log operator context (print a line),
+    # then chain a clear error:  raise ValueError("cannot divide by zero") from e
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+try:
+    print("ok:", safe_divide(10, 2))
+    safe_divide(10, 0)
+    print("BUG: no error raised — it was swallowed!")
+except ValueError as e:
+    print(f"error surfaced: {e}")
+`
+
+const errorHandlingBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Handle errors so failures surface loudly, users get a safe clear message, operators get enough context to diagnose — and you never swallow an exception.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A function that catches deliberately, logs operator context, raises a clear error, plus a test proving the error is NOT swallowed.',
+    unlock: 'All verification checks confirmed and the swallowed-exception case fixed.',
+    doNotClaim:
+      "Don't claim mastery until you've shown a swallowed-exception bug and fixed it with a test that proves the error now surfaces.",
+  },
+  {
+    type: 'mission',
+    text: 'A background job has been "succeeding" for a week — but it wrapped everything in `except Exception: pass`. Thousands of records silently failed and no one knew. Your job: make failures loud, safe, and diagnosable.',
+  },
+  {
+    type: 'context',
+    text: 'Error handling is where junior and senior code diverge. The same try/except can hide a production outage for a week or turn it into a 30-second fix. Every job, request handler, and pipeline step lives or dies on this.',
+  },
+  {
+    type: 'pretest',
+    prompt: 'Before you read on: why is `except Exception: pass` one of the most dangerous lines you can write?',
+    reveal:
+      'It swallows EVERY error — including ones you never anticipated (a real bug, disk-full, a typo). The program keeps running as if nothing happened, so the failure becomes invisible and undebuggable. Catch narrowly, handle deliberately, and never silently pass.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Catch deliberately, preserve operator context, surface a safe message, and define retry behaviour:',
+    language: 'python',
+    code: `import logging
+
+def charge_card(user_id, amount):
+    try:
+        return payment_api.charge(user_id, amount)  # illustrative API
+    except TransientNetworkError as e:
+        # transient -> retry ONLY if the call is idempotent (safe to repeat)
+        logging.warning("charge retryable: user=%s amount=%s (%s)", user_id, amount, e)
+        raise RetryableError("payment temporarily unavailable") from e
+    except CardDeclinedError as e:
+        # non-retryable -> surface a safe user message, log operator context
+        logging.error("charge declined: user=%s amount=%s (%s)", user_id, amount, e)
+        raise UserError("Your card was declined.") from e`,
+    steps: [
+      'Classify the error: recoverable vs unrecoverable, retryable vs not.',
+      'Catch the SPECIFIC errors you can handle — never a bare `except`.',
+      'Preserve operator context: log the inputs + the original error, and chain with `from e` so the operator sees the real root cause (Python keeps it as `__cause__`), not just your wrapper.',
+      'Return a SAFE user message — never leak internals or stack traces to users.',
+      'Retry only failures that are transient AND idempotent (safe to repeat).',
+    ],
+    commonMistake:
+      'Overbroad `except Exception` that also catches the bugs you should let crash. Catch what you can actually handle; let the rest surface.',
+  },
+  {
+    type: 'concept',
+    title: 'Recoverable vs unrecoverable · user message vs operator context',
+    text: 'Good error handling answers four questions: Is this recoverable or fatal? Is it retryable or not? What does the USER safely need to see? What does the OPERATOR need logged to diagnose? Safe failure means the system fails in a known, observable state — loudly, with context — never silently.',
+  },
+  {
+    type: 'lab',
+    title: 'Make the failure loud',
+    summary:
+      'Implement safe_divide(a, b) like the worked example: catch ZeroDivisionError, log operator context, and `raise ValueError("cannot divide by zero") from e` — never swallow it. The checkpoint proves the error SURFACES; the verification list below then confirms you caught, logged, and chained it.',
+    language: 'python',
+    starter: ERROR_LAB_STARTER,
+    check: 'error surfaced: cannot divide by zero',
+  },
+  {
+    type: 'debug',
+    symptom: 'This "handles" errors — and hid a week of silent data loss.',
+    language: 'python',
+    brokenCode: `for record in batch:
+    try:
+        process(record)
+    except Exception:
+        pass   # "it won't crash now"`,
+    task: 'Find why failures became invisible.',
+    fix: 'A bare/overbroad `except` + `pass` swallows everything. Catch the specific recoverable error, log operator context (which record, the real error), and either re-raise or record the failure to a dead-letter list — never `pass`.',
+  },
+  {
+    type: 'tradeoff',
+    question: 'An external API call fails. Retry, or fail fast?',
+    optionA: {
+      label: 'Retry',
+      text: 'Right for transient failures (a timeout or 503) — but only if the call is idempotent. Retrying a declined card (400) just fails again; the real danger is retrying a timeout that may have already charged.',
+    },
+    optionB: {
+      label: 'Fail fast',
+      text: 'Surface immediately. Safe for non-retryable errors, but gives up on transient blips a single retry would have fixed.',
+    },
+    guidance:
+      'Classify first. Retry only failures that are transient AND idempotent — “idempotent” means safe to repeat with the same effect as once (e.g. the API dedupes on a key). The double-charge trap isn’t the declined card — it’s retrying a timeout whose real outcome you don’t know.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'safe_divide(10, 2) returns 5.0',
+      'safe_divide(10, 0) RAISES — it does not return or swallow',
+      'The raised error carries a clear, safe message — no stack trace or internals leaked to the user',
+      'Operator context (the inputs / original error) is logged, and the cause is chained with `from e`',
+      'A test ASSERTS the error is raised — proving it is not swallowed',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: "What is the safest way to handle an error you can't recover from?",
+    options: [
+      'Catch it and `pass`',
+      'Catch it, log operator context, and re-raise (or fail loudly)',
+      'Return None and continue',
+      "Print 'error' and move on",
+    ],
+    answer: 1,
+    explanation:
+      'Unrecoverable errors must surface. Log enough context to diagnose, then re-raise or fail. Swallowing it or returning None hides the failure and corrupts everything downstream. Log once, at the boundary that has the context — re-wrapping at every layer just creates noise.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'Explain "swallowed exception" and why it is dangerous.',
+      'When should you re-raise an error vs handle it?',
+      'What is the difference between the user message and the operator context?',
+      'When is retrying an error the WRONG move?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your safe_divide() + its test',
+    weak: '"I added a try/except." — it might be silently swallowing the error.',
+    passing:
+      '"safe_divide catches ZeroDivisionError, logs the inputs, and raises ValueError with a clear message; a test asserts it raises." — correct and verifiable.',
+    excellent:
+      '"safe_divide distinguishes recoverable vs not, logs operator context (inputs + original error chained with `from e`), returns a safe user message, and never swallows. Tests cover the happy path AND assert the error surfaces. I classified which API errors are retryable. The same pattern hardens our job runner." — specific, reasoned, production-aware, transferable.',
+    note: 'Excellent shows the user-vs-operator split + retry classification — L5–L7 on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find one try/except in your own code. Is it swallowing? Make it catch narrowly, log operator context, surface a safe message, and classify retryable vs not. Add a test that proves the error surfaces.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — the error surfaces, it is not swallowed',
+      'Broken case understood (a bare `except` hides failures)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -337,6 +509,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (lErr) throw lErr
+
+  // 2b. Lesson 2 — Error Handling (grounded in deep-nodes/error-handling.md).
+  const { error: l2Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'error-handling',
+      title: 'Error Handling: Make Failures Loud, Safe, and Diagnosable',
+      eyebrow: 'Module 1 · Lesson 2 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 1,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: errorHandlingBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l2Err) throw l2Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

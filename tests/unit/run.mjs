@@ -80,14 +80,16 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief && npm run discord:content-factory-readiness',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
   assert.equal(packageJson.scripts['discord:operator-brief'], 'tsx scripts/discord/write-operator-brief.ts');
   assert.equal(packageJson.scripts['discord:proof-rehearsal-readiness'], 'tsx scripts/discord/write-proof-rehearsal-readiness.ts');
+  assert.equal(packageJson.scripts['discord:content-factory-readiness'], 'tsx scripts/discord/write-content-factory-readiness.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
@@ -100,7 +102,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
+  assert.match(localVerificationEvidence, /contentFactoryReadiness/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
@@ -110,6 +114,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(proofRehearsalScript, /discord:smoke-public-proof-growth/);
   assert.match(proofRehearsalScript, /discord:smoke-premium-workflows/);
   assert.match(proofRehearsalScript, /rag:smoke-discord-authoritative-sync/);
+  const contentFactoryReadinessScript = await readFile(new URL('../../scripts/discord/write-content-factory-readiness.ts', import.meta.url), 'utf8');
+  assert.match(contentFactoryReadinessScript, /content-factory-readiness-latest\.json/);
+  assert.match(contentFactoryReadinessScript, /phase-22-content-factory-dry-run\.json/);
+  assert.match(contentFactoryReadinessScript, /validateDiscordContentFactoryReadinessReport/);
   assert.match(proofRehearsalScript, /local_file_evidence_only/);
   const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
@@ -1985,13 +1993,16 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
   assert.match(migration, /create table if not exists public\.discord_final_scorecard_runs/);
   assert.match(smoke, /phase-20-final-scorecard\.json/);
   assert.match(smoke, /worldClassEligible/);
   assert.match(smoke, /requiredOperatingProof/);
   assert.match(smoke, /dryRun/);
   assert.match(smoke, /proof_rehearsal_readiness/);
+  assert.match(smoke, /content_factory_readiness/);
   assert.match(smoke, /Real 95\+ operating proof/);
+  assert.match(smoke, /Real operating proof still requires/);
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);
@@ -2237,6 +2248,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.nonClaimRule, DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE);
   assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
+  assert.ok(brief.commandOrder.includes('npm run discord:content-factory-readiness'));
   assert.match(brief.currentReality, /real operating proof is still missing/);
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
@@ -2350,6 +2362,97 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.equal(pkg.scripts['discord:content-factory:week'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7');
   assert.equal(pkg.scripts['discord:content-factory:week:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7 --dry-run');
   assert.ok(pkg.scripts['discord:release-local'].includes('discord:content-factory:week:dry-run'));
+});
+
+test('discord content factory readiness: validates dry-run quality and approval gates', async () => {
+  const {
+    buildDiscordContentFactoryReadinessReport,
+    validateDiscordContentFactoryReadinessReport,
+  } = await import('../../lib/discord/content-factory-readiness.ts');
+  const {
+    buildDiscordContentFactorySlots,
+    runDiscordContentFactory,
+  } = await import('../../lib/discord/content-factory.ts');
+
+  const source = await runDiscordContentFactory({}, {
+    startDate: new Date(Date.UTC(2026, 5, 25)),
+    days: 7,
+    dryRun: true,
+    runKey: 'unit-content-factory-readiness',
+  });
+  const channelCoverage = [...new Set(source.drafts.map((draft) => draft.targetChannelBaseName))].sort();
+  const draftTypeCoverage = [...new Set(source.drafts.map((draft) => draft.draftType))].sort();
+  const topicCoverage = [...new Set(source.drafts.map((draft) => draft.topic))].sort();
+  const qualityScores = source.drafts.map((draft) => draft.qualityScore).filter((score) => typeof score === 'number');
+  const report = buildDiscordContentFactoryReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    evidence: {
+      ...source,
+      safety: {
+        dryRun: true,
+        readOnly: true,
+        noPublicPublish: true,
+        adminApprovalRequired: true,
+        plannedSlots: source.planned,
+        createdDrafts: source.created,
+        skippedDrafts: source.skipped,
+        failedDrafts: source.failed,
+        canonicalChannels: source.channelValidation.ok,
+        unknownChannels: source.channelValidation.unknownChannels,
+        channelCoverage,
+        draftTypeCoverage,
+        topicCoverage,
+        minQualityScore: Math.min(...qualityScores),
+        maxQualityScore: Math.max(...qualityScores),
+      },
+    },
+  });
+  const validation = validateDiscordContentFactoryReadinessReport(report);
+
+  assert.equal(buildDiscordContentFactorySlots(new Date(Date.UTC(2026, 5, 25)), 7).length, 36);
+  assert.equal(report.ok, true);
+  assert.equal(validation.ok, true);
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.dryRun, true);
+  assert.equal(report.planned, 36);
+  assert.equal(report.created, 0);
+  assert.equal(report.failed, 0);
+  assert.equal(report.minQualityScore, 90);
+  assert.ok(report.channelCoverage.includes('daily-signal'));
+  assert.ok(report.channelCoverage.includes('content-queue'));
+  assert.ok(report.draftTypeCoverage.includes('weekly_recap'));
+  assert.equal(report.approvalGate.adminApprovalRequired, true);
+  assert.equal(report.approvalGate.noPublicPublish, true);
+  assert.match(report.releaseMeaning, /Real operating proof still requires admin-approved publishing/);
+
+  const unsafe = buildDiscordContentFactoryReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    evidence: {
+      ...source,
+      created: 1,
+      drafts: source.drafts.map((draft, index) => index === 0 ? { ...draft, qualityScore: 70 } : draft),
+      safety: {
+        dryRun: true,
+        readOnly: false,
+        noPublicPublish: false,
+        adminApprovalRequired: false,
+        plannedSlots: source.planned,
+        createdDrafts: 1,
+        skippedDrafts: 0,
+        failedDrafts: 0,
+        canonicalChannels: true,
+        unknownChannels: [],
+        channelCoverage,
+        draftTypeCoverage,
+        topicCoverage,
+        minQualityScore: 70,
+      },
+    },
+  });
+  assert.equal(unsafe.ok, false);
+  assert.ok(unsafe.failures.includes('dry_run_created_drafts'));
+  assert.ok(unsafe.failures.includes('dry_run_not_read_only'));
+  assert.ok(unsafe.failures.includes('quality_score_below_gate'));
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

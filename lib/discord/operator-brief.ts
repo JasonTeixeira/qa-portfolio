@@ -67,6 +67,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:world-class-readiness',
     'npm run discord:proof-backlog',
     'npm run discord:operator-brief',
+    'npm run discord:content-factory-readiness',
   ]);
   return {
     ok: true,
@@ -103,6 +104,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.nonClaimRule.includes('Do not claim world-class')) failures.push('missing_non_claim_rule');
   if (!brief.commandOrder.includes('npm run discord:operator-brief')) failures.push('missing_operator_brief_refresh_command');
   if (!brief.commandOrder.includes('npm run discord:proof-backlog')) failures.push('missing_proof_backlog_command');
+  if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
   if (blockedLanes.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('blocked_reality_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {

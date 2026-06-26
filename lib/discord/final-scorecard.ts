@@ -75,6 +75,7 @@ export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/rag/eval-latest.json',
   'docs/evidence/rag/eval-seed-quality.json',
   'docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json',
+  'docs/evidence/engineering-loop/content-factory-readiness-latest.json',
 ];
 
 export function buildDiscordFinalScorecard(): DiscordScorecardItem[] {

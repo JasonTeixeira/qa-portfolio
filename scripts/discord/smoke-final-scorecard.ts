@@ -100,6 +100,25 @@ function validateProofRehearsalReadiness(payload: any): { ok: boolean; failures:
   };
 }
 
+function validateContentFactoryReadiness(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  if (payload?.ok !== true) failures.push('content_factory_readiness_not_ok');
+  if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('content_factory_readiness_mutation_mode_not_read_only');
+  if (payload?.dryRun !== true) failures.push('content_factory_readiness_not_dry_run');
+  if (Number(payload?.planned ?? 0) < 28) failures.push('content_factory_readiness_insufficient_planned');
+  if (Number(payload?.created ?? 0) !== 0) failures.push('content_factory_readiness_created_drafts');
+  if (Number(payload?.failed ?? 0) !== 0) failures.push('content_factory_readiness_failed_drafts');
+  if (Number(payload?.minQualityScore ?? 0) < 90) failures.push('content_factory_readiness_quality_below_gate');
+  if (!payload?.approvalGate?.adminApprovalRequired) failures.push('content_factory_readiness_missing_admin_gate');
+  if (!payload?.approvalGate?.noPublicPublish) failures.push('content_factory_readiness_public_publish_not_blocked');
+  if (!String(payload?.releaseMeaning ?? '').includes('Real operating proof still requires')) failures.push('content_factory_readiness_disclaimer_missing');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${payload?.planned ?? 0} planned / min quality ${payload?.minQualityScore ?? 'n/a'} / mutation=${payload?.mutationMode ?? 'unknown'}`,
+  };
+}
+
 async function main() {
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false },
@@ -109,17 +128,19 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
     validateDatabaseReleaseTables(sb),
     readJsonFile('docs/evidence/rag/eval-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/content-factory-readiness-latest.json'),
     readFile(path.join(process.cwd(), 'docs', 'discord', 'FINAL_OPERATING_RHYTHM_RELEASE_STANDARD.md'), 'utf8'),
     readFile(path.join(process.cwd(), 'supabase', 'migrations', '0094_discord_final_scorecard_release.sql'), 'utf8'),
   ]);
   const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
+  const contentFactoryReadinessValidation = validateContentFactoryReadiness(contentFactoryReadiness);
   const releaseGates: DiscordReleaseGate[] = [
     {
       name: 'scorecard_schema',
@@ -157,6 +178,11 @@ async function main() {
       evidence: proofRehearsalValidation.evidence,
     },
     {
+      name: 'content_factory_readiness',
+      passed: contentFactoryReadinessValidation.ok,
+      evidence: contentFactoryReadinessValidation.evidence,
+    },
+    {
       name: 'migration_present',
       passed: migration.includes('create table if not exists public.discord_final_scorecard_runs'),
       evidence: '0094_discord_final_scorecard_release.sql',
@@ -171,6 +197,7 @@ async function main() {
     ...scorecardValidation.failures.map((failure) => `scorecard:${failure}`),
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
     ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
+    ...contentFactoryReadinessValidation.failures.map((failure) => `content_factory_readiness:${failure}`),
     ...evidenceValidation.missing.map((failure) => `missing_evidence:${failure}`),
     ...evidenceValidation.failing.map((failure) => `failing_evidence:${failure}`),
     ...releaseGates.filter((gate) => !gate.passed).map((gate) => `release_gate:${gate.name}`),
@@ -213,6 +240,7 @@ async function main() {
     evidenceValidation,
     databaseValidation,
     proofRehearsalValidation,
+    contentFactoryReadinessValidation,
     releaseGates,
     ragEvalLatest: {
       ok: ragEval?.ok,

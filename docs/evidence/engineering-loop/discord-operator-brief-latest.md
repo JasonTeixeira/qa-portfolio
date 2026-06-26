@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-25T23:58:22.696Z
+Generated: 2026-06-26T00:09:14.553Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -61,6 +61,7 @@ The local system is verified, but real operating proof is still missing. Close t
 6. `npm run discord:world-class-readiness`
 7. `npm run discord:proof-backlog`
 8. `npm run discord:operator-brief`
+9. `npm run discord:content-factory-readiness`
 
 ## Non-Claim Rule
 

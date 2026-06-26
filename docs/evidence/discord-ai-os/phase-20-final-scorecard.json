@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782431896435",
+  "runKey": "phase-20-final-1782432548324",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -561,6 +561,11 @@
         "path": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
         "ok": true,
         "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+        "ok": true,
+        "status": "true"
       }
     ]
   },
@@ -592,6 +597,11 @@
     "failures": [],
     "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
   },
+  "contentFactoryReadinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
+  },
   "releaseGates": [
     {
       "name": "scorecard_schema",
@@ -601,7 +611,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "18/18 required evidence files pass"
+      "evidence": "19/19 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -622,6 +632,11 @@
       "name": "proof_rehearsal_readiness",
       "passed": true,
       "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
+    },
+    {
+      "name": "content_factory_readiness",
+      "passed": true,
+      "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
     },
     {
       "name": "migration_present",
@@ -652,6 +667,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-25T23:58:16.435Z",
-  "finishedAt": "2026-06-25T23:58:18.949Z"
+  "startedAt": "2026-06-26T00:09:08.324Z",
+  "finishedAt": "2026-06-26T00:09:10.396Z"
 }

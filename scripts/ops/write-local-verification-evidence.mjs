@@ -12,6 +12,7 @@ const evidencePaths = {
   evalSeedQuality: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-quality.json'),
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
+  contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -46,7 +47,7 @@ function summarizeOperatingBlockers(operatingCycle) {
 }
 
 async function main() {
-  const [finalScorecard, operatingCycle, contentFactory, evalSeedQuality, evalSeedDryRun, proofRehearsalReadiness] = await Promise.all(
+  const [finalScorecard, operatingCycle, contentFactory, evalSeedQuality, evalSeedDryRun, proofRehearsalReadiness, contentFactoryReadiness] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
 
@@ -60,6 +61,15 @@ async function main() {
   requireTruthy(
     proofRehearsalReadiness.mutationMode === 'local_file_evidence_only',
     'Proof rehearsal readiness must not mutate external systems.',
+  );
+  requireTruthy(contentFactoryReadiness.ok === true, 'Content factory readiness evidence is not ok.');
+  requireTruthy(
+    contentFactoryReadiness.mutationMode === 'local_file_evidence_only',
+    'Content factory readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    contentFactoryReadiness.dryRun === true && contentFactoryReadiness.created === 0,
+    'Content factory readiness must prove read-only dry-run behavior.',
   );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
@@ -125,6 +135,15 @@ async function main() {
       created: contentFactory.created,
       failed: contentFactory.failed,
       channelCoverage: contentFactory.channelCoverage,
+    },
+    contentFactoryReadiness: {
+      ok: contentFactoryReadiness.ok,
+      mutationMode: contentFactoryReadiness.mutationMode,
+      planned: contentFactoryReadiness.planned,
+      created: contentFactoryReadiness.created,
+      minQualityScore: contentFactoryReadiness.minQualityScore,
+      channelCoverage: contentFactoryReadiness.channelCoverage,
+      releaseMeaning: contentFactoryReadiness.releaseMeaning,
     },
     proofRehearsalReadiness: {
       ok: proofRehearsalReadiness.ok,

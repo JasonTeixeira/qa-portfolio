@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:36:43.185Z",
+  "timestamp": "2026-06-26T07:46:15.640Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -41,6 +41,7 @@
     "evalExecutionPacket": "docs/evidence/rag/eval-execution-packet.json",
     "evalMissingPreflight": "docs/evidence/rag/eval-missing-preflight.json",
     "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
+    "discordCorpusReadiness": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
@@ -84,7 +85,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782459395302"
+    "runKey": "phase-20-final-1782459967482"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -253,6 +254,33 @@
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
+  "discordCorpusReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "approvedOnlyCollector": true,
+      "adminApprovalSurface": true,
+      "smokeProofCommandAvailable": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
+      "approvedKnowledgeCount": 0,
+      "discordRagSourceCount": 0,
+      "reviewableCandidateCount": 0
+    },
+    "checkCount": 8,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not treat raw discord_messages rows as authoritative RAG sources.",
+      "Do not treat captured or pending content queue rows as approved knowledge.",
+      "Do not count smoke-created and cleaned-up RAG rows as live corpus volume.",
+      "Do not improve RAG corpus quality score until real approved Discord knowledge reaches the target and is synced."
+    ],
+    "nextOperatingProofRequired": [
+      "Capture real non-bot Discord questions, answers, builds, reviews, wins, and resources.",
+      "Approve at least 10 high-signal Discord knowledge sources from the admin dashboard.",
+      "Run the approved Discord RAG sync and verify rag_sources/rag_documents provenance.",
+      "With explicit approval, rerun non-dry RAG eval and final scorecard after sync."
+    ],
+    "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume."
   },
   "contentFactory": {
     "ok": true,

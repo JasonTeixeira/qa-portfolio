@@ -1,0 +1,84 @@
+{
+  "ok": true,
+  "version": "discord-corpus-readiness-v1",
+  "generatedAt": "2026-06-26T07:46:11.308Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "authoritativeSources": "lib/rag/discord-authoritative-sources.ts",
+    "sourceSync": "lib/rag/discord-source-sync.ts",
+    "corpusHealth": "lib/rag/discord-corpus-health.ts",
+    "authoritativeSmoke": "scripts/rag/smoke-discord-authoritative-sync.ts",
+    "knowledgeCaptureSmoke": "scripts/discord/smoke-knowledge-capture.ts",
+    "adminActions": "app/admin/discord/actions.ts",
+    "adminPage": "app/admin/discord/page.tsx",
+    "ragCorpusE2e": "tests/e2e/admin/discord-rag-corpus.spec.ts",
+    "knowledgeCandidateE2e": "tests/e2e/admin/discord-knowledge-candidates.spec.ts",
+    "proofSourceScan": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+    "proofRecoveryPlan": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "approved_only_collector_policy_wired",
+      "passed": true,
+      "evidence": "lib/rag/discord-authoritative-sources.ts"
+    },
+    {
+      "name": "approved_discord_sync_writes_sources_and_documents",
+      "passed": true,
+      "evidence": "lib/rag/discord-source-sync.ts"
+    },
+    {
+      "name": "admin_approval_and_sync_surfaces_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/actions.ts, app/admin/discord/page.tsx"
+    },
+    {
+      "name": "corpus_health_blocks_unapproved_or_low_quality_sources",
+      "passed": true,
+      "evidence": "lib/rag/discord-corpus-health.ts"
+    },
+    {
+      "name": "authoritative_sync_smoke_proves_allow_and_block_paths_with_cleanup",
+      "passed": true,
+      "evidence": "scripts/rag/smoke-discord-authoritative-sync.ts"
+    },
+    {
+      "name": "knowledge_capture_smoke_and_e2e_paths_exist",
+      "passed": true,
+      "evidence": "scripts/discord/smoke-knowledge-capture.ts, tests/e2e/admin/discord-rag-corpus.spec.ts, tests/e2e/admin/discord-knowledge-candidates.spec.ts"
+    },
+    {
+      "name": "local_commands_available_but_not_in_live_release_gate_without_approval",
+      "passed": true,
+      "evidence": "package.json"
+    },
+    {
+      "name": "empty_live_corpus_is_explicitly_blocked_from_world_class_claims",
+      "passed": true,
+      "evidence": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json, docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json"
+    }
+  ],
+  "proofSummary": {
+    "approvedOnlyCollector": true,
+    "adminApprovalSurface": true,
+    "smokeProofCommandAvailable": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
+    "approvedKnowledgeCount": 0,
+    "discordRagSourceCount": 0,
+    "reviewableCandidateCount": 0
+  },
+  "antiFakeRules": [
+    "Do not treat raw discord_messages rows as authoritative RAG sources.",
+    "Do not treat captured or pending content queue rows as approved knowledge.",
+    "Do not count smoke-created and cleaned-up RAG rows as live corpus volume.",
+    "Do not improve RAG corpus quality score until real approved Discord knowledge reaches the target and is synced."
+  ],
+  "nextOperatingProofRequired": [
+    "Capture real non-bot Discord questions, answers, builds, reviews, wins, and resources.",
+    "Approve at least 10 high-signal Discord knowledge sources from the admin dashboard.",
+    "Run the approved Discord RAG sync and verify rag_sources/rag_documents provenance.",
+    "With explicit approval, rerun non-dry RAG eval and final scorecard after sync."
+  ],
+  "failures": [],
+  "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume."
+}

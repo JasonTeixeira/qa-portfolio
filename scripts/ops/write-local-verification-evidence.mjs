@@ -24,6 +24,7 @@ const evidencePaths = {
   evalExecutionPacket: path.join(root, 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
   evalMissingPreflight: path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
   evalRecoveryPlan: path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
+  discordCorpusReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-corpus-readiness-latest.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
@@ -161,6 +162,7 @@ async function main() {
     evalExecutionPacket,
     evalMissingPreflight,
     evalRecoveryPlan,
+    discordCorpusReadiness,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
@@ -318,6 +320,28 @@ async function main() {
   requireTruthy(
     evalRecoveryPlan.approvedCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'),
     'RAG eval recovery plan approved command must include the non-dry-run approval guard.',
+  );
+  requireTruthy(discordCorpusReadiness.ok === true, 'Discord corpus readiness evidence is not ok.');
+  requireTruthy(
+    discordCorpusReadiness.mutationMode === 'local_file_evidence_only',
+    'Discord corpus readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    discordCorpusReadiness.releaseMeaning?.includes('does not mutate Supabase, sync live RAG, create knowledge rows'),
+    'Discord corpus readiness must avoid claiming live RAG sync or corpus growth.',
+  );
+  requireTruthy(
+    discordCorpusReadiness.proofSummary?.approvedOnlyCollector === true
+      && discordCorpusReadiness.proofSummary?.adminApprovalSurface === true,
+    'Discord corpus readiness must prove approved-only collector and admin approval surface.',
+  );
+  requireTruthy(
+    (discordCorpusReadiness.antiFakeRules ?? []).some((rule) => rule.includes('raw discord_messages rows')),
+    'Discord corpus readiness must block raw Discord messages from authoritative RAG proof.',
+  );
+  requireTruthy(
+    (discordCorpusReadiness.antiFakeRules ?? []).some((rule) => rule.includes('smoke-created and cleaned-up RAG rows')),
+    'Discord corpus readiness must block smoke rows from counting as live corpus volume.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -844,6 +868,16 @@ async function main() {
       approvedCommand: evalRecoveryPlan.approvedCommand,
       antiFakeRuleCount: evalRecoveryPlan.antiFakeRules?.length ?? 0,
       releaseMeaning: evalRecoveryPlan.releaseMeaning,
+    },
+    discordCorpusReadiness: {
+      ok: discordCorpusReadiness.ok,
+      mutationMode: discordCorpusReadiness.mutationMode,
+      proofSummary: discordCorpusReadiness.proofSummary,
+      checkCount: discordCorpusReadiness.checks?.length ?? 0,
+      failures: discordCorpusReadiness.failures ?? [],
+      antiFakeRules: discordCorpusReadiness.antiFakeRules,
+      nextOperatingProofRequired: discordCorpusReadiness.nextOperatingProofRequired,
+      releaseMeaning: discordCorpusReadiness.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

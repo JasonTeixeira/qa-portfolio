@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['ops:approval-boundaries'], 'node scripts/ops/check-approval-boundaries.mjs');
@@ -98,6 +98,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-source-recovery-plan'], 'tsx scripts/discord/write-proof-source-recovery-plan.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['rag:evaluate:coverage-readiness'], 'tsx scripts/rag/write-eval-coverage-readiness.ts');
+  assert.equal(packageJson.scripts['rag:discord-corpus-readiness'], 'node scripts/rag/write-discord-corpus-readiness.mjs');
   assert.equal(packageJson.scripts['rag:evaluate:missing-plan'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only');
   assert.equal(packageJson.scripts['rag:evaluate:execution-packet'], 'tsx scripts/rag/write-eval-execution-packet.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing-preflight'], 'tsx scripts/rag/write-missing-eval-preflight.ts');
@@ -140,6 +141,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-execution-packet\.json/);
   assert.match(localVerificationEvidence, /eval-missing-preflight\.json/);
   assert.match(localVerificationEvidence, /eval-recovery-plan\.json/);
+  assert.match(localVerificationEvidence, /discord-corpus-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Discord corpus readiness must block raw Discord messages from authoritative RAG proof/);
+  assert.match(localVerificationEvidence, /Discord corpus readiness must block smoke rows from counting as live corpus volume/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /premium-workflow-readiness-latest\.json/);
@@ -165,6 +169,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /ragEvalExecutionPacket/);
   assert.match(localVerificationEvidence, /ragEvalMissingPreflight/);
   assert.match(localVerificationEvidence, /ragEvalRecoveryPlan/);
+  assert.match(localVerificationEvidence, /discordCorpusReadiness/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must explicitly avoid claiming eval proof/);
   assert.match(localVerificationEvidence, /RAG eval execution packet selected keys must match missing coverage keys/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must include the approved missing-eval command/);
@@ -198,6 +203,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const evalExecutionPacketScript = await readFile(new URL('../../scripts/rag/write-eval-execution-packet.ts', import.meta.url), 'utf8');
   const evalMissingPreflightScript = await readFile(new URL('../../scripts/rag/write-missing-eval-preflight.ts', import.meta.url), 'utf8');
   const evalRecoveryPlanScript = await readFile(new URL('../../scripts/rag/write-eval-recovery-plan.ts', import.meta.url), 'utf8');
+  const discordCorpusReadinessScript = await readFile(new URL('../../scripts/rag/write-discord-corpus-readiness.mjs', import.meta.url), 'utf8');
   assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);
   assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
   assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
@@ -215,6 +221,14 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(evalRecoveryPlanScript, /eval-recovery-plan\.json/);
   assert.match(evalRecoveryPlanScript, /validateRagEvalRecoveryPlan/);
   assert.doesNotMatch(evalMissingPreflightScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
+  assert.match(discordCorpusReadinessScript, /discord-corpus-readiness-latest\.json/);
+  assert.match(discordCorpusReadinessScript, /approved_only_collector_policy_wired/);
+  assert.match(discordCorpusReadinessScript, /admin_approval_and_sync_surfaces_wired/);
+  assert.match(discordCorpusReadinessScript, /authoritative_sync_smoke_proves_allow_and_block_paths_with_cleanup/);
+  assert.match(discordCorpusReadinessScript, /Do not treat raw discord_messages rows as authoritative RAG sources/);
+  assert.match(discordCorpusReadinessScript, /Do not count smoke-created and cleaned-up RAG rows as live corpus volume/);
+  assert.match(discordCorpusReadinessScript, /does not mutate Supabase, sync live RAG, create knowledge rows/);
+  assert.doesNotMatch(discordCorpusReadinessScript, /@supabase\/supabase-js/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);

@@ -1801,6 +1801,12 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /RAG eval coverage readiness/);
   assert.match(page, /npm run rag:evaluate:coverage-readiness/);
   assert.match(page, /ragEvalCoverageReadiness\.missingEvalKeys/);
+  assert.match(page, /loadRagEvalExecutionPacket/);
+  assert.match(page, /eval-execution-packet\.json/);
+  assert.match(page, /RAG eval execution packet/);
+  assert.match(page, /npm run rag:evaluate:execution-packet/);
+  assert.match(page, /ragEvalExecutionPacket\.selectedMatchesCoverage/);
+  assert.match(page, /ragEvalExecutionPacket\.commandPlan\.approvedCommand/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);

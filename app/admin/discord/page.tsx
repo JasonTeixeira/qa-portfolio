@@ -606,6 +606,30 @@ type RagEvalCoverageReadiness = {
   nextActions: string[];
 };
 
+type RagEvalExecutionPacket = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'approval_required' | 'not_required' | string;
+  coverageStillBlocked: boolean;
+  selectedMatchesCoverage: boolean;
+  expectedQuestionCount: number;
+  evaluatedQuestionCount: number;
+  missingEvalKeys: string[];
+  selectedKeys: string[];
+  commandPlan: {
+    dryRunCommand: string;
+    approvedCommand: string;
+    mutationWarning: string;
+    requiresExplicitApproval: boolean;
+  };
+  preRunChecks: string[];
+  postRunChecks: string[];
+  failureHandling: string[];
+  antiFakeRules: string[];
+};
+
 type GatewayCaptureDiagnosis = {
   ok: boolean;
   generatedAt: string;
@@ -722,6 +746,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const proofCandidateAudit = await loadProofCandidateAudit();
   const proofSourceVolumeScan = await loadProofSourceVolumeScan();
   const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
+  const ragEvalExecutionPacket = await loadRagEvalExecutionPacket();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
@@ -1822,6 +1847,59 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
 
           <Panel
+            icon={FileCheck2}
+            title="RAG eval execution packet"
+            meta={`${ragEvalExecutionPacket.selectedKeys.length} selected / ${ragEvalExecutionPacket.missingEvalKeys.length} missing`}
+            empty="RAG eval execution packet is missing. Run npm run rag:evaluate:execution-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalExecutionPacket.status === 'approval_required' ? 'amber' : 'emerald'}>
+                    {ragEvalExecutionPacket.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone="neutral">{ragEvalExecutionPacket.mutationMode}</Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Selected matches coverage" value={ragEvalExecutionPacket.selectedMatchesCoverage ? 'yes' : 'no'} tone={ragEvalExecutionPacket.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                  <HealthLine label="Explicit approval" value={ragEvalExecutionPacket.commandPlan.requiresExplicitApproval ? 'required' : 'not required'} tone={ragEvalExecutionPacket.commandPlan.requiresExplicitApproval ? 'amber' : 'emerald'} />
+                  <HealthLine label="Coverage state" value={ragEvalExecutionPacket.coverageStillBlocked ? 'blocked' : 'ready'} tone={ragEvalExecutionPacket.coverageStillBlocked ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalExecutionPacket.commandPlan.approvedCommand}
+                </code>
+                <p className="mt-3 text-[11px] leading-5 text-[#fbbf24]">
+                  {ragEvalExecutionPacket.commandPlan.mutationWarning}
+                </p>
+              </div>
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-2">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Pre-run checks</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalExecutionPacket.preRunChecks.slice(0, 4).map((check, index) => (
+                    <li key={check} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{check}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                  {ragEvalExecutionPacket.antiFakeRules.slice(0, 4).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Panel>
+
+          <Panel
             icon={BookOpenCheck}
             title="RAG eval drilldown"
             meta={latestEvalRun ? `${latestEvalRun.run_key} / ${latestEvalRun.failed} failed` : 'No eval run yet'}
@@ -2447,6 +2525,40 @@ async function loadRagEvalCoverageReadiness(): Promise<RagEvalCoverageReadiness>
       releaseReady: false,
       blockers: ['rag_eval_coverage_readiness_missing'],
       nextActions: ['Run npm run rag:evaluate:coverage-readiness to inspect latest eval coverage before claiming RAG eval readiness.'],
+    };
+  }
+}
+
+async function loadRagEvalExecutionPacket(): Promise<RagEvalExecutionPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalExecutionPacket;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-execution-packet-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval execution packet evidence is missing. Run npm run rag:evaluate:execution-packet. This writes local planning evidence only and does not run the eval.',
+      status: 'approval_required',
+      coverageStillBlocked: true,
+      selectedMatchesCoverage: false,
+      expectedQuestionCount: 65,
+      evaluatedQuestionCount: 0,
+      missingEvalKeys: [],
+      selectedKeys: [],
+      commandPlan: {
+        dryRunCommand: 'npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness',
+        approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+        mutationWarning: 'Approved command can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.',
+        requiresExplicitApproval: true,
+      },
+      preRunChecks: ['Run npm run rag:evaluate:execution-packet before running any non-dry-run eval command.'],
+      postRunChecks: ['Regenerate eval coverage readiness and final scorecard evidence after the eval run.'],
+      failureHandling: ['Keep RAG eval gates blocked until every seeded eval key is represented and thresholds pass.'],
+      antiFakeRules: ['Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage.'],
     };
   }
 }

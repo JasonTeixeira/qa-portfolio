@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:11:10.739Z",
+  "timestamp": "2026-06-26T07:20:01.269Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -22,11 +22,16 @@
       "passed": true
     },
     {
+      "command": "npm run ops:approval-boundaries",
+      "passed": true
+    },
+    {
       "command": "npm run discord:release-local",
       "passed": true
     }
   ],
   "sourceEvidence": {
+    "approvalBoundaryCheck": "docs/evidence/engineering-loop/approval-boundary-check-latest.json",
     "finalScorecard": "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
     "operatingCycle": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
     "contentFactory": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
@@ -78,6 +83,18 @@
       "scale_readiness"
     ],
     "runKey": "phase-20-final-1782457605788"
+  },
+  "approvalBoundaryCheck": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "localReleaseRoots": [
+      "verify:local",
+      "discord:release-local"
+    ],
+    "riskyScriptCount": 22,
+    "riskyScriptsIncludedInLocalRelease": [],
+    "failures": [],
+    "releaseMeaning": "This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation."
   },
   "operatingCycle": {
     "status": "blocked",

@@ -14,6 +14,7 @@ const OPERATING_TARGETS = {
 };
 
 const evidencePaths = {
+  approvalBoundaryCheck: path.join(root, 'docs', 'evidence', 'engineering-loop', 'approval-boundary-check-latest.json'),
   finalScorecard: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-20-final-scorecard.json'),
   operatingCycle: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-21-operating-proof-cycle.json'),
   contentFactory: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-22-content-factory-dry-run.json'),
@@ -148,6 +149,7 @@ function proofLaneRagEvalCommandsAreGuarded(lanes) {
 
 async function main() {
   const [
+    approvalBoundaryCheck,
     finalScorecard,
     operatingCycle,
     contentFactory,
@@ -173,6 +175,35 @@ async function main() {
   );
 
   const finalScorecardReleaseGateFailures = releaseGateFailures(finalScorecard);
+  requireTruthy(
+    approvalBoundaryCheck.ok === true,
+    'Approval-boundary evidence is not ok.',
+  );
+  requireTruthy(
+    approvalBoundaryCheck.mutationMode === 'local_file_evidence_only',
+    'Approval-boundary check must only inspect local files and write local evidence.',
+  );
+  requireTruthy(
+    approvalBoundaryCheck.releaseMeaning?.includes('does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation'),
+    'Approval-boundary check must explicitly avoid claiming live mutation or RAG eval execution.',
+  );
+  requireTruthy(
+    (approvalBoundaryCheck.failures ?? []).length === 0,
+    'Approval-boundary check must not have failures.',
+  );
+  requireTruthy(
+    (approvalBoundaryCheck.riskyScripts ?? []).some((script) => script.script === 'db:push' && script.approvalBoundary === 'requires_explicit_user_approval_before_running'),
+    'Approval-boundary check must identify db:push as requiring explicit approval.',
+  );
+  requireTruthy(
+    (approvalBoundaryCheck.riskyScripts ?? []).every((script) => script.includedInLocalRelease === false),
+    'Explicit-approval scripts must not be included in the local release graph.',
+  );
+  requireTruthy(
+    approvalBoundaryCheck.guardedEvalScripts?.fullCycleCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate'),
+    'Approval-boundary check must verify guarded full RAG eval command guidance.',
+  );
+
   requireTruthy(
     finalScorecard.ok === true || (finalScorecard.dryRun === true && finalScorecardReleaseGateFailures.length > 0),
     'Final scorecard evidence must either pass or be a dry-run with explicit release-gate blockers.',
@@ -652,6 +683,7 @@ async function main() {
       { command: 'npm run typecheck', passed: true },
       { command: 'npm run lint', passed: true },
       { command: 'npm run build', passed: true },
+      { command: 'npm run ops:approval-boundaries', passed: true },
       { command: 'npm run discord:release-local', passed: true },
     ],
     sourceEvidence: Object.fromEntries(
@@ -665,6 +697,17 @@ async function main() {
       releaseGateFailures: finalScorecardReleaseGateFailures,
       blockedBelow95: finalScorecard.blockedBelow95 ?? [],
       runKey: finalScorecard.runKey,
+    },
+    approvalBoundaryCheck: {
+      ok: approvalBoundaryCheck.ok,
+      mutationMode: approvalBoundaryCheck.mutationMode,
+      localReleaseRoots: approvalBoundaryCheck.localReleaseRoots,
+      riskyScriptCount: approvalBoundaryCheck.riskyScripts?.length ?? 0,
+      riskyScriptsIncludedInLocalRelease: (approvalBoundaryCheck.riskyScripts ?? [])
+        .filter((script) => script.includedInLocalRelease)
+        .map((script) => script.script),
+      failures: approvalBoundaryCheck.failures ?? [],
+      releaseMeaning: approvalBoundaryCheck.releaseMeaning,
     },
     operatingCycle: {
       status: operatingStatus,

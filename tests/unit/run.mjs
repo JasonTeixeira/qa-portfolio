@@ -80,9 +80,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
+  assert.equal(packageJson.scripts['ops:approval-boundaries'], 'node scripts/ops/check-approval-boundaries.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-backlog'], 'tsx scripts/discord/write-proof-backlog.ts');
   assert.equal(packageJson.scripts['discord:operator-brief'], 'tsx scripts/discord/write-operator-brief.ts');
@@ -116,6 +117,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('rag:evaluate'), false);
   assert.match(localVerificationEvidence, /local-verification-latest\.json/);
+  assert.match(localVerificationEvidence, /approval-boundary-check-latest\.json/);
+  assert.match(localVerificationEvidence, /Approval-boundary check must identify db:push as requiring explicit approval/);
+  assert.match(localVerificationEvidence, /Approval-boundary check must verify guarded full RAG eval command guidance/);
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
   assert.match(localVerificationEvidence, /releaseGateFailures/);
   assert.match(localVerificationEvidence, /worldClassEligible === false/);
@@ -296,6 +300,28 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
   assert.match(packageJson.scripts['qa:cwv-budget'], /node scripts\/qa\/cwv-budget-report\.mjs/);
+});
+
+test('ops scripts: approval-boundary verifier blocks risky commands from local release graph', async () => {
+  const approvalBoundaryScript = await readFile(
+    new URL('../../scripts/ops/check-approval-boundaries.mjs', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(approvalBoundaryScript, /approval-boundary-check-latest\.json/);
+  assert.match(approvalBoundaryScript, /localReleaseRoots = \['verify:local', 'discord:release-local'\]/);
+  assert.match(approvalBoundaryScript, /requiresExplicitApproval = new Set/);
+  assert.match(approvalBoundaryScript, /'db:push'/);
+  assert.match(approvalBoundaryScript, /'discord:provision'/);
+  assert.match(approvalBoundaryScript, /'discord:role-sync:enforce'/);
+  assert.match(approvalBoundaryScript, /'discord:operating-cycle:full'/);
+  assert.match(approvalBoundaryScript, /'rag:evaluate'/);
+  assert.match(approvalBoundaryScript, /dangerousShellPatterns/);
+  assert.match(approvalBoundaryScript, /git\\s\+push/);
+  assert.match(approvalBoundaryScript, /railway\\s\+up/);
+  assert.match(approvalBoundaryScript, /stripe\\s\+/);
+  assert.match(approvalBoundaryScript, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
+  assert.match(approvalBoundaryScript, /does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation/);
 });
 
 test('programs A/B/C/E: budget, MDX, viz, and leads inbox surfaces are wired', async () => {

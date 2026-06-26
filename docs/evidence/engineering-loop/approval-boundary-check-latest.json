@@ -1,0 +1,307 @@
+{
+  "ok": true,
+  "version": "approval-boundary-check-v1",
+  "timestamp": "2026-06-26T07:19:55.195Z",
+  "mutationMode": "local_file_evidence_only",
+  "command": "npm run ops:approval-boundaries",
+  "localReleaseRoots": [
+    "verify:local",
+    "discord:release-local"
+  ],
+  "localReleaseScriptNames": [
+    "build",
+    "discord:content-factory-readiness",
+    "discord:content-factory:week:dry-run",
+    "discord:gateway-capture-diagnosis",
+    "discord:operating-cycle:dry-run",
+    "discord:operator-brief",
+    "discord:proof-backlog",
+    "discord:proof-candidate-audit",
+    "discord:proof-intake-readiness",
+    "discord:proof-rehearsal-readiness",
+    "discord:proof-source-recovery-plan",
+    "discord:proof-source-scan",
+    "discord:release-local",
+    "discord:smoke-final-scorecard:dry-run",
+    "discord:weekly-proof-packet",
+    "discord:world-class-readiness",
+    "lint",
+    "ops:approval-boundaries",
+    "rag:evaluate:coverage-readiness",
+    "rag:evaluate:execution-packet",
+    "rag:evaluate:missing-plan",
+    "rag:evaluate:missing-preflight",
+    "rag:evaluate:recovery-plan",
+    "rag:evaluate:seed-dry-run",
+    "rag:validate-eval-seeds",
+    "test:unit",
+    "typecheck",
+    "verify:local",
+    "verify:local:evidence"
+  ],
+  "localReleaseEdges": [
+    {
+      "from": "verify:local",
+      "to": "test:unit"
+    },
+    {
+      "from": "verify:local",
+      "to": "typecheck"
+    },
+    {
+      "from": "verify:local",
+      "to": "lint"
+    },
+    {
+      "from": "verify:local",
+      "to": "build"
+    },
+    {
+      "from": "verify:local",
+      "to": "ops:approval-boundaries"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:release-local"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:validate-eval-seeds"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:seed-dry-run"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:missing-plan"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:coverage-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:execution-packet"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:missing-preflight"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "rag:evaluate:recovery-plan"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:gateway-capture-diagnosis"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:proof-source-scan"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:proof-source-recovery-plan"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:content-factory:week:dry-run"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:content-factory-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:smoke-final-scorecard:dry-run"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:operating-cycle:dry-run"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:proof-rehearsal-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:content-factory-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:world-class-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:proof-intake-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:proof-backlog"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:weekly-proof-packet"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:proof-candidate-audit"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:operator-brief"
+    },
+    {
+      "from": "verify:local",
+      "to": "verify:local:evidence"
+    }
+  ],
+  "riskyScripts": [
+    {
+      "script": "db:push",
+      "command": "node --env-file-if-exists=.env.local scripts/ops/supabase-cli.mjs db push",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:approval-enforce",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/audit-member-approval.mjs --enforce",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:approval-gate",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/enforce-approval-gate.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:archive-old",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/archive-old-community-structure.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:categorize",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/categorize-lean-community.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:content-factory",
+      "command": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:content-factory:week",
+      "command": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:harden",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/harden-sage-community.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:onboarding-nudge:send",
+      "command": "tsx --env-file=.env.local scripts/discord/nudge-approved-onboarding.ts --send",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:operating-cycle",
+      "command": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:operating-cycle:full",
+      "command": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:operating-cycle:strict",
+      "command": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:pin-posts",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/pin-sage-operating-posts.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:provision",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/provision-sage-community.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:register",
+      "command": "node --env-file-if-exists=.env.local scripts/discord/register-sage-commands.mjs",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "discord:role-sync:enforce",
+      "command": "tsx --env-file=.env.local scripts/discord/sync-native-approved-roles.ts --enforce",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:chunk",
+      "command": "tsx --env-file=.env.local scripts/rag/chunk-documents.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:embed",
+      "command": "tsx --env-file=.env.local scripts/rag/embed-chunks-local.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:evaluate",
+      "command": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:evaluate:missing",
+      "command": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:evaluate:smoke",
+      "command": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --smoke",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:sync-sources",
+      "command": "tsx --env-file=.env.local scripts/rag/sync-sources.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    }
+  ],
+  "guardedEvalScripts": {
+    "safePlanningEvalScripts": [
+      "rag:evaluate:coverage-readiness",
+      "rag:evaluate:execution-packet",
+      "rag:evaluate:missing-plan",
+      "rag:evaluate:missing-preflight",
+      "rag:evaluate:recovery-plan",
+      "rag:evaluate:seed-dry-run"
+    ],
+    "fullCycleCommand": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard"
+  },
+  "failures": [],
+  "releaseMeaning": "This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation."
+}

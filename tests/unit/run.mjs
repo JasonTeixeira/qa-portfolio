@@ -100,8 +100,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:coverage-readiness'));
-  assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'), false);
-  assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing'), false);
+  assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
+  assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
@@ -987,8 +987,8 @@ test('rag evals: seed quality validator blocks unknown sources and category drif
   assert.equal(pkg.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:validate-eval-seeds'));
   assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:seed-dry-run'));
-  assert.equal(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'), false);
-  assert.equal(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing'), false);
+  assert.ok(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
+  assert.equal(pkg.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
   assert.equal(pkg.scripts['discord:release-local'].includes('npm run rag:evaluate &&'), false);
   assert.match(validatorScript, /eval-seed-quality\.json/);
   assert.match(validatorScript, /mutationMode: 'local_file_evidence_only'/);
@@ -2170,6 +2170,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-missing-plan.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-coverage-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));

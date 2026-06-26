@@ -2046,6 +2046,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /data-testid="discord-content-factory-readiness"/);
   assert.match(page, /npm run discord:content-factory-readiness/);
   assert.match(page, /phase-22-content-factory-dry-run\.json/);
+  assert.match(page, /operatingContractCoverage/);
+  assert.match(page, /proofEligibleDrafts/);
+  assert.match(page, /Operating contract/);
+  assert.match(page, /Proof slots/);
   assert.match(page, /loadProofIntakeReadiness/);
   assert.match(page, /discord-proof-intake-readiness-latest\.json/);
   assert.match(page, /ProofIntakeLaneRow/);

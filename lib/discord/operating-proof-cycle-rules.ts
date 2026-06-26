@@ -22,6 +22,7 @@ export type OperatingCycleGate = {
 
 export const OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET = 10;
 export const OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET = 10;
+export const OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET = 1;
 
 export function buildOperatingCycleKey(date = new Date()): string {
   const year = date.getUTCFullYear();
@@ -59,12 +60,13 @@ export function operatingCycleGates(input: {
     },
     {
       name: 'growth_metrics_tracked',
-      passed: input.metrics.applicationsSubmitted >= 0
+      passed: input.metrics.applicationsSubmitted >= OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET
         && input.metrics.applicationsApproved >= 0
-        && input.metrics.approvedMembers >= 0
-        && input.metrics.activeMembers7d >= 0
+        && input.metrics.approvedMembers > 0
+        && input.metrics.activeMembers7d > 0
         && input.metrics.premiumMembers >= 0,
-      evidence: `${input.metrics.applicationsSubmitted} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium / ${input.metrics.premiumWorkflowProofs} premium workflow proofs`,
+      evidence: `${input.metrics.applicationsSubmitted}/${OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium / ${input.metrics.premiumWorkflowProofs} premium workflow proofs`,
+      nextAction: 'Run public proof/growth cycles until at least one application is attributed and active-member counts remain visible.',
     },
     {
       name: 'final_scorecard_current',

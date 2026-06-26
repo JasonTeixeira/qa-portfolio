@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-26T03:27:35.688Z",
-  "finishedAt": "2026-06-26T03:27:36.281Z",
+  "startedAt": "2026-06-26T03:30:43.777Z",
+  "finishedAt": "2026-06-26T03:30:44.655Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -104,8 +104,9 @@
     },
     {
       "name": "growth_metrics_tracked",
-      "passed": true,
-      "evidence": "0 applications / 0 approved / 7 members / 7 active 7d / 0 premium / 0 premium workflow proofs"
+      "passed": false,
+      "evidence": "0/1 applications / 0 approved / 7 members / 7 active 7d / 0 premium / 0 premium workflow proofs",
+      "nextAction": "Run public proof/growth cycles until at least one application is attributed and active-member counts remain visible."
     },
     {
       "name": "final_scorecard_current",
@@ -124,6 +125,7 @@
     "Approve high-signal questions, helpful answers, resources, wins, or content queue items.",
     "Run approved Discord RAG sync after weekly approvals.",
     "Create one privacy-gated public proof draft from approved source material.",
+    "Run public proof/growth cycles until at least one application is attributed and active-member counts remain visible.",
     "Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard."
   ],
   "auditRowId": null,

@@ -156,6 +156,22 @@ function validateProofSourceVolumeScan(payload: any): { ok: boolean; failures: s
   };
 }
 
+function validateRagEvalCoverageReadiness(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  if (payload?.ok !== true) failures.push('rag_eval_coverage_readiness_not_ok');
+  if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('rag_eval_coverage_readiness_mutation_mode_not_local_only');
+  if (!String(payload?.releaseMeaning ?? '').includes('does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate')) failures.push('rag_eval_coverage_readiness_disclaimer_missing');
+  if (Number(payload?.expectedQuestionCount ?? 0) !== RAG_EVAL_QUESTION_SEEDS.length) failures.push('rag_eval_coverage_expected_count_wrong');
+  if (!Array.isArray(payload?.missingEvalKeys)) failures.push('rag_eval_coverage_missing_keys_not_array');
+  if (!Array.isArray(payload?.unexpectedEvalKeys)) failures.push('rag_eval_coverage_unexpected_keys_not_array');
+  if (payload?.releaseReady !== true && !Array.isArray(payload?.blockers)) failures.push('rag_eval_coverage_missing_blockers');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${payload?.evaluatedQuestionCount ?? 0}/${payload?.expectedQuestionCount ?? RAG_EVAL_QUESTION_SEEDS.length} evaluated, missing ${(payload?.missingEvalKeys ?? []).length}, releaseReady=${payload?.releaseReady === true}`,
+  };
+}
+
 function laneHasRequiredEvidenceFields(lane: any): boolean {
   const fields = Array.isArray(lane?.requiredFields) ? lane.requiredFields : [];
   const keys = new Set(fields.map((field: any) => String(field?.key ?? '')));
@@ -235,12 +251,13 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
     validateDatabaseReleaseTables(sb),
     readJsonFile('docs/evidence/rag/eval-latest.json'),
+    readJsonFile('docs/evidence/rag/eval-coverage-readiness.json'),
     readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/content-factory-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'),
@@ -249,6 +266,7 @@ async function main() {
     readFile(path.join(process.cwd(), 'docs', 'discord', 'FINAL_OPERATING_RHYTHM_RELEASE_STANDARD.md'), 'utf8'),
     readFile(path.join(process.cwd(), 'supabase', 'migrations', '0094_discord_final_scorecard_release.sql'), 'utf8'),
   ]);
+  const ragEvalCoverageReadinessValidation = validateRagEvalCoverageReadiness(ragEvalCoverageReadiness);
   const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
   const contentFactoryReadinessValidation = validateContentFactoryReadiness(contentFactoryReadiness);
   const proofSourceVolumeScanValidation = validateProofSourceVolumeScan(proofSourceVolumeScan);
@@ -280,6 +298,11 @@ async function main() {
         && Number(ragEval?.summary?.answerUsefulness ?? 0) >= 0.85
         && Number(ragEval?.evaluatedQuestionCount ?? 0) >= RAG_EVAL_QUESTION_SEEDS.length,
       evidence: `${ragEval?.summary?.passed ?? 0}/${ragEval?.summary?.total ?? 0} passed, seeded ${ragEval?.seededQuestionCount ?? 0}/${RAG_EVAL_QUESTION_SEEDS.length}, avg ${ragEval?.summary?.avgScore ?? 'n/a'}, context precision ${ragEval?.summary?.contextPrecision ?? 'n/a'}, usefulness ${ragEval?.summary?.answerUsefulness ?? 'n/a'}`,
+    },
+    {
+      name: 'rag_eval_coverage_readiness',
+      passed: ragEvalCoverageReadinessValidation.ok && ragEvalCoverageReadiness?.releaseReady === true,
+      evidence: ragEvalCoverageReadinessValidation.evidence,
     },
     {
       name: 'database_release_tables',
@@ -325,6 +348,7 @@ async function main() {
   const failures = [
     ...scorecardValidation.failures.map((failure) => `scorecard:${failure}`),
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
+    ...ragEvalCoverageReadinessValidation.failures.map((failure) => `rag_eval_coverage:${failure}`),
     ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
     ...contentFactoryReadinessValidation.failures.map((failure) => `content_factory_readiness:${failure}`),
     ...proofSourceVolumeScanValidation.failures.map((failure) => `proof_source_volume_scan:${failure}`),
@@ -371,6 +395,7 @@ async function main() {
     rhythmValidation,
     evidenceValidation,
     databaseValidation,
+    ragEvalCoverageReadinessValidation,
     proofRehearsalValidation,
     contentFactoryReadinessValidation,
     proofSourceVolumeScanValidation,
@@ -383,6 +408,16 @@ async function main() {
       evaluatedQuestionCount: ragEval?.evaluatedQuestionCount,
       requiredQuestionCount: RAG_EVAL_QUESTION_SEEDS.length,
       summary: ragEval?.summary,
+    },
+    ragEvalCoverageReadiness: {
+      releaseReady: ragEvalCoverageReadiness?.releaseReady,
+      expectedQuestionCount: ragEvalCoverageReadiness?.expectedQuestionCount,
+      seededQuestionCount: ragEvalCoverageReadiness?.seededQuestionCount,
+      evaluatedQuestionCount: ragEvalCoverageReadiness?.evaluatedQuestionCount,
+      missingEvalKeys: ragEvalCoverageReadiness?.missingEvalKeys,
+      unexpectedEvalKeys: ragEvalCoverageReadiness?.unexpectedEvalKeys,
+      blockers: ragEvalCoverageReadiness?.blockers,
+      nextActions: ragEvalCoverageReadiness?.nextActions,
     },
     failures,
     startedAt,

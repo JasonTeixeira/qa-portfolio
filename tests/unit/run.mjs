@@ -93,9 +93,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
+  assert.equal(packageJson.scripts['rag:evaluate:coverage-readiness'], 'tsx scripts/rag/write-eval-coverage-readiness.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:coverage-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
@@ -116,6 +118,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);
   assert.match(localVerificationEvidence, /eval-seed-quality\.json/);
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
+  assert.match(localVerificationEvidence, /eval-coverage-readiness\.json/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
@@ -127,6 +130,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
   assert.match(localVerificationEvidence, /live gateway capture/);
   assert.match(localVerificationEvidence, /contentFactoryReadiness/);
+  assert.match(localVerificationEvidence, /ragEvalCoverageReadiness/);
   assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /weeklyProofPacket/);
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
@@ -137,8 +141,15 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /antiFakeGateSummary/);
   assert.match(localVerificationEvidence, /blocksSyntheticProof/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
+  assert.match(localVerificationEvidence, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
   assert.match(localVerificationEvidence, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
+  const evalCoverageReadinessScript = await readFile(new URL('../../scripts/rag/write-eval-coverage-readiness.ts', import.meta.url), 'utf8');
+  assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);
+  assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
+  assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
+  assert.match(evalCoverageReadinessScript, /missingEvalKeys/);
+  assert.doesNotMatch(evalCoverageReadinessScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
@@ -2136,6 +2147,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-latest.json'));
+  assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/rag/eval-coverage-readiness.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/content-factory-readiness-latest.json'));
   assert.ok(REQUIRED_PHASE_EVIDENCE.includes('docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json'));
@@ -2161,6 +2173,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);
+  assert.match(smoke, /rag_eval_coverage_readiness/);
+  assert.match(smoke, /rag_eval_coverage_readiness_disclaimer_missing/);
   assert.match(smoke, /RAG_EVAL_QUESTION_SEEDS\.length/);
   assert.match(smoke, /seededQuestionCount/);
   assert.match(smoke, /proof_source_volume_scan_approved_knowledge_target_wrong/);

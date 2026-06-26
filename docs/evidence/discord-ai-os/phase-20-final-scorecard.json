@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782448470008",
+  "runKey": "phase-20-final-1782448881924",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -553,6 +553,11 @@
         "status": "true"
       },
       {
+        "path": "docs/evidence/rag/eval-coverage-readiness.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
         "path": "docs/evidence/rag/eval-seed-quality.json",
         "ok": true,
         "status": "true"
@@ -597,6 +602,11 @@
       "rag_eval_results": 1192
     }
   },
+  "ragEvalCoverageReadinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "50/65 evaluated, missing 15, releaseReady=false"
+  },
   "proofRehearsalValidation": {
     "ok": true,
     "failures": [],
@@ -631,7 +641,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "20/20 required evidence files pass"
+      "evidence": "21/21 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -642,6 +652,11 @@
       "name": "rag_eval_latest",
       "passed": false,
       "evidence": "50/50 passed, seeded 50/65, avg 0.986, context precision 1, usefulness 0.9733"
+    },
+    {
+      "name": "rag_eval_coverage_readiness",
+      "passed": false,
+      "evidence": "50/65 evaluated, missing 15, releaseReady=false"
     },
     {
       "name": "database_release_tables",
@@ -703,9 +718,44 @@
       "answerUsefulness": 0.9733
     }
   },
+  "ragEvalCoverageReadiness": {
+    "releaseReady": false,
+    "expectedQuestionCount": 65,
+    "seededQuestionCount": 50,
+    "evaluatedQuestionCount": 50,
+    "missingEvalKeys": [
+      "rag_ai_011",
+      "rag_ai_012",
+      "rag_ai_013",
+      "rag_ai_014",
+      "rag_ai_015",
+      "rag_content_011",
+      "rag_content_012",
+      "rag_content_013",
+      "rag_content_014",
+      "rag_content_015",
+      "rag_content_016",
+      "rag_content_017",
+      "rag_content_018",
+      "rag_content_019",
+      "rag_content_020"
+    ],
+    "unexpectedEvalKeys": [],
+    "blockers": [
+      "latest_seeded_eval_count_below_target:50/65",
+      "latest_evaluated_eval_count_below_target:50/65",
+      "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
+    ],
+    "nextActions": [
+      "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
+      "Expected command after approval: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
+    ]
+  },
   "failures": [
-    "release_gate:rag_eval_latest"
+    "release_gate:rag_eval_latest",
+    "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T04:34:30.008Z",
-  "finishedAt": "2026-06-26T04:34:31.526Z"
+  "startedAt": "2026-06-26T04:41:21.924Z",
+  "finishedAt": "2026-06-26T04:41:23.420Z"
 }

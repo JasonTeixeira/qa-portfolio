@@ -1,0 +1,64 @@
+{
+  "ok": true,
+  "version": "rag-eval-coverage-readiness-v1",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This artifact reads the latest local RAG eval evidence and writes local readiness evidence only. It does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate.",
+  "latestEvalPath": "docs/evidence/rag/eval-latest.json",
+  "expectedQuestionCount": 65,
+  "seededQuestionCount": 50,
+  "evaluatedQuestionCount": 50,
+  "evaluatedKeyCount": 50,
+  "missingEvalKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "unexpectedEvalKeys": [],
+  "summary": {
+    "total": 50,
+    "passed": 50,
+    "failed": 0,
+    "passRate": 1,
+    "avgScore": 0.986,
+    "retrievalHitRate": 1,
+    "citationCoverage": 1,
+    "contextPrecision": 1,
+    "faithfulness": 0.95,
+    "groundedness": 1,
+    "answerUsefulness": 0.9733
+  },
+  "thresholds": {
+    "minOverallScore": 0.9,
+    "minPassRate": 0.95,
+    "minRetrievalHitRate": 0.95,
+    "minCitationCoverage": 0.95,
+    "minContextPrecision": 0.7,
+    "minFaithfulness": 0.9,
+    "minAnswerUsefulness": 0.85
+  },
+  "releaseReady": false,
+  "blockers": [
+    "latest_seeded_eval_count_below_target:50/65",
+    "latest_evaluated_eval_count_below_target:50/65",
+    "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
+  ],
+  "nextActions": [
+    "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
+    "Expected command after approval: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+    "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
+  ],
+  "startedAt": "2026-06-26T04:41:18.288Z",
+  "finishedAt": "2026-06-26T04:41:18.290Z"
+}

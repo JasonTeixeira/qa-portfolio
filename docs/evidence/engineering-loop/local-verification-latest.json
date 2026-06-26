@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T04:34:36.859Z",
+  "timestamp": "2026-06-26T04:41:28.747Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -32,6 +32,7 @@
     "contentFactory": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
     "evalSeedQuality": "docs/evidence/rag/eval-seed-quality.json",
     "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json",
+    "evalCoverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
@@ -48,7 +49,8 @@
     "worldClassEligible": false,
     "worldClassThreshold": 95,
     "releaseGateFailures": [
-      "rag_eval_latest"
+      "rag_eval_latest",
+      "rag_eval_coverage_readiness"
     ],
     "blockedBelow95": [
       "server_access_onboarding",
@@ -70,7 +72,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782448470008"
+    "runKey": "phase-20-final-1782448881924"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -122,6 +124,42 @@
       "rag_ai_build": 15
     },
     "issues": []
+  },
+  "ragEvalCoverageReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "releaseReady": false,
+    "expectedQuestionCount": 65,
+    "seededQuestionCount": 50,
+    "evaluatedQuestionCount": 50,
+    "missingEvalKeys": [
+      "rag_ai_011",
+      "rag_ai_012",
+      "rag_ai_013",
+      "rag_ai_014",
+      "rag_ai_015",
+      "rag_content_011",
+      "rag_content_012",
+      "rag_content_013",
+      "rag_content_014",
+      "rag_content_015",
+      "rag_content_016",
+      "rag_content_017",
+      "rag_content_018",
+      "rag_content_019",
+      "rag_content_020"
+    ],
+    "unexpectedEvalKeys": [],
+    "blockers": [
+      "latest_seeded_eval_count_below_target:50/65",
+      "latest_evaluated_eval_count_below_target:50/65",
+      "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
+    ],
+    "nextActions": [
+      "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
+      "Expected command after approval: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
+    ]
   },
   "contentFactory": {
     "ok": true,

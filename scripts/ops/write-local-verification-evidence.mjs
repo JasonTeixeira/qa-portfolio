@@ -19,6 +19,7 @@ const evidencePaths = {
   contentFactory: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-22-content-factory-dry-run.json'),
   evalSeedQuality: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-quality.json'),
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
+  evalCoverageReadiness: path.join(root, 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
@@ -117,6 +118,7 @@ async function main() {
     contentFactory,
     evalSeedQuality,
     evalSeedDryRun,
+    evalCoverageReadiness,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
@@ -144,6 +146,15 @@ async function main() {
   requireTruthy(evalSeedQuality.ok === true, 'RAG eval seed quality evidence is not ok.');
   requireTruthy(evalSeedDryRun.ok === true, 'RAG eval seed dry-run evidence is not ok.');
   requireTruthy(evalSeedDryRun.dryRun === true, 'RAG eval seed evidence must be dry-run for verify:local.');
+  requireTruthy(evalCoverageReadiness.ok === true, 'RAG eval coverage readiness evidence is not ok.');
+  requireTruthy(
+    evalCoverageReadiness.mutationMode === 'local_file_evidence_only',
+    'RAG eval coverage readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    evalCoverageReadiness.releaseMeaning?.includes('does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate'),
+    'RAG eval coverage readiness must explicitly avoid claiming full eval proof.',
+  );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
     proofRehearsalReadiness.mutationMode === 'local_file_evidence_only',
@@ -388,6 +399,18 @@ async function main() {
       seededDryRun: evalSeedDryRun.seeded,
       categoryCounts: evalSeedQuality.categoryCounts,
       issues: evalSeedQuality.issues ?? [],
+    },
+    ragEvalCoverageReadiness: {
+      ok: evalCoverageReadiness.ok,
+      mutationMode: evalCoverageReadiness.mutationMode,
+      releaseReady: evalCoverageReadiness.releaseReady,
+      expectedQuestionCount: evalCoverageReadiness.expectedQuestionCount,
+      seededQuestionCount: evalCoverageReadiness.seededQuestionCount,
+      evaluatedQuestionCount: evalCoverageReadiness.evaluatedQuestionCount,
+      missingEvalKeys: evalCoverageReadiness.missingEvalKeys,
+      unexpectedEvalKeys: evalCoverageReadiness.unexpectedEvalKeys,
+      blockers: evalCoverageReadiness.blockers,
+      nextActions: evalCoverageReadiness.nextActions,
     },
     contentFactory: {
       ok: contentFactory.ok,

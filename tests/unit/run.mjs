@@ -2191,6 +2191,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /proof_rehearsal_readiness/);
   assert.match(smoke, /content_factory_readiness/);
   assert.match(smoke, /proof_source_volume_scan/);
+  assert.match(smoke, /proof_source_recovery_plan/);
   assert.match(smoke, /proof_intake_anti_fake_controls/);
   assert.match(smoke, /weekly_proof_packet_anti_fake_controls/);
   assert.match(smoke, /proof_intake_missing_required_evidence_fields/);
@@ -2211,6 +2212,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /seededQuestionCount/);
   assert.match(smoke, /proof_source_volume_scan_approved_knowledge_target_wrong/);
   assert.match(smoke, /proof_source_volume_scan_missing_blocker/);
+  assert.match(smoke, /proof_source_recovery_plan_shortfall_mismatch/);
+  assert.match(smoke, /proof_source_recovery_plan_missing_global_dry_run_rule/);
   assert.match(smoke, /!dryRun/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);

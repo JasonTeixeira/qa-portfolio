@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-intake-readiness-v1",
-  "generatedAt": "2026-06-26T05:14:01.349Z",
+  "generatedAt": "2026-06-26T05:17:45.032Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.",
   "lanes": [

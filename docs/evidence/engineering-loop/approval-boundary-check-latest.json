@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-26T09:27:46.976Z",
+  "timestamp": "2026-06-26T10:38:50.532Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -127,7 +127,43 @@
     },
     {
       "from": "discord:release-local",
+      "to": "rag:discord-corpus-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:durable-jobs-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:security-privacy-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:observability-quality-readiness"
+    },
+    {
+      "from": "discord:release-local",
       "to": "discord:content-factory-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:premium-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:public-growth-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:proof-intake-readiness"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:weekly-proof-packet"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:proof-rehearsal-readiness"
     },
     {
       "from": "discord:release-local",
@@ -139,62 +175,22 @@
     },
     {
       "from": "discord:release-local",
-      "to": "discord:proof-rehearsal-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "rag:discord-corpus-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:durable-jobs-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:security-privacy-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:observability-quality-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:content-factory-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:premium-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:public-growth-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:world-class-readiness"
-    },
-    {
-      "from": "verify:local",
-      "to": "discord:proof-intake-readiness"
-    },
-    {
-      "from": "verify:local",
       "to": "discord:proof-backlog"
     },
     {
-      "from": "verify:local",
-      "to": "discord:weekly-proof-packet"
-    },
-    {
-      "from": "verify:local",
+      "from": "discord:release-local",
       "to": "discord:proof-candidate-audit"
     },
     {
-      "from": "verify:local",
+      "from": "discord:release-local",
+      "to": "discord:world-class-readiness"
+    },
+    {
+      "from": "discord:release-local",
       "to": "discord:operator-brief"
     },
     {
-      "from": "verify:local",
+      "from": "discord:release-local",
       "to": "verify:local:evidence"
     },
     {

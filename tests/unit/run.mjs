@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:durable-jobs-readiness && npm run discord:security-privacy-readiness && npm run discord:observability-quality-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence && npm run verify:business-site:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run verify:business-site:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['verify:business-site:evidence'], 'node scripts/marketing/verify-business-site-evidence.mjs');
@@ -147,6 +147,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);
+  assert.equal(packageJson.scripts['verify:local'].match(/discord:release-local/g)?.length, 1);
+  assert.equal(packageJson.scripts['verify:local'].includes('rag:discord-corpus-readiness'), false);
+  assert.equal(packageJson.scripts['verify:local'].includes('discord:operator-brief &&'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('discord:'), false);
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('rag:evaluate'), false);
   assert.equal(packageJson.scripts['verify:business-site:evidence'].includes('lighthouse'), false);

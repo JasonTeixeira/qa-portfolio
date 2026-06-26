@@ -86,7 +86,7 @@ function NavLinks({ active, dueCount }: { active?: string; dueCount: number }) {
           >
             {item.label}
             {badge ? (
-              <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent)] px-1 text-[10px] font-semibold leading-none text-white">
+              <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent-strong)] px-1 text-[10px] font-semibold leading-none text-white">
                 {badge}
               </span>
             ) : null}
@@ -125,7 +125,7 @@ export async function AcademyShell({
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
           <Link href="/academy/dashboard" className="group flex items-center gap-2.5 shrink-0">
             <span
-              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent)] text-[13px] font-bold text-white"
+              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent-strong)] text-[13px] font-bold text-white"
               aria-hidden
             >
               ◆
@@ -163,7 +163,7 @@ export async function AcademyShell({
             ) : (
               <Link
                 href="/login?audience=academy&next=/academy/dashboard"
-                className="rounded-full bg-[var(--ac-accent)] px-3.5 py-1.5 text-[12px] font-semibold text-white"
+                className="rounded-full bg-[var(--ac-accent-strong)] px-3.5 py-1.5 text-[12px] font-semibold text-white"
               >
                 Sign in
               </Link>

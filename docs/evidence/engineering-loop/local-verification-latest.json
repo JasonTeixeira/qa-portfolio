@@ -1,9 +1,45 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T10:39:08.560Z",
+  "timestamp": "2026-06-26T10:41:09.091Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
+  "summary": {
+    "localVerificationPassed": true,
+    "worldClassEligible": false,
+    "averageScore": 83,
+    "releaseGateFailures": [
+      "rag_eval_latest",
+      "rag_eval_coverage_readiness"
+    ],
+    "ragEvalCoverage": {
+      "releaseReady": false,
+      "evaluatedQuestionCount": 50,
+      "expectedQuestionCount": 65,
+      "missingEvalKeyCount": 15,
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "requiresExplicitApproval": true
+    },
+    "operatingProof": {
+      "status": "blocked",
+      "blockedLanes": [
+        "gateway_capture:0/1",
+        "approved_discord_knowledge:0/10",
+        "rag_discord_sources:0/10",
+        "public_proof_assets:0/4",
+        "premium_workflow_proof:0/1"
+      ],
+      "knownBlockers": [
+        "approved_discord_knowledge_sources_below_target:0/10",
+        "rag_discord_sources_below_target:0/10",
+        "public_proof_assets_below_target:0/4",
+        "public_proof_apply_clicks_below_target:0/1",
+        "applications_submitted_below_target:0/1",
+        "premium_workflow_proof_below_target:0/1"
+      ]
+    },
+    "nonClaimRule": "Local verification passing does not mean world-class or 95+ until RAG coverage and real operating proof lanes pass."
+  },
   "gates": [
     {
       "command": "npm run test:unit",

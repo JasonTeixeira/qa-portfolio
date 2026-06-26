@@ -978,6 +978,13 @@ async function main() {
 
   const metrics = operatingCycle.metricsAfter ?? operatingCycle.metricsBefore ?? {};
   const knownBlockers = summarizeOperatingBlockers(operatingCycle);
+  const proofBacklogBlockedLanes = proofBacklog.lanes
+    .filter((lane) => lane.status === 'blocked')
+    .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`);
+  const ragEvalApprovedCommand = evalMissingPreflight.approvedCommand
+    ?? evalRecoveryPlan.approvedCommand
+    ?? evalExecutionPacket.commandPlan?.approvedCommand
+    ?? null;
 
   const evidence = {
     ok: true,
@@ -985,6 +992,26 @@ async function main() {
     timestamp: new Date().toISOString(),
     command: 'npm run verify:local',
     mutationMode: 'local_file_evidence_only',
+    summary: {
+      localVerificationPassed: true,
+      worldClassEligible: finalScorecard.worldClassEligible === true,
+      averageScore: finalScorecard.averageScore,
+      releaseGateFailures: finalScorecardReleaseGateFailures,
+      ragEvalCoverage: {
+        releaseReady: evalCoverageReadiness.releaseReady === true,
+        evaluatedQuestionCount: evalCoverageReadiness.evaluatedQuestionCount,
+        expectedQuestionCount: evalCoverageReadiness.expectedQuestionCount,
+        missingEvalKeyCount: evalCoverageReadiness.missingEvalKeys?.length ?? 0,
+        approvedCommand: ragEvalApprovedCommand,
+        requiresExplicitApproval: Boolean(ragEvalApprovedCommand),
+      },
+      operatingProof: {
+        status: operatingStatus,
+        blockedLanes: proofBacklogBlockedLanes,
+        knownBlockers,
+      },
+      nonClaimRule: 'Local verification passing does not mean world-class or 95+ until RAG coverage and real operating proof lanes pass.',
+    },
     gates: [
       { command: 'npm run test:unit', passed: true },
       { command: 'npm run typecheck', passed: true },
@@ -1206,9 +1233,7 @@ async function main() {
       status: proofBacklog.status,
       laneCount: Array.isArray(proofBacklog.lanes) ? proofBacklog.lanes.length : 0,
       laneKeys: proofBacklog.lanes.map((lane) => lane.key),
-      blockedLanes: proofBacklog.lanes
-        .filter((lane) => lane.status === 'blocked')
-        .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
+      blockedLanes: proofBacklogBlockedLanes,
       nextActions: proofBacklog.nextActions,
     },
     weeklyProofPacket: {

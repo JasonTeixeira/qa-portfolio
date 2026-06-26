@@ -159,6 +159,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /Approval-boundary check must identify db:push as requiring explicit approval/);
   assert.match(localVerificationEvidence, /Approval-boundary check must verify guarded full RAG eval command guidance/);
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
+  assert.match(localVerificationEvidence, /summary/);
+  assert.match(localVerificationEvidence, /localVerificationPassed/);
+  assert.match(localVerificationEvidence, /Local verification passing does not mean world-class or 95\+/);
+  assert.match(localVerificationEvidence, /ragEvalApprovedCommand/);
+  assert.match(localVerificationEvidence, /requiresExplicitApproval/);
+  assert.match(localVerificationEvidence, /proofBacklogBlockedLanes/);
   assert.match(localVerificationEvidence, /releaseGateFailures/);
   assert.match(localVerificationEvidence, /worldClassEligible === false/);
   assert.match(localVerificationEvidence, /World-class readiness validator must pass/);

@@ -25,6 +25,7 @@ const evidencePaths = {
   evalMissingPreflight: path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
   evalRecoveryPlan: path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
   discordCorpusReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-corpus-readiness-latest.json'),
+  durableJobsReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'durable-jobs-readiness-latest.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
@@ -163,6 +164,7 @@ async function main() {
     evalMissingPreflight,
     evalRecoveryPlan,
     discordCorpusReadiness,
+    durableJobsReadiness,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
@@ -342,6 +344,31 @@ async function main() {
   requireTruthy(
     (discordCorpusReadiness.antiFakeRules ?? []).some((rule) => rule.includes('smoke-created and cleaned-up RAG rows')),
     'Discord corpus readiness must block smoke rows from counting as live corpus volume.',
+  );
+  requireTruthy(durableJobsReadiness.ok === true, 'Durable jobs readiness evidence is not ok.');
+  requireTruthy(
+    durableJobsReadiness.mutationMode === 'local_file_evidence_only',
+    'Durable jobs readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    durableJobsReadiness.releaseMeaning?.includes('does not mutate Supabase, run jobs, publish Discord posts'),
+    'Durable jobs readiness must avoid claiming live job execution or publishing.',
+  );
+  requireTruthy(
+    durableJobsReadiness.proofSummary?.requiredJobCount >= 12
+      && durableJobsReadiness.proofSummary?.duplicateDetected === true
+      && durableJobsReadiness.proofSummary?.deadLetterCreated === true
+      && durableJobsReadiness.proofSummary?.deadLetterRetryQueued === true
+      && durableJobsReadiness.proofSummary?.adminSurface === true,
+    'Durable jobs readiness must prove registry, idempotency, dead letters, retry, and admin surface.',
+  );
+  requireTruthy(
+    (durableJobsReadiness.antiFakeRules ?? []).some((rule) => rule.includes('smoke-created and cleaned-up job rows')),
+    'Durable jobs readiness must block smoke rows from counting as production job health.',
+  );
+  requireTruthy(
+    (durableJobsReadiness.antiFakeRules ?? []).some((rule) => rule.includes('empty dead-letter table')),
+    'Durable jobs readiness must block empty dead-letter table from counting as production health by itself.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -878,6 +905,16 @@ async function main() {
       antiFakeRules: discordCorpusReadiness.antiFakeRules,
       nextOperatingProofRequired: discordCorpusReadiness.nextOperatingProofRequired,
       releaseMeaning: discordCorpusReadiness.releaseMeaning,
+    },
+    durableJobsReadiness: {
+      ok: durableJobsReadiness.ok,
+      mutationMode: durableJobsReadiness.mutationMode,
+      proofSummary: durableJobsReadiness.proofSummary,
+      checkCount: durableJobsReadiness.checks?.length ?? 0,
+      failures: durableJobsReadiness.failures ?? [],
+      antiFakeRules: durableJobsReadiness.antiFakeRules,
+      nextOperatingProofRequired: durableJobsReadiness.nextOperatingProofRequired,
+      releaseMeaning: durableJobsReadiness.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

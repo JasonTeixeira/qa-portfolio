@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:46:15.640Z",
+  "timestamp": "2026-06-26T07:53:06.345Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -42,6 +42,7 @@
     "evalMissingPreflight": "docs/evidence/rag/eval-missing-preflight.json",
     "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
     "discordCorpusReadiness": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+    "durableJobsReadiness": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
@@ -85,7 +86,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782459967482"
+    "runKey": "phase-20-final-1782460378363"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -281,6 +282,35 @@
       "With explicit approval, rerun non-dry RAG eval and final scorecard after sync."
     ],
     "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume."
+  },
+  "durableJobsReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "requiredJobCount": 12,
+      "smokeProofOk": true,
+      "registrySynced": 12,
+      "duplicateDetected": true,
+      "deadLetterCreated": true,
+      "deadLetterRetryQueued": true,
+      "deadLetterResolved": true,
+      "adminSurface": true
+    },
+    "checkCount": 7,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count smoke-created and cleaned-up job rows as live production job health.",
+      "Do not count registered jobs as reliable unless idempotency, retry, and dead-letter paths are proven.",
+      "Do not treat an empty dead-letter table as proof unless jobs are actively running and observable.",
+      "Do not publish from scheduled jobs unless the draft is approved and the job run is idempotent."
+    ],
+    "nextOperatingProofRequired": [
+      "Run scheduled daily and weekly jobs in production long enough to observe real run rows.",
+      "Review open dead letters every operating day and resolve or retry them from the admin dashboard.",
+      "Confirm duplicate scheduled invocations do not create duplicate posts, points, or RAG sync rows.",
+      "Track job success rate and dead-letter count in the admin dashboard during each operating cycle."
+    ],
+    "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health."
   },
   "contentFactory": {
     "ok": true,

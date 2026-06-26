@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "version": "durable-jobs-readiness-v1",
+  "generatedAt": "2026-06-26T07:53:02.018Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "durableJobs": "lib/discord/durable-jobs.ts",
+    "durableSmoke": "scripts/discord/smoke-durable-jobs.ts",
+    "durableProof": "docs/evidence/discord-ai-os/phase-14-durable-jobs-proof.json",
+    "scaleFailureProof": "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json",
+    "migration": "supabase/migrations/0088_discord_durable_jobs.sql",
+    "adminActions": "app/admin/discord/actions.ts",
+    "adminPage": "app/admin/discord/page.tsx",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "durable_registry_covers_core_discord_jobs",
+      "passed": true,
+      "evidence": "lib/discord/durable-jobs.ts"
+    },
+    {
+      "name": "idempotency_retry_backoff_and_dead_letter_paths_wired",
+      "passed": true,
+      "evidence": "lib/discord/durable-jobs.ts"
+    },
+    {
+      "name": "durable_smoke_proves_duplicate_retry_dead_letter_and_cleanup",
+      "passed": true,
+      "evidence": "scripts/discord/smoke-durable-jobs.ts, docs/evidence/discord-ai-os/phase-14-durable-jobs-proof.json"
+    },
+    {
+      "name": "database_schema_indexes_and_rls_wired",
+      "passed": true,
+      "evidence": "supabase/migrations/0088_discord_durable_jobs.sql"
+    },
+    {
+      "name": "admin_job_dashboard_and_dead_letter_actions_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/actions.ts, app/admin/discord/page.tsx"
+    },
+    {
+      "name": "scale_failure_readiness_covers_job_failure_modes",
+      "passed": true,
+      "evidence": "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json"
+    },
+    {
+      "name": "local_smoke_command_available",
+      "passed": true,
+      "evidence": "package.json"
+    }
+  ],
+  "proofSummary": {
+    "requiredJobCount": 12,
+    "smokeProofOk": true,
+    "registrySynced": 12,
+    "duplicateDetected": true,
+    "deadLetterCreated": true,
+    "deadLetterRetryQueued": true,
+    "deadLetterResolved": true,
+    "adminSurface": true
+  },
+  "antiFakeRules": [
+    "Do not count smoke-created and cleaned-up job rows as live production job health.",
+    "Do not count registered jobs as reliable unless idempotency, retry, and dead-letter paths are proven.",
+    "Do not treat an empty dead-letter table as proof unless jobs are actively running and observable.",
+    "Do not publish from scheduled jobs unless the draft is approved and the job run is idempotent."
+  ],
+  "nextOperatingProofRequired": [
+    "Run scheduled daily and weekly jobs in production long enough to observe real run rows.",
+    "Review open dead letters every operating day and resolve or retry them from the admin dashboard.",
+    "Confirm duplicate scheduled invocations do not create duplicate posts, points, or RAG sync rows.",
+    "Track job success rate and dead-letter count in the admin dashboard during each operating cycle."
+  ],
+  "failures": [],
+  "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health."
+}

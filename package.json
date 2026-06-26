@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence",
+    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run rag:discord-corpus-readiness && npm run discord:durable-jobs-readiness && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence",
     "verify:local:evidence": "node scripts/ops/write-local-verification-evidence.mjs",
     "ops:approval-boundaries": "node scripts/ops/check-approval-boundaries.mjs",
     "verify:prod": "node scripts/verify-prod.mjs",
@@ -84,6 +84,7 @@
     "discord:smoke-member-intelligence": "tsx --env-file=.env.local scripts/discord/rebuild-member-intelligence.ts --smoke",
     "discord:smoke-admin-cockpit-v2": "tsx --env-file=.env.local scripts/discord/smoke-admin-cockpit-v2.ts",
     "discord:smoke-durable-jobs": "tsx --env-file=.env.local scripts/discord/smoke-durable-jobs.ts",
+    "discord:durable-jobs-readiness": "node scripts/discord/write-durable-jobs-readiness.mjs",
     "discord:smoke-premium-workflows": "tsx --env-file=.env.local scripts/discord/smoke-premium-workflows.ts",
     "discord:smoke-public-proof-growth": "tsx --env-file=.env.local scripts/discord/smoke-public-proof-growth.ts",
     "discord:smoke-observability-quality": "tsx --env-file=.env.local scripts/discord/smoke-observability-quality-v2.ts",

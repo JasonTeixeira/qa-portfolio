@@ -443,6 +443,198 @@ def charge_card(user_id, amount):
   },
 ]
 
+// ---------------------------------------------------------------- lesson 3 blocks
+// "Functions & Modules — Build Small, Testable Units". Grounded in the
+// 01-programming-fundamentals cluster (Functions & modules; anchor "function works
+// manually but fails in tests") + established practice. Standard sprint, runnable lab.
+const FUNCTIONS_LAB_STARTER = `# This "works" in the REPL but FAILS in tests when another part of the app
+# changes \`discount\`. Refactor line_total to be PURE: depend ONLY on its
+# parameters (price, qty), RETURN the total, read no globals, no print.
+discount = 0
+
+def line_total(price, qty):
+    return (price * qty) - discount   # <-- hidden dependency on a global; fix this
+
+
+# --- test harness (do not edit) ---
+cases = [(10, 3, 30), (5, 4, 20), (0, 9, 0)]
+correct = all(line_total(p, q) == exp for p, q, exp in cases)
+globals()["discount"] = 7             # another module changes the global mid-run
+pure = all(line_total(p, q) == exp for p, q, exp in cases)  # only a PURE fn survives
+print(f"correct: {correct}")
+print(f"pure (survives a changed global): {pure}")
+print(f"PASS: {correct and pure}")
+`
+
+const functionsBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Write a small, single-purpose, PURE function with a clear signature — and a test that proves it — then refactor a side-effecting function to be testable.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A pure function (inputs in, value out, no hidden state) + a test asserting it across several inputs.',
+    unlock: 'All verification checks confirmed and the impure function refactored.',
+    doNotClaim:
+      "Don't claim mastery until you've turned a function that reads a global / prints into a pure one that returns a value, with a test.",
+  },
+  {
+    type: 'mission',
+    text: 'Your `calculate_total()` works perfectly when you run it by hand — but the tests fail at random. The culprit: it reads a global `cart` and prints instead of returning. Make it a function you can actually trust.',
+  },
+  {
+    type: 'context',
+    text: 'Functions are the unit of reuse AND the unit of testing. Small, single-purpose, predictable functions are why some codebases are a joy and others a minefield. Every module, API, and pipeline is built from them.',
+  },
+  {
+    type: 'pretest',
+    prompt: 'Before you read on: why is a function that reads a global variable harder to test than one that takes everything as a parameter?',
+    reveal:
+      'A function that depends on hidden global state behaves differently depending on what ran before it — tests become order-dependent and flaky. A function that takes its inputs as parameters and returns a value (a pure function) gives the same output for the same input every time, so a test is just `assert f(x) == expected`.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Turn a side-effecting function into a small, pure, testable one (before vs after — in one file the AFTER def would replace the BEFORE):',
+    language: 'python',
+    code: `# before — reads a global, prints instead of returning (hard to test)
+cart = [{"price": 10, "qty": 3}]
+def calculate_total():
+    total = 0
+    for item in cart:            # hidden dependency on a global
+        total += item["price"] * item["qty"]
+    print("Total:", total)       # side effect instead of a return
+
+# after — inputs in, value out, one job (trivially testable)
+def calculate_total(items):
+    return sum(i["price"] * i["qty"] for i in items)`,
+    steps: [
+      'One job: this function computes a total — nothing else.',
+      'Inputs as parameters: pass `items` in; read no globals.',
+      'Return, don’t print: hand back a value the caller can use or test.',
+      'No hidden state: same inputs → same output, always.',
+      'Name says what it does: `calculate_total`, not `do_stuff`.',
+    ],
+    commonMistake:
+      'Doing two things in one function (compute AND print/save). Split it: the function returns a value; a separate caller does the I/O.',
+  },
+  {
+    type: 'concept',
+    title: 'A function is a contract: name · inputs · output · one job',
+    text: 'A good function is a contract: its name says what it does, its parameters declare what it needs, its return value is what it promises. PURE functions (output depends only on inputs, no side effects) are the easiest to test, reuse, and reason about. A MODULE is just a file that groups related functions behind a clear interface — other code imports the contract, not the internals.',
+  },
+  {
+    type: 'code',
+    filename: 'pricing.py  +  main.py',
+    language: 'python',
+    code: `# pricing.py — a MODULE: related functions, one clear interface
+def line_total(price, qty):
+    return price * qty
+
+def cart_total(items):
+    return sum(line_total(i["price"], i["qty"]) for i in items)
+
+
+# main.py — import only what you need from the module
+from pricing import cart_total
+
+print(cart_total([{"price": 10, "qty": 3}]))   # -> 30`,
+  },
+  {
+    type: 'lab',
+    title: 'Refactor it to be pure',
+    summary:
+      '`line_total` reads a global `discount`, so it breaks when another part of the app changes it. Refactor it to depend ONLY on its parameters and RETURN the total. The harness changes the global mid-run — only a pure function survives both checks.',
+    language: 'python',
+    starter: FUNCTIONS_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: 'This function "works" in the REPL but its test is flaky — it passes or fails depending on what ran first.',
+    language: 'python',
+    brokenCode: `tax_rate = 0.0   # a global other code mutates
+
+def price_with_tax(amount):
+    return amount + amount * tax_rate   # depends on hidden global state`,
+    task: 'Why does the test depend on what ran before it?',
+    fix: 'It reads the global `tax_rate` — if another test changed it, this one breaks. Pass `tax_rate` as a parameter (`def price_with_tax(amount, tax_rate):`) and return the value. No hidden state → deterministic test.',
+  },
+  {
+    type: 'tradeoff',
+    question: 'Should this function do one thing, or handle the whole workflow?',
+    optionA: {
+      label: 'One job (compose)',
+      text: 'Small pure functions: easy to test, reuse, and reason about — but you need a thin caller to wire them together.',
+    },
+    optionB: {
+      label: 'One big function',
+      text: 'Does everything in one place: fewer pieces to track — but untestable, unreusable, and every change risks the whole thing.',
+    },
+    guidance:
+      'Default to small, single-purpose functions and compose them. The function that "does everything" is the one that breaks every time you touch it.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'line_total(10, 3) RETURNS 30 (a value, not a print)',
+      'Same inputs → same output every time (pure / deterministic)',
+      'It reads no globals and keeps no hidden state',
+      'It does ONE job — compute, not compute-and-print',
+      'A test asserts it across several inputs (incl. an edge like qty 0)',
+      'Related functions can live in a module (a .py file) and be imported where needed',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: 'What makes a function easiest to test?',
+    options: [
+      'It prints its result',
+      'It takes its inputs as parameters and returns a value, reading no hidden state',
+      'It reads from a global config',
+      'It does several things at once',
+    ],
+    answer: 1,
+    explanation:
+      'A pure function — inputs in, value out, no hidden state — gives the same result every time, so a test is just `assert f(x) == expected`. Globals and side effects make tests order-dependent and flaky.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'Explain "single responsibility" for a function in one sentence.',
+      'What is the difference between a pure function and a side-effecting one?',
+      'Why is a function that reads a global hard to test?',
+      'When is a side effect unavoidable — and where should it live?',
+      'Why group related functions into a module behind a clear interface?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your pure line_total() + its test',
+    weak: '"It works when I run it." — untested, and maybe impure.',
+    passing:
+      '"line_total takes price + qty, returns the total, reads no globals; a test asserts it across 3 inputs." — correct and testable.',
+    excellent:
+      '"line_total is pure (params in, value out, no side effects), single-purpose, and named for its job. Tests cover normal, zero, and edge inputs. I pushed the printing/saving out to a thin caller so the core stays pure and reusable — the same shape as the rest of our domain functions." — specific, reasoned, transferable.',
+    note: 'Excellent separates compute from I/O and tests the edges — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find a function in your own code that prints or saves while it computes. Split it: a pure function that returns the value + a thin caller that does the I/O. Add a test for the pure part.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — line_total is pure and correct across inputs',
+      'Broken case understood (a global dependency makes tests flaky)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -529,6 +721,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l2Err) throw l2Err
+
+  // 2c. Lesson 3 — Functions & Modules (grounded in the 01 fundamentals cluster).
+  const { error: l3Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'functions-and-modules',
+      title: 'Functions & Modules: Build Small, Testable Units',
+      eyebrow: 'Module 1 · Lesson 3 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 2,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: functionsBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l3Err) throw l3Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

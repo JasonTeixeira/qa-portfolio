@@ -4,7 +4,7 @@
  * categorical palette (cool-dominant + one warm), NOT a rainbow. Pure electric
  * (#3D5AFE) stays reserved for primary actions so "action" reads consistently.
  */
-export type TopicKey = 'foundations' | 'ai-engineering' | 'ship-it' | 'growth' | 'data'
+export type TopicKey = 'foundations' | 'ai-engineering' | 'ship-it' | 'growth' | 'data' | 'engineering'
 
 export type Topic = {
   label: string
@@ -20,6 +20,9 @@ export const TOPICS: Record<TopicKey, Topic> = {
   'ship-it': { label: 'Ship It', color: '#34d399', soft: 'rgba(52, 211, 153, 0.12)' },
   growth: { label: 'Growth', color: '#e8b75a', soft: 'rgba(232, 183, 90, 0.12)' },
   data: { label: 'Data', color: '#9db4d0', soft: 'rgba(157, 180, 208, 0.12)' },
+  // Engineering — the home for the engineering-mastery system (16 domain tracks).
+  // Violet fills the one open slot in the cool-dominant palette, distinct from indigo AI.
+  engineering: { label: 'Engineering', color: '#a78bfa', soft: 'rgba(167, 139, 250, 0.12)' },
 }
 
 export const ACTION = '#3d5afe' // reserved electric — primary CTAs only

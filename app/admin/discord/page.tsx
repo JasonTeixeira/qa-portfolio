@@ -54,6 +54,7 @@ import {
 } from '@/lib/discord/final-scorecard';
 import {
   buildWorldClassReadinessReport,
+  validateWorldClassReadinessReport,
   type WorldClassReadinessCategory,
 } from '@/lib/discord/world-class-readiness';
 import {
@@ -1483,6 +1484,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       releaseMeaning: gatewayOperatingPacket.releaseMeaning,
     },
   });
+  const worldClassReadinessValidation = validateWorldClassReadinessReport(worldClassReadiness);
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
   const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
@@ -2342,6 +2344,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 </div>
                 <div className="mt-3 grid gap-2 text-xs">
                   <HealthLine label="Release gates" value={`${worldClassReadiness.summary.releaseGatesPassed}/${worldClassReadiness.summary.releaseGateCount}`} tone={worldClassReadiness.summary.releaseGateFailures.length ? 'rose' : 'emerald'} />
+                  <HealthLine label="Readiness validation" value={worldClassReadinessValidation.ok ? 'passed' : `${worldClassReadinessValidation.failures.length} failures`} tone={worldClassReadinessValidation.ok ? 'emerald' : 'rose'} />
                   <HealthLine label="Operating blockers" value={String(worldClassReadiness.summary.operatingBlockers.length)} tone={worldClassReadiness.summary.operatingBlockers.length ? 'rose' : 'emerald'} />
                 </div>
               </div>
@@ -2366,6 +2369,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               </div>
             </div>
             <div className="border-t border-[#27272a] px-3 py-3">
+              {!worldClassReadinessValidation.ok ? (
+                <div className="mb-3 rounded-md border border-[#ef4444]/30 bg-[#ef4444]/10 px-3 py-2 text-xs leading-5 text-[#fecaca]">
+                  Readiness validation failed: {worldClassReadinessValidation.failures.join(', ')}
+                </div>
+              ) : null}
               <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Immediate action order</div>
               <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
                 {worldClassReadiness.immediateActionOrder.slice(0, 5).map((action, index) => (

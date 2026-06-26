@@ -2022,8 +2022,12 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /buildDiscordFinalScorecard/);
   assert.match(page, /buildDiscordFinalScorecardSummary/);
   assert.match(page, /buildWorldClassReadinessReport/);
+  assert.match(page, /validateWorldClassReadinessReport/);
   assert.match(page, /WorldClassReadinessCategoryRow/);
   assert.match(page, /data-testid="discord-world-class-readiness-triage"/);
+  assert.match(page, /worldClassReadinessValidation/);
+  assert.match(page, /Readiness validation/);
+  assert.match(page, /Readiness validation failed/);
   assert.match(page, /ragEvalMissingPreflight: \{/);
   assert.match(page, /ragEvalRecoveryPlan: \{/);
   assert.match(page, /proofSourceRecoveryPlan: \{/);

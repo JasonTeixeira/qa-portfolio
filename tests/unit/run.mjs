@@ -164,6 +164,13 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(sourceVolumeScanScript, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(sourceVolumeScanScript, /read_only_supabase_selects_and_local_file_evidence_only/);
   assert.match(sourceVolumeScanScript, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
+  assert.match(sourceVolumeScanScript, /APPROVED_KNOWLEDGE_TARGET = 10/);
+  assert.match(sourceVolumeScanScript, /RAG_DISCORD_SOURCE_TARGET = 10/);
+  assert.match(sourceVolumeScanScript, /PUBLIC_PROOF_ASSET_TARGET = 4/);
+  assert.match(sourceVolumeScanScript, /approvedKnowledge >= APPROVED_KNOWLEDGE_TARGET/);
+  assert.match(sourceVolumeScanScript, /ragDiscordSources\.count >= RAG_DISCORD_SOURCE_TARGET/);
+  assert.doesNotMatch(sourceVolumeScanScript, /approvedKnowledge > 0\s*\?\s*null/);
+  assert.doesNotMatch(sourceVolumeScanScript, /ragDiscordSources\.count > 0\s*\?\s*null/);
   assert.doesNotMatch(sourceVolumeScanScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const gatewayCaptureDiagnosisScript = await readFile(new URL('../../scripts/discord/diagnose-gateway-capture.ts', import.meta.url), 'utf8');
   assert.match(gatewayCaptureDiagnosisScript, /discord-gateway-capture-diagnosis-latest\.json/);

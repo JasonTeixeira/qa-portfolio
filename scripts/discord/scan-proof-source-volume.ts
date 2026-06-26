@@ -7,6 +7,10 @@ import { isApprovedDiscordContentDraft } from '../../lib/rag/discord-authoritati
 type SupabaseClient = ReturnType<typeof createClient<any>>;
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop');
+const APPROVED_KNOWLEDGE_TARGET = 10;
+const RAG_DISCORD_SOURCE_TARGET = 10;
+const PUBLIC_PROOF_ASSET_TARGET = 4;
+const PREMIUM_WORKFLOW_PROOF_TARGET = 1;
 const candidateActions = [
   'track_question',
   'track_answer',
@@ -225,42 +229,42 @@ async function main() {
     laneReadiness: {
       approvedDiscordKnowledge: {
         current: approvedKnowledge,
-        target: 10,
+        target: APPROVED_KNOWLEDGE_TARGET,
         reviewableCandidates: reviewableKnowledgeCandidates,
-        blocker: approvedKnowledge > 0
+        blocker: approvedKnowledge >= APPROVED_KNOWLEDGE_TARGET
           ? null
           : reviewableKnowledgeCandidates > 0
-            ? 'Reviewable candidates exist; admin approval is still required before they count as approved knowledge.'
-            : 'No reviewable Discord knowledge candidates found in captured messages/classifications/content queue.',
+            ? `Approved knowledge is ${approvedKnowledge}/${APPROVED_KNOWLEDGE_TARGET}; reviewable candidates exist, but admin approval is still required before they count as approved knowledge.`
+            : `Approved knowledge is ${approvedKnowledge}/${APPROVED_KNOWLEDGE_TARGET}; no reviewable Discord knowledge candidates found in captured messages/classifications/content queue.`,
       },
       ragDiscordSources: {
         current: ragDiscordSources.count,
-        target: 10,
+        target: RAG_DISCORD_SOURCE_TARGET,
         approvedKnowledgeAvailable: approvedKnowledge,
-        blocker: ragDiscordSources.count > 0
+        blocker: ragDiscordSources.count >= RAG_DISCORD_SOURCE_TARGET
           ? null
           : approvedKnowledge > 0
-            ? 'Approved Discord knowledge exists but has not been synced into authoritative RAG.'
-            : 'No approved Discord knowledge exists to sync into RAG.',
+            ? `Discord RAG sources are ${ragDiscordSources.count}/${RAG_DISCORD_SOURCE_TARGET}; approved Discord knowledge exists but has not been fully synced into authoritative RAG.`
+            : `Discord RAG sources are ${ragDiscordSources.count}/${RAG_DISCORD_SOURCE_TARGET}; no approved Discord knowledge exists to sync into RAG.`,
       },
       publicProofAssets: {
         current: publicProofAssets,
-        target: 4,
+        target: PUBLIC_PROOF_ASSET_TARGET,
         approvedKnowledgeAvailable: approvedKnowledge,
         applyClicks: publicProofApplyClicks.count,
-        blocker: publicProofAssets >= 4
+        blocker: publicProofAssets >= PUBLIC_PROOF_ASSET_TARGET
           ? null
           : approvedKnowledge > 0
-            ? `Approved Discord knowledge exists, but only ${publicProofAssets}/4 public proof drafts or published assets exist.`
+            ? `Approved Discord knowledge exists, but only ${publicProofAssets}/${PUBLIC_PROOF_ASSET_TARGET} public proof drafts or published assets exist.`
             : 'Public proof requires approved Discord knowledge first.',
       },
       premiumWorkflowProof: {
         current: premiumWorkflowProofs,
-        target: 1,
+        target: PREMIUM_WORKFLOW_PROOF_TARGET,
         premiumMembers: premiumMembers.count,
         premiumReviews: premiumReviewsProof.count,
         officeHours: officeHoursProof.count,
-        blocker: premiumWorkflowProofs > 0
+        blocker: premiumWorkflowProofs >= PREMIUM_WORKFLOW_PROOF_TARGET
           ? null
           : 'No answered/completed premium review or completed office-hours proof row is visible.',
       },

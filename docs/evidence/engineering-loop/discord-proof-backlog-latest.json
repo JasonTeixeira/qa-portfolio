@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T02:26:27.751Z",
+  "generatedAt": "2026-06-26T03:07:56.405Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -33,8 +33,8 @@
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "liveActionRequired": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
-      "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty..",
+      "liveActionRequired": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
+      "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..",
       "status": "blocked"
     },
     {
@@ -167,13 +167,13 @@
       "order": 1,
       "laneKey": "gateway_capture",
       "title": "Gateway message capture",
-      "operatorAction": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "operatorAction": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
       "liveCommand": null,
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
-      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty.."
+      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty.."
     },
     {
       "order": 2,
@@ -225,7 +225,7 @@
     }
   ],
   "nextActions": [
-    "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+    "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

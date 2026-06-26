@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T03:04:16.962Z",
+  "generatedAt": "2026-06-26T03:07:57.463Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -34,7 +34,7 @@
       "blockers": [
         "Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message."
       ],
-      "nextReviewAction": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "nextReviewAction": "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "provingCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
       "requiredEvidenceFields": [
         "proof_cycle_key",
@@ -216,7 +216,7 @@
   ],
   "failures": [],
   "nextActions": [
-    "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+    "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

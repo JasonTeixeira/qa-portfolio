@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T03:04:17.651Z",
+  "timestamp": "2026-06-26T03:07:58.273Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -65,7 +65,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782442400867"
+    "runKey": "phase-20-final-1782443270769"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -194,7 +194,7 @@
       "premium_workflow_proof:0/1"
     ],
     "nextActions": [
-      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -242,7 +242,7 @@
       "premium_workflow_proof:needs_source_volume:0/1"
     ],
     "nextActions": [
-      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

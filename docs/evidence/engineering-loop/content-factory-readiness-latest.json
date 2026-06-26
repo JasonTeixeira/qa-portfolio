@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-content-factory-readiness-v1",
-  "generatedAt": "2026-06-26T02:53:20.312Z",
+  "generatedAt": "2026-06-26T03:07:54.831Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
   "dryRun": true,

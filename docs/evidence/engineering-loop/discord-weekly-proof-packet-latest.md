@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T03:04:16.513Z
+Generated: 2026-06-26T03:07:56.929Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -340,7 +340,7 @@ Does not count as proof:
 
 ## Next Actions
 
-- Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
+- Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T03:04:17.407Z
+Generated: 2026-06-26T03:07:57.987Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -18,8 +18,8 @@ The local system is verified, but real operating proof is still missing. Close g
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
 - Local check: npm run discord:gateway-capture-diagnosis
 - Verification: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
-- Evidence required: Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty..
-- Live action: Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
+- Evidence required: Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..
+- Live action: Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
 
 ### Approved Discord knowledge
 

@@ -31,6 +31,8 @@ export type DiscordContentFactoryReadinessReport = {
   }>;
   draftTypeCoverage: string[];
   topicCoverageCount: number;
+  operatingContractCoverage: string[];
+  proofEligibleDrafts: number;
   operatingCadence: {
     dailyActions: string[];
     weeklyActions: string[];
@@ -117,6 +119,16 @@ export function buildDiscordContentFactoryReadinessReport(
   const channelCadence = buildChannelCadence(drafts);
   const draftTypeCoverage = uniqueSorted(evidence.safety?.draftTypeCoverage ?? drafts.map((draft: any) => draft?.draftType));
   const topicCoverage = uniqueSorted(evidence.safety?.topicCoverage ?? drafts.map((draft: any) => draft?.topic));
+  const operatingContractCoverage = uniqueSorted(evidence.safety?.operatingContractCoverage ?? drafts.flatMap((draft: any) => [
+    draft?.operatingContract?.cadence,
+    draft?.operatingContract?.adminAction,
+    ...(Array.isArray(draft?.operatingContract?.proofPromotionPath) ? draft.operatingContract.proofPromotionPath : []),
+  ]));
+  const draftsWithOperatingContracts = Number(evidence.safety?.draftsWithOperatingContracts ?? drafts.filter((draft: any) => draft?.operatingContract).length);
+  const proofEligibleDrafts = Number(evidence.safety?.proofEligibleDrafts ?? drafts.filter((draft: any) => (
+    Array.isArray(draft?.operatingContract?.proofPromotionPath)
+      && draft.operatingContract.proofPromotionPath.includes('public_proof_candidate')
+  )).length);
   const failures: string[] = [];
 
   if (evidence.ok !== true) failures.push('source_evidence_not_ok');
@@ -136,6 +148,12 @@ export function buildDiscordContentFactoryReadinessReport(
   if (Number(evidence.planned ?? 0) < minPlannedDrafts) failures.push('insufficient_planned_drafts');
   if (drafts.length !== Number(evidence.planned ?? drafts.length)) failures.push('draft_count_mismatch');
   if (!drafts.every((draft: any) => draft?.status === 'planned' && draft?.draftId === null)) failures.push('dry_run_drafts_not_planned_only');
+  if (draftsWithOperatingContracts !== drafts.length) failures.push('missing_operating_contracts');
+  if (!drafts.every((draft: any) => draft?.operatingContract?.adminAction === 'review_then_approve_or_reject')) failures.push('missing_admin_review_contract');
+  if (!drafts.every((draft: any) => Array.isArray(draft?.operatingContract?.requiredEvidenceBeforeProof) && draft.operatingContract.requiredEvidenceBeforeProof.length >= 5)) {
+    failures.push('weak_proof_evidence_contract');
+  }
+  if (proofEligibleDrafts < 4) failures.push('insufficient_public_proof_candidate_slots');
   if (observedMinQualityScore === null || observedMinQualityScore < minQualityScore) failures.push('quality_score_below_gate');
   if (channelCoverage.length < 10) failures.push('insufficient_channel_coverage');
   if (missingRequiredChannels.length > 0) failures.push('missing_required_operating_channels');
@@ -164,6 +182,8 @@ export function buildDiscordContentFactoryReadinessReport(
     channelCadence,
     draftTypeCoverage,
     topicCoverageCount: topicCoverage.length,
+    operatingContractCoverage,
+    proofEligibleDrafts,
     operatingCadence: {
       dailyActions: [
         'Review the daily-signal, question, build-lab, and resource drafts before posting.',
@@ -237,6 +257,8 @@ export function validateDiscordContentFactoryReadinessReport(report: DiscordCont
   if (report.approvalChecklist.length < 7) failures.push('approval_checklist_too_weak');
   if (report.proofPromotionRequirements.realOperatingProofRequired !== true) failures.push('proof_promotion_not_real_operating_required');
   if (report.proofPromotionRequirements.requiredEvidence.length < 5) failures.push('proof_promotion_evidence_too_weak');
+  if (report.operatingContractCoverage.length < 5) failures.push('operating_contract_coverage_too_weak');
+  if (report.proofEligibleDrafts < 4) failures.push('proof_candidate_slots_too_weak');
   if (!report.releaseMeaning.includes('Real operating proof still requires admin-approved publishing')) {
     failures.push('missing_operating_proof_disclaimer');
   }

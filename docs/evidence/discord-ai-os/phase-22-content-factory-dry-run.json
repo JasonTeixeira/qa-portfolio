@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-26-2026-06-26T06-05-15-725Z",
+  "runKey": "content-factory-2026-06-26-2026-06-26T09-07-21-210Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
   "sourcePolicy": {
@@ -28,6 +28,25 @@
       "topic": "Growth loops and public proof",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -40,6 +59,25 @@
       "topic": "Growth loops and public proof",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -52,6 +90,25 @@
       "topic": "Growth loops and public proof",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -64,6 +121,25 @@
       "topic": "Growth loops and public proof",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -76,6 +152,25 @@
       "topic": "Weekly synthesis",
       "dayOffset": 1,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -88,6 +183,25 @@
       "topic": "Weekly synthesis",
       "dayOffset": 1,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -100,6 +214,25 @@
       "topic": "Weekly synthesis",
       "dayOffset": 1,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -112,6 +245,25 @@
       "topic": "Weekly synthesis",
       "dayOffset": 1,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -124,6 +276,25 @@
       "topic": "Approval-gated AI apps",
       "dayOffset": 2,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -136,6 +307,25 @@
       "topic": "Approval-gated AI apps",
       "dayOffset": 2,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -148,6 +338,25 @@
       "topic": "Approval-gated AI apps",
       "dayOffset": 2,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -160,6 +369,25 @@
       "topic": "Approval-gated AI apps",
       "dayOffset": 2,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -172,6 +400,25 @@
       "topic": "Websites that convert from proof",
       "dayOffset": 3,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -184,6 +431,25 @@
       "topic": "Websites that convert from proof",
       "dayOffset": 3,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -196,6 +462,25 @@
       "topic": "Websites that convert from proof",
       "dayOffset": 3,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -208,6 +493,25 @@
       "topic": "Websites that convert from proof",
       "dayOffset": 3,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -220,6 +524,25 @@
       "topic": "Content engines from real questions",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -232,6 +555,25 @@
       "topic": "Content engines from real questions",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -244,6 +586,25 @@
       "topic": "Content engines from real questions",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -256,6 +617,25 @@
       "topic": "Content engines from real questions",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -268,6 +648,25 @@
       "topic": "Cloud and automation reliability",
       "dayOffset": 5,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -280,6 +679,25 @@
       "topic": "Cloud and automation reliability",
       "dayOffset": 5,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -292,6 +710,25 @@
       "topic": "Cloud and automation reliability",
       "dayOffset": 5,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -304,6 +741,25 @@
       "topic": "Cloud and automation reliability",
       "dayOffset": 5,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -316,6 +772,25 @@
       "topic": "Review-driven building",
       "dayOffset": 6,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -328,6 +803,25 @@
       "topic": "Review-driven building",
       "dayOffset": 6,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -340,6 +834,25 @@
       "topic": "Review-driven building",
       "dayOffset": 6,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -352,6 +865,25 @@
       "topic": "Review-driven building",
       "dayOffset": 6,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -364,6 +896,24 @@
       "topic": "Weekly operating rhythm",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "Member acknowledgement, commitment, or reply that identifies what they will build this week.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "weekly_recap_input"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": false
+      },
       "error": null
     },
     {
@@ -376,6 +926,24 @@
       "topic": "Member activation",
       "dayOffset": 0,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "Path, level, current build, blocker, and first useful help request.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": false
+      },
       "error": null
     },
     {
@@ -388,6 +956,26 @@
       "topic": "Project proof",
       "dayOffset": 2,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A submitted artifact with goal, target user, changed work, proof link, and next risk.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate",
+          "weekly_recap_input"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -400,6 +988,25 @@
       "topic": "Review-driven building",
       "dayOffset": 3,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A focused critique request naming the artifact, review type, and decision needed.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -412,6 +1019,26 @@
       "topic": "Content engine from real activity",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A candidate question, answer, resource gap, review lesson, build, or win worth turning into durable content.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -424,6 +1051,25 @@
       "topic": "Live help",
       "dayOffset": 4,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A blocker, artifact, question, and decision that would make the live session useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "weekly_recap_input"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": false
+      },
       "error": null
     },
     {
@@ -436,6 +1082,25 @@
       "topic": "Shipping rhythm",
       "dayOffset": 5,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "What was committed, what shipped, what slipped, and the next smallest action.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "weekly_recap_input",
+          "public_proof_candidate"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     },
     {
@@ -448,6 +1113,25 @@
       "topic": "Weekly synthesis",
       "dayOffset": 6,
       "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A finished ship, useful answer, win, or before/after with permission-safe proof.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "public_proof_candidate",
+          "weekly_recap_input"
+        ],
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result"
+        ],
+        "pointsEligibleAfterReview": true
+      },
       "error": null
     }
   ],
@@ -499,9 +1183,22 @@
       "Weekly operating rhythm",
       "Weekly synthesis"
     ],
+    "operatingContractCoverage": [
+      "admin_review",
+      "content_queue_candidate",
+      "daily",
+      "member_reply",
+      "public_proof_candidate",
+      "rag_candidate",
+      "review_then_approve_or_reject",
+      "weekly",
+      "weekly_recap_input"
+    ],
+    "draftsWithOperatingContracts": 36,
+    "proofEligibleDrafts": 11,
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-26T06:05:15.724Z",
-  "finishedAt": "2026-06-26T06:05:15.730Z"
+  "startedAt": "2026-06-26T09:07:21.209Z",
+  "finishedAt": "2026-06-26T09:07:21.215Z"
 }

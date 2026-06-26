@@ -3922,6 +3922,11 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.ok(planned.qualityScore >= 80);
   assert.equal(planned.contentQualityPassed, true);
   assert.equal(planned.policyPassed, true);
+  assert.equal(planned.operatingContract.adminAction, 'review_then_approve_or_reject');
+  assert.equal(planned.operatingContract.cadence, 'daily');
+  assert.ok(planned.operatingContract.expectedMemberResponse.includes('concrete build action'));
+  assert.ok(planned.operatingContract.proofPromotionPath.includes('rag_candidate'));
+  assert.ok(planned.operatingContract.requiredEvidenceBeforeProof.includes('published Discord message id'));
   const dryRun = await runDiscordContentFactory({}, {
     startDate: new Date(Date.UTC(2026, 5, 25)),
     days: 2,
@@ -3940,6 +3945,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.ok(dryRun.drafts.every((draft) => draft.draftType));
   assert.ok(dryRun.drafts.every((draft) => draft.topic));
   assert.ok(dryRun.drafts.every((draft) => Number.isInteger(draft.dayOffset)));
+  assert.ok(dryRun.drafts.every((draft) => draft.operatingContract?.adminAction === 'review_then_approve_or_reject'));
+  assert.ok(dryRun.drafts.some((draft) => draft.operatingContract?.proofPromotionPath.includes('public_proof_candidate')));
   assert.match(script, /runDiscordContentFactory/);
   assert.match(script, /--dry-run/);
   assert.match(script, /docs', 'evidence', 'discord-ai-os'/);
@@ -3949,6 +3956,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(script, /unknownChannels/);
   assert.match(script, /draftTypeCoverage/);
   assert.match(script, /topicCoverage/);
+  assert.match(script, /operatingContractCoverage/);
+  assert.match(script, /proofEligibleDrafts/);
   assert.match(script, /readOnly/);
   const factory = await readFile(new URL('../../lib/discord/content-factory.ts', import.meta.url), 'utf8');
   assert.match(factory, /source_kind: 'editorial_seed'/);
@@ -3956,6 +3965,7 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(factory, /requires_approved_source_before_public_proof: true/);
   assert.match(factory, /requires_admin_approval: true/);
   assert.match(factory, /publish_allowed_before_approval: false/);
+  assert.match(factory, /operating_contract: planned\.operatingContract/);
   assert.match(factory, /content_factory_dry_run: false/);
   assert.equal(pkg.scripts['discord:content-factory'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts');
   assert.equal(pkg.scripts['discord:content-factory:week'], 'tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7');
@@ -4001,6 +4011,13 @@ test('discord content factory readiness: validates dry-run quality and approval 
         channelCoverage,
         draftTypeCoverage,
         topicCoverage,
+        operatingContractCoverage: [...new Set(source.drafts.flatMap((draft) => [
+          draft.operatingContract?.cadence,
+          draft.operatingContract?.adminAction,
+          ...draft.operatingContract.proofPromotionPath,
+        ]))].sort(),
+        draftsWithOperatingContracts: source.drafts.filter((draft) => draft.operatingContract).length,
+        proofEligibleDrafts: source.drafts.filter((draft) => draft.operatingContract.proofPromotionPath.includes('public_proof_candidate')).length,
         minQualityScore: Math.min(...qualityScores),
         maxQualityScore: Math.max(...qualityScores),
       },
@@ -4024,6 +4041,9 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(report.channelCadence.some((item) => item.channel === 'daily-signal' && item.plannedCount >= 7));
   assert.ok(report.channelCadence.some((item) => item.channel === 'wins-showcase' && item.draftTypes.includes('weekly_recap')));
   assert.ok(report.draftTypeCoverage.includes('weekly_recap'));
+  assert.ok(report.operatingContractCoverage.includes('review_then_approve_or_reject'));
+  assert.ok(report.operatingContractCoverage.includes('public_proof_candidate'));
+  assert.ok(report.proofEligibleDrafts >= 4);
   assert.ok(report.operatingCadence.dailyActions.length >= 3);
   assert.ok(report.operatingCadence.weeklyActions.length >= 3);
   assert.ok(report.operatingCadence.adminReviewActions.some((action) => action.includes('source links')));
@@ -4077,6 +4097,37 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(unsafe.failures.includes('source_policy_not_editorial_seed'));
   assert.ok(unsafe.failures.includes('editorial_seed_marked_operating_proof'));
   assert.ok(unsafe.failures.includes('approved_source_requirement_missing'));
+
+  const missingContracts = buildDiscordContentFactoryReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    evidence: {
+      ...source,
+      drafts: source.drafts.map((draft) => ({ ...draft, operatingContract: null })),
+      safety: {
+        dryRun: true,
+        readOnly: true,
+        noPublicPublish: true,
+        adminApprovalRequired: true,
+        plannedSlots: source.planned,
+        createdDrafts: source.created,
+        skippedDrafts: source.skipped,
+        failedDrafts: source.failed,
+        canonicalChannels: true,
+        unknownChannels: [],
+        channelCoverage,
+        draftTypeCoverage,
+        topicCoverage,
+        operatingContractCoverage: [],
+        draftsWithOperatingContracts: 0,
+        proofEligibleDrafts: 0,
+        minQualityScore: Math.min(...qualityScores),
+      },
+    },
+  });
+  assert.equal(missingContracts.ok, false);
+  assert.ok(missingContracts.failures.includes('missing_operating_contracts'));
+  assert.ok(missingContracts.failures.includes('missing_admin_review_contract'));
+  assert.ok(missingContracts.failures.includes('insufficient_public_proof_candidate_slots'));
 
   const missingChannel = buildDiscordContentFactoryReadinessReport({
     generatedAt: '2026-06-25T00:00:00.000Z',

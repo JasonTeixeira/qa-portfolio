@@ -24,6 +24,15 @@ export type DiscordContentFactorySlot = {
   deliverable: string;
 };
 
+export type DiscordContentFactoryOperatingContract = {
+  cadence: 'daily' | 'weekly';
+  adminAction: 'review_then_approve_or_reject';
+  expectedMemberResponse: string;
+  proofPromotionPath: Array<'member_reply' | 'admin_review' | 'content_queue_candidate' | 'rag_candidate' | 'public_proof_candidate' | 'weekly_recap_input'>;
+  requiredEvidenceBeforeProof: string[];
+  pointsEligibleAfterReview: boolean;
+};
+
 export type DiscordContentFactoryResult = {
   ok: boolean;
   runKey: string;
@@ -49,6 +58,7 @@ export type DiscordContentFactoryResult = {
     topic: string;
     dayOffset: number;
     qualityScore: number | null;
+    operatingContract: DiscordContentFactoryOperatingContract | null;
     error: string | null;
   }>;
 };
@@ -261,6 +271,97 @@ export function buildDiscordContentFactoryBody(slot: DiscordContentFactorySlot, 
   ].join('\n\n');
 }
 
+export function buildDiscordContentFactoryOperatingContract(
+  slot: DiscordContentFactorySlot,
+): DiscordContentFactoryOperatingContract {
+  const cadence = slot.key.includes(':weekly-') || slot.key.includes(':intro-') || slot.key.includes(':project-')
+    || slot.key.includes(':review-') || slot.key.includes(':content-') || slot.key.includes(':office-')
+    || slot.key.includes(':accountability')
+    ? 'weekly'
+    : 'daily';
+  const byChannel: Record<string, Pick<DiscordContentFactoryOperatingContract, 'expectedMemberResponse' | 'proofPromotionPath' | 'pointsEligibleAfterReview'>> = {
+    'daily-signal': {
+      expectedMemberResponse: 'One concrete build action, answer, artifact, or blocker tied to the daily prompt.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'rag_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    questions: {
+      expectedMemberResponse: 'A specific question with context, attempted solution, blocker, and desired decision.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'rag_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    'build-lab': {
+      expectedMemberResponse: 'A small build artifact, spec, screenshot, repo, or implementation update.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'public_proof_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    resources: {
+      expectedMemberResponse: 'A reusable checklist, template, link, or tool with why it is useful.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'rag_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    announcements: {
+      expectedMemberResponse: 'Member acknowledgement, commitment, or reply that identifies what they will build this week.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'weekly_recap_input'],
+      pointsEligibleAfterReview: false,
+    },
+    introductions: {
+      expectedMemberResponse: 'Path, level, current build, blocker, and first useful help request.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate'],
+      pointsEligibleAfterReview: false,
+    },
+    'project-submissions': {
+      expectedMemberResponse: 'A submitted artifact with goal, target user, changed work, proof link, and next risk.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'public_proof_candidate', 'weekly_recap_input'],
+      pointsEligibleAfterReview: true,
+    },
+    'review-queue': {
+      expectedMemberResponse: 'A focused critique request naming the artifact, review type, and decision needed.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'rag_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    'content-queue': {
+      expectedMemberResponse: 'A candidate question, answer, resource gap, review lesson, build, or win worth turning into durable content.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'rag_candidate', 'public_proof_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    'office-hours': {
+      expectedMemberResponse: 'A blocker, artifact, question, and decision that would make the live session useful.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate', 'weekly_recap_input'],
+      pointsEligibleAfterReview: false,
+    },
+    accountability: {
+      expectedMemberResponse: 'What was committed, what shipped, what slipped, and the next smallest action.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'weekly_recap_input', 'public_proof_candidate'],
+      pointsEligibleAfterReview: true,
+    },
+    'wins-showcase': {
+      expectedMemberResponse: 'A finished ship, useful answer, win, or before/after with permission-safe proof.',
+      proofPromotionPath: ['member_reply', 'admin_review', 'public_proof_candidate', 'weekly_recap_input'],
+      pointsEligibleAfterReview: true,
+    },
+  };
+  const channelContract = byChannel[slot.targetChannelBaseName] ?? {
+    expectedMemberResponse: 'A concrete reply that can be reviewed by an admin before reuse.',
+    proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate'],
+    pointsEligibleAfterReview: false,
+  };
+  return {
+    cadence,
+    adminAction: 'review_then_approve_or_reject',
+    expectedMemberResponse: channelContract.expectedMemberResponse,
+    proofPromotionPath: channelContract.proofPromotionPath,
+    requiredEvidenceBeforeProof: [
+      'approved draft id',
+      'published Discord message id',
+      'member response or submission id',
+      'admin approval actor and timestamp',
+      'privacy review result',
+    ],
+    pointsEligibleAfterReview: channelContract.pointsEligibleAfterReview,
+  };
+}
+
 export function validateDiscordContentFactoryChannels(slots: DiscordContentFactorySlot[]): {
   ok: boolean;
   unknownChannels: string[];
@@ -294,6 +395,7 @@ export function evaluateDiscordContentFactorySlot(
   contentQualityReasons: string[];
   policyReasons: string[];
   reasons: string[];
+  operatingContract: DiscordContentFactoryOperatingContract;
 } {
   const startDate = input.startDate ?? new Date();
   const date = new Date(startDate);
@@ -310,6 +412,7 @@ export function evaluateDiscordContentFactorySlot(
   const policy = scoreSageBotPolicyOutput(body, { maxLength: 2200 });
   const qualityScore = Math.min(contentQuality.score, policy.score);
   const reasons = [...contentQuality.reasons, ...policy.reasons];
+  const operatingContract = buildDiscordContentFactoryOperatingContract(slot);
   return {
     factoryKey,
     title: slot.title,
@@ -323,6 +426,7 @@ export function evaluateDiscordContentFactorySlot(
     contentQualityReasons: contentQuality.reasons,
     policyReasons: policy.reasons,
     reasons,
+    operatingContract,
   };
 }
 
@@ -368,6 +472,7 @@ export async function runDiscordContentFactory(
           topic: slot.topic,
           dayOffset: slot.dayOffset,
           qualityScore: planned.qualityScore,
+          operatingContract: planned.operatingContract,
           error: null,
         });
         continue;
@@ -393,6 +498,7 @@ export async function runDiscordContentFactory(
             topic: slot.topic,
             dayOffset: slot.dayOffset,
             qualityScore: Number(existing.quality_score ?? 0),
+            operatingContract: planned.operatingContract,
             error: null,
           });
           continue;
@@ -424,6 +530,7 @@ export async function runDiscordContentFactory(
           content_quality_score: planned.contentQualityScore,
           content_quality_passed: planned.contentQualityPassed,
           content_quality_reasons: planned.contentQualityReasons,
+          operating_contract: planned.operatingContract,
           content_factory_dry_run: false,
           personality_version: SAGEBOT_PERSONALITY_VERSION,
           prompt_versions: SAGEBOT_PROMPT_VERSIONS,
@@ -440,6 +547,7 @@ export async function runDiscordContentFactory(
         topic: slot.topic,
         dayOffset: slot.dayOffset,
         qualityScore: planned.qualityScore,
+        operatingContract: planned.operatingContract,
         error: null,
       });
     } catch (error) {
@@ -453,6 +561,7 @@ export async function runDiscordContentFactory(
         topic: slot.topic,
         dayOffset: slot.dayOffset,
         qualityScore: null,
+        operatingContract: null,
         error: error instanceof Error ? error.message : String(error),
       });
     }

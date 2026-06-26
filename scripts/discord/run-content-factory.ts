@@ -38,6 +38,11 @@ async function main() {
   const channelCoverage = [...new Set(result.drafts.map((draft) => draft.targetChannelBaseName))].sort();
   const draftTypeCoverage = [...new Set(result.drafts.map((draft) => draft.draftType))].sort();
   const topicCoverage = [...new Set(result.drafts.map((draft) => draft.topic))].sort();
+  const operatingContractCoverage = [...new Set(result.drafts.flatMap((draft) => [
+    draft.operatingContract?.cadence,
+    draft.operatingContract?.adminAction,
+    ...(draft.operatingContract?.proofPromotionPath ?? []),
+  ]).filter(Boolean))].sort();
   const qualityScores = result.drafts
     .map((draft) => draft.qualityScore)
     .filter((score): score is number => typeof score === 'number' && Number.isFinite(score));
@@ -55,6 +60,9 @@ async function main() {
     channelCoverage,
     draftTypeCoverage,
     topicCoverage,
+    operatingContractCoverage,
+    draftsWithOperatingContracts: result.drafts.filter((draft) => draft.operatingContract).length,
+    proofEligibleDrafts: result.drafts.filter((draft) => draft.operatingContract?.proofPromotionPath.includes('public_proof_candidate')).length,
     minQualityScore: qualityScores.length ? Math.min(...qualityScores) : null,
     maxQualityScore: qualityScores.length ? Math.max(...qualityScores) : null,
   };

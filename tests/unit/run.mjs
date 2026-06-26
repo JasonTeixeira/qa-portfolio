@@ -157,7 +157,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /local-verification-latest\.json/);
   assert.match(localVerificationEvidence, /approval-boundary-check-latest\.json/);
   assert.match(localVerificationEvidence, /Approval-boundary check must identify db:push as requiring explicit approval/);
-  assert.match(localVerificationEvidence, /Approval-boundary check must verify guarded full RAG eval command guidance/);
+  assert.match(localVerificationEvidence, /Approval-boundary check must verify full-cycle RAG eval requires external explicit approval/);
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
   assert.match(localVerificationEvidence, /summary/);
   assert.match(localVerificationEvidence, /localVerificationPassed/);
@@ -500,7 +500,8 @@ test('ops scripts: approval-boundary verifier blocks risky commands from local r
   assert.match(approvalBoundaryScript, /git\\s\+push/);
   assert.match(approvalBoundaryScript, /railway\\s\+up/);
   assert.match(approvalBoundaryScript, /stripe\\s\+/);
-  assert.match(approvalBoundaryScript, /SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate/);
+  assert.match(approvalBoundaryScript, /discord_operating_cycle_full_must_not_inline_eval_approval/);
+  assert.match(approvalBoundaryScript, /fullCycleApprovalBoundary/);
   assert.match(approvalBoundaryScript, /does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation/);
 });
 
@@ -2852,7 +2853,8 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.doesNotMatch(runbook, /Run `npm run rag:evaluate`/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
   assert.equal(pkg.scripts['discord:operating-cycle:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run');
-  assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard');
+  assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard');
+  assert.equal(pkg.scripts['discord:operating-cycle:full'].includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'), false);
   assert.ok(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:dry-run'));
   assert.equal(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:full'), false);
 });

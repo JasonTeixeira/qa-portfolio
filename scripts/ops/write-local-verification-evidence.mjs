@@ -216,8 +216,10 @@ async function main() {
     'Explicit-approval scripts must not be included in the local release graph.',
   );
   requireTruthy(
-    approvalBoundaryCheck.guardedEvalScripts?.fullCycleCommand?.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate'),
-    'Approval-boundary check must verify guarded full RAG eval command guidance.',
+    approvalBoundaryCheck.guardedEvalScripts?.fullCycleCommand?.includes('npm run rag:evaluate')
+      && !approvalBoundaryCheck.guardedEvalScripts.fullCycleCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+      && approvalBoundaryCheck.guardedEvalScripts?.fullCycleApprovalBoundary?.includes('must receive explicit approval through the operator environment'),
+    'Approval-boundary check must verify full-cycle RAG eval requires external explicit approval.',
   );
 
   requireTruthy(

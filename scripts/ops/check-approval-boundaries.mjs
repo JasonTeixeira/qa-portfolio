@@ -104,6 +104,9 @@ function ragEvalReferenceIsGuarded(scriptName, command, referencedScript) {
   }
 
   if (referencedScript === 'rag:evaluate' || referencedScript === 'rag:evaluate:missing') {
+    if (requiresExplicitApproval.has(scriptName) && !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
+      return true;
+    }
     return command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved');
   }
 
@@ -152,8 +155,11 @@ async function main() {
   }
 
   const fullCycleCommand = scripts['discord:operating-cycle:full'] ?? '';
-  if (!fullCycleCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate')) {
-    failures.push('discord_operating_cycle_full_must_guard_non_dry_rag_eval');
+  if (!fullCycleCommand.includes('npm run rag:evaluate')) {
+    failures.push('discord_operating_cycle_full_must_run_rag_eval_gate');
+  }
+  if (fullCycleCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
+    failures.push('discord_operating_cycle_full_must_not_inline_eval_approval');
   }
 
   const riskyScripts = Object.keys(scripts)
@@ -179,6 +185,7 @@ async function main() {
     guardedEvalScripts: {
       safePlanningEvalScripts: [...safePlanningEvalScripts].sort(),
       fullCycleCommand,
+      fullCycleApprovalBoundary: 'discord:operating-cycle:full intentionally does not inline SAGE_ALLOW_NON_DRY_RAG_EVAL=approved; the non-dry eval command must receive explicit approval through the operator environment before it can run.',
     },
     failures,
     releaseMeaning: 'This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation.',

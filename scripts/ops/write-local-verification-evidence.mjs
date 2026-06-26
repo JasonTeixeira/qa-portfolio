@@ -349,6 +349,22 @@ async function main() {
     contentFactoryReadiness.dryRun === true && contentFactoryReadiness.created === 0,
     'Content factory readiness must prove read-only dry-run behavior.',
   );
+  requireTruthy(
+    (contentFactoryReadiness.requiredChannelCoverage?.missing ?? []).length === 0,
+    'Content factory readiness must cover every required operating channel.',
+  );
+  requireTruthy(
+    (contentFactoryReadiness.channelCadence ?? []).length >= 10,
+    'Content factory readiness must include per-channel cadence.',
+  );
+  requireTruthy(
+    (contentFactoryReadiness.approvalChecklist ?? []).length >= 7,
+    'Content factory readiness must include a strong admin approval checklist.',
+  );
+  requireTruthy(
+    contentFactoryReadiness.proofPromotionRequirements?.realOperatingProofRequired === true,
+    'Content factory readiness must require real operating proof before promotion.',
+  );
   requireTruthy(proofIntakeReadiness.ok === true, 'Proof intake readiness evidence is not ok.');
   requireTruthy(
     proofIntakeReadiness.mutationMode === 'local_file_evidence_only',
@@ -804,6 +820,10 @@ async function main() {
       created: contentFactoryReadiness.created,
       minQualityScore: contentFactoryReadiness.minQualityScore,
       channelCoverage: contentFactoryReadiness.channelCoverage,
+      requiredChannelCoverage: contentFactoryReadiness.requiredChannelCoverage,
+      channelCadence: contentFactoryReadiness.channelCadence,
+      approvalChecklistCount: contentFactoryReadiness.approvalChecklist?.length ?? 0,
+      proofPromotionRequirements: contentFactoryReadiness.proofPromotionRequirements,
       releaseMeaning: contentFactoryReadiness.releaseMeaning,
     },
     proofRehearsalReadiness: {

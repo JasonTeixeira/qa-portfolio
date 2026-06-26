@@ -19,8 +19,29 @@ export type DiscordContentFactoryReadinessReport = {
   draftCount: number;
   minQualityScore: number | null;
   channelCoverage: string[];
+  requiredChannelCoverage: {
+    required: string[];
+    missing: string[];
+  };
+  channelCadence: Array<{
+    channel: string;
+    plannedCount: number;
+    draftTypes: string[];
+    topics: string[];
+  }>;
   draftTypeCoverage: string[];
   topicCoverageCount: number;
+  operatingCadence: {
+    dailyActions: string[];
+    weeklyActions: string[];
+    adminReviewActions: string[];
+  };
+  approvalChecklist: string[];
+  proofPromotionRequirements: {
+    realOperatingProofRequired: true;
+    requiredEvidence: string[];
+    nonProofExamples: string[];
+  };
   approvalGate: {
     noPublicPublish: boolean;
     adminApprovalRequired: boolean;
@@ -43,6 +64,43 @@ function finiteNumber(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 
+const requiredOperatingChannels = [
+  'announcements',
+  'introductions',
+  'daily-signal',
+  'questions',
+  'build-lab',
+  'project-submissions',
+  'review-queue',
+  'content-queue',
+  'office-hours',
+  'accountability',
+  'resources',
+  'wins-showcase',
+];
+
+function buildChannelCadence(drafts: any[]): DiscordContentFactoryReadinessReport['channelCadence'] {
+  const byChannel = new Map<string, { draftTypes: Set<string>; topics: Set<string>; plannedCount: number }>();
+  for (const draft of drafts) {
+    const channel = String(draft?.targetChannelBaseName ?? '').trim();
+    if (!channel) continue;
+    const current = byChannel.get(channel) ?? { draftTypes: new Set<string>(), topics: new Set<string>(), plannedCount: 0 };
+    current.plannedCount += 1;
+    if (draft?.draftType) current.draftTypes.add(String(draft.draftType));
+    if (draft?.topic) current.topics.add(String(draft.topic));
+    byChannel.set(channel, current);
+  }
+
+  return [...byChannel.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([channel, value]) => ({
+      channel,
+      plannedCount: value.plannedCount,
+      draftTypes: [...value.draftTypes].sort(),
+      topics: [...value.topics].sort(),
+    }));
+}
+
 export function buildDiscordContentFactoryReadinessReport(
   input: DiscordContentFactoryReadinessInput,
 ): DiscordContentFactoryReadinessReport {
@@ -55,6 +113,8 @@ export function buildDiscordContentFactoryReadinessReport(
     .filter((score: number | null): score is number => score !== null);
   const observedMinQualityScore = qualityScores.length ? Math.min(...qualityScores) : finiteNumber(evidence.safety?.minQualityScore);
   const channelCoverage = uniqueSorted(evidence.safety?.channelCoverage ?? drafts.map((draft: any) => draft?.targetChannelBaseName));
+  const missingRequiredChannels = requiredOperatingChannels.filter((channel) => !channelCoverage.includes(channel));
+  const channelCadence = buildChannelCadence(drafts);
   const draftTypeCoverage = uniqueSorted(evidence.safety?.draftTypeCoverage ?? drafts.map((draft: any) => draft?.draftType));
   const topicCoverage = uniqueSorted(evidence.safety?.topicCoverage ?? drafts.map((draft: any) => draft?.topic));
   const failures: string[] = [];
@@ -78,6 +138,8 @@ export function buildDiscordContentFactoryReadinessReport(
   if (!drafts.every((draft: any) => draft?.status === 'planned' && draft?.draftId === null)) failures.push('dry_run_drafts_not_planned_only');
   if (observedMinQualityScore === null || observedMinQualityScore < minQualityScore) failures.push('quality_score_below_gate');
   if (channelCoverage.length < 10) failures.push('insufficient_channel_coverage');
+  if (missingRequiredChannels.length > 0) failures.push('missing_required_operating_channels');
+  if (!channelCadence.every((item) => item.plannedCount > 0 && item.draftTypes.length > 0)) failures.push('invalid_channel_cadence');
   if (draftTypeCoverage.length < 5) failures.push('insufficient_draft_type_coverage');
   if (topicCoverage.length < 7) failures.push('insufficient_topic_coverage');
 
@@ -95,8 +157,56 @@ export function buildDiscordContentFactoryReadinessReport(
     draftCount: drafts.length,
     minQualityScore: observedMinQualityScore,
     channelCoverage,
+    requiredChannelCoverage: {
+      required: requiredOperatingChannels,
+      missing: missingRequiredChannels,
+    },
+    channelCadence,
     draftTypeCoverage,
     topicCoverageCount: topicCoverage.length,
+    operatingCadence: {
+      dailyActions: [
+        'Review the daily-signal, question, build-lab, and resource drafts before posting.',
+        'Approve only drafts with a concrete member action and no unsupported claim.',
+        'Tag any useful member reply as a question, answer, resource, project, win, or review candidate.',
+      ],
+      weeklyActions: [
+        'Approve or reject the weekly announcement, project submission prompt, review queue prompt, content queue prompt, office-hours prompt, accountability prompt, and wins recap.',
+        'Promote only real member activity into public proof or authoritative RAG.',
+        'Rerun content factory readiness and operating proof packet after the weekly cycle.',
+      ],
+      adminReviewActions: [
+        'Reject generic posts that could fit any community.',
+        'Require source links before any draft becomes public proof or RAG knowledge.',
+        'Record approval, rejection, published message id, and member outcome when a draft goes live.',
+      ],
+    },
+    approvalChecklist: [
+      'Draft has one clear member action.',
+      'Draft targets the correct canonical channel.',
+      'Draft is specific to Sage Ideas Academy builders.',
+      'Draft does not claim live proof from editorial seed content.',
+      'Draft has no unsupported factual claim.',
+      'Draft has no private member detail.',
+      'Draft can produce a measurable reply, submission, question, or content candidate.',
+    ],
+    proofPromotionRequirements: {
+      realOperatingProofRequired: true,
+      requiredEvidence: [
+        'approved draft id',
+        'published Discord message id',
+        'member response or submission id',
+        'admin approval actor and timestamp',
+        'content queue or knowledge candidate id when reused',
+        'privacy review result before public proof',
+      ],
+      nonProofExamples: [
+        'dry-run planned draft',
+        'editorial seed without member response',
+        'bot-only message with no engagement',
+        'unapproved raw Discord message',
+      ],
+    },
     approvalGate: {
       noPublicPublish: evidence.safety?.noPublicPublish === true,
       adminApprovalRequired: evidence.safety?.adminApprovalRequired === true,
@@ -123,6 +233,10 @@ export function validateDiscordContentFactoryReadinessReport(report: DiscordCont
   const failures = [...report.failures];
   if (report.version !== 'discord-content-factory-readiness-v1') failures.push('wrong_readiness_version');
   if (report.mutationMode !== 'local_file_evidence_only') failures.push('wrong_mutation_mode');
+  if (report.requiredChannelCoverage.missing.length > 0) failures.push('missing_required_channel_coverage');
+  if (report.approvalChecklist.length < 7) failures.push('approval_checklist_too_weak');
+  if (report.proofPromotionRequirements.realOperatingProofRequired !== true) failures.push('proof_promotion_not_real_operating_required');
+  if (report.proofPromotionRequirements.requiredEvidence.length < 5) failures.push('proof_promotion_evidence_too_weak');
   if (!report.releaseMeaning.includes('Real operating proof still requires admin-approved publishing')) {
     failures.push('missing_operating_proof_disclaimer');
   }

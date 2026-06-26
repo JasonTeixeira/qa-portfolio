@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:20:01.269Z",
+  "timestamp": "2026-06-26T07:24:34.826Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -279,6 +279,187 @@
       "review-queue",
       "wins-showcase"
     ],
+    "requiredChannelCoverage": {
+      "required": [
+        "announcements",
+        "introductions",
+        "daily-signal",
+        "questions",
+        "build-lab",
+        "project-submissions",
+        "review-queue",
+        "content-queue",
+        "office-hours",
+        "accountability",
+        "resources",
+        "wins-showcase"
+      ],
+      "missing": []
+    },
+    "channelCadence": [
+      {
+        "channel": "accountability",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Shipping rhythm"
+        ]
+      },
+      {
+        "channel": "announcements",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Weekly operating rhythm"
+        ]
+      },
+      {
+        "channel": "build-lab",
+        "plannedCount": 7,
+        "draftTypes": [
+          "challenge"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "content-queue",
+        "plannedCount": 1,
+        "draftTypes": [
+          "lesson"
+        ],
+        "topics": [
+          "Content engine from real activity"
+        ]
+      },
+      {
+        "channel": "daily-signal",
+        "plannedCount": 7,
+        "draftTypes": [
+          "daily_signal"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "introductions",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Member activation"
+        ]
+      },
+      {
+        "channel": "office-hours",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Live help"
+        ]
+      },
+      {
+        "channel": "project-submissions",
+        "plannedCount": 1,
+        "draftTypes": [
+          "challenge"
+        ],
+        "topics": [
+          "Project proof"
+        ]
+      },
+      {
+        "channel": "questions",
+        "plannedCount": 7,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "resources",
+        "plannedCount": 7,
+        "draftTypes": [
+          "resource_drop"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "review-queue",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Review-driven building"
+        ]
+      },
+      {
+        "channel": "wins-showcase",
+        "plannedCount": 1,
+        "draftTypes": [
+          "weekly_recap"
+        ],
+        "topics": [
+          "Weekly synthesis"
+        ]
+      }
+    ],
+    "approvalChecklistCount": 7,
+    "proofPromotionRequirements": {
+      "realOperatingProofRequired": true,
+      "requiredEvidence": [
+        "approved draft id",
+        "published Discord message id",
+        "member response or submission id",
+        "admin approval actor and timestamp",
+        "content queue or knowledge candidate id when reused",
+        "privacy review result before public proof"
+      ],
+      "nonProofExamples": [
+        "dry-run planned draft",
+        "editorial seed without member response",
+        "bot-only message with no engagement",
+        "unapproved raw Discord message"
+      ]
+    },
     "releaseMeaning": "Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence."
   },
   "proofRehearsalReadiness": {

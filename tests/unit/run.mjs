@@ -3639,7 +3639,19 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.equal(report.minQualityScore, 90);
   assert.ok(report.channelCoverage.includes('daily-signal'));
   assert.ok(report.channelCoverage.includes('content-queue'));
+  assert.deepEqual(report.requiredChannelCoverage.missing, []);
+  assert.ok(report.requiredChannelCoverage.required.includes('questions'));
+  assert.ok(report.channelCadence.some((item) => item.channel === 'daily-signal' && item.plannedCount >= 7));
+  assert.ok(report.channelCadence.some((item) => item.channel === 'wins-showcase' && item.draftTypes.includes('weekly_recap')));
   assert.ok(report.draftTypeCoverage.includes('weekly_recap'));
+  assert.ok(report.operatingCadence.dailyActions.length >= 3);
+  assert.ok(report.operatingCadence.weeklyActions.length >= 3);
+  assert.ok(report.operatingCadence.adminReviewActions.some((action) => action.includes('source links')));
+  assert.ok(report.approvalChecklist.length >= 7);
+  assert.ok(report.approvalChecklist.some((item) => item.includes('unsupported factual claim')));
+  assert.equal(report.proofPromotionRequirements.realOperatingProofRequired, true);
+  assert.ok(report.proofPromotionRequirements.requiredEvidence.includes('published Discord message id'));
+  assert.ok(report.proofPromotionRequirements.nonProofExamples.includes('dry-run planned draft'));
   assert.equal(report.approvalGate.adminApprovalRequired, true);
   assert.equal(report.approvalGate.noPublicPublish, true);
   assert.deepEqual(report.sourcePolicy, {
@@ -3685,6 +3697,32 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(unsafe.failures.includes('source_policy_not_editorial_seed'));
   assert.ok(unsafe.failures.includes('editorial_seed_marked_operating_proof'));
   assert.ok(unsafe.failures.includes('approved_source_requirement_missing'));
+
+  const missingChannel = buildDiscordContentFactoryReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    evidence: {
+      ...source,
+      drafts: source.drafts.filter((draft) => draft.targetChannelBaseName !== 'questions'),
+      safety: {
+        dryRun: true,
+        readOnly: true,
+        noPublicPublish: true,
+        adminApprovalRequired: true,
+        plannedSlots: source.planned,
+        createdDrafts: source.created,
+        skippedDrafts: source.skipped,
+        failedDrafts: source.failed,
+        canonicalChannels: true,
+        unknownChannels: [],
+        channelCoverage: channelCoverage.filter((channel) => channel !== 'questions'),
+        draftTypeCoverage,
+        topicCoverage,
+        minQualityScore: Math.min(...qualityScores),
+      },
+    },
+  });
+  assert.equal(missingChannel.ok, false);
+  assert.ok(missingChannel.failures.includes('missing_required_operating_channels'));
 });
 
 test('discord content quality: evaluates drafts before approval', async () => {

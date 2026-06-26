@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782468981282",
+  "runKey": "phase-20-final-1782469325881",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -742,7 +742,7 @@
     {
       "name": "rag_eval_latest",
       "passed": false,
-      "evidence": "50/50 passed, seeded 50/65, avg 0.986, context precision 1, usefulness 0.9733"
+      "evidence": "50/50 passed, seeded 50/65, dryRun=false, avg 0.986, context precision 1, usefulness 0.9733"
     },
     {
       "name": "rag_eval_coverage_readiness",
@@ -854,6 +854,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T10:16:21.282Z",
-  "finishedAt": "2026-06-26T10:16:23.258Z"
+  "startedAt": "2026-06-26T10:22:05.881Z",
+  "finishedAt": "2026-06-26T10:22:07.701Z"
 }

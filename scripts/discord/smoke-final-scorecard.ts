@@ -395,13 +395,14 @@ async function main() {
     {
       name: 'rag_eval_latest',
       passed: ragEval?.ok === true
+        && ragEval?.dryRun === false
         && Number(ragEval?.seededQuestionCount ?? 0) >= RAG_EVAL_QUESTION_SEEDS.length
         && Number(ragEval?.summary?.passRate ?? 0) >= 0.95
         && Number(ragEval?.summary?.avgScore ?? 0) >= 0.9
         && Number(ragEval?.summary?.contextPrecision ?? 0) >= 0.7
         && Number(ragEval?.summary?.answerUsefulness ?? 0) >= 0.85
         && Number(ragEval?.evaluatedQuestionCount ?? 0) >= RAG_EVAL_QUESTION_SEEDS.length,
-      evidence: `${ragEval?.summary?.passed ?? 0}/${ragEval?.summary?.total ?? 0} passed, seeded ${ragEval?.seededQuestionCount ?? 0}/${RAG_EVAL_QUESTION_SEEDS.length}, avg ${ragEval?.summary?.avgScore ?? 'n/a'}, context precision ${ragEval?.summary?.contextPrecision ?? 'n/a'}, usefulness ${ragEval?.summary?.answerUsefulness ?? 'n/a'}`,
+      evidence: `${ragEval?.summary?.passed ?? 0}/${ragEval?.summary?.total ?? 0} passed, seeded ${ragEval?.seededQuestionCount ?? 0}/${RAG_EVAL_QUESTION_SEEDS.length}, dryRun=${ragEval?.dryRun === true}, avg ${ragEval?.summary?.avgScore ?? 'n/a'}, context precision ${ragEval?.summary?.contextPrecision ?? 'n/a'}, usefulness ${ragEval?.summary?.answerUsefulness ?? 'n/a'}`,
     },
     {
       name: 'rag_eval_coverage_readiness',

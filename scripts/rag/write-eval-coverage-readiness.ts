@@ -26,10 +26,12 @@ async function main() {
   const unexpectedEvalKeys = evaluatedKeys.filter((key: string) => !expectedKeys.includes(key));
   const seededQuestionCount = Number(latest.seededQuestionCount ?? latest.seeded ?? 0);
   const evaluatedQuestionCount = Number(latest.evaluatedQuestionCount ?? latest.summary?.total ?? 0);
+  const latestDryRun = latest.dryRun === true;
   const latestSummaryPasses = latest.ok === true
     && latest.summary
     && ragEvalSummaryPassed(latest.summary);
   const releaseReady = latestSummaryPasses === true
+    && latestDryRun === false
     && seededQuestionCount >= RAG_EVAL_QUESTION_SEEDS.length
     && evaluatedQuestionCount >= RAG_EVAL_QUESTION_SEEDS.length
     && missingEvalKeys.length === 0
@@ -47,6 +49,9 @@ async function main() {
     unexpectedEvalKeys.length
       ? `unexpected_eval_keys:${unexpectedEvalKeys.join(',')}`
       : null,
+    latestDryRun
+      ? 'latest_eval_is_dry_run'
+      : null,
     latestSummaryPasses !== true
       ? 'latest_eval_summary_below_threshold'
       : null,
@@ -62,6 +67,7 @@ async function main() {
     seededQuestionCount,
     evaluatedQuestionCount,
     evaluatedKeyCount: evaluatedKeys.length,
+    latestDryRun,
     missingEvalKeys,
     unexpectedEvalKeys,
     summary: latest.summary ?? null,

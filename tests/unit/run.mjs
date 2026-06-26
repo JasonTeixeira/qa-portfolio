@@ -261,6 +261,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
   assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
   assert.match(evalCoverageReadinessScript, /missingEvalKeys/);
+  assert.match(evalCoverageReadinessScript, /latestDryRun/);
+  assert.match(evalCoverageReadinessScript, /latest_eval_is_dry_run/);
+  assert.match(evalCoverageReadinessScript, /latestDryRun === false/);
   assert.doesNotMatch(evalCoverageReadinessScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   assert.match(evalExecutionPacketScript, /eval-execution-packet\.json/);
   assert.match(evalExecutionPacketScript, /local_file_evidence_only/);
@@ -2606,6 +2609,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /answerUsefulness/);
   assert.match(smoke, /rag_eval_coverage_readiness/);
   assert.match(smoke, /rag_eval_coverage_readiness_disclaimer_missing/);
+  assert.match(smoke, /ragEval\?\.dryRun === false/);
+  assert.match(smoke, /dryRun=\$\{ragEval\?\.dryRun === true\}/);
   assert.match(smoke, /RAG_EVAL_QUESTION_SEEDS\.length/);
   assert.match(smoke, /seededQuestionCount/);
   assert.match(smoke, /proof_source_volume_scan_approved_knowledge_target_wrong/);

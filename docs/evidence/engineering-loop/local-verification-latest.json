@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T10:27:27.418Z",
+  "timestamp": "2026-06-26T10:31:44.608Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [

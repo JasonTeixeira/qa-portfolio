@@ -266,15 +266,24 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run rag:evaluate:recovery-plan',
     ragEvalMissingPreflight.approvedCommand,
     'npm run rag:evaluate:coverage-readiness',
-    'npm run discord:smoke-final-scorecard',
-    'npm run discord:world-class-readiness',
-    'npm run discord:proof-backlog',
-    'npm run discord:operator-brief',
+    'npm run rag:discord-corpus-readiness',
+    'npm run discord:durable-jobs-readiness',
+    'npm run discord:security-privacy-readiness',
+    'npm run discord:observability-quality-readiness',
     'npm run discord:content-factory-readiness',
+    'npm run discord:premium-readiness',
+    'npm run discord:public-growth-readiness',
     'npm run discord:proof-intake-readiness',
     'npm run discord:weekly-proof-packet',
+    'npm run discord:proof-rehearsal-readiness',
+    'npm run discord:smoke-final-scorecard',
+    'npm run discord:proof-backlog',
+    'npm run discord:proof-candidate-audit',
+    'npm run discord:world-class-readiness',
+    'npm run discord:operator-brief',
     'npm run discord:gateway-capture-diagnosis',
     'npm run discord:gateway-operating-packet',
+    'npm run verify:local:evidence',
   ]);
   const gatewayCaptureBlocked = gatewayCaptureStatus === 'blocked' || usableMessageCount === 0 || gatewayOperatingPacket.remaining > 0;
   return {
@@ -329,11 +338,20 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:operator-brief')) failures.push('missing_operator_brief_refresh_command');
   if (!brief.commandOrder.includes('npm run discord:proof-backlog')) failures.push('missing_proof_backlog_command');
   if (!brief.commandOrder.includes('npm run discord:proof-source-recovery-plan')) failures.push('missing_proof_source_recovery_plan_command');
+  if (!brief.commandOrder.includes('npm run rag:discord-corpus-readiness')) failures.push('missing_discord_corpus_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:durable-jobs-readiness')) failures.push('missing_durable_jobs_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:security-privacy-readiness')) failures.push('missing_security_privacy_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:observability-quality-readiness')) failures.push('missing_observability_quality_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:premium-readiness')) failures.push('missing_premium_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:public-growth-readiness')) failures.push('missing_public_growth_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
+  if (!brief.commandOrder.includes('npm run discord:proof-rehearsal-readiness')) failures.push('missing_proof_rehearsal_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:proof-candidate-audit')) failures.push('missing_proof_candidate_audit_command');
   if (!brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis')) failures.push('missing_gateway_capture_diagnosis_command');
   if (!brief.commandOrder.includes('npm run discord:gateway-operating-packet')) failures.push('missing_gateway_operating_packet_command');
+  if (!brief.commandOrder.includes('npm run verify:local:evidence')) failures.push('missing_local_evidence_verification_command');
   if (brief.releaseGates.total <= 0) failures.push('missing_release_gate_summary');
   if (brief.releaseGates.passed > brief.releaseGates.total) failures.push('invalid_release_gate_counts');
   if (brief.releaseGates.failures.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('release_gate_failure_reality_not_explicit');

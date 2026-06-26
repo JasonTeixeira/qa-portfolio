@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T10:27:27.141Z",
+  "generatedAt": "2026-06-26T10:31:44.324Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -355,15 +355,24 @@
     "npm run rag:evaluate:recovery-plan",
     "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "npm run rag:evaluate:coverage-readiness",
-    "npm run discord:smoke-final-scorecard",
-    "npm run discord:world-class-readiness",
-    "npm run discord:proof-backlog",
-    "npm run discord:operator-brief",
+    "npm run rag:discord-corpus-readiness",
+    "npm run discord:durable-jobs-readiness",
+    "npm run discord:security-privacy-readiness",
+    "npm run discord:observability-quality-readiness",
     "npm run discord:content-factory-readiness",
+    "npm run discord:premium-readiness",
+    "npm run discord:public-growth-readiness",
     "npm run discord:proof-intake-readiness",
     "npm run discord:weekly-proof-packet",
+    "npm run discord:proof-rehearsal-readiness",
+    "npm run discord:smoke-final-scorecard",
+    "npm run discord:proof-backlog",
+    "npm run discord:proof-candidate-audit",
+    "npm run discord:world-class-readiness",
+    "npm run discord:operator-brief",
     "npm run discord:gateway-capture-diagnosis",
-    "npm run discord:gateway-operating-packet"
+    "npm run discord:gateway-operating-packet",
+    "npm run verify:local:evidence"
   ],
   "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
 }

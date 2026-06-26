@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T10:27:27.141Z
+Generated: 2026-06-26T10:31:44.324Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -129,15 +129,24 @@ The local system is verified, but real operating proof is still missing. Close g
 7. `npm run rag:evaluate:recovery-plan`
 8. `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
 9. `npm run rag:evaluate:coverage-readiness`
-10. `npm run discord:smoke-final-scorecard`
-11. `npm run discord:world-class-readiness`
-12. `npm run discord:proof-backlog`
-13. `npm run discord:operator-brief`
+10. `npm run rag:discord-corpus-readiness`
+11. `npm run discord:durable-jobs-readiness`
+12. `npm run discord:security-privacy-readiness`
+13. `npm run discord:observability-quality-readiness`
 14. `npm run discord:content-factory-readiness`
-15. `npm run discord:proof-intake-readiness`
-16. `npm run discord:weekly-proof-packet`
-17. `npm run discord:gateway-capture-diagnosis`
-18. `npm run discord:gateway-operating-packet`
+15. `npm run discord:premium-readiness`
+16. `npm run discord:public-growth-readiness`
+17. `npm run discord:proof-intake-readiness`
+18. `npm run discord:weekly-proof-packet`
+19. `npm run discord:proof-rehearsal-readiness`
+20. `npm run discord:smoke-final-scorecard`
+21. `npm run discord:proof-backlog`
+22. `npm run discord:proof-candidate-audit`
+23. `npm run discord:world-class-readiness`
+24. `npm run discord:operator-brief`
+25. `npm run discord:gateway-capture-diagnosis`
+26. `npm run discord:gateway-operating-packet`
+27. `npm run verify:local:evidence`
 
 ## Non-Claim Rule
 

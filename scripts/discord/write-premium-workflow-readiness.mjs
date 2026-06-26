@@ -30,6 +30,38 @@ function eventTypes(events) {
   return new Set((Array.isArray(events) ? events : []).map((event) => String(event?.event_type ?? event?.eventType ?? '')));
 }
 
+function validatePremiumWorkflowReadiness(evidence) {
+  const failures = [];
+  const checkNames = new Set((evidence.checks ?? []).map((check) => check.name));
+  const failedChecks = (evidence.checks ?? []).filter((check) => check.passed !== true).map((check) => check.name);
+  const lifecycleEvents = new Set(evidence.proofSummary?.lifecycleEvents ?? []);
+
+  if (evidence.version !== 'premium-workflow-readiness-v1') failures.push('invalid_version');
+  if (evidence.mutationMode !== 'local_file_evidence_only') failures.push('invalid_mutation_mode');
+  if (evidence.ok !== (failedChecks.length === 0)) failures.push('ok_does_not_match_check_failures');
+  if ((evidence.failures ?? []).join('|') !== failedChecks.join('|')) failures.push('failures_do_not_match_failed_checks');
+  if (!checkNames.has('seeded_premium_proof_passes')) failures.push('missing_seeded_premium_proof_check');
+  if (!checkNames.has('stripe_role_sync_wired')) failures.push('missing_stripe_role_sync_check');
+  if (!checkNames.has('premium_admin_dashboard_wired')) failures.push('missing_admin_dashboard_check');
+  if (evidence.proofSummary?.seededProofOk !== true) failures.push('seeded_proof_not_ok');
+  if (evidence.proofSummary?.reviewStatus !== 'answered') failures.push('premium_review_not_answered');
+  if (Number(evidence.proofSummary?.qualityScore ?? 0) < 80) failures.push('premium_quality_below_gate');
+  if (!['requested', 'assigned', 'answered'].every((event) => lifecycleEvents.has(event))) failures.push('premium_lifecycle_incomplete');
+  if (evidence.proofSummary?.officeHoursPremiumMember !== true) failures.push('office_hours_premium_member_not_proven');
+  if (evidence.proofSummary?.ragAnswerPresent !== true || evidence.proofSummary?.retrievalLogPresent !== true) failures.push('premium_rag_proof_missing');
+  if (!(evidence.releaseMeaning ?? '').includes('does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles')) failures.push('release_meaning_overclaims');
+  if (!(evidence.antiFakeRules ?? []).some((rule) => rule.includes('Premium Member role alone'))) failures.push('missing_role_only_anti_fake_rule');
+  if (!(evidence.antiFakeRules ?? []).some((rule) => rule.includes('seeded smoke proof as live Stripe economics proof'))) failures.push('missing_seeded_stripe_anti_fake_rule');
+  if (!(evidence.nextOperatingProofRequired ?? []).some((item) => item.includes('Stripe checkout/subscription role sync'))) failures.push('missing_live_stripe_next_proof');
+
+  return {
+    ok: failures.length === 0,
+    validator: 'premium-workflow-readiness-validator-v1',
+    validatedAt: new Date().toISOString(),
+    failures,
+  };
+}
+
 async function main() {
   const [
     proofRaw,
@@ -177,10 +209,11 @@ async function main() {
     failures,
     releaseMeaning: 'Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics.',
   };
+  evidence.validation = validatePremiumWorkflowReadiness(evidence);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, `${JSON.stringify(evidence, null, 2)}\n`);
-  if (!evidence.ok) {
+  if (!evidence.ok || evidence.validation.ok !== true) {
     console.error(JSON.stringify(evidence, null, 2));
     process.exit(1);
   }

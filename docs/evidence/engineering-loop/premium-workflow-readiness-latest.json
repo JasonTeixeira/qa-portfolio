@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "premium-workflow-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:02.653Z",
+  "generatedAt": "2026-06-26T09:59:42.544Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "premiumProof": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
@@ -93,5 +93,11 @@
     "Record premium economics separately before changing price or promise."
   ],
   "failures": [],
-  "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics."
+  "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics.",
+  "validation": {
+    "ok": true,
+    "validator": "premium-workflow-readiness-validator-v1",
+    "validatedAt": "2026-06-26T09:59:42.545Z",
+    "failures": []
+  }
 }

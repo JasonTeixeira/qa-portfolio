@@ -488,6 +488,12 @@ type PremiumWorkflowReadiness = {
   version: string;
   generatedAt: string;
   mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
   sourceEvidence: Record<string, string>;
   checks: ReadinessCheck[];
   proofSummary: {
@@ -510,6 +516,12 @@ type PublicGrowthReadiness = {
   version: string;
   generatedAt: string;
   mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
   sourceEvidence: Record<string, string>;
   checks: ReadinessCheck[];
   proofSummary: {
@@ -2850,6 +2862,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="space-y-2">
                 <HealthLine label="Readiness" value={publicGrowthReadiness.ok ? 'local wiring proven' : 'blocked'} tone={publicGrowthReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Validation" value={publicGrowthReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'} tone={publicGrowthReadiness.validation?.ok ? 'emerald' : 'rose'} />
                 <HealthLine label="Mutation mode" value={publicGrowthReadiness.mutationMode} tone="neutral" />
                 <HealthLine label="Draft status" value={publicGrowthReadiness.proofSummary.draftStatus ?? 'none'} tone={publicGrowthReadiness.proofSummary.draftStatus === 'pending_approval' ? 'amber' : 'neutral'} />
                 <HealthLine label="Quality / privacy" value={`${publicGrowthReadiness.proofSummary.qualityScore ?? 0}/${publicGrowthReadiness.proofSummary.privacyScore ?? 0}`} tone={publicGrowthReadiness.proofSummary.qualityScore && publicGrowthReadiness.proofSummary.privacyScore ? 'emerald' : 'amber'} />
@@ -2868,6 +2881,9 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   <Badge key={failure} tone="rose">{failure}</Badge>
                 ))}
               </div>
+            ) : null}
+            {publicGrowthReadiness.validation?.failures?.length ? (
+              <ProofRuleGroup title="Validation failures" items={publicGrowthReadiness.validation.failures} tone="rose" />
             ) : null}
           </Panel>
         </section>
@@ -3026,6 +3042,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="space-y-2">
                 <HealthLine label="Readiness" value={premiumWorkflowReadiness.ok ? 'local wiring proven' : 'blocked'} tone={premiumWorkflowReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Validation" value={premiumWorkflowReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'} tone={premiumWorkflowReadiness.validation?.ok ? 'emerald' : 'rose'} />
                 <HealthLine label="Mutation mode" value={premiumWorkflowReadiness.mutationMode} tone="neutral" />
                 <HealthLine label="Review status" value={premiumWorkflowReadiness.proofSummary.reviewStatus ?? 'none'} tone={premiumWorkflowReadiness.proofSummary.reviewStatus === 'answered' ? 'emerald' : 'amber'} />
                 <HealthLine label="Quality score" value={`${premiumWorkflowReadiness.proofSummary.qualityScore ?? 0}`} tone={(premiumWorkflowReadiness.proofSummary.qualityScore ?? 0) >= 90 ? 'emerald' : 'amber'} />
@@ -3045,6 +3062,9 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   <Badge key={failure} tone="rose">{failure}</Badge>
                 ))}
               </div>
+            ) : null}
+            {premiumWorkflowReadiness.validation?.failures?.length ? (
+              <ProofRuleGroup title="Validation failures" items={premiumWorkflowReadiness.validation.failures} tone="rose" />
             ) : null}
           </Panel>
         </section>
@@ -3281,6 +3301,12 @@ async function loadPremiumWorkflowReadiness(): Promise<PremiumWorkflowReadiness>
       version: 'premium-workflow-readiness-v1',
       generatedAt: new Date(0).toISOString(),
       mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'premium-workflow-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['premium_workflow_readiness_missing'],
+      },
       sourceEvidence: {},
       checks: [],
       proofSummary: {
@@ -3313,6 +3339,12 @@ async function loadPublicGrowthReadiness(): Promise<PublicGrowthReadiness> {
       version: 'public-growth-readiness-v1',
       generatedAt: new Date(0).toISOString(),
       mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'public-growth-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['public_growth_readiness_missing'],
+      },
       sourceEvidence: {},
       checks: [],
       proofSummary: {

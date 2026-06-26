@@ -168,8 +168,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /premium-workflow-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Premium workflow readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Premium workflow readiness must block role-only proof/);
   assert.match(localVerificationEvidence, /public-growth-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Public growth readiness validation is not ok/);
   assert.match(localVerificationEvidence, /Public growth readiness must block seeded smoke proof from counting as weekly cycles/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
@@ -320,6 +322,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const premiumReadinessScript = await readFile(new URL('../../scripts/discord/write-premium-workflow-readiness.mjs', import.meta.url), 'utf8');
   assert.match(premiumReadinessScript, /premium-workflow-readiness-latest\.json/);
   assert.match(premiumReadinessScript, /phase-15-premium-workflows-proof\.json/);
+  assert.match(premiumReadinessScript, /validatePremiumWorkflowReadiness/);
+  assert.match(premiumReadinessScript, /premium-workflow-readiness-validator-v1/);
+  assert.match(premiumReadinessScript, /ok_does_not_match_check_failures/);
   assert.match(premiumReadinessScript, /Premium Member role alone/);
   assert.match(premiumReadinessScript, /STRIPE_PRICE_DISCORD_PREMIUM/);
   assert.match(premiumReadinessScript, /syncDiscordPremiumFromCheckout/);
@@ -327,6 +332,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const publicGrowthReadinessScript = await readFile(new URL('../../scripts/discord/write-public-growth-readiness.mjs', import.meta.url), 'utf8');
   assert.match(publicGrowthReadinessScript, /public-growth-readiness-latest\.json/);
   assert.match(publicGrowthReadinessScript, /phase-16-public-proof-growth-proof\.json/);
+  assert.match(publicGrowthReadinessScript, /validatePublicGrowthReadiness/);
+  assert.match(publicGrowthReadinessScript, /public-growth-readiness-validator-v1/);
+  assert.match(publicGrowthReadinessScript, /draft_not_approval_gated/);
   assert.match(publicGrowthReadinessScript, /discord_public_growth_drafts/);
   assert.match(publicGrowthReadinessScript, /four weekly public proof cycles/);
   assert.match(publicGrowthReadinessScript, /does not mutate Supabase, publish externally, create growth events/);
@@ -2073,12 +2081,14 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /premium-workflow-readiness-latest\.json/);
   assert.match(page, /data-testid="discord-premium-workflow-readiness"/);
   assert.match(page, /Premium workflow readiness/);
+  assert.match(page, /premiumWorkflowReadiness\.validation/);
   assert.match(page, /premiumWorkflowReadiness\.nextOperatingProofRequired/);
   assert.match(page, /premiumWorkflowReadiness\.antiFakeRules/);
   assert.match(page, /loadPublicGrowthReadiness/);
   assert.match(page, /public-growth-readiness-latest\.json/);
   assert.match(page, /data-testid="discord-public-growth-readiness"/);
   assert.match(page, /Public growth readiness/);
+  assert.match(page, /publicGrowthReadiness\.validation/);
   assert.match(page, /publicGrowthReadiness\.nextOperatingProofRequired/);
   assert.match(page, /publicGrowthReadiness\.antiFakeRules/);
   assert.match(page, /loadProofIntakeReadiness/);

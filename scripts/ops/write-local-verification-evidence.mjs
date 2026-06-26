@@ -483,6 +483,10 @@ async function main() {
   );
   requireTruthy(premiumWorkflowReadiness.ok === true, 'Premium workflow readiness evidence is not ok.');
   requireTruthy(
+    premiumWorkflowReadiness.validation?.ok === true,
+    'Premium workflow readiness validation is not ok.',
+  );
+  requireTruthy(
     premiumWorkflowReadiness.mutationMode === 'local_file_evidence_only',
     'Premium workflow readiness must not mutate external systems.',
   );
@@ -499,6 +503,10 @@ async function main() {
     'Premium workflow readiness must block role-only proof.',
   );
   requireTruthy(publicGrowthReadiness.ok === true, 'Public growth readiness evidence is not ok.');
+  requireTruthy(
+    publicGrowthReadiness.validation?.ok === true,
+    'Public growth readiness validation is not ok.',
+  );
   requireTruthy(
     publicGrowthReadiness.mutationMode === 'local_file_evidence_only',
     'Public growth readiness must not mutate external systems.',

@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "version": "rag-eval-execution-packet-v1",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",
+  "sourceEvidence": {
+    "coverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
+    "missingPlan": "docs/evidence/rag/eval-missing-plan.json"
+  },
+  "status": "approval_required",
+  "coverageStillBlocked": true,
+  "selectedMatchesCoverage": true,
+  "expectedQuestionCount": 65,
+  "evaluatedQuestionCount": 50,
+  "missingEvalKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "selectedKeys": [
+    "rag_ai_011",
+    "rag_ai_012",
+    "rag_ai_013",
+    "rag_ai_014",
+    "rag_ai_015",
+    "rag_content_011",
+    "rag_content_012",
+    "rag_content_013",
+    "rag_content_014",
+    "rag_content_015",
+    "rag_content_016",
+    "rag_content_017",
+    "rag_content_018",
+    "rag_content_019",
+    "rag_content_020"
+  ],
+  "commandPlan": {
+    "dryRunCommand": "npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness",
+    "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "mutationWarning": "Approved command can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.",
+    "requiresExplicitApproval": true
+  },
+  "preRunChecks": [
+    "Confirm NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present in .env.local.",
+    "Confirm DEEPSEEK_API_KEY is present before any non-dry-run eval command.",
+    "Run npm run rag:evaluate:missing-plan and confirm selectedKeys exactly match missingEvalKeys.",
+    "Do not run from a dirty staged state unless the staged files are intentionally part of the eval pass.",
+    "Confirm this is an eval coverage run, not a content-generation or public-posting action."
+  ],
+  "postRunChecks": [
+    "docs/evidence/rag/eval-latest.json has seededQuestionCount >= expectedQuestionCount.",
+    "docs/evidence/rag/eval-latest.json has evaluatedQuestionCount >= expectedQuestionCount.",
+    "docs/evidence/rag/eval-coverage-readiness.json has releaseReady=true and missingEvalKeys=[].",
+    "npm run discord:smoke-final-scorecard no longer fails rag_eval_latest or rag_eval_coverage_readiness if quality thresholds pass.",
+    "npm run verify:local:evidence passes after refreshed evidence is written."
+  ],
+  "failureHandling": [
+    "If any missing eval fails below threshold, do not loosen the threshold; inspect missingSources and missingRequiredTerms.",
+    "If retrieval misses sources, fix source metadata, chunking, or reranking before rerunning the failed keys.",
+    "If DeepSeek or Supabase fails transiently, rerun only missing or failed keys after confirming no duplicate run is being claimed as release proof.",
+    "If eval-latest is partially updated, keep eval-coverage-readiness releaseReady=false until every seeded key is represented."
+  ],
+  "antiFakeRules": [
+    "Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage.",
+    "A local packet without rag_eval_results rows does not satisfy eval coverage.",
+    "Passing 50/50 old evals does not satisfy the 65-question gate.",
+    "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
+  ],
+  "startedAt": "2026-06-26T05:32:14.199Z",
+  "finishedAt": "2026-06-26T05:32:14.201Z"
+}

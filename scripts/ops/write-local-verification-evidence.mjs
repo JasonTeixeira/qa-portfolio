@@ -20,6 +20,7 @@ const evidencePaths = {
   evalSeedQuality: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-quality.json'),
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
   evalCoverageReadiness: path.join(root, 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
+  evalExecutionPacket: path.join(root, 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
@@ -120,6 +121,7 @@ async function main() {
     evalSeedQuality,
     evalSeedDryRun,
     evalCoverageReadiness,
+    evalExecutionPacket,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
@@ -156,6 +158,31 @@ async function main() {
   requireTruthy(
     evalCoverageReadiness.releaseMeaning?.includes('does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate'),
     'RAG eval coverage readiness must explicitly avoid claiming full eval proof.',
+  );
+  requireTruthy(evalExecutionPacket.ok === true, 'RAG eval execution packet evidence is not ok.');
+  requireTruthy(
+    evalExecutionPacket.mutationMode === 'local_file_evidence_only',
+    'RAG eval execution packet must not mutate external systems.',
+  );
+  requireTruthy(
+    evalExecutionPacket.releaseMeaning?.includes('does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage'),
+    'RAG eval execution packet must explicitly avoid claiming eval proof.',
+  );
+  requireTruthy(
+    evalExecutionPacket.selectedMatchesCoverage === true,
+    'RAG eval execution packet selected keys must match missing coverage keys.',
+  );
+  requireTruthy(
+    evalExecutionPacket.commandPlan?.requiresExplicitApproval === true,
+    'RAG eval execution packet must require explicit approval while eval keys are missing.',
+  );
+  requireTruthy(
+    evalExecutionPacket.commandPlan?.approvedCommand?.includes('npm run rag:evaluate:missing'),
+    'RAG eval execution packet must include the approved missing-eval command.',
+  );
+  requireTruthy(
+    (evalExecutionPacket.antiFakeRules ?? []).some((rule) => rule.includes('Dry-run')),
+    'RAG eval execution packet must block dry-run evidence from satisfying eval coverage.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -450,6 +477,17 @@ async function main() {
       unexpectedEvalKeys: evalCoverageReadiness.unexpectedEvalKeys,
       blockers: evalCoverageReadiness.blockers,
       nextActions: evalCoverageReadiness.nextActions,
+    },
+    ragEvalExecutionPacket: {
+      ok: evalExecutionPacket.ok,
+      mutationMode: evalExecutionPacket.mutationMode,
+      status: evalExecutionPacket.status,
+      selectedMatchesCoverage: evalExecutionPacket.selectedMatchesCoverage,
+      missingEvalKeys: evalExecutionPacket.missingEvalKeys,
+      approvedCommand: evalExecutionPacket.commandPlan?.approvedCommand,
+      requiresExplicitApproval: evalExecutionPacket.commandPlan?.requiresExplicitApproval,
+      antiFakeRuleCount: evalExecutionPacket.antiFakeRules?.length ?? 0,
+      releaseMeaning: evalExecutionPacket.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

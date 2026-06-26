@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782451601011",
+  "runKey": "phase-20-final-1782451938741",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -563,6 +563,11 @@
         "status": "true"
       },
       {
+        "path": "docs/evidence/rag/eval-execution-packet.json",
+        "ok": true,
+        "status": "approval_required"
+      },
+      {
         "path": "docs/evidence/rag/eval-seed-quality.json",
         "ok": true,
         "status": "true"
@@ -656,7 +661,7 @@
     {
       "name": "evidence_index",
       "passed": true,
-      "evidence": "23/23 required evidence files pass"
+      "evidence": "24/24 required evidence files pass"
     },
     {
       "name": "operating_rhythm",
@@ -778,6 +783,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T05:26:41.011Z",
-  "finishedAt": "2026-06-26T05:26:42.500Z"
+  "startedAt": "2026-06-26T05:32:18.741Z",
+  "finishedAt": "2026-06-26T05:32:20.274Z"
 }

@@ -66,6 +66,37 @@ async function HabitWidget() {
   )
 }
 
+/** The academy nav links — shared by the desktop bar and the mobile row (DRY). */
+function NavLinks({ active, dueCount }: { active?: string; dueCount: number }) {
+  return (
+    <>
+      {NAV.map((item) => {
+        const on = active === item.key
+        const badge = item.key === 'review' && dueCount > 0 ? dueCount : null
+        return (
+          <Link
+            key={item.key}
+            href={item.href}
+            aria-current={on ? 'page' : undefined}
+            className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-medium transition-colors ${
+              on
+                ? 'bg-[color-mix(in_srgb,var(--ac-accent)_14%,transparent)] text-[var(--ac-ink)]'
+                : 'text-[color:var(--ac-ink-soft)] hover:bg-white/[0.04] hover:text-[var(--ac-ink)]'
+            }`}
+          >
+            {item.label}
+            {badge ? (
+              <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent)] px-1 text-[10px] font-semibold leading-none text-white">
+                {badge}
+              </span>
+            ) : null}
+          </Link>
+        )
+      })}
+    </>
+  )
+}
+
 export async function AcademyShell({
   children,
   active,
@@ -113,29 +144,7 @@ export async function AcademyShell({
           </Link>
 
           <nav aria-label="Academy" className="ml-2 hidden items-center gap-1 md:flex">
-            {NAV.map((item) => {
-              const on = active === item.key
-              const badge = item.key === 'review' && dueCount > 0 ? dueCount : null
-              return (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  aria-current={on ? 'page' : undefined}
-                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-medium transition-colors ${
-                    on
-                      ? 'bg-[color-mix(in_srgb,var(--ac-accent)_14%,transparent)] text-[var(--ac-ink)]'
-                      : 'text-[color:var(--ac-ink-soft)] hover:bg-white/[0.04] hover:text-[var(--ac-ink)]'
-                  }`}
-                >
-                  {item.label}
-                  {badge ? (
-                    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent)] px-1 text-[10px] font-semibold leading-none text-white">
-                      {badge}
-                    </span>
-                  ) : null}
-                </Link>
-              )
-            })}
+            <NavLinks active={active} dueCount={dueCount} />
           </nav>
 
           <div className="ml-auto flex items-center gap-2.5">
@@ -161,6 +170,15 @@ export async function AcademyShell({
             )}
           </div>
         </div>
+
+        {/* mobile nav — the desktop bar is md+ only; this scrollable row keeps
+            every destination reachable on a phone without JS. */}
+        <nav
+          aria-label="Academy menu"
+          className="flex gap-1 overflow-x-auto border-t border-[color:var(--ac-rule)] px-3 py-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          <NavLinks active={active} dueCount={dueCount} />
+        </nav>
       </header>
 
       <main>{children}</main>

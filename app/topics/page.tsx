@@ -31,7 +31,7 @@ export default function TopicsPage() {
         title="The content map."
         lede="Every article is routed by cluster, search intent, proof, and money page. This is not a blog archive; it is the public operating system for the studio and academy."
         primaryCta={{ href: '/blog', label: 'Read the journal' }}
-        secondaryCta={{ href: '/academy', label: 'Explore academy' }}
+        secondaryCta={{ href: '/showcase?source=topics_hero', label: 'Open working demos' }}
         proof={[
           { label: 'clusters', value: String(clusterList.length).padStart(2, '0') },
           { label: 'dispatches', value: `${posts.length}` },
@@ -170,8 +170,8 @@ export default function TopicsPage() {
         />
         <div className="mt-8 flex flex-wrap gap-3">
           <LivingCTA href="/tools/seo-audit">Run the SEO audit</LivingCTA>
-          <LivingCTA href="/book" variant="secondary">
-            Book the build
+          <LivingCTA href="/book?source=topics_reader_routing" variant="secondary">
+            Book the build call
           </LivingCTA>
         </div>
       </LivingSection>

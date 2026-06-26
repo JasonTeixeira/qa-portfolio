@@ -16,6 +16,7 @@ import { CaseProofBoard } from '@/components/work/CaseProofBoard'
 import { CaseMotionStoryboard } from '@/components/work/CaseMotionStoryboard'
 import { CaseStudyToc } from '@/components/work/CaseStudyToc'
 import { SurfaceSystemXray } from '@/components/work/SurfaceSystemXray'
+import { CaseBuyerBridge } from '@/components/work/CaseBuyerBridge'
 import { referencesForCaseStudy } from '@/data/references'
 import { type CaseStudy } from '@/data/work/case-studies'
 import { type CaseExtras } from '@/data/work/case-extras'
@@ -184,6 +185,8 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
         </div>
       </header>
 
+      <CaseBuyerBridge study={study} />
+
       <section className="border-t border-[var(--sage-border)]">
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:py-16">
           <Reveal>
@@ -267,7 +270,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
           <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-16">
             {/* ── Sticky sidebar ── */}
-            <aside className="mb-12 hidden lg:sticky lg:top-24 lg:mb-0 lg:block lg:self-start">
+            <div className="mb-12 hidden lg:sticky lg:top-24 lg:mb-0 lg:block lg:self-start">
               <div className="space-y-4">
                 <CaseStudyToc />
                 <Surface level={1} className="p-5">
@@ -297,16 +300,16 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                   <MonoLabel tone="faint" className="block">
                     key metrics
                   </MonoLabel>
-                  <dl className="mt-3 space-y-2.5">
+                  <div className="mt-3 space-y-2.5" role="list" aria-label="Key metrics">
                     {study.metrics.map((m) => (
-                      <div key={m.label} className="flex items-baseline justify-between gap-3">
-                        <dt className="text-xs text-[var(--sage-ink-faint)]">{m.label}</dt>
-                        <dd className="text-sm tabular-nums text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
+                      <div key={m.label} role="listitem" className="flex items-baseline justify-between gap-3">
+                        <span className="text-xs text-[var(--sage-ink-faint)]">{m.label}</span>
+                        <span className="text-sm tabular-nums text-[#3D5AFE] [font-family:var(--font-mono),ui-monospace,monospace]">
                           {m.value}
-                        </dd>
+                        </span>
                       </div>
                     ))}
-                  </dl>
+                  </div>
                 </Surface>
 
                 {study.relatedLab && (
@@ -322,10 +325,10 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                   </Surface>
                 )}
               </div>
-            </aside>
+            </div>
 
             {/* ── Main column ── */}
-            <main data-cs-main className="space-y-16 lg:space-y-20">
+            <div data-cs-main className="space-y-16 lg:space-y-20">
               {/* Problem */}
               <Reveal>
                 <section className="space-y-5">
@@ -466,7 +469,7 @@ export function CaseStudyView({ study, extras: _extras }: Props) {
                   </section>
                 </Reveal>
               )}
-            </main>
+            </div>
           </div>
 
           {/* References */}

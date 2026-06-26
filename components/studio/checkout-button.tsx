@@ -22,10 +22,7 @@ export function CheckoutButton({
   // Self-serve checkout: one-time engagements ≤ $2,500 with a configured Stripe price.
   // All other tiers (monthly, custom, or above the cap) route to inquiry/book.
   if (!isSelfServe(tier)) {
-    const href =
-      tier.cadence === 'custom'
-        ? `/book?tier=${tier.slug}`
-        : tier.ctaHref || `/contact?engagement=${tier.slug}`
+    const href = `/book?tier=${tier.slug}`
     return (
       <Button
         asChild

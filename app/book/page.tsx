@@ -8,17 +8,17 @@ import { PublicScheduler } from '@/components/booking/public-scheduler'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/book' },
-  title: 'Book a Discovery Call',
+  title: 'Book a Build Call for Your AI System or Conversion Site | Sage Ideas',
   description:
-    'Schedule a 30-minute discovery call with Sage Ideas. No pitch deck. No obligation. Just a direct conversation about your project.',
+    'Book a 30-minute build call with Sage Ideas. Bring the business leak, review the right demo, and leave with the next build step.',
   openGraph: {
-    title: 'Book a Discovery Call',
-    description: "30 minutes. No pitch deck. No obligation.",
-    images: [{ url: '/og?title=Book+a+Call&subtitle=Let%27s+talk.' }],
+    title: 'Book a Build Call | Sage Ideas',
+    description: '30 minutes. Bring the leak, open the demo, and map the build path.',
+    images: [{ url: '/og?title=Book+a+Build+Call&subtitle=Map+the+system+before+scope.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ["/og?title=Book+a+Call&subtitle=Let%27s+talk."],
+    images: ['/og?title=Book+a+Build+Call&subtitle=Map+the+system+before+scope.'],
   },
 }
 
@@ -26,7 +26,7 @@ const PROCESS_STEPS = [
   {
     step: '01',
     label: 'Discovery',
-    desc: 'A 30-minute working conversation — not a sales call. We talk through your problem, your constraints, and what success looks like.',
+    desc: 'A 30-minute working conversation, not a sales call. We talk through your problem, your constraints, and what success looks like.',
   },
   {
     step: '02',
@@ -36,7 +36,7 @@ const PROCESS_STEPS = [
   {
     step: '03',
     label: 'Decision',
-    desc: 'You sign, we kick off. Or you don\'t — no pressure, no follow-up sequence. If it\'s not the right fit, we\'ll say that directly.',
+    desc: 'You sign, we kick off. Or you do not. No pressure and no follow-up sequence. If it is not the right fit, we will say that directly.',
   },
 ]
 
@@ -47,7 +47,25 @@ const INTAKE_TOPICS = [
   "Whether a tier is the right fit",
 ]
 
-export default function BookPage() {
+type BookSearchParams = Promise<{
+  source?: string | string[]
+  context?: string | string[]
+  tier?: string | string[]
+}>
+
+const haloCta =
+  'before:pointer-events-none before:absolute before:-inset-3 before:-z-10 before:rounded-[18px] before:bg-[radial-gradient(circle_at_45%_50%,rgba(91,157,255,0.64),transparent_58%)] before:blur-xl before:opacity-60 before:content-[""] hover:before:opacity-90'
+
+export default async function BookPage({ searchParams }: { searchParams: BookSearchParams }) {
+  const params = await searchParams
+  const source = Array.isArray(params.source) ? params.source[0] : params.source
+  const isRevenueOs = source?.startsWith('revenue_os')
+  const mailSubject = isRevenueOs ? 'Revenue OS build call request' : 'Build call request'
+  const mailBody = isRevenueOs
+    ? 'Hi Sage,\n\nI saw the Revenue OS demo and want to talk through what this could look like around my business.\n\nCurrent lead/revenue workflow:\n\nWhat is leaking or slow:\n\nTools we use:\n\nSome times that work for me:\n\nThanks,\n'
+    : "Hi Sage,\n\nI'd like to schedule a 30-minute build call.\n\nProject overview:\n\nTimeline:\n\nBudget range:\n\nSome times that work for me:\n\nThanks,\n"
+  const mailHref = `mailto:sage@sageideas.dev?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`
+
   return (
     <div className="min-h-screen bg-[var(--sage-bg)]">
 
@@ -67,7 +85,7 @@ export default function BookPage() {
           <div className="mb-8 flex items-center gap-4 [font-family:var(--font-mono),ui-monospace,monospace]">
             <MonoLabel tone="accent">book</MonoLabel>
             <Hairline className="flex-1" />
-            <MonoLabel tone="faint">{'// discovery call'}</MonoLabel>
+            <MonoLabel tone="faint">{isRevenueOs ? '// revenue os walkthrough' : '// build call'}</MonoLabel>
           </div>
 
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-start">
@@ -84,13 +102,14 @@ export default function BookPage() {
                   letterSpacing: '-0.024em',
                 }}
               >
-                Book a 30-minute
+                {isRevenueOs ? 'Build the version'
+                  : 'Book the build'}
                 <br />
                 <span
                   className="italic text-[#3D5AFE]"
                   style={{ fontVariationSettings: "'opsz' 144, 'SOFT' 40, 'WONK' 1" }}
                 >
-                  discovery call.
+                  {isRevenueOs ? 'for your business.' : 'call.'}
                 </span>
               </h1>
 
@@ -100,7 +119,9 @@ export default function BookPage() {
               </div>
 
               <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-[var(--sage-ink-muted)]">
-                30 minutes. No pitch deck. No obligation. Just a direct conversation about your project — what you&apos;re building, what&apos;s broken, and whether we&apos;re the right fit.
+                {isRevenueOs
+                  ? 'You saw the Revenue OS demo. Bring the messy reality: forms, replies, missed calls, stale follow-ups, and the tools your team already uses. We map what a working version would look like around your business.'
+                  : 'Bring the leak, the goal, and the constraints. We look at the right demo, map the build path, and decide if Sage Ideas is the right fit.'}
               </p>
 
               {/* Primary CTA */}
@@ -109,12 +130,13 @@ export default function BookPage() {
                   variant="solid"
                   href="#schedule"
                   event="booking_click"
-                  eventProps={{ location: 'book_hero', label: 'pick_a_time' }}
+                  eventProps={{ location: 'book_hero', label: 'pick_a_time', source: source ?? 'direct' }}
+                  className={haloCta}
                 >
-                  Pick a time
+                  {isRevenueOs ? 'Pick a walkthrough time' : 'Pick a time'}
                 </CtaLink>
                 <a
-                  href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
+                  href={mailHref}
                   className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
                 >
                   <span>email directly</span>
@@ -125,8 +147,8 @@ export default function BookPage() {
 
             <SystemHeroPanel
               eyebrow="booking graph"
-              title="Call decision map"
-              nodes={['Context', 'Fit', 'Scope', 'Proposal']}
+              title={isRevenueOs ? 'Revenue OS fit map' : 'Call decision map'}
+              nodes={isRevenueOs ? ['Lead leak', 'Workflow', 'Build path', 'Proposal'] : ['Context', 'Fit', 'Scope', 'Proposal']}
               stats={[
                 { label: 'duration', value: '30m' },
                 { label: 'proposal', value: '48h' },
@@ -139,7 +161,7 @@ export default function BookPage() {
               items={[
                 { label: 'call length', value: '30 min' },
                 { label: 'written proposal', value: '48h' },
-                { label: 'sales pressure', value: '0' },
+                { label: isRevenueOs ? 'workflow map' : 'sales pressure', value: isRevenueOs ? 'live' : '0' },
                 { label: 'builder on call', value: 'Jason' },
               ]}
             />
@@ -157,7 +179,7 @@ export default function BookPage() {
           </div>
           <PublicScheduler />
           <p className="mt-5 text-center text-[13px] text-[var(--sage-ink-faint)]">
-            Prefer not to pick a time now? Use the structured intake below — a written reply within 24 hours.
+            Prefer not to pick a time now? Use the structured intake below for a written reply within 24 hours.
           </p>
         </div>
       </section>
@@ -218,7 +240,7 @@ export default function BookPage() {
 
             {/* Option B — direct email */}
             <a
-              href="mailto:sage@sageideas.dev?subject=Discovery%20call%20request&body=Hi%20Sage%2C%0A%0AI%27d%20like%20to%20schedule%20a%2030-minute%20discovery%20call.%0A%0AProject%20overview%3A%0A%0ATimeline%3A%0A%0ABudget%20range%3A%0A%0ASome%20times%20that%20work%20for%20me%3A%0A%0AThanks%2C%0A"
+              href={mailHref}
               className="group relative rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-6 transition-[border-color,background-color] duration-200 hover:border-[var(--sage-border-hover)] hover:bg-[var(--sage-surface-2)]"
             >
               <div className="mb-5 flex items-center gap-3">
@@ -234,7 +256,7 @@ export default function BookPage() {
                 Email Sage directly
               </h2>
               <p className="text-[13px] leading-relaxed text-[var(--sage-ink-muted)]">
-                Prefer to skip the form? Reply with project overview, timeline, budget range, and times that work — you&apos;ll get scheduling options back same day.
+                Prefer to skip the form? Reply with project overview, timeline, budget range, and times that work. You will get scheduling options back same day.
               </p>
               <span className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 sage@sageideas.dev
@@ -298,14 +320,15 @@ export default function BookPage() {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
             <CtaLink
               variant="solid"
-              href="/contact?type=consult&source=book"
+              href={isRevenueOs ? '/contact?type=consult&source=revenue_os_book' : '/contact?type=consult&source=book'}
               event="booking_click"
-              eventProps={{ location: 'book_footer', label: 'structured_intake' }}
+              eventProps={{ location: 'book_footer', label: 'structured_intake', source: source ?? 'direct' }}
+              className={haloCta}
             >
-              start intake
+              {isRevenueOs ? 'Map my Revenue OS' : 'Start intake'}
             </CtaLink>
-            <CtaLink variant="ghost" href="/pricing">
-              cat pricing.md
+            <CtaLink variant="ghost" href="/pricing?source=book_footer">
+              Compare pricing
             </CtaLink>
           </div>
         </div>

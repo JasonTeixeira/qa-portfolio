@@ -38,9 +38,11 @@ export function LessonEditor({
   // Stable, SSR-safe block ids that travel with each block through reorder, so
   // React keys never collide on move/remove. Deterministic on first render
   // (index-based), then a counter for blocks added client-side.
-  const idRef = useRef(0)
+  const idRef = useRef((initial.blocks ?? []).length)
   const withId = (b: Block): Block => (b._id ? b : { ...b, _id: `blk-${idRef.current++}` })
-  const [blocks, setBlocks] = useState<Block[]>(() => (initial.blocks ?? []).map(withId))
+  const [blocks, setBlocks] = useState<Block[]>(() =>
+    (initial.blocks ?? []).map((b: Block, index: number) => (b._id ? b : { ...b, _id: `blk-${index}` })),
+  )
   const [saving, start] = useTransition()
   const [msg, setMsg] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
 

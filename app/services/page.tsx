@@ -8,18 +8,18 @@ import { tiers } from '@/data/services/tiers'
 const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
-  title: 'AI Engineering & Studio Services',
+  title: 'AI Systems, Lead Engines, and Conversion Website Services | Sage Ideas',
   description:
-    'Fixed-scope, fixed-price studio engagements — AI reliability audits, RAG & agent ops, automation pipelines, and full-stack product builds. No hourly billing, no surprise change orders.',
+    'Build the system around the business outcome: more leads, qualified quote requests, automated intake, AI support, and conversion websites with working demos.',
   alternates: { canonical: `${SITE}/services` },
   openGraph: {
-    title: 'AI Engineering & Studio Services',
-    description: 'Engineering, QA, AI, and automation engagements. Fixed scope. Custom welcome.',
-    images: [{ url: '/og?title=Services&subtitle=Engineering%2C+AI%2C+automation%2C+and+retainers.' }],
+    title: 'AI Systems, Lead Engines, and Conversion Website Services',
+    description: 'See the outcome, open the proof, then scope the build.',
+    images: [{ url: '/og?title=Services&subtitle=AI%20systems%2C%20lead%20engines%2C%20and%20conversion%20websites.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og?title=Services&subtitle=Engineering%2C+AI%2C+automation%2C+and+retainers.'],
+    images: ['/og?title=Services&subtitle=AI%20systems%2C%20lead%20engines%2C%20and%20conversion%20websites.'],
   },
 }
 

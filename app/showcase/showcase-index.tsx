@@ -20,15 +20,14 @@ export function ShowcaseIndex() {
     <div className={styles.shell}>
       <section className={styles.hero}>
         <span className={styles.kicker}>Sage Ideas Prototype Warehouse</span>
-        <h1>Interactive systems people can click, understand, and buy.</h1>
+        <h1>Open the system before you buy the build.</h1>
         <p>
-          A verified local showcase for prototype-led inbound and outbound: public demos, private packets, QA previews,
-          and proof records in one place.
+          Each demo shows a business problem, the future workflow, and the kind of system Sage Ideas can build around your market.
         </p>
         <div className={styles.heroLinks}>
-          <Link href="/showcase/revenue-os"><MousePointer2 size={16} /> Open flagship demo</Link>
+          <Link href="/showcase/revenue-os"><MousePointer2 size={16} /> Open Revenue OS</Link>
           <Link href="/showcase/proof"><ClipboardCheck size={16} /> View proof wall</Link>
-          <Link href="/showcase/compare"><Target size={16} /> Compare packages</Link>
+          <Link href="/book?source=showcase_index"><Target size={16} /> Book the build call</Link>
         </div>
       </section>
 

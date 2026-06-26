@@ -77,7 +77,7 @@ export function RouteConversionCta({
           <div className="relative overflow-hidden rounded-[14px] border border-[var(--sage-border)] bg-[rgba(11,11,14,0.5)]">
             <span aria-hidden className="absolute left-0 top-0 h-full w-[3px] bg-[var(--sage-accent)]" />
             <p className="px-6 pt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--sage-ink-faint)]">
-              // the honest version
+              The honest version
             </p>
             <dl className="px-6 pb-6">
               {proof.map((item, i) => (

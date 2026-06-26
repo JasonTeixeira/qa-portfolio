@@ -48,20 +48,21 @@ export function MetricRegister({ metrics }: MetricRegisterProps) {
         )}
       </div>
 
-      <dl className="m-0">
+      <div className="m-0" role="list" aria-label="Case study metrics">
         {rows.map((row, i) => {
           const pct = row.mag !== null && max > 0 ? Math.max((row.mag / max) * 100, 2) : 0
           const isLast = i === rows.length - 1
           return (
             <div
               key={row.label}
+              role="listitem"
               className={`grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 px-5 py-4 sm:grid-cols-[14ch_1fr_auto] ${
                 isLast ? '' : 'border-b border-[var(--sage-border)]'
               }`}
             >
-              <dt className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <span className="text-[11px] uppercase tracking-[0.16em] text-[var(--sage-ink-muted)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {row.label}
-              </dt>
+              </span>
 
               {/* Ruled bar track (numeric only) */}
               <div className="col-span-2 sm:col-span-1 sm:row-auto">
@@ -77,13 +78,13 @@ export function MetricRegister({ metrics }: MetricRegisterProps) {
                 )}
               </div>
 
-              <dd className="text-right text-[clamp(1.1rem,_1rem_+_0.5vw,_1.5rem)] leading-none tabular-nums text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
+              <span className="text-right text-[clamp(1.1rem,_1rem_+_0.5vw,_1.5rem)] leading-none tabular-nums text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {row.value}
-              </dd>
+              </span>
             </div>
           )
         })}
-      </dl>
+      </div>
     </div>
   )
 }

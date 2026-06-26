@@ -3,13 +3,13 @@ import { ContactRelaunchContent } from './contact-relaunch-content'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.sageideas.dev/contact' },
-  title: 'Contact',
+  title: 'Tell Sage Ideas What You Want Built',
   description:
-    'Get in touch with Sage Ideas. Book a strategy call, send an email, or visit the founder page to learn more about the studio.',
+    'Send the business problem, workflow, or website leak you want fixed. Sage Ideas replies with the right build path, demo, or next step.',
   openGraph: {
-    title: 'Contact',
-    description: 'Email, book a call, or reach out about a project. We respond to well-matched inquiries within 48 hours.',
-    images: ['/og?title=Get+in+Touch&subtitle=sage@sageideas.dev'],
+    title: 'Tell Sage Ideas What You Want Built',
+    description: 'Send the problem. Get the right build path.',
+    images: ['/og?title=Tell%20Sage%20Ideas%20What%20You%20Want%20Built&subtitle=Send%20the%20problem.%20Get%20the%20right%20path.'],
   },
 }
 

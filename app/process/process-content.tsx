@@ -24,58 +24,58 @@ interface Stage {
 const STAGES: Stage[] = [
   {
     number: '01',
-    title: 'Discover',
-    tagline: 'Map the problem space',
-    body: 'Map the problem, define scope, agree on outcomes before code. You get a scope document, not a sales pitch.',
+    title: 'Diagnose',
+    tagline: 'Find the business leak',
+    body: 'Find where demand, quote intent, intake, support, or follow-up is leaking. You get the problem, route, and success criteria in plain language.',
     accentColor: '#3D5AFE',
     deliverables: [
-      'Problem statement & success criteria',
-      'Stakeholder alignment doc',
-      'Scoped feature set (in / out of bounds)',
-      'Technical risk register',
-      'Signed scope document',
+      'Buyer problem and revenue leak',
+      'Current path versus desired path',
+      'Success criteria and constraints',
+      'Risk and evidence checklist',
+      'Written scope before build',
     ],
   },
   {
     number: '02',
-    title: 'Architect',
-    tagline: 'Design before you build',
-    body: 'System design, stack confirmation, data models, API contracts. We show you what we build before we build it.',
+    title: 'Prototype',
+    tagline: 'Show the workflow first',
+    body: 'Turn the leak into a visual flow a business owner can understand: what comes in, how it is ranked, what action happens next, and what proof is visible.',
     accentColor: '#E85D3A',
     deliverables: [
-      'Architecture decision records (ADRs)',
-      'Entity-relationship diagram',
-      'API contract (OpenAPI / tRPC)',
-      'Infrastructure topology diagram',
-      'Component & data-flow diagrams',
+      'Clickable concept or visual route',
+      'Outcome diagram and screen map',
+      'CTA and buyer path',
+      'Data and integration map',
+      'Approval-ready build plan',
     ],
   },
   {
     number: '03',
     title: 'Build',
-    tagline: 'Production-grade from day one',
-    body: 'Production-grade implementation with CI gates, typed code, test coverage, and weekly progress updates. No ghost-mode.',
+    tagline: 'Make it real',
+    body: 'Build the product layer, data model, integrations, approval controls, dashboards, and tracking needed for the system to operate.',
     accentColor: '#A8C633',
     deliverables: [
-      'TypeScript codebase with strict config',
-      'CI/CD pipeline (lint → test → deploy)',
-      '≥80% test coverage on critical paths',
-      'Weekly Loom progress updates',
-      'Private repo with commit history',
+      'Production app or page flow',
+      'Data capture and routing logic',
+      'Approval and handoff states',
+      'Analytics and source tracking',
+      'Deployment-ready codebase',
     ],
   },
   {
     number: '04',
-    title: 'Operate',
-    tagline: 'Ship and stay accountable',
-    body: "Deployment, monitoring, documentation, handoff — or ongoing fractional support. We don't ship and disappear.",
+    title: 'Prove',
+    tagline: 'Verify before launch',
+    body: 'Capture screenshots, route checks, accessibility results, link checks, and handoff docs so the claim is backed by evidence.',
     accentColor: '#C7236E',
     deliverables: [
-      'Production deployment & DNS config',
-      'Observability stack (logs, metrics, alerts)',
-      'Runbook & ops documentation',
-      '60-day bug warranty post-launch',
-      'Optional: fractional on-call retainer',
+      'Desktop and mobile screenshots',
+      'CTA and link verification',
+      'Accessibility and route smoke checks',
+      'Launch notes and handoff docs',
+      'Optional ongoing improvement loop',
     ],
   },
 ]
@@ -106,24 +106,24 @@ export function ProcessContent() {
                 className="text-[var(--sage-ink)] font-normal text-[clamp(3rem,1.2rem+5vw,6.2rem)]"
                 style={HEADING_STYLE}
               >
-                Four stages.{' '}
-                <em className="not-italic text-[#3D5AFE]">No ghost-mode.</em>
+                From business leak to{' '}
+                <em className="not-italic text-[#3D5AFE]">working system.</em>
               </h1>
               <p className="mt-6 max-w-2xl text-[15px] leading-[1.75] text-[var(--sage-ink-muted)] sm:text-base">
-                Every Sage Ideas engagement runs the same four-stage process regardless of scope. You always know where we are, what was decided, and what ships next.
+                The process is built for business owners: diagnose what is leaking, show the system visually, build the working route, then prove it before launch.
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
-                <CtaLink href="/contact" variant="solid" event="cta_process_hero">
-                  Book a free intro chat
+                <CtaLink href="/book?source=process" variant="solid" event="cta_process_hero">
+                  Book the build call
                 </CtaLink>
-                <CtaLink href="/how-it-works" variant="ghost" arrow={false}>
-                  See service pipelines
+                <CtaLink href="/showcase" variant="ghost" arrow={false}>
+                  Open live demos
                 </CtaLink>
               </div>
             </div>
             <SystemHeroPanel
               eyebrow="process graph"
-              title="Delivery system"
+              title="Build system"
               nodes={STAGES.map((stage) => stage.title)}
               stats={[
                 { label: 'stages', value: String(STAGES.length).padStart(2, '0') },
@@ -134,10 +134,10 @@ export function ProcessContent() {
             <div className="lg:col-span-2">
               <MotionProofStrip
                 items={[
-                  { label: 'discover', value: 'scope' },
-                  { label: 'architect', value: 'map' },
+                  { label: 'diagnose', value: 'leak' },
+                  { label: 'prototype', value: 'show' },
                   { label: 'build', value: 'ship' },
-                  { label: 'operate', value: 'handoff' },
+                  { label: 'prove', value: 'evidence' },
                 ]}
               />
             </div>
@@ -231,13 +231,13 @@ export function ProcessContent() {
         {/* CTA */}
         <Section
           eyebrow="ready to start"
-          heading={<>Let&apos;s map your<br /><em className="not-italic text-[#3D5AFE]">scope together.</em></>}
-          lede="The first step is a free 20-minute intro chat. No pitch, no obligation — just an honest scope and fit check."
+          heading={<>Let&apos;s map the<br /><em className="not-italic text-[#3D5AFE]">working version.</em></>}
+          lede="The first step is a 30-minute build call. Bring the leak, the workflow, or the business outcome. We map what should be shown and what should be built."
           centered
           grain
           action={
-            <CtaLink href="/contact" variant="solid" event="cta_process_footer">
-              Book a free intro chat
+            <CtaLink href="/book?source=process-footer" variant="solid" event="cta_process_footer">
+              Book the build call
             </CtaLink>
           }
         />

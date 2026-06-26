@@ -1,0 +1,350 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "title": "Sage Ideas | AI Systems, Websites, and Conversion Prototypes",
+    "description": "Sage Ideas builds websites, AI systems, prototypes, and operating dashboards that turn business traffic into qualified leads, quote requests, and booked calls.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Turn traffic intobooked calls andqualified leads."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/services",
+    "status": 200,
+    "title": "AI Systems, Lead Engines, and Conversion Website Services | Sage Ideas — Sage Ideas",
+    "description": "Build the system around the business outcome: more leads, qualified quote requests, automated intake, AI support, and conversion websites with working demos.",
+    "canonical": "https://www.sageideas.dev/services",
+    "h1": [
+      "Pick the leak. Build the system."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/pricing",
+    "status": 200,
+    "title": "Pricing for AI Systems, Conversion Sites, and Build Sprints | Sage Ideas — Sage Ideas",
+    "description": "Fixed-scope pricing for audits, conversion sites, AI workflow builds, prototype-led sales systems, and ongoing care. Book the call when the route is clear.",
+    "canonical": "https://www.sageideas.dev/pricing",
+    "h1": [
+      "Pick the build path that makes the next buyer say yes."
+    ],
+    "jsonLdCount": 5,
+    "missing": []
+  },
+  {
+    "route": "/book?source=marketing_audit",
+    "status": 200,
+    "title": "Book a Build Call for Your AI System or Conversion Site | Sage Ideas — Sage Ideas",
+    "description": "Book a 30-minute build call with Sage Ideas. Bring the business leak, review the right demo, and leave with the next build step.",
+    "canonical": "https://www.sageideas.dev/book",
+    "h1": [
+      "Book the buildcall."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/contact",
+    "status": 200,
+    "title": "Tell Sage Ideas What You Want Built — Sage Ideas",
+    "description": "Send the business problem, workflow, or website leak you want fixed. Sage Ideas replies with the right build path, demo, or next step.",
+    "canonical": "https://www.sageideas.dev/contact",
+    "h1": [
+      "Tell me what you want built."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/trust",
+    "status": 200,
+    "title": "Trust and Proof for Sage Ideas Builds — Sage Ideas",
+    "description": "See how Sage Ideas backs business builds with public work, clear scope, testing standards, data handling, references, and written engagement terms.",
+    "canonical": "https://www.sageideas.dev/trust",
+    "h1": [
+      "What gets tested before you buy."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/work",
+    "status": 200,
+    "title": "Work — Interactive Systems and Business Proof — Sage Ideas",
+    "description": "Open working Sage Ideas examples: interactive business systems, revenue dashboards, quote engines, and proof-led builds that show the outcome before the call.",
+    "canonical": "https://www.sageideas.dev/work",
+    "h1": [
+      "See the proof before the pitch."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/founder",
+    "status": 200,
+    "title": "Founder — Jason Teixeira, Sage Ideas — Sage Ideas",
+    "description": "Meet Jason Teixeira, the founder and builder behind Sage Ideas. Direct product, AI, brand, and engineering work for business systems buyers can click before they buy.",
+    "canonical": "https://www.sageideas.dev/founder",
+    "h1": [
+      "Jason Teixeira."
+    ],
+    "jsonLdCount": 5,
+    "missing": []
+  },
+  {
+    "route": "/industries",
+    "status": 200,
+    "title": "Industries — Business Systems by Market — Sage Ideas",
+    "description": "Find the Sage Ideas system closest to your market: lead follow-up, quote qualification, intake automation, AI support, and conversion dashboards.",
+    "canonical": "https://www.sageideas.dev/industries",
+    "h1": [
+      "Find the system closest to your market."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/process",
+    "status": 200,
+    "title": "Process — From Business Leak to Working System — Sage Ideas",
+    "description": "How Sage Ideas turns a business leak into a visible prototype, scoped build, tested system, and handoff path.",
+    "canonical": "https://www.sageideas.dev/process",
+    "h1": [
+      "From business leak to working system."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/how-it-works",
+    "status": 200,
+    "title": "How It Works — See the Build Before You Buy — Sage Ideas",
+    "description": "See how Sage Ideas turns a buyer problem into a clickable concept, scoped build, tested system, and clear handoff.",
+    "canonical": "https://www.sageideas.dev/how-it-works",
+    "h1": [
+      "See the system before you buy the build."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/showcase",
+    "status": 200,
+    "title": "Interactive Business Prototype Warehouse | Sage Ideas — Sage Ideas",
+    "description": "Open working AI systems, quote engines, intake flows, support dashboards, and conversion prototypes before you book a build call.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Open the system before you buy the build."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/showcase/proof",
+    "status": 200,
+    "title": "Working Prototype Proof Wall | Sage Ideas — Sage Ideas",
+    "description": "Open the Sage Ideas prototype proof wall to see which business systems are working, tested, and ready to inspect before a build call.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Open the proof before the call."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/showcase/compare",
+    "status": 200,
+    "title": "Compare Interactive Business Systems | Sage Ideas — Sage Ideas",
+    "description": "Compare Sage Ideas prototype systems by buyer problem, business outcome, proof level, and the build path that fits your market.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Find the system your business needs first."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/showcase/revenue-os",
+    "status": 200,
+    "title": "Revenue OS Interactive Demo | AI Client Acquisition System | Sage Ideas — Sage Ideas",
+    "description": "Click through a Revenue OS prototype for client acquisition: lead capture, daily priority queue, approved outreach, reply tracking, and pipeline visibility.",
+    "canonical": "https://www.sageideas.dev/showcase/revenue-os",
+    "h1": [
+      "Turn leaking demand into booked calls."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/showcase/contractor-quote-engine",
+    "status": 200,
+    "title": "Contractor Quote Engine Demo | Sage Ideas — Sage Ideas",
+    "description": "A clickable contractor quote engine prototype that qualifies service requests, scores urgency, estimates job value, and books walkthroughs.",
+    "canonical": "https://www.sageideas.dev/showcase/contractor-quote-engine",
+    "h1": [
+      "Turn quote traffic into booked walkthroughs."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/showcase/med-spa-consultation-funnel",
+    "status": 200,
+    "title": "Med Spa Consultation Funnel Prototype | Sage Ideas — Sage Ideas",
+    "description": "Move treatment interest into compliant consultation bookings and nurture sequences.",
+    "canonical": "https://www.sageideas.dev/showcase/med-spa-consultation-funnel",
+    "h1": [
+      "Turn treatment interest into booked consultations."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/showcase/law-firm-intake-system",
+    "status": 200,
+    "title": "Law Firm Intake System Prototype | Sage Ideas — Sage Ideas",
+    "description": "Convert qualified visitors into consultations with trust proof, practice-area routing, and intake control.",
+    "canonical": "https://www.sageideas.dev/showcase/law-firm-intake-system",
+    "h1": [
+      "Turn serious legal visitors into qualified consultations."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/showcase/ai-support-agent-dashboard",
+    "status": 200,
+    "title": "AI Support Agent Dashboard Prototype | Sage Ideas — Sage Ideas",
+    "description": "Deflect repetitive support, escalate risky cases, and measure resolution quality.",
+    "canonical": "https://www.sageideas.dev/showcase/ai-support-agent-dashboard",
+    "h1": [
+      "Turn support volume into a controlled AI operations cockpit."
+    ],
+    "jsonLdCount": 4,
+    "missing": []
+  },
+  {
+    "route": "/legal",
+    "status": 200,
+    "title": "Legal — Sage Ideas",
+    "description": "Privacy policy, terms of service, cookie policy, master services agreement, NDA template, and statement of work template for Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Plain language for serious work."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/privacy",
+    "status": 200,
+    "title": "Privacy Policy — Sage Ideas",
+    "description": "How Sage Ideas LLC collects, uses, and protects your information, including GDPR and CCPA rights disclosures.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Privacy Policy"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/terms",
+    "status": 200,
+    "title": "Terms of Service — Sage Ideas",
+    "description": "Terms governing use of sageideas.dev and engagements with Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Terms of Use"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/cookies",
+    "status": 200,
+    "title": "Cookie Policy — Sage Ideas",
+    "description": "How sageideas.dev uses cookies and similar technologies.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Cookie Policy"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/msa",
+    "status": 200,
+    "title": "Master Services Agreement — Sage Ideas",
+    "description": "The standard Master Services Agreement governing all client engagements with Sage Ideas LLC.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Master Services Agreement"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/nda",
+    "status": 200,
+    "title": "Mutual NDA — Sage Ideas",
+    "description": "Standard mutual non-disclosure agreement template.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Mutual Non-Disclosure Agreement"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/legal/sow-template",
+    "status": 200,
+    "title": "SOW Template — Sage Ideas",
+    "description": "Statement of Work template for Sage Ideas client engagements.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Statement of Work — Template"
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/blog",
+    "status": 200,
+    "title": "Blog | Sage Ideas — Build Notes, AI Systems & Product Architecture — Sage Ideas",
+    "description": "Sage Ideas build notes on AI systems, product architecture, automation, trading platforms, cloud infrastructure, QA, and the solo studio operating model.",
+    "canonical": "https://www.sageideas.dev/blog",
+    "h1": [
+      "The build record."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/topics",
+    "status": 200,
+    "title": "Topics — Sage Ideas",
+    "description": "Browse Sage Ideas field notes by cluster: AI engineering, fintech systems, cloud infrastructure, testing, and solo studio operations.",
+    "canonical": "https://www.sageideas.dev/topics",
+    "h1": [
+      "The content map."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/lab",
+    "status": 200,
+    "title": "The Lab — Sage Ideas",
+    "description": "Six AI-native products built and operated by Sage Ideas: Nexural, Jobpoise, Trayd, VOZA, Owly, and AlphaStream. These are the businesses we'd want to run.",
+    "canonical": "https://www.sageideas.dev/lab",
+    "h1": [
+      "Products that prove the system."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  }
+]

@@ -1,26 +1,32 @@
 import { prototypes } from './prototype-catalog'
 
 export const verificationSnapshot = {
-  lastVerified: '2026-06-22',
-  branch: 'feat/community-rag-content-ops-cleanup',
+  lastVerified: '2026-06-25',
+  branch: 'local-business-showcase-polish',
   commands: [
     'npm run typecheck',
-    'PW_BASE_URL=http://localhost:3040 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium',
-    'Axe scan on /showcase, /showcase/revenue-os, /showcase/contractor-quote-engine',
+    'PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium',
+    'BASE_URL=http://127.0.0.1:3041 AUDIT_DATE=2026-06-25 node scripts/marketing/business-site-audit.mjs',
+    'BASE_URL=http://127.0.0.1:3041 AUDIT_DATE=2026-06-25 node scripts/marketing/lighthouse-business.mjs',
     'npm run build',
   ],
   results: [
     { label: 'TypeScript', value: 'Passed', detail: 'tsc --noEmit completed locally' },
-    { label: 'Focused E2E', value: '3 passed', detail: 'Warehouse, Revenue OS, and first four embedded demos covered' },
-    { label: 'Axe accessibility', value: '0 violations', detail: 'Scanned three representative showcase routes' },
-    { label: 'Production build', value: 'Passed', detail: 'Next build completed with 304 static pages generated' },
+    { label: 'Focused E2E', value: '4 passed', detail: 'Warehouse, Revenue OS, secondary demos, proof, and compare covered' },
+    { label: 'Axe accessibility', value: '0 violations', detail: 'Business audit scanned 19 routes including proof and compare' },
+    { label: 'Production build', value: 'Passed', detail: 'Next build completed with 315 static pages generated' },
   ],
 }
 
 export const prototypeProof = prototypes.map((prototype, index) => ({
   slug: prototype.slug,
   name: prototype.name,
-  score: prototype.slug === 'revenue-os' ? 90 : 82,
+  score:
+    prototype.slug === 'revenue-os'
+      ? 92
+      : prototype.slug === 'contractor-quote-engine'
+        ? 89
+        : 86,
   verified: prototype.proofLevel === 'Verified local',
   route: prototype.slug === 'revenue-os' ? '/showcase/revenue-os' : `/showcase/${prototype.slug}`,
   privateRoute: `/showcase/private/${prototype.slug}`,

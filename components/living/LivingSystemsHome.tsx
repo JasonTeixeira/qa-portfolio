@@ -17,10 +17,62 @@ import { CountUp } from '@/components/motion/CountUp'
 import styles from './LivingSystemsHome.module.css'
 
 const services = [
-  ['S-01', 'AI Systems', 'Agents, copilots, retrieval, voice, and workflow automation that run inside the real business.'],
-  ['S-02', 'Applications & SaaS', 'Full-stack products: schema to interface, auth to billing, observability to support.'],
-  ['S-03', 'Brand & Web', 'Identity, narrative, and a conversion site that makes the product legible and premium.'],
-  ['S-04', 'Growth & SEO', 'Technical SEO, content systems, analytics, and compounding distribution loops.'],
+  ['S-01', 'Lead systems', 'Capture traffic, rank the best opportunities, and give your team the next call to make.'],
+  ['S-02', 'Quote engines', 'Turn generic service pages into quote paths that separate urgent jobs from casual visitors.'],
+  ['S-03', 'AI workflows', 'Put AI inside intake, support, follow-up, research, and reporting where the work already happens.'],
+  ['S-04', 'Conversion sites', 'Rebuild the website around proof, demos, offers, and the action a buyer should take next.'],
+] as const
+
+const openSystems = [
+  {
+    name: 'Revenue OS',
+    href: '/showcase/revenue-os',
+    outcome: 'Turn scattered leads, replies, ads, and missed calls into one daily queue your team can work.',
+    proof: '$84k visible pipeline, 37+ leads/day, 2x follow-up lift',
+    package: 'Lead routing, reply tracking, sales dashboard, follow-up engine',
+    cta: 'Open Revenue OS',
+  },
+  {
+    name: 'Contractor Quote Engine',
+    href: '/showcase/contractor-quote-engine',
+    outcome: 'Qualify quote requests by job type, urgency, location, and value before your team calls back.',
+    proof: '4.8x clearer quote intent, 12m target handoff, 94 urgency score',
+    package: 'Trade-specific quote flow, urgency scoring, walkthrough handoff',
+    cta: 'Open Quote Engine',
+  },
+] as const
+
+const buyerRoutes = [
+  {
+    title: 'Get more leads',
+    text: 'Make the website explain the offer, capture demand, and route every serious buyer into a follow-up path.',
+    proof: 'Live Revenue OS demo',
+    href: '/showcase/revenue-os',
+  },
+  {
+    title: 'Qualify quote requests',
+    text: 'Separate urgent, valuable work from casual form fills before your team wastes the first call.',
+    proof: 'Contractor Quote Engine',
+    href: '/showcase/contractor-quote-engine',
+  },
+  {
+    title: 'Automate intake',
+    text: 'Collect the right details, score the opportunity, and send clean next steps without a back-office scramble.',
+    proof: 'Intake flow package',
+    href: '/book?source=home_route_intake',
+  },
+  {
+    title: 'Launch AI support',
+    text: 'Give customers answers, escalation, and operator visibility without turning support into a black box.',
+    proof: 'Support dashboard build',
+    href: '/book?source=home_route_support',
+  },
+  {
+    title: 'Improve website conversion',
+    text: 'Turn a vague site into a buyer path with proof, sharp CTAs, and a working demo people can click.',
+    proof: 'Conversion rebuild',
+    href: '/book?source=home_route_conversion',
+  },
 ] as const
 
 const receipts = [
@@ -41,7 +93,7 @@ const funnel = [
     title: 'Sprint',
     timing: 'Weeks 1–2',
     price: 'from $4,500',
-    text: 'Ship one visible, production-grade improvement — real code, deployed, measured against conversion.',
+    text: 'Ship one visible production improvement: real code, deployed, measured against conversion.',
   },
   {
     title: 'Build',
@@ -58,9 +110,9 @@ const funnel = [
 ] as const
 
 const trustSignals = [
-  ['Direct line', 'You work with the operator who builds it — no account managers, no handoff, no dilution.'],
-  ['NDA · MSA · SOW', 'Real contracting from day one. Scope and IP protected on paper before code is written.'],
-  ['Openable proof', 'A public build record going back to 2020 — open the repos, read the commits, verify the work.'],
+  ['Direct line', 'You work with the operator who builds it. No account managers, no handoff, no dilution.'],
+  ['NDA, MSA, SOW', 'Real contracting from day one. Scope and IP protected on paper before code is written.'],
+  ['Openable proof', 'A public build record going back to 2020. Open the repos, read the commits, verify the work.'],
   ['Human-reviewed', 'Every commit is read by a principal. AI accelerates the work; it never ships unchecked.'],
 ] as const
 
@@ -102,9 +154,9 @@ export async function LivingSystemsHome() {
       <nav className={styles.progress} aria-label="Page progress">
         <span className={styles.progressRail}><span data-living-progress /></span>
         <a href="#top">Intro</a>
+        <a href="#systems">Systems</a>
         <a href="#work">Work</a>
         <a href="#services">Services</a>
-        <a href="#academy">Academy</a>
         <a href="#proof">Proof</a>
         <a href="#operator">Operator</a>
         <a href="#trust">Trust</a>
@@ -123,27 +175,26 @@ export async function LivingSystemsHome() {
         <div className={styles.heroEditorial}>
           <div className={styles.heroCol}>
             <p className={styles.eyebrow} data-living-reveal>
-              <span /> AI-native studio for founders &amp; operators · since 2020
+              <span /> Websites, apps, and AI systems that move buyers
             </p>
             <h1 id="hero-heading" className={styles.heroTitle}>
-              <span className={styles.heroLine}><span>I build the product,</span></span>
-              <span className={styles.heroLine}><span>the brand, and the</span></span>
-              <span className={styles.heroLine}><span><em>AI</em> that runs it.</span></span>
+              <span className={styles.heroLine}><span>Turn traffic into</span></span>
+              <span className={styles.heroLine}><span>booked calls and</span></span>
+              <span className={styles.heroLine}><span><em>qualified leads.</em></span></span>
             </h1>
             <div className={styles.heroLower} data-living-reveal>
               <p>
-                No handoff, no telephone game — the person who pitches you is the person who
-                <strong> writes the code</strong>. I run my own products in production every day and put
-                the same system — AI, apps, SaaS, brand, growth — to work for yours.
+                I build the website, prototype, dashboard, and AI workflow that lets buyers see
+                the outcome before the sales call. Less trust me. More <strong>open it and see it working</strong>.
               </p>
               <div className={styles.heroCtas}>
                 <TrackedLink
                   className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLg} ${styles.heroCtaHire}`}
-                  href="/book?source=home_hero"
+                  href="#systems"
                   event="booking_click"
-                  eventProps={{ location: 'home_hero', label: 'book_a_call' }}
+                  eventProps={{ location: 'home_hero', label: 'see_live_systems' }}
                 >
-                  <span>Book a call</span><span aria-hidden="true">→</span>
+                  <span>See live systems</span><span aria-hidden="true">↓</span>
                 </TrackedLink>
                 {/* Swapped in for visitors who chose "I'm here to learn" (data-intent=learn). */}
                 <TrackedLink
@@ -156,37 +207,128 @@ export async function LivingSystemsHome() {
                 </TrackedLink>
                 <TrackedLink
                   className={`${styles.button} ${styles.buttonGhost} ${styles.buttonLg}`}
-                  href="#work"
+                  href="/book?source=home_hero_business"
                   event="cta_click"
-                  eventProps={{ location: 'home_hero', label: 'see_the_work' }}
+                  eventProps={{ location: 'home_hero', label: 'build_this_for_my_business' }}
                 >
-                  <span>See the work</span><span aria-hidden="true">↓</span>
+                  <span>Build this for my business</span><span aria-hidden="true">→</span>
                 </TrackedLink>
               </div>
               <p className={styles.heroTrust}>
-                Free 20-min fit call · fixed scope · no contract to start.
+                Openable demos. Fixed scope. Buyer paths built around revenue.
               </p>
             </div>
             <span className={`${styles.heroTick} ${styles.heroTickBL}`} aria-hidden="true">nexural.system</span>
+          </div>
+          <div className={styles.heroProofPanel} aria-label="Traffic to booked calls visual">
+            <div className={styles.heroProofHeader}>
+              <span>Buyer path</span>
+              <b>Live system preview</b>
+            </div>
+            <div className={styles.heroProofFlow}>
+              <div className={styles.heroProofStack} aria-label="Demand sources">
+                <span>Website form</span>
+                <span>Inbox reply</span>
+                <span>Ad lead</span>
+                <span>Missed call</span>
+              </div>
+              <div className={styles.heroProofCore}>
+                <small>Revenue OS</small>
+                <strong>One queue</strong>
+                <em>ranked by urgency + value</em>
+              </div>
+              <div className={styles.heroProofStack} aria-label="Business outcomes">
+                <span>Hot leads worked</span>
+                <span>Follow-ups protected</span>
+                <span>Revenue at risk visible</span>
+                <span className={styles.heroProofWin}>Booked calls</span>
+              </div>
+            </div>
+            <div className={styles.heroProofMetric}>
+              <strong>$84k</strong>
+              <span>visible pipeline with next action assigned</span>
+            </div>
           </div>
         </div>
       </section>
 
       <section className={styles.systemSection} id="system" aria-label="What the studio builds">
         <p className={styles.systemLede} data-living-reveal>
-          One operator. The whole stack — and the AI that runs it.
+          The site should not just look better. It should make the next best action obvious.
         </p>
         <OperatorConsole />
         <div className={styles.capStrip} data-living-reveal aria-label="Capabilities">
-          <span>AI Systems</span><i>·</i><span>Applications</span><i>·</i><span>SaaS</span><i>·</i><span>Brand &amp; Web</span><i>·</i><span>Growth &amp; SEO</span>
+          <span>Lead systems</span><i>/</i><span>Quote engines</span><i>/</i><span>AI workflows</span><i>/</i><span>Conversion sites</span>
+        </div>
+      </section>
+
+      <section className={styles.openSystems} id="systems" aria-label="Interactive systems you can open">
+        <SectionHead
+          kicker="Openable systems"
+          title={<>Interactive systems<br />you can actually click.</>}
+          text="Instead of asking a buyer to imagine the finished product, show them a working version: the problem, the new path, the dashboard, and the call to action."
+        />
+        <div className={styles.openSystemGrid}>
+          {openSystems.map((system) => (
+            <article className={styles.openSystemCard} key={system.name} data-living-reveal>
+              <div>
+                <span className={styles.kicker}>Live demo</span>
+                <h3>{system.name}</h3>
+                <p>{system.outcome}</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Proof</dt>
+                  <dd>{system.proof}</dd>
+                </div>
+                <div>
+                  <dt>Build package</dt>
+                  <dd>{system.package}</dd>
+                </div>
+              </dl>
+              <TrackedLink
+                className={`${styles.button} ${styles.buttonPrimary}`}
+                href={system.href}
+                event="cta_click"
+                eventProps={{ location: 'home_open_systems', label: system.name }}
+              >
+                <span>{system.cta}</span><span aria-hidden="true">→</span>
+              </TrackedLink>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.buyerRoutes} aria-label="Buyer routes">
+        <SectionHead
+          kicker="Buyer routes"
+          title={<>Pick the business outcome.<br />Then open the proof.</>}
+          text="Each route has a visible demo, a focused build package, and a clear call path so buyers understand what changes in their business."
+        />
+        <div className={styles.routeGrid}>
+          {buyerRoutes.map((route) => (
+            <TrackedLink
+              key={route.title}
+              className={styles.routeCard}
+              href={route.href}
+              event="cta_click"
+              eventProps={{ location: 'home_buyer_routes', label: route.title }}
+              data-living-reveal
+            >
+              <span>{route.proof}</span>
+              <h3>{route.title}</h3>
+              <p>{route.text}</p>
+              <b>View route →</b>
+            </TrackedLink>
+          ))}
         </div>
       </section>
 
       <section className={styles.work} id="work" aria-label="Selected work">
         <SectionHead
-          kicker="002 — Selected work"
+          kicker="Selected work"
           title={<>I run my own products.<br />Then I build yours.</>}
-          text="Read straight from the repos — real stack, honest status, hard counts, no mockups."
+          text="Read straight from the repos: real stack, honest status, hard counts, no mockups."
         />
         <div className={styles.workGrid}>
           {workProjects.map((project) => (
@@ -195,7 +337,7 @@ export async function LivingSystemsHome() {
         </div>
         <p className={styles.workMore} data-living-reveal>
           <span>
-            Seven shown — backed by 30+ more repos: trading ops, voice infrastructure, a CISSP
+            Seven shown, backed by 30+ more repos: trading ops, voice infrastructure, a CISSP
             study engine, an AI parts catalog, and shipped products.
           </span>
           <a href="https://github.com/JasonTeixeira" target="_blank" rel="noopener noreferrer">
@@ -207,43 +349,36 @@ export async function LivingSystemsHome() {
       <section className={styles.showcase} aria-label="The system, live">
         <div className={styles.showcaseInner} data-living-reveal>
           <div className={styles.showcaseCopy}>
-            <span className={styles.kicker}>Live in production</span>
-            <h2>This is what “shipped” looks like.</h2>
+            <span className={styles.kicker}>Why this closes better</span>
+            <h2>Buyers trust what they can open.</h2>
             <p>
-              Not a mockup — the live Swing Desk: a ranked board of setups that pass the regime gate
-              and the composite-z threshold across the US stock universe, every candidate gauntlet-tested
-              and scored. The same depth and finish go into what I build for you.
+              A normal website says what you do. A better one lets the buyer click through the
+              future state: the qualified lead path, the daily queue, the proof, and the next step.
             </p>
             <TrackedLink
               className={styles.textLink}
-              href="/work"
+              href="/showcase/revenue-os"
               event="cta_click"
-              eventProps={{ location: 'home_showcase', label: 'see_case_studies' }}
+              eventProps={{ location: 'home_showcase', label: 'open_revenue_os' }}
             >
-              See the case studies →
+              Open the flagship demo →
             </TrackedLink>
           </div>
-          <figure className={styles.showcaseShot}>
-            <span className={styles.workShotBar} aria-hidden="true">
-              <i /><i /><i /><span className={styles.workShotUrl}>nexural.io/swing-desk</span>
-            </span>
-            <Image
-              src="/work/nexural-desk.webp"
-              alt="Nexural Swing Desk — a live ranked board of setups (AAPL, MSFT, NVDA…) passing the regime gate and composite-z threshold, scored with side calls."
-              width={1512}
-              height={875}
-              sizes="(max-width: 900px) 100vw, 1100px"
-              className={styles.showcaseImg}
-            />
-          </figure>
+          <div className={styles.proofFlow} aria-label="Buyer path proof">
+            <div><span>1</span><b>Diagnose the leak</b><small>where buyers drop</small></div>
+            <i aria-hidden="true" />
+            <div><span>2</span><b>Show the system</b><small>prototype they can click</small></div>
+            <i aria-hidden="true" />
+            <div><span>3</span><b>Book the build</b><small>with proof already seen</small></div>
+          </div>
         </div>
       </section>
 
       <section className={styles.services} id="services" aria-labelledby="services-heading">
         <SectionHead
-          kicker="003 — Services"
-          title={<>The piece,<br />or the whole business.</>}
-          text="Engage one capability or hand over the whole machine. Same operator, same standard, scoped to where the leverage actually is."
+          kicker="Services"
+          title={<>Pick the business outcome.<br />Build the system around it.</>}
+          text="Start with the leak: more leads, better quote requests, faster intake, AI support, or a conversion site buyers can trust."
         />
         <ol className={styles.serviceList}>
           {services.map(([number, title, text]) => (
@@ -259,11 +394,11 @@ export async function LivingSystemsHome() {
 
       <section className={styles.funnel} aria-labelledby="funnel-heading">
         <div className={styles.funnelIntro} data-living-reveal>
-          <span className={styles.kicker}>004 — How we work</span>
+          <span className={styles.kicker}>How we work</span>
           <h2 id="funnel-heading">A clear path, a fixed scope, a real number.</h2>
           <p>
             Every engagement starts small and earns the next step. You always know the timeline,
-            the deliverable, and the price before you commit — and you keep what we build at every
+            the deliverable, and the price before you commit. You keep what we build at every
             stage, whether or not you continue.
           </p>
         </div>
@@ -286,19 +421,19 @@ export async function LivingSystemsHome() {
             event="cta_click"
             eventProps={{ location: 'home_funnel', label: 'start_audit' }}
           >
-            <span>Start with the Sage Audit — $750</span><span aria-hidden="true">→</span>
+            <span>Start with the Sage Audit, $750</span><span aria-hidden="true">→</span>
           </TrackedLink>
         </div>
       </section>
 
       <section className={styles.funnel} aria-labelledby="fit-heading">
         <div className={styles.funnelIntro} data-living-reveal>
-          <span className={styles.kicker}>004.5 — Fit</span>
+          <span className={styles.kicker}>Fit</span>
           <h2
             id="fit-heading"
             style={{ fontFamily: 'var(--font-serif)', fontVariationSettings: "'opsz' 120, 'SOFT' 0, 'WONK' 0" }}
           >
-            Who this is for — and who it isn&apos;t.
+            Who this is for and who it is not.
           </h2>
           <p>
             A small studio can&apos;t be the right answer for everyone, and pretending otherwise wastes
@@ -309,7 +444,7 @@ export async function LivingSystemsHome() {
           <div className="rounded-[12px] border border-[rgba(24,182,99,0.28)] bg-[rgba(24,182,99,0.04)] p-6">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#18b663]">A fit if you&apos;re…</p>
             <ul className="mt-4 space-y-3 text-[15px] leading-6 text-[var(--sage-ink-muted)]">
-              <li>A founder or operator with real revenue or funding who needs production-grade systems — not a throwaway prototype.</li>
+              <li>A founder or operator with real revenue or funding who needs production-grade systems, not a throwaway prototype.</li>
               <li>Buying senior judgment <em>and</em> execution from one accountable person, not a staffing bench.</li>
               <li>Ready to start small (the $750 Audit) and move on proof, not promises.</li>
             </ul>
@@ -319,7 +454,7 @@ export async function LivingSystemsHome() {
             <ul className="mt-4 space-y-3 text-[15px] leading-6 text-[var(--sage-ink-muted)]">
               <li>Shopping purely on price, or wanting the cheapest freelancer you can find.</li>
               <li>Looking for a big agency with account managers and a ten-person team.</li>
-              <li>Not ready to decide — or to invest in doing it properly the first time.</li>
+              <li>Not ready to decide or invest in doing it properly the first time.</li>
             </ul>
           </div>
         </div>
@@ -327,8 +462,8 @@ export async function LivingSystemsHome() {
 
       <section className={styles.academyDoor} id="academy" aria-labelledby="academy-heading">
         <div className={styles.academyDoorInner} data-living-reveal>
-          <span className={styles.kicker}>005 — Two ways in</span>
-          <h2 id="academy-heading">{t('Hire the studio — or learn to build it yourself.')}</h2>
+          <span className={styles.kicker}>Learn the system</span>
+          <h2 id="academy-heading">{t('Hire the studio or learn to build it yourself.')}</h2>
           <p>
             Everything I run for clients, taught as a practical curriculum: code foundations,
             AI engineering, and shipping real products. <strong>$20/mo</strong>, founding cohort forming.
@@ -348,7 +483,7 @@ export async function LivingSystemsHome() {
       </section>
 
       <section className={styles.proof} id="proof" aria-labelledby="proof-heading">
-        <SectionHead center kicker="006 — Proof" title="The receipts." text="Shipped products you can open and a public build record going back to 2020." />
+        <SectionHead center kicker="Proof" title="The receipts." text="Shipped products you can open and a public build record going back to 2020." />
         <div className={styles.receipts} data-living-reveal>
           {receipts.map(([value, label]) => (
             <div key={label}>
@@ -359,14 +494,14 @@ export async function LivingSystemsHome() {
         </div>
         <p className={styles.proofNote} data-living-reveal>
           No fabricated metrics, no invented testimonials, no fake screenshots. Every number above is
-          openable on GitHub — and before you sign, you can get a real collaborator on the phone to
+          openable on GitHub. Before you sign, you can get a real collaborator on the phone to
           verify exactly how I work.
         </p>
       </section>
 
       <section className={styles.operator} id="operator" aria-labelledby="operator-heading">
         <div data-living-reveal>
-          <span className={styles.kicker}>007 — Operator</span>
+          <span className={styles.kicker}>Operator</span>
           <h2 id="operator-heading">One person. Principal-level. The whole stack.</h2>
           <p>
             Jason Teixeira is the AI engineer and application-building specialist who scopes the work
@@ -384,7 +519,7 @@ export async function LivingSystemsHome() {
           />
           <div className={styles.portraitCaption}>
             <span>Jason Teixeira</span>
-            <p>Founder · principal engineer · Sage Ideas</p>
+            <p>Founder / principal engineer / Sage Ideas</p>
           </div>
         </div>
       </section>
@@ -392,9 +527,9 @@ export async function LivingSystemsHome() {
       <section className={styles.trust} id="trust" aria-labelledby="trust-heading">
         <SectionHead
           center
-          kicker="008 — Proof & references"
+          kicker="Proof and references"
           title={<>What you actually get.</>}
-          text="No agency theatre. A short list of things the studio commits to on every engagement — verifiable, not aspirational."
+          text="No agency theatre. A short list of things the studio commits to on every engagement, verifiable before you sign."
         />
         <div className={styles.trustGrid}>
           {trustSignals.map(([label, text]) => (
@@ -411,8 +546,8 @@ export async function LivingSystemsHome() {
             <span className={styles.kicker}>References, not cherry-picked quotes</span>
             <h3>Phone a real collaborator before you sign.</h3>
             <p>
-              Most studios show you three hand-picked testimonials. I’ll connect you with real
-              people I’ve built for — unfiltered, on the record. The person who pitches you is the
+              Most studios show you three hand-picked testimonials. I will connect you with real
+              people I have built for, unfiltered and on the record. The person who pitches you is the
               person who types the code.
             </p>
           </div>
@@ -460,14 +595,14 @@ export async function LivingSystemsHome() {
         ) : null}
 
         <p className={styles.trustNote} data-living-reveal>
-          No invented quotes, no borrowed logos. Real named references on request — and added here as
+          No invented quotes, no borrowed logos. Real named references on request, added here as
           they’re permissioned.
         </p>
       </section>
 
       <section className={styles.final} id="build" aria-labelledby="build-heading">
         <span className={styles.seal} aria-hidden="true">道</span>
-        <span className={styles.kicker} data-living-reveal>009 — Build</span>
+        <span className={styles.kicker} data-living-reveal>Build</span>
         <h2 id="build-heading">{t('Bring me the hard one.')}</h2>
         <p data-living-reveal>An app, a brand, a SaaS, or all of it. Every engagement starts with a real conversation, not a contract.</p>
         <div className={styles.finalCtas} data-living-reveal>

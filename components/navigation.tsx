@@ -196,19 +196,6 @@ const resourcesMega: MegaSection[] = [
   },
 ]
 
-const routeConsoleMetrics = {
-  services: [
-    ['route', 'audit -> build'],
-    ['scope', 'fixed or custom'],
-    ['handoff', 'operator-led'],
-  ],
-  resources: [
-    ['learn', 'academy'],
-    ['use', 'tools'],
-    ['proof', 'build record'],
-  ],
-} as const
-
 const mobileRouteCards = [
   {
     href: '/services',
@@ -277,7 +264,7 @@ function MegaDropdown({
         aria-expanded={isOpen}
         aria-haspopup="true"
         className={cn(
-          'whitespace-nowrap inline-flex items-center gap-1.5 px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
+          'whitespace-nowrap inline-flex min-h-11 items-center gap-1.5 px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
           isOpen
             ? 'text-[var(--sage-ink)] bg-[var(--sage-surface-3)]'
             : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
@@ -648,7 +635,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               href="/work"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Work', href: '/work' })}
               className={cn(
-                'whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
+                'inline-flex min-h-11 items-center whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/work')
                   ? 'text-[var(--sage-accent-readable)] bg-[var(--sage-surface-3)]'
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
@@ -660,7 +647,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               href="/academy"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Academy', href: '/academy' })}
               className={cn(
-                'whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
+                'inline-flex min-h-11 items-center whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/academy')
                   ? 'text-[var(--sage-accent-readable)] bg-[var(--sage-surface-3)]'
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'
@@ -672,7 +659,7 @@ export function Navigation({ isSignedIn = false }: { isSignedIn?: boolean } = {}
               href="/pricing"
               onClick={() => trackEvent('cta_click', { location: 'nav', label: 'Pricing', href: '/pricing' })}
               className={cn(
-                'whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
+                'inline-flex min-h-11 items-center whitespace-nowrap px-4 py-2.5 text-[12px] uppercase tracking-[0.12em] rounded-[12px] transition-colors [font-family:var(--font-mono),ui-monospace,monospace]',
                 isActive('/pricing')
                   ? 'text-[var(--sage-accent-readable)] bg-[var(--sage-surface-3)]'
                   : 'text-[var(--sage-ink-muted)] hover:text-[var(--sage-ink)] hover:bg-[var(--sage-surface-2)]'

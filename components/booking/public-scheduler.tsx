@@ -130,7 +130,7 @@ export function PublicScheduler() {
     return (
       <Surface level={2} bordered className="p-8 sm:p-10 text-center">
         <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#18b663]/15 text-2xl text-[#18b663]">✓</div>
-        <h3 className="text-2xl text-[var(--sage-ink)]" style={SERIF}>You&apos;re booked.</h3>
+        <h2 className="text-2xl text-[var(--sage-ink)]" style={SERIF}>You&apos;re booked.</h2>
         <p className="mt-3 text-[15px] leading-relaxed text-[var(--sage-ink-muted)]">
           Your 30-minute discovery call is confirmed for{' '}
           <strong className="text-[var(--sage-ink)]">{fmtDayLong.format(new Date(bookedAt))} · {fmtTime.format(new Date(bookedAt))}</strong>.
@@ -153,7 +153,7 @@ export function PublicScheduler() {
         {/* Month calendar */}
         <div className="border-b border-[var(--sage-border)] p-5 sm:p-6 lg:border-b-0 lg:border-r">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-[17px] text-[var(--sage-ink)]" style={SERIF}>{fmtMonthYear.format(new Date(view.y, view.m, 1))}</h3>
+            <h2 className="text-[17px] text-[var(--sage-ink)]" style={SERIF}>{fmtMonthYear.format(new Date(view.y, view.m, 1))}</h2>
             <div className="flex items-center gap-1">
               <button type="button" onClick={() => shift(-1)} disabled={!canPrev} aria-label="Previous month"
                 className="grid h-8 w-8 place-items-center rounded-[6px] border border-[var(--sage-border)] text-[var(--sage-ink-muted)] transition-colors hover:border-[var(--sage-border-strong)] hover:text-[var(--sage-ink)] disabled:opacity-30 disabled:pointer-events-none">←</button>

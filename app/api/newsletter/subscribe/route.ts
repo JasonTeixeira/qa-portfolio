@@ -16,7 +16,7 @@ function json(status: number, body: unknown) {
 
 export async function POST(req: NextRequest) {
   try {
-    const limited = rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'newsletter' });
+    const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'newsletter' });
     if (limited) return limited;
 
     const body = await req.json().catch(() => ({}));

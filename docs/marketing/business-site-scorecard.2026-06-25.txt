@@ -1,0 +1,156 @@
+SAGE IDEAS BUSINESS SITE SCORECARD
+Date: 2026-06-25
+Last evidence refresh: 2026-06-26T03:34:01Z
+Scope: Business/marketing pages, services, proof, showcase, legal hub, blog/topic/lab routing, and booking routes.
+Out of scope: Academy curriculum polish, authenticated portals/admin, live customer analytics, and attorney legal review.
+
+CURRENT POSTURE
+
+Earned business-site posture: 94-96 / 100.
+
+This is an evidence-backed score for the audited business-site slice. It is not a claim that live customer ROI, live booked-call lift, or legal sufficiency has been proven. The current claim is narrower and stronger: the local production business surface now passes repo lint, typecheck, clean build, business route audit, link audit, metadata audit, accessibility audit, overflow checks, screenshots, focused E2E, and Lighthouse gates.
+
+EVIDENCE
+
+Screenshots:
+docs/evidence/marketing/screenshots/2026-06-25/
+
+Audit artifacts:
+docs/evidence/marketing/audits/2026-06-25/business-site-audit.json
+docs/evidence/marketing/audits/2026-06-25/metadata-check.json
+docs/evidence/marketing/audits/2026-06-25/link-check.json
+docs/evidence/marketing/audits/2026-06-25/link-check.txt
+docs/evidence/marketing/audits/2026-06-25/axe-results.json
+docs/evidence/marketing/audits/2026-06-25/route-inventory.txt
+docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json
+
+Verification run:
+PASS npm run lint
+PASS npm run typecheck
+PASS npm run build:clean
+PASS BASE_URL=http://127.0.0.1:3051 AUDIT_DATE=2026-06-25 node scripts/marketing/business-site-audit.mjs
+PASS BASE_URL=http://127.0.0.1:3051 AUDIT_DATE=2026-06-25 node scripts/marketing/lighthouse-business.mjs
+PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium
+
+Business audit summary:
+- Generated: 2026-06-26T03:26:13.822Z
+- Base URL: http://127.0.0.1:3051
+- Routes audited: 29
+- Internal link targets checked: 229
+- Failed internal links: 0
+- Routes with axe violations: 0
+- Serious/critical axe violations: 0
+- Routes with horizontal overflow: 0
+
+Lighthouse desktop summary:
+- Generated: 2026-06-26T03:34:01.178Z
+- Base URL: http://127.0.0.1:3051
+- Routes audited: 18
+- Minimum Performance: 96
+- Minimum Accessibility: 100
+- Minimum Best Practices: 100
+- Minimum SEO: 100
+- CLS: 0 on all 18 Lighthouse routes
+- TBT: 0 on all 18 Lighthouse routes
+
+Routes with direct Lighthouse evidence:
+- /
+- /services
+- /pricing
+- /book?source=lighthouse_business
+- /trust
+- /work
+- /industries
+- /showcase/proof
+- /showcase/compare
+- /showcase/revenue-os
+- /showcase/contractor-quote-engine
+- /showcase/med-spa-consultation-funnel
+- /showcase/law-firm-intake-system
+- /showcase/ai-support-agent-dashboard
+- /legal
+- /blog
+- /topics
+- /lab
+
+WHAT WAS COMPLETED
+
+1. Repo quality gates:
+- Repo-wide lint passes.
+- Typecheck passes.
+- Clean production build passes across 315 app routes.
+- Previous repo-wide lint blockers in Academy/proto/scripts are resolved.
+
+2. Secondary showcases:
+- Med spa, law firm, and AI support now have bespoke buyer-facing visual stories.
+- Each has a click-through prototype state loop.
+- Each has source-tagged booking CTAs.
+- Each is included in the route audit and Lighthouse set.
+
+3. Services and industries:
+- Services and industry routes now route buyers toward demos, proof, and book paths.
+- Industry pages map vertical problems to relevant showcase routes.
+- Blog, topics, and lab now feed the business funnel instead of acting as isolated content islands.
+
+4. Legal and trust:
+- Legal hub is now directly audited and Lighthouse-tested.
+- Trust page separates verified local proof from unproven live business outcomes.
+- Legal pages are technically clean, but not attorney-reviewed.
+
+5. Evidence system:
+- Business audit covers 29 routes.
+- Lighthouse covers 18 routes.
+- Screenshots, metadata, link check, route inventory, axe results, and Lighthouse JSON are stored under the evidence folders above.
+
+SCORECARD
+
+Offer clarity: 95
+Business-owner language: 94
+Visual design: 94
+Visual storytelling: 94
+CTA clarity: 95
+Funnel continuity: 95
+Interactive proof quality: 95
+Trust and proof: 91
+SEO technical foundation: 96
+SEO content architecture: 94
+Mobile readiness: 96
+Accessibility: 100 for audited routes
+Performance: 96
+Information architecture: 94
+Closing strength: 92
+
+HONEST OVERALL READ
+
+Technical execution: 96 / 100
+Business front-end polish: 94 / 100
+Marketing clarity: 94 / 100
+Visual storytelling: 94 / 100
+Conversion readiness: 93 / 100
+Trust with local evidence: 91 / 100
+
+The site is now strong enough to use as a serious business acquisition surface. It is not a real 99 yet because high-90 trust and closing strength require live proof: real prospects, demo analytics, booked-call conversion, before/after examples, and customer feedback.
+
+REMAINING GAPS
+
+1. Real customer/campaign proof:
+- Add anonymized outreach packets.
+- Add demo-to-book analytics.
+- Add before/after screenshots.
+- Add real buyer feedback and objections.
+- Add case studies with real outcomes.
+
+2. Secondary flagship depth:
+- Med spa, law firm, and AI support are credible demos, but still lighter than Revenue OS.
+- To become flagship-grade, each needs richer native app surfaces, deeper state transitions, and industry-specific analytics/proof.
+
+3. Legal review:
+- Legal UX passes technical audits.
+- The documents still need attorney review before making legal-completeness claims.
+
+4. Commercial decision:
+- Decide whether the first-visit/homepage gate stays, shortens, or is bypassed for paid/commercial traffic.
+
+NEXT POSTURE
+
+Ship the business-site slice if you want to start using it for outreach now. The next high-ROI build loop is real proof capture: instrument demo clicks, connect booking analytics, publish anonymized outbound packets, and turn early conversations into outcome-backed case studies.

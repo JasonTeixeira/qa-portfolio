@@ -41,6 +41,7 @@ const evidencePaths = {
   approvedKnowledgePacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'approved-knowledge-operating-packet-latest.json'),
   operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
   gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
+  gatewayOperatingPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'gateway-operating-packet-latest.json'),
   worldClassReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'world-class-readiness-latest.json'),
 };
 
@@ -183,6 +184,7 @@ async function main() {
     approvedKnowledgePacket,
     operatorBrief,
     gatewayCaptureDiagnosis,
+    gatewayOperatingPacket,
     worldClassReadiness,
   ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
@@ -866,6 +868,45 @@ async function main() {
     gatewayCaptureDiagnosis.releaseMeaning?.includes('does not post messages'),
     'Gateway capture diagnosis must explicitly avoid claiming live mutation or proof satisfaction.',
   );
+  requireTruthy(gatewayOperatingPacket.ok === true, 'Gateway operating packet evidence is not ok.');
+  requireTruthy(
+    gatewayOperatingPacket.mutationMode === 'local_file_evidence_only',
+    'Gateway operating packet must not mutate external systems.',
+  );
+  requireTruthy(
+    gatewayOperatingPacket.releaseMeaning?.includes('does not run the worker')
+      && gatewayOperatingPacket.releaseMeaning?.includes('post messages')
+      && gatewayOperatingPacket.releaseMeaning?.includes('mutate Supabase')
+      && gatewayOperatingPacket.releaseMeaning?.includes('satisfy operating proof'),
+    'Gateway operating packet must explicitly avoid claiming worker execution, Discord posting, Supabase mutation, or operating proof.',
+  );
+  requireTruthy(
+    gatewayOperatingPacket.target?.target === 1
+      && gatewayOperatingPacket.target?.remaining === Math.max(0, gatewayOperatingPacket.target.target - gatewayOperatingPacket.target.current),
+    'Gateway operating packet must target one fresh usable message with correct remaining count.',
+  );
+  requireTruthy(
+    (gatewayOperatingPacket.fields ?? []).filter((field) => field.required).length >= 16,
+    'Gateway operating packet must include enough required proof fields.',
+  );
+  for (const requiredGatewayField of ['worker_id', 'message_content_enabled', 'usable_message_id', 'content_length', 'author_bot', 'deleted', 'evidence_artifact_path', 'operator_attestation']) {
+    requireTruthy(
+      (gatewayOperatingPacket.fields ?? []).some((field) => field.key === requiredGatewayField && field.required),
+      `Gateway operating packet missing required field ${requiredGatewayField}.`,
+    );
+  }
+  requireTruthy(
+    (gatewayOperatingPacket.antiFakeRules ?? []).some((rule) => rule.includes('identify-only'))
+      && (gatewayOperatingPacket.antiFakeRules ?? []).some((rule) => rule.includes('empty content'))
+      && (gatewayOperatingPacket.antiFakeRules ?? []).some((rule) => rule.includes('bot messages'))
+      && (gatewayOperatingPacket.antiFakeRules ?? []).some((rule) => rule.includes('deleted messages'))
+      && (gatewayOperatingPacket.antiFakeRules ?? []).some((rule) => rule.includes('stale heartbeat')),
+    'Gateway operating packet must block identify-only, empty-content, bot, deleted-message, and stale-heartbeat proof.',
+  );
+  requireTruthy(
+    (gatewayOperatingPacket.verificationCommands ?? []).every((command) => !String(command).includes('discord:gateway:once') && !String(command).includes('discord:classify-messages')),
+    'Gateway operating packet local verification commands must not run worker one-shots or live classification mutation.',
+  );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
   requireTruthy(
@@ -1153,6 +1194,18 @@ async function main() {
       antiFakeRules: approvedKnowledgePacket.antiFakeRules,
       nextActions: approvedKnowledgePacket.nextActions,
       releaseMeaning: approvedKnowledgePacket.releaseMeaning,
+    },
+    gatewayOperatingPacket: {
+      ok: gatewayOperatingPacket.ok,
+      mutationMode: gatewayOperatingPacket.mutationMode,
+      status: gatewayOperatingPacket.status,
+      target: gatewayOperatingPacket.target,
+      heartbeat: gatewayOperatingPacket.heartbeat,
+      messageContentSignal: gatewayOperatingPacket.messageContentSignal,
+      requiredFieldCount: gatewayOperatingPacket.fields?.filter((field) => field.required).length ?? 0,
+      antiFakeRules: gatewayOperatingPacket.antiFakeRules,
+      nextActions: gatewayOperatingPacket.nextActions,
+      releaseMeaning: gatewayOperatingPacket.releaseMeaning,
     },
     proofSourceVolumeScan: {
       ok: proofSourceVolumeScan.ok,

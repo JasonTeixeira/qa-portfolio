@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T08:20:37.592Z",
+  "timestamp": "2026-06-26T08:33:30.793Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -58,6 +58,7 @@
     "approvedKnowledgePacket": "docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
     "operatorBrief": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
     "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+    "gatewayOperatingPacket": "docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
     "worldClassReadiness": "docs/evidence/engineering-loop/world-class-readiness-latest.json"
   },
   "scorecard": {
@@ -89,7 +90,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782462028554"
+    "runKey": "phase-20-final-1782462801724"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -907,6 +908,47 @@
       "Rerun npm run discord:proof-source-scan after approvals."
     ],
     "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof."
+  },
+  "gatewayOperatingPacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready_for_fresh_message",
+    "target": {
+      "current": 0,
+      "target": 1,
+      "remaining": 1,
+      "usableMessageState": "message_content_ready_needs_fresh_member_message"
+    },
+    "heartbeat": {
+      "workerId": "sagebot-main",
+      "status": "heartbeat_ack",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-26T08:32:47.167+00:00",
+      "fresh": true,
+      "lastCloseCode": null
+    },
+    "messageContentSignal": {
+      "effectiveEnabled": true,
+      "source": "identify_event",
+      "identifyEnabled": true,
+      "heartbeatEnabled": null,
+      "identifyCreatedAt": "2026-06-26T07:43:56.058422+00:00"
+    },
+    "requiredFieldCount": 18,
+    "antiFakeRules": [
+      "This packet is not live capture proof; it is the contract for proving live capture.",
+      "Do not count identify-only evidence without a fresh non-bot non-empty message row.",
+      "Do not count empty content, bot messages, deleted messages, smoke rows, dry-run rows, or one-shot local rehearsal rows.",
+      "Do not count stale heartbeat rows or heartbeat rows that lack a link to the current worker proof window.",
+      "Do not count old non-empty messages captured before the current Message Content-enabled identify event.",
+      "Do not claim Discord corpus readiness until capture, classification, candidate queueing, approval, and RAG sync are separately proven."
+    ],
+    "nextActions": [
+      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
+      "Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row."
+    ],
+    "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
   },
   "proofSourceVolumeScan": {
     "ok": true,

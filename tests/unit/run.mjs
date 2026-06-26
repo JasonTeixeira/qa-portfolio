@@ -98,6 +98,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-source-recovery-plan'], 'tsx scripts/discord/write-proof-source-recovery-plan.ts');
   assert.equal(packageJson.scripts['discord:approved-knowledge-packet'], 'tsx scripts/discord/write-approved-knowledge-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
+  assert.equal(packageJson.scripts['discord:gateway-operating-packet'], 'tsx scripts/discord/write-gateway-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
   assert.equal(packageJson.scripts['discord:observability-quality-readiness'], 'node scripts/discord/write-observability-quality-readiness.mjs');
@@ -110,6 +111,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-recovery-plan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:approved-knowledge-packet'));
@@ -171,6 +173,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-source-recovery-plan-latest\.json/);
   assert.match(localVerificationEvidence, /approved-knowledge-operating-packet-latest\.json/);
+  assert.match(localVerificationEvidence, /gateway-operating-packet-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /gateway_capture_rehearsal/);
   assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
@@ -203,6 +206,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
   assert.match(localVerificationEvidence, /Approved knowledge operating packet must explicitly avoid claiming approval, sync, publish, AI, or Supabase mutation/);
   assert.match(localVerificationEvidence, /Approved knowledge operating packet must block packet-only, raw-message, and incomplete-field proof/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must explicitly avoid claiming worker execution, Discord posting, Supabase mutation, or operating proof/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must block identify-only, empty-content, bot, deleted-message, and stale-heartbeat proof/);
   assert.match(localVerificationEvidence, /Operator brief missing eval count must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
@@ -283,6 +288,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(approvedKnowledgePacketScript, /buildApprovedKnowledgeOperatingPacket/);
   assert.match(approvedKnowledgePacketScript, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(approvedKnowledgePacketScript, /discord-proof-source-recovery-plan-latest\.json/);
+  const gatewayOperatingPacketScript = await readFile(new URL('../../scripts/discord/write-gateway-operating-packet.ts', import.meta.url), 'utf8');
+  assert.match(gatewayOperatingPacketScript, /gateway-operating-packet-latest\.json/);
+  assert.match(gatewayOperatingPacketScript, /buildGatewayOperatingPacket/);
+  assert.match(gatewayOperatingPacketScript, /discord-gateway-capture-diagnosis-latest\.json/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
@@ -375,6 +384,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /does not satisfy real operating proof lanes/);
   assert.match(discordAdminPage, /data-testid="discord-content-factory-readiness"/);
   assert.match(discordAdminPage, /data-testid="discord-gateway-capture-diagnosis"/);
+  assert.match(discordAdminPage, /data-testid="gateway-operating-packet"/);
+  assert.match(discordAdminPage, /Gateway operating packet/);
+  assert.match(discordAdminPage, /loadGatewayOperatingPacket/);
+  assert.match(discordAdminPage, /gateway-operating-packet-latest\.json/);
   assert.match(discordAdminPage, /Gateway capture diagnosis/);
   assert.match(discordAdminPage, /loadGatewayCaptureDiagnosis/);
   assert.match(discordAdminPage, /discord-gateway-capture-diagnosis-latest\.json/);
@@ -3371,6 +3384,115 @@ test('discord proof intake readiness: defines auditable fields for real operatin
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('wrong_lane_count'));
   assert.ok(validation.failures.includes('missing_non_proof_disclaimer'));
+});
+
+test('discord gateway operating packet: requires fresh usable message proof and blocks weak evidence', async () => {
+  const {
+    buildGatewayOperatingPacket,
+    renderGatewayOperatingPacketMarkdown,
+    validateGatewayOperatingPacket,
+  } = await import('../../lib/discord/gateway-operating-packet.ts');
+
+  const packet = buildGatewayOperatingPacket({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    diagnosis: {
+      ok: true,
+      mutationMode: 'read_only_supabase_selects_and_local_file_evidence_only',
+      releaseMeaning: 'Gateway capture diagnosis reads live Supabase rows only.',
+      diagnosis: {
+        status: 'blocked',
+        rootCauses: ['Non-bot messages exist, but message content is empty.'],
+        nextActions: ['Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event.'],
+      },
+      heartbeat: {
+        latest: {
+          workerId: 'sagebot-main',
+          status: 'heartbeat_ack',
+          ageMinutes: 1,
+          lastSeenAt: '2026-06-26T00:00:00.000Z',
+          messageContentEnabled: null,
+          guildMembersEnabled: null,
+          intents: null,
+          lastCloseCode: null,
+          lastCloseReason: null,
+        },
+      },
+      identify: {
+        latest: {
+          messageContentEnabled: true,
+          intents: 34307,
+          createdAt: '2026-06-26T00:00:00.000Z',
+        },
+        messageContentSignalSource: 'identify_event',
+        effectiveMessageContentEnabled: true,
+      },
+      counts: {
+        'discord_messages.non_bot_non_empty': 0,
+        'discord_messages.non_bot': 9,
+        'discord_messages.empty_content': 7,
+      },
+      recentMessages: [],
+      errors: [],
+    },
+  });
+
+  assert.equal(packet.ok, true);
+  assert.equal(packet.version, 'gateway-operating-packet-v1');
+  assert.equal(packet.mutationMode, 'local_file_evidence_only');
+  assert.equal(packet.status, 'ready_for_fresh_message');
+  assert.equal(packet.target.current, 0);
+  assert.equal(packet.target.target, 1);
+  assert.equal(packet.target.remaining, 1);
+  assert.equal(packet.target.usableMessageState, 'message_content_ready_needs_fresh_member_message');
+  assert.equal(packet.messageContentSignal.effectiveEnabled, true);
+  assert.equal(packet.messageContentSignal.source, 'identify_event');
+  assert.equal(packet.heartbeat.fresh, true);
+  assert.ok(packet.fields.filter((field) => field.required).length >= 16);
+  for (const required of ['worker_id', 'message_content_enabled', 'usable_message_id', 'content_length', 'author_bot', 'deleted', 'evidence_artifact_path', 'operator_attestation']) {
+    assert.ok(packet.fields.some((field) => field.key === required && field.required));
+  }
+  assert.ok(packet.antiFakeRules.some((rule) => rule.includes('identify-only')));
+  assert.ok(packet.antiFakeRules.some((rule) => rule.includes('empty content')));
+  assert.ok(packet.antiFakeRules.some((rule) => rule.includes('bot messages')));
+  assert.ok(packet.antiFakeRules.some((rule) => rule.includes('deleted messages')));
+  assert.ok(packet.antiFakeRules.some((rule) => rule.includes('stale heartbeat')));
+  assert.ok(packet.nextActions.some((action) => action.includes('fresh non-bot member message')));
+  assert.ok(packet.verificationCommands.includes('npm run discord:gateway-capture-diagnosis'));
+  assert.equal(validateGatewayOperatingPacket(packet).ok, true);
+
+  const markdown = renderGatewayOperatingPacketMarkdown(packet);
+  assert.match(markdown, /Gateway Operating Packet/);
+  assert.match(markdown, /Current usable non-bot non-empty messages: 0\/1/);
+  assert.match(markdown, /identify_event/);
+  assert.match(markdown, /Anti-Fake Rules/);
+
+  const passing = buildGatewayOperatingPacket({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    diagnosis: {
+      counts: { 'discord_messages.non_bot_non_empty': 1 },
+      heartbeat: {
+        latest: {
+          workerId: 'sagebot-main',
+          status: 'heartbeat_ack',
+          ageMinutes: 1,
+          lastSeenAt: '2026-06-26T00:00:00.000Z',
+          lastCloseCode: null,
+        },
+      },
+      identify: {
+        effectiveMessageContentEnabled: true,
+        messageContentSignalSource: 'heartbeat',
+        latest: { messageContentEnabled: true, intents: 34307, createdAt: '2026-06-26T00:00:00.000Z' },
+      },
+    },
+  });
+  assert.equal(passing.status, 'proven');
+  assert.equal(passing.target.remaining, 0);
+
+  const invalid = { ...packet, releaseMeaning: 'ready' };
+  const invalidValidation = validateGatewayOperatingPacket(invalid);
+  assert.equal(invalidValidation.ok, false);
+  assert.ok(invalidValidation.failures.includes('missing_worker_non_mutation_disclaimer'));
 });
 
 test('discord weekly proof packet: combines backlog counts with intake templates', async () => {

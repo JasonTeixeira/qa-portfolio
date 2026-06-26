@@ -832,6 +832,44 @@ type GatewayCaptureDiagnosis = {
   errors: Array<{ label: string; error: string }>;
 };
 
+type GatewayOperatingPacket = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'proven' | 'ready_for_fresh_message' | 'blocked' | 'missing';
+  target: {
+    current: number;
+    target: number;
+    remaining: number;
+    usableMessageState: string;
+  };
+  adminSurface: string;
+  messageContentSignal: {
+    effectiveEnabled: boolean | null;
+    source: string | null;
+    identifyEnabled: boolean | null;
+    heartbeatEnabled: boolean | null;
+    identifyCreatedAt: string | null;
+  };
+  heartbeat: {
+    workerId: string | null;
+    status: string | null;
+    ageMinutes: number | null;
+    lastSeenAt: string | null;
+    fresh: boolean;
+    lastCloseCode: number | null;
+  };
+  fields: Array<{ key: string; label: string; required: boolean; description: string }>;
+  acceptanceChecklist: string[];
+  rejectionChecklist: string[];
+  antiFakeRules: string[];
+  liveProofSteps: string[];
+  verificationCommands: string[];
+  nextActions: string[];
+  failures: string[];
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -908,6 +946,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const ragEvalMissingPreflight = await loadRagEvalMissingPreflight();
   const ragEvalRecoveryPlan = await loadRagEvalRecoveryPlan();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
+  const gatewayOperatingPacket = await loadGatewayOperatingPacket();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1929,6 +1968,74 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   <li key={rule}>{rule}</li>
                 ))}
               </ul>
+            </div>
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="gateway-operating-packet">
+          <Panel
+            icon={Radio}
+            title="Gateway operating packet"
+            meta={`${gatewayOperatingPacket.target.current}/${gatewayOperatingPacket.target.target} usable messages`}
+            empty="Gateway operating packet has not been generated. Run npm run discord:gateway-operating-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={gatewayOperatingPacket.status === 'proven' ? 'emerald' : gatewayOperatingPacket.status === 'ready_for_fresh_message' ? 'amber' : 'rose'}>
+                    {gatewayOperatingPacket.status}
+                  </Badge>
+                  <Badge tone={gatewayOperatingPacket.ok ? 'emerald' : 'rose'}>{gatewayOperatingPacket.ok ? 'packet ok' : 'packet failed'}</Badge>
+                  <Badge tone="neutral">{gatewayOperatingPacket.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{gatewayOperatingPacket.releaseMeaning}</p>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                    <span className="text-[#71717a]">target</span>
+                    <span className="font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.current}/{gatewayOperatingPacket.target.target}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                    <span className="text-[#71717a]">remaining</span>
+                    <span className="font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.remaining}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1 sm:col-span-2">
+                    <span className="text-[#71717a]">state</span>
+                    <span className="truncate font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.usableMessageState}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Proof signals</div>
+                <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  <div>worker: {gatewayOperatingPacket.heartbeat.workerId ?? 'missing'}</div>
+                  <div>heartbeat fresh: {String(gatewayOperatingPacket.heartbeat.fresh)}</div>
+                  <div>heartbeat age: {gatewayOperatingPacket.heartbeat.ageMinutes ?? '?'} minutes</div>
+                  <div>effective message content: {String(gatewayOperatingPacket.messageContentSignal.effectiveEnabled)}</div>
+                  <div>signal source: {gatewayOperatingPacket.messageContentSignal.source ?? 'missing'}</div>
+                  <div>required fields: {gatewayOperatingPacket.fields.filter((field) => field.required).length}</div>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-3">
+              <ProofRuleGroup title="Live proof steps" items={gatewayOperatingPacket.liveProofSteps.slice(0, 5)} tone="cyan" />
+              <ProofRuleGroup title="Next actions" items={gatewayOperatingPacket.nextActions.slice(0, 5)} tone="amber" />
+              <ProofRuleGroup title="Reject if" items={gatewayOperatingPacket.rejectionChecklist.slice(0, 5)} tone="rose" />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Verification commands</div>
+                <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
+                  {gatewayOperatingPacket.verificationCommands.join(' && ')}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                  {gatewayOperatingPacket.antiFakeRules.slice(0, 6).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </Panel>
         </section>
@@ -3243,6 +3350,54 @@ async function loadGatewayCaptureDiagnosis(): Promise<GatewayCaptureDiagnosis> {
       counts: {},
       recentMessages: [],
       errors: [{ label: 'gateway_capture_diagnosis_missing', error: 'missing evidence' }],
+    };
+  }
+}
+
+async function loadGatewayOperatingPacket(): Promise<GatewayOperatingPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'gateway-operating-packet-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as GatewayOperatingPacket;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Gateway operating packet evidence is missing. Run npm run discord:gateway-operating-packet. This writes local proof guidance only and does not run the worker, post messages, change Discord, mutate Supabase, or satisfy operating proof.',
+      status: 'missing',
+      target: {
+        current: 0,
+        target: 1,
+        remaining: 1,
+        usableMessageState: 'missing_gateway_operating_packet',
+      },
+      adminSurface: '/admin/discord',
+      messageContentSignal: {
+        effectiveEnabled: null,
+        source: null,
+        identifyEnabled: null,
+        heartbeatEnabled: null,
+        identifyCreatedAt: null,
+      },
+      heartbeat: {
+        workerId: null,
+        status: null,
+        ageMinutes: null,
+        lastSeenAt: null,
+        fresh: false,
+        lastCloseCode: null,
+      },
+      fields: [],
+      acceptanceChecklist: [],
+      rejectionChecklist: ['Missing gateway operating packet evidence.'],
+      antiFakeRules: ['Missing packet evidence cannot count as live gateway proof.'],
+      liveProofSteps: ['Run npm run discord:gateway-capture-diagnosis, then npm run discord:gateway-operating-packet.'],
+      verificationCommands: ['npm run discord:gateway-operating-packet'],
+      nextActions: ['Generate the gateway operating packet before evaluating live capture proof.'],
+      failures: ['gateway_operating_packet_missing'],
     };
   }
 }

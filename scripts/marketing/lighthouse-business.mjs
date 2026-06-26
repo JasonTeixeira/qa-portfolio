@@ -13,6 +13,10 @@ const routes = [
   { name: 'showcase-proof', path: '/showcase/proof' },
   { name: 'showcase-compare', path: '/showcase/compare' },
   { name: 'showcase-revenue-os', path: '/showcase/revenue-os' },
+  { name: 'showcase-contractor-quote-engine', path: '/showcase/contractor-quote-engine' },
+  { name: 'showcase-med-spa-consultation-funnel', path: '/showcase/med-spa-consultation-funnel' },
+  { name: 'showcase-law-firm-intake-system', path: '/showcase/law-firm-intake-system' },
+  { name: 'showcase-ai-support-agent-dashboard', path: '/showcase/ai-support-agent-dashboard' },
 ]
 
 function run(command, args) {

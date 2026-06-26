@@ -391,17 +391,41 @@ export function buildDiscordContentFactoryOperatingContract(
 export function validateDiscordContentFactoryChannels(slots: DiscordContentFactorySlot[]): {
   ok: boolean;
   unknownChannels: string[];
+  blockedChannels: Array<{ channel: string; reason: string }>;
   knownChannelCount: number;
+  targetableChannelCount: number;
 } {
-  const knownChannels = new Set(leanDiscordChannels.map((channel) => channel.name));
+  const knownChannels = new Map(leanDiscordChannels.map((channel) => [channel.name, channel]));
   const unknownChannels = [...new Set(slots
     .map((slot) => slot.targetChannelBaseName)
     .filter((channel) => !knownChannels.has(channel)))]
     .sort();
+  const blockedChannels = [...new Set(slots.map((slot) => slot.targetChannelBaseName))]
+    .map((channelName) => {
+      const channel = knownChannels.get(channelName);
+      if (!channel) return null;
+      if (channel.visibility === 'pre_approval') {
+        return { channel: channelName, reason: 'pre_approval_channel' };
+      }
+      if (channel.visibility === 'staff_private') {
+        return { channel: channelName, reason: 'staff_private_channel' };
+      }
+      if (channel.visibility === 'premium_members') {
+        return { channel: channelName, reason: 'premium_requires_separate_workflow' };
+      }
+      return null;
+    })
+    .filter((item): item is { channel: string; reason: string } => Boolean(item))
+    .sort((a, b) => a.channel.localeCompare(b.channel));
+  const targetableChannelCount = leanDiscordChannels
+    .filter((channel) => !['pre_approval', 'staff_private', 'premium_members'].includes(channel.visibility))
+    .length;
   return {
-    ok: unknownChannels.length === 0,
+    ok: unknownChannels.length === 0 && blockedChannels.length === 0,
     unknownChannels,
+    blockedChannels,
     knownChannelCount: knownChannels.size,
+    targetableChannelCount,
   };
 }
 
@@ -474,7 +498,8 @@ export async function runDiscordContentFactory(
   const slots = buildDiscordContentFactorySlots(startDate, days);
   const channelValidation = validateDiscordContentFactoryChannels(slots);
   if (!channelValidation.ok) {
-    throw new Error(`Content factory targets unknown channels: ${channelValidation.unknownChannels.join(', ')}`);
+    const blocked = channelValidation.blockedChannels.map((item) => `${item.channel}:${item.reason}`);
+    throw new Error(`Content factory targets invalid channels: ${[...channelValidation.unknownChannels, ...blocked].join(', ')}`);
   }
   const drafts: DiscordContentFactoryResult['drafts'] = [];
   const dryRun = Boolean(input.dryRun);

@@ -4165,7 +4165,23 @@ test('discord content factory: creates approval-gated channel drafts from editor
   const canonicalChannels = new Set(leanDiscordChannels.map((channel) => channel.name));
   assert.equal(validation.ok, true);
   assert.equal(validation.unknownChannels.length, 0);
+  assert.equal(validation.blockedChannels.length, 0);
   assert.ok([...channels].every((channel) => canonicalChannels.has(channel)));
+  assert.equal(validation.knownChannelCount, 20);
+  assert.equal(validation.targetableChannelCount, 16);
+  const invalidChannelValidation = validateDiscordContentFactoryChannels([
+    { ...slots[0], targetChannelBaseName: 'start-here' },
+    { ...slots[0], targetChannelBaseName: 'team-ops' },
+    { ...slots[0], targetChannelBaseName: 'premium' },
+    { ...slots[0], targetChannelBaseName: 'not-real' },
+  ]);
+  assert.equal(invalidChannelValidation.ok, false);
+  assert.deepEqual(invalidChannelValidation.unknownChannels, ['not-real']);
+  assert.deepEqual(invalidChannelValidation.blockedChannels, [
+    { channel: 'premium', reason: 'premium_requires_separate_workflow' },
+    { channel: 'start-here', reason: 'pre_approval_channel' },
+    { channel: 'team-ops', reason: 'staff_private_channel' },
+  ]);
   const body = buildDiscordContentFactoryBody(slots[0], new Date(Date.UTC(2026, 5, 25)));
   assert.match(body, /# /);
   assert.match(body, /How to participate/);

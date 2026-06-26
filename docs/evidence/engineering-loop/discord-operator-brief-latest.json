@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T11:24:29.527Z",
+  "generatedAt": "2026-06-26T11:27:46.462Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -329,7 +329,7 @@
     "messageContentSignalSource": "identify_event",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
-    "heartbeatAgeMinutes": 0,
+    "heartbeatAgeMinutes": 1,
     "nextActions": [
       "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",

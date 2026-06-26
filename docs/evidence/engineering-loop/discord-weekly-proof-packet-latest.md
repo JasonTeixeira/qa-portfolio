@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T02:26:28.264Z
+Generated: 2026-06-26T03:04:16.513Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -35,13 +35,17 @@ Weekly proof packet is an operator collection template. It does not create or sa
 Required intake template:
 ```json
 {
+  "proof_cycle_key": "<YYYY-W##>",
   "source_record_id": "<source_record_id>",
   "source_url_or_path": "<source_url_or_path>",
+  "source_created_at": "<ISO timestamp>",
   "title": "<title>",
   "summary": "<summary>",
   "reviewer": "<reviewer>",
   "reviewed_at": "<ISO timestamp>",
   "decision_reason": "<decision_reason>",
+  "evidence_artifact_path": "<evidence_artifact_path>",
+  "operator_attestation": "<what was verified and what remains unverified>",
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "worker_id": "<worker_id>",
   "message_content_enabled": "<message_content_enabled>",
@@ -65,6 +69,22 @@ Privacy:
 - Use only content that is visible in approved free/community channels.
 - Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review.
 
+Quality gates:
+- Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.
+- Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.
+- Proof must be tied to a blocked proof lane and weekly cycle key.
+- Proof must be reproducible from the listed admin surface, source table, or evidence path.
+- Heartbeat and identify evidence must come from the same deployed worker family or the mismatch must be explained.
+- Usable message proof must be fresh, non-bot, non-empty, and not deleted.
+
+Does not count as proof:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- A gateway identify event with Message Content Intent but no captured non-empty message.
+- A stale heartbeat from a one-shot local worker.
+
 ### Approved Discord knowledge
 
 - Key: approved_discord_knowledge
@@ -79,13 +99,17 @@ Privacy:
 Required intake template:
 ```json
 {
+  "proof_cycle_key": "<YYYY-W##>",
   "source_record_id": "<source_record_id>",
   "source_url_or_path": "<source_url_or_path>",
+  "source_created_at": "<ISO timestamp>",
   "title": "<title>",
   "summary": "<summary>",
   "reviewer": "<reviewer>",
   "reviewed_at": "<ISO timestamp>",
   "decision_reason": "<decision_reason>",
+  "evidence_artifact_path": "<evidence_artifact_path>",
+  "operator_attestation": "<what was verified and what remains unverified>",
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "source_type": "<source_type>",
   "reuse_category": "<reuse_category>",
@@ -108,6 +132,22 @@ Privacy:
 - Remove names, screenshots, private business details, credentials, and contact information unless explicitly permissioned.
 - Do not approve DMs or private-channel content as public knowledge without explicit consent.
 
+Quality gates:
+- Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.
+- Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.
+- Proof must be tied to a blocked proof lane and weekly cycle key.
+- Proof must be reproducible from the listed admin surface, source table, or evidence path.
+- Knowledge must be approved through admin review before it can count.
+- Knowledge must contain enough context to be reused without asking the original member for missing details.
+
+Does not count as proof:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Raw Discord messages that were captured but not reviewed.
+- Generic introductions, greetings, or low-context praise.
+
 ### Discord knowledge synced into RAG
 
 - Key: rag_discord_sources
@@ -122,13 +162,17 @@ Privacy:
 Required intake template:
 ```json
 {
+  "proof_cycle_key": "<YYYY-W##>",
   "source_record_id": "<source_record_id>",
   "source_url_or_path": "<source_url_or_path>",
+  "source_created_at": "<ISO timestamp>",
   "title": "<title>",
   "summary": "<summary>",
   "reviewer": "<reviewer>",
   "reviewed_at": "<ISO timestamp>",
   "decision_reason": "<decision_reason>",
+  "evidence_artifact_path": "<evidence_artifact_path>",
+  "operator_attestation": "<what was verified and what remains unverified>",
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "rag_source_key": "<rag_source_key>",
   "chunk_count": "<number>",
@@ -151,6 +195,22 @@ Privacy:
 - RAG text must use the anonymized/approved version of the source, not raw private text.
 - Citations should identify the source type and approved title, not private member identity.
 
+Quality gates:
+- Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.
+- Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.
+- Proof must be tied to a blocked proof lane and weekly cycle key.
+- Proof must be reproducible from the listed admin surface, source table, or evidence path.
+- RAG source must trace back to an approved Discord knowledge item.
+- Retrieval/eval proof must be generated after the approved sync.
+
+Does not count as proof:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Existing docs/blog RAG chunks that do not come from approved Discord knowledge.
+- Dry-run RAG sync output with zero persisted Discord sources.
+
 ### Public proof growth assets
 
 - Key: public_proof_assets
@@ -165,13 +225,17 @@ Privacy:
 Required intake template:
 ```json
 {
+  "proof_cycle_key": "<YYYY-W##>",
   "source_record_id": "<source_record_id>",
   "source_url_or_path": "<source_url_or_path>",
+  "source_created_at": "<ISO timestamp>",
   "title": "<title>",
   "summary": "<summary>",
   "reviewer": "<reviewer>",
   "reviewed_at": "<ISO timestamp>",
   "decision_reason": "<decision_reason>",
+  "evidence_artifact_path": "<evidence_artifact_path>",
+  "operator_attestation": "<what was verified and what remains unverified>",
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "asset_type": "<asset_type>",
   "utm_campaign": "<utm_campaign>",
@@ -194,6 +258,22 @@ Privacy:
 - Use anonymized summaries by default.
 - Require explicit permission before using member names, screenshots, or identifiable stories.
 
+Quality gates:
+- Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.
+- Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.
+- Proof must be tied to a blocked proof lane and weekly cycle key.
+- Proof must be reproducible from the listed admin surface, source table, or evidence path.
+- Public proof asset must trace to approved source material and explicit admin approval.
+- Growth proof must include UTM/campaign evidence or an explicit note that conversion is not proven yet.
+
+Does not count as proof:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- Generic marketing content that is not tied to approved community activity.
+- A draft that was generated but never approved or published.
+
 ### Premium workflow proof
 
 - Key: premium_workflow_proof
@@ -208,13 +288,17 @@ Privacy:
 Required intake template:
 ```json
 {
+  "proof_cycle_key": "<YYYY-W##>",
   "source_record_id": "<source_record_id>",
   "source_url_or_path": "<source_url_or_path>",
+  "source_created_at": "<ISO timestamp>",
   "title": "<title>",
   "summary": "<summary>",
   "reviewer": "<reviewer>",
   "reviewed_at": "<ISO timestamp>",
   "decision_reason": "<decision_reason>",
+  "evidence_artifact_path": "<evidence_artifact_path>",
+  "operator_attestation": "<what was verified and what remains unverified>",
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "premium_path": "<premium_path>",
   "authorization_evidence": "<authorization_evidence>",
@@ -237,6 +321,22 @@ Reject:
 Privacy:
 - Premium reviews may contain sensitive artifacts; default to private/admin-only evidence.
 - Public repurposing requires separate public proof approval and anonymization.
+
+Quality gates:
+- Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.
+- Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.
+- Proof must be tied to a blocked proof lane and weekly cycle key.
+- Proof must be reproducible from the listed admin surface, source table, or evidence path.
+- Premium workflow must prove authorization and fulfillment, not only interest.
+- Seeded premium scenarios must be labeled as seeded and cannot count as paid conversion proof.
+
+Does not count as proof:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.
+- Premium workflow smoke tests without a real or explicitly seeded premium scenario.
 
 ## Next Actions
 

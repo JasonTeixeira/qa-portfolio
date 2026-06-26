@@ -14,6 +14,8 @@ export type DiscordWeeklyProofPacketLane = {
   acceptanceChecks: string[];
   rejectionChecks: string[];
   privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
   verificationCommands: string[];
   evidencePaths: string[];
   intakeTemplate: Record<string, string>;
@@ -34,9 +36,12 @@ export type DiscordWeeklyProofPacket = {
 
 function templateValue(fieldKey: string): string {
   if (fieldKey === 'reviewed_at') return '<ISO timestamp>';
+  if (fieldKey === 'source_created_at') return '<ISO timestamp>';
   if (fieldKey === 'privacy_status') return '<public | anonymized | permissioned | private_blocked | rejected>';
+  if (fieldKey === 'proof_cycle_key') return '<YYYY-W##>';
   if (fieldKey === 'rag_safe') return '<true | false>';
   if (fieldKey === 'chunk_count') return '<number>';
+  if (fieldKey === 'operator_attestation') return '<what was verified and what remains unverified>';
   return `<${fieldKey}>`;
 }
 
@@ -72,6 +77,8 @@ export function buildDiscordWeeklyProofPacket(input: {
       acceptanceChecks: intakeLane?.acceptanceChecks ?? backlogLane.qualifyingEvidence,
       rejectionChecks: intakeLane?.rejectionChecks ?? backlogLane.rejectionRules,
       privacyChecks: intakeLane?.privacyChecks ?? [],
+      qualityGates: intakeLane?.qualityGates ?? [],
+      nonProofExamples: intakeLane?.nonProofExamples ?? [],
       verificationCommands: intakeLane?.verificationCommands ?? [backlogLane.verificationCommand],
       evidencePaths: intakeLane?.evidencePaths ?? [],
       intakeTemplate,
@@ -91,6 +98,8 @@ export function buildDiscordWeeklyProofPacket(input: {
   if (!lanes.every((lane) => intakeKeys.has(lane.key))) failures.push('lane_key_mismatch');
   if (!lanes.every((lane) => Object.keys(lane.intakeTemplate).length >= 8)) failures.push('template_too_thin');
   if (!lanes.every((lane) => lane.privacyChecks.length >= 2)) failures.push('privacy_checks_too_thin');
+  if (!lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
+  if (!lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
 
   return {
     ok: failures.length === 0,
@@ -119,7 +128,11 @@ export function validateDiscordWeeklyProofPacket(packet: DiscordWeeklyProofPacke
     failures.push('remaining_count_mismatch');
   }
   if (!packet.lanes.every((lane) => lane.intakeTemplate.privacy_status)) failures.push('missing_privacy_template');
+  if (!packet.lanes.every((lane) => lane.intakeTemplate.evidence_artifact_path)) failures.push('missing_evidence_artifact_template');
+  if (!packet.lanes.every((lane) => lane.intakeTemplate.operator_attestation)) failures.push('missing_operator_attestation_template');
   if (!packet.weeklyIntakeOrder.some((step) => step.includes('sync only approved items into RAG'))) failures.push('missing_approved_rag_step');
+  if (!packet.lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
+  if (!packet.lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
   return {
     ok: packet.ok === true && failures.length === 0,
     failures,
@@ -170,6 +183,12 @@ export function renderDiscordWeeklyProofPacketMarkdown(packet: DiscordWeeklyProo
       '',
       'Privacy:',
       ...lane.privacyChecks.map((item) => `- ${item}`),
+      '',
+      'Quality gates:',
+      ...lane.qualityGates.map((item) => `- ${item}`),
+      '',
+      'Does not count as proof:',
+      ...lane.nonProofExamples.map((item) => `- ${item}`),
       '',
     ]),
     '## Next Actions',

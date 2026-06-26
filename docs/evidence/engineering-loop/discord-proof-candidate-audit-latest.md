@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T02:26:28.808Z
+Generated: 2026-06-26T03:04:16.962Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -31,7 +31,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 - Remaining: 1
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
 - Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
-- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
 
 Blockers:
 - Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
@@ -48,7 +48,7 @@ Next review action: Confirm the deployed worker is running the current heartbeat
 - Remaining: 10
 - Admin surface: /admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels
 - Proving command: npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog
-- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, source_type, reuse_category, rag_safe
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, source_type, reuse_category, rag_safe
 
 Blockers:
 - No pending knowledge candidates are available for admin review.
@@ -66,7 +66,7 @@ Next review action: Approve high-signal questions, answers, resources, wins, rev
 - Remaining: 10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
 - Proving command: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
-- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
 
 Blockers:
 - No approved Discord knowledge exists to sync into authoritative RAG.
@@ -84,7 +84,7 @@ Next review action: Run the approved Discord RAG sync after approving knowledge 
 - Remaining: 4
 - Admin surface: /admin/discord -> Public Proof Sources and Public Growth Drafts panels
 - Proving command: npm run discord:operating-cycle && npm run discord:proof-backlog
-- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, asset_type, utm_campaign, publish_status
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status
 
 Blockers:
 - Public proof drafts require approved Discord source material first.
@@ -102,7 +102,7 @@ Next review action: Create privacy-safe public proof drafts from approved Discor
 - Remaining: 1
 - Admin surface: /admin/discord -> Premium, Office Hours, and Member Intelligence panels
 - Proving command: npm run discord:smoke-premium-workflows && npm run discord:proof-backlog
-- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
 
 Blockers:
 - No premium member or deliberately seeded premium scenario is visible in current evidence.

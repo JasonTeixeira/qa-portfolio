@@ -15,6 +15,8 @@ export type DiscordProofIntakeLane = {
   acceptanceChecks: string[];
   rejectionChecks: string[];
   privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
   verificationCommands: string[];
   evidencePaths: string[];
 };
@@ -37,14 +39,32 @@ function field(key: string, label: string, description: string, required = true)
 }
 
 const SHARED_REQUIRED_FIELDS = [
+  field('proof_cycle_key', 'Proof cycle key', 'Weekly operating cycle key, for example 2026-W26.'),
   field('source_record_id', 'Source record id', 'Stable database id, Discord message id, or evidence artifact id.'),
   field('source_url_or_path', 'Source URL or path', 'Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.'),
+  field('source_created_at', 'Source created at', 'Original source timestamp proving the item came from the current operating window or a reviewed backlog.'),
   field('title', 'Reusable title', 'Short title describing the reusable teaching/proof value.'),
   field('summary', 'Reusable summary', 'Two to four sentence summary of why this item matters.'),
   field('reviewer', 'Reviewer', 'Admin/operator who approved, rejected, or escalated the item.'),
   field('reviewed_at', 'Reviewed at', 'ISO timestamp for the approval or rejection decision.'),
   field('decision_reason', 'Decision reason', 'Specific reason the item qualifies or fails the proof lane.'),
+  field('evidence_artifact_path', 'Evidence artifact path', 'Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.'),
+  field('operator_attestation', 'Operator attestation', 'Plain-language statement of what was verified and what was not verified.'),
   field('privacy_status', 'Privacy status', 'One of public, anonymized, permissioned, private_blocked, or rejected.'),
+];
+
+const SHARED_QUALITY_GATES = [
+  'Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.',
+  'Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.',
+  'Proof must be tied to a blocked proof lane and weekly cycle key.',
+  'Proof must be reproducible from the listed admin surface, source table, or evidence path.',
+];
+
+const SHARED_NON_PROOF_EXAMPLES = [
+  'Unit tests, typecheck, lint, build, and dry-run scripts by themselves.',
+  'Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.',
+  'Screenshots or summaries without a source id and reviewer decision.',
+  'AI-generated content that was not approved by an admin/operator.',
 ];
 
 export function buildDiscordProofIntakeReadinessReport(input: {
@@ -78,6 +98,16 @@ export function buildDiscordProofIntakeReadinessReport(input: {
       privacyChecks: [
         'Use only content that is visible in approved free/community channels.',
         'Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review.',
+      ],
+      qualityGates: [
+        ...SHARED_QUALITY_GATES,
+        'Heartbeat and identify evidence must come from the same deployed worker family or the mismatch must be explained.',
+        'Usable message proof must be fresh, non-bot, non-empty, and not deleted.',
+      ],
+      nonProofExamples: [
+        ...SHARED_NON_PROOF_EXAMPLES,
+        'A gateway identify event with Message Content Intent but no captured non-empty message.',
+        'A stale heartbeat from a one-shot local worker.',
       ],
       verificationCommands: [
         'npm run discord:gateway-capture-diagnosis',
@@ -117,6 +147,16 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         'Remove names, screenshots, private business details, credentials, and contact information unless explicitly permissioned.',
         'Do not approve DMs or private-channel content as public knowledge without explicit consent.',
       ],
+      qualityGates: [
+        ...SHARED_QUALITY_GATES,
+        'Knowledge must be approved through admin review before it can count.',
+        'Knowledge must contain enough context to be reused without asking the original member for missing details.',
+      ],
+      nonProofExamples: [
+        ...SHARED_NON_PROOF_EXAMPLES,
+        'Raw Discord messages that were captured but not reviewed.',
+        'Generic introductions, greetings, or low-context praise.',
+      ],
       verificationCommands: [
         'npm run discord:proof-backlog',
         'npm run discord:operator-brief',
@@ -152,6 +192,16 @@ export function buildDiscordProofIntakeReadinessReport(input: {
       privacyChecks: [
         'RAG text must use the anonymized/approved version of the source, not raw private text.',
         'Citations should identify the source type and approved title, not private member identity.',
+      ],
+      qualityGates: [
+        ...SHARED_QUALITY_GATES,
+        'RAG source must trace back to an approved Discord knowledge item.',
+        'Retrieval/eval proof must be generated after the approved sync.',
+      ],
+      nonProofExamples: [
+        ...SHARED_NON_PROOF_EXAMPLES,
+        'Existing docs/blog RAG chunks that do not come from approved Discord knowledge.',
+        'Dry-run RAG sync output with zero persisted Discord sources.',
       ],
       verificationCommands: [
         'npm run discord:operating-cycle',
@@ -192,6 +242,16 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         'Use anonymized summaries by default.',
         'Require explicit permission before using member names, screenshots, or identifiable stories.',
       ],
+      qualityGates: [
+        ...SHARED_QUALITY_GATES,
+        'Public proof asset must trace to approved source material and explicit admin approval.',
+        'Growth proof must include UTM/campaign evidence or an explicit note that conversion is not proven yet.',
+      ],
+      nonProofExamples: [
+        ...SHARED_NON_PROOF_EXAMPLES,
+        'Generic marketing content that is not tied to approved community activity.',
+        'A draft that was generated but never approved or published.',
+      ],
       verificationCommands: [
         'npm run discord:operating-cycle',
         'npm run discord:proof-backlog',
@@ -229,6 +289,16 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         'Premium reviews may contain sensitive artifacts; default to private/admin-only evidence.',
         'Public repurposing requires separate public proof approval and anonymization.',
       ],
+      qualityGates: [
+        ...SHARED_QUALITY_GATES,
+        'Premium workflow must prove authorization and fulfillment, not only interest.',
+        'Seeded premium scenarios must be labeled as seeded and cannot count as paid conversion proof.',
+      ],
+      nonProofExamples: [
+        ...SHARED_NON_PROOF_EXAMPLES,
+        'A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.',
+        'Premium workflow smoke tests without a real or explicitly seeded premium scenario.',
+      ],
       verificationCommands: [
         'npm run discord:smoke-premium-workflows',
         'npm run discord:proof-backlog',
@@ -246,6 +316,8 @@ export function buildDiscordProofIntakeReadinessReport(input: {
     if (!lane.acceptanceChecks.length) failures.push(`${lane.key}:missing_acceptance_checks`);
     if (!lane.rejectionChecks.length) failures.push(`${lane.key}:missing_rejection_checks`);
     if (!lane.privacyChecks.length) failures.push(`${lane.key}:missing_privacy_checks`);
+    if (lane.qualityGates.length < 4) failures.push(`${lane.key}:quality_gates_too_thin`);
+    if (lane.nonProofExamples.length < 4) failures.push(`${lane.key}:non_proof_examples_too_thin`);
     if (!lane.verificationCommands.length) failures.push(`${lane.key}:missing_verification_commands`);
     if (!lane.evidencePaths.length) failures.push(`${lane.key}:missing_evidence_paths`);
   }
@@ -285,6 +357,10 @@ export function validateDiscordProofIntakeReadinessReport(report: DiscordProofIn
   if (!report.weeklyIntakeOrder.some((item) => item.includes('gateway capture is healthy'))) failures.push('missing_gateway_capture_step');
   if (!report.weeklyIntakeOrder.some((item) => item.includes('sync only approved items into RAG'))) failures.push('missing_approved_rag_sync_step');
   if (!report.lanes.every((lane) => lane.privacyChecks.length >= 2)) failures.push('privacy_checks_too_thin');
+  if (!report.lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
+  if (!report.lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
+  if (!report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'evidence_artifact_path'))) failures.push('missing_evidence_artifact_field');
+  if (!report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'operator_attestation'))) failures.push('missing_operator_attestation_field');
   return {
     ok: report.ok === true && failures.length === 0,
     failures,

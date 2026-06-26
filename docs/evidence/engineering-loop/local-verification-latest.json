@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T02:56:54.615Z",
+  "timestamp": "2026-06-26T03:04:17.651Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -162,7 +162,7 @@
       "public_proof_assets",
       "premium_workflow_proof"
     ],
-    "requiredFieldCount": 57,
+    "requiredFieldCount": 77,
     "weeklyIntakeOrder": [
       "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
       "Review candidates and fill required proof fields.",

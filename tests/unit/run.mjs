@@ -198,6 +198,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /Run npm run discord:gateway-capture-diagnosis/);
   assert.match(discordAdminPage, /Identify intent signal/);
   assert.match(discordAdminPage, /effective message content/);
+  assert.match(discordAdminPage, /Quality gates/);
+  assert.match(discordAdminPage, /Does not count/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);
@@ -2425,7 +2427,12 @@ test('discord proof intake readiness: defines auditable fields for real operatin
   ]);
   assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'privacy_status')));
   assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'decision_reason')));
+  assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'evidence_artifact_path')));
+  assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'operator_attestation')));
   assert.ok(report.lanes.every((lane) => lane.privacyChecks.length >= 2));
+  assert.ok(report.lanes.every((lane) => lane.qualityGates.length >= 4));
+  assert.ok(report.lanes.every((lane) => lane.nonProofExamples.length >= 4));
+  assert.ok(report.lanes.every((lane) => lane.nonProofExamples.some((item) => item.includes('smoke') || item.includes('dry-run') || item.includes('synthetic'))));
   assert.ok(report.lanes.every((lane) => lane.verificationCommands.length > 0));
   assert.ok(report.lanes.every((lane) => lane.evidencePaths.length > 0));
   assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('gateway capture is healthy')));
@@ -2493,12 +2500,18 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   assert.equal(packet.lanes[0].remainingCount, 1);
   assert.equal(packet.lanes[1].remainingCount, 8);
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.privacy_status));
+  assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.evidence_artifact_path));
+  assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.operator_attestation));
   assert.ok(packet.lanes.every((lane) => lane.privacyChecks.length >= 2));
+  assert.ok(packet.lanes.every((lane) => lane.qualityGates.length >= 4));
+  assert.ok(packet.lanes.every((lane) => lane.nonProofExamples.length >= 4));
   assert.equal(validateDiscordWeeklyProofPacket(packet).ok, true);
 
   const markdown = renderDiscordWeeklyProofPacketMarkdown(packet);
   assert.match(markdown, /Sage Ideas Discord Weekly Proof Packet/);
   assert.match(markdown, /Required intake template/);
+  assert.match(markdown, /Quality gates/);
+  assert.match(markdown, /Does not count as proof/);
   assert.match(markdown, /gateway_capture/);
   assert.match(markdown, /approved_discord_knowledge/);
 

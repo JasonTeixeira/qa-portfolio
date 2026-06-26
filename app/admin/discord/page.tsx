@@ -484,6 +484,8 @@ type ProofIntakeLane = {
   acceptanceChecks: string[];
   rejectionChecks: string[];
   privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
   verificationCommands: string[];
   evidencePaths: string[];
 };
@@ -513,6 +515,8 @@ type WeeklyProofPacketLane = {
   acceptanceChecks: string[];
   rejectionChecks: string[];
   privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
   verificationCommands: string[];
   evidencePaths: string[];
   intakeTemplate: Record<string, string>;
@@ -2590,6 +2594,10 @@ function WeeklyProofPacketLaneRow({ lane }: { lane: WeeklyProofPacketLane }) {
           <ProofRuleGroup title="Accept" items={lane.acceptanceChecks.slice(0, 4)} tone="emerald" />
           <ProofRuleGroup title="Reject" items={lane.rejectionChecks.slice(0, 4)} tone="rose" />
           <ProofRuleGroup title="Privacy" items={lane.privacyChecks.slice(0, 4)} tone="amber" />
+        </div>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title="Quality gates" items={lane.qualityGates.slice(0, 4)} tone="cyan" />
+          <ProofRuleGroup title="Does not count" items={lane.nonProofExamples.slice(0, 4)} tone="rose" />
         </div>
         <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
           <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">

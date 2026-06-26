@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-weekly-proof-packet-v1",
-  "generatedAt": "2026-06-26T02:26:28.264Z",
+  "generatedAt": "2026-06-26T03:04:16.513Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.",
   "backlogStatus": "blocked",
@@ -22,6 +22,12 @@
       ],
       "requiredFields": [
         {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
           "key": "source_record_id",
           "label": "Source record id",
           "description": "Stable database id, Discord message id, or evidence artifact id.",
@@ -31,6 +37,12 @@
           "key": "source_url_or_path",
           "label": "Source URL or path",
           "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
           "required": true
         },
         {
@@ -61,6 +73,18 @@
           "key": "decision_reason",
           "label": "Decision reason",
           "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
           "required": true
         },
         {
@@ -109,6 +133,22 @@
         "Use only content that is visible in approved free/community channels.",
         "Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review."
       ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Heartbeat and identify evidence must come from the same deployed worker family or the mismatch must be explained.",
+        "Usable message proof must be fresh, non-bot, non-empty, and not deleted."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "A gateway identify event with Message Content Intent but no captured non-empty message.",
+        "A stale heartbeat from a one-shot local worker."
+      ],
       "verificationCommands": [
         "npm run discord:gateway-capture-diagnosis",
         "npm run discord:proof-source-scan",
@@ -120,13 +160,17 @@
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
       ],
       "intakeTemplate": {
+        "proof_cycle_key": "<YYYY-W##>",
         "source_record_id": "<source_record_id>",
         "source_url_or_path": "<source_url_or_path>",
+        "source_created_at": "<ISO timestamp>",
         "title": "<title>",
         "summary": "<summary>",
         "reviewer": "<reviewer>",
         "reviewed_at": "<ISO timestamp>",
         "decision_reason": "<decision_reason>",
+        "evidence_artifact_path": "<evidence_artifact_path>",
+        "operator_attestation": "<what was verified and what remains unverified>",
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "worker_id": "<worker_id>",
         "message_content_enabled": "<message_content_enabled>",
@@ -150,6 +194,12 @@
       ],
       "requiredFields": [
         {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
           "key": "source_record_id",
           "label": "Source record id",
           "description": "Stable database id, Discord message id, or evidence artifact id.",
@@ -159,6 +209,12 @@
           "key": "source_url_or_path",
           "label": "Source URL or path",
           "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
           "required": true
         },
         {
@@ -189,6 +245,18 @@
           "key": "decision_reason",
           "label": "Decision reason",
           "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
           "required": true
         },
         {
@@ -231,6 +299,22 @@
         "Remove names, screenshots, private business details, credentials, and contact information unless explicitly permissioned.",
         "Do not approve DMs or private-channel content as public knowledge without explicit consent."
       ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Knowledge must be approved through admin review before it can count.",
+        "Knowledge must contain enough context to be reused without asking the original member for missing details."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Raw Discord messages that were captured but not reviewed.",
+        "Generic introductions, greetings, or low-context praise."
+      ],
       "verificationCommands": [
         "npm run discord:proof-backlog",
         "npm run discord:operator-brief"
@@ -240,13 +324,17 @@
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
       ],
       "intakeTemplate": {
+        "proof_cycle_key": "<YYYY-W##>",
         "source_record_id": "<source_record_id>",
         "source_url_or_path": "<source_url_or_path>",
+        "source_created_at": "<ISO timestamp>",
         "title": "<title>",
         "summary": "<summary>",
         "reviewer": "<reviewer>",
         "reviewed_at": "<ISO timestamp>",
         "decision_reason": "<decision_reason>",
+        "evidence_artifact_path": "<evidence_artifact_path>",
+        "operator_attestation": "<what was verified and what remains unverified>",
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "source_type": "<source_type>",
         "reuse_category": "<reuse_category>",
@@ -268,6 +356,12 @@
       ],
       "requiredFields": [
         {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
           "key": "source_record_id",
           "label": "Source record id",
           "description": "Stable database id, Discord message id, or evidence artifact id.",
@@ -277,6 +371,12 @@
           "key": "source_url_or_path",
           "label": "Source URL or path",
           "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
           "required": true
         },
         {
@@ -307,6 +407,18 @@
           "key": "decision_reason",
           "label": "Decision reason",
           "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
           "required": true
         },
         {
@@ -349,6 +461,22 @@
         "RAG text must use the anonymized/approved version of the source, not raw private text.",
         "Citations should identify the source type and approved title, not private member identity."
       ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "RAG source must trace back to an approved Discord knowledge item.",
+        "Retrieval/eval proof must be generated after the approved sync."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Existing docs/blog RAG chunks that do not come from approved Discord knowledge.",
+        "Dry-run RAG sync output with zero persisted Discord sources."
+      ],
       "verificationCommands": [
         "npm run discord:operating-cycle",
         "npm run rag:evaluate",
@@ -360,13 +488,17 @@
         "docs/evidence/discord-ai-os/phase-20-final-scorecard.json"
       ],
       "intakeTemplate": {
+        "proof_cycle_key": "<YYYY-W##>",
         "source_record_id": "<source_record_id>",
         "source_url_or_path": "<source_url_or_path>",
+        "source_created_at": "<ISO timestamp>",
         "title": "<title>",
         "summary": "<summary>",
         "reviewer": "<reviewer>",
         "reviewed_at": "<ISO timestamp>",
         "decision_reason": "<decision_reason>",
+        "evidence_artifact_path": "<evidence_artifact_path>",
+        "operator_attestation": "<what was verified and what remains unverified>",
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "rag_source_key": "<rag_source_key>",
         "chunk_count": "<number>",
@@ -388,6 +520,12 @@
       ],
       "requiredFields": [
         {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
           "key": "source_record_id",
           "label": "Source record id",
           "description": "Stable database id, Discord message id, or evidence artifact id.",
@@ -397,6 +535,12 @@
           "key": "source_url_or_path",
           "label": "Source URL or path",
           "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
           "required": true
         },
         {
@@ -427,6 +571,18 @@
           "key": "decision_reason",
           "label": "Decision reason",
           "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
           "required": true
         },
         {
@@ -475,6 +631,22 @@
         "Use anonymized summaries by default.",
         "Require explicit permission before using member names, screenshots, or identifiable stories."
       ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Public proof asset must trace to approved source material and explicit admin approval.",
+        "Growth proof must include UTM/campaign evidence or an explicit note that conversion is not proven yet."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Generic marketing content that is not tied to approved community activity.",
+        "A draft that was generated but never approved or published."
+      ],
       "verificationCommands": [
         "npm run discord:operating-cycle",
         "npm run discord:proof-backlog"
@@ -484,13 +656,17 @@
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
       ],
       "intakeTemplate": {
+        "proof_cycle_key": "<YYYY-W##>",
         "source_record_id": "<source_record_id>",
         "source_url_or_path": "<source_url_or_path>",
+        "source_created_at": "<ISO timestamp>",
         "title": "<title>",
         "summary": "<summary>",
         "reviewer": "<reviewer>",
         "reviewed_at": "<ISO timestamp>",
         "decision_reason": "<decision_reason>",
+        "evidence_artifact_path": "<evidence_artifact_path>",
+        "operator_attestation": "<what was verified and what remains unverified>",
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "asset_type": "<asset_type>",
         "utm_campaign": "<utm_campaign>",
@@ -512,6 +688,12 @@
       ],
       "requiredFields": [
         {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
           "key": "source_record_id",
           "label": "Source record id",
           "description": "Stable database id, Discord message id, or evidence artifact id.",
@@ -521,6 +703,12 @@
           "key": "source_url_or_path",
           "label": "Source URL or path",
           "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
           "required": true
         },
         {
@@ -551,6 +739,18 @@
           "key": "decision_reason",
           "label": "Decision reason",
           "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
           "required": true
         },
         {
@@ -599,6 +799,22 @@
         "Premium reviews may contain sensitive artifacts; default to private/admin-only evidence.",
         "Public repurposing requires separate public proof approval and anonymization."
       ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Premium workflow must prove authorization and fulfillment, not only interest.",
+        "Seeded premium scenarios must be labeled as seeded and cannot count as paid conversion proof."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.",
+        "Premium workflow smoke tests without a real or explicitly seeded premium scenario."
+      ],
       "verificationCommands": [
         "npm run discord:smoke-premium-workflows",
         "npm run discord:proof-backlog"
@@ -608,13 +824,17 @@
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
       ],
       "intakeTemplate": {
+        "proof_cycle_key": "<YYYY-W##>",
         "source_record_id": "<source_record_id>",
         "source_url_or_path": "<source_url_or_path>",
+        "source_created_at": "<ISO timestamp>",
         "title": "<title>",
         "summary": "<summary>",
         "reviewer": "<reviewer>",
         "reviewed_at": "<ISO timestamp>",
         "decision_reason": "<decision_reason>",
+        "evidence_artifact_path": "<evidence_artifact_path>",
+        "operator_attestation": "<what was verified and what remains unverified>",
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "premium_path": "<premium_path>",
         "authorization_evidence": "<authorization_evidence>",

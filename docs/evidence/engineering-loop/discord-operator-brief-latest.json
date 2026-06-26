@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T02:31:49.631Z",
+  "generatedAt": "2026-06-26T03:04:17.407Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -230,18 +230,17 @@
   ],
   "proofRehearsal": {
     "ok": true,
-    "laneCount": 3,
-    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
+    "laneCount": 5,
+    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
   },
   "gatewayCapture": {
     "ok": true,
     "status": "blocked",
     "rootCauses": [
-      "Latest gateway heartbeat does not expose Message Content Intent metadata.",
       "Non-bot messages exist, but message content is empty."
     ],
     "nextActions": [
-      "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.",
       "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
     ],
     "usableMessageCount": 0

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Intake Readiness
 
-Generated: 2026-06-26T02:26:27.180Z
+Generated: 2026-06-26T03:04:16.063Z
 Mutation mode: local_file_evidence_only
 Readiness OK: yes
 
@@ -30,13 +30,17 @@ Proof intake readiness only defines the review contract. It does not satisfy rea
 - Evidence paths: docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json, docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required fields:
+- proof_cycle_key: Weekly operating cycle key, for example 2026-W26.
 - source_record_id: Stable database id, Discord message id, or evidence artifact id.
 - source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
+- source_created_at: Original source timestamp proving the item came from the current operating window or a reviewed backlog.
 - title: Short title describing the reusable teaching/proof value.
 - summary: Two to four sentence summary of why this item matters.
 - reviewer: Admin/operator who approved, rejected, or escalated the item.
 - reviewed_at: ISO timestamp for the approval or rejection decision.
 - decision_reason: Specific reason the item qualifies or fails the proof lane.
+- evidence_artifact_path: Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.
+- operator_attestation: Plain-language statement of what was verified and what was not verified.
 - privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
 - worker_id: Gateway worker id that captured the message or wrote the heartbeat.
 - message_content_enabled: Boolean confirmation from heartbeat metadata and Discord Developer Portal state.
@@ -68,13 +72,17 @@ Privacy:
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required fields:
+- proof_cycle_key: Weekly operating cycle key, for example 2026-W26.
 - source_record_id: Stable database id, Discord message id, or evidence artifact id.
 - source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
+- source_created_at: Original source timestamp proving the item came from the current operating window or a reviewed backlog.
 - title: Short title describing the reusable teaching/proof value.
 - summary: Two to four sentence summary of why this item matters.
 - reviewer: Admin/operator who approved, rejected, or escalated the item.
 - reviewed_at: ISO timestamp for the approval or rejection decision.
 - decision_reason: Specific reason the item qualifies or fails the proof lane.
+- evidence_artifact_path: Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.
+- operator_attestation: Plain-language statement of what was verified and what was not verified.
 - privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
 - source_type: question, answer, resource, win, review, build, or approved draft.
 - reuse_category: Lesson, resource, FAQ, checklist, challenge, or prompt.
@@ -105,13 +113,17 @@ Privacy:
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/rag/eval-latest.json, docs/evidence/discord-ai-os/phase-20-final-scorecard.json
 
 Required fields:
+- proof_cycle_key: Weekly operating cycle key, for example 2026-W26.
 - source_record_id: Stable database id, Discord message id, or evidence artifact id.
 - source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
+- source_created_at: Original source timestamp proving the item came from the current operating window or a reviewed backlog.
 - title: Short title describing the reusable teaching/proof value.
 - summary: Two to four sentence summary of why this item matters.
 - reviewer: Admin/operator who approved, rejected, or escalated the item.
 - reviewed_at: ISO timestamp for the approval or rejection decision.
 - decision_reason: Specific reason the item qualifies or fails the proof lane.
+- evidence_artifact_path: Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.
+- operator_attestation: Plain-language statement of what was verified and what was not verified.
 - privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
 - rag_source_key: Stable source key created by the approved Discord sync.
 - chunk_count: Number of chunks produced from the approved source.
@@ -142,13 +154,17 @@ Privacy:
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required fields:
+- proof_cycle_key: Weekly operating cycle key, for example 2026-W26.
 - source_record_id: Stable database id, Discord message id, or evidence artifact id.
 - source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
+- source_created_at: Original source timestamp proving the item came from the current operating window or a reviewed backlog.
 - title: Short title describing the reusable teaching/proof value.
 - summary: Two to four sentence summary of why this item matters.
 - reviewer: Admin/operator who approved, rejected, or escalated the item.
 - reviewed_at: ISO timestamp for the approval or rejection decision.
 - decision_reason: Specific reason the item qualifies or fails the proof lane.
+- evidence_artifact_path: Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.
+- operator_attestation: Plain-language statement of what was verified and what was not verified.
 - privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
 - asset_type: Article, newsletter, social post, proof card, recap, or showcase item.
 - utm_campaign: Campaign key used to track applications or engagement from the asset.
@@ -179,13 +195,17 @@ Privacy:
 - Evidence paths: docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required fields:
+- proof_cycle_key: Weekly operating cycle key, for example 2026-W26.
 - source_record_id: Stable database id, Discord message id, or evidence artifact id.
 - source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
+- source_created_at: Original source timestamp proving the item came from the current operating window or a reviewed backlog.
 - title: Short title describing the reusable teaching/proof value.
 - summary: Two to four sentence summary of why this item matters.
 - reviewer: Admin/operator who approved, rejected, or escalated the item.
 - reviewed_at: ISO timestamp for the approval or rejection decision.
 - decision_reason: Specific reason the item qualifies or fails the proof lane.
+- evidence_artifact_path: Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.
+- operator_attestation: Plain-language statement of what was verified and what was not verified.
 - privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
 - premium_path: premium_review, deeper_answer, office_hours, or premium_role_sync.
 - authorization_evidence: Premium role, paid status, or intentionally seeded scenario marker.

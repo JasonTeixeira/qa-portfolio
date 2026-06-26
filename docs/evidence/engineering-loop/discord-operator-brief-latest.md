@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T02:31:49.631Z
+Generated: 2026-06-26T03:04:17.407Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -67,10 +67,9 @@ The local system is verified, but real operating proof is still missing. Close g
 - OK: yes
 - Usable non-bot message count: 0
 - Root causes:
-  - Latest gateway heartbeat does not expose Message Content Intent metadata.
   - Non-bot messages exist, but message content is empty.
 - Next actions:
-  - Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
+  - Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
   - Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.
 
 ## Required Command Order

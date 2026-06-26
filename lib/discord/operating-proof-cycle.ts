@@ -126,6 +126,7 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     officeHoursProof,
     applicationsSubmitted,
     applicationsApproved,
+    publicProofApplyClicks,
     questionsApproved,
     answersApproved,
     contentQueuePublished,
@@ -143,6 +144,7 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     countIn(sb, 'discord_office_hours_queue', 'status', ['completed']),
     countAll(sb, 'discord_member_applications'),
     countRows(sb, 'discord_member_applications', 'status', 'approved'),
+    countRows(sb, 'discord_growth_events', 'event_type', 'apply_click'),
     countIn(sb, 'discord_questions', 'status', ['answered', 'closed']),
     countRows(sb, 'discord_answers', 'helpful', true),
     countRows(sb, 'discord_content_queue', 'status', 'published'),
@@ -166,6 +168,7 @@ async function loadOperatingCycleMetrics(sb: SupabaseAny, now = new Date()): Pro
     premiumWorkflowProofs: premiumReviewsProof + officeHoursProof,
     applicationsSubmitted,
     applicationsApproved,
+    publicProofApplyClicks,
   };
 }
 

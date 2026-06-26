@@ -1738,6 +1738,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /activeMember7dCountRes/);
   assert.match(page, /applicationsSubmittedCountRes/);
   assert.match(page, /applicationsApprovedCountRes/);
+  assert.match(page, /publicProofApplyClicksCountRes/);
   assert.match(page, /premiumReviewProofCountRes/);
   assert.match(page, /officeHoursProofCountRes/);
   assert.match(page, /premiumWorkflowProofs/);
@@ -2181,6 +2182,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 8,
       applicationsApproved: 7,
+      publicProofApplyClicks: 8,
     },
     ragSyncOk: true,
     publicDraftCreated: false,
@@ -2208,6 +2210,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 8,
       applicationsApproved: 7,
+      publicProofApplyClicks: 8,
     },
     ragSyncOk: true,
     publicDraftCreated: true,
@@ -2231,6 +2234,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 8,
       applicationsApproved: 7,
+      publicProofApplyClicks: 8,
     },
     ragSyncOk: true,
     publicDraftCreated: true,
@@ -2254,6 +2258,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 0,
       applicationsApproved: 0,
+      publicProofApplyClicks: 0,
     },
     ragSyncOk: true,
     publicDraftCreated: true,
@@ -2261,7 +2266,29 @@ test('discord operating proof cycle: real operating blockers are measured not hi
     finalScorecardBlockedBelow95: [],
   });
   assert.ok(noApplicationGrowthGates.some((gate) => gate.name === 'growth_metrics_tracked' && !gate.passed && gate.evidence.includes('0/1 applications')));
-  assert.ok(operatingCycleNextActions(noApplicationGrowthGates).some((action) => action.includes('at least one application')));
+  assert.ok(operatingCycleNextActions(noApplicationGrowthGates).some((action) => action.includes('at least one apply click')));
+  const noPublicProofApplyClickGates = operatingCycleGates({
+    metrics: {
+      approvedDiscordKnowledgeSources: 10,
+      ragDiscordSources: 10,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 1,
+      premiumWorkflowProofs: 1,
+      applicationsSubmitted: 8,
+      applicationsApproved: 7,
+      publicProofApplyClicks: 0,
+    },
+    ragSyncOk: true,
+    publicDraftCreated: true,
+    finalScorecardAverage: 96,
+    finalScorecardBlockedBelow95: [],
+  });
+  assert.ok(noPublicProofApplyClickGates.some((gate) => gate.name === 'growth_metrics_tracked' && !gate.passed && gate.evidence.includes('0/1 public proof apply clicks')));
   assert.match(migration, /create table if not exists public\.discord_operating_cycles/);
   assert.match(migration, /metrics_after jsonb not null/);
   assert.match(script, /runDiscordOperatingProofCycle/);
@@ -2390,6 +2417,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       premiumWorkflowProofs: 0,
       applicationsSubmitted: 0,
       applicationsApproved: 0,
+      publicProofApplyClicks: 0,
     },
   });
 
@@ -2456,6 +2484,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 4,
       applicationsApproved: 2,
+      publicProofApplyClicks: 4,
     },
   });
   assert.equal(passing.status, 'passed');
@@ -2485,6 +2514,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       premiumWorkflowProofs: 0,
       applicationsSubmitted: 4,
       applicationsApproved: 2,
+      publicProofApplyClicks: 4,
     },
   });
   assert.equal(memberOnlyPremium.status, 'blocked');
@@ -2512,6 +2542,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
       premiumWorkflowProofs: 1,
       applicationsSubmitted: 4,
       applicationsApproved: 2,
+      publicProofApplyClicks: 4,
     },
   });
   assert.equal(warningGateway.status, 'blocked');
@@ -2543,6 +2574,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
       premiumWorkflowProofs: 0,
       applicationsSubmitted: 0,
       applicationsApproved: 0,
+      publicProofApplyClicks: 0,
     },
   });
   const brief = buildDiscordOperatorBrief({
@@ -2675,6 +2707,7 @@ test('discord weekly proof packet: combines backlog counts with intake templates
       premiumWorkflowProofs: 0,
       applicationsSubmitted: 0,
       applicationsApproved: 0,
+      publicProofApplyClicks: 0,
     },
   });
   const intake = buildDiscordProofIntakeReadinessReport({
@@ -2751,6 +2784,7 @@ test('discord proof candidate audit: explains blocked proof lanes without mutati
     premiumWorkflowProofs: 0,
     applicationsSubmitted: 2,
     applicationsApproved: 1,
+    publicProofApplyClicks: 2,
   };
   const backlog = buildDiscordProofBacklogReport({
     generatedAt: '2026-06-25T00:00:00.000Z',

@@ -761,6 +761,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     activeMember7dCountRes,
     applicationsSubmittedCountRes,
     applicationsApprovedCountRes,
+    publicProofApplyClicksCountRes,
     premiumReviewProofCountRes,
     officeHoursProofCountRes,
   ] = await Promise.all([
@@ -1025,6 +1026,10 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       .select('id', { count: 'exact', head: true })
       .eq('status', 'approved'),
     sb
+      .from('discord_growth_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('event_type', 'apply_click'),
+    sb
       .from('discord_premium_review_requests')
       .select('id', { count: 'exact', head: true })
       .in('status', ['answered', 'completed']),
@@ -1087,6 +1092,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
         + (officeHoursProofCountRes.count ?? 0),
       applicationsSubmitted: applicationsSubmittedCountRes.count ?? 0,
       applicationsApproved: applicationsApprovedCountRes.count ?? 0,
+      publicProofApplyClicks: publicProofApplyClicksCountRes.count ?? 0,
     },
   });
   const localScorecard = buildDiscordFinalScorecard();

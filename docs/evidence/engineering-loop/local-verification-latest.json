@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T03:47:49.532Z",
+  "timestamp": "2026-06-26T03:52:42.395Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -81,6 +81,7 @@
     "activeMembers7d": 7,
     "premiumMembers": 0,
     "premiumWorkflowProofs": 0,
+    "publicProofApplyClicks": 0,
     "knownBlockers": [
       "approved_discord_knowledge_sources_empty",
       "rag_discord_sources_empty",

@@ -131,6 +131,7 @@ async function main() {
     publicProofSources,
     publicDraftsPending,
     publicDraftsPublished,
+    publicProofApplyClicks,
     premiumMembers,
     premiumReviewsProof,
     officeHoursProof,
@@ -153,6 +154,7 @@ async function main() {
     countAll(sb, 'discord_public_proof_sources'),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'pending_approval'),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'published'),
+    countRows(sb, 'discord_growth_events', 'event_type', 'apply_click'),
     countRows(sb, 'discord_members', 'premium_member', true),
     countIn(sb, 'discord_premium_review_requests', 'status', ['answered', 'completed']),
     countIn(sb, 'discord_office_hours_queue', 'status', ['completed']),
@@ -178,6 +180,7 @@ async function main() {
     publicProofSources,
     publicDraftsPending,
     publicDraftsPublished,
+    publicProofApplyClicks,
     premiumMembers,
     premiumReviewsProof,
     officeHoursProof,
@@ -201,6 +204,7 @@ async function main() {
     publicProofSources,
     publicDraftsPending,
     publicDraftsPublished,
+    publicProofApplyClicks,
     premiumMembers,
     premiumReviewsProof,
     officeHoursProof,
@@ -243,6 +247,7 @@ async function main() {
         current: publicProofAssets,
         target: 4,
         approvedKnowledgeAvailable: approvedKnowledge,
+        applyClicks: publicProofApplyClicks.count,
         blocker: publicProofAssets >= 4
           ? null
           : approvedKnowledge > 0

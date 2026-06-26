@@ -11,6 +11,7 @@ export type OperatingCycleMetrics = {
   premiumWorkflowProofs: number;
   applicationsSubmitted: number;
   applicationsApproved: number;
+  publicProofApplyClicks: number;
 };
 
 export type OperatingCycleGate = {
@@ -62,12 +63,13 @@ export function operatingCycleGates(input: {
     {
       name: 'growth_metrics_tracked',
       passed: input.metrics.applicationsSubmitted >= OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET
+        && input.metrics.publicProofApplyClicks >= OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET
         && input.metrics.applicationsApproved >= 0
         && input.metrics.approvedMembers > 0
         && input.metrics.activeMembers7d > 0
         && input.metrics.premiumMembers >= 0,
-      evidence: `${input.metrics.applicationsSubmitted}/${OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium / ${input.metrics.premiumWorkflowProofs} premium workflow proofs`,
-      nextAction: 'Run public proof/growth cycles until at least one application is attributed and active-member counts remain visible.',
+      evidence: `${input.metrics.publicProofApplyClicks}/${OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET} public proof apply clicks / ${input.metrics.applicationsSubmitted}/${OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET} applications / ${input.metrics.applicationsApproved} approved / ${input.metrics.approvedMembers} members / ${input.metrics.activeMembers7d} active 7d / ${input.metrics.premiumMembers} premium / ${input.metrics.premiumWorkflowProofs} premium workflow proofs`,
+      nextAction: 'Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.',
     },
     {
       name: 'final_scorecard_current',

@@ -312,6 +312,7 @@ async function main() {
       activeMembers7d: metrics.activeMembers7d ?? 0,
       premiumMembers: metrics.premiumMembers ?? 0,
       premiumWorkflowProofs: metrics.premiumWorkflowProofs ?? 0,
+      publicProofApplyClicks: metrics.publicProofApplyClicks ?? 0,
       knownBlockers,
     },
     gatewayCapture: {

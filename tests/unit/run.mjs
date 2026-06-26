@@ -3569,6 +3569,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:durable-jobs-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:security-privacy-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:observability-quality-readiness'));
+  assert.ok(brief.commandOrder.includes('npm run discord:channel-matrix-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:content-factory-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:premium-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:public-growth-readiness'));
@@ -3648,6 +3649,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:durable-jobs-readiness') }).failures.includes('missing_durable_jobs_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:security-privacy-readiness') }).failures.includes('missing_security_privacy_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:observability-quality-readiness') }).failures.includes('missing_observability_quality_readiness_command'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:channel-matrix-readiness') }).failures.includes('missing_channel_matrix_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:premium-readiness') }).failures.includes('missing_premium_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:public-growth-readiness') }).failures.includes('missing_public_growth_readiness_command'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, commandOrder: brief.commandOrder.filter((command) => command !== 'npm run discord:proof-rehearsal-readiness') }).failures.includes('missing_proof_rehearsal_readiness_command'));

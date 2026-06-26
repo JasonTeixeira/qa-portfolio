@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T11:37:58.156Z
+Generated: 2026-06-26T11:43:05.161Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -133,20 +133,21 @@ The local system is verified, but real operating proof is still missing. Close g
 11. `npm run discord:durable-jobs-readiness`
 12. `npm run discord:security-privacy-readiness`
 13. `npm run discord:observability-quality-readiness`
-14. `npm run discord:content-factory-readiness`
-15. `npm run discord:premium-readiness`
-16. `npm run discord:public-growth-readiness`
-17. `npm run discord:proof-intake-readiness`
-18. `npm run discord:weekly-proof-packet`
-19. `npm run discord:proof-rehearsal-readiness`
-20. `npm run discord:smoke-final-scorecard`
-21. `npm run discord:proof-backlog`
-22. `npm run discord:proof-candidate-audit`
-23. `npm run discord:world-class-readiness`
-24. `npm run discord:operator-brief`
-25. `npm run discord:gateway-capture-diagnosis`
-26. `npm run discord:gateway-operating-packet`
-27. `npm run verify:local:evidence`
+14. `npm run discord:channel-matrix-readiness`
+15. `npm run discord:content-factory-readiness`
+16. `npm run discord:premium-readiness`
+17. `npm run discord:public-growth-readiness`
+18. `npm run discord:proof-intake-readiness`
+19. `npm run discord:weekly-proof-packet`
+20. `npm run discord:proof-rehearsal-readiness`
+21. `npm run discord:smoke-final-scorecard`
+22. `npm run discord:proof-backlog`
+23. `npm run discord:proof-candidate-audit`
+24. `npm run discord:world-class-readiness`
+25. `npm run discord:operator-brief`
+26. `npm run discord:gateway-capture-diagnosis`
+27. `npm run discord:gateway-operating-packet`
+28. `npm run verify:local:evidence`
 
 ## Action Plan By Permission Boundary
 
@@ -163,6 +164,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - `npm run discord:durable-jobs-readiness`
 - `npm run discord:security-privacy-readiness`
 - `npm run discord:observability-quality-readiness`
+- `npm run discord:channel-matrix-readiness`
 - `npm run discord:content-factory-readiness`
 - `npm run discord:premium-readiness`
 - `npm run discord:public-growth-readiness`

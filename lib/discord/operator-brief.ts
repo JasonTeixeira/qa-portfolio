@@ -282,6 +282,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:durable-jobs-readiness',
     'npm run discord:security-privacy-readiness',
     'npm run discord:observability-quality-readiness',
+    'npm run discord:channel-matrix-readiness',
     'npm run discord:content-factory-readiness',
     'npm run discord:premium-readiness',
     'npm run discord:public-growth-readiness',
@@ -307,6 +308,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:durable-jobs-readiness',
     'npm run discord:security-privacy-readiness',
     'npm run discord:observability-quality-readiness',
+    'npm run discord:channel-matrix-readiness',
     'npm run discord:content-factory-readiness',
     'npm run discord:premium-readiness',
     'npm run discord:public-growth-readiness',
@@ -392,6 +394,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:durable-jobs-readiness')) failures.push('missing_durable_jobs_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:security-privacy-readiness')) failures.push('missing_security_privacy_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:observability-quality-readiness')) failures.push('missing_observability_quality_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:channel-matrix-readiness')) failures.push('missing_channel_matrix_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:premium-readiness')) failures.push('missing_premium_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:public-growth-readiness')) failures.push('missing_public_growth_readiness_command');

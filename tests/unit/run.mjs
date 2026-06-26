@@ -133,6 +133,13 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(operatorBriefScript, /buildDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /validateDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /renderDiscordOperatorBriefMarkdown/);
+  const discordAdminPage = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
+  assert.match(discordAdminPage, /data-testid="discord-operator-brief"/);
+  assert.match(discordAdminPage, /loadDiscordOperatorBrief/);
+  assert.match(discordAdminPage, /discord-operator-brief-latest\.json/);
+  assert.match(discordAdminPage, /Do not claim world-class/);
+  assert.match(discordAdminPage, /Command order/);
+  assert.match(discordAdminPage, /data-testid="discord-content-factory-readiness"/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

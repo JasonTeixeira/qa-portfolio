@@ -8,6 +8,7 @@ import {
   BookOpenCheck,
   CalendarDays,
   ChevronRight,
+  ClipboardCheck,
   FileCheck2,
   GitPullRequestArrow,
   HeartPulse,
@@ -466,6 +467,19 @@ type ContentFactoryReadiness = {
   releaseMeaning: string;
 };
 
+type DiscordOperatorBriefEvidence = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseDecision: string;
+  averageScore: number | null;
+  worldClassEligible: boolean;
+  currentReality: string;
+  blockedLaneCount: number;
+  commandOrder: string[];
+  nonClaimRule: string;
+};
+
 const cockpitTabs = [
   ['overview', 'Overview'],
   ['members', 'Members'],
@@ -512,6 +526,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const sb = supabaseAdmin();
   const proofRehearsalReadiness = await loadProofRehearsalReadiness();
   const contentFactoryReadiness = await loadContentFactoryReadiness();
+  const operatorBrief = await loadDiscordOperatorBrief();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1105,6 +1120,43 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
             {proofBacklog.weeklyChecklist.map((step) => (
               <ProofChecklistStepRow key={step.laneKey} step={step} />
             ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-operator-brief">
+          <Panel
+            icon={ClipboardCheck}
+            title="Operator brief"
+            meta={operatorBrief.ok
+              ? `${operatorBrief.averageScore ?? 'n/a'}/100 / ${operatorBrief.blockedLaneCount} blocked`
+              : 'missing evidence'}
+            empty="Operator brief evidence has not been generated. Run npm run discord:operator-brief."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={operatorBrief.worldClassEligible ? 'emerald' : 'rose'}>
+                    {operatorBrief.releaseDecision.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone="neutral">{operatorBrief.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{operatorBrief.currentReality}</p>
+                <div className="mt-3 rounded-md border border-[#f59e0b]/25 bg-[#f59e0b]/10 px-3 py-2 text-xs leading-5 text-[#facc15]">
+                  {operatorBrief.nonClaimRule}
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Command order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {operatorBrief.commandOrder.slice(0, 8).map((command, index) => (
+                    <li key={command} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <code className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-1.5 py-0.5 text-[#d4d4d8]">{command}</code>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
           </Panel>
         </section>
 
@@ -1706,6 +1758,29 @@ async function loadContentFactoryReadiness(): Promise<ContentFactoryReadiness> {
       },
       failures: ['content_factory_readiness_missing'],
       releaseMeaning: 'Content factory readiness evidence is missing. Run npm run discord:content-factory-readiness.',
+    };
+  }
+}
+
+async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as DiscordOperatorBriefEvidence;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseDecision: 'do_not_claim_world_class',
+      averageScore: null,
+      worldClassEligible: false,
+      currentReality: 'Operator brief evidence is missing. Run npm run discord:operator-brief before making release or quality claims.',
+      blockedLaneCount: 0,
+      commandOrder: ['npm run discord:operator-brief'],
+      nonClaimRule: 'Do not claim world-class, 95+, production-complete, or operating-proof complete until the operator brief is regenerated from current evidence.',
     };
   }
 }
@@ -2478,7 +2553,7 @@ function Panel({
   title: string;
   meta: string;
   empty: string;
-  children: ReactNode[];
+  children: ReactNode | ReactNode[];
 }) {
   return (
     <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
@@ -2495,7 +2570,7 @@ function Panel({
           </div>
           <ChevronRight className="size-4 shrink-0 text-[#3f3f46]" />
         </div>
-        <Rows empty={empty}>{children}</Rows>
+        <Rows empty={empty}>{Array.isArray(children) ? children : [children]}</Rows>
       </CardContent>
     </Card>
   );

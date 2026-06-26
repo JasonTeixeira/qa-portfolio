@@ -89,6 +89,7 @@ gates** — both enforced by `check-course.ts` (structural) + the content-review
   flagship course is published. Then stop + write a convergence report.
 
 ## Guardrails (NON-NEGOTIABLE)
+- **Obey [LOOP_HARDENING.md](./LOOP_HARDENING.md)** — stable server, full-sweep no-regression, stuck-handling, anchored scoring, wiring-dep policy.
 - Faithful grounding; cite the source; no fabricated facts/numbers.
 - Reasoning-labs vs code-labs by domain — never fake an executable lab.
 - One lesson per pass; never commit a lesson that fails any gate or has an open CRITICAL/HIGH.

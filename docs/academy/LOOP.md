@@ -17,6 +17,7 @@ adversarial audit, and keep it there. Stop at the exit gate. Do not pad scores.
 - **Cadence:** run to convergence, then STOP (don't re-loop once the gate is met).
 
 ## Guardrails (NON-NEGOTIABLE)
+0. **Obey [LOOP_HARDENING.md](./LOOP_HARDENING.md)** — stable server, full-sweep no-regression, stuck-handling, anchored scoring (reviewer + gates, never self-graded), wiring-dep policy.
 1. **Never fabricate** data, courses, quiz questions, scores, metrics, or users to hit a
    number. Honest "collecting / blocked / empty" states only. A dim is ≥95 only when its
    *mechanism* is complete, tested, and audit-clean — not when a number is faked.

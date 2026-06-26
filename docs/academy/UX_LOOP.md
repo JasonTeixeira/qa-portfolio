@@ -16,6 +16,11 @@ progress everywhere, and feel guided. Stop when every category is ≥95 with a c
 visual + a11y + build sweep.
 
 ## Operating mode (locked)
+- **Obey [LOOP_HARDENING.md](./LOOP_HARDENING.md) every pass** — stable server first
+  (`bash scripts/academy/ensure-clean-server.sh`), full-sweep no-regression, decompose big
+  deliverables into gated sub-passes, stuck-handling (revert red, escalate stalls), anchored
+  scoring (reviewer verdict + objective gates, never self-graded), wiring-dependency policy,
+  the review rubric. NON-NEGOTIABLE.
 - **Checkpoint:** commit each green pass to the current feature branch (no push), scoped.
 - **Cadence:** run to convergence (all categories ≥95 + final design-review clean), then stop.
 - **Honor the user's design rules** (`~/.claude/rules/ecc/web/design-quality.md`,

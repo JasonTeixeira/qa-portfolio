@@ -30,11 +30,11 @@ export default async function LegalLayout({ children }: { children: ReactNode })
           aria-label="Breadcrumb"
         >
           <FileText className="h-4 w-4 text-[var(--sage-accent-readable)]" />
-          <Link href="/" className="transition-colors hover:text-[var(--sage-ink-muted)]">
+          <Link href="/" className="inline-flex min-h-11 items-center transition-colors hover:text-[var(--sage-ink-muted)]">
             Home
           </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link href="/legal" className="transition-colors hover:text-[var(--sage-ink-muted)]">
+          <Link href="/legal" className="inline-flex min-h-11 items-center transition-colors hover:text-[var(--sage-ink-muted)]">
             Legal
           </Link>
         </nav>
@@ -47,7 +47,7 @@ export default async function LegalLayout({ children }: { children: ReactNode })
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <Link
               href="/legal"
-              className="[font-family:var(--font-mono),ui-monospace,monospace] text-[12px] uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] transition-colors hover:text-[var(--sage-ink)]"
+              className="inline-flex min-h-11 items-center [font-family:var(--font-mono),ui-monospace,monospace] text-[12px] uppercase tracking-[0.12em] text-[var(--sage-accent-readable)] transition-colors hover:text-[var(--sage-ink)]"
             >
               &larr; Back to legal documents
             </Link>

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T09:10:28.101Z
+Generated: 2026-06-26T09:28:05.485Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes

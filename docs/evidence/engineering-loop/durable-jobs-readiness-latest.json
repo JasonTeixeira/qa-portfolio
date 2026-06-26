@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "durable-jobs-readiness-v1",
-  "generatedAt": "2026-06-26T09:10:23.941Z",
+  "generatedAt": "2026-06-26T09:28:01.301Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "durableJobs": "lib/discord/durable-jobs.ts",

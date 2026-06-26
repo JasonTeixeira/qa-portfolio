@@ -91,6 +91,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-intake-readiness'], 'tsx scripts/discord/write-proof-intake-readiness.ts');
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
+  assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -136,6 +137,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(proofBacklogScript, /discord-proof-backlog-latest\.json/);
   assert.match(proofBacklogScript, /buildDiscordProofBacklogReport/);
   assert.match(proofBacklogScript, /phase-21-operating-proof-cycle\.json/);
+  const sourceVolumeScanScript = await readFile(new URL('../../scripts/discord/scan-proof-source-volume.ts', import.meta.url), 'utf8');
+  assert.match(sourceVolumeScanScript, /discord-proof-source-volume-scan-latest\.json/);
+  assert.match(sourceVolumeScanScript, /read_only_supabase_selects_and_local_file_evidence_only/);
+  assert.match(sourceVolumeScanScript, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
+  assert.doesNotMatch(sourceVolumeScanScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.md/);
@@ -1611,6 +1617,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Proof rehearsal readiness',
     'Content factory readiness',
     'Proof candidate audit',
+    'Proof source volume scan',
     'World-class readiness triage',
     'Audit stream',
   ]) {
@@ -1656,6 +1663,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /ProofCandidateAuditLaneRow/);
   assert.match(page, /data-testid="discord-proof-candidate-audit"/);
   assert.match(page, /Run npm run discord:proof-candidate-audit/);
+  assert.match(page, /loadProofSourceVolumeScan/);
+  assert.match(page, /discord-proof-source-volume-scan-latest\.json/);
+  assert.match(page, /data-testid="discord-proof-source-volume-scan"/);
+  assert.match(page, /Run npm run discord:proof-source-scan/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);

@@ -559,6 +559,26 @@ type ProofCandidateAudit = {
   nextActions: string[];
 };
 
+type ProofSourceVolumeScan = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  counts: Record<string, number>;
+  laneReadiness: Record<string, {
+    current: number;
+    target: number;
+    blocker: string | null;
+    reviewableCandidates?: number;
+    approvedKnowledgeAvailable?: number;
+    premiumMembers?: number;
+    premiumReviews?: number;
+    officeHours?: number;
+  }>;
+  errors: Array<{ label: string; error: string }>;
+  nextActions: string[];
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -622,6 +642,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const proofIntakeReadiness = await loadProofIntakeReadiness();
   const weeklyProofPacket = await loadWeeklyProofPacket();
   const proofCandidateAudit = await loadProofCandidateAudit();
+  const proofSourceVolumeScan = await loadProofSourceVolumeScan();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1377,6 +1398,60 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-proof-source-volume-scan">
+          <Panel
+            icon={Radio}
+            title="Proof source volume scan"
+            meta={proofSourceVolumeScan.ok
+              ? `${proofSourceVolumeScan.counts['discord_messages.all'] ?? 0} messages / ${proofSourceVolumeScan.counts['discord_content_queue.all'] ?? 0} queue`
+              : `${proofSourceVolumeScan.errors.length} scan errors`}
+            empty="Proof source volume scan has not been generated. Run npm run discord:proof-source-scan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofSourceVolumeScan.ok ? 'emerald' : 'rose'}>{proofSourceVolumeScan.ok ? 'scan ok' : 'scan failed'}</Badge>
+                  <Badge tone="neutral">{proofSourceVolumeScan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofSourceVolumeScan.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next source-volume actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofSourceVolumeScan.nextActions.slice(0, 4).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 md:grid-cols-2 xl:grid-cols-4">
+              {Object.entries(proofSourceVolumeScan.laneReadiness).map(([key, lane]) => (
+                <div key={key} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{key}</div>
+                    <Badge tone={lane.current >= lane.target ? 'emerald' : 'rose'}>{lane.current}/{lane.target}</Badge>
+                  </div>
+                  {typeof lane.reviewableCandidates === 'number' ? (
+                    <div className="mt-2 text-[11px] text-[#71717a]">reviewable candidates: {lane.reviewableCandidates}</div>
+                  ) : null}
+                  {typeof lane.approvedKnowledgeAvailable === 'number' ? (
+                    <div className="mt-2 text-[11px] text-[#71717a]">approved knowledge: {lane.approvedKnowledgeAvailable}</div>
+                  ) : null}
+                  {lane.blocker ? <p className="mt-3 text-xs leading-5 text-[#fca5a5]">{lane.blocker}</p> : null}
+                </div>
+              ))}
+            </div>
+            {proofSourceVolumeScan.errors.map((error) => (
+              <div key={`${error.label}:${error.error}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {error.label}: {error.error}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
           <Panel
             icon={ShieldCheck}
@@ -2072,6 +2147,32 @@ async function loadProofCandidateAudit(): Promise<ProofCandidateAudit> {
       lanes: [],
       failures: ['proof_candidate_audit_missing'],
       nextActions: ['Generate the proof candidate audit from current operating-cycle and weekly packet evidence.'],
+    };
+  }
+}
+
+async function loadProofSourceVolumeScan(): Promise<ProofSourceVolumeScan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-volume-scan-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofSourceVolumeScan;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof source volume scan evidence is missing. Run npm run discord:proof-source-scan. This reads live Supabase counts only and does not satisfy operating proof.',
+      counts: {},
+      laneReadiness: {
+        approvedDiscordKnowledge: { current: 0, target: 10, reviewableCandidates: 0, blocker: 'Run the read-only source-volume scan.' },
+        ragDiscordSources: { current: 0, target: 10, approvedKnowledgeAvailable: 0, blocker: 'Run the read-only source-volume scan.' },
+        publicProofAssets: { current: 0, target: 4, approvedKnowledgeAvailable: 0, blocker: 'Run the read-only source-volume scan.' },
+        premiumWorkflowProof: { current: 0, target: 1, premiumMembers: 0, premiumReviews: 0, officeHours: 0, blocker: 'Run the read-only source-volume scan.' },
+      },
+      errors: [{ label: 'proof_source_volume_scan_missing', error: 'missing evidence' }],
+      nextActions: ['Run npm run discord:proof-source-scan to read current Supabase source-volume counts.'],
     };
   }
 }

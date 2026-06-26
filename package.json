@@ -106,6 +106,7 @@
     "discord:proof-intake-readiness": "tsx scripts/discord/write-proof-intake-readiness.ts",
     "discord:weekly-proof-packet": "tsx scripts/discord/write-weekly-proof-packet.ts",
     "discord:proof-candidate-audit": "tsx scripts/discord/write-proof-candidate-audit.ts",
+    "discord:proof-source-scan": "tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts",
     "discord:evaluate-content": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts",
     "discord:smoke-content-quality": "tsx --env-file=.env.local scripts/discord/evaluate-content-drafts.ts --smoke",
     "rag:baseline": "node --env-file-if-exists=.env.local scripts/rag/baseline.mjs",

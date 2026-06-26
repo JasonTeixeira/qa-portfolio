@@ -409,13 +409,13 @@ export function ServicesEl() {
       >
         <Reveal className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <CtaLink variant="solid" href="/book" event="cta_click" eventProps={{ location: 'services_final_cta', label: 'book_discovery' }}>
-            ./book
+            Book the build call
           </CtaLink>
           <Link
-            href="/contact?engagement=custom"
+            href="/contact?source=services_final&engagement=custom"
             className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
           >
-            <span>talk to sage</span>
+            <span>Send the context</span>
             <span aria-hidden className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5">→</span>
           </Link>
         </Reveal>

@@ -661,6 +661,11 @@ type DiscordOperatorBriefEvidence = {
   worldClassEligible: boolean;
   currentReality: string;
   blockedLaneCount: number;
+  releaseGates: {
+    total: number;
+    passed: number;
+    failures: string[];
+  };
   commandOrder: string[];
   nonClaimRule: string;
 };
@@ -1359,6 +1364,30 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   ))}
                 </ol>
               </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Release gates</div>
+                  <div className="mt-1 text-[11px] text-[#71717a]">These gates decide whether a 95+ claim is allowed.</div>
+                </div>
+                <Badge tone={operatorBrief.releaseGates.failures.length ? 'rose' : 'emerald'}>
+                  {operatorBrief.releaseGates.passed}/{operatorBrief.releaseGates.total} passed
+                </Badge>
+              </div>
+              {operatorBrief.releaseGates.failures.length ? (
+                <div className="mt-3 grid gap-2 md:grid-cols-2">
+                  {operatorBrief.releaseGates.failures.map((failure) => (
+                    <div key={failure} className="rounded-md border border-[#7f1d1d] bg-[#450a0a] px-3 py-2 text-xs text-[#fecaca]">
+                      {failure}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-3 rounded-md border border-[#10b981]/25 bg-[#10b981]/10 px-3 py-2 text-xs text-[#34d399]">
+                  No release gate failures are present in the current operator brief.
+                </div>
+              )}
             </div>
           </Panel>
         </section>
@@ -2284,6 +2313,11 @@ async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence>
       worldClassEligible: false,
       currentReality: 'Operator brief evidence is missing. Run npm run discord:operator-brief before making release or quality claims.',
       blockedLaneCount: 0,
+      releaseGates: {
+        total: 0,
+        passed: 0,
+        failures: ['operator_brief_missing'],
+      },
       commandOrder: ['npm run discord:operator-brief'],
       nonClaimRule: 'Do not claim world-class, 95+, production-complete, or operating-proof complete until the operator brief is regenerated from current evidence.',
     };

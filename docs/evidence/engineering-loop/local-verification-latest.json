@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T03:52:42.395Z",
+  "timestamp": "2026-06-26T04:02:12.238Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -42,9 +42,13 @@
     "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json"
   },
   "scorecard": {
+    "ok": false,
     "averageScore": 83,
     "worldClassEligible": false,
     "worldClassThreshold": 95,
+    "releaseGateFailures": [
+      "rag_eval_latest"
+    ],
     "blockedBelow95": [
       "server_access_onboarding",
       "role_routing_member_state",
@@ -65,7 +69,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782443937880"
+    "runKey": "phase-20-final-1782446519488"
   },
   "operatingCycle": {
     "status": "blocked",

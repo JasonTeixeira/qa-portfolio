@@ -102,6 +102,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['verify:local:evidence'].includes('rag:evaluate'), false);
   assert.match(localVerificationEvidence, /local-verification-latest\.json/);
   assert.match(localVerificationEvidence, /mutationMode: 'local_file_evidence_only'/);
+  assert.match(localVerificationEvidence, /releaseGateFailures/);
+  assert.match(localVerificationEvidence, /worldClassEligible === false/);
+  assert.match(localVerificationEvidence, /dryRun === true/);
   assert.match(localVerificationEvidence, /phase-20-final-scorecard\.json/);
   assert.match(localVerificationEvidence, /phase-21-operating-proof-cycle\.json/);
   assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);
@@ -2140,6 +2143,7 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /answerUsefulness/);
   assert.match(smoke, /RAG_EVAL_QUESTION_SEEDS\.length/);
   assert.match(smoke, /seededQuestionCount/);
+  assert.match(smoke, /!dryRun/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);
   assert.equal(pkg.scripts['discord:smoke-final-scorecard'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts');

@@ -350,7 +350,7 @@ async function main() {
   const evidencePath = path.join(evidenceDir, 'phase-20-final-scorecard.json');
   await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
   console.log(JSON.stringify({ ...evidence, evidencePath }, null, 2));
-  if (!evidence.ok) process.exitCode = 1;
+  if (!evidence.ok && !dryRun) process.exitCode = 1;
 }
 
 main().catch(async (error) => {

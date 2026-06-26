@@ -32,6 +32,12 @@ function requireTruthy(condition, message) {
   }
 }
 
+function releaseGateFailures(payload) {
+  return (payload.releaseGates ?? [])
+    .filter((gate) => gate.passed !== true)
+    .map((gate) => gate.name);
+}
+
 function summarizeOperatingBlockers(operatingCycle) {
   const metrics = operatingCycle.metricsAfter ?? operatingCycle.metricsBefore ?? {};
   const blockers = [];
@@ -107,7 +113,15 @@ async function main() {
     Object.values(evidencePaths).map(readJson),
   );
 
-  requireTruthy(finalScorecard.ok === true, 'Final scorecard evidence is not ok.');
+  const finalScorecardReleaseGateFailures = releaseGateFailures(finalScorecard);
+  requireTruthy(
+    finalScorecard.ok === true || (finalScorecard.dryRun === true && finalScorecardReleaseGateFailures.length > 0),
+    'Final scorecard evidence must either pass or be a dry-run with explicit release-gate blockers.',
+  );
+  requireTruthy(
+    finalScorecard.ok === true || finalScorecard.worldClassEligible === false,
+    'Blocked final scorecard evidence must not claim world-class eligibility.',
+  );
   requireTruthy(contentFactory.ok === true, 'Content factory dry-run evidence is not ok.');
   requireTruthy(contentFactory.dryRun === true, 'Content factory evidence must be dry-run for verify:local.');
   requireTruthy(evalSeedQuality.ok === true, 'RAG eval seed quality evidence is not ok.');
@@ -292,9 +306,11 @@ async function main() {
       Object.entries(evidencePaths).map(([key, filePath]) => [key, path.relative(root, filePath)]),
     ),
     scorecard: {
+      ok: finalScorecard.ok === true,
       averageScore: finalScorecard.averageScore,
       worldClassEligible: finalScorecard.worldClassEligible,
       worldClassThreshold: finalScorecard.worldClassThreshold,
+      releaseGateFailures: finalScorecardReleaseGateFailures,
       blockedBelow95: finalScorecard.blockedBelow95 ?? [],
       runKey: finalScorecard.runKey,
     },

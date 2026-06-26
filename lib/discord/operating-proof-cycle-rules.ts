@@ -23,6 +23,7 @@ export type OperatingCycleGate = {
 export const OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET = 10;
 export const OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET = 10;
 export const OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET = 1;
+export const OPERATING_CYCLE_PUBLIC_PROOF_ASSET_TARGET = 4;
 
 export function buildOperatingCycleKey(date = new Date()): string {
   const year = date.getUTCFullYear();
@@ -54,9 +55,9 @@ export function operatingCycleGates(input: {
     },
     {
       name: 'public_proof_draft_created',
-      passed: input.publicDraftCreated || input.metrics.pendingPublicDrafts > 0,
-      evidence: `${input.metrics.pendingPublicDrafts} pending public drafts / ${input.metrics.publishedPublicDrafts} published public drafts`,
-      nextAction: 'Create one privacy-gated public proof draft from approved source material.',
+      passed: input.metrics.pendingPublicDrafts + input.metrics.publishedPublicDrafts >= OPERATING_CYCLE_PUBLIC_PROOF_ASSET_TARGET,
+      evidence: `${input.metrics.pendingPublicDrafts + input.metrics.publishedPublicDrafts}/${OPERATING_CYCLE_PUBLIC_PROOF_ASSET_TARGET} public proof drafts or published assets (${input.metrics.pendingPublicDrafts} pending / ${input.metrics.publishedPublicDrafts} published)`,
+      nextAction: 'Create four privacy-gated weekly public proof drafts from approved source material.',
     },
     {
       name: 'growth_metrics_tracked',

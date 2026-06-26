@@ -243,10 +243,10 @@ async function main() {
         current: publicProofAssets,
         target: 4,
         approvedKnowledgeAvailable: approvedKnowledge,
-        blocker: publicProofAssets > 0
+        blocker: publicProofAssets >= 4
           ? null
           : approvedKnowledge > 0
-            ? 'Approved Discord knowledge exists but no public proof draft is pending or published.'
+            ? `Approved Discord knowledge exists, but only ${publicProofAssets}/4 public proof drafts or published assets exist.`
             : 'Public proof requires approved Discord knowledge first.',
       },
       premiumWorkflowProof: {
@@ -274,7 +274,7 @@ async function main() {
       approvedKnowledge > 0
         ? 'Run approved Discord RAG sync after reviewing privacy/provenance.'
         : 'Do not run RAG sync yet; there are no approved Discord knowledge rows.',
-      publicProofAssets > 0
+      publicProofAssets >= 4
         ? 'Review pending public proof drafts and track growth/application attribution.'
         : 'Create public proof drafts only after approved Discord source material exists.',
       premiumWorkflowProofs > 0

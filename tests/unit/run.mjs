@@ -2149,6 +2149,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   const {
     OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET,
     OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET,
+    OPERATING_CYCLE_PUBLIC_PROOF_ASSET_TARGET,
     OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET,
     buildOperatingCycleKey,
     operatingCycleGates,
@@ -2165,6 +2166,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.equal(OPERATING_CYCLE_APPLICATION_ACTIVITY_TARGET, 1);
   assert.equal(OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET, 10);
   assert.equal(OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET, 10);
+  assert.equal(OPERATING_CYCLE_PUBLIC_PROOF_ASSET_TARGET, 4);
   const gates = operatingCycleGates({
     metrics: {
       approvedDiscordKnowledgeSources: 0,
@@ -2214,13 +2216,14 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   });
   assert.ok(partialKnowledgeGates.some((gate) => gate.name === 'approved_knowledge_available' && !gate.passed && gate.evidence.includes('1/10')));
   assert.ok(partialKnowledgeGates.some((gate) => gate.name === 'approved_knowledge_synced_to_rag' && !gate.passed && gate.evidence.includes('1/10')));
+  assert.ok(partialKnowledgeGates.some((gate) => gate.name === 'public_proof_draft_created' && !gate.passed && gate.evidence.includes('1/4')));
   const thresholdKnowledgeGates = operatingCycleGates({
     metrics: {
       approvedDiscordKnowledgeSources: 10,
       ragDiscordSources: 10,
       pendingKnowledgeCandidates: 0,
-      pendingPublicDrafts: 1,
-      publishedPublicDrafts: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
       approvedMembers: 7,
       onboardedMembers: 7,
       activeMembers7d: 7,
@@ -2236,13 +2239,14 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   });
   assert.ok(thresholdKnowledgeGates.find((gate) => gate.name === 'approved_knowledge_available')?.passed);
   assert.ok(thresholdKnowledgeGates.find((gate) => gate.name === 'approved_knowledge_synced_to_rag')?.passed);
+  assert.ok(thresholdKnowledgeGates.find((gate) => gate.name === 'public_proof_draft_created')?.passed);
   const noApplicationGrowthGates = operatingCycleGates({
     metrics: {
       approvedDiscordKnowledgeSources: 10,
       ragDiscordSources: 10,
       pendingKnowledgeCandidates: 0,
-      pendingPublicDrafts: 1,
-      publishedPublicDrafts: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
       approvedMembers: 7,
       onboardedMembers: 7,
       activeMembers7d: 7,

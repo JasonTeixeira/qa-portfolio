@@ -1343,6 +1343,178 @@ assert average([2, 4, 6]) == 4`,
   },
 ]
 
+// ---------------------------------------------------------------- lesson 8 blocks
+// "CLI Safety — Safe Defaults & Dry Runs". Grounded in
+// concepts/deep-nodes/cli-safety.md (safe defaults vs sharp tools, dry-run vs
+// destructive, blast radius, human confirmation; anchors: tool deletes too much,
+// wrong production environment).
+const CLI_LAB_STARTER = `def decide(args):
+    # args is a dict, e.g. {"execute": False, "env": "staging", "confirmed": False}
+    # SAFETY RULES:
+    #   - Default to "dry-run" unless execute is explicitly True.
+    #   - Production requires confirmed=True (no accidental prod) -> else block it.
+    #   - Otherwise -> "execute".
+    # Return one of: "dry-run", "execute", "blocked: confirm production"
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+cases = [
+    ({"execute": False, "env": "staging"}, "dry-run"),
+    ({"execute": True, "env": "staging"}, "execute"),
+    ({"execute": True, "env": "production"}, "blocked: confirm production"),
+    ({"execute": True, "env": "production", "confirmed": True}, "execute"),
+]
+ok = all(decide(a) == exp for a, exp in cases)
+for a, exp in cases:
+    print(f"{a} -> {decide(a)!r}")
+print(f"PASS: {ok}")
+`
+
+const cliBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Build a command that defaults to dry-run, never defaults to production, and requires explicit confirmation for high-blast-radius actions.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A safety gate that previews by default and blocks an unconfirmed production action, plus tests for each path.',
+    unlock: 'All verification checks confirmed and the dangerous defaults removed.',
+    doNotClaim:
+      "Don't claim mastery until a forgotten flag results in a dry-run, not a production deletion.",
+  },
+  {
+    type: 'mission',
+    text: "An internal cleanup script ran with its defaults — and deleted production data, because 'no environment specified' defaulted to prod and there was no confirmation. Make the tool safe by default.",
+  },
+  {
+    type: 'context',
+    text: 'Internal CLI tools are sharp: a wrong flag or a defaulted environment can delete real data with no undo. Safe defaults, dry-run previews, and confirmation for high-impact actions are the difference between a useful tool and an outage.',
+  },
+  {
+    type: 'pretest',
+    prompt: 'Before you read on: why is it dangerous for a destructive command to DEFAULT to executing — or to default the environment to production?',
+    reveal:
+      'Defaults are what run when someone forgets a flag. If "execute" or "production" is the default, a tired engineer who omits a flag destroys real data. Safe tools default to dry-run and require explicit opt-in for destructive, production actions.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Safe by default: dry-run unless explicitly told to execute, and production needs confirmation:',
+    language: 'python',
+    code: `def decide(args):
+    if not args.get("execute"):
+        return "dry-run"                 # default: preview, do nothing destructive
+    if args.get("env") == "production" and not args.get("confirmed"):
+        return "blocked: confirm production"   # never act on prod without confirmation
+    return "execute"`,
+    steps: [
+      'Default to dry-run — a forgotten flag previews, it does not destroy.',
+      'Require an explicit `execute` to take action.',
+      'Never default the environment to production.',
+      'Require human confirmation for production / high blast radius.',
+      'Log operator + action + target + time, and preview the exact target set.',
+    ],
+    commonMistake:
+      'Defaulting `execute=True` or `env="production"`. The default is what runs when a flag is forgotten — make it the SAFE option.',
+  },
+  {
+    type: 'concept',
+    title: 'Safe defaults · dry-run · blast radius · human confirmation',
+    text: 'Safe tools default to the harmless option: a DRY-RUN that previews the exact target set before touching anything. BLAST RADIUS is how much one command can affect — limit it (explicit scope, no bare wildcards). Require HUMAN CONFIRMATION for high-impact actions, and never default the environment to production. Keep an AUDIT TRAIL (operator/action/resource/time) and make rollback possible. The default is what runs when someone forgets a flag — so it must be safe.',
+  },
+  {
+    type: 'lab',
+    title: 'Make it safe by default',
+    summary:
+      'Implement decide(args): default to "dry-run" unless execute is True; block a production action that isn\'t confirmed ("blocked: confirm production"); otherwise "execute". The harness checks all four paths — a forgotten execute must NOT run.',
+    language: 'python',
+    starter: CLI_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: 'This deploy tool deleted production records when it was run with no arguments.',
+    language: 'python',
+    brokenCode: `def run(env="production", execute=True):   # dangerous defaults
+    if execute:
+        delete_records(env)`,
+    task: 'Find the two dangerous defaults.',
+    fix: "Both defaults are unsafe: `env='production'` means a forgotten flag targets prod, and `execute=True` means it acts with no opt-in. Default `env=None` (require an explicit choice) and `execute=False` (dry-run), and require confirmation before touching production.",
+  },
+  {
+    type: 'tradeoff',
+    question: 'A destructive command: run it immediately, or dry-run first?',
+    optionA: {
+      label: 'Dry-run first',
+      text: 'Show exactly what WOULD change, then require an explicit second step to execute. One extra step — but accidental data loss becomes very hard.',
+    },
+    optionB: {
+      label: 'Execute immediately',
+      text: "Do it in one command — fast for the happy path. But one typo or forgotten flag and there's no preview and no undo.",
+    },
+    guidance:
+      'Default to dry-run for anything destructive. Preview the exact target set, then require an explicit execute (and confirmation for prod). The extra step is cheap; a deleted production table is not.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'The command defaults to dry-run — no destructive action without opt-in',
+      'It never defaults the environment to production',
+      'A production action requires explicit confirmation',
+      'A dry-run shows the exact target set before executing',
+      'The action is auditable (operator / action / target / time)',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: 'What should a destructive CLI command do by DEFAULT (when a flag is forgotten)?',
+    options: [
+      'Execute against production',
+      'Dry-run / preview, taking no destructive action',
+      'Delete everything matching a wildcard',
+      'Pick the last-used environment',
+    ],
+    answer: 1,
+    explanation:
+      'The default is what runs when someone forgets a flag — make it the SAFE option: a dry-run that takes no destructive action and never defaults to production. Require explicit opt-in (and confirmation) to actually execute.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      "What does 'safe defaults' mean for a destructive tool?",
+      'Why dry-run before executing?',
+      "What is 'blast radius' and how do you limit it?",
+      'Why should the environment never default to production?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your decide() safety gate + its tests',
+    weak: '"It runs the command." — it probably executes by default.',
+    passing:
+      '"decide defaults to dry-run, requires an explicit execute, and blocks production without confirmation; tests cover each path." — correct, safe by default.',
+    excellent:
+      '"decide defaults to dry-run, never defaults env to production, and requires confirmation for prod; it would also preview the target set and log the action. Tests cover dry-run, staging-execute, prod-blocked, and prod-confirmed. The same safe-default + confirmation pattern applies to any high-blast-radius operation." — specific, safe, auditable, transferable.',
+    note: 'Excellent previews, audits, AND confirms for prod — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find a script or command in your own tooling that can destroy or overwrite data. Add a dry-run default, explicit environment selection, a preview of the target set, and confirmation for production — and log who ran what, where, and when.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — a forgotten execute dry-runs; unconfirmed prod is blocked',
+      'Broken case understood (defaulting to prod / execute is dangerous)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own tooling',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -1529,6 +1701,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l7Err) throw l7Err
+
+  // 2h. Lesson 8 — CLI Safety (grounded in deep-nodes/cli-safety.md).
+  const { error: l8Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'cli-workflow',
+      title: 'CLI Safety: Safe Defaults & Dry Runs',
+      eyebrow: 'Module 1 · Lesson 8 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 7,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: cliBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l8Err) throw l8Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

@@ -23,7 +23,7 @@ Intensity: `standard`. Each cluster → one lesson.
 | 5 | `control-flow` | Data & control flow | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 6 | `files-and-io` | Files & I/O | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 7 | `testing-and-debugging` | (craft) testing/debug | `deep-nodes/testing-strategy.md` | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
-| 8 | `cli-workflow` | CLI workflow | `deep-nodes/cli-safety.md` | PENDING |
+| 8 | `cli-workflow` | CLI workflow | `deep-nodes/cli-safety.md` | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 9 | `git-fundamentals` | Git fundamentals | cluster + std CS | PENDING |
 
 **Course exit gate:** all 9 `DONE` + a final content-review pass over the whole course.
@@ -33,7 +33,7 @@ Each numbered mastery track → one flagship course. Build after the active cour
 
 | Order | Course (slug) | Topic | Source track | Lessons from | Status |
 |---|---|---|---|---|---|
-| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (7/9)** |
+| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (8/9)** |
 | 2 | `core-engineering-scenarios` | engineering | `scenario-pipelines/` (core 1–10) | 10 pipelines (System Is Slow first) | PENDING |
 | 3 | `dsa-patterns` | engineering | `02-dsa-leetcode-patterns` + `deep-nodes/dsa-pattern-recognition.md` | pattern bank | PENDING |
 | 4 | `software-craft` | engineering | `03-software-craft` + `deep-nodes/{code-review,testing-strategy}.md` | clusters | PENDING |

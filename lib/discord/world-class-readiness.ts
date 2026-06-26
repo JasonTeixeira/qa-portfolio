@@ -64,13 +64,17 @@ export type WorldClassReadinessReport = {
 const OPERATING_BLOCKER_ACTIONS: Record<string, string> = {
   discord_gateway_capture_blocked:
     'Deploy or run the gateway worker with Message Content Intent proven, capture a fresh non-bot message, then rerun gateway capture diagnosis.',
-  approved_discord_knowledge_sources_empty:
+  approved_discord_knowledge_sources_below_target:
     'Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.',
-  rag_discord_sources_empty:
+  rag_discord_sources_below_target:
     'Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.',
-  public_proof_drafts_empty:
-    'Create and approve one privacy-safe public proof draft from approved Discord source material.',
-  premium_workflow_live_proof_empty:
+  public_proof_assets_below_target:
+    'Create and approve four privacy-safe public proof assets from approved Discord source material.',
+  public_proof_apply_clicks_below_target:
+    'Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.',
+  applications_submitted_below_target:
+    'Drive at least one measured Discord application from the approval-gated growth funnel.',
+  premium_workflow_proof_below_target:
     'Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.',
 };
 
@@ -83,6 +87,11 @@ export function classifyWorldClassCategory(item: WorldClassScorecardItem): World
 
 function uniqueActionList(actions: string[]): string[] {
   return [...new Set(actions.map((action) => action.trim()).filter(Boolean))];
+}
+
+function actionForOperatingBlocker(blocker: string): string {
+  const blockerKey = blocker.split(':')[0] ?? blocker;
+  return OPERATING_BLOCKER_ACTIONS[blockerKey] ?? `Resolve operating blocker: ${blocker}.`;
 }
 
 export function buildWorldClassReadinessReport(input: WorldClassReadinessInput): WorldClassReadinessReport {
@@ -114,9 +123,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
   const categoriesBelow85 = categories.filter((item) => item.score < 85).length;
   const maxScoreGapTo95 = categories.reduce((max, item) => Math.max(max, item.scoreGapTo95), 0);
 
-  const blockerActions = operatingBlockers.map(
-    (blocker) => OPERATING_BLOCKER_ACTIONS[blocker] ?? `Resolve operating blocker: ${blocker}.`,
-  );
+  const blockerActions = operatingBlockers.map(actionForOperatingBlocker);
   const categoryActions = categories
     .filter((item) => item.score < input.worldClassThreshold)
     .slice(0, 8)

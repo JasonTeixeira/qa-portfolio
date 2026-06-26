@@ -2339,10 +2339,12 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
     ],
     operatingBlockers: [
       'discord_gateway_capture_blocked',
-      'approved_discord_knowledge_sources_empty',
-      'rag_discord_sources_empty',
-      'public_proof_drafts_empty',
-      'premium_workflow_live_proof_empty',
+      'approved_discord_knowledge_sources_below_target:0/10',
+      'rag_discord_sources_below_target:0/10',
+      'public_proof_assets_below_target:0/4',
+      'public_proof_apply_clicks_below_target:0/1',
+      'applications_submitted_below_target:0/1',
+      'premium_workflow_proof_below_target:0/1',
       'discord_gateway_capture_blocked',
     ],
     requiredOperatingProof: ['Run four weekly public proof cycles.'],
@@ -2384,8 +2386,12 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.deepEqual(report.summary.releaseGateFailures, []);
   assert.ok(report.immediateActionOrder[0].includes('gateway worker with Message Content Intent'));
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
+  assert.ok(report.summary.operatingBlockers.includes('approved_discord_knowledge_sources_below_target:0/10'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Approve at least 10 high-signal Discord')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Sync approved Discord candidates')));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('four privacy-safe public proof assets')));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('tracked apply/join intent')));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('measured Discord application')));
   assert.equal(report.categories[0].category, 'growth_loop');
   assert.equal(report.categories[0].status, 'needs_build_work');
 

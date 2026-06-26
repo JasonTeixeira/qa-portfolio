@@ -84,12 +84,17 @@ export const metadata = { title: 'Discord Command Center', robots: { index: fals
 
 type Tone = 'neutral' | 'cyan' | 'emerald' | 'amber' | 'rose' | 'violet';
 
-const PROOF_LANE_OPERATING_BLOCKERS: Record<string, string> = {
-  approved_discord_knowledge: 'approved_discord_knowledge_sources_empty',
-  rag_discord_sources: 'rag_discord_sources_empty',
-  public_proof_assets: 'public_proof_drafts_empty',
-  premium_workflow_proof: 'premium_workflow_live_proof_empty',
+const PROOF_LANE_OPERATING_BLOCKER_KEYS: Record<string, string> = {
+  approved_discord_knowledge: 'approved_discord_knowledge_sources_below_target',
+  rag_discord_sources: 'rag_discord_sources_below_target',
+  public_proof_assets: 'public_proof_assets_below_target',
+  premium_workflow_proof: 'premium_workflow_proof_below_target',
 };
+
+function formatProofLaneOperatingBlocker(lane: { key: string; currentCount: number; targetCount: number }) {
+  const blockerKey = PROOF_LANE_OPERATING_BLOCKER_KEYS[lane.key];
+  return blockerKey ? `${blockerKey}:${lane.currentCount}/${lane.targetCount}` : null;
+}
 
 type DiscordEventRow = {
   id: string;
@@ -1105,7 +1110,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     scorecard: localScorecard,
     operatingBlockers: proofBacklog.lanes
       .filter((lane) => lane.status === 'blocked')
-      .map((lane) => PROOF_LANE_OPERATING_BLOCKERS[lane.key])
+      .map(formatProofLaneOperatingBlocker)
       .filter((blocker): blocker is string => Boolean(blocker)),
     requiredOperatingProof: localScorecardSummary.requiredOperatingProof,
   });

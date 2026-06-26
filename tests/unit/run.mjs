@@ -131,6 +131,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-source-volume-scan-latest\.json/);
+  assert.match(localVerificationEvidence, /discord-proof-source-recovery-plan-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /gateway_capture_rehearsal/);
   assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
@@ -141,6 +142,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /weeklyProofPacket/);
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
   assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
+  assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
   assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
@@ -149,6 +151,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
   assert.match(localVerificationEvidence, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
+  assert.match(localVerificationEvidence, /does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof/);
+  assert.match(localVerificationEvidence, /totalShortfall/);
+  assert.match(localVerificationEvidence, /sourceVolumeState/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const evalCoverageReadinessScript = await readFile(new URL('../../scripts/rag/write-eval-coverage-readiness.ts', import.meta.url), 'utf8');
   assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);

@@ -27,6 +27,7 @@ const evidencePaths = {
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
   proofCandidateAudit: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
   proofSourceVolumeScan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-volume-scan-latest.json'),
+  proofSourceRecoveryPlan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json'),
   operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
   gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
 };
@@ -126,6 +127,7 @@ async function main() {
     weeklyProofPacket,
     proofCandidateAudit,
     proofSourceVolumeScan,
+    proofSourceRecoveryPlan,
     operatorBrief,
     gatewayCaptureDiagnosis,
   ] = await Promise.all(
@@ -309,6 +311,31 @@ async function main() {
   requireTruthy(
     proofSourceVolumeScan.laneReadiness?.premiumWorkflowProof?.target === OPERATING_TARGETS.premiumWorkflowProofs,
     'Proof source volume scan must enforce the premium workflow proof target.',
+  );
+  requireTruthy(proofSourceRecoveryPlan.ok === true, 'Proof source recovery plan evidence is not ok.');
+  requireTruthy(
+    proofSourceRecoveryPlan.mutationMode === 'local_file_evidence_only',
+    'Proof source recovery plan must not mutate external systems.',
+  );
+  requireTruthy(
+    proofSourceRecoveryPlan.releaseMeaning?.includes('does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof'),
+    'Proof source recovery plan must explicitly avoid claiming mutation or operating proof.',
+  );
+  requireTruthy(
+    Array.isArray(proofSourceRecoveryPlan.lanes) && proofSourceRecoveryPlan.lanes.length === 4,
+    'Proof source recovery plan must cover approved knowledge, RAG sources, public proof, and premium workflow lanes.',
+  );
+  requireTruthy(
+    proofSourceRecoveryPlan.summary?.totalShortfall === proofSourceRecoveryPlan.lanes.reduce((sum, lane) => sum + Math.max(0, (lane.target ?? 0) - (lane.current ?? 0)), 0),
+    'Proof source recovery plan total shortfall must match lane counts.',
+  );
+  requireTruthy(
+    proofSourceRecoveryPlan.lanes.every((lane) => Array.isArray(lane.doNotCount) && lane.doNotCount.length >= 3),
+    'Proof source recovery plan must include anti-fake do-not-count rules for every lane.',
+  );
+  requireTruthy(
+    proofSourceRecoveryPlan.antiFakeRules?.some((rule) => rule.includes('dry-run')),
+    'Proof source recovery plan must explicitly block dry-run/smoke/synthetic evidence from counting.',
   );
   requireTruthy(operatorBrief.ok === true, 'Operator brief evidence is not ok.');
   requireTruthy(
@@ -498,6 +525,22 @@ async function main() {
       counts: proofSourceVolumeScan.counts,
       queryErrors: proofSourceVolumeScan.queryErrors ?? [],
       releaseMeaning: proofSourceVolumeScan.releaseMeaning,
+    },
+    proofSourceRecoveryPlan: {
+      ok: proofSourceRecoveryPlan.ok,
+      mutationMode: proofSourceRecoveryPlan.mutationMode,
+      status: proofSourceRecoveryPlan.status,
+      summary: proofSourceRecoveryPlan.summary,
+      laneStates: proofSourceRecoveryPlan.lanes.map((lane) => ({
+        key: lane.key,
+        status: lane.status,
+        sourceVolumeState: lane.sourceVolumeState,
+        current: lane.current,
+        target: lane.target,
+        shortfall: lane.shortfall,
+      })),
+      antiFakeRuleCount: proofSourceRecoveryPlan.antiFakeRules?.length ?? 0,
+      releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,
     },
     operatorBrief: {
       ok: operatorBrief.ok,

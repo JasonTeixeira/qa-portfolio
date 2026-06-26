@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782470780127",
+  "runKey": "phase-20-final-1782471489562",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -48,6 +48,28 @@
     "Run security/privacy smoke after permission, command, or RAG policy changes.",
     "Repeat Phase 19 after each major growth milestone."
   ],
+  "actionPlan": {
+    "localOnlyCommands": [
+      "npm run rag:evaluate:recovery-plan",
+      "npm run rag:evaluate:missing-preflight",
+      "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+      "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+      "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+    ],
+    "explicitApprovalCommands": [
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "npm run discord:operating-cycle"
+    ],
+    "liveOperatorActions": [
+      "Post one fresh non-bot member message in Discord and rerun gateway capture diagnosis.",
+      "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+      "Sync approved Discord candidates into authoritative RAG, then rerun retrieval, answer, coverage, and scorecard evidence.",
+      "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+      "Publish at least one proof asset with tracked apply/join intent and record one measured application.",
+      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+    ]
+  },
   "scorecard": [
     {
       "category": "server_access_onboarding",
@@ -433,6 +455,10 @@
       "scale_readiness"
     ]
   },
+  "actionPlanValidation": {
+    "ok": true,
+    "failures": []
+  },
   "operatingRhythm": {
     "weekly": [
       "Review pending Discord applications and rejected/approved counts.",
@@ -725,6 +751,11 @@
       "evidence": "18 categories / avg 83"
     },
     {
+      "name": "scorecard_action_plan",
+      "passed": true,
+      "evidence": "6 local-only / 2 approval-required / 6 live actions"
+    },
+    {
       "name": "evidence_index",
       "passed": true,
       "evidence": "25/25 required evidence files pass"
@@ -854,6 +885,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T10:46:20.127Z",
-  "finishedAt": "2026-06-26T10:46:21.703Z"
+  "startedAt": "2026-06-26T10:58:09.562Z",
+  "finishedAt": "2026-06-26T10:58:11.090Z"
 }

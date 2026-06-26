@@ -2574,9 +2574,11 @@ test('discord final scorecard: release scores operating rhythm and validator are
     DISCORD_FINAL_SCORECARD_VERSION,
     REQUIRED_PHASE_EVIDENCE,
     buildDiscordFinalScorecard,
+    buildDiscordFinalScorecardActionPlan,
     buildDiscordFinalScorecardSummary,
     buildDiscordOperatingRhythm,
     validateDiscordFinalScorecard,
+    validateDiscordFinalScorecardActionPlan,
     validateDiscordOperatingRhythm,
   } = await import('../../lib/discord/final-scorecard.ts');
   const migration = await readFile(new URL('../../supabase/migrations/0094_discord_final_scorecard_release.sql', import.meta.url), 'utf8');
@@ -2587,6 +2589,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   const scorecard = buildDiscordFinalScorecard();
   const validation = validateDiscordFinalScorecard(scorecard);
   const summary = buildDiscordFinalScorecardSummary(scorecard);
+  const actionPlan = buildDiscordFinalScorecardActionPlan();
+  const actionPlanValidation = validateDiscordFinalScorecardActionPlan(actionPlan);
   const rhythm = buildDiscordOperatingRhythm();
   const rhythmValidation = validateDiscordOperatingRhythm(rhythm);
   assert.equal(DISCORD_FINAL_SCORECARD_VERSION, 'discord-final-scorecard-v2');
@@ -2603,6 +2607,23 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.equal(summary.worldClassThreshold, 95);
   assert.ok(summary.requiredOperatingProof.some((action) => /four weekly public proof cycles/i.test(action)));
   assert.ok(summary.requiredOperatingProof.some((action) => /collect two weeks of real questions/i.test(action)));
+  assert.equal(actionPlanValidation.ok, true);
+  assert.ok(actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:missing-preflight')));
+  assert.ok(actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
+  assert.ok(actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(actionPlan.localOnlyCommands.every((command) => command !== 'npm run discord:operating-cycle'));
+  assert.ok(actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(actionPlan.explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle'));
+  assert.ok(actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
+  assert.ok(actionPlan.liveOperatorActions.some((action) => action.includes('10 high-signal Discord')));
+  assert.ok(validateDiscordFinalScorecardActionPlan({
+    ...actionPlan,
+    localOnlyCommands: [...actionPlan.localOnlyCommands, 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing'],
+  }).failures.includes('action_plan_local_commands_include_approval_command'));
+  assert.ok(validateDiscordFinalScorecardActionPlan({
+    ...actionPlan,
+    localOnlyCommands: [...actionPlan.localOnlyCommands, 'npm run rag:evaluate'],
+  }).failures.includes('action_plan_local_commands_include_non_dry_eval'));
   const contentEngine = scorecard.find((item) => item.category === 'content_engine_quality');
   assert.equal(contentEngine?.score, 84);
   assert.ok(contentEngine?.evidence.includes('docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json'));
@@ -2626,6 +2647,10 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /phase-20-final-scorecard\.json/);
   assert.match(smoke, /worldClassEligible/);
   assert.match(smoke, /requiredOperatingProof/);
+  assert.match(smoke, /buildDiscordFinalScorecardActionPlan/);
+  assert.match(smoke, /validateDiscordFinalScorecardActionPlan/);
+  assert.match(smoke, /scorecard_action_plan/);
+  assert.match(smoke, /actionPlanValidation/);
   assert.match(smoke, /dryRun/);
   assert.match(smoke, /proof_rehearsal_readiness/);
   assert.match(smoke, /content_factory_readiness/);

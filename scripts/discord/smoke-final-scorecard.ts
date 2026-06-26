@@ -3,11 +3,13 @@ import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import {
   buildDiscordFinalScorecardSummary,
+  buildDiscordFinalScorecardActionPlan,
   buildDiscordFinalScorecard,
   buildDiscordOperatingRhythm,
   DISCORD_FINAL_SCORECARD_VERSION,
   REQUIRED_PHASE_EVIDENCE,
   validateDiscordFinalScorecard,
+  validateDiscordFinalScorecardActionPlan,
   validateDiscordOperatingRhythm,
   type DiscordReleaseGate,
 } from '@/lib/discord/final-scorecard';
@@ -346,9 +348,11 @@ async function main() {
   const startedAt = new Date().toISOString();
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
+  const actionPlan = buildDiscordFinalScorecardActionPlan();
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, readinessValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
+  const [scorecardValidation, actionPlanValidation, rhythmValidation, evidenceValidation, readinessValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
+    Promise.resolve(validateDiscordFinalScorecardActionPlan(actionPlan)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
     validateReadinessValidationArtifacts(),
@@ -374,8 +378,13 @@ async function main() {
   const releaseGates: DiscordReleaseGate[] = [
     {
       name: 'scorecard_schema',
-      passed: scorecardValidation.ok,
+      passed: scorecardValidation.ok && actionPlanValidation.ok,
       evidence: `${scorecardValidation.categoryCount} categories / avg ${scorecardValidation.averageScore}`,
+    },
+    {
+      name: 'scorecard_action_plan',
+      passed: actionPlanValidation.ok,
+      evidence: `${actionPlan.localOnlyCommands.length} local-only / ${actionPlan.explicitApprovalCommands.length} approval-required / ${actionPlan.liveOperatorActions.length} live actions`,
     },
     {
       name: 'evidence_index',
@@ -457,6 +466,7 @@ async function main() {
   ];
   const failures = [
     ...scorecardValidation.failures.map((failure) => `scorecard:${failure}`),
+    ...actionPlanValidation.failures.map((failure) => `action_plan:${failure}`),
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
     ...ragEvalCoverageReadinessValidation.failures.map((failure) => `rag_eval_coverage:${failure}`),
     ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
@@ -500,9 +510,11 @@ async function main() {
     worldClassEligible: summary.worldClassEligible,
     worldClassThreshold: summary.worldClassThreshold,
     requiredOperatingProof: summary.requiredOperatingProof,
+    actionPlan,
     scorecard,
     summary,
     scorecardValidation,
+    actionPlanValidation,
     operatingRhythm: rhythm,
     rhythmValidation,
     evidenceValidation,

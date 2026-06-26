@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T10:46:25.255Z",
+  "generatedAt": "2026-06-26T10:58:14.401Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -329,7 +329,7 @@
     "messageContentSignalSource": "identify_event",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
-    "heartbeatAgeMinutes": 0,
+    "heartbeatAgeMinutes": 1,
     "nextActions": [
       "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
@@ -338,8 +338,8 @@
     "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
   },
   "releaseGates": {
-    "total": 15,
-    "passed": 13,
+    "total": 16,
+    "passed": 14,
     "failures": [
       "rag_eval_latest",
       "rag_eval_coverage_readiness"

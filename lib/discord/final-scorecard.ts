@@ -41,6 +41,12 @@ export type DiscordOperatingRhythm = {
   quarterly: string[];
 };
 
+export type DiscordFinalScorecardActionPlan = {
+  localOnlyCommands: string[];
+  explicitApprovalCommands: string[];
+  liveOperatorActions: string[];
+};
+
 export type DiscordReleaseGate = {
   name: string;
   passed: boolean;
@@ -55,6 +61,12 @@ export type DiscordFinalScorecardSummary = {
   worldClassThreshold: number;
   requiredOperatingProof: string[];
 };
+
+const GUARDED_RAG_EVAL_COMMAND = 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence';
+
+function uniqueActionList(actions: Array<string | null | undefined>): string[] {
+  return [...new Set(actions.map((action) => action?.trim()).filter((action): action is string => Boolean(action)))];
+}
 
 export const REQUIRED_PHASE_EVIDENCE = [
   'docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json',
@@ -329,6 +341,74 @@ export function buildDiscordOperatingRhythm(): DiscordOperatingRhythm {
       'Review community quality bar, moderation decisions, and channel sprawl.',
     ],
   };
+}
+
+export function buildDiscordFinalScorecardActionPlan(): DiscordFinalScorecardActionPlan {
+  return {
+    localOnlyCommands: uniqueActionList([
+      'npm run rag:evaluate:recovery-plan',
+      'npm run rag:evaluate:missing-preflight',
+      'npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet',
+      'npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan',
+      'npm run discord:proof-backlog && npm run discord:proof-candidate-audit',
+      'npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence',
+    ]),
+    explicitApprovalCommands: uniqueActionList([
+      GUARDED_RAG_EVAL_COMMAND,
+      'npm run discord:operating-cycle',
+    ]),
+    liveOperatorActions: uniqueActionList([
+      'Post one fresh non-bot member message in Discord and rerun gateway capture diagnosis.',
+      'Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.',
+      'Sync approved Discord candidates into authoritative RAG, then rerun retrieval, answer, coverage, and scorecard evidence.',
+      'Create and approve four privacy-safe public proof assets from approved Discord source material.',
+      'Publish at least one proof asset with tracked apply/join intent and record one measured application.',
+      'Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.',
+    ]),
+  };
+}
+
+export function validateDiscordFinalScorecardActionPlan(actionPlan: DiscordFinalScorecardActionPlan): {
+  ok: boolean;
+  failures: string[];
+} {
+  const failures: string[] = [];
+  const localOnlyCommands = actionPlan.localOnlyCommands ?? [];
+  const explicitApprovalCommands = actionPlan.explicitApprovalCommands ?? [];
+  const liveOperatorActions = actionPlan.liveOperatorActions ?? [];
+
+  if (!localOnlyCommands.some((command) => command.includes('rag:evaluate:missing-preflight'))) {
+    failures.push('action_plan_missing_safe_rag_preflight');
+  }
+  if (!localOnlyCommands.some((command) => command.includes('discord:proof-backlog'))) {
+    failures.push('action_plan_missing_safe_proof_backlog');
+  }
+  if (!localOnlyCommands.some((command) => command.includes('verify:local:evidence'))) {
+    failures.push('action_plan_missing_local_evidence_refresh');
+  }
+  if (!explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'))) {
+    failures.push('action_plan_missing_guarded_rag_eval_command');
+  }
+  if (!explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle')) {
+    failures.push('action_plan_missing_operating_cycle_approval_command');
+  }
+  if (!liveOperatorActions.some((action) => action.includes('fresh non-bot member message'))) {
+    failures.push('action_plan_missing_gateway_live_proof');
+  }
+  if (!liveOperatorActions.some((action) => action.includes('10 high-signal Discord'))) {
+    failures.push('action_plan_missing_approved_knowledge_live_proof');
+  }
+  if (!liveOperatorActions.some((action) => action.includes('four privacy-safe public proof assets'))) {
+    failures.push('action_plan_missing_public_proof_live_proof');
+  }
+  if (localOnlyCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command === 'npm run discord:operating-cycle')) {
+    failures.push('action_plan_local_commands_include_approval_command');
+  }
+  if (localOnlyCommands.some((command) => /^npm run rag:evaluate($|\s)/.test(command))) {
+    failures.push('action_plan_local_commands_include_non_dry_eval');
+  }
+
+  return { ok: failures.length === 0, failures };
 }
 
 export function validateDiscordFinalScorecard(scorecard: DiscordScorecardItem[]): {

@@ -211,6 +211,7 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   const approvalMigration = await readFile(new URL('../../supabase/migrations/0051_discord_member_approval_gate.sql', import.meta.url), 'utf8');
   const gatewayMigration = await readFile(new URL('../../supabase/migrations/0060_discord_gateway_worker.sql', import.meta.url), 'utf8');
   const gatewayWorker = await readFile(new URL('../../scripts/discord/gateway-worker.ts', import.meta.url), 'utf8');
+  const gatewayIngestion = await readFile(new URL('../../lib/discord/gateway-ingestion.ts', import.meta.url), 'utf8');
   const commands = await readFile(new URL('../../lib/discord/sage-commands.ts', import.meta.url), 'utf8');
   const register = await readFile(new URL('../../scripts/discord/register-sage-commands.mjs', import.meta.url), 'utf8');
   const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
@@ -231,6 +232,9 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_heartbeats/);
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_sessions/);
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_dead_letters/);
+  assert.match(gatewayIngestion, /\.select\('metadata'\)/);
+  assert.match(gatewayIngestion, /\.eq\('worker_id', input\.workerId\)/);
+  assert.match(gatewayIngestion, /metadata = typeof data\?\.metadata === 'object'/);
   assert.match(gatewayWorker, /requestedCloseResult/);
   assert.match(gatewayWorker, /discord-reconnect-requested/);
   assert.match(gatewayWorker, /socket\.close\(1000, 'discord-reconnect-requested'\)/);

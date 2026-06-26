@@ -185,6 +185,15 @@ export async function recordDiscordGatewayHeartbeat(input: {
   metadata?: Json;
 }): Promise<void> {
   try {
+    let metadata = input.metadata ?? {};
+    if (!input.metadata || Object.keys(input.metadata).length === 0) {
+      const { data } = await supabaseAdmin()
+        .from('discord_gateway_heartbeats')
+        .select('metadata')
+        .eq('worker_id', input.workerId)
+        .maybeSingle();
+      metadata = typeof data?.metadata === 'object' && data.metadata ? data.metadata as Json : {};
+    }
     await supabaseAdmin().from('discord_gateway_heartbeats').upsert({
       worker_id: input.workerId,
       status: input.status,
@@ -193,7 +202,7 @@ export async function recordDiscordGatewayHeartbeat(input: {
       resume_gateway_url: input.resumeGatewayUrl ?? null,
       last_close_code: input.lastCloseCode ?? null,
       last_close_reason: input.lastCloseReason ?? null,
-      metadata: input.metadata ?? {},
+      metadata,
       last_seen_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }, { onConflict: 'worker_id' });

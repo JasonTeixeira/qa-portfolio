@@ -2197,6 +2197,11 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
     averageScore: 83,
     worldClassThreshold: 95,
     worldClassEligible: false,
+    releaseGates: [
+      { name: 'scorecard_schema', passed: true, evidence: 'ok' },
+      { name: 'proof_intake_anti_fake_controls', passed: true, evidence: '5/5' },
+      { name: 'weekly_proof_packet_anti_fake_controls', passed: true, evidence: '5/5' },
+    ],
     operatingBlockers: [
       'discord_gateway_capture_blocked',
       'approved_discord_knowledge_sources_empty',
@@ -2239,12 +2244,31 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(report.summary.categoriesBelow95, 2);
   assert.equal(report.summary.categoriesBelow85, 1);
   assert.equal(report.summary.maxScoreGapTo95, 37);
+  assert.equal(report.summary.releaseGateCount, 3);
+  assert.equal(report.summary.releaseGatesPassed, 3);
+  assert.deepEqual(report.summary.releaseGateFailures, []);
   assert.ok(report.immediateActionOrder[0].includes('gateway worker with Message Content Intent'));
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Approve at least 10 high-signal Discord')));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Sync approved Discord candidates')));
   assert.equal(report.categories[0].category, 'growth_loop');
   assert.equal(report.categories[0].status, 'needs_build_work');
+
+  const blockedByReleaseGate = buildWorldClassReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    averageScore: 96,
+    worldClassThreshold: 95,
+    worldClassEligible: true,
+    releaseGates: [
+      { name: 'scorecard_schema', passed: true },
+      { name: 'proof_intake_anti_fake_controls', passed: false },
+    ],
+    operatingBlockers: [],
+    requiredOperatingProof: [],
+    scorecard: [{ category: 'safe_category', score: 96, evidence: ['evidence.json'] }],
+  });
+  assert.equal(blockedByReleaseGate.releaseDecision, 'do_not_claim_world_class');
+  assert.deepEqual(blockedByReleaseGate.summary.releaseGateFailures, ['proof_intake_anti_fake_controls']);
 });
 
 test('discord proof backlog: turns missing operating proof into concrete lanes', async () => {

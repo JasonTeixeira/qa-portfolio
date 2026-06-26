@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T03:07:55.348Z",
+  "generatedAt": "2026-06-26T03:16:31.819Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -19,7 +19,10 @@
       "rag_discord_sources_empty",
       "public_proof_drafts_empty",
       "premium_workflow_live_proof_empty"
-    ]
+    ],
+    "releaseGateCount": 11,
+    "releaseGatesPassed": 11,
+    "releaseGateFailures": []
   },
   "immediateActionOrder": [
     "Deploy or run the gateway worker with Message Content Intent proven, capture a fresh non-bot message, then rerun gateway capture diagnosis.",

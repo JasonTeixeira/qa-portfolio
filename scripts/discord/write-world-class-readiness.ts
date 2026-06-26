@@ -41,6 +41,7 @@ async function main() {
     worldClassThreshold: Number(finalScorecard.worldClassThreshold ?? 95),
     worldClassEligible: Boolean(finalScorecard.worldClassEligible),
     scorecard,
+    releaseGates: Array.isArray(finalScorecard.releaseGates) ? finalScorecard.releaseGates : [],
     operatingBlockers,
     requiredOperatingProof: finalScorecard.requiredOperatingProof ?? [],
   });

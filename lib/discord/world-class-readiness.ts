@@ -17,6 +17,11 @@ export type WorldClassReadinessInput = {
   worldClassThreshold: number;
   worldClassEligible: boolean;
   scorecard: WorldClassScorecardItem[];
+  releaseGates?: Array<{
+    name: string;
+    passed: boolean;
+    evidence?: string;
+  }>;
   operatingBlockers: string[];
   requiredOperatingProof: string[];
 };
@@ -47,6 +52,9 @@ export type WorldClassReadinessReport = {
     categoriesBelow85: number;
     maxScoreGapTo95: number;
     operatingBlockers: string[];
+    releaseGateCount: number;
+    releaseGatesPassed: number;
+    releaseGateFailures: string[];
   };
   immediateActionOrder: string[];
   operatingProofRequired: string[];
@@ -79,6 +87,10 @@ function uniqueActionList(actions: string[]): string[] {
 
 export function buildWorldClassReadinessReport(input: WorldClassReadinessInput): WorldClassReadinessReport {
   const operatingBlockers = uniqueActionList(input.operatingBlockers);
+  const releaseGates = Array.isArray(input.releaseGates) ? input.releaseGates : [];
+  const releaseGateFailures = releaseGates
+    .filter((gate) => gate.passed !== true)
+    .map((gate) => gate.name);
   const categories = input.scorecard
     .map((item) => {
       const blockerReason = item.blocker?.reason || item.knownGaps?.[0] || null;
@@ -115,7 +127,9 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
     ok: true,
     version: 'world-class-readiness-v1',
     generatedAt: input.generatedAt,
-    releaseDecision: input.worldClassEligible ? 'eligible_for_world_class_claim' : 'do_not_claim_world_class',
+    releaseDecision: input.worldClassEligible && releaseGateFailures.length === 0
+      ? 'eligible_for_world_class_claim'
+      : 'do_not_claim_world_class',
     averageScore: input.averageScore,
     worldClassThreshold: input.worldClassThreshold,
     worldClassEligible: input.worldClassEligible,
@@ -127,6 +141,9 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       categoriesBelow85,
       maxScoreGapTo95,
       operatingBlockers,
+      releaseGateCount: releaseGates.length,
+      releaseGatesPassed: releaseGates.filter((gate) => gate.passed === true).length,
+      releaseGateFailures,
     },
     immediateActionOrder,
     operatingProofRequired: input.requiredOperatingProof,

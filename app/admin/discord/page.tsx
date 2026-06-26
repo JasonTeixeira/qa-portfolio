@@ -1232,11 +1232,40 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     worldClassThreshold: localScorecardSummary.worldClassThreshold,
     worldClassEligible: localScorecardSummary.worldClassEligible,
     scorecard: localScorecard,
+    releaseGates: [
+      {
+        name: 'rag_eval_latest',
+        passed: ragEvalCoverageReadiness.releaseReady === true,
+        evidence: `${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount} evaluated`,
+      },
+      {
+        name: 'rag_eval_coverage_readiness',
+        passed: ragEvalCoverageReadiness.releaseReady === true,
+        evidence: `${ragEvalCoverageReadiness.missingEvalKeys.length} missing eval keys`,
+      },
+    ],
     operatingBlockers: proofBacklog.lanes
       .filter((lane) => lane.status === 'blocked')
       .map(formatProofLaneOperatingBlocker)
       .filter((blocker): blocker is string => Boolean(blocker)),
     requiredOperatingProof: localScorecardSummary.requiredOperatingProof,
+    ragEvalMissingPreflight: {
+      status: ragEvalMissingPreflight.status,
+      ok: ragEvalMissingPreflight.ok,
+      missingEvalCount: ragEvalMissingPreflight.summary.missingEvalCount,
+      readyForApprovedEvalCount: ragEvalMissingPreflight.summary.readyForApprovedEvalCount,
+      selectedMatchesCoverage: ragEvalMissingPreflight.selectedMatchesCoverage,
+      approvedCommand: ragEvalMissingPreflight.approvedCommand,
+      releaseMeaning: ragEvalMissingPreflight.releaseMeaning,
+    },
+    proofSourceRecoveryPlan: {
+      status: proofSourceRecoveryPlan.status,
+      ok: proofSourceRecoveryPlan.ok,
+      totalShortfall: proofSourceRecoveryPlan.summary.totalShortfall,
+      blockedLaneCount: proofSourceRecoveryPlan.summary.blockedLaneCount,
+      nextLaneKey: proofSourceRecoveryPlan.summary.nextLane,
+      releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,
+    },
   });
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
@@ -1885,9 +1914,50 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           <Panel
             icon={Trophy}
             title="World-class readiness triage"
-            meta={`${worldClassReadiness.summary.categoriesBelow95} below 95 / ${worldClassReadiness.summary.categoriesBelow85} below 85`}
+            meta={`${worldClassReadiness.summary.categoriesBelow95} below 95 / ${worldClassReadiness.summary.releaseGateFailures.length} release blockers`}
             empty="All scorecard categories are at or above the current world-class threshold."
           >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-3">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={worldClassReadiness.releaseDecision === 'eligible_for_world_class_claim' ? 'emerald' : 'rose'}>
+                    {worldClassReadiness.releaseDecision.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={worldClassReadiness.worldClassEligible ? 'emerald' : 'amber'}>
+                    avg {worldClassReadiness.averageScore}/100
+                  </Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Release gates" value={`${worldClassReadiness.summary.releaseGatesPassed}/${worldClassReadiness.summary.releaseGateCount}`} tone={worldClassReadiness.summary.releaseGateFailures.length ? 'rose' : 'emerald'} />
+                  <HealthLine label="Operating blockers" value={String(worldClassReadiness.summary.operatingBlockers.length)} tone={worldClassReadiness.summary.operatingBlockers.length ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">RAG eval blocker</div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Missing evals" value={`${worldClassReadiness.ragEvalMissingPreflight.readyForApprovedEvalCount}/${worldClassReadiness.ragEvalMissingPreflight.missingEvalCount} preflighted`} tone={worldClassReadiness.ragEvalMissingPreflight.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Keys match" value={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'} tone={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Proof source blocker</div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Shortfall" value={String(worldClassReadiness.proofSourceRecoveryPlan.totalShortfall)} tone={worldClassReadiness.proofSourceRecoveryPlan.totalShortfall ? 'rose' : 'emerald'} />
+                  <HealthLine label="Next lane" value={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ?? 'none'} tone={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ? 'amber' : 'emerald'} />
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Immediate action order</div>
+              <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                {worldClassReadiness.immediateActionOrder.slice(0, 5).map((action, index) => (
+                  <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                    <span className="text-[#71717a]">{index + 1}.</span>
+                    <span>{action}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
             {worldClassReadiness.categories.slice(0, 8).map((category) => (
               <WorldClassReadinessCategoryRow key={category.category} category={category} />
             ))}

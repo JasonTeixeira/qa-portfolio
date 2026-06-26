@@ -1770,6 +1770,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /buildWorldClassReadinessReport/);
   assert.match(page, /WorldClassReadinessCategoryRow/);
   assert.match(page, /data-testid="discord-world-class-readiness-triage"/);
+  assert.match(page, /ragEvalMissingPreflight: \{/);
+  assert.match(page, /proofSourceRecoveryPlan: \{/);
+  assert.match(page, /Immediate action order/);
+  assert.match(page, /RAG eval blocker/);
+  assert.match(page, /Proof source blocker/);
   assert.match(page, /buildDiscordProofBacklogReport/);
   assert.match(page, /ProofBacklogLaneRow/);
   assert.match(page, /ProofRuleGroup/);

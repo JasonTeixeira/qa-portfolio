@@ -105,6 +105,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /releaseGateFailures/);
   assert.match(localVerificationEvidence, /worldClassEligible === false/);
   assert.match(localVerificationEvidence, /dryRun === true/);
+  assert.match(localVerificationEvidence, /OPERATING_TARGETS/);
+  assert.match(localVerificationEvidence, /approved_discord_knowledge_sources_below_target/);
+  assert.match(localVerificationEvidence, /public_proof_apply_clicks_below_target/);
+  assert.match(localVerificationEvidence, /premium_workflow_proof_below_target/);
+  assert.doesNotMatch(localVerificationEvidence, /premium_workflow_live_proof_empty/);
   assert.match(localVerificationEvidence, /phase-20-final-scorecard\.json/);
   assert.match(localVerificationEvidence, /phase-21-operating-proof-cycle\.json/);
   assert.match(localVerificationEvidence, /phase-22-content-factory-dry-run\.json/);

@@ -4,6 +4,14 @@ import process from 'node:process';
 
 const root = process.cwd();
 const outputPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'local-verification-latest.json');
+const OPERATING_TARGETS = {
+  approvedDiscordKnowledgeSources: 10,
+  ragDiscordSources: 10,
+  publicProofAssets: 4,
+  publicProofApplyClicks: 1,
+  applicationsSubmitted: 1,
+  premiumWorkflowProofs: 1,
+};
 
 const evidencePaths = {
   finalScorecard: path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-20-final-scorecard.json'),
@@ -42,17 +50,24 @@ function summarizeOperatingBlockers(operatingCycle) {
   const metrics = operatingCycle.metricsAfter ?? operatingCycle.metricsBefore ?? {};
   const blockers = [];
 
-  if ((metrics.approvedDiscordKnowledgeSources ?? 0) <= 0) {
-    blockers.push('approved_discord_knowledge_sources_empty');
+  if ((metrics.approvedDiscordKnowledgeSources ?? 0) < OPERATING_TARGETS.approvedDiscordKnowledgeSources) {
+    blockers.push(`approved_discord_knowledge_sources_below_target:${metrics.approvedDiscordKnowledgeSources ?? 0}/${OPERATING_TARGETS.approvedDiscordKnowledgeSources}`);
   }
-  if ((metrics.ragDiscordSources ?? 0) <= 0) {
-    blockers.push('rag_discord_sources_empty');
+  if ((metrics.ragDiscordSources ?? 0) < OPERATING_TARGETS.ragDiscordSources) {
+    blockers.push(`rag_discord_sources_below_target:${metrics.ragDiscordSources ?? 0}/${OPERATING_TARGETS.ragDiscordSources}`);
   }
-  if ((metrics.pendingPublicDrafts ?? 0) <= 0 && (metrics.publishedPublicDrafts ?? 0) <= 0) {
-    blockers.push('public_proof_drafts_empty');
+  const publicProofAssets = (metrics.pendingPublicDrafts ?? 0) + (metrics.publishedPublicDrafts ?? 0);
+  if (publicProofAssets < OPERATING_TARGETS.publicProofAssets) {
+    blockers.push(`public_proof_assets_below_target:${publicProofAssets}/${OPERATING_TARGETS.publicProofAssets}`);
   }
-  if ((metrics.premiumMembers ?? 0) <= 0) {
-    blockers.push('premium_workflow_live_proof_empty');
+  if ((metrics.publicProofApplyClicks ?? 0) < OPERATING_TARGETS.publicProofApplyClicks) {
+    blockers.push(`public_proof_apply_clicks_below_target:${metrics.publicProofApplyClicks ?? 0}/${OPERATING_TARGETS.publicProofApplyClicks}`);
+  }
+  if ((metrics.applicationsSubmitted ?? 0) < OPERATING_TARGETS.applicationsSubmitted) {
+    blockers.push(`applications_submitted_below_target:${metrics.applicationsSubmitted ?? 0}/${OPERATING_TARGETS.applicationsSubmitted}`);
+  }
+  if ((metrics.premiumWorkflowProofs ?? 0) < OPERATING_TARGETS.premiumWorkflowProofs) {
+    blockers.push(`premium_workflow_proof_below_target:${metrics.premiumWorkflowProofs ?? 0}/${OPERATING_TARGETS.premiumWorkflowProofs}`);
   }
 
   return blockers;

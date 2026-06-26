@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T04:05:38.816Z",
+  "timestamp": "2026-06-26T04:08:56.236Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -87,10 +87,12 @@
     "premiumWorkflowProofs": 0,
     "publicProofApplyClicks": 0,
     "knownBlockers": [
-      "approved_discord_knowledge_sources_empty",
-      "rag_discord_sources_empty",
-      "public_proof_drafts_empty",
-      "premium_workflow_live_proof_empty"
+      "approved_discord_knowledge_sources_below_target:0/10",
+      "rag_discord_sources_below_target:0/10",
+      "public_proof_assets_below_target:0/4",
+      "public_proof_apply_clicks_below_target:0/1",
+      "applications_submitted_below_target:0/1",
+      "premium_workflow_proof_below_target:0/1"
     ]
   },
   "gatewayCapture": {

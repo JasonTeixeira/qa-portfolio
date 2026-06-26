@@ -45,6 +45,18 @@ function templateValue(fieldKey: string): string {
   return `<${fieldKey}>`;
 }
 
+function ragEvalCommandIsGuarded(command: string): boolean {
+  return !command.includes('npm run rag:evaluate')
+    || command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || command.includes('--dry-run')
+    || command.includes(':seed-dry-run')
+    || command.includes(':missing-plan')
+    || command.includes(':coverage-readiness')
+    || command.includes(':execution-packet')
+    || command.includes(':missing-preflight')
+    || command.includes(':recovery-plan');
+}
+
 export function buildDiscordWeeklyProofPacket(input: {
   generatedAt: string;
   backlog: DiscordProofBacklogReport;
@@ -100,6 +112,7 @@ export function buildDiscordWeeklyProofPacket(input: {
   if (!lanes.every((lane) => lane.privacyChecks.length >= 2)) failures.push('privacy_checks_too_thin');
   if (!lanes.every((lane) => lane.qualityGates.length >= 4)) failures.push('quality_gates_too_thin');
   if (!lanes.every((lane) => lane.nonProofExamples.length >= 4)) failures.push('non_proof_examples_too_thin');
+  if (!lanes.every((lane) => lane.verificationCommands.every(ragEvalCommandIsGuarded))) failures.push('unguarded_rag_eval_command');
 
   return {
     ok: failures.length === 0,

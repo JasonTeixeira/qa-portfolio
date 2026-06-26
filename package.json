@@ -93,7 +93,7 @@
     "discord:operating-cycle": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked",
     "discord:operating-cycle:dry-run": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run",
     "discord:operating-cycle:strict": "tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts",
-    "discord:operating-cycle:full": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+    "discord:operating-cycle:full": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
     "discord:content-factory": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts",
     "discord:content-factory:week": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7",
     "discord:content-factory:week:dry-run": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=7 --dry-run",

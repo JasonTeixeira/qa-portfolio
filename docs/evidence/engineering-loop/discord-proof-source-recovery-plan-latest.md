@@ -1,6 +1,6 @@
 # Discord Proof Source Recovery Plan
 
-Generated: 2026-06-26T06:13:34.039Z
+Generated: 2026-06-26T07:02:14.645Z
 Status: blocked
 Mutation mode: local_file_evidence_only
 
@@ -55,7 +55,7 @@ Do not count:
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, Eval Runs
 - Safe local command: `npm run discord:proof-source-scan`
 - Live action: After approved knowledge exists, run approved Discord RAG sync and re-run eval/scorecard.
-- Verification: `npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard`
+- Verification: `npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard`
 
 Evidence to collect:
 - Approved Discord source synced into rag_sources with approved provenance.

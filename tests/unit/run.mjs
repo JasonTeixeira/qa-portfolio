@@ -2545,7 +2545,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(runbook, /Do not auto-publish externally/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
   assert.equal(pkg.scripts['discord:operating-cycle:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run');
-  assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard');
+  assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard');
   assert.ok(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:dry-run'));
   assert.equal(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:full'), false);
 });
@@ -2738,6 +2738,9 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.ok(report.lanes.every((item) => item.weeklyOperatorSteps.length >= 3));
   assert.ok(report.lanes.every((item) => item.adminSurface.includes('/admin/discord')));
   assert.ok(report.lanes.every((item) => item.verificationCommand.startsWith('npm run')));
+  assert.ok(report.lanes
+    .filter((item) => item.verificationCommand.includes('rag:evaluate'))
+    .every((item) => item.verificationCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
   assert.match(report.lanes[0].qualifyingEvidence.join(' '), /Message Content Intent/);
   assert.match(report.lanes[1].qualifyingEvidence.join(' '), /Specific member question/);
   assert.match(report.lanes[1].rejectionRules.join(' '), /private details/);
@@ -2912,6 +2915,9 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
   assert.equal(plan.lanes[3].sourceVolumeState, 'needs_fulfillment');
   assert.ok(plan.lanes.every((lane) => lane.safeLocalCommand.startsWith('npm run')));
   assert.ok(plan.lanes.every((lane) => lane.verificationCommand.startsWith('npm run')));
+  assert.ok(plan.lanes
+    .filter((lane) => lane.verificationCommand.includes('rag:evaluate'))
+    .every((lane) => lane.verificationCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
   assert.ok(plan.lanes.every((lane) => lane.evidenceToCollect.length >= 3));
   assert.ok(plan.lanes.every((lane) => lane.collectionCadence.length >= 3));
   assert.ok(plan.lanes.every((lane) => lane.acceptanceChecklist.length >= 3));
@@ -3140,6 +3146,10 @@ test('discord proof intake readiness: defines auditable fields for real operatin
   assert.ok(report.lanes.every((lane) => lane.nonProofExamples.length >= 4));
   assert.ok(report.lanes.every((lane) => lane.nonProofExamples.some((item) => item.includes('smoke') || item.includes('dry-run') || item.includes('synthetic'))));
   assert.ok(report.lanes.every((lane) => lane.verificationCommands.length > 0));
+  assert.ok(report.lanes
+    .flatMap((lane) => lane.verificationCommands)
+    .filter((command) => command.includes('rag:evaluate'))
+    .every((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
   assert.ok(report.lanes.every((lane) => lane.evidencePaths.length > 0));
   assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('gateway capture is healthy')));
   assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('sync only approved items into RAG')));
@@ -3213,6 +3223,10 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   assert.ok(packet.lanes.every((lane) => lane.privacyChecks.length >= 2));
   assert.ok(packet.lanes.every((lane) => lane.qualityGates.length >= 4));
   assert.ok(packet.lanes.every((lane) => lane.nonProofExamples.length >= 4));
+  assert.ok(packet.lanes
+    .flatMap((lane) => lane.verificationCommands)
+    .filter((command) => command.includes('rag:evaluate'))
+    .every((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
   assert.equal(validateDiscordWeeklyProofPacket(packet).ok, true);
 
   const markdown = renderDiscordWeeklyProofPacketMarkdown(packet);

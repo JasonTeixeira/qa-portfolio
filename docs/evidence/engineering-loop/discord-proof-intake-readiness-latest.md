@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Intake Readiness
 
-Generated: 2026-06-26T06:22:48.909Z
+Generated: 2026-06-26T07:02:13.579Z
 Mutation mode: local_file_evidence_only
 Readiness OK: yes
 
@@ -109,7 +109,7 @@ Privacy:
 - Target: 10
 - Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
 - Source tables: rag_sources, rag_documents, rag_chunks
-- Verification: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verification: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/rag/eval-latest.json, docs/evidence/discord-ai-os/phase-20-final-scorecard.json
 
 Required fields:

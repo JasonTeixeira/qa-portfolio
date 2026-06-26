@@ -38,6 +38,18 @@ function field(key: string, label: string, description: string, required = true)
   return { key, label, description, required };
 }
 
+function ragEvalCommandIsGuarded(command: string): boolean {
+  return !command.includes('npm run rag:evaluate')
+    || command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || command.includes('--dry-run')
+    || command.includes(':seed-dry-run')
+    || command.includes(':missing-plan')
+    || command.includes(':coverage-readiness')
+    || command.includes(':execution-packet')
+    || command.includes(':missing-preflight')
+    || command.includes(':recovery-plan');
+}
+
 const SHARED_REQUIRED_FIELDS = [
   field('proof_cycle_key', 'Proof cycle key', 'Weekly operating cycle key, for example 2026-W26.'),
   field('source_record_id', 'Source record id', 'Stable database id, Discord message id, or evidence artifact id.'),
@@ -205,7 +217,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
       ],
       verificationCommands: [
         'npm run discord:operating-cycle',
-        'npm run rag:evaluate',
+        'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate',
         'npm run discord:smoke-final-scorecard',
       ],
       evidencePaths: [
@@ -320,6 +332,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
     if (lane.qualityGates.length < 4) failures.push(`${lane.key}:quality_gates_too_thin`);
     if (lane.nonProofExamples.length < 4) failures.push(`${lane.key}:non_proof_examples_too_thin`);
     if (!lane.verificationCommands.length) failures.push(`${lane.key}:missing_verification_commands`);
+    if (!lane.verificationCommands.every(ragEvalCommandIsGuarded)) failures.push(`${lane.key}:unguarded_rag_eval_command`);
     if (!lane.evidencePaths.length) failures.push(`${lane.key}:missing_evidence_paths`);
   }
 

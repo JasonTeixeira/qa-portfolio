@@ -182,7 +182,7 @@ export function buildDiscordProofBacklogReport(input: {
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
       adminSurface: '/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels',
-      verificationCommand: 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard',
+      verificationCommand: 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard',
       liveActionRequired: 'Run the approved Discord RAG sync after approving knowledge candidates.',
       evidenceRequired: 'RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.',
     }),

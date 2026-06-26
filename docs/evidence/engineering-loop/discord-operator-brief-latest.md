@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T06:54:29.469Z
+Generated: 2026-06-26T07:02:16.210Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -37,7 +37,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Current: 0/10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
 - Local check: npm run discord:operating-cycle:dry-run
-- Verification: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verification: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence required: RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.
 - Live action: Run the approved Discord RAG sync after approving knowledge candidates.
 

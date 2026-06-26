@@ -122,6 +122,30 @@ function candidateLaneHasCriticalFields(lane) {
   return critical.length >= 3 && critical.every((key) => required.has(key));
 }
 
+function ragEvalCommandIsGuarded(command) {
+  const value = String(command ?? '');
+  return !value.includes('npm run rag:evaluate')
+    || value.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || value.includes('--dry-run')
+    || value.includes(':seed-dry-run')
+    || value.includes(':missing-plan')
+    || value.includes(':coverage-readiness')
+    || value.includes(':execution-packet')
+    || value.includes(':missing-preflight')
+    || value.includes(':recovery-plan');
+}
+
+function proofLaneRagEvalCommandsAreGuarded(lanes) {
+  return (lanes ?? []).every((lane) => {
+    const commands = [
+      lane.verificationCommand,
+      lane.provingCommand,
+      ...(lane.verificationCommands ?? []),
+    ];
+    return commands.every(ragEvalCommandIsGuarded);
+  });
+}
+
 async function main() {
   const [
     finalScorecard,
@@ -319,6 +343,10 @@ async function main() {
     proofIntakeReadiness.lanes.every(laneHasAntiFakeControls),
     'Proof intake readiness must include quality gates and non-proof examples that block smoke, dry-run, or synthetic evidence from being counted.',
   );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded(proofIntakeReadiness.lanes),
+    'Proof intake readiness must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
+  );
   requireTruthy(proofBacklog.ok === true, 'Proof backlog evidence is not ok.');
   requireTruthy(
     proofBacklog.mutationMode === 'local_file_evidence_only',
@@ -335,6 +363,10 @@ async function main() {
   requireTruthy(
     proofBacklog.weeklyChecklist?.[0]?.laneKey === 'gateway_capture',
     'Proof backlog weekly checklist must start with gateway_capture.',
+  );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded(proofBacklog.lanes),
+    'Proof backlog must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
   );
   requireTruthy(weeklyProofPacket.ok === true, 'Weekly proof packet evidence is not ok.');
   requireTruthy(
@@ -364,6 +396,10 @@ async function main() {
   requireTruthy(
     weeklyProofPacket.lanes.every(laneHasAntiFakeControls),
     'Weekly proof packet must include quality gates and non-proof examples that block smoke, dry-run, or synthetic evidence from being counted.',
+  );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded(weeklyProofPacket.lanes),
+    'Weekly proof packet must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
   );
   requireTruthy(proofCandidateAudit.ok === true, 'Proof candidate audit evidence is not ok.');
   requireTruthy(
@@ -401,6 +437,10 @@ async function main() {
   requireTruthy(
     proofCandidateAudit.lanes.some((lane) => lane.key === 'premium_workflow_proof' && lane.criticalEvidenceFields?.includes('authorization_evidence') && lane.criticalEvidenceFields?.includes('fulfillment_summary')),
     'Proof candidate audit premium lane must require authorization and fulfillment evidence together.',
+  );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded(proofCandidateAudit.lanes),
+    'Proof candidate audit must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
   );
   requireTruthy(proofSourceVolumeScan.ok === true, 'Proof source volume scan evidence is not ok.');
   requireTruthy(
@@ -459,6 +499,10 @@ async function main() {
   requireTruthy(
     proofSourceRecoveryPlan.antiFakeRules?.some((rule) => rule.includes('dry-run')),
     'Proof source recovery plan must explicitly block dry-run/smoke/synthetic evidence from counting.',
+  );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded(proofSourceRecoveryPlan.lanes),
+    'Proof source recovery plan must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
   );
   requireTruthy(operatorBrief.ok === true, 'Operator brief evidence is not ok.');
   requireTruthy(

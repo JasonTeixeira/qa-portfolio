@@ -100,7 +100,7 @@ const LANE_COPY: Record<string, {
     adminSurface: '/admin/discord -> RAG Health, Corpus Health, Eval Runs',
     safeLocalCommand: 'npm run discord:proof-source-scan',
     liveActionRequired: 'After approved knowledge exists, run approved Discord RAG sync and re-run eval/scorecard.',
-    verificationCommand: 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard',
+    verificationCommand: 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard',
     evidenceToCollect: [
       'Approved Discord source synced into rag_sources with approved provenance.',
       'Generated document/chunk tied back to an approved question, answer, queue item, or draft.',

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-source-recovery-plan-v1",
-  "generatedAt": "2026-06-26T06:13:34.039Z",
+  "generatedAt": "2026-06-26T07:02:14.645Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof.",
   "scanGeneratedAt": "2026-06-26T06:05:14.565Z",
@@ -78,7 +78,7 @@
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, Eval Runs",
       "safeLocalCommand": "npm run discord:proof-source-scan",
       "liveActionRequired": "After approved knowledge exists, run approved Discord RAG sync and re-run eval/scorecard.",
-      "verificationCommand": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "verificationCommand": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "blocker": "Discord RAG sources are 0/10; no approved Discord knowledge exists to sync into RAG."
     },
     {

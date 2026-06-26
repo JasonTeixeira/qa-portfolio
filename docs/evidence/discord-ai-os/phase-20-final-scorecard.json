@@ -1,7 +1,7 @@
 {
-  "ok": true,
+  "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782443937880",
+  "runKey": "phase-20-final-1782446310560",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -630,8 +630,8 @@
     },
     {
       "name": "rag_eval_latest",
-      "passed": true,
-      "evidence": "50/50 passed, avg 0.986, context precision 1, usefulness 0.9733"
+      "passed": false,
+      "evidence": "50/50 passed, seeded 50/65, avg 0.986, context precision 1, usefulness 0.9733"
     },
     {
       "name": "database_release_tables",
@@ -671,7 +671,9 @@
   ],
   "ragEvalLatest": {
     "ok": true,
+    "seededQuestionCount": 50,
     "evaluatedQuestionCount": 50,
+    "requiredQuestionCount": 65,
     "summary": {
       "total": 50,
       "passed": 50,
@@ -686,7 +688,9 @@
       "answerUsefulness": 0.9733
     }
   },
-  "failures": [],
-  "startedAt": "2026-06-26T03:18:57.880Z",
-  "finishedAt": "2026-06-26T03:18:59.483Z"
+  "failures": [
+    "release_gate:rag_eval_latest"
+  ],
+  "startedAt": "2026-06-26T03:58:30.560Z",
+  "finishedAt": "2026-06-26T03:58:32.240Z"
 }

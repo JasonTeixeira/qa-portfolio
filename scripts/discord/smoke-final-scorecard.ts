@@ -11,6 +11,7 @@ import {
   validateDiscordOperatingRhythm,
   type DiscordReleaseGate,
 } from '@/lib/discord/final-scorecard';
+import { RAG_EVAL_QUESTION_SEEDS } from '@/lib/rag/evals';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord-ai-os');
 const dryRun = process.argv.includes('--dry-run') || process.env.DISCORD_FINAL_SCORECARD_DRY_RUN === 'true';
@@ -237,12 +238,13 @@ async function main() {
     {
       name: 'rag_eval_latest',
       passed: ragEval?.ok === true
+        && Number(ragEval?.seededQuestionCount ?? 0) >= RAG_EVAL_QUESTION_SEEDS.length
         && Number(ragEval?.summary?.passRate ?? 0) >= 0.95
         && Number(ragEval?.summary?.avgScore ?? 0) >= 0.9
         && Number(ragEval?.summary?.contextPrecision ?? 0) >= 0.7
         && Number(ragEval?.summary?.answerUsefulness ?? 0) >= 0.85
-        && Number(ragEval?.evaluatedQuestionCount ?? 0) >= 50,
-      evidence: `${ragEval?.summary?.passed ?? 0}/${ragEval?.summary?.total ?? 0} passed, avg ${ragEval?.summary?.avgScore ?? 'n/a'}, context precision ${ragEval?.summary?.contextPrecision ?? 'n/a'}, usefulness ${ragEval?.summary?.answerUsefulness ?? 'n/a'}`,
+        && Number(ragEval?.evaluatedQuestionCount ?? 0) >= RAG_EVAL_QUESTION_SEEDS.length,
+      evidence: `${ragEval?.summary?.passed ?? 0}/${ragEval?.summary?.total ?? 0} passed, seeded ${ragEval?.seededQuestionCount ?? 0}/${RAG_EVAL_QUESTION_SEEDS.length}, avg ${ragEval?.summary?.avgScore ?? 'n/a'}, context precision ${ragEval?.summary?.contextPrecision ?? 'n/a'}, usefulness ${ragEval?.summary?.answerUsefulness ?? 'n/a'}`,
     },
     {
       name: 'database_release_tables',
@@ -335,7 +337,9 @@ async function main() {
     releaseGates,
     ragEvalLatest: {
       ok: ragEval?.ok,
+      seededQuestionCount: ragEval?.seededQuestionCount,
       evaluatedQuestionCount: ragEval?.evaluatedQuestionCount,
+      requiredQuestionCount: RAG_EVAL_QUESTION_SEEDS.length,
       summary: ragEval?.summary,
     },
     failures,

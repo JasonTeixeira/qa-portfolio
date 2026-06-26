@@ -2138,7 +2138,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /below_95_scores_have_blockers/);
   assert.match(smoke, /contextPrecision/);
   assert.match(smoke, /answerUsefulness/);
-  assert.match(smoke, />= 50/);
+  assert.match(smoke, /RAG_EVAL_QUESTION_SEEDS\.length/);
+  assert.match(smoke, /seededQuestionCount/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);
   assert.equal(pkg.scripts['discord:smoke-final-scorecard'], 'tsx --env-file=.env.local scripts/discord/smoke-final-scorecard.ts');

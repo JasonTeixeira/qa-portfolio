@@ -1792,6 +1792,12 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(page, /data-testid="discord-proof-source-volume-scan"/);
   assert.match(page, /Run npm run discord:proof-source-scan/);
+  assert.match(page, /loadProofSourceRecoveryPlan/);
+  assert.match(page, /discord-proof-source-recovery-plan-latest\.json/);
+  assert.match(page, /data-testid="discord-proof-source-recovery-plan"/);
+  assert.match(page, /Proof source recovery plan/);
+  assert.match(page, /npm run discord:proof-source-recovery-plan/);
+  assert.match(page, /proofSourceRecoveryPlan\.summary\.totalShortfall/);
   assert.match(page, /releaseGates/);
   assert.match(page, /Release gates/);
   assert.match(page, /operatorBrief\.releaseGates\.failures/);

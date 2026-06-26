@@ -589,6 +589,39 @@ type ProofSourceVolumeScan = {
   nextActions: string[];
 };
 
+type ProofSourceRecoveryPlan = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'passed' | 'blocked';
+  summary: {
+    laneCount: number;
+    blockedLaneCount: number;
+    totalShortfall: number;
+    nextLane: string | null;
+  };
+  lanes: Array<{
+    key: string;
+    status: 'passed' | 'blocked';
+    current: number;
+    target: number;
+    shortfall: number;
+    priority: number;
+    sourceVolumeState: string;
+    evidenceToCollect: string[];
+    doNotCount: string[];
+    adminSurface: string;
+    safeLocalCommand: string;
+    liveActionRequired: string;
+    verificationCommand: string;
+    blocker: string | null;
+  }>;
+  immediateActionOrder: string[];
+  antiFakeRules: string[];
+  failures: string[];
+};
+
 type RagEvalCoverageReadiness = {
   ok: boolean;
   version: string;
@@ -745,6 +778,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const weeklyProofPacket = await loadWeeklyProofPacket();
   const proofCandidateAudit = await loadProofCandidateAudit();
   const proofSourceVolumeScan = await loadProofSourceVolumeScan();
+  const proofSourceRecoveryPlan = await loadProofSourceRecoveryPlan();
   const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
   const ragEvalExecutionPacket = await loadRagEvalExecutionPacket();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
@@ -1590,6 +1624,66 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 {error.label}: {error.error}
               </div>
             ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-source-recovery-plan">
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Proof source recovery plan"
+            meta={`${proofSourceRecoveryPlan.summary.totalShortfall} total shortfall / next ${proofSourceRecoveryPlan.summary.nextLane ?? 'none'}`}
+            empty="Proof source recovery plan has not been generated. Run npm run discord:proof-source-recovery-plan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofSourceRecoveryPlan.status === 'passed' ? 'emerald' : 'rose'}>{proofSourceRecoveryPlan.status}</Badge>
+                  <Badge tone={proofSourceRecoveryPlan.ok ? 'emerald' : 'rose'}>{proofSourceRecoveryPlan.ok ? 'plan valid' : 'plan invalid'}</Badge>
+                  <Badge tone="neutral">{proofSourceRecoveryPlan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofSourceRecoveryPlan.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Blocked lanes" value={`${proofSourceRecoveryPlan.summary.blockedLaneCount}/${proofSourceRecoveryPlan.summary.laneCount}`} tone={proofSourceRecoveryPlan.summary.blockedLaneCount ? 'rose' : 'emerald'} />
+                  <HealthLine label="Total shortfall" value={String(proofSourceRecoveryPlan.summary.totalShortfall)} tone={proofSourceRecoveryPlan.summary.totalShortfall ? 'rose' : 'emerald'} />
+                  <HealthLine label="Next lane" value={proofSourceRecoveryPlan.summary.nextLane ?? 'none'} tone={proofSourceRecoveryPlan.summary.nextLane ? 'amber' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Immediate action order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofSourceRecoveryPlan.immediateActionOrder.slice(0, 5).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 md:grid-cols-2 xl:grid-cols-4">
+              {proofSourceRecoveryPlan.lanes.map((lane) => (
+                <div key={lane.key} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{lane.key}</div>
+                    <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.current}/{lane.target}</Badge>
+                  </div>
+                  <div className="mt-2 text-[11px] text-[#71717a]">{lane.sourceVolumeState} / shortfall {lane.shortfall}</div>
+                  <p className="mt-3 text-xs leading-5 text-[#d4d4d8]">{lane.liveActionRequired}</p>
+                  <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
+                    {lane.verificationCommand}
+                  </div>
+                  {lane.blocker ? <p className="mt-3 text-xs leading-5 text-[#fca5a5]">{lane.blocker}</p> : null}
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Do not count</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {proofSourceRecoveryPlan.antiFakeRules.map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
           </Panel>
         </section>
 
@@ -2498,6 +2592,34 @@ async function loadProofSourceVolumeScan(): Promise<ProofSourceVolumeScan> {
       },
       errors: [{ label: 'proof_source_volume_scan_missing', error: 'missing evidence' }],
       nextActions: ['Run npm run discord:proof-source-scan to read current Supabase source-volume counts.'],
+    };
+  }
+}
+
+async function loadProofSourceRecoveryPlan(): Promise<ProofSourceRecoveryPlan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofSourceRecoveryPlan;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof source recovery plan evidence is missing. Run npm run discord:proof-source-recovery-plan. This writes local planning evidence only and does not satisfy operating proof.',
+      status: 'blocked',
+      summary: {
+        laneCount: 4,
+        blockedLaneCount: 4,
+        totalShortfall: 25,
+        nextLane: 'approvedDiscordKnowledge',
+      },
+      lanes: [],
+      immediateActionOrder: ['Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan.'],
+      antiFakeRules: ['Do not count dry-run, smoke, synthetic, rejected, or raw unapproved rows as operating proof.'],
+      failures: ['proof_source_recovery_plan_missing'],
     };
   }
 }

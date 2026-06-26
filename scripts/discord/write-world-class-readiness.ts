@@ -7,6 +7,7 @@ const root = process.cwd();
 const finalScorecardPath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-20-final-scorecard.json');
 const localVerificationPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'local-verification-latest.json');
 const gatewayCapturePath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json');
+const gatewayOperatingPacketPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'gateway-operating-packet-latest.json');
 const ragEvalMissingPreflightPath = path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json');
 const ragEvalRecoveryPlanPath = path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json');
 const proofSourceRecoveryPlanPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json');
@@ -21,6 +22,7 @@ async function main() {
     finalScorecard,
     localVerification,
     gatewayCapture,
+    gatewayOperatingPacket,
     ragEvalMissingPreflight,
     ragEvalRecoveryPlan,
     proofSourceRecoveryPlan,
@@ -28,6 +30,7 @@ async function main() {
     readJson(finalScorecardPath),
     readJson(localVerificationPath),
     readJson(gatewayCapturePath),
+    readJson(gatewayOperatingPacketPath),
     readJson(ragEvalMissingPreflightPath),
     readJson(ragEvalRecoveryPlanPath),
     readJson(proofSourceRecoveryPlanPath),
@@ -84,6 +87,19 @@ async function main() {
       blockedLaneCount: proofSourceRecoveryPlan.summary?.blockedLaneCount ?? 0,
       nextLaneKey: proofSourceRecoveryPlan.summary?.nextLane ?? null,
       releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,
+    },
+    gatewayOperatingPacket: {
+      status: gatewayOperatingPacket.status,
+      current: gatewayOperatingPacket.target?.current ?? 0,
+      target: gatewayOperatingPacket.target?.target ?? 1,
+      remaining: gatewayOperatingPacket.target?.remaining ?? 1,
+      usableMessageState: gatewayOperatingPacket.target?.usableMessageState,
+      messageContentEnabled: gatewayOperatingPacket.messageContentSignal?.effectiveEnabled ?? null,
+      messageContentSignalSource: gatewayOperatingPacket.messageContentSignal?.source ?? null,
+      heartbeatFresh: gatewayOperatingPacket.heartbeat?.fresh === true,
+      workerId: gatewayOperatingPacket.heartbeat?.workerId ?? null,
+      nextActions: gatewayOperatingPacket.nextActions ?? [],
+      releaseMeaning: gatewayOperatingPacket.releaseMeaning,
     },
   });
 

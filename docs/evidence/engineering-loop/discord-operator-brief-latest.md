@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T07:11:09.966Z
+Generated: 2026-06-26T08:47:33.405Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -16,10 +16,10 @@ The local system is verified, but real operating proof is still missing. Close g
 - Status: blocked
 - Current: 0/1
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
-- Local check: npm run discord:gateway-capture-diagnosis
-- Verification: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
-- Evidence required: Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..
-- Live action: Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
+- Local check: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet
+- Verification: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog
+- Evidence required: Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main.
+- Live action: Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 
 ### Approved Discord knowledge
 
@@ -98,11 +98,18 @@ The local system is verified, but real operating proof is still missing. Close g
 - Status: blocked
 - OK: yes
 - Usable non-bot message count: 0
+- Packet status: ready_for_fresh_message
+- Packet target: 0/1
+- Packet remaining: 1
+- Packet state: message_content_ready_needs_fresh_member_message
+- Message content: true via identify_event
+- Heartbeat: fresh (sagebot-main, age 0 minutes)
 - Root causes:
   - Non-bot messages exist, but message content is empty.
 - Next actions:
-  - Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
-  - Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event.
+  - Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
+  - Rerun npm run discord:gateway-capture-diagnosis after the message is posted.
+  - Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row.
 
 ## Release Gates
 
@@ -113,7 +120,7 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ## Required Command Order
 
-1. `npm run discord:gateway-capture-diagnosis`
+1. `npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet`
 2. `npm run discord:operating-cycle:dry-run`
 3. `npm run discord:smoke-premium-workflows`
 4. `npm run discord:operating-cycle`
@@ -129,6 +136,8 @@ The local system is verified, but real operating proof is still missing. Close g
 14. `npm run discord:content-factory-readiness`
 15. `npm run discord:proof-intake-readiness`
 16. `npm run discord:weekly-proof-packet`
+17. `npm run discord:gateway-capture-diagnosis`
+18. `npm run discord:gateway-operating-packet`
 
 ## Non-Claim Rule
 

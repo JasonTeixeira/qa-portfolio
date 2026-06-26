@@ -68,6 +68,27 @@ export type DiscordOperatorBriefInput = {
     } | null;
     counts?: Record<string, number> | null;
   } | null;
+  gatewayOperatingPacket?: {
+    ok?: boolean | null;
+    status?: string | null;
+    target?: {
+      current?: number | null;
+      target?: number | null;
+      remaining?: number | null;
+      usableMessageState?: string | null;
+    } | null;
+    messageContentSignal?: {
+      effectiveEnabled?: boolean | null;
+      source?: string | null;
+    } | null;
+    heartbeat?: {
+      workerId?: string | null;
+      fresh?: boolean | null;
+      ageMinutes?: number | null;
+    } | null;
+    nextActions?: string[] | null;
+    releaseMeaning?: string | null;
+  } | null;
 };
 
 export type DiscordOperatorBrief = {
@@ -131,6 +152,21 @@ export type DiscordOperatorBrief = {
     nextActions: string[];
     usableMessageCount: number | null;
   };
+  gatewayOperatingPacket: {
+    ok: boolean;
+    status: string;
+    current: number;
+    target: number;
+    remaining: number;
+    usableMessageState: string | null;
+    messageContentEnabled: boolean | null;
+    messageContentSignalSource: string | null;
+    heartbeatFresh: boolean;
+    workerId: string | null;
+    heartbeatAgeMinutes: number | null;
+    nextActions: string[];
+    releaseMeaning: string | null;
+  };
   releaseGates: {
     total: number;
     passed: number;
@@ -160,6 +196,23 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
   const usableMessageCount = typeof input.gatewayCapture?.counts?.['discord_messages.non_bot_non_empty'] === 'number'
     ? input.gatewayCapture.counts['discord_messages.non_bot_non_empty']
     : null;
+  const gatewayOperatingPacket = {
+    ok: input.gatewayOperatingPacket?.ok === true,
+    status: input.gatewayOperatingPacket?.status ?? 'missing',
+    current: Number(input.gatewayOperatingPacket?.target?.current ?? 0),
+    target: Number(input.gatewayOperatingPacket?.target?.target ?? 1),
+    remaining: Number(input.gatewayOperatingPacket?.target?.remaining ?? 1),
+    usableMessageState: input.gatewayOperatingPacket?.target?.usableMessageState ?? null,
+    messageContentEnabled: input.gatewayOperatingPacket?.messageContentSignal?.effectiveEnabled ?? null,
+    messageContentSignalSource: input.gatewayOperatingPacket?.messageContentSignal?.source ?? null,
+    heartbeatFresh: input.gatewayOperatingPacket?.heartbeat?.fresh === true,
+    workerId: input.gatewayOperatingPacket?.heartbeat?.workerId ?? null,
+    heartbeatAgeMinutes: typeof input.gatewayOperatingPacket?.heartbeat?.ageMinutes === 'number'
+      ? input.gatewayOperatingPacket.heartbeat.ageMinutes
+      : null,
+    nextActions: input.gatewayOperatingPacket?.nextActions ?? [],
+    releaseMeaning: input.gatewayOperatingPacket?.releaseMeaning ?? null,
+  };
   const releaseGateCount = Number(input.readiness.summary?.releaseGateCount ?? 0);
   const releaseGatesPassed = Number(input.readiness.summary?.releaseGatesPassed ?? 0);
   const releaseGateFailures = Array.isArray(input.readiness.summary?.releaseGateFailures)
@@ -221,8 +274,9 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:proof-intake-readiness',
     'npm run discord:weekly-proof-packet',
     'npm run discord:gateway-capture-diagnosis',
+    'npm run discord:gateway-operating-packet',
   ]);
-  const gatewayCaptureBlocked = gatewayCaptureStatus === 'blocked' || usableMessageCount === 0;
+  const gatewayCaptureBlocked = gatewayCaptureStatus === 'blocked' || usableMessageCount === 0 || gatewayOperatingPacket.remaining > 0;
   return {
     ok: true,
     version: 'discord-operator-brief-v1',
@@ -252,6 +306,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       nextActions: gatewayCaptureNextActions,
       usableMessageCount,
     },
+    gatewayOperatingPacket,
     releaseGates: {
       total: releaseGateCount,
       passed: releaseGatesPassed,
@@ -278,6 +333,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
   if (!brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis')) failures.push('missing_gateway_capture_diagnosis_command');
+  if (!brief.commandOrder.includes('npm run discord:gateway-operating-packet')) failures.push('missing_gateway_operating_packet_command');
   if (brief.releaseGates.total <= 0) failures.push('missing_release_gate_summary');
   if (brief.releaseGates.passed > brief.releaseGates.total) failures.push('invalid_release_gate_counts');
   if (brief.releaseGates.failures.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('release_gate_failure_reality_not_explicit');
@@ -303,6 +359,8 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
     if (!brief.ragEvalRecoveryPlan.releaseMeaning?.includes('does not seed Supabase')) failures.push('rag_eval_recovery_claim_boundary_missing');
   }
   if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
+  if (brief.gatewayOperatingPacket.remaining > 0 && !brief.gatewayOperatingPacket.nextActions.length) failures.push('gateway_operating_packet_missing_next_action');
+  if (brief.gatewayOperatingPacket.status !== 'missing' && !brief.gatewayOperatingPacket.releaseMeaning?.includes('does not run the worker')) failures.push('gateway_operating_packet_claim_boundary_missing');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {
     ok: failures.length === 0,
@@ -374,13 +432,19 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
     `- Status: ${brief.gatewayCapture.status}`,
     `- OK: ${brief.gatewayCapture.ok ? 'yes' : 'no'}`,
     `- Usable non-bot message count: ${brief.gatewayCapture.usableMessageCount ?? 'unknown'}`,
+    `- Packet status: ${brief.gatewayOperatingPacket.status}`,
+    `- Packet target: ${brief.gatewayOperatingPacket.current}/${brief.gatewayOperatingPacket.target}`,
+    `- Packet remaining: ${brief.gatewayOperatingPacket.remaining}`,
+    `- Packet state: ${brief.gatewayOperatingPacket.usableMessageState ?? 'unknown'}`,
+    `- Message content: ${String(brief.gatewayOperatingPacket.messageContentEnabled)} via ${brief.gatewayOperatingPacket.messageContentSignalSource ?? 'unknown'}`,
+    `- Heartbeat: ${brief.gatewayOperatingPacket.heartbeatFresh ? 'fresh' : 'not fresh'} (${brief.gatewayOperatingPacket.workerId ?? 'unknown'}, age ${brief.gatewayOperatingPacket.heartbeatAgeMinutes ?? 'unknown'} minutes)`,
     ...(brief.gatewayCapture.rootCauses.length ? [
       '- Root causes:',
       ...brief.gatewayCapture.rootCauses.map((cause) => `  - ${cause}`),
     ] : ['- Root causes: none reported']),
-    ...(brief.gatewayCapture.nextActions.length ? [
+    ...((brief.gatewayOperatingPacket.nextActions.length ? brief.gatewayOperatingPacket.nextActions : brief.gatewayCapture.nextActions).length ? [
       '- Next actions:',
-      ...brief.gatewayCapture.nextActions.map((action) => `  - ${action}`),
+      ...(brief.gatewayOperatingPacket.nextActions.length ? brief.gatewayOperatingPacket.nextActions : brief.gatewayCapture.nextActions).map((action) => `  - ${action}`),
     ] : ['- Next actions: none reported']),
     '',
     '## Release Gates',

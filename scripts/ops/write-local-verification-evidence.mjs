@@ -907,6 +907,32 @@ async function main() {
     (gatewayOperatingPacket.verificationCommands ?? []).every((command) => !String(command).includes('discord:gateway:once') && !String(command).includes('discord:classify-messages')),
     'Gateway operating packet local verification commands must not run worker one-shots or live classification mutation.',
   );
+  requireTruthy(
+    gatewayOperatingPacket.status === 'proven' || gatewayOperatingPacket.status === 'ready_for_fresh_message',
+    `Gateway operating packet must be proven or ready for a fresh member message, got ${gatewayOperatingPacket.status}.`,
+  );
+  if (gatewayOperatingPacket.status === 'ready_for_fresh_message') {
+    requireTruthy(
+      gatewayOperatingPacket.messageContentSignal?.effectiveEnabled === true,
+      'Gateway operating packet must prove Message Content Intent is effectively enabled before asking for a fresh member message.',
+    );
+    requireTruthy(
+      gatewayOperatingPacket.messageContentSignal?.source === 'identify_event',
+      'Gateway operating packet must identify the Message Content Intent signal source before asking for a fresh member message.',
+    );
+    requireTruthy(
+      gatewayOperatingPacket.target?.remaining === 1,
+      'Gateway operating packet must expose the remaining fresh-member-message target.',
+    );
+    requireTruthy(
+      gatewayOperatingPacket.target?.usableMessageState === 'message_content_ready_needs_fresh_member_message',
+      'Gateway operating packet must name the precise usable-message state.',
+    );
+    requireTruthy(
+      (gatewayOperatingPacket.nextActions ?? []).some((action) => String(action).includes('fresh non-bot member message')),
+      'Gateway operating packet must tell the operator to post or request one fresh non-bot member message.',
+    );
+  }
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
   requireTruthy(

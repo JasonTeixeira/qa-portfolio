@@ -18,6 +18,7 @@ const ragEvalRecoveryPlanPath = path.join(root, 'docs', 'evidence', 'rag', 'eval
 const readinessPath = path.join(evidenceRoot, 'world-class-readiness-latest.json');
 const proofRehearsalPath = path.join(evidenceRoot, 'proof-rehearsal-readiness-latest.json');
 const gatewayCapturePath = path.join(evidenceRoot, 'discord-gateway-capture-diagnosis-latest.json');
+const gatewayOperatingPacketPath = path.join(evidenceRoot, 'gateway-operating-packet-latest.json');
 const jsonOutputPath = path.join(evidenceRoot, 'discord-operator-brief-latest.json');
 const markdownOutputPath = path.join(evidenceRoot, 'discord-operator-brief-latest.md');
 
@@ -26,7 +27,7 @@ async function readJsonFile(filePath: string): Promise<any> {
 }
 
 async function main() {
-  const [scorecard, operatingCycle, proofBacklog, proofSourceRecoveryPlan, ragEvalMissingPreflight, ragEvalRecoveryPlan, readiness, proofRehearsal, gatewayCapture] = await Promise.all([
+  const [scorecard, operatingCycle, proofBacklog, proofSourceRecoveryPlan, ragEvalMissingPreflight, ragEvalRecoveryPlan, readiness, proofRehearsal, gatewayCapture, gatewayOperatingPacket] = await Promise.all([
     readJsonFile(scorecardPath),
     readJsonFile(operatingCyclePath),
     readJsonFile(proofBacklogPath),
@@ -36,6 +37,7 @@ async function main() {
     readJsonFile(readinessPath),
     readJsonFile(proofRehearsalPath),
     readJsonFile(gatewayCapturePath),
+    readJsonFile(gatewayOperatingPacketPath),
   ]);
   const brief = buildDiscordOperatorBrief({
     generatedAt: new Date().toISOString(),
@@ -48,6 +50,7 @@ async function main() {
     readiness,
     proofRehearsal,
     gatewayCapture,
+    gatewayOperatingPacket,
   });
   const validation = validateDiscordOperatorBrief(brief);
   if (!validation.ok) {

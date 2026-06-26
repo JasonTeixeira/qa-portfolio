@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T07:11:09.966Z",
+  "generatedAt": "2026-06-26T08:47:33.405Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -23,22 +23,26 @@
       "qualifyingEvidence": [
         "Fresh gateway heartbeat proves the deployed worker is alive.",
         "Message Content Intent metadata is present and enabled.",
-        "At least one fresh visible non-bot message is captured with non-empty content."
+        "At least one fresh visible non-bot message is captured with non-empty content.",
+        "Current packet shows Message Content Intent is effectively enabled."
       ],
       "rejectionRules": [
         "Do not count deleted messages, bot-only messages, or empty-content rows as usable capture proof.",
-        "Do not count stale heartbeat rows or gateway rows that lack Message Content Intent metadata."
+        "Do not count stale heartbeat rows or gateway rows that lack Message Content Intent metadata.",
+        "This packet is not live capture proof; it is the contract for proving live capture.",
+        "Do not count identify-only evidence without a fresh non-bot non-empty message row.",
+        "Do not count empty content, bot messages, deleted messages, smoke rows, dry-run rows, or one-shot local rehearsal rows."
       ],
       "weeklyOperatorSteps": [
         "Run the gateway capture diagnosis before reviewing proof candidates.",
         "If blocked, fix worker deployment/env/Discord intent before expecting content candidates.",
         "After a real member posts, rerun diagnosis, classifier, queue automation, and proof backlog."
       ],
-      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
+      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
-      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "liveActionRequired": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
-      "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty..",
+      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "liveActionRequired": "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "evidenceRequired": "Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main.",
       "status": "blocked"
     },
     {
@@ -171,13 +175,13 @@
       "order": 1,
       "laneKey": "gateway_capture",
       "title": "Gateway message capture",
-      "operatorAction": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
-      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
+      "operatorAction": "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
       "liveCommand": null,
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
-      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "evidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
-      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Non-bot messages exist, but message content is empty.."
+      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "evidencePath": "docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
+      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main."
     },
     {
       "order": 2,
@@ -314,6 +318,25 @@
     ],
     "usableMessageCount": 0
   },
+  "gatewayOperatingPacket": {
+    "ok": true,
+    "status": "ready_for_fresh_message",
+    "current": 0,
+    "target": 1,
+    "remaining": 1,
+    "usableMessageState": "message_content_ready_needs_fresh_member_message",
+    "messageContentEnabled": true,
+    "messageContentSignalSource": "identify_event",
+    "heartbeatFresh": true,
+    "workerId": "sagebot-main",
+    "heartbeatAgeMinutes": 0,
+    "nextActions": [
+      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
+      "Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row."
+    ],
+    "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
+  },
   "releaseGates": {
     "total": 14,
     "passed": 12,
@@ -323,7 +346,7 @@
     ]
   },
   "commandOrder": [
-    "npm run discord:gateway-capture-diagnosis",
+    "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
     "npm run discord:operating-cycle:dry-run",
     "npm run discord:smoke-premium-workflows",
     "npm run discord:operating-cycle",
@@ -338,7 +361,9 @@
     "npm run discord:operator-brief",
     "npm run discord:content-factory-readiness",
     "npm run discord:proof-intake-readiness",
-    "npm run discord:weekly-proof-packet"
+    "npm run discord:weekly-proof-packet",
+    "npm run discord:gateway-capture-diagnosis",
+    "npm run discord:gateway-operating-packet"
   ],
   "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
 }

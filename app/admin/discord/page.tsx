@@ -1398,6 +1398,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       nextLaneKey: proofSourceRecoveryPlan.summary.nextLane,
       releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,
     },
+    gatewayOperatingPacket: {
+      status: gatewayOperatingPacket.status,
+      current: gatewayOperatingPacket.target.current,
+      target: gatewayOperatingPacket.target.target,
+      remaining: gatewayOperatingPacket.target.remaining,
+      usableMessageState: gatewayOperatingPacket.target.usableMessageState,
+      messageContentEnabled: gatewayOperatingPacket.messageContentSignal.effectiveEnabled,
+      messageContentSignalSource: gatewayOperatingPacket.messageContentSignal.source,
+      heartbeatFresh: gatewayOperatingPacket.heartbeat.fresh,
+      workerId: gatewayOperatingPacket.heartbeat.workerId,
+      nextActions: gatewayOperatingPacket.nextActions,
+      releaseMeaning: gatewayOperatingPacket.releaseMeaning,
+    },
   });
   const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
   const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
@@ -2228,6 +2241,9 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <div className="mt-3 grid gap-2 text-xs">
                   <HealthLine label="Shortfall" value={String(worldClassReadiness.proofSourceRecoveryPlan.totalShortfall)} tone={worldClassReadiness.proofSourceRecoveryPlan.totalShortfall ? 'rose' : 'emerald'} />
                   <HealthLine label="Next lane" value={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ?? 'none'} tone={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ? 'amber' : 'emerald'} />
+                  <HealthLine label="Gateway packet" value={worldClassReadiness.gatewayOperatingPacket.status} tone={worldClassReadiness.gatewayOperatingPacket.remaining ? 'amber' : 'emerald'} />
+                  <HealthLine label="Usable messages" value={`${worldClassReadiness.gatewayOperatingPacket.current}/${worldClassReadiness.gatewayOperatingPacket.target}`} tone={worldClassReadiness.gatewayOperatingPacket.remaining ? 'rose' : 'emerald'} />
+                  <HealthLine label="Message content" value={String(worldClassReadiness.gatewayOperatingPacket.messageContentEnabled)} tone={worldClassReadiness.gatewayOperatingPacket.messageContentEnabled ? 'emerald' : 'rose'} />
                 </div>
               </div>
             </div>

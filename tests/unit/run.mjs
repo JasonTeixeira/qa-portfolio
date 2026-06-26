@@ -208,6 +208,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /Approved knowledge operating packet must block packet-only, raw-message, and incomplete-field proof/);
   assert.match(localVerificationEvidence, /Gateway operating packet must explicitly avoid claiming worker execution, Discord posting, Supabase mutation, or operating proof/);
   assert.match(localVerificationEvidence, /Gateway operating packet must block identify-only, empty-content, bot, deleted-message, and stale-heartbeat proof/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must prove Message Content Intent is effectively enabled before asking for a fresh member message/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must identify the Message Content Intent signal source before asking for a fresh member message/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must expose the remaining fresh-member-message target/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must name the precise usable-message state/);
+  assert.match(localVerificationEvidence, /Gateway operating packet must tell the operator to post or request one fresh non-bot member message/);
   assert.match(localVerificationEvidence, /Operator brief missing eval count must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
@@ -326,10 +331,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(readinessScript, /world-class-readiness-latest\.json/);
   assert.match(readinessScript, /buildWorldClassReadinessReport/);
   assert.match(readinessScript, /local-verification-latest\.json/);
+  assert.match(readinessScript, /gateway-operating-packet-latest\.json/);
   const proofBacklogScript = await readFile(new URL('../../scripts/discord/write-proof-backlog.ts', import.meta.url), 'utf8');
   assert.match(proofBacklogScript, /discord-proof-backlog-latest\.json/);
   assert.match(proofBacklogScript, /buildDiscordProofBacklogReport/);
   assert.match(proofBacklogScript, /phase-21-operating-proof-cycle\.json/);
+  assert.match(proofBacklogScript, /gateway-operating-packet-latest\.json/);
   const sourceVolumeScanScript = await readFile(new URL('../../scripts/discord/scan-proof-source-volume.ts', import.meta.url), 'utf8');
   assert.match(sourceVolumeScanScript, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(sourceVolumeScanScript, /read_only_supabase_selects_and_local_file_evidence_only/);
@@ -358,6 +365,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(operatorBriefScript, /buildDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /validateDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /renderDiscordOperatorBriefMarkdown/);
+  assert.match(operatorBriefScript, /gateway-operating-packet-latest\.json/);
   const proofIntakeScript = await readFile(new URL('../../scripts/discord/write-proof-intake-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofIntakeScript, /discord-proof-intake-readiness-latest\.json/);
   assert.match(proofIntakeScript, /discord-proof-intake-readiness-latest\.md/);
@@ -2750,6 +2758,19 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
       nextLaneKey: 'approvedDiscordKnowledge',
       releaseMeaning: 'Recovery plan only; does not satisfy operating proof.',
     },
+    gatewayOperatingPacket: {
+      status: 'ready_for_fresh_message',
+      current: 0,
+      target: 1,
+      remaining: 1,
+      usableMessageState: 'message_content_ready_needs_fresh_member_message',
+      messageContentEnabled: true,
+      messageContentSignalSource: 'identify_event',
+      heartbeatFresh: true,
+      workerId: 'sagebot-main',
+      nextActions: ['Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.'],
+      releaseMeaning: 'This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.',
+    },
     operatingBlockers: [
       'discord_gateway_capture_blocked',
       'approved_discord_knowledge_sources_below_target:0/10',
@@ -2812,10 +2833,17 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(report.proofSourceRecoveryPlan.totalShortfall, 25);
   assert.equal(report.proofSourceRecoveryPlan.blockedLaneCount, 4);
   assert.equal(report.proofSourceRecoveryPlan.nextLaneKey, 'approvedDiscordKnowledge');
+  assert.equal(report.gatewayOperatingPacket.status, 'ready_for_fresh_message');
+  assert.equal(report.gatewayOperatingPacket.current, 0);
+  assert.equal(report.gatewayOperatingPacket.target, 1);
+  assert.equal(report.gatewayOperatingPacket.remaining, 1);
+  assert.equal(report.gatewayOperatingPacket.messageContentEnabled, true);
+  assert.equal(report.gatewayOperatingPacket.messageContentSignalSource, 'identify_event');
   assert.ok(report.immediateActionOrder[0].includes('rag:evaluate:recovery-plan'));
   assert.ok(report.immediateActionOrder[1].includes('rag:evaluate:missing-preflight'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('proof-source-recovery-plan')));
-  assert.ok(report.immediateActionOrder.some((action) => action.includes('gateway worker with Message Content Intent')));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('fresh non-bot member message')));
+  assert.equal(report.immediateActionOrder.some((action) => action.includes('gateway worker with Message Content Intent')), false);
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
   assert.ok(report.summary.operatingBlockers.includes('approved_discord_knowledge_sources_below_target:0/10'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Approve at least 10 high-signal Discord')));
@@ -2900,13 +2928,13 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.match(report.lanes[3].weeklyOperatorSteps.join(' '), /privacy-safe public proof draft/);
   assert.match(report.lanes[4].qualifyingEvidence.join(' '), /authorization and SLA/);
   assert.match(report.lanes[4].evidenceRequired, /membership or queued requests alone do not count/);
-  assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:gateway-capture-diagnosis');
+  assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet');
   assert.equal(report.lanes[1].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
   assert.equal(report.weeklyChecklist.length, 5);
   assert.deepEqual(report.weeklyChecklist.map((item) => item.order), [1, 2, 3, 4, 5]);
   assert.equal(report.weeklyChecklist[0].laneKey, 'gateway_capture');
   assert.equal(report.weeklyChecklist[0].liveCommand, null);
-  assert.match(report.weeklyChecklist[0].evidencePath, /discord-gateway-capture-diagnosis-latest\.json/);
+  assert.match(report.weeklyChecklist[0].evidencePath, /gateway-operating-packet-latest\.json/);
   assert.equal(report.weeklyChecklist[2].liveCommand, 'npm run discord:operating-cycle');
   assert.match(report.weeklyChecklist[3].evidencePath, /phase-21-operating-proof-cycle\.json/);
   assert.match(report.weeklyChecklist[3].adminSurface, /Public Proof Sources/);
@@ -3271,6 +3299,27 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
       },
       counts: { 'discord_messages.non_bot_non_empty': 0 },
     },
+    gatewayOperatingPacket: {
+      ok: true,
+      status: 'ready_for_fresh_message',
+      target: {
+        current: 0,
+        target: 1,
+        remaining: 1,
+        usableMessageState: 'message_content_ready_needs_fresh_member_message',
+      },
+      messageContentSignal: {
+        effectiveEnabled: true,
+        source: 'identify_event',
+      },
+      heartbeat: {
+        workerId: 'sagebot-main',
+        fresh: true,
+        ageMinutes: 1,
+      },
+      nextActions: ['Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.'],
+      releaseMeaning: 'This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.',
+    },
   });
   assert.equal(brief.ok, true);
   assert.equal(brief.version, 'discord-operator-brief-v1');
@@ -3292,6 +3341,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:proof-intake-readiness'));
   assert.ok(brief.commandOrder.includes('npm run discord:weekly-proof-packet'));
   assert.ok(brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis'));
+  assert.ok(brief.commandOrder.includes('npm run discord:gateway-operating-packet'));
   assert.ok(brief.commandOrder.includes('npm run rag:evaluate:missing-preflight'));
   assert.ok(brief.commandOrder.includes('npm run rag:evaluate:recovery-plan'));
   assert.ok(brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing')));
@@ -3308,6 +3358,14 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.gatewayCapture.status, 'blocked');
   assert.equal(brief.gatewayCapture.usableMessageCount, 0);
   assert.deepEqual(brief.gatewayCapture.rootCauses, ['Non-bot messages exist, but message content is empty.']);
+  assert.equal(brief.gatewayOperatingPacket.status, 'ready_for_fresh_message');
+  assert.equal(brief.gatewayOperatingPacket.current, 0);
+  assert.equal(brief.gatewayOperatingPacket.target, 1);
+  assert.equal(brief.gatewayOperatingPacket.remaining, 1);
+  assert.equal(brief.gatewayOperatingPacket.usableMessageState, 'message_content_ready_needs_fresh_member_message');
+  assert.equal(brief.gatewayOperatingPacket.messageContentEnabled, true);
+  assert.equal(brief.gatewayOperatingPacket.messageContentSignalSource, 'identify_event');
+  assert.equal(brief.gatewayOperatingPacket.heartbeatFresh, true);
   assert.deepEqual(brief.releaseGates, { total: 11, passed: 9, failures: ['rag_eval_latest', 'rag_eval_coverage_readiness'] });
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
@@ -3322,6 +3380,10 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.match(markdown, /RAG Eval Recovery Plan/);
   assert.match(markdown, /Missing eval backlog ready: 2\/2/);
   assert.match(markdown, /Gateway Capture/);
+  assert.match(markdown, /Packet status: ready_for_fresh_message/);
+  assert.match(markdown, /Packet target: 0\/1/);
+  assert.match(markdown, /Message content: true via identify_event/);
+  assert.match(markdown, /fresh non-bot member message/);
   assert.match(markdown, /Release Gates/);
   assert.match(markdown, /Passed: 9\/11/);
   assert.match(markdown, /Non-bot messages exist/);

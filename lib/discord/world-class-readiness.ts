@@ -50,6 +50,19 @@ export type WorldClassReadinessInput = {
     nextLaneKey?: string | null;
     releaseMeaning?: string;
   } | null;
+  gatewayOperatingPacket?: {
+    status?: string;
+    current?: number;
+    target?: number;
+    remaining?: number;
+    usableMessageState?: string;
+    messageContentEnabled?: boolean | null;
+    messageContentSignalSource?: string | null;
+    heartbeatFresh?: boolean;
+    workerId?: string | null;
+    nextActions?: string[];
+    releaseMeaning?: string | null;
+  } | null;
 };
 
 export type WorldClassReadinessCategory = {
@@ -106,6 +119,19 @@ export type WorldClassReadinessReport = {
     totalShortfall: number;
     blockedLaneCount: number;
     nextLaneKey: string | null;
+    releaseMeaning: string | null;
+  };
+  gatewayOperatingPacket: {
+    status: string;
+    current: number;
+    target: number;
+    remaining: number;
+    usableMessageState: string | null;
+    messageContentEnabled: boolean | null;
+    messageContentSignalSource: string | null;
+    heartbeatFresh: boolean;
+    workerId: string | null;
+    nextActions: string[];
     releaseMeaning: string | null;
   };
   immediateActionOrder: string[];
@@ -179,6 +205,15 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
   const ragEvalPreflight = input.ragEvalMissingPreflight ?? null;
   const ragEvalRecoveryPlan = input.ragEvalRecoveryPlan ?? null;
   const proofSourceRecoveryPlan = input.proofSourceRecoveryPlan ?? null;
+  const gatewayOperatingPacket = input.gatewayOperatingPacket ?? null;
+  const gatewayReadyForFreshMessageAction = gatewayOperatingPacket?.status === 'ready_for_fresh_message'
+    ? gatewayOperatingPacket.nextActions?.[0] ?? 'Post one fresh non-bot member message, then rerun gateway capture diagnosis and the gateway operating packet.'
+    : null;
+  const adjustedBlockerActions = blockerActions.map((action) => (
+    gatewayReadyForFreshMessageAction && action.includes('gateway worker')
+      ? gatewayReadyForFreshMessageAction
+      : action
+  ));
   const ragEvalActions = releaseGateFailures.some((failure) => failure.includes('rag_eval'))
     ? [
         'Run npm run rag:evaluate:recovery-plan to review the local missing/failed eval backlog before any approved eval execution.',
@@ -203,7 +238,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
   const immediateActionOrder = uniqueActionList([
     ...ragEvalActions,
     ...proofRecoveryActions,
-    ...blockerActions,
+    ...adjustedBlockerActions,
     ...categoryActions,
   ]);
 
@@ -254,6 +289,19 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       blockedLaneCount: proofSourceRecoveryPlan?.blockedLaneCount ?? 0,
       nextLaneKey: proofSourceRecoveryPlan?.nextLaneKey ?? null,
       releaseMeaning: proofSourceRecoveryPlan?.releaseMeaning ?? null,
+    },
+    gatewayOperatingPacket: {
+      status: gatewayOperatingPacket?.status ?? 'missing',
+      current: gatewayOperatingPacket?.current ?? 0,
+      target: gatewayOperatingPacket?.target ?? 1,
+      remaining: gatewayOperatingPacket?.remaining ?? 1,
+      usableMessageState: gatewayOperatingPacket?.usableMessageState ?? null,
+      messageContentEnabled: gatewayOperatingPacket?.messageContentEnabled ?? null,
+      messageContentSignalSource: gatewayOperatingPacket?.messageContentSignalSource ?? null,
+      heartbeatFresh: gatewayOperatingPacket?.heartbeatFresh === true,
+      workerId: gatewayOperatingPacket?.workerId ?? null,
+      nextActions: gatewayOperatingPacket?.nextActions ?? [],
+      releaseMeaning: gatewayOperatingPacket?.releaseMeaning ?? null,
     },
     immediateActionOrder,
     operatingProofRequired: input.requiredOperatingProof,

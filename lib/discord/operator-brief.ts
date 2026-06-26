@@ -16,6 +16,11 @@ export type DiscordOperatorBriefInput = {
   proofBacklog: DiscordProofBacklogReport;
   readiness: {
     releaseDecision?: string | null;
+    summary?: {
+      releaseGateCount?: number | null;
+      releaseGatesPassed?: number | null;
+      releaseGateFailures?: string[] | null;
+    } | null;
   };
   proofRehearsal: {
     ok?: boolean | null;
@@ -57,6 +62,11 @@ export type DiscordOperatorBrief = {
     nextActions: string[];
     usableMessageCount: number | null;
   };
+  releaseGates: {
+    total: number;
+    passed: number;
+    failures: string[];
+  };
   commandOrder: string[];
   nonClaimRule: string;
 };
@@ -81,6 +91,11 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
   const usableMessageCount = typeof input.gatewayCapture?.counts?.['discord_messages.non_bot_non_empty'] === 'number'
     ? input.gatewayCapture.counts['discord_messages.non_bot_non_empty']
     : null;
+  const releaseGateCount = Number(input.readiness.summary?.releaseGateCount ?? 0);
+  const releaseGatesPassed = Number(input.readiness.summary?.releaseGatesPassed ?? 0);
+  const releaseGateFailures = Array.isArray(input.readiness.summary?.releaseGateFailures)
+    ? input.readiness.summary.releaseGateFailures
+    : [];
   const commandOrder = uniqueCommands([
     ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
     ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
@@ -121,6 +136,11 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
       nextActions: gatewayCaptureNextActions,
       usableMessageCount,
     },
+    releaseGates: {
+      total: releaseGateCount,
+      passed: releaseGatesPassed,
+      failures: releaseGateFailures,
+    },
     commandOrder,
     nonClaimRule: DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE,
   };
@@ -141,6 +161,9 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
   if (!brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis')) failures.push('missing_gateway_capture_diagnosis_command');
+  if (brief.releaseGates.total <= 0) failures.push('missing_release_gate_summary');
+  if (brief.releaseGates.passed > brief.releaseGates.total) failures.push('invalid_release_gate_counts');
+  if (brief.releaseGates.failures.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('release_gate_failure_reality_not_explicit');
   if (blockedLanes.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('blocked_reality_not_explicit');
   if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
@@ -191,6 +214,14 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
       '- Next actions:',
       ...brief.gatewayCapture.nextActions.map((action) => `  - ${action}`),
     ] : ['- Next actions: none reported']),
+    '',
+    '## Release Gates',
+    '',
+    `- Passed: ${brief.releaseGates.passed}/${brief.releaseGates.total}`,
+    ...(brief.releaseGates.failures.length ? [
+      '- Failures:',
+      ...brief.releaseGates.failures.map((failure) => `  - ${failure}`),
+    ] : ['- Failures: none']),
     '',
     '## Required Command Order',
     '',

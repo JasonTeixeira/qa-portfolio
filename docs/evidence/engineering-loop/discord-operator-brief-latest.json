@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T03:19:04.894Z",
+  "generatedAt": "2026-06-26T03:21:30.268Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -244,6 +244,11 @@
       "Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message."
     ],
     "usableMessageCount": 0
+  },
+  "releaseGates": {
+    "total": 11,
+    "passed": 11,
+    "failures": []
   },
   "commandOrder": [
     "npm run discord:gateway-capture-diagnosis",

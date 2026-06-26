@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T03:19:04.894Z
+Generated: 2026-06-26T03:21:30.268Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -71,6 +71,11 @@ The local system is verified, but real operating proof is still missing. Close g
 - Next actions:
   - Deploy the current heartbeat metadata build so future heartbeat rows preserve Message Content Intent and intents.
   - Confirm Message Content Intent is enabled both in Discord Developer Portal and worker env, then capture a fresh message.
+
+## Release Gates
+
+- Passed: 11/11
+- Failures: none
 
 ## Required Command Order
 

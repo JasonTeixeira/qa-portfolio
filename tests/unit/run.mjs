@@ -2398,7 +2398,14 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
     scorecard: { averageScore: 83, worldClassEligible: false },
     operatingCycle: { status: 'blocked' },
     proofBacklog,
-    readiness: { releaseDecision: 'do_not_claim_world_class' },
+    readiness: {
+      releaseDecision: 'do_not_claim_world_class',
+      summary: {
+        releaseGateCount: 11,
+        releaseGatesPassed: 11,
+        releaseGateFailures: [],
+      },
+    },
     proofRehearsal: { ok: true, lanes: [{ key: 'a' }, { key: 'b' }, { key: 'c' }], releaseMeaning: 'proof rehearsal only' },
     gatewayCapture: {
       ok: true,
@@ -2427,11 +2434,14 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.gatewayCapture.status, 'blocked');
   assert.equal(brief.gatewayCapture.usableMessageCount, 0);
   assert.deepEqual(brief.gatewayCapture.rootCauses, ['Non-bot messages exist, but message content is empty.']);
+  assert.deepEqual(brief.releaseGates, { total: 11, passed: 11, failures: [] });
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
   assert.match(markdown, /Sage Ideas Discord Operator Brief/);
   assert.match(markdown, /Approved Discord knowledge/);
   assert.match(markdown, /Gateway Capture/);
+  assert.match(markdown, /Release Gates/);
+  assert.match(markdown, /Passed: 11\/11/);
   assert.match(markdown, /Non-bot messages exist/);
   assert.match(markdown, /Do not claim world-class/);
 
@@ -2439,6 +2449,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   const validation = validateDiscordOperatorBrief(invalid);
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('blocked_lane_count_mismatch'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, releaseGates: { total: 0, passed: 0, failures: [] } }).failures.includes('missing_release_gate_summary'));
 });
 
 test('discord proof intake readiness: defines auditable fields for real operating proof', async () => {

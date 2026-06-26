@@ -161,6 +161,9 @@ async function main() {
   if (fullCycleCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
     failures.push('discord_operating_cycle_full_must_not_inline_eval_approval');
   }
+  if (fullCycleCommand.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')) {
+    failures.push('discord_operating_cycle_full_must_not_inline_operating_cycle_approval');
+  }
 
   const riskyScripts = Object.keys(scripts)
     .filter((scriptName) => requiresExplicitApproval.has(scriptName))
@@ -185,7 +188,7 @@ async function main() {
     guardedEvalScripts: {
       safePlanningEvalScripts: [...safePlanningEvalScripts].sort(),
       fullCycleCommand,
-      fullCycleApprovalBoundary: 'discord:operating-cycle:full intentionally does not inline SAGE_ALLOW_NON_DRY_RAG_EVAL=approved; the non-dry eval command must receive explicit approval through the operator environment before it can run.',
+      fullCycleApprovalBoundary: 'discord:operating-cycle:full intentionally does not inline SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved or SAGE_ALLOW_NON_DRY_RAG_EVAL=approved; both non-dry commands must receive explicit approval through the operator environment before they can run.',
     },
     failures,
     releaseMeaning: 'This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation.',

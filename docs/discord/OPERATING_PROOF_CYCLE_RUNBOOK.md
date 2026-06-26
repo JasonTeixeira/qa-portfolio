@@ -7,7 +7,7 @@ This runbook turns the remaining real-world blockers into a weekly operating loo
 1. Review pending Discord applications and approve/reject inside Discord.
 2. Review captured questions, answers, wins, resources, reviews, and build submissions in `/admin/discord`.
 3. Approve only high-signal items into the content queue or final approved states.
-4. Run `npm run discord:operating-cycle`.
+4. After explicit approval, run `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`.
 5. Review the generated public proof draft and approve/publish only if it is accurate and privacy-safe.
 6. After explicit approval, run `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`.
 7. Run `npm run discord:smoke-final-scorecard`.

@@ -266,7 +266,7 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
     ]),
     explicitApprovalCommands: uniqueValues([
       guardedRagEvalCommand,
-      proofSourceRecoveryPlan?.totalShortfall ? 'npm run discord:operating-cycle' : null,
+      proofSourceRecoveryPlan?.totalShortfall ? 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle' : null,
     ]),
     liveOperatorActions: uniqueActionList([
       ...gatewayOperatingActions,
@@ -432,7 +432,7 @@ export function validateWorldClassReadinessReport(report: WorldClassReadinessRep
   if (ragGateFailed && !report.actionPlan?.explicitApprovalCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'))) {
     failures.push('action_plan_missing_guarded_rag_eval_command');
   }
-  if (report.actionPlan?.localOnlyCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command.includes('discord:operating-cycle'))) {
+  if (report.actionPlan?.localOnlyCommands?.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved') || command.includes('discord:operating-cycle'))) {
     failures.push('action_plan_local_commands_include_mutating_command');
   }
   if (categoriesBelowThreshold.some((category) => category.evidenceCount < 1)) {

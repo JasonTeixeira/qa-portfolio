@@ -4,6 +4,8 @@ import { createClient } from '@supabase/supabase-js';
 import { runDiscordOperatingProofCycle } from '@/lib/discord/operating-proof-cycle';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord-ai-os');
+const OPERATING_CYCLE_APPROVAL_ENV = 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE';
+const OPERATING_CYCLE_APPROVAL_VALUE = 'approved';
 
 function requireEnv(name: string): string {
   const value = process.env[name]?.trim();
@@ -13,6 +15,14 @@ function requireEnv(name: string): string {
 
 function hasFlag(name: string): boolean {
   return process.argv.includes(name);
+}
+
+function assertOperatingCycleApproved(dryRun: boolean) {
+  if (dryRun) return;
+  if (process.env[OPERATING_CYCLE_APPROVAL_ENV] === OPERATING_CYCLE_APPROVAL_VALUE) return;
+  throw new Error(
+    `Non-dry Discord operating cycle blocked. Set ${OPERATING_CYCLE_APPROVAL_ENV}=${OPERATING_CYCLE_APPROVAL_VALUE} only after explicit approval; this command can sync approved Discord knowledge, create public proof drafts, and write Supabase operating-cycle rows.`,
+  );
 }
 
 async function loadLocalFinalScorecardEvidence() {
@@ -29,6 +39,7 @@ async function loadLocalFinalScorecardEvidence() {
 
 async function main() {
   const dryRun = hasFlag('--dry-run');
+  assertOperatingCycleApproved(dryRun);
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false, autoRefreshToken: false },
   });

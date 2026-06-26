@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T11:01:57.831Z",
+  "generatedAt": "2026-06-26T11:18:11.574Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -98,7 +98,7 @@
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
-      "verificationCommand": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "liveActionRequired": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "evidenceRequired": "RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.",
       "status": "blocked"
@@ -129,7 +129,7 @@
       ],
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
       "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
-      "verificationCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog",
       "liveActionRequired": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "evidenceRequired": "Four weekly proof drafts or published assets with application/source tracking.",
       "status": "blocked"
@@ -197,9 +197,9 @@
       "title": "Discord knowledge synced into RAG",
       "operatorAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
-      "liveCommand": "npm run discord:operating-cycle",
+      "liveCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
-      "verificationCommand": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
     },
@@ -209,9 +209,9 @@
       "title": "Public proof growth assets",
       "operatorAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "safeLocalCommand": "npm run discord:operating-cycle:dry-run",
-      "liveCommand": "npm run discord:operating-cycle",
+      "liveCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
       "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
-      "verificationCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       "acceptanceCriteria": "Public proof growth assets reaches 4/4; current evidence is 0/4. Four weekly proof drafts or published assets with application/source tracking."
     },

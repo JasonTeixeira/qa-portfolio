@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Intake Readiness
 
-Generated: 2026-06-26T11:01:51.072Z
+Generated: 2026-06-26T11:18:06.553Z
 Mutation mode: local_file_evidence_only
 Readiness OK: yes
 
@@ -109,7 +109,7 @@ Privacy:
 - Target: 10
 - Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
 - Source tables: rag_sources, rag_documents, rag_chunks
-- Verification: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/rag/eval-latest.json, docs/evidence/discord-ai-os/phase-20-final-scorecard.json
 
 Required fields:
@@ -150,7 +150,7 @@ Privacy:
 - Target: 4
 - Admin surface: /admin/discord -> Content -> public proof sources and public growth drafts
 - Source tables: discord_public_proof_sources, discord_public_growth_drafts, discord_growth_events
-- Verification: npm run discord:operating-cycle && npm run discord:proof-backlog
+- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required fields:

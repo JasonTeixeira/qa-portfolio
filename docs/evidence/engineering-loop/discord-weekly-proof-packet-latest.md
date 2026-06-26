@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T11:01:51.573Z
+Generated: 2026-06-26T11:18:07.062Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -74,7 +74,7 @@ Do not count:
 - Dependency: approved_discord_knowledge
 - Operator action: After approved knowledge exists, run the approved Discord RAG sync and verify chunks/retrieval evidence.
 - Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
-- Verify: npm run discord:operating-cycle
+- Verify: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle
 - Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
 
 Exit criteria:
@@ -97,7 +97,7 @@ Do not count:
 - Dependency: approved_discord_knowledge
 - Operator action: Create one privacy-safe public proof draft from approved Discord knowledge and keep it approval-gated until review.
 - Admin surface: /admin/discord -> Content -> public proof sources and public growth drafts
-- Verify: npm run discord:operating-cycle
+- Verify: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle
 - Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status, growth_tracking_status
 
 Exit criteria:
@@ -274,7 +274,7 @@ Does not count as proof:
 - Remaining: 10
 - Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
 - Source tables: rag_sources, rag_documents, rag_chunks
-- Verify: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verify: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/rag/eval-latest.json, docs/evidence/discord-ai-os/phase-20-final-scorecard.json
 
 Required intake template:
@@ -337,7 +337,7 @@ Does not count as proof:
 - Remaining: 4
 - Admin surface: /admin/discord -> Content -> public proof sources and public growth drafts
 - Source tables: discord_public_proof_sources, discord_public_growth_drafts, discord_growth_events
-- Verify: npm run discord:operating-cycle && npm run discord:proof-backlog
+- Verify: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
 Required intake template:

@@ -216,7 +216,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         'Dry-run RAG sync output with zero persisted Discord sources.',
       ],
       verificationCommands: [
-        'npm run discord:operating-cycle',
+        'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle',
         'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate',
         'npm run discord:smoke-final-scorecard',
       ],
@@ -266,7 +266,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         'A draft that was generated but never approved or published.',
       ],
       verificationCommands: [
-        'npm run discord:operating-cycle',
+        'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle',
         'npm run discord:proof-backlog',
       ],
       evidencePaths: [

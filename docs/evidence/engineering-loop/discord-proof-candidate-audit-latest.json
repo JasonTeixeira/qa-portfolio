@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T11:01:58.346Z",
+  "generatedAt": "2026-06-26T11:18:12.085Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -131,7 +131,7 @@
         "Latest RAG sync did not upsert approved Discord sources."
       ],
       "nextReviewAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
-      "provingCommand": "npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "provingCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "requiredEvidenceFields": [
         "proof_cycle_key",
         "source_record_id",
@@ -177,7 +177,7 @@
         "Dry run does not create public proof drafts."
       ],
       "nextReviewAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
-      "provingCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
+      "provingCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog",
       "requiredEvidenceFields": [
         "proof_cycle_key",
         "source_record_id",

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-26T11:05:16.544Z",
+  "timestamp": "2026-06-26T11:17:55.020Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -342,7 +342,7 @@
       "rag:evaluate:seed-dry-run"
     ],
     "fullCycleCommand": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
-    "fullCycleApprovalBoundary": "discord:operating-cycle:full intentionally does not inline SAGE_ALLOW_NON_DRY_RAG_EVAL=approved; the non-dry eval command must receive explicit approval through the operator environment before it can run."
+    "fullCycleApprovalBoundary": "discord:operating-cycle:full intentionally does not inline SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved or SAGE_ALLOW_NON_DRY_RAG_EVAL=approved; both non-dry commands must receive explicit approval through the operator environment before they can run."
   },
   "failures": [],
   "releaseMeaning": "This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation."

@@ -218,6 +218,7 @@ async function main() {
   requireTruthy(
     approvalBoundaryCheck.guardedEvalScripts?.fullCycleCommand?.includes('npm run rag:evaluate')
       && !approvalBoundaryCheck.guardedEvalScripts.fullCycleCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+      && !approvalBoundaryCheck.guardedEvalScripts.fullCycleCommand.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')
       && approvalBoundaryCheck.guardedEvalScripts?.fullCycleApprovalBoundary?.includes('must receive explicit approval through the operator environment'),
     'Approval-boundary check must verify full-cycle RAG eval requires external explicit approval.',
   );

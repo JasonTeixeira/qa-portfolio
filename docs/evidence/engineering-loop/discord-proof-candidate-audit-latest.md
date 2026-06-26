@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T11:01:58.346Z
+Generated: 2026-06-26T11:18:12.085Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -70,7 +70,7 @@ Next review action: Approve high-signal questions, answers, resources, wins, rev
 - Candidate count: 0
 - Remaining: 10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
-- Proving command: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Proving command: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
 - Critical lane fields: rag_source_key, chunk_count, eval_or_retrieval_proof
 
@@ -91,7 +91,7 @@ Next review action: Run the approved Discord RAG sync after approving knowledge 
 - Candidate count: 0
 - Remaining: 4
 - Admin surface: /admin/discord -> Public Proof Sources and Public Growth Drafts panels
-- Proving command: npm run discord:operating-cycle && npm run discord:proof-backlog
+- Proving command: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status, growth_tracking_status
 - Critical lane fields: asset_type, utm_campaign, publish_status, growth_tracking_status
 

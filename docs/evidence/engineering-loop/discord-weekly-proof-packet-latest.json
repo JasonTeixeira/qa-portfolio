@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-weekly-proof-packet-v1",
-  "generatedAt": "2026-06-26T11:01:51.573Z",
+  "generatedAt": "2026-06-26T11:18:07.062Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.",
   "backlogStatus": "blocked",
@@ -478,7 +478,7 @@
         "Dry-run RAG sync output with zero persisted Discord sources."
       ],
       "verificationCommands": [
-        "npm run discord:operating-cycle",
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
         "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate",
         "npm run discord:smoke-final-scorecard"
       ],
@@ -654,7 +654,7 @@
         "A draft that was generated but never approved or published."
       ],
       "verificationCommands": [
-        "npm run discord:operating-cycle",
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
         "npm run discord:proof-backlog"
       ],
       "evidencePaths": [
@@ -940,7 +940,7 @@
       "dependency": "approved_discord_knowledge",
       "operatorAction": "After approved knowledge exists, run the approved Discord RAG sync and verify chunks/retrieval evidence.",
       "adminSurface": "/admin/discord -> RAG Health -> Sync approved Discord knowledge",
-      "verificationCommand": "npm run discord:operating-cycle",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
       "requiredEvidenceFields": [
         "proof_cycle_key",
         "source_record_id",
@@ -980,7 +980,7 @@
       "dependency": "approved_discord_knowledge",
       "operatorAction": "Create one privacy-safe public proof draft from approved Discord knowledge and keep it approval-gated until review.",
       "adminSurface": "/admin/discord -> Content -> public proof sources and public growth drafts",
-      "verificationCommand": "npm run discord:operating-cycle",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
       "requiredEvidenceFields": [
         "proof_cycle_key",
         "source_record_id",

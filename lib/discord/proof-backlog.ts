@@ -72,8 +72,8 @@ function lane(input: Omit<DiscordProofBacklogLane, 'status'>): DiscordProofBackl
 const LIVE_COMMANDS_BY_LANE: Record<string, string | null> = {
   gateway_capture: null,
   approved_discord_knowledge: null,
-  rag_discord_sources: 'npm run discord:operating-cycle',
-  public_proof_assets: 'npm run discord:operating-cycle',
+  rag_discord_sources: 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle',
+  public_proof_assets: 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle',
   premium_workflow_proof: 'npm run discord:smoke-premium-workflows',
 };
 
@@ -210,7 +210,7 @@ export function buildDiscordProofBacklogReport(input: {
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
       adminSurface: '/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels',
-      verificationCommand: 'npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard',
+      verificationCommand: 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard',
       liveActionRequired: 'Run the approved Discord RAG sync after approving knowledge candidates.',
       evidenceRequired: 'RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.',
     }),
@@ -240,7 +240,7 @@ export function buildDiscordProofBacklogReport(input: {
       ],
       safeLocalCommand: 'npm run discord:operating-cycle:dry-run',
       adminSurface: '/admin/discord -> Public Proof Sources and Public Growth Drafts panels',
-      verificationCommand: 'npm run discord:operating-cycle && npm run discord:proof-backlog',
+      verificationCommand: 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog',
       liveActionRequired: 'Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.',
       evidenceRequired: 'Four weekly proof drafts or published assets with application/source tracking.',
     }),

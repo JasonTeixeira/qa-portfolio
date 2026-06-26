@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T11:01:59.356Z
+Generated: 2026-06-26T11:18:13.116Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -37,7 +37,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Current: 0/10
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
 - Local check: npm run discord:operating-cycle:dry-run
-- Verification: npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence required: RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter.
 - Live action: Run the approved Discord RAG sync after approving knowledge candidates.
 
@@ -47,7 +47,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Current: 0/4
 - Admin surface: /admin/discord -> Public Proof Sources and Public Growth Drafts panels
 - Local check: npm run discord:operating-cycle:dry-run
-- Verification: npm run discord:operating-cycle && npm run discord:proof-backlog
+- Verification: SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog
 - Evidence required: Four weekly proof drafts or published assets with application/source tracking.
 - Live action: Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.
 
@@ -103,7 +103,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Packet remaining: 1
 - Packet state: message_content_ready_needs_fresh_member_message
 - Message content: true via identify_event
-- Heartbeat: fresh (sagebot-main, age 0 minutes)
+- Heartbeat: fresh (sagebot-main, age 1 minutes)
 - Root causes:
   - Non-bot messages exist, but message content is empty.
 - Next actions:
@@ -123,7 +123,7 @@ The local system is verified, but real operating proof is still missing. Close g
 1. `npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet`
 2. `npm run discord:operating-cycle:dry-run`
 3. `npm run discord:smoke-premium-workflows`
-4. `npm run discord:operating-cycle`
+4. `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
 5. `npm run discord:proof-source-recovery-plan`
 6. `npm run rag:evaluate:missing-preflight`
 7. `npm run rag:evaluate:recovery-plan`
@@ -179,7 +179,7 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ### Explicit Approval Commands
 
-- `npm run discord:operating-cycle`
+- `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
 - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence`
 
 ### Live Operator Actions

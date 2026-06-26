@@ -91,7 +91,7 @@ Safe local command:
 - `npm run discord:operating-cycle:dry-run`
 
 Live command after approval:
-- `npm run discord:operating-cycle`
+- `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
 
 Passing evidence:
 - `docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json` shows `ragDiscordSources >= 10`.
@@ -121,7 +121,7 @@ Safe local command:
 - `npm run discord:operating-cycle:dry-run`
 
 Live command after approval:
-- `npm run discord:operating-cycle`
+- `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
 
 Passing evidence:
 - Four weekly public proof drafts or published assets exist.
@@ -171,7 +171,7 @@ Run this sequence once per week:
 5. Review knowledge candidates in `/admin/discord`.
 6. Approve at least the highest-signal questions, helpful answers, builds, resources, and wins.
 7. Run `npm run discord:operating-cycle:dry-run`.
-8. If the dry-run shows approved knowledge is available, run `npm run discord:operating-cycle`.
+8. If the dry-run shows approved knowledge is available, run `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`.
 9. Review any generated public proof draft for accuracy, privacy, and usefulness.
 10. Approve or reject the public proof draft.
 11. After explicit approval, run `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate`.

@@ -25,6 +25,12 @@ async function exists(pathname) {
   }
 }
 
+function isAllowedProofCommand(command) {
+  return command.startsWith('npm run')
+    || command.startsWith('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run')
+    || command.startsWith('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run');
+}
+
 // -------------------------------------------------------------- api-errors
 
 test('api-errors: badRequest returns 400 + structured body', async () => {
@@ -501,6 +507,7 @@ test('ops scripts: approval-boundary verifier blocks risky commands from local r
   assert.match(approvalBoundaryScript, /railway\\s\+up/);
   assert.match(approvalBoundaryScript, /stripe\\s\+/);
   assert.match(approvalBoundaryScript, /discord_operating_cycle_full_must_not_inline_eval_approval/);
+  assert.match(approvalBoundaryScript, /discord_operating_cycle_full_must_not_inline_operating_cycle_approval/);
   assert.match(approvalBoundaryScript, /fullCycleApprovalBoundary/);
   assert.match(approvalBoundaryScript, /does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation/);
 });
@@ -2612,9 +2619,10 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.ok(actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:missing-preflight')));
   assert.ok(actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
   assert.ok(actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')));
   assert.ok(actionPlan.localOnlyCommands.every((command) => command !== 'npm run discord:operating-cycle'));
   assert.ok(actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
-  assert.ok(actionPlan.explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle'));
+  assert.ok(actionPlan.explicitApprovalCommands.some((command) => command === 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle'));
   assert.ok(actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
   assert.ok(actionPlan.liveOperatorActions.some((action) => action.includes('10 high-signal Discord')));
   assert.ok(validateDiscordFinalScorecardActionPlan({
@@ -2854,7 +2862,10 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
   assert.equal(pkg.scripts['discord:operating-cycle:dry-run'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked --dry-run');
   assert.equal(pkg.scripts['discord:operating-cycle:full'], 'npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard');
+  assert.match(script, /SAGE_ALLOW_DISCORD_OPERATING_CYCLE/);
+  assert.match(script, /Non-dry Discord operating cycle blocked/);
   assert.equal(pkg.scripts['discord:operating-cycle:full'].includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'), false);
+  assert.equal(pkg.scripts['discord:operating-cycle:full'].includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved'), false);
   assert.ok(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:dry-run'));
   assert.equal(pkg.scripts['discord:release-local'].includes('discord:operating-cycle:full'), false);
 });
@@ -3009,9 +3020,10 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.ok(report.actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:recovery-plan')));
   assert.ok(report.actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
   assert.ok(report.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(report.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')));
   assert.ok(report.actionPlan.localOnlyCommands.every((command) => !command.includes('discord:operating-cycle')));
   assert.ok(report.actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
-  assert.ok(report.actionPlan.explicitApprovalCommands.some((command) => command.includes('discord:operating-cycle')));
+  assert.ok(report.actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle')));
   assert.ok(report.actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
   assert.ok(report.actionPlan.liveOperatorActions.some((action) => action.includes('Approve at least 10 high-signal Discord')));
   assert.equal(report.categories[0].category, 'growth_loop');
@@ -3119,7 +3131,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.ok(report.lanes.every((item) => item.rejectionRules.length >= 2));
   assert.ok(report.lanes.every((item) => item.weeklyOperatorSteps.length >= 3));
   assert.ok(report.lanes.every((item) => item.adminSurface.includes('/admin/discord')));
-  assert.ok(report.lanes.every((item) => item.verificationCommand.startsWith('npm run')));
+  assert.ok(report.lanes.every((item) => isAllowedProofCommand(item.verificationCommand)));
   assert.ok(report.lanes
     .filter((item) => item.verificationCommand.includes('rag:evaluate'))
     .every((item) => item.verificationCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
@@ -3137,7 +3149,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(report.weeklyChecklist[0].laneKey, 'gateway_capture');
   assert.equal(report.weeklyChecklist[0].liveCommand, null);
   assert.match(report.weeklyChecklist[0].evidencePath, /gateway-operating-packet-latest\.json/);
-  assert.equal(report.weeklyChecklist[2].liveCommand, 'npm run discord:operating-cycle');
+  assert.equal(report.weeklyChecklist[2].liveCommand, 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle');
   assert.match(report.weeklyChecklist[3].evidencePath, /phase-21-operating-proof-cycle\.json/);
   assert.match(report.weeklyChecklist[3].adminSurface, /Public Proof Sources/);
   assert.match(report.weeklyChecklist[4].verificationCommand, /discord:smoke-premium-workflows/);
@@ -3296,7 +3308,7 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
   assert.equal(plan.lanes[1].sourceVolumeState, 'no_source_volume');
   assert.equal(plan.lanes[3].sourceVolumeState, 'needs_fulfillment');
   assert.ok(plan.lanes.every((lane) => lane.safeLocalCommand.startsWith('npm run')));
-  assert.ok(plan.lanes.every((lane) => lane.verificationCommand.startsWith('npm run')));
+  assert.ok(plan.lanes.every((lane) => isAllowedProofCommand(lane.verificationCommand)));
   assert.ok(plan.lanes
     .filter((lane) => lane.verificationCommand.includes('rag:evaluate'))
     .every((lane) => lane.verificationCommand.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
@@ -3581,9 +3593,10 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.actionPlan.localOnlyCommands.some((command) => command.includes('discord:proof-backlog')));
   assert.ok(brief.actionPlan.localOnlyCommands.some((command) => command.includes('rag:evaluate:missing-preflight')));
   assert.ok(brief.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.ok(brief.actionPlan.localOnlyCommands.every((command) => !command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')));
   assert.ok(brief.actionPlan.localOnlyCommands.every((command) => command !== 'npm run discord:operating-cycle'));
   assert.ok(brief.actionPlan.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
-  assert.ok(brief.actionPlan.explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle'));
+  assert.ok(brief.actionPlan.explicitApprovalCommands.some((command) => command === 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle'));
   assert.ok(brief.actionPlan.liveOperatorActions.some((action) => action.includes('fresh non-bot member message')));
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);

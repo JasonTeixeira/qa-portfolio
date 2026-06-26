@@ -63,6 +63,7 @@ export type DiscordFinalScorecardSummary = {
 };
 
 const GUARDED_RAG_EVAL_COMMAND = 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence';
+const GUARDED_OPERATING_CYCLE_COMMAND = 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle';
 
 function uniqueActionList(actions: Array<string | null | undefined>): string[] {
   return [...new Set(actions.map((action) => action?.trim()).filter((action): action is string => Boolean(action)))];
@@ -355,7 +356,7 @@ export function buildDiscordFinalScorecardActionPlan(): DiscordFinalScorecardAct
     ]),
     explicitApprovalCommands: uniqueActionList([
       GUARDED_RAG_EVAL_COMMAND,
-      'npm run discord:operating-cycle',
+      GUARDED_OPERATING_CYCLE_COMMAND,
     ]),
     liveOperatorActions: uniqueActionList([
       'Post one fresh non-bot member message in Discord and rerun gateway capture diagnosis.',
@@ -389,7 +390,7 @@ export function validateDiscordFinalScorecardActionPlan(actionPlan: DiscordFinal
   if (!explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved'))) {
     failures.push('action_plan_missing_guarded_rag_eval_command');
   }
-  if (!explicitApprovalCommands.some((command) => command === 'npm run discord:operating-cycle')) {
+  if (!explicitApprovalCommands.some((command) => command === GUARDED_OPERATING_CYCLE_COMMAND)) {
     failures.push('action_plan_missing_operating_cycle_approval_command');
   }
   if (!liveOperatorActions.some((action) => action.includes('fresh non-bot member message'))) {
@@ -401,7 +402,7 @@ export function validateDiscordFinalScorecardActionPlan(actionPlan: DiscordFinal
   if (!liveOperatorActions.some((action) => action.includes('four privacy-safe public proof assets'))) {
     failures.push('action_plan_missing_public_proof_live_proof');
   }
-  if (localOnlyCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command === 'npm run discord:operating-cycle')) {
+  if (localOnlyCommands.some((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved') || command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved') || command === 'npm run discord:operating-cycle')) {
     failures.push('action_plan_local_commands_include_approval_command');
   }
   if (localOnlyCommands.some((command) => /^npm run rag:evaluate($|\s)/.test(command))) {

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T11:05:33.872Z",
+  "timestamp": "2026-06-26T11:18:13.393Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -49,7 +49,7 @@
       ],
       "explicitApprovalCommands": [
         "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
-        "npm run discord:operating-cycle"
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
       ],
       "liveOperatorActions": [
         "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
@@ -149,7 +149,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782471712652"
+    "runKey": "phase-20-final-1782472688143"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -982,8 +982,8 @@
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "ageMinutes": 0,
-      "lastSeenAt": "2026-06-26T11:01:33.38+00:00",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-26T11:17:22.927+00:00",
       "fresh": true,
       "lastCloseCode": null
     },

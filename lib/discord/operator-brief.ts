@@ -195,6 +195,7 @@ function uniqueCommands(commands: Array<string | null | undefined>): string[] {
 
 function commandRequiresExplicitApproval(command: string): boolean {
   return command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')
     || command === 'npm run discord:operating-cycle'
     || command === 'npm run discord:operating-cycle:full';
 }

@@ -806,6 +806,194 @@ const typesBlocks = [
   },
 ]
 
+// ---------------------------------------------------------------- lesson 5 blocks
+// "Control Flow — Guard Clauses & Clean Loops". Grounded in the 01-fundamentals
+// "Data and control flow" cluster (anchors: deep nesting hides bugs; the classic
+// mutate-while-iterating skip bug) + established practice. Standard sprint.
+const CONTROL_LAB_STARTER = `def active_orders(orders):
+    # Return only the orders whose status != 'cancelled'.
+    # Do NOT remove from \`orders\` while looping over it — build a NEW list.
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+data = [
+    {"id": 1, "status": "active"},
+    {"id": 2, "status": "cancelled"},
+    {"id": 3, "status": "cancelled"},   # adjacent cancelled -> trips the skip bug
+    {"id": 4, "status": "active"},
+]
+ids = [o["id"] for o in active_orders(data)]
+ids2 = [o["id"] for o in active_orders([
+    {"id": 9, "status": "cancelled"},
+    {"id": 8, "status": "active"},
+])]
+print("kept ids:", ids)
+print(f"PASS: {ids == [1, 4] and ids2 == [8] and len(data) == 4}")
+`
+
+const controlFlowBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Flatten nested conditionals with guard clauses, write a correct loop, and avoid the classic loop bugs (off-by-one, infinite loop, mutate-while-iterating).',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A filter that drops items WITHOUT mutating-while-iterating, plus a test that proves adjacent matches are not skipped.',
+    unlock: 'All verification checks confirmed and the skip bug fixed.',
+    doNotClaim:
+      "Don't claim mastery until your filter keeps the right items with two cancelled orders next to each other — the case that trips the skip bug.",
+  },
+  {
+    type: 'mission',
+    text: "A teammate's `process_order()` is five levels of nested if/else — nobody can tell which path runs. And the loop that 'removes cancelled orders' silently leaves half of them. Make the path obvious and the loop correct.",
+  },
+  {
+    type: 'context',
+    text: 'Control flow is the shape of your logic. Deeply nested conditionals hide bugs; clean guard clauses make the valid path obvious. And loops have a famous set of traps that bite everyone. This is daily-driver work.',
+  },
+  {
+    type: 'pretest',
+    prompt: "Before you read on: what goes wrong if you loop over a list and remove items from it as you go?",
+    reveal:
+      'Removing an item shifts the later indices, so the loop skips the element right after each removal — you end up processing every other item. Iterate over a COPY, or (better) build a NEW list with the items you want to keep (a comprehension).',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Flatten nesting with guard clauses — handle the invalid cases first, then the happy path runs unindented:',
+    language: 'python',
+    code: `# before — deep nesting; which path actually runs?
+def charge(order):
+    if order is not None:
+        if order["total"] > 0:
+            if order["status"] == "open":
+                return pay(order)
+            else:
+                return "not open"
+        else:
+            return "empty"
+    else:
+        return "missing"
+
+# after — guard clauses: reject the bad cases first, happy path is flat
+def charge(order):
+    if order is None:
+        return "missing"
+    if order["total"] <= 0:
+        return "empty"
+    if order["status"] != "open":
+        return "not open"
+    return pay(order)`,
+    steps: [
+      'Reject each invalid case early with its own `return`.',
+      'Each guard is one reason to stop — read top to bottom.',
+      'The happy path lands at the end, unindented and obvious.',
+      'For loops: never mutate the collection you are iterating.',
+      'To drop items, build a new list (filter) instead of removing in place.',
+    ],
+    commonMistake:
+      'Deep nesting where each `if` adds another level. Invert it: `if not valid: return` early, and keep the happy path flat.',
+  },
+  {
+    type: 'concept',
+    title: 'Guard clauses flatten logic; loops have classic traps',
+    text: 'A guard clause handles an invalid case and returns immediately, so the happy path stays flat (deep nesting past ~3 levels is a refactor signal). Loops have three classic traps: off-by-one (wrong `range` bounds), infinite loop (the condition never changes), and mutate-while-iterating (removing items shifts indices and skips elements). To transform or prune a list, prefer a comprehension / filter over in-place mutation.',
+  },
+  {
+    type: 'lab',
+    title: 'Filter without skipping',
+    summary:
+      "Implement active_orders(orders): return only the orders whose status != 'cancelled'. Do NOT mutate the input while iterating. The harness puts two cancelled orders next to each other (the case that trips the skip bug) and checks none slip through — across two datasets.",
+    language: 'python',
+    starter: CONTROL_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: 'This loop should remove cancelled orders but leaves half of them behind.',
+    language: 'python',
+    brokenCode: `def active_orders(orders):
+    for o in orders:
+        if o["status"] == "cancelled":
+            orders.remove(o)     # mutating the list we're iterating
+    return orders`,
+    task: 'Why does it skip some cancelled orders?',
+    fix: "`remove` shifts every later index down by one, so the loop skips the item right after each removal (and it mutates the caller's list). Build a new list instead: `[o for o in orders if o['status'] != 'cancelled']`.",
+  },
+  {
+    type: 'tradeoff',
+    question: 'Validate-and-act: nest the checks, or use guard clauses?',
+    optionA: {
+      label: 'Guard clauses',
+      text: 'Reject invalid cases up front and return early; the happy path runs unindented and obvious. More return statements, but flat and readable.',
+    },
+    optionB: {
+      label: 'Nested if/else',
+      text: 'One exit point, everything inside nested blocks. Familiar — but deep nesting hides which path runs and which case you forgot.',
+    },
+    guidance:
+      'Prefer guard clauses for validation: handle the bad cases first and return, keep the happy path flat. Deep nesting (>3 levels) is a refactor signal, not a style preference.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'active_orders keeps only the non-cancelled orders',
+      'Two ADJACENT cancelled orders are both dropped — none skipped',
+      'The input list is NOT mutated (no remove-while-iterating)',
+      'The happy path is flat (guard clauses, not deep nesting)',
+      'A test covers adjacent-cancelled and an all-cancelled case',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: "What's the safest way to drop items from a list while looping?",
+    options: [
+      'Call list.remove() inside a for loop over the list',
+      'Build a new list with a comprehension (filter)',
+      'Delete by index in a while loop',
+      'Set the items to None',
+    ],
+    answer: 1,
+    explanation:
+      'Mutating a list while iterating it skips elements because the indices shift. Build a new list: `[x for x in items if keep(x)]` — correct, readable, and it leaves the original untouched.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'What does a guard clause do, and why does it flatten logic?',
+      'Why does removing items while looping skip elements?',
+      'Name the three classic loop bugs.',
+      'When is a while loop the right choice over a for loop?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your active_orders() + its test',
+    weak: '"It removes the cancelled ones." — probably mutates the list and skips some.',
+    passing:
+      '"active_orders returns a NEW list of non-cancelled orders via a comprehension; the input is untouched; a test covers adjacent-cancelled." — correct.',
+    excellent:
+      '"active_orders filters with a comprehension (no mutation), so adjacent cancelled orders can\'t be skipped and the caller\'s list is preserved. Elsewhere I used guard clauses to keep validation flat. Tests cover adjacent-cancelled, all-cancelled, and empty. The same filter-don\'t-mutate rule applies anywhere we prune a collection." — specific, correct, transferable.',
+    note: 'Excellent avoids mutation AND tests the edge cases — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Find a loop in your own code that removes or edits a collection while iterating it, or a function nested more than three levels deep. Refactor: filter into a new list, or add guard clauses. Add a test for the edge that used to break.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — adjacent cancelled orders are both dropped, input not mutated',
+      'Broken case understood (mutating while iterating skips items)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -932,6 +1120,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l4Err) throw l4Err
+
+  // 2e. Lesson 5 — Control Flow (grounded in the 01 "Data and control flow" cluster).
+  const { error: l5Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'control-flow',
+      title: 'Control Flow: Guard Clauses & Clean Loops',
+      eyebrow: 'Module 1 · Lesson 5 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 4,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: controlFlowBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l5Err) throw l5Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

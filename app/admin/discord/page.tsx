@@ -610,6 +610,8 @@ type ProofSourceRecoveryPlan = {
     priority: number;
     sourceVolumeState: string;
     evidenceToCollect: string[];
+    collectionCadence: string[];
+    acceptanceChecklist: string[];
     doNotCount: string[];
     adminSurface: string;
     safeLocalCommand: string;
@@ -1742,6 +1744,24 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   <p className="mt-3 text-xs leading-5 text-[#d4d4d8]">{lane.liveActionRequired}</p>
                   <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
                     {lane.verificationCommand}
+                  </div>
+                  <div className="mt-3 grid gap-3">
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-[#fafafa]">Cadence</div>
+                      <ul className="mt-2 space-y-1 text-[11px] leading-4 text-[#a1a1aa]">
+                        {lane.collectionCadence.slice(0, 2).map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-[#fafafa]">Acceptance</div>
+                      <ul className="mt-2 space-y-1 text-[11px] leading-4 text-[#a1a1aa]">
+                        {lane.acceptanceChecklist.slice(0, 2).map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                   {lane.blocker ? <p className="mt-3 text-xs leading-5 text-[#fca5a5]">{lane.blocker}</p> : null}
                 </div>

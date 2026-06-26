@@ -396,6 +396,14 @@ async function main() {
     'Proof source recovery plan must include anti-fake do-not-count rules for every lane.',
   );
   requireTruthy(
+    proofSourceRecoveryPlan.lanes.every((lane) => Array.isArray(lane.collectionCadence) && lane.collectionCadence.length >= 3),
+    'Proof source recovery plan must include collection cadence for every lane.',
+  );
+  requireTruthy(
+    proofSourceRecoveryPlan.lanes.every((lane) => Array.isArray(lane.acceptanceChecklist) && lane.acceptanceChecklist.length >= 3),
+    'Proof source recovery plan must include acceptance checklist for every lane.',
+  );
+  requireTruthy(
     proofSourceRecoveryPlan.antiFakeRules?.some((rule) => rule.includes('dry-run')),
     'Proof source recovery plan must explicitly block dry-run/smoke/synthetic evidence from counting.',
   );
@@ -697,6 +705,8 @@ async function main() {
         current: lane.current,
         target: lane.target,
         shortfall: lane.shortfall,
+        collectionCadenceCount: lane.collectionCadence?.length ?? 0,
+        acceptanceChecklistCount: lane.acceptanceChecklist?.length ?? 0,
       })),
       antiFakeRuleCount: proofSourceRecoveryPlan.antiFakeRules?.length ?? 0,
       releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,

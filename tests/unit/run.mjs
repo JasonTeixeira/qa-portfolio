@@ -1775,6 +1775,8 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /Immediate action order/);
   assert.match(page, /RAG eval blocker/);
   assert.match(page, /Proof source blocker/);
+  assert.match(page, /collectionCadence/);
+  assert.match(page, /acceptanceChecklist/);
   assert.match(page, /buildDiscordProofBacklogReport/);
   assert.match(page, /ProofBacklogLaneRow/);
   assert.match(page, /ProofRuleGroup/);
@@ -2787,6 +2789,10 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
   assert.ok(plan.lanes.every((lane) => lane.safeLocalCommand.startsWith('npm run')));
   assert.ok(plan.lanes.every((lane) => lane.verificationCommand.startsWith('npm run')));
   assert.ok(plan.lanes.every((lane) => lane.evidenceToCollect.length >= 3));
+  assert.ok(plan.lanes.every((lane) => lane.collectionCadence.length >= 3));
+  assert.ok(plan.lanes.every((lane) => lane.acceptanceChecklist.length >= 3));
+  assert.ok(plan.lanes[0].collectionCadence.some((item) => item.includes('Daily')));
+  assert.ok(plan.lanes[2].acceptanceChecklist.some((item) => item.includes('Growth event tracking')));
   assert.ok(plan.lanes.every((lane) => lane.doNotCount.length >= 3));
   assert.ok(plan.antiFakeRules.some((rule) => rule.includes('dry-run')));
   assert.ok(plan.immediateActionOrder[0].includes('Collect and approve'));
@@ -2795,6 +2801,8 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
   const markdown = renderDiscordProofSourceRecoveryPlanMarkdown(plan);
   assert.match(markdown, /Discord Proof Source Recovery Plan/);
   assert.match(markdown, /approvedDiscordKnowledge/);
+  assert.match(markdown, /Collection cadence/);
+  assert.match(markdown, /Acceptance checklist/);
   assert.match(markdown, /Do not count/);
 
   const passed = buildDiscordProofSourceRecoveryPlan({

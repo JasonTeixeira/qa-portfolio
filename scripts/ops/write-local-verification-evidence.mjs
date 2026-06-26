@@ -14,6 +14,7 @@ const evidencePaths = {
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
+  weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -57,6 +58,7 @@ async function main() {
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
+    weeklyProofPacket,
   ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
@@ -93,6 +95,23 @@ async function main() {
   requireTruthy(
     Array.isArray(proofIntakeReadiness.lanes) && proofIntakeReadiness.lanes.length === 4,
     'Proof intake readiness must cover all four blocked proof lanes.',
+  );
+  requireTruthy(weeklyProofPacket.ok === true, 'Weekly proof packet evidence is not ok.');
+  requireTruthy(
+    weeklyProofPacket.mutationMode === 'local_file_evidence_only',
+    'Weekly proof packet must not mutate external systems.',
+  );
+  requireTruthy(
+    weeklyProofPacket.releaseMeaning?.includes('does not create or satisfy operating proof'),
+    'Weekly proof packet must explicitly avoid claiming real operating proof.',
+  );
+  requireTruthy(
+    Array.isArray(weeklyProofPacket.lanes) && weeklyProofPacket.lanes.length === 4,
+    'Weekly proof packet must cover all four blocked proof lanes.',
+  );
+  requireTruthy(
+    weeklyProofPacket.lanes.every((lane) => lane.intakeTemplate?.privacy_status),
+    'Weekly proof packet must include privacy_status intake placeholders.',
   );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
@@ -182,6 +201,16 @@ async function main() {
       requiredFieldCount: proofIntakeReadiness.requiredFieldCount,
       weeklyIntakeOrder: proofIntakeReadiness.weeklyIntakeOrder,
       releaseMeaning: proofIntakeReadiness.releaseMeaning,
+    },
+    weeklyProofPacket: {
+      ok: weeklyProofPacket.ok,
+      mutationMode: weeklyProofPacket.mutationMode,
+      backlogStatus: weeklyProofPacket.backlogStatus,
+      laneCount: Array.isArray(weeklyProofPacket.lanes) ? weeklyProofPacket.lanes.length : 0,
+      blockedLanes: weeklyProofPacket.lanes
+        .filter((lane) => lane.status === 'blocked')
+        .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
+      releaseMeaning: weeklyProofPacket.releaseMeaning,
     },
     remainingGaps: [
       'Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.',

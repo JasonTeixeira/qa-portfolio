@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T00:43:58.079Z",
+  "timestamp": "2026-06-26T00:54:24.330Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -34,7 +34,8 @@
     "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
-    "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json"
+    "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+    "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json"
   },
   "scorecard": {
     "averageScore": 83,
@@ -60,7 +61,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782434633151"
+    "runKey": "phase-20-final-1782435259218"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -147,6 +148,19 @@
       "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
     ],
     "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist."
+  },
+  "weeklyProofPacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "backlogStatus": "blocked",
+    "laneCount": 4,
+    "blockedLanes": [
+      "approved_discord_knowledge:0/10",
+      "rag_discord_sources:0/10",
+      "public_proof_assets:0/4",
+      "premium_workflow_proof:0/1"
+    ],
+    "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records."
   },
   "remainingGaps": [
     "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",

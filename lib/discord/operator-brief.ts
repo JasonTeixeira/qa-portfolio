@@ -69,6 +69,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     'npm run discord:operator-brief',
     'npm run discord:content-factory-readiness',
     'npm run discord:proof-intake-readiness',
+    'npm run discord:weekly-proof-packet',
   ]);
   return {
     ok: true,
@@ -107,6 +108,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (!brief.commandOrder.includes('npm run discord:proof-backlog')) failures.push('missing_proof_backlog_command');
   if (!brief.commandOrder.includes('npm run discord:content-factory-readiness')) failures.push('missing_content_factory_readiness_command');
   if (!brief.commandOrder.includes('npm run discord:proof-intake-readiness')) failures.push('missing_proof_intake_readiness_command');
+  if (!brief.commandOrder.includes('npm run discord:weekly-proof-packet')) failures.push('missing_weekly_proof_packet_command');
   if (blockedLanes.length > 0 && !brief.currentReality.includes('real operating proof is still missing')) failures.push('blocked_reality_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
   return {

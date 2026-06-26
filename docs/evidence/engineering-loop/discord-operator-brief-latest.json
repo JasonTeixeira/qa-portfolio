@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T00:43:59.514Z",
+  "generatedAt": "2026-06-26T00:54:26.251Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -199,7 +199,8 @@
     "npm run discord:proof-backlog",
     "npm run discord:operator-brief",
     "npm run discord:content-factory-readiness",
-    "npm run discord:proof-intake-readiness"
+    "npm run discord:proof-intake-readiness",
+    "npm run discord:weekly-proof-packet"
   ],
   "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
 }

@@ -1,14 +1,18 @@
 {
   "ok": true,
-  "version": "discord-proof-intake-readiness-v1",
-  "generatedAt": "2026-06-26T00:54:23.113Z",
+  "version": "discord-weekly-proof-packet-v1",
+  "generatedAt": "2026-06-26T00:54:25.757Z",
   "mutationMode": "local_file_evidence_only",
-  "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.",
+  "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.",
+  "backlogStatus": "blocked",
   "lanes": [
     {
       "key": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
+      "status": "blocked",
+      "currentCount": 0,
       "targetCount": 10,
+      "remainingCount": 10,
       "adminSurface": "/admin/discord -> Knowledge/RAG -> candidate review",
       "sourceTables": [
         "discord_questions",
@@ -106,12 +110,28 @@
       "evidencePaths": [
         "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
-      ]
+      ],
+      "intakeTemplate": {
+        "source_record_id": "<source_record_id>",
+        "source_url_or_path": "<source_url_or_path>",
+        "title": "<title>",
+        "summary": "<summary>",
+        "reviewer": "<reviewer>",
+        "reviewed_at": "<ISO timestamp>",
+        "decision_reason": "<decision_reason>",
+        "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+        "source_type": "<source_type>",
+        "reuse_category": "<reuse_category>",
+        "rag_safe": "<true | false>"
+      }
     },
     {
       "key": "rag_discord_sources",
       "title": "Discord knowledge synced into RAG",
+      "status": "blocked",
+      "currentCount": 0,
       "targetCount": 10,
+      "remainingCount": 10,
       "adminSurface": "/admin/discord -> RAG Health -> Sync approved Discord knowledge",
       "sourceTables": [
         "rag_sources",
@@ -210,12 +230,28 @@
         "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
         "docs/evidence/rag/eval-latest.json",
         "docs/evidence/discord-ai-os/phase-20-final-scorecard.json"
-      ]
+      ],
+      "intakeTemplate": {
+        "source_record_id": "<source_record_id>",
+        "source_url_or_path": "<source_url_or_path>",
+        "title": "<title>",
+        "summary": "<summary>",
+        "reviewer": "<reviewer>",
+        "reviewed_at": "<ISO timestamp>",
+        "decision_reason": "<decision_reason>",
+        "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+        "rag_source_key": "<rag_source_key>",
+        "chunk_count": "<number>",
+        "eval_or_retrieval_proof": "<eval_or_retrieval_proof>"
+      }
     },
     {
       "key": "public_proof_assets",
       "title": "Public proof growth assets",
+      "status": "blocked",
+      "currentCount": 0,
       "targetCount": 4,
+      "remainingCount": 4,
       "adminSurface": "/admin/discord -> Content -> public proof sources and public growth drafts",
       "sourceTables": [
         "discord_public_proof_sources",
@@ -318,12 +354,28 @@
       "evidencePaths": [
         "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
-      ]
+      ],
+      "intakeTemplate": {
+        "source_record_id": "<source_record_id>",
+        "source_url_or_path": "<source_url_or_path>",
+        "title": "<title>",
+        "summary": "<summary>",
+        "reviewer": "<reviewer>",
+        "reviewed_at": "<ISO timestamp>",
+        "decision_reason": "<decision_reason>",
+        "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+        "asset_type": "<asset_type>",
+        "utm_campaign": "<utm_campaign>",
+        "publish_status": "<publish_status>"
+      }
     },
     {
       "key": "premium_workflow_proof",
       "title": "Premium workflow proof",
+      "status": "blocked",
+      "currentCount": 0,
       "targetCount": 1,
+      "remainingCount": 1,
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence",
       "sourceTables": [
         "discord_members",
@@ -426,12 +478,23 @@
       "evidencePaths": [
         "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
         "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
-      ]
+      ],
+      "intakeTemplate": {
+        "source_record_id": "<source_record_id>",
+        "source_url_or_path": "<source_url_or_path>",
+        "title": "<title>",
+        "summary": "<summary>",
+        "reviewer": "<reviewer>",
+        "reviewed_at": "<ISO timestamp>",
+        "decision_reason": "<decision_reason>",
+        "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+        "premium_path": "<premium_path>",
+        "authorization_evidence": "<authorization_evidence>",
+        "sla_status": "<sla_status>",
+        "fulfillment_summary": "<fulfillment_summary>"
+      }
     }
   ],
-  "requiredLaneCount": 4,
-  "requiredFieldCount": 45,
-  "failures": [],
   "weeklyIntakeOrder": [
     "Review candidates and fill required proof fields.",
     "Reject private, generic, low-context, or unsupported material.",
@@ -440,6 +503,13 @@
     "Fulfill and log one premium path when premium activity exists.",
     "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
   ],
+  "nextActions": [
+    "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+    "Run the approved Discord RAG sync after approving knowledge candidates.",
+    "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+    "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+  ],
+  "failures": [],
   "validation": {
     "ok": true,
     "failures": []

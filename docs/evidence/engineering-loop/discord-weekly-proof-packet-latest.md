@@ -1,12 +1,13 @@
-# Sage Ideas Discord Proof Intake Readiness
+# Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T00:54:23.113Z
+Generated: 2026-06-26T00:54:25.757Z
 Mutation mode: local_file_evidence_only
-Readiness OK: yes
+Backlog status: blocked
+Packet OK: yes
 
 ## Release Meaning
 
-Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.
+Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.
 
 ## Weekly Intake Order
 
@@ -17,29 +18,35 @@ Proof intake readiness only defines the review contract. It does not satisfy rea
 5. Fulfill and log one premium path when premium activity exists.
 6. Rerun operating cycle, proof backlog, operator brief, and final scorecard.
 
-## Lanes
+## Proof Lanes
 
 ### Approved Discord knowledge
 
 - Key: approved_discord_knowledge
-- Target: 10
+- Status: blocked
+- Current: 0/10
+- Remaining: 10
 - Admin surface: /admin/discord -> Knowledge/RAG -> candidate review
 - Source tables: discord_questions, discord_answers, discord_content_queue, discord_content_drafts
-- Verification: npm run discord:proof-backlog && npm run discord:operator-brief
+- Verify: npm run discord:proof-backlog && npm run discord:operator-brief
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
-Required fields:
-- source_record_id: Stable database id, Discord message id, or evidence artifact id.
-- source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
-- title: Short title describing the reusable teaching/proof value.
-- summary: Two to four sentence summary of why this item matters.
-- reviewer: Admin/operator who approved, rejected, or escalated the item.
-- reviewed_at: ISO timestamp for the approval or rejection decision.
-- decision_reason: Specific reason the item qualifies or fails the proof lane.
-- privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
-- source_type: question, answer, resource, win, review, build, or approved draft.
-- reuse_category: Lesson, resource, FAQ, checklist, challenge, or prompt.
-- rag_safe: Boolean confirmation that the item can be cited later without leaking private context.
+Required intake template:
+```json
+{
+  "source_record_id": "<source_record_id>",
+  "source_url_or_path": "<source_url_or_path>",
+  "title": "<title>",
+  "summary": "<summary>",
+  "reviewer": "<reviewer>",
+  "reviewed_at": "<ISO timestamp>",
+  "decision_reason": "<decision_reason>",
+  "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+  "source_type": "<source_type>",
+  "reuse_category": "<reuse_category>",
+  "rag_safe": "<true | false>"
+}
+```
 
 Accept:
 - Contains a specific member problem, answer, build, review, win, or resource.
@@ -59,24 +66,30 @@ Privacy:
 ### Discord knowledge synced into RAG
 
 - Key: rag_discord_sources
-- Target: 10
+- Status: blocked
+- Current: 0/10
+- Remaining: 10
 - Admin surface: /admin/discord -> RAG Health -> Sync approved Discord knowledge
 - Source tables: rag_sources, rag_documents, rag_chunks
-- Verification: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
+- Verify: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/rag/eval-latest.json, docs/evidence/discord-ai-os/phase-20-final-scorecard.json
 
-Required fields:
-- source_record_id: Stable database id, Discord message id, or evidence artifact id.
-- source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
-- title: Short title describing the reusable teaching/proof value.
-- summary: Two to four sentence summary of why this item matters.
-- reviewer: Admin/operator who approved, rejected, or escalated the item.
-- reviewed_at: ISO timestamp for the approval or rejection decision.
-- decision_reason: Specific reason the item qualifies or fails the proof lane.
-- privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
-- rag_source_key: Stable source key created by the approved Discord sync.
-- chunk_count: Number of chunks produced from the approved source.
-- eval_or_retrieval_proof: Evidence that the synced item can be retrieved or cited.
+Required intake template:
+```json
+{
+  "source_record_id": "<source_record_id>",
+  "source_url_or_path": "<source_url_or_path>",
+  "title": "<title>",
+  "summary": "<summary>",
+  "reviewer": "<reviewer>",
+  "reviewed_at": "<ISO timestamp>",
+  "decision_reason": "<decision_reason>",
+  "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+  "rag_source_key": "<rag_source_key>",
+  "chunk_count": "<number>",
+  "eval_or_retrieval_proof": "<eval_or_retrieval_proof>"
+}
+```
 
 Accept:
 - Source was approved before RAG sync.
@@ -96,24 +109,30 @@ Privacy:
 ### Public proof growth assets
 
 - Key: public_proof_assets
-- Target: 4
+- Status: blocked
+- Current: 0/4
+- Remaining: 4
 - Admin surface: /admin/discord -> Content -> public proof sources and public growth drafts
 - Source tables: discord_public_proof_sources, discord_public_growth_drafts, discord_growth_events
-- Verification: npm run discord:operating-cycle && npm run discord:proof-backlog
+- Verify: npm run discord:operating-cycle && npm run discord:proof-backlog
 - Evidence paths: docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
-Required fields:
-- source_record_id: Stable database id, Discord message id, or evidence artifact id.
-- source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
-- title: Short title describing the reusable teaching/proof value.
-- summary: Two to four sentence summary of why this item matters.
-- reviewer: Admin/operator who approved, rejected, or escalated the item.
-- reviewed_at: ISO timestamp for the approval or rejection decision.
-- decision_reason: Specific reason the item qualifies or fails the proof lane.
-- privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
-- asset_type: Article, newsletter, social post, proof card, recap, or showcase item.
-- utm_campaign: Campaign key used to track applications or engagement from the asset.
-- publish_status: pending_approval, approved, published, or rejected.
+Required intake template:
+```json
+{
+  "source_record_id": "<source_record_id>",
+  "source_url_or_path": "<source_url_or_path>",
+  "title": "<title>",
+  "summary": "<summary>",
+  "reviewer": "<reviewer>",
+  "reviewed_at": "<ISO timestamp>",
+  "decision_reason": "<decision_reason>",
+  "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+  "asset_type": "<asset_type>",
+  "utm_campaign": "<utm_campaign>",
+  "publish_status": "<publish_status>"
+}
+```
 
 Accept:
 - Asset is tied to an approved Discord source.
@@ -133,25 +152,31 @@ Privacy:
 ### Premium workflow proof
 
 - Key: premium_workflow_proof
-- Target: 1
+- Status: blocked
+- Current: 0/1
+- Remaining: 1
 - Admin surface: /admin/discord -> Premium, Office Hours, and Member Intelligence
 - Source tables: discord_members, discord_premium_review_requests, discord_office_hours_queue
-- Verification: npm run discord:smoke-premium-workflows && npm run discord:proof-backlog
+- Verify: npm run discord:smoke-premium-workflows && npm run discord:proof-backlog
 - Evidence paths: docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
 
-Required fields:
-- source_record_id: Stable database id, Discord message id, or evidence artifact id.
-- source_url_or_path: Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.
-- title: Short title describing the reusable teaching/proof value.
-- summary: Two to four sentence summary of why this item matters.
-- reviewer: Admin/operator who approved, rejected, or escalated the item.
-- reviewed_at: ISO timestamp for the approval or rejection decision.
-- decision_reason: Specific reason the item qualifies or fails the proof lane.
-- privacy_status: One of public, anonymized, permissioned, private_blocked, or rejected.
-- premium_path: premium_review, deeper_answer, office_hours, or premium_role_sync.
-- authorization_evidence: Premium role, paid status, or intentionally seeded scenario marker.
-- sla_status: queued, in_review, answered, scheduled, completed, or breached.
-- fulfillment_summary: What was delivered and where the outcome is recorded.
+Required intake template:
+```json
+{
+  "source_record_id": "<source_record_id>",
+  "source_url_or_path": "<source_url_or_path>",
+  "title": "<title>",
+  "summary": "<summary>",
+  "reviewer": "<reviewer>",
+  "reviewed_at": "<ISO timestamp>",
+  "decision_reason": "<decision_reason>",
+  "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+  "premium_path": "<premium_path>",
+  "authorization_evidence": "<authorization_evidence>",
+  "sla_status": "<sla_status>",
+  "fulfillment_summary": "<fulfillment_summary>"
+}
+```
 
 Accept:
 - Authorization is visible and non-premium bypass is blocked.
@@ -167,6 +192,13 @@ Reject:
 Privacy:
 - Premium reviews may contain sensitive artifacts; default to private/admin-only evidence.
 - Public repurposing requires separate public proof approval and anonymization.
+
+## Next Actions
+
+- Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
+- Run the approved Discord RAG sync after approving knowledge candidates.
+- Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.
+- Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
 
 ## Validation Failures
 

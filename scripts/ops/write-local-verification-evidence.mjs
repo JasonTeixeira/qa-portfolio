@@ -27,6 +27,7 @@ const evidencePaths = {
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
+  publicGrowthReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'public-growth-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
   proofBacklog: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-backlog-latest.json'),
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
@@ -163,6 +164,7 @@ async function main() {
     proofRehearsalReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
+    publicGrowthReadiness,
     proofIntakeReadiness,
     proofBacklog,
     weeklyProofPacket,
@@ -383,6 +385,25 @@ async function main() {
   requireTruthy(
     (premiumWorkflowReadiness.antiFakeRules ?? []).some((rule) => rule.includes('Premium Member role alone')),
     'Premium workflow readiness must block role-only proof.',
+  );
+  requireTruthy(publicGrowthReadiness.ok === true, 'Public growth readiness evidence is not ok.');
+  requireTruthy(
+    publicGrowthReadiness.mutationMode === 'local_file_evidence_only',
+    'Public growth readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    publicGrowthReadiness.releaseMeaning?.includes('does not mutate Supabase, publish externally, create growth events'),
+    'Public growth readiness must explicitly avoid claiming live public growth mutation.',
+  );
+  requireTruthy(
+    publicGrowthReadiness.proofSummary?.seededProofOk === true
+      && publicGrowthReadiness.proofSummary?.privacyScore >= 90
+      && publicGrowthReadiness.proofSummary?.qualityScore >= 80,
+    'Public growth readiness must prove seeded public proof privacy and quality.',
+  );
+  requireTruthy(
+    (publicGrowthReadiness.antiFakeRules ?? []).some((rule) => rule.includes('four weekly public proof cycles')),
+    'Public growth readiness must block seeded smoke proof from counting as weekly cycles.',
   );
   requireTruthy(proofIntakeReadiness.ok === true, 'Proof intake readiness evidence is not ok.');
   requireTruthy(
@@ -854,6 +875,16 @@ async function main() {
       antiFakeRules: premiumWorkflowReadiness.antiFakeRules,
       nextOperatingProofRequired: premiumWorkflowReadiness.nextOperatingProofRequired,
       releaseMeaning: premiumWorkflowReadiness.releaseMeaning,
+    },
+    publicGrowthReadiness: {
+      ok: publicGrowthReadiness.ok,
+      mutationMode: publicGrowthReadiness.mutationMode,
+      proofSummary: publicGrowthReadiness.proofSummary,
+      checkCount: publicGrowthReadiness.checks?.length ?? 0,
+      failures: publicGrowthReadiness.failures ?? [],
+      antiFakeRules: publicGrowthReadiness.antiFakeRules,
+      nextOperatingProofRequired: publicGrowthReadiness.nextOperatingProofRequired,
+      releaseMeaning: publicGrowthReadiness.releaseMeaning,
     },
     proofRehearsalReadiness: {
       ok: proofRehearsalReadiness.ok,

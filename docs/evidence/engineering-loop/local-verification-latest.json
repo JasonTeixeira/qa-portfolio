@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:29:05.823Z",
+  "timestamp": "2026-06-26T07:36:43.185Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -44,6 +44,7 @@
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+    "publicGrowthReadiness": "docs/evidence/engineering-loop/public-growth-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
     "proofBacklog": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
     "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
@@ -83,7 +84,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782457605788"
+    "runKey": "phase-20-final-1782459395302"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -494,6 +495,35 @@
       "Record premium economics separately before changing price or promise."
     ],
     "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics."
+  },
+  "publicGrowthReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "seededProofOk": true,
+      "privacyBlocksPrivateData": true,
+      "sourceCreated": true,
+      "draftCreated": true,
+      "draftStatus": "pending_approval",
+      "privacyScore": 100,
+      "qualityScore": 100,
+      "utmCampaign": "discord_public_proof"
+    },
+    "checkCount": 9,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count public proof drafts without approved or anonymized source provenance.",
+      "Do not count privacy-blocked or private member content as public growth proof.",
+      "Do not count a public proof asset toward growth proof without UTM/source attribution.",
+      "Do not count seeded smoke proof as four weekly public proof cycles or real application conversion."
+    ],
+    "nextOperatingProofRequired": [
+      "Create four privacy-safe public proof drafts from approved Discord source material.",
+      "Approve or reject each public proof draft in /admin/discord before external publishing.",
+      "Publish at least one approved public proof asset with tracked apply/join attribution.",
+      "Measure applications, approvals, active members, and premium conversions after each public proof cycle."
+    ],
+    "releaseMeaning": "Public growth readiness proves local wiring and seeded smoke proof only. It does not mutate Supabase, publish externally, create growth events, or prove four weekly public proof cycles."
   },
   "proofRehearsalReadiness": {
     "ok": true,

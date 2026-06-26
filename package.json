@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence",
+    "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence",
     "verify:local:evidence": "node scripts/ops/write-local-verification-evidence.mjs",
     "ops:approval-boundaries": "node scripts/ops/check-approval-boundaries.mjs",
     "verify:prod": "node scripts/verify-prod.mjs",
@@ -102,6 +102,7 @@
     "discord:proof-rehearsal-readiness": "tsx scripts/discord/write-proof-rehearsal-readiness.ts",
     "discord:content-factory-readiness": "tsx scripts/discord/write-content-factory-readiness.ts",
     "discord:premium-readiness": "node scripts/discord/write-premium-workflow-readiness.mjs",
+    "discord:public-growth-readiness": "node scripts/discord/write-public-growth-readiness.mjs",
     "discord:world-class-readiness": "tsx scripts/discord/write-world-class-readiness.ts",
     "discord:proof-backlog": "tsx scripts/discord/write-proof-backlog.ts",
     "discord:proof-source-recovery-plan": "tsx scripts/discord/write-proof-source-recovery-plan.ts",

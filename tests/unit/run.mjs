@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:premium-readiness && npm run discord:public-growth-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['ops:approval-boundaries'], 'node scripts/ops/check-approval-boundaries.mjs');
@@ -90,6 +90,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-rehearsal-readiness'], 'tsx scripts/discord/write-proof-rehearsal-readiness.ts');
   assert.equal(packageJson.scripts['discord:content-factory-readiness'], 'tsx scripts/discord/write-content-factory-readiness.ts');
   assert.equal(packageJson.scripts['discord:premium-readiness'], 'node scripts/discord/write-premium-workflow-readiness.mjs');
+  assert.equal(packageJson.scripts['discord:public-growth-readiness'], 'node scripts/discord/write-public-growth-readiness.mjs');
   assert.equal(packageJson.scripts['discord:proof-intake-readiness'], 'tsx scripts/discord/write-proof-intake-readiness.ts');
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
@@ -143,6 +144,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /premium-workflow-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /Premium workflow readiness must block role-only proof/);
+  assert.match(localVerificationEvidence, /public-growth-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /Public growth readiness must block seeded smoke proof from counting as weekly cycles/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
@@ -234,6 +237,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(premiumReadinessScript, /STRIPE_PRICE_DISCORD_PREMIUM/);
   assert.match(premiumReadinessScript, /syncDiscordPremiumFromCheckout/);
   assert.match(premiumReadinessScript, /does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles/);
+  const publicGrowthReadinessScript = await readFile(new URL('../../scripts/discord/write-public-growth-readiness.mjs', import.meta.url), 'utf8');
+  assert.match(publicGrowthReadinessScript, /public-growth-readiness-latest\.json/);
+  assert.match(publicGrowthReadinessScript, /phase-16-public-proof-growth-proof\.json/);
+  assert.match(publicGrowthReadinessScript, /discord_public_growth_drafts/);
+  assert.match(publicGrowthReadinessScript, /four weekly public proof cycles/);
+  assert.match(publicGrowthReadinessScript, /does not mutate Supabase, publish externally, create growth events/);
   assert.match(contentFactoryReadinessScript, /validateDiscordContentFactoryReadinessReport/);
   assert.match(proofRehearsalScript, /local_file_evidence_only/);
   const readinessScript = await readFile(new URL('../../scripts/discord/write-world-class-readiness.ts', import.meta.url), 'utf8');

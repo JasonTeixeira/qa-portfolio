@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T07:11:09.476Z
+Generated: 2026-06-26T09:10:28.101Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -30,7 +30,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 - Candidate count: 0
 - Remaining: 1
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
-- Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
+- Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
 - Critical lane fields: worker_id, message_content_enabled, usable_message_id, capture_health
 
@@ -38,7 +38,7 @@ Blockers:
 - Current proof is 0/1; lane remains blocked until the target is met.
 - Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
 
-Next review action: Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
+Next review action: Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 
 ### Approved Discord knowledge
 
@@ -125,7 +125,7 @@ Next review action: Run one premium review, deeper-answer, or office-hours flow 
 
 ## Next Actions
 
-- Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
+- Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

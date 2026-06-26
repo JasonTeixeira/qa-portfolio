@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-source-volume-scan-v1",
-  "generatedAt": "2026-06-26T06:05:14.565Z",
+  "generatedAt": "2026-06-26T09:10:16.335Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof.",
   "counts": {
@@ -67,6 +67,6 @@
     "Create public proof drafts only after approved Discord source material exists.",
     "Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness."
   ],
-  "startedAt": "2026-06-26T06:05:14.047Z",
-  "finishedAt": "2026-06-26T06:05:14.565Z"
+  "startedAt": "2026-06-26T09:10:15.465Z",
+  "finishedAt": "2026-06-26T09:10:16.335Z"
 }

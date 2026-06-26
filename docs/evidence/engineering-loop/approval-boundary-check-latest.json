@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-26T07:19:55.195Z",
+  "timestamp": "2026-06-26T09:10:08.381Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -10,23 +10,31 @@
   ],
   "localReleaseScriptNames": [
     "build",
+    "discord:approved-knowledge-packet",
     "discord:content-factory-readiness",
     "discord:content-factory:week:dry-run",
+    "discord:durable-jobs-readiness",
     "discord:gateway-capture-diagnosis",
+    "discord:gateway-operating-packet",
+    "discord:observability-quality-readiness",
     "discord:operating-cycle:dry-run",
     "discord:operator-brief",
+    "discord:premium-readiness",
     "discord:proof-backlog",
     "discord:proof-candidate-audit",
     "discord:proof-intake-readiness",
     "discord:proof-rehearsal-readiness",
     "discord:proof-source-recovery-plan",
     "discord:proof-source-scan",
+    "discord:public-growth-readiness",
     "discord:release-local",
+    "discord:security-privacy-readiness",
     "discord:smoke-final-scorecard:dry-run",
     "discord:weekly-proof-packet",
     "discord:world-class-readiness",
     "lint",
     "ops:approval-boundaries",
+    "rag:discord-corpus-readiness",
     "rag:evaluate:coverage-readiness",
     "rag:evaluate:execution-packet",
     "rag:evaluate:missing-plan",
@@ -36,6 +44,7 @@
     "rag:validate-eval-seeds",
     "test:unit",
     "typecheck",
+    "verify:business-site:evidence",
     "verify:local",
     "verify:local:evidence"
   ],
@@ -98,11 +107,19 @@
     },
     {
       "from": "discord:release-local",
+      "to": "discord:gateway-operating-packet"
+    },
+    {
+      "from": "discord:release-local",
       "to": "discord:proof-source-scan"
     },
     {
       "from": "discord:release-local",
       "to": "discord:proof-source-recovery-plan"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:approved-knowledge-packet"
     },
     {
       "from": "discord:release-local",
@@ -126,7 +143,31 @@
     },
     {
       "from": "verify:local",
+      "to": "rag:discord-corpus-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:durable-jobs-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:security-privacy-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:observability-quality-readiness"
+    },
+    {
+      "from": "verify:local",
       "to": "discord:content-factory-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:premium-readiness"
+    },
+    {
+      "from": "verify:local",
+      "to": "discord:public-growth-readiness"
     },
     {
       "from": "verify:local",
@@ -155,6 +196,10 @@
     {
       "from": "verify:local",
       "to": "verify:local:evidence"
+    },
+    {
+      "from": "verify:local",
+      "to": "verify:business-site:evidence"
     }
   ],
   "riskyScripts": [

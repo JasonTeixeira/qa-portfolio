@@ -93,7 +93,7 @@
       "title": "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md",
       "path": "docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md",
       "exists": true,
-      "byteLength": 9391
+      "byteLength": 9453
     },
     {
       "title": "rag-system-build-plan.txt",
@@ -393,6 +393,6 @@
     "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "Refresh final scorecard and local verification evidence after the approved eval run."
   ],
-  "startedAt": "2026-06-26T06:54:27.945Z",
-  "finishedAt": "2026-06-26T06:54:27.966Z"
+  "startedAt": "2026-06-26T09:10:12.242Z",
+  "finishedAt": "2026-06-26T09:10:12.264Z"
 }

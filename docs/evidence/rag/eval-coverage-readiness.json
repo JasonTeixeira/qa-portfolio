@@ -61,6 +61,6 @@
     "Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
     "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
   ],
-  "startedAt": "2026-06-26T06:54:26.962Z",
-  "finishedAt": "2026-06-26T06:54:26.964Z"
+  "startedAt": "2026-06-26T09:10:11.235Z",
+  "finishedAt": "2026-06-26T09:10:11.237Z"
 }

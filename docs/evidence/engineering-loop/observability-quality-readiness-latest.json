@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "observability-quality-readiness-v1",
-  "generatedAt": "2026-06-26T08:08:48.776Z",
+  "generatedAt": "2026-06-26T09:10:24.507Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "aiObservability": "lib/ai/observability.ts",

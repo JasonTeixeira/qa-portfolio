@@ -579,6 +579,43 @@ type ProofSourceVolumeScan = {
   nextActions: string[];
 };
 
+type GatewayCaptureDiagnosis = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  diagnosis: {
+    status: 'healthy' | 'blocked' | 'warning';
+    rootCauses: string[];
+    nextActions: string[];
+  };
+  heartbeat: {
+    latest: {
+      workerId: string;
+      status: string;
+      lastSeenAt: string | null;
+      ageMinutes: number | null;
+      messageContentEnabled: boolean | null;
+      guildMembersEnabled: boolean | null;
+      intents: unknown;
+      lastCloseCode: number | null;
+      lastCloseReason: string | null;
+    } | null;
+  };
+  counts: Record<string, number>;
+  recentMessages: Array<{
+    id: string;
+    channelBaseName: string | null;
+    authorBot: boolean;
+    authorPresent: boolean;
+    contentLength: number;
+    detectedKind: string | null;
+    capturedAt: string | null;
+    deleted: boolean;
+  }>;
+  errors: Array<{ label: string; error: string }>;
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -643,6 +680,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const weeklyProofPacket = await loadWeeklyProofPacket();
   const proofCandidateAudit = await loadProofCandidateAudit();
   const proofSourceVolumeScan = await loadProofSourceVolumeScan();
+  const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1452,6 +1490,74 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-gateway-capture-diagnosis">
+          <Panel
+            icon={MessageCircle}
+            title="Gateway capture diagnosis"
+            meta={gatewayCaptureDiagnosis.ok
+              ? gatewayCaptureDiagnosis.diagnosis.status
+              : `${gatewayCaptureDiagnosis.errors.length} errors`}
+            empty="Gateway capture diagnosis has not been generated. Run npm run discord:gateway-capture-diagnosis."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={gatewayCaptureDiagnosis.diagnosis.status === 'healthy' ? 'emerald' : gatewayCaptureDiagnosis.diagnosis.status === 'warning' ? 'amber' : 'rose'}>
+                    {gatewayCaptureDiagnosis.diagnosis.status}
+                  </Badge>
+                  <Badge tone={gatewayCaptureDiagnosis.ok ? 'emerald' : 'rose'}>{gatewayCaptureDiagnosis.ok ? 'diagnosis ok' : 'diagnosis failed'}</Badge>
+                  <Badge tone="neutral">{gatewayCaptureDiagnosis.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{gatewayCaptureDiagnosis.releaseMeaning}</p>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  {Object.entries(gatewayCaptureDiagnosis.counts).slice(0, 8).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                      <span className="truncate text-[#71717a]">{key}</span>
+                      <span className="font-semibold text-[#fafafa]">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Gateway heartbeat</div>
+                {gatewayCaptureDiagnosis.heartbeat.latest ? (
+                  <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                    <div>worker: {gatewayCaptureDiagnosis.heartbeat.latest.workerId}</div>
+                    <div>status: {gatewayCaptureDiagnosis.heartbeat.latest.status}</div>
+                    <div>age: {gatewayCaptureDiagnosis.heartbeat.latest.ageMinutes ?? '?'} minutes</div>
+                    <div>message content: {String(gatewayCaptureDiagnosis.heartbeat.latest.messageContentEnabled)}</div>
+                    <div>last close: {gatewayCaptureDiagnosis.heartbeat.latest.lastCloseCode ?? 'none'}</div>
+                  </div>
+                ) : (
+                  <div className="mt-3 text-xs text-[#fca5a5]">No gateway heartbeat evidence found.</div>
+                )}
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <ProofRuleGroup title="Root causes" items={gatewayCaptureDiagnosis.diagnosis.rootCauses.length ? gatewayCaptureDiagnosis.diagnosis.rootCauses : ['No root cause detected from local evidence.']} tone={gatewayCaptureDiagnosis.diagnosis.rootCauses.length ? 'rose' : 'emerald'} />
+              <ProofRuleGroup title="Next actions" items={gatewayCaptureDiagnosis.diagnosis.nextActions} tone="cyan" />
+            </div>
+            {gatewayCaptureDiagnosis.recentMessages.length ? (
+              <div className="border-t border-[#27272a] px-3 py-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Recent captured messages</div>
+                <div className="mt-3 grid gap-2">
+                  {gatewayCaptureDiagnosis.recentMessages.slice(0, 6).map((message) => (
+                    <div key={message.id} className="grid gap-2 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-[1fr_auto]">
+                      <span>{message.channelBaseName ?? 'unknown'} / {message.detectedKind ?? 'unknown'} / content length {message.contentLength}</span>
+                      <span className="text-[#71717a]">{message.authorBot ? 'bot' : 'member'} / {message.capturedAt ? formatDateTime(message.capturedAt) : '-'}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {gatewayCaptureDiagnosis.errors.map((error) => (
+              <div key={`${error.label}:${error.error}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {error.label}: {error.error}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
           <Panel
             icon={ShieldCheck}
@@ -2173,6 +2279,32 @@ async function loadProofSourceVolumeScan(): Promise<ProofSourceVolumeScan> {
       },
       errors: [{ label: 'proof_source_volume_scan_missing', error: 'missing evidence' }],
       nextActions: ['Run npm run discord:proof-source-scan to read current Supabase source-volume counts.'],
+    };
+  }
+}
+
+async function loadGatewayCaptureDiagnosis(): Promise<GatewayCaptureDiagnosis> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as GatewayCaptureDiagnosis;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Gateway capture diagnosis evidence is missing. Run npm run discord:gateway-capture-diagnosis. This reads live Supabase gateway/message rows only and does not satisfy operating proof.',
+      diagnosis: {
+        status: 'blocked',
+        rootCauses: ['Gateway capture diagnosis evidence is missing.'],
+        nextActions: ['Run npm run discord:gateway-capture-diagnosis to inspect message capture health.'],
+      },
+      heartbeat: { latest: null },
+      counts: {},
+      recentMessages: [],
+      errors: [{ label: 'gateway_capture_diagnosis_missing', error: 'missing evidence' }],
     };
   }
 }

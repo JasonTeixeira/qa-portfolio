@@ -92,6 +92,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
+  assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -142,6 +143,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(sourceVolumeScanScript, /read_only_supabase_selects_and_local_file_evidence_only/);
   assert.match(sourceVolumeScanScript, /does not approve, sync, publish, assign roles, or satisfy operating proof/);
   assert.doesNotMatch(sourceVolumeScanScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
+  const gatewayCaptureDiagnosisScript = await readFile(new URL('../../scripts/discord/diagnose-gateway-capture.ts', import.meta.url), 'utf8');
+  assert.match(gatewayCaptureDiagnosisScript, /discord-gateway-capture-diagnosis-latest\.json/);
+  assert.match(gatewayCaptureDiagnosisScript, /read_only_supabase_selects_and_local_file_evidence_only/);
+  assert.match(gatewayCaptureDiagnosisScript, /does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof/);
+  assert.doesNotMatch(gatewayCaptureDiagnosisScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const operatorBriefScript = await readFile(new URL('../../scripts/discord/write-operator-brief.ts', import.meta.url), 'utf8');
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.json/);
   assert.match(operatorBriefScript, /discord-operator-brief-latest\.md/);
@@ -173,6 +179,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /Weekly proof packet/);
   assert.match(discordAdminPage, /does not satisfy real operating proof lanes/);
   assert.match(discordAdminPage, /data-testid="discord-content-factory-readiness"/);
+  assert.match(discordAdminPage, /data-testid="discord-gateway-capture-diagnosis"/);
+  assert.match(discordAdminPage, /Gateway capture diagnosis/);
+  assert.match(discordAdminPage, /loadGatewayCaptureDiagnosis/);
+  assert.match(discordAdminPage, /discord-gateway-capture-diagnosis-latest\.json/);
+  assert.match(discordAdminPage, /Run npm run discord:gateway-capture-diagnosis/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

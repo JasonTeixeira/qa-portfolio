@@ -32,6 +32,7 @@ const evidencePaths = {
   proofSourceRecoveryPlan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json'),
   operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
   gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
+  worldClassReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'world-class-readiness-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -134,6 +135,7 @@ async function main() {
     proofSourceRecoveryPlan,
     operatorBrief,
     gatewayCaptureDiagnosis,
+    worldClassReadiness,
   ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
@@ -438,6 +440,51 @@ async function main() {
     operatorBrief.commandOrder?.includes('npm run rag:evaluate:missing-preflight'),
     'Operator brief must include the RAG missing eval preflight command.',
   );
+  requireTruthy(worldClassReadiness.ok === true, 'World-class readiness evidence is not ok.');
+  requireTruthy(
+    worldClassReadiness.mutationMode === 'local_file_evidence_only',
+    'World-class readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    worldClassReadiness.releaseDecision === 'do_not_claim_world_class',
+    'World-class readiness must not claim world-class while release gates or operating proof are blocked.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalMissingPreflight?.status !== 'missing',
+    'World-class readiness must include the RAG missing eval preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalMissingPreflight?.missingEvalCount === (evalMissingPreflight.missingEvalKeys ?? []).length,
+    'World-class readiness missing eval count must match the preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalMissingPreflight?.readyForApprovedEvalCount === evalMissingPreflight.summary?.readyForApprovedEvalCount,
+    'World-class readiness ready missing eval count must match the preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.ragEvalMissingPreflight?.approvedCommand === evalMissingPreflight.approvedCommand,
+    'World-class readiness approved eval command must match the preflight.',
+  );
+  requireTruthy(
+    worldClassReadiness.proofSourceRecoveryPlan?.status !== 'missing',
+    'World-class readiness must include the proof source recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.proofSourceRecoveryPlan?.totalShortfall === proofSourceRecoveryPlan.summary?.totalShortfall,
+    'World-class readiness proof source recovery shortfall must match the recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.proofSourceRecoveryPlan?.nextLaneKey === proofSourceRecoveryPlan.summary?.nextLane,
+    'World-class readiness next proof lane must match the recovery plan.',
+  );
+  requireTruthy(
+    worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:missing-preflight')),
+    'World-class readiness must put the missing-eval preflight in immediate actions.',
+  );
+  requireTruthy(
+    worldClassReadiness.immediateActionOrder?.some((action) => action.includes('discord:proof-source-recovery-plan')),
+    'World-class readiness must put the proof source recovery plan in immediate actions.',
+  );
   requireTruthy(gatewayCaptureDiagnosis.ok === true, 'Gateway capture diagnosis evidence is not ok.');
   requireTruthy(
     gatewayCaptureDiagnosis.mutationMode === 'read_only_supabase_selects_and_local_file_evidence_only',
@@ -662,6 +709,15 @@ async function main() {
       proofLaneKeys: operatorBrief.proofLanes.map((lane) => lane.key),
       currentReality: operatorBrief.currentReality,
       nonClaimRule: operatorBrief.nonClaimRule,
+    },
+    worldClassReadiness: {
+      ok: worldClassReadiness.ok,
+      mutationMode: worldClassReadiness.mutationMode,
+      releaseDecision: worldClassReadiness.releaseDecision,
+      releaseGateFailures: worldClassReadiness.summary?.releaseGateFailures ?? [],
+      ragEvalMissingPreflight: worldClassReadiness.ragEvalMissingPreflight,
+      proofSourceRecoveryPlan: worldClassReadiness.proofSourceRecoveryPlan,
+      immediateActionCount: worldClassReadiness.immediateActionOrder?.length ?? 0,
     },
     remainingGaps: [
       'Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.',

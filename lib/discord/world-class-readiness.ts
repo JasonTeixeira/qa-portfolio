@@ -24,6 +24,23 @@ export type WorldClassReadinessInput = {
   }>;
   operatingBlockers: string[];
   requiredOperatingProof: string[];
+  ragEvalMissingPreflight?: {
+    status?: string;
+    ok?: boolean;
+    missingEvalCount?: number;
+    readyForApprovedEvalCount?: number;
+    selectedMatchesCoverage?: boolean;
+    approvedCommand?: string;
+    releaseMeaning?: string;
+  } | null;
+  proofSourceRecoveryPlan?: {
+    status?: string;
+    ok?: boolean;
+    totalShortfall?: number;
+    blockedLaneCount?: number;
+    nextLaneKey?: string | null;
+    releaseMeaning?: string;
+  } | null;
 };
 
 export type WorldClassReadinessCategory = {
@@ -55,6 +72,23 @@ export type WorldClassReadinessReport = {
     releaseGateCount: number;
     releaseGatesPassed: number;
     releaseGateFailures: string[];
+  };
+  ragEvalMissingPreflight: {
+    status: string;
+    ok: boolean;
+    missingEvalCount: number;
+    readyForApprovedEvalCount: number;
+    selectedMatchesCoverage: boolean;
+    approvedCommand: string | null;
+    releaseMeaning: string | null;
+  };
+  proofSourceRecoveryPlan: {
+    status: string;
+    ok: boolean;
+    totalShortfall: number;
+    blockedLaneCount: number;
+    nextLaneKey: string | null;
+    releaseMeaning: string | null;
   };
   immediateActionOrder: string[];
   operatingProofRequired: string[];
@@ -124,11 +158,34 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
   const maxScoreGapTo95 = categories.reduce((max, item) => Math.max(max, item.scoreGapTo95), 0);
 
   const blockerActions = operatingBlockers.map(actionForOperatingBlocker);
+  const ragEvalPreflight = input.ragEvalMissingPreflight ?? null;
+  const proofSourceRecoveryPlan = input.proofSourceRecoveryPlan ?? null;
+  const ragEvalActions = releaseGateFailures.some((failure) => failure.includes('rag_eval'))
+    ? [
+        'Run npm run rag:evaluate:missing-preflight before any approved missing-eval execution to confirm local source coverage is still ready.',
+        ragEvalPreflight?.approvedCommand
+          ? `With explicit approval, run ${ragEvalPreflight.approvedCommand} to close missing RAG eval coverage.`
+          : 'With explicit approval, run the missing RAG eval command after confirming the execution packet.',
+      ]
+    : [];
+  const proofRecoveryActions = proofSourceRecoveryPlan?.totalShortfall
+    ? [
+        'Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan to refresh source-volume blockers.',
+        proofSourceRecoveryPlan.nextLaneKey
+          ? `Work the next proof lane: ${proofSourceRecoveryPlan.nextLaneKey}.`
+          : 'Work the next blocked proof-source lane from the recovery plan.',
+      ]
+    : [];
   const categoryActions = categories
     .filter((item) => item.score < input.worldClassThreshold)
     .slice(0, 8)
     .map((item) => item.nextAction);
-  const immediateActionOrder = uniqueActionList([...blockerActions, ...categoryActions]);
+  const immediateActionOrder = uniqueActionList([
+    ...ragEvalActions,
+    ...proofRecoveryActions,
+    ...blockerActions,
+    ...categoryActions,
+  ]);
 
   return {
     ok: true,
@@ -151,6 +208,23 @@ export function buildWorldClassReadinessReport(input: WorldClassReadinessInput):
       releaseGateCount: releaseGates.length,
       releaseGatesPassed: releaseGates.filter((gate) => gate.passed === true).length,
       releaseGateFailures,
+    },
+    ragEvalMissingPreflight: {
+      status: ragEvalPreflight?.status ?? 'missing',
+      ok: ragEvalPreflight?.ok === true,
+      missingEvalCount: ragEvalPreflight?.missingEvalCount ?? 0,
+      readyForApprovedEvalCount: ragEvalPreflight?.readyForApprovedEvalCount ?? 0,
+      selectedMatchesCoverage: ragEvalPreflight?.selectedMatchesCoverage === true,
+      approvedCommand: ragEvalPreflight?.approvedCommand ?? null,
+      releaseMeaning: ragEvalPreflight?.releaseMeaning ?? null,
+    },
+    proofSourceRecoveryPlan: {
+      status: proofSourceRecoveryPlan?.status ?? 'missing',
+      ok: proofSourceRecoveryPlan?.ok === true,
+      totalShortfall: proofSourceRecoveryPlan?.totalShortfall ?? 0,
+      blockedLaneCount: proofSourceRecoveryPlan?.blockedLaneCount ?? 0,
+      nextLaneKey: proofSourceRecoveryPlan?.nextLaneKey ?? null,
+      releaseMeaning: proofSourceRecoveryPlan?.releaseMeaning ?? null,
     },
     immediateActionOrder,
     operatingProofRequired: input.requiredOperatingProof,

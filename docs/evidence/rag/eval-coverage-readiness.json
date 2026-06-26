@@ -61,6 +61,6 @@
     "Expected full command after approval when quality drift is suspected: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
     "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
   ],
-  "startedAt": "2026-06-26T05:58:15.014Z",
-  "finishedAt": "2026-06-26T05:58:15.016Z"
+  "startedAt": "2026-06-26T06:05:11.277Z",
+  "finishedAt": "2026-06-26T06:05:11.278Z"
 }

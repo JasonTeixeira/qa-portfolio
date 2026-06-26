@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T05:58:27.680Z",
+  "timestamp": "2026-06-26T06:05:23.965Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -44,7 +44,8 @@
     "proofSourceVolumeScan": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
     "proofSourceRecoveryPlan": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
     "operatorBrief": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
-    "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json"
+    "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+    "worldClassReadiness": "docs/evidence/engineering-loop/world-class-readiness-latest.json"
   },
   "scorecard": {
     "ok": false,
@@ -75,7 +76,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782453500442"
+    "runKey": "phase-20-final-1782453916807"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -590,6 +591,33 @@
     ],
     "currentReality": "The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.",
     "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
+  },
+  "worldClassReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "releaseDecision": "do_not_claim_world_class",
+    "releaseGateFailures": [
+      "rag_eval_latest",
+      "rag_eval_coverage_readiness"
+    ],
+    "ragEvalMissingPreflight": {
+      "status": "ready_for_explicitly_approved_eval",
+      "ok": true,
+      "missingEvalCount": 15,
+      "readyForApprovedEvalCount": 15,
+      "selectedMatchesCoverage": true,
+      "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
+    },
+    "proofSourceRecoveryPlan": {
+      "status": "blocked",
+      "ok": true,
+      "totalShortfall": 25,
+      "blockedLaneCount": 4,
+      "nextLaneKey": "approvedDiscordKnowledge",
+      "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
+    },
+    "immediateActionCount": 19
   },
   "remainingGaps": [
     "Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.",

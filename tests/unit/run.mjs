@@ -2455,7 +2455,25 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
       { name: 'scorecard_schema', passed: true, evidence: 'ok' },
       { name: 'proof_intake_anti_fake_controls', passed: true, evidence: '5/5' },
       { name: 'weekly_proof_packet_anti_fake_controls', passed: true, evidence: '5/5' },
+      { name: 'rag_eval_coverage_readiness', passed: false, evidence: '50/65 evaluated' },
     ],
+    ragEvalMissingPreflight: {
+      ok: true,
+      status: 'ready_for_explicitly_approved_eval',
+      missingEvalCount: 15,
+      readyForApprovedEvalCount: 15,
+      selectedMatchesCoverage: true,
+      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      releaseMeaning: 'Preflight only; does not satisfy eval coverage.',
+    },
+    proofSourceRecoveryPlan: {
+      ok: true,
+      status: 'blocked',
+      totalShortfall: 25,
+      blockedLaneCount: 4,
+      nextLaneKey: 'approvedDiscordKnowledge',
+      releaseMeaning: 'Recovery plan only; does not satisfy operating proof.',
+    },
     operatingBlockers: [
       'discord_gateway_capture_blocked',
       'approved_discord_knowledge_sources_below_target:0/10',
@@ -2500,10 +2518,21 @@ test('discord world-class readiness: converts scorecard gaps into explicit relea
   assert.equal(report.summary.categoriesBelow95, 2);
   assert.equal(report.summary.categoriesBelow85, 1);
   assert.equal(report.summary.maxScoreGapTo95, 37);
-  assert.equal(report.summary.releaseGateCount, 3);
+  assert.equal(report.summary.releaseGateCount, 4);
   assert.equal(report.summary.releaseGatesPassed, 3);
-  assert.deepEqual(report.summary.releaseGateFailures, []);
-  assert.ok(report.immediateActionOrder[0].includes('gateway worker with Message Content Intent'));
+  assert.deepEqual(report.summary.releaseGateFailures, ['rag_eval_coverage_readiness']);
+  assert.equal(report.ragEvalMissingPreflight.status, 'ready_for_explicitly_approved_eval');
+  assert.equal(report.ragEvalMissingPreflight.missingEvalCount, 15);
+  assert.equal(report.ragEvalMissingPreflight.readyForApprovedEvalCount, 15);
+  assert.equal(report.ragEvalMissingPreflight.selectedMatchesCoverage, true);
+  assert.match(report.ragEvalMissingPreflight.approvedCommand, /rag:evaluate:missing/);
+  assert.equal(report.proofSourceRecoveryPlan.status, 'blocked');
+  assert.equal(report.proofSourceRecoveryPlan.totalShortfall, 25);
+  assert.equal(report.proofSourceRecoveryPlan.blockedLaneCount, 4);
+  assert.equal(report.proofSourceRecoveryPlan.nextLaneKey, 'approvedDiscordKnowledge');
+  assert.ok(report.immediateActionOrder[0].includes('rag:evaluate:missing-preflight'));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('proof-source-recovery-plan')));
+  assert.ok(report.immediateActionOrder.some((action) => action.includes('gateway worker with Message Content Intent')));
   assert.equal(report.summary.operatingBlockers.filter((item) => item === 'discord_gateway_capture_blocked').length, 1);
   assert.ok(report.summary.operatingBlockers.includes('approved_discord_knowledge_sources_below_target:0/10'));
   assert.ok(report.immediateActionOrder.some((action) => action.includes('Approve at least 10 high-signal Discord')));

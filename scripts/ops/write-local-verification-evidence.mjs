@@ -27,6 +27,7 @@ const evidencePaths = {
   discordCorpusReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-corpus-readiness-latest.json'),
   durableJobsReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'durable-jobs-readiness-latest.json'),
   securityPrivacyReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'security-privacy-readiness-latest.json'),
+  observabilityQualityReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'observability-quality-readiness-latest.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
@@ -167,6 +168,7 @@ async function main() {
     discordCorpusReadiness,
     durableJobsReadiness,
     securityPrivacyReadiness,
+    observabilityQualityReadiness,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     premiumWorkflowReadiness,
@@ -396,6 +398,34 @@ async function main() {
   requireTruthy(
     (securityPrivacyReadiness.antiFakeRules ?? []).some((rule) => rule.includes('moderator decision')),
     'Security/privacy readiness must block abuse classification from counting as moderation decision.',
+  );
+  requireTruthy(observabilityQualityReadiness.ok === true, 'Observability/quality readiness evidence is not ok.');
+  requireTruthy(
+    observabilityQualityReadiness.mutationMode === 'local_file_evidence_only',
+    'Observability/quality readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    observabilityQualityReadiness.releaseMeaning?.includes('does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces'),
+    'Observability/quality readiness must avoid claiming live trace, cost, quality, or rollup health.',
+  );
+  requireTruthy(
+    observabilityQualityReadiness.proofSummary?.localFallbackAndRedaction === true
+      && observabilityQualityReadiness.proofSummary?.traceCostQualityJobRollup === true
+      && observabilityQualityReadiness.proofSummary?.adminSurface === true
+      && observabilityQualityReadiness.proofSummary?.schemaRls === true,
+    'Observability/quality readiness must prove local fallback, redaction, trace/cost/quality/job rollup, admin surface, and schema/RLS.',
+  );
+  requireTruthy(
+    (observabilityQualityReadiness.antiFakeRules ?? []).some((rule) => rule.includes('live Langfuse trace coverage')),
+    'Observability/quality readiness must block local evidence from counting as live Langfuse trace coverage.',
+  );
+  requireTruthy(
+    (observabilityQualityReadiness.antiFakeRules ?? []).some((rule) => rule.includes('billing truth')),
+    'Observability/quality readiness must block estimated token cost from counting as billing truth.',
+  );
+  requireTruthy(
+    (observabilityQualityReadiness.antiFakeRules ?? []).some((rule) => rule.includes('smoke-created and cleaned-up rows')),
+    'Observability/quality readiness must block smoke rows from counting as production health.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -952,6 +982,16 @@ async function main() {
       antiFakeRules: securityPrivacyReadiness.antiFakeRules,
       nextOperatingProofRequired: securityPrivacyReadiness.nextOperatingProofRequired,
       releaseMeaning: securityPrivacyReadiness.releaseMeaning,
+    },
+    observabilityQualityReadiness: {
+      ok: observabilityQualityReadiness.ok,
+      mutationMode: observabilityQualityReadiness.mutationMode,
+      proofSummary: observabilityQualityReadiness.proofSummary,
+      checkCount: observabilityQualityReadiness.checks?.length ?? 0,
+      failures: observabilityQualityReadiness.failures ?? [],
+      antiFakeRules: observabilityQualityReadiness.antiFakeRules,
+      nextOperatingProofRequired: observabilityQualityReadiness.nextOperatingProofRequired,
+      releaseMeaning: observabilityQualityReadiness.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

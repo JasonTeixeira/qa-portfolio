@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T08:00:11.588Z",
+  "timestamp": "2026-06-26T08:08:53.235Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -44,6 +44,7 @@
     "discordCorpusReadiness": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
     "durableJobsReadiness": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
     "securityPrivacyReadiness": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+    "observabilityQualityReadiness": "docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
@@ -87,7 +88,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782460802960"
+    "runKey": "phase-20-final-1782461324464"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -340,6 +341,36 @@
       "Exercise export/delete handling when a real member privacy request arrives."
     ],
     "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit."
+  },
+  "observabilityQualityReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "smokeProofOk": true,
+      "deterministicRollupHealthy": true,
+      "liveRollupPersistedInSmoke": true,
+      "localFallbackAndRedaction": true,
+      "traceCostQualityJobRollup": true,
+      "adminSurface": true,
+      "schemaRls": true
+    },
+    "checkCount": 7,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count this local readiness file as live Langfuse trace coverage.",
+      "Do not treat DeepSeek cost estimates from token metadata as billing truth.",
+      "Do not count smoke-created and cleaned-up rows as production quality, cost, job, or trace health.",
+      "Do not claim 95+ observability until real Discord commands, jobs, RAG answers, content drafts, premium responses, and eval runs all produce current rollups.",
+      "Do not treat an empty alert list as healthy if the current window has no live artifacts."
+    ],
+    "nextOperatingProofRequired": [
+      "Run the live Phase 17 smoke after observability, cost, quality, admin, migration, or job schema changes.",
+      "Configure Langfuse env in production and verify at least one real /ask-sage trace appears in Langfuse and in persisted metadata.",
+      "Verify current-window admin rollups after real scheduled jobs, RAG answers, content drafts, premium responses, and eval runs exist.",
+      "Compare estimated DeepSeek token cost against provider billing during weekly operating review.",
+      "Review open alerts and dead letters from /admin/discord during every operating cycle."
+    ],
+    "releaseMeaning": "Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health."
   },
   "contentFactory": {
     "ok": true,

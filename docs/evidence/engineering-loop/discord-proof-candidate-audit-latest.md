@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T04:19:55.611Z
+Generated: 2026-06-26T04:23:22.502Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -34,6 +34,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
 
 Blockers:
+- Current proof is 0/1; lane remains blocked until the target is met.
 - Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
 
 Next review action: Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
@@ -51,6 +52,8 @@ Next review action: Identify events show Message Content Intent enabled; redeplo
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, source_type, reuse_category, rag_safe
 
 Blockers:
+- Current proof is 0/10; lane remains blocked until the target is met.
+- Approved knowledge plus pending candidates is 0/10; more real member source material is needed.
 - No pending knowledge candidates are available for admin review.
 - Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge.
 
@@ -69,6 +72,8 @@ Next review action: Approve high-signal questions, answers, resources, wins, rev
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
 
 Blockers:
+- Current proof is 0/10; lane remains blocked until the target is met.
+- Approved Discord knowledge available for RAG sync is 0/10.
 - No approved Discord knowledge exists to sync into authoritative RAG.
 - Latest RAG sync did not upsert approved Discord sources.
 
@@ -87,6 +92,8 @@ Next review action: Run the approved Discord RAG sync after approving knowledge 
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status
 
 Blockers:
+- Current proof is 0/4; lane remains blocked until the target is met.
+- Public proof source/draft volume is 0/4.
 - Public proof drafts require approved Discord source material first.
 - Dry run does not create public proof drafts.
 
@@ -105,6 +112,7 @@ Next review action: Create privacy-safe public proof drafts from approved Discor
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
 
 Blockers:
+- Current proof is 0/1; lane remains blocked until the target is met.
 - No answered/completed premium review or completed office-hours workflow is visible in current evidence.
 - Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count.
 

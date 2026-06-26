@@ -80,32 +80,46 @@ function blockersForLane(input: {
   laneKey: string;
   candidateCount: number;
   currentCount: number;
+  targetCount: number;
   operatingCycle: DiscordOperatingProofCycleResult;
 }): string[] {
   const metrics = input.operatingCycle.metricsAfter ?? input.operatingCycle.metricsBefore;
   const blockers: string[] = [];
 
-  if (input.currentCount > 0) return blockers;
+  if (input.currentCount >= input.targetCount) return blockers;
+  blockers.push(`Current proof is ${input.currentCount}/${input.targetCount}; lane remains blocked until the target is met.`);
 
   switch (input.laneKey) {
     case 'gateway_capture':
       blockers.push('Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.');
       break;
     case 'approved_discord_knowledge':
-      if (numberValue(metrics.pendingKnowledgeCandidates) <= 0) {
+      if (input.candidateCount < input.targetCount) {
+        blockers.push(`Approved knowledge plus pending candidates is ${input.candidateCount}/${input.targetCount}; more real member source material is needed.`);
+      }
+      if (numberValue(metrics.pendingKnowledgeCandidates) <= 0 && input.currentCount < input.targetCount) {
         blockers.push('No pending knowledge candidates are available for admin review.');
         blockers.push('Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge.');
       }
       break;
     case 'rag_discord_sources':
+      if (input.candidateCount < input.targetCount) {
+        blockers.push(`Approved Discord knowledge available for RAG sync is ${input.candidateCount}/${input.targetCount}.`);
+      }
       if (numberValue(metrics.approvedDiscordKnowledgeSources) <= 0) {
         blockers.push('No approved Discord knowledge exists to sync into authoritative RAG.');
       }
-      if (!input.operatingCycle.ragSync?.ok || numberValue(input.operatingCycle.ragSync?.stats?.sourcesUpserted) <= 0) {
+      if (!input.operatingCycle.ragSync?.ok || (
+        input.currentCount < input.targetCount
+        && numberValue(input.operatingCycle.ragSync?.stats?.sourcesUpserted) <= 0
+      )) {
         blockers.push(input.operatingCycle.ragSync?.blocker ?? 'Latest RAG sync did not upsert approved Discord sources.');
       }
       break;
     case 'public_proof_assets':
+      if (input.candidateCount < input.targetCount) {
+        blockers.push(`Public proof source/draft volume is ${input.candidateCount}/${input.targetCount}.`);
+      }
       if (numberValue(metrics.approvedDiscordKnowledgeSources) <= 0) {
         blockers.push('Public proof drafts require approved Discord source material first.');
       }
@@ -114,7 +128,7 @@ function blockersForLane(input: {
       }
       break;
     case 'premium_workflow_proof':
-      if (numberValue(metrics.premiumWorkflowProofs) <= 0) {
+      if (input.currentCount < input.targetCount) {
         blockers.push('No answered/completed premium review or completed office-hours workflow is visible in current evidence.');
       }
       blockers.push('Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count.');
@@ -173,6 +187,7 @@ export function buildDiscordProofCandidateAudit(input: {
       laneKey: lane.key,
       candidateCount,
       currentCount: lane.currentCount,
+      targetCount: lane.targetCount,
       operatingCycle: input.operatingCycle,
     });
     const candidateState = lane.currentCount >= lane.targetCount

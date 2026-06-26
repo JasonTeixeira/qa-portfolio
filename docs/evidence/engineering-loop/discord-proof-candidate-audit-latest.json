@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T04:19:55.611Z",
+  "generatedAt": "2026-06-26T04:23:22.502Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -32,6 +32,7 @@
       ],
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "blockers": [
+        "Current proof is 0/1; lane remains blocked until the target is met.",
         "Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message."
       ],
       "nextReviewAction": "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
@@ -72,6 +73,8 @@
       ],
       "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
       "blockers": [
+        "Current proof is 0/10; lane remains blocked until the target is met.",
+        "Approved knowledge plus pending candidates is 0/10; more real member source material is needed.",
         "No pending knowledge candidates are available for admin review.",
         "Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge."
       ],
@@ -111,6 +114,8 @@
       ],
       "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
       "blockers": [
+        "Current proof is 0/10; lane remains blocked until the target is met.",
+        "Approved Discord knowledge available for RAG sync is 0/10.",
         "No approved Discord knowledge exists to sync into authoritative RAG.",
         "Latest RAG sync did not upsert approved Discord sources."
       ],
@@ -150,6 +155,8 @@
       ],
       "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
       "blockers": [
+        "Current proof is 0/4; lane remains blocked until the target is met.",
+        "Public proof source/draft volume is 0/4.",
         "Public proof drafts require approved Discord source material first.",
         "Dry run does not create public proof drafts."
       ],
@@ -189,6 +196,7 @@
       ],
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "blockers": [
+        "Current proof is 0/1; lane remains blocked until the target is met.",
         "No answered/completed premium review or completed office-hours workflow is visible in current evidence.",
         "Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count."
       ],

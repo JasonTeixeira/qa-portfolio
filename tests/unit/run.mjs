@@ -2875,6 +2875,74 @@ test('discord proof candidate audit: explains blocked proof lanes without mutati
   assert.match(markdown, /Candidate state: needs_review/);
   assert.match(markdown, /does not create, approve, sync, publish, or satisfy operating proof/);
 
+  const partialMetrics = {
+    ...metrics,
+    approvedDiscordKnowledgeSources: 2,
+    ragDiscordSources: 1,
+    pendingKnowledgeCandidates: 0,
+    pendingPublicDrafts: 1,
+    publishedPublicDrafts: 1,
+  };
+  const partialBacklog = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    metrics: partialMetrics,
+  });
+  const partialPacket = buildDiscordWeeklyProofPacket({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    backlog: partialBacklog,
+    intake,
+  });
+  const partialAudit = buildDiscordProofCandidateAudit({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    operatingCycle: {
+      ok: false,
+      status: 'blocked',
+      cycleKey: '2026-W26',
+      startedAt: '2026-06-25T00:00:00.000Z',
+      finishedAt: '2026-06-25T00:00:00.000Z',
+      metricsBefore: partialMetrics,
+      metricsAfter: partialMetrics,
+      ragSync: {
+        ok: true,
+        runKey: 'partial-dry-run',
+        status: 'completed',
+        approvalPolicy: 'dry-run',
+        approvedDiscordStats: null,
+        stats: { sourcesSeen: 2, sourcesUpserted: 0, documentsUpserted: 0, failures: 0, byType: {} },
+        blocker: null,
+        sampleSources: [],
+        error: null,
+      },
+      publicProof: {
+        created: false,
+        sourceId: null,
+        draftId: null,
+        sourceTable: null,
+        sourceRecordId: null,
+        draftType: null,
+        reusedExistingSource: false,
+        blocker: null,
+      },
+      finalScorecard: { averageScore: 83, blockedBelow95: ['content_engine'], latestRunKey: 'partial-dry-run' },
+      gates: [],
+      nextActions: [],
+      auditRowId: null,
+    },
+    backlog: partialBacklog,
+    weeklyPacket: partialPacket,
+  });
+  const partialKnowledgeLane = partialAudit.lanes.find((lane) => lane.key === 'approved_discord_knowledge');
+  const partialRagLane = partialAudit.lanes.find((lane) => lane.key === 'rag_discord_sources');
+  const partialPublicProofLane = partialAudit.lanes.find((lane) => lane.key === 'public_proof_assets');
+  assert.equal(partialKnowledgeLane?.status, 'blocked');
+  assert.equal(partialKnowledgeLane?.remainingCount, 8);
+  assert.ok(partialKnowledgeLane?.blockers.some((blocker) => blocker.includes('2/10')));
+  assert.equal(partialRagLane?.status, 'blocked');
+  assert.ok(partialRagLane?.blockers.some((blocker) => blocker.includes('1/10')));
+  assert.equal(partialPublicProofLane?.status, 'blocked');
+  assert.equal(partialPublicProofLane?.remainingCount, 2);
+  assert.ok(partialPublicProofLane?.blockers.some((blocker) => blocker.includes('2/4')));
+
   const invalid = { ...audit, releaseMeaning: 'ready' };
   const validation = validateDiscordProofCandidateAudit(invalid);
   assert.equal(validation.ok, false);

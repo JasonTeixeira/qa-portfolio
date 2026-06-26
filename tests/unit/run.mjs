@@ -196,6 +196,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(discordAdminPage, /loadGatewayCaptureDiagnosis/);
   assert.match(discordAdminPage, /discord-gateway-capture-diagnosis-latest\.json/);
   assert.match(discordAdminPage, /Run npm run discord:gateway-capture-diagnosis/);
+  assert.match(discordAdminPage, /Identify intent signal/);
+  assert.match(discordAdminPage, /effective message content/);
   assert.match(packageJson.scripts['test:e2e:local'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['test:e2e:local:acquisition'], /node --env-file-if-exists=\.env\.local scripts\/ops\/run-playwright\.mjs/);
   assert.match(packageJson.scripts['db:push'], /node --env-file-if-exists=\.env\.local scripts\/ops\/supabase-cli\.mjs db push/);

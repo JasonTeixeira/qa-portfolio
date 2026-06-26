@@ -602,6 +602,15 @@ type GatewayCaptureDiagnosis = {
       lastCloseReason: string | null;
     } | null;
   };
+  identify?: {
+    latest?: {
+      messageContentEnabled: boolean | null;
+      intents: number | null;
+      createdAt: string | null;
+    } | null;
+    messageContentSignalSource?: string | null;
+    effectiveMessageContentEnabled?: boolean | null;
+  } | null;
   counts: Record<string, number>;
   recentMessages: Array<{
     id: string;
@@ -1525,12 +1534,19 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                     <div>worker: {gatewayCaptureDiagnosis.heartbeat.latest.workerId}</div>
                     <div>status: {gatewayCaptureDiagnosis.heartbeat.latest.status}</div>
                     <div>age: {gatewayCaptureDiagnosis.heartbeat.latest.ageMinutes ?? '?'} minutes</div>
-                    <div>message content: {String(gatewayCaptureDiagnosis.heartbeat.latest.messageContentEnabled)}</div>
+                    <div>heartbeat message content: {String(gatewayCaptureDiagnosis.heartbeat.latest.messageContentEnabled)}</div>
                     <div>last close: {gatewayCaptureDiagnosis.heartbeat.latest.lastCloseCode ?? 'none'}</div>
                   </div>
                 ) : (
                   <div className="mt-3 text-xs text-[#fca5a5]">No gateway heartbeat evidence found.</div>
                 )}
+                <div className="mt-4 border-t border-[#27272a] pt-3 text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Identify intent signal</div>
+                <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  <div>effective message content: {String(gatewayCaptureDiagnosis.identify?.effectiveMessageContentEnabled ?? null)}</div>
+                  <div>signal source: {gatewayCaptureDiagnosis.identify?.messageContentSignalSource ?? 'unknown'}</div>
+                  <div>identify message content: {String(gatewayCaptureDiagnosis.identify?.latest?.messageContentEnabled ?? null)}</div>
+                  <div>identify intents: {gatewayCaptureDiagnosis.identify?.latest?.intents ?? 'unknown'}</div>
+                </div>
               </div>
             </div>
             <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
@@ -2302,6 +2318,11 @@ async function loadGatewayCaptureDiagnosis(): Promise<GatewayCaptureDiagnosis> {
         nextActions: ['Run npm run discord:gateway-capture-diagnosis to inspect message capture health.'],
       },
       heartbeat: { latest: null },
+      identify: {
+        latest: { messageContentEnabled: null, intents: null, createdAt: null },
+        messageContentSignalSource: 'missing',
+        effectiveMessageContentEnabled: null,
+      },
       counts: {},
       recentMessages: [],
       errors: [{ label: 'gateway_capture_diagnosis_missing', error: 'missing evidence' }],

@@ -89,20 +89,24 @@ export async function AcademyShell({
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0d0c] text-[#f2efe9]">
-      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b0d0c]/85 backdrop-blur-xl">
+    <div className="min-h-screen bg-[var(--ac-bg)] text-[var(--ac-ink)]">
+      <header className="sticky top-0 z-40 border-b border-[color:var(--ac-rule)] bg-[color-mix(in_srgb,var(--ac-bg)_88%,transparent)] backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
           <Link href="/academy/dashboard" className="group flex items-center gap-2.5 shrink-0">
             <span
-              className="grid h-7 w-7 place-items-center rounded-[8px] text-[13px] font-bold text-[#ffffff]"
-              style={{ background: ACCENT, boxShadow: `0 0 18px ${ACCENT}55` }}
+              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent)] text-[13px] font-bold text-white"
               aria-hidden
             >
               ◆
             </span>
             <span className="leading-tight">
-              <span className="block text-[14px] font-semibold tracking-tight">Sage Academy</span>
-              <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[#8a8b96]">
+              <span
+                className="block text-[15px] font-semibold tracking-tight"
+                style={{ fontFamily: 'var(--ac-font-display)' }}
+              >
+                Sage Academy
+              </span>
+              <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--ac-ink-faint)]">
                 Learn · build · ship
               </span>
             </span>
@@ -117,15 +121,15 @@ export async function AcademyShell({
                   key={item.key}
                   href={item.href}
                   aria-current={on ? 'page' : undefined}
-                  className={`inline-flex items-center gap-1.5 rounded-[10px] px-3 py-2 text-[13px] font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-[13px] font-medium transition-colors ${
                     on
-                      ? 'bg-[#3D6BFF]/12 text-white'
-                      : 'text-[#c4c5cd] hover:bg-white/[0.04] hover:text-white'
+                      ? 'bg-[color-mix(in_srgb,var(--ac-accent)_14%,transparent)] text-[var(--ac-ink)]'
+                      : 'text-[color:var(--ac-ink-soft)] hover:bg-white/[0.04] hover:text-[var(--ac-ink)]'
                   }`}
                 >
                   {item.label}
                   {badge ? (
-                    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#3D6BFF] px-1 text-[10px] font-semibold leading-none text-white">
+                    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent)] px-1 text-[10px] font-semibold leading-none text-white">
                       {badge}
                     </span>
                   ) : null}
@@ -141,7 +145,7 @@ export async function AcademyShell({
                 <form action={signOut}>
                   <button
                     type="submit"
-                    className="rounded-full border border-white/10 px-3.5 py-1.5 text-[12px] font-medium text-[#c4c5cd] transition-colors hover:border-white/25 hover:text-white"
+                    className="rounded-full border border-[color:var(--ac-rule)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--ac-ink-soft)] transition-colors hover:border-[color:var(--ac-rule-strong)] hover:text-[var(--ac-ink)]"
                   >
                     Sign out
                   </button>
@@ -150,8 +154,7 @@ export async function AcademyShell({
             ) : (
               <Link
                 href="/login?audience=academy&next=/academy/dashboard"
-                className="rounded-full px-3.5 py-1.5 text-[12px] font-semibold text-[#ffffff]"
-                style={{ background: ACCENT }}
+                className="rounded-full bg-[var(--ac-accent)] px-3.5 py-1.5 text-[12px] font-semibold text-white"
               >
                 Sign in
               </Link>

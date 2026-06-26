@@ -100,12 +100,15 @@ gap — do not patch the runtime per course.
   (scripted sequence drives locked→complete + capped score; stray-repair + reopened-repair edge
   cases). 2-agent adversarial audit clean: 1 logic bug (stray `repair_completed` lifting the cap)
   + RLS/append-only hardening fixed; CRITICAL/HIGH addressed via the `@security` caller contract.
-- **Tier 1 — SHELL: started (2026-06-26).** Design direction reconciled to **disciplined-dark
-  Institutional Editorial** (preserves the existing dark `AcademyShell` + ~30 pages + site
-  cohesion; strips neon/bloom). Institutional-editorial `--ac-*` tokens pinned in `app/globals.css`
-  (one source: base/state/type/space/motion). REMAINING (loop-driven): promote `AcademyShell`
-  into a route-group `layout.tsx` + align nav to the 6 canonical destinations · build the shell
-  components (TabBar/SubTabBar, Surface/Card/RuleList, StateBadge, ScoreCapMeter, MasteryMap,
-  GuidePanel, EmptyState) on the tokens · consolidate the IA (redirect the 2 learn paths / 2
-  course entries / orphan surfaces per INFORMATION_ARCHITECTURE.md) · axe + responsive gates.
-- Tiers 2–4: NOT started.
+- **Tier 1 — SHELL: structurally complete (2026-06-26).** Design reconciled to disciplined-dark
+  Institutional Editorial (preserves the existing dark `AcademyShell` + ~30 pages). DONE: `--ac-*`
+  tokens pinned (base/state/type/space/motion + AA-safe `--ac-accent-strong`/`--ac-accent-text`) ·
+  shell restyled to tokens (one component → all academy pages) · mobile nav (no-JS scrollable row) ·
+  shell components built (StateBadge/ScoreCapMeter/Surface/TabBar) · **a11y gate 7/7 green** (axe,
+  0 serious/critical) · responsive clean 320–1440 · IA audited + consolidated (the `[track]` family
+  is the marketing/SEO layer, kept separate — not a dup; app has one learn path + one course entry).
+  DEFERRED (decisions, documented): route-group `layout.tsx` promotion — the per-page `<AcademyShell>`
+  wrap is the right pattern since landing/auth pages take no chrome; the 8→6-destination nav regroup +
+  tabbed Compete/Progress surfaces — depends on Tier-3 page-building; track→flagship-course resolver.
+- **Tier 2 — ENFORCEMENT: NOT started.** Next.
+- Tiers 3–4: NOT started.

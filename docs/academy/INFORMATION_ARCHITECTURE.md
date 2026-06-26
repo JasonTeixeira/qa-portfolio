@@ -92,12 +92,19 @@ Tabs:
 - **Admin** — `/academy-admin` (authoring studio) · `/academy-admin/[course]/[lesson]` ·
   `/admin/academy` (ops) · `/academy-admin/metrics` (CURR / mastery-gain / calibration, §12.2).
 
-## Consolidation plan (Tier-1, do before any UX polish)
+## Consolidation plan (Tier-1)
+> **Route audit finding (2026-06-26):** the `/academy/[track]` family is NOT a duplicate of the app —
+> it's a **separate marketing/SEO layer** (static `data/academy/tracks.ts`, public + indexable, Course
+> JSON-LD) whose slugs (`ai-native-product-building`) are a different namespace from course slugs
+> (`python-basics`). There is no track→course resolver, so a naive redirect would 404. **Redirecting
+> is NOT safe yet** — and per this doc's own rule (public marketing kept separate from the app), the
+> right resolution is to KEEP `[track]` as the marketing namespace, not fold it into the app. Deferred,
+> not skipped: a track→flagship-course resolver is the prerequisite, tracked as a Tier-3 item.
+
 | Today | Action |
 |---|---|
-| `/academy/[track]/learn` | **Redirect** → `/academy/learn/[course]/[lesson]` (the one learn path). |
-| `/academy/[track]` | **Redirect** → `/academy/course/[slug]` (resolve track→flagship course). |
-| `/academy/[track]/enroll` | Keep as enroll action; point at the course entry. |
+| `/academy/[track]`, `/academy/[track]/learn` | **Keep as the marketing/SEO layer** (separate namespace). Redirect into the app is BLOCKED on a track→flagship-course resolver — do not redirect until it exists (would 404 on slug mismatch). |
+| `/academy/[track]/enroll` | Keep as the marketing enroll action. |
 | `/academy/efficacy`, `/academy/evidence` | **Fold** into Progress → Evidence tab (redirect). |
 | `/academy/engine`, `/engine/lab` | Internal engine demo — **remove from learner nav**; keep as dev-only or delete. |
 | `/academy/resources`, `/resources/sprint-loop` | **Fold** into Onboarding / "How it works". |
@@ -109,5 +116,8 @@ Rule: a redirect is honest (no broken links); deletion only for dev-only surface
 remaining route maps to exactly one nav home. **No surface without a home.**
 
 ## Done = the IA gate (part of FOUNDATION.md done-gate)
-One nav tree · one learn path · one course entry · every page/tab above exists or is a deliberate
-honest empty-state · every legacy route redirected or removed · nothing orphaned.
+One nav tree · one **app** learn path (`/academy/learn/[course]/[lesson]`) · one **app** course entry
+(`/academy/course/[slug]`) · the `[track]` marketing layer kept deliberately separate (not a dup) ·
+every page/tab above exists or is a deliberate honest empty-state · nothing orphaned. The only
+deferred item is the track→flagship-course resolver (Tier-3), which unblocks any future marketing→app
+redirect — its absence is documented, not a silent gap.

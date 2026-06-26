@@ -29,7 +29,7 @@ export default async function LabPage({
       title={lab.title}
       summary={lab.summary}
       starter={lab.starter ?? '# Write your Python here\nprint("hello")\n'}
-      check={lab.check}
+      hasCheck={Boolean(lab.check)}
       backHref={`/academy/learn/${course}/${lesson}`}
       courseSlug={course}
       lessonSlug={lesson}

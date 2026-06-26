@@ -21,7 +21,7 @@ export function LabRunner({
   title,
   summary,
   starter,
-  check,
+  hasCheck,
   backHref,
   courseSlug,
   lessonSlug,
@@ -29,7 +29,7 @@ export function LabRunner({
   title: string
   summary: string
   starter: string
-  check?: string
+  hasCheck?: boolean
   backHref: string
   courseSlug: string
   lessonSlug: string
@@ -37,13 +37,16 @@ export function LabRunner({
   const [code, setCode] = useState(starter)
   const [output, setOutput] = useState<string | null>(null)
   const [status, setStatus] = useState<Status>('loading')
+  // `passed`/`verified` are driven ONLY by the server verdict — never a client match.
   const [passed, setPassed] = useState(false)
+  const [verifying, setVerifying] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [completing, startComplete] = useTransition()
   const pyodideRef = useRef<any>(null)
-  // The exact stdout buffer from the run that passed the checkpoint — sent to the
-  // server so it can re-verify the lab against the server-held `check` string.
-  const passedOutputRef = useRef<string>('')
+  // The exact stdout buffer from the most recent run — submitted to the server so
+  // it can verify the lab against the server-held `check` string. The expected
+  // value never reaches the client.
+  const lastOutputRef = useRef<string>('')
 
   useEffect(() => {
     let cancelled = false
@@ -85,19 +88,30 @@ export function LabRunner({
       setOutput((buf ? buf + '\n' : '') + msg)
       buf = ''
     }
-    if (check && buf.toLowerCase().includes(check.trim().toLowerCase())) {
-      passedOutputRef.current = buf // capture the passing stdout for server re-verification
-      setPassed(true)
-    }
+    // Capture the stdout for server-side verification. Running fresh code
+    // invalidates any prior verdict — the learner must re-verify.
+    lastOutputRef.current = buf
+    setPassed(false)
     setStatus('ready')
+  }
+
+  // Server-authoritative verdict: submit the captured stdout; the server re-runs
+  // the comparison against its own `check` and returns the only pass/fail that counts.
+  const verify = async () => {
+    if (verifying || passed) return
+    setVerifying(true)
+    try {
+      const { verified } = await verifyLab(courseSlug, lessonSlug, lastOutputRef.current)
+      setPassed(verified)
+    } finally {
+      setVerifying(false)
+    }
   }
 
   const complete = () => {
     startComplete(async () => {
-      // Record the server-verified lab fact (re-checks stdout against the
-      // server-held `check`), then mark the lesson done. The verified flag is
-      // never client-supplied — markLessonComplete no longer accepts one.
-      await verifyLab(courseSlug, lessonSlug, passedOutputRef.current)
+      // verifyLab already recorded the verified-lab evidence; just mark the
+      // lesson done. userId is derived server-side from the session.
       const res = await markLessonComplete(courseSlug, lessonSlug)
       if (res.ok) setCompleted(true)
     })
@@ -117,7 +131,7 @@ export function LabRunner({
         <span className={styles.title}>⬡ LAB · {title}</span>
         <span className={styles.spacer} />
         <span className={styles.kbdHint} aria-hidden="true"><kbd>⌘</kbd><kbd>↵</kbd> run</span>
-        <button type="button" className={styles.reset} onClick={() => { setCode(starter); setOutput(null); setPassed(false) }}>Reset</button>
+        <button type="button" className={styles.reset} onClick={() => { setCode(starter); setOutput(null); setPassed(false); lastOutputRef.current = '' }}>Reset</button>
         <button type="button" className={styles.run} onClick={run} disabled={!runnable} aria-keyshortcuts="Meta+Enter Control+Enter">
           {status === 'loading' ? 'Loading Python…' : status === 'running' ? 'Running…' : '▶ Run'}
         </button>
@@ -125,7 +139,7 @@ export function LabRunner({
 
       <p className={styles.summary}>{summary}</p>
 
-      {check ? (
+      {hasCheck ? (
         <div className={styles.checkpoint} data-passed={passed} role="status" aria-live="polite">
           {passed ? (
             completed ? (
@@ -135,14 +149,19 @@ export function LabRunner({
               </span>
             ) : (
               <>
-                <span className={styles.cpPass}>✓ Checkpoint passed! Your output matches.</span>
+                <span className={styles.cpPass}>✓ Checkpoint verified! Your solution is correct.</span>
                 <button type="button" className={styles.cpComplete} onClick={complete} disabled={completing}>
                   {completing ? 'Saving…' : 'Mark lesson complete →'}
                 </button>
               </>
             )
           ) : (
-            <span className={styles.cpGoal}>🎯 Checkpoint: edit the code and Run until the output is correct.</span>
+            <>
+              <span className={styles.cpGoal}>🎯 Checkpoint: edit and Run your code, then check your solution.</span>
+              <button type="button" className={styles.cpComplete} onClick={verify} disabled={verifying || status !== 'ready'}>
+                {verifying ? 'Checking…' : 'Check my solution'}
+              </button>
+            </>
           )}
         </div>
       ) : null}

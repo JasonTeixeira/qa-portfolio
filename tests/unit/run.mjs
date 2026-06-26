@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run discord:content-factory-readiness',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:content-factory-readiness && npm run discord:world-class-readiness && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run verify:local:evidence',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');

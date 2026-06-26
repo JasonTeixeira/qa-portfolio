@@ -120,6 +120,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
+  assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
+  assert.match(proofRehearsalScript, /gateway_capture_rehearsal/);
+  assert.match(proofRehearsalScript, /content_factory_readiness_rehearsal/);
+  assert.match(proofRehearsalScript, /discord:gateway-capture-diagnosis/);
+  assert.match(proofRehearsalScript, /discord:content-factory-readiness/);
   assert.match(proofRehearsalScript, /transient_seed_cleanup/);
   assert.match(proofRehearsalScript, /must not be counted as real operating proof/);
   assert.match(proofRehearsalScript, /discord:smoke-public-proof-growth/);

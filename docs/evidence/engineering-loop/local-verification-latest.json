@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T02:30:45.189Z",
+  "timestamp": "2026-06-26T02:36:32.247Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -148,9 +148,9 @@
   "proofRehearsalReadiness": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "laneCount": 3,
+    "laneCount": 5,
     "missingOrStale": [],
-    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
+    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
   },
   "proofIntakeReadiness": {
     "ok": true,

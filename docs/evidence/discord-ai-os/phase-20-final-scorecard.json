@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782435259218",
+  "runKey": "phase-20-final-1782441706219",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -595,7 +595,7 @@
   "proofRehearsalValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
+    "evidence": "5/5 rehearsal lanes ready, mutation=local_file_evidence_only"
   },
   "contentFactoryReadinessValidation": {
     "ok": true,
@@ -631,7 +631,7 @@
     {
       "name": "proof_rehearsal_readiness",
       "passed": true,
-      "evidence": "3/3 rehearsal lanes ready, mutation=local_file_evidence_only"
+      "evidence": "5/5 rehearsal lanes ready, mutation=local_file_evidence_only"
     },
     {
       "name": "content_factory_readiness",
@@ -667,6 +667,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-26T00:54:19.218Z",
-  "finishedAt": "2026-06-26T00:54:20.859Z"
+  "startedAt": "2026-06-26T02:41:46.219Z",
+  "finishedAt": "2026-06-26T02:41:47.862Z"
 }

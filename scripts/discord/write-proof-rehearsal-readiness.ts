@@ -19,6 +19,51 @@ const maxEvidenceAgeMs = 14 * 24 * 60 * 60 * 1000;
 
 const lanes: RehearsalLane[] = [
   {
+    key: 'gateway_capture_rehearsal',
+    title: 'Gateway capture diagnosis rehearsal',
+    command: 'npm run discord:gateway-capture-diagnosis',
+    scriptPath: 'scripts/discord/diagnose-gateway-capture.ts',
+    evidencePath: 'docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json',
+    mutationMode: 'read_only',
+    requiredContracts: [
+      'reads live gateway heartbeat and message rows',
+      'diagnoses Message Content Intent state',
+      'counts non-bot non-empty captured messages',
+      'writes local evidence only',
+      'does not post messages or mutate Discord',
+      'does not count diagnosis rows as operating proof',
+    ],
+    requiredSourcePatterns: [
+      /messageContentDiagnosis/,
+      /message_content_enabled/,
+      /discord_messages\.non_bot_non_empty/,
+      /read_only_supabase_selects_and_local_file_evidence_only/,
+      /does not post messages, change Discord, mutate Supabase/,
+    ],
+  },
+  {
+    key: 'content_factory_readiness_rehearsal',
+    title: 'Content factory readiness rehearsal',
+    command: 'npm run discord:content-factory-readiness',
+    scriptPath: 'scripts/discord/write-content-factory-readiness.ts',
+    evidencePath: 'docs/evidence/engineering-loop/content-factory-readiness-latest.json',
+    mutationMode: 'read_only',
+    requiredContracts: [
+      'validates the dry-run content factory evidence',
+      'checks no public publish happened',
+      'checks admin approval is required',
+      'checks channel, draft type, and topic coverage',
+      'writes local evidence only',
+      'does not count dry-run drafts as operating proof',
+    ],
+    requiredSourcePatterns: [
+      /buildDiscordContentFactoryReadinessReport/,
+      /validateDiscordContentFactoryReadinessReport/,
+      /phase-22-content-factory-dry-run\.json/,
+      /content-factory-readiness-latest\.json/,
+    ],
+  },
+  {
     key: 'authoritative_rag_sync_rehearsal',
     title: 'Authoritative Discord RAG sync rehearsal',
     command: 'npm run rag:smoke-discord-authoritative-sync',
@@ -156,11 +201,11 @@ async function main() {
 
   const evidence = {
     ok: laneResults.every((lane) => lane.ok),
-    version: 'discord-proof-rehearsal-readiness-v1',
+    version: 'discord-proof-rehearsal-readiness-v2',
     generatedAt: new Date().toISOString(),
     mutationMode: 'local_file_evidence_only',
     maxEvidenceAgeDays: maxEvidenceAgeMs / 86_400_000,
-    releaseMeaning: 'Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment.',
+    releaseMeaning: 'Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment.',
     lanes: laneResults,
     missingOrStale: laneResults
       .filter((lane) => !lane.ok)

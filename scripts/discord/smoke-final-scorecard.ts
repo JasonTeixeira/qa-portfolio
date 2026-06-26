@@ -88,9 +88,12 @@ async function validateDatabaseReleaseTables(sb: any) {
 function validateProofRehearsalReadiness(payload: any): { ok: boolean; failures: string[]; evidence: string } {
   const failures: string[] = [];
   const lanes = Array.isArray(payload?.lanes) ? payload.lanes : [];
+  const laneKeys = lanes.map((lane: any) => String(lane?.key ?? ''));
   if (payload?.ok !== true) failures.push('proof_rehearsal_not_ok');
   if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('proof_rehearsal_mutation_mode_not_read_only');
-  if (lanes.length < 3) failures.push('proof_rehearsal_missing_lanes');
+  if (lanes.length < 5) failures.push('proof_rehearsal_missing_lanes');
+  if (laneKeys[0] !== 'gateway_capture_rehearsal') failures.push('proof_rehearsal_gateway_not_first');
+  if (!laneKeys.includes('content_factory_readiness_rehearsal')) failures.push('proof_rehearsal_missing_content_factory');
   if (!lanes.every((lane: any) => lane?.ok === true)) failures.push('proof_rehearsal_lane_failed');
   if (!String(payload?.releaseMeaning ?? '').includes('Real 95+ operating proof')) failures.push('proof_rehearsal_operating_proof_disclaimer_missing');
   return {

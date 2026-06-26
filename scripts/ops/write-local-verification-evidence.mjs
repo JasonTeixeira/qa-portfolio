@@ -26,6 +26,7 @@ const evidencePaths = {
   evalRecoveryPlan: path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
+  premiumWorkflowReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
   proofBacklog: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-backlog-latest.json'),
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
@@ -161,6 +162,7 @@ async function main() {
     evalRecoveryPlan,
     proofRehearsalReadiness,
     contentFactoryReadiness,
+    premiumWorkflowReadiness,
     proofIntakeReadiness,
     proofBacklog,
     weeklyProofPacket,
@@ -364,6 +366,23 @@ async function main() {
   requireTruthy(
     contentFactoryReadiness.proofPromotionRequirements?.realOperatingProofRequired === true,
     'Content factory readiness must require real operating proof before promotion.',
+  );
+  requireTruthy(premiumWorkflowReadiness.ok === true, 'Premium workflow readiness evidence is not ok.');
+  requireTruthy(
+    premiumWorkflowReadiness.mutationMode === 'local_file_evidence_only',
+    'Premium workflow readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    premiumWorkflowReadiness.releaseMeaning?.includes('does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles'),
+    'Premium workflow readiness must explicitly avoid claiming live premium mutation.',
+  );
+  requireTruthy(
+    premiumWorkflowReadiness.proofSummary?.seededProofOk === true && premiumWorkflowReadiness.proofSummary?.qualityScore >= 80,
+    'Premium workflow readiness must prove seeded premium proof quality.',
+  );
+  requireTruthy(
+    (premiumWorkflowReadiness.antiFakeRules ?? []).some((rule) => rule.includes('Premium Member role alone')),
+    'Premium workflow readiness must block role-only proof.',
   );
   requireTruthy(proofIntakeReadiness.ok === true, 'Proof intake readiness evidence is not ok.');
   requireTruthy(
@@ -825,6 +844,16 @@ async function main() {
       approvalChecklistCount: contentFactoryReadiness.approvalChecklist?.length ?? 0,
       proofPromotionRequirements: contentFactoryReadiness.proofPromotionRequirements,
       releaseMeaning: contentFactoryReadiness.releaseMeaning,
+    },
+    premiumWorkflowReadiness: {
+      ok: premiumWorkflowReadiness.ok,
+      mutationMode: premiumWorkflowReadiness.mutationMode,
+      proofSummary: premiumWorkflowReadiness.proofSummary,
+      checkCount: premiumWorkflowReadiness.checks?.length ?? 0,
+      failures: premiumWorkflowReadiness.failures ?? [],
+      antiFakeRules: premiumWorkflowReadiness.antiFakeRules,
+      nextOperatingProofRequired: premiumWorkflowReadiness.nextOperatingProofRequired,
+      releaseMeaning: premiumWorkflowReadiness.releaseMeaning,
     },
     proofRehearsalReadiness: {
       ok: proofRehearsalReadiness.ok,

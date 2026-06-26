@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T07:24:34.826Z",
+  "timestamp": "2026-06-26T07:29:05.823Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -43,6 +43,7 @@
     "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+    "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
     "proofBacklog": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
     "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
@@ -461,6 +462,38 @@
       ]
     },
     "releaseMeaning": "Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence."
+  },
+  "premiumWorkflowReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "seededProofOk": true,
+      "reviewStatus": "answered",
+      "qualityScore": 100,
+      "lifecycleEvents": [
+        "answered",
+        "assigned",
+        "requested"
+      ],
+      "officeHoursPremiumMember": true,
+      "ragAnswerPresent": true,
+      "retrievalLogPresent": true
+    },
+    "checkCount": 10,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count Premium Member role alone as premium workflow fulfillment.",
+      "Do not count queued premium requests without an answered/completed outcome.",
+      "Do not count seeded smoke proof as live Stripe economics proof.",
+      "Do not grant premium-only answer workflows to users who fail the premium_member authorization check."
+    ],
+    "nextOperatingProofRequired": [
+      "Fulfill one real premium review, premium answer, or office-hours item with a real premium member or explicitly seeded premium scenario.",
+      "Verify Stripe checkout/subscription role sync in the live environment before claiming monetization proof.",
+      "Review premium SLA, response quality, and fulfillment load weekly from /admin/discord.",
+      "Record premium economics separately before changing price or promise."
+    ],
+    "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics."
   },
   "proofRehearsalReadiness": {
     "ok": true,

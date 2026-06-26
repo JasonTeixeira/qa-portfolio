@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T01:48:56.454Z
+Generated: 2026-06-26T02:26:29.361Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -10,6 +10,16 @@ World-class eligible: no
 The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.
 
 ## Blocked Proof Lanes
+
+### Gateway message capture
+
+- Status: blocked
+- Current: 0/1
+- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
+- Local check: npm run discord:gateway-capture-diagnosis
+- Verification: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
+- Evidence required: Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty..
+- Live action: Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
 
 ### Approved Discord knowledge
 
@@ -65,18 +75,18 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ## Required Command Order
 
-1. `npm run discord:operating-cycle:dry-run`
-2. `npm run discord:smoke-premium-workflows`
-3. `npm run discord:operating-cycle`
-4. `npm run rag:evaluate`
-5. `npm run discord:smoke-final-scorecard`
-6. `npm run discord:world-class-readiness`
-7. `npm run discord:proof-backlog`
-8. `npm run discord:operator-brief`
-9. `npm run discord:content-factory-readiness`
-10. `npm run discord:proof-intake-readiness`
-11. `npm run discord:weekly-proof-packet`
-12. `npm run discord:gateway-capture-diagnosis`
+1. `npm run discord:gateway-capture-diagnosis`
+2. `npm run discord:operating-cycle:dry-run`
+3. `npm run discord:smoke-premium-workflows`
+4. `npm run discord:operating-cycle`
+5. `npm run rag:evaluate`
+6. `npm run discord:smoke-final-scorecard`
+7. `npm run discord:world-class-readiness`
+8. `npm run discord:proof-backlog`
+9. `npm run discord:operator-brief`
+10. `npm run discord:content-factory-readiness`
+11. `npm run discord:proof-intake-readiness`
+12. `npm run discord:weekly-proof-packet`
 
 ## Non-Claim Rule
 

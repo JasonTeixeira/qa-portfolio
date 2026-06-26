@@ -2219,6 +2219,12 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   const { buildDiscordProofBacklogReport } = await import('../../lib/discord/proof-backlog.ts');
   const report = buildDiscordProofBacklogReport({
     generatedAt: '2026-06-25T00:00:00.000Z',
+    gatewayCapture: {
+      status: 'blocked',
+      usableMessageCount: 0,
+      rootCauses: ['Non-bot messages exist, but message content is empty.'],
+      nextActions: ['Confirm Message Content Intent is enabled and capture a fresh message.'],
+    },
     metrics: {
       approvedDiscordKnowledgeSources: 0,
       ragDiscordSources: 0,
@@ -2239,39 +2245,51 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(report.version, 'discord-proof-backlog-v1');
   assert.equal(report.mutationMode, 'local_file_evidence_only');
   assert.equal(report.status, 'blocked');
-  assert.equal(report.lanes.length, 4);
+  assert.equal(report.lanes.length, 5);
   assert.deepEqual(report.lanes.map((item) => item.key), [
+    'gateway_capture',
     'approved_discord_knowledge',
     'rag_discord_sources',
     'public_proof_assets',
     'premium_workflow_proof',
   ]);
   assert.ok(report.lanes.every((item) => item.status === 'blocked'));
-  assert.ok(report.lanes[0].sourceTables.includes('discord_content_queue'));
+  assert.ok(report.lanes[0].sourceTables.includes('discord_messages'));
+  assert.ok(report.lanes[1].sourceTables.includes('discord_content_queue'));
   assert.ok(report.lanes.every((item) => item.qualifyingEvidence.length >= 2));
   assert.ok(report.lanes.every((item) => item.rejectionRules.length >= 2));
   assert.ok(report.lanes.every((item) => item.weeklyOperatorSteps.length >= 3));
   assert.ok(report.lanes.every((item) => item.adminSurface.includes('/admin/discord')));
   assert.ok(report.lanes.every((item) => item.verificationCommand.startsWith('npm run')));
-  assert.match(report.lanes[0].qualifyingEvidence.join(' '), /Specific member question/);
-  assert.match(report.lanes[0].rejectionRules.join(' '), /private details/);
-  assert.match(report.lanes[1].rejectionRules.join(' '), /raw Discord messages/);
-  assert.match(report.lanes[2].weeklyOperatorSteps.join(' '), /privacy-safe public proof draft/);
-  assert.match(report.lanes[3].qualifyingEvidence.join(' '), /authorization and SLA/);
-  assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
-  assert.equal(report.weeklyChecklist.length, 4);
-  assert.deepEqual(report.weeklyChecklist.map((item) => item.order), [1, 2, 3, 4]);
-  assert.equal(report.weeklyChecklist[0].laneKey, 'approved_discord_knowledge');
+  assert.match(report.lanes[0].qualifyingEvidence.join(' '), /Message Content Intent/);
+  assert.match(report.lanes[1].qualifyingEvidence.join(' '), /Specific member question/);
+  assert.match(report.lanes[1].rejectionRules.join(' '), /private details/);
+  assert.match(report.lanes[2].rejectionRules.join(' '), /raw Discord messages/);
+  assert.match(report.lanes[3].weeklyOperatorSteps.join(' '), /privacy-safe public proof draft/);
+  assert.match(report.lanes[4].qualifyingEvidence.join(' '), /authorization and SLA/);
+  assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:gateway-capture-diagnosis');
+  assert.equal(report.lanes[1].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
+  assert.equal(report.weeklyChecklist.length, 5);
+  assert.deepEqual(report.weeklyChecklist.map((item) => item.order), [1, 2, 3, 4, 5]);
+  assert.equal(report.weeklyChecklist[0].laneKey, 'gateway_capture');
   assert.equal(report.weeklyChecklist[0].liveCommand, null);
-  assert.equal(report.weeklyChecklist[1].liveCommand, 'npm run discord:operating-cycle');
-  assert.match(report.weeklyChecklist[2].evidencePath, /phase-21-operating-proof-cycle\.json/);
-  assert.match(report.weeklyChecklist[2].adminSurface, /Public Proof Sources/);
-  assert.match(report.weeklyChecklist[3].verificationCommand, /discord:smoke-premium-workflows/);
-  assert.match(report.weeklyChecklist[3].acceptanceCriteria, /Premium workflow proof reaches 1\/1/);
+  assert.match(report.weeklyChecklist[0].evidencePath, /discord-gateway-capture-diagnosis-latest\.json/);
+  assert.equal(report.weeklyChecklist[2].liveCommand, 'npm run discord:operating-cycle');
+  assert.match(report.weeklyChecklist[3].evidencePath, /phase-21-operating-proof-cycle\.json/);
+  assert.match(report.weeklyChecklist[3].adminSurface, /Public Proof Sources/);
+  assert.match(report.weeklyChecklist[4].verificationCommand, /discord:smoke-premium-workflows/);
+  assert.match(report.weeklyChecklist[4].acceptanceCriteria, /Premium workflow proof reaches 1\/1/);
+  assert.ok(report.nextActions.some((action) => action.includes('Message Content Intent')));
   assert.ok(report.nextActions.some((action) => action.includes('Approve high-signal')));
 
   const passing = buildDiscordProofBacklogReport({
     generatedAt: '2026-06-25T00:00:00.000Z',
+    gatewayCapture: {
+      status: 'healthy',
+      usableMessageCount: 1,
+      rootCauses: [],
+      nextActions: ['Run classifier and queue automation.'],
+    },
     metrics: {
       approvedDiscordKnowledgeSources: 10,
       ragDiscordSources: 10,
@@ -2290,6 +2308,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.status, 'passed');
   assert.equal(passing.weeklyChecklist.length, 0);
   assert.equal(passing.nextActions.length, 0);
+  assert.equal(passing.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 1);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
 });
 
@@ -2338,8 +2357,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.ok, true);
   assert.equal(brief.version, 'discord-operator-brief-v1');
   assert.equal(brief.mutationMode, 'local_file_evidence_only');
-  assert.equal(brief.blockedLaneCount, 4);
-  assert.equal(brief.weeklyChecklist.length, 4);
+  assert.equal(brief.blockedLaneCount, 5);
+  assert.equal(brief.weeklyChecklist.length, 5);
   assert.equal(brief.nonClaimRule, DISCORD_OPERATOR_BRIEF_NON_CLAIM_RULE);
   assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
@@ -2378,10 +2397,11 @@ test('discord proof intake readiness: defines auditable fields for real operatin
   assert.equal(report.ok, true);
   assert.equal(report.version, 'discord-proof-intake-readiness-v1');
   assert.equal(report.mutationMode, 'local_file_evidence_only');
-  assert.equal(report.requiredLaneCount, 4);
-  assert.ok(report.requiredFieldCount >= 40);
+  assert.equal(report.requiredLaneCount, 5);
+  assert.ok(report.requiredFieldCount >= 50);
   assert.match(report.releaseMeaning, /does not satisfy real operating proof lanes/);
   assert.deepEqual(report.lanes.map((lane) => lane.key), [
+    'gateway_capture',
     'approved_discord_knowledge',
     'rag_discord_sources',
     'public_proof_assets',
@@ -2392,6 +2412,7 @@ test('discord proof intake readiness: defines auditable fields for real operatin
   assert.ok(report.lanes.every((lane) => lane.privacyChecks.length >= 2));
   assert.ok(report.lanes.every((lane) => lane.verificationCommands.length > 0));
   assert.ok(report.lanes.every((lane) => lane.evidencePaths.length > 0));
+  assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('gateway capture is healthy')));
   assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('sync only approved items into RAG')));
   assert.equal(validateDiscordProofIntakeReadinessReport(report).ok, true);
 
@@ -2447,12 +2468,14 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   assert.equal(packet.backlogStatus, 'blocked');
   assert.match(packet.releaseMeaning, /does not create or satisfy operating proof/);
   assert.deepEqual(packet.lanes.map((lane) => lane.key), [
+    'gateway_capture',
     'approved_discord_knowledge',
     'rag_discord_sources',
     'public_proof_assets',
     'premium_workflow_proof',
   ]);
-  assert.equal(packet.lanes[0].remainingCount, 8);
+  assert.equal(packet.lanes[0].remainingCount, 1);
+  assert.equal(packet.lanes[1].remainingCount, 8);
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.privacy_status));
   assert.ok(packet.lanes.every((lane) => lane.privacyChecks.length >= 2));
   assert.equal(validateDiscordWeeklyProofPacket(packet).ok, true);
@@ -2460,6 +2483,7 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   const markdown = renderDiscordWeeklyProofPacketMarkdown(packet);
   assert.match(markdown, /Sage Ideas Discord Weekly Proof Packet/);
   assert.match(markdown, /Required intake template/);
+  assert.match(markdown, /gateway_capture/);
   assert.match(markdown, /approved_discord_knowledge/);
 
   const invalid = { ...packet, releaseMeaning: 'ready' };
@@ -2556,7 +2580,8 @@ test('discord proof candidate audit: explains blocked proof lanes without mutati
   assert.match(audit.releaseMeaning, /does not create, approve, sync, publish, or satisfy operating proof/);
   assert.equal(audit.status, 'blocked');
   assert.equal(audit.metricsSnapshot.pendingKnowledgeCandidates, 3);
-  assert.equal(audit.lanes.length, 4);
+  assert.equal(audit.lanes.length, 5);
+  assert.equal(audit.lanes.find((lane) => lane.key === 'gateway_capture')?.candidateState, 'needs_source_volume');
   assert.equal(audit.lanes.find((lane) => lane.key === 'approved_discord_knowledge')?.candidateState, 'needs_review');
   assert.equal(audit.lanes.find((lane) => lane.key === 'rag_discord_sources')?.candidateState, 'needs_source_volume');
   assert.ok(audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('privacy_status')));

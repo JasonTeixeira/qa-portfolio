@@ -1,5 +1,12 @@
 import type { OperatingCycleMetrics } from './operating-proof-cycle-rules';
 
+export type DiscordGatewayCaptureProof = {
+  status: 'healthy' | 'warning' | 'blocked';
+  usableMessageCount: number;
+  rootCauses: string[];
+  nextActions: string[];
+};
+
 export type DiscordProofBacklogLane = {
   key: string;
   title: string;
@@ -49,6 +56,7 @@ function lane(input: Omit<DiscordProofBacklogLane, 'status'>): DiscordProofBackl
 }
 
 const LIVE_COMMANDS_BY_LANE: Record<string, string | null> = {
+  gateway_capture: null,
   approved_discord_knowledge: null,
   rag_discord_sources: 'npm run discord:operating-cycle',
   public_proof_assets: 'npm run discord:operating-cycle',
@@ -56,6 +64,7 @@ const LIVE_COMMANDS_BY_LANE: Record<string, string | null> = {
 };
 
 const EVIDENCE_PATHS_BY_LANE: Record<string, string> = {
+  gateway_capture: 'docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json',
   approved_discord_knowledge: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
   rag_discord_sources: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
   public_proof_assets: 'docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json',
@@ -80,8 +89,47 @@ function checklistStep(laneItem: DiscordProofBacklogLane, order: number): Discor
 export function buildDiscordProofBacklogReport(input: {
   generatedAt: string;
   metrics: OperatingCycleMetrics;
+  gatewayCapture?: DiscordGatewayCaptureProof | null;
 }): DiscordProofBacklogReport {
+  const gatewayCapture = input.gatewayCapture ?? {
+    status: 'blocked',
+    usableMessageCount: 0,
+    rootCauses: ['Gateway capture diagnosis evidence was not provided to the proof backlog.'],
+    nextActions: ['Run npm run discord:gateway-capture-diagnosis before claiming proof backlog readiness.'],
+  };
   const lanes = [
+    lane({
+      key: 'gateway_capture',
+      title: 'Gateway message capture',
+      currentCount: gatewayCapture.status === 'healthy' || gatewayCapture.usableMessageCount > 0 ? gatewayCapture.usableMessageCount || 1 : 0,
+      targetCount: 1,
+      sourceTables: [
+        'discord_gateway_heartbeats',
+        'discord_gateway_events',
+        'discord_messages',
+        'discord_gateway_dead_letters',
+      ],
+      qualifyingEvidence: [
+        'Fresh gateway heartbeat proves the deployed worker is alive.',
+        'Message Content Intent metadata is present and enabled.',
+        'At least one fresh visible non-bot message is captured with non-empty content.',
+      ],
+      rejectionRules: [
+        'Do not count deleted messages, bot-only messages, or empty-content rows as usable capture proof.',
+        'Do not count stale heartbeat rows or gateway rows that lack Message Content Intent metadata.',
+      ],
+      weeklyOperatorSteps: [
+        'Run the gateway capture diagnosis before reviewing proof candidates.',
+        'If blocked, fix worker deployment/env/Discord intent before expecting content candidates.',
+        'After a real member posts, rerun diagnosis, classifier, queue automation, and proof backlog.',
+      ],
+      safeLocalCommand: 'npm run discord:gateway-capture-diagnosis',
+      adminSurface: '/admin/discord -> Gateway, Messages, Jobs, and Alerts panels',
+      verificationCommand: 'npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog',
+      liveActionRequired: gatewayCapture.nextActions[0]
+        ?? 'Capture one fresh non-bot Discord message with non-empty content through the long-lived gateway worker.',
+      evidenceRequired: `Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: ${gatewayCapture.rootCauses.join('; ') || 'none'}.`,
+    }),
     lane({
       key: 'approved_discord_knowledge',
       title: 'Approved Discord knowledge',

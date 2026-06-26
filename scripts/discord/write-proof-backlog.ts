@@ -6,10 +6,14 @@ import type { OperatingCycleMetrics } from '@/lib/discord/operating-proof-cycle-
 
 const root = process.cwd();
 const operatingCyclePath = path.join(root, 'docs', 'evidence', 'discord-ai-os', 'phase-21-operating-proof-cycle.json');
+const gatewayCapturePath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json');
 const outputPath = path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-backlog-latest.json');
 
 async function main() {
-  const operatingCycle = JSON.parse(await readFile(operatingCyclePath, 'utf8'));
+  const [operatingCycle, gatewayCaptureEvidence] = await Promise.all([
+    readFile(operatingCyclePath, 'utf8').then(JSON.parse),
+    readFile(gatewayCapturePath, 'utf8').then(JSON.parse),
+  ]);
   const metrics = operatingCycle.metricsAfter ?? operatingCycle.metricsBefore;
   if (!metrics) {
     throw new Error('Operating cycle evidence is missing metrics.');
@@ -18,6 +22,12 @@ async function main() {
   const report = buildDiscordProofBacklogReport({
     generatedAt: new Date().toISOString(),
     metrics: metrics as OperatingCycleMetrics,
+    gatewayCapture: {
+      status: gatewayCaptureEvidence.diagnosis?.status ?? 'blocked',
+      usableMessageCount: gatewayCaptureEvidence.counts?.['discord_messages.non_bot_non_empty'] ?? 0,
+      rootCauses: gatewayCaptureEvidence.diagnosis?.rootCauses ?? [],
+      nextActions: gatewayCaptureEvidence.diagnosis?.nextActions ?? [],
+    },
   });
 
   await mkdir(path.dirname(outputPath), { recursive: true });

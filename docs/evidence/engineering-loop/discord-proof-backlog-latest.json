@@ -1,10 +1,42 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T00:54:25.281Z",
+  "generatedAt": "2026-06-26T02:26:27.751Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "currentCount": 0,
+      "targetCount": 1,
+      "sourceTables": [
+        "discord_gateway_heartbeats",
+        "discord_gateway_events",
+        "discord_messages",
+        "discord_gateway_dead_letters"
+      ],
+      "qualifyingEvidence": [
+        "Fresh gateway heartbeat proves the deployed worker is alive.",
+        "Message Content Intent metadata is present and enabled.",
+        "At least one fresh visible non-bot message is captured with non-empty content."
+      ],
+      "rejectionRules": [
+        "Do not count deleted messages, bot-only messages, or empty-content rows as usable capture proof.",
+        "Do not count stale heartbeat rows or gateway rows that lack Message Content Intent metadata."
+      ],
+      "weeklyOperatorSteps": [
+        "Run the gateway capture diagnosis before reviewing proof candidates.",
+        "If blocked, fix worker deployment/env/Discord intent before expecting content candidates.",
+        "After a real member posts, rerun diagnosis, classifier, queue automation, and proof backlog."
+      ],
+      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
+      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "liveActionRequired": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "evidenceRequired": "Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty..",
+      "status": "blocked"
+    },
     {
       "key": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
@@ -133,6 +165,18 @@
   "weeklyChecklist": [
     {
       "order": 1,
+      "laneKey": "gateway_capture",
+      "title": "Gateway message capture",
+      "operatorAction": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis",
+      "liveCommand": null,
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
+      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "evidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway diagnosis must be healthy with at least one usable non-bot message. Current root causes: Latest gateway heartbeat does not expose Message Content Intent metadata.; Non-bot messages exist, but message content is empty.."
+    },
+    {
+      "order": 2,
       "laneKey": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
       "operatorAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
@@ -144,7 +188,7 @@
       "acceptanceCriteria": "Approved Discord knowledge reaches 10/10; current evidence is 0/10. At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement."
     },
     {
-      "order": 2,
+      "order": 3,
       "laneKey": "rag_discord_sources",
       "title": "Discord knowledge synced into RAG",
       "operatorAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
@@ -156,7 +200,7 @@
       "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
     },
     {
-      "order": 3,
+      "order": 4,
       "laneKey": "public_proof_assets",
       "title": "Public proof growth assets",
       "operatorAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -168,7 +212,7 @@
       "acceptanceCriteria": "Public proof growth assets reaches 4/4; current evidence is 0/4. Four weekly proof drafts or published assets with application/source tracking."
     },
     {
-      "order": 4,
+      "order": 5,
       "laneKey": "premium_workflow_proof",
       "title": "Premium workflow proof",
       "operatorAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
@@ -181,6 +225,7 @@
     }
   ],
   "nextActions": [
+    "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

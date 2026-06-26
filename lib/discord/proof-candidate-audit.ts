@@ -59,6 +59,8 @@ function sourceVolumeForLane(input: {
 }): number {
   const metrics = input.operatingCycle.metricsAfter ?? input.operatingCycle.metricsBefore;
   switch (input.laneKey) {
+    case 'gateway_capture':
+      return input.currentCount;
     case 'approved_discord_knowledge':
       return numberValue(metrics.pendingKnowledgeCandidates) + input.currentCount;
     case 'rag_discord_sources':
@@ -86,6 +88,9 @@ function blockersForLane(input: {
   if (input.currentCount > 0) return blockers;
 
   switch (input.laneKey) {
+    case 'gateway_capture':
+      blockers.push('Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.');
+      break;
     case 'approved_discord_knowledge':
       if (numberValue(metrics.pendingKnowledgeCandidates) <= 0) {
         blockers.push('No pending knowledge candidates are available for admin review.');
@@ -131,6 +136,8 @@ function nextReviewActionForLane(input: {
   if (input.currentCount >= input.targetCount) return 'Maintain proof quality and rerun scorecard after the next operating cycle.';
   if (input.candidateCount > input.currentCount) {
     switch (input.laneKey) {
+      case 'gateway_capture':
+        return 'Run gateway capture diagnosis and fix worker/intent/message capture before reviewing downstream proof lanes.';
       case 'approved_discord_knowledge':
         return 'Review pending knowledge candidates and approve only reusable, privacy-safe items.';
       case 'rag_discord_sources':
@@ -198,7 +205,7 @@ export function buildDiscordProofCandidateAudit(input: {
     } satisfies DiscordProofCandidateAuditLane;
   });
 
-  if (lanes.length !== 4) failures.push('wrong_lane_count');
+  if (lanes.length !== 5) failures.push('wrong_lane_count');
   if (input.weeklyPacket.mutationMode !== 'local_file_evidence_only') failures.push('weekly_packet_not_local_only');
   if (!lanes.every((lane) => lane.requiredEvidenceFields.includes('privacy_status'))) failures.push('missing_privacy_status_field');
   if (!lanes.every((lane) => lane.requiredEvidenceFields.includes('decision_reason'))) failures.push('missing_decision_reason_field');
@@ -239,7 +246,7 @@ export function validateDiscordProofCandidateAudit(audit: DiscordProofCandidateA
   if (!audit.releaseMeaning.includes('does not create, approve, sync, publish, or satisfy operating proof')) {
     failures.push('missing_non_mutation_disclaimer');
   }
-  if (audit.lanes.length !== 4) failures.push('wrong_lane_count');
+  if (audit.lanes.length !== 5) failures.push('wrong_lane_count');
   if (!audit.lanes.every((lane) => lane.remainingCount === Math.max(0, lane.targetCount - lane.currentCount))) {
     failures.push('remaining_count_mismatch');
   }

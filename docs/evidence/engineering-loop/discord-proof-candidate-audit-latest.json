@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T01:14:57.581Z",
+  "generatedAt": "2026-06-26T02:26:28.808Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -15,6 +15,42 @@
     "premiumWorkflowProofs": 0
   },
   "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 1,
+      "remainingCount": 1,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_gateway_heartbeats",
+        "discord_gateway_events",
+        "discord_messages",
+        "discord_gateway_dead_letters"
+      ],
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
+      "blockers": [
+        "Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message."
+      ],
+      "nextReviewAction": "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
+      "provingCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "source_record_id",
+        "source_url_or_path",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "privacy_status",
+        "worker_id",
+        "message_content_enabled",
+        "usable_message_id",
+        "capture_health"
+      ]
+    },
     {
       "key": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
@@ -160,6 +196,7 @@
   ],
   "failures": [],
   "nextActions": [
+    "Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

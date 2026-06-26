@@ -85,7 +85,7 @@ export function buildDiscordWeeklyProofPacket(input: {
     }
   }
 
-  if (lanes.length !== 4) failures.push('wrong_lane_count');
+  if (lanes.length !== 5) failures.push('wrong_lane_count');
   if (input.intake.mutationMode !== 'local_file_evidence_only') failures.push('intake_not_local_only');
   if (input.backlog.mutationMode !== 'local_file_evidence_only') failures.push('backlog_not_local_only');
   if (!lanes.every((lane) => intakeKeys.has(lane.key))) failures.push('lane_key_mismatch');
@@ -114,7 +114,7 @@ export function validateDiscordWeeklyProofPacket(packet: DiscordWeeklyProofPacke
   if (packet.version !== 'discord-weekly-proof-packet-v1') failures.push('wrong_version');
   if (packet.mutationMode !== 'local_file_evidence_only') failures.push('wrong_mutation_mode');
   if (!packet.releaseMeaning.includes('does not create or satisfy operating proof')) failures.push('missing_non_proof_disclaimer');
-  if (packet.lanes.length !== 4) failures.push('wrong_lane_count');
+  if (packet.lanes.length !== 5) failures.push('wrong_lane_count');
   if (!packet.lanes.every((lane) => lane.remainingCount === Math.max(0, lane.targetCount - lane.currentCount))) {
     failures.push('remaining_count_mismatch');
   }

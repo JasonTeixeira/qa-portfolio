@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T00:54:25.757Z
+Generated: 2026-06-26T02:26:28.264Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -11,14 +11,59 @@ Weekly proof packet is an operator collection template. It does not create or sa
 
 ## Weekly Intake Order
 
-1. Review candidates and fill required proof fields.
-2. Reject private, generic, low-context, or unsupported material.
-3. Approve reusable knowledge and sync only approved items into RAG.
-4. Create privacy-safe public proof assets from approved sources.
-5. Fulfill and log one premium path when premium activity exists.
-6. Rerun operating cycle, proof backlog, operator brief, and final scorecard.
+1. Confirm gateway capture is healthy before reviewing downstream knowledge candidates.
+2. Review candidates and fill required proof fields.
+3. Reject private, generic, low-context, or unsupported material.
+4. Approve reusable knowledge and sync only approved items into RAG.
+5. Create privacy-safe public proof assets from approved sources.
+6. Fulfill and log one premium path when premium activity exists.
+7. Rerun operating cycle, proof backlog, operator brief, and final scorecard.
 
 ## Proof Lanes
+
+### Gateway message capture
+
+- Key: gateway_capture
+- Status: blocked
+- Current: 0/1
+- Remaining: 1
+- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts
+- Source tables: discord_gateway_heartbeats, discord_gateway_events, discord_messages, discord_gateway_dead_letters
+- Verify: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
+- Evidence paths: docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json, docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json, docs/evidence/engineering-loop/discord-proof-backlog-latest.json
+
+Required intake template:
+```json
+{
+  "source_record_id": "<source_record_id>",
+  "source_url_or_path": "<source_url_or_path>",
+  "title": "<title>",
+  "summary": "<summary>",
+  "reviewer": "<reviewer>",
+  "reviewed_at": "<ISO timestamp>",
+  "decision_reason": "<decision_reason>",
+  "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
+  "worker_id": "<worker_id>",
+  "message_content_enabled": "<message_content_enabled>",
+  "usable_message_id": "<usable_message_id>",
+  "capture_health": "<capture_health>"
+}
+```
+
+Accept:
+- Gateway heartbeat is fresh and tied to the current worker build.
+- Message Content Intent metadata is present and enabled.
+- At least one fresh non-bot message is captured with non-empty content.
+- No recent dead letters or close codes invalidate the capture proof.
+
+Reject:
+- Deleted, bot-only, or empty-content messages.
+- Stale heartbeat rows or worker metadata that does not expose Message Content Intent state.
+- Gateway close codes, dead letters, or invalid sessions that make capture unreliable.
+
+Privacy:
+- Use only content that is visible in approved free/community channels.
+- Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review.
 
 ### Approved Discord knowledge
 
@@ -195,6 +240,7 @@ Privacy:
 
 ## Next Actions
 
+- Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T01:14:57.581Z
+Generated: 2026-06-26T02:26:28.808Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -20,6 +20,23 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 - premiumWorkflowProofs: 0
 
 ## Candidate Lanes
+
+### Gateway message capture
+
+- Key: gateway_capture
+- Status: blocked
+- Candidate state: needs_source_volume
+- Current: 0/1
+- Candidate count: 0
+- Remaining: 1
+- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
+- Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
+- Required fields: source_record_id, source_url_or_path, title, summary, reviewer, reviewed_at, decision_reason, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
+
+Blockers:
+- Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
+
+Next review action: Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
 
 ### Approved Discord knowledge
 
@@ -95,6 +112,7 @@ Next review action: Run one premium review, deeper-answer, or office-hours flow 
 
 ## Next Actions
 
+- Confirm the deployed worker is running the current heartbeat metadata build and has DISCORD_GATEWAY_MESSAGE_CONTENT=true.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

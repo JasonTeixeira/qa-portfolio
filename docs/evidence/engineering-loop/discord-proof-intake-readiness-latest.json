@@ -1,10 +1,121 @@
 {
   "ok": true,
   "version": "discord-proof-intake-readiness-v1",
-  "generatedAt": "2026-06-26T00:54:23.113Z",
+  "generatedAt": "2026-06-26T02:26:27.180Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.",
   "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "targetCount": 1,
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts",
+      "sourceTables": [
+        "discord_gateway_heartbeats",
+        "discord_gateway_events",
+        "discord_messages",
+        "discord_gateway_dead_letters"
+      ],
+      "requiredFields": [
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "worker_id",
+          "label": "Worker id",
+          "description": "Gateway worker id that captured the message or wrote the heartbeat.",
+          "required": true
+        },
+        {
+          "key": "message_content_enabled",
+          "label": "Message content enabled",
+          "description": "Boolean confirmation from heartbeat metadata and Discord Developer Portal state.",
+          "required": true
+        },
+        {
+          "key": "usable_message_id",
+          "label": "Usable message id",
+          "description": "Fresh non-bot Discord message id captured with non-empty visible content.",
+          "required": true
+        },
+        {
+          "key": "capture_health",
+          "label": "Capture health",
+          "description": "healthy, warning, or blocked with root cause.",
+          "required": true
+        }
+      ],
+      "acceptanceChecks": [
+        "Gateway heartbeat is fresh and tied to the current worker build.",
+        "Message Content Intent metadata is present and enabled.",
+        "At least one fresh non-bot message is captured with non-empty content.",
+        "No recent dead letters or close codes invalidate the capture proof."
+      ],
+      "rejectionChecks": [
+        "Deleted, bot-only, or empty-content messages.",
+        "Stale heartbeat rows or worker metadata that does not expose Message Content Intent state.",
+        "Gateway close codes, dead letters, or invalid sessions that make capture unreliable."
+      ],
+      "privacyChecks": [
+        "Use only content that is visible in approved free/community channels.",
+        "Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review."
+      ],
+      "verificationCommands": [
+        "npm run discord:gateway-capture-diagnosis",
+        "npm run discord:proof-source-scan",
+        "npm run discord:proof-backlog"
+      ],
+      "evidencePaths": [
+        "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+        "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+        "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
+      ]
+    },
     {
       "key": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
@@ -429,10 +540,11 @@
       ]
     }
   ],
-  "requiredLaneCount": 4,
-  "requiredFieldCount": 45,
+  "requiredLaneCount": 5,
+  "requiredFieldCount": 57,
   "failures": [],
   "weeklyIntakeOrder": [
+    "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
     "Review candidates and fill required proof fields.",
     "Reject private, generic, low-context, or unsupported material.",
     "Approve reusable knowledge and sync only approved items into RAG.",

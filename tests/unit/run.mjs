@@ -2130,6 +2130,8 @@ test('discord final scorecard: release scores operating rhythm and validator are
 
 test('discord operating proof cycle: real operating blockers are measured not hidden', async () => {
   const {
+    OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET,
+    OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET,
     buildOperatingCycleKey,
     operatingCycleGates,
     operatingCycleNextActions,
@@ -2142,6 +2144,8 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 
   assert.equal(buildOperatingCycleKey(new Date(Date.UTC(2026, 0, 1))), '2026-W01');
+  assert.equal(OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET, 10);
+  assert.equal(OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET, 10);
   const gates = operatingCycleGates({
     metrics: {
       approvedDiscordKnowledgeSources: 0,
@@ -2164,8 +2168,54 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   });
   assert.equal(operatingCycleStatus(gates), 'blocked');
   assert.ok(operatingCycleNextActions(gates).some((action) => action.includes('Approve high-signal')));
+  assert.ok(gates.some((gate) => gate.name === 'approved_knowledge_available' && !gate.passed && gate.evidence.includes('0/10')));
+  assert.ok(gates.some((gate) => gate.name === 'approved_knowledge_synced_to_rag' && !gate.passed && gate.evidence.includes('0/10')));
   assert.ok(gates.some((gate) => gate.name === 'final_scorecard_current' && gate.passed));
   assert.ok(gates.some((gate) => gate.name === 'world_class_score_threshold' && !gate.passed));
+  const partialKnowledgeGates = operatingCycleGates({
+    metrics: {
+      approvedDiscordKnowledgeSources: 1,
+      ragDiscordSources: 1,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 1,
+      publishedPublicDrafts: 0,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 1,
+      premiumWorkflowProofs: 1,
+      applicationsSubmitted: 8,
+      applicationsApproved: 7,
+    },
+    ragSyncOk: true,
+    publicDraftCreated: true,
+    finalScorecardAverage: 96,
+    finalScorecardBlockedBelow95: [],
+  });
+  assert.ok(partialKnowledgeGates.some((gate) => gate.name === 'approved_knowledge_available' && !gate.passed && gate.evidence.includes('1/10')));
+  assert.ok(partialKnowledgeGates.some((gate) => gate.name === 'approved_knowledge_synced_to_rag' && !gate.passed && gate.evidence.includes('1/10')));
+  const thresholdKnowledgeGates = operatingCycleGates({
+    metrics: {
+      approvedDiscordKnowledgeSources: 10,
+      ragDiscordSources: 10,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 1,
+      publishedPublicDrafts: 0,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 1,
+      premiumWorkflowProofs: 1,
+      applicationsSubmitted: 8,
+      applicationsApproved: 7,
+    },
+    ragSyncOk: true,
+    publicDraftCreated: true,
+    finalScorecardAverage: 96,
+    finalScorecardBlockedBelow95: [],
+  });
+  assert.ok(thresholdKnowledgeGates.find((gate) => gate.name === 'approved_knowledge_available')?.passed);
+  assert.ok(thresholdKnowledgeGates.find((gate) => gate.name === 'approved_knowledge_synced_to_rag')?.passed);
   assert.match(migration, /create table if not exists public\.discord_operating_cycles/);
   assert.match(migration, /metrics_after jsonb not null/);
   assert.match(script, /runDiscordOperatingProofCycle/);

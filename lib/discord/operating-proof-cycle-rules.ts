@@ -20,6 +20,9 @@ export type OperatingCycleGate = {
   nextAction?: string;
 };
 
+export const OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET = 10;
+export const OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET = 10;
+
 export function buildOperatingCycleKey(date = new Date()): string {
   const year = date.getUTCFullYear();
   const start = new Date(Date.UTC(year, 0, 1));
@@ -38,14 +41,14 @@ export function operatingCycleGates(input: {
   return [
     {
       name: 'approved_knowledge_available',
-      passed: input.metrics.approvedDiscordKnowledgeSources > 0,
-      evidence: `${input.metrics.approvedDiscordKnowledgeSources} approved Discord knowledge sources available`,
+      passed: input.metrics.approvedDiscordKnowledgeSources >= OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET,
+      evidence: `${input.metrics.approvedDiscordKnowledgeSources}/${OPERATING_CYCLE_APPROVED_KNOWLEDGE_TARGET} approved Discord knowledge sources available`,
       nextAction: 'Approve high-signal questions, helpful answers, resources, wins, or content queue items.',
     },
     {
       name: 'approved_knowledge_synced_to_rag',
-      passed: input.ragSyncOk && input.metrics.ragDiscordSources > 0,
-      evidence: `${input.metrics.ragDiscordSources} Discord RAG sources after sync`,
+      passed: input.ragSyncOk && input.metrics.ragDiscordSources >= OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET,
+      evidence: `${input.metrics.ragDiscordSources}/${OPERATING_CYCLE_RAG_DISCORD_SOURCE_TARGET} Discord RAG sources after sync`,
       nextAction: 'Run approved Discord RAG sync after weekly approvals.',
     },
     {

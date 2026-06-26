@@ -2,8 +2,8 @@
   "ok": false,
   "status": "blocked",
   "cycleKey": "2026-W26",
-  "startedAt": "2026-06-26T03:19:00.079Z",
-  "finishedAt": "2026-06-26T03:19:00.939Z",
+  "startedAt": "2026-06-26T03:27:35.688Z",
+  "finishedAt": "2026-06-26T03:27:36.281Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
@@ -87,13 +87,13 @@
     {
       "name": "approved_knowledge_available",
       "passed": false,
-      "evidence": "0 approved Discord knowledge sources available",
+      "evidence": "0/10 approved Discord knowledge sources available",
       "nextAction": "Approve high-signal questions, helpful answers, resources, wins, or content queue items."
     },
     {
       "name": "approved_knowledge_synced_to_rag",
       "passed": false,
-      "evidence": "0 Discord RAG sources after sync",
+      "evidence": "0/10 Discord RAG sources after sync",
       "nextAction": "Run approved Discord RAG sync after weekly approvals."
     },
     {

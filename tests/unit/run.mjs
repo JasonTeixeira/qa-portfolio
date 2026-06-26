@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:operator-brief && npm run discord:content-factory-readiness',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:proof-intake-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:weekly-proof-packet && npm run discord:proof-candidate-audit && npm run discord:operator-brief && npm run discord:content-factory-readiness',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
@@ -90,6 +90,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:content-factory-readiness'], 'tsx scripts/discord/write-content-factory-readiness.ts');
   assert.equal(packageJson.scripts['discord:proof-intake-readiness'], 'tsx scripts/discord/write-proof-intake-readiness.ts');
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
+  assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -107,10 +108,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-weekly-proof-packet-latest\.json/);
+  assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /contentFactoryReadiness/);
   assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /weeklyProofPacket/);
+  assert.match(localVerificationEvidence, /proofCandidateAudit/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
@@ -1607,6 +1610,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Proof lanes',
     'Proof rehearsal readiness',
     'Content factory readiness',
+    'Proof candidate audit',
     'World-class readiness triage',
     'Audit stream',
   ]) {
@@ -1647,6 +1651,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /WeeklyProofPacketLaneRow/);
   assert.match(page, /data-testid="discord-weekly-proof-packet"/);
   assert.match(page, /Run npm run discord:weekly-proof-packet/);
+  assert.match(page, /loadProofCandidateAudit/);
+  assert.match(page, /discord-proof-candidate-audit-latest\.json/);
+  assert.match(page, /ProofCandidateAuditLaneRow/);
+  assert.match(page, /data-testid="discord-proof-candidate-audit"/);
+  assert.match(page, /Run npm run discord:proof-candidate-audit/);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);
   assert.match(page, /discord_growth_events/);
@@ -2411,6 +2420,112 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   const validation = validateDiscordWeeklyProofPacket(invalid);
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('missing_non_proof_disclaimer'));
+});
+
+test('discord proof candidate audit: explains blocked proof lanes without mutating systems', async () => {
+  const {
+    buildDiscordProofBacklogReport,
+  } = await import('../../lib/discord/proof-backlog.ts');
+  const {
+    buildDiscordProofIntakeReadinessReport,
+  } = await import('../../lib/discord/proof-intake-readiness.ts');
+  const {
+    buildDiscordWeeklyProofPacket,
+  } = await import('../../lib/discord/weekly-proof-packet.ts');
+  const {
+    buildDiscordProofCandidateAudit,
+    renderDiscordProofCandidateAuditMarkdown,
+    validateDiscordProofCandidateAudit,
+  } = await import('../../lib/discord/proof-candidate-audit.ts');
+
+  const metrics = {
+    approvedDiscordKnowledgeSources: 0,
+    ragDiscordSources: 0,
+    pendingKnowledgeCandidates: 3,
+    pendingPublicDrafts: 0,
+    publishedPublicDrafts: 0,
+    approvedMembers: 7,
+    onboardedMembers: 7,
+    activeMembers7d: 7,
+    premiumMembers: 0,
+    premiumWorkflowProofs: 0,
+    applicationsSubmitted: 2,
+    applicationsApproved: 1,
+  };
+  const backlog = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    metrics,
+  });
+  const intake = buildDiscordProofIntakeReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+  });
+  const weeklyPacket = buildDiscordWeeklyProofPacket({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    backlog,
+    intake,
+  });
+  const audit = buildDiscordProofCandidateAudit({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    operatingCycle: {
+      ok: false,
+      status: 'blocked',
+      cycleKey: '2026-W26',
+      startedAt: '2026-06-25T00:00:00.000Z',
+      finishedAt: '2026-06-25T00:00:00.000Z',
+      metricsBefore: metrics,
+      metricsAfter: metrics,
+      ragSync: {
+        ok: true,
+        runKey: 'dry-run',
+        status: 'completed',
+        approvalPolicy: 'dry-run',
+        approvedDiscordStats: null,
+        stats: { sourcesSeen: 0, sourcesUpserted: 0, documentsUpserted: 0, failures: 0, byType: {} },
+        blocker: null,
+        sampleSources: [],
+        error: null,
+      },
+      publicProof: {
+        created: false,
+        sourceId: null,
+        draftId: null,
+        sourceTable: null,
+        sourceRecordId: null,
+        draftType: null,
+        reusedExistingSource: false,
+        blocker: 'No approved Discord question, helpful answer, published content queue item, or approved draft is available for public proof.',
+      },
+      finalScorecard: { averageScore: 83, blockedBelow95: ['content_engine'], latestRunKey: 'dry-run' },
+      gates: [],
+      nextActions: [],
+      auditRowId: null,
+    },
+    backlog,
+    weeklyPacket,
+  });
+
+  assert.equal(audit.ok, true);
+  assert.equal(audit.version, 'discord-proof-candidate-audit-v1');
+  assert.equal(audit.mutationMode, 'local_file_evidence_only');
+  assert.match(audit.releaseMeaning, /does not create, approve, sync, publish, or satisfy operating proof/);
+  assert.equal(audit.status, 'blocked');
+  assert.equal(audit.metricsSnapshot.pendingKnowledgeCandidates, 3);
+  assert.equal(audit.lanes.length, 4);
+  assert.equal(audit.lanes.find((lane) => lane.key === 'approved_discord_knowledge')?.candidateState, 'needs_review');
+  assert.equal(audit.lanes.find((lane) => lane.key === 'rag_discord_sources')?.candidateState, 'needs_source_volume');
+  assert.ok(audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('privacy_status')));
+  assert.ok(audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('decision_reason')));
+  assert.equal(validateDiscordProofCandidateAudit(audit).ok, true);
+
+  const markdown = renderDiscordProofCandidateAuditMarkdown(audit);
+  assert.match(markdown, /Sage Ideas Discord Proof Candidate Audit/);
+  assert.match(markdown, /Candidate state: needs_review/);
+  assert.match(markdown, /does not create, approve, sync, publish, or satisfy operating proof/);
+
+  const invalid = { ...audit, releaseMeaning: 'ready' };
+  const validation = validateDiscordProofCandidateAudit(invalid);
+  assert.equal(validation.ok, false);
+  assert.ok(validation.failures.includes('missing_non_mutation_disclaimer'));
 });
 
 test('discord proof controls: documents the non-fake path to 95+ operating proof', async () => {

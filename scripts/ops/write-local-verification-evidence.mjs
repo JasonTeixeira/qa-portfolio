@@ -15,6 +15,7 @@ const evidencePaths = {
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
   weeklyProofPacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
+  proofCandidateAudit: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -59,6 +60,7 @@ async function main() {
     contentFactoryReadiness,
     proofIntakeReadiness,
     weeklyProofPacket,
+    proofCandidateAudit,
   ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
@@ -112,6 +114,27 @@ async function main() {
   requireTruthy(
     weeklyProofPacket.lanes.every((lane) => lane.intakeTemplate?.privacy_status),
     'Weekly proof packet must include privacy_status intake placeholders.',
+  );
+  requireTruthy(proofCandidateAudit.ok === true, 'Proof candidate audit evidence is not ok.');
+  requireTruthy(
+    proofCandidateAudit.mutationMode === 'local_file_evidence_only',
+    'Proof candidate audit must not mutate external systems.',
+  );
+  requireTruthy(
+    proofCandidateAudit.releaseMeaning?.includes('does not create, approve, sync, publish, or satisfy operating proof'),
+    'Proof candidate audit must explicitly avoid claiming operating proof.',
+  );
+  requireTruthy(
+    Array.isArray(proofCandidateAudit.lanes) && proofCandidateAudit.lanes.length === 4,
+    'Proof candidate audit must cover all four proof lanes.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('privacy_status')),
+    'Proof candidate audit must require privacy_status for every lane.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('decision_reason')),
+    'Proof candidate audit must require decision_reason for every lane.',
   );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
@@ -211,6 +234,15 @@ async function main() {
         .filter((lane) => lane.status === 'blocked')
         .map((lane) => `${lane.key}:${lane.currentCount}/${lane.targetCount}`),
       releaseMeaning: weeklyProofPacket.releaseMeaning,
+    },
+    proofCandidateAudit: {
+      ok: proofCandidateAudit.ok,
+      mutationMode: proofCandidateAudit.mutationMode,
+      status: proofCandidateAudit.status,
+      laneCount: Array.isArray(proofCandidateAudit.lanes) ? proofCandidateAudit.lanes.length : 0,
+      candidateStates: proofCandidateAudit.lanes.map((lane) => `${lane.key}:${lane.candidateState}:${lane.currentCount}/${lane.targetCount}`),
+      nextActions: proofCandidateAudit.nextActions,
+      releaseMeaning: proofCandidateAudit.releaseMeaning,
     },
     remainingGaps: [
       'Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.',

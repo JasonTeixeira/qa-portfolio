@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T00:54:24.330Z",
+  "timestamp": "2026-06-26T01:16:27.947Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -35,7 +35,8 @@
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
-    "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json"
+    "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
+    "proofCandidateAudit": "docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json"
   },
   "scorecard": {
     "averageScore": 83,
@@ -161,6 +162,25 @@
       "premium_workflow_proof:0/1"
     ],
     "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records."
+  },
+  "proofCandidateAudit": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "laneCount": 4,
+    "candidateStates": [
+      "approved_discord_knowledge:needs_source_volume:0/10",
+      "rag_discord_sources:needs_source_volume:0/10",
+      "public_proof_assets:needs_source_volume:0/4",
+      "premium_workflow_proof:needs_source_volume:0/1"
+    ],
+    "nextActions": [
+      "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+    ],
+    "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof."
   },
   "remainingGaps": [
     "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",

@@ -530,6 +530,35 @@ type WeeklyProofPacket = {
   failures: string[];
 };
 
+type ProofCandidateAuditLane = {
+  key: string;
+  title: string;
+  status: 'passed' | 'blocked';
+  currentCount: number;
+  targetCount: number;
+  remainingCount: number;
+  candidateState: 'target_met' | 'needs_review' | 'needs_source_volume';
+  candidateCount: number;
+  sourceTables: string[];
+  adminSurface: string;
+  blockers: string[];
+  nextReviewAction: string;
+  provingCommand: string;
+  requiredEvidenceFields: string[];
+};
+
+type ProofCandidateAudit = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'passed' | 'blocked';
+  metricsSnapshot: Record<string, number>;
+  lanes: ProofCandidateAuditLane[];
+  failures: string[];
+  nextActions: string[];
+};
+
 type DiscordOperatorBriefEvidence = {
   ok: boolean;
   generatedAt: string;
@@ -592,6 +621,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const operatorBrief = await loadDiscordOperatorBrief();
   const proofIntakeReadiness = await loadProofIntakeReadiness();
   const weeklyProofPacket = await loadWeeklyProofPacket();
+  const proofCandidateAudit = await loadProofCandidateAudit();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
   const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
@@ -1306,6 +1336,47 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
           </Panel>
         </section>
 
+        <section className="mt-6" data-testid="discord-proof-candidate-audit">
+          <Panel
+            icon={ClipboardCheck}
+            title="Proof candidate audit"
+            meta={proofCandidateAudit.ok
+              ? `${proofCandidateAudit.lanes.filter((lane) => lane.candidateState === 'needs_source_volume').length} source-volume gaps`
+              : `${proofCandidateAudit.failures.length} failures`}
+            empty="Proof candidate audit has not been generated. Run npm run discord:proof-candidate-audit."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofCandidateAudit.status === 'passed' ? 'emerald' : 'rose'}>{proofCandidateAudit.status}</Badge>
+                  <Badge tone={proofCandidateAudit.ok ? 'emerald' : 'rose'}>{proofCandidateAudit.ok ? 'audit ready' : 'audit invalid'}</Badge>
+                  <Badge tone="neutral">{proofCandidateAudit.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofCandidateAudit.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Current proof counts</div>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  {Object.entries(proofCandidateAudit.metricsSnapshot).slice(0, 8).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                      <span className="truncate text-[#71717a]">{key}</span>
+                      <span className="font-semibold text-[#fafafa]">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {proofCandidateAudit.lanes.map((lane) => (
+              <ProofCandidateAuditLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofCandidateAudit.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
           <Panel
             icon={ShieldCheck}
@@ -1975,6 +2046,36 @@ async function loadWeeklyProofPacket(): Promise<WeeklyProofPacket> {
   }
 }
 
+async function loadProofCandidateAudit(): Promise<ProofCandidateAudit> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofCandidateAudit;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof candidate audit evidence is missing. Run npm run discord:proof-candidate-audit. This does not create, approve, sync, publish, or satisfy operating proof.',
+      status: 'blocked',
+      metricsSnapshot: {
+        approvedDiscordKnowledgeSources: 0,
+        ragDiscordSources: 0,
+        pendingKnowledgeCandidates: 0,
+        pendingPublicDrafts: 0,
+        publishedPublicDrafts: 0,
+        premiumMembers: 0,
+        premiumWorkflowProofs: 0,
+      },
+      lanes: [],
+      failures: ['proof_candidate_audit_missing'],
+      nextActions: ['Generate the proof candidate audit from current operating-cycle and weekly packet evidence.'],
+    };
+  }
+}
+
 function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
@@ -2254,6 +2355,51 @@ function WeeklyProofPacketLaneRow({ lane }: { lane: WeeklyProofPacketLane }) {
               <code className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-1.5 py-0.5 text-[#d4d4d8]">{value}</code>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProofCandidateAuditLaneRow({ lane }: { lane: ProofCandidateAuditLane }) {
+  const stateTone: Tone = lane.candidateState === 'target_met'
+    ? 'emerald'
+    : lane.candidateState === 'needs_review'
+      ? 'amber'
+      : 'rose';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.5fr)]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone={stateTone}>{lane.candidateState.replaceAll('_', ' ')}</Badge>
+          <Badge tone="neutral">{lane.currentCount}/{lane.targetCount}</Badge>
+          <Badge tone="cyan">candidates {lane.candidateCount}</Badge>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.nextReviewAction}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title={lane.blockers.length ? 'Blockers' : 'No blockers'} items={lane.blockers.length ? lane.blockers : ['No local evidence blocker for this lane.']} tone={lane.blockers.length ? 'rose' : 'emerald'} />
+          <ProofRuleGroup title="Required fields" items={lane.requiredEvidenceFields.slice(0, 6)} tone="cyan" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Admin: </span>{lane.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Prove: </span>{lane.provingCommand}
+          </div>
+        </div>
+      </div>
+      <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Source tables</div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {lane.sourceTables.map((table) => (
+            <Badge key={table} tone="neutral">{table}</Badge>
+          ))}
+        </div>
+        <div className="mt-3 text-xs leading-5 text-[#a1a1aa]">
+          Remaining: <span className="font-semibold text-[#fafafa]">{lane.remainingCount}</span>
         </div>
       </div>
     </div>

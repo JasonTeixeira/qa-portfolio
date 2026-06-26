@@ -1,0 +1,172 @@
+{
+  "ok": true,
+  "version": "discord-proof-candidate-audit-v1",
+  "generatedAt": "2026-06-26T01:14:57.581Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
+  "status": "blocked",
+  "metricsSnapshot": {
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 0,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "premiumMembers": 0,
+    "premiumWorkflowProofs": 0
+  },
+  "lanes": [
+    {
+      "key": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 10,
+      "remainingCount": 10,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_questions",
+        "discord_answers",
+        "discord_content_queue",
+        "discord_content_drafts"
+      ],
+      "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
+      "blockers": [
+        "No pending knowledge candidates are available for admin review.",
+        "Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge."
+      ],
+      "nextReviewAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "provingCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "source_record_id",
+        "source_url_or_path",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "privacy_status",
+        "source_type",
+        "reuse_category",
+        "rag_safe"
+      ]
+    },
+    {
+      "key": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 10,
+      "remainingCount": 10,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "rag_sources",
+        "rag_documents",
+        "rag_chunks"
+      ],
+      "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
+      "blockers": [
+        "No approved Discord knowledge exists to sync into authoritative RAG.",
+        "Latest RAG sync did not upsert approved Discord sources."
+      ],
+      "nextReviewAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "provingCommand": "npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "requiredEvidenceFields": [
+        "source_record_id",
+        "source_url_or_path",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "privacy_status",
+        "rag_source_key",
+        "chunk_count",
+        "eval_or_retrieval_proof"
+      ]
+    },
+    {
+      "key": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 4,
+      "remainingCount": 4,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_public_proof_sources",
+        "discord_public_growth_drafts",
+        "discord_growth_events"
+      ],
+      "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
+      "blockers": [
+        "Public proof drafts require approved Discord source material first.",
+        "Dry run does not create public proof drafts."
+      ],
+      "nextReviewAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "provingCommand": "npm run discord:operating-cycle && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "source_record_id",
+        "source_url_or_path",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "privacy_status",
+        "asset_type",
+        "utm_campaign",
+        "publish_status"
+      ]
+    },
+    {
+      "key": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 1,
+      "remainingCount": 1,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_members",
+        "discord_premium_review_requests",
+        "discord_office_hours_queue"
+      ],
+      "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
+      "blockers": [
+        "No premium member or deliberately seeded premium scenario is visible in current evidence.",
+        "Premium proof must show authorization, request/SLA state, and fulfillment outcome together."
+      ],
+      "nextReviewAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
+      "provingCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "source_record_id",
+        "source_url_or_path",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "privacy_status",
+        "premium_path",
+        "authorization_evidence",
+        "sla_status",
+        "fulfillment_summary"
+      ]
+    }
+  ],
+  "failures": [],
+  "nextActions": [
+    "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+    "Run the approved Discord RAG sync after approving knowledge candidates.",
+    "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+    "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+  ],
+  "validation": {
+    "ok": true,
+    "failures": []
+  }
+}

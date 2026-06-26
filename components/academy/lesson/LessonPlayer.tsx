@@ -8,6 +8,10 @@ import type { Course, Lesson, LessonBlock } from '@/data/academy/sample-course'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
 import type { Celebration } from '@/lib/academy/gamification-logic'
+import { StateBadge } from '@/components/academy/shell/StateBadge'
+import { ScoreCapMeter } from '@/components/academy/shell/ScoreCapMeter'
+import type { UnitState } from '@/lib/academy/evidence-events-logic'
+import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
 import styles from './lesson.module.css'
 
@@ -154,6 +158,8 @@ export function LessonPlayer({
   initialCompleted = false,
   locked = false,
   labHref,
+  unitState,
+  unitScore,
 }: {
   course: Course
   lesson: Lesson
@@ -162,6 +168,10 @@ export function LessonPlayer({
   locked?: boolean
   /** Override the lab URL (used by the off-catalog flagship sprint). */
   labHref?: string
+  /** Tier-0 evidence-spine unit state for the header chip. */
+  unitState?: UnitState
+  /** Tier-0 capped mastery score for the header meter (null when no user). */
+  unitScore?: ScoreResolution | null
 }) {
   const resolvedLabHref = labHref ?? `/academy/learn/${course.slug}/${lesson.slug}/lab`
   const t = topic(course.topic)
@@ -258,6 +268,24 @@ export function LessonPlayer({
         <article className={styles.lesson}>
           <p className={styles.eyebrow}>{lesson.eyebrow}</p>
           <h1 className={styles.title}>{lesson.title}</h1>
+          {(unitState || unitScore) ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                flexWrap: 'wrap',
+                margin: '0.5rem 0 1.25rem',
+              }}
+            >
+              {unitState ? <StateBadge state={unitState} /> : null}
+              {unitScore ? (
+                <div style={{ minWidth: '12rem', flex: '1 1 12rem', maxWidth: '20rem' }}>
+                  <ScoreCapMeter resolution={unitScore} />
+                </div>
+              ) : null}
+            </div>
+          ) : null}
           {locked ? (
             <div className={styles.paywall} role="region" aria-label="Membership required">
               {/* a teaser: the first block, then the gate */}

@@ -6,6 +6,7 @@ import { recordActivityAndAward, pickCelebration, type Celebration } from '@/lib
 import { ensureReviewCardsForCompleted } from '@/lib/academy/fsrs'
 import { maybeConvertReferral } from '@/lib/academy/referrals'
 import { updateFriendStreaks } from '@/lib/academy/community'
+import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -14,6 +15,7 @@ import { updateFriendStreaks } from '@/lib/academy/community'
 export async function markLessonComplete(
   courseSlug: string,
   lessonSlug: string,
+  opts?: { labVerified?: boolean },
 ): Promise<{ ok: boolean; signedIn: boolean; celebration?: Celebration | null }> {
   const sb = await createSupabaseServerClient()
   const {
@@ -62,6 +64,31 @@ export async function markLessonComplete(
       await updateFriendStreaks(user.id) // advance friend streaks for both-active pairs
     } catch (err) {
       console.error('[academy/progress] gamification award failed', err)
+    }
+
+    // Tier-0 evidence spine (best-effort, never block completion). userId is the
+    // authenticated session id; payload is built server-side from verified facts.
+    // unitId = lessonSlug (one lesson = one unit).
+    try {
+      await recordEvidenceEvent({
+        userId: user.id,
+        courseSlug,
+        lessonSlug,
+        unitId: lessonSlug,
+        type: 'lesson_completed',
+        payload: { spacingScheduled: true }, // FSRS review cards are created above, so spacing is genuinely scheduled
+      })
+      if (opts?.labVerified) {
+        await recordEvidenceEvent({
+          userId: user.id,
+          courseSlug,
+          lessonSlug,
+          unitId: lessonSlug,
+          type: 'lab_verified',
+        })
+      }
+    } catch (err) {
+      console.error('[academy/progress] evidence record failed', err)
     }
   }
 

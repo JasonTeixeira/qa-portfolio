@@ -87,7 +87,7 @@ export function LabRunner({
 
   const complete = () => {
     startComplete(async () => {
-      const res = await markLessonComplete(courseSlug, lessonSlug)
+      const res = await markLessonComplete(courseSlug, lessonSlug, { labVerified: true })
       if (res.ok) setCompleted(true)
     })
   }

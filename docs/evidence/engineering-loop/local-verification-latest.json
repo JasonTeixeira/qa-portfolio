@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T06:16:59.130Z",
+  "timestamp": "2026-06-26T06:22:55.960Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -270,7 +270,7 @@
       "public_proof_assets",
       "premium_workflow_proof"
     ],
-    "requiredFieldCount": 77,
+    "requiredFieldCount": 78,
     "antiFakeGateSummary": [
       {
         "key": "gateway_capture",

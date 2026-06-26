@@ -3060,6 +3060,7 @@ test('discord weekly proof packet: combines backlog counts with intake templates
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.privacy_status));
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.evidence_artifact_path));
   assert.ok(packet.lanes.every((lane) => lane.intakeTemplate.operator_attestation));
+  assert.ok(packet.lanes.find((lane) => lane.key === 'public_proof_assets')?.intakeTemplate.growth_tracking_status);
   assert.ok(packet.lanes.every((lane) => lane.privacyChecks.length >= 2));
   assert.ok(packet.lanes.every((lane) => lane.qualityGates.length >= 4));
   assert.ok(packet.lanes.every((lane) => lane.nonProofExamples.length >= 4));
@@ -3174,11 +3175,20 @@ test('discord proof candidate audit: explains blocked proof lanes without mutati
   assert.equal(audit.lanes.find((lane) => lane.key === 'rag_discord_sources')?.candidateState, 'needs_source_volume');
   assert.ok(audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('privacy_status')));
   assert.ok(audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('decision_reason')));
+  assert.deepEqual(
+    audit.lanes.find((lane) => lane.key === 'premium_workflow_proof')?.criticalEvidenceFields,
+    ['premium_path', 'authorization_evidence', 'sla_status', 'fulfillment_summary'],
+  );
+  assert.deepEqual(
+    audit.lanes.find((lane) => lane.key === 'public_proof_assets')?.criticalEvidenceFields,
+    ['asset_type', 'utm_campaign', 'publish_status', 'growth_tracking_status'],
+  );
   assert.equal(validateDiscordProofCandidateAudit(audit).ok, true);
 
   const markdown = renderDiscordProofCandidateAuditMarkdown(audit);
   assert.match(markdown, /Sage Ideas Discord Proof Candidate Audit/);
   assert.match(markdown, /Candidate state: needs_review/);
+  assert.match(markdown, /Critical lane fields: asset_type, utm_campaign, publish_status, growth_tracking_status/);
   assert.match(markdown, /does not create, approve, sync, publish, or satisfy operating proof/);
 
   const partialMetrics = {

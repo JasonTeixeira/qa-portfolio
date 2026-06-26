@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-weekly-proof-packet-v1",
-  "generatedAt": "2026-06-26T06:05:22.663Z",
+  "generatedAt": "2026-06-26T06:22:48.941Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.",
   "backlogStatus": "blocked",
@@ -610,6 +610,12 @@
           "required": true
         },
         {
+          "key": "growth_tracking_status",
+          "label": "Growth tracking status",
+          "description": "Tracked, pending_first_click, pending_application, or not_counted with the reason.",
+          "required": true
+        },
+        {
           "key": "conversion_snapshot",
           "label": "Conversion snapshot",
           "description": "Applications, approvals, active members, or other growth metric tied to the asset.",
@@ -670,7 +676,8 @@
         "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
         "asset_type": "<asset_type>",
         "utm_campaign": "<utm_campaign>",
-        "publish_status": "<publish_status>"
+        "publish_status": "<publish_status>",
+        "growth_tracking_status": "<growth_tracking_status>"
       }
     },
     {

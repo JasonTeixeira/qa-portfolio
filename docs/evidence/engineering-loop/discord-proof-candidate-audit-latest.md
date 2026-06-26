@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T06:05:23.185Z
+Generated: 2026-06-26T06:22:55.678Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -32,6 +32,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
 - Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
+- Critical lane fields: worker_id, message_content_enabled, usable_message_id, capture_health
 
 Blockers:
 - Current proof is 0/1; lane remains blocked until the target is met.
@@ -50,6 +51,7 @@ Next review action: Identify events show Message Content Intent enabled; redeplo
 - Admin surface: /admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels
 - Proving command: npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, source_type, reuse_category, rag_safe
+- Critical lane fields: source_type, reuse_category, rag_safe
 
 Blockers:
 - Current proof is 0/10; lane remains blocked until the target is met.
@@ -70,6 +72,7 @@ Next review action: Approve high-signal questions, answers, resources, wins, rev
 - Admin surface: /admin/discord -> RAG Health, Corpus Health, and Eval Runs panels
 - Proving command: npm run discord:operating-cycle && npm run rag:evaluate && npm run discord:smoke-final-scorecard
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, rag_source_key, chunk_count, eval_or_retrieval_proof
+- Critical lane fields: rag_source_key, chunk_count, eval_or_retrieval_proof
 
 Blockers:
 - Current proof is 0/10; lane remains blocked until the target is met.
@@ -89,7 +92,8 @@ Next review action: Run the approved Discord RAG sync after approving knowledge 
 - Remaining: 4
 - Admin surface: /admin/discord -> Public Proof Sources and Public Growth Drafts panels
 - Proving command: npm run discord:operating-cycle && npm run discord:proof-backlog
-- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status
+- Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, asset_type, utm_campaign, publish_status, growth_tracking_status
+- Critical lane fields: asset_type, utm_campaign, publish_status, growth_tracking_status
 
 Blockers:
 - Current proof is 0/4; lane remains blocked until the target is met.
@@ -110,6 +114,7 @@ Next review action: Create privacy-safe public proof drafts from approved Discor
 - Admin surface: /admin/discord -> Premium, Office Hours, and Member Intelligence panels
 - Proving command: npm run discord:smoke-premium-workflows && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
+- Critical lane fields: premium_path, authorization_evidence, sla_status, fulfillment_summary
 
 Blockers:
 - Current proof is 0/1; lane remains blocked until the target is met.

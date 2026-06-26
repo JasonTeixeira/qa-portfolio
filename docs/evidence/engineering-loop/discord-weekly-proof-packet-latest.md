@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T06:05:22.663Z
+Generated: 2026-06-26T06:22:48.941Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -239,7 +239,8 @@ Required intake template:
   "privacy_status": "<public | anonymized | permissioned | private_blocked | rejected>",
   "asset_type": "<asset_type>",
   "utm_campaign": "<utm_campaign>",
-  "publish_status": "<publish_status>"
+  "publish_status": "<publish_status>",
+  "growth_tracking_status": "<growth_tracking_status>"
 }
 ```
 

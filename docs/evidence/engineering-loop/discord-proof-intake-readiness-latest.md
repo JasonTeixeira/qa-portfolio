@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Intake Readiness
 
-Generated: 2026-06-26T06:05:21.642Z
+Generated: 2026-06-26T06:22:48.909Z
 Mutation mode: local_file_evidence_only
 Readiness OK: yes
 
@@ -169,6 +169,7 @@ Required fields:
 - asset_type: Article, newsletter, social post, proof card, recap, or showcase item.
 - utm_campaign: Campaign key used to track applications or engagement from the asset.
 - publish_status: pending_approval, approved, published, or rejected.
+- growth_tracking_status: Tracked, pending_first_click, pending_application, or not_counted with the reason.
 
 Accept:
 - Asset is tied to an approved Discord source.

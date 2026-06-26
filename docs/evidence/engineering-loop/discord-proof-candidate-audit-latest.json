@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T06:05:23.185Z",
+  "generatedAt": "2026-06-26T06:22:55.678Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -54,6 +54,12 @@
         "message_content_enabled",
         "usable_message_id",
         "capture_health"
+      ],
+      "criticalEvidenceFields": [
+        "worker_id",
+        "message_content_enabled",
+        "usable_message_id",
+        "capture_health"
       ]
     },
     {
@@ -93,6 +99,11 @@
         "evidence_artifact_path",
         "operator_attestation",
         "privacy_status",
+        "source_type",
+        "reuse_category",
+        "rag_safe"
+      ],
+      "criticalEvidenceFields": [
         "source_type",
         "reuse_category",
         "rag_safe"
@@ -137,6 +148,11 @@
         "rag_source_key",
         "chunk_count",
         "eval_or_retrieval_proof"
+      ],
+      "criticalEvidenceFields": [
+        "rag_source_key",
+        "chunk_count",
+        "eval_or_retrieval_proof"
       ]
     },
     {
@@ -177,7 +193,14 @@
         "privacy_status",
         "asset_type",
         "utm_campaign",
-        "publish_status"
+        "publish_status",
+        "growth_tracking_status"
+      ],
+      "criticalEvidenceFields": [
+        "asset_type",
+        "utm_campaign",
+        "publish_status",
+        "growth_tracking_status"
       ]
     },
     {
@@ -215,6 +238,12 @@
         "evidence_artifact_path",
         "operator_attestation",
         "privacy_status",
+        "premium_path",
+        "authorization_evidence",
+        "sla_status",
+        "fulfillment_summary"
+      ],
+      "criticalEvidenceFields": [
         "premium_path",
         "authorization_evidence",
         "sla_status",

@@ -225,6 +225,7 @@ export function buildDiscordProofIntakeReadinessReport(input: {
         field('asset_type', 'Asset type', 'Article, newsletter, social post, proof card, recap, or showcase item.'),
         field('utm_campaign', 'UTM campaign', 'Campaign key used to track applications or engagement from the asset.'),
         field('publish_status', 'Publish status', 'pending_approval, approved, published, or rejected.'),
+        field('growth_tracking_status', 'Growth tracking status', 'Tracked, pending_first_click, pending_application, or not_counted with the reason.'),
         field('conversion_snapshot', 'Conversion snapshot', 'Applications, approvals, active members, or other growth metric tied to the asset.', false),
       ],
       acceptanceChecks: [

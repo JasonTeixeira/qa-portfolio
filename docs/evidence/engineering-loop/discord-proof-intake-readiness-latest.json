@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-intake-readiness-v1",
-  "generatedAt": "2026-06-26T06:05:21.642Z",
+  "generatedAt": "2026-06-26T06:22:48.909Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.",
   "lanes": [
@@ -545,6 +545,12 @@
           "required": true
         },
         {
+          "key": "growth_tracking_status",
+          "label": "Growth tracking status",
+          "description": "Tracked, pending_first_click, pending_application, or not_counted with the reason.",
+          "required": true
+        },
+        {
           "key": "conversion_snapshot",
           "label": "Conversion snapshot",
           "description": "Applications, approvals, active members, or other growth metric tied to the asset.",
@@ -741,7 +747,7 @@
     }
   ],
   "requiredLaneCount": 5,
-  "requiredFieldCount": 77,
+  "requiredFieldCount": 78,
   "failures": [],
   "weeklyIntakeOrder": [
     "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",

@@ -17,6 +17,7 @@ export type DiscordProofCandidateAuditLane = {
   nextReviewAction: string;
   provingCommand: string;
   requiredEvidenceFields: string[];
+  criticalEvidenceFields: string[];
 };
 
 export type DiscordProofCandidateAudit = {
@@ -50,6 +51,23 @@ function requiredFieldsForLane(packet: DiscordWeeklyProofPacket, key: string): s
   return lane.requiredFields
     .filter((field) => field.required)
     .map((field) => field.key);
+}
+
+function criticalEvidenceFieldsForLane(key: string): string[] {
+  switch (key) {
+    case 'gateway_capture':
+      return ['worker_id', 'message_content_enabled', 'usable_message_id', 'capture_health'];
+    case 'approved_discord_knowledge':
+      return ['source_type', 'reuse_category', 'rag_safe'];
+    case 'rag_discord_sources':
+      return ['rag_source_key', 'chunk_count', 'eval_or_retrieval_proof'];
+    case 'public_proof_assets':
+      return ['asset_type', 'utm_campaign', 'publish_status', 'growth_tracking_status'];
+    case 'premium_workflow_proof':
+      return ['premium_path', 'authorization_evidence', 'sla_status', 'fulfillment_summary'];
+    default:
+      return [];
+  }
 }
 
 function sourceVolumeForLane(input: {
@@ -196,6 +214,9 @@ export function buildDiscordProofCandidateAudit(input: {
         ? 'needs_review'
         : 'needs_source_volume';
 
+    const requiredEvidenceFields = requiredFieldsForLane(input.weeklyPacket, lane.key);
+    const criticalEvidenceFields = criticalEvidenceFieldsForLane(lane.key);
+
     return {
       key: lane.key,
       title: lane.title,
@@ -216,7 +237,8 @@ export function buildDiscordProofCandidateAudit(input: {
         fallbackAction: lane.liveActionRequired,
       }),
       provingCommand: lane.verificationCommand,
-      requiredEvidenceFields: requiredFieldsForLane(input.weeklyPacket, lane.key),
+      requiredEvidenceFields,
+      criticalEvidenceFields,
     } satisfies DiscordProofCandidateAuditLane;
   });
 
@@ -224,6 +246,11 @@ export function buildDiscordProofCandidateAudit(input: {
   if (input.weeklyPacket.mutationMode !== 'local_file_evidence_only') failures.push('weekly_packet_not_local_only');
   if (!lanes.every((lane) => lane.requiredEvidenceFields.includes('privacy_status'))) failures.push('missing_privacy_status_field');
   if (!lanes.every((lane) => lane.requiredEvidenceFields.includes('decision_reason'))) failures.push('missing_decision_reason_field');
+  for (const lane of lanes) {
+    for (const field of lane.criticalEvidenceFields) {
+      if (!lane.requiredEvidenceFields.includes(field)) failures.push(`${lane.key}:missing_critical_${field}`);
+    }
+  }
   if (!lanes.every((lane) => lane.nextReviewAction.length > 20)) failures.push('thin_next_review_action');
   if (!lanes.every((lane) => lane.provingCommand.length > 0)) failures.push('missing_proving_command');
 
@@ -274,6 +301,12 @@ export function validateDiscordProofCandidateAudit(audit: DiscordProofCandidateA
   if (!audit.lanes.every((lane) => lane.requiredEvidenceFields.includes('decision_reason'))) {
     failures.push('missing_decision_reason_field');
   }
+  for (const lane of audit.lanes) {
+    if (lane.criticalEvidenceFields.length < 3) failures.push(`${lane.key}:critical_fields_too_thin`);
+    for (const field of lane.criticalEvidenceFields) {
+      if (!lane.requiredEvidenceFields.includes(field)) failures.push(`${lane.key}:missing_critical_${field}`);
+    }
+  }
   return {
     ok: audit.ok === true && failures.length === 0,
     failures,
@@ -311,6 +344,7 @@ export function renderDiscordProofCandidateAuditMarkdown(audit: DiscordProofCand
       `- Admin surface: ${lane.adminSurface}`,
       `- Proving command: ${lane.provingCommand}`,
       `- Required fields: ${lane.requiredEvidenceFields.join(', ')}`,
+      `- Critical lane fields: ${lane.criticalEvidenceFields.join(', ')}`,
       '',
       'Blockers:',
       ...(lane.blockers.length ? lane.blockers.map((blocker) => `- ${blocker}`) : ['- None from local evidence.']),

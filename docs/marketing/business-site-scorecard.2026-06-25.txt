@@ -29,6 +29,8 @@ docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-services.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-book.json
+docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-proof.json
+docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-compare.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-revenue-os.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-work.json
 docs/evidence/marketing/audits/2026-06-25/lighthouse-work-nexural.json
@@ -40,25 +42,28 @@ PASS npm run typecheck
 PASS npm run build
 PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts --config=playwright.e2e.config.ts --project=chromium
 PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/work-proof.spec.ts --config=playwright.e2e.config.ts --project=chromium
+PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium
 PASS BASE_URL=http://127.0.0.1:3041 npm run audit:business-site
 PASS BASE_URL=http://127.0.0.1:3041 npm run lh:business-site
 
 Business audit summary:
-- Generated: 2026-06-25T18:56:24.781Z
+- Generated: 2026-06-26T00:21:35.175Z
 - Base URL: http://127.0.0.1:3041
-- Routes audited: 17
-- Internal link targets checked: 180
+- Routes audited: 19
+- Internal link targets checked: 195
 - Failed internal links: 0
 - Routes with axe violations: 0
 - Serious/critical axe violations: 0
 - Routes with horizontal overflow: 0
-- All 17 audited routes have title, description, h1, and JSON-LD present.
+- All 19 audited routes have title, description, and h1 present.
 
 Lighthouse desktop:
-- /?source=lighthouse_business: Performance 95, Accessibility 100, Best Practices 100, SEO 100, LCP 1481ms, CLS 0, TBT 0
-- /services: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1194ms, CLS 0, TBT 0
-- /book?source=lighthouse_business: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1260ms, CLS 0, TBT 0
-- /showcase/revenue-os: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1298ms, CLS 0, TBT 0
+- /?source=lighthouse_business: Performance 96, Accessibility 100, Best Practices 100, SEO 100, LCP 1391ms, CLS 0, TBT 0
+- /services: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1188ms, CLS 0, TBT 0
+- /book?source=lighthouse_business: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1199ms, CLS 0, TBT 0
+- /showcase/proof: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1146ms, CLS 0, TBT 0
+- /showcase/compare: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1108ms, CLS 0, TBT 0
+- /showcase/revenue-os: Performance 97, Accessibility 92, Best Practices 96, SEO 100, LCP 1212ms, CLS 0, TBT 0
 - /work: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1309ms, CLS 0, TBT 0
 - /work/nexural: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1306ms, CLS 0, TBT 0
 
@@ -118,6 +123,14 @@ WHAT WAS IMPLEMENTED THIS PASS
 - /work/nexural was directly audited as the first dynamic case-study detail route.
 - Case-study accessibility semantics were cleaned: no nested main landmark, no nested complementary landmark, and no malformed visual definition-list structure.
 
+7. Showcase proof and compare phase:
+- /showcase/proof was rebuilt from an internal proof table into a public buyer-facing proof wall.
+- /showcase/proof now shows working demo count, proof cards, visible gaps, evidence commands, and source-tagged booking CTAs.
+- /showcase/compare was rebuilt from an admin-style comparison table into a buyer self-selection route.
+- /showcase/compare now routes buyers by problem: qualified leads, quote requests, intake, and support control.
+- The business audit now includes /showcase/proof and /showcase/compare directly.
+- Lighthouse now captures /showcase/proof and /showcase/compare directly.
+
 SCORECARD
 
 Offer clarity: 94
@@ -176,6 +189,12 @@ Buyer path is clearer and accessibility issues are fixed. Remaining risk: still 
 
 /showcase: 94
 Strong prototype warehouse posture. Remaining risk: filtering/proof levels can become more interactive.
+
+/showcase/proof: 94
+Phase 3 rebuilt this into a public buyer-facing proof wall with evidence-backed proof cards, visible gaps, source-tagged booking paths, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100. Remaining risk: real campaign outcomes are still required before trust can score in the high 90s.
+
+/showcase/compare: 94
+Phase 3 rebuilt this into a buyer self-selection page with system matching, outcome routing, source-tagged CTAs, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100. Remaining risk: live buyer analytics are needed to prove which system path converts best.
 
 /showcase/revenue-os: 95
 Flagship proof page with strong E2E and Lighthouse evidence. Remaining risk: real demo-to-book analytics are still needed.

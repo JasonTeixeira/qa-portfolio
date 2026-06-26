@@ -144,6 +144,8 @@ Page / Route                                      Score   Status
 /process                                          92      Clear, but could become more visual/animated.
 /how-it-works                                     92      Clearer, but still has room to reduce explanation.
 /showcase                                         94      Strong warehouse posture; filtering/proof levels can go deeper.
+/showcase/proof                                   94      Phase 3 rebuilt and verified: public proof wall, evidence commands, visible gaps, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
+/showcase/compare                                 94      Phase 3 rebuilt and verified: buyer self-selection page, source-tagged CTAs, screenshots, no overflow, axe 0 violations, and Lighthouse 98/100/100/100.
 /showcase/revenue-os                              95      Flagship-quality local proof; live conversion data missing.
 /showcase/contractor-quote-engine                 93      Strong vertical demo; needs another motion/polish pass.
 /showcase/med-spa-consultation-funnel             93      Bespoke and interactive; not full flagship depth.

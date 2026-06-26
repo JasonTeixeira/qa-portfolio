@@ -1,0 +1,100 @@
+SAGE IDEAS BUSINESS SITE PHASE 3
+Showcase Proof + Compare
+Date: 2026-06-25
+
+Scope:
+- /showcase/proof
+- /showcase/compare
+- shared showcase proof data
+- marketing audit and Lighthouse route coverage for proof/compare
+
+Objective:
+Turn the proof and comparison routes from internal/admin-looking support pages into buyer-facing decision pages.
+
+What changed:
+
+1. /showcase/proof
+- Rebuilt the page around the buyer question: "what is working and what can I inspect before the call?"
+- Added proof snapshot panel.
+- Added public proof cards for each prototype.
+- Added visible gaps per prototype so claims stay honest.
+- Added evidence command panel.
+- Added direct CTAs:
+  - /showcase/revenue-os
+  - /showcase/compare
+  - /book?source=showcase_proof
+  - /book?source=showcase_proof_final
+  - /book?source=proof_<slug>
+
+2. /showcase/compare
+- Rebuilt the page around buyer self-selection.
+- Added decision cards:
+  - I need more qualified leads -> Revenue OS
+  - I need better quote requests -> Contractor Quote Engine
+  - I need cleaner intake -> Law Firm Intake System
+  - I need support under control -> AI Support Agent Dashboard
+- Added prototype system comparison cards with best fit, outcome, proof level, workflow count, and source-tagged CTAs.
+- Added final "bring the problem" call-to-action.
+
+3. Shared proof data
+- Updated proof snapshot date to 2026-06-25.
+- Updated commands to match the current local proof run.
+- Updated focused E2E count from 3 to 4 passed.
+- Updated build generation note to 315 static pages.
+- Updated prototype proof scores to stay below 95 until real buyer/campaign proof exists:
+  - Revenue OS: 92
+  - Contractor Quote Engine: 89
+  - Secondary showcase prototypes: 86
+
+4. Verification coverage
+- Added /showcase/proof and /showcase/compare to scripts/marketing/business-site-audit.mjs.
+- Added /showcase/proof and /showcase/compare to scripts/marketing/lighthouse-business.mjs.
+- Updated tests/e2e/showcase-revenue-os.spec.ts to assert the new proof and compare copy, CTA paths, and proof sections.
+
+Verification run:
+- PASS npm run lint
+- PASS npm run typecheck
+- PASS npm run build
+- PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts --project=chromium
+- PASS BASE_URL=http://127.0.0.1:3041 AUDIT_DATE=2026-06-25 node scripts/marketing/business-site-audit.mjs
+- PASS BASE_URL=http://127.0.0.1:3041 AUDIT_DATE=2026-06-25 node scripts/marketing/lighthouse-business.mjs
+
+Audit evidence:
+- docs/evidence/marketing/audits/2026-06-25/business-site-audit.json
+- docs/evidence/marketing/audits/2026-06-25/metadata-check.json
+- docs/evidence/marketing/audits/2026-06-25/link-check.json
+- docs/evidence/marketing/audits/2026-06-25/axe-results.json
+- docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json
+- docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-proof.json
+- docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-compare.json
+
+Screenshot evidence:
+- docs/evidence/marketing/screenshots/2026-06-25/showcase-proof-desktop.png
+- docs/evidence/marketing/screenshots/2026-06-25/showcase-proof-mobile.png
+- docs/evidence/marketing/screenshots/2026-06-25/showcase-compare-desktop.png
+- docs/evidence/marketing/screenshots/2026-06-25/showcase-compare-mobile.png
+
+Measured audit result:
+- Routes audited: 19
+- Link targets checked: 195
+- Failed links: 0
+- Routes with axe violations: 0
+- Serious/critical axe violations: 0
+- Horizontal overflow routes: 0
+
+Measured Lighthouse result:
+- /showcase/proof: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1146ms, CLS 0, TBT 0
+- /showcase/compare: Performance 98, Accessibility 100, Best Practices 100, SEO 100, LCP 1108ms, CLS 0, TBT 0
+
+Earned scores:
+- /showcase/proof: 94
+- /showcase/compare: 94
+
+Why not 95+ yet:
+- These pages now prove local technical readiness and present the proof well, but they still depend on sample/demo proof.
+- Real campaign screenshots, anonymized prospect packets, demo-to-booking analytics, or customer feedback are still required before trust and closing strength can honestly score in the high 90s.
+- Revenue OS Lighthouse accessibility scored 92 in this latest full Lighthouse run, even though the axe route audit showed 0 violations. That page needs a focused Lighthouse accessibility cleanup before the full showcase family should be claimed as 95+ across every proof category.
+- Prototype proof scores are intentionally capped below 95 because the current proof is local technical proof, not market proof.
+
+Next phase:
+Secondary showcases. Med spa, law firm, and AI support should become deeper flagship-level click-through demos with richer app states, not only good visual stories.

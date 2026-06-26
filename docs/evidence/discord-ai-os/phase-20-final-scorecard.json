@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782443270769",
+  "runKey": "phase-20-final-1782443650632",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -602,6 +602,16 @@
     "failures": [],
     "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
   },
+  "proofIntakeAntiFakeValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5"
+  },
+  "weeklyProofPacketAntiFakeValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5"
+  },
   "releaseGates": [
     {
       "name": "scorecard_schema",
@@ -639,6 +649,16 @@
       "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
     },
     {
+      "name": "proof_intake_anti_fake_controls",
+      "passed": true,
+      "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5"
+    },
+    {
+      "name": "weekly_proof_packet_anti_fake_controls",
+      "passed": true,
+      "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5"
+    },
+    {
       "name": "migration_present",
       "passed": true,
       "evidence": "0094_discord_final_scorecard_release.sql"
@@ -667,6 +687,6 @@
     }
   },
   "failures": [],
-  "startedAt": "2026-06-26T03:07:50.769Z",
-  "finishedAt": "2026-06-26T03:07:52.332Z"
+  "startedAt": "2026-06-26T03:14:10.632Z",
+  "finishedAt": "2026-06-26T03:14:13.184Z"
 }

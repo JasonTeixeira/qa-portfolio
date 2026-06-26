@@ -2106,6 +2106,15 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /dryRun/);
   assert.match(smoke, /proof_rehearsal_readiness/);
   assert.match(smoke, /content_factory_readiness/);
+  assert.match(smoke, /proof_intake_anti_fake_controls/);
+  assert.match(smoke, /weekly_proof_packet_anti_fake_controls/);
+  assert.match(smoke, /proof_intake_missing_required_evidence_fields/);
+  assert.match(smoke, /weekly_proof_packet_missing_required_template_fields/);
+  assert.match(smoke, /operator_attestation/);
+  assert.match(smoke, /evidence_artifact_path/);
+  assert.match(smoke, /smoke/);
+  assert.match(smoke, /dry-run/);
+  assert.match(smoke, /synthetic/);
   assert.match(smoke, /Real 95\+ operating proof/);
   assert.match(smoke, /Real operating proof still requires/);
   assert.match(smoke, /below_95_scores_have_blockers/);

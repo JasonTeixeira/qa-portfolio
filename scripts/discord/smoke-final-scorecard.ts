@@ -122,6 +122,76 @@ function validateContentFactoryReadiness(payload: any): { ok: boolean; failures:
   };
 }
 
+function laneHasRequiredEvidenceFields(lane: any): boolean {
+  const fields = Array.isArray(lane?.requiredFields) ? lane.requiredFields : [];
+  const keys = new Set(fields.map((field: any) => String(field?.key ?? '')));
+  return [
+    'proof_cycle_key',
+    'source_record_id',
+    'source_created_at',
+    'decision_reason',
+    'evidence_artifact_path',
+    'operator_attestation',
+    'privacy_status',
+  ].every((key) => keys.has(key));
+}
+
+function laneHasAntiFakeControls(lane: any): boolean {
+  const qualityGates = Array.isArray(lane?.qualityGates) ? lane.qualityGates : [];
+  const nonProofExamples = Array.isArray(lane?.nonProofExamples) ? lane.nonProofExamples : [];
+  const nonProofText = nonProofExamples.join(' ').toLowerCase();
+  return qualityGates.length >= 4
+    && nonProofExamples.length >= 4
+    && (nonProofText.includes('smoke') || nonProofText.includes('dry-run') || nonProofText.includes('synthetic'));
+}
+
+function packetLaneHasRequiredTemplate(lane: any): boolean {
+  const template = lane?.intakeTemplate ?? {};
+  return [
+    'proof_cycle_key',
+    'source_record_id',
+    'source_created_at',
+    'decision_reason',
+    'evidence_artifact_path',
+    'operator_attestation',
+    'privacy_status',
+  ].every((key) => Boolean(template[key]));
+}
+
+function validateProofIntakeAntiFakeControls(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  const lanes = Array.isArray(payload?.lanes) ? payload.lanes : [];
+  if (payload?.ok !== true) failures.push('proof_intake_not_ok');
+  if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('proof_intake_mutation_mode_not_read_only');
+  if (!String(payload?.releaseMeaning ?? '').includes('does not satisfy real operating proof lanes')) failures.push('proof_intake_non_proof_disclaimer_missing');
+  if (lanes.length !== 5) failures.push('proof_intake_wrong_lane_count');
+  if (lanes[0]?.key !== 'gateway_capture') failures.push('proof_intake_gateway_not_first');
+  if (!lanes.every(laneHasRequiredEvidenceFields)) failures.push('proof_intake_missing_required_evidence_fields');
+  if (!lanes.every(laneHasAntiFakeControls)) failures.push('proof_intake_missing_anti_fake_controls');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / required-field lanes ${lanes.filter(laneHasRequiredEvidenceFields).length}/${lanes.length}`,
+  };
+}
+
+function validateWeeklyProofPacketAntiFakeControls(payload: any): { ok: boolean; failures: string[]; evidence: string } {
+  const failures: string[] = [];
+  const lanes = Array.isArray(payload?.lanes) ? payload.lanes : [];
+  if (payload?.ok !== true) failures.push('weekly_proof_packet_not_ok');
+  if (payload?.mutationMode !== 'local_file_evidence_only') failures.push('weekly_proof_packet_mutation_mode_not_read_only');
+  if (!String(payload?.releaseMeaning ?? '').includes('does not create or satisfy operating proof')) failures.push('weekly_proof_packet_non_proof_disclaimer_missing');
+  if (lanes.length !== 5) failures.push('weekly_proof_packet_wrong_lane_count');
+  if (lanes[0]?.key !== 'gateway_capture') failures.push('weekly_proof_packet_gateway_not_first');
+  if (!lanes.every(packetLaneHasRequiredTemplate)) failures.push('weekly_proof_packet_missing_required_template_fields');
+  if (!lanes.every(laneHasAntiFakeControls)) failures.push('weekly_proof_packet_missing_anti_fake_controls');
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / template-field lanes ${lanes.filter(packetLaneHasRequiredTemplate).length}/${lanes.length}`,
+  };
+}
+
 async function main() {
   const sb = createClient(requireEnv('NEXT_PUBLIC_SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false },
@@ -131,7 +201,7 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, proofRehearsal, contentFactoryReadiness, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
@@ -139,11 +209,15 @@ async function main() {
     readJsonFile('docs/evidence/rag/eval-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json'),
     readJsonFile('docs/evidence/engineering-loop/content-factory-readiness-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json'),
+    readJsonFile('docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json'),
     readFile(path.join(process.cwd(), 'docs', 'discord', 'FINAL_OPERATING_RHYTHM_RELEASE_STANDARD.md'), 'utf8'),
     readFile(path.join(process.cwd(), 'supabase', 'migrations', '0094_discord_final_scorecard_release.sql'), 'utf8'),
   ]);
   const proofRehearsalValidation = validateProofRehearsalReadiness(proofRehearsal);
   const contentFactoryReadinessValidation = validateContentFactoryReadiness(contentFactoryReadiness);
+  const proofIntakeAntiFakeValidation = validateProofIntakeAntiFakeControls(proofIntakeReadiness);
+  const weeklyProofPacketAntiFakeValidation = validateWeeklyProofPacketAntiFakeControls(weeklyProofPacket);
   const releaseGates: DiscordReleaseGate[] = [
     {
       name: 'scorecard_schema',
@@ -186,6 +260,16 @@ async function main() {
       evidence: contentFactoryReadinessValidation.evidence,
     },
     {
+      name: 'proof_intake_anti_fake_controls',
+      passed: proofIntakeAntiFakeValidation.ok,
+      evidence: proofIntakeAntiFakeValidation.evidence,
+    },
+    {
+      name: 'weekly_proof_packet_anti_fake_controls',
+      passed: weeklyProofPacketAntiFakeValidation.ok,
+      evidence: weeklyProofPacketAntiFakeValidation.evidence,
+    },
+    {
       name: 'migration_present',
       passed: migration.includes('create table if not exists public.discord_final_scorecard_runs'),
       evidence: '0094_discord_final_scorecard_release.sql',
@@ -201,6 +285,8 @@ async function main() {
     ...rhythmValidation.failures.map((failure) => `rhythm:${failure}`),
     ...proofRehearsalValidation.failures.map((failure) => `proof_rehearsal:${failure}`),
     ...contentFactoryReadinessValidation.failures.map((failure) => `content_factory_readiness:${failure}`),
+    ...proofIntakeAntiFakeValidation.failures.map((failure) => `proof_intake:${failure}`),
+    ...weeklyProofPacketAntiFakeValidation.failures.map((failure) => `weekly_proof_packet:${failure}`),
     ...evidenceValidation.missing.map((failure) => `missing_evidence:${failure}`),
     ...evidenceValidation.failing.map((failure) => `failing_evidence:${failure}`),
     ...releaseGates.filter((gate) => !gate.passed).map((gate) => `release_gate:${gate.name}`),
@@ -244,6 +330,8 @@ async function main() {
     databaseValidation,
     proofRehearsalValidation,
     contentFactoryReadinessValidation,
+    proofIntakeAntiFakeValidation,
+    weeklyProofPacketAntiFakeValidation,
     releaseGates,
     ragEvalLatest: {
       ok: ragEval?.ok,

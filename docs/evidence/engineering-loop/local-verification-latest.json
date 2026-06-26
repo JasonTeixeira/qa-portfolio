@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T06:26:10.208Z",
+  "timestamp": "2026-06-26T06:36:56.258Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -35,6 +35,7 @@
     "evalCoverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
     "evalExecutionPacket": "docs/evidence/rag/eval-execution-packet.json",
     "evalMissingPreflight": "docs/evidence/rag/eval-missing-preflight.json",
+    "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
     "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
     "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
@@ -222,6 +223,17 @@
     "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
+  },
+  "ragEvalRecoveryPlan": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "missingEvalCount": 15,
+    "failedEvalCount": 0,
+    "missingEvalBacklogReadyCount": 15,
+    "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
   },
   "contentFactory": {
     "ok": true,

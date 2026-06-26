@@ -31,6 +31,21 @@ export type DiscordOperatorBriefInput = {
     approvedCommand?: string | null;
     releaseMeaning?: string | null;
   } | null;
+  ragEvalRecoveryPlan?: {
+    ok?: boolean | null;
+    status?: string | null;
+    coverage?: {
+      missingEvalCount?: number | null;
+      missingEvalKeys?: string[] | null;
+    } | null;
+    latestEval?: {
+      failedCount?: number | null;
+    } | null;
+    missingEvalBacklog?: Array<{ readyForApprovedEval?: boolean | null }> | null;
+    failedEvalBacklog?: unknown[] | null;
+    approvedCommand?: string | null;
+    releaseMeaning?: string | null;
+  } | null;
   readiness: {
     releaseDecision?: string | null;
     summary?: {
@@ -92,6 +107,15 @@ export type DiscordOperatorBrief = {
     termCoverageReadyCount: number;
     readyForApprovedEvalCount: number;
     blockerCount: number;
+    approvedCommand: string | null;
+    releaseMeaning: string | null;
+  };
+  ragEvalRecoveryPlan: {
+    ok: boolean;
+    status: string;
+    missingEvalCount: number;
+    failedEvalCount: number;
+    readyMissingEvalCount: number;
     approvedCommand: string | null;
     releaseMeaning: string | null;
   };
@@ -172,11 +196,21 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     approvedCommand: input.ragEvalMissingPreflight?.approvedCommand ?? null,
     releaseMeaning: input.ragEvalMissingPreflight?.releaseMeaning ?? null,
   };
+  const ragEvalRecoveryPlan = {
+    ok: input.ragEvalRecoveryPlan?.ok === true,
+    status: input.ragEvalRecoveryPlan?.status ?? 'missing',
+    missingEvalCount: Number(input.ragEvalRecoveryPlan?.coverage?.missingEvalCount ?? input.ragEvalRecoveryPlan?.coverage?.missingEvalKeys?.length ?? 0),
+    failedEvalCount: Number(input.ragEvalRecoveryPlan?.latestEval?.failedCount ?? input.ragEvalRecoveryPlan?.failedEvalBacklog?.length ?? 0),
+    readyMissingEvalCount: (input.ragEvalRecoveryPlan?.missingEvalBacklog ?? []).filter((item) => item.readyForApprovedEval === true).length,
+    approvedCommand: input.ragEvalRecoveryPlan?.approvedCommand ?? null,
+    releaseMeaning: input.ragEvalRecoveryPlan?.releaseMeaning ?? null,
+  };
   const commandOrder = uniqueCommands([
     ...input.proofBacklog.weeklyChecklist.map((step) => step.safeLocalCommand),
     ...input.proofBacklog.weeklyChecklist.map((step) => step.liveCommand),
     'npm run discord:proof-source-recovery-plan',
     'npm run rag:evaluate:missing-preflight',
+    'npm run rag:evaluate:recovery-plan',
     ragEvalMissingPreflight.approvedCommand,
     'npm run rag:evaluate:coverage-readiness',
     'npm run discord:smoke-final-scorecard',
@@ -205,6 +239,7 @@ export function buildDiscordOperatorBrief(input: DiscordOperatorBriefInput): Dis
     weeklyChecklist: input.proofBacklog.weeklyChecklist,
     proofSourceRecoveryPlan,
     ragEvalMissingPreflight,
+    ragEvalRecoveryPlan,
     proofRehearsal: {
       ok: input.proofRehearsal.ok === true,
       laneCount: Array.isArray(input.proofRehearsal.lanes) ? input.proofRehearsal.lanes.length : 0,
@@ -254,6 +289,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (brief.proofSourceRecoveryPlan.laneStates.some((lane) => lane.collectionCadenceCount < 3)) failures.push('recovery_lane_missing_collection_cadence');
   if (brief.proofSourceRecoveryPlan.laneStates.some((lane) => lane.acceptanceChecklistCount < 3)) failures.push('recovery_lane_missing_acceptance_checklist');
   if (!brief.commandOrder.includes('npm run rag:evaluate:missing-preflight')) failures.push('missing_rag_eval_missing_preflight_command');
+  if (!brief.commandOrder.includes('npm run rag:evaluate:recovery-plan')) failures.push('missing_rag_eval_recovery_plan_command');
   if (!brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing'))) failures.push('missing_approved_missing_eval_command');
   if (brief.releaseGates.failures.includes('rag_eval_coverage_readiness')) {
     if (brief.ragEvalMissingPreflight.status === 'missing') failures.push('missing_rag_eval_preflight');
@@ -261,6 +297,10 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
     if (brief.ragEvalMissingPreflight.readyForApprovedEvalCount !== brief.ragEvalMissingPreflight.missingEvalCount) failures.push('rag_eval_preflight_not_ready_for_all_missing_keys');
     if (!brief.ragEvalMissingPreflight.selectedMatchesCoverage) failures.push('rag_eval_preflight_keys_do_not_match_coverage');
     if (!brief.ragEvalMissingPreflight.releaseMeaning?.includes('does not seed Supabase')) failures.push('rag_eval_preflight_claim_boundary_missing');
+    if (brief.ragEvalRecoveryPlan.status === 'missing') failures.push('missing_rag_eval_recovery_plan');
+    if (brief.ragEvalRecoveryPlan.missingEvalCount !== brief.ragEvalMissingPreflight.missingEvalCount) failures.push('rag_eval_recovery_missing_count_mismatch');
+    if (brief.ragEvalRecoveryPlan.readyMissingEvalCount !== brief.ragEvalRecoveryPlan.missingEvalCount) failures.push('rag_eval_recovery_not_ready_for_all_missing_keys');
+    if (!brief.ragEvalRecoveryPlan.releaseMeaning?.includes('does not seed Supabase')) failures.push('rag_eval_recovery_claim_boundary_missing');
   }
   if (brief.gatewayCapture.status === 'blocked' && !brief.currentReality.includes('gateway capture')) failures.push('gateway_capture_blocker_not_explicit');
   if (brief.weeklyChecklist.length !== blockedLanes.length) failures.push('weekly_checklist_blocked_lane_mismatch');
@@ -319,6 +359,15 @@ export function renderDiscordOperatorBriefMarkdown(brief: DiscordOperatorBrief):
     `- Terms ready: ${brief.ragEvalMissingPreflight.termCoverageReadyCount}/${brief.ragEvalMissingPreflight.missingEvalCount}`,
     `- Approved command after explicit approval: ${brief.ragEvalMissingPreflight.approvedCommand ?? 'none'}`,
     `- Boundary: ${brief.ragEvalMissingPreflight.releaseMeaning ?? 'none'}`,
+    '',
+    '## RAG Eval Recovery Plan',
+    '',
+    `- Status: ${brief.ragEvalRecoveryPlan.status}`,
+    `- OK: ${brief.ragEvalRecoveryPlan.ok ? 'yes' : 'no'}`,
+    `- Missing eval backlog ready: ${brief.ragEvalRecoveryPlan.readyMissingEvalCount}/${brief.ragEvalRecoveryPlan.missingEvalCount}`,
+    `- Failed eval backlog: ${brief.ragEvalRecoveryPlan.failedEvalCount}`,
+    `- Approved command after explicit approval: ${brief.ragEvalRecoveryPlan.approvedCommand ?? 'none'}`,
+    `- Boundary: ${brief.ragEvalRecoveryPlan.releaseMeaning ?? 'none'}`,
     '',
     '## Gateway Capture',
     '',

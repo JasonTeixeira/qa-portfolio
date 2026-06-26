@@ -22,6 +22,7 @@ const evidencePaths = {
   evalCoverageReadiness: path.join(root, 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
   evalExecutionPacket: path.join(root, 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
   evalMissingPreflight: path.join(root, 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
+  evalRecoveryPlan: path.join(root, 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
   proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
@@ -131,6 +132,7 @@ async function main() {
     evalCoverageReadiness,
     evalExecutionPacket,
     evalMissingPreflight,
+    evalRecoveryPlan,
     proofRehearsalReadiness,
     contentFactoryReadiness,
     proofIntakeReadiness,
@@ -224,6 +226,27 @@ async function main() {
   requireTruthy(
     (evalMissingPreflight.antiFakeRules ?? []).some((rule) => rule.includes('preflight-only')),
     'RAG missing eval preflight must block preflight-only evidence from satisfying eval coverage.',
+  );
+  requireTruthy(evalRecoveryPlan.ok === true, 'RAG eval recovery plan evidence is not ok.');
+  requireTruthy(
+    evalRecoveryPlan.mutationMode === 'local_file_evidence_only',
+    'RAG eval recovery plan must not mutate external systems.',
+  );
+  requireTruthy(
+    evalRecoveryPlan.releaseMeaning?.includes('does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage'),
+    'RAG eval recovery plan must explicitly avoid claiming eval proof.',
+  );
+  requireTruthy(
+    evalRecoveryPlan.coverage?.missingEvalCount === (evalCoverageReadiness.missingEvalKeys ?? []).length,
+    'RAG eval recovery plan missing count must match eval coverage readiness.',
+  );
+  requireTruthy(
+    (evalRecoveryPlan.missingEvalBacklog ?? []).length === evalRecoveryPlan.coverage?.missingEvalCount,
+    'RAG eval recovery plan must create one backlog item for each missing eval key.',
+  );
+  requireTruthy(
+    (evalRecoveryPlan.antiFakeRules ?? []).some((rule) => rule.includes('plan-only')),
+    'RAG eval recovery plan must block plan-only evidence from satisfying eval coverage.',
   );
   requireTruthy(proofRehearsalReadiness.ok === true, 'Proof rehearsal readiness evidence is not ok.');
   requireTruthy(
@@ -631,6 +654,17 @@ async function main() {
       approvedCommand: evalMissingPreflight.approvedCommand,
       antiFakeRuleCount: evalMissingPreflight.antiFakeRules?.length ?? 0,
       releaseMeaning: evalMissingPreflight.releaseMeaning,
+    },
+    ragEvalRecoveryPlan: {
+      ok: evalRecoveryPlan.ok,
+      mutationMode: evalRecoveryPlan.mutationMode,
+      status: evalRecoveryPlan.status,
+      missingEvalCount: evalRecoveryPlan.coverage?.missingEvalCount ?? 0,
+      failedEvalCount: evalRecoveryPlan.latestEval?.failedCount ?? 0,
+      missingEvalBacklogReadyCount: (evalRecoveryPlan.missingEvalBacklog ?? []).filter((item) => item.readyForApprovedEval).length,
+      approvedCommand: evalRecoveryPlan.approvedCommand,
+      antiFakeRuleCount: evalRecoveryPlan.antiFakeRules?.length ?? 0,
+      releaseMeaning: evalRecoveryPlan.releaseMeaning,
     },
     contentFactory: {
       ok: contentFactory.ok,

@@ -98,6 +98,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['rag:evaluate:missing-plan'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only');
   assert.equal(packageJson.scripts['rag:evaluate:execution-packet'], 'tsx scripts/rag/write-eval-execution-packet.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing-preflight'], 'tsx scripts/rag/write-missing-eval-preflight.ts');
+  assert.equal(packageJson.scripts['rag:evaluate:recovery-plan'], 'tsx scripts/rag/write-eval-recovery-plan.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
@@ -107,6 +108,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:execution-packet'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-preflight'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:recovery-plan'));
   assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -131,6 +133,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-coverage-readiness\.json/);
   assert.match(localVerificationEvidence, /eval-execution-packet\.json/);
   assert.match(localVerificationEvidence, /eval-missing-preflight\.json/);
+  assert.match(localVerificationEvidence, /eval-recovery-plan\.json/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
@@ -151,12 +154,15 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
   assert.match(localVerificationEvidence, /ragEvalExecutionPacket/);
   assert.match(localVerificationEvidence, /ragEvalMissingPreflight/);
+  assert.match(localVerificationEvidence, /ragEvalRecoveryPlan/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must explicitly avoid claiming eval proof/);
   assert.match(localVerificationEvidence, /RAG eval execution packet selected keys must match missing coverage keys/);
   assert.match(localVerificationEvidence, /RAG eval execution packet must include the approved missing-eval command/);
   assert.match(localVerificationEvidence, /RAG missing eval preflight must explicitly avoid claiming eval proof/);
   assert.match(localVerificationEvidence, /RAG missing eval preflight selected keys must match coverage plan and execution packet keys/);
   assert.match(localVerificationEvidence, /RAG missing eval preflight must prove local sources and required terms are ready for every missing eval key/);
+  assert.match(localVerificationEvidence, /RAG eval recovery plan must explicitly avoid claiming eval proof/);
+  assert.match(localVerificationEvidence, /RAG eval recovery plan must create one backlog item for each missing eval key/);
   assert.match(localVerificationEvidence, /Operator brief must include the proof source recovery plan/);
   assert.match(localVerificationEvidence, /Operator brief must include the RAG missing eval preflight/);
   assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
@@ -181,6 +187,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const evalCoverageReadinessScript = await readFile(new URL('../../scripts/rag/write-eval-coverage-readiness.ts', import.meta.url), 'utf8');
   const evalExecutionPacketScript = await readFile(new URL('../../scripts/rag/write-eval-execution-packet.ts', import.meta.url), 'utf8');
   const evalMissingPreflightScript = await readFile(new URL('../../scripts/rag/write-missing-eval-preflight.ts', import.meta.url), 'utf8');
+  const evalRecoveryPlanScript = await readFile(new URL('../../scripts/rag/write-eval-recovery-plan.ts', import.meta.url), 'utf8');
   assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);
   assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
   assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
@@ -195,6 +202,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(evalMissingPreflightScript, /local_file_evidence_only/);
   assert.match(evalMissingPreflightScript, /does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage/);
   assert.match(evalMissingPreflightScript, /preflight-only outputs do not satisfy eval coverage/);
+  assert.match(evalRecoveryPlanScript, /eval-recovery-plan\.json/);
+  assert.match(evalRecoveryPlanScript, /validateRagEvalRecoveryPlan/);
   assert.doesNotMatch(evalMissingPreflightScript, /\.\s*(insert|update|delete|upsert|rpc)\s*\(/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
@@ -989,6 +998,73 @@ test('rag evals: golden set and deterministic scoring expose pass/fail signals',
   assert.equal(summary.total, 2);
   assert.equal(summary.passed, 1);
   assert.equal(ragEvalSummaryPassed(summary), false);
+});
+
+test('rag eval recovery plan: converts missing and failed evals into local-only backlog', async () => {
+  const {
+    buildRagEvalRecoveryPlan,
+    validateRagEvalRecoveryPlan,
+  } = await import('../../lib/rag/eval-recovery-plan.ts');
+
+  const plan = buildRagEvalRecoveryPlan({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    latestEval: {
+      ok: true,
+      seededQuestionCount: 50,
+      evaluatedQuestionCount: 50,
+      summary: { passRate: 0.98 },
+      results: [
+        {
+          evalKey: 'rag_gap_001',
+          question: 'What source is missing?',
+          passed: false,
+          score: 0.42,
+          retrievalHitRate: 0,
+          citationCoverage: 0,
+          faithfulness: 0.8,
+          missingSources: ['Missing Source'],
+          missingRequiredTerms: ['approval'],
+        },
+      ],
+    },
+    coverageReadiness: {
+      expectedQuestionCount: 65,
+      missingEvalKeys: ['rag_ai_011'],
+      releaseReady: false,
+      blockers: ['missing_eval_keys:rag_ai_011'],
+    },
+    missingPreflight: {
+      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness',
+      items: [
+        {
+          evalKey: 'rag_ai_011',
+          category: 'rag_ai_build',
+          question: 'How should failed evals be handled?',
+          expectedSources: ['WORLD_CLASS_PROOF_OPERATING_CONTROLS.md'],
+          requiredTerms: ['eval', 'coverage'],
+          readyForApprovedEval: true,
+          missingSources: [],
+          missingRequiredTerms: [],
+        },
+      ],
+    },
+  });
+
+  assert.equal(plan.ok, true);
+  assert.equal(plan.version, 'rag-eval-recovery-plan-v1');
+  assert.equal(plan.mutationMode, 'local_file_evidence_only');
+  assert.equal(plan.status, 'blocked');
+  assert.equal(plan.coverage.missingEvalCount, 1);
+  assert.equal(plan.missingEvalBacklog.length, 1);
+  assert.equal(plan.missingEvalBacklog[0].readyForApprovedEval, true);
+  assert.equal(plan.missingEvalBacklog[0].blocker, null);
+  assert.equal(plan.failedEvalBacklog.length, 1);
+  assert.equal(plan.failedEvalBacklog[0].severity, 'critical');
+  assert.match(plan.failedEvalBacklog[0].nextAction, /Add or approve a stronger source/);
+  assert.match(plan.releaseMeaning, /does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage/);
+  assert.ok(plan.antiFakeRules.some((rule) => /plan-only/i.test(rule)));
+  assert.equal(validateRagEvalRecoveryPlan(plan).ok, true);
+  assert.equal(validateRagEvalRecoveryPlan({ ...plan, mutationMode: 'live' }).ok, false);
 });
 
 test('rag evals: seed quality validator blocks unknown sources and category drift', async () => {
@@ -2890,6 +2966,22 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
       approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
       releaseMeaning: 'This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.',
     },
+    ragEvalRecoveryPlan: {
+      ok: true,
+      status: 'blocked',
+      coverage: {
+        missingEvalCount: 2,
+        missingEvalKeys: ['rag_ai_011', 'rag_content_011'],
+      },
+      latestEval: { failedCount: 0 },
+      missingEvalBacklog: [
+        { readyForApprovedEval: true },
+        { readyForApprovedEval: true },
+      ],
+      failedEvalBacklog: [],
+      approvedCommand: 'npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      releaseMeaning: 'This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.',
+    },
     readiness: {
       releaseDecision: 'do_not_claim_world_class',
       summary: {
@@ -2930,6 +3022,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:weekly-proof-packet'));
   assert.ok(brief.commandOrder.includes('npm run discord:gateway-capture-diagnosis'));
   assert.ok(brief.commandOrder.includes('npm run rag:evaluate:missing-preflight'));
+  assert.ok(brief.commandOrder.includes('npm run rag:evaluate:recovery-plan'));
   assert.ok(brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing')));
   assert.match(brief.currentReality, /real operating proof is still missing/);
   assert.match(brief.currentReality, /gateway capture/);
@@ -2937,6 +3030,10 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.equal(brief.ragEvalMissingPreflight.missingEvalCount, 2);
   assert.equal(brief.ragEvalMissingPreflight.readyForApprovedEvalCount, 2);
   assert.equal(brief.ragEvalMissingPreflight.selectedMatchesCoverage, true);
+  assert.equal(brief.ragEvalRecoveryPlan.status, 'blocked');
+  assert.equal(brief.ragEvalRecoveryPlan.missingEvalCount, 2);
+  assert.equal(brief.ragEvalRecoveryPlan.readyMissingEvalCount, 2);
+  assert.equal(brief.ragEvalRecoveryPlan.failedEvalCount, 0);
   assert.equal(brief.gatewayCapture.status, 'blocked');
   assert.equal(brief.gatewayCapture.usableMessageCount, 0);
   assert.deepEqual(brief.gatewayCapture.rootCauses, ['Non-bot messages exist, but message content is empty.']);
@@ -2951,6 +3048,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.match(markdown, /acceptance checks 3/);
   assert.match(markdown, /RAG Missing Eval Preflight/);
   assert.match(markdown, /Ready: 2\/2/);
+  assert.match(markdown, /RAG Eval Recovery Plan/);
+  assert.match(markdown, /Missing eval backlog ready: 2\/2/);
   assert.match(markdown, /Gateway Capture/);
   assert.match(markdown, /Release Gates/);
   assert.match(markdown, /Passed: 9\/11/);
@@ -2965,6 +3064,8 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(validateDiscordOperatorBrief({ ...brief, proofSourceRecoveryPlan: { ...brief.proofSourceRecoveryPlan, status: 'missing' } }).failures.includes('missing_proof_source_recovery_plan'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, status: 'missing' } }).failures.includes('missing_rag_eval_preflight'));
   assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalMissingPreflight: { ...brief.ragEvalMissingPreflight, selectedMatchesCoverage: false } }).failures.includes('rag_eval_preflight_keys_do_not_match_coverage'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalRecoveryPlan: { ...brief.ragEvalRecoveryPlan, status: 'missing' } }).failures.includes('missing_rag_eval_recovery_plan'));
+  assert.ok(validateDiscordOperatorBrief({ ...brief, ragEvalRecoveryPlan: { ...brief.ragEvalRecoveryPlan, missingEvalCount: 1 } }).failures.includes('rag_eval_recovery_missing_count_mismatch'));
 });
 
 test('discord proof intake readiness: defines auditable fields for real operating proof', async () => {

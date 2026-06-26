@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T06:16:58.838Z",
+  "generatedAt": "2026-06-26T06:35:44.217Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -288,6 +288,15 @@
     "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
+  "ragEvalRecoveryPlan": {
+    "ok": true,
+    "status": "blocked",
+    "missingEvalCount": 15,
+    "failedEvalCount": 0,
+    "readyMissingEvalCount": 15,
+    "approvedCommand": "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
   "proofRehearsal": {
     "ok": true,
     "laneCount": 5,
@@ -320,6 +329,7 @@
     "npm run discord:operating-cycle",
     "npm run discord:proof-source-recovery-plan",
     "npm run rag:evaluate:missing-preflight",
+    "npm run rag:evaluate:recovery-plan",
     "npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
     "npm run rag:evaluate:coverage-readiness",
     "npm run discord:smoke-final-scorecard",

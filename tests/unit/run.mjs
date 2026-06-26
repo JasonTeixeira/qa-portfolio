@@ -110,6 +110,13 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['rag:evaluate:missing-preflight'], 'tsx scripts/rag/write-missing-eval-preflight.ts');
   assert.equal(packageJson.scripts['rag:evaluate:recovery-plan'], 'tsx scripts/rag/write-eval-recovery-plan.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
+  const releaseLocal = packageJson.scripts['discord:release-local'];
+  const releaseOrder = (command) => releaseLocal.indexOf(command);
+  const assertReleaseBefore = (left, right) => {
+    assert.ok(releaseOrder(left) >= 0, `discord:release-local missing ${left}`);
+    assert.ok(releaseOrder(right) >= 0, `discord:release-local missing ${right}`);
+    assert.ok(releaseOrder(left) < releaseOrder(right), `${left} must run before ${right}`);
+  };
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].indexOf('discord:proof-rehearsal-readiness') < packageJson.scripts['discord:release-local'].indexOf('discord:smoke-final-scorecard:dry-run'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
@@ -123,6 +130,20 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-preflight'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:recovery-plan'));
   assert.equal(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing &&'), false);
+  assertReleaseBefore('rag:discord-corpus-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:durable-jobs-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:security-privacy-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:observability-quality-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:content-factory-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:premium-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:public-growth-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:proof-intake-readiness', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:weekly-proof-packet', 'discord:smoke-final-scorecard:dry-run');
+  assertReleaseBefore('discord:operating-cycle:dry-run', 'discord:proof-backlog');
+  assertReleaseBefore('discord:proof-backlog', 'discord:proof-candidate-audit');
+  assertReleaseBefore('discord:proof-candidate-audit', 'discord:world-class-readiness');
+  assertReleaseBefore('discord:world-class-readiness', 'discord:operator-brief');
+  assertReleaseBefore('discord:operator-brief', 'verify:local:evidence');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
   assert.equal(packageJson.scripts['verify:local'].includes('npm run rag:evaluate &&'), false);

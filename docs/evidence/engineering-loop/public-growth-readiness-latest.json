@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "public-growth-readiness-v1",
-  "generatedAt": "2026-06-26T09:59:42.606Z",
+  "generatedAt": "2026-06-26T10:27:20.471Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "publicProof": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
@@ -89,7 +89,7 @@
   "validation": {
     "ok": true,
     "validator": "public-growth-readiness-validator-v1",
-    "validatedAt": "2026-06-26T09:59:42.607Z",
+    "validatedAt": "2026-06-26T10:27:20.473Z",
     "failures": []
   }
 }

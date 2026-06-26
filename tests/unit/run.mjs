@@ -243,7 +243,9 @@ test('discord community ops: premium command, analytics dashboard, cron, and mig
   assert.match(gatewayReliabilityMigration, /create table if not exists public\.discord_gateway_dead_letters/);
   assert.match(gatewayIngestion, /\.select\('metadata'\)/);
   assert.match(gatewayIngestion, /\.eq\('worker_id', input\.workerId\)/);
-  assert.match(gatewayIngestion, /metadata = typeof data\?\.metadata === 'object'/);
+  assert.match(gatewayIngestion, /previousMetadata = typeof data\?\.metadata === 'object'/);
+  assert.match(gatewayIngestion, /nextMetadata = typeof input\.metadata === 'object'/);
+  assert.match(gatewayIngestion, /metadata = \{ \.\.\.previousMetadata, \.\.\.nextMetadata \}/);
   assert.match(gatewayWorker, /requestedCloseResult/);
   assert.match(gatewayWorker, /discord-reconnect-requested/);
   assert.match(gatewayWorker, /socket\.close\(1000, 'discord-reconnect-requested'\)/);

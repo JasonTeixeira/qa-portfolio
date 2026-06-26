@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-rehearsal-readiness-v2",
-  "generatedAt": "2026-06-26T02:45:44.849Z",
+  "generatedAt": "2026-06-26T02:53:24.157Z",
   "mutationMode": "local_file_evidence_only",
   "maxEvidenceAgeDays": 14,
   "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment.",
@@ -33,7 +33,7 @@
       "latestEvidence": {
         "path": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
         "ok": true,
-        "timestamp": "2026-06-26T02:45:38.618Z",
+        "timestamp": "2026-06-26T02:53:19.146Z",
         "ageHours": 0
       },
       "note": "This lane is read-only."
@@ -65,7 +65,7 @@
       "latestEvidence": {
         "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
         "ok": true,
-        "timestamp": "2026-06-26T02:45:39.757Z",
+        "timestamp": "2026-06-26T02:53:20.312Z",
         "ageHours": 0
       },
       "note": "This lane is read-only."
@@ -98,7 +98,7 @@
         "path": "docs/evidence/rag/discord-authoritative-sync-smoke.json",
         "ok": true,
         "timestamp": "2026-06-24T19:07:37.514Z",
-        "ageHours": 31.64
+        "ageHours": 31.76
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     },
@@ -130,7 +130,7 @@
         "path": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
         "ok": true,
         "timestamp": "2026-06-25T00:02:18.418Z",
-        "ageHours": 26.72
+        "ageHours": 26.85
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     },
@@ -163,7 +163,7 @@
         "path": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
         "ok": true,
         "timestamp": "2026-06-25T00:02:28.145Z",
-        "ageHours": 26.72
+        "ageHours": 26.85
       },
       "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
     }

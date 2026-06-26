@@ -38,6 +38,7 @@ const evidencePaths = {
   proofCandidateAudit: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
   proofSourceVolumeScan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-volume-scan-latest.json'),
   proofSourceRecoveryPlan: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json'),
+  approvedKnowledgePacket: path.join(root, 'docs', 'evidence', 'engineering-loop', 'approved-knowledge-operating-packet-latest.json'),
   operatorBrief: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
   gatewayCaptureDiagnosis: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
   worldClassReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'world-class-readiness-latest.json'),
@@ -179,6 +180,7 @@ async function main() {
     proofCandidateAudit,
     proofSourceVolumeScan,
     proofSourceRecoveryPlan,
+    approvedKnowledgePacket,
     operatorBrief,
     gatewayCaptureDiagnosis,
     worldClassReadiness,
@@ -636,6 +638,44 @@ async function main() {
   requireTruthy(
     proofLaneRagEvalCommandsAreGuarded(proofCandidateAudit.lanes),
     'Proof candidate audit must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
+  );
+  requireTruthy(approvedKnowledgePacket.ok === true, 'Approved knowledge operating packet evidence is not ok.');
+  requireTruthy(
+    approvedKnowledgePacket.mutationMode === 'local_file_evidence_only',
+    'Approved knowledge operating packet must not mutate external systems.',
+  );
+  requireTruthy(
+    approvedKnowledgePacket.releaseMeaning?.includes('does not approve records, sync RAG, publish content, call AI models, mutate Supabase'),
+    'Approved knowledge operating packet must explicitly avoid claiming approval, sync, publish, AI, or Supabase mutation.',
+  );
+  requireTruthy(
+    approvedKnowledgePacket.target?.target === 10
+      && approvedKnowledgePacket.target?.remaining === Math.max(0, approvedKnowledgePacket.target.target - approvedKnowledgePacket.target.current),
+    'Approved knowledge operating packet must preserve the 10-item target and correct remaining count.',
+  );
+  requireTruthy(
+    (approvedKnowledgePacket.fields ?? []).filter((field) => field.required).length >= 18,
+    'Approved knowledge operating packet must require a complete evidence field set.',
+  );
+  requireTruthy(
+    (approvedKnowledgePacket.weeklySlots ?? []).length === approvedKnowledgePacket.target?.target
+      && approvedKnowledgePacket.weeklySlots.every((slot) => slot.minimumQualityScore >= 80),
+    'Approved knowledge operating packet must define one high-quality slot per target item.',
+  );
+  requireTruthy(
+    approvedKnowledgePacket.scoringRubric?.passScore >= 80
+      && (approvedKnowledgePacket.scoringRubric?.dimensions ?? []).reduce((sum, item) => sum + item.points, 0) === approvedKnowledgePacket.scoringRubric?.maxScore,
+    'Approved knowledge operating packet must have an 80+ pass score and a complete 100-point rubric.',
+  );
+  requireTruthy(
+    (approvedKnowledgePacket.antiFakeRules ?? []).some((rule) => rule.includes('not operating proof'))
+      && (approvedKnowledgePacket.antiFakeRules ?? []).some((rule) => rule.includes('raw discord_messages'))
+      && (approvedKnowledgePacket.antiFakeRules ?? []).some((rule) => rule.includes('required field')),
+    'Approved knowledge operating packet must block packet-only, raw-message, and incomplete-field proof.',
+  );
+  requireTruthy(
+    proofLaneRagEvalCommandsAreGuarded([{ verificationCommands: approvedKnowledgePacket.verificationCommands ?? [] }]),
+    'Approved knowledge operating packet must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
   );
   requireTruthy(proofSourceVolumeScan.ok === true, 'Proof source volume scan evidence is not ok.');
   requireTruthy(
@@ -1101,6 +1141,18 @@ async function main() {
       })),
       nextActions: proofCandidateAudit.nextActions,
       releaseMeaning: proofCandidateAudit.releaseMeaning,
+    },
+    approvedKnowledgePacket: {
+      ok: approvedKnowledgePacket.ok,
+      mutationMode: approvedKnowledgePacket.mutationMode,
+      status: approvedKnowledgePacket.status,
+      target: approvedKnowledgePacket.target,
+      requiredFieldCount: approvedKnowledgePacket.fields?.filter((field) => field.required).length ?? 0,
+      weeklySlotCount: approvedKnowledgePacket.weeklySlots?.length ?? 0,
+      passScore: approvedKnowledgePacket.scoringRubric?.passScore,
+      antiFakeRules: approvedKnowledgePacket.antiFakeRules,
+      nextActions: approvedKnowledgePacket.nextActions,
+      releaseMeaning: approvedKnowledgePacket.releaseMeaning,
     },
     proofSourceVolumeScan: {
       ok: proofSourceVolumeScan.ok,

@@ -96,6 +96,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
   assert.equal(packageJson.scripts['discord:proof-source-recovery-plan'], 'tsx scripts/discord/write-proof-source-recovery-plan.ts');
+  assert.equal(packageJson.scripts['discord:approved-knowledge-packet'], 'tsx scripts/discord/write-approved-knowledge-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
@@ -111,6 +112,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-recovery-plan'));
+  assert.ok(packageJson.scripts['discord:release-local'].includes('discord:approved-knowledge-packet'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:coverage-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:missing-plan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('rag:evaluate:execution-packet'));
@@ -168,6 +170,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /discord-proof-candidate-audit-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-source-volume-scan-latest\.json/);
   assert.match(localVerificationEvidence, /discord-proof-source-recovery-plan-latest\.json/);
+  assert.match(localVerificationEvidence, /approved-knowledge-operating-packet-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /gateway_capture_rehearsal/);
   assert.match(localVerificationEvidence, /content_factory_readiness_rehearsal/);
@@ -179,6 +182,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /proofCandidateAudit/);
   assert.match(localVerificationEvidence, /proofSourceVolumeScan/);
   assert.match(localVerificationEvidence, /proofSourceRecoveryPlan/);
+  assert.match(localVerificationEvidence, /approvedKnowledgePacket/);
   assert.match(localVerificationEvidence, /ragEvalExecutionPacket/);
   assert.match(localVerificationEvidence, /ragEvalMissingPreflight/);
   assert.match(localVerificationEvidence, /ragEvalRecoveryPlan/);
@@ -197,6 +201,8 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /Operator brief must include the proof source recovery plan/);
   assert.match(localVerificationEvidence, /Operator brief must include the RAG missing eval preflight/);
   assert.match(localVerificationEvidence, /proof source recovery shortfall must match/);
+  assert.match(localVerificationEvidence, /Approved knowledge operating packet must explicitly avoid claiming approval, sync, publish, AI, or Supabase mutation/);
+  assert.match(localVerificationEvidence, /Approved knowledge operating packet must block packet-only, raw-message, and incomplete-field proof/);
   assert.match(localVerificationEvidence, /Operator brief missing eval count must match/);
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
@@ -223,6 +229,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   const durableJobsReadinessScript = await readFile(new URL('../../scripts/discord/write-durable-jobs-readiness.mjs', import.meta.url), 'utf8');
   const securityPrivacyReadinessScript = await readFile(new URL('../../scripts/discord/write-security-privacy-readiness.mjs', import.meta.url), 'utf8');
   const observabilityQualityReadinessScript = await readFile(new URL('../../scripts/discord/write-observability-quality-readiness.mjs', import.meta.url), 'utf8');
+  const approvedKnowledgePacketScript = await readFile(new URL('../../scripts/discord/write-approved-knowledge-operating-packet.ts', import.meta.url), 'utf8');
   assert.match(evalCoverageReadinessScript, /eval-coverage-readiness\.json/);
   assert.match(evalCoverageReadinessScript, /local_file_evidence_only/);
   assert.match(evalCoverageReadinessScript, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);
@@ -272,6 +279,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(observabilityQualityReadinessScript, /billing truth/);
   assert.match(observabilityQualityReadinessScript, /does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces/);
   assert.doesNotMatch(observabilityQualityReadinessScript, /@supabase\/supabase-js/);
+  assert.match(approvedKnowledgePacketScript, /approved-knowledge-operating-packet-latest\.json/);
+  assert.match(approvedKnowledgePacketScript, /buildApprovedKnowledgeOperatingPacket/);
+  assert.match(approvedKnowledgePacketScript, /discord-proof-source-volume-scan-latest\.json/);
+  assert.match(approvedKnowledgePacketScript, /discord-proof-source-recovery-plan-latest\.json/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
   assert.match(proofRehearsalScript, /proof-rehearsal-readiness-latest\.json/);
   assert.match(proofRehearsalScript, /discord-proof-rehearsal-readiness-v2/);
@@ -1969,6 +1980,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Content factory readiness',
     'Proof candidate audit',
     'Proof source volume scan',
+    'Approved knowledge operating packet',
     'World-class readiness triage',
     'Audit stream',
   ]) {
@@ -2033,6 +2045,14 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /Proof source recovery plan/);
   assert.match(page, /npm run discord:proof-source-recovery-plan/);
   assert.match(page, /proofSourceRecoveryPlan\.summary\.totalShortfall/);
+  assert.match(page, /loadApprovedKnowledgePacket/);
+  assert.match(page, /approved-knowledge-operating-packet-latest\.json/);
+  assert.match(page, /data-testid="approved-knowledge-operating-packet"/);
+  assert.match(page, /Approved knowledge operating packet/);
+  assert.match(page, /Run npm run discord:approved-knowledge-packet/);
+  assert.match(page, /approvedKnowledgePacket\.weeklySlots/);
+  assert.match(page, /approvedKnowledgePacket\.acceptanceChecklist/);
+  assert.match(page, /approvedKnowledgePacket\.privacyChecklist/);
   assert.match(page, /releaseGates/);
   assert.match(page, /Release gates/);
   assert.match(page, /operatorBrief\.releaseGates\.failures/);
@@ -3069,6 +3089,78 @@ test('discord proof source recovery plan: turns source-volume gaps into auditabl
   assert.equal(passed.status, 'passed');
   assert.equal(passed.summary.totalShortfall, 0);
   assert.equal(passed.immediateActionOrder.length, 0);
+});
+
+test('discord approved knowledge operating packet: defines the next proof lane contract without claiming proof', async () => {
+  const {
+    buildApprovedKnowledgeOperatingPacket,
+    renderApprovedKnowledgeOperatingPacketMarkdown,
+    validateApprovedKnowledgeOperatingPacket,
+  } = await import('../../lib/discord/approved-knowledge-operating-packet.ts');
+  const { buildDiscordProofSourceRecoveryPlan } = await import('../../lib/discord/proof-source-recovery-plan.ts');
+  const scan = {
+    ok: true,
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    mutationMode: 'read_only_supabase_selects_and_local_file_evidence_only',
+    laneReadiness: {
+      approvedDiscordKnowledge: {
+        current: 2,
+        target: 10,
+        reviewableCandidates: 4,
+        blocker: 'Approved knowledge is 2/10.',
+      },
+      ragDiscordSources: { current: 0, target: 10, approvedKnowledgeAvailable: 2 },
+      publicProofAssets: { current: 0, target: 4, approvedKnowledgeAvailable: 2 },
+      premiumWorkflowProof: { current: 0, target: 1, premiumMembers: 1 },
+    },
+  };
+  const recoveryPlan = buildDiscordProofSourceRecoveryPlan({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    scan,
+  });
+  const packet = buildApprovedKnowledgeOperatingPacket({
+    generatedAt: '2026-06-26T00:00:00.000Z',
+    scan,
+    recoveryPlan,
+  });
+
+  assert.equal(packet.ok, true);
+  assert.equal(packet.version, 'approved-knowledge-operating-packet-v1');
+  assert.equal(packet.mutationMode, 'local_file_evidence_only');
+  assert.match(packet.releaseMeaning, /does not approve records/);
+  assert.equal(packet.status, 'ready_for_collection');
+  assert.equal(packet.target.current, 2);
+  assert.equal(packet.target.target, 10);
+  assert.equal(packet.target.remaining, 8);
+  assert.equal(packet.target.reviewableCandidates, 4);
+  assert.equal(packet.target.sourceVolumeState, 'needs_review');
+  assert.equal(packet.weeklySlots.length, 10);
+  assert.ok(packet.weeklySlots.every((slot) => slot.minimumQualityScore >= 80));
+  assert.ok(packet.fields.filter((field) => field.required).length >= 18);
+  for (const key of ['source_record_id', 'decision_reason', 'privacy_status', 'operator_attestation', 'rag_safe']) {
+    assert.ok(packet.fields.some((field) => field.key === key && field.required));
+  }
+  assert.equal(packet.scoringRubric.passScore, 80);
+  assert.equal(
+    packet.scoringRubric.dimensions.reduce((sum, item) => sum + item.points, 0),
+    packet.scoringRubric.maxScore,
+  );
+  assert.ok(packet.acceptanceChecklist.some((item) => item.includes('Quality score is at least 80')));
+  assert.ok(packet.rejectionChecklist.some((item) => item.includes('Raw captured message')));
+  assert.ok(packet.privacyChecklist.some((item) => item.includes('Default to anonymized')));
+  assert.ok(packet.downstreamWorkflow.some((item) => item.includes('explicit approval for Supabase/RAG mutations')));
+  assert.ok(packet.antiFakeRules.some((item) => item.includes('not operating proof')));
+  assert.ok(packet.antiFakeRules.some((item) => item.includes('raw discord_messages')));
+  assert.ok(packet.verificationCommands
+    .filter((command) => command.includes('rag:evaluate'))
+    .every((command) => command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')));
+  assert.equal(validateApprovedKnowledgeOperatingPacket(packet).ok, true);
+
+  const markdown = renderApprovedKnowledgeOperatingPacketMarkdown(packet);
+  assert.match(markdown, /Approved Discord Knowledge Operating Packet/);
+  assert.match(markdown, /Required Fields/);
+  assert.match(markdown, /Weekly Slots/);
+  assert.match(markdown, /Anti-Fake Rules/);
 });
 
 test('discord operator brief: typed handoff validates blocked proof lanes and commands', async () => {

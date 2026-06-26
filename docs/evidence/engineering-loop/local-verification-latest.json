@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T08:08:53.235Z",
+  "timestamp": "2026-06-26T08:20:37.592Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -55,6 +55,7 @@
     "proofCandidateAudit": "docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json",
     "proofSourceVolumeScan": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
     "proofSourceRecoveryPlan": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+    "approvedKnowledgePacket": "docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
     "operatorBrief": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
     "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
     "worldClassReadiness": "docs/evidence/engineering-loop/world-class-readiness-latest.json"
@@ -88,7 +89,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782461324464"
+    "runKey": "phase-20-final-1782462028554"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -877,6 +878,35 @@
       "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
     ],
     "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof."
+  },
+  "approvedKnowledgePacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready_for_collection",
+    "target": {
+      "current": 0,
+      "target": 10,
+      "remaining": 10,
+      "reviewableCandidates": 0,
+      "sourceVolumeState": "no_source_volume"
+    },
+    "requiredFieldCount": 18,
+    "weeklySlotCount": 10,
+    "passScore": 80,
+    "antiFakeRules": [
+      "This packet is not operating proof; it is the review contract for collecting operating proof.",
+      "Do not count raw discord_messages rows, smoke rows, deleted rows, dry-run drafts, or generated templates.",
+      "Do not count approved knowledge unless every required field, privacy status, decision reason, and evidence artifact is present.",
+      "Do not sync Discord-derived RAG from raw or private text; sync only the approved/anonymized version.",
+      "Do not claim 95+ content/RAG/growth posture until approved knowledge is synced, evaluated, and used in public proof cycles."
+    ],
+    "nextActions": [
+      "Approve 10 more high-signal Discord knowledge items with this packet.",
+      "Create source volume by asking members useful questions, reviewing builds, and capturing helpful answers/resources.",
+      "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
+      "Rerun npm run discord:proof-source-scan after approvals."
+    ],
+    "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof."
   },
   "proofSourceVolumeScan": {
     "ok": true,

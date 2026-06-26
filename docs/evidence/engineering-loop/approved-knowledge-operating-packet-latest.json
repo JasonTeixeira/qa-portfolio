@@ -1,0 +1,430 @@
+{
+  "ok": true,
+  "version": "approved-knowledge-operating-packet-v1",
+  "generatedAt": "2026-06-26T08:20:26.768Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof.",
+  "status": "ready_for_collection",
+  "target": {
+    "current": 0,
+    "target": 10,
+    "remaining": 10,
+    "reviewableCandidates": 0,
+    "sourceVolumeState": "no_source_volume"
+  },
+  "sourceTables": [
+    "discord_questions",
+    "discord_answers",
+    "discord_content_queue",
+    "discord_content_drafts",
+    "discord_challenge_submissions"
+  ],
+  "adminSurface": "/admin/discord -> RAG knowledge approval desk, Content Queue, Drafts, Questions, Challenges",
+  "fields": [
+    {
+      "key": "proof_cycle_key",
+      "label": "Proof cycle key",
+      "description": "Weekly operating cycle key, for example 2026-W26.",
+      "required": true
+    },
+    {
+      "key": "source_table",
+      "label": "Source table",
+      "description": "Source table such as discord_questions, discord_answers, discord_content_queue, or discord_content_drafts.",
+      "required": true
+    },
+    {
+      "key": "source_record_id",
+      "label": "Source record id",
+      "description": "Stable source id that lets an admin reopen the exact candidate.",
+      "required": true
+    },
+    {
+      "key": "source_url_or_path",
+      "label": "Source URL or path",
+      "description": "Discord link, admin URL, or evidence path for inspection.",
+      "required": true
+    },
+    {
+      "key": "source_created_at",
+      "label": "Source created at",
+      "description": "Original timestamp proving the source came from the current operating window or reviewed backlog.",
+      "required": true
+    },
+    {
+      "key": "source_type",
+      "label": "Source type",
+      "description": "question, answer, review, build, resource, win, or draft.",
+      "required": true
+    },
+    {
+      "key": "title",
+      "label": "Reusable title",
+      "description": "Short reusable title for future RAG citations, lessons, or resources.",
+      "required": true
+    },
+    {
+      "key": "summary",
+      "label": "Reusable summary",
+      "description": "Two to four sentence summary of the teaching value.",
+      "required": true
+    },
+    {
+      "key": "member_context_redacted",
+      "label": "Member context redacted",
+      "description": "Boolean or note confirming names, credentials, private business details, and screenshots were removed or permissioned.",
+      "required": true
+    },
+    {
+      "key": "reuse_category",
+      "label": "Reuse category",
+      "description": "FAQ, lesson, checklist, challenge, resource, prompt, or content seed.",
+      "required": true
+    },
+    {
+      "key": "quality_score",
+      "label": "Quality score",
+      "description": "Operator score from 0-100 using the packet rubric.",
+      "required": true
+    },
+    {
+      "key": "rag_safe",
+      "label": "RAG safe",
+      "description": "Boolean confirmation that the approved version can be cited later without leaking private context.",
+      "required": true
+    },
+    {
+      "key": "reviewer",
+      "label": "Reviewer",
+      "description": "Admin/operator approving or rejecting the source.",
+      "required": true
+    },
+    {
+      "key": "reviewed_at",
+      "label": "Reviewed at",
+      "description": "ISO timestamp for the approval or rejection decision.",
+      "required": true
+    },
+    {
+      "key": "decision_reason",
+      "label": "Decision reason",
+      "description": "Specific reason the item qualifies or fails the lane.",
+      "required": true
+    },
+    {
+      "key": "privacy_status",
+      "label": "Privacy status",
+      "description": "public, anonymized, permissioned, private_blocked, or rejected.",
+      "required": true
+    },
+    {
+      "key": "evidence_artifact_path",
+      "label": "Evidence artifact path",
+      "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact supporting the claim.",
+      "required": true
+    },
+    {
+      "key": "operator_attestation",
+      "label": "Operator attestation",
+      "description": "Plain-language statement of what was verified and what was not verified.",
+      "required": true
+    }
+  ],
+  "weeklySlots": [
+    {
+      "slot": 1,
+      "targetSourceType": "question",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 2,
+      "targetSourceType": "answer",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 3,
+      "targetSourceType": "review",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 4,
+      "targetSourceType": "build",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 5,
+      "targetSourceType": "resource",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 6,
+      "targetSourceType": "win",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 7,
+      "targetSourceType": "question",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 8,
+      "targetSourceType": "answer",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 9,
+      "targetSourceType": "review",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    },
+    {
+      "slot": 10,
+      "targetSourceType": "draft",
+      "minimumQualityScore": 80,
+      "requiredEvidence": [
+        "source_record_id",
+        "source_created_at",
+        "source_url_or_path",
+        "decision_reason",
+        "privacy_status",
+        "operator_attestation"
+      ],
+      "rejectIf": [
+        "raw_unapproved_message",
+        "private_or_identifying_context_without_permission",
+        "generic_low_context_or_praise_only",
+        "synthetic_smoke_or_dry_run_row"
+      ]
+    }
+  ],
+  "scoringRubric": {
+    "maxScore": 100,
+    "passScore": 80,
+    "dimensions": [
+      {
+        "key": "specific_problem_or_artifact",
+        "points": 20,
+        "passSignal": "The source includes a concrete problem, artifact, build, decision, blocker, or review target.",
+        "failSignal": "The source is generic, social, vague, or has no reusable teaching surface."
+      },
+      {
+        "key": "reusable_teaching_value",
+        "points": 20,
+        "passSignal": "The source can become a FAQ, checklist, lesson, challenge, resource, or future RAG answer.",
+        "failSignal": "The source only makes sense in the original thread and cannot teach a future member."
+      },
+      {
+        "key": "context_completeness",
+        "points": 15,
+        "passSignal": "The approved version has enough context to cite without asking the original member for missing details.",
+        "failSignal": "The source depends on missing files, screenshots, private context, or unexplained shorthand."
+      },
+      {
+        "key": "privacy_and_permission",
+        "points": 20,
+        "passSignal": "The source is public, anonymized, or permissioned and contains no credentials or private business/member data.",
+        "failSignal": "The source includes identifying, private, sensitive, or moderation-heavy material."
+      },
+      {
+        "key": "operator_decision_quality",
+        "points": 15,
+        "passSignal": "Reviewer, timestamp, privacy status, decision reason, and evidence artifact are present.",
+        "failSignal": "Approval reason is missing, generic, or cannot be reproduced from source evidence."
+      },
+      {
+        "key": "downstream_fit",
+        "points": 10,
+        "passSignal": "The source has a clear downstream path into RAG, daily content, quiz/challenge, resource, or public proof.",
+        "failSignal": "No downstream use is defined, so the source would become dormant inventory."
+      }
+    ]
+  },
+  "approvalWorkflow": [
+    "Open /admin/discord and review captured questions, answers, content queue items, drafts, builds, wins, and resources.",
+    "Reject low-context, private, moderation-sensitive, synthetic, or unsupported candidates immediately.",
+    "For each candidate worth keeping, fill every required field in this packet before approving it as durable knowledge.",
+    "Use the anonymized/approved text as the future RAG/content source; do not reuse raw private Discord text.",
+    "Stop at 10 approved items for the weekly lane, then run source scan and operating-cycle dry-run evidence."
+  ],
+  "acceptanceChecklist": [
+    "Source has a specific problem, answer, artifact, review, decision, build, win, or resource.",
+    "Source can teach a future member without relying on private context.",
+    "Source has explicit downstream fit: RAG, FAQ, lesson, checklist, challenge, resource, content, or public proof.",
+    "Quality score is at least 80/100 using the packet rubric.",
+    "Privacy status is public, anonymized, or permissioned.",
+    "Reviewer, reviewed_at, decision_reason, source id, and evidence artifact are present.",
+    "The approved version is RAG-safe and excludes credentials, private business context, and member-identifying details."
+  ],
+  "rejectionChecklist": [
+    "Raw captured message without admin review.",
+    "Synthetic smoke row, dry-run draft, or deleted cleanup row.",
+    "Greeting, introduction, generic praise, or low-context comment.",
+    "Private, identifying, credential-like, moderation-sensitive, or off-topic content.",
+    "Unsupported claim that would require external verification before reuse.",
+    "AI-generated draft with no approved source material behind it."
+  ],
+  "privacyChecklist": [
+    "Default to anonymized member references.",
+    "Remove names, emails, handles, screenshots, credentials, client names, payment details, and private business context.",
+    "Use permissioned status only when explicit approval exists and the evidence path records it.",
+    "Keep private/member-sensitive premium or DM material out of public proof unless separately permissioned.",
+    "If privacy is uncertain, mark private_blocked or rejected and do not sync to RAG."
+  ],
+  "downstreamWorkflow": [
+    "After 10 approved knowledge items exist, run npm run discord:proof-source-scan.",
+    "Run npm run discord:operating-cycle:dry-run to verify approvedDiscordKnowledge reaches 10/10.",
+    "With explicit approval for Supabase/RAG mutations, sync approved Discord candidates into authoritative RAG.",
+    "With explicit approval for non-dry RAG eval, run the guarded eval command and final scorecard.",
+    "Use only approved knowledge sources when creating public proof assets or weekly content claims."
+  ],
+  "verificationCommands": [
+    "npm run discord:approved-knowledge-packet",
+    "npm run discord:proof-source-scan",
+    "npm run discord:proof-source-recovery-plan",
+    "npm run discord:operating-cycle:dry-run",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing"
+  ],
+  "antiFakeRules": [
+    "This packet is not operating proof; it is the review contract for collecting operating proof.",
+    "Do not count raw discord_messages rows, smoke rows, deleted rows, dry-run drafts, or generated templates.",
+    "Do not count approved knowledge unless every required field, privacy status, decision reason, and evidence artifact is present.",
+    "Do not sync Discord-derived RAG from raw or private text; sync only the approved/anonymized version.",
+    "Do not claim 95+ content/RAG/growth posture until approved knowledge is synced, evaluated, and used in public proof cycles."
+  ],
+  "nextActions": [
+    "Approve 10 more high-signal Discord knowledge items with this packet.",
+    "Create source volume by asking members useful questions, reviewing builds, and capturing helpful answers/resources.",
+    "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
+    "Rerun npm run discord:proof-source-scan after approvals."
+  ],
+  "failures": [],
+  "validation": {
+    "ok": true,
+    "failures": []
+  }
+}

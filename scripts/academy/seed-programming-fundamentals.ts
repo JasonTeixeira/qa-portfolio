@@ -1515,6 +1515,177 @@ const cliBlocks = [
   },
 ]
 
+// ---------------------------------------------------------------- lesson 9 blocks
+// "Git Fundamentals — Atomic Commits You Can Trust". Grounded in the
+// 01-programming-fundamentals "Git fundamentals" cluster + established practice
+// (atomic commits, clear messages, branches, safe recovery, no force-push shared).
+const GIT_LAB_STARTER = `LAZY = {"", "wip", "fix", "stuff", "update", ".", "asdf"}
+
+def check_commit(staged_files, message):
+    # A good commit is ATOMIC (has staged changes) with a clear message.
+    #   - no staged files            -> "nothing to commit"
+    #   - empty/lazy or < 10 chars   -> "weak message"
+    #   - otherwise                  -> "ok"
+    ...  # your code here
+
+
+# --- test harness (do not edit) ---
+cases = [
+    ([], "add user validation", "nothing to commit"),
+    (["a.py"], "wip", "weak message"),
+    (["a.py"], "fix", "weak message"),
+    (["a.py"], "add input validation to signup", "ok"),
+]
+ok = all(check_commit(f, m) == exp for f, m, exp in cases)
+for f, m, exp in cases:
+    print(f"{m!r} -> {check_commit(f, m)!r}")
+print(f"PASS: {ok}")
+`
+
+const gitBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Make small atomic commits with clear messages, use branches to isolate work, and recover safely when something goes wrong — never panic-force-push a shared branch.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A commit checker that rejects empty/lazy commits, plus a branch + revert you can demonstrate.',
+    unlock: 'All verification checks confirmed and the giant-"wip"-commit habit replaced with atomic commits.',
+    doNotClaim:
+      "Don't claim mastery until you can revert one change without undoing the others — which only atomic commits allow.",
+  },
+  {
+    type: 'mission',
+    text: "Your teammate's branch is one giant commit titled 'stuff' — and when a bug appeared, nobody could tell which change caused it or revert just that part. Make your history something you can actually use.",
+  },
+  {
+    type: 'context',
+    text: 'Git history is a tool, not a chore. Small atomic commits with clear messages let you bisect a bug, revert one change, and review work sanely. Branches isolate risk. And almost nothing in git is truly lost — if you know how to recover.',
+  },
+  {
+    type: 'pretest',
+    prompt: "Before you read on: why is one giant commit titled 'wip' worse than five small commits with clear messages?",
+    reveal:
+      "A giant 'wip' commit can't be reviewed, can't be reverted in part, and tells you nothing about what changed or why. Small atomic commits (one logical change each, with a clear message) let you review, revert just the bad one, and bisect to find which change introduced a bug.",
+  },
+  {
+    type: 'worked-example',
+    intro: 'An atomic commit: one logical change, staged deliberately, with a message that says what and why:',
+    language: 'bash',
+    code: `# GOOD — one logical change, deliberate staging, clear message
+git add signup.py
+git commit -m "validate signup input: reject empty email and out-of-range age"
+
+# BAD — everything blended into one unreviewable, unrevertable blob
+git add .
+git commit -m "wip"`,
+    steps: [
+      'One logical change per commit — something you could revert on its own.',
+      'Stage deliberately (the related files), not a blind `git add .`.',
+      'Message = what changed + why (imperative: "add", "fix", "validate").',
+      'Work on a branch per task to isolate risk.',
+      'Recover with `git revert` / `git reflog`; never force-push a shared branch.',
+    ],
+    commonMistake:
+      "`git add .` + `git commit -m 'wip'` — an unreviewable, unrevertable blob. Stage the related change and describe it.",
+  },
+  {
+    type: 'concept',
+    title: 'Atomic commits · clear messages · branches · you can recover',
+    text: 'An ATOMIC commit is one logical change you could revert on its own. A good MESSAGE says what changed and why (imperative mood). Use a BRANCH per task to isolate work. You can almost always recover: `git revert` undoes a commit safely (a new commit), and `git reflog` finds "lost" commits. The one rule that protects everyone: NEVER force-push a shared branch — it rewrites history other people already have.',
+  },
+  {
+    type: 'lab',
+    title: 'Reject the lazy commit',
+    summary:
+      'Implement check_commit(staged_files, message): return "nothing to commit" with no staged files, "weak message" for an empty/lazy message (in LAZY) or under 10 chars, else "ok". The harness checks all four cases — a "wip" commit must be rejected.',
+    language: 'python',
+    starter: GIT_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: "A bug appeared and the team couldn't revert just the change that caused it.",
+    language: 'bash',
+    brokenCode: `git add .
+git commit -m "wip"   # 12 unrelated changes blended into one commit`,
+    task: "Why can't they isolate and revert the bad change?",
+    fix: 'Everything is in one non-atomic commit, so `git revert` would undo all 12 changes and `git bisect` can\'t narrow it down. Commit one logical change at a time with a clear message — then you can revert or bisect precisely.',
+  },
+  {
+    type: 'tradeoff',
+    question: 'Finished a feature: one big commit, or several small ones?',
+    optionA: {
+      label: 'Small atomic commits',
+      text: 'Each commit is one logical change with a message. More entries — but reviewable, revertable, and bisectable.',
+    },
+    optionB: {
+      label: 'One big commit',
+      text: "Squash it all into one. Fewer entries — but you can't review, revert, or bisect a single change; it's all-or-nothing.",
+    },
+    guidance:
+      "Prefer small atomic commits while you work. You can always squash before merging if needed — but you can never un-blend a giant 'wip' commit.",
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'Each commit is one logical change (atomic)',
+      "Messages say what changed and why (not 'wip' / 'fix')",
+      'Work happens on a branch, not directly on a shared main',
+      'You can revert one commit and recover a lost one with reflog',
+      'You never force-push a shared branch',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: 'What makes git history actually useful?',
+    options: [
+      'One big commit per feature',
+      'Small atomic commits with clear messages',
+      'Committing only at the end of the day',
+      'Force-pushing to keep it clean',
+    ],
+    answer: 1,
+    explanation:
+      "Small atomic commits (one logical change, clear message) let you review, revert a single change, and bisect to find a bug. Giant 'wip' commits and force-pushing shared branches destroy that — and other people's work.",
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      "What is an 'atomic' commit and why does it matter?",
+      'What makes a commit message good?',
+      "How do you safely undo a commit that's already pushed?",
+      'Why is force-pushing a shared branch dangerous?',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your commit history on a real task',
+    weak: '"I committed my work." — probably one big "wip" blob.',
+    passing:
+      '"Small commits, each one logical change with a clear message, on a feature branch." — reviewable and revertable.',
+    excellent:
+      '"Atomic commits with what+why messages on a feature branch; I can revert any single change and bisect a regression. I recovered a dropped commit with reflog and never force-push shared branches, squashing only obvious fixups before merge." — specific, recoverable, collaborative.',
+    note: 'Excellent shows recovery (reflog / revert) AND collaboration safety — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'On your next task: work on a branch and make each commit one logical change with a message that says what and why. Practice `git revert` on a throwaway commit and look at `git reflog`, so recovery is never scary.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — a "wip"/empty commit is rejected, a clear one is "ok"',
+      'Broken case understood (a giant commit can\'t be reverted or bisected)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your next real task',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -1721,6 +1892,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l8Err) throw l8Err
+
+  // 2i. Lesson 9 — Git Fundamentals (grounded in the 01 "Git fundamentals" cluster).
+  const { error: l9Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'git-fundamentals',
+      title: 'Git Fundamentals: Atomic Commits You Can Trust',
+      eyebrow: 'Module 1 · Lesson 9 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 8,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: gitBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l9Err) throw l9Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

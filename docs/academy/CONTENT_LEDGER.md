@@ -8,7 +8,7 @@
 
 ## Current focus
 **Active course → `programming-fundamentals`** (topic `engineering`).
-Next lesson → **`testing-and-debugging`** (PENDING). Done: lessons 1–6 (input-validation → files-and-io).
+All 9 lessons authored + gated. NEXT: batch pass — 2-agent senior audit (lessons 4–9) + render reverify (needs the concurrent Next process paused), then advance to course 2 (core-engineering-scenarios).
 
 ## Active course: Programming Fundamentals (`programming-fundamentals`)
 Source: `01-programming-fundamentals/README.md` (9 clusters) + the matching `concepts/deep-nodes/*`.
@@ -24,7 +24,7 @@ Intensity: `standard`. Each cluster → one lesson.
 | 6 | `files-and-io` | Files & I/O | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 7 | `testing-and-debugging` | (craft) testing/debug | `deep-nodes/testing-strategy.md` | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 | 8 | `cli-workflow` | CLI workflow | `deep-nodes/cli-safety.md` | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
-| 9 | `git-fundamentals` | Git fundamentals | cluster + std CS | PENDING |
+| 9 | `git-fundamentals` | Git fundamentals | cluster + std CS | **DONE** (content gate ✓, typecheck ✓, lab determinism ✓; 2-agent audit + render → batch) |
 
 **Course exit gate:** all 9 `DONE` + a final content-review pass over the whole course.
 
@@ -33,7 +33,7 @@ Each numbered mastery track → one flagship course. Build after the active cour
 
 | Order | Course (slug) | Topic | Source track | Lessons from | Status |
 |---|---|---|---|---|---|
-| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (8/9)** |
+| 1 | `programming-fundamentals` | engineering | `01-programming-fundamentals` | 9 clusters | **WIP (9/9 — content-complete; batch audit + render pending)** |
 | 2 | `core-engineering-scenarios` | engineering | `scenario-pipelines/` (core 1–10) | 10 pipelines (System Is Slow first) | PENDING |
 | 3 | `dsa-patterns` | engineering | `02-dsa-leetcode-patterns` + `deep-nodes/dsa-pattern-recognition.md` | pattern bank | PENDING |
 | 4 | `software-craft` | engineering | `03-software-craft` + `deep-nodes/{code-review,testing-strategy}.md` | clusters | PENDING |

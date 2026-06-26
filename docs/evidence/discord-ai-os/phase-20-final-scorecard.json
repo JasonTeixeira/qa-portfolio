@@ -1,9 +1,9 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782466076927",
-  "dryRun": true,
-  "auditRowId": null,
+  "runKey": "phase-20-final-1782467025155",
+  "dryRun": false,
+  "auditRowId": "f3a3bc4a-33fd-4f6b-baec-afa38a7a8f89",
   "averageScore": 83,
   "categoryCount": 18,
   "blockedBelow95": [
@@ -788,6 +788,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T09:27:56.927Z",
-  "finishedAt": "2026-06-26T09:27:58.716Z"
+  "startedAt": "2026-06-26T09:43:45.155Z",
+  "finishedAt": "2026-06-26T09:43:48.098Z"
 }

@@ -465,6 +465,7 @@ type ContentFactoryReadiness = {
   draftTypeCoverage: string[];
   topicCoverageCount: number;
   operatingContractCoverage: string[];
+  proofLaneTargetCoverage: string[];
   proofEligibleDrafts: number;
   approvalGate: {
     noPublicPublish: boolean;
@@ -2286,8 +2287,13 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 value={`${contentFactoryReadiness.proofEligibleDrafts} candidates`}
                 tone={contentFactoryReadiness.proofEligibleDrafts >= 4 ? 'emerald' : 'amber'}
               />
+              <HealthLine
+                label="Proof lanes"
+                value={`${contentFactoryReadiness.proofLaneTargetCoverage.length} targeted`}
+                tone={contentFactoryReadiness.proofLaneTargetCoverage.length >= 4 ? 'emerald' : 'amber'}
+              />
             </div>
-            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_1fr_auto]">
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
               <div>
                 <div className="font-semibold text-[#fafafa]">Channels</div>
                 <div className="mt-1">{contentFactoryReadiness.channelCoverage.join(', ') || 'none'}</div>
@@ -2299,6 +2305,10 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               <div>
                 <div className="font-semibold text-[#fafafa]">Operating contract</div>
                 <div className="mt-1">{contentFactoryReadiness.operatingContractCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Proof lanes</div>
+                <div className="mt-1">{contentFactoryReadiness.proofLaneTargetCoverage.join(', ') || 'none'}</div>
               </div>
               <div className="lg:text-right">
                 <div className="font-semibold text-[#fafafa]">Refresh</div>
@@ -3209,6 +3219,7 @@ async function loadContentFactoryReadiness(): Promise<ContentFactoryReadiness> {
       draftTypeCoverage: [],
       topicCoverageCount: 0,
       operatingContractCoverage: [],
+      proofLaneTargetCoverage: [],
       proofEligibleDrafts: 0,
       approvalGate: {
         noPublicPublish: false,

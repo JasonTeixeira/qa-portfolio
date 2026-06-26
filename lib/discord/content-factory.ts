@@ -29,6 +29,8 @@ export type DiscordContentFactoryOperatingContract = {
   adminAction: 'review_then_approve_or_reject';
   expectedMemberResponse: string;
   proofPromotionPath: Array<'member_reply' | 'admin_review' | 'content_queue_candidate' | 'rag_candidate' | 'public_proof_candidate' | 'weekly_recap_input'>;
+  proofLaneTargets: Array<'approved_discord_knowledge' | 'rag_discord_sources' | 'public_proof_assets' | 'premium_workflow_proof'>;
+  collectionInstruction: string;
   requiredEvidenceBeforeProof: string[];
   pointsEligibleAfterReview: boolean;
 };
@@ -260,12 +262,15 @@ export function buildDiscordContentFactorySlots(startDate = new Date(), days = 7
 
 export function buildDiscordContentFactoryBody(slot: DiscordContentFactorySlot, date = new Date()): string {
   const dateKey = date.toISOString().slice(0, 10);
+  const contract = buildDiscordContentFactoryOperatingContract(slot);
   return [
     `# ${slot.title}`,
     `**Theme:** ${slot.topic}`,
     `**Purpose:** ${slot.objective}`,
     `**${slot.actionLabel}:** ${slot.deliverable}`,
     '**How to participate:** Reply with your artifact, blocker, or decision. Good replies can become approved resources, RAG knowledge, or public proof after review.',
+    `**Proof lane:** This prompt is designed to collect ${contract.proofLaneTargets.join(', ')} evidence after admin review.`,
+    `**Review note:** ${contract.collectionInstruction}`,
     '**Quality bar:** Be specific. Include context, what you tried, what failed, and the next decision you need help with.',
     `**Deliverable:** Post one concrete artifact or answer by the end of ${dateKey}.`,
   ].join('\n\n');
@@ -346,17 +351,38 @@ export function buildDiscordContentFactoryOperatingContract(
     proofPromotionPath: ['member_reply', 'admin_review', 'content_queue_candidate'],
     pointsEligibleAfterReview: false,
   };
+  const proofLaneTargets: DiscordContentFactoryOperatingContract['proofLaneTargets'] = [];
+  if (channelContract.proofPromotionPath.includes('rag_candidate')) {
+    proofLaneTargets.push('approved_discord_knowledge', 'rag_discord_sources');
+  }
+  if (channelContract.proofPromotionPath.includes('public_proof_candidate')) {
+    proofLaneTargets.push('public_proof_assets');
+  }
+  if (slot.targetChannelBaseName === 'office-hours') {
+    proofLaneTargets.push('premium_workflow_proof');
+  }
+  const fallbackProofLaneTargets: DiscordContentFactoryOperatingContract['proofLaneTargets'] = ['approved_discord_knowledge'];
+  const uniqueProofLaneTargets = [...new Set(proofLaneTargets.length ? proofLaneTargets : fallbackProofLaneTargets)];
+  const collectionInstruction = uniqueProofLaneTargets.includes('premium_workflow_proof')
+    ? 'Capture the request, authorization state, SLA status, and fulfilled outcome before counting this as premium proof.'
+    : uniqueProofLaneTargets.includes('public_proof_assets')
+      ? 'Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.'
+      : 'Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.';
   return {
     cadence,
     adminAction: 'review_then_approve_or_reject',
     expectedMemberResponse: channelContract.expectedMemberResponse,
     proofPromotionPath: channelContract.proofPromotionPath,
+    proofLaneTargets: uniqueProofLaneTargets,
+    collectionInstruction,
     requiredEvidenceBeforeProof: [
       'approved draft id',
       'published Discord message id',
       'member response or submission id',
       'admin approval actor and timestamp',
       'privacy review result',
+      'proof lane target',
+      'operator attestation',
     ],
     pointsEligibleAfterReview: channelContract.pointsEligibleAfterReview,
   };

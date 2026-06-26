@@ -43,6 +43,9 @@ async function main() {
     draft.operatingContract?.adminAction,
     ...(draft.operatingContract?.proofPromotionPath ?? []),
   ]).filter(Boolean))].sort();
+  const proofLaneTargetCoverage = [...new Set(result.drafts.flatMap((draft) => (
+    draft.operatingContract?.proofLaneTargets ?? []
+  )).filter(Boolean))].sort();
   const qualityScores = result.drafts
     .map((draft) => draft.qualityScore)
     .filter((score): score is number => typeof score === 'number' && Number.isFinite(score));
@@ -61,6 +64,7 @@ async function main() {
     draftTypeCoverage,
     topicCoverage,
     operatingContractCoverage,
+    proofLaneTargetCoverage,
     draftsWithOperatingContracts: result.drafts.filter((draft) => draft.operatingContract).length,
     proofEligibleDrafts: result.drafts.filter((draft) => draft.operatingContract?.proofPromotionPath.includes('public_proof_candidate')).length,
     minQualityScore: qualityScores.length ? Math.min(...qualityScores) : null,

@@ -32,6 +32,7 @@ export type DiscordContentFactoryReadinessReport = {
   draftTypeCoverage: string[];
   topicCoverageCount: number;
   operatingContractCoverage: string[];
+  proofLaneTargetCoverage: string[];
   proofEligibleDrafts: number;
   operatingCadence: {
     dailyActions: string[];
@@ -124,6 +125,9 @@ export function buildDiscordContentFactoryReadinessReport(
     draft?.operatingContract?.adminAction,
     ...(Array.isArray(draft?.operatingContract?.proofPromotionPath) ? draft.operatingContract.proofPromotionPath : []),
   ]));
+  const proofLaneTargetCoverage = uniqueSorted(evidence.safety?.proofLaneTargetCoverage ?? drafts.flatMap((draft: any) => (
+    Array.isArray(draft?.operatingContract?.proofLaneTargets) ? draft.operatingContract.proofLaneTargets : []
+  )));
   const draftsWithOperatingContracts = Number(evidence.safety?.draftsWithOperatingContracts ?? drafts.filter((draft: any) => draft?.operatingContract).length);
   const proofEligibleDrafts = Number(evidence.safety?.proofEligibleDrafts ?? drafts.filter((draft: any) => (
     Array.isArray(draft?.operatingContract?.proofPromotionPath)
@@ -152,6 +156,15 @@ export function buildDiscordContentFactoryReadinessReport(
   if (!drafts.every((draft: any) => draft?.operatingContract?.adminAction === 'review_then_approve_or_reject')) failures.push('missing_admin_review_contract');
   if (!drafts.every((draft: any) => Array.isArray(draft?.operatingContract?.requiredEvidenceBeforeProof) && draft.operatingContract.requiredEvidenceBeforeProof.length >= 5)) {
     failures.push('weak_proof_evidence_contract');
+  }
+  if (!drafts.every((draft: any) => Array.isArray(draft?.operatingContract?.proofLaneTargets) && draft.operatingContract.proofLaneTargets.length > 0)) {
+    failures.push('missing_proof_lane_targets');
+  }
+  if (!drafts.every((draft: any) => typeof draft?.operatingContract?.collectionInstruction === 'string' && draft.operatingContract.collectionInstruction.length > 40)) {
+    failures.push('missing_collection_instruction');
+  }
+  for (const requiredTarget of ['approved_discord_knowledge', 'rag_discord_sources', 'public_proof_assets', 'premium_workflow_proof']) {
+    if (!proofLaneTargetCoverage.includes(requiredTarget)) failures.push(`missing_proof_lane_target:${requiredTarget}`);
   }
   if (proofEligibleDrafts < 4) failures.push('insufficient_public_proof_candidate_slots');
   if (observedMinQualityScore === null || observedMinQualityScore < minQualityScore) failures.push('quality_score_below_gate');
@@ -183,6 +196,7 @@ export function buildDiscordContentFactoryReadinessReport(
     draftTypeCoverage,
     topicCoverageCount: topicCoverage.length,
     operatingContractCoverage,
+    proofLaneTargetCoverage,
     proofEligibleDrafts,
     operatingCadence: {
       dailyActions: [
@@ -219,6 +233,7 @@ export function buildDiscordContentFactoryReadinessReport(
         'admin approval actor and timestamp',
         'content queue or knowledge candidate id when reused',
         'privacy review result before public proof',
+        'proof lane target and collection instruction',
       ],
       nonProofExamples: [
         'dry-run planned draft',
@@ -258,6 +273,9 @@ export function validateDiscordContentFactoryReadinessReport(report: DiscordCont
   if (report.proofPromotionRequirements.realOperatingProofRequired !== true) failures.push('proof_promotion_not_real_operating_required');
   if (report.proofPromotionRequirements.requiredEvidence.length < 5) failures.push('proof_promotion_evidence_too_weak');
   if (report.operatingContractCoverage.length < 5) failures.push('operating_contract_coverage_too_weak');
+  for (const requiredTarget of ['approved_discord_knowledge', 'rag_discord_sources', 'public_proof_assets', 'premium_workflow_proof']) {
+    if (!report.proofLaneTargetCoverage.includes(requiredTarget)) failures.push(`missing_proof_lane_target:${requiredTarget}`);
+  }
   if (report.proofEligibleDrafts < 4) failures.push('proof_candidate_slots_too_weak');
   if (!report.releaseMeaning.includes('Real operating proof still requires admin-approved publishing')) {
     failures.push('missing_operating_proof_disclaimer');

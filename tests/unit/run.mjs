@@ -2058,6 +2058,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /npm run discord:content-factory-readiness/);
   assert.match(page, /phase-22-content-factory-dry-run\.json/);
   assert.match(page, /operatingContractCoverage/);
+  assert.match(page, /proofLaneTargetCoverage/);
   assert.match(page, /proofEligibleDrafts/);
   assert.match(page, /Operating contract/);
   assert.match(page, /Proof slots/);
@@ -3959,6 +3960,8 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(body, /# /);
   assert.match(body, /How to participate/);
   assert.match(body, /approved resources, RAG knowledge, or public proof/);
+  assert.match(body, /Proof lane/);
+  assert.match(body, /Review note/);
   const planned = evaluateDiscordContentFactorySlot(slots[0], { startDate: new Date(Date.UTC(2026, 5, 25)) });
   assert.equal(planned.factoryKey, 'discord-content-factory-v1:2026-06-25:daily-signal');
   assert.ok(planned.qualityScore >= 80);
@@ -3968,7 +3971,12 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.equal(planned.operatingContract.cadence, 'daily');
   assert.ok(planned.operatingContract.expectedMemberResponse.includes('concrete build action'));
   assert.ok(planned.operatingContract.proofPromotionPath.includes('rag_candidate'));
+  assert.ok(planned.operatingContract.proofLaneTargets.includes('approved_discord_knowledge'));
+  assert.ok(planned.operatingContract.proofLaneTargets.includes('rag_discord_sources'));
+  assert.ok(planned.operatingContract.collectionInstruction.includes('privacy status'));
   assert.ok(planned.operatingContract.requiredEvidenceBeforeProof.includes('published Discord message id'));
+  assert.ok(planned.operatingContract.requiredEvidenceBeforeProof.includes('proof lane target'));
+  assert.ok(planned.operatingContract.requiredEvidenceBeforeProof.includes('operator attestation'));
   const dryRun = await runDiscordContentFactory({}, {
     startDate: new Date(Date.UTC(2026, 5, 25)),
     days: 2,
@@ -3988,7 +3996,10 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.ok(dryRun.drafts.every((draft) => draft.topic));
   assert.ok(dryRun.drafts.every((draft) => Number.isInteger(draft.dayOffset)));
   assert.ok(dryRun.drafts.every((draft) => draft.operatingContract?.adminAction === 'review_then_approve_or_reject'));
+  assert.ok(dryRun.drafts.every((draft) => draft.operatingContract?.proofLaneTargets.length));
+  assert.ok(dryRun.drafts.every((draft) => draft.operatingContract?.collectionInstruction.length >= 40));
   assert.ok(dryRun.drafts.some((draft) => draft.operatingContract?.proofPromotionPath.includes('public_proof_candidate')));
+  assert.ok(dryRun.drafts.some((draft) => draft.operatingContract?.proofLaneTargets.includes('premium_workflow_proof')));
   assert.match(script, /runDiscordContentFactory/);
   assert.match(script, /--dry-run/);
   assert.match(script, /docs', 'evidence', 'discord-ai-os'/);
@@ -3999,6 +4010,7 @@ test('discord content factory: creates approval-gated channel drafts from editor
   assert.match(script, /draftTypeCoverage/);
   assert.match(script, /topicCoverage/);
   assert.match(script, /operatingContractCoverage/);
+  assert.match(script, /proofLaneTargetCoverage/);
   assert.match(script, /proofEligibleDrafts/);
   assert.match(script, /readOnly/);
   const factory = await readFile(new URL('../../lib/discord/content-factory.ts', import.meta.url), 'utf8');
@@ -4034,6 +4046,7 @@ test('discord content factory readiness: validates dry-run quality and approval 
   const channelCoverage = [...new Set(source.drafts.map((draft) => draft.targetChannelBaseName))].sort();
   const draftTypeCoverage = [...new Set(source.drafts.map((draft) => draft.draftType))].sort();
   const topicCoverage = [...new Set(source.drafts.map((draft) => draft.topic))].sort();
+  const proofLaneTargetCoverage = [...new Set(source.drafts.flatMap((draft) => draft.operatingContract.proofLaneTargets))].sort();
   const qualityScores = source.drafts.map((draft) => draft.qualityScore).filter((score) => typeof score === 'number');
   const report = buildDiscordContentFactoryReadinessReport({
     generatedAt: '2026-06-25T00:00:00.000Z',
@@ -4058,6 +4071,7 @@ test('discord content factory readiness: validates dry-run quality and approval 
           draft.operatingContract?.adminAction,
           ...draft.operatingContract.proofPromotionPath,
         ]))].sort(),
+        proofLaneTargetCoverage,
         draftsWithOperatingContracts: source.drafts.filter((draft) => draft.operatingContract).length,
         proofEligibleDrafts: source.drafts.filter((draft) => draft.operatingContract.proofPromotionPath.includes('public_proof_candidate')).length,
         minQualityScore: Math.min(...qualityScores),
@@ -4085,6 +4099,12 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(report.draftTypeCoverage.includes('weekly_recap'));
   assert.ok(report.operatingContractCoverage.includes('review_then_approve_or_reject'));
   assert.ok(report.operatingContractCoverage.includes('public_proof_candidate'));
+  assert.deepEqual(report.proofLaneTargetCoverage, [
+    'approved_discord_knowledge',
+    'premium_workflow_proof',
+    'public_proof_assets',
+    'rag_discord_sources',
+  ]);
   assert.ok(report.proofEligibleDrafts >= 4);
   assert.ok(report.operatingCadence.dailyActions.length >= 3);
   assert.ok(report.operatingCadence.weeklyActions.length >= 3);
@@ -4093,6 +4113,7 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.ok(report.approvalChecklist.some((item) => item.includes('unsupported factual claim')));
   assert.equal(report.proofPromotionRequirements.realOperatingProofRequired, true);
   assert.ok(report.proofPromotionRequirements.requiredEvidence.includes('published Discord message id'));
+  assert.ok(report.proofPromotionRequirements.requiredEvidence.includes('proof lane target and collection instruction'));
   assert.ok(report.proofPromotionRequirements.nonProofExamples.includes('dry-run planned draft'));
   assert.equal(report.approvalGate.adminApprovalRequired, true);
   assert.equal(report.approvalGate.noPublicPublish, true);
@@ -4169,6 +4190,8 @@ test('discord content factory readiness: validates dry-run quality and approval 
   assert.equal(missingContracts.ok, false);
   assert.ok(missingContracts.failures.includes('missing_operating_contracts'));
   assert.ok(missingContracts.failures.includes('missing_admin_review_contract'));
+  assert.ok(missingContracts.failures.includes('missing_proof_lane_targets'));
+  assert.ok(missingContracts.failures.includes('missing_collection_instruction'));
   assert.ok(missingContracts.failures.includes('insufficient_public_proof_candidate_slots'));
 
   const missingChannel = buildDiscordContentFactoryReadinessReport({

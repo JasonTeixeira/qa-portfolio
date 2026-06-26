@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T09:34:10.734Z",
+  "timestamp": "2026-06-26T09:43:02.765Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -573,7 +573,8 @@
         "member response or submission id",
         "admin approval actor and timestamp",
         "content queue or knowledge candidate id when reused",
-        "privacy review result before public proof"
+        "privacy review result before public proof",
+        "proof lane target and collection instruction"
       ],
       "nonProofExamples": [
         "dry-run planned draft",

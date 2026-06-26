@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-content-factory-readiness-v1",
-  "generatedAt": "2026-06-26T09:28:02.360Z",
+  "generatedAt": "2026-06-26T09:43:02.477Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
   "dryRun": true,
@@ -208,6 +208,12 @@
     "weekly",
     "weekly_recap_input"
   ],
+  "proofLaneTargetCoverage": [
+    "approved_discord_knowledge",
+    "premium_workflow_proof",
+    "public_proof_assets",
+    "rag_discord_sources"
+  ],
   "proofEligibleDrafts": 11,
   "operatingCadence": {
     "dailyActions": [
@@ -243,7 +249,8 @@
       "member response or submission id",
       "admin approval actor and timestamp",
       "content queue or knowledge candidate id when reused",
-      "privacy review result before public proof"
+      "privacy review result before public proof",
+      "proof lane target and collection instruction"
     ],
     "nonProofExamples": [
       "dry-run planned draft",

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "runKey": "content-factory-2026-06-26-2026-06-26T09-27-55-846Z",
+  "runKey": "content-factory-2026-06-26-2026-06-26T09-43-01-972Z",
   "version": "discord-content-factory-v1",
   "dryRun": true,
   "sourcePolicy": {
@@ -38,12 +38,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -69,12 +76,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -100,12 +114,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -131,12 +151,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -162,12 +189,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -193,12 +227,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -224,12 +265,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -255,12 +302,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -286,12 +340,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -317,12 +378,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -348,12 +416,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -379,12 +453,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -410,12 +491,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -441,12 +529,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -472,12 +567,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -503,12 +604,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -534,12 +642,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -565,12 +680,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -596,12 +718,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -627,12 +755,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -658,12 +793,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -689,12 +831,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -720,12 +869,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -751,12 +906,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -782,12 +944,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -813,12 +982,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -844,12 +1020,18 @@
           "content_queue_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -875,12 +1057,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -905,12 +1094,18 @@
           "admin_review",
           "weekly_recap_input"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": false
       },
@@ -935,12 +1130,18 @@
           "admin_review",
           "content_queue_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": false
       },
@@ -967,12 +1168,18 @@
           "public_proof_candidate",
           "weekly_recap_input"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -998,12 +1205,19 @@
           "content_queue_candidate",
           "rag_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -1030,12 +1244,20 @@
           "rag_candidate",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -1061,12 +1283,18 @@
           "content_queue_candidate",
           "weekly_recap_input"
         ],
+        "proofLaneTargets": [
+          "premium_workflow_proof"
+        ],
+        "collectionInstruction": "Capture the request, authorization state, SLA status, and fulfilled outcome before counting this as premium proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": false
       },
@@ -1092,12 +1320,18 @@
           "weekly_recap_input",
           "public_proof_candidate"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -1123,12 +1357,18 @@
           "public_proof_candidate",
           "weekly_recap_input"
         ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
         "requiredEvidenceBeforeProof": [
           "approved draft id",
           "published Discord message id",
           "member response or submission id",
           "admin approval actor and timestamp",
-          "privacy review result"
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
         ],
         "pointsEligibleAfterReview": true
       },
@@ -1194,11 +1434,17 @@
       "weekly",
       "weekly_recap_input"
     ],
+    "proofLaneTargetCoverage": [
+      "approved_discord_knowledge",
+      "premium_workflow_proof",
+      "public_proof_assets",
+      "rag_discord_sources"
+    ],
     "draftsWithOperatingContracts": 36,
     "proofEligibleDrafts": 11,
     "minQualityScore": 90,
     "maxQualityScore": 90
   },
-  "startedAt": "2026-06-26T09:27:55.845Z",
-  "finishedAt": "2026-06-26T09:27:55.851Z"
+  "startedAt": "2026-06-26T09:43:01.971Z",
+  "finishedAt": "2026-06-26T09:43:01.977Z"
 }

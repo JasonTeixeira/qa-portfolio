@@ -555,6 +555,7 @@ type ProofCandidateAuditLane = {
   nextReviewAction: string;
   provingCommand: string;
   requiredEvidenceFields: string[];
+  criticalEvidenceFields: string[];
 };
 
 type ProofCandidateAudit = {
@@ -3259,6 +3260,7 @@ function ProofCandidateAuditLaneRow({ lane }: { lane: ProofCandidateAuditLane })
         <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.nextReviewAction}</p>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           <ProofRuleGroup title={lane.blockers.length ? 'Blockers' : 'No blockers'} items={lane.blockers.length ? lane.blockers : ['No local evidence blocker for this lane.']} tone={lane.blockers.length ? 'rose' : 'emerald'} />
+          <ProofRuleGroup title="Critical fields" items={lane.criticalEvidenceFields} tone="amber" />
           <ProofRuleGroup title="Required fields" items={lane.requiredEvidenceFields.slice(0, 6)} tone="cyan" />
         </div>
         <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">

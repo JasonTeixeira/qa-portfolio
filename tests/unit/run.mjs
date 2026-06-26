@@ -1859,6 +1859,8 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /reviewDiscordPublicGrowthDraftAction/);
   assert.match(page, /data-testid="discord-public-proof-growth-lane"/);
   assert.match(page, /data-testid="discord-public-proof-growth-events"/);
+  assert.match(page, /criticalEvidenceFields/);
+  assert.match(page, /Critical fields/);
   assert.match(page, /pendingKnowledgeCandidatesCountRes/);
   assert.match(page, /approvedMemberCountRes/);
   assert.match(page, /onboardedMemberCountRes/);

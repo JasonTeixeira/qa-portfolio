@@ -972,6 +972,11 @@ type DiscordOperatorBriefEvidence = {
     passed: number;
     failures: string[];
   };
+  actionPlan: {
+    localOnlyCommands: string[];
+    explicitApprovalCommands: string[];
+    liveOperatorActions: string[];
+  };
   commandOrder: string[];
   nonClaimRule: string;
 };
@@ -1755,6 +1760,14 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 </div>
               )}
             </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <ActionBoundaryPlan
+                title="Permission-boundary action plan"
+                localOnlyCommands={operatorBrief.actionPlan.localOnlyCommands}
+                explicitApprovalCommands={operatorBrief.actionPlan.explicitApprovalCommands}
+                liveOperatorActions={operatorBrief.actionPlan.liveOperatorActions}
+              />
+            </div>
           </Panel>
         </section>
 
@@ -2411,6 +2424,14 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                   </li>
                 ))}
               </ol>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <ActionBoundaryPlan
+                title="World-class action boundaries"
+                localOnlyCommands={worldClassReadiness.actionPlan.localOnlyCommands}
+                explicitApprovalCommands={worldClassReadiness.actionPlan.explicitApprovalCommands}
+                liveOperatorActions={worldClassReadiness.actionPlan.liveOperatorActions}
+              />
             </div>
             {worldClassReadiness.categories.slice(0, 8).map((category) => (
               <WorldClassReadinessCategoryRow key={category.category} category={category} />
@@ -3304,6 +3325,11 @@ async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence>
         passed: 0,
         failures: ['operator_brief_missing'],
       },
+      actionPlan: {
+        localOnlyCommands: ['npm run discord:operator-brief'],
+        explicitApprovalCommands: [],
+        liveOperatorActions: [],
+      },
       commandOrder: ['npm run discord:operator-brief'],
       nonClaimRule: 'Do not claim world-class, 95+, production-complete, or operating-proof complete until the operator brief is regenerated from current evidence.',
     };
@@ -4095,6 +4121,76 @@ function ProofCandidateAuditLaneRow({ lane }: { lane: ProofCandidateAuditLane })
         <div className="mt-3 text-xs leading-5 text-[#a1a1aa]">
           Remaining: <span className="font-semibold text-[#fafafa]">{lane.remainingCount}</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ActionBoundaryPlan({
+  title,
+  localOnlyCommands,
+  explicitApprovalCommands,
+  liveOperatorActions,
+}: {
+  title: string;
+  localOnlyCommands: string[];
+  explicitApprovalCommands: string[];
+  liveOperatorActions: string[];
+}) {
+  const columns = [
+    {
+      title: 'Safe local',
+      description: 'Can be run locally without third-party mutation.',
+      tone: 'emerald' as Tone,
+      items: localOnlyCommands,
+      code: true,
+    },
+    {
+      title: 'Needs approval',
+      description: 'Writes production state, calls paid/model services, or runs non-dry proof.',
+      tone: 'amber' as Tone,
+      items: explicitApprovalCommands,
+      code: true,
+    },
+    {
+      title: 'Live operator',
+      description: 'Requires Discord members, admin review, publishing, or premium fulfillment.',
+      tone: 'rose' as Tone,
+      items: liveOperatorActions,
+      code: false,
+    },
+  ];
+
+  return (
+    <div data-testid="discord-action-boundary-plan">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{title}</div>
+          <div className="mt-1 text-[11px] text-[#71717a]">Separates autonomous local work from approval-gated and live operating work.</div>
+        </div>
+        <Badge tone="neutral">
+          {localOnlyCommands.length} local / {explicitApprovalCommands.length} approval / {liveOperatorActions.length} live
+        </Badge>
+      </div>
+      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+        {columns.map((column) => (
+          <div key={column.title} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-xs font-semibold text-[#fafafa]">{column.title}</div>
+              <Badge tone={column.tone}>{column.items.length}</Badge>
+            </div>
+            <div className="mt-1 text-[11px] leading-4 text-[#71717a]">{column.description}</div>
+            <ul className="mt-3 space-y-2 text-[11px] leading-4 text-[#a1a1aa]">
+              {column.items.length ? column.items.slice(0, 6).map((item) => (
+                <li key={item} className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1.5">
+                  {column.code ? <code className="text-[#d4d4d8]">{item}</code> : item}
+                </li>
+              )) : (
+                <li className="rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1.5 text-[#71717a]">None in current evidence.</li>
+              )}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );

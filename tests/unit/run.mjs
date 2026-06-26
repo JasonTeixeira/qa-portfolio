@@ -2079,6 +2079,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
     'Proof source volume scan',
     'Approved knowledge operating packet',
     'World-class readiness triage',
+    'Permission-boundary action plan',
+    'World-class action boundaries',
+    'Safe local',
+    'Needs approval',
+    'Live operator',
     'Audit stream',
   ]) {
     assert.match(page, new RegExp(surface.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -2092,6 +2097,10 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /worldClassReadinessValidation/);
   assert.match(page, /Readiness validation/);
   assert.match(page, /Readiness validation failed/);
+  assert.match(page, /ActionBoundaryPlan/);
+  assert.match(page, /data-testid="discord-action-boundary-plan"/);
+  assert.match(page, /operatorBrief\.actionPlan\.localOnlyCommands/);
+  assert.match(page, /worldClassReadiness\.actionPlan\.explicitApprovalCommands/);
   assert.match(page, /ragEvalMissingPreflight: \{/);
   assert.match(page, /ragEvalRecoveryPlan: \{/);
   assert.match(page, /proofSourceRecoveryPlan: \{/);

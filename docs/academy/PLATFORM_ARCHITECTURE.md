@@ -150,3 +150,16 @@ real learner outcomes** (no faking the top of the scale). Six foundation pieces 
 **Net:** with §12 enforced the foundation is a defensible **95–97**; the remaining 2–3 points
 are unlocked only by real learners (CURR + mastery-gain + external review). That ceiling is
 correct — a foundation that could self-grade 99 would be lying.
+
+## 13. The foundation document set (build the stadium, then add courses)
+This doc is the loop *canon*. Four companions specify the *platform* every course sits on, so
+that adding a course never touches the runtime:
+- **[FOUNDATION.md](./FOUNDATION.md)** — the build-order program (Tiers 0–4) + the
+  foundation-done acceptance gate ("when just-add-courses becomes true").
+- **[INFORMATION_ARCHITECTURE.md](./INFORMATION_ARCHITECTURE.md)** — every page · tab · sub-tab,
+  one nav tree, one learn path, one course entry + the consolidation plan for today's sprawl.
+- **[DATA_SPINE.md](./DATA_SPINE.md)** — the 15-entity schema contract + the enforcement
+  primitives (EvidenceEvent · 8-state machine · score-cap resolver · metrics).
+- **[DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md)** — the Institutional-Editorial shell (tokens, type,
+  depth, motion, the academy components) every page inherits.
+Build order and the platform-ready gate live in FOUNDATION.md. Courses arrive only after Tier 4.

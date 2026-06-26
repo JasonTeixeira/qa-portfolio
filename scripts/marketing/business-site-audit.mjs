@@ -46,6 +46,12 @@ const viewports = [
   { name: 'mobile', width: 390, height: 844 },
 ]
 
+const navigationOptions = { waitUntil: 'domcontentloaded', timeout: 30_000 }
+
+async function settlePage(page) {
+  await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {})
+}
+
 function abs(path) {
   return new URL(path, baseUrl).toString()
 }
@@ -54,6 +60,23 @@ function normalizeHref(href) {
   if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return null
   const url = new URL(href, baseUrl)
   if (url.origin !== new URL(baseUrl).origin) return null
+  const outOfScopePrefixes = [
+    '/academy',
+    '/admin',
+    '/api',
+    '/auth',
+    '/checkout',
+    '/learn',
+    '/login',
+    '/onboarding',
+    '/pending-approval',
+    '/portal',
+    '/signup',
+    '/unsubscribe',
+  ]
+  if (outOfScopePrefixes.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
+    return null
+  }
   url.hash = ''
   return url.toString()
 }
@@ -85,7 +108,8 @@ try {
     })
     await primeBusinessIntent(context)
     const page = await context.newPage()
-    const response = await page.goto(abs(route.path), { waitUntil: 'networkidle' })
+    const response = await page.goto(abs(route.path), navigationOptions)
+    await settlePage(page)
     const status = response?.status() ?? 0
 
     const metadata = await page.evaluate(() => {
@@ -126,10 +150,11 @@ try {
 
     for (const viewport of viewports) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height })
-      await page.goto(abs(route.path), { waitUntil: 'networkidle' })
+      await page.goto(abs(route.path), navigationOptions)
+      await settlePage(page)
       await page.screenshot({
         path: join(screenshotDir, `${routeName(route.name)}-${viewport.name}.png`),
-        fullPage: true,
+        fullPage: false,
       })
     }
 

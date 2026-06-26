@@ -171,10 +171,11 @@ function validateProofSourceRecoveryPlan(payload: any): { ok: boolean; failures:
   if (!lanes.every((lane: any) => Array.isArray(lane?.evidenceToCollect) && lane.evidenceToCollect.length >= 2)) failures.push('proof_source_recovery_plan_missing_evidence_guidance');
   if (!lanes.every((lane: any) => Array.isArray(lane?.doNotCount) && lane.doNotCount.length >= 3)) failures.push('proof_source_recovery_plan_missing_anti_fake_lane_rules');
   if (!Array.isArray(payload?.antiFakeRules) || !payload.antiFakeRules.some((rule: string) => rule.includes('dry-run'))) failures.push('proof_source_recovery_plan_missing_global_dry_run_rule');
+  if (!lanes.every(laneRagEvalCommandsAreGuarded)) failures.push('proof_source_recovery_plan_unguarded_rag_eval_command');
   return {
     ok: failures.length === 0,
     failures,
-    evidence: `${lanes.length} lanes / blocked ${lanes.filter((lane: any) => lane?.status === 'blocked').length}/${lanes.length} / shortfall ${payload?.summary?.totalShortfall ?? 'n/a'}`,
+    evidence: `${lanes.length} lanes / blocked ${lanes.filter((lane: any) => lane?.status === 'blocked').length}/${lanes.length} / shortfall ${payload?.summary?.totalShortfall ?? 'n/a'} / RAG eval guard lanes ${lanes.filter(laneRagEvalCommandsAreGuarded).length}/${lanes.length}`,
   };
 }
 
@@ -230,6 +231,28 @@ function packetLaneHasRequiredTemplate(lane: any): boolean {
   ].every((key) => Boolean(template[key]));
 }
 
+function ragEvalCommandIsGuarded(command: unknown): boolean {
+  const value = String(command ?? '');
+  return !value.includes('npm run rag:evaluate')
+    || value.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')
+    || value.includes('--dry-run')
+    || value.includes(':seed-dry-run')
+    || value.includes(':missing-plan')
+    || value.includes(':coverage-readiness')
+    || value.includes(':execution-packet')
+    || value.includes(':missing-preflight')
+    || value.includes(':recovery-plan');
+}
+
+function laneRagEvalCommandsAreGuarded(lane: any): boolean {
+  const commands = [
+    lane?.verificationCommand,
+    lane?.provingCommand,
+    ...(Array.isArray(lane?.verificationCommands) ? lane.verificationCommands : []),
+  ];
+  return commands.every(ragEvalCommandIsGuarded);
+}
+
 function validateProofIntakeAntiFakeControls(payload: any): { ok: boolean; failures: string[]; evidence: string } {
   const failures: string[] = [];
   const lanes = Array.isArray(payload?.lanes) ? payload.lanes : [];
@@ -240,10 +263,11 @@ function validateProofIntakeAntiFakeControls(payload: any): { ok: boolean; failu
   if (lanes[0]?.key !== 'gateway_capture') failures.push('proof_intake_gateway_not_first');
   if (!lanes.every(laneHasRequiredEvidenceFields)) failures.push('proof_intake_missing_required_evidence_fields');
   if (!lanes.every(laneHasAntiFakeControls)) failures.push('proof_intake_missing_anti_fake_controls');
+  if (!lanes.every(laneRagEvalCommandsAreGuarded)) failures.push('proof_intake_unguarded_rag_eval_command');
   return {
     ok: failures.length === 0,
     failures,
-    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / required-field lanes ${lanes.filter(laneHasRequiredEvidenceFields).length}/${lanes.length}`,
+    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / required-field lanes ${lanes.filter(laneHasRequiredEvidenceFields).length}/${lanes.length} / RAG eval guard lanes ${lanes.filter(laneRagEvalCommandsAreGuarded).length}/${lanes.length}`,
   };
 }
 
@@ -257,10 +281,11 @@ function validateWeeklyProofPacketAntiFakeControls(payload: any): { ok: boolean;
   if (lanes[0]?.key !== 'gateway_capture') failures.push('weekly_proof_packet_gateway_not_first');
   if (!lanes.every(packetLaneHasRequiredTemplate)) failures.push('weekly_proof_packet_missing_required_template_fields');
   if (!lanes.every(laneHasAntiFakeControls)) failures.push('weekly_proof_packet_missing_anti_fake_controls');
+  if (!lanes.every(laneRagEvalCommandsAreGuarded)) failures.push('weekly_proof_packet_unguarded_rag_eval_command');
   return {
     ok: failures.length === 0,
     failures,
-    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / template-field lanes ${lanes.filter(packetLaneHasRequiredTemplate).length}/${lanes.length}`,
+    evidence: `${lanes.length} lanes / anti-fake lanes ${lanes.filter(laneHasAntiFakeControls).length}/${lanes.length} / template-field lanes ${lanes.filter(packetLaneHasRequiredTemplate).length}/${lanes.length} / RAG eval guard lanes ${lanes.filter(laneRagEvalCommandsAreGuarded).length}/${lanes.length}`,
   };
 }
 

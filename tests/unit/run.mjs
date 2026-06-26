@@ -2366,6 +2366,10 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /weekly_proof_packet_anti_fake_controls/);
   assert.match(smoke, /proof_intake_missing_required_evidence_fields/);
   assert.match(smoke, /weekly_proof_packet_missing_required_template_fields/);
+  assert.match(smoke, /proof_source_recovery_plan_unguarded_rag_eval_command/);
+  assert.match(smoke, /proof_intake_unguarded_rag_eval_command/);
+  assert.match(smoke, /weekly_proof_packet_unguarded_rag_eval_command/);
+  assert.match(smoke, /RAG eval guard lanes/);
   assert.match(smoke, /operator_attestation/);
   assert.match(smoke, /evidence_artifact_path/);
   assert.match(smoke, /smoke/);

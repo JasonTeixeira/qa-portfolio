@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782453916807",
+  "runKey": "phase-20-final-1782457605788",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -645,17 +645,17 @@
   "proofSourceRecoveryPlanValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "4 lanes / blocked 4/4 / shortfall 25"
+    "evidence": "4 lanes / blocked 4/4 / shortfall 25 / RAG eval guard lanes 4/4"
   },
   "proofIntakeAntiFakeValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5"
+    "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5 / RAG eval guard lanes 5/5"
   },
   "weeklyProofPacketAntiFakeValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5"
+    "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5 / RAG eval guard lanes 5/5"
   },
   "releaseGates": [
     {
@@ -706,17 +706,17 @@
     {
       "name": "proof_source_recovery_plan",
       "passed": true,
-      "evidence": "4 lanes / blocked 4/4 / shortfall 25"
+      "evidence": "4 lanes / blocked 4/4 / shortfall 25 / RAG eval guard lanes 4/4"
     },
     {
       "name": "proof_intake_anti_fake_controls",
       "passed": true,
-      "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5"
+      "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5 / RAG eval guard lanes 5/5"
     },
     {
       "name": "weekly_proof_packet_anti_fake_controls",
       "passed": true,
-      "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5"
+      "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5 / RAG eval guard lanes 5/5"
     },
     {
       "name": "migration_present",
@@ -779,8 +779,8 @@
     "nextActions": [
       "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
       "Safe local planning command: npm run rag:evaluate:missing-plan",
-      "If only coverage is stale, the lower-cost approved command is: npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard",
-      "Expected full command after approval when quality drift is suspected: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard",
+      "Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
     ]
   },
@@ -788,6 +788,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T06:05:16.807Z",
-  "finishedAt": "2026-06-26T06:05:18.304Z"
+  "startedAt": "2026-06-26T07:06:45.788Z",
+  "finishedAt": "2026-06-26T07:06:48.851Z"
 }

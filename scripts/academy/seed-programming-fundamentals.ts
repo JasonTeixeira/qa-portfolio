@@ -1174,6 +1174,175 @@ const filesBlocks = [
   },
 ]
 
+// ---------------------------------------------------------------- lesson 7 blocks
+// "Testing & Debugging — Catch the Bug Before Prod". Grounded in
+// concepts/deep-nodes/testing-strategy.md (risk-based testing, cheapest test that
+// catches the failure, behavior over implementation, bug -> regression test).
+const TESTING_LAB_STARTER = `def safe_average(numbers):
+    # Return the average of the numbers. EDGE CASE: an EMPTY list must return 0,
+    # not crash with ZeroDivisionError (sum([]) / len([]) is 0 / 0).
+    ...  # your code here
+
+
+# --- test harness: a tiny suite (happy path + the edge that bites) ---
+assert safe_average([2, 4, 6]) == 4, "normal case"
+assert safe_average([10]) == 10, "single element"
+assert safe_average([]) == 0, "EMPTY list must return 0, not crash"   # regression
+print("all assertions passed")
+print("PASS: True")
+`
+
+const testingBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Write the cheapest test that catches a real bug — including the edge/negative case the happy path misses — and turn a bug into a regression test.',
+    intensity: 'standard',
+    time: '60–90 min',
+    proof: 'A function that survives its edge case + a test suite that includes the regression case, all green.',
+    unlock: 'All verification checks confirmed and the empty-input crash fixed with a regression test.',
+    doNotClaim:
+      "Don't claim mastery until your test suite includes the edge case that crashed in prod — not just the happy path.",
+  },
+  {
+    type: 'mission',
+    text: 'Your `average()` passed every test and shipped. Then it crashed in production on an empty list — the tests only checked the happy path. Add the test that would have caught it, and fix the bug.',
+  },
+  {
+    type: 'context',
+    text: 'Tests are how you change code without fear. But a test that only checks the happy path gives false confidence. The skill is choosing the cheapest test that catches the real risk — usually an edge or negative case — and turning every production bug into a regression test.',
+  },
+  {
+    type: 'pretest',
+    prompt: 'Before you read on: `average()` works on [2, 4, 6] and passes its test. What input might still crash it in production?',
+    reveal:
+      'The empty list: `sum([]) / len([])` is `0 / 0` → ZeroDivisionError. The happy-path test never tried it. Edge cases (empty, zero, negative, huge, missing) are where bugs hide — test those, not just the obvious case.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Test the risk, not just the happy path — Arrange / Act / Assert, and add the edge case that bites:',
+    language: 'python',
+    code: `def safe_average(numbers):
+    if not numbers:          # the edge the happy path forgot
+        return 0
+    return sum(numbers) / len(numbers)
+
+def test_safe_average():
+    # Arrange / Act / Assert — behavior, not internals
+    assert safe_average([2, 4, 6]) == 4          # normal
+    assert safe_average([10]) == 10              # single
+    assert safe_average([]) == 0                 # EDGE / regression
+    assert safe_average([-2, 2]) == 0            # negatives`,
+    steps: [
+      'Identify the risk — what input could actually break this?',
+      'Pick the cheapest layer that catches it — usually a fast unit test.',
+      'Add the negative / edge case, not just the happy path.',
+      'Assert behavior (input → output), not implementation details.',
+      'Turn every production bug into a regression test.',
+    ],
+    commonMistake:
+      "Testing only the happy path. The bug lives in the case you didn't try — empty, zero, negative, or missing.",
+  },
+  {
+    type: 'concept',
+    title: 'Cheapest test that catches the failure; behavior over implementation',
+    text: 'Risk-based testing: spend test effort where a failure would actually hurt. The pyramid — many fast unit tests, fewer integration tests, a few E2E — keeps feedback fast. Write tests with Arrange/Act/Assert, and assert BEHAVIOR (inputs → outputs), not internals, so a refactor doesn’t break them. Every production bug becomes a regression test. Debugging is a loop: reproduce → isolate → fix → add the test that proves it.',
+  },
+  {
+    type: 'lab',
+    title: 'Catch the edge case',
+    summary:
+      'Implement safe_average(numbers): return the mean, but an EMPTY list must return 0 — not crash with ZeroDivisionError. The harness is a tiny test suite that includes the empty-list regression case; make every assertion pass.',
+    language: 'python',
+    starter: TESTING_LAB_STARTER,
+    check: 'PASS: True',
+  },
+  {
+    type: 'debug',
+    symptom: 'average() works in tests but crashed in production.',
+    language: 'python',
+    brokenCode: `def average(nums):
+    return sum(nums) / len(nums)   # passes on [2,4,6]...
+
+# the only test:
+assert average([2, 4, 6]) == 4`,
+    task: 'What input crashes it, and what test was missing?',
+    fix: 'An empty list → `sum([]) / len([])` → `0 / 0` → ZeroDivisionError. The happy-path test never tried `[]`. Guard it (`if not nums: return 0`) and add `assert average([]) == 0` as a regression test.',
+  },
+  {
+    type: 'tradeoff',
+    question: 'You found a bug. Fix it, or fix it AND add a test?',
+    optionA: {
+      label: 'Fix + regression test',
+      text: 'Fix the bug and add a test that fails BEFORE the fix and passes after. Slightly more work — but the bug can never silently return.',
+    },
+    optionB: {
+      label: 'Just fix it',
+      text: 'Patch the bug and move on. Faster right now — but nothing stops the same bug coming back in the next refactor.',
+    },
+    guidance:
+      'Always turn a bug into a regression test: write the failing test first (it reproduces the bug), then fix until it’s green. That is the test most likely to catch a real failure.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'safe_average([2,4,6]) returns 4',
+      'safe_average([]) returns 0 — it does NOT crash',
+      'The test suite includes the empty-list edge (the regression case)',
+      'The tests assert behavior (input → output), not internals',
+      'Each assertion has a clear message',
+    ],
+  },
+  {
+    type: 'quiz',
+    question: 'A function passes its tests but crashed in prod on an empty input. Best next step?',
+    options: [
+      'Delete the failing-in-prod path',
+      'Add a regression test for the empty input, then fix the bug',
+      'Wrap everything in try/except',
+      'Only test in production',
+    ],
+    answer: 1,
+    explanation:
+      'Turn the bug into a regression test: write a test for the empty input that fails now, then fix until it’s green. It documents the bug and stops it returning. Happy-path-only tests give false confidence.',
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      "What is 'the cheapest test that catches the failure'?",
+      'Why test behavior instead of implementation details?',
+      "What's the loop for turning a bug into a regression test?",
+      'Name two edge cases worth testing for a function that takes a list.',
+    ],
+  },
+  {
+    type: 'calibration',
+    artifact: 'Your safe_average() + its tests',
+    weak: '"It computes the average." — probably crashes on an empty list.',
+    passing:
+      '"safe_average returns 0 for an empty list and the mean otherwise; tests cover normal, single, and empty." — correct, edge-covered.',
+    excellent:
+      '"safe_average handles the empty list (the prod-crash edge) and returns the mean otherwise. Tests cover normal, single, empty, and negatives, each asserting behavior with a message. I added the empty case as a regression test after reproducing the crash. The same reproduce → test → fix loop applies to any bug." — specific, edge-aware, regression-minded, transferable.',
+    note: 'Excellent reproduces the bug as a failing test FIRST — L5+ on the mastery scale.',
+  },
+  {
+    type: 'transfer',
+    text: 'Take a function in your own code and write the cheapest test that catches its riskiest failure — an edge or negative case, not the happy path. If you hit a bug recently, add a regression test that fails before your fix and passes after.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+  {
+    type: 'unlock-gate',
+    criteria: [
+      'Lab checkpoint passed — empty list returns 0, all assertions green',
+      'Broken case understood (happy-path-only tests miss the edge)',
+      'All verification checks confirmed',
+      'Teach-back delivered with a concrete example',
+      'Transfer task scheduled on your own code',
+    ],
+  },
+]
+
 async function main() {
   if (!shouldApply) {
     console.log(
@@ -1340,6 +1509,26 @@ async function main() {
     { onConflict: 'course_slug,slug' },
   )
   if (l6Err) throw l6Err
+
+  // 2g. Lesson 7 — Testing & Debugging (grounded in deep-nodes/testing-strategy.md).
+  const { error: l7Err } = await sb.from('academy_lessons').upsert(
+    {
+      course_slug: COURSE_SLUG,
+      slug: 'testing-and-debugging',
+      title: 'Testing & Debugging: Catch the Bug Before Prod',
+      eyebrow: 'Module 1 · Lesson 7 · 75 min',
+      module_title: 'Module 1 · Foundations',
+      module_sort: 0,
+      sort: 6,
+      est_minutes: 75,
+      is_free_preview: false,
+      status: 'published',
+      intensity: 'standard',
+      blocks: testingBlocks,
+    },
+    { onConflict: 'course_slug,slug' },
+  )
+  if (l7Err) throw l7Err
 
   // 3. Maintain the denormalized lesson counter.
   const { count } = await sb

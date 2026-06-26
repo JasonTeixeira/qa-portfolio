@@ -92,5 +92,12 @@ gap — do not patch the runtime per course.
 
 ## Status
 - Canon + loops + hardening: ✅ written.
-- Foundation docs (this set): IA / data-spine / design-system — being authored alongside this.
-- Tiers 0–4: NOT started. This program is the order to start them in.
+- Foundation docs (this set): IA / data-spine / design-system: ✅ written.
+- **Tier 0 — SPINE: ✅ done (2026-06-26).** `evidence-events-logic.ts` (11 events · 8-state
+  machine · signal derivation) + `caps-logic.ts` (min-of-caps resolver, 98 structural ceiling)
+  + `evidence-events.ts` (service-role writer/reader) + migration `0104` (append-only table ·
+  RLS read-own · explicit REVOKE · DB-level append-only trigger). Pure-logic unit tests green
+  (scripted sequence drives locked→complete + capped score; stray-repair + reopened-repair edge
+  cases). 2-agent adversarial audit clean: 1 logic bug (stray `repair_completed` lifting the cap)
+  + RLS/append-only hardening fixed; CRITICAL/HIGH addressed via the `@security` caller contract.
+- Tiers 1–4: NOT started. Tier 1 (shell + IA consolidation) is next.

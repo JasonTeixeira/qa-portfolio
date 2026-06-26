@@ -8870,6 +8870,116 @@ test('community: friendRequestCheck blocks self, missing target, existing link',
   assert.deepEqual(friendRequestCheck('me', 'you', true), { ok: false, reason: 'exists' });
 });
 
+// ----------------------------------------------- academy enforcement spine
+
+test('enforcement: scripted evidence sequence drives locked → complete with capped score', async () => {
+  const { deriveUnitState, deriveSignals } = await import('../../lib/academy/evidence-events-logic.ts');
+  const { resolveScore, FULL_CONTRACT } = await import('../../lib/academy/caps-logic.ts');
+
+  // locked until prerequisites met; ready once unlocked with no work yet
+  assert.equal(deriveUnitState({ prerequisitesMet: false, events: [] }), 'locked');
+  assert.equal(deriveUnitState({ prerequisitesMet: true, events: [] }), 'ready');
+
+  const seq = [];
+  const state = () => deriveUnitState({ prerequisitesMet: true, events: seq });
+
+  seq.push({ type: 'diagnostic_completed' });
+  assert.equal(state(), 'in_progress');
+  seq.push({ type: 'retrieval_attempted' });
+  assert.equal(state(), 'in_progress');
+  seq.push({ type: 'sprint_artifact_created', payload: { brokenCaseHandled: true } });
+  assert.equal(state(), 'proof_pending');
+  seq.push({ type: 'lab_verified' });
+  assert.equal(state(), 'review_pending');
+  // a failed gate opens a repair → repair_required (routes to the queue, never a dead end)
+  seq.push({ type: 'repair_created' });
+  assert.equal(state(), 'repair_required');
+  seq.push({ type: 'repair_completed', payload: { explainBackGraded: true, reviewed: true } });
+  assert.equal(state(), 'review_pending'); // repair closed, back on track
+  seq.push({ type: 'lesson_completed' });
+  assert.equal(state(), 'transfer_due');
+  seq.push({ type: 'transfer_attempted', payload: { spacingScheduled: true } });
+  assert.equal(state(), 'complete');
+
+  // complete ≠ 100: still missing portfolio/board/external → capped at 94 (no portfolio)
+  const partial = resolveScore(deriveSignals(seq), FULL_CONTRACT);
+  assert.equal(partial.score, 94);
+  assert.equal(partial.binding.reason, 'no portfolio');
+
+  // package portfolio + board asset → 98 (external/outcome is the structural ceiling)
+  seq.push({ type: 'portfolio_item_created', payload: { boardAsset: true } });
+  const full = resolveScore(deriveSignals(seq), FULL_CONTRACT);
+  assert.equal(full.score, 98);
+  assert.equal(full.binding.reason, 'no external/outcome data');
+
+  // only real-learner outcome data lifts the last cap to 100
+  seq.push({ type: 'interview_answer_scored', payload: { externalOutcome: true } });
+  const earned = resolveScore(deriveSignals(seq), FULL_CONTRACT);
+  assert.equal(earned.score, 100);
+  assert.equal(earned.binding, null);
+});
+
+test('caps: empty evidence caps at 70; full evidence + contract gap still binds', async () => {
+  const { deriveSignals } = await import('../../lib/academy/evidence-events-logic.ts');
+  const { resolveScore } = await import('../../lib/academy/caps-logic.ts');
+
+  const r0 = resolveScore(deriveSignals([]), {
+    scenarioFirst: true, aiGuideGrounding: true, habitTriggers: true,
+    masteryMapEntry: true, socialSurface: true,
+  });
+  assert.equal(r0.score, 70);
+  assert.equal(r0.binding.reason, 'no retrieval');
+
+  const fullSignals = {
+    hasRetrieval: true, hasArtifact: true, hasVerification: true, hasBrokenCase: true,
+    hasExplainBack: true, hasReview: true, hasRepair: true, hasSpacing: true,
+    hasTransfer: true, hasPortfolio: true, hasBoardAsset: true, hasExternalOutcome: true,
+  };
+  // full evidence + full contract → 100
+  assert.equal(resolveScore(fullSignals, {
+    scenarioFirst: true, aiGuideGrounding: true, habitTriggers: true,
+    masteryMapEntry: true, socialSurface: true,
+  }).score, 100);
+  // a missing scenario-first hook caps a fully-evidenced unit at 90
+  const r = resolveScore(fullSignals, {
+    scenarioFirst: false, aiGuideGrounding: true, habitTriggers: true,
+    masteryMapEntry: true, socialSurface: true,
+  });
+  assert.equal(r.score, 90);
+  assert.equal(r.binding.reason, 'no scenario-first hook');
+});
+
+test('enforcement: stray repair_completed does not lift the repair cap; reopened repair holds', async () => {
+  const { deriveUnitState, deriveSignals } = await import('../../lib/academy/evidence-events-logic.ts');
+  const { resolveScore, FULL_CONTRACT } = await import('../../lib/academy/caps-logic.ts');
+
+  // every signal present EXCEPT a real repair cycle — instead a stray repair_completed
+  const events = [
+    { type: 'retrieval_attempted' },
+    { type: 'sprint_artifact_created', payload: { brokenCaseHandled: true } },
+    { type: 'lab_verified' },
+    { type: 'lesson_completed', payload: { explainBackGraded: true, reviewed: true } },
+    { type: 'transfer_attempted', payload: { spacingScheduled: true } },
+    { type: 'portfolio_item_created', payload: { boardAsset: true, externalOutcome: true } },
+    { type: 'repair_completed' }, // stray — no matching repair_created
+  ];
+  const sig = deriveSignals(events);
+  assert.equal(sig.hasRepair, false);
+  const r = resolveScore(sig, FULL_CONTRACT);
+  assert.equal(r.score, 88);
+  assert.equal(r.binding.reason, 'no repair');
+
+  // a re-opened repair (created → completed → created) stays repair_required
+  const reopened = deriveUnitState({ prerequisitesMet: true, events: [
+    { type: 'diagnostic_completed' },
+    { type: 'sprint_artifact_created' },
+    { type: 'repair_created' },
+    { type: 'repair_completed' },
+    { type: 'repair_created' },
+  ] });
+  assert.equal(reopened, 'repair_required');
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

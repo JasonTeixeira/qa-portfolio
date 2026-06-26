@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T10:11:26.762Z",
+  "timestamp": "2026-06-26T10:16:24.578Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -90,7 +90,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782467359671"
+    "runKey": "phase-20-final-1782468981282"
   },
   "approvalBoundaryCheck": {
     "ok": true,

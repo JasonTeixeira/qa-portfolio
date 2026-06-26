@@ -66,7 +66,11 @@ async function main() {
   const validation = validateDiscordProofIntakeReadinessReport(report);
   const evidence = {
     ...report,
-    validation,
+    validation: {
+      ...validation,
+      validator: 'discord-proof-intake-readiness-validator-v1',
+      validatedAt: new Date().toISOString(),
+    },
     ok: report.ok && validation.ok,
     failures: [...report.failures, ...validation.failures],
   };

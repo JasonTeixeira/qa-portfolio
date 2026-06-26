@@ -111,6 +111,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['rag:evaluate:recovery-plan'], 'tsx scripts/rag/write-eval-recovery-plan.ts');
   assert.equal(packageJson.scripts['rag:evaluate:missing'], 'tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
+  assert.ok(packageJson.scripts['discord:release-local'].indexOf('discord:proof-rehearsal-readiness') < packageJson.scripts['discord:release-local'].indexOf('discord:smoke-final-scorecard:dry-run'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-source-scan'));
@@ -2611,6 +2612,10 @@ test('discord final scorecard: release scores operating rhythm and validator are
   assert.match(smoke, /proof_source_volume_scan_missing_blocker/);
   assert.match(smoke, /proof_source_recovery_plan_shortfall_mismatch/);
   assert.match(smoke, /proof_source_recovery_plan_missing_global_dry_run_rule/);
+  assert.match(smoke, /READINESS_VALIDATION_EVIDENCE/);
+  assert.match(smoke, /validateReadinessValidationArtifacts/);
+  assert.match(smoke, /readiness_validations/);
+  assert.match(smoke, /readiness_validation_not_ok/);
   assert.match(smoke, /!dryRun/);
   assert.match(runbook, /Weekly Operating Loop/);
   assert.match(runbook, /Release Gate/);

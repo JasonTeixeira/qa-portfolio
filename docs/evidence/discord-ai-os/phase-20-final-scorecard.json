@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782467359671",
+  "runKey": "phase-20-final-1782468981282",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -599,6 +599,67 @@
       }
     ]
   },
+  "readinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "9/9 readiness validators passed",
+    "artifacts": [
+      {
+        "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-content-factory-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-corpus-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-proof-intake-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "durable-jobs-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "observability-quality-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "premium-workflow-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "proof-rehearsal-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/public-growth-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "public-growth-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "security-privacy-readiness-validator-v1"
+      }
+    ]
+  },
   "databaseValidation": {
     "ok": true,
     "checks": {
@@ -667,6 +728,11 @@
       "name": "evidence_index",
       "passed": true,
       "evidence": "25/25 required evidence files pass"
+    },
+    {
+      "name": "readiness_validations",
+      "passed": true,
+      "evidence": "9/9 readiness validators passed"
     },
     {
       "name": "operating_rhythm",
@@ -788,6 +854,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T09:49:19.671Z",
-  "finishedAt": "2026-06-26T09:49:21.416Z"
+  "startedAt": "2026-06-26T10:16:21.282Z",
+  "finishedAt": "2026-06-26T10:16:23.258Z"
 }

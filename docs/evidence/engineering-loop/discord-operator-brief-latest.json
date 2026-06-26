@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T09:33:45.501Z",
+  "generatedAt": "2026-06-26T10:16:24.304Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -338,8 +338,8 @@
     "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
   },
   "releaseGates": {
-    "total": 14,
-    "passed": 12,
+    "total": 15,
+    "passed": 13,
     "failures": [
       "rag_eval_latest",
       "rag_eval_coverage_readiness"

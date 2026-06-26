@@ -15,6 +15,17 @@ import { RAG_EVAL_QUESTION_SEEDS } from '@/lib/rag/evals';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'discord-ai-os');
 const dryRun = process.argv.includes('--dry-run') || process.env.DISCORD_FINAL_SCORECARD_DRY_RUN === 'true';
+const READINESS_VALIDATION_EVIDENCE = [
+  'docs/evidence/engineering-loop/content-factory-readiness-latest.json',
+  'docs/evidence/engineering-loop/discord-corpus-readiness-latest.json',
+  'docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json',
+  'docs/evidence/engineering-loop/durable-jobs-readiness-latest.json',
+  'docs/evidence/engineering-loop/observability-quality-readiness-latest.json',
+  'docs/evidence/engineering-loop/premium-workflow-readiness-latest.json',
+  'docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json',
+  'docs/evidence/engineering-loop/public-growth-readiness-latest.json',
+  'docs/evidence/engineering-loop/security-privacy-readiness-latest.json',
+];
 
 function requireEnv(name: string): string {
   const value = process.env[name]?.trim();
@@ -59,6 +70,44 @@ async function validateEvidenceFiles(): Promise<{
     }
   }
   return { ok: missing.length === 0 && failing.length === 0, missing, failing, evidenceIndex };
+}
+
+async function validateReadinessValidationArtifacts(): Promise<{
+  ok: boolean;
+  failures: string[];
+  evidence: string;
+  artifacts: Array<{ path: string; ok: boolean; validationOk: boolean; validator: string | null }>;
+}> {
+  const failures: string[] = [];
+  const artifacts = await Promise.all(READINESS_VALIDATION_EVIDENCE.map(async (evidencePath) => {
+    try {
+      const payload = await readJsonFile(evidencePath);
+      const artifact = {
+        path: evidencePath,
+        ok: payload?.ok === true,
+        validationOk: payload?.validation?.ok === true,
+        validator: typeof payload?.validation?.validator === 'string' ? payload.validation.validator : null,
+      };
+      if (!artifact.ok) failures.push(`readiness_not_ok:${evidencePath}`);
+      if (!artifact.validationOk) failures.push(`readiness_validation_not_ok:${evidencePath}`);
+      if (!artifact.validator) failures.push(`readiness_validator_missing:${evidencePath}`);
+      return artifact;
+    } catch {
+      failures.push(`readiness_missing:${evidencePath}`);
+      return {
+        path: evidencePath,
+        ok: false,
+        validationOk: false,
+        validator: null,
+      };
+    }
+  }));
+  return {
+    ok: failures.length === 0,
+    failures,
+    evidence: `${artifacts.filter((artifact) => artifact.ok && artifact.validationOk).length}/${artifacts.length} readiness validators passed`,
+    artifacts,
+  };
 }
 
 async function validateDatabaseReleaseTables(sb: any) {
@@ -298,10 +347,11 @@ async function main() {
   const scorecard = buildDiscordFinalScorecard();
   const summary = buildDiscordFinalScorecardSummary(scorecard);
   const rhythm = buildDiscordOperatingRhythm();
-  const [scorecardValidation, rhythmValidation, evidenceValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
+  const [scorecardValidation, rhythmValidation, evidenceValidation, readinessValidation, databaseValidation, ragEval, ragEvalCoverageReadiness, proofRehearsal, contentFactoryReadiness, proofSourceVolumeScan, proofSourceRecoveryPlan, proofIntakeReadiness, weeklyProofPacket, runbook, migration] = await Promise.all([
     Promise.resolve(validateDiscordFinalScorecard(scorecard)),
     Promise.resolve(validateDiscordOperatingRhythm(rhythm)),
     validateEvidenceFiles(),
+    validateReadinessValidationArtifacts(),
     validateDatabaseReleaseTables(sb),
     readJsonFile('docs/evidence/rag/eval-latest.json'),
     readJsonFile('docs/evidence/rag/eval-coverage-readiness.json'),
@@ -331,6 +381,11 @@ async function main() {
       name: 'evidence_index',
       passed: evidenceValidation.ok,
       evidence: `${evidenceValidation.evidenceIndex.filter((item) => item.ok).length}/${REQUIRED_PHASE_EVIDENCE.length} required evidence files pass`,
+    },
+    {
+      name: 'readiness_validations',
+      passed: readinessValidation.ok,
+      evidence: readinessValidation.evidence,
     },
     {
       name: 'operating_rhythm',
@@ -409,6 +464,7 @@ async function main() {
     ...proofSourceRecoveryPlanValidation.failures.map((failure) => `proof_source_recovery_plan:${failure}`),
     ...proofIntakeAntiFakeValidation.failures.map((failure) => `proof_intake:${failure}`),
     ...weeklyProofPacketAntiFakeValidation.failures.map((failure) => `weekly_proof_packet:${failure}`),
+    ...readinessValidation.failures.map((failure) => `readiness_validation:${failure}`),
     ...evidenceValidation.missing.map((failure) => `missing_evidence:${failure}`),
     ...evidenceValidation.failing.map((failure) => `failing_evidence:${failure}`),
     ...releaseGates.filter((gate) => !gate.passed).map((gate) => `release_gate:${gate.name}`),
@@ -449,6 +505,7 @@ async function main() {
     operatingRhythm: rhythm,
     rhythmValidation,
     evidenceValidation,
+    readinessValidation,
     databaseValidation,
     ragEvalCoverageReadinessValidation,
     proofRehearsalValidation,

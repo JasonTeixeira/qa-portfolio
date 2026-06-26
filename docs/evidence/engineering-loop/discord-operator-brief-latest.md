@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T09:33:45.501Z
+Generated: 2026-06-26T10:16:24.304Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -113,7 +113,7 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ## Release Gates
 
-- Passed: 12/14
+- Passed: 13/15
 - Failures:
   - rag_eval_latest
   - rag_eval_coverage_readiness

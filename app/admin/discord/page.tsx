@@ -707,6 +707,41 @@ type RagEvalMissingPreflight = {
   nextActions: string[];
 };
 
+type RagEvalRecoveryPlan = {
+  ok: boolean;
+  version: string;
+  status: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  coverage: {
+    expectedQuestionCount: number;
+    missingEvalCount: number;
+    missingEvalKeys: string[];
+    releaseReady: boolean;
+    blockers: string[];
+  };
+  latestEval: {
+    failedCount: number;
+    failedKeys: string[];
+  };
+  missingEvalBacklog: Array<{
+    evalKey: string;
+    category: string;
+    readyForApprovedEval: boolean;
+    verificationCommand: string;
+    acceptanceChecklist: string[];
+    doNotCount: string[];
+  }>;
+  failedEvalBacklog: Array<{
+    evalKey: string;
+    failedMetrics: string[];
+    recoveryActions: string[];
+  }>;
+  approvedCommand: string;
+  nextActions: string[];
+  antiFakeRules: string[];
+};
+
 type GatewayCaptureDiagnosis = {
   ok: boolean;
   generatedAt: string;
@@ -826,6 +861,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
   const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
   const ragEvalExecutionPacket = await loadRagEvalExecutionPacket();
   const ragEvalMissingPreflight = await loadRagEvalMissingPreflight();
+  const ragEvalRecoveryPlan = await loadRagEvalRecoveryPlan();
   const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const promptDebug = resolvedSearchParams.promptDebug === '1';
@@ -1260,6 +1296,15 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       selectedMatchesCoverage: ragEvalMissingPreflight.selectedMatchesCoverage,
       approvedCommand: ragEvalMissingPreflight.approvedCommand,
       releaseMeaning: ragEvalMissingPreflight.releaseMeaning,
+    },
+    ragEvalRecoveryPlan: {
+      status: ragEvalRecoveryPlan.status,
+      ok: ragEvalRecoveryPlan.ok,
+      missingEvalCount: ragEvalRecoveryPlan.coverage.missingEvalCount,
+      readyMissingEvalCount: ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length,
+      failedEvalCount: ragEvalRecoveryPlan.latestEval.failedCount,
+      approvedCommand: ragEvalRecoveryPlan.approvedCommand,
+      releaseMeaning: ragEvalRecoveryPlan.releaseMeaning,
     },
     proofSourceRecoveryPlan: {
       status: proofSourceRecoveryPlan.status,
@@ -1957,6 +2002,8 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
                 <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">RAG eval blocker</div>
                 <div className="mt-3 grid gap-2 text-xs">
                   <HealthLine label="Missing evals" value={`${worldClassReadiness.ragEvalMissingPreflight.readyForApprovedEvalCount}/${worldClassReadiness.ragEvalMissingPreflight.missingEvalCount} preflighted`} tone={worldClassReadiness.ragEvalMissingPreflight.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Recovery backlog" value={`${worldClassReadiness.ragEvalRecoveryPlan.readyMissingEvalCount}/${worldClassReadiness.ragEvalRecoveryPlan.missingEvalCount} ready`} tone={worldClassReadiness.ragEvalRecoveryPlan.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Failed eval backlog" value={String(worldClassReadiness.ragEvalRecoveryPlan.failedEvalCount)} tone={worldClassReadiness.ragEvalRecoveryPlan.failedEvalCount ? 'rose' : 'emerald'} />
                   <HealthLine label="Keys match" value={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'} tone={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'emerald' : 'rose'} />
                 </div>
               </div>
@@ -2188,6 +2235,71 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
               <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
               <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
                 {ragEvalMissingPreflight.antiFakeRules.slice(0, 4).map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="RAG eval recovery plan"
+            meta={`${ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length}/${ragEvalRecoveryPlan.coverage.missingEvalCount} missing evals ready`}
+            empty="RAG eval recovery plan is missing. Run npm run rag:evaluate:recovery-plan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalRecoveryPlan.status === 'passed' ? 'emerald' : 'rose'}>
+                    {ragEvalRecoveryPlan.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={ragEvalRecoveryPlan.ok ? 'emerald' : 'rose'}>{ragEvalRecoveryPlan.ok ? 'plan valid' : 'plan invalid'}</Badge>
+                  <Badge tone="neutral">{ragEvalRecoveryPlan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{ragEvalRecoveryPlan.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Coverage ready" value={ragEvalRecoveryPlan.coverage.releaseReady ? 'yes' : 'no'} tone={ragEvalRecoveryPlan.coverage.releaseReady ? 'emerald' : 'rose'} />
+                  <HealthLine label="Missing eval backlog" value={`${ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length}/${ragEvalRecoveryPlan.coverage.missingEvalCount}`} tone={ragEvalRecoveryPlan.coverage.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Failed eval backlog" value={String(ragEvalRecoveryPlan.latestEval.failedCount)} tone={ragEvalRecoveryPlan.latestEval.failedCount ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalRecoveryPlan.approvedCommand}
+                </code>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalRecoveryPlan.nextActions.slice(0, 4).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-2 border-t border-[#27272a] px-3 py-3 md:grid-cols-2 xl:grid-cols-3">
+              {ragEvalRecoveryPlan.missingEvalBacklog.map((item) => (
+                <div key={item.evalKey} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="truncate text-xs font-semibold text-[#fafafa]">{item.evalKey}</div>
+                    <Badge tone={item.readyForApprovedEval ? 'emerald' : 'rose'}>{item.readyForApprovedEval ? 'ready' : 'blocked'}</Badge>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <Badge tone="neutral">{item.category}</Badge>
+                    <Badge tone="cyan">{item.acceptanceChecklist.length} checks</Badge>
+                    <Badge tone="amber">{item.doNotCount.length} do-not-count rules</Badge>
+                  </div>
+                  <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-2 py-1.5 text-[10px] leading-4 text-[#d4d4d8]">
+                    {item.verificationCommand}
+                  </code>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {ragEvalRecoveryPlan.antiFakeRules.slice(0, 4).map((rule) => (
                   <li key={rule}>{rule}</li>
                 ))}
               </ul>
@@ -2917,6 +3029,40 @@ async function loadRagEvalMissingPreflight(): Promise<RagEvalMissingPreflight> {
       antiFakeRules: ['Preflight-only evidence does not satisfy eval coverage.'],
       blockers: ['rag_missing_eval_preflight_missing'],
       nextActions: ['Run npm run rag:evaluate:missing-preflight before any approved missing eval command.'],
+    };
+  }
+}
+
+async function loadRagEvalRecoveryPlan(): Promise<RagEvalRecoveryPlan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalRecoveryPlan;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-recovery-plan-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval recovery plan evidence is missing. Run npm run rag:evaluate:recovery-plan. This writes local guidance only and does not run the eval.',
+      status: 'blocked',
+      coverage: {
+        expectedQuestionCount: 0,
+        missingEvalCount: 0,
+        missingEvalKeys: [],
+        releaseReady: false,
+        blockers: ['rag_eval_recovery_plan_missing'],
+      },
+      latestEval: {
+        failedCount: 0,
+        failedKeys: [],
+      },
+      missingEvalBacklog: [],
+      failedEvalBacklog: [],
+      approvedCommand: 'npm run rag:evaluate:missing',
+      nextActions: ['Run npm run rag:evaluate:recovery-plan before any approved missing eval command.'],
+      antiFakeRules: ['Recovery-plan-only evidence does not satisfy eval coverage.'],
     };
   }
 }

@@ -1852,9 +1852,11 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /WorldClassReadinessCategoryRow/);
   assert.match(page, /data-testid="discord-world-class-readiness-triage"/);
   assert.match(page, /ragEvalMissingPreflight: \{/);
+  assert.match(page, /ragEvalRecoveryPlan: \{/);
   assert.match(page, /proofSourceRecoveryPlan: \{/);
   assert.match(page, /Immediate action order/);
   assert.match(page, /RAG eval blocker/);
+  assert.match(page, /Recovery backlog/);
   assert.match(page, /Proof source blocker/);
   assert.match(page, /collectionCadence/);
   assert.match(page, /acceptanceChecklist/);
@@ -1924,6 +1926,13 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /npm run rag:evaluate:missing-preflight/);
   assert.match(page, /ragEvalMissingPreflight\.summary\.readyForApprovedEvalCount/);
   assert.match(page, /ragEvalMissingPreflight\.selectedMatchesCoverage/);
+  assert.match(page, /loadRagEvalRecoveryPlan/);
+  assert.match(page, /eval-recovery-plan\.json/);
+  assert.match(page, /RAG eval recovery plan/);
+  assert.match(page, /npm run rag:evaluate:recovery-plan/);
+  assert.match(page, /ragEvalRecoveryPlan\.coverage\.missingEvalCount/);
+  assert.match(page, /ragEvalRecoveryPlan\.missingEvalBacklog/);
+  assert.match(page, /Recovery-plan-only evidence does not satisfy eval coverage/i);
   assert.match(page, /preflight-only evidence does not satisfy eval coverage/i);
   assert.match(page, /discord_public_proof_sources/);
   assert.match(page, /discord_public_growth_drafts/);

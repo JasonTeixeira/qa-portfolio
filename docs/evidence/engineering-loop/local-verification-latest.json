@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T00:26:15.222Z",
+  "timestamp": "2026-06-26T00:37:20.615Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -33,7 +33,8 @@
     "evalSeedQuality": "docs/evidence/rag/eval-seed-quality.json",
     "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json",
     "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
-    "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json"
+    "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+    "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json"
   },
   "scorecard": {
     "averageScore": 83,
@@ -59,7 +60,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782433570952"
+    "runKey": "phase-20-final-1782434234760"
   },
   "operatingCycle": {
     "status": "blocked",
@@ -131,6 +132,21 @@
     "laneCount": 3,
     "missingOrStale": [],
     "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
+  },
+  "proofIntakeReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "laneCount": 4,
+    "requiredFieldCount": 45,
+    "weeklyIntakeOrder": [
+      "Review candidates and fill required proof fields.",
+      "Reject private, generic, low-context, or unsupported material.",
+      "Approve reusable knowledge and sync only approved items into RAG.",
+      "Create privacy-safe public proof assets from approved sources.",
+      "Fulfill and log one premium path when premium activity exists.",
+      "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
+    ],
+    "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist."
   },
   "remainingGaps": [
     "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",

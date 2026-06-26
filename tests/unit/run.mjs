@@ -80,7 +80,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   );
   assert.equal(
     packageJson.scripts['verify:local'],
-    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief && npm run discord:content-factory-readiness',
+    'npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run discord:release-local && npm run discord:proof-intake-readiness && npm run verify:local:evidence && npm run discord:world-class-readiness && npm run discord:proof-backlog && npm run discord:operator-brief && npm run discord:content-factory-readiness',
   );
   assert.equal(packageJson.scripts['verify:local:evidence'], 'node scripts/ops/write-local-verification-evidence.mjs');
   assert.equal(packageJson.scripts['discord:world-class-readiness'], 'tsx scripts/discord/write-world-class-readiness.ts');
@@ -88,6 +88,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:operator-brief'], 'tsx scripts/discord/write-operator-brief.ts');
   assert.equal(packageJson.scripts['discord:proof-rehearsal-readiness'], 'tsx scripts/discord/write-proof-rehearsal-readiness.ts');
   assert.equal(packageJson.scripts['discord:content-factory-readiness'], 'tsx scripts/discord/write-content-factory-readiness.ts');
+  assert.equal(packageJson.scripts['discord:proof-intake-readiness'], 'tsx scripts/discord/write-proof-intake-readiness.ts');
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:proof-rehearsal-readiness'));
   assert.ok(packageJson.scripts['discord:release-local'].includes('discord:content-factory-readiness'));
   assert.equal(packageJson.scripts['verify:local'].includes('discord:operating-cycle:full'), false);
@@ -103,8 +104,10 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /eval-seed-dry-run\.json/);
   assert.match(localVerificationEvidence, /proof-rehearsal-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /content-factory-readiness-latest\.json/);
+  assert.match(localVerificationEvidence, /discord-proof-intake-readiness-latest\.json/);
   assert.match(localVerificationEvidence, /proofRehearsalReadiness/);
   assert.match(localVerificationEvidence, /contentFactoryReadiness/);
+  assert.match(localVerificationEvidence, /proofIntakeReadiness/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /operatingStatus === 'passed' \|\| operatingStatus === 'blocked'/);
   const proofRehearsalScript = await readFile(new URL('../../scripts/discord/write-proof-rehearsal-readiness.ts', import.meta.url), 'utf8');
@@ -133,6 +136,11 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(operatorBriefScript, /buildDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /validateDiscordOperatorBrief/);
   assert.match(operatorBriefScript, /renderDiscordOperatorBriefMarkdown/);
+  const proofIntakeScript = await readFile(new URL('../../scripts/discord/write-proof-intake-readiness.ts', import.meta.url), 'utf8');
+  assert.match(proofIntakeScript, /discord-proof-intake-readiness-latest\.json/);
+  assert.match(proofIntakeScript, /discord-proof-intake-readiness-latest\.md/);
+  assert.match(proofIntakeScript, /buildDiscordProofIntakeReadinessReport/);
+  assert.match(proofIntakeScript, /validateDiscordProofIntakeReadinessReport/);
   const discordAdminPage = await readFile(new URL('../../app/admin/discord/page.tsx', import.meta.url), 'utf8');
   assert.match(discordAdminPage, /data-testid="discord-operator-brief"/);
   assert.match(discordAdminPage, /loadDiscordOperatorBrief/);
@@ -2262,6 +2270,7 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   assert.ok(brief.commandOrder.includes('npm run discord:operator-brief'));
   assert.ok(brief.commandOrder.includes('npm run discord:proof-backlog'));
   assert.ok(brief.commandOrder.includes('npm run discord:content-factory-readiness'));
+  assert.ok(brief.commandOrder.includes('npm run discord:proof-intake-readiness'));
   assert.match(brief.currentReality, /real operating proof is still missing/);
   assert.equal(validateDiscordOperatorBrief(brief).ok, true);
   const markdown = renderDiscordOperatorBriefMarkdown(brief);
@@ -2273,6 +2282,42 @@ test('discord operator brief: typed handoff validates blocked proof lanes and co
   const validation = validateDiscordOperatorBrief(invalid);
   assert.equal(validation.ok, false);
   assert.ok(validation.failures.includes('blocked_lane_count_mismatch'));
+});
+
+test('discord proof intake readiness: defines auditable fields for real operating proof', async () => {
+  const {
+    buildDiscordProofIntakeReadinessReport,
+    validateDiscordProofIntakeReadinessReport,
+  } = await import('../../lib/discord/proof-intake-readiness.ts');
+
+  const report = buildDiscordProofIntakeReadinessReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+  });
+  assert.equal(report.ok, true);
+  assert.equal(report.version, 'discord-proof-intake-readiness-v1');
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.requiredLaneCount, 4);
+  assert.ok(report.requiredFieldCount >= 40);
+  assert.match(report.releaseMeaning, /does not satisfy real operating proof lanes/);
+  assert.deepEqual(report.lanes.map((lane) => lane.key), [
+    'approved_discord_knowledge',
+    'rag_discord_sources',
+    'public_proof_assets',
+    'premium_workflow_proof',
+  ]);
+  assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'privacy_status')));
+  assert.ok(report.lanes.every((lane) => lane.requiredFields.some((field) => field.key === 'decision_reason')));
+  assert.ok(report.lanes.every((lane) => lane.privacyChecks.length >= 2));
+  assert.ok(report.lanes.every((lane) => lane.verificationCommands.length > 0));
+  assert.ok(report.lanes.every((lane) => lane.evidencePaths.length > 0));
+  assert.ok(report.weeklyIntakeOrder.some((step) => step.includes('sync only approved items into RAG')));
+  assert.equal(validateDiscordProofIntakeReadinessReport(report).ok, true);
+
+  const invalid = { ...report, requiredLaneCount: 3, releaseMeaning: 'ready' };
+  const validation = validateDiscordProofIntakeReadinessReport(invalid);
+  assert.equal(validation.ok, false);
+  assert.ok(validation.failures.includes('wrong_lane_count'));
+  assert.ok(validation.failures.includes('missing_non_proof_disclaimer'));
 });
 
 test('discord proof controls: documents the non-fake path to 95+ operating proof', async () => {

@@ -13,6 +13,7 @@ const evidencePaths = {
   evalSeedDryRun: path.join(root, 'docs', 'evidence', 'rag', 'eval-seed-dry-run.json'),
   proofRehearsalReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
   contentFactoryReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
+  proofIntakeReadiness: path.join(root, 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
 };
 
 async function readJson(filePath) {
@@ -47,7 +48,16 @@ function summarizeOperatingBlockers(operatingCycle) {
 }
 
 async function main() {
-  const [finalScorecard, operatingCycle, contentFactory, evalSeedQuality, evalSeedDryRun, proofRehearsalReadiness, contentFactoryReadiness] = await Promise.all(
+  const [
+    finalScorecard,
+    operatingCycle,
+    contentFactory,
+    evalSeedQuality,
+    evalSeedDryRun,
+    proofRehearsalReadiness,
+    contentFactoryReadiness,
+    proofIntakeReadiness,
+  ] = await Promise.all(
     Object.values(evidencePaths).map(readJson),
   );
 
@@ -70,6 +80,19 @@ async function main() {
   requireTruthy(
     contentFactoryReadiness.dryRun === true && contentFactoryReadiness.created === 0,
     'Content factory readiness must prove read-only dry-run behavior.',
+  );
+  requireTruthy(proofIntakeReadiness.ok === true, 'Proof intake readiness evidence is not ok.');
+  requireTruthy(
+    proofIntakeReadiness.mutationMode === 'local_file_evidence_only',
+    'Proof intake readiness must not mutate external systems.',
+  );
+  requireTruthy(
+    proofIntakeReadiness.releaseMeaning?.includes('does not satisfy real operating proof lanes'),
+    'Proof intake readiness must explicitly avoid claiming real operating proof.',
+  );
+  requireTruthy(
+    Array.isArray(proofIntakeReadiness.lanes) && proofIntakeReadiness.lanes.length === 4,
+    'Proof intake readiness must cover all four blocked proof lanes.',
   );
 
   const operatingStatus = operatingCycle.status ?? (operatingCycle.ok ? 'passed' : 'blocked');
@@ -151,6 +174,14 @@ async function main() {
       laneCount: Array.isArray(proofRehearsalReadiness.lanes) ? proofRehearsalReadiness.lanes.length : 0,
       missingOrStale: proofRehearsalReadiness.missingOrStale ?? [],
       releaseMeaning: proofRehearsalReadiness.releaseMeaning,
+    },
+    proofIntakeReadiness: {
+      ok: proofIntakeReadiness.ok,
+      mutationMode: proofIntakeReadiness.mutationMode,
+      laneCount: Array.isArray(proofIntakeReadiness.lanes) ? proofIntakeReadiness.lanes.length : 0,
+      requiredFieldCount: proofIntakeReadiness.requiredFieldCount,
+      weeklyIntakeOrder: proofIntakeReadiness.weeklyIntakeOrder,
+      releaseMeaning: proofIntakeReadiness.releaseMeaning,
     },
     remainingGaps: [
       'Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.',

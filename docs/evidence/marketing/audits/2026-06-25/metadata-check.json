@@ -144,6 +144,30 @@
     "missing": []
   },
   {
+    "route": "/showcase/proof",
+    "status": 200,
+    "title": "Working Prototype Proof Wall | Sage Ideas — Sage Ideas",
+    "description": "Open the Sage Ideas prototype proof wall to see which business systems are working, tested, and ready to inspect before a build call.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Open the proof before the call."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
+    "route": "/showcase/compare",
+    "status": 200,
+    "title": "Compare Interactive Business Systems | Sage Ideas — Sage Ideas",
+    "description": "Compare Sage Ideas prototype systems by buyer problem, business outcome, proof level, and the build path that fits your market.",
+    "canonical": "https://www.sageideas.dev",
+    "h1": [
+      "Find the system your business needs first."
+    ],
+    "jsonLdCount": 3,
+    "missing": []
+  },
+  {
     "route": "/showcase/revenue-os",
     "status": 200,
     "title": "Revenue OS Interactive Demo | AI Client Acquisition System | Sage Ideas — Sage Ideas",

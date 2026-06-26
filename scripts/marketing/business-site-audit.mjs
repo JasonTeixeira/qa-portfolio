@@ -22,6 +22,8 @@ const routes = [
   { name: 'process', path: '/process' },
   { name: 'how-it-works', path: '/how-it-works' },
   { name: 'showcase', path: '/showcase' },
+  { name: 'showcase-proof', path: '/showcase/proof' },
+  { name: 'showcase-compare', path: '/showcase/compare' },
   { name: 'showcase-revenue-os', path: '/showcase/revenue-os' },
   { name: 'showcase-contractor-quote-engine', path: '/showcase/contractor-quote-engine' },
   { name: 'showcase-med-spa-consultation-funnel', path: '/showcase/med-spa-consultation-funnel' },

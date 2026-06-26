@@ -10,6 +10,8 @@ industries	/industries
 process	/process
 how-it-works	/how-it-works
 showcase	/showcase
+showcase-proof	/showcase/proof
+showcase-compare	/showcase/compare
 showcase-revenue-os	/showcase/revenue-os
 showcase-contractor-quote-engine	/showcase/contractor-quote-engine
 showcase-med-spa-consultation-funnel	/showcase/med-spa-consultation-funnel

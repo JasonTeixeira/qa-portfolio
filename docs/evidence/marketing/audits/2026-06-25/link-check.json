@@ -50,15 +50,15 @@
   },
   {
     "href": "http://127.0.0.1:3041/showcase/revenue-os",
-    "source": "/showcase",
-    "text": "Flagship interactive buildRevenue OSFind qualified accounts, match proof assets, approve outbound, classify replies, and learn from every sprint. AI client acquisition system Open demo",
+    "source": "/showcase/compare",
+    "text": "Open demo",
     "status": 200,
     "ok": true
   },
   {
     "href": "http://127.0.0.1:3041/showcase/contractor-quote-engine",
-    "source": "/showcase",
-    "text": "Warehouse prototypeContractor Quote EngineTurn high-intent visitors into quote requests with proof, urgency, routing, and fast follow-up. Local service funnel Open demo",
+    "source": "/showcase/compare",
+    "text": "Open demo",
     "status": 200,
     "ok": true
   },
@@ -1079,7 +1079,7 @@
   },
   {
     "href": "http://127.0.0.1:3041/showcase/proof",
-    "source": "/showcase",
+    "source": "/showcase/compare",
     "text": "View proof wall",
     "status": 200,
     "ok": true
@@ -1121,8 +1121,8 @@
   },
   {
     "href": "http://127.0.0.1:3041/showcase/med-spa-consultation-funnel",
-    "source": "/showcase",
-    "text": "Warehouse prototypeMed Spa Consultation FunnelMove treatment interest into compliant consultation bookings and nurture sequences. Health and beauty funnel Open demo",
+    "source": "/showcase/compare",
+    "text": "Open demo",
     "status": 200,
     "ok": true
   },
@@ -1142,8 +1142,8 @@
   },
   {
     "href": "http://127.0.0.1:3041/showcase/law-firm-intake-system",
-    "source": "/showcase",
-    "text": "Warehouse prototypeLaw Firm Intake SystemConvert qualified visitors into consultations with trust proof, practice-area routing, and intake control. Professional services funnel Open demo",
+    "source": "/showcase/compare",
+    "text": "Open demo",
     "status": 200,
     "ok": true
   },
@@ -1163,8 +1163,8 @@
   },
   {
     "href": "http://127.0.0.1:3041/showcase/ai-support-agent-dashboard",
-    "source": "/showcase",
-    "text": "Warehouse prototypeAI Support Agent DashboardDeflect repetitive support, escalate risky cases, and measure resolution quality. AI operations dashboard Open demo",
+    "source": "/showcase/compare",
+    "text": "Open demo",
     "status": 200,
     "ok": true
   },
@@ -1179,6 +1179,111 @@
     "href": "http://127.0.0.1:3041/showcase/private/ai-support-agent-dashboard/preview",
     "source": "/showcase",
     "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=showcase_proof",
+    "source": "/showcase/proof",
+    "text": "Book after you inspect it",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=proof_revenue-os",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=proof_contractor-quote-engine",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=proof_med-spa-consultation-funnel",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=proof_law-firm-intake-system",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=proof_ai-support-agent-dashboard",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/showcase/compare",
+    "source": "/showcase/proof",
+    "text": "Compare systems",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=showcase_proof_final",
+    "source": "/showcase/proof",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=showcase_compare",
+    "source": "/showcase/compare",
+    "text": "Map my system",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=compare_revenue-os",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=compare_contractor-quote-engine",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=compare_med-spa-consultation-funnel",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=compare_law-firm-intake-system",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=compare_ai-support-agent-dashboard",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3041/book?source=showcase_compare_final",
+    "source": "/showcase/compare",
+    "text": "Book the build call",
     "status": 200,
     "ok": true
   },

@@ -48,6 +48,14 @@
     "violations": []
   },
   {
+    "route": "/showcase/proof",
+    "violations": []
+  },
+  {
+    "route": "/showcase/compare",
+    "violations": []
+  },
+  {
     "route": "/showcase/revenue-os",
     "violations": []
   },

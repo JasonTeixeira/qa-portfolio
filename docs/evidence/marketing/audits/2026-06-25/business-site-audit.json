@@ -1,9 +1,9 @@
 {
   "summary": {
-    "generatedAt": "2026-06-25T18:56:24.781Z",
+    "generatedAt": "2026-06-26T00:21:35.175Z",
     "baseUrl": "http://127.0.0.1:3041",
-    "routes": 17,
-    "linkTargets": 180,
+    "routes": 19,
+    "linkTargets": 195,
     "failedLinks": 0,
     "routesWithAxeViolations": 0,
     "seriousAxeViolations": [],
@@ -3126,6 +3126,496 @@
           {
             "text": "Preview",
             "href": "/showcase/private/ai-support-agent-dashboard/preview"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/showcase/proof",
+      "status": 200,
+      "metadata": {
+        "title": "Working Prototype Proof Wall | Sage Ideas — Sage Ideas",
+        "description": "Open the Sage Ideas prototype proof wall to see which business systems are working, tested, and ready to inspect before a build call.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Open the proof before the call."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Showcase",
+            "href": "/showcase"
+          },
+          {
+            "text": "Open the strongest demo",
+            "href": "/showcase/revenue-os"
+          },
+          {
+            "text": "Book after you inspect it",
+            "href": "/book?source=showcase_proof"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/revenue-os"
+          },
+          {
+            "text": "Build my version",
+            "href": "/book?source=proof_revenue-os"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/contractor-quote-engine"
+          },
+          {
+            "text": "Build my version",
+            "href": "/book?source=proof_contractor-quote-engine"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/med-spa-consultation-funnel"
+          },
+          {
+            "text": "Build my version",
+            "href": "/book?source=proof_med-spa-consultation-funnel"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/law-firm-intake-system"
+          },
+          {
+            "text": "Build my version",
+            "href": "/book?source=proof_law-firm-intake-system"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/ai-support-agent-dashboard"
+          },
+          {
+            "text": "Build my version",
+            "href": "/book?source=proof_ai-support-agent-dashboard"
+          },
+          {
+            "text": "Compare systems",
+            "href": "/showcase/compare"
+          },
+          {
+            "text": "Book the build call",
+            "href": "/book?source=showcase_proof_final"
+          },
+          {
+            "text": "Sage Ideas",
+            "href": "/"
+          },
+          {
+            "text": "./book",
+            "href": "/book"
+          },
+          {
+            "text": "View work",
+            "href": "/work"
+          },
+          {
+            "text": "Servicesfixed-scope builds",
+            "href": "/services"
+          },
+          {
+            "text": "Pricingtiers + retainers",
+            "href": "/pricing"
+          },
+          {
+            "text": "Book a callstart here",
+            "href": "/book"
+          },
+          {
+            "text": "Contactdirect line",
+            "href": "/contact"
+          },
+          {
+            "text": "Workcase studies",
+            "href": "/work"
+          },
+          {
+            "text": "Labowned products",
+            "href": "/lab"
+          },
+          {
+            "text": "Trust centersecurity + process",
+            "href": "/trust"
+          },
+          {
+            "text": "Engineering OShow it ships",
+            "href": "/engineering-os"
+          },
+          {
+            "text": "Academycourses forming",
+            "href": "/academy"
+          },
+          {
+            "text": "Journalbuild notes",
+            "href": "/blog"
+          },
+          {
+            "text": "Topic hubsSEO library",
+            "href": "/topics"
+          },
+          {
+            "text": "Route finderdiagnostic",
+            "href": "/tools/route-finder"
+          },
+          {
+            "text": "SEO auditfree tool",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Founderoperator profile",
+            "href": "/founder"
+          },
+          {
+            "text": "Studiohow this works",
+            "href": "/studio"
+          },
+          {
+            "text": "Industriesvertical routes",
+            "href": "/industries"
+          },
+          {
+            "text": "Comparebuying paths",
+            "href": "/compare"
+          },
+          {
+            "text": "Run audit",
+            "href": "/tools/seo-audit"
+          },
+          {
+            "text": "Book call",
+            "href": "/book"
+          },
+          {
+            "text": "",
+            "href": "mailto:sage@sageideas.dev"
+          },
+          {
+            "text": "",
+            "href": "https://linkedin.com/in/jason-teixeira"
+          },
+          {
+            "text": "",
+            "href": "https://github.com/JasonTeixeira"
+          },
+          {
+            "text": "Privacy",
+            "href": "/legal/privacy"
+          },
+          {
+            "text": "Terms",
+            "href": "/legal/terms"
+          },
+          {
+            "text": "Cookies",
+            "href": "/legal/cookies"
+          },
+          {
+            "text": "MSA",
+            "href": "/legal/msa"
+          },
+          {
+            "text": "NDA",
+            "href": "/legal/nda"
+          },
+          {
+            "text": "SOW",
+            "href": "/legal/sow-template"
+          }
+        ],
+        "scrollWidth": 1440,
+        "innerWidth": 1440
+      },
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "route": "/showcase/compare",
+      "status": 200,
+      "metadata": {
+        "title": "Compare Interactive Business Systems | Sage Ideas — Sage Ideas",
+        "description": "Compare Sage Ideas prototype systems by buyer problem, business outcome, proof level, and the build path that fits your market.",
+        "ogTitle": "Sage Ideas — AI-Native Studio for B2B Operators",
+        "ogDescription": "A solo, AI-native studio for AI systems, applications, SaaS, brand, web, growth, and SEO.",
+        "canonical": "https://www.sageideas.dev",
+        "h1": [
+          "Find the system your business needs first."
+        ],
+        "jsonLdCount": 3,
+        "links": [
+          {
+            "text": "Skip to main content",
+            "href": "#main-content"
+          },
+          {
+            "text": "SAGE IDEASProduct · brand · AI systems",
+            "href": "/"
+          },
+          {
+            "text": "Work",
+            "href": "/work"
+          },
+          {
+            "text": "Academy",
+            "href": "/academy"
+          },
+          {
+            "text": "Pricing",
+            "href": "/pricing"
+          },
+          {
+            "text": "Login",
+            "href": "/login"
+          },
+          {
+            "text": "Book a call→",
+            "href": "/book"
+          },
+          {
+            "text": "Home",
+            "href": "/"
+          },
+          {
+            "text": "Showcase",
+            "href": "/showcase"
+          },
+          {
+            "text": "Open flagship demo",
+            "href": "/showcase/revenue-os"
+          },
+          {
+            "text": "Map my system",
+            "href": "/book?source=showcase_compare"
+          },
+          {
+            "text": "Open this system",
+            "href": "/showcase/revenue-os"
+          },
+          {
+            "text": "Open this system",
+            "href": "/showcase/contractor-quote-engine"
+          },
+          {
+            "text": "Open this system",
+            "href": "/showcase/law-firm-intake-system"
+          },
+          {
+            "text": "Open this system",
+            "href": "/showcase/ai-support-agent-dashboard"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/revenue-os"
+          },
+          {
+            "text": "Build this",
+            "href": "/book?source=compare_revenue-os"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/contractor-quote-engine"
+          },
+          {
+            "text": "Build this",
+            "href": "/book?source=compare_contractor-quote-engine"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/med-spa-consultation-funnel"
+          },
+          {
+            "text": "Build this",
+            "href": "/book?source=compare_med-spa-consultation-funnel"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/law-firm-intake-system"
+          },
+          {
+            "text": "Build this",
+            "href": "/book?source=compare_law-firm-intake-system"
+          },
+          {
+            "text": "Open demo",
+            "href": "/showcase/ai-support-agent-dashboard"
+          },
+          {
+            "text": "Build this",
+            "href": "/book?source=compare_ai-support-agent-dashboard"
+          },
+          {
+            "text": "View proof wall",
+            "href": "/showcase/proof"
+          },
+          {
+            "text": "Book the build call",
+            "href": "/book?source=showcase_compare_final"
           },
           {
             "text": "Sage Ideas",

@@ -10,6 +10,8 @@ const routes = [
   { name: 'home', path: '/?source=lighthouse_business' },
   { name: 'services', path: '/services' },
   { name: 'book', path: '/book?source=lighthouse_business' },
+  { name: 'showcase-proof', path: '/showcase/proof' },
+  { name: 'showcase-compare', path: '/showcase/compare' },
   { name: 'showcase-revenue-os', path: '/showcase/revenue-os' },
 ]
 

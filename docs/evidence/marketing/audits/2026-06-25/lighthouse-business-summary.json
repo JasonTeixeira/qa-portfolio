@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-25T15:12:15.450Z",
+  "generatedAt": "2026-06-26T00:25:49.111Z",
   "baseUrl": "http://127.0.0.1:3041",
   "routes": [
     {
       "route": "/?source=lighthouse_business",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json",
       "scores": {
-        "performance": 0.95,
+        "performance": 0.96,
         "accessibility": 1,
         "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1481,
+        "lcp": 1391,
         "cls": 0,
         "tbt": 0
       }
@@ -27,7 +27,7 @@
         "seo": 1
       },
       "metrics": {
-        "lcp": 1194,
+        "lcp": 1188,
         "cls": 0,
         "tbt": 0
       }
@@ -36,13 +36,43 @@
       "route": "/book?source=lighthouse_business",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-book.json",
       "scores": {
-        "performance": 0.97,
+        "performance": 0.98,
         "accessibility": 1,
         "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1260,
+        "lcp": 1199,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/showcase/proof",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-proof.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1146,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    {
+      "route": "/showcase/compare",
+      "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-compare.json",
+      "scores": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1
+      },
+      "metrics": {
+        "lcp": 1108,
         "cls": 0,
         "tbt": 0
       }
@@ -52,12 +82,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-revenue-os.json",
       "scores": {
         "performance": 0.97,
-        "accessibility": 1,
-        "bestPractices": 1,
+        "accessibility": 0.92,
+        "bestPractices": 0.96,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1298,
+        "lcp": 1212,
         "cls": 0,
         "tbt": 0
       }

@@ -164,7 +164,12 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.match(localVerificationEvidence, /laneHasRequiredEvidenceFields/);
   assert.match(localVerificationEvidence, /laneHasAntiFakeControls/);
   assert.match(localVerificationEvidence, /packetLaneHasRequiredTemplate/);
+  assert.match(localVerificationEvidence, /candidateLaneHasCriticalFields/);
   assert.match(localVerificationEvidence, /antiFakeGateSummary/);
+  assert.match(localVerificationEvidence, /criticalFieldSummary/);
+  assert.match(localVerificationEvidence, /growth_tracking_status/);
+  assert.match(localVerificationEvidence, /authorization_evidence/);
+  assert.match(localVerificationEvidence, /fulfillment_summary/);
   assert.match(localVerificationEvidence, /blocksSyntheticProof/);
   assert.match(localVerificationEvidence, /premiumWorkflowProofs/);
   assert.match(localVerificationEvidence, /does not seed Supabase, call DeepSeek, run retrieval, or satisfy the full eval release gate/);

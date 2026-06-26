@@ -115,6 +115,12 @@ function packetLaneHasRequiredTemplate(lane) {
   ].every((key) => template[key]);
 }
 
+function candidateLaneHasCriticalFields(lane) {
+  const required = new Set(lane.requiredEvidenceFields ?? []);
+  const critical = lane.criticalEvidenceFields ?? [];
+  return critical.length >= 3 && critical.every((key) => required.has(key));
+}
+
 async function main() {
   const [
     finalScorecard,
@@ -348,6 +354,18 @@ async function main() {
   requireTruthy(
     proofCandidateAudit.lanes.every((lane) => lane.requiredEvidenceFields?.includes('decision_reason')),
     'Proof candidate audit must require decision_reason for every lane.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes.every(candidateLaneHasCriticalFields),
+    'Proof candidate audit must preserve lane-specific critical fields for gateway, knowledge, RAG, public proof, and premium proof lanes.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes.some((lane) => lane.key === 'public_proof_assets' && lane.criticalEvidenceFields?.includes('growth_tracking_status')),
+    'Proof candidate audit public proof lane must require growth_tracking_status before public growth proof can count.',
+  );
+  requireTruthy(
+    proofCandidateAudit.lanes.some((lane) => lane.key === 'premium_workflow_proof' && lane.criticalEvidenceFields?.includes('authorization_evidence') && lane.criticalEvidenceFields?.includes('fulfillment_summary')),
+    'Proof candidate audit premium lane must require authorization and fulfillment evidence together.',
   );
   requireTruthy(proofSourceVolumeScan.ok === true, 'Proof source volume scan evidence is not ok.');
   requireTruthy(
@@ -690,6 +708,12 @@ async function main() {
       laneCount: Array.isArray(proofCandidateAudit.lanes) ? proofCandidateAudit.lanes.length : 0,
       laneKeys: proofCandidateAudit.lanes.map((lane) => lane.key),
       candidateStates: proofCandidateAudit.lanes.map((lane) => `${lane.key}:${lane.candidateState}:${lane.currentCount}/${lane.targetCount}`),
+      criticalFieldSummary: proofCandidateAudit.lanes.map((lane) => ({
+        key: lane.key,
+        criticalFieldCount: lane.criticalEvidenceFields?.length ?? 0,
+        hasCriticalFields: candidateLaneHasCriticalFields(lane),
+        criticalEvidenceFields: lane.criticalEvidenceFields ?? [],
+      })),
       nextActions: proofCandidateAudit.nextActions,
       releaseMeaning: proofCandidateAudit.releaseMeaning,
     },

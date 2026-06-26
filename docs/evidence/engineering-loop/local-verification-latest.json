@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T06:22:55.960Z",
+  "timestamp": "2026-06-26T06:26:10.208Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "gates": [
@@ -422,6 +422,61 @@
       "rag_discord_sources:needs_source_volume:0/10",
       "public_proof_assets:needs_source_volume:0/4",
       "premium_workflow_proof:needs_source_volume:0/1"
+    ],
+    "criticalFieldSummary": [
+      {
+        "key": "gateway_capture",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "worker_id",
+          "message_content_enabled",
+          "usable_message_id",
+          "capture_health"
+        ]
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "criticalFieldCount": 3,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "source_type",
+          "reuse_category",
+          "rag_safe"
+        ]
+      },
+      {
+        "key": "rag_discord_sources",
+        "criticalFieldCount": 3,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "rag_source_key",
+          "chunk_count",
+          "eval_or_retrieval_proof"
+        ]
+      },
+      {
+        "key": "public_proof_assets",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "asset_type",
+          "utm_campaign",
+          "publish_status",
+          "growth_tracking_status"
+        ]
+      },
+      {
+        "key": "premium_workflow_proof",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "premium_path",
+          "authorization_evidence",
+          "sla_status",
+          "fulfillment_summary"
+        ]
+      }
     ],
     "nextActions": [
       "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",

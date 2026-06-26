@@ -139,6 +139,7 @@
     "rag:evaluate:execution-packet": "tsx scripts/rag/write-eval-execution-packet.ts",
     "rag:evaluate:missing-preflight": "tsx scripts/rag/write-missing-eval-preflight.ts",
     "rag:evaluate:recovery-plan": "tsx scripts/rag/write-eval-recovery-plan.ts",
+    "rag:evaluate:approved-missing": "tsx scripts/rag/run-approved-missing-eval.ts",
     "rag:evaluate:missing": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest",
     "rag:evaluate": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts",
     "rag:evaluate:smoke": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --smoke",

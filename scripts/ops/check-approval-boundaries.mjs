@@ -29,6 +29,7 @@ const requiresExplicitApproval = new Set([
   'rag:embed',
   'rag:evaluate',
   'rag:evaluate:missing',
+  'rag:evaluate:approved-missing',
   'rag:evaluate:smoke',
 ]);
 
@@ -103,7 +104,7 @@ function ragEvalReferenceIsGuarded(scriptName, command, referencedScript) {
     return true;
   }
 
-  if (referencedScript === 'rag:evaluate' || referencedScript === 'rag:evaluate:missing') {
+  if (referencedScript === 'rag:evaluate' || referencedScript === 'rag:evaluate:missing' || referencedScript === 'rag:evaluate:approved-missing') {
     if (requiresExplicitApproval.has(scriptName) && !command.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved')) {
       return true;
     }

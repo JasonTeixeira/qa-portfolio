@@ -421,7 +421,7 @@ export function validateDiscordOperatorBrief(brief: DiscordOperatorBrief): Disco
   if (brief.proofSourceRecoveryPlan.laneStates.some((lane) => lane.acceptanceChecklistCount < 3)) failures.push('recovery_lane_missing_acceptance_checklist');
   if (!brief.commandOrder.includes('npm run rag:evaluate:missing-preflight')) failures.push('missing_rag_eval_missing_preflight_command');
   if (!brief.commandOrder.includes('npm run rag:evaluate:recovery-plan')) failures.push('missing_rag_eval_recovery_plan_command');
-  if (!brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:missing'))) failures.push('missing_approved_missing_eval_command');
+  if (!brief.commandOrder.some((command) => command.includes('npm run rag:evaluate:approved-missing') || command.includes('npm run rag:evaluate:missing'))) failures.push('missing_approved_missing_eval_command');
   if (brief.releaseGates.failures.includes('rag_eval_coverage_readiness')) {
     if (brief.ragEvalMissingPreflight.status === 'missing') failures.push('missing_rag_eval_preflight');
     if (brief.ragEvalMissingPreflight.missingEvalCount <= 0) failures.push('rag_eval_preflight_without_missing_count');

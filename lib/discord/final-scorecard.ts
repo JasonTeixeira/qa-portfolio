@@ -62,7 +62,7 @@ export type DiscordFinalScorecardSummary = {
   requiredOperatingProof: string[];
 };
 
-const GUARDED_RAG_EVAL_COMMAND = 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence';
+const GUARDED_RAG_EVAL_COMMAND = 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing';
 const GUARDED_OPERATING_CYCLE_COMMAND = 'SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle';
 
 function uniqueActionList(actions: Array<string | null | undefined>): string[] {

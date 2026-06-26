@@ -167,7 +167,7 @@ async function main() {
       missingKeys,
       selectedKeys: selectedRows.map((row: any) => String(row.eval_key)),
       releaseMeaning: 'This is a local selection plan only. It does not call DeepSeek, run retrieval, seed Supabase, write eval results, or satisfy eval coverage.',
-      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing',
       startedAt,
       finishedAt: new Date().toISOString(),
     };

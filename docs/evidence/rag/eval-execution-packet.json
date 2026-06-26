@@ -48,14 +48,15 @@
   ],
   "commandPlan": {
     "dryRunCommand": "npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness",
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
-    "mutationWarning": "Approved command can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "mutationWarning": "Approved command runs the guarded missing-eval repair sequence; it can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.",
     "requiresExplicitApproval": true
   },
   "preRunChecks": [
     "Confirm NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present in .env.local.",
     "Confirm DEEPSEEK_API_KEY is present before any non-dry-run eval command.",
     "Confirm SAGE_ALLOW_NON_DRY_RAG_EVAL=approved is set only after explicit approval for this eval run.",
+    "Use npm run rag:evaluate:approved-missing for approved coverage repair so coverage readiness, final scorecard, and local evidence refresh in one guarded sequence.",
     "Run npm run rag:evaluate:missing-plan and confirm selectedKeys exactly match missingEvalKeys.",
     "Do not run from a dirty staged state unless the staged files are intentionally part of the eval pass.",
     "Confirm this is an eval coverage run, not a content-generation or public-posting action."
@@ -79,6 +80,6 @@
     "Passing 50/50 old evals does not satisfy the 65-question gate.",
     "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
   ],
-  "startedAt": "2026-06-26T11:37:42.914Z",
-  "finishedAt": "2026-06-26T11:37:42.916Z"
+  "startedAt": "2026-06-26T11:55:49.274Z",
+  "finishedAt": "2026-06-26T11:55:49.276Z"
 }

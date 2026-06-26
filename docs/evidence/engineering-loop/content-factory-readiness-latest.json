@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-content-factory-readiness-v1",
-  "generatedAt": "2026-06-26T11:37:50.489Z",
+  "generatedAt": "2026-06-26T11:55:57.076Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
   "dryRun": true,
@@ -275,6 +275,6 @@
     "ok": true,
     "failures": [],
     "validator": "discord-content-factory-readiness-validator-v1",
-    "validatedAt": "2026-06-26T11:37:50.500Z"
+    "validatedAt": "2026-06-26T11:55:57.087Z"
   }
 }

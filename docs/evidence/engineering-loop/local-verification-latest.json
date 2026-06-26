@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T11:43:05.454Z",
+  "timestamp": "2026-06-26T11:56:05.400Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -17,7 +17,7 @@
       "evaluatedQuestionCount": 50,
       "expectedQuestionCount": 65,
       "missingEvalKeyCount": 15,
-      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "requiresExplicitApproval": true
     },
     "operatingProof": {
@@ -48,7 +48,7 @@
         "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
       ],
       "explicitApprovalCommands": [
-        "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+        "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
         "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
       ],
       "liveOperatorActions": [
@@ -150,7 +150,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782473873192"
+    "runKey": "phase-20-final-1782474959830"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -159,7 +159,7 @@
       "verify:local",
       "discord:release-local"
     ],
-    "riskyScriptCount": 22,
+    "riskyScriptCount": 23,
     "riskyScriptsIncludedInLocalRelease": [],
     "failures": [],
     "releaseMeaning": "This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation."
@@ -248,7 +248,7 @@
     "nextActions": [
       "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
       "Safe local planning command: npm run rag:evaluate:missing-plan",
-      "If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard",
+      "If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
     ]
@@ -275,7 +275,7 @@
       "rag_content_019",
       "rag_content_020"
     ],
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "requiresExplicitApproval": true,
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
@@ -305,7 +305,7 @@
     "sourceReadyCount": 15,
     "termCoverageReadyCount": 15,
     "readyForApprovedEvalCount": 15,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
@@ -316,7 +316,7 @@
     "missingEvalCount": 15,
     "failedEvalCount": 0,
     "missingEvalBacklogReadyCount": 15,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
   },
@@ -1023,8 +1023,8 @@
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "ageMinutes": 0,
-      "lastSeenAt": "2026-06-26T11:37:20.17+00:00",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-26T11:55:13.527+00:00",
       "fresh": true,
       "lastCloseCode": null
     },
@@ -1245,7 +1245,7 @@
       "missingEvalCount": 15,
       "readyForApprovedEvalCount": 15,
       "selectedMatchesCoverage": true,
-      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
     },
     "ragEvalRecoveryPlan": {
@@ -1254,7 +1254,7 @@
       "missingEvalCount": 15,
       "readyMissingEvalCount": 15,
       "failedEvalCount": 0,
-      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
     },
     "proofSourceRecoveryPlan": {

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-26T11:37:39.519Z",
+  "timestamp": "2026-06-26T11:58:04.460Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -315,6 +315,12 @@
     {
       "script": "rag:evaluate",
       "command": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "rag:evaluate:approved-missing",
+      "command": "tsx scripts/rag/run-approved-missing-eval.ts",
       "approvalBoundary": "requires_explicit_user_approval_before_running",
       "includedInLocalRelease": false
     },

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "rag-eval-recovery-plan-v1",
-  "generatedAt": "2026-06-26T11:37:43.971Z",
+  "generatedAt": "2026-06-26T11:55:50.310Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",
@@ -294,7 +294,7 @@
     "Every missing eval key needs a persisted non-dry-run eval result after explicit approval.",
     "Every failed eval needs either source, retrieval, citation, faithfulness, or usefulness remediation before score claims improve."
   ],
-  "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+  "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
   "nextActions": [
     "Get explicit approval and run the approved missing-eval command after preflight remains ready.",
     "Regenerate eval coverage readiness, final scorecard, world-class readiness, and local verification after any approved eval run."

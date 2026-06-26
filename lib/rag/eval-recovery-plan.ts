@@ -152,7 +152,7 @@ export function buildRagEvalRecoveryPlan(input: {
   const status = blockers.length || missingEvalBacklog.length || failedEvalBacklog.length ? 'blocked' : 'ready';
   const approvedCommand = String(
     input.missingPreflight.approvedCommand
-      ?? 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+      ?? 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing',
   );
 
   return {
@@ -211,6 +211,6 @@ export function validateRagEvalRecoveryPlan(plan: RagEvalRecoveryPlan): { ok: bo
   if (plan.missingEvalBacklog.length !== plan.coverage.missingEvalCount) failures.push('missing_backlog_count_mismatch');
   if (plan.missingEvalBacklog.some((item) => item.readyForApprovedEval && item.blocker)) failures.push('ready_missing_eval_has_blocker');
   if (!plan.antiFakeRules.some((rule) => /plan-only/i.test(rule))) failures.push('missing_plan_only_antifake_rule');
-  if (!plan.approvedCommand.includes('rag:evaluate:missing')) failures.push('missing_approved_missing_eval_command');
+  if (!plan.approvedCommand.includes('rag:evaluate:approved-missing') && !plan.approvedCommand.includes('rag:evaluate:missing')) failures.push('missing_approved_missing_eval_command');
   return { ok: plan.ok === true && failures.length === 0, failures };
 }

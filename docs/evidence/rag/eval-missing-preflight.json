@@ -380,7 +380,7 @@
       "readyForApprovedEval": true
     }
   ],
-  "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+  "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
   "antiFakeRules": [
     "This preflight is not an eval run and must not be counted as eval coverage.",
     "Dry-run, seed-only, smoke-only, source-only, or preflight-only outputs do not satisfy eval coverage.",
@@ -390,9 +390,9 @@
   "blockers": [],
   "nextActions": [
     "Obtain explicit approval before running the non-dry-run missing eval command.",
-    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "Refresh final scorecard and local verification evidence after the approved eval run."
   ],
-  "startedAt": "2026-06-26T11:37:43.433Z",
-  "finishedAt": "2026-06-26T11:37:43.456Z"
+  "startedAt": "2026-06-26T11:55:49.786Z",
+  "finishedAt": "2026-06-26T11:55:49.809Z"
 }

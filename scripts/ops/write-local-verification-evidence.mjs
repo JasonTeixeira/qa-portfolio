@@ -265,7 +265,8 @@ async function main() {
     'RAG eval execution packet must require explicit approval while eval keys are missing.',
   );
   requireTruthy(
-    evalExecutionPacket.commandPlan?.approvedCommand?.includes('npm run rag:evaluate:missing'),
+    evalExecutionPacket.commandPlan?.approvedCommand?.includes('npm run rag:evaluate:approved-missing')
+      || evalExecutionPacket.commandPlan?.approvedCommand?.includes('npm run rag:evaluate:missing'),
     'RAG eval execution packet must include the approved missing-eval command.',
   );
   requireTruthy(
@@ -300,7 +301,8 @@ async function main() {
     'RAG missing eval preflight must prove local sources and required terms are ready for every missing eval key.',
   );
   requireTruthy(
-    evalMissingPreflight.approvedCommand?.includes('npm run rag:evaluate:missing'),
+    evalMissingPreflight.approvedCommand?.includes('npm run rag:evaluate:approved-missing')
+      || evalMissingPreflight.approvedCommand?.includes('npm run rag:evaluate:missing'),
     'RAG missing eval preflight must repeat the approved missing-eval command.',
   );
   requireTruthy(

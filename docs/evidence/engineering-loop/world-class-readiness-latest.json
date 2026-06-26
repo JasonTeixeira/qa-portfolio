@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T11:37:57.638Z",
+  "generatedAt": "2026-06-26T11:56:04.583Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -35,7 +35,7 @@
     "missingEvalCount": 15,
     "readyForApprovedEvalCount": 15,
     "selectedMatchesCoverage": true,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
   "ragEvalRecoveryPlan": {
@@ -44,7 +44,7 @@
     "missingEvalCount": 15,
     "readyMissingEvalCount": 15,
     "failedEvalCount": 0,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
   },
   "proofSourceRecoveryPlan": {
@@ -75,7 +75,7 @@
   "immediateActionOrder": [
     "Run npm run rag:evaluate:recovery-plan to review the local missing/failed eval backlog before any approved eval execution.",
     "Run npm run rag:evaluate:missing-preflight before any approved missing-eval execution to confirm local source coverage is still ready.",
-    "With explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence to close missing RAG eval coverage.",
+    "With explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing to close missing RAG eval coverage.",
     "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
     "Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan to refresh source-volume blockers.",
     "Work the next proof lane: approvedDiscordKnowledge.",
@@ -104,7 +104,7 @@
       "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
     ],
     "explicitApprovalCommands": [
-      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
     ],
     "liveOperatorActions": [

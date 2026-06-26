@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-26T11:43:05.161Z",
+  "generatedAt": "2026-06-26T11:56:05.108Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -289,7 +289,7 @@
     "termCoverageReadyCount": 15,
     "readyForApprovedEvalCount": 15,
     "blockerCount": 0,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
   "ragEvalRecoveryPlan": {
@@ -298,7 +298,7 @@
     "missingEvalCount": 15,
     "failedEvalCount": 0,
     "readyMissingEvalCount": 15,
-    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
   },
   "proofRehearsal": {
@@ -329,7 +329,7 @@
     "messageContentSignalSource": "identify_event",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
-    "heartbeatAgeMinutes": 0,
+    "heartbeatAgeMinutes": 1,
     "nextActions": [
       "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
@@ -375,7 +375,7 @@
     ],
     "explicitApprovalCommands": [
       "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
-      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence"
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing"
     ],
     "liveOperatorActions": [
       "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
@@ -397,7 +397,7 @@
     "npm run discord:proof-source-recovery-plan",
     "npm run rag:evaluate:missing-preflight",
     "npm run rag:evaluate:recovery-plan",
-    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "npm run rag:evaluate:coverage-readiness",
     "npm run rag:discord-corpus-readiness",
     "npm run discord:durable-jobs-readiness",

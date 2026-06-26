@@ -70,7 +70,7 @@ function sourceVolumeForLane(input: {
         + numberValue(metrics.pendingPublicDrafts)
         + numberValue(metrics.publishedPublicDrafts);
     case 'premium_workflow_proof':
-      return numberValue(metrics.premiumMembers) + numberValue(metrics.premiumWorkflowProofs);
+      return numberValue(metrics.premiumWorkflowProofs);
     default:
       return input.currentCount;
   }
@@ -114,10 +114,10 @@ function blockersForLane(input: {
       }
       break;
     case 'premium_workflow_proof':
-      if (numberValue(metrics.premiumMembers) <= 0 && numberValue(metrics.premiumWorkflowProofs) <= 0) {
-        blockers.push('No premium member or deliberately seeded premium scenario is visible in current evidence.');
+      if (numberValue(metrics.premiumWorkflowProofs) <= 0) {
+        blockers.push('No answered/completed premium review or completed office-hours workflow is visible in current evidence.');
       }
-      blockers.push('Premium proof must show authorization, request/SLA state, and fulfillment outcome together.');
+      blockers.push('Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count.');
       break;
     default:
       if (input.candidateCount <= 0) blockers.push('No candidate evidence found.');

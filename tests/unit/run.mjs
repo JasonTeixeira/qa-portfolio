@@ -1732,7 +1732,7 @@ test('discord admin cockpit v2: exposes operational tabs and live recovery surfa
   assert.match(page, /discord_job_runs/);
   assert.match(page, /discord_job_dead_letters/);
   assert.match(page, /discord_premium_review_requests/);
-  assert.match(page, /\['queued', 'in_review', 'answered', 'completed'\]/);
+  assert.match(page, /\['answered', 'completed'\]/);
   assert.match(page, /discord_premium_workflow_events/);
   assert.match(page, /PremiumProofReviewRow/);
   assert.match(page, /PremiumWorkflowEventRow/);
@@ -2246,7 +2246,7 @@ test('discord operating proof cycle: real operating blockers are measured not hi
   assert.match(script, /runDiscordOperatingProofCycle/);
   assert.match(script, /loadLocalFinalScorecardEvidence/);
   assert.match(script, /finalScorecardOverride/);
-  assert.match(operatingCycle, /discord_premium_review_requests', 'status', \['queued', 'in_review', 'answered', 'completed'\]/);
+  assert.match(operatingCycle, /discord_premium_review_requests', 'status', \['answered', 'completed'\]/);
   assert.match(runbook, /Four-Week Growth Proof/);
   assert.match(runbook, /Do not auto-publish externally/);
   assert.equal(pkg.scripts['discord:operating-cycle'], 'tsx --env-file=.env.local scripts/discord/run-operating-proof-cycle.ts --allow-blocked');
@@ -2398,6 +2398,7 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.match(report.lanes[2].rejectionRules.join(' '), /raw Discord messages/);
   assert.match(report.lanes[3].weeklyOperatorSteps.join(' '), /privacy-safe public proof draft/);
   assert.match(report.lanes[4].qualifyingEvidence.join(' '), /authorization and SLA/);
+  assert.match(report.lanes[4].evidenceRequired, /membership or queued requests alone do not count/);
   assert.equal(report.lanes[0].safeLocalCommand, 'npm run discord:gateway-capture-diagnosis');
   assert.equal(report.lanes[1].safeLocalCommand, 'npm run discord:operating-cycle:dry-run');
   assert.equal(report.weeklyChecklist.length, 5);
@@ -2441,6 +2442,33 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.nextActions.length, 0);
   assert.equal(passing.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 1);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
+
+  const memberOnlyPremium = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    gatewayCapture: {
+      status: 'healthy',
+      usableMessageCount: 1,
+      rootCauses: [],
+      nextActions: [],
+    },
+    metrics: {
+      approvedDiscordKnowledgeSources: 10,
+      ragDiscordSources: 10,
+      pendingKnowledgeCandidates: 0,
+      pendingPublicDrafts: 2,
+      publishedPublicDrafts: 2,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 1,
+      premiumWorkflowProofs: 0,
+      applicationsSubmitted: 4,
+      applicationsApproved: 2,
+    },
+  });
+  assert.equal(memberOnlyPremium.status, 'blocked');
+  assert.equal(memberOnlyPremium.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 0);
+  assert.ok(memberOnlyPremium.nextActions.some((action) => action.includes('premium')));
 
   const warningGateway = buildDiscordProofBacklogReport({
     generatedAt: '2026-06-25T00:00:00.000Z',
@@ -2795,8 +2823,9 @@ test('discord proof controls: documents the non-fake path to 95+ operating proof
   assert.match(controls, /discord_answers\.helpful = true/);
   assert.match(controls, /discord_content_queue\.status = 'published'/);
   assert.match(controls, /source_type in \('discord_question', 'discord_answer', 'discord_content_queue'\)/);
-  assert.match(controls, /discord_premium_review_requests\.status in \('queued', 'in_review', 'answered', 'completed'\)/);
-  assert.match(controls, /discord_office_hours_queue\.status in \('queued', 'selected', 'scheduled', 'completed'\)/);
+  assert.match(controls, /discord_premium_review_requests\.status in \('answered', 'completed'\)/);
+  assert.match(controls, /discord_office_hours_queue\.status = 'completed'/);
+  assert.match(controls, /membership alone does not count as fulfilled workflow proof/);
   assert.match(controls, /fulfilled proof\/event history are visible in `\/admin\/discord`/);
   assert.match(controls, /npm run discord:operating-cycle:dry-run/);
   assert.match(controls, /npm run discord:operating-cycle/);

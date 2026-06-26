@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T03:24:20.959Z",
+  "generatedAt": "2026-06-26T03:36:18.905Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
@@ -142,7 +142,7 @@
       ],
       "qualifyingEvidence": [
         "Premium role or deliberately seeded premium scenario exists.",
-        "Review, deeper answer, or office-hours request proves authorization and SLA behavior.",
+        "Answered/completed premium review or completed office-hours request proves authorization and SLA behavior.",
         "Fulfillment outcome is logged with traceable status and no free-member bypass."
       ],
       "rejectionRules": [
@@ -158,7 +158,7 @@
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "liveActionRequired": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
-      "evidenceRequired": "At least one premium member/request path proves authorization, SLA, and fulfillment behavior.",
+      "evidenceRequired": "At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count.",
       "status": "blocked"
     }
   ],
@@ -221,7 +221,7 @@
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
       "evidencePath": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
-      "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one premium member/request path proves authorization, SLA, and fulfillment behavior."
+      "acceptanceCriteria": "Premium workflow proof reaches 1/1; current evidence is 0/1. At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count."
     }
   ],
   "nextActions": [

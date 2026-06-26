@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T03:19:04.396Z",
+  "generatedAt": "2026-06-26T03:36:18.393Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
@@ -189,8 +189,8 @@
       ],
       "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
       "blockers": [
-        "No premium member or deliberately seeded premium scenario is visible in current evidence.",
-        "Premium proof must show authorization, request/SLA state, and fulfillment outcome together."
+        "No answered/completed premium review or completed office-hours workflow is visible in current evidence.",
+        "Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count."
       ],
       "nextReviewAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
       "provingCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",

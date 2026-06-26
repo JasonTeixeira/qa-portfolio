@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-proof-source-volume-scan-v1",
-  "generatedAt": "2026-06-26T01:21:30.527Z",
+  "generatedAt": "2026-06-26T03:36:17.888Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof.",
   "counts": {
@@ -52,7 +52,7 @@
       "premiumMembers": 0,
       "premiumReviews": 0,
       "officeHours": 0,
-      "blocker": "No premium member, review request, or office-hours proof row is visible."
+      "blocker": "No answered/completed premium review or completed office-hours proof row is visible."
     }
   },
   "samples": {
@@ -63,8 +63,8 @@
     "Generate source volume by capturing real member questions, answers, builds, reviews, wins, and resources.",
     "Do not run RAG sync yet; there are no approved Discord knowledge rows.",
     "Create public proof drafts only after approved Discord source material exists.",
-    "Create or wait for one real/deliberately seeded premium workflow before claiming premium readiness."
+    "Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness."
   ],
-  "startedAt": "2026-06-26T01:21:29.875Z",
-  "finishedAt": "2026-06-26T01:21:30.527Z"
+  "startedAt": "2026-06-26T03:36:16.921Z",
+  "finishedAt": "2026-06-26T03:36:17.888Z"
 }

@@ -219,7 +219,7 @@ export function buildDiscordProofBacklogReport(input: {
     lane({
       key: 'premium_workflow_proof',
       title: 'Premium workflow proof',
-      currentCount: input.metrics.premiumWorkflowProofs ?? input.metrics.premiumMembers,
+      currentCount: input.metrics.premiumWorkflowProofs,
       targetCount: 1,
       sourceTables: [
         'discord_members',
@@ -228,7 +228,7 @@ export function buildDiscordProofBacklogReport(input: {
       ],
       qualifyingEvidence: [
         'Premium role or deliberately seeded premium scenario exists.',
-        'Review, deeper answer, or office-hours request proves authorization and SLA behavior.',
+        'Answered/completed premium review or completed office-hours request proves authorization and SLA behavior.',
         'Fulfillment outcome is logged with traceable status and no free-member bypass.',
       ],
       rejectionRules: [
@@ -244,7 +244,7 @@ export function buildDiscordProofBacklogReport(input: {
       adminSurface: '/admin/discord -> Premium, Office Hours, and Member Intelligence panels',
       verificationCommand: 'npm run discord:smoke-premium-workflows && npm run discord:proof-backlog',
       liveActionRequired: 'Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.',
-      evidenceRequired: 'At least one premium member/request path proves authorization, SLA, and fulfillment behavior.',
+      evidenceRequired: 'At least one fulfilled premium path proves authorization, SLA, and fulfillment behavior; membership or queued requests alone do not count.',
     }),
   ];
 

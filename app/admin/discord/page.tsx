@@ -1024,11 +1024,11 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
     sb
       .from('discord_premium_review_requests')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['queued', 'in_review', 'answered', 'completed']),
+      .in('status', ['answered', 'completed']),
     sb
       .from('discord_office_hours_queue')
       .select('id', { count: 'exact', head: true })
-      .in('status', ['queued', 'selected', 'scheduled', 'completed']),
+      .in('status', ['completed']),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
@@ -1075,8 +1075,7 @@ export default async function AdminDiscordPage({ searchParams }: { searchParams?
       onboardedMembers: onboardedMemberCountRes.count ?? 0,
       activeMembers7d: activeMember7dCountRes.count ?? 0,
       premiumMembers: premiumCountRes.count ?? 0,
-      premiumWorkflowProofs: (premiumCountRes.count ?? 0)
-        + (premiumReviewProofCountRes.count ?? 0)
+      premiumWorkflowProofs: (premiumReviewProofCountRes.count ?? 0)
         + (officeHoursProofCountRes.count ?? 0),
       applicationsSubmitted: applicationsSubmittedCountRes.count ?? 0,
       applicationsApproved: applicationsApprovedCountRes.count ?? 0,

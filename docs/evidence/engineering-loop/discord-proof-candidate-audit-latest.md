@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T03:19:04.396Z
+Generated: 2026-06-26T03:36:18.393Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -105,8 +105,8 @@ Next review action: Create privacy-safe public proof drafts from approved Discor
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, premium_path, authorization_evidence, sla_status, fulfillment_summary
 
 Blockers:
-- No premium member or deliberately seeded premium scenario is visible in current evidence.
-- Premium proof must show authorization, request/SLA state, and fulfillment outcome together.
+- No answered/completed premium review or completed office-hours workflow is visible in current evidence.
+- Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count.
 
 Next review action: Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
 

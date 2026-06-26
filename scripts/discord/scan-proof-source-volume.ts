@@ -137,8 +137,8 @@ async function main() {
     countRows(sb, 'discord_public_growth_drafts', 'status', 'pending_approval'),
     countRows(sb, 'discord_public_growth_drafts', 'status', 'published'),
     countRows(sb, 'discord_members', 'premium_member', true),
-    countIn(sb, 'discord_premium_review_requests', 'status', ['queued', 'in_review', 'answered', 'completed']),
-    countIn(sb, 'discord_office_hours_queue', 'status', ['queued', 'selected', 'scheduled', 'completed']),
+    countIn(sb, 'discord_premium_review_requests', 'status', ['answered', 'completed']),
+    countIn(sb, 'discord_office_hours_queue', 'status', ['completed']),
   ]);
   const queueSample = await sampleQueueRows(sb);
 
@@ -192,7 +192,7 @@ async function main() {
   const approvedKnowledge = questionsApproved.count + answersHelpful.count + contentQueuePublished.count + draftsApproved.count;
   const reviewableKnowledgeCandidates = classificationsCandidateActions.count + contentQueueReviewable.count;
   const publicProofAssets = publicDraftsPending.count + publicDraftsPublished.count;
-  const premiumWorkflowProofs = premiumMembers.count + premiumReviewsProof.count + officeHoursProof.count;
+  const premiumWorkflowProofs = premiumReviewsProof.count + officeHoursProof.count;
 
   const evidence = {
     ok: queryErrors.length === 0 && !queueSample.error,
@@ -240,7 +240,7 @@ async function main() {
         officeHours: officeHoursProof.count,
         blocker: premiumWorkflowProofs > 0
           ? null
-          : 'No premium member, review request, or office-hours proof row is visible.',
+          : 'No answered/completed premium review or completed office-hours proof row is visible.',
       },
     },
     samples: {
@@ -262,7 +262,7 @@ async function main() {
         : 'Create public proof drafts only after approved Discord source material exists.',
       premiumWorkflowProofs > 0
         ? 'Verify premium authorization, SLA, and fulfillment before counting premium proof.'
-        : 'Create or wait for one real/deliberately seeded premium workflow before claiming premium readiness.',
+        : 'Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness.',
     ],
     startedAt: startedAt.toISOString(),
     finishedAt: new Date().toISOString(),

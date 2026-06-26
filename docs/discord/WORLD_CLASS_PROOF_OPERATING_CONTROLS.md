@@ -135,12 +135,12 @@ Failure response:
 ## Proof Lane 5: Premium Workflow Proof
 
 Target:
-- At least 1 premium member/request path proves authorization, SLA, and fulfillment behavior.
+- At least 1 fulfilled premium workflow proves authorization, SLA, and fulfillment behavior.
 
 Counts from:
-- `discord_members.premium_member = true`
-- `discord_premium_review_requests.status in ('queued', 'in_review', 'answered', 'completed')`
-- `discord_office_hours_queue.status in ('queued', 'selected', 'scheduled', 'completed')`
+- `discord_premium_review_requests.status in ('answered', 'completed')`
+- `discord_office_hours_queue.status = 'completed'`
+- `discord_members.premium_member = true` is authorization context only; membership alone does not count as fulfilled workflow proof.
 
 Admin action:
 - Run one premium review, deeper answer, or office-hours queue flow with a real premium member or an intentionally seeded premium scenario.

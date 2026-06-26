@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-26T01:05:13.959Z",
+  "generatedAt": "2026-06-26T01:26:42.556Z",
   "baseUrl": "http://127.0.0.1:3041",
   "routes": [
     {
       "route": "/?source=lighthouse_business",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-home.json",
       "scores": {
-        "performance": 0.98,
-        "accessibility": 0.94,
-        "bestPractices": 0.96,
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1131,
+        "lcp": 1318,
         "cls": 0,
         "tbt": 0
       }
@@ -22,12 +22,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-services.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.93,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1127,
+        "lcp": 1189,
         "cls": 0,
         "tbt": 0
       }
@@ -36,13 +36,13 @@
       "route": "/book?source=lighthouse_business",
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-book.json",
       "scores": {
-        "performance": 0.98,
-        "accessibility": 0.93,
-        "bestPractices": 0.93,
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1119,
+        "lcp": 1210,
         "cls": 0,
         "tbt": 0
       }
@@ -52,12 +52,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-proof.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1087,
+        "lcp": 1176,
         "cls": 0,
         "tbt": 0
       }
@@ -67,12 +67,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-compare.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1052,
+        "lcp": 1110,
         "cls": 0,
         "tbt": 0
       }
@@ -82,12 +82,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-revenue-os.json",
       "scores": {
         "performance": 0.97,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1215,
+        "lcp": 1256,
         "cls": 0,
         "tbt": 0
       }
@@ -97,12 +97,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-contractor-quote-engine.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1086,
+        "lcp": 1143,
         "cls": 0,
         "tbt": 0
       }
@@ -112,12 +112,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-med-spa-consultation-funnel.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1059,
+        "lcp": 1111,
         "cls": 0,
         "tbt": 0
       }
@@ -127,12 +127,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-law-firm-intake-system.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1087,
+        "lcp": 1116,
         "cls": 0,
         "tbt": 0
       }
@@ -142,12 +142,12 @@
       "file": "/Users/Sage/code/active/sageideas.dev/docs/evidence/marketing/audits/2026-06-25/lighthouse-showcase-ai-support-agent-dashboard.json",
       "scores": {
         "performance": 0.98,
-        "accessibility": 0.92,
-        "bestPractices": 0.96,
+        "accessibility": 1,
+        "bestPractices": 1,
         "seo": 1
       },
       "metrics": {
-        "lcp": 1088,
+        "lcp": 1107,
         "cls": 0,
         "tbt": 0
       }

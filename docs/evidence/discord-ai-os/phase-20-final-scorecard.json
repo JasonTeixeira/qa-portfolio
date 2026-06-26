@@ -1,7 +1,7 @@
 {
   "ok": false,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782448881924",
+  "runKey": "phase-20-final-1782449805576",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -748,7 +748,9 @@
     ],
     "nextActions": [
       "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
-      "Expected command after approval: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
+      "Safe local planning command: npm run rag:evaluate:missing-plan",
+      "If only coverage is stale, the lower-cost approved command is: npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard",
+      "Expected full command after approval when quality drift is suspected: npm run rag:evaluate && npm run discord:smoke-final-scorecard",
       "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
     ]
   },
@@ -756,6 +758,6 @@
     "release_gate:rag_eval_latest",
     "release_gate:rag_eval_coverage_readiness"
   ],
-  "startedAt": "2026-06-26T04:41:21.924Z",
-  "finishedAt": "2026-06-26T04:41:23.420Z"
+  "startedAt": "2026-06-26T04:56:45.576Z",
+  "finishedAt": "2026-06-26T04:56:47.301Z"
 }

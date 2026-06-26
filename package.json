@@ -124,6 +124,8 @@
     "rag:validate-eval-seeds": "tsx scripts/rag/validate-eval-seeds.ts",
     "rag:evaluate:seed-dry-run": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --seed-only --dry-run",
     "rag:evaluate:coverage-readiness": "tsx scripts/rag/write-eval-coverage-readiness.ts",
+    "rag:evaluate:missing-plan": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest --dry-run --plan-only",
+    "rag:evaluate:missing": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --missing-from-latest --merge-latest",
     "rag:evaluate": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts",
     "rag:evaluate:smoke": "tsx --env-file=.env.local scripts/rag/evaluate-rag.ts --smoke",
     "seo:baseline": "node scripts/seo/baseline.mjs",

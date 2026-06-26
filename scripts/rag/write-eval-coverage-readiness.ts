@@ -72,7 +72,9 @@ async function main() {
       ? ['No eval coverage action needed before the next scorecard run.']
       : [
         'Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.',
-        'Expected command after approval: npm run rag:evaluate && npm run discord:smoke-final-scorecard',
+        'Safe local planning command: npm run rag:evaluate:missing-plan',
+        'If only coverage is stale, the lower-cost approved command is: npm run rag:evaluate:missing && npm run discord:smoke-final-scorecard',
+        'Expected full command after approval when quality drift is suspected: npm run rag:evaluate && npm run discord:smoke-final-scorecard',
         'Keep dry-run release gates blocked until eval-latest covers every seeded eval question.',
       ],
     startedAt,

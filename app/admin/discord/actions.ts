@@ -38,13 +38,13 @@ export async function approveDiscordApplication(formData: FormData) {
   });
   if (!result.ok) throw new Error(`Could not approve application: ${result.reason ?? 'unknown error'}`);
 
-	  await approveDiscordMember({
-	    discordUserId,
-	    username: result.application?.username ?? username,
-	    reviewer: profile.email,
-	    commandName: 'admin_dashboard',
-	    application: result.application ?? null,
-	  });
+  await approveDiscordMember({
+    discordUserId,
+    username: result.application?.username ?? username,
+    reviewer: profile.email,
+    commandName: 'admin_dashboard',
+    application: result.application ?? null,
+  });
   revalidatePath('/admin/discord');
 }
 
@@ -95,10 +95,10 @@ export async function updateDiscordContentQueueStatus(formData: FormData) {
     .eq('id', id);
   if (error) throw new Error(error.message);
 
-	await recordDiscordEvent({
-	  eventType: 'content_queue_status_updated',
-	  commandName: 'admin_dashboard',
-	  channelBaseName: 'questions',
+  await recordDiscordEvent({
+    eventType: 'content_queue_status_updated',
+    commandName: 'admin_dashboard',
+    channelBaseName: 'content-queue',
     metadata: { id, status, reviewer: profile.email },
   });
   revalidatePath('/admin/discord');

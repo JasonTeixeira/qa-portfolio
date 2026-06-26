@@ -871,6 +871,8 @@ test('discord content approval: normalizes drafts and admin review wiring exists
     qualityScore: 90,
     metadata: { policy_passed: false },
   }), /policy gate/);
+  assert.doesNotMatch(actions, /\t/);
+  assert.match(actions, /eventType: 'content_queue_status_updated'[\s\S]*channelBaseName: 'content-queue'/);
   assert.match(actions, /reviewDiscordContentDraftAction/);
   assert.match(page, /AI content approval/);
   assert.match(page, /reviewDiscordContentDraftAction/);

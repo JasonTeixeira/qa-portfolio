@@ -9,6 +9,7 @@ import { updateFriendStreaks } from '@/lib/academy/community'
 import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 import { reconcileBadges } from '@/lib/academy/badges'
 import { awardDailyBonusIfEarned } from '@/lib/academy/quests'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -86,6 +87,10 @@ export async function markLessonComplete(
     } catch (err) {
       console.error('[academy/progress] evidence record failed', err)
     }
+
+    // STAGE 2 instrumentation (best-effort, never throws/blocks): one lesson_completed
+    // per FIRST completion. userId is the authenticated session id; props are PII-free.
+    await emitAcademyEvent(user.id, 'lesson_completed', { courseSlug, lessonSlug })
   }
 
   revalidatePath('/academy/preview')

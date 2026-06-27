@@ -102,3 +102,41 @@ function round2(n: number): number {
 function round3(n: number): number {
   return Math.round(n * 1000) / 1000
 }
+
+// ===========================================================================
+// STAGE 2 instrumentation-spine derivations (pure). These operate on the
+// academy_events metric tree (0112), NOT the evidence ledger above. Kept here
+// so all measurement math lives in one unit-testable, DB-free module.
+// ===========================================================================
+
+/**
+ * Retention rate = returned / cohortSize, rounded to 3 dp.
+ * Returns null when the cohort is empty (no entrants → no meaningful ratio,
+ * never a divide-by-zero). `returned` is clamped to [0, cohortSize] so a bad
+ * upstream count can never push the rate above 1 or below 0.
+ */
+export function retentionRate(returned: number, cohortSize: number): number | null {
+  if (cohortSize <= 0) return null
+  const clamped = Math.min(Math.max(returned, 0), cohortSize)
+  return round3(clamped / cohortSize)
+}
+
+/** A whole-minutes duration rendered as a human "Xm" / "Xh Ym" / "Xd Yh" string. */
+export function minutesToHuman(minutes: number | null): string {
+  if (minutes === null || !Number.isFinite(minutes) || minutes < 0) return '—'
+  const total = Math.round(minutes)
+  if (total < 60) return `${total}m`
+  const hours = Math.floor(total / 60)
+  const mins = total % 60
+  if (hours < 24) return mins === 0 ? `${hours}h` : `${hours}h ${mins}m`
+  const days = Math.floor(hours / 24)
+  const remHours = hours % 24
+  return remHours === 0 ? `${days}d` : `${days}d ${remHours}h`
+}
+
+/** Activation rate = activated / signups (e.g. share of signups that hit first_win). Null on empty. */
+export function activationRate(activated: number, signups: number): number | null {
+  if (signups <= 0) return null
+  const clamped = Math.min(Math.max(activated, 0), signups)
+  return round3(clamped / signups)
+}

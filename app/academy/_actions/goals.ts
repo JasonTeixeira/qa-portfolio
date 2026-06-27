@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { GOAL_CATALOG } from '@/lib/academy/goal-logic'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 export type SetGoalResult = { ok: true } | { ok: false; error: string }
 
@@ -38,6 +39,9 @@ export async function setLearnerGoal(goalKey: string, targetDate?: string): Prom
     console.error('[academy/goals] setLearnerGoal upsert failed', error)
     return { ok: false, error: 'Could not save your goal. Try again.' }
   }
+
+  // STAGE 2 instrumentation (best-effort): one goal_set per saved goal. goalKey is an enum.
+  await emitAcademyEvent(user.id, 'goal_set', { goalKey })
 
   revalidatePath('/academy/dashboard')
   revalidatePath('/academy/onboarding')

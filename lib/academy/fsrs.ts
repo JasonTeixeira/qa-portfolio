@@ -3,6 +3,7 @@ import { fsrs, generatorParameters, createEmptyCard, Rating, type Card, type Gra
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { recordActivityAndAward, pickCelebration, type Celebration } from '@/lib/academy/gamification'
 import { awardDailyBonusIfEarned } from '@/lib/academy/quests'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 /**
  * FSRS spaced-repetition engine (Phase 1, dim 5). Content-agnostic scaffold: a
@@ -152,5 +153,7 @@ export async function gradeReview(
   } catch (err) {
     console.error('[academy/fsrs] review award failed', err)
   }
+  // STAGE 2 instrumentation (best-effort): one review_completed per real graded review.
+  await emitAcademyEvent(userId, 'review_completed', { grade })
   return { ok: true, celebration, nextDueAt: card.due.toISOString(), streak }
 }

@@ -9466,6 +9466,18 @@ test('first-win: win is genuine only when a lesson was really started (S1.2)', a
   assert.equal(buildFirstWinSummary('job-ready', { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false }, target).won, false);
 });
 
+test('metrics-logic: retention/activation rates + human time (Stage 2)', async () => {
+  const { retentionRate, activationRate, minutesToHuman } = await import('../../lib/academy/metrics-logic.ts');
+  assert.equal(retentionRate(3, 12), 0.25);
+  assert.equal(retentionRate(5, 0), null); // empty cohort → no divide-by-zero
+  assert.equal(retentionRate(20, 12), 1); // clamped: returned can't exceed cohort
+  assert.equal(activationRate(40, 100), 0.4);
+  assert.equal(activationRate(0, 0), null);
+  assert.equal(minutesToHuman(45), '45m');
+  assert.equal(minutesToHuman(150), '2h 30m');
+  assert.equal(minutesToHuman(null), '—'); // honest non-value, never imputed
+});
+
 test('tutor-logic: cross-session memory opener + bounded derive (S1.1)', async () => {
   const { normalizeTutorMemory, hasTutorMemory, renderMemoryForPrompt, buildProactiveOpener, deriveNextMemory, buildTutorMessages } = await import('../../lib/academy/tutor-logic.ts');
   // cold start: empty memory → generic opener, no injected block

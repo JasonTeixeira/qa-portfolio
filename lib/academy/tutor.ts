@@ -15,6 +15,7 @@ import { getCatalogCourses, getCourse, getLesson } from '@/lib/academy/content'
 import { retrieveAcademyKb, type AcademyKbChunk } from '@/lib/academy/kb'
 import { deepSeekChat, deepSeekChatStream } from '@/lib/rag/deepseek'
 import { supabaseAdmin } from '@/lib/supabase/server'
+import { emitAcademyEvent } from '@/lib/academy/events'
 import type { LessonBlock } from '@/data/academy/sample-course'
 
 /**
@@ -344,6 +345,8 @@ export async function askTutor(input: AskTutorInput, userId: string): Promise<As
       console.error('[academy/tutor] askTutor memory persist failed', err)
     }
 
+    // STAGE 2 instrumentation (best-effort): one tutor_turn after a successful reply. No message text.
+    await emitAcademyEvent(userId, 'tutor_turn', { streamed: false })
     return { available: true, reply }
   } catch (err) {
     console.error('[academy/tutor] askTutor failed', err)
@@ -619,5 +622,7 @@ export async function* askTutorStream(
     console.error('[academy/tutor] askTutorStream memory persist failed', err)
   }
 
+  // STAGE 2 instrumentation (best-effort): one tutor_turn after a successful streamed reply.
+  await emitAcademyEvent(userId, 'tutor_turn', { streamed: true })
   yield { type: 'done', available: true, reply }
 }

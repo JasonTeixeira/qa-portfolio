@@ -9,6 +9,7 @@ import {
   type BadgeStats,
   type EarnedBadge,
 } from '@/lib/academy/badges-logic'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 // Re-export the pure surface so server importers have a single entry point.
 export { BADGE_CATALOG, earnedBadgeKeys, getBadge } from '@/lib/academy/badges-logic'
@@ -97,6 +98,8 @@ export async function reconcileBadges(userId: string): Promise<string[]> {
       console.error('[academy/badges] reconcileBadges insert failed', error)
       return []
     }
+    // STAGE 2 instrumentation (best-effort): one badge_earned per newly-awarded badge.
+    for (const badgeKey of newKeys) await emitAcademyEvent(userId, 'badge_earned', { badgeKey })
     return newKeys
   } catch (err) {
     console.error('[academy/badges] reconcileBadges failed', err)

@@ -6,6 +6,7 @@ import {
   firstWinHref,
   type FirstWinSummary,
 } from '@/lib/academy/first-win-logic'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 /**
  * Onboarding (Phase 1, dim 2) — the "understand the game" first run. Stores the
@@ -171,5 +172,7 @@ export async function recordFirstWin(userId: string): Promise<FirstWinResult> {
     lessonSlug: target.lessonSlug,
     href: target.href,
   })
+  // STAGE 2 instrumentation (best-effort): one first_win when the win is genuinely recorded.
+  await emitAcademyEvent(userId, 'first_win', { courseSlug: target.courseSlug, lessonSlug: target.lessonSlug })
   return { kind: 'won', summary }
 }

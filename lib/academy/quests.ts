@@ -11,6 +11,7 @@ import {
   type QuestActivity,
   type QuestProgress,
 } from '@/lib/academy/quest-logic'
+import { emitAcademyEvent } from '@/lib/academy/events'
 
 // Re-export the pure surface so server importers have one entry point.
 export {
@@ -177,5 +178,7 @@ export async function awardDailyBonusIfEarned(userId: string): Promise<number> {
   }
   if (!inserted) return 0 // already claimed today
   await awardBonusXp(userId, state.rewardXp)
+  // STAGE 2 instrumentation (best-effort): one bonus_claimed when a bonus is actually credited.
+  await emitAcademyEvent(userId, 'bonus_claimed', { awardedXp: state.rewardXp, bonusKind: spec.kind })
   return state.rewardXp
 }

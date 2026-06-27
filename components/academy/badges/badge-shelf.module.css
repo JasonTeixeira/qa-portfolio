@@ -76,8 +76,10 @@
   transform: translateY(-2px);
   border-color: var(--ac-accent, #3d6bff);
 }
-.locked {
-  opacity: 0.55;
+/* Dim the locked state via the ICON + surface — NOT a card-wide opacity, which
+   drags the (blurred) label text below AA contrast (axe: 2.47:1). */
+.locked .icon {
+  opacity: 0.5;
 }
 
 .icon {

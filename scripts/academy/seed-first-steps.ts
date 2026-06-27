@@ -452,6 +452,452 @@ print(a + b)     # meant to add -> prints "23", not 5`,
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
+// ================================================================= LESSON 4
+// "Booleans & Decisions" — True/False, comparisons, and/or/not, if/elif/else.
+// New idea vs L3: a program can CHOOSE a path. Until now every line ran. Now a
+// block runs only when a condition is True. Uses ONLY variables, numbers,
+// strings, print (all taught). Introduces booleans + if/elif/else here for the
+// first time. Still NO loops, NO lists, NO functions.
+const BOOLEANS_LAB_STARTER = `# A score is stored for you below.
+# Print EXACTLY ONE line, decided by the score:
+#   score >= 90            -> print  Grade: A
+#   score >= 70 (but < 90) -> print  Grade: B
+#   anything below 70      -> print  Grade: C
+# Use if / elif / else. Do NOT print more than one line.
+
+score = 84
+  # your code here
+`
+
+const booleansBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Make your program CHOOSE: compare values to get a True/False answer, combine conditions with and/or/not, and run different code with if / elif / else so the program reacts instead of always doing the same thing.',
+    intensity: 'standard',
+    time: '30–40 min',
+    proof: 'A program that prints ONE of several exact lines depending on a value — change the value, and a different (correct) branch runs.',
+    unlock: 'Your program prints exactly the right line for the value it is given, via if / elif / else.',
+    doNotClaim:
+      "Don't claim you \"understand if\" until you've run the SAME program with two different values and watched it take two different branches — one correct line each time.",
+  },
+  {
+    type: 'mission',
+    text: 'So far every line of your program runs, every time, no matter what. But real programs decide: pass or fail, in stock or sold out, logged in or kicked out. Today you give your program a fork in the road — it looks at a value, answers a yes/no question, and runs different code depending on the answer. This is the moment your code stops reciting and starts reacting.',
+  },
+  {
+    type: 'context',
+    text: 'Every app you have ever used is built on decisions: show this if the password matches, charge less if there is a discount, warn the user if the field is empty. The whole skill is: turn a question into a True/False value, then branch on it. Get comfortable with if / elif / else now and every later topic — loops, validation, game logic — is just decisions repeated and combined.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: you write  if age >= 18:  and age is 18. Does the line inside the if run — and is  age >= 18  asking a question or storing a value?',
+    reveal:
+      'It runs. age >= 18 is a question — "is age at least 18?" — and it answers with a boolean: True or False. Here 18 >= 18 is True, so the indented block runs. Note >= uses two characters and includes "equal to", so 18 counts. A comparison does NOT store anything; it produces a True/False answer that if then acts on. That answer — that yes/no value — is the whole idea today.',
+  },
+  {
+    type: 'concept',
+    title: 'Comparisons make booleans; if / elif / else branch on them',
+    text: 'A boolean is a value that is either True or False — the answer to a yes/no question. You make one by comparing: == (equal to), != (not equal), < (less than), > (greater than), <= (at most), >= (at least). Watch the trap: == asks "are these equal?", while a single = stores a value — never mix them. Combine conditions with and (both must be True), or (at least one True), and not (flips True↔False). Then if runs its indented block only when its condition is True; elif ("else if") checks the next condition only if the ones above were False; else runs when none matched. Python checks them top to bottom and takes the FIRST branch that is True — so order matters.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Watch one value pick exactly one branch. Read it top to bottom, the way Python does:',
+    language: 'python',
+    code: `temp = 50
+
+if temp > 85:
+    print("Hot")          # skipped: 50 > 85 is False
+elif temp >= 60:
+    print("Comfortable")  # skipped: 50 >= 60 is False
+else:
+    print("Cold")         # runs: nothing above matched -> Cold`,
+    steps: [
+      'temp is 50.',
+      'Python checks the if first: temp > 85 → 50 > 85 → False, so that block is skipped.',
+      'It checks the elif: temp >= 60 → 50 >= 60 → False, so that block is skipped too.',
+      'Nothing matched, so the else block runs and prints Cold.',
+      'Exactly ONE branch runs — the first True one, or else if none are True. Change temp to 90 and the very first branch wins instead.',
+    ],
+    commonMistake:
+      'Using a single = in a condition, like  if temp = 50:  — that is a store, not a question, and Python errors. To COMPARE you need ==:  if temp == 50:. One equals stores, two equals asks.',
+  },
+  {
+    type: 'code',
+    filename: 'decide.py',
+    language: 'python',
+    code: `age = 20
+has_ticket = True
+
+# "and" needs BOTH sides True; this is True only for a ticketed adult.
+if age >= 18 and has_ticket:
+    print("Enjoy the show")
+else:
+    print("Entry denied")     # -> for age 20 with a ticket, prints "Enjoy the show"`,
+    // Two conditions joined with and: the block runs only when both are True.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'The colon and the indentation are not decoration — they ARE the branch. Every if / elif / else line ends with a colon, and the lines that belong to it are indented underneath (4 spaces). Python uses that indentation to know what is "inside" the branch. Lose the colon or the indent and the program breaks or branches wrong.',
+  },
+  {
+    type: 'lab',
+    title: 'Grade the score',
+    summary:
+      'A variable score is set to 84. Print EXACTLY ONE line: Grade: A if score is 90 or above, Grade: B if it is 70 to 89, and Grade: C if it is below 70. Use if / elif / else so only one line prints. For score = 84 the correct output is the single line: Grade: B.',
+    language: 'python',
+    starter: BOOLEANS_LAB_STARTER,
+    check: 'Grade: B',
+  },
+  {
+    type: 'debug',
+    symptom: 'This should print Adult for age 20, but it prints nothing — or errors — instead.',
+    language: 'python',
+    brokenCode: `age = 20
+if age = 18:
+    print("Adult")`,
+    task: 'Find why this if does not work.',
+    fix: 'The condition uses a single =, which means "store 18 into age" — but you cannot store inside an if, so Python errors. A condition must ASK a question, which needs a comparison. Here you want "is age at least 18?", so write  if age >= 18:. (A single == would test "exactly 18"; >= is the right test for "adult".) Now the block runs and prints Adult.',
+  },
+  {
+    type: 'quiz',
+    question: 'With  x = 5, what does this print?  if x > 10: print("big")  elif x > 3: print("medium")  else: print("small")',
+    options: [
+      'big — the first branch always runs',
+      'medium — x > 10 is False, but x > 3 is True, and it is the first True branch',
+      'small — none of the conditions are True',
+      'medium and small — every matching branch runs',
+    ],
+    answer: 1,
+    explanation:
+      'Python checks top to bottom and runs the FIRST branch whose condition is True. x > 10 is False (5 is not over 10), x > 3 is True (5 is over 3), so it prints medium and stops — the else is never reached. Only one branch ever runs.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'You used a comparison (==, !=, <, >, <=, or >=) to produce a True/False answer',
+      'You wrote if / elif / else with a colon on each line and the body indented underneath',
+      'Your program printed EXACTLY one line for the given value (Grade: B for score 84)',
+      'You changed the value at least once, re-ran, and watched a DIFFERENT correct branch run',
+      'You can explain why == (compare) is not the same as = (store)',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'In one sentence, what is a boolean?',
+      'What is the difference between = and == , and what happens if you use = in a condition?',
+      'When Python has an if, an elif, and an else, how does it decide which block runs?',
+      'What do and / or / not each do to True/False values?',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'In the lab, model a real rule from your life as a decision: a budget check (print "Over budget" or "OK"), a sign-in check (right name AND right code with and), or a weather call. Set the input value, run it, then change the value so a different branch wins. Making a program react to its input is the core of every interactive thing you will ever build.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
+// ================================================================= LESSON 5
+// "Lists: Hold Many Values at Once" — create, index [0], len(), append(),
+// membership (in). New idea vs L4: one name can hold MANY values in order. Uses
+// variables/numbers/strings/print/if (all taught). Indexing + a method call are
+// introduced, but NO loops (next lesson) and NO functions yet.
+const LISTS_LAB_STARTER = `# Below is a list of three cart items.
+# 1. Add  "eggs"  to the END of the list (use .append).
+# 2. Print the FIRST item in the list (index 0).
+# 3. Print how many items are in the list now (use len()).
+# Expected output, two lines:
+#   milk
+#   4
+
+cart = ["milk", "bread", "apples"]
+  # your code here
+`
+
+const listsBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Hold many values under one name with a list: create one, read an item by its position, measure it with len(), add to it with append(), and ask whether something is in it.',
+    intensity: 'standard',
+    time: '30–40 min',
+    proof: 'A program that builds or modifies a list and prints a required value from it (a specific item and the list’s length).',
+    unlock: 'Your list contains the right items and your program prints the correct value(s) from it.',
+    doNotClaim:
+      "Don't claim you \"know lists\" until you've read an item by its index AND changed the list’s length with append, then printed both — not just typed a list literal.",
+  },
+  {
+    type: 'mission',
+    text: 'Every value so far lived in its own variable — fine for one score, hopeless for fifty. You do not want score1, score2, score3 … forever. A list lets one name hold a whole sequence of values in order, so you can grow it, read any slot, and count it. This is the container almost every real program is built around.',
+  },
+  {
+    type: 'context',
+    text: 'A todo app holds a list of tasks; a cart holds a list of items; a chart holds a list of numbers. Lists are how programs handle "many of something" — and next lesson, loops will let you do something to every item at once. Master "store many under one name, reach any one by position, add more" today, and loops become almost free.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: you have  fruits = ["apple", "banana", "cherry"]. Which one does  fruits[0]  give you — and why might that surprise you?',
+    reveal:
+      'fruits[0] is "apple" — the FIRST item. Positions (indexes) start at 0, not 1: index 0 is the first, 1 is the second, 2 is the third. So the last item of a 3-item list is at index 2, not 3. Counting from zero trips up every beginner once; after that it is automatic. The number in the [ ] is "how many steps from the start", and the start is zero steps away.',
+  },
+  {
+    type: 'concept',
+    title: 'A list holds many values in order, reachable by index',
+    text: 'A list is an ordered collection of values written in square brackets, separated by commas: scores = [90, 75, 88]. The values keep their order. Reach any one by its index in square brackets — and indexes start at 0, so scores[0] is 90 and scores[2] is 88. Ask how many items there are with len(scores). Add a new item to the end with scores.append(100) — note the dot: append is something the list does to itself, and it changes the list in place (it does not return a new one). Ask whether a value is present with the word in: 75 in scores is True. Lists can hold numbers, strings, anything — and you can mix them.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Build a list, read it, measure it, grow it. Watch the length change:',
+    language: 'python',
+    code: `names = ["Ann", "Ben"]   # a list of two strings, in order
+print(names[0])          # index 0 = the first item -> Ann
+print(len(names))        # how many items -> 2
+
+names.append("Cy")       # add "Cy" to the END (changes names in place)
+print(len(names))        # the list grew -> 3
+print(names[2])          # the new last item is at index 2 -> Cy`,
+    steps: [
+      'names starts with two items: "Ann" at index 0, "Ben" at index 1.',
+      'names[0] reads the item at position 0 → "Ann".',
+      'len(names) counts the items → 2.',
+      'names.append("Cy") adds "Cy" to the end; the list is now ["Ann", "Ben", "Cy"].',
+      'len(names) is now 3, and names[2] (the new last slot) is "Cy".',
+    ],
+    commonMistake:
+      'Reaching past the end, like names[3] on a 3-item list. The valid indexes are 0, 1, 2 — index 3 does not exist, so Python errors with "list index out of range". The last valid index is always len(list) - 1, because counting starts at 0.',
+  },
+  {
+    type: 'code',
+    filename: 'lists.py',
+    language: 'python',
+    code: `cart = ["milk", "bread"]
+cart.append("eggs")          # cart is now ["milk", "bread", "eggs"]
+
+print(cart[0])               # first item -> milk
+print(len(cart))             # how many items -> 3
+
+if "eggs" in cart:           # membership: is "eggs" somewhere in the list?
+    print("Got the eggs")    # -> Got the eggs`,
+    // .append grows the list; [0] reads by position; len() counts; "in" tests membership.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'Indexes start at 0, so the last item is at len(list) - 1, never len(list). If a list has 5 items, the valid indexes are 0 through 4 — asking for [5] errors. When you want "the last one", a clean trick is list[-1]: negative indexes count from the end, so [-1] is always the final item no matter how long the list is.',
+  },
+  {
+    type: 'lab',
+    title: 'Grow a cart and read it',
+    summary:
+      'Start with cart = ["milk", "bread", "apples"]. Append "eggs" to the end with cart.append("eggs"), then print the first item with cart[0], then print the number of items with len(cart). The output must be exactly two lines: milk on the first line, then 4 on the second (the list has 4 items after the append).',
+    language: 'python',
+    starter: LISTS_LAB_STARTER,
+    check: 'milk\n4',
+  },
+  {
+    type: 'debug',
+    symptom: 'This should print the last color, "green", but it errors with "list index out of range".',
+    language: 'python',
+    brokenCode: `colors = ["red", "blue", "green"]
+print(colors[3])     # meant to print the last one`,
+    task: 'Find why index 3 fails on this list.',
+    fix: 'The list has 3 items, so the valid indexes are 0, 1, and 2 — there is no index 3. Because counting starts at 0, the LAST item lives at len(list) - 1, which is 2 here. Use  print(colors[2])  to get "green" — or, more robust, print(colors[-1]), which always grabs the final item.',
+  },
+  {
+    type: 'quiz',
+    question: 'After  nums = [10, 20]  then  nums.append(30), what do  len(nums)  and  nums[1]  give?',
+    options: [
+      'len is 2 and nums[1] is 30 — append replaced an item',
+      'len is 3 and nums[1] is 20 — append added to the end, the middle item is unchanged',
+      'len is 3 and nums[1] is 30 — append inserts at the front',
+      'Error — you can\'t append to a list that already has items',
+    ],
+    answer: 1,
+    explanation:
+      'append always adds to the END, so nums becomes [10, 20, 30]: length 3, with 30 at index 2. nums[1] is still 20 — appending does not disturb the existing items or their positions. The new value lands in the new last slot.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'You created a list with square brackets and comma-separated values',
+      'You read an item by its index, remembering that the first item is [0]',
+      'You used len() to count the items',
+      'You used .append() to add an item and saw the length increase',
+      'Your output is exactly two lines: milk then 4',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'In one sentence, what is a list and why is it better than ten separate variables?',
+      'Why is the first item at index 0, and what index holds the last item of a 4-item list?',
+      'What does .append() do, and where does the new item go?',
+      'How would you check whether "milk" is somewhere in a list?',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'In the lab, build a list that means something to you — songs, tasks, weekly expenses. Print the first one with [0] and the last one with [-1], count them with len(), then append a new one and print the count again. You have just done the create → read → measure → grow cycle that sits under every list-backed feature you will build.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
+// ================================================================= LESSON 6
+// "Loops: Do Something for Every Item" — for item in list, for i in range(n),
+// accumulating into a variable. New idea vs L5: REPEAT an action across a
+// sequence without copy-paste. Lists had to come first (they did). Uses
+// variables/numbers/if/lists (all taught). Still NO functions.
+const LOOPS_LAB_STARTER = `# Below is a list of prices.
+# Add them all up and print the TOTAL on its own line.
+# Use a running-total variable that starts at 0, then a for-loop
+# that adds each price to it. Do NOT type the answer in by hand.
+# Expected output (one line):
+#   60
+
+prices = [10, 25, 5, 20]
+total = 0
+  # your code here
+`
+
+const loopsBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Do something to every item in a sequence without copy-paste: loop over a list with for, repeat an action a fixed number of times with range(), and build up a result (a total or a count) in a variable as you go.',
+    intensity: 'standard',
+    time: '35–45 min',
+    proof: 'A program that loops over a list and prints a single computed result — a total or a count — that is only correct if the loop actually ran over every item.',
+    unlock: 'Your loop visits every item and your program prints the correct accumulated result.',
+    doNotClaim:
+      "Don't claim you \"understand loops\" until your program has built a running total or count across a list and printed the right answer — adding a list by hand is not looping.",
+  },
+  {
+    type: 'mission',
+    text: 'You can store a hundred values in a list — but printing or adding them one line at a time would be misery, and would break the moment the list changed size. A loop says "do this for every item" once, and it works whether the list has 3 items or 3,000. This is the instruction that turns a list from a pile of data into something you can actually process.',
+  },
+  {
+    type: 'context',
+    text: 'Looping is how every real program handles "for each": total every line of a receipt, send each user an email, check each answer on a quiz, draw each enemy on screen. Combine a loop with the if from earlier and you can count, filter, and decide across a whole dataset. Almost every program you will ever write has a loop near its heart.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: you want to add up [10, 20, 30]. You write  total = 0  before a loop that does  total = total + price  for each price. Why does total have to start at 0 BEFORE the loop, not inside it?',
+    reveal:
+      'Because the loop body runs once per item, and you want to keep adding onto the same running total. If total = 0 were inside the loop, it would reset to 0 on every pass and wipe out your progress — you would end with just the last value. Setting it to 0 once, before the loop, gives you an empty bucket; each pass pours one more value in. Start outside, accumulate inside.',
+  },
+  {
+    type: 'concept',
+    title: 'A for-loop repeats a block once per item',
+    text: 'A for-loop runs its indented block once for each item in a sequence. Write  for price in prices:  — on each pass, the loop variable (price) is set to the next item of the list, and the indented body runs with that value. To repeat a fixed number of times instead, loop over range(n): for i in range(5): runs 5 times with i going 0, 1, 2, 3, 4. The most useful pattern is accumulation: create a result variable BEFORE the loop (total = 0 or count = 0), then update it INSIDE the loop (total = total + price). When the loop finishes, the variable holds the answer built across every item. Like if, the colon and the indentation mark what is "inside" the loop.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Add up a list with a running total. Watch total grow on each pass:',
+    language: 'python',
+    code: `nums = [4, 6, 10]
+total = 0                # the bucket, created ONCE before the loop
+
+for n in nums:           # n becomes 4, then 6, then 10
+    total = total + n    # add the current item onto the running total
+
+print(total)             # after all passes -> 20`,
+    steps: [
+      'total starts at 0 before the loop — the empty bucket.',
+      'Pass 1: n is 4, total = 0 + 4 → 4.',
+      'Pass 2: n is 6, total = 4 + 6 → 10.',
+      'Pass 3: n is 10, total = 10 + 10 → 20.',
+      'The loop ends; print(total) shows 20 — the sum built one item at a time.',
+    ],
+    commonMistake:
+      'Putting  total = 0  INSIDE the loop. Then it resets to 0 every pass, and you end up with only the last item (10 here) instead of the sum. The accumulator must be created once, BEFORE the loop, and only updated inside.',
+  },
+  {
+    type: 'code',
+    filename: 'loops.py',
+    language: 'python',
+    code: `scores = [55, 80, 42, 91]
+passes = 0                   # counter starts at 0, before the loop
+
+for score in scores:
+    if score >= 60:          # a loop and an if working together
+        passes = passes + 1  # count only the scores that pass
+
+print(passes)                # how many scores were 60+ -> 2`,
+    // Loop over the list, use if to test each item, count the matches in a variable.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'Reach for  for item in list  when you want each VALUE, and  for i in range(n)  when you want to do something a set number of times or need the position number. Beginners often default to range() with indexing (for i in range(len(list)): ... list[i]) — it works, but "for item in list" is cleaner and reads like English. Use indexes only when you actually need the index.',
+  },
+  {
+    type: 'lab',
+    title: 'Total the prices',
+    summary:
+      'You are given prices = [10, 25, 5, 20] and total = 0. Write a for-loop that adds each price to total, then print total on its own line. The output must be the single line 60 (10 + 25 + 5 + 20). The total must be computed by the loop — do not just print 60.',
+    language: 'python',
+    starter: LOOPS_LAB_STARTER,
+    check: '60',
+  },
+  {
+    type: 'debug',
+    symptom: 'This should add [5, 5, 5] to get 15, but it prints 5.',
+    language: 'python',
+    brokenCode: `nums = [5, 5, 5]
+for n in nums:
+    total = 0            # meant to total the list
+    total = total + n
+print(total)             # prints 5, not 15`,
+    task: 'Find why only the last number survives.',
+    fix: 'total = 0 is INSIDE the loop, so it resets to 0 on every pass — wiping out everything added before. Each pass becomes 0 + n, so you keep only the last item. Move  total = 0  ABOVE the loop (run it once), and leave only  total = total + n  inside. Now total accumulates: 5 → 10 → 15.',
+  },
+  {
+    type: 'quiz',
+    question: 'How many times does the body run, and what is the last value of i, in:  for i in range(3): print(i)',
+    options: [
+      '3 times, with i ending at 3',
+      '3 times, printing 0, 1, 2 — range(3) gives 0 up to but not including 3',
+      '4 times, printing 0, 1, 2, 3',
+      '1 time, because range(3) is a single value',
+    ],
+    answer: 1,
+    explanation:
+      'range(3) produces 0, 1, 2 — it starts at 0 and stops BEFORE 3, so the body runs 3 times and the last i is 2. "Up to but not including the number" is how range works, which also means range(len(list)) lines up perfectly with the list’s valid indexes.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'You wrote a for-loop with a colon and an indented body',
+      'You created your accumulator (total = 0) BEFORE the loop, not inside it',
+      'You updated the accumulator inside the loop (total = total + price)',
+      'Your output is the single line 60, computed by the loop (not typed in)',
+      'You can explain why the accumulator resets if you put it inside the loop',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'In one sentence, what does a for-loop do?',
+      'What is the difference between  for item in list  and  for i in range(n)?',
+      'Why must a running total be set to 0 before the loop instead of inside it?',
+      'How would you count how many items in a list pass a test (combine a loop with an if)?',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'In the lab, take a list that matters to you — daily steps, expenses, quiz scores — and use a loop to compute something real: the total, the average (total divided by len), or a count of items over a threshold using an if inside the loop. The "set up an accumulator, loop, update it, print the result" pattern is one of the most reused moves in all of programming.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
 // ================================================================= apply
 async function main() {
   if (!shouldApply) {
@@ -467,6 +913,9 @@ async function main() {
             { slug: 'your-first-program', sort: 0, blocks: firstProgramBlocks.length },
             { slug: 'variables-and-values', sort: 1, blocks: variablesBlocks.length },
             { slug: 'numbers-and-strings', sort: 2, blocks: numbersStringsBlocks.length },
+            { slug: 'booleans-and-logic', sort: 3, blocks: booleansBlocks.length },
+            { slug: 'lists', sort: 4, blocks: listsBlocks.length },
+            { slug: 'loops', sort: 5, blocks: loopsBlocks.length },
           ],
           relabel: {
             from: `${OLD_FOUNDATIONS_MODULE} (module_sort 0)`,
@@ -546,6 +995,36 @@ async function main() {
       is_free_preview: false,
       intensity: 'standard',
       blocks: numbersStringsBlocks,
+    },
+    {
+      slug: 'booleans-and-logic',
+      title: 'Booleans & Decisions: Make the Program Choose',
+      eyebrow: 'Module 1 · Lesson 4 · 35 min',
+      sort: 3,
+      est_minutes: 35,
+      is_free_preview: false,
+      intensity: 'standard',
+      blocks: booleansBlocks,
+    },
+    {
+      slug: 'lists',
+      title: 'Lists: Hold Many Values at Once',
+      eyebrow: 'Module 1 · Lesson 5 · 35 min',
+      sort: 4,
+      est_minutes: 35,
+      is_free_preview: false,
+      intensity: 'standard',
+      blocks: listsBlocks,
+    },
+    {
+      slug: 'loops',
+      title: 'Loops: Do Something for Every Item',
+      eyebrow: 'Module 1 · Lesson 6 · 40 min',
+      sort: 5,
+      est_minutes: 40,
+      is_free_preview: false,
+      intensity: 'standard',
+      blocks: loopsBlocks,
     },
   ]
 

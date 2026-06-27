@@ -45,12 +45,12 @@
   background: var(--ac-surface, rgba(255, 255, 255, 0.02));
   box-shadow: var(--ac-shadow);
 }
-.stat { padding: 1.05rem 1.3rem; display: flex; flex-direction: column; gap: 0.3rem; border-left: 1px solid var(--ac-rule, var(--line)); }
+.stat { padding: 0.8rem 1.3rem; display: flex; flex-direction: row; align-items: baseline; gap: 0.55rem; border-left: 1px solid var(--ac-rule, var(--line)); }
 .stat:first-child { border-left: none; }
-.stat dt { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.9rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; color: var(--ink); }
+.stat dt { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; color: var(--ink); }
 /* zero values read quieter than real ones */
 .stat[data-zero='true'] dt { color: var(--muted); }
-.stat dd { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.stat dd { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); line-height: 1.2; }
 .statLive dt { color: var(--ac-accent-text); }
 
 /* habit panel — Today: daily goal, streak, level */
@@ -120,11 +120,13 @@
 .sectionLink { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); text-decoration: none; }
 .sectionLink:hover { color: var(--ink); }
 .h2 { margin: 0 0 1.2rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
-/* designed empty state — hairline-ringed glyph + serif line + helper + CTA */
+/* designed empty state — short composed band: glyph rail beside copy, CTA at the
+   end. Reads as a deliberate prompt strip, not a tall dead rectangle. */
 .empty {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem;
-  padding: 2rem 1.8rem;
-  border: 1px solid var(--ac-rule, var(--line)); border-radius: 16px;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  column-gap: 1.2rem; row-gap: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid var(--ac-rule, var(--line)); border-radius: 14px;
   background: var(--ac-surface, rgba(255, 255, 255, 0.02));
 }
 .emptyGlyph {
@@ -133,10 +135,11 @@
   background: var(--ac-surface-2, rgba(255, 255, 255, 0.015));
   font-size: 1.3rem; color: var(--ac-accent-text);
 }
+.emptyBody { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
 .emptyTitle { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.01em; color: var(--ink); }
-.emptyHelp { margin: 0; max-width: 46ch; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+.emptyHelp { margin: 0; max-width: 52ch; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
 .emptyCta {
-  margin-top: 0.3rem; display: inline-flex; align-items: center;
+  display: inline-flex; align-items: center; white-space: nowrap;
   padding: 0.62rem 1.3rem; border-radius: 24px;
   background: var(--ac-accent-strong, var(--accent)); color: #fff;
   font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.86rem;
@@ -160,12 +163,12 @@
 .courseCta { margin-top: auto; padding-top: 1.1rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
 
 /* streak strip — honest trailing 7 days */
-.streak { margin: 0 0 1.5rem; padding: 1rem 1.2rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 14px; background: var(--ac-surface, rgba(255, 255, 255, 0.02)); }
+.streak { margin: 0 0 1.5rem; padding: 0.8rem 1.2rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 12px; background: var(--ac-surface, rgba(255, 255, 255, 0.02)); }
 .streakHead { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 .streakKicker { font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .streakSummary { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--dim); }
 .streakRow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
-.streakCell { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; padding: 0.55rem 0; border: 1px solid var(--ac-rule, var(--line)); border-radius: 10px; background: var(--ac-surface-2, rgba(255, 255, 255, 0.015)); }
+.streakCell { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.4rem 0; border: 1px solid var(--ac-rule, var(--line)); border-radius: 8px; background: var(--ac-surface-2, rgba(255, 255, 255, 0.015)); }
 .streakOn { border-color: color-mix(in srgb, var(--ac-mastery, #4ade80) 45%, transparent); background: color-mix(in srgb, var(--ac-mastery, #4ade80) 12%, transparent); }
 .streakToday { outline: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 55%, transparent); outline-offset: 1px; }
 .streakDot { font-size: 0.85rem; line-height: 1; color: var(--muted); }
@@ -202,6 +205,8 @@
 }
 @media (max-width: 560px) {
   .courseGrid, .certGrid { grid-template-columns: 1fr; }
+  .empty { grid-template-columns: auto 1fr; }
+  .emptyCta { grid-column: 1 / -1; justify-self: start; margin-top: 0.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .resume, .courseCard, .certCard { transition: none; }

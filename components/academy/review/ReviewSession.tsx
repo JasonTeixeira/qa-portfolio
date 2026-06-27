@@ -45,13 +45,23 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
     return (
       <div className={styles.page}>
         <p className={styles.kicker}>Spaced review</p>
-        <div className={styles.empty}>
-          <span className={styles.emptyGlyph} aria-hidden="true">✓</span>
-          <h1 className={styles.emptyTitle}>You’re all caught up.</h1>
-          <p className={styles.emptyBody}>
-            Nothing’s due right now. Reviews resurface exactly when you’re about to forget — come back tomorrow.
-          </p>
-          <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+        <div className={styles.emptyWrap}>
+          <div className={styles.empty}>
+            <span className={styles.emptyGlyph} aria-hidden="true">✓</span>
+            <h1 className={styles.emptyTitle}>You’re all caught up.</h1>
+            <p className={styles.emptyBody}>
+              Nothing’s due right now. Reviews resurface exactly when you’re about to forget — come back tomorrow.
+            </p>
+            <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+          </div>
+          <div className={styles.schedule} aria-label="How spaced review resurfaces cards">
+            <span className={styles.scheduleLabel}>Resurfaces at</span>
+            <span className={styles.scheduleStep}>Again · same day</span>
+            <span className={styles.scheduleSep} aria-hidden="true">→</span>
+            <span className={styles.scheduleStep}>Good · days</span>
+            <span className={styles.scheduleSep} aria-hidden="true">→</span>
+            <span className={styles.scheduleStep}>Easy · weeks</span>
+          </div>
         </div>
       </div>
     )
@@ -61,14 +71,16 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
     return (
       <div className={styles.page}>
         <p className={styles.kicker}>Spaced review</p>
-        <div className={styles.empty}>
-          <span className={styles.emptyGlyph} aria-hidden="true">★</span>
-          <h1 className={styles.emptyTitle}>Review complete.</h1>
-          <p className={styles.emptyBody}>
-            {total} {total === 1 ? 'card' : 'cards'} reviewed · +{total * 10} XP. Each one is now scheduled to return
-            right before you’d forget it.
-          </p>
-          <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+        <div className={styles.emptyWrap}>
+          <div className={styles.empty}>
+            <span className={styles.emptyGlyph} aria-hidden="true">★</span>
+            <h1 className={styles.emptyTitle}>Review complete.</h1>
+            <p className={styles.emptyBody}>
+              {total} {total === 1 ? 'card' : 'cards'} reviewed · +{total * 10} XP. Each one is now scheduled to return
+              right before you’d forget it.
+            </p>
+            <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+          </div>
         </div>
       </div>
     )

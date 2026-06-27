@@ -273,11 +273,13 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
         {dash.courses.length === 0 ? (
           <div className={styles.empty}>
             <span className={styles.emptyGlyph} aria-hidden="true">◆</span>
-            <p className={styles.emptyTitle}>Nothing in progress yet.</p>
-            <p className={styles.emptyHelp}>
-              Pick a track from the catalog and your first build lands here — every lesson you
-              start keeps its place so you can resume in one click.
-            </p>
+            <div className={styles.emptyBody}>
+              <p className={styles.emptyTitle}>Nothing in progress yet.</p>
+              <p className={styles.emptyHelp}>
+                Pick a track from the catalog and your first build lands here — every lesson you
+                start keeps its place so you can resume in one click.
+              </p>
+            </div>
             <Link href="/academy/catalog" className={styles.emptyCta}>
               Browse the catalog →
             </Link>

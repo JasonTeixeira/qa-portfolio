@@ -50,12 +50,30 @@
 .legPromote { color: #34d399; border-color: color-mix(in srgb, #34d399 35%, transparent); }
 .legRelegate { color: #f87171; border-color: color-mix(in srgb, #f87171 35%, transparent); }
 
-/* standings */
-.board {
+/* standings — ledger frame: a sparse 2-row board still reads as a designed
+   table, not a stub. The board owns the rows; a dotted-rule filler below
+   (.boardFill) carries the unused height as empty ledger lines. */
+.ledger {
   position: relative; z-index: 1;
-  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column;
   border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008));
+}
+.board {
+  list-style: none; margin: 0; padding: 0;
+}
+/* empty ledger lines that backfill the frame so 2 rows don't fall into a void */
+.boardFill {
+  flex: 1; min-height: 7.5rem;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent calc(2.6rem - 1px),
+    var(--line) calc(2.6rem - 1px),
+    var(--line) 2.6rem
+  );
+  border-top: 1px solid var(--line);
+  opacity: 0.5;
 }
 .row {
   display: grid; grid-template-columns: 2.2rem 2rem 1fr auto auto; align-items: center; gap: 0.85rem;
@@ -86,6 +104,22 @@
 .xpUnit { font-family: var(--font-mono), monospace; font-size: 0.6rem; color: var(--muted); font-weight: 400; }
 
 .thinNote { position: relative; z-index: 1; margin: 1.2rem 0 0; text-align: center; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+
+/* Next-tier strip — a composed footer band under the board so the lower
+   viewport reads intentional, not as trailing black space. */
+.nextTier {
+  position: relative; z-index: 1; margin: 1.1rem 0 0;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.95rem 1.2rem;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 8%, transparent), transparent 80%);
+}
+.nextTierGem { flex-shrink: 0; font-size: 1.05rem; color: var(--nextColor, var(--tier)); }
+.nextTierBody { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.nextTierLabel { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.nextTierName { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; color: var(--ink); }
+.nextTierHint { margin-left: auto; flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--dim); text-align: right; }
+@media (max-width: 520px) { .nextTierHint { display: none; } }
 
 @media (max-width: 520px) {
   .ladder { gap: 0.2rem; }

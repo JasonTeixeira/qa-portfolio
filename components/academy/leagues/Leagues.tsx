@@ -18,6 +18,7 @@ export function Leagues({ standings }: { standings: LeagueStandings }) {
     standings
   const rootStyle = { ['--tier']: color } as CSSProperties
   const thin = total < promoteZone + relegateZone
+  const nextTier = topTier ? null : LEAGUE_TIERS[tier + 1]
 
   return (
     <div className={styles.page} style={rootStyle}>
@@ -58,29 +59,49 @@ export function Leagues({ standings }: { standings: LeagueStandings }) {
         <span className={styles.legChip}>↻ Resets Monday — fresh start</span>
       </div>
 
-      <ol className={styles.board}>
-        {rows.map((r) => (
-          <li
-            key={r.rank}
-            data-move={r.movement}
-            className={`${styles.row} ${r.isYou ? styles.you : ''} ${styles[r.movement] ?? ''}`}
-          >
-            <span className={styles.rank}>{r.rank}</span>
-            <span className={styles.avatar} aria-hidden="true">
-              {r.handle === 'You' ? '★' : r.handle.slice(-2)}
-            </span>
-            <span className={styles.name}>{r.handle}</span>
-            {r.movement !== 'hold' ? (
-              <span className={styles.moveTag} aria-label={MOVEMENT_LABEL[r.movement]}>
-                {r.movement === 'promote' ? '▲' : '▼'}
+      <div className={styles.ledger}>
+        <ol className={styles.board}>
+          {rows.map((r) => (
+            <li
+              key={r.rank}
+              data-move={r.movement}
+              className={`${styles.row} ${r.isYou ? styles.you : ''} ${styles[r.movement] ?? ''}`}
+            >
+              <span className={styles.rank}>{r.rank}</span>
+              <span className={styles.avatar} aria-hidden="true">
+                {r.handle === 'You' ? '★' : r.handle.slice(-2)}
               </span>
-            ) : null}
-            <span className={styles.xp}>
-              {r.weeklyXp} <span className={styles.xpUnit}>XP</span>
-            </span>
-          </li>
-        ))}
-      </ol>
+              <span className={styles.name}>{r.handle}</span>
+              {r.movement !== 'hold' ? (
+                <span className={styles.moveTag} aria-label={MOVEMENT_LABEL[r.movement]}>
+                  {r.movement === 'promote' ? '▲' : '▼'}
+                </span>
+              ) : null}
+              <span className={styles.xp}>
+                {r.weeklyXp} <span className={styles.xpUnit}>XP</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        {/* empty ledger lines backfill the frame so a sparse board isn't a void */}
+        <div className={styles.boardFill} aria-hidden="true" />
+      </div>
+
+      {/* Next-tier strip — a composed footer band under the board. */}
+      {nextTier ? (
+        <div className={styles.nextTier} style={{ ['--nextColor']: nextTier.color } as CSSProperties}>
+          <span className={styles.nextTierGem} aria-hidden="true">
+            ◆
+          </span>
+          <div className={styles.nextTierBody}>
+            <span className={styles.nextTierLabel}>Next up</span>
+            <span className={styles.nextTierName}>{nextTier.name} League</span>
+          </div>
+          <span className={styles.nextTierHint}>
+            Top {promoteZone} promote — keep your streak
+          </span>
+        </div>
+      ) : null}
 
       {thin ? (
         <p className={styles.thinNote}>

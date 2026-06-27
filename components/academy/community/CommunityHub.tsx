@@ -70,27 +70,44 @@ export function CommunityHub({
         </p>
       </header>
 
-      {/* Add a friend — primary action, given visual lead over the quieter rosters below */}
-      <section className={`${styles.card} ${styles.cardPrimary}`}>
-        <h2 className={styles.h2}>Add a friend</h2>
-        <div className={styles.addRow}>
-          <span className={styles.at}>@</span>
-          <input
-            className={styles.input}
-            value={handle}
-            maxLength={32}
-            placeholder="their-handle"
-            onChange={(e) => setHandle(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') addFriend()
-            }}
-          />
-          <button type="button" className={styles.primary} onClick={addFriend} disabled={pending}>
-            Send request
-          </button>
-        </div>
-        {msg ? <p className={styles.msg}>{msg}</p> : null}
-      </section>
+      {/* Top band — primary "Add a friend" leads; Discord rides alongside on wide
+          viewports so the page opens as a composed pair, not a tall narrow ribbon. */}
+      <div className={`${styles.topGrid} ${discordUrl ? styles.topGridSplit : ''}`}>
+        <section className={`${styles.card} ${styles.cardPrimary}`}>
+          <h2 className={styles.h2}>Add a friend</h2>
+          <div className={styles.addRow}>
+            <span className={styles.at}>@</span>
+            <input
+              className={styles.input}
+              value={handle}
+              maxLength={32}
+              placeholder="their-handle"
+              onChange={(e) => setHandle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') addFriend()
+              }}
+            />
+            <button type="button" className={styles.primary} onClick={addFriend} disabled={pending}>
+              Send request
+            </button>
+          </div>
+          {msg ? <p className={styles.msg}>{msg}</p> : null}
+        </section>
+
+        {/* Discord — only when configured (no dead links) */}
+        {discordUrl ? (
+          <a className={styles.discord} href={discordUrl} target="_blank" rel="noopener noreferrer">
+            <span className={styles.discordGlyph} aria-hidden="true">
+              ⌁
+            </span>
+            <div className={styles.copy}>
+              <span className={styles.discordTitle}>Join the Discord</span>
+              <span className={styles.discordSub}>Daily build chatter, help, and accountability with the whole community.</span>
+            </div>
+            <span className={styles.discordCta}>Open →</span>
+          </a>
+        ) : null}
+      </div>
 
       {/* Pending requests */}
       {requests.length > 0 ? (
@@ -173,20 +190,6 @@ export function CommunityHub({
           ))}
         </ul>
       </section>
-
-      {/* Discord — only when configured (no dead links) */}
-      {discordUrl ? (
-        <a className={styles.discord} href={discordUrl} target="_blank" rel="noopener noreferrer">
-          <span className={styles.discordGlyph} aria-hidden="true">
-            ⌁
-          </span>
-          <div className={styles.copy}>
-            <span className={styles.discordTitle}>Join the Discord</span>
-            <span className={styles.discordSub}>Daily build chatter, help, and accountability with the whole community.</span>
-          </div>
-          <span className={styles.discordCta}>Open →</span>
-        </a>
-      ) : null}
     </div>
   )
 }

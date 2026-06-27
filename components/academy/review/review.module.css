@@ -63,12 +63,27 @@
 
 .foot { margin-top: 1.6rem; text-align: center; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
 
-/* empty / done */
-.empty { margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; }
+/* empty / done — one composed, vertically-centred full-height calm state so the
+   "all caught up" moment reads as deliberate, not as trailing black space. */
+.emptyWrap { display: flex; flex-direction: column; min-height: min(62vh, 30rem); padding-top: 1.5rem; }
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.8rem; }
 .emptyGlyph { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: rgba(61, 107, 255, 0.08); color: var(--accent); font-size: 1.7rem; }
 .emptyTitle { margin: 0.6rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.5rem); letter-spacing: -0.02em; }
 .emptyBody { margin: 0; max-width: 46ch; color: var(--dim); line-height: 1.55; }
 .emptyBtn { margin-top: 0.8rem; padding: 0.8rem 1.5rem; border-radius: 26px; background: var(--accent); color: #fff; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.92rem; }
+
+/* what-resurfaces-next schedule strip — a thin hairline footer that anchors the
+   calm empty state with the spaced-review cadence (no fabricated counts). */
+.schedule {
+  margin-top: 2rem;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.02));
+}
+.scheduleLabel { font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-right: 0.2rem; }
+.scheduleStep { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--dim); }
+.scheduleSep { color: var(--muted); }
 
 @media (max-width: 560px) {
   .grades { grid-template-columns: repeat(2, 1fr); }

@@ -230,6 +230,77 @@
   color: var(--ac-ink-soft);
 }
 
+/* ---------- Memory cue (honest "Remembers: …" line) ---------- */
+
+.memoryCue {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--ac-rule);
+  border-radius: 8px;
+  background: var(--ac-surface);
+}
+
+.memoryCueLabel {
+  font-family: var(--ac-font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ac-ink-faint);
+}
+
+.memoryCueItems {
+  font-family: var(--ac-font-body);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ac-ink-soft);
+  word-break: break-word;
+}
+
+/* ---------- Tap-to-resume quick-reply chips ---------- */
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+}
+
+.suggestion {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--ac-rule-strong);
+  border-radius: 999px;
+  background: var(--ac-surface);
+  color: var(--ac-ink);
+  font-family: var(--ac-font-body);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color var(--ac-dur-fast) var(--ac-ease),
+    transform var(--ac-dur-fast) var(--ac-ease),
+    background-color var(--ac-dur-fast) var(--ac-ease);
+}
+
+.suggestion:hover {
+  border-color: var(--ac-accent);
+  background: color-mix(in srgb, var(--ac-accent) 10%, var(--ac-surface));
+}
+
+.suggestion:active {
+  transform: translateY(1px);
+}
+
+.suggestion:focus-visible {
+  outline: 2px solid var(--ac-accent);
+  outline-offset: 2px;
+}
+
 .row {
   display: flex;
   flex-direction: column;
@@ -495,5 +566,13 @@
   .panel,
   .dot {
     animation: none !important;
+  }
+
+  .suggestion {
+    transition: none;
+  }
+
+  .suggestion:active {
+    transform: none;
   }
 }

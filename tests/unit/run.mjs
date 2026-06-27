@@ -106,6 +106,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:approved-knowledge-packet'], 'tsx scripts/discord/write-approved-knowledge-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['discord:gateway-operating-packet'], 'tsx scripts/discord/write-gateway-operating-packet.ts');
+  assert.equal(packageJson.scripts['discord:career-content-harness'], 'tsx scripts/discord/write-career-content-harness.ts');
   assert.equal(packageJson.scripts['discord:channel-matrix-readiness'], 'tsx scripts/discord/write-channel-matrix-readiness.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
@@ -544,6 +545,47 @@ test('engineering loop harness: local-only scripts, approval boundaries, and sto
   assert.match(verifier, /autonomous-loop-harness-verification-latest\.json/);
   assert.match(verifier, /forbiddenScriptReferences/);
   assert.match(verifier, /loop_script_contains_forbidden_reference/);
+});
+
+test('career content harness: scores AI Career OS sources without claiming live proof', async () => {
+  const {
+    buildCareerContentHarness,
+    CAREER_CONTENT_HARNESS_VERSION,
+  } = await import('../../lib/discord/career-content-harness.ts');
+
+  const result = await buildCareerContentHarness({
+    sourceRoot: '/Users/Sage/AI_CAREER_OPERATING_SYSTEM',
+    maxFiles: 12000,
+    candidateLimit: 30,
+  });
+
+  assert.equal(result.version, CAREER_CONTENT_HARNESS_VERSION);
+  assert.equal(result.mutationMode, 'read_only_external_corpus_and_local_file_evidence_only');
+  assert.match(result.releaseMeaning, /does not write Supabase rows/);
+  assert.ok(result.inventory.fileCount >= 100);
+  assert.ok(result.inventory.courseManifestCount >= 15);
+  assert.ok(result.inventory.practiceDrillCount >= 40);
+  assert.ok(result.candidates.length >= 20);
+  assert.ok(result.candidates.every((candidate) => candidate.operatingProofEligible === false));
+  assert.ok(result.antiFakeRules.some((rule) => rule.includes('do not count as approved Discord knowledge')));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'build-lab' && channel.candidateCount > 0));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'daily-signal' && channel.candidateCount > 0));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'resources' && channel.candidateCount > 0));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'content-queue' && channel.candidateCount > 0));
+});
+
+test('career content harness: package script and autonomous loop wiring are local-only', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const audit = await readFile(new URL('../../tools/engineering-loop/audit-state.mjs', import.meta.url), 'utf8');
+  const runner = await readFile(new URL('../../tools/engineering-loop/run-world-class-loop.mjs', import.meta.url), 'utf8');
+  const verifier = await readFile(new URL('../../tools/engineering-loop/verify-harness.mjs', import.meta.url), 'utf8');
+  const writer = await readFile(new URL('../../scripts/discord/write-career-content-harness.ts', import.meta.url), 'utf8');
+
+  assert.equal(packageJson.scripts['discord:career-content-harness'], 'tsx scripts/discord/write-career-content-harness.ts');
+  assert.match(audit, /discord:career-content-harness/);
+  assert.match(runner, /discord:career-content-harness/);
+  assert.match(verifier, /discord:career-content-harness/);
+  assert.doesNotMatch(writer, /createClient|supabaseAdmin|discord\.js|fetch\(/i);
 });
 
 test('ops scripts: approval-boundary verifier blocks risky commands from local release graph', async () => {
@@ -9340,6 +9382,85 @@ test('badges-logic: collectionProgress + nextBadges chain (W5)', async () => {
   // everything countable earned → empty chain (relative-only badges omitted)
   const maxed = { ...base, lessonsCompleted: 50, coursesFinished: 3, certificates: 3, projects: 5, currentStreak: 30, longestStreak: 30 };
   assert.deepEqual(nextBadges(maxed, earnedBadgeKeys(maxed)), []);
+});
+
+test('quest-logic: daily variable reward is deterministic + varies (S1.1)', async () => {
+  const { bonusSeedFromString, dailyBonus, resolveDailyBonus, BONUS_BASE_LESSON_XP } = await import('../../lib/academy/quest-logic.ts');
+  // pure hash: same input → same seed; empty → FNV-1a offset basis
+  assert.equal(bonusSeedFromString('alice:2026-06-27'), bonusSeedFromString('alice:2026-06-27'));
+  assert.equal(bonusSeedFromString(''), 2166136261);
+  // deterministic payout: same (user,date) → deep-equal spec (no Math.random/Date inside)
+  assert.deepEqual(dailyBonus('alice', '2026-06-27'), dailyBonus('alice', '2026-06-27'));
+  // well-formed: kind ∈ {multiplier,flat}, target ≥ 1
+  const b = dailyBonus('alice', '2026-06-27');
+  assert.ok(b.kind === 'multiplier' || b.kind === 'flat');
+  assert.ok(b.target >= 1);
+  assert.ok((b.kind === 'multiplier' && (b.multiplier === 2 || b.multiplier === 3)) || (b.kind === 'flat' && b.flatXp > 0));
+  // variable-ratio: payout varies across days for the same learner (unpredictable but reproducible)
+  const labels = new Set(['25', '26', '27', '28', '29', '30'].map((d) => JSON.stringify(dailyBonus('alice', `2026-06-${d}`))));
+  assert.ok(labels.size > 1);
+  // and varies across learners on the same day
+  assert.notDeepEqual(dailyBonus('alice', '2026-06-27'), dailyBonus('zoe', '2026-06-27'));
+  // resolution is honest: collected only when the real activity meets target; reward never negative
+  const zero = { lessonsToday: 0, xpToday: 0, reviewsToday: 0, lessonsThisWeek: 0, labsThisWeek: 0, streakDays: 0 };
+  const met = { ...zero, lessonsToday: 5, reviewsToday: 5 };
+  assert.equal(resolveDailyBonus(b, zero).collected, false);
+  assert.ok(resolveDailyBonus(b, met).rewardXp >= 0);
+  assert.ok(resolveDailyBonus(b, met).collected === (resolveDailyBonus(b, met).progress >= b.target));
+  assert.equal(typeof BONUS_BASE_LESSON_XP, 'number');
+});
+
+test('quest-logic: bonusHeadline + honest variability tease (S1.1r2)', async () => {
+  const { bonusHeadline, BONUS_VARIES_TEASE } = await import('../../lib/academy/quest-logic.ts');
+  const mk = (kind, rewardXp) => ({ label: '', kind, rewardXp, progress: 0, target: 1, collected: false, metric: kind === 'flat' ? 'reviewsToday' : 'lessonsToday' });
+  // headline recovers the multiplier from the server-derived rewardXp (rewardXp/base + 1)
+  assert.equal(bonusHeadline(mk('multiplier', 20)), '2×');
+  assert.equal(bonusHeadline(mk('multiplier', 40)), '3×');
+  assert.equal(bonusHeadline(mk('flat', 15)), '+15 XP');
+  // honesty firewall: the tease may state a reset time (00:00) but must never name a
+  // specific future BONUS value (no "<n>×" or "<n> XP" — tomorrow's payout is unknown).
+  assert.ok(!/\d+\s*(×|x\b|xp)/i.test(BONUS_VARIES_TEASE));
+});
+
+test('tutor-logic: buildOpenerSuggestions tap-to-resume chips (S1.1r2)', async () => {
+  const { buildOpenerSuggestions, normalizeTutorMemory, OPENER_SUGGESTION_FALLBACK, MAX_OPENER_SUGGESTIONS } = await import('../../lib/academy/tutor-logic.ts');
+  // empty memory → no chips (cold start unchanged)
+  assert.deepEqual(buildOpenerSuggestions(normalizeTutorMemory(null)), []);
+  assert.deepEqual(buildOpenerSuggestions(null), []);
+  // single struggle → "Resume <topic>" + escape hatch
+  assert.deepEqual(buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion'], summary: '' })), ['Resume recursion', OPENER_SUGGESTION_FALLBACK]);
+  // many → leads with top struggle, capped, escape hatch always last
+  const chips = buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion', 'closures', 'async', 'pointers'], summary: '' }));
+  assert.ok(chips.length <= MAX_OPENER_SUGGESTIONS);
+  assert.equal(chips[0], 'Resume recursion');
+  assert.equal(chips[chips.length - 1], OPENER_SUGGESTION_FALLBACK);
+  // deterministic (screenshot-stable)
+  assert.deepEqual(buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion'], summary: '' })), buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion'], summary: '' })));
+});
+
+test('tutor-logic: cross-session memory opener + bounded derive (S1.1)', async () => {
+  const { normalizeTutorMemory, hasTutorMemory, renderMemoryForPrompt, buildProactiveOpener, deriveNextMemory, buildTutorMessages } = await import('../../lib/academy/tutor-logic.ts');
+  // cold start: empty memory → generic opener, no injected block
+  assert.equal(hasTutorMemory(normalizeTutorMemory(null)), false);
+  assert.equal(renderMemoryForPrompt(null), '');
+  // warm: proactive opener names the first struggle; prompt carries a memory block
+  const mem = normalizeTutorMemory({ struggles: ['recursion', 'closures'], summary: 'mid-way through functions' });
+  assert.ok(hasTutorMemory(mem));
+  assert.ok(buildProactiveOpener(mem).toLowerCase().includes('recursion'));
+  assert.ok(renderMemoryForPrompt(mem).includes('recursion'));
+  const msgs = buildTutorMessages({ kbContext: 'KB', history: [], userMessage: 'q', memory: mem });
+  assert.ok(msgs[0].content.includes('recursion'));
+  assert.equal(msgs[msgs.length - 1].role, 'user'); // still ends on the learner
+  // no-memory path doesn't regress: no memory block injected
+  assert.ok(!buildTutorMessages({ kbContext: 'KB', history: [], userMessage: 'q' })[0].content.includes('LEARNER MEMORY'));
+  // bounded: struggles capped + summary clamped on normalize
+  const big = normalizeTutorMemory({ struggles: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'A'], summary: 'x'.repeat(2000) });
+  assert.ok(big.struggles.length <= 5);
+  assert.ok(big.summary.length <= 600);
+  // derive prepends newest struggle, preserves prior, updates lesson
+  const next = deriveNextMemory({ prior: normalizeTutorMemory({ struggles: ['recursion'], summary: 'on functions' }), userMessage: 'help', extractedNote: 'now on loops', struggleTopic: 'loops', lessonSlug: 'fn-2' });
+  assert.equal(next.struggles[0], 'loops');
+  assert.ok(next.struggles.includes('recursion'));
 });
 
 test('badges-logic: capstoneBadge is the catalog pinnacle (W5r2)', async () => {

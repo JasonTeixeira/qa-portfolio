@@ -6,8 +6,8 @@ import type { GamificationState } from '@/lib/academy/gamification-logic'
 import { getLearnerGoal, getLearnerStats } from '@/lib/academy/goals'
 import { computeGoalProgress, type GoalProgress } from '@/lib/academy/goal-logic'
 import { getMyProfile } from '@/lib/academy/profiles'
-import { getDailyQuests, getWeeklyQuests } from '@/lib/academy/quests'
-import type { QuestProgress } from '@/lib/academy/quest-logic'
+import { getDailyQuests, getWeeklyQuests, getDailyBonus } from '@/lib/academy/quests'
+import type { QuestProgress, BonusState } from '@/lib/academy/quest-logic'
 import { getTriggers } from '@/lib/academy/triggers'
 import type { Trigger } from '@/lib/academy/trigger-logic'
 import { getNextRewards } from '@/lib/academy/rewards'
@@ -30,6 +30,7 @@ export default async function DashboardPage() {
   let displayName: string | null = null
   let dailyQuests: QuestProgress[] = []
   let weeklyQuests: QuestProgress[] = []
+  let dailyBonus: BonusState | null = null
   let triggers: Trigger[] = []
   let rewards: NextRewards | null = null
 
@@ -46,18 +47,20 @@ export default async function DashboardPage() {
     } = await sb.auth.getUser()
     if (user) {
       // Independent reads — fetch in parallel to avoid a request waterfall.
-      const [g, goalKey, stats, profile, daily, weekly, trig, rew] = await Promise.all([
+      const [g, goalKey, stats, profile, daily, weekly, bonus, trig, rew] = await Promise.all([
         getGamification(user.id),
         getLearnerGoal(user.id),
         getLearnerStats(user.id),
         getMyProfile(user.id),
         getDailyQuests(user.id),
         getWeeklyQuests(user.id),
+        getDailyBonus(user.id),
         getTriggers(user.id, nextHref),
         getNextRewards(user.id),
       ])
       game = g
       rewards = rew
+      dailyBonus = bonus
       // A real display name (when set) takes precedence over the email-derived name.
       displayName = profile?.displayName?.trim() || null
       // Only compute the journey once the learner has actually chosen a goal.
@@ -78,6 +81,7 @@ export default async function DashboardPage() {
         displayName={displayName}
         dailyQuests={dailyQuests}
         weeklyQuests={weeklyQuests}
+        dailyBonus={dailyBonus}
         triggers={triggers}
         rewards={rewards}
         nextHref={nextHref}

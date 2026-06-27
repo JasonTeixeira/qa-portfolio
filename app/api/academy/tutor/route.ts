@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { askTutor } from '@/lib/academy/tutor'
+import { askTutorStream, getTutorOpener } from '@/lib/academy/tutor'
 import type { TutorTurn } from '@/lib/academy/tutor-logic'
 
 /**
- * POST /api/academy/tutor — the Sage Academy AI tutor.
+ * /api/academy/tutor — the Sage Academy AI tutor.
  *
- * Body: { message: string, history: {role,content}[], courseSlug?, lessonSlug? }
- * Returns: { available: boolean, reply: string } (200). Never crashes on a
- * missing LLM key or an LLM error — askTutor degrades to a warm "warming up"
- * reply. The userId is derived from the session, NEVER from the body.
+ * GET  → { reply, hasMemory } : the proactive opener, grounded in the learner's
+ *        stored cross-session memory (contextual greeting) or a cold-start opener.
+ *
+ * POST → text/event-stream : a real token stream. Body
+ *        { message, history[], courseSlug?, lessonSlug? }. Each SSE frame is a
+ *        JSON line:  data: {"type":"token","value":"…"}  then a terminal
+ *        data: {"type":"done","reply":"…","available":true}. Never crashes on a
+ *        missing key or LLM error — the stream degrades to a warm terminal frame.
+ *
+ * The userId is ALWAYS derived from the session, NEVER from the body — memory is
+ * server-verified and not client-forgeable.
  */
 
 export const runtime = 'nodejs'
@@ -33,15 +40,40 @@ function sanitizeHistory(raw: unknown): TutorTurn[] {
   return out
 }
 
+function sseFrame(payload: unknown): string {
+  return `data: ${JSON.stringify(payload)}\n\n`
+}
+
+export async function GET() {
+  try {
+    const sb = await createSupabaseServerClient()
+    const {
+      data: { user },
+    } = await sb.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+
+    const opener = await getTutorOpener(user.id)
+    return NextResponse.json(opener)
+  } catch (err) {
+    console.error('[api/academy/tutor] GET failed', err)
+    return NextResponse.json(
+      {
+        reply:
+          'Hey — I’m your Sage Academy tutor. Ask me anything about this lesson, or tell me where you’re stuck.',
+        hasMemory: false,
+      },
+      { status: 200 },
+    )
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const sb = await createSupabaseServerClient()
     const {
       data: { user },
     } = await sb.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    }
+    if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
     const body = await req.json().catch(() => null)
     if (!body || typeof body !== 'object') {
@@ -57,11 +89,45 @@ export async function POST(req: NextRequest) {
     const lessonSlug = typeof body.lessonSlug === 'string' ? body.lessonSlug : undefined
     const history = sanitizeHistory(body.history)
 
-    const result = await askTutor({ message, history, courseSlug, lessonSlug }, user.id)
-    return NextResponse.json({ available: result.available, reply: result.reply })
+    const userId = user.id
+    const encoder = new TextEncoder()
+
+    const stream = new ReadableStream<Uint8Array>({
+      async start(controller) {
+        try {
+          for await (const frame of askTutorStream(
+            { message, history, courseSlug, lessonSlug },
+            userId,
+            req.signal,
+          )) {
+            controller.enqueue(encoder.encode(sseFrame(frame)))
+          }
+        } catch (err) {
+          console.error('[api/academy/tutor] stream error', err)
+          controller.enqueue(
+            encoder.encode(
+              sseFrame({
+                type: 'done',
+                available: false,
+                reply: 'Your tutor is warming up — ask me again in a moment.',
+              }),
+            ),
+          )
+        } finally {
+          controller.close()
+        }
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+      },
+    })
   } catch (err) {
     console.error('[api/academy/tutor] POST failed', err)
-    // Never leak internals; degrade gracefully even on an unexpected fault.
     return NextResponse.json(
       { available: false, reply: 'Your tutor is warming up — ask me again in a moment.' },
       { status: 200 },

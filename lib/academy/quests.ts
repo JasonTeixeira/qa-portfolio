@@ -2,8 +2,12 @@ import 'server-only'
 
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { dateInTz, isoWeekStart } from '@/lib/academy/gamification-logic'
+import { awardBonusXp } from '@/lib/academy/gamification'
 import {
   computeQuests,
+  dailyBonus,
+  resolveDailyBonus,
+  type BonusState,
   type QuestActivity,
   type QuestProgress,
 } from '@/lib/academy/quest-logic'
@@ -14,8 +18,19 @@ export {
   WEEKLY_QUESTS,
   computeQuests,
   variableXpBonus,
+  dailyBonus,
+  resolveDailyBonus,
+  bonusSeedFromString,
 } from '@/lib/academy/quest-logic'
-export type { Quest, QuestProgress, QuestScope, QuestMetric, QuestActivity } from '@/lib/academy/quest-logic'
+export type {
+  Quest,
+  QuestProgress,
+  QuestScope,
+  QuestMetric,
+  QuestActivity,
+  DailyBonus,
+  BonusState,
+} from '@/lib/academy/quest-logic'
 
 const EMPTY_ACTIVITY: QuestActivity = {
   lessonsToday: 0,
@@ -101,4 +116,66 @@ export async function getDailyQuests(userId: string): Promise<QuestProgress[]> {
 export async function getWeeklyQuests(userId: string): Promise<QuestProgress[]> {
   const activity = await getActivity(userId)
   return computeQuests('weekly', activity)
+}
+
+/**
+ * Today's variable-ratio surprise bonus, resolved against the learner's REAL
+ * activity. The bonus *spec* is a pure function of (userId, UTC date) so it
+ * varies per day/learner yet is reproducible + verifiable server-side; the
+ * reward amount and collected flag are pure functions of the real activity
+ * snapshot — the learner never claims a raw number. Read-only.
+ *
+ * The same `dailyBonus(userId, today)` derivation is what the XP award path
+ * re-derives to verify a multiplier/flat payout, so the panel can never show a
+ * reward the server wouldn't actually grant.
+ */
+export async function getDailyBonus(userId: string): Promise<BonusState> {
+  const activity = await getActivity(userId)
+  const today = dateInTz(new Date(), 'UTC')
+  const state = resolveDailyBonus(dailyBonus(userId, today), activity)
+  // "Banked" is true ONLY when a real claim row exists (XP actually credited) —
+  // the panel never says "banked" for a payout that didn't happen. Pre-claim it
+  // shows as the armed incentive; the claim is written by awardDailyBonusIfEarned.
+  const sb = supabaseAdmin()
+  const { data: claim } = await sb
+    .from('academy_daily_bonus_claims')
+    .select('awarded_xp')
+    .eq('user_id', userId)
+    .eq('claim_date', today)
+    .maybeSingle()
+  if (claim) return { ...state, collected: true, rewardXp: claim.awarded_xp }
+  return { ...state, collected: false }
+}
+
+/**
+ * Credit today's variable-reward bonus IF it's genuinely earned, exactly once.
+ * Called from the activity award paths (lesson/review) AFTER the base XP is
+ * recorded, so the fresh activity snapshot reflects the just-completed action.
+ * Re-derives the deterministic bonus server-side and gates the payout on the
+ * learner's REAL activity — never a client claim. Idempotent: the (user, day) PK
+ * + ignore-duplicates upsert pays at most once per UTC day even under concurrency.
+ * Returns the XP credited (0 if not earned or already claimed today).
+ */
+export async function awardDailyBonusIfEarned(userId: string): Promise<number> {
+  const today = dateInTz(new Date(), 'UTC')
+  const activity = await getActivity(userId)
+  const spec = dailyBonus(userId, today)
+  const state = resolveDailyBonus(spec, activity)
+  if (!state.collected || state.rewardXp <= 0) return 0
+  const sb = supabaseAdmin()
+  const { data: inserted, error } = await sb
+    .from('academy_daily_bonus_claims')
+    .upsert(
+      { user_id: userId, claim_date: today, awarded_xp: state.rewardXp, bonus_kind: spec.kind },
+      { onConflict: 'user_id,claim_date', ignoreDuplicates: true },
+    )
+    .select('user_id')
+    .maybeSingle()
+  if (error) {
+    console.error('[academy/quests] awardDailyBonusIfEarned claim failed', error)
+    return 0
+  }
+  if (!inserted) return 0 // already claimed today
+  await awardBonusXp(userId, state.rewardXp)
+  return state.rewardXp
 }

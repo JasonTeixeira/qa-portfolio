@@ -11,10 +11,10 @@
 | 1 | Goal / Journey hero | 88 | — | — | Stage 1 |
 | 2 | Onboarding → first-win | 80 | — | — | Stage 1 (content-gated) |
 | 3 | Achievements / badges | 90 | — | — | Stage 1 |
-| 4 | Quests + variable reward | 80 | — | — | Stage 1 |
+| 4 | Quests + variable reward | 89 | wired | — | Stage 1 (89→cap: +countdown/tomorrow-tease; real idempotent XP award + claim ledger live) |
 | 5 | In-app trigger engine | 90 | — | — | Stage 1 → behavior-gated |
 | 6 | Micro-interaction layer | 82 | — | — | Stage 1 (pure craft) |
-| 7 | Tutor companion | 85 | — | — | Stage 1 |
+| 7 | Tutor companion | 94 | wired | — | **at design cap** (streaming + cross-session memory + proactive opener + tap-to-resume; irresistible) |
 | 8 | Streaks / XP / leagues | 93 | — | — | Stage 1 → needs real opponents |
 | 9 | Progress / mastery | 90 | — | — | Stage 1 (content-gated) |
 | 10 | Trust / proof / social | 86 | — | — | behavior-gated (real graduates) |

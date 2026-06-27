@@ -2,6 +2,7 @@ import 'server-only'
 import { fsrs, generatorParameters, createEmptyCard, Rating, type Card, type Grade } from 'ts-fsrs'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { recordActivityAndAward, pickCelebration, type Celebration } from '@/lib/academy/gamification'
+import { awardDailyBonusIfEarned } from '@/lib/academy/quests'
 
 /**
  * FSRS spaced-repetition engine (Phase 1, dim 5). Content-agnostic scaffold: a
@@ -147,6 +148,7 @@ export async function gradeReview(
     const state = await recordActivityAndAward(userId, 'review', now)
     celebration = pickCelebration(state)
     streak = state.streak.current
+    await awardDailyBonusIfEarned(userId) // credit the variable daily bonus if this review earned it (idempotent)
   } catch (err) {
     console.error('[academy/fsrs] review award failed', err)
   }

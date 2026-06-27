@@ -279,6 +279,41 @@ async function main() {
     return `${rows.length} events across ${seededLessons} lessons (${skippedLessons} already present)`
   })
 
+  // ── 5b. TODAY's quest activity (drives the quest board + variable bonus) ────
+  // The quest panel reads *today's* window: a review done today arms the
+  // daily-review quest (and the flat-bonus path), while NO lesson today keeps
+  // the daily-lesson quest as the "what to do now" lead (and the multiplier
+  // bonus armable). This makes the variable-ratio reward UI render alive for
+  // the showcase whichever surprise today's seed picks. Append-only + guarded
+  // so re-runs don't duplicate today's rows.
+  await section('academy_evidence_events (today)', async () => {
+    const todayStartIso = `${today}T00:00:00.000Z`
+    const { data: todays, error: tErr } = await admin
+      .from('academy_evidence_events')
+      .select('event_type, created_at')
+      .eq('user_id', userId)
+      .eq('course_slug', COURSE_SLUG)
+      .gte('created_at', todayStartIso)
+    if (tErr) throw tErr
+    const haveReviewToday = (todays ?? []).some((r) => r.event_type === 'retrieval_attempted')
+    if (haveReviewToday) return "today's review event already present (skipped)"
+
+    const reviewLesson = lessonSlugs[0] ?? 'demo-lesson'
+    const { error } = await admin.from('academy_evidence_events').insert([
+      {
+        user_id: userId,
+        course_slug: COURSE_SLUG,
+        lesson_slug: reviewLesson,
+        unit_id: `${reviewLesson}::today-review`,
+        event_type: 'retrieval_attempted',
+        payload: { quest_demo: true },
+        created_at: new Date().toISOString(),
+      },
+    ])
+    if (error) throw error
+    return '1 review event today (daily-review armed; daily-lesson left as the lead)'
+  })
+
   // ── 6. certificate ─────────────────────────────────────────────────────────
   await section('academy_certificates', async () => {
     const { error } = await admin.from('academy_certificates').upsert(
@@ -363,6 +398,26 @@ async function main() {
     )
     if (error) throw error
     return `@${handle} (public)`
+  })
+
+  await section('academy_tutor_memory', async () => {
+    // Labelled showcase fixture: the demo learner previously struggled with
+    // recursion — so the tutor's proactive opener + cross-session memory render
+    // their real behavior (a real learner accrues this from actual tutor turns).
+    const { error } = await admin.from('academy_tutor_memory').upsert(
+      {
+        user_id: userId,
+        struggles: ['recursion', 'error handling'],
+        summary:
+          'Working through Programming Fundamentals — solid on syntax and control flow, but got stuck on recursion last session.',
+        last_course_slug: 'programming-fundamentals',
+        last_lesson_slug: 'input-validation',
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id' },
+    )
+    if (error) throw error
+    return 'recursion + error handling (proactive opener)'
   })
 
   // ── 10. artifacts (portfolio projects) ─────────────────────────────────────

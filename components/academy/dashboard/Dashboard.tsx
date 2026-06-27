@@ -4,7 +4,7 @@ import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
-import type { QuestProgress } from '@/lib/academy/quest-logic'
+import type { QuestProgress, BonusState } from '@/lib/academy/quest-logic'
 import type { Trigger } from '@/lib/academy/trigger-logic'
 import type { NextRewards } from '@/lib/academy/reward-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
@@ -238,6 +238,8 @@ interface DashboardProps {
   dailyQuests?: QuestProgress[]
   /** This week's quests with honest, server-derived progress. */
   weeklyQuests?: QuestProgress[]
+  /** Today's deterministic variable-reward bonus (server-derived). */
+  dailyBonus?: BonusState | null
   /** Prioritised in-app nudges (top 1-2). Empty → the banner renders nothing. */
   triggers?: Trigger[]
   /** Near-miss / next-reward bundle (closest badge, XP-to-level, league gap). */
@@ -254,6 +256,7 @@ export function Dashboard({
   displayName = null,
   dailyQuests = [],
   weeklyQuests = [],
+  dailyBonus = null,
   triggers = [],
   rewards = null,
   nextHref = '/academy/catalog',
@@ -377,7 +380,7 @@ export function Dashboard({
         </div>
       </dl>
 
-      <QuestPanel daily={dailyQuests} weekly={weeklyQuests} />
+      <QuestPanel daily={dailyQuests} weekly={weeklyQuests} bonus={dailyBonus ?? undefined} />
 
       <section className={styles.section}>
         <div className={styles.sectionHead}>

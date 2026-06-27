@@ -8,6 +8,7 @@ import { maybeConvertReferral } from '@/lib/academy/referrals'
 import { updateFriendStreaks } from '@/lib/academy/community'
 import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 import { reconcileBadges } from '@/lib/academy/badges'
+import { awardDailyBonusIfEarned } from '@/lib/academy/quests'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -59,6 +60,7 @@ export async function markLessonComplete(
     try {
       const state = await recordActivityAndAward(user.id, 'lesson')
       celebration = pickCelebration(state)
+      await awardDailyBonusIfEarned(user.id) // credit the variable daily bonus if this lesson earned it (idempotent)
       await ensureReviewCardsForCompleted(user.id) // seed an FSRS review card for the lesson
       await maybeConvertReferral(user.id) // convert a pending referral once the invitee engages
       await updateFriendStreaks(user.id) // advance friend streaks for both-active pairs

@@ -138,4 +138,26 @@ gap — do not patch the runtime per course.
   masthead handle ("Client1+test") are empty-test-account artifacts that real content/names resolve —
   and (b) one deferred structural item (the lesson right-rail). Per §5 this is correct: 98–99 needs real
   outcomes; full visual density needs real content.
-- Tier 4 — PROOF: NOT started.
+- **Tier 4 — PROOF: complete (2026-06-27). THE FOUNDATION IS BUILT.** `scripts/academy/accept-foundation.ts`
+  drives the whole enforcement loop end-to-end through the REAL ledger + REAL 8-state machine + REAL
+  cap resolver: ready/70 → in_progress → proof_pending → review_pending → repair_required → transfer_due
+  → complete, score → 98 (internal ceiling). Re-runnable, isolated from the real lesson. `academy-journey.spec`
+  proves the canonical path has no dead ends. Final sweep: typecheck 0 · unit 257/257 · academy e2e 20/20
+  (content + enforcement + journey + a11y) · acceptance PASS · next build pass.
+
+## Foundation-done gate — status
+- [x] IA consolidated (8→6 nav, one app learn path + course entry; marketing layer kept separate).
+- [x] Design shell is the single source of academy chrome (tokens + GroupSubNav + shell components).
+- [x] 15-entity spine + enforcement primitives exist; RLS + service-role + append-only trigger.
+- [x] Evidence-gate e2e: a unit will NOT complete / show full score without its EvidenceEvents.
+- [x] AI guide grades explain-back into a trusted EvidenceEvent (LIVE round-trip pending DEEPSEEK_API_KEY).
+- [x] Board scheduler surfaces due recall + the repair queue (/academy/review).
+- [x] New-learner journey has no dead ends (Course 00 → catalog → course → lesson → review).
+- [x] Reference course runs all 5 beats + caps end-to-end through the foundation (acceptance fixture).
+- [~] Every UX category ≥95 — currently **92.5** (honest): gated on real learner data (empty-account voids
+      + the test masthead handle) + one deferred structural item (lesson right-rail). Per §5, full visual
+      density + 98–99 require real content/outcomes — not buildable, only earnable.
+
+**Verdict: the foundation is built and acceptance-verified — ready to receive courses.** Open operator
+items: set `DEEPSEEK_API_KEY` + one manual teachback; the deploy gate (preview/prod + Lighthouse);
+Stripe/prod-env/Sentry; real learners (the last visual points + 98–99 + live efficacy).

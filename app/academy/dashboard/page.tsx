@@ -6,6 +6,8 @@ import type { GamificationState } from '@/lib/academy/gamification-logic'
 import { getLearnerGoal, getLearnerStats } from '@/lib/academy/goals'
 import { computeGoalProgress, type GoalProgress } from '@/lib/academy/goal-logic'
 import { getMyProfile } from '@/lib/academy/profiles'
+import { getDailyQuests, getWeeklyQuests } from '@/lib/academy/quests'
+import type { QuestProgress } from '@/lib/academy/quest-logic'
 import { Dashboard } from '@/components/academy/dashboard/Dashboard'
 import { AcademyShell } from '@/components/academy/academy-shell'
 
@@ -22,6 +24,8 @@ export default async function DashboardPage() {
   let game: GamificationState | null = null
   let journey: GoalProgress | null = null
   let displayName: string | null = null
+  let dailyQuests: QuestProgress[] = []
+  let weeklyQuests: QuestProgress[] = []
   if (dash.signedIn) {
     const sb = await createSupabaseServerClient()
     const {
@@ -29,17 +33,21 @@ export default async function DashboardPage() {
     } = await sb.auth.getUser()
     if (user) {
       // Independent reads — fetch in parallel to avoid a request waterfall.
-      const [g, goalKey, stats, profile] = await Promise.all([
+      const [g, goalKey, stats, profile, daily, weekly] = await Promise.all([
         getGamification(user.id),
         getLearnerGoal(user.id),
         getLearnerStats(user.id),
         getMyProfile(user.id),
+        getDailyQuests(user.id),
+        getWeeklyQuests(user.id),
       ])
       game = g
       // A real display name (when set) takes precedence over the email-derived name.
       displayName = profile?.displayName?.trim() || null
       // Only compute the journey once the learner has actually chosen a goal.
       journey = goalKey ? computeGoalProgress(goalKey, stats) : null
+      dailyQuests = daily
+      weeklyQuests = weekly
     }
   }
 
@@ -56,6 +64,8 @@ export default async function DashboardPage() {
         journey={journey}
         journeyNextHref={nextHref}
         displayName={displayName}
+        dailyQuests={dailyQuests}
+        weeklyQuests={weeklyQuests}
       />
     </AcademyShell>
   )

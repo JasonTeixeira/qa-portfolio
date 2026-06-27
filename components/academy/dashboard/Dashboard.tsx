@@ -4,7 +4,9 @@ import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
+import type { QuestProgress } from '@/lib/academy/quest-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
+import { QuestPanel } from '@/components/academy/quests/QuestPanel'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import { JourneyHero } from './JourneyHero'
 import styles from './dashboard.module.css'
@@ -179,6 +181,10 @@ interface DashboardProps {
   journeyNextHref?: string
   /** Profile display name, when set — shown instead of the email-derived name. */
   displayName?: string | null
+  /** Today's quests with honest, server-derived progress. */
+  dailyQuests?: QuestProgress[]
+  /** This week's quests with honest, server-derived progress. */
+  weeklyQuests?: QuestProgress[]
 }
 
 export function Dashboard({
@@ -187,6 +193,8 @@ export function Dashboard({
   journey = null,
   journeyNextHref = '/academy/catalog',
   displayName = null,
+  dailyQuests = [],
+  weeklyQuests = [],
 }: DashboardProps) {
   if (!dash.signedIn) {
     return (
@@ -261,6 +269,8 @@ export function Dashboard({
           <dd>Certificates</dd>
         </div>
       </dl>
+
+      <QuestPanel daily={dailyQuests} weekly={weeklyQuests} />
 
       {dash.continueTo ? (
         <Link

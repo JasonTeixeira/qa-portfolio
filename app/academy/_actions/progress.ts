@@ -7,6 +7,7 @@ import { ensureReviewCardsForCompleted } from '@/lib/academy/fsrs'
 import { maybeConvertReferral } from '@/lib/academy/referrals'
 import { updateFriendStreaks } from '@/lib/academy/community'
 import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
+import { reconcileBadges } from '@/lib/academy/badges'
 
 /**
  * Mark a lesson complete for the current learner (idempotent upsert, RLS-scoped).
@@ -61,6 +62,7 @@ export async function markLessonComplete(
       await ensureReviewCardsForCompleted(user.id) // seed an FSRS review card for the lesson
       await maybeConvertReferral(user.id) // convert a pending referral once the invitee engages
       await updateFriendStreaks(user.id) // advance friend streaks for both-active pairs
+      await reconcileBadges(user.id) // server-verified collectible badges (anti-cheat: derived from real stats)
     } catch (err) {
       console.error('[academy/progress] gamification award failed', err)
     }

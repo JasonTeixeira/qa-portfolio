@@ -1,0 +1,139 @@
+/* Quests — compact Today + This week lists. Flat hairline surface, no glow.
+   Reads as a ledger that sits below the habit/stat cards, quieter than them.
+   Done = mastery-green check + fill. Motion is compositor-only (width set once,
+   color transitions only; honors prefers-reduced-motion). */
+
+.panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.4rem;
+  margin: 0 0 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.group {
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.02));
+}
+
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.kicker {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ac-accent-text, #9db4ff);
+}
+
+.summary {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  line-height: 1;
+  color: var(--ac-text-dim, #8a8b96);
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.12));
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.rowDone .check {
+  color: #04140d;
+  background: var(--ac-mastery, #2dd4bf);
+  border-color: var(--ac-mastery, #2dd4bf);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.86rem;
+  line-height: 1.25;
+  color: var(--ac-text, #f2efe9);
+}
+
+.rowDone .label {
+  color: var(--ac-text-dim, #c4c5cd);
+}
+
+.track {
+  height: 4px;
+  border-radius: 100px;
+  overflow: hidden;
+  background: var(--ac-surface-2, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.1));
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: var(--ac-accent-strong, #3d6bff);
+  transition: background 0.2s ease;
+}
+
+.rowDone .fill {
+  background: var(--ac-mastery, #2dd4bf);
+}
+
+.count {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.74rem;
+  white-space: nowrap;
+  color: var(--ac-text, #f2efe9);
+}
+
+.countDim {
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check,
+  .fill {
+    transition: none;
+  }
+}

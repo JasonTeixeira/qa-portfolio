@@ -9218,6 +9218,36 @@ test('goal-logic: computeGoalProgress milestones, pct, nextMilestone, fallback',
   assert.equal(computeGoalProgress('nonsense', zero).goalKey, 'explore');
 });
 
+test('badges-logic: earnedBadgeKeys is deterministic + server-derivable from stats', async () => {
+  const { earnedBadgeKeys, getBadge, BADGE_CATALOG } = await import('../../lib/academy/badges-logic.ts');
+  const base = { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false, longestStreak: 0 };
+  assert.deepEqual(earnedBadgeKeys(base), []);
+  assert.deepEqual(earnedBadgeKeys({ ...base, lessonsCompleted: 1 }), ['first_lesson']);
+  const five = earnedBadgeKeys({ ...base, lessonsCompleted: 5 });
+  assert.ok(five.includes('first_lesson') && five.includes('five_lessons') && !five.includes('hundred_xp'));
+  // streak badges fire on the historical PEAK
+  assert.ok(earnedBadgeKeys({ ...base, currentStreak: 0, longestStreak: 7 }).includes('streak_7'));
+  // comeback: peak > current && peak >= 3
+  assert.ok(earnedBadgeKeys({ ...base, currentStreak: 1, longestStreak: 10 }).includes('comeback'));
+  assert.ok(!earnedBadgeKeys({ ...base, currentStreak: 10, longestStreak: 10 }).includes('comeback'));
+  // catalog integrity
+  assert.equal(BADGE_CATALOG.length >= 10, true);
+  for (const b of BADGE_CATALOG) { assert.ok(b.key && b.label && b.icon && b.blurb); assert.equal(getBadge(b.key).key, b.key); }
+  assert.equal(getBadge('nope'), undefined);
+});
+
+test('quest-logic: computeQuests clamps + done; variableXpBonus is pure-from-seed', async () => {
+  const { computeQuests, variableXpBonus, DAILY_QUESTS } = await import('../../lib/academy/quest-logic.ts');
+  const activity = { lessonsToday: 2, xpToday: 25, reviewsToday: 0, lessonsThisWeek: 2, labsThisWeek: 0, streakDays: 3 };
+  const daily = computeQuests('daily', activity);
+  assert.equal(daily.length, DAILY_QUESTS.length);
+  for (const q of daily) { assert.ok(q.progress >= 0 && q.progress <= q.target); assert.equal(q.done, q.progress >= q.target); }
+  // variableXpBonus: pure function of the seed only (deterministic), bounded, 0 on non-finite
+  assert.equal(variableXpBonus(4), variableXpBonus(4));
+  assert.equal(variableXpBonus(Infinity), 0);
+  for (const s of [0, 1, 2, 3, 7, 100]) { const v = variableXpBonus(s); assert.ok([0, 5, 10, 15].includes(v)); }
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

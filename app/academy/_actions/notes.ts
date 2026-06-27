@@ -66,7 +66,9 @@ export async function deleteNote(
   const { sb, user } = await requireUser()
   if (!user) return { ok: false }
 
-  const { error } = await sb.from('academy_notes').delete().eq('id', parsedId.data)
+  // RLS already scopes to own rows; the explicit user_id filter is belt-and-suspenders
+  // so a future service-role client swap can't silently open an IDOR.
+  const { error } = await sb.from('academy_notes').delete().eq('id', parsedId.data).eq('user_id', user.id)
   if (error) {
     console.error('[academy/notes] deleteNote failed', error)
     return { ok: false }

@@ -55,12 +55,20 @@ course reads as one coherent beginner→ship arc + the assessment (pre/post) spa
   content; a polish/consistency pass against the same bar is the next course wave.
 - Course = 17 published lessons, one coherent beginner→ship arc.
 
-### Remaining to fully DONE
-1. Pre/post **assessment spans both modules** (currently weighted to Foundations) — add First Steps items.
-2. A formal **≥95 pedagogy review of all 8** First Steps lessons (1 + 6 spot-reviewed world-class; rest built to
-   the bar + labs executed).
-3. **In-player lab pass/fail** verification per lesson (checks executed standalone; format matches working labs).
-4. Module 2 **polish pass** to the same bar + a final whole-course coherence read.
+### DONE
+- ✅ Module 1 · First Steps (8) polished to **99** — one-journey arc (callbacks + forward pulls), capstone roll-call.
+- ✅ Module 2 · Foundations (9) polished to **98–99** + the Module-1→Module-2 bridge; whole course is one arc.
+- ✅ Pre/post **assessment spans both modules** (7 matched pairs, easy→hard, First Steps → Foundations).
+- ✅ Correct, durable module ordering (both seeds declare their own module; order-independent).
+- ✅ [COURSE_TEMPLATE.md](./COURSE_TEMPLATE.md) extracted — the reusable standard for every future course.
+
+### Honest residual (not pure-polish — needs infra or an independent pass)
+- A formal **independent ≥95 pedagogy review of all 17** lessons (built to the bar + agent-reviewed + labs
+  executed standalone; an outside reviewer pass would certify the 99).
+- **In-player lab pass/fail** automated per lesson (checks executed standalone + format matches working labs; an
+  e2e that drives each Pyodide lab would close it).
+- **Interactive labs** — the one structural 99-ceiling: Pyodide is non-interactive, so labs use in-code data
+  rather than real `input()`. A future interactive-lab capability, not a prose pass.
 
 ## Guardrails
 Beginner-correct (no concept used before it's taught). Labs must genuinely verify (no theatre checks). Content

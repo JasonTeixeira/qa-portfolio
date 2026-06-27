@@ -22,9 +22,50 @@ const COURSE_SLUG = 'programming-fundamentals'
 // ---------------------------------------------------------------- pre/post quiz
 // Course-level Hake's-g assessment. Grounded in the input-validation node + the
 // foundations cluster. Server-scored; the answer key never reaches the browser.
+// Course-spanning pre-test: samples both modules, easy → hard (First Steps basics
+// → Foundations craft), so the pre/post gain measures the WHOLE course, not one topic.
 const pretest = [
   {
     id: 'pre1',
+    prompt: 'What does a variable do in a program?',
+    options: [
+      'Prints text to the screen',
+      'Stores a value under a name you can reuse later',
+      'Repeats an action many times',
+      'Permanently changes the language',
+    ],
+    answer: 1,
+  },
+  {
+    id: 'pre2',
+    prompt: 'In Python, what is the result of "2" + "3" (both in quotes)?',
+    options: ['5', "'23'", 'an error', '6'],
+    answer: 1,
+  },
+  {
+    id: 'pre3',
+    prompt: 'To add up every number in a list, the right tool is to…',
+    options: [
+      'Write the addition out by hand for each item',
+      'Loop over the list, accumulating a running total',
+      'Convert the list to a string',
+      'Use an if-statement',
+    ],
+    answer: 1,
+  },
+  {
+    id: 'pre4',
+    prompt: "What does a function's return value do?",
+    options: [
+      'Prints it to the screen',
+      'Hands a result back to the code that called the function',
+      'Saves it to a file',
+      'Nothing — return is optional decoration',
+    ],
+    answer: 1,
+  },
+  {
+    id: 'pre5',
     prompt: 'Where should untrusted input be validated?',
     options: [
       'Only in the browser / UI',
@@ -35,18 +76,63 @@ const pretest = [
     answer: 1,
   },
   {
-    id: 'pre2',
-    prompt: "A function receives age = '-3' (a string). What is the safest behavior?",
+    id: 'pre6',
+    prompt: 'When an operation can fail (e.g. divide by zero), the safest response is to…',
     options: [
-      'Convert it to an int and continue',
-      'Reject it with a clear, actionable error',
-      'Default it to 0 and continue',
-      'Log it and continue',
+      'Let it crash silently and move on',
+      'Raise or handle a clear, specific error',
+      'Return 0 and continue',
+      'Ignore it — failures are rare',
     ],
     answer: 1,
   },
   {
-    id: 'pre3',
+    id: 'pre7',
+    prompt: 'A good automated test…',
+    options: [
+      'Passes no matter what the code does',
+      'Fails when the code is wrong and passes when it is right',
+      'Only checks that the file runs',
+      'Replaces the need to read the code',
+    ],
+    answer: 1,
+  },
+]
+
+// Course-spanning post-test: same concepts as the pre-test, tested at a harder
+// surface, so (post − pre) reflects genuine learning across both modules.
+const posttest = [
+  {
+    id: 'post1',
+    prompt: 'After running x = 5 then x = 9, what is the value of x?',
+    options: ['5', '9', 'both 5 and 9', 'an error'],
+    answer: 1,
+  },
+  {
+    id: 'post2',
+    prompt: 'What does int("25") evaluate to?',
+    options: ["the string '25'", 'the integer 25', 'an error', '2.5'],
+    answer: 1,
+  },
+  {
+    id: 'post3',
+    prompt: 'In a for-loop that sums a list, where must the running total be created?',
+    options: [
+      'Inside the loop, so it resets each pass',
+      'Before the loop, so it survives across every pass',
+      'After the loop',
+      'It does not matter',
+    ],
+    answer: 1,
+  },
+  {
+    id: 'post4',
+    prompt: 'A function that has no return statement gives back…',
+    options: ['0', 'None', 'the last variable used', 'an error'],
+    answer: 1,
+  },
+  {
+    id: 'post5',
     prompt: 'Why is client-side-only validation insufficient?',
     options: [
       "It's too slow",
@@ -56,39 +142,25 @@ const pretest = [
     ],
     answer: 1,
   },
-]
-
-const posttest = [
   {
-    id: 'post1',
-    prompt: 'Which check belongs at the database layer as a backstop, not just the app?',
+    id: 'post6',
+    prompt: 'Catching an exception and then ignoring it (a bare except that does nothing)…',
     options: [
-      'Trimming whitespace from a name',
-      'A critical uniqueness / not-null invariant',
-      'Formatting the error message',
-      'Showing a loading spinner',
+      'Is best practice — it keeps the program running',
+      'Hides bugs and produces silent, hard-to-diagnose failures',
+      'Is required by Python',
+      'Makes the code faster',
     ],
     answer: 1,
   },
   {
-    id: 'post2',
-    prompt: 'When is normalizing input (instead of rejecting it) appropriate?',
+    id: 'post7',
+    prompt: 'A test that passes no matter what the implementation does…',
     options: [
-      "Always — it's friendlier",
-      'Only when the transformation is safe and explicit (e.g. trimming whitespace)',
-      'Never',
-      'Only on the client',
-    ],
-    answer: 1,
-  },
-  {
-    id: 'post3',
-    prompt: 'Which is a validation failure that becomes a security bug?',
-    options: [
-      'A friendly error message',
-      'No max-length check, enabling injection or resource exhaustion',
-      'Validating on the server',
-      'Rejecting -3 as an age',
+      'Is the safest kind of test',
+      'Gives false confidence — it proves nothing',
+      'Is fine if it runs quickly',
+      'Counts as full coverage',
     ],
     answer: 1,
   },

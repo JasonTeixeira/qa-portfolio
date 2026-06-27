@@ -5,9 +5,14 @@ import type { LearnerDashboard } from '@/lib/academy/learner'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
 import type { QuestProgress } from '@/lib/academy/quest-logic'
+import type { Trigger } from '@/lib/academy/trigger-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
+import { TriggerBanner } from '@/components/academy/triggers/TriggerBanner'
 import { QuestPanel } from '@/components/academy/quests/QuestPanel'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
+import { CountUp } from '@/components/academy/ui/CountUp'
+import { GrowBar } from '@/components/academy/ui/GrowBar'
+import { SoundToggle } from '@/components/academy/ui/SoundToggle'
 import { JourneyHero } from './JourneyHero'
 import styles from './dashboard.module.css'
 
@@ -72,7 +77,7 @@ function HabitPanel({ game }: { game: GamificationState }) {
         <div className={styles.habitMeta}>
           <span className={styles.habitLabel}>Daily goal</span>
           <span className={styles.habitValue}>
-            {dailyGoal.todayXp} <span className={styles.habitDim}>/ {dailyGoal.goalXp} XP</span>
+            <CountUp value={dailyGoal.todayXp} /> <span className={styles.habitDim}>/ {dailyGoal.goalXp} XP</span>
           </span>
           <span className={styles.habitSub}>{dailyGoal.met ? '✓ Goal hit today' : 'Earn XP to close the ring'}</span>
         </div>
@@ -108,13 +113,16 @@ function HabitPanel({ game }: { game: GamificationState }) {
       {/* Level / XP */}
       <div className={styles.habitCard}>
         <span className={styles.levelBadge} aria-hidden="true">
-          {xp.level}
+          <CountUp value={xp.level} />
         </span>
         <div className={styles.habitMeta}>
           <span className={styles.habitLabel}>Level {xp.level}</span>
-          <span className={styles.xpBar} aria-hidden="true">
-            <span style={{ width: `${xp.pct}%` }} />
-          </span>
+          <GrowBar
+            value={xp.pct}
+            color="var(--ac-accent, #3D6BFF)"
+            className={styles.xpGrowBar}
+            ariaLabel={`Level ${xp.level} progress: ${xp.pct}% to level ${xp.level + 1}`}
+          />
           <span className={styles.habitSub}>{xp.toNext} XP to level {xp.level + 1}</span>
         </div>
       </div>
@@ -185,6 +193,8 @@ interface DashboardProps {
   dailyQuests?: QuestProgress[]
   /** This week's quests with honest, server-derived progress. */
   weeklyQuests?: QuestProgress[]
+  /** Prioritised in-app nudges (top 1-2). Empty → the banner renders nothing. */
+  triggers?: Trigger[]
 }
 
 export function Dashboard({
@@ -195,6 +205,7 @@ export function Dashboard({
   displayName = null,
   dailyQuests = [],
   weeklyQuests = [],
+  triggers = [],
 }: DashboardProps) {
   if (!dash.signedIn) {
     return (
@@ -229,6 +240,8 @@ export function Dashboard({
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
 
+      <TriggerBanner triggers={triggers} />
+
       <JourneyHero progress={journey} nextHref={journeyNextHref} />
 
       <header className={styles.head}>
@@ -240,6 +253,7 @@ export function Dashboard({
           <Link href="/academy/profile">◆ Public profile</Link>
           <Link href="/academy/efficacy">↗ Does it work?</Link>
           <Link href="/academy/catalog">Browse catalog →</Link>
+          <SoundToggle className={styles.soundToggle} />
         </nav>
       </header>
 
@@ -250,22 +264,22 @@ export function Dashboard({
 
       <dl className={styles.stats}>
         <div className={styles.stat} data-zero={dash.lessonsCompleted === 0}>
-          <dt>{dash.lessonsCompleted}</dt>
+          <dt><CountUp value={dash.lessonsCompleted} /></dt>
           <dd>Lessons completed</dd>
         </div>
         <div
           className={`${styles.stat} ${dash.coursesInProgress ? styles.statLive : ''}`}
           data-zero={dash.coursesInProgress === 0}
         >
-          <dt>{dash.coursesInProgress}</dt>
+          <dt><CountUp value={dash.coursesInProgress} /></dt>
           <dd>In progress</dd>
         </div>
         <div className={styles.stat} data-zero={dash.coursesCompleted === 0}>
-          <dt>{dash.coursesCompleted}</dt>
+          <dt><CountUp value={dash.coursesCompleted} /></dt>
           <dd>Courses finished</dd>
         </div>
         <div className={styles.stat} data-zero={dash.certificates.length === 0}>
-          <dt>{dash.certificates.length}</dt>
+          <dt><CountUp value={dash.certificates.length} /></dt>
           <dd>Certificates</dd>
         </div>
       </dl>

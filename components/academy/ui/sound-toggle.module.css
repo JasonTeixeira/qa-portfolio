@@ -1,0 +1,41 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+  border-radius: 100px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.02));
+  color: var(--ac-text-dim, #c4c5cd);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.toggle:hover {
+  border-color: color-mix(in srgb, var(--ac-accent, #3d6bff) 45%, transparent);
+  color: var(--ac-text, #f2efe9);
+  background: color-mix(in srgb, var(--ac-accent, #3d6bff) 6%, transparent);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* enabled state reads as accent text — semantic, not decorative */
+.toggle[aria-pressed='true'] {
+  color: var(--ac-accent-text, #8fa0ff);
+  border-color: color-mix(in srgb, var(--ac-accent, #3d6bff) 40%, transparent);
+}
+
+.glyph {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}

@@ -8,6 +8,8 @@ import { computeGoalProgress, type GoalProgress } from '@/lib/academy/goal-logic
 import { getMyProfile } from '@/lib/academy/profiles'
 import { getDailyQuests, getWeeklyQuests } from '@/lib/academy/quests'
 import type { QuestProgress } from '@/lib/academy/quest-logic'
+import { getTriggers } from '@/lib/academy/triggers'
+import type { Trigger } from '@/lib/academy/trigger-logic'
 import { Dashboard } from '@/components/academy/dashboard/Dashboard'
 import { AcademyShell } from '@/components/academy/academy-shell'
 
@@ -26,6 +28,14 @@ export default async function DashboardPage() {
   let displayName: string | null = null
   let dailyQuests: QuestProgress[] = []
   let weeklyQuests: QuestProgress[] = []
+  let triggers: Trigger[] = []
+
+  // The resume point — their continue-to lesson, else the catalog. Both the
+  // journey CTA and the trigger nudges send the learner here.
+  const nextHref = dash.continueTo
+    ? `/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`
+    : '/academy/catalog'
+
   if (dash.signedIn) {
     const sb = await createSupabaseServerClient()
     const {
@@ -33,13 +43,14 @@ export default async function DashboardPage() {
     } = await sb.auth.getUser()
     if (user) {
       // Independent reads — fetch in parallel to avoid a request waterfall.
-      const [g, goalKey, stats, profile, daily, weekly] = await Promise.all([
+      const [g, goalKey, stats, profile, daily, weekly, trig] = await Promise.all([
         getGamification(user.id),
         getLearnerGoal(user.id),
         getLearnerStats(user.id),
         getMyProfile(user.id),
         getDailyQuests(user.id),
         getWeeklyQuests(user.id),
+        getTriggers(user.id, nextHref),
       ])
       game = g
       // A real display name (when set) takes precedence over the email-derived name.
@@ -48,13 +59,9 @@ export default async function DashboardPage() {
       journey = goalKey ? computeGoalProgress(goalKey, stats) : null
       dailyQuests = daily
       weeklyQuests = weekly
+      triggers = trig
     }
   }
-
-  // The next-milestone CTA continues their journey — their resume point, else catalog.
-  const nextHref = dash.continueTo
-    ? `/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`
-    : '/academy/catalog'
 
   return (
     <AcademyShell active="home" signedIn={dash.signedIn}>
@@ -66,6 +73,7 @@ export default async function DashboardPage() {
         displayName={displayName}
         dailyQuests={dailyQuests}
         weeklyQuests={weeklyQuests}
+        triggers={triggers}
       />
     </AcademyShell>
   )

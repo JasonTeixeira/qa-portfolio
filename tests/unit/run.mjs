@@ -9248,6 +9248,34 @@ test('quest-logic: computeQuests clamps + done; variableXpBonus is pure-from-see
   for (const s of [0, 1, 2, 3, 7, 100]) { const v = variableXpBonus(s); assert.ok([0, 5, 10, 15].includes(v)); }
 });
 
+test('trigger-logic: computeTriggers prioritises nudges + empty when on track', async () => {
+  const { computeTriggers } = await import('../../lib/academy/trigger-logic.ts');
+  const RESUME = '/academy/learn/x/y';
+  const onTrack = { streakActiveToday: true, currentStreak: 4, reviewsDue: 0, lessonsToCert: null, dailyGoalPct: 0, lapsedDays: 0, startedAnyLesson: true };
+  assert.deepEqual(computeTriggers(onTrack, RESUME), []); // on track → no nag
+  // streak at risk (highest priority, urgent, → review)
+  const risk = computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 5 }, RESUME)[0];
+  assert.equal(risk.kind, 'streak-risk');
+  assert.equal(risk.tone, 'urgent');
+  assert.equal(risk.href, '/academy/review');
+  // reviews-due plural
+  assert.match(computeTriggers({ ...onTrack, reviewsDue: 3 }, RESUME)[0].message, /3 reviews/);
+  // near-cert boundary (fires <=2 and >0, not 3, not 0)
+  assert.equal(computeTriggers({ ...onTrack, lessonsToCert: 2 }, RESUME)[0].kind, 'near-cert');
+  assert.deepEqual(computeTriggers({ ...onTrack, lessonsToCert: 3 }, RESUME), []);
+  assert.deepEqual(computeTriggers({ ...onTrack, lessonsToCert: 0 }, RESUME), []);
+  // daily-goal-close band [50,100)
+  assert.equal(computeTriggers({ ...onTrack, dailyGoalPct: 73 }, RESUME)[0].kind, 'daily-goal-close');
+  assert.deepEqual(computeTriggers({ ...onTrack, dailyGoalPct: 49 }, RESUME), []);
+  assert.deepEqual(computeTriggers({ ...onTrack, dailyGoalPct: 100 }, RESUME), []);
+  // first-step + comeback
+  assert.equal(computeTriggers({ ...onTrack, startedAnyLesson: false }, RESUME)[0].kind, 'first-step');
+  assert.equal(computeTriggers({ ...onTrack, lapsedDays: 2 }, RESUME)[0].kind, 'comeback');
+  // priority order when several fire
+  const many = computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 3, reviewsDue: 4, lessonsToCert: 1 }, RESUME);
+  assert.deepEqual(many.map((t) => t.kind).slice(0, 2), ['streak-risk', 'reviews-due']);
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

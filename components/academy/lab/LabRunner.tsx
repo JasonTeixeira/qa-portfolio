@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { verifyLab } from '@/app/academy/_actions/evidence'
+import { useSound } from '@/hooks/useSound'
 import styles from './lab.module.css'
 
 const PYODIDE_VERSION = '0.26.4'
@@ -42,6 +43,7 @@ export function LabRunner({
   const [verifying, setVerifying] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [completing, startComplete] = useTransition()
+  const { play } = useSound()
   const pyodideRef = useRef<any>(null)
   // The exact stdout buffer from the most recent run — submitted to the server so
   // it can verify the lab against the server-held `check` string. The expected
@@ -103,6 +105,12 @@ export function LabRunner({
     try {
       const { verified } = await verifyLab(courseSlug, lessonSlug, lastOutputRef.current)
       setPassed(verified)
+      if (verified) {
+        // Subtle mobile haptic + opt-in success tone on the primary completion
+        // moment. Both are no-ops under reduced-motion / when unsupported.
+        navigator.vibrate?.(15)
+        play('success')
+      }
     } finally {
       setVerifying(false)
     }

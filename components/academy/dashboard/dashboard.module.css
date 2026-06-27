@@ -36,6 +36,9 @@
 .quickNav a { font-family: var(--font-mono), monospace; font-size: 0.76rem; color: var(--dim); text-decoration: none; border: 1px solid var(--line); border-radius: 100px; padding: 0.45rem 0.95rem; transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease; }
 .quickNav a:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; background: rgba(61, 107, 255, 0.06); }
 .quickNav a:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
+/* sound toggle sits at the end of the quick-nav row, gently pushed to the right */
+.soundToggle { margin-left: auto; }
+@media (max-width: 560px) { .soundToggle { margin-left: 0; } }
 
 /* metric strip — flat hairline row, no glow. Quieter than the habit panel so it reads as a ledger, not a card grid. */
 .stats {
@@ -85,6 +88,8 @@
 }
 .xpBar { display: block; width: 100%; min-width: 120px; height: 6px; border-radius: 100px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
 .xpBar > span { display: block; height: 100%; border-radius: 100px; background: var(--accent); transition: width 0.4s ease; }
+/* mount-fill XP bar (compositor-only grow) — keep the old min-width footprint */
+.xpGrowBar { min-width: 120px; }
 
 @media (max-width: 720px) {
   .habit { grid-template-columns: 1fr; }

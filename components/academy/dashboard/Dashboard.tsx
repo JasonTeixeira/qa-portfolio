@@ -65,11 +65,55 @@ function Ring({
   )
 }
 
+/**
+ * Stakes + identity copy for the streak card. Loss aversion without lying: we only
+ * claim "your longest yet" when the live streak genuinely equals the recorded peak
+ * (and is non-trivial). Freeze info is demoted to a small secondary reassurance —
+ * never the headline — so banked freezes can't read as "you're safe, skip today".
+ */
+function streakStakesCopy(streak: GamificationState['streak']): {
+  headline: string
+  stakes: string
+  reassurance: string | null
+} {
+  const { current, longest, freezes, activeToday } = streak
+
+  if (current <= 0) {
+    return {
+      headline: 'Start a streak',
+      stakes: 'Finish one lesson to put the first day on the board',
+      reassurance: null,
+    }
+  }
+
+  const isPersonalBest = current > 1 && current >= longest
+  const headline = isPersonalBest
+    ? 'Personal best — on the line'
+    : activeToday
+      ? 'Streak alive — keep it going'
+      : 'On the line today'
+
+  // The stakes line leads with identity/loss — never reassurance, even when today is
+  // already banked. At peak it's the thing to PROTECT; otherwise it's the thing not to
+  // let RESET. (Freezes only soften this afterward, never replace it.)
+  const stakes = isPersonalBest
+    ? 'Your longest streak yet — protect it'
+    : 'Don’t let it reset'
+
+  const reassurance =
+    !activeToday && freezes > 0
+      ? `${freezes} freeze${freezes === 1 ? '' : 's'} can cover one missed day — but don’t spend it`
+      : null
+
+  return { headline, stakes, reassurance }
+}
+
 /** Today panel — the habit core surfaced: daily-goal ring, streak + freezes, level/XP. */
 function HabitPanel({ game }: { game: GamificationState }) {
   const { streak, xp, dailyGoal } = game
   const goalPct = dailyGoal.goalXp > 0 ? Math.round((dailyGoal.todayXp / dailyGoal.goalXp) * 100) : 0
   const freezePips = Array.from({ length: Math.max(streak.freezes, 0) })
+  const streakStakes = streakStakesCopy(streak)
 
   return (
     <section className={styles.habit} aria-label="Today">
@@ -85,36 +129,29 @@ function HabitPanel({ game }: { game: GamificationState }) {
         </div>
       </div>
 
-      {/* Streak — loss-aversion framing when one is alive but not yet secured today. */}
+      {/* Streak — stakes + identity, not reassurance. The headline names what's on
+          the line (a personal best, or "don't let it reset"); freeze info is only a
+          small secondary line AFTER the stakes, never the lead. */}
       <div className={`${styles.habitCard} ${streak.activeToday ? styles.habitActive : ''}`}>
         <span className={styles.flame} aria-hidden="true">
           {streak.current > 0 ? '🔥' : '○'}
         </span>
         <div className={styles.habitMeta}>
-          <span className={styles.habitLabel}>
-            {streak.current > 0 && !streak.activeToday
-              ? `Keep your ${streak.current}-day streak alive`
-              : 'Streak'}
-          </span>
+          <span className={styles.habitLabel}>{streakStakes.headline}</span>
           <span className={styles.habitValue}>
             {streak.current} <span className={styles.habitDim}>{streak.current === 1 ? 'day' : 'days'}</span>
           </span>
-          <span className={styles.habitSub}>
-            {streak.current > 0 && !streak.activeToday ? (
-              'Finish a lesson today so it doesn’t reset'
-            ) : freezePips.length > 0 ? (
-              <>
-                <span className={styles.freezePips} aria-hidden="true">
-                  {freezePips.map((_, i) => (
-                    <span key={i}>❄</span>
-                  ))}
-                </span>
-                {streak.freezes} freeze{streak.freezes === 1 ? '' : 's'} banked
-              </>
-            ) : (
-              'No freezes — don’t miss a day'
-            )}
-          </span>
+          <span className={styles.habitSub}>{streakStakes.stakes}</span>
+          {streakStakes.reassurance ? (
+            <span className={styles.freezeNote}>
+              <span className={styles.freezePips} aria-hidden="true">
+                {freezePips.map((_, i) => (
+                  <span key={i}>❄</span>
+                ))}
+              </span>
+              {streakStakes.reassurance}
+            </span>
+          ) : null}
         </div>
       </div>
 
@@ -268,7 +305,7 @@ export function Dashboard({
         ) : null}
       </div>
       {continueCourse ? <Ring pct={continueCourse.pct} /> : null}
-      <span className={styles.resumeBtn}>Resume →</span>
+      <span className={styles.resumeBtn}>Finish lesson →</span>
     </Link>
   ) : null
 
@@ -276,14 +313,29 @@ export function Dashboard({
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
 
+      {/* A tiny eyebrow kicker is the only thing allowed above the hero — it labels the
+          surface without competing as a CTA. The greeting headline and the timely
+          nudge both sit BELOW the hero so the eye lands on the reward action first. */}
+      <p className={`${styles.kicker} ${styles.eyebrow}`}>My Learning</p>
+
+      {/* THE single dominant next action — the FIRST focal point on the page: resume the
+          lesson when there is one (the literal "do this next"), otherwise the
+          closest-reward hero from NextUp. Only one hero-scale block renders here so the
+          eye lands on exactly one thing. */}
+      {resumeBlock ?? (rewards ? <NextUp rewards={rewards} nextHref={nextHref} /> : null)}
+
+      {/* When resume IS the hero, NextUp's closest-reward block renders below it as a
+          clearly secondary motivator (still hero-internally, but demoted in the page
+          flow). When there's no resume, NextUp already played the hero role above. */}
+      {resumeBlock && rewards ? <NextUp rewards={rewards} nextHref={nextHref} compact /> : null}
+
+      {/* Timely urgent nudge (e.g. review-due / streak-resets-in-9h) — demoted to sit
+          BELOW the hero so its blue pill reads as a secondary nudge, not the top CTA. */}
       <TriggerBanner triggers={triggers} />
 
-      <JourneyHero progress={journey} nextHref={journeyNextHref} />
-
-      {rewards ? <NextUp rewards={rewards} nextHref={nextHref} /> : null}
-
+      {/* Identity/greeting — context, not an action; demoted below the hero so it never
+          out-ranks the reward action for the eye. */}
       <header className={styles.head}>
-        <p className={styles.kicker}>My Learning</p>
         <h1 className={styles.title}>Welcome back, {displayName ?? cap(dash.name)}.</h1>
         <p className={styles.sub}>{subtitle}</p>
         <nav className={styles.quickNav} aria-label="Learner areas">
@@ -295,7 +347,8 @@ export function Dashboard({
         </nav>
       </header>
 
-      {resumeBlock}
+      {/* Goal context — demoted beneath the action so it never competes with it. */}
+      <JourneyHero progress={journey} nextHref={journeyNextHref} />
 
       {game ? <HabitPanel game={game} /> : null}
       {game ? <StreakStrip streak={game.streak} /> : null}

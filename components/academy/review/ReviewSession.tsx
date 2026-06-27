@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { gradeReview } from '@/app/academy/_actions/reviews'
 import type { DueReview, ReviewGrade } from '@/lib/academy/fsrs'
 import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
-import type { Celebration } from '@/lib/academy/gamification-logic'
+import { XP_REWARDS, type Celebration } from '@/lib/academy/gamification-logic'
 import styles from './review.module.css'
 
 const GRADES: { key: ReviewGrade; label: string; sub: string }[] = [
@@ -16,10 +16,35 @@ const GRADES: { key: ReviewGrade; label: string; sub: string }[] = [
   { key: 'easy', label: 'Easy', sub: 'Instant' },
 ]
 
+/** Seconds an average recall card takes — used to frame the session as finishable. */
+const SECONDS_PER_CARD = 12
+
 /** Days from now until `iso`, floored at 1 — "next review in ~D days". */
 function daysUntil(iso: string): number {
   const ms = new Date(iso).getTime() - Date.now()
   return Math.max(1, Math.round(ms / 86_400_000))
+}
+
+/**
+ * Estimated minutes to finish a session of `cardCount` cards, at ~12s/card,
+ * rounded up and floored at 1 so a non-empty queue never reads "~0 min".
+ * Pure. Returns 0 only for an empty queue.
+ */
+export function estimatedMinutes(cardCount: number, secondsPerCard = SECONDS_PER_CARD): number {
+  if (cardCount <= 0) return 0
+  return Math.max(1, Math.ceil((cardCount * secondsPerCard) / 60))
+}
+
+/**
+ * Real XP a full clean run of `cardCount` cards would award — every graded
+ * review pays exactly `perCard` (XP_REWARDS.review). This is the entry-banner
+ * GAIN preview: it must match the completion math (strengthened * perCard) when
+ * the learner grades every card. Pure. No fabrication — purely cardCount * perCard.
+ * Returns 0 for an empty queue.
+ */
+export function reviewGainXp(cardCount: number, perCard: number = XP_REWARDS.review): number {
+  if (cardCount <= 0) return 0
+  return cardCount * perCard
 }
 
 export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
@@ -32,6 +57,9 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   // Session payoff data, accumulated honestly from each graded card's real result.
   const [streak, setStreak] = useState<number | null>(null)
   const [soonestNextDue, setSoonestNextDue] = useState<string | null>(null)
+  // Count only cards the server actually graded (each awards XP_REWARDS.review).
+  // A failed grade still advances the queue but earns nothing — so XP stays honest.
+  const [strengthened, setStrengthened] = useState(0)
   const total = cards.length
   const current = cards[index]
 
@@ -40,6 +68,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
     setPending(true)
     try {
       const res = await gradeReview(current.id, g)
+      if (res && res.ok) setStrengthened((n) => n + 1)
       if (res && 'celebration' in res && res.celebration) setCelebration(res.celebration)
       if (res && typeof res.streak === 'number') setStreak(res.streak)
       if (res && res.nextDueAt) {
@@ -47,7 +76,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
         setSoonestNextDue((prev) => (!prev || res.nextDueAt! < prev ? res.nextDueAt! : prev))
       }
     } catch {
-      /* best-effort; the queue advances regardless */
+      /* best-effort; the queue advances regardless (earns no XP) */
     }
     setPending(false)
     setRevealed(false)
@@ -82,28 +111,34 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   }
 
   if (index >= total) {
-    const cleared = `${total} ${total === 1 ? 'card' : 'cards'} cleared`
+    // Real values only: `strengthened` counts cards the server confirmed graded,
+    // and each graded review awards exactly XP_REWARDS.review XP.
+    const memoriesLabel = `${strengthened} ${strengthened === 1 ? 'memory' : 'memories'} strengthened`
+    const xpEarned = strengthened * XP_REWARDS.review
     const nextInDays = soonestNextDue ? daysUntil(soonestNextDue) : null
     return (
       <div className={styles.page}>
         <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
         <p className={styles.kicker}>Spaced review</p>
         <div className={styles.emptyWrap}>
-          {/* End-of-session payoff: a single compositor-only rise/settle, no confetti. */}
+          {/* End-of-session reward moment: a single compositor-only rise/settle, no confetti. */}
           <div className={styles.done} role="status" aria-live="polite">
             <span className={styles.doneGlyph} aria-hidden="true">★</span>
+            <p className={styles.doneEyebrow}>Memory strengthened</p>
             <h1 className={styles.doneTitle}>Session complete.</h1>
             <ul className={styles.doneStats}>
               <li className={styles.doneStat}>
-                <span className={styles.doneStatNum}>{cleared}</span>
+                <span className={styles.doneStatNum}>{memoriesLabel}</span>
               </li>
-              <li className={styles.doneStat}>
-                <span className={styles.doneStatNum}>+{total * 10} XP</span>
-              </li>
+              {xpEarned > 0 ? (
+                <li className={styles.doneStat} data-tone="xp">
+                  <span className={styles.doneStatNum}>+{xpEarned} XP earned</span>
+                </li>
+              ) : null}
               {streak ? (
-                <li className={styles.doneStat}>
+                <li className={styles.doneStat} data-tone="streak">
                   <span className={styles.doneStatNum}>
-                    Streak advanced to {streak}
+                    🔥 Streak locked in · {streak} {streak === 1 ? 'day' : 'days'}
                   </span>
                 </li>
               ) : null}
@@ -124,10 +159,46 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   }
 
   const pct = Math.round((index / total) * 100)
+  // Entry ritual: only on the first, un-revealed card — frames the session as a
+  // small, finishable daily rep with a concrete personal stake.
+  const isEntry = index === 0 && !revealed
+  const estMin = estimatedMinutes(total)
+  // Balancing GAIN preview — real XP only: a clean run pays total × XP_REWARDS.review.
+  const gainXp = reviewGainXp(total)
 
   return (
     <div className={styles.page}>
       <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
+      {isEntry ? (
+        <section className={styles.ritual} aria-label="Today’s review">
+          <p className={styles.ritualKicker}>Today’s rep</p>
+          {/* Finishability lever first: the "~N min" promise is the strongest pull,
+              so it renders dominant (display scale/weight/ink) ahead of the count.
+              The banner line sells the BOUNDED RITUAL — count + time, no consequence. */}
+          <p className={styles.ritualLine}>
+            <strong className={styles.ritualTime}>~{estMin} min</strong>
+            <span className={styles.ritualDot} aria-hidden="true">·</span>
+            <span className={styles.ritualCount}>{total}</span>
+            <span className={styles.ritualUnit}>{total === 1 ? 'card' : 'cards'}</span>
+          </p>
+          {/* Balancing GAIN preview — pairs the downside stake below with a concrete
+              upside. Real numbers only: total × XP_REWARDS.review, matched to the
+              completion beat. Gives the session a reason-TO, not just a reason-against. */}
+          <p className={styles.ritualGain}>
+            <span className={styles.ritualGainDot} aria-hidden="true">＋</span>
+            Lock in ~{gainXp} XP · strengthen all {total} {total === 1 ? 'card' : 'cards'}
+          </p>
+          {/* Loss aversion, reframed so it ESCALATES rather than echoes the count above:
+              due cards have already decayed to FSRS target retention, so skipping keeps
+              the weakest ones decaying. Phrased as a distinct consequence, not a restated N. */}
+          <p className={styles.ritualStake}>
+            <span className={styles.ritualStakeDot} aria-hidden="true">●</span>
+            {total === 1
+              ? 'Skip today and your weakest card keeps decaying below recall.'
+              : 'Skip today and your weakest cards keep decaying below recall.'}
+          </p>
+        </section>
+      ) : null}
       <div className={styles.head}>
         <p className={styles.kicker}>Spaced review</p>
         <span className={styles.counter}>

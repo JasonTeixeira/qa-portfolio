@@ -14,11 +14,30 @@ const MAX_SURFACED = 2
 const EMPTY_STATE: TriggerState = {
   streakActiveToday: false,
   currentStreak: 0,
+  hoursUntilReset: null,
   reviewsDue: 0,
   lessonsToCert: null,
   dailyGoalPct: 0,
   lapsedDays: 0,
   startedAnyLesson: false,
+}
+
+const MS_PER_HOUR = 60 * 60 * 1000
+
+/**
+ * Whole hours from `now` until the next UTC day boundary — i.e. when a streak that
+ * hasn't been kept alive today will reset. Streak windows are UTC (see dateInTz
+ * usage below), so the reset is UTC midnight. Always returns >= 1 so the nudge copy
+ * never reads "0h"; the final partial hour still rounds up to "1h left".
+ */
+function hoursUntilUtcMidnight(now: Date): number {
+  const nextMidnight = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+  )
+  const hours = Math.ceil((nextMidnight - now.getTime()) / MS_PER_HOUR)
+  return Math.max(1, hours)
 }
 
 /**
@@ -46,8 +65,9 @@ export async function getTriggers(userId: string, resumeHref: string): Promise<T
 async function buildTriggerState(userId: string): Promise<TriggerState> {
   try {
     const admin = supabaseAdmin()
-    const today = dateInTz(new Date(), 'UTC')
-    const nowIso = new Date().toISOString()
+    const now = new Date()
+    const today = dateInTz(now, 'UTC')
+    const nowIso = now.toISOString()
 
     const [{ data: streak }, { count: reviewsDue }, { data: goal }, { data: progress }] =
       await Promise.all([
@@ -75,6 +95,10 @@ async function buildTriggerState(userId: string): Promise<TriggerState> {
     const lastActive = (streak?.last_active_date as string | null) ?? null
     const currentStreak = streak?.current_length ?? 0
     const streakActiveToday = lastActive === today
+    // Only meaningful when a streak is alive AND not yet secured today — that's the
+    // window where the reset countdown creates honest urgency.
+    const hoursUntilReset =
+      currentStreak >= 1 && !streakActiveToday ? hoursUntilUtcMidnight(now) : null
     // Whole days away (never negative); 0 when there's no recorded activity yet.
     const lapsedDays = lastActive ? Math.max(0, daysBetween(lastActive, today)) : 0
 
@@ -90,6 +114,7 @@ async function buildTriggerState(userId: string): Promise<TriggerState> {
     return {
       streakActiveToday,
       currentStreak,
+      hoursUntilReset,
       reviewsDue: reviewsDue ?? 0,
       lessonsToCert,
       dailyGoalPct,

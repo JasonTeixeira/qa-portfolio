@@ -26,10 +26,16 @@
 .gateAlt:hover { color: var(--ink); }
 
 /* hero */
-.head { position: relative; z-index: 1; margin-bottom: 2rem; }
+/* Greeting header now sits BELOW the reward hero, so it's a context band, not the
+   page's lead. Its top margin gives the hero breathing room above it. */
+.head { position: relative; z-index: 1; margin: 1.8rem 0 2rem; }
 .kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ac-accent-text); }
-.title { margin: 0.55rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2.2rem, 1.5rem + 2.6vw, 3.4rem); letter-spacing: -0.02em; line-height: 1.02; }
-.sub { margin: 0.7rem 0 0; max-width: 54ch; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem); line-height: 1.5; color: var(--dim); }
+/* The lone eyebrow above the hero — a quiet surface label, not a competing CTA. */
+.eyebrow { margin: 0 0 0.9rem; }
+/* Greeting headline scaled DOWN: it must not be the largest type on the page, so the
+   reward hero stays the first focal point. Reads as a warm context line, not the lead. */
+.title { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); letter-spacing: -0.02em; line-height: 1.05; color: var(--dim); }
+.sub { margin: 0.55rem 0 0; max-width: 54ch; font-size: clamp(0.92rem, 0.88rem + 0.25vw, 1rem); line-height: 1.5; color: var(--muted); }
 
 /* quick nav */
 .quickNav { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 1.4rem; }
@@ -78,6 +84,14 @@
 
 .flame { font-size: 2.5rem; line-height: 1; flex-shrink: 0; }
 .freezePips { color: #7cc7ff; letter-spacing: 0.05em; }
+/* secondary freeze reassurance — quieter than the stakes line, but still AA on the
+   panel surface (uses --dim, ~#c4c5cd, not an opacity dim on the text). */
+.freezeNote {
+  margin-top: 0.1rem;
+  display: flex; align-items: center; gap: 0.35rem;
+  font-family: var(--font-mono), monospace; font-size: 0.62rem;
+  letter-spacing: 0.01em; color: var(--dim);
+}
 
 .levelBadge {
   flex-shrink: 0; width: 56px; height: 56px; display: grid; place-items: center;

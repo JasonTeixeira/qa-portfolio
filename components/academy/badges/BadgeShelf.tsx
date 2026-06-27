@@ -1,5 +1,6 @@
-import { BADGE_CATALOG } from '@/lib/academy/badges-logic'
-import type { EarnedBadge } from '@/lib/academy/badges-logic'
+import type { CSSProperties } from 'react'
+import { BADGE_CATALOG, capstoneBadge } from '@/lib/academy/badges-logic'
+import type { EarnedBadge, NextBadgeStep } from '@/lib/academy/badges-logic'
 import type { NextBadge } from '@/lib/academy/reward-logic'
 import styles from './badge-shelf.module.css'
 
@@ -7,18 +8,37 @@ interface BadgeShelfProps {
   earned: EarnedBadge[]
   /** The closest unearned badge — surfaced as a pull-forward hero (null = none left). */
   nextBadge?: NextBadge | null
+  /**
+   * The ordered chain of nearest unearned badges (closest first). The closest is
+   * the hero; the following 1–2 render as a "then…" trail so finishing one hook
+   * immediately re-arms the next. Server-derived; presentational only.
+   */
+  nextChain?: NextBadgeStep[]
 }
 
 /**
- * The collectible shelf: a NEXT BADGE hero (the closest unearned badge with a
- * literal progress bar) pulling the learner forward, then every catalog badge
- * shown earned (full) or locked (dimmed, blurred label). Earned + next-badge
- * state are server-verified upstream — this is purely presentational.
+ * The collectible shelf: a collection-progress meter ("3 of 8 · 5 to go") that
+ * makes the incomplete set feel closeable, a NEXT BADGE hero (closest unearned,
+ * literal progress bar) with a "then…" chain teasing the following rungs, then
+ * every catalog badge shown earned (full) or locked (dimmed icon, blurred label).
+ * All earned + distance state is server-verified upstream — purely presentational.
  */
-export function BadgeShelf({ earned, nextBadge = null }: BadgeShelfProps) {
+export function BadgeShelf({ earned, nextBadge = null, nextChain = [] }: BadgeShelfProps) {
   const earnedByKey = new Map(earned.map((b) => [b.key, b]))
   const earnedCount = earnedByKey.size
   const total = BADGE_CATALOG.length
+  const remaining = Math.max(0, total - earnedCount)
+  const collectionPct = total > 0 ? Math.round((earnedCount / total) * 100) : 0
+  const isComplete = remaining === 0
+  // The "then…" trail = chain rungs after the hero (skip the one shown as hero).
+  const heroKey = nextBadge?.key
+  const trail = nextChain.filter((s) => s.key !== heroKey).slice(0, 2)
+  // The capstone the meter climbs toward: the catalog's final badge. Holding the
+  // FULL set culminates in this — the only honest "100%" the system actually backs
+  // (no invented reward; just the real last badge). `capstoneEarned` gates whether
+  // the meter frames it as a goal still to reach or a status already held.
+  const capstone = capstoneBadge()
+  const capstoneEarned = capstone ? earnedByKey.has(capstone.key) : false
 
   return (
     <section className={styles.card} aria-labelledby="badge-shelf-heading">
@@ -28,13 +48,63 @@ export function BadgeShelf({ earned, nextBadge = null }: BadgeShelfProps) {
           Your badges
         </h2>
         <p className={styles.sub}>
-          Collectible milestones, earned from your real progress — never claimed, always proven.{' '}
-          <span className={styles.count}>
-            {earnedCount} of {total} unlocked
-          </span>
-          .
+          Collectible milestones, earned from your real progress — never claimed, always proven.
         </p>
       </header>
+
+      <div className={styles.collection} aria-label="Collection progress">
+        <div className={styles.collectionTop}>
+          <span className={styles.collectionCount}>
+            <strong>{earnedCount}</strong> of {total} badges earned
+          </span>
+          <span className={styles.collectionGo}>
+            {isComplete ? 'Full collection' : `${remaining} to go`}
+          </span>
+        </div>
+        <span
+          className={styles.collectionBar}
+          role="progressbar"
+          aria-valuenow={collectionPct}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={
+            isComplete
+              ? `Full collection: all ${total} badges earned`
+              : `${earnedCount} of ${total} badges collected${
+                  capstone ? `, climbing toward ${capstone.label}` : ''
+                }`
+          }
+        >
+          <span className={styles.collectionFill} style={{ width: `${collectionPct}%` }} />
+          {/* The capstone marker pinned at 100% — the meter visibly climbs toward the
+              catalog's final badge, not an empty "set complete" string. */}
+          {capstone ? (
+            <span
+              className={`${styles.capstoneMark} ${capstoneEarned ? styles.capstoneMarkLit : ''}`}
+              aria-hidden="true"
+            >
+              {capstone.icon}
+            </span>
+          ) : null}
+        </span>
+        {capstone ? (
+          <p className={styles.capstoneLine}>
+            {isComplete ? (
+              <>
+                <span className={styles.capstoneStatus}>Full collection</span> — every badge
+                earned, capped by{' '}
+                <span className={styles.capstoneName}>{capstone.label}</span>.
+              </>
+            ) : (
+              <>
+                100% completes the set —{' '}
+                <span className={styles.capstoneName}>{capstone.label}</span> is the capstone:{' '}
+                {capstone.blurb.replace(/\.$/, '').toLowerCase()}.
+              </>
+            )}
+          </p>
+        ) : null}
+      </div>
 
       {nextBadge ? (
         <div className={styles.next} aria-label="Your next badge">
@@ -61,6 +131,27 @@ export function BadgeShelf({ earned, nextBadge = null }: BadgeShelfProps) {
             </div>
             <span className={styles.nextPct}>{nextBadge.pct}%</span>
           </div>
+          {trail.length > 0 ? (
+            <ol className={styles.trail} aria-label="Badges after that">
+              {trail.map((step, i) => (
+                <li
+                  key={step.key}
+                  className={styles.trailItem}
+                  /* Progression index drives a stepped recede: rung 0 (closest) is
+                     brightest/largest, later rungs dim + shrink so the chain reads as
+                     building momentum. Compositor-only (scale + opacity). */
+                  style={{ '--step': i } as CSSProperties}
+                >
+                  <span className={styles.trailGlyph} aria-hidden="true">
+                    {step.icon}
+                  </span>
+                  <span className={styles.trailText}>
+                    then {step.teaser} <span className={styles.trailName}>{step.label}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          ) : null}
         </div>
       ) : null}
 

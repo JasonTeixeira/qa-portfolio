@@ -9276,6 +9276,81 @@ test('trigger-logic: computeTriggers prioritises nudges + empty when on track', 
   assert.deepEqual(many.map((t) => t.kind).slice(0, 2), ['streak-risk', 'reviews-due']);
 });
 
+test('trigger-logic: streak-risk jeopardy uses hoursUntilReset (W5)', async () => {
+  const { computeTriggers } = await import('../../lib/academy/trigger-logic.ts');
+  const RESUME = '/academy/learn/x/y';
+  const onTrack = { streakActiveToday: true, currentStreak: 4, reviewsDue: 0, lessonsToCert: null, dailyGoalPct: 0, lapsedDays: 0, startedAnyLesson: true, hoursUntilReset: null };
+  // at risk + known hours → countdown copy
+  const jeop = computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 12, hoursUntilReset: 9 }, RESUME)[0];
+  assert.equal(jeop.kind, 'streak-risk');
+  assert.equal(jeop.tone, 'urgent');
+  assert.match(jeop.message, /12-day streak resets in 9h/);
+  // hours unknown (null) → legacy "at risk" copy, never "0h"
+  const legacy = computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 5, hoursUntilReset: null }, RESUME)[0];
+  assert.match(legacy.message, /at risk/);
+  assert.doesNotMatch(legacy.message, /0h/);
+  // boundary hours=1 reads "1h", never "0h"
+  assert.match(computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 5, hoursUntilReset: 1 }, RESUME)[0].message, /resets in 1h/);
+  // active today → streak-risk never fires even with hours present (the showcase case)
+  assert.equal(computeTriggers({ ...onTrack, streakActiveToday: true, currentStreak: 7, hoursUntilReset: 3 }, RESUME).find((t) => t.kind === 'streak-risk'), undefined);
+  // no streak → no risk
+  assert.equal(computeTriggers({ ...onTrack, streakActiveToday: false, currentStreak: 0, hoursUntilReset: 9 }, RESUME).find((t) => t.kind === 'streak-risk'), undefined);
+});
+
+test('leagues-logic: relegationStake + leagueResetAt (W5)', async () => {
+  const { relegationStake, leagueResetAt } = await import('../../lib/academy/leagues-logic.ts');
+  // safe seat: 12 players, you #2 @340, first relegating (rank 8) @290 → margin 50
+  const rows = [{ rank: 7, weeklyXp: 320 }, { rank: 8, weeklyXp: 290 }];
+  const safe = relegationStake({ rank: 2, weeklyXp: 340 }, rows, 12, 1);
+  assert.equal(safe.kind, 'safe');
+  assert.equal(safe.marginXp, 50);
+  assert.equal(safe.dropLineRank, 8);
+  // in the drop zone: you #11 @80 must clear the lowest safe seat (rank 7 @320) → 241
+  const drop = relegationStake({ rank: 11, weeklyXp: 80 }, rows, 12, 1);
+  assert.equal(drop.kind, 'relegating');
+  assert.equal(drop.marginXp, 241);
+  // thin league (total <= zone) can't coherently relegate → none (kills the impossible threat)
+  assert.equal(relegationStake({ rank: 2, weeklyXp: 0 }, [], 4, 1).kind, 'none');
+  // bottom tier never relegates → none
+  assert.equal(relegationStake({ rank: 2, weeklyXp: 0 }, rows, 12, 0).kind, 'none');
+  // reset is always the next strictly-future Monday 00:00 UTC
+  assert.equal(leagueResetAt(new Date('2026-06-27T14:00:00Z')), '2026-06-29T00:00:00.000Z'); // Sat → Mon
+  assert.equal(leagueResetAt(new Date('2026-06-29T00:00:00Z')), '2026-07-06T00:00:00.000Z'); // Mon 00:00 → full week, never 0
+  assert.equal(leagueResetAt(new Date('2026-06-28T23:59:00Z')), '2026-06-29T00:00:00.000Z'); // Sun late → Mon
+});
+
+test('badges-logic: collectionProgress + nextBadges chain (W5)', async () => {
+  const { collectionProgress, nextBadges, BADGE_CATALOG, earnedBadgeKeys } = await import('../../lib/academy/badges-logic.ts');
+  const total = BADGE_CATALOG.length;
+  const base = { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false, longestStreak: 0 };
+  // fresh learner: nothing earned, whole catalog remaining
+  assert.deepEqual(collectionProgress(base), { earned: 0, total, remaining: total, pct: 0 });
+  // collectionProgress is faithful to earnedBadgeKeys for any stats
+  const partial = { ...base, lessonsCompleted: 5, currentStreak: 3, longestStreak: 3 };
+  const cp = collectionProgress(partial);
+  assert.equal(cp.earned, earnedBadgeKeys(partial).length);
+  assert.equal(cp.remaining, total - cp.earned);
+  assert.equal(cp.pct, Math.round((cp.earned / total) * 100));
+  // nextBadges: ordered ascending by distance, skips earned, bounded by limit
+  const chain = nextBadges({ ...base, lessonsCompleted: 4 }, ['first_lesson'], 3);
+  assert.ok(chain.length > 0 && chain.length <= 3);
+  assert.ok(!chain.some((s) => s.key === 'first_lesson')); // earned excluded
+  assert.equal(chain[0].remaining, 1); // five_lessons is one lesson away → the nearest rung
+  for (let i = 1; i < chain.length; i++) assert.ok(chain[i].remaining >= chain[i - 1].remaining); // ascending
+  // everything countable earned → empty chain (relative-only badges omitted)
+  const maxed = { ...base, lessonsCompleted: 50, coursesFinished: 3, certificates: 3, projects: 5, currentStreak: 30, longestStreak: 30 };
+  assert.deepEqual(nextBadges(maxed, earnedBadgeKeys(maxed)), []);
+});
+
+test('badges-logic: capstoneBadge is the catalog pinnacle (W5r2)', async () => {
+  const { capstoneBadge, BADGE_CATALOG } = await import('../../lib/academy/badges-logic.ts');
+  const cap = capstoneBadge();
+  // the LAST catalog entry — the real terminal/rarest goal, fully-formed, deterministic
+  assert.equal(cap.key, BADGE_CATALOG[BADGE_CATALOG.length - 1].key);
+  assert.ok(cap.key && cap.label && cap.icon && cap.blurb); // real badge, no fabricated reward
+  assert.equal(capstoneBadge().key, cap.key);
+});
+
 test('reward-logic: computeNextRewards near-miss (badge, xp-to-level, rank gap)', async () => {
   const { computeNextRewards } = await import('../../lib/academy/reward-logic.ts');
   const base = { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false, longestStreak: 0 };

@@ -52,6 +52,13 @@ export interface TriggerState {
   streakActiveToday: boolean
   /** Current streak length in days (0 = no streak). */
   currentStreak: number
+  /**
+   * Whole hours until the current streak resets (the local-day boundary), when the
+   * streak is at risk (no activity yet today). Computed by the server caller from
+   * the real clock and passed in so this module stays pure/deterministic. Null when
+   * unknown or not at risk. Clamped to >= 1 by the caller so copy never reads "0h".
+   */
+  hoursUntilReset: number | null
   /** Count of spaced-repetition cards due now. */
   reviewsDue: number
   /** Lessons left to finish the nearest in-progress course's certificate, or null. */
@@ -84,13 +91,20 @@ const COMEBACK_LAPSED_DAYS = 2 // away this many whole days → welcome-back nud
 export function computeTriggers(state: TriggerState, resumeHref: string): Trigger[] {
   const triggers: Trigger[] = []
 
-  // 1. streak-risk — an active streak that hasn't been kept alive today.
+  // 1. streak-risk — an active streak that hasn't been kept alive today. When the
+  // server supplies the real hours-until-reset, name the deadline (sharper loss
+  // aversion: a concrete countdown beats a vague "at risk").
   if (state.currentStreak >= 1 && !state.streakActiveToday) {
+    const hrs = state.hoursUntilReset
+    const message =
+      hrs !== null && hrs > 0
+        ? `🔥 Your ${state.currentStreak}-day streak resets in ${hrs}h — one lesson saves it`
+        : `🔥 Your ${state.currentStreak}-day streak is at risk — a 2-minute review keeps it alive`
     triggers.push({
       key: 'streak-risk',
       kind: 'streak-risk',
       tone: 'urgent',
-      message: `🔥 Your ${state.currentStreak}-day streak is at risk — a 2-minute review keeps it alive`,
+      message,
       cta: 'Keep it alive',
       href: REVIEW_HREF,
     })

@@ -10,6 +10,7 @@ import {
   PROMOTE_ZONE,
   RELEGATE_ZONE,
   TOP_TIER,
+  leagueResetAt,
   type Movement,
 } from '@/lib/academy/leagues-logic'
 import { rolloverLeague } from '@/lib/academy/leagues-rollover'
@@ -34,11 +35,33 @@ export interface LeagueStandings {
   relegateZone: number
   topTier: boolean
   bottomTier: boolean
+  /** ISO instant this week's league resets (next Monday 00:00 UTC) — drives the live countdown. */
+  resetAt: string
 }
 
-/** Non-identifying display handle (no PII) until public profiles ship in Phase 2. */
-function displayHandle(userId: string): string {
+/** Non-identifying fallback handle (no PII) when a learner has no public display name yet. */
+function fallbackHandle(userId: string): string {
   return `Learner ${userId.slice(0, 4).toUpperCase()}`
+}
+
+/**
+ * Batch-resolve a real display name per user from academy_profiles. Returns a map
+ * of userId → display_name for every roster member that has one set; callers fall
+ * back to fallbackHandle for the rest. One query, no N+1.
+ */
+async function resolveDisplayNames(userIds: string[]): Promise<Map<string, string>> {
+  const out = new Map<string, string>()
+  if (userIds.length === 0) return out
+  const admin = supabaseAdmin()
+  const { data } = await admin
+    .from('academy_profiles')
+    .select('user_id, display_name')
+    .in('user_id', userIds)
+  for (const row of data ?? []) {
+    const name = (row.display_name as string | null)?.trim()
+    if (name) out.set(row.user_id as string, name)
+  }
+  return out
 }
 
 function currentWeekStart(): string {
@@ -222,9 +245,11 @@ export async function getLeagueStandings(userId: string): Promise<LeagueStanding
     })),
   )
   const total = ranked.length
+  // Real names for peers (not the logged-in learner — they always read as "You").
+  const names = await resolveDisplayNames(ranked.filter((r) => r.userId !== userId).map((r) => r.userId))
   const rows: StandingRow[] = ranked.map((r) => ({
     rank: r.rank,
-    handle: r.userId === userId ? 'You' : displayHandle(r.userId),
+    handle: r.userId === userId ? 'You' : names.get(r.userId) ?? fallbackHandle(r.userId),
     weeklyXp: r.weeklyXp,
     isYou: r.userId === userId,
     movement: movementForRank(r.rank, total, tier),
@@ -251,5 +276,6 @@ export async function getLeagueStandings(userId: string): Promise<LeagueStanding
     relegateZone: RELEGATE_ZONE,
     topTier: tier >= TOP_TIER,
     bottomTier: tier <= 0,
+    resetAt: leagueResetAt(new Date()),
   }
 }

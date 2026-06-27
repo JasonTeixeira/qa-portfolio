@@ -35,6 +35,14 @@ const LEAGUE_PEER_EMAILS = [
   'sage+admin@sageideas.org',
   'pending+test@sageideas.org',
 ]
+// Human display names for the labelled showcase peers so the standings name a real
+// rival ("71 XP to pass Maya R.") instead of an anonymous "Learner 9013". These are
+// seeded ONLY on these fixture peer rows — never on a real logged-in learner.
+const LEAGUE_PEER_NAMES: Record<string, string> = {
+  'client1+test@sageideas.org': 'Maya R.',
+  'sage+admin@sageideas.org': 'Devon K.',
+  'pending+test@sageideas.org': 'Priya N.',
+}
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -413,6 +421,27 @@ async function main() {
         .single()
       if (cErr) throw cErr
       leagueId = created.id as string
+    }
+
+    // Give each showcase peer a human display_name so standings name a real rival,
+    // not "Learner XXXX". Preserve any existing globally-unique handle; only fill a
+    // display_name (and a handle when the peer has no profile yet). Fixture peers only.
+    for (const email of LEAGUE_PEER_EMAILS) {
+      const id = users[email.toLowerCase()]
+      const name = LEAGUE_PEER_NAMES[email.toLowerCase()]
+      if (!id || id === userId || !name) continue
+      const { data: existingProfile } = await admin
+        .from('academy_profiles')
+        .select('handle')
+        .eq('user_id', id)
+        .maybeSingle()
+      const handle = (existingProfile?.handle as string | undefined) ?? email.split('@')[0].replace(/\+/g, '-')
+      await admin
+        .from('academy_profiles')
+        .upsert(
+          { user_id: id, handle, display_name: name, updated_at: new Date().toISOString() },
+          { onConflict: 'user_id' },
+        )
     }
 
     // Showcase user near the top with weekly_xp ~340; peers spread below/around.

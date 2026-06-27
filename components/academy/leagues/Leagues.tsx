@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import type { LeagueStandings, StandingRow } from '@/lib/academy/leagues'
-import { LEAGUE_TIERS } from '@/lib/academy/leagues-logic'
+import { LEAGUE_TIERS, relegationStake } from '@/lib/academy/leagues-logic'
+import { LeagueCountdown } from './LeagueCountdown'
 import styles from './leagues.module.css'
 
 /** The pull-forward overtake target: the rank directly above you and the XP gap. */
@@ -32,6 +33,14 @@ function resolveOvertake(
   return { gapXp: gap, rank: ahead.rank }
 }
 
+/** Avatar monogram from a real display name ("Maya R." → "MR"); falls back to last-2. */
+function initials(handle: string): string {
+  const parts = handle.split(/\s+/).filter(Boolean)
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase()
+  const letters = handle.replace(/[^a-zA-Z]/g, '')
+  return (letters.slice(0, 2) || handle.slice(-2)).toUpperCase()
+}
+
 function fmtWeek(weekStart: string): string {
   const start = new Date(weekStart + 'T00:00:00Z')
   const end = new Date(start)
@@ -49,13 +58,16 @@ export function Leagues({
   standings: LeagueStandings
   nextRank?: { gapXp: number } | null
 }) {
-  const { tier, tierName, color, weekStart, total, rows, you, promoteZone, relegateZone, topTier, bottomTier } =
+  const { tier, tierName, color, weekStart, total, rows, you, promoteZone, relegateZone, topTier, bottomTier, resetAt } =
     standings
   const rootStyle = { ['--tier']: color } as CSSProperties
   const thin = total < promoteZone + relegateZone
   const nextTier = topTier ? null : LEAGUE_TIERS[tier + 1]
   const overtake = resolveOvertake(you, rows, nextRank)
   const isLeader = you.rank <= 1
+  const stake = relegationStake(you, rows, total, tier, relegateZone)
+  // Name the person directly above for the overtake line ("X XP to pass Maya R.").
+  const rival = overtake ? rows.find((r) => r.rank === overtake.rank && !r.isYou) : null
 
   return (
     <div className={styles.page} style={rootStyle}>
@@ -72,6 +84,7 @@ export function Leagues({
         <p className={styles.sub}>
           You’re <strong>#{you.rank}</strong> of {total} this week · {you.weeklyXp} XP earned · {fmtWeek(weekStart)}
         </p>
+        <LeagueCountdown resetAt={resetAt} />
       </header>
 
       {/* Overtake hook — the visual hero. Pull the next rank forward as a
@@ -80,8 +93,8 @@ export function Leagues({
         <section className={styles.overtake} aria-labelledby="overtake-heading">
           <p className={styles.overtakeKicker}>Within reach</p>
           <p id="overtake-heading" className={styles.overtakeLine}>
-            You’re <strong className={styles.overtakeGap}>{overtake.gapXp} XP</strong> from{' '}
-            <strong>#{overtake.rank}</strong> — one lab does it.
+            <strong className={styles.overtakeGap}>{overtake.gapXp} XP</strong> to pass{' '}
+            <strong>{rival ? rival.handle : `#${overtake.rank}`}</strong> — one lab does it.
           </p>
           <Link href="/academy/review" className={styles.overtakeCta}>
             Earn XP now →
@@ -113,9 +126,33 @@ export function Leagues({
         ))}
       </ol>
 
+      {/* Loss-aversion stake — only when relegation can credibly bite (not bottom
+          tier, not a population too thin to demote). Speaks to the learner's own
+          line: how far above the drop, or how far back into safety. */}
+      {stake.kind !== 'none' ? (
+        <p
+          className={`${styles.stake} ${stake.kind === 'relegating' ? styles.stakeDanger : styles.stakeSafe}`}
+          role="status"
+        >
+          {stake.kind === 'safe' ? (
+            <>
+              <strong>Hold #{you.rank}</strong> — you’re{' '}
+              <strong className={styles.stakeNum}>{stake.marginXp} XP</strong> above the drop. Don’t let it close.
+            </>
+          ) : (
+            <>
+              <strong>You’re in the drop zone.</strong> Earn{' '}
+              <strong className={styles.stakeNum}>{stake.marginXp} XP</strong> to climb back to safety.
+            </>
+          )}
+        </p>
+      ) : null}
+
       <div className={styles.legend}>
         {!topTier ? <span className={`${styles.legChip} ${styles.legPromote}`}>▲ Top {promoteZone} promote</span> : null}
-        {!bottomTier ? (
+        {/* Only advertise relegation when it can actually happen at this population —
+            otherwise "Bottom 5 relegate" in a 4-player league reads as impossible. */}
+        {!bottomTier && stake.kind !== 'none' ? (
           <span className={`${styles.legChip} ${styles.legRelegate}`}>▼ Bottom {relegateZone} relegate</span>
         ) : null}
         <span className={styles.legChip}>↻ Resets Monday — fresh start</span>
@@ -131,7 +168,7 @@ export function Leagues({
             >
               <span className={styles.rank}>{r.rank}</span>
               <span className={styles.avatar} aria-hidden="true">
-                {r.handle === 'You' ? '★' : r.handle.slice(-2)}
+                {r.handle === 'You' ? '★' : initials(r.handle)}
               </span>
               <span className={styles.name}>{r.handle}</span>
               {r.movement !== 'hold' ? (

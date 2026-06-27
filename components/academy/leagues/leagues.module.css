@@ -30,6 +30,49 @@
 .sub { margin: 0.7rem 0 0; font-size: 0.98rem; color: var(--dim); }
 .sub strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
+/* Live league-reset countdown under the hero sub. A tier-tinted pill carrying the
+   ticking remainder. Compositor-only: the dot pulse is transform/opacity and is
+   fully suppressed under prefers-reduced-motion — the text keeps ticking. */
+.countdown {
+  margin: 0.7rem auto 0;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.34rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--tier) 28%, var(--line));
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--tier) 7%, transparent);
+  font-family: var(--font-mono), monospace; font-size: 0.74rem;
+}
+.countdownLabel { color: var(--dim); letter-spacing: 0.02em; }
+.countdownValue { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.countdownDot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  background: var(--tier);
+  animation: countdownPulse 2s ease-in-out infinite;
+}
+@keyframes countdownPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdownDot { animation: none; opacity: 1; }
+}
+
+/* Loss-aversion stake line — the personal relegation distance. Flat, label-weight
+   text in a tier-neutral row; the number carries the semantic color. Text colors
+   are full-saturation (not opacity-dimmed) to stay AA on the dark surface. */
+.stake {
+  position: relative; z-index: 1;
+  margin: 0 0 1.1rem;
+  text-align: center;
+  font-size: 0.92rem; line-height: 1.45;
+  color: var(--dim);
+}
+.stake strong { color: var(--ink); font-weight: 600; }
+.stakeNum { font-variant-numeric: tabular-nums; }
+.stakeSafe .stakeNum { color: #34d399; }
+.stakeDanger .stakeNum { color: #f87171; }
+.stakeDanger strong { color: #f8a3a3; }
+
 /* Overtake hook — the page hero. A tier-accented band carrying the near-miss
    line at display scale plus the one dominant CTA. Flat surface + accent rail,
    no glow. The leader variant swaps the danger of relegation for "defend it". */

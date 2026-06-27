@@ -61,6 +61,70 @@ export function rankMembers(members: RankInput[]): RankedMember[] {
     .map((m, i) => ({ ...m, rank: i + 1 }))
 }
 
+/**
+ * The learner's loss-aversion stake: how the relegation line reads for *them*.
+ * `relegating` — already in the drop zone (XP needed to climb clear).
+ * `safe` — above the line, with the buffer (XP) to the first relegating rank.
+ * `none` — relegation can't apply (bottom tier, or the zone can't bite at this
+ *   population so the "Bottom N relegate" rule would be self-contradicting).
+ *
+ * `dropLineRank` is the best rank that still relegates (total - relegateZone + 1),
+ * i.e. the worst surviving position is one above it.
+ */
+export interface RelegationStake {
+  kind: 'relegating' | 'safe' | 'none'
+  /** Rank gap to the relegation line (positive = how far above; 0 when on/below it). */
+  marginXp: number
+  yourRank: number
+  dropLineRank: number
+}
+
+/**
+ * Personalize the relegation stake for the learner. Returns 'none' at the bottom
+ * tier, or when the league is too thin for the relegation zone to actually demote
+ * anyone (total <= relegateZone means everyone would relegate — incoherent — so we
+ * suppress the stake rather than show an impossible threat).
+ */
+export function relegationStake(
+  you: { rank: number; weeklyXp: number },
+  rows: ReadonlyArray<{ rank: number; weeklyXp: number }>,
+  total: number,
+  tier: TierIndex,
+  relegateZone: number = RELEGATE_ZONE,
+): RelegationStake {
+  const base = { yourRank: you.rank, dropLineRank: Math.max(1, total - relegateZone + 1) }
+  // Bottom tier can't relegate; a league no larger than the zone can't coherently
+  // demote a "bottom N" because that would be everyone (or more).
+  if (tier <= 0 || total <= relegateZone) {
+    return { kind: 'none', marginXp: 0, ...base }
+  }
+  const firstDropRank = total - relegateZone // worst SAFE rank is this; rank > this relegates
+  if (you.rank > firstDropRank) {
+    // In the drop zone: XP to overtake the lowest safe seat and climb clear.
+    const safeSeat = rows.find((r) => r.rank === firstDropRank)
+    const need = safeSeat ? Math.max(1, safeSeat.weeklyXp - you.weeklyXp + 1) : 1
+    return { kind: 'relegating', marginXp: need, ...base }
+  }
+  // Safe: distance to the first relegating learner directly below the line.
+  const firstRelegating = rows.find((r) => r.rank === firstDropRank + 1)
+  const margin = firstRelegating ? Math.max(0, you.weeklyXp - firstRelegating.weeklyXp) : 0
+  return { kind: 'safe', marginXp: margin, ...base }
+}
+
+/**
+ * The instant this week's league resets: the next Monday 00:00 UTC strictly after
+ * `now`. Derived from the current-week Monday so it always lands in the future
+ * (a learner viewing on Monday 00:00 gets a full 7 days, not 0). Pure — the client
+ * countdown ticks against this ISO string.
+ */
+export function leagueResetAt(now: Date): string {
+  const dow = (now.getUTCDay() + 6) % 7 // Mon=0 … Sun=6
+  const reset = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - dow + 7, 0, 0, 0, 0),
+  )
+  return reset.toISOString()
+}
+
 export type Movement = 'promote' | 'relegate' | 'hold'
 
 /**

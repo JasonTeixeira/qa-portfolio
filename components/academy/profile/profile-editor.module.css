@@ -8,7 +8,7 @@
   --accent-text: var(--ac-accent-text, #8fa0ff);
   max-width: 760px;
   margin: 0 auto;
-  padding: clamp(4.5rem, 3.5rem + 3vw, 6.5rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 5rem;
+  padding: clamp(2rem, 1.4rem + 1.5vw, 3rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 5rem;
   font-family: var(--font-sans), system-ui, sans-serif;
   color: var(--ink);
 }
@@ -25,7 +25,7 @@
   border-radius: 16px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008));
 }
-.cardOn { border-color: color-mix(in srgb, var(--accent) 40%, transparent); box-shadow: 0 0 50px -38px var(--accent); }
+.cardOn { border-color: color-mix(in srgb, var(--accent) 40%, transparent); background: linear-gradient(180deg, rgba(61, 107, 255, 0.06), rgba(255, 255, 255, 0.008)); }
 .cardTitle { display: block; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.01em; }
 .cardSub { display: block; margin-top: 0.25rem; font-size: 0.82rem; color: var(--muted); }
 

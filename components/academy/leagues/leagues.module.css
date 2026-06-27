@@ -6,16 +6,19 @@
   position: relative;
   max-width: 760px;
   margin: 0 auto;
-  padding: clamp(5rem, 4rem + 3vw, 7rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
+  padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
   font-family: var(--font-sans), system-ui, sans-serif;
   color: var(--ink);
 }
 
+/* Flat institutional treatment: a restrained tier-tinted surface band behind
+   the hero, capped by a hairline rule — no colored bloom. */
 .atmosphere {
   position: absolute;
   inset: 0 0 auto 0;
-  height: 320px;
-  background: radial-gradient(60% 90% at 50% 0%, color-mix(in srgb, var(--tier) 22%, transparent), transparent 70%);
+  height: 220px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 5%, transparent), transparent);
+  border-bottom: 1px solid var(--ac-rule);
   pointer-events: none;
   z-index: 0;
 }
@@ -23,7 +26,7 @@
 .head { position: relative; z-index: 1; margin-bottom: 1.6rem; text-align: center; }
 .kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--tier); }
 .title { margin: 0.55rem 0 0; display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 3rem); letter-spacing: -0.02em; }
-.gem { color: var(--tier); filter: drop-shadow(0 0 16px color-mix(in srgb, var(--tier) 70%, transparent)); }
+.gem { color: var(--tier); }
 .sub { margin: 0.7rem 0 0; font-size: 0.98rem; color: var(--dim); }
 .sub strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
@@ -37,7 +40,7 @@
 .rungPast { opacity: 0.7; }
 .rungOn { opacity: 1; }
 .rungDot { width: 14px; height: 14px; border-radius: 50%; background: var(--rung); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); }
-.rungOn .rungDot { box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 60%, transparent), 0 0 18px var(--rung); }
+.rungOn .rungDot { box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 55%, transparent); }
 .rungName { font-family: var(--font-mono), monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 .rungOn .rungName { color: var(--ink); }
 

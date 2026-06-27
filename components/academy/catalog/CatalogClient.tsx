@@ -122,7 +122,9 @@ export function CatalogClient({
               >
                 <span className={styles.trackTop}>
                   <span className={styles.trackGlyph} aria-hidden="true">{t.glyph}</span>
-                  <span className={styles.trackStatus} data-status={t.status}>{live ? 'Live' : 'Building'}</span>
+                  <span className={styles.trackStatus} data-status={t.status}>
+                    {live ? 'Live' : <><span aria-hidden="true">🔒</span> Building</>}
+                  </span>
                 </span>
                 <h3 className={styles.trackName}>{t.name}</h3>
                 <p className={styles.trackBlurb}>{t.blurb}</p>

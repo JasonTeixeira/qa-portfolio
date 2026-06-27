@@ -9,8 +9,12 @@ import styles from './repair-queue.module.css'
  * Honest empty state when there's nothing outstanding.
  */
 export function RepairQueue({ repairs }: { repairs: OpenRepair[] }) {
+  const isClear = repairs.length === 0
   return (
-    <section className={styles.panel} aria-labelledby="repair-queue-heading">
+    <section
+      className={`${styles.panel} ${isClear ? styles.panelClear : ''}`}
+      aria-labelledby="repair-queue-heading"
+    >
       <header className={styles.head}>
         <p className={styles.kicker}>Needs repair</p>
         {repairs.length > 0 ? (
@@ -21,8 +25,16 @@ export function RepairQueue({ repairs }: { repairs: OpenRepair[] }) {
         Open repairs
       </h2>
 
-      {repairs.length === 0 ? (
-        <p className={styles.empty}>No repairs — your proofs are holding.</p>
+      {isClear ? (
+        <div className={styles.empty}>
+          <span className={styles.emptyGlyph} aria-hidden="true">
+            ✓
+          </span>
+          <p className={styles.emptyTitle}>No repairs — your proofs are holding.</p>
+          <p className={styles.emptyHelp}>
+            Every teachback you’ve faced is still passing. Nothing to redo right now.
+          </p>
+        </div>
       ) : (
         <ul className={styles.list}>
           {repairs.map((r) => (

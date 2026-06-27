@@ -175,10 +175,17 @@ export function LabRunner({
           <div className={styles.paneBar}><span className={styles.outLabel}>▸ output</span>
             {status === 'error' ? <span className={styles.errTag}>runtime failed to load</span> : null}
           </div>
-          <pre className={styles.output} role="status" aria-live="polite">
-            {status === 'loading' ? 'Booting the Python runtime…'
-              : status === 'error' ? 'Could not load the Python runtime. Check your connection and reload.'
-              : output ?? 'Press Run to execute your code.'}
+          <pre className={styles.output} data-empty={status !== 'error' && output == null ? 'true' : undefined} role="status" aria-live="polite">
+            {status === 'error' ? 'Could not load the Python runtime. Check your connection and reload.'
+              : output != null ? output
+              : (
+                <span className={styles.outEmpty}>
+                  <span className={styles.outEmptyMark} aria-hidden="true">⌁</span>
+                  <span className={styles.outEmptyLine}>
+                    {status === 'loading' ? 'Booting the Python runtime…' : 'Press Run to execute your code.'}
+                  </span>
+                </span>
+              )}
           </pre>
         </section>
       </div>

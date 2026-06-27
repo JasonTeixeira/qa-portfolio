@@ -4,5 +4,5 @@
 .stack {
   max-width: 760px;
   margin: 0 auto;
-  padding: clamp(4.5rem, 3.5rem + 3vw, 6.5rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 0;
+  padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 0;
 }

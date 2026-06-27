@@ -4,27 +4,27 @@
 .section {
   --tone: var(--topic, #6e8bff);
   margin: 1.6rem 0;
-  border: 1px solid var(--line);
+  border: 1px solid var(--ac-rule, var(--line));
   border-left: 2px solid color-mix(in srgb, var(--tone) 55%, transparent);
-  border-radius: 14px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--tone) 5%, transparent), rgba(255, 255, 255, 0.012));
+  border-radius: 12px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.012));
   overflow: hidden;
 }
-.section[data-tone='warm'] { --tone: #e8b75a; }
+.section[data-tone='warm'] { --tone: var(--ac-pending, #e8b75a); }
 .section[data-tone='cool'] { --tone: #5bc8e8; }
-.section[data-tone='danger'] { --tone: #ff8a8a; }
+.section[data-tone='danger'] { --tone: var(--ac-danger, #ff8a8a); }
 
 .rail {
   display: flex; align-items: center; gap: 0.8rem;
   padding: 0.7rem 1.1rem;
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--tone) 7%, transparent);
+  border-bottom: 1px solid var(--ac-rule, var(--line));
+  background: transparent;
 }
 .railStep {
   flex-shrink: 0;
   display: grid; place-items: center;
   width: 30px; height: 30px; border-radius: 8px;
-  background: color-mix(in srgb, var(--tone) 16%, transparent);
+  background: color-mix(in srgb, var(--tone) 14%, transparent);
   color: var(--tone);
   font-family: var(--font-mono), monospace; font-size: 0.82rem; font-weight: 600;
 }
@@ -38,7 +38,7 @@
 .missionText { margin: 0; color: var(--ink); font-size: 1.12rem; line-height: 1.55; font-weight: 500; }
 
 /* sprint contract */
-.contract { margin: 1.6rem 0; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, color-mix(in srgb, var(--topic, #6e8bff) 8%, transparent), rgba(255, 255, 255, 0.015)); padding: 1.2rem 1.3rem; }
+.contract { margin: 1.6rem 0; border: 1px solid var(--ac-rule, var(--line)); border-left: 2px solid color-mix(in srgb, var(--topic, #6e8bff) 55%, transparent); border-radius: 12px; background: var(--ac-surface, rgba(255, 255, 255, 0.015)); padding: 1.2rem 1.3rem; }
 .contractTop { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .contractKicker { font-family: var(--font-mono), monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--topic, #6e8bff); }
 .intensity { font-family: var(--font-mono), monospace; font-size: 0.7rem; padding: 0.3rem 0.7rem; border-radius: 100px; border: 1px solid var(--line); color: var(--ink); text-transform: capitalize; }
@@ -64,7 +64,7 @@
 .reveal p { margin: 0.3rem 0 0; color: #e3e2ea; line-height: 1.55; }
 .revealTag { font-family: var(--font-mono), monospace; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tone); }
 
-.code { margin: 0 0 0.9rem; padding: 0.9rem 1rem; border-radius: 10px; background: #0b0b0f; border: 1px solid var(--line); overflow-x: auto; }
+.code { margin: 0 0 0.9rem; padding: 0.9rem 1rem; border-radius: 10px; background: #08080b; border: 1px solid var(--ac-rule, var(--line)); overflow-x: auto; }
 .code code { font-family: var(--font-mono), monospace; font-size: 0.84rem; line-height: 1.65; color: #d6d7de; white-space: pre; }
 
 .steps { margin: 0 0 0.9rem; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
@@ -111,8 +111,8 @@
 .schedule li::before { content: counter(rev); flex-shrink: 0; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--tone) 14%, transparent); color: var(--tone); font-family: var(--font-mono), monospace; font-size: 0.72rem; }
 
 /* unlock gate */
-.gate { margin: 1.8rem 0 0.5rem; border: 1px solid color-mix(in srgb, #34d399 30%, var(--line)); border-radius: 16px; background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), rgba(255, 255, 255, 0.012)); overflow: hidden; --tone: #34d399; }
-.gate[data-open='true'] { border-color: rgba(52, 211, 153, 0.55); box-shadow: 0 0 26px rgba(52, 211, 153, 0.12); }
+.gate { margin: 1.8rem 0 0.5rem; border: 1px solid var(--ac-rule, var(--line)); border-left: 2px solid color-mix(in srgb, var(--ac-mastery, #4ade80) 45%, transparent); border-radius: 12px; background: var(--ac-surface, rgba(255, 255, 255, 0.012)); overflow: hidden; --tone: var(--ac-mastery, #4ade80); }
+.gate[data-open='true'] { border-left-color: var(--ac-mastery, #4ade80); box-shadow: var(--ac-shadow); }
 .gate .checklist { padding: 1.1rem 1.2rem 0; }
 .gateState { margin: 0; padding: 0.9rem 1.2rem 1.1rem; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--muted); }
 .gate[data-open='true'] .gateState { color: #34d399; }

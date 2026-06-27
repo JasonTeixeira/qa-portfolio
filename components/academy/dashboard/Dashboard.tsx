@@ -220,19 +220,22 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
       <PushOptIn />
 
       <dl className={styles.stats}>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-zero={dash.lessonsCompleted === 0}>
           <dt>{dash.lessonsCompleted}</dt>
           <dd>Lessons completed</dd>
         </div>
-        <div className={`${styles.stat} ${dash.coursesInProgress ? styles.statLive : ''}`}>
+        <div
+          className={`${styles.stat} ${dash.coursesInProgress ? styles.statLive : ''}`}
+          data-zero={dash.coursesInProgress === 0}
+        >
           <dt>{dash.coursesInProgress}</dt>
           <dd>In progress</dd>
         </div>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-zero={dash.coursesCompleted === 0}>
           <dt>{dash.coursesCompleted}</dt>
           <dd>Courses finished</dd>
         </div>
-        <div className={styles.stat}>
+        <div className={styles.stat} data-zero={dash.certificates.length === 0}>
           <dt>{dash.certificates.length}</dt>
           <dd>Certificates</dd>
         </div>
@@ -268,9 +271,17 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
           ) : null}
         </div>
         {dash.courses.length === 0 ? (
-          <p className={styles.empty}>
-            You haven’t started a course yet. <Link href="/academy/catalog">Browse the catalog →</Link>
-          </p>
+          <div className={styles.empty}>
+            <span className={styles.emptyGlyph} aria-hidden="true">◆</span>
+            <p className={styles.emptyTitle}>Nothing in progress yet.</p>
+            <p className={styles.emptyHelp}>
+              Pick a track from the catalog and your first build lands here — every lesson you
+              start keeps its place so you can resume in one click.
+            </p>
+            <Link href="/academy/catalog" className={styles.emptyCta}>
+              Browse the catalog →
+            </Link>
+          </div>
         ) : (
           <div className={styles.courseGrid}>
             {dash.courses.map((c) => {

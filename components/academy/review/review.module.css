@@ -6,7 +6,7 @@
   --line: rgba(255, 255, 255, 0.08);
   max-width: 720px;
   margin: 0 auto;
-  padding: clamp(4rem, 3rem + 3vw, 6rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
+  padding: clamp(1.4rem, 1rem + 1vw, 2rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
   font-family: var(--font-sans), system-ui, sans-serif;
   color: var(--ink);
 }
@@ -23,7 +23,7 @@
   margin-top: 1.6rem; padding: clamp(1.6rem, 1rem + 2vw, 2.4rem);
   border: 1px solid var(--line); border-radius: 20px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
-  box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--ac-shadow);
 }
 .cardTag { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
 .prompt { margin: 0.8rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.4rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.25; letter-spacing: -0.01em; }
@@ -32,7 +32,7 @@
   margin-top: 1.8rem; width: 100%; padding: 0.95rem 1.4rem; border: 0; border-radius: 14px;
   background: var(--accent); color: #fff; cursor: pointer;
   font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.96rem;
-  box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow: var(--ac-shadow);
   transition: filter 0.15s ease, transform 0.1s ease;
 }
 .reveal:hover { filter: brightness(1.07); }
@@ -64,7 +64,7 @@
 .foot { margin-top: 1.6rem; text-align: center; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
 
 /* empty / done */
-.empty { margin-top: 3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; }
+.empty { margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; }
 .emptyGlyph { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: rgba(61, 107, 255, 0.08); color: var(--accent); font-size: 1.7rem; }
 .emptyTitle { margin: 0.6rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.5rem); letter-spacing: -0.02em; }
 .emptyBody { margin: 0; max-width: 46ch; color: var(--dim); line-height: 1.55; }

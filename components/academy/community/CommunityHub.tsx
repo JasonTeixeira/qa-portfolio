@@ -70,8 +70,8 @@ export function CommunityHub({
         </p>
       </header>
 
-      {/* Add a friend */}
-      <section className={styles.card}>
+      {/* Add a friend — primary action, given visual lead over the quieter rosters below */}
+      <section className={`${styles.card} ${styles.cardPrimary}`}>
         <h2 className={styles.h2}>Add a friend</h2>
         <div className={styles.addRow}>
           <span className={styles.at}>@</span>
@@ -114,11 +114,19 @@ export function CommunityHub({
         </section>
       ) : null}
 
-      {/* Friends */}
-      <section className={styles.card}>
+      {/* Friends — quieter roster surface */}
+      <section className={`${styles.card} ${styles.cardQuiet}`}>
         <h2 className={styles.h2}>Your friends</h2>
         {friends.length === 0 ? (
-          <p className={styles.empty}>No friends yet. Add someone by their handle — a shared streak keeps you both honest.</p>
+          <div className={styles.emptyState}>
+            <span className={styles.emptyGlyph} aria-hidden="true">
+              ◇
+            </span>
+            <p className={styles.emptyTitle}>No friends yet.</p>
+            <p className={styles.emptyHelp}>
+              Add someone by their handle above — a shared streak keeps you both honest.
+            </p>
+          </div>
         ) : (
           <ul className={styles.list}>
             {friends.map((f) => (
@@ -141,8 +149,8 @@ export function CommunityHub({
         )}
       </section>
 
-      {/* Cohorts */}
-      <section className={styles.card}>
+      {/* Cohorts — quieter roster surface */}
+      <section className={`${styles.card} ${styles.cardQuiet}`}>
         <h2 className={styles.h2}>Cohorts</h2>
         <ul className={styles.cohortList}>
           {cohorts.map((c) => (

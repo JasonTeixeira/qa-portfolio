@@ -71,8 +71,8 @@
 .prose { margin: 0 0 1.6rem; font-size: 1.06rem; line-height: 1.62; color: var(--dim); }
 
 /* code */
-.code { margin: 0 0 1.8rem; border: 1px solid var(--line); border-radius: 12px; background: #0b0b0f; overflow: hidden; }
-.codeBar { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.9rem; border-bottom: 1px solid rgba(255, 255, 255, 0.07); background: rgba(255, 255, 255, 0.02); }
+.code { margin: 0 0 1.8rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 12px; background: #08080b; overflow: hidden; }
+.codeBar { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.07)); background: rgba(255, 255, 255, 0.015); }
 .dots { display: inline-flex; gap: 5px; }
 .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); }
 .codeName { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: #9c9ca6; }
@@ -87,7 +87,7 @@
 
 /* video */
 .video { position: relative; margin: 0 0 1.8rem; aspect-ratio: 16 / 9; border-radius: 12px; border: 1px solid var(--line); background: radial-gradient(circle at 50% 42%, #15161d, #0a0a0e); overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.play { width: 60px; height: 60px; border-radius: 50%; border: 0; cursor: pointer; background: var(--topic); color: #08080b; font-size: 17px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 28px color-mix(in srgb, var(--topic) 55%, transparent); transition: transform 0.2s ease; }
+.play { width: 60px; height: 60px; border-radius: 50%; border: 0; cursor: pointer; background: var(--topic); color: #08080b; font-size: 17px; display: flex; align-items: center; justify-content: center; box-shadow: var(--ac-shadow); transition: transform 0.2s ease; }
 .play:hover { transform: scale(1.06); }
 .videoCap { position: absolute; left: 18px; bottom: 14px; font-family: var(--font-mono), monospace; font-size: 0.66rem; letter-spacing: 0.04em; color: #bcd2ff; }
 
@@ -128,23 +128,23 @@
 .footer { position: fixed; left: 304px; right: 0; bottom: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 64px; padding: 0 2rem; border-top: 1px solid var(--line); background: rgba(12, 12, 16, 0.92); backdrop-filter: blur(12px); }
 .prev { font-family: var(--font-mono), monospace; font-size: 0.78rem; color: var(--muted); cursor: pointer; text-decoration: none; transition: color 0.2s ease; }
 .prev:hover { color: var(--ink); }
-.complete { border: 0; cursor: pointer; padding: 0.7rem 1.4rem; border-radius: 22px; background: var(--topic); color: #08080b; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 0.92rem; box-shadow: 0 0 22px color-mix(in srgb, var(--topic) 38%, transparent); transition: transform 0.2s ease; }
+.complete { border: 0; cursor: pointer; padding: 0.7rem 1.4rem; border-radius: 22px; background: var(--topic); color: #08080b; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 0.92rem; box-shadow: var(--ac-shadow); transition: transform 0.2s ease; }
 .complete:hover { transform: translateY(-1px); }
 .completeDone { background: rgba(255, 255, 255, 0.08); color: #bcd2ff; box-shadow: none; }
 
 /* paywall / membership gate inside the player */
 .paywall { position: relative; }
 .paywallTease { position: relative; max-height: 220px; overflow: hidden; opacity: 0.5; pointer-events: none; -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent); mask-image: linear-gradient(180deg, #000 20%, transparent); }
-.gate { margin-top: -2rem; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; padding: 2rem; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(180deg, rgba(61, 90, 254, 0.08), rgba(255, 255, 255, 0.02)); }
+.gate { margin-top: -2rem; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; padding: 2rem; border: 1px solid var(--ac-rule, var(--line)); border-left: 2px solid color-mix(in srgb, var(--topic) 55%, transparent); border-radius: 16px; background: var(--ac-surface, rgba(255, 255, 255, 0.02)); box-shadow: var(--ac-shadow); }
 .gateKicker { font-family: var(--font-mono), monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--topic); }
 .gateTitle { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -0.01em; margin: 0; }
 .gateBody { max-width: 46ch; color: var(--muted); line-height: 1.55; margin: 0; }
-.gateBtn { margin-top: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 14px; background: var(--topic); color: #08080b; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; box-shadow: 0 0 22px color-mix(in srgb, var(--topic) 38%, transparent); transition: transform 0.18s ease; }
+.gateBtn { margin-top: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 14px; background: var(--topic); color: #08080b; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; box-shadow: var(--ac-shadow); transition: transform 0.18s ease; }
 .gateBtn:hover { transform: translateY(-1px); }
 .gateLink { color: var(--muted); font-size: 0.84rem; text-decoration: none; }
 .gateLink:hover { color: var(--ink); text-decoration: underline; }
 
-.kbdHint { font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); opacity: 0.7; letter-spacing: 0.02em; }
+.kbdHint { font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.02em; }
 .kbdHint kbd { display: inline-block; min-width: 1.1em; padding: 0.05em 0.35em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; background: rgba(255, 255, 255, 0.04); color: var(--ink); font: inherit; text-align: center; }
 
 /* Visible keyboard focus across every interactive element in the player (WCAG 2.2 — 2.4.7, 2.4.11). */

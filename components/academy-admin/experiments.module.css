@@ -1,0 +1,328 @@
+/* Admin experiment panel — Stage-3 behavioral-proof readouts.
+   Institutional/restrained, dark academy chrome. Reads only the global --ac-*
+   tokens (app/globals.css). Status is conveyed by glyph + word + color, never
+   color alone. No glow, no theatre. */
+
+.page {
+  max-width: var(--ac-maxw-shell);
+  margin: 0 auto;
+  padding: clamp(4rem, 3rem + 3vw, 6rem) var(--ac-gutter) 6rem;
+  color: var(--ac-ink);
+  font-family: var(--ac-font-body);
+}
+
+.head {
+  max-width: var(--ac-maxw-prose);
+  margin-bottom: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+}
+
+.kicker {
+  margin: 0 0 0.6rem;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ac-accent-text);
+}
+
+.h1 {
+  margin: 0 0 0.6rem;
+  font-family: var(--ac-font-display);
+  font-weight: 500;
+  font-size: var(--ac-step-4);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.sub {
+  margin: 0;
+  color: var(--ac-ink-soft);
+  font-size: var(--ac-step-0);
+  line-height: 1.55;
+}
+
+/* legend — explains every status so the operator can read a verdict cold */
+.legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  color: var(--ac-ink-faint);
+}
+
+/* card list */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ac-space);
+}
+
+.card {
+  border: 1px solid var(--ac-rule);
+  border-radius: var(--ac-radius);
+  background: var(--ac-surface);
+  padding: clamp(1.3rem, 1rem + 1.2vw, 2rem);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.cardTitleWrap {
+  min-width: min(100%, 22rem);
+  flex: 1 1 22rem;
+}
+
+.cardLabel {
+  margin: 0 0 0.35rem;
+  font-family: var(--ac-font-display);
+  font-weight: 500;
+  font-size: var(--ac-step-2);
+  letter-spacing: -0.01em;
+}
+
+.cardMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  margin: 0;
+}
+
+.tag {
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  letter-spacing: 0.04em;
+  color: var(--ac-ink-faint);
+  border: 1px solid var(--ac-rule);
+  border-radius: 999px;
+  padding: 0.12em 0.6em;
+}
+
+.hypothesis {
+  margin: 0 0 1.3rem;
+  color: var(--ac-ink-soft);
+  font-size: var(--ac-step-0);
+  line-height: 1.55;
+  max-width: var(--ac-maxw-prose);
+}
+
+.hypothesisLabel {
+  color: var(--ac-ink-faint);
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 0.5rem;
+}
+
+/* status badge — glyph + word + color, conveyed three ways */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3em 0.7em;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.badgeGlyph {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+/* status colors — note insufficient_data is deliberately the PENDING amber,
+   never the mastery green. "no data yet" must never read as a pass. */
+.status_insufficient_data {
+  color: var(--ac-pending);
+}
+.status_no_significant_effect {
+  color: var(--ac-ink-faint);
+}
+.status_treatment_wins {
+  color: var(--ac-mastery);
+}
+.status_holdout_wins {
+  color: var(--ac-danger);
+}
+
+/* honest-pending notice for insufficient_data */
+.pendingNote {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  margin: 0 0 1.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ac-pending) 35%, var(--ac-rule));
+  border-left: 3px solid var(--ac-pending);
+  border-radius: var(--ac-radius);
+  background: color-mix(in srgb, var(--ac-pending) 7%, transparent);
+}
+
+.pendingNoteGlyph {
+  color: var(--ac-pending);
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step-0);
+  line-height: 1.5;
+}
+
+.pendingNoteText {
+  margin: 0;
+  color: var(--ac-ink-soft);
+  font-size: var(--ac-step--1);
+  line-height: 1.55;
+}
+
+.pendingNoteText strong {
+  color: var(--ac-pending);
+  font-weight: 600;
+}
+
+/* per-arm progress toward the minN gate */
+.gateRow {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 1.3rem;
+}
+
+.gateArm {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.gateArmName {
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  color: var(--ac-ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.gateTrack {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ac-bg);
+  border: 1px solid var(--ac-rule);
+  overflow: hidden;
+}
+
+.gateBar {
+  height: 100%;
+  min-width: 2px;
+  border-radius: 999px;
+  background: var(--ac-pending);
+}
+
+.gateBar[data-met='true'] {
+  background: var(--ac-mastery);
+}
+
+.gateArmCount {
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  color: var(--ac-ink-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  min-width: 7ch;
+}
+
+.gateArmCount[data-met='true'] {
+  color: var(--ac-mastery);
+}
+
+/* verdict statistics table */
+.stats {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats caption {
+  text-align: left;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
+  padding-bottom: 0.6rem;
+}
+
+.stats th,
+.stats td {
+  text-align: left;
+  padding: 0.5rem 0.8rem 0.5rem 0;
+  border-bottom: 1px solid var(--ac-rule);
+  font-size: var(--ac-step--1);
+}
+
+.stats thead th {
+  color: var(--ac-ink-faint);
+  font-family: var(--ac-font-mono);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.stats tbody th {
+  color: var(--ac-ink-soft);
+  font-weight: 500;
+}
+
+.stats td {
+  color: var(--ac-ink);
+  font-family: var(--ac-font-mono);
+}
+
+.muted {
+  color: var(--ac-ink-faint);
+}
+
+/* held value — masked when a verdict is not yet earned */
+.held {
+  color: var(--ac-ink-faint);
+  font-style: italic;
+}
+
+.empty {
+  margin: 0;
+  padding: 2rem;
+  border: 1px dashed var(--ac-rule);
+  border-radius: var(--ac-radius);
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1);
+  color: var(--ac-ink-faint);
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .gateArm {
+    grid-template-columns: 4.5rem 1fr;
+  }
+  .gateArmCount {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}

@@ -36,6 +36,12 @@ export function StudioHome({ courses }: { courses: AdminCourseRow[] }) {
       <h1 className={styles.h1}>Sage Academy — Studio</h1>
       <p className={styles.sub}>Create and edit courses, lessons, and content blocks. Changes publish to the live academy.</p>
 
+      <nav className={styles.crumb} aria-label="Admin surfaces" style={{ marginTop: '1rem', marginBottom: 0 }}>
+        <Link href="/academy-admin/metrics">Measurement →</Link>
+        <span aria-hidden="true">·</span>
+        <Link href="/academy-admin/experiments">Experiments →</Link>
+      </nav>
+
       <div className={styles.section}>
         <div className={styles.sectionHead}>
           <h2 className={styles.h2}>Courses ({courses.length})</h2>

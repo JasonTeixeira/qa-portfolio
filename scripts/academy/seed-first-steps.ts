@@ -898,6 +898,326 @@ print(total)             # prints 5, not 15`,
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
+// ================================================================= LESSON 7
+// "Functions: Name and Reuse a Block of Code" — def, parameters, return, calling.
+// New idea vs L6: package a block of code under a name, hand it inputs
+// (parameters), get a value back (return), and call it as many times as you like.
+// Uses variables/numbers/strings/if/elif/else/lists/loops (all taught). Introduces
+// def/return/parameters for the FIRST time. This sets up Module 2's deeper
+// "Functions & Modules: Build Small, Testable Units".
+const FUNCTIONS_LAB_STARTER = `# A function packages a block of code under a name so you can reuse it.
+# 1. Define a function  total_price(unit_price, qty)  that RETURNS unit_price * qty.
+# 2. Call it with unit_price = 7 and qty = 6, and store the result in a variable  bill.
+# 3. Print EXACTLY this line, using an f-string:
+#       6 items = $42
+
+  # your code here
+`
+
+const functionsBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Define your own function with def, give it inputs (parameters), send a value back with return, and call it to reuse a block of code — so you stop copy-pasting the same steps and start naming them.',
+    intensity: 'standard',
+    time: '35–45 min',
+    proof: 'A program that defines a function, calls it with arguments, and prints a computed result that the function returned.',
+    unlock: 'Your function takes inputs, returns the right value, and your program prints it via that returned value.',
+    doNotClaim:
+      "Don't claim you \"understand functions\" until your program has DEFINED a function, CALLED it with arguments, and used the value it RETURNED — printing inside the function without ever returning is not the whole skill.",
+  },
+  {
+    type: 'mission',
+    text: 'Up to now your programs run top to bottom, once. But you keep writing the same little steps — add these up, format that line, check this rule — over and over. A function lets you name a block of code once and run it whenever you want, with different inputs each time. This is the move that turns a wall of repeated lines into a handful of named, reusable tools.',
+  },
+  {
+    type: 'context',
+    text: 'Functions are how every real program stays manageable. Instead of one giant script, you build small named pieces — calculate_total, is_valid, format_line — and snap them together. Naming a step makes code readable; reusing it kills copy-paste bugs (fix it in one place, it is fixed everywhere). Every library you will ever import is just someone else’s functions. Learn to write your own and the whole ecosystem opens up.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: a function does  print(unit_price * qty)  but has no return. You write  bill = total_price(7, 6)  and then  print(bill). What ends up in  bill — the number 42, or something else?',
+    reveal:
+      'bill is None — NOT 42. print() shows a value on screen but does not hand it BACK to the caller. To get a value out of a function so you can store and reuse it, the function must return it. A function that only prints can show you something; a function that returns gives you something. This difference — print vs return — is the single most important idea in this lesson.',
+  },
+  {
+    type: 'concept',
+    title: 'def names a block; parameters feed it; return hands a value back',
+    text: 'A function is a named block of code you can run on demand. You define it with def: def total_price(unit_price, qty): — the names in the parentheses are parameters, placeholders for the inputs the caller will supply. The indented lines underneath are the body (the colon + indentation mark what is "inside", just like if and for). return value sends a value back to whoever called the function and ends it. You call the function by writing its name with real values — total_price(7, 6) — and those values (the arguments) fill the parameters in order. The call evaluates to whatever was returned, so you can store it: bill = total_price(7, 6). Defining a function does NOT run it; only calling it does.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Define once, call twice with different inputs. Watch the arguments fill the parameters and the value come back:',
+    language: 'python',
+    code: `def area(width, height):     # width and height are parameters (inputs)
+    return width * height    # hand the result back to the caller
+
+room = area(3, 4)            # arguments 3, 4 fill width, height -> returns 12
+print(room)                  # -> 12
+
+print(area(10, 2))           # call again with new inputs -> returns 20 -> prints 20`,
+    steps: [
+      'def area(width, height): names a function with two parameters; nothing runs yet.',
+      'return width * height computes the value and sends it back, ending the function.',
+      'area(3, 4) calls it: 3 fills width, 4 fills height; the call becomes the returned 12.',
+      'room = area(3, 4) stores that 12, so print(room) shows 12.',
+      'area(10, 2) reuses the SAME function with new inputs → 20. One definition, many calls.',
+    ],
+    commonMistake:
+      'Printing inside the function but forgetting to return, then trying to use the result: the function shows a number but hands back None, so bill = total_price(7, 6) stores None, not 42. If the caller needs the value, the function must return it — printing is not returning.',
+  },
+  {
+    type: 'code',
+    filename: 'functions.py',
+    language: 'python',
+    code: `def grade(score):            # one input: a score
+    if score >= 90:
+        return "A"           # return ends the function immediately
+    elif score >= 70:
+        return "B"
+    else:
+        return "C"
+
+print(grade(95))             # -> A
+print(grade(84))             # reuse the same logic with a new input -> B`,
+    // def packages the if/elif/else once; each call reuses it with a different score. return ends the function.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'print shows a value to a human; return hands a value to the rest of your program. Ask yourself: does the caller need to USE this result (store it, do math on it, pass it on)? Then return it. Does it only need to appear on screen right now? Then print it. Most reusable functions return — and the caller decides whether to print. Mixing these up is the most common beginner function bug.',
+  },
+  {
+    type: 'lab',
+    title: 'Write and call a function',
+    summary:
+      'Define a function total_price(unit_price, qty) that RETURNS unit_price * qty (use return, do not just print inside it). Call it with 7 and 6, store the returned value in a variable bill, then print exactly this line with an f-string: 6 items = $42. The 42 must come from your function’s return value — do not hardcode it.',
+    language: 'python',
+    starter: FUNCTIONS_LAB_STARTER,
+    check: '6 items = $42',
+  },
+  {
+    type: 'debug',
+    symptom: 'This should print 42, but it prints None instead.',
+    language: 'python',
+    brokenCode: `def total_price(unit_price, qty):
+    unit_price * qty          # meant to give back the total
+
+bill = total_price(7, 6)
+print(bill)                   # prints None, not 42`,
+    task: 'Find why the caller gets None instead of the total.',
+    fix: 'The line  unit_price * qty  computes 42 but throws it away — the function never returns anything, so the call hands back None. Add return:  return unit_price * qty. Now total_price(7, 6) evaluates to 42, bill stores 42, and print(bill) shows 42. A function with no return gives back None.',
+  },
+  {
+    type: 'quiz',
+    question: 'What does this print?  def double(n): return n * 2  — then  x = double(5)  and  print(double(x))',
+    options: [
+      '10 — the function only runs once',
+      '20 — double(5) returns 10 into x, then double(10) returns 20',
+      'None — you can\'t call a function with a variable',
+      '5 — the return value is ignored',
+    ],
+    answer: 1,
+    explanation:
+      'double(5) returns 10, which is stored in x. Then double(x) is double(10), which returns 20, and that is printed. Each call runs the same function with whatever argument you give it and hands back a fresh result — that reuse is the entire point of writing a function.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'You defined a function with def, a name, and parameters in parentheses',
+      'Your function uses return to hand a value back (not just print inside it)',
+      'You called the function with arguments and stored the returned value in a variable',
+      'Your output is EXACTLY:  6 items = $42  — with the 42 coming from the function’s return',
+      'You can explain the difference between print (show) and return (hand back)',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'In one sentence, what is a function and why write one?',
+      'What is the difference between a parameter and an argument?',
+      'What does return do, and how is it different from print?',
+      'If a function has no return statement, what does calling it give back?',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'In the lab, turn a repeated calculation from earlier into a function: a tip calculator tip(bill, percent), a grader grade(score) using your if/elif/else, or a total summer that loops over a list. Then call it two or three times with different inputs and print each result. The moment you reuse one definition with new inputs, you have crossed from "scripting" into "building".',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
+// ================================================================= LESSON 8
+// "Build & Ship a Tiny Program" — THE CAPSTONE. Combine variables + if + a list +
+// a loop + a function into one small, genuinely useful program over in-code data.
+// No new syntax: this lesson is synthesis. Uses ONLY concepts from lessons 1-7.
+// NO input() (Pyodide labs are non-interactive — operate on in-code data).
+const SHIP_LAB_STARTER = `# CAPSTONE — ship a tiny gradebook in one small program.
+# scores below are quiz results (0-100). Build ONE program that:
+#   1. defines a function  summarize(scores)  which LOOPS over the scores and,
+#      inside the loop, builds a running total AND counts how many are >= 60 (passing);
+#   2. computes the average  (total divided by how many scores there are);
+#   3. prints the passing-count line, then RETURNS the average.
+#   4. OUTSIDE the function: call summarize(scores), store the returned average in  avg,
+#      and print the average line. Print the average as a whole number with  int(avg).
+# Required output — EXACTLY two lines (use f-strings):
+#   Passed: 3 of 5
+#   Average: 70
+
+scores = [40, 80, 95, 50, 85]
+  # your code here
+`
+
+const shipBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Combine everything from First Steps — a variable, a list, a loop, an if, and a function — into ONE small program that processes real in-code data and prints a useful result. This is your first genuinely shipped program.',
+    intensity: 'capstone',
+    time: '45–60 min',
+    proof: 'A single working program that defines a function, loops over a list with a decision inside, and prints two exact lines computed from the data (a passing count and an average).',
+    unlock: 'Your program runs end to end and prints both required lines, with every number computed from the data — nothing hardcoded.',
+    doNotClaim:
+      "Don't claim you \"shipped a program\" until it RUNS top to bottom and prints both correct lines from the data — a program that prints the right numbers only because you typed them in is not the skill.",
+  },
+  {
+    type: 'mission',
+    text: 'You have learned six tools — variables, numbers and strings, decisions, lists, loops, functions. Today you stop practicing them one at a time and use them TOGETHER to build something real: a tiny gradebook that reads a set of scores and reports how many passed and the class average. This is the moment "I am learning to code" becomes "I built a working program." It is small, but it is yours, and it actually works.',
+  },
+  {
+    type: 'context',
+    text: 'Every real program is just the basics you already know, combined: take some data, loop over it, make decisions, compute results, report them. A bank statement, a leaderboard, a fitness summary, a sales report — same shape. The skill that separates someone who "knows syntax" from someone who "can build" is exactly this: holding several pieces in your head at once and wiring them into one program that does a real job. That is what you practice here.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: you need a passing COUNT and a running TOTAL from one list. Do you need two separate loops over the scores, or can one loop do both jobs at the same time?',
+    reveal:
+      'One loop is enough — and better. On each pass you can add the score to your total AND, with an if, bump the passing count when it qualifies. Two accumulators (total = 0 and passed = 0) set up before the loop, both updated inside the same loop, both ready when it ends. Looping the data twice would work but wastes effort; real programs do as much as they can in one well-organised pass.',
+  },
+  {
+    type: 'concept',
+    title: 'A real program = data → loop → decide → accumulate → report',
+    text: 'Building a program is not a new skill — it is arranging the ones you have into a sensible order. The classic shape: (1) start with your data (a list); (2) set up your result holders BEFORE the loop (total = 0, passed = 0); (3) loop over the data once; (4) inside the loop, update the total every pass and use an if to update the count only when a condition is met; (5) after the loop, compute any final figures (average = total / len(scores)); (6) report the results (print, or return them from a function so the rest of the program can use them). Wrapping that in a function — summarize(scores) — names the whole job and lets you reuse it on any list of scores. No new syntax today: this is everything from lessons 1–7, working as a team.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'A complete tiny program — same shape as the lab, different data. Read how the pieces combine:',
+    language: 'python',
+    code: `def report(temps):           # a function that takes a list of temperatures
+    total = 0                # accumulator set up BEFORE the loop
+    hot_days = 0             # a second accumulator
+    for t in temps:          # one loop, doing two jobs
+        total = total + t    # build the running total every pass
+        if t >= 80:          # a decision inside the loop
+            hot_days = hot_days + 1   # count only the hot days
+    average = total / len(temps)      # compute after the loop
+    print(f"Hot days: {hot_days}")
+    return average           # hand the average back to the caller
+
+readings = [72, 85, 90, 68]  # the data
+avg = report(readings)       # call the function, capture what it returns
+print(f"Average: {int(avg)}")`,
+    steps: [
+      'report(temps) wraps the whole job in one named, reusable function (Lesson 7).',
+      'total and hot_days are created BEFORE the loop — the empty buckets (Lessons 2 & 6).',
+      'One for-loop walks the list once (Lesson 6), reading each temperature.',
+      'Inside, total grows every pass; the if counts only hot days (Lessons 4 & 6 together).',
+      'After the loop, average = total / len(temps) computes the result, the function prints the count and RETURNS the average, and the caller prints it with an f-string (Lessons 3 & 7).',
+    ],
+    commonMistake:
+      'Resetting an accumulator inside the loop (total = 0 on every pass) or computing the average inside the loop instead of after it — both give wrong numbers. Set up accumulators once before the loop; compute final figures once after it. The loop body should only UPDATE, not re-initialise.',
+  },
+  {
+    type: 'code',
+    filename: 'gradebook.py',
+    language: 'python',
+    code: `def summarize(scores):
+    total = 0
+    passed = 0
+    for s in scores:             # one pass over the data
+        total = total + s        # running total
+        if s >= 60:              # decision
+            passed = passed + 1  # count the passes
+    print(f"Passed: {passed} of {len(scores)}")
+    return total / len(scores)   # hand back the average
+
+scores = [40, 80, 95, 50, 85]
+avg = summarize(scores)
+print(f"Average: {int(avg)}")    # -> Passed: 3 of 5 / Average: 70`,
+    // Variable + list + loop + if + function, combined into one working program.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'When a task feels big, name the steps in plain words first: "loop the scores, total them, count the passes, average it, print." That sentence IS your program’s outline — turn each clause into a line or two of code. Real engineers do exactly this: decompose the job into small steps you already know how to write, then assemble them. You are not memorising new magic; you are arranging familiar pieces.',
+  },
+  {
+    type: 'lab',
+    title: 'Ship the gradebook',
+    summary:
+      'Build one program over scores = [40, 80, 95, 50, 85]. Define summarize(scores) that loops once, builds a running total, counts scores >= 60, prints "Passed: 3 of 5", and RETURNS the average (total / len). Outside the function, call it, store the average in avg, and print "Average: 70" (use int(avg)). Output must be exactly two lines: Passed: 3 of 5 then Average: 70 — every number computed from the data, nothing hardcoded.',
+    language: 'python',
+    starter: SHIP_LAB_STARTER,
+    check: 'Passed: 3 of 5\nAverage: 70',
+  },
+  {
+    type: 'debug',
+    symptom: 'This gradebook should print "Average: 70", but it prints "Average: 17" — far too low.',
+    language: 'python',
+    brokenCode: `def summarize(scores):
+    for s in scores:
+        total = 0                # meant to total the scores
+        total = total + s
+    return total / len(scores)
+
+scores = [40, 80, 95, 50, 85]
+print(f"Average: {int(summarize(scores))}")`,
+    task: 'Find why the average comes out as 17 instead of 70.',
+    fix: 'total = 0 sits INSIDE the loop, so it resets every pass — after the final pass total is just the last score (85), not the sum. The function then returns 85 / 5 = 17. Move  total = 0  ABOVE the loop so it runs once, and leave only  total = total + s  inside. Now total accumulates 40+80+95+50+85 = 350, and 350 / 5 = 70. Accumulators are created before the loop, updated inside it.',
+  },
+  {
+    type: 'quiz',
+    question: 'In the gradebook, why is  average = total / len(scores)  written AFTER the loop instead of inside it?',
+    options: [
+      'It must be inside the loop, or it never runs',
+      'Because total is only complete once the loop has visited every score; computing it mid-loop would use a partial total',
+      'It makes no difference where you put it',
+      'Because len(scores) only works after a loop',
+    ],
+    answer: 1,
+    explanation:
+      'The running total is only finished after the loop has added every score. Computing the average inside the loop would divide an incomplete total and run needlessly on every pass. The pattern is: accumulate inside the loop, compute final results once the loop is done.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes (this is your shipped program):',
+    items: [
+      'Your program defines a function and CALLS it (Lesson 7)',
+      'It loops over the list once, with an accumulator set up before the loop (Lessons 2 & 6)',
+      'It uses an if INSIDE the loop to count only the passing scores (Lessons 4 & 6)',
+      'It computes the average AFTER the loop and formats output with f-strings (Lessons 3 & 6)',
+      'It prints EXACTLY two lines — Passed: 3 of 5 then Average: 70 — with every number computed from the data, nothing typed in',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'Walk through your program in plain English, one step per line of code.',
+      'Why are total and passed set up before the loop, and updated inside it?',
+      'Why does the average get computed after the loop, not during it?',
+      'Which First Steps lesson did each part of your program come from? (variable, list, loop, if, function)',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'You just shipped a real program — own that. Now make it yours: change the pass mark, add a "top score" by tracking the largest value as you loop, or point summarize() at a different list of scores and watch it still work (that is the payoff of a function). Then build a sibling: a tiny expense report, a step-count week, a quiz scorer — same shape, your data. You now have the one skill everything else builds on: take data, process it in a loop with decisions, and report a useful result. That is programming.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
 // ================================================================= apply
 async function main() {
   if (!shouldApply) {
@@ -916,6 +1236,8 @@ async function main() {
             { slug: 'booleans-and-logic', sort: 3, blocks: booleansBlocks.length },
             { slug: 'lists', sort: 4, blocks: listsBlocks.length },
             { slug: 'loops', sort: 5, blocks: loopsBlocks.length },
+            { slug: 'functions-basics', sort: 6, blocks: functionsBlocks.length },
+            { slug: 'build-a-tiny-program', sort: 7, blocks: shipBlocks.length },
           ],
           relabel: {
             from: `${OLD_FOUNDATIONS_MODULE} (module_sort 0)`,
@@ -1025,6 +1347,26 @@ async function main() {
       is_free_preview: false,
       intensity: 'standard',
       blocks: loopsBlocks,
+    },
+    {
+      slug: 'functions-basics',
+      title: 'Functions: Name and Reuse a Block of Code',
+      eyebrow: 'Module 1 · Lesson 7 · 40 min',
+      sort: 6,
+      est_minutes: 40,
+      is_free_preview: false,
+      intensity: 'standard',
+      blocks: functionsBlocks,
+    },
+    {
+      slug: 'build-a-tiny-program',
+      title: 'Build & Ship a Tiny Program',
+      eyebrow: 'Module 1 · Lesson 8 · 50 min',
+      sort: 7,
+      est_minutes: 50,
+      is_free_preview: false,
+      intensity: 'capstone',
+      blocks: shipBlocks,
     },
   ]
 

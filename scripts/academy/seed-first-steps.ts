@@ -61,7 +61,7 @@ const firstProgramBlocks = [
   },
   {
     type: 'mission',
-    text: 'Right now, code is a black box: you have never made a computer do a single thing on purpose. In the next 20 minutes that changes. You will type one instruction, run it, and watch the machine obey — the exact moment every programmer points to as "this is when it clicked."',
+    text: 'Right now the computer does nothing you tell it — because you have never told it anything. In the next twenty minutes that ends. You will type one line, press Run, and watch a machine do exactly what you said. Every programmer alive remembers this moment. After today, so will you.',
   },
   {
     type: 'context',
@@ -105,7 +105,7 @@ print("I just ran my first program.")`,
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The quotes must match and must wrap the WHOLE piece of text: "Hello, world!" — opening quote, your text, closing quote. A missing or mismatched quote is the single most common beginner error. When something breaks, check your quotes first.',
+    text: 'Here is the habit that separates people who get unstuck fast from people who panic: an error is not the computer scolding you — it is the computer telling you exactly where it got confused. Read it, do not fear it. And on day one, nine times out of ten the answer is a quote: it must wrap the WHOLE piece of text — opening quote, your text, closing quote — "Hello, world!". Mismatched or missing quotes is the #1 beginner error. When something breaks, check your quotes first, then read the message.',
   },
   {
     type: 'lab',
@@ -191,7 +191,7 @@ const variablesBlocks = [
   },
   {
     type: 'mission',
-    text: 'In your first program every value was typed inline and instantly forgotten. Real programs need to remember: a score that goes up, a price that gets a discount, a total that builds from parts. Today you give values names you can hold onto and reuse — the difference between a program that says one thing and one that actually keeps track.',
+    text: 'In Lesson 1 you printed a line — then the computer forgot it the instant it ran. But real programs remember: a score that climbs, a price that drops at checkout, a total built from parts. Today you give a value a name you can hold onto and reuse. That is the leap from a program that says something once to a program that actually keeps track — and next lesson, those remembered values start doing math.',
   },
   {
     type: 'context',
@@ -240,7 +240,7 @@ print(total_eggs)              # -> 18`,
   {
     type: 'callout',
     tone: 'tip',
-    text: 'Name variables for what they MEAN, not what they are: total_eggs, not t or x. Good names are lowercase with underscores between words (per_box, max_score). Future-you — and anyone reading your code — should understand a variable from its name alone, without hunting for where it came from.',
+    text: 'Pros treat a variable name as the cheapest documentation they will ever write. total_eggs explains itself; t and x force the next reader (usually future-you, at 11pm, debugging) to scroll back and reconstruct what it meant. The rule working programmers follow: name the value for its MEANING, lowercase with underscores between words (per_box, max_score). A good name is not neatness — it is how code stays readable long after you have forgotten writing it.',
   },
   {
     type: 'lab',
@@ -335,7 +335,7 @@ const numbersStringsBlocks = [
   },
   {
     type: 'mission',
-    text: 'You can store values and do math — but the moment text and numbers mix, things get weird: add two quantities from a form and you get "23" instead of 5. Today you learn what your values actually ARE, so you can do math when you mean math and build clean text when you mean text. This is the lesson that stops the most baffling beginner bugs.',
+    text: 'In Lesson 2 you added numbers and it just worked. So this will rattle you: ask a user for two quantities, add them, and you get "23" instead of 5 — and nothing looks wrong. The culprit is that your values have a hidden property called a type, and text and numbers obey different rules under the same + sign. Today you learn to see that hidden property. This single lesson kills more baffling beginner bugs than any other — and it is the groundwork for every form, file, and keyboard input you will ever handle.',
   },
   {
     type: 'context',
@@ -483,7 +483,7 @@ const booleansBlocks = [
   },
   {
     type: 'mission',
-    text: 'So far every line of your program runs, every time, no matter what. But real programs decide: pass or fail, in stock or sold out, logged in or kicked out. Today you give your program a fork in the road — it looks at a value, answers a yes/no question, and runs different code depending on the answer. This is the moment your code stops reciting and starts reacting.',
+    text: 'Until now every line of your program ran, every time, no matter what — print, store, compute, in lockstep. But real programs decide: pass or fail, in stock or sold out, logged in or kicked out. Today you hand your program a fork in the road: it looks at a value, answers a yes/no question, and runs different code depending on the answer. This is the moment your code stops reciting and starts reacting — and soon you will run these same decisions across a whole list of values at once.',
   },
   {
     type: 'context',
@@ -540,7 +540,7 @@ else:
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The colon and the indentation are not decoration — they ARE the branch. Every if / elif / else line ends with a colon, and the lines that belong to it are indented underneath (4 spaces). Python uses that indentation to know what is "inside" the branch. Lose the colon or the indent and the program breaks or branches wrong.',
+    text: 'In most languages, curly braces { } mark what is "inside" a branch. Python deletes the braces and uses the indentation itself — which means in Python, whitespace is not style, it is syntax. The colon at the end of the line opens the branch; the four-space indent underneath says "these lines belong to it." Pros internalize this once and never fight it again: a stray colon or a wrong indent does not look wrong, but it silently puts code in the wrong branch. When an if misbehaves, check the colon and the indentation before anything else.',
   },
   {
     type: 'lab',
@@ -632,7 +632,7 @@ const listsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Every value so far lived in its own variable — fine for one score, hopeless for fifty. You do not want score1, score2, score3 … forever. A list lets one name hold a whole sequence of values in order, so you can grow it, read any slot, and count it. This is the container almost every real program is built around.',
+    text: 'Every variable you have made so far holds exactly one value — perfect for a single score, useless for fifty. Nobody writes score1, score2, score3 … score50. A list lets one name hold a whole sequence of values in order: grow it, read any slot by position, count it. It is the container almost every real program is built around — and the moment you have many values under one name, the next lesson hands you a way to act on all of them in a single stroke.',
   },
   {
     type: 'context',
@@ -779,7 +779,7 @@ const loopsBlocks = [
   },
   {
     type: 'mission',
-    text: 'You can store a hundred values in a list — but printing or adding them one line at a time would be misery, and would break the moment the list changed size. A loop says "do this for every item" once, and it works whether the list has 3 items or 3,000. This is the instruction that turns a list from a pile of data into something you can actually process.',
+    text: 'Last lesson you built a list that can hold a hundred values. Now picture writing a hundred lines to add them up — and rewriting all hundred the moment the list changes size. That is not programming; that is typing. A loop says "do this for every item" exactly once, and it runs whether the list holds 3 values or 3,000. This is the instruction that turns a list from a pile of data into something you can actually process — and bring along the if from Lesson 4 and you can count, filter, and decide across the whole pile.',
   },
   {
     type: 'context',
@@ -928,7 +928,7 @@ const functionsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Up to now your programs run top to bottom, once. But you keep writing the same little steps — add these up, format that line, check this rule — over and over. A function lets you name a block of code once and run it whenever you want, with different inputs each time. This is the move that turns a wall of repeated lines into a handful of named, reusable tools.',
+    text: 'Look back at what you have built: a loop that totals a list, an if that grades a score. Useful — but each lives in one spot, and to reuse it you would copy-paste and pray. A function lets you name a block of code once and run it on demand, with different inputs every time. Fix it in one place and it is fixed everywhere it is used. This is the move that turns a wall of repeated lines into a handful of named, reusable tools — and it is the last piece you need before you wire everything together into a real program.',
   },
   {
     type: 'context',
@@ -1084,7 +1084,7 @@ const shipBlocks = [
   },
   {
     type: 'mission',
-    text: 'You have learned six tools — variables, numbers and strings, decisions, lists, loops, functions. Today you stop practicing them one at a time and use them TOGETHER to build something real: a tiny gradebook that reads a set of scores and reports how many passed and the class average. This is the moment "I am learning to code" becomes "I built a working program." It is small, but it is yours, and it actually works.',
+    text: 'Seven lessons ago you could not make a computer print a line. Look at what you carry now: you can print (L1), name and reuse values (L2), tell numbers from text and format them (L3), make decisions (L4), hold many values in a list (L5), loop over them (L6), and package logic into a function (L7). Today none of it is practice. You snap all of it together into one real program — a tiny gradebook that reads a set of scores and reports how many passed and the class average. This is the line between "I am learning to code" and "I built a working program." It is small. It is entirely yours. And when you press Run, it actually works.',
   },
   {
     type: 'context',
@@ -1213,7 +1213,7 @@ print(f"Average: {int(summarize(scores))}")`,
   },
   {
     type: 'transfer',
-    text: 'You just shipped a real program — own that. Now make it yours: change the pass mark, add a "top score" by tracking the largest value as you loop, or point summarize() at a different list of scores and watch it still work (that is the payoff of a function). Then build a sibling: a tiny expense report, a step-count week, a quiz scorer — same shape, your data. You now have the one skill everything else builds on: take data, process it in a loop with decisions, and report a useful result. That is programming.',
+    text: 'You just shipped a real program — stop and own that, because most people who say "I want to learn to code" never get here. Now make it yours: change the pass mark, track the "top score" by keeping the largest value as you loop, or point summarize() at a completely different list and watch it still work — that reuse is the whole payoff of a function. Then build a sibling from scratch: a tiny expense report, a step-count week, a quiz scorer. Same shape, your data. Everything ahead — files, the web, data, AI — is this exact move at larger scale: take data, process it in a loop with decisions, report a useful result. You do not just know some syntax now. You can build. Welcome.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]

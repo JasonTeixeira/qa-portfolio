@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getGamification } from '@/lib/academy/gamification'
 import { getDueCount } from '@/lib/academy/fsrs'
 import { CommandPalette } from '@/components/academy/search/CommandPalette'
+import { AiTutorPanel } from '@/components/academy/tutor/AiTutorPanel'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
@@ -181,6 +182,9 @@ export async function AcademyShell({
       </header>
 
       <main>{children}</main>
+
+      {/* Persistent master-tutor — available on every academy page. */}
+      <AiTutorPanel />
     </div>
   )
 }

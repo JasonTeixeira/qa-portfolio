@@ -126,11 +126,11 @@ const blocks = [
   },
   {
     type: 'mission',
-    text: 'Your signup endpoint just let a user register with an empty email, a 50,000-character name, and age = -3. That data is now in your database. Your job: stop trusting input — validate it at the boundary before the system ever believes it.',
+    text: 'You shipped a tiny program at the end of First Steps — a gradebook that read a clean list of scores and worked perfectly. Here is the catch nobody warned you about: real data is never clean. Hand that same gradebook a score of "ninety", or -5, or 4000, and it breaks or silently lies. Today your code grows up. Your signup endpoint just let a user register with an empty email, a 50,000-character name, and age = -3 — and that garbage is now in your database. Your job for the next nine lessons starts here: stop trusting input, and validate it at the boundary before the system ever believes a word of it.',
   },
   {
     type: 'context',
-    text: 'Unchecked input is the #1 cause of crashes, corrupted data, and an entire class of security bugs (injection, impossible states). Every API handler, CLI parser, config loader, and pipeline step needs this. Learn the pattern once and it pays off in every system you will ever build.',
+    text: 'Unchecked input is the #1 cause of crashes, corrupted data, and an entire class of security bugs — injection, impossible states, the lot. It is the through-line of this whole module: the error handling, file reading, and CLI safety lessons ahead are all the same instinct — distrust the outside world, check it at the edge. Every API handler, CLI parser, config loader, and pipeline step needs this. Learn the pattern once here and it pays off in every system you will ever build.',
   },
   {
     type: 'pretest',
@@ -256,7 +256,7 @@ const blocks = [
   },
   {
     type: 'transfer',
-    text: 'Take one function in your own code that accepts external input (a request handler, a CLI argument, a file parser). Add a boundary validator and one negative test. Note which checks belong at the client, the server, and the database.',
+    text: 'Take one function in your own code that accepts external input (a request handler, a CLI argument, a file parser). Add a boundary validator and one negative test. Note which checks belong at the client, the server, and the database. You now reject bad input cleanly — but next lesson asks the harder question: when something fails anyway, how do you fail loudly and safely instead of silently?',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -304,7 +304,7 @@ const errorHandlingBlocks = [
   },
   {
     type: 'mission',
-    text: 'A background job has been "succeeding" for a week — but it wrapped everything in `except Exception: pass`. Thousands of records silently failed and no one knew. Your job: make failures loud, safe, and diagnosable.',
+    text: 'Last lesson you rejected bad input at the door. But some failures slip past every guard — a network blips, a disk fills, a dependency dies — and what you do at that moment decides whether you find out in 30 seconds or 30 days. Here is the 30-day version: a background job has been "succeeding" for a week, because it wrapped everything in `except Exception: pass`. Thousands of records silently failed and no one knew. Your job: make failures loud, safe, and diagnosable — the opposite of that one catastrophic line.',
   },
   {
     type: 'context',
@@ -428,7 +428,7 @@ def charge_card(user_id, amount):
   },
   {
     type: 'transfer',
-    text: 'Find one try/except in your own code. Is it swallowing? Make it catch narrowly, log operator context, surface a safe message, and classify retryable vs not. Add a test that proves the error surfaces.',
+    text: 'Find one try/except in your own code. Is it swallowing? Make it catch narrowly, log operator context, surface a safe message, and classify retryable vs not. Add a test that proves the error surfaces. Validation and error handling both got easier to reason about in one spot — and next lesson shows why: small, pure functions are where this clarity actually lives.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -480,7 +480,7 @@ const functionsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Your `calculate_total()` works perfectly when you run it by hand — but the tests fail at random. The culprit: it reads a global `cart` and prints instead of returning. Make it a function you can actually trust.',
+    text: 'In First Steps you learned to write a function: inputs in, value out. Then the last two lessons leaned on that — a validator you could test, an error path you could prove. But there is a way to write a function that quietly poisons all of it. Your `calculate_total()` works perfectly when you run it by hand, then its tests fail at random for no reason you can see. The culprit: it reads a global `cart` and prints instead of returning. Today you make it a function you can actually trust — small, pure, and predictable enough that a test is just one line.',
   },
   {
     type: 'context',
@@ -620,7 +620,7 @@ def price_with_tax(amount):
   },
   {
     type: 'transfer',
-    text: 'Find a function in your own code that prints or saves while it computes. Split it: a pure function that returns the value + a thin caller that does the I/O. Add a test for the pure part.',
+    text: 'Find a function in your own code that prints or saves while it computes. Split it: a pure function that returns the value + a thin caller that does the I/O. Add a test for the pure part. Your functions are clean now — but a pure function still goes wrong if you feed it the wrong KIND of value, and next lesson is about exactly that: knowing what a value really is.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -670,7 +670,7 @@ const typesBlocks = [
   },
   {
     type: 'mission',
-    text: "Your form adds two quantities and shows '23' instead of 5. The inputs arrived as strings ('2' and '3'), and `+` concatenated them. Your job: know what your values actually are, and convert them deliberately.",
+    text: "You met this ghost once in First Steps — \"2\" + \"3\" is \"23\", not 5 — and it felt like a quirk. It is not a quirk; it is the bug that will haunt every form, file, and API you ever touch. Your form adds two quantities and shows '23' instead of 5, because the inputs arrived as strings ('2' and '3') and `+` quietly concatenated them. Now that you write functions you can trust, this is the next betrayal to defend against: know what your values actually are, and convert them deliberately at the edge — before they reach the clean code you just learned to write.",
   },
   {
     type: 'context',
@@ -791,7 +791,7 @@ const typesBlocks = [
   },
   {
     type: 'transfer',
-    text: 'Find a place in your own code where input crosses a boundary (a form field, CLI arg, JSON value). Convert it to its real type at the edge with explicit error handling, and pick the data structure that fits the access pattern.',
+    text: 'Find a place in your own code where input crosses a boundary (a form field, CLI arg, JSON value). Convert it to its real type at the edge with explicit error handling, and pick the data structure that fits the access pattern. With clean types in hand, the next lesson tackles the SHAPE of your logic — the nested ifs and loops that turn correct data into incorrect results.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -846,7 +846,7 @@ const controlFlowBlocks = [
   },
   {
     type: 'mission',
-    text: "A teammate's `process_order()` is five levels of nested if/else — nobody can tell which path runs. And the loop that 'removes cancelled orders' silently leaves half of them. Make the path obvious and the loop correct.",
+    text: "You can write the if and the for-loop — First Steps gave you both. But knowing the syntax and writing logic a human can follow are two different skills, and the gap between them is where bugs live. A teammate's `process_order()` is five levels of nested if/else — nobody, including the author, can tell which path actually runs. And the loop that 'removes cancelled orders' silently leaves half of them behind. Your data is clean by now; today you keep the LOGIC clean too: make the path obvious with guard clauses, and make the loop correct.",
   },
   {
     type: 'context',
@@ -979,7 +979,7 @@ def charge(order):
   },
   {
     type: 'transfer',
-    text: 'Find a loop in your own code that removes or edits a collection while iterating it, or a function nested more than three levels deep. Refactor: filter into a new list, or add guard clauses. Add a test for the edge that used to break.',
+    text: 'Find a loop in your own code that removes or edits a collection while iterating it, or a function nested more than three levels deep. Refactor: filter into a new list, or add guard clauses. Add a test for the edge that used to break. So far every value has lived in memory, where nothing can go wrong reaching it — next lesson steps outside the program, into files, where the resource itself can leak or vanish.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -1033,7 +1033,7 @@ const filesBlocks = [
   },
   {
     type: 'mission',
-    text: 'A nightly job crashed because a config file was missing — and even when it worked, it leaked open file handles until the process ran out. Read files the safe way: always close, and handle missing explicitly.',
+    text: 'Until now your data lived safely in memory — lists and dicts that were just THERE. The moment you reach for a file, that comfort ends: the file might be missing, locked, half-read, or gigabytes too big, and every one of those is the outside world failing in a way pure code never does. A nightly job crashed because a config file was missing — and even when it worked, it leaked open file handles until the process ran out of them entirely. Read files the safe way: always close, and handle missing explicitly. This is where the distrust-the-boundary instinct from Lesson 1 meets the physical world.',
   },
   {
     type: 'context',
@@ -1159,7 +1159,7 @@ const filesBlocks = [
   },
   {
     type: 'transfer',
-    text: 'Find file handling in your own code that uses a bare `open()` or swallows a missing-file error. Switch to `with`, stream if the file can be large, and let (or log-and-raise) the missing/unreadable case surface. Add a test for the missing file.',
+    text: 'Find file handling in your own code that uses a bare `open()` or swallows a missing-file error. Switch to `with`, stream if the file can be large, and let (or log-and-raise) the missing/unreadable case surface. Add a test for the missing file. You have now written five lessons of careful code — validation, error paths, pure functions, clean loops, safe I/O. Next lesson asks the only question that proves any of it: how do you KNOW it works before production finds out for you?',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -1206,7 +1206,7 @@ const testingBlocks = [
   },
   {
     type: 'mission',
-    text: 'Your `average()` passed every test and shipped. Then it crashed in production on an empty list — the tests only checked the happy path. Add the test that would have caught it, and fix the bug.',
+    text: 'Every lesson so far gave you a reason to trust your code — validation, error handling, pure functions. Tests are how you EARN that trust instead of just claiming it, and a bad test is worse than none because it sells you false confidence. Your `average()` passed every test and shipped. Then it crashed in production on an empty list, because the tests only ever checked the happy path. Add the test that would have caught it, and fix the bug — then you will never confuse "the tests are green" with "the code is right" again.',
   },
   {
     type: 'context',
@@ -1328,7 +1328,7 @@ assert average([2, 4, 6]) == 4`,
   },
   {
     type: 'transfer',
-    text: 'Take a function in your own code and write the cheapest test that catches its riskiest failure — an edge or negative case, not the happy path. If you hit a bug recently, add a regression test that fails before your fix and passes after.',
+    text: 'Take a function in your own code and write the cheapest test that catches its riskiest failure — an edge or negative case, not the happy path. If you hit a bug recently, add a regression test that fails before your fix and passes after. Tests protect your code from your future self; next lesson protects production from your present self — the command-line tools that can delete real data with a single forgotten flag.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -1385,7 +1385,7 @@ const cliBlocks = [
   },
   {
     type: 'mission',
-    text: "An internal cleanup script ran with its defaults — and deleted production data, because 'no environment specified' defaulted to prod and there was no confirmation. Make the tool safe by default.",
+    text: "You can write code that's validated, handled, typed, and tested — and still wipe a production database in one keystroke, because the TOOL around the code wasn't safe. This is the lesson where consequences get physical and irreversible. An internal cleanup script ran with its defaults and deleted production data, because 'no environment specified' quietly defaulted to prod and nothing asked the human to confirm. There is no try/except for a deleted table. Make the tool safe by default, so a forgotten flag previews instead of destroys.",
   },
   {
     type: 'context',
@@ -1500,7 +1500,7 @@ const cliBlocks = [
   },
   {
     type: 'transfer',
-    text: 'Find a script or command in your own tooling that can destroy or overwrite data. Add a dry-run default, explicit environment selection, a preview of the target set, and confirmation for production — and log who ran what, where, and when.',
+    text: 'Find a script or command in your own tooling that can destroy or overwrite data. Add a dry-run default, explicit environment selection, a preview of the target set, and confirmation for production — and log who ran what, where, and when. Safe tools protect your data from a bad command; the last lesson protects your work itself — a history you can read, revert, and recover, so almost nothing is ever truly lost.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -1556,7 +1556,7 @@ const gitBlocks = [
   },
   {
     type: 'mission',
-    text: "Your teammate's branch is one giant commit titled 'stuff' — and when a bug appeared, nobody could tell which change caused it or revert just that part. Make your history something you can actually use.",
+    text: "This is the last skill of Foundations, and it is the safety net under all the others. You can validate, handle errors, write pure functions, and test like a pro — and still lose a day's work, or ship a bug you can't trace, if your version history is a mess. Your teammate's branch is one giant commit titled 'stuff', and when a bug appeared, nobody could tell which change caused it or revert just that part. Make your history something you can actually use: small commits you can read, revert, and recover — so a mistake becomes a thirty-second undo instead of a panic.",
   },
   {
     type: 'context',
@@ -1671,7 +1671,7 @@ git commit -m "wip"   # 12 unrelated changes blended into one commit`,
   },
   {
     type: 'transfer',
-    text: 'On your next task: work on a branch and make each commit one logical change with a message that says what and why. Practice `git revert` on a throwaway commit and look at `git reflog`, so recovery is never scary.',
+    text: 'On your next task: work on a branch and make each commit one logical change with a message that says what and why. Practice `git revert` on a throwaway commit and look at `git reflog`, so recovery is never scary. Then stop and look at the engineer you have become across this module. You distrust input and validate it at the boundary (L1). You make failures loud, safe, and diagnosable (L2). You write small, pure, testable functions (L3) and you know exactly what your values are (L4). You keep your logic flat and your loops correct (L5), read files without leaking or crashing (L6), and catch the bug before production does (L7). You build tools that protect data instead of destroying it (L8), and now you keep a history you can trust (L9). That is not nine tricks — it is one instinct, repeated: distrust the careless path, build the safe one, prove it. First Steps taught you to make a computer obey. Foundations taught you to make code that survives the real world. That is the difference between writing programs and engineering them — and you can do it now.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
   {
@@ -1739,9 +1739,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'input-validation',
       title: 'Input Validation: Trust Nothing at the Boundary',
-      eyebrow: 'Module 1 · Lesson 1 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 1 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 0,
       est_minutes: 75,
       is_free_preview: true,
@@ -1759,9 +1759,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'error-handling',
       title: 'Error Handling: Make Failures Loud, Safe, and Diagnosable',
-      eyebrow: 'Module 1 · Lesson 2 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 2 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 1,
       est_minutes: 75,
       is_free_preview: false,
@@ -1779,9 +1779,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'functions-and-modules',
       title: 'Functions & Modules: Build Small, Testable Units',
-      eyebrow: 'Module 1 · Lesson 3 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 3 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 2,
       est_minutes: 75,
       is_free_preview: false,
@@ -1799,9 +1799,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'types-and-data',
       title: 'Types & Data: Know What a Value Really Is',
-      eyebrow: 'Module 1 · Lesson 4 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 4 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 3,
       est_minutes: 75,
       is_free_preview: false,
@@ -1819,9 +1819,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'control-flow',
       title: 'Control Flow: Guard Clauses & Clean Loops',
-      eyebrow: 'Module 1 · Lesson 5 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 5 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 4,
       est_minutes: 75,
       is_free_preview: false,
@@ -1839,9 +1839,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'files-and-io',
       title: 'Files & I/O: Read Safely, Close Always',
-      eyebrow: 'Module 1 · Lesson 6 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 6 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 5,
       est_minutes: 75,
       is_free_preview: false,
@@ -1859,9 +1859,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'testing-and-debugging',
       title: 'Testing & Debugging: Catch the Bug Before Prod',
-      eyebrow: 'Module 1 · Lesson 7 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 7 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 6,
       est_minutes: 75,
       is_free_preview: false,
@@ -1879,9 +1879,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'cli-workflow',
       title: 'CLI Safety: Safe Defaults & Dry Runs',
-      eyebrow: 'Module 1 · Lesson 8 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 8 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 7,
       est_minutes: 75,
       is_free_preview: false,
@@ -1899,9 +1899,9 @@ async function main() {
       course_slug: COURSE_SLUG,
       slug: 'git-fundamentals',
       title: 'Git Fundamentals: Atomic Commits You Can Trust',
-      eyebrow: 'Module 1 · Lesson 9 · 75 min',
-      module_title: 'Module 1 · Foundations',
-      module_sort: 0,
+      eyebrow: 'Module 2 · Lesson 9 · 75 min',
+      module_title: 'Module 2 · Foundations',
+      module_sort: 1,
       sort: 8,
       est_minutes: 75,
       is_free_preview: false,

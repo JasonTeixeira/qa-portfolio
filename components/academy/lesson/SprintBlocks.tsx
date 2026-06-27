@@ -4,6 +4,7 @@ import { useState, useTransition, type ReactNode } from 'react'
 import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
+import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
 import styles from './sprint.module.css'
 
 /** Slugs threaded down so a sprint section can emit evidence for the right unit. */
@@ -189,13 +190,51 @@ function Verification({ b }: { b: Extract<LessonBlock, { type: 'verification' }>
   )
 }
 
-function Teachback({ b }: { b: Extract<LessonBlock, { type: 'teachback' }> }) {
+function Teachback({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'teachback' }> } & EvidenceProps) {
+  const [val, setVal] = useState('')
+  const [verdict, setVerdict] = useState<GradeTeachbackResult | null>(null)
+  const [pending, startTransition] = useTransition()
+  const canGrade = !!courseSlug && !!lessonSlug
+
+  // Submit the explanation to the AI grader. A genuine pass lifts the explain-back
+  // cap server-side; a fail opens a repair. Never block the UI; the action never throws.
+  const submit = () => {
+    if (!courseSlug || !lessonSlug || !val.trim()) return
+    startTransition(async () => {
+      const result = await gradeTeachback(courseSlug, lessonSlug, val)
+      setVerdict(result)
+    })
+  }
+
   return (
     <Section blockKey="teachback" tone="warm">
       <p className={styles.lead}>Explain it out loud — to an AI, a reviewer, or the rubber duck. Cover each prompt with a concrete example and one edge case.</p>
       <ul className={styles.prompts}>
         {(b.prompts ?? []).filter(Boolean).map((p, i) => <li key={i}>{p}</li>)}
       </ul>
+      {canGrade ? (
+        <>
+          <textarea
+            className={styles.input}
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            placeholder="Explain the concept back in your own words — one concrete example, one edge case."
+            aria-label="Teach-back explanation"
+            disabled={pending}
+          />
+          <button type="button" className={styles.ghostBtn} onClick={submit} disabled={pending || !val.trim()}>
+            {pending ? 'Grading…' : 'Submit for grading →'}
+          </button>
+          {verdict ? (
+            <div className={styles.reveal} role="status" aria-live="polite">
+              <span className={styles.revealTag}>
+                {!verdict.available ? 'Grader' : verdict.passed ? '✓ Passed' : 'Needs work'}
+              </span>
+              {verdict.feedback ? <p>{verdict.feedback}</p> : null}
+            </div>
+          ) : null}
+        </>
+      ) : null}
       <p className={styles.hint}>Passing bar: average 4/5, nothing below 3, one concrete example, one edge case, one next improvement.</p>
     </Section>
   )
@@ -302,7 +341,7 @@ export function SprintBlock({ block, courseSlug, lessonSlug }: { block: LessonBl
     case 'debug': return <DebugBlock b={block} />
     case 'tradeoff': return <Tradeoff b={block} />
     case 'verification': return <Verification b={block} />
-    case 'teachback': return <Teachback b={block} />
+    case 'teachback': return <Teachback b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'calibration': return <Calibration b={block} />
     case 'transfer': return <Transfer b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'spaced-review': return <SpacedReview b={block} />

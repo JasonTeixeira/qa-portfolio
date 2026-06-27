@@ -12,7 +12,7 @@ import { useCallback, useSyncExternalStore } from 'react'
 const STORAGE_KEY = 'academy-sound'
 const STORAGE_EVENT = 'academy-sound-change'
 
-export type SoundName = 'tick' | 'success' | 'levelup'
+export type SoundName = 'tick' | 'success' | 'levelup' | 'earn'
 
 // --- preference store (cross-component reactive via useSyncExternalStore) ---
 
@@ -91,6 +91,13 @@ const TONES: Record<SoundName, Tone[]> = {
     { freq: 523.25, durationMs: 90, peak: 0.06, type: 'triangle' },
     { freq: 659.25, durationMs: 90, peak: 0.06, type: 'triangle' },
     { freq: 987.77, durationMs: 160, peak: 0.06, type: 'triangle' },
+  ],
+  // restrained reward chord for an earn-moment reveal — a rooted perfect-fifth
+  // rise that resolves up an octave. Confident, not celebratory-loud.
+  earn: [
+    { freq: 440, durationMs: 110, peak: 0.055, type: 'sine' },
+    { freq: 659.25, durationMs: 110, peak: 0.055, type: 'sine' },
+    { freq: 880, durationMs: 200, peak: 0.05, type: 'sine' },
   ],
 }
 

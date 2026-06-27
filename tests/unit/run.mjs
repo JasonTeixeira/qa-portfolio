@@ -9438,6 +9438,34 @@ test('tutor-logic: buildOpenerSuggestions tap-to-resume chips (S1.1r2)', async (
   assert.deepEqual(buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion'], summary: '' })), buildOpenerSuggestions(normalizeTutorMemory({ struggles: ['recursion'], summary: '' })));
 });
 
+test('motion-logic: easing + count-up timing (S1.2)', async () => {
+  const { easeOutCubic, clamp01, countUpValueAt, countUpDurationMs } = await import('../../lib/academy/motion-logic.ts');
+  assert.equal(easeOutCubic(0), 0);
+  assert.equal(easeOutCubic(1), 1);
+  assert.equal(easeOutCubic(2), 1); // clamps high
+  assert.ok(Math.abs(easeOutCubic(0.5) - 0.875) < 1e-9);
+  assert.equal(clamp01(-1), 0);
+  assert.equal(clamp01(2), 1);
+  assert.equal(clamp01(Number.NaN), 0);
+  assert.equal(countUpValueAt(0, 100, 0, 600), 0);
+  assert.equal(countUpValueAt(0, 100, 600, 600), 100);
+  assert.equal(countUpValueAt(0, 100, 9999, 600), 100); // no overshoot
+  assert.equal(countUpDurationMs(1), 300); // min floor
+  assert.equal(countUpDurationMs(1e9), 1400); // capped
+});
+
+test('first-win: win is genuine only when a lesson was really started (S1.2)', async () => {
+  const { firstWinHref, buildFirstWinSummary, FIRST_WIN_MILESTONE_KEY } = await import('../../lib/academy/first-win-logic.ts');
+  assert.equal(firstWinHref('programming-fundamentals', 'hello-world'), '/academy/learn/programming-fundamentals/hello-world');
+  const target = { courseSlug: 'c', lessonSlug: 'l', href: '/academy/learn/c/l' };
+  // started → won true + the start-lesson milestone is genuinely done
+  const won = buildFirstWinSummary('explore', { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: true }, target);
+  assert.equal(won.won, true);
+  assert.equal(won.progress.milestones.find((m) => m.key === FIRST_WIN_MILESTONE_KEY).done, true);
+  // not started → won false (no theatre — never claims a win the DB doesn't back)
+  assert.equal(buildFirstWinSummary('job-ready', { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false }, target).won, false);
+});
+
 test('tutor-logic: cross-session memory opener + bounded derive (S1.1)', async () => {
   const { normalizeTutorMemory, hasTutorMemory, renderMemoryForPrompt, buildProactiveOpener, deriveNextMemory, buildTutorMessages } = await import('../../lib/academy/tutor-logic.ts');
   // cold start: empty memory → generic opener, no injected block

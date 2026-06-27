@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import styles from './grow-bar.module.css'
 
 function prefersReducedMotion(): boolean {
@@ -20,12 +20,14 @@ type Props = {
 }
 
 /**
- * Honest progress bar whose fill grows on mount via a compositor-only
- * transform (scaleX from the left) — no layout-affecting width animation.
+ * Honest progress bar whose fill is driven entirely by a compositor-only
+ * transform: scaleX(pct) from the left — never a layout-affecting width
+ * animation. The full-width fill is scaled down, so both the on-mount reveal
+ * AND any later live value change (XP ticking up) animate on the GPU.
  *
- * - SSR-honest: the fill's layout width is always the real percentage, so the
- *   bar reads correctly with JS disabled and before hydration.
- * - Reduced-motion: renders fully grown instantly (scaleX(1), no transition).
+ * - SSR-honest: the inline transform on the server path is already the real
+ *   percentage, so the bar reads correctly with JS disabled / pre-hydration.
+ * - Reduced-motion: snaps to the real value instantly, no transition.
  * - a11y: a real progressbar role + aria-valuenow announces the real percent.
  */
 export function GrowBar({
@@ -36,23 +38,24 @@ export function GrowBar({
   className = '',
 }: Props) {
   const pct = Math.max(0, Math.min(100, Math.round(value)))
-  // Start collapsed so the on-mount effect can animate to full. SSR snapshot is
-  // grown (mounted=false → but we render scaleX(1) on the server path below).
-  const [grown, setGrown] = useState(false)
-  const reducedRef = useRef(false)
+  // `mounted` lets us start collapsed for the reveal, then transition to pct.
+  // `reduced` short-circuits all motion (set in the effect, client-only).
+  const [mounted, setMounted] = useState(false)
+  const [reduced, setReduced] = useState(false)
 
   useEffect(() => {
-    reducedRef.current = prefersReducedMotion()
-    // Next frame, flip to grown so the transition runs from 0 → full.
-    const id = requestAnimationFrame(() => setGrown(true))
+    setReduced(prefersReducedMotion())
+    const id = requestAnimationFrame(() => setMounted(true))
     return () => cancelAnimationFrame(id)
   }, [])
 
-  const reduced = reducedRef.current
+  // Before mount (and on the server), reduced-motion shows the real value while
+  // motion-OK clients start at 0 so the first frame can grow up to pct.
+  const scale = reduced || mounted ? pct / 100 : 0
+
   const fillStyle: CSSProperties = {
     background: color,
-    // Reduced-motion or already grown → full. Otherwise collapsed pre-animation.
-    transform: reduced || grown ? 'scaleX(1)' : 'scaleX(0)',
+    transform: `scaleX(${scale})`,
     transition: reduced ? 'none' : undefined,
   }
 
@@ -66,10 +69,7 @@ export function GrowBar({
       className={`${styles.track} ${className}`}
       style={{ height }}
     >
-      {/* outer holds the real layout width; inner scales for the grow effect */}
-      <div className={styles.fillOuter} style={{ width: `${pct}%` }}>
-        <div className={styles.fill} style={fillStyle} />
-      </div>
+      <div className={styles.fill} style={fillStyle} />
     </div>
   )
 }

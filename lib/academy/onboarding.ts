@@ -1,5 +1,11 @@
 import 'server-only'
 import { supabaseAdmin } from '@/lib/supabase/server'
+import { getLearnerGoal, getLearnerStats } from '@/lib/academy/goals'
+import {
+  buildFirstWinSummary,
+  firstWinHref,
+  type FirstWinSummary,
+} from '@/lib/academy/first-win-logic'
 
 /**
  * Onboarding (Phase 1, dim 2) — the "understand the game" first run. Stores the
@@ -45,12 +51,18 @@ export async function saveOnboarding(userId: string, input: OnboardingInput): Pr
 /** The beginner on-ramp we steer first-time learners into for a guaranteed first win. */
 const FIRST_WIN_COURSE_SLUG = 'programming-fundamentals'
 
+/** A resolved first-published-lesson target, or a non-lesson fallback href. */
+type ResolvedFirstLesson =
+  | { kind: 'lesson'; courseSlug: string; lessonSlug: string; href: string }
+  | { kind: 'fallback'; href: string }
+
 /**
- * First published lesson to drop a new learner into — the guaranteed first win.
- * Prefers the beginner on-ramp course when it's published, then falls back to the
- * lowest-sort published course, then the catalog. Never dead-ends.
+ * Resolve the first published lesson a new learner should land in. Prefers the
+ * beginner on-ramp course when published, then the lowest-sort published course,
+ * then the catalog. Never dead-ends. Returns the slugs so callers can record a real
+ * first-win progress row against the exact lesson.
  */
-export async function recommendedFirstLessonHref(): Promise<string> {
+async function resolveFirstLesson(): Promise<ResolvedFirstLesson> {
   const sb = supabaseAdmin()
   // Prefer the beginner on-ramp; fall back to the first published course by sort.
   const { data: preferred } = await sb
@@ -70,7 +82,7 @@ export async function recommendedFirstLessonHref(): Promise<string> {
         .limit(1)
         .maybeSingle()
     ).data
-  if (!course) return '/academy/catalog'
+  if (!course) return { kind: 'fallback', href: '/academy/catalog' }
   const { data: lesson } = await sb
     .from('academy_lessons')
     .select('slug')
@@ -80,6 +92,84 @@ export async function recommendedFirstLessonHref(): Promise<string> {
     .order('sort', { ascending: true })
     .limit(1)
     .maybeSingle()
-  if (!lesson) return `/academy/course/${course.slug}`
-  return `/academy/learn/${course.slug}/${lesson.slug}`
+  if (!lesson) return { kind: 'fallback', href: `/academy/course/${course.slug}` }
+  return {
+    kind: 'lesson',
+    courseSlug: course.slug,
+    lessonSlug: lesson.slug,
+    href: firstWinHref(course.slug, lesson.slug),
+  }
+}
+
+/**
+ * First published lesson to drop a new learner into — the guaranteed first win.
+ * Thin wrapper over resolveFirstLesson for callers that only need the href.
+ */
+export async function recommendedFirstLessonHref(): Promise<string> {
+  return (await resolveFirstLesson()).href
+}
+
+/** The outcome of the first-win interaction: a genuine summary or a no-lesson fallback. */
+export type FirstWinResult =
+  | { kind: 'won'; summary: FirstWinSummary }
+  | { kind: 'fallback'; href: string }
+
+/**
+ * The GUARANTEED first win. Records a REAL `academy_progress` row (status
+ * 'in_progress') for the learner's recommended first lesson, then returns a summary
+ * derived from their real stats. This is the genuine, sub-60-second win:
+ *
+ *   - The row truly exists in the DB (idempotent upsert, RLS-equivalent: keyed to
+ *     the authenticated userId via service role) → getLearnerStats.startedAnyLesson
+ *     becomes true → the goal's `start-lesson` milestone is computed as DONE.
+ *   - No XP/streak is awarded here: starting is not finishing, so we don't fake the
+ *     habit counters. The win is "you've taken the first real step toward your goal",
+ *     which is exactly what the recorded state proves.
+ *   - If no lesson exists to start (empty catalog), we DON'T fabricate a win — we
+ *     return a fallback href so the screen degrades honestly.
+ *
+ * Idempotent: re-running never double-records and never overwrites a 'completed' row
+ * (we only upsert when there is no existing row for the lesson).
+ */
+export async function recordFirstWin(userId: string): Promise<FirstWinResult> {
+  const target = await resolveFirstLesson()
+  if (target.kind !== 'lesson') return { kind: 'fallback', href: target.href }
+
+  const sb = supabaseAdmin()
+  // Only seed an 'in_progress' row when none exists — never clobber real progress
+  // (a returning learner who already completed/started this lesson keeps their row).
+  const { data: existing } = await sb
+    .from('academy_progress')
+    .select('status')
+    .eq('user_id', userId)
+    .eq('lesson_slug', target.lessonSlug)
+    .maybeSingle()
+  if (!existing) {
+    const now = new Date().toISOString()
+    const { error } = await sb.from('academy_progress').upsert(
+      {
+        user_id: userId,
+        course_slug: target.courseSlug,
+        lesson_slug: target.lessonSlug,
+        status: 'in_progress',
+        updated_at: now,
+      },
+      { onConflict: 'user_id,lesson_slug' },
+    )
+    if (error) {
+      // Don't fake the win: if the row didn't record, send them to the lesson plainly.
+      console.error('[academy/onboarding] recordFirstWin upsert failed', error)
+      return { kind: 'fallback', href: target.href }
+    }
+  }
+
+  // Build the summary from REAL post-write state (goal + stats read fresh).
+  const goalKey = (await getLearnerGoal(userId)) ?? 'explore'
+  const stats = await getLearnerStats(userId)
+  const summary = buildFirstWinSummary(goalKey, stats, {
+    courseSlug: target.courseSlug,
+    lessonSlug: target.lessonSlug,
+    href: target.href,
+  })
+  return { kind: 'won', summary }
 }

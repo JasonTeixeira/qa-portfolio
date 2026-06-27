@@ -1,11 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-
-const DEFAULT_DURATION_MS = 600
-
-// cubic ease-out: fast start, gentle settle. Institutional, not bouncy.
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
+import { countUpDurationMs, countUpValueAt } from '@/lib/academy/motion-logic'
 
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined' || !window.matchMedia) return false
@@ -15,7 +11,10 @@ function prefersReducedMotion(): boolean {
 type Props = {
   /** The real, server-rendered final value. This is the source of truth. */
   value: number
-  /** Animation length. Defaults to ~600ms. */
+  /**
+   * Animation length. When omitted, the duration scales to the magnitude of the
+   * value so 0→4 doesn't drag like 0→2,000 (see countUpDurationMs).
+   */
   durationMs?: number
   /** Format the displayed (and final) number, e.g. for thousands separators. */
   format?: (n: number) => string
@@ -35,7 +34,7 @@ type Props = {
  * the first client paint both show the real number; the count-up only kicks in
  * after mount for motion-OK clients.
  */
-export function CountUp({ value, durationMs = DEFAULT_DURATION_MS, format }: Props) {
+export function CountUp({ value, durationMs, format }: Props) {
   const fmt = format ?? ((n: number) => String(n))
   // Start at the real value so SSR + first paint are honest. An effect resets to
   // 0 and animates up only when motion is allowed.
@@ -48,19 +47,17 @@ export function CountUp({ value, durationMs = DEFAULT_DURATION_MS, format }: Pro
       return
     }
 
-    const start = performance.now()
     const from = 0
-    const delta = value - from
+    const duration = durationMs ?? countUpDurationMs(value - from)
+    const start = performance.now()
 
     setDisplay(from)
 
     const tick = (now: number) => {
       const elapsed = now - start
-      const t = Math.min(1, elapsed / durationMs)
-      const eased = easeOut(t)
-      const current = Math.round(from + delta * eased)
+      const current = countUpValueAt(from, value, elapsed, duration)
       setDisplay(current)
-      if (t < 1) {
+      if (elapsed < duration) {
         frameRef.current = requestAnimationFrame(tick)
       } else {
         setDisplay(value) // guarantee we land exactly on the real value

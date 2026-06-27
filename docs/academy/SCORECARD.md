@@ -9,11 +9,11 @@
 | # | Category | design | instrument | behavior | status |
 |---|---|---:|:---:|:---:|---|
 | 1 | Goal / Journey hero | 88 | — | — | Stage 1 |
-| 2 | Onboarding → first-win | 80 | — | — | Stage 1 (content-gated) |
+| 2 | Onboarding → first-win | 88 | wired | — | Stage 1 (guaranteed real first-win step; 88→cap: more peak-moment + identity line) |
 | 3 | Achievements / badges | 90 | — | — | Stage 1 |
 | 4 | Quests + variable reward | 89 | wired | — | Stage 1 (89→cap: +countdown/tomorrow-tease; real idempotent XP award + claim ledger live) |
 | 5 | In-app trigger engine | 90 | — | — | Stage 1 → behavior-gated |
-| 6 | Micro-interaction layer | 82 | — | — | Stage 1 (pure craft) |
+| 6 | Micro-interaction layer | 89 | n/a | — | Stage 1 (EarnMoment system + GPU primitives; 89→cap: hero/overlay state + reward-magnitude hierarchy) |
 | 7 | Tutor companion | 94 | wired | — | **at design cap** (streaming + cross-session memory + proactive opener + tap-to-resume; irresistible) |
 | 8 | Streaks / XP / leagues | 93 | — | — | Stage 1 → needs real opponents |
 | 9 | Progress / mastery | 90 | — | — | Stage 1 (content-gated) |

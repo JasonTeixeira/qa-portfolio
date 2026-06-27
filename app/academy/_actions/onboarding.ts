@@ -2,9 +2,16 @@
 
 import { redirect } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { saveOnboarding, recommendedFirstLessonHref, type OnboardingInput } from '@/lib/academy/onboarding'
+import { saveOnboarding, recordFirstWin, type OnboardingInput } from '@/lib/academy/onboarding'
 
-/** Persist the learner's onboarding and drop them into their first lesson (the aha). */
+/**
+ * Persist the learner's onboarding, record their GUARANTEED first win (a real
+ * in-progress lesson row that lights up the goal's first milestone), then route to
+ * the first-win celebration. The win screen — not a raw lesson — is the destination,
+ * so the learner SUCCEEDS at something real inside their first minute before any
+ * long lesson. If no lesson exists to start, we fall through to the lesson/catalog
+ * href instead of fabricating a win.
+ */
 export async function completeOnboarding(input: OnboardingInput): Promise<void> {
   const sb = await createSupabaseServerClient()
   const {
@@ -19,5 +26,7 @@ export async function completeOnboarding(input: OnboardingInput): Promise<void> 
     dailyGoalXp: [20, 40, 60].includes(Number(input.dailyGoalXp)) ? Number(input.dailyGoalXp) : 40,
   })
 
-  redirect(await recommendedFirstLessonHref())
+  const result = await recordFirstWin(user.id)
+  if (result.kind === 'fallback') redirect(result.href)
+  redirect('/academy/onboarding/win')
 }

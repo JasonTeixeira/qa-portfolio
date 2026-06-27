@@ -6,13 +6,9 @@
   border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
 }
 
-.fillOuter {
-  height: 100%;
-  border-radius: 100px;
-  overflow: hidden;
-}
-
-/* compositor-only grow: scaleX from the left, ~600ms ease-out */
+/* compositor-only grow: a full-width fill scaled via scaleX from the left.
+   The component sets the exact transform inline (scaleX(pct)); this only owns
+   the look + the transition curve. ~600ms ease-out, institutional. */
 .fill {
   height: 100%;
   width: 100%;
@@ -22,9 +18,11 @@
   will-change: transform;
 }
 
+/* Reduced-motion: kill the transition only. The component already renders the
+   true scaleX(pct) inline (no transform override here, or it would clobber the
+   real percentage). */
 @media (prefers-reduced-motion: reduce) {
   .fill {
     transition: none !important;
-    transform: scaleX(1) !important;
   }
 }

@@ -196,10 +196,11 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
               ))}
             </div>
             <p className={styles.firstWin}>
-              One obvious next step: finish one lesson — see your first skill light up.
+              Next: we put your first step on the board right now — a real start toward
+              your goal, before you read a single lesson.
             </p>
             <button type="button" className={styles.primary} disabled={!dailyGoalXp || pending} onClick={finish}>
-              {pending ? 'Setting up…' : 'Start here — your first win →'}
+              {pending ? 'Setting up…' : 'Claim my first win →'}
             </button>
             <button type="button" className={styles.back} onClick={() => setStep(3)}>← Back</button>
           </section>

@@ -15,6 +15,33 @@ export type EarnKind = 'badge' | 'level' | 'streak' | 'cert'
 /** Inline (sits in the layout flow) or overlay (centered, dims the page). */
 export type EarnVariant = 'inline' | 'overlay'
 
+/**
+ * Visual weight tier, 1–4, ordered by how rare/terminal the reward is:
+ * streak (frequent, cheap) < badge < level < cert (rare, terminal).
+ * Higher tiers get more scale + treatment in CSS via `data-mag`. This is the
+ * only place the magnitude ordering is defined.
+ */
+export type MagnitudeWeight = 1 | 2 | 3 | 4
+
+const MAGNITUDE: Record<EarnKind, MagnitudeWeight> = {
+  streak: 1,
+  badge: 2,
+  level: 3,
+  cert: 4,
+}
+
+/**
+ * Map a reward kind to its magnitude weight (1–4). Rarer/terminal rewards
+ * weigh more, so the reveal can express hierarchy instead of treating a
+ * certificate identically to a streak tick.
+ *
+ * @param kind reward category
+ * @returns weight tier, 1 (streak) … 4 (cert)
+ */
+export function magnitudeWeight(kind: EarnKind): MagnitudeWeight {
+  return MAGNITUDE[kind]
+}
+
 type Props = {
   /** Reward category. Controls semantic accent colour and the fallback icon. */
   kind: EarnKind
@@ -22,6 +49,14 @@ type Props = {
   title: string
   /** Optional supporting line. e.g. "Level 4 · +120 XP". */
   sub?: string
+  /**
+   * Optional amplified reward figure — the dopamine token, e.g. "+120 XP" or
+   * "Lv.4". Rendered as a large celebratory display element in the hero/overlay
+   * state and a confident accent in inline. Decorative emphasis only; the
+   * meaning still lives in title/sub for assistive tech. Renders nothing when
+   * omitted — the component fabricates no figure of its own.
+   */
+  figure?: string
   /**
    * Optional custom icon node. When omitted, a kind-appropriate glyph is used.
    * Always decorative (aria-hidden) — meaning lives in title/sub.
@@ -75,6 +110,7 @@ export function EarnMoment({
   kind,
   title,
   sub,
+  figure,
   icon,
   variant = 'inline',
   withSound = false,
@@ -155,6 +191,7 @@ export function EarnMoment({
       ref={panelRef}
       className={`${styles.card} ${styles[`kind-${kind}`]} ${reveal}`}
       data-variant={variant}
+      data-mag={magnitudeWeight(kind)}
       role={isOverlay ? 'dialog' : 'status'}
       aria-modal={isOverlay ? true : undefined}
       aria-live={isOverlay ? undefined : 'polite'}
@@ -169,6 +206,11 @@ export function EarnMoment({
       <p id={labelId} className={styles.title}>
         {title}
       </p>
+      {figure ? (
+        <p className={styles.figure} aria-hidden="true">
+          {figure}
+        </p>
+      ) : null}
       {sub ? (
         <p id={descId} className={styles.sub}>
           {sub}

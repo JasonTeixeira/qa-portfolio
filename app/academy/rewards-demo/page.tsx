@@ -11,6 +11,16 @@ export const metadata: Metadata = {
  * from the app — exists purely so the micro-interaction can be exercised and
  * screenshotted in isolation. Renders fixed, fabricated-free sample props.
  */
-export default function RewardsDemoPage() {
-  return <RewardsDemo />
+type SearchParams = { [key: string]: string | string[] | undefined }
+
+export default async function RewardsDemoPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>
+}) {
+  const params = await searchParams
+  // Hero overlay is open by default so a fullPage capture shows the *moment*.
+  // Pass ?hero=closed to inspect just the inline system strip.
+  const heroOpen = params.hero !== 'closed'
+  return <RewardsDemo heroOpenDefault={heroOpen} />
 }

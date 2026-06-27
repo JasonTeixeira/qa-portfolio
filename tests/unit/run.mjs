@@ -9478,6 +9478,37 @@ test('metrics-logic: retention/activation rates + human time (Stage 2)', async (
   assert.equal(minutesToHuman(null), '—'); // honest non-value, never imputed
 });
 
+test('experiments-logic: deterministic assignment + balance (Stage 3)', async () => {
+  const { assignVariant } = await import('../../lib/academy/experiments-logic.ts');
+  assert.equal(assignVariant('u1', 'streak-jeopardy'), assignVariant('u1', 'streak-jeopardy')); // deterministic
+  assert.equal(assignVariant('x', 'k', 0), 'treatment'); // holdout 0% → all treatment
+  assert.equal(assignVariant('x', 'k', 100), 'holdout'); // holdout 100% → all holdout
+  let t = 0;
+  for (let i = 0; i < 20000; i++) if (assignVariant('user-' + i, 'streak-jeopardy') === 'treatment') t++;
+  assert.ok(t / 20000 > 0.47 && t / 20000 < 0.53, `balance ${t / 20000}`);
+  // experiments randomize INDEPENDENTLY (salt mixing) — not the same split per user
+  let same = 0;
+  for (let i = 0; i < 4000; i++) if (assignVariant('user-' + i, 'exp-a') === assignVariant('user-' + i, 'exp-b')) same++;
+  assert.ok(same > 1800 && same < 2200, `independence ${same}/4000`);
+});
+
+test('experiments-logic: z-test textbook value + honest insufficient-data guard (Stage 3)', async () => {
+  const { twoProportionZTest, experimentVerdict } = await import('../../lib/academy/experiments-logic.ts');
+  // 50/500 (.10) vs 25/500 (.05): z≈3.0016, two-sided p≈.0027, lift .05
+  const r = twoProportionZTest(50, 500, 25, 500);
+  assert.ok(Math.abs(r.z - 3.0016) < 0.01, `z ${r.z}`);
+  assert.ok(Math.abs(r.pValue - 0.0027) < 0.0005, `p ${r.pValue}`);
+  assert.equal(r.lift, 0.05);
+  // guards: empty + zero-variance arms never NaN/Infinity
+  assert.deepEqual([twoProportionZTest(0, 0, 5, 100).z, twoProportionZTest(0, 0, 5, 100).pValue], [0, 1]);
+  // VERDICT honesty: thin samples → never a fabricated win, even at 100% vs 0%
+  assert.equal(experimentVerdict({ treatmentConv: 3, treatmentN: 3, holdoutConv: 0, holdoutN: 2 }).status, 'insufficient_data');
+  assert.equal(experimentVerdict({ treatmentConv: 50, treatmentN: 100, holdoutConv: 10, holdoutN: 99 }).status, 'insufficient_data');
+  // resolves only once both arms clear minN
+  assert.equal(experimentVerdict({ treatmentConv: 60, treatmentN: 200, holdoutConv: 30, holdoutN: 200 }).status, 'treatment_wins');
+  assert.equal(experimentVerdict({ treatmentConv: 101, treatmentN: 1000, holdoutConv: 100, holdoutN: 1000 }).status, 'no_significant_effect');
+});
+
 test('tutor-logic: cross-session memory opener + bounded derive (S1.1)', async () => {
   const { normalizeTutorMemory, hasTutorMemory, renderMemoryForPrompt, buildProactiveOpener, deriveNextMemory, buildTutorMessages } = await import('../../lib/academy/tutor-logic.ts');
   // cold start: empty memory → generic opener, no injected block

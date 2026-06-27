@@ -67,10 +67,26 @@
   outline-offset: 3px;
 }
 
+.systemStrip {
+  margin-top: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  padding-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border-top: 1px solid var(--ac-rule, #1e1e24);
+}
+
+.stripLabel {
+  margin: 0 0 clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-ink-faint, #8a8b96);
+}
+
 .grid {
-  margin-top: clamp(2rem, 1rem + 4vw, 4rem);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* baseline-align tiles so the magnitude size-step is legible across the row */
+  align-items: end;
   gap: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
   justify-items: center;
 }

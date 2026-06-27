@@ -13,7 +13,7 @@
 | 3 | Achievements / badges | 90 |  ✓ | — | Stage 1 |
 | 4 | Quests + variable reward | 89 | wired | — | Stage 1 (89→cap: +countdown/tomorrow-tease; real idempotent XP award + claim ledger live) |
 | 5 | In-app trigger engine | 90 |  ✓ | — | Stage 1 → behavior-gated |
-| 6 | Micro-interaction layer | 89 | n/a | — | Stage 1 (EarnMoment system + GPU primitives; 89→cap: hero/overlay state + reward-magnitude hierarchy) |
+| 6 | Micro-interaction layer | 91 | n/a | — | near design cap · irresistible (EarnMoment hero-moment + magnitude hierarchy + amplified figure) |
 | 7 | Tutor companion | 94 | wired | — | **at design cap** (streaming + cross-session memory + proactive opener + tap-to-resume; irresistible) |
 | 8 | Streaks / XP / leagues | 93 |  ✓ | — | Stage 1 → needs real opponents |
 | 9 | Progress / mastery | 90 |  ✓ | — | Stage 1 (content-gated) |
@@ -31,10 +31,16 @@ PROVEN end-to-end: grading a real review fired one `review_completed` (funnel + 
 `{grade:"good"}`). Writes service-role only (own-read RLS); views revoked from app roles. So the behavioral
 metrics are now QUERYABLE — they just need real cohort volume to become statistically meaningful.
 
-## Stage 3 — behavioral proof: REALITY-GATED (await live cohort, never fake-green)
-The metric views exist and return data; D1/D7/D30 retention, streak survival, and activation become
-*meaningful* only with real signups over real calendar time. The experiment harness (assignment + holdouts)
-is the remaining build; its gates stay RED until a live cohort moves a metric vs holdout.
+## Stage 3 — experiment harness: BUILT, honestly RED (await live cohort, never fake-green)
+`lib/academy/experiments-logic.ts` (pure): deterministic 50/50 assignment (MurmurHash-finalized FNV — fixed a
+mixing defect so experiments randomize independently), a pooled two-proportion z-test (matches textbook
+z=3.0016/p=0.0027), and `experimentVerdict` with a HARD insufficient-data guard (<100/arm → never claims a
+win, even at 100% vs 0%). `lib/academy/experiments.ts`: 4 declared experiments mapping the behavior-gated
+categories (#5 trigger→D1, #8 streak-jeopardy→D7, #11 review-ritual→D7, #12 hook→D7) to a metric + converted
+event; `getExperimentReadout` buckets the live cohort and runs the verdict off the event spine. On today's
+~0 cohort it returns `insufficient_data` by construction — the gates CANNOT go green without ~200+ real
+signups + calendar time. That is the honest terminal wall: a *proven* 95–99 is one live cohort away, not one
+more screenshot. Remaining build: an admin panel rendering `listExperimentReadouts()` behind the existing gate.
 
 Next unblocked Stage-1 design polish: the 88–90 cluster (#1, #3, #5, #9, #11) + the 2 named rounds to lift
 #4/#2/#6 to the 94 cap. Reality-gated (do not fake-green): **#10, #12**, behavioral half of **#5, #8, #11**.

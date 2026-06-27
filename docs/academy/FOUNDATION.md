@@ -124,4 +124,18 @@ gap — do not patch the runtime per course.
   DEEPSEEK_API_KEY + costs a call); the grader LOGIC is pure-unit-tested and the flow degrades honestly
   when the key is absent. Operator: set DEEPSEEK_API_KEY and do one manual teachback to confirm live
   grading. 98–99 still gated on real-learner outcomes (structural).
-- Tiers 3–4: NOT started.
+- **Tier 3 — EXPERIENCE: complete (2026-06-26).** Wave 1: content map (Learn "Map", "you are here") ·
+  mastery map (profile heat-map from the evidence spine) · ⌘K command palette · learner notes
+  (`academy_notes` RLS own-rows) · Course 00 (teaches the 5-beat method). Wave 2: nav regrouped 8→6
+  canonical destinations + tabbed Compete (Leagues/Community) & Progress (Mastery/Certificates/Efficacy/
+  Invite) via GroupSubNav, no route orphaned · progress everywhere (ProgressBar on catalog/dashboard/
+  course, streak strip). Visual-audit loop: design-reviewer scored every surface, 2 polish passes
+  (kill glow/bloom, close dead voids, hierarchy, composed empty states) lifted the avg **86 → 92.5**
+  (catalog 93 · course 94 · review 94 · efficacy 93 · community/dashboard 93 · lab/leagues/profile/refer
+  92 · lesson 90). Verified each pass: typecheck 0 · unit 257/257 (3 new pure-logic suites) · a11y 7/7 ·
+  next build pass · security review of notes/search clean.
+  HONEST CEILING: a uniform 95–99 is gated on (a) real learner data — the residual voids + the test
+  masthead handle ("Client1+test") are empty-test-account artifacts that real content/names resolve —
+  and (b) one deferred structural item (the lesson right-rail). Per §5 this is correct: 98–99 needs real
+  outcomes; full visual density needs real content.
+- Tier 4 — PROOF: NOT started.

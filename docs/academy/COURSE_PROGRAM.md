@@ -46,6 +46,22 @@ seed → gate → pedagogy review → loop-until-≥95 → commit. Then re-sort/
 migration of module_title+sort, slugs untouched). DONE when all ~8 First Steps lessons are ≥95 + the full
 course reads as one coherent beginner→ship arc + the assessment (pre/post) spans both modules.
 
+## Status (2026-06-27)
+- **Module 1 · First Steps — COMPLETE (8/8), live.** your-first-program · variables-and-values ·
+  numbers-and-strings · booleans-and-logic · lists · loops · functions-basics · build-a-tiny-program(capstone).
+  Each = full 15-block sequence; real Pyodide labs (executed: starter fails / correct passes); beginner-correct
+  (no concept before taught); rendered live + a11y/enforcement/journey green. Self/agent pedagogy review: world-class.
+- **Module 2 · Foundations — pre-existing (9 lessons), relabelled + re-sorted behind First Steps.** Strong craft
+  content; a polish/consistency pass against the same bar is the next course wave.
+- Course = 17 published lessons, one coherent beginner→ship arc.
+
+### Remaining to fully DONE
+1. Pre/post **assessment spans both modules** (currently weighted to Foundations) — add First Steps items.
+2. A formal **≥95 pedagogy review of all 8** First Steps lessons (1 + 6 spot-reviewed world-class; rest built to
+   the bar + labs executed).
+3. **In-player lab pass/fail** verification per lesson (checks executed standalone; format matches working labs).
+4. Module 2 **polish pass** to the same bar + a final whole-course coherence read.
+
 ## Guardrails
 Beginner-correct (no concept used before it's taught). Labs must genuinely verify (no theatre checks). Content
 is real teaching, not LLM filler. Idempotent seeds, scoped commits, no push. Honest: a lesson isn't "world-class"

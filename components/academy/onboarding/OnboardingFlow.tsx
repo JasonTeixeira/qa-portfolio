@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { completeOnboarding } from '@/app/academy/_actions/onboarding'
+import { GoalPicker } from '@/components/academy/goals/GoalPicker'
 import { Course00 } from './Course00'
 import styles from './onboarding.module.css'
 
@@ -31,12 +32,18 @@ const LOOP = [
   { glyph: '✦', label: 'Prove', sub: 'Certs + a proof-of-work record' },
 ]
 
-const STEPS = 4
+const STEPS = 5
 
-export function OnboardingFlow() {
+type Props = {
+  /** The learner's already-chosen commitment goal (pre-selects the GoalPicker). */
+  initialGoalKey?: string | null
+}
+
+export function OnboardingFlow({ initialGoalKey = null }: Props) {
   const [showPrimer, setShowPrimer] = useState(true)
   const [step, setStep] = useState(0)
   const [goal, setGoal] = useState<string | null>(null)
+  const [commitmentGoal, setCommitmentGoal] = useState<string | null>(initialGoalKey)
   const [calibration, setCalibration] = useState<string | null>(null)
   const [dailyGoalXp, setDailyGoalXp] = useState<number | null>(null)
   const [pending, start] = useTransition()
@@ -98,7 +105,7 @@ export function OnboardingFlow() {
 
         {step === 1 && (
           <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 1 of 3</p>
+            <p className={styles.kicker}>Step 1 of 4</p>
             <h1 className={styles.title}>What do you want to build?</h1>
             <div className={styles.options}>
               {GOALS.map((g) => (
@@ -123,7 +130,28 @@ export function OnboardingFlow() {
 
         {step === 2 && (
           <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 2 of 3</p>
+            <p className={styles.kicker}>Step 2 of 4</p>
+            <h1 className={styles.title}>What do you want to achieve?</h1>
+            <p className={styles.lede}>Pick a goal to commit to. We’ll track your progress toward it — you can change it anytime.</p>
+            <GoalPicker
+              initialGoalKey={commitmentGoal}
+              onSaved={(key) => {
+                setCommitmentGoal(key)
+                setStep(3)
+              }}
+            />
+            {commitmentGoal ? (
+              <button type="button" className={styles.primary} onClick={() => setStep(3)}>
+                Continue →
+              </button>
+            ) : null}
+            <button type="button" className={styles.back} onClick={() => setStep(1)}>← Back</button>
+          </section>
+        )}
+
+        {step === 3 && (
+          <section className={styles.stepCard}>
+            <p className={styles.kicker}>Step 3 of 4</p>
             <h1 className={styles.title}>Where are you starting?</h1>
             <div className={styles.options}>
               {CALIBRATION.map((c) => (
@@ -134,7 +162,7 @@ export function OnboardingFlow() {
                   className={styles.option}
                   onClick={() => {
                     setCalibration(c.key)
-                    setStep(3)
+                    setStep(4)
                   }}
                 >
                   <span className={styles.optLabel}>{c.label}</span>
@@ -142,13 +170,13 @@ export function OnboardingFlow() {
                 </button>
               ))}
             </div>
-            <button type="button" className={styles.back} onClick={() => setStep(1)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(2)}>← Back</button>
           </section>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 3 of 3</p>
+            <p className={styles.kicker}>Step 4 of 4</p>
             <h1 className={styles.title}>Set your daily goal.</h1>
             <p className={styles.lede}>A small daily commitment is what builds the habit. You can change it anytime.</p>
             <div className={styles.goals}>
@@ -167,10 +195,13 @@ export function OnboardingFlow() {
                 </button>
               ))}
             </div>
+            <p className={styles.firstWin}>
+              One obvious next step: finish one lesson — see your first skill light up.
+            </p>
             <button type="button" className={styles.primary} disabled={!dailyGoalXp || pending} onClick={finish}>
-              {pending ? 'Setting up…' : 'Start your first build →'}
+              {pending ? 'Setting up…' : 'Start here — your first win →'}
             </button>
-            <button type="button" className={styles.back} onClick={() => setStep(2)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(3)}>← Back</button>
           </section>
         )}
       </div>

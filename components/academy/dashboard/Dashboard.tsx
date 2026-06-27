@@ -3,8 +3,10 @@ import type { CSSProperties } from 'react'
 import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
+import type { GoalProgress } from '@/lib/academy/goal-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
+import { JourneyHero } from './JourneyHero'
 import styles from './dashboard.module.css'
 
 const ACCENT = '#3D6BFF'
@@ -168,7 +170,24 @@ function StreakStrip({ streak }: { streak: GamificationState['streak'] }) {
   )
 }
 
-export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: GamificationState | null }) {
+interface DashboardProps {
+  dash: LearnerDashboard
+  game?: GamificationState | null
+  /** Progress toward the learner's chosen goal (null = no goal set). */
+  journey?: GoalProgress | null
+  /** Where the journey's next-milestone CTA points (resume point or catalog). */
+  journeyNextHref?: string
+  /** Profile display name, when set — shown instead of the email-derived name. */
+  displayName?: string | null
+}
+
+export function Dashboard({
+  dash,
+  game,
+  journey = null,
+  journeyNextHref = '/academy/catalog',
+  displayName = null,
+}: DashboardProps) {
   if (!dash.signedIn) {
     return (
       <div className={styles.page}>
@@ -202,9 +221,11 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
 
+      <JourneyHero progress={journey} nextHref={journeyNextHref} />
+
       <header className={styles.head}>
         <p className={styles.kicker}>My Learning</p>
-        <h1 className={styles.title}>Welcome back, {cap(dash.name)}.</h1>
+        <h1 className={styles.title}>Welcome back, {displayName ?? cap(dash.name)}.</h1>
         <p className={styles.sub}>{subtitle}</p>
         <nav className={styles.quickNav} aria-label="Learner areas">
           <Link href="/academy/refer">◆ Invite a friend</Link>

@@ -46,6 +46,18 @@
 .loopFoot { margin: 1.4rem 0 0; font-size: 0.92rem; line-height: 1.6; color: var(--dim); }
 .loopFoot strong { color: var(--ink); font-weight: 600; }
 
+/* first-win promise — the guaranteed single next step before the final CTA */
+.firstWin {
+  margin: 1.4rem 0 0.9rem;
+  padding: 0.7rem 0.95rem;
+  border-left: 2px solid var(--ac-accent, #3d6bff);
+  background: color-mix(in srgb, var(--ac-accent, #3d6bff) 7%, transparent);
+  border-radius: 0 var(--ac-radius, 6px) var(--ac-radius, 6px) 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
 /* option lists (steps 1–2) */
 .options { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.6rem; }
 .option {

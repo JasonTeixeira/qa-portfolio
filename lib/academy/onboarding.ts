@@ -42,16 +42,34 @@ export async function saveOnboarding(userId: string, input: OnboardingInput): Pr
     .upsert({ user_id: userId, goal_xp: input.dailyGoalXp, updated_at: now }, { onConflict: 'user_id' })
 }
 
-/** First published lesson to drop a new learner into. Falls back gracefully. */
+/** The beginner on-ramp we steer first-time learners into for a guaranteed first win. */
+const FIRST_WIN_COURSE_SLUG = 'programming-fundamentals'
+
+/**
+ * First published lesson to drop a new learner into — the guaranteed first win.
+ * Prefers the beginner on-ramp course when it's published, then falls back to the
+ * lowest-sort published course, then the catalog. Never dead-ends.
+ */
 export async function recommendedFirstLessonHref(): Promise<string> {
   const sb = supabaseAdmin()
-  const { data: course } = await sb
+  // Prefer the beginner on-ramp; fall back to the first published course by sort.
+  const { data: preferred } = await sb
     .from('academy_courses')
     .select('slug')
     .eq('status', 'published')
-    .order('sort', { ascending: true })
-    .limit(1)
+    .eq('slug', FIRST_WIN_COURSE_SLUG)
     .maybeSingle()
+  const course =
+    preferred ??
+    (
+      await sb
+        .from('academy_courses')
+        .select('slug')
+        .eq('status', 'published')
+        .order('sort', { ascending: true })
+        .limit(1)
+        .maybeSingle()
+    ).data
   if (!course) return '/academy/catalog'
   const { data: lesson } = await sb
     .from('academy_lessons')

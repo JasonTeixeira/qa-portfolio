@@ -9188,6 +9188,36 @@ test('tutor-logic: isLikelyOnTopic gates off-topic questions (guardrail)', async
   ]) assert.equal(isLikelyOnTopic(q), false, q);
 });
 
+test('goal-logic: computeGoalProgress milestones, pct, nextMilestone, fallback', async () => {
+  const { computeGoalProgress, getGoal, GOAL_CATALOG } = await import('../../lib/academy/goal-logic.ts');
+  const zero = { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false };
+  const a = computeGoalProgress('job-ready', zero);
+  assert.equal(a.pct, 0);
+  assert.equal(a.doneCount, 0);
+  assert.ok(a.total >= 6 && a.total <= 8);
+  assert.equal(a.milestones.every((m) => !m.done), true);
+  // streak off-by-one + a started lesson
+  const started = { ...zero, startedAnyLesson: true };
+  const s = computeGoalProgress('explore', { ...started, currentStreak: 2 });
+  assert.equal(s.milestones.find((m) => m.key === 'streak-3')?.done, false);
+  const s3 = computeGoalProgress('explore', { ...started, currentStreak: 3 });
+  assert.equal(s3.milestones.find((m) => m.key === 'streak-3')?.done, true);
+  // fully complete → 100, nextMilestone null
+  const full = { lessonsCompleted: 99, coursesFinished: 3, certificates: 3, projects: 3, currentStreak: 7, startedAnyLesson: true };
+  const f = computeGoalProgress('job-ready', full);
+  assert.equal(f.pct, 100);
+  assert.equal(f.nextMilestone, null);
+  // pct is always an integer 0..100
+  for (const st of [zero, started, full]) {
+    const p = computeGoalProgress('fundamentals', st).pct;
+    assert.equal(Number.isInteger(p) && p >= 0 && p <= 100, true);
+  }
+  // catalog shape + fallback
+  assert.deepEqual(GOAL_CATALOG.map((g) => g.key), ['job-ready', 'first-app', 'fundamentals', 'explore']);
+  assert.equal(getGoal('does-not-exist').key, 'explore');
+  assert.equal(computeGoalProgress('nonsense', zero).goalKey, 'explore');
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

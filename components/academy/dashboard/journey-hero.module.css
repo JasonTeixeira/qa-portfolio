@@ -1,0 +1,266 @@
+/* "YOUR JOURNEY" hero — the returning-learner anchor. Institutional Editorial,
+   token-driven, flat (no glow). Reads as a masthead, not a card. */
+
+.hero {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 2.2rem;
+  padding: clamp(1.3rem, 1rem + 1.4vw, 2rem) clamp(1.2rem, 0.9rem + 1.4vw, 2rem);
+  border: 1px solid var(--ac-rule);
+  border-radius: var(--ac-radius);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--ac-accent) 5%, transparent), transparent 60%),
+    var(--ac-surface);
+}
+
+/* ── has-goal band ────────────────────────────────────────────────── */
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 0.5rem + 2vw, 2.4rem);
+}
+
+.lead {
+  min-width: 0;
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--ac-font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ac-accent-text);
+}
+
+.goalLabel {
+  margin: 0.5rem 0 0;
+  font-family: var(--ac-font-display);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.8rem);
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  color: var(--ac-ink);
+}
+
+/* next milestone — the clear call-to-action */
+.nextCta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--ac-accent) 40%, transparent);
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--ac-accent) 8%, transparent);
+  text-decoration: none;
+  transition: border-color var(--ac-dur-fast) var(--ac-ease),
+    background var(--ac-dur-fast) var(--ac-ease), transform var(--ac-dur-fast) var(--ac-ease);
+}
+.nextCta:hover {
+  border-color: color-mix(in srgb, var(--ac-accent) 70%, transparent);
+  background: color-mix(in srgb, var(--ac-accent) 14%, transparent);
+  transform: translateX(2px);
+}
+.nextCta:focus-visible {
+  outline: 2px solid var(--ac-accent);
+  outline-offset: 2px;
+}
+.nextKicker {
+  font-family: var(--ac-font-mono);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-accent-text);
+}
+.nextLabel {
+  font-family: var(--ac-font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ac-ink);
+}
+.nextArrow {
+  color: var(--ac-accent-text);
+  transition: transform var(--ac-dur-fast) var(--ac-ease);
+}
+.nextCta:hover .nextArrow {
+  transform: translateX(3px);
+}
+
+.nextDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+  color: var(--ac-ink-soft);
+}
+.nextCheck {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ac-mastery) 18%, transparent);
+  color: var(--ac-mastery);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ── progress ring ────────────────────────────────────────────────── */
+.ringWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+.ring {
+  display: block;
+}
+.ringPct {
+  font-family: var(--ac-font-display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  fill: var(--ac-ink);
+}
+.ringCaption {
+  font-family: var(--ac-font-mono);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-ink-faint);
+}
+
+/* ── milestone trail ──────────────────────────────────────────────── */
+.trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.7rem;
+  margin: 1.5rem 0 0;
+  padding: 1.2rem 0 0;
+  list-style: none;
+  border-top: 1px solid var(--ac-rule);
+}
+.milestone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--ac-rule);
+  border-radius: 100px;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+.mGlyph {
+  font-size: 0.78rem;
+  line-height: 1;
+}
+.mLabel {
+  font-family: var(--ac-font-body);
+}
+
+.mDone {
+  border-color: color-mix(in srgb, var(--ac-mastery) 35%, transparent);
+  background: color-mix(in srgb, var(--ac-mastery) 8%, transparent);
+}
+.mDone .mGlyph {
+  color: var(--ac-mastery);
+}
+.mDone .mLabel {
+  color: var(--ac-ink-soft);
+}
+
+.mNext {
+  border-color: color-mix(in srgb, var(--ac-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--ac-accent) 10%, transparent);
+}
+.mNext .mGlyph {
+  color: var(--ac-accent-text);
+}
+.mNext .mLabel {
+  color: var(--ac-ink);
+  font-weight: 600;
+}
+
+.mUpcoming .mGlyph {
+  color: var(--ac-locked);
+}
+.mUpcoming .mLabel {
+  color: var(--ac-ink-faint);
+}
+
+/* ── no-goal prompt ───────────────────────────────────────────────── */
+.promptBand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+.promptTitle {
+  margin: 0.3rem 0 0;
+  font-family: var(--ac-font-display);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--ac-ink);
+}
+.promptBody {
+  margin: 0;
+  max-width: 52ch;
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  line-height: 1.5;
+  color: var(--ac-ink-soft);
+}
+.promptCta {
+  margin-top: 0.6rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  background: var(--ac-accent-strong);
+  color: #ffffff;
+  font-family: var(--ac-font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: var(--ac-shadow);
+  transition: transform var(--ac-dur-fast) var(--ac-ease),
+    background var(--ac-dur-fast) var(--ac-ease);
+}
+.promptCta:hover {
+  background: color-mix(in srgb, var(--ac-accent-strong) 88%, #fff);
+  transform: translateY(-1px);
+}
+.promptCta:focus-visible {
+  outline: 2px solid var(--ac-accent);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  .band {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nextCta,
+  .nextArrow,
+  .promptCta {
+    transition: none;
+  }
+}

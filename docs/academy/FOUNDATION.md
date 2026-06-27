@@ -110,5 +110,18 @@ gap — do not patch the runtime per course.
   DEFERRED (decisions, documented): route-group `layout.tsx` promotion — the per-page `<AcademyShell>`
   wrap is the right pattern since landing/auth pages take no chrome; the 8→6-destination nav regroup +
   tabbed Compete/Progress surfaces — depends on Tier-3 page-building; track→flagship-course resolver.
-- **Tier 2 — ENFORCEMENT: NOT started.** Next.
+- **Tier 2 — ENFORCEMENT: complete (2026-06-26) — build + enforcement verified.** The Tier-0 spine
+  is live in the lesson flow and un-fakeable. DONE: evidence emitted from completion/lab/sprint
+  (lesson_completed, server-verified lab_verified + sprint_artifact_created, diagnostic/retrieval/
+  transfer) · evidence-gated completion + visible score caps (StateBadge + ScoreCapMeter, real state)
+  · AI-guide-as-grader (gradeTeachback → DeepSeek → trusted explainBackGraded on genuine pass; fail →
+  repair_created) · repair queue surfaced on /academy/review · measurement dashboard (/academy-admin/
+  metrics: CURR, evidence funnel, aggregate Hake's g, honest 'collecting' below n). Anti-cheat
+  adversarially reviewed 3× (lab-forge closed, defense-in-depth payload guard, grader injection-fenced
+  + prefiltered + rate-limited). Verified: typecheck 0 · unit 254/254 · **enforcement e2e 2/2 (proves
+  no complete/full-score without evidence)** · a11y 7/7 · next build pass.
+  HONEST CAVEAT: the live DeepSeek grading round-trip is NOT covered by automated tests (needs
+  DEEPSEEK_API_KEY + costs a call); the grader LOGIC is pure-unit-tested and the flow degrades honestly
+  when the key is absent. Operator: set DEEPSEEK_API_KEY and do one manual teachback to confirm live
+  grading. 98–99 still gated on real-learner outcomes (structural).
 - Tiers 3–4: NOT started.

@@ -30,18 +30,67 @@
 .sub { margin: 0.7rem 0 0; font-size: 0.98rem; color: var(--dim); }
 .sub strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
+/* Overtake hook — the page hero. A tier-accented band carrying the near-miss
+   line at display scale plus the one dominant CTA. Flat surface + accent rail,
+   no glow. The leader variant swaps the danger of relegation for "defend it". */
+.overtake {
+  position: relative; z-index: 1;
+  margin: 0 0 1.6rem;
+  padding: clamp(1.1rem, 0.8rem + 1.4vw, 1.6rem) clamp(1.2rem, 0.9rem + 1.4vw, 1.7rem);
+  border: 1px solid color-mix(in srgb, var(--tier) 30%, var(--line));
+  border-left: 3px solid var(--tier);
+  border-radius: 16px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 11%, transparent), color-mix(in srgb, var(--tier) 3%, transparent));
+  display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start;
+}
+.overtake[data-leader='true'] {
+  border-left-color: #34d399;
+  border-color: color-mix(in srgb, #34d399 28%, var(--line));
+  background: linear-gradient(180deg, color-mix(in srgb, #34d399 10%, transparent), transparent 90%);
+}
+.overtakeKicker {
+  margin: 0;
+  font-family: var(--font-mono), monospace; font-size: 0.66rem;
+  text-transform: uppercase; letter-spacing: 0.16em; color: var(--tier);
+}
+.overtake[data-leader='true'] .overtakeKicker { color: #34d399; }
+.overtakeLine {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif; font-weight: 500;
+  font-size: clamp(1.35rem, 1.05rem + 1.5vw, 1.9rem); line-height: 1.25; letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.overtakeLine strong { font-weight: 600; }
+.overtakeGap { color: var(--tier); font-variant-numeric: tabular-nums; }
+/* Stable AA-verified primary: white-on-accent-strong, not the variable tier
+   color (tier hues range light→dark and can't guarantee text contrast). */
+.overtakeCta {
+  margin-top: 0.35rem;
+  display: inline-flex; align-items: center;
+  padding: 0.7rem 1.3rem; border-radius: 26px;
+  background: var(--ac-accent-strong, #3458e0); color: #fff; text-decoration: none;
+  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.overtakeCta:hover { filter: brightness(1.08); }
+.overtakeCta:active { transform: translateY(1px); }
+.overtakeCta:focus-visible { outline: 2px solid color-mix(in srgb, var(--tier) 60%, transparent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .overtakeCta { transition: none; } }
+
 /* tier ladder */
 .ladder {
   position: relative; z-index: 1;
   list-style: none; margin: 0 0 1.4rem; padding: 0;
   display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem;
 }
-.rung { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; opacity: 0.4; transition: opacity 0.2s ease; }
-.rungPast { opacity: 0.7; }
-.rungOn { opacity: 1; }
-.rungDot { width: 14px; height: 14px; border-radius: 50%; background: var(--rung); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); }
-.rungOn .rungDot { box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 55%, transparent); }
+/* Dim the DOT per-state — never the whole rung, which drags the label text below
+   AA (axe: opacity 0.4 → 1.85:1). The label keeps a readable color in every state. */
+.rung { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+.rungDot { width: 14px; height: 14px; border-radius: 50%; background: var(--rung); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); opacity: 0.4; transition: opacity 0.2s ease; }
+.rungPast .rungDot { opacity: 0.7; }
+.rungOn .rungDot { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 55%, transparent); }
 .rungName { font-family: var(--font-mono), monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.rungPast .rungName { color: var(--dim); }
 .rungOn .rungName { color: var(--ink); }
 
 /* legend */

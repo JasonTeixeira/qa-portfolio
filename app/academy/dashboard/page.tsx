@@ -10,6 +10,8 @@ import { getDailyQuests, getWeeklyQuests } from '@/lib/academy/quests'
 import type { QuestProgress } from '@/lib/academy/quest-logic'
 import { getTriggers } from '@/lib/academy/triggers'
 import type { Trigger } from '@/lib/academy/trigger-logic'
+import { getNextRewards } from '@/lib/academy/rewards'
+import type { NextRewards } from '@/lib/academy/reward-logic'
 import { Dashboard } from '@/components/academy/dashboard/Dashboard'
 import { AcademyShell } from '@/components/academy/academy-shell'
 
@@ -29,6 +31,7 @@ export default async function DashboardPage() {
   let dailyQuests: QuestProgress[] = []
   let weeklyQuests: QuestProgress[] = []
   let triggers: Trigger[] = []
+  let rewards: NextRewards | null = null
 
   // The resume point — their continue-to lesson, else the catalog. Both the
   // journey CTA and the trigger nudges send the learner here.
@@ -43,7 +46,7 @@ export default async function DashboardPage() {
     } = await sb.auth.getUser()
     if (user) {
       // Independent reads — fetch in parallel to avoid a request waterfall.
-      const [g, goalKey, stats, profile, daily, weekly, trig] = await Promise.all([
+      const [g, goalKey, stats, profile, daily, weekly, trig, rew] = await Promise.all([
         getGamification(user.id),
         getLearnerGoal(user.id),
         getLearnerStats(user.id),
@@ -51,8 +54,10 @@ export default async function DashboardPage() {
         getDailyQuests(user.id),
         getWeeklyQuests(user.id),
         getTriggers(user.id, nextHref),
+        getNextRewards(user.id),
       ])
       game = g
+      rewards = rew
       // A real display name (when set) takes precedence over the email-derived name.
       displayName = profile?.displayName?.trim() || null
       // Only compute the journey once the learner has actually chosen a goal.
@@ -74,6 +79,8 @@ export default async function DashboardPage() {
         dailyQuests={dailyQuests}
         weeklyQuests={weeklyQuests}
         triggers={triggers}
+        rewards={rewards}
+        nextHref={nextHref}
       />
     </AcademyShell>
   )

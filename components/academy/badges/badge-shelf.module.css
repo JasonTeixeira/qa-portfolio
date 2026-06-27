@@ -45,6 +45,86 @@
   color: var(--ac-accent-text, #8fa0ff);
 }
 
+/* NEXT BADGE hero — the pull-forward row above the grid. Closest unearned badge
+   + a literal progress bar toward it. Accent-framed but restrained (no glow). */
+.next {
+  margin: 0 0 1.3rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 38%, transparent);
+  border-radius: 14px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--ac-accent, #3d6bff) 12%, transparent),
+    var(--ac-surface-2, #141418)
+  );
+}
+.nextKicker {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-family: var(--ac-font-mono), var(--font-mono), monospace;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+}
+.nextIcon {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 45%, transparent);
+  background: var(--ac-surface, #111115);
+  font-size: 1.2rem;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.nextLine {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--dim);
+}
+.nextLine strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.nextName {
+  font-family: var(--ac-font-display), var(--font-serif), Georgia, serif;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextBar {
+  display: block;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  overflow: hidden;
+}
+.nextFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ac-accent, #3d6bff);
+}
+.nextPct {
+  font-family: var(--ac-font-mono), var(--font-mono), monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

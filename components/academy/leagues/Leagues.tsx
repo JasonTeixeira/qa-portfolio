@@ -1,7 +1,36 @@
 import type { CSSProperties } from 'react'
-import type { LeagueStandings } from '@/lib/academy/leagues'
+import Link from 'next/link'
+import type { LeagueStandings, StandingRow } from '@/lib/academy/leagues'
 import { LEAGUE_TIERS } from '@/lib/academy/leagues-logic'
 import styles from './leagues.module.css'
+
+/** The pull-forward overtake target: the rank directly above you and the XP gap. */
+export interface OvertakeTarget {
+  gapXp: number
+  rank: number
+}
+
+/**
+ * Resolve the overtake target. Prefer the server-computed reward gap; fall back
+ * to the standings already loaded (the learner directly above you this week).
+ * Returns null when there's no one to chase (already #1, or no data).
+ */
+function resolveOvertake(
+  you: StandingRow,
+  rows: StandingRow[],
+  nextRank: { gapXp: number } | null | undefined,
+): OvertakeTarget | null {
+  if (you.rank <= 1) return null
+  if (nextRank && nextRank.gapXp > 0) {
+    // The rank directly above you is, by definition, you.rank - 1.
+    return { gapXp: nextRank.gapXp, rank: you.rank - 1 }
+  }
+  // Fallback: the row immediately ahead in the loaded standings.
+  const ahead = rows.find((r) => r.rank === you.rank - 1)
+  if (!ahead) return null
+  const gap = Math.max(1, ahead.weeklyXp - you.weeklyXp + 1)
+  return { gapXp: gap, rank: ahead.rank }
+}
 
 function fmtWeek(weekStart: string): string {
   const start = new Date(weekStart + 'T00:00:00Z')
@@ -13,12 +42,20 @@ function fmtWeek(weekStart: string): string {
 
 const MOVEMENT_LABEL = { promote: 'Promotion zone', relegate: 'Relegation zone', hold: '' } as const
 
-export function Leagues({ standings }: { standings: LeagueStandings }) {
+export function Leagues({
+  standings,
+  nextRank,
+}: {
+  standings: LeagueStandings
+  nextRank?: { gapXp: number } | null
+}) {
   const { tier, tierName, color, weekStart, total, rows, you, promoteZone, relegateZone, topTier, bottomTier } =
     standings
   const rootStyle = { ['--tier']: color } as CSSProperties
   const thin = total < promoteZone + relegateZone
   const nextTier = topTier ? null : LEAGUE_TIERS[tier + 1]
+  const overtake = resolveOvertake(you, rows, nextRank)
+  const isLeader = you.rank <= 1
 
   return (
     <div className={styles.page} style={rootStyle}>
@@ -36,6 +73,31 @@ export function Leagues({ standings }: { standings: LeagueStandings }) {
           You’re <strong>#{you.rank}</strong> of {total} this week · {you.weeklyXp} XP earned · {fmtWeek(weekStart)}
         </p>
       </header>
+
+      {/* Overtake hook — the visual hero. Pull the next rank forward as a
+          near-miss with one dominant CTA to the fastest XP action (review). */}
+      {overtake ? (
+        <section className={styles.overtake} aria-labelledby="overtake-heading">
+          <p className={styles.overtakeKicker}>Within reach</p>
+          <p id="overtake-heading" className={styles.overtakeLine}>
+            You’re <strong className={styles.overtakeGap}>{overtake.gapXp} XP</strong> from{' '}
+            <strong>#{overtake.rank}</strong> — one lab does it.
+          </p>
+          <Link href="/academy/review" className={styles.overtakeCta}>
+            Earn XP now →
+          </Link>
+        </section>
+      ) : isLeader ? (
+        <section className={styles.overtake} data-leader="true" aria-labelledby="overtake-heading">
+          <p className={styles.overtakeKicker}>Top of the table</p>
+          <p id="overtake-heading" className={styles.overtakeLine}>
+            You’re on top — <strong>defend it.</strong> One more lab keeps the gap open.
+          </p>
+          <Link href="/academy/review" className={styles.overtakeCta}>
+            Defend your lead →
+          </Link>
+        </section>
+      ) : null}
 
       {/* tier ladder */}
       <ol className={styles.ladder} aria-label="League tiers">

@@ -6,7 +6,9 @@ import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
 import type { QuestProgress } from '@/lib/academy/quest-logic'
 import type { Trigger } from '@/lib/academy/trigger-logic'
+import type { NextRewards } from '@/lib/academy/reward-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
+import { NextUp } from './NextUp'
 import { TriggerBanner } from '@/components/academy/triggers/TriggerBanner'
 import { QuestPanel } from '@/components/academy/quests/QuestPanel'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
@@ -83,18 +85,24 @@ function HabitPanel({ game }: { game: GamificationState }) {
         </div>
       </div>
 
-      {/* Streak */}
+      {/* Streak — loss-aversion framing when one is alive but not yet secured today. */}
       <div className={`${styles.habitCard} ${streak.activeToday ? styles.habitActive : ''}`}>
         <span className={styles.flame} aria-hidden="true">
           {streak.current > 0 ? '🔥' : '○'}
         </span>
         <div className={styles.habitMeta}>
-          <span className={styles.habitLabel}>Streak</span>
+          <span className={styles.habitLabel}>
+            {streak.current > 0 && !streak.activeToday
+              ? `Keep your ${streak.current}-day streak alive`
+              : 'Streak'}
+          </span>
           <span className={styles.habitValue}>
             {streak.current} <span className={styles.habitDim}>{streak.current === 1 ? 'day' : 'days'}</span>
           </span>
           <span className={styles.habitSub}>
-            {freezePips.length > 0 ? (
+            {streak.current > 0 && !streak.activeToday ? (
+              'Finish a lesson today so it doesn’t reset'
+            ) : freezePips.length > 0 ? (
               <>
                 <span className={styles.freezePips} aria-hidden="true">
                   {freezePips.map((_, i) => (
@@ -195,6 +203,10 @@ interface DashboardProps {
   weeklyQuests?: QuestProgress[]
   /** Prioritised in-app nudges (top 1-2). Empty → the banner renders nothing. */
   triggers?: Trigger[]
+  /** Near-miss / next-reward bundle (closest badge, XP-to-level, league gap). */
+  rewards?: NextRewards | null
+  /** Resume point (or catalog) — where the near-miss CTAs send the learner. */
+  nextHref?: string
 }
 
 export function Dashboard({
@@ -206,6 +218,8 @@ export function Dashboard({
   dailyQuests = [],
   weeklyQuests = [],
   triggers = [],
+  rewards = null,
+  nextHref = '/academy/catalog',
 }: DashboardProps) {
   if (!dash.signedIn) {
     return (
@@ -236,6 +250,28 @@ export function Dashboard({
       ? 'Pick a course back up and keep building.'
       : 'Your first build is one click away — browse the catalog below.'
 
+  // The ONE dominant next action — promoted directly under the header so it
+  // outweighs every secondary chip/stat. Its strongest styling lives in `.resume`.
+  const resumeBlock = dash.continueTo ? (
+    <Link
+      href={`/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`}
+      className={styles.resume}
+    >
+      <span className={styles.resumeGlow} aria-hidden="true" />
+      <div className={styles.resumeBody}>
+        <span className={styles.resumeKicker}>▸ Pick up where you left off</span>
+        <span className={styles.resumeTitle}>{titleCase(dash.continueTo.lessonSlug)}</span>
+        {continueCourse ? (
+          <span className={styles.resumeCourse}>
+            {continueCourse.title} · {continueCourse.done}/{continueCourse.total} lessons
+          </span>
+        ) : null}
+      </div>
+      {continueCourse ? <Ring pct={continueCourse.pct} /> : null}
+      <span className={styles.resumeBtn}>Resume →</span>
+    </Link>
+  ) : null
+
   return (
     <div className={styles.page}>
       <div className={styles.atmosphere} aria-hidden="true" />
@@ -243,6 +279,8 @@ export function Dashboard({
       <TriggerBanner triggers={triggers} />
 
       <JourneyHero progress={journey} nextHref={journeyNextHref} />
+
+      {rewards ? <NextUp rewards={rewards} nextHref={nextHref} /> : null}
 
       <header className={styles.head}>
         <p className={styles.kicker}>My Learning</p>
@@ -256,6 +294,8 @@ export function Dashboard({
           <SoundToggle className={styles.soundToggle} />
         </nav>
       </header>
+
+      {resumeBlock}
 
       {game ? <HabitPanel game={game} /> : null}
       {game ? <StreakStrip streak={game.streak} /> : null}
@@ -285,26 +325,6 @@ export function Dashboard({
       </dl>
 
       <QuestPanel daily={dailyQuests} weekly={weeklyQuests} />
-
-      {dash.continueTo ? (
-        <Link
-          href={`/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`}
-          className={styles.resume}
-        >
-          <span className={styles.resumeGlow} aria-hidden="true" />
-          <div className={styles.resumeBody}>
-            <span className={styles.resumeKicker}>▸ Pick up where you left off</span>
-            <span className={styles.resumeTitle}>{titleCase(dash.continueTo.lessonSlug)}</span>
-            {continueCourse ? (
-              <span className={styles.resumeCourse}>
-                {continueCourse.title} · {continueCourse.done}/{continueCourse.total} lessons
-              </span>
-            ) : null}
-          </div>
-          {continueCourse ? <Ring pct={continueCourse.pct} /> : null}
-          <span className={styles.resumeBtn}>Resume →</span>
-        </Link>
-      ) : null}
 
       <section className={styles.section}>
         <div className={styles.sectionHead}>

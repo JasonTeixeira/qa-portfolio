@@ -72,6 +72,42 @@
 .emptyBody { margin: 0; max-width: 46ch; color: var(--dim); line-height: 1.55; }
 .emptyBtn { margin-top: 0.8rem; padding: 0.8rem 1.5rem; border-radius: 26px; background: var(--accent); color: #fff; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.92rem; }
 
+/* End-of-session reward MOMENT — the dopamine payoff. One compositor-only
+   rise+settle on the whole panel (transform + opacity, no confetti, no glow).
+   The glyph gets a single restrained pop. reduced-motion → instant, no motion. */
+.done {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 0.7rem;
+  will-change: transform, opacity;
+  animation: doneRise 520ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+.doneGlyph {
+  display: grid; place-items: center; width: 68px; height: 68px;
+  border-radius: 20px; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: rgba(61, 107, 255, 0.1); color: var(--accent); font-size: 1.9rem;
+  animation: donePop 600ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+.doneTitle { margin: 0.5rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem); letter-spacing: -0.02em; }
+.doneStats { list-style: none; margin: 0.4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.45rem 0.6rem; }
+.doneStat { padding: 0.32rem 0.8rem; border: 1px solid var(--line); border-radius: 100px; background: rgba(255, 255, 255, 0.02); }
+.doneStatNum { font-family: var(--font-mono), monospace; font-size: 0.74rem; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--ink); }
+.doneBody { margin: 0.4rem 0 0; max-width: 48ch; color: var(--dim); line-height: 1.55; }
+.doneSignoff { margin: 0.15rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+.doneBtn { margin-top: 1rem; padding: 0.85rem 1.6rem; border-radius: 26px; background: var(--accent); color: #fff; text-decoration: none; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.92rem; transition: filter 0.15s ease, transform 0.1s ease; }
+.doneBtn:hover { filter: brightness(1.07); }
+.doneBtn:active { transform: translateY(1px); }
+.doneBtn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.5); outline-offset: 2px; }
+
+@keyframes doneRise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes donePop {
+  0% { opacity: 0; transform: scale(0.82); }
+  60% { opacity: 1; transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
 /* what-resurfaces-next schedule strip — a thin hairline footer that anchors the
    calm empty state with the spaced-review cadence (no fabricated counts). */
 .schedule {
@@ -89,5 +125,6 @@
   .grades { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .track span, .grade, .reveal { transition: none; }
+  .track span, .grade, .reveal, .doneBtn { transition: none; }
+  .done, .doneGlyph { animation: none; will-change: auto; }
 }

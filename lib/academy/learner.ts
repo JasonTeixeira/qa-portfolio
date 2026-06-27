@@ -81,8 +81,11 @@ export async function getLearnerDashboard(): Promise<LearnerDashboard> {
 
     const lessonsCompleted = rows.filter((r) => r.status === 'completed').length
     const coursesCompleted = courses.filter((c) => c.total > 0 && c.done >= c.total).length
-    const continueTo = rows.find((r) => r.status !== 'completed')
-      ?? rows[0]
+    // Resume only an actually-unfinished lesson. No `?? rows[0]` fallback: a learner
+    // who has completed everything gets a null resume (the dashboard's dominant action
+    // then falls through to the next-milestone / catalog CTA) — never an incoherent
+    // "Resume → 100%" card pointing at a finished lesson.
+    const continueTo = rows.find((r) => r.status !== 'completed') ?? null
     return {
       signedIn: true,
       name,

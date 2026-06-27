@@ -4,6 +4,7 @@ import { ensureProfile, listMyArtifacts } from '@/lib/academy/profiles'
 import { getLearnerGains } from '@/lib/academy/efficacy'
 import { getMasteryMap } from '@/lib/academy/mastery'
 import { getEarnedBadges } from '@/lib/academy/badges'
+import { getNextRewards } from '@/lib/academy/rewards'
 import { AcademyShell } from '@/components/academy/academy-shell'
 import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { ProfileEditor } from '@/components/academy/profile/ProfileEditor'
@@ -35,11 +36,12 @@ export default async function ProfilePage({
   const { badge: badgeParam } = await searchParams
 
   const profile = await ensureProfile(user.id, user.email ?? user.id)
-  const [artifacts, gains, masteryMap, earnedBadges] = await Promise.all([
+  const [artifacts, gains, masteryMap, earnedBadges, rewards] = await Promise.all([
     listMyArtifacts(user.id),
     getLearnerGains(user.id),
     getMasteryMap(user.id),
     getEarnedBadges(user.id),
+    getNextRewards(user.id),
   ])
 
   // Only celebrate a badge the learner has GENUINELY earned (anti-spoof: the param
@@ -51,7 +53,7 @@ export default async function ProfilePage({
       <GroupSubNav group="progress" tab="mastery" />
       <div className={styles.stack}>
         <MasteryMap map={masteryMap} />
-        <BadgeShelf earned={earnedBadges} />
+        <BadgeShelf earned={earnedBadges} nextBadge={rewards.nextBadge} />
         <ProfileEditor
           profile={profile}
           artifacts={artifacts}

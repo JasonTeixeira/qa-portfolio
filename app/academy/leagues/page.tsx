@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getLeagueStandings } from '@/lib/academy/leagues'
+import { getNextRewards } from '@/lib/academy/rewards'
 import { AcademyShell } from '@/components/academy/academy-shell'
 import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { Leagues } from '@/components/academy/leagues/Leagues'
@@ -19,12 +20,12 @@ export default async function LeaguesPage() {
   } = await supabase.auth.getUser()
   if (!user) return null // middleware gates this; defensive
 
-  const standings = await getLeagueStandings(user.id)
+  const [standings, rewards] = await Promise.all([getLeagueStandings(user.id), getNextRewards(user.id)])
 
   return (
     <AcademyShell active="compete">
       <GroupSubNav group="compete" tab="leagues" />
-      <Leagues standings={standings} />
+      <Leagues standings={standings} nextRank={rewards.nextRank} />
     </AcademyShell>
   )
 }

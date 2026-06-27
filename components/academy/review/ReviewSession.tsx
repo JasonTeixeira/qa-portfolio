@@ -16,6 +16,12 @@ const GRADES: { key: ReviewGrade; label: string; sub: string }[] = [
   { key: 'easy', label: 'Easy', sub: 'Instant' },
 ]
 
+/** Days from now until `iso`, floored at 1 — "next review in ~D days". */
+function daysUntil(iso: string): number {
+  const ms = new Date(iso).getTime() - Date.now()
+  return Math.max(1, Math.round(ms / 86_400_000))
+}
+
 export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   const router = useRouter()
   const [cards] = useState(initialCards)
@@ -23,6 +29,9 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   const [revealed, setRevealed] = useState(false)
   const [pending, setPending] = useState(false)
   const [celebration, setCelebration] = useState<Celebration | null>(null)
+  // Session payoff data, accumulated honestly from each graded card's real result.
+  const [streak, setStreak] = useState<number | null>(null)
+  const [soonestNextDue, setSoonestNextDue] = useState<string | null>(null)
   const total = cards.length
   const current = cards[index]
 
@@ -32,6 +41,11 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
     try {
       const res = await gradeReview(current.id, g)
       if (res && 'celebration' in res && res.celebration) setCelebration(res.celebration)
+      if (res && typeof res.streak === 'number') setStreak(res.streak)
+      if (res && res.nextDueAt) {
+        // Keep the soonest next-due across the run — that's when the learner returns.
+        setSoonestNextDue((prev) => (!prev || res.nextDueAt! < prev ? res.nextDueAt! : prev))
+      }
     } catch {
       /* best-effort; the queue advances regardless */
     }
@@ -68,18 +82,41 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
   }
 
   if (index >= total) {
+    const cleared = `${total} ${total === 1 ? 'card' : 'cards'} cleared`
+    const nextInDays = soonestNextDue ? daysUntil(soonestNextDue) : null
     return (
       <div className={styles.page}>
+        <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
         <p className={styles.kicker}>Spaced review</p>
         <div className={styles.emptyWrap}>
-          <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">★</span>
-            <h1 className={styles.emptyTitle}>Review complete.</h1>
-            <p className={styles.emptyBody}>
-              {total} {total === 1 ? 'card' : 'cards'} reviewed · +{total * 10} XP. Each one is now scheduled to return
-              right before you’d forget it.
+          {/* End-of-session payoff: a single compositor-only rise/settle, no confetti. */}
+          <div className={styles.done} role="status" aria-live="polite">
+            <span className={styles.doneGlyph} aria-hidden="true">★</span>
+            <h1 className={styles.doneTitle}>Session complete.</h1>
+            <ul className={styles.doneStats}>
+              <li className={styles.doneStat}>
+                <span className={styles.doneStatNum}>{cleared}</span>
+              </li>
+              <li className={styles.doneStat}>
+                <span className={styles.doneStatNum}>+{total * 10} XP</span>
+              </li>
+              {streak ? (
+                <li className={styles.doneStat}>
+                  <span className={styles.doneStatNum}>
+                    Streak advanced to {streak}
+                  </span>
+                </li>
+              ) : null}
+            </ul>
+            <p className={styles.doneBody}>
+              {nextInDays
+                ? `Each card is scheduled to return right before you’d forget — your next review lands in ~${nextInDays} ${nextInDays === 1 ? 'day' : 'days'}.`
+                : 'Each card is scheduled to return right before you’d forget it.'}
             </p>
-            <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+            <p className={styles.doneSignoff}>See you tomorrow — keep the chain alive.</p>
+            <Link href="/academy/dashboard" className={styles.doneBtn}>
+              Back to My Learning →
+            </Link>
           </div>
         </div>
       </div>

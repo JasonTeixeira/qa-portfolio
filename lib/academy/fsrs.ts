@@ -121,7 +121,7 @@ export async function gradeReview(
   userId: string,
   cardId: string,
   grade: ReviewGrade,
-): Promise<{ ok: boolean; celebration?: Celebration | null }> {
+): Promise<{ ok: boolean; celebration?: Celebration | null; nextDueAt?: string; streak?: number }> {
   const sb = supabaseAdmin()
   const { data: row } = await sb.from('academy_reviews').select('*').eq('id', cardId).eq('user_id', userId).maybeSingle()
   if (!row) return { ok: false }
@@ -142,11 +142,13 @@ export async function gradeReview(
     })
     .eq('id', cardId)
   let celebration: Celebration | null = null
+  let streak: number | undefined
   try {
     const state = await recordActivityAndAward(userId, 'review', now)
     celebration = pickCelebration(state)
+    streak = state.streak.current
   } catch (err) {
     console.error('[academy/fsrs] review award failed', err)
   }
-  return { ok: true, celebration }
+  return { ok: true, celebration, nextDueAt: card.due.toISOString(), streak }
 }

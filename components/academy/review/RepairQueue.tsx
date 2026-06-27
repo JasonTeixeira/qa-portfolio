@@ -6,10 +6,34 @@ import styles from './repair-queue.module.css'
  * "Needs repair" panel for the review surface. A failed teachback opens a
  * repair; this lists the learner's open repairs with a route back to the
  * lesson to redo the teachback — repair, don't punish, never a dead end.
- * Honest empty state when there's nothing outstanding.
+ *
+ * Attention discipline: when there's an active review to do AND nothing to
+ * repair, the positive-empty state collapses to a single green status chip so
+ * the review card stays the unambiguous hero. The full composed panel only
+ * shows when proofs are clear AND there's genuinely no review queued — then it
+ * is the page's primary content and has earned the space.
  */
-export function RepairQueue({ repairs }: { repairs: OpenRepair[] }) {
+export function RepairQueue({
+  repairs,
+  hasActiveReview = false,
+}: {
+  repairs: OpenRepair[]
+  hasActiveReview?: boolean
+}) {
   const isClear = repairs.length === 0
+
+  // Demoted form: a quiet one-line chip that yields the page to the review card.
+  if (isClear && hasActiveReview) {
+    return (
+      <p className={styles.statusChip} role="status">
+        <span className={styles.statusGlyph} aria-hidden="true">
+          ✓
+        </span>
+        Proofs holding — no repairs due.
+      </p>
+    )
+  }
+
   return (
     <section
       className={`${styles.panel} ${isClear ? styles.panelClear : ''}`}

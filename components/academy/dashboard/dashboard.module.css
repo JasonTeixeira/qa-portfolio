@@ -100,12 +100,15 @@
 .ringText { fill: var(--ink); font-family: var(--font-mono), monospace; font-size: 12px; font-weight: 600; }
 
 /* continue / resume — the hero action */
+/* Promoted to the dominant next action: stronger border, fuller surface, and a
+   little more presence than any secondary chip or stat below it. */
 .resume {
   position: relative; z-index: 1; isolation: isolate;
   display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.4rem;
-  margin-top: 1.5rem; padding: 1.5rem 1.7rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); border-radius: 18px;
-  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 12%, transparent), rgba(255, 255, 255, 0.012));
+  margin: 0 0 1.6rem; padding: 1.6rem 1.8rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent); border-radius: 18px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 16%, transparent), rgba(255, 255, 255, 0.012));
+  box-shadow: var(--ac-shadow, 0 18px 40px -28px rgba(0, 0, 0, 0.7));
   overflow: hidden; text-decoration: none; color: inherit;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }

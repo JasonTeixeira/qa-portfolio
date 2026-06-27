@@ -82,7 +82,12 @@ export async function getCompletedCountByCourse(): Promise<Map<string, number>> 
   }
 }
 
-/** The most-recently-touched lesson for "continue where you left off" (catalog resume card). */
+/**
+ * The most-recently-touched lesson that is still IN PROGRESS — the "continue where
+ * you left off" resume point. Only unfinished lessons qualify: a learner who has
+ * completed every lesson returns null (no incoherent "Resume → 100%" card), and the
+ * dominant dashboard action falls through to the next-milestone / catalog CTA.
+ */
 export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: string } | null> {
   try {
     const sb = await createSupabaseServerClient()
@@ -94,6 +99,7 @@ export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: s
       .from('academy_progress')
       .select('course_slug, lesson_slug')
       .eq('user_id', user.id)
+      .eq('status', 'in_progress')
       .order('updated_at', { ascending: false })
       .limit(1)
       .maybeSingle()

@@ -48,6 +48,30 @@
   font-weight: 600;
 }
 
+/* Demoted clear-state: a single green status chip. Yields the page to the
+   review card when there's an active review — the hero is the card, not this. */
+.statusChip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  max-width: 720px;
+  margin: 0 auto clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  margin-left: max(0px, calc(50% - 360px));
+  padding: 0.4rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--ac-mastery) 35%, var(--ac-rule));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ac-mastery) 8%, transparent);
+  font-family: var(--ac-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--ac-mastery);
+}
+.statusGlyph {
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;

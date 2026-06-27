@@ -25,7 +25,7 @@ export default async function ReviewPage() {
 
   return (
     <AcademyShell active="review">
-      <RepairQueue repairs={repairs} />
+      <RepairQueue repairs={repairs} hasActiveReview={due.length > 0} />
       <ReviewSession initialCards={due} />
     </AcademyShell>
   )

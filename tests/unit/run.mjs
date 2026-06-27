@@ -9276,6 +9276,24 @@ test('trigger-logic: computeTriggers prioritises nudges + empty when on track', 
   assert.deepEqual(many.map((t) => t.kind).slice(0, 2), ['streak-risk', 'reviews-due']);
 });
 
+test('reward-logic: computeNextRewards near-miss (badge, xp-to-level, rank gap)', async () => {
+  const { computeNextRewards } = await import('../../lib/academy/reward-logic.ts');
+  const base = { lessonsCompleted: 0, coursesFinished: 0, certificates: 0, projects: 0, currentStreak: 0, startedAnyLesson: false, longestStreak: 0 };
+  // nearest unearned badge + xp-to-next-level near-win
+  const r1 = computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1 });
+  assert.equal(r1.nextBadge.key, 'first_lesson');
+  assert.equal(r1.xpToNextLevel, 150);
+  assert.equal(r1.levelPct, 0);
+  const r2 = computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 110, level: 1 });
+  assert.equal(r2.xpToNextLevel, 40);
+  assert.equal(r2.levelPct, 73);
+  // league overtake gap = lead + 1 (strictly overtakes)
+  const standings = [{ userId: 'a', weeklyXp: 300 }, { userId: 'me', weeklyXp: 250 }, { userId: 'c', weeklyXp: 100 }];
+  assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1, leagueStandings: standings, currentUserId: 'me' }).nextRank.gapXp, 51);
+  assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1, leagueStandings: standings, currentUserId: 'a' }).nextRank, null); // #1 → null
+  assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1 }).nextRank, null); // no league → null
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

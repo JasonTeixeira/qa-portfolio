@@ -4,6 +4,7 @@ import { topic, TOPICS } from '@/lib/academy/topics'
 import type { LearnerDashboard } from '@/lib/academy/learner'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
+import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import styles from './dashboard.module.css'
 
 const ACCENT = '#3D6BFF'
@@ -117,6 +118,56 @@ function HabitPanel({ game }: { game: GamificationState }) {
   )
 }
 
+const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const
+
+/**
+ * Honest trailing 7-day streak strip. We only have streak length + activeToday
+ * (no per-day event log is surfaced), so we fill the last N days the current
+ * streak provably covers — ending today when active, else ending yesterday.
+ * No fabricated history beyond the known streak length.
+ */
+function StreakStrip({ streak }: { streak: GamificationState['streak'] }) {
+  const today = new Date()
+  const filledFromOffset = streak.activeToday ? 0 : 1
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const offset = 6 - i // 0 = today, 6 = six days ago
+    const d = new Date(today)
+    d.setDate(today.getDate() - offset)
+    const within = offset >= filledFromOffset && offset < filledFromOffset + streak.current
+    const isToday = offset === 0
+    return { key: offset, label: DAY_LABELS[d.getDay()], active: within, isToday }
+  })
+  const summary =
+    streak.current > 0
+      ? `${streak.current}-day streak${streak.activeToday ? ' · active today' : ' · keep it alive today'}`
+      : 'No streak yet — complete a lesson to start one'
+
+  return (
+    <section className={styles.streak} aria-label="Activity streak">
+      <div className={styles.streakHead}>
+        <span className={styles.streakKicker}>Last 7 days</span>
+        <span className={styles.streakSummary}>{summary}</span>
+      </div>
+      <ol className={styles.streakRow}>
+        {days.map((d) => (
+          <li
+            key={d.key}
+            className={`${styles.streakCell} ${d.active ? styles.streakOn : ''} ${d.isToday ? styles.streakToday : ''}`}
+            title={d.isToday ? 'Today' : undefined}
+          >
+            <span className={styles.streakDot} aria-hidden="true">{d.active ? '🔥' : '·'}</span>
+            <span className={styles.streakDay}>{d.label}</span>
+            <span className={styles.srOnly}>
+              {d.label}
+              {d.isToday ? ' (today)' : ''}: {d.active ? 'active' : 'no activity'}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
 export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: GamificationState | null }) {
   if (!dash.signedIn) {
     return (
@@ -164,6 +215,7 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
       </header>
 
       {game ? <HabitPanel game={game} /> : null}
+      {game ? <StreakStrip streak={game.streak} /> : null}
 
       <PushOptIn />
 
@@ -237,8 +289,14 @@ export function Dashboard({ dash, game }: { dash: LearnerDashboard; game?: Gamif
                   </div>
                   <h3 className={styles.courseTitle}>{c.title}</h3>
                   <span className={styles.courseMeta}>
-                    {c.done} / {c.total} lessons
+                    {c.done} / {c.total} lessons · {c.pct}%
                   </span>
+                  <ProgressBar
+                    value={c.pct}
+                    size="sm"
+                    className={styles.courseProgress}
+                    ariaLabel={`${c.title}: ${c.done} of ${c.total} lessons complete`}
+                  />
                   <span className={styles.courseCta}>{finished ? '✓ Finished · review →' : 'Continue →'}</span>
                 </Link>
               )

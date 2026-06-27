@@ -12,14 +12,11 @@ import { CommandPalette } from '@/components/academy/search/CommandPalette'
  * Renders the habit widget (streak + level + XP) in the header on every academy page.
  */
 const NAV = [
-  { href: '/academy/dashboard', label: 'My Learning', key: 'dashboard' },
+  { href: '/academy/dashboard', label: 'My Learning', key: 'home' },
+  { href: '/academy/catalog', label: 'Learn', key: 'learn' },
   { href: '/academy/review', label: 'Review', key: 'review' },
-  { href: '/academy/leagues', label: 'Leagues', key: 'leagues' },
-  { href: '/academy/community', label: 'Community', key: 'community' },
-  { href: '/academy/refer', label: 'Invite', key: 'refer' },
-  { href: '/academy/catalog', label: 'Catalog', key: 'catalog' },
-  { href: '/academy/evidence', label: 'Certificates', key: 'evidence' },
-  { href: '/academy/resources', label: 'Tools', key: 'resources' },
+  { href: '/academy/leagues', label: 'Compete', key: 'compete' },
+  { href: '/academy/profile', label: 'Progress', key: 'progress' },
 ] as const
 
 const ACCENT = '#3D6BFF'

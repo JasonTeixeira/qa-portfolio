@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAggregateEfficacy } from '@/lib/academy/efficacy'
+import { AcademyShell } from '@/components/academy/academy-shell'
+import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import styles from './efficacy.module.css'
 
 export const dynamic = 'force-dynamic'
@@ -36,8 +38,10 @@ export default async function EfficacyPage() {
   const agg = await getAggregateEfficacy()
 
   return (
-    <div className={styles.page}>
-      <div className={styles.atmosphere} aria-hidden="true" />
+    <AcademyShell active="progress">
+      <GroupSubNav group="progress" tab="efficacy" />
+      <div className={styles.page}>
+        <div className={styles.atmosphere} aria-hidden="true" />
       <header className={styles.head}>
         <p className={styles.kicker}>Does it actually work?</p>
         <h1 className={styles.title}>Measured learning gain.</h1>
@@ -99,6 +103,7 @@ export default async function EfficacyPage() {
           Start a course →
         </Link>
       </section>
-    </div>
+      </div>
+    </AcademyShell>
   )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getLeagueStandings } from '@/lib/academy/leagues'
 import { AcademyShell } from '@/components/academy/academy-shell'
+import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { Leagues } from '@/components/academy/leagues/Leagues'
 
 export const metadata: Metadata = {
@@ -21,7 +22,8 @@ export default async function LeaguesPage() {
   const standings = await getLeagueStandings(user.id)
 
   return (
-    <AcademyShell active="leagues">
+    <AcademyShell active="compete">
+      <GroupSubNav group="compete" tab="leagues" />
       <Leagues standings={standings} />
     </AcademyShell>
   )

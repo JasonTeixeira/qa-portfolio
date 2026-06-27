@@ -89,7 +89,10 @@
 .courseLevel { font-family: var(--font-mono), monospace; font-size: 0.62rem; color: var(--muted); }
 .courseTitle { margin: 0.7rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: -0.02em; }
 .courseMeta { margin-top: 0.8rem; font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--muted); }
-.courseFoot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.courseProgress { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.courseProgressLabel { font-family: var(--font-mono), monospace; font-size: 0.66rem; letter-spacing: 0.02em; color: var(--ac-mastery, #4ade80); }
+.courseFoot { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--line); }
+.courseProgress + .courseFoot { margin-top: 1.1rem; }
 .courseStart { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--dim); }
 .coursePath { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
 .empty { margin-top: 1.4rem; color: var(--muted); font-size: 0.95rem; }

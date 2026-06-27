@@ -4,6 +4,7 @@ import { ensureProfile, listMyArtifacts } from '@/lib/academy/profiles'
 import { getLearnerGains } from '@/lib/academy/efficacy'
 import { getMasteryMap } from '@/lib/academy/mastery'
 import { AcademyShell } from '@/components/academy/academy-shell'
+import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { ProfileEditor } from '@/components/academy/profile/ProfileEditor'
 import { MasteryMap } from '@/components/academy/profile/MasteryMap'
 import styles from './profile-page.module.css'
@@ -32,7 +33,8 @@ export default async function ProfilePage() {
   ])
 
   return (
-    <AcademyShell active="profile">
+    <AcademyShell active="progress">
+      <GroupSubNav group="progress" tab="mastery" />
       <div className={styles.stack}>
         <MasteryMap map={masteryMap} />
         <ProfileEditor

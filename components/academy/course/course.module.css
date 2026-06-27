@@ -29,6 +29,8 @@
 .title { margin: 0.7rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2.1rem, 1.4rem + 2.4vw, 3.2rem); letter-spacing: -0.02em; line-height: 1.04; }
 .subtitle { margin: 0.7rem 0 0; max-width: 56ch; color: var(--dim); font-size: 1.08rem; line-height: 1.5; }
 .meta { margin: 1rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); }
+.progress { margin: 1.1rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; max-width: 30rem; }
+.progressLabel { font-family: var(--font-mono), monospace; font-size: 0.7rem; letter-spacing: 0.02em; color: var(--ac-mastery, #4ade80); }
 .heroRing { position: absolute; top: clamp(1.3rem, 1rem + 1.4vw, 2rem); right: clamp(1.3rem, 1rem + 1.4vw, 2rem); }
 .ring { display: block; }
 .ringText { fill: var(--ink); font-family: var(--font-mono), monospace; font-size: 14px; font-weight: 600; }

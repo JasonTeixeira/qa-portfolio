@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { topic, TOPICS } from '@/lib/academy/topics'
 import type { CourseOverview as Overview } from '@/lib/academy/content'
+import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import type { CSSProperties } from 'react'
 import styles from './course.module.css'
 
@@ -67,6 +68,18 @@ export function CourseOverview({
         <p className={styles.meta}>
           {overview.lessonsTotal} lessons · {overview.hours}h · {overview.level}
         </p>
+        {/* Overall course progress — only with real recorded progress (honest empty state otherwise). */}
+        {started ? (
+          <div className={styles.progress}>
+            <ProgressBar
+              value={pct}
+              ariaLabel={`Course progress: ${doneCount} of ${overview.lessonsTotal} lessons complete`}
+            />
+            <span className={styles.progressLabel}>
+              {doneCount}/{overview.lessonsTotal} lessons done · {pct}%
+            </span>
+          </div>
+        ) : null}
         <div className={styles.actions}>
           {ctaSlug ? (
             <Link href={`/academy/learn/${overview.slug}/${ctaSlug}`} className={styles.cta}>

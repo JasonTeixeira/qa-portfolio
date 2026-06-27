@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { ensureCommunityProfile, listFriends, listIncomingRequests, listCohorts } from '@/lib/academy/community'
 import { AcademyShell } from '@/components/academy/academy-shell'
+import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { CommunityHub } from '@/components/academy/community/CommunityHub'
 
 export const metadata: Metadata = {
@@ -26,7 +27,8 @@ export default async function CommunityPage() {
   ])
 
   return (
-    <AcademyShell active="community">
+    <AcademyShell active="compete">
+      <GroupSubNav group="compete" tab="community" />
       <CommunityHub
         myHandle={handle}
         friends={friends}

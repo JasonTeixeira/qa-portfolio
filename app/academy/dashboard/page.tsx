@@ -26,7 +26,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <AcademyShell active="dashboard" signedIn={dash.signedIn}>
+    <AcademyShell active="home" signedIn={dash.signedIn}>
       <Dashboard dash={dash} game={game} />
     </AcademyShell>
   )

@@ -40,7 +40,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const courseComplete = all.length > 0 && doneCount === all.length
 
   return (
-    <AcademyShell active="catalog">
+    <AcademyShell active="learn">
       {assessment ? <AssessmentBanner slug={slug} state={assessment} courseComplete={courseComplete} /> : null}
       <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
     </AcademyShell>

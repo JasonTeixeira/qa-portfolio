@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getReferralSummary } from '@/lib/academy/referrals'
 import { REFERRAL_REWARDS } from '@/lib/academy/referral-logic'
 import { AcademyShell } from '@/components/academy/academy-shell'
+import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { ReferralHub } from '@/components/academy/referral/ReferralHub'
 
 export const metadata: Metadata = {
@@ -24,7 +25,8 @@ export default async function ReferPage() {
   const { code, summary } = await getReferralSummary(user.id)
 
   return (
-    <AcademyShell active="refer">
+    <AcademyShell active="progress">
+      <GroupSubNav group="progress" tab="refer" />
       <ReferralHub code={code} link={`${SITE}/academy?ref=${code}`} summary={summary} rewards={REFERRAL_REWARDS} />
     </AcademyShell>
   )

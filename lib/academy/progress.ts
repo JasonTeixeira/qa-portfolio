@@ -54,6 +54,34 @@ export async function getAllCompletedLessonSlugs(): Promise<Set<string>> {
   }
 }
 
+/**
+ * Completed-lesson count per course for the current user (RLS-scoped), keyed by
+ * course_slug. Empty map when logged out. One query — used to paint honest
+ * progress bars on every catalog card without a per-course round-trip.
+ */
+export async function getCompletedCountByCourse(): Promise<Map<string, number>> {
+  try {
+    const sb = await createSupabaseServerClient()
+    const {
+      data: { user },
+    } = await sb.auth.getUser()
+    if (!user) return new Map()
+    const { data } = await sb
+      .from('academy_progress')
+      .select('course_slug')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+    const counts = new Map<string, number>()
+    for (const r of (data ?? []) as { course_slug: string }[]) {
+      counts.set(r.course_slug, (counts.get(r.course_slug) ?? 0) + 1)
+    }
+    return counts
+  } catch (err) {
+    console.error('[academy/progress] getCompletedCountByCourse failed', err)
+    return new Map()
+  }
+}
+
 /** The most-recently-touched lesson for "continue where you left off" (catalog resume card). */
 export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: string } | null> {
   try {

@@ -1,5 +1,10 @@
 import type { Metadata } from 'next'
-import { getContinue, getCourseProgress, getAllCompletedLessonSlugs } from '@/lib/academy/progress'
+import {
+  getContinue,
+  getCourseProgress,
+  getAllCompletedLessonSlugs,
+  getCompletedCountByCourse,
+} from '@/lib/academy/progress'
 import { getCatalogCourses, getCourse, getLessonsByCourse } from '@/lib/academy/content'
 import { CatalogClient } from '@/components/academy/catalog/CatalogClient'
 import { ContentMap } from '@/components/academy/catalog/ContentMap'
@@ -30,7 +35,16 @@ export default async function CatalogPage({
   const { view: rawView } = await searchParams
   const view: View = rawView === 'map' ? 'map' : 'browse'
 
-  const [cont, dbCourses] = await Promise.all([getContinue(), getCatalogCourses()])
+  const [cont, dbCourses, doneByCourse] = await Promise.all([
+    getContinue(),
+    getCatalogCourses(),
+    getCompletedCountByCourse(),
+  ])
+
+  // Honest per-card progress: done count (RLS-scoped, 0 when signed out) over the
+  // course's published lesson total. Plain serializable record for the client.
+  const progress: Record<string, number> = {}
+  for (const c of dbCourses) progress[c.slug] = doneByCourse.get(c.slug) ?? 0
 
   // Resume card shows ONLY for a signed-in learner with real, recorded progress.
   // Signed-out / fresh visitors get no card (no fake illustrative progress bar).
@@ -71,7 +85,7 @@ export default async function CatalogPage({
   }
 
   return (
-    <AcademyShell active="catalog">
+    <AcademyShell active="learn">
       <div className="mx-auto max-w-6xl px-5 pt-4 sm:px-8">
         <TabBar tabs={TABS} active={view} ariaLabel="Catalog views" />
       </div>
@@ -89,6 +103,7 @@ export default async function CatalogPage({
           paths={[]}
           courses={dbCourses}
           totalCourses={dbCourses.length}
+          progress={progress}
         />
       )}
     </AcademyShell>

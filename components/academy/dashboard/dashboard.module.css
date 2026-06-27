@@ -141,7 +141,22 @@
 .courseTag { font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--topic); padding-top: 0.45rem; }
 .courseTitle { margin: 0.9rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.28rem; letter-spacing: -0.02em; }
 .courseMeta { margin-top: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); }
-.courseCta { margin-top: 1.1rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
+.courseProgress { margin-top: 0.7rem; }
+.courseCta { margin-top: auto; padding-top: 1.1rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
+
+/* streak strip — honest trailing 7 days */
+.streak { margin: 0 0 1.5rem; padding: 1rem 1.2rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 14px; background: var(--ac-surface, rgba(255, 255, 255, 0.02)); }
+.streakHead { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.streakKicker { font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.streakSummary { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--dim); }
+.streakRow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.streakCell { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; padding: 0.55rem 0; border: 1px solid var(--ac-rule, var(--line)); border-radius: 10px; background: var(--ac-surface-2, rgba(255, 255, 255, 0.015)); }
+.streakOn { border-color: color-mix(in srgb, var(--ac-mastery, #4ade80) 45%, transparent); background: color-mix(in srgb, var(--ac-mastery, #4ade80) 12%, transparent); }
+.streakToday { outline: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 55%, transparent); outline-offset: 1px; }
+.streakDot { font-size: 0.85rem; line-height: 1; color: var(--muted); }
+.streakOn .streakDot { color: var(--ac-mastery, #4ade80); }
+.streakDay { font-family: var(--font-mono), monospace; font-size: 0.6rem; letter-spacing: 0.04em; color: var(--muted); }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 /* certificate cards */
 .certGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }

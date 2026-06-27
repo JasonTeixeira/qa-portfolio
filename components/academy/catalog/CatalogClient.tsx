@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
 import { CATEGORIES, TRACKS, type AcademyTrack } from '@/lib/academy/taxonomy'
 import type { PathItem, CourseItem, Level } from '@/data/academy/learn-catalog'
+import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import styles from './catalog.module.css'
 
 type ResumeCard = { kicker: string; title: string; sub: string; href: string; pct: number }
@@ -21,11 +22,14 @@ export function CatalogClient({
   paths,
   courses,
   totalCourses,
+  progress = {},
 }: {
   resume: ResumeCard | null
   paths: PathItem[]
   courses: CourseItem[]
   totalCourses: number
+  /** Completed-lesson count per course slug (RLS-scoped, 0 when signed out). */
+  progress?: Record<string, number>
 }) {
   const [trackFilter, setTrackFilter] = useState<AcademyTrack | null>(null)
   const [level, setLevel] = useState<'All' | Level>('All')
@@ -210,20 +214,39 @@ export function CatalogClient({
           </div>
         ) : (
           <div className={styles.courseGrid}>
-            {filtered.map((c) => (
-              <Link key={c.slug} href={`/academy/course/${c.slug}`} className={styles.courseCard} style={tvars(c.topic)}>
-                <div className={styles.courseTop}>
-                  <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
-                  <span className={styles.courseLevel}>{c.level}</span>
-                </div>
-                <h3 className={styles.courseTitle}>{c.title}</h3>
-                <span className={styles.courseMeta}>{c.lessons} lessons · {c.hours}h</span>
-                <div className={styles.courseFoot}>
-                  <span className={styles.courseStart}>Start →</span>
-                  <span className={styles.coursePath}>+ add to path</span>
-                </div>
-              </Link>
-            ))}
+            {filtered.map((c) => {
+              const done = Math.min(progress[c.slug] ?? 0, c.lessons)
+              const started = done > 0
+              const pct = c.lessons ? Math.round((done / c.lessons) * 100) : 0
+              const finished = c.lessons > 0 && done >= c.lessons
+              return (
+                <Link key={c.slug} href={`/academy/course/${c.slug}`} className={styles.courseCard} style={tvars(c.topic)}>
+                  <div className={styles.courseTop}>
+                    <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
+                    <span className={styles.courseLevel}>{c.level}</span>
+                  </div>
+                  <h3 className={styles.courseTitle}>{c.title}</h3>
+                  <span className={styles.courseMeta}>{c.lessons} lessons · {c.hours}h</span>
+                  {/* Progress only when there's real recorded progress — no fake 0% bars. */}
+                  {started ? (
+                    <div className={styles.courseProgress}>
+                      <ProgressBar
+                        value={pct}
+                        size="sm"
+                        ariaLabel={`${c.title}: ${done} of ${c.lessons} lessons complete`}
+                      />
+                      <span className={styles.courseProgressLabel}>
+                        {done}/{c.lessons} lessons · {pct}%
+                      </span>
+                    </div>
+                  ) : null}
+                  <div className={styles.courseFoot}>
+                    <span className={styles.courseStart}>{finished ? '✓ Finished' : started ? 'Continue →' : 'Start →'}</span>
+                    <span className={styles.coursePath}>+ add to path</span>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         )}
       </section>

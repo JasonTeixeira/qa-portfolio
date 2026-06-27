@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { completeOnboarding } from '@/app/academy/_actions/onboarding'
+import { Course00 } from './Course00'
 import styles from './onboarding.module.css'
 
 const GOALS = [
@@ -33,6 +34,7 @@ const LOOP = [
 const STEPS = 4
 
 export function OnboardingFlow() {
+  const [showPrimer, setShowPrimer] = useState(true)
   const [step, setStep] = useState(0)
   const [goal, setGoal] = useState<string | null>(null)
   const [calibration, setCalibration] = useState<string | null>(null)
@@ -44,6 +46,21 @@ export function OnboardingFlow() {
     start(() => {
       void completeOnboarding({ goal, calibrationLevel: calibration, dailyGoalXp })
     })
+  }
+
+  if (showPrimer) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.primerShell}>
+          <Course00 />
+          <div className={styles.primerActions}>
+            <button type="button" className={styles.primary} onClick={() => setShowPrimer(false)}>
+              Continue — set up my account →
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

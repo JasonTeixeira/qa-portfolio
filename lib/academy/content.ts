@@ -74,6 +74,35 @@ export async function getCourse(slug: string): Promise<Course | null> {
   }
 }
 
+/**
+ * Ordered lessons (slug + title) for every given course, keyed by course slug,
+ * in lesson order. Used by the Content Map. One query covers all courses.
+ */
+export async function getLessonsByCourse(
+  courseSlugs: string[],
+): Promise<Record<string, { slug: string; title: string }[]>> {
+  if (courseSlugs.length === 0) return {}
+  try {
+    const sb = await createSupabaseServerClient()
+    const { data: lessons } = await sb
+      .from('academy_lessons')
+      .select('slug, title, course_slug, module_sort, sort')
+      .in('course_slug', courseSlugs)
+      .eq('status', 'published')
+      .order('module_sort')
+      .order('sort')
+
+    const byCourse: Record<string, { slug: string; title: string }[]> = {}
+    for (const l of lessons ?? []) {
+      ;(byCourse[l.course_slug] ??= []).push({ slug: l.slug, title: l.title })
+    }
+    return byCourse
+  } catch (err) {
+    console.error('[academy/content] getLessonsByCourse failed', err)
+    return {}
+  }
+}
+
 export type OverviewLesson = { slug: string; title: string; estMinutes: number; isFreePreview: boolean }
 export type OverviewModule = { title: string; lessons: OverviewLesson[] }
 export type CourseOverview = {

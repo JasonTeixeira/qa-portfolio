@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Course00 } from '@/components/academy/onboarding/Course00'
 import styles from './resources.module.css'
 
 type Tool = { glyph: string; name: string; body: string; href: string; cta: string; live: boolean }
@@ -61,6 +62,11 @@ export function ResourcesHub() {
             ),
           )}
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.h2}>The method</h2>
+        <Course00 />
       </section>
     </div>
   )

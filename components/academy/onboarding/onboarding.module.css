@@ -17,6 +17,16 @@
 
 .shell { width: 100%; max-width: 620px; }
 
+.primerShell { width: 100%; max-width: 760px; }
+.primerActions {
+  margin-top: var(--ac-gutter, 2rem);
+  padding-top: var(--ac-space, 1.2rem);
+  border-top: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+  display: flex;
+  justify-content: flex-start;
+}
+.primerActions .primary { margin-top: 0; }
+
 .track { display: grid; grid-auto-flow: column; gap: 0.4rem; margin-bottom: 2rem; }
 .track span { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); transition: background 0.3s ease; }
 .track span[data-on='true'] { background: var(--accent); }

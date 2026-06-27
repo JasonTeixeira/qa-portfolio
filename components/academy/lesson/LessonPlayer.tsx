@@ -13,6 +13,8 @@ import { ScoreCapMeter } from '@/components/academy/shell/ScoreCapMeter'
 import type { UnitState } from '@/lib/academy/evidence-events-logic'
 import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
+import { NotesPanel } from './NotesPanel'
+import type { LessonNote } from '@/lib/academy/notes'
 import styles from './lesson.module.css'
 
 const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
@@ -170,6 +172,7 @@ export function LessonPlayer({
   labHref,
   unitState,
   unitScore,
+  notes = [],
 }: {
   course: Course
   lesson: Lesson
@@ -182,6 +185,8 @@ export function LessonPlayer({
   unitState?: UnitState
   /** Tier-0 capped mastery score for the header meter (null when no user). */
   unitScore?: ScoreResolution | null
+  /** The current learner's notes for this lesson (empty when signed out). */
+  notes?: LessonNote[]
 }) {
   const resolvedLabHref = labHref ?? `/academy/learn/${course.slug}/${lesson.slug}/lab`
   const t = topic(course.topic)
@@ -334,6 +339,16 @@ export function LessonPlayer({
               <Block key={i} block={b} labHref={resolvedLabHref} courseSlug={course.slug} lessonSlug={lesson.slug} />
             ))
           )}
+          {!locked ? (
+            <section className={styles.notesSlot} aria-label="Your notes">
+              <NotesPanel
+                courseSlug={course.slug}
+                lessonSlug={lesson.slug}
+                signedIn={signedIn}
+                notes={notes}
+              />
+            </section>
+          ) : null}
         </article>
       </main>
 

@@ -3,6 +3,7 @@ import { signOut } from '@/app/auth/actions'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getGamification } from '@/lib/academy/gamification'
 import { getDueCount } from '@/lib/academy/fsrs'
+import { CommandPalette } from '@/components/academy/search/CommandPalette'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
@@ -148,6 +149,7 @@ export async function AcademyShell({
           </nav>
 
           <div className="ml-auto flex items-center gap-2.5">
+            <CommandPalette />
             {signedIn ? (
               <>
                 <HabitWidget />

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { LessonPlayer } from '@/components/academy/lesson/LessonPlayer'
 import { getCourse, getLesson } from '@/lib/academy/content'
 import { getCourseProgress } from '@/lib/academy/progress'
+import { listNotes } from '@/lib/academy/notes'
 import { getAcademyAccess, isLessonUnlocked } from '@/lib/academy/access'
 import { getUnitState, getUnitScore } from '@/lib/academy/evidence-events'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
@@ -28,9 +29,10 @@ export default async function LearnPage({
   ])
   if (!baseCourse || !lesson) notFound()
 
-  const [{ signedIn, completed }, access] = await Promise.all([
+  const [{ signedIn, completed }, access, notes] = await Promise.all([
     getCourseProgress(baseCourse.slug),
     getAcademyAccess(),
+    listNotes(courseSlug, lessonSlug),
   ])
   const locked = !isLessonUnlocked(lesson.isFreePreview ?? false, access)
 
@@ -89,6 +91,7 @@ export default async function LearnPage({
       locked={locked}
       unitState={unitState}
       unitScore={unitScore}
+      notes={notes}
     />
   )
 }

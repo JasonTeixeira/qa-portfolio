@@ -9090,6 +9090,59 @@ test('metrics-logic: currRate, evidenceFunnel, aggregateGain honor MIN_AGGREGATE
   assert.ok(g.meanG > 0.6 && g.meanG < 0.75); // hakeG(40,80) = 0.67
 });
 
+// ------------------------------------------------- tier-3 experience logic
+
+test('content-map-logic: buildContentMap tags done/current/upcoming + rollups', async () => {
+  const { buildContentMap } = await import('../../lib/academy/content-map-logic.ts');
+  const map = buildContentMap(
+    [{ slug: 'a', title: 'A', topic: 'foundations', level: 'Beginner' }],
+    { a: [{ slug: 'a1', title: 'L1' }, { slug: 'a2', title: 'L2' }] },
+    new Set(['a1']),
+  );
+  assert.equal(map.isEmpty, false);
+  assert.equal(map.total, 2);
+  assert.equal(map.done, 1);
+  const course = map.tracks[0].courses[0];
+  assert.equal(course.state, 'in-progress');
+  assert.equal(course.pct, 50);
+  assert.equal(course.currentLessonSlug, 'a2');
+  assert.equal(course.lessons[0].state, 'done');
+  assert.equal(course.lessons[1].state, 'current');
+  // empty map → honest empty
+  const empty = buildContentMap([], {}, new Set());
+  assert.equal(empty.isEmpty, true);
+  assert.equal(empty.total, 0);
+  assert.equal(empty.tracks.length, 0);
+});
+
+test('mastery-logic: deriveMasteryLevel buckets by score + state', async () => {
+  const { deriveMasteryLevel, buildMasteryMap } = await import('../../lib/academy/mastery-logic.ts');
+  assert.equal(deriveMasteryLevel({ score: 0, state: 'locked' }), 'locked');
+  assert.equal(deriveMasteryLevel({ score: 95, state: 'complete' }), 'mastered');
+  assert.equal(deriveMasteryLevel({ score: 85, state: 'transfer_due' }), 'proven'); // score >= 82
+  assert.equal(deriveMasteryLevel({ score: 88, state: 'complete' }), 'proven'); // complete but < 90
+  assert.equal(deriveMasteryLevel({ score: 50, state: 'in_progress' }), 'learning');
+  assert.equal(buildMasteryMap([], []).isCollecting, true); // honest collecting when nothing unlocked
+});
+
+test('search-logic: rankAcademySearch filters + ranks prefix over substring', async () => {
+  const { rankAcademySearch } = await import('../../lib/academy/search-logic.ts');
+  const items = [
+    { kind: 'course', title: 'Python Basics', href: '/a' },
+    { kind: 'lesson', title: 'Intro to JavaScript', href: '/b' },
+  ];
+  assert.deepEqual(rankAcademySearch('', items), []); // empty query → nothing
+  const r = rankAcademySearch('python', items);
+  assert.equal(r.length, 1);
+  assert.equal(r[0].title, 'Python Basics');
+  // prefix ('Python') ranks above substring ('Happy' contains 'py')
+  const ranked = rankAcademySearch('py', [
+    { kind: 'lesson', title: 'Happy Path', href: '/c' },
+    { kind: 'course', title: 'Python', href: '/d' },
+  ]);
+  assert.equal(ranked[0].title, 'Python');
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

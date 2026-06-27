@@ -45,7 +45,10 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Run on everything except static assets and image/feed files.
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
+    // Run on everything except Next internals (static, image, AND the dev HMR
+    // websocket /_next/webpack-hmr — matching only _next/static|_next/image let
+    // the middleware process the HMR upgrade and break it, killing dev hydration)
+    // and static asset/feed files.
+    '/((?!_next|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 };

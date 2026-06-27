@@ -9169,6 +9169,25 @@ test('tutor-logic: looksLikeTutorInjection flags injections, allows real questio
   assert.equal(looksLikeTutorInjection(''), false);
 });
 
+test('tutor-logic: isLikelyOnTopic gates off-topic questions (guardrail)', async () => {
+  const { isLikelyOnTopic } = await import('../../lib/academy/tutor-logic.ts');
+  // on-topic (software / data-AI / learning / careers) → true
+  for (const q of [
+    'How do I fix this Python loop?',
+    'Explain async/await',
+    'How do I make progress in this lesson?',
+    'tips for a coding interview',
+    'what is an embedding vector',
+  ]) assert.equal(isLikelyOnTopic(q), true, q);
+  // clearly off-topic → false (the hard guardrail refuses these without an LLM call)
+  for (const q of [
+    "What's the weather tomorrow?",
+    'Who won the NBA game?',
+    'Should I buy this stock?',
+    'Write my essay about whales',
+  ]) assert.equal(isLikelyOnTopic(q), false, q);
+});
+
 // -------------------------------------------------------------- runner
 
 let pass = 0;

@@ -44,9 +44,17 @@ export const TUTOR_SYSTEM: string =
   'that lets the learner reach the answer themselves; only give a direct answer when the ' +
   'learner is genuinely stuck or explicitly asks for it, and even then follow it with a ' +
   'quick check-for-understanding question. Stay concise — a few sentences, not an essay.\n\n' +
-  'Ground every answer in the ACADEMY CONTEXT provided below. If the context does not cover ' +
-  "the question, say so honestly and point the learner toward the right lesson or topic " +
-  'rather than inventing specifics.\n\n' +
+  'Ground every answer in the ACADEMY CONTEXT provided below — the retrieved course passages ' +
+  'and the current-lesson distillate. If the context does not cover the question, say so ' +
+  'honestly and point the learner toward the right lesson or topic rather than inventing ' +
+  'specifics — NEVER fabricate facts, code, or course details that are not supported here.\n\n' +
+  'SCOPE: you ONLY help with the Sage Academy courses (software engineering, data/AI), the ' +
+  'concepts they teach, and how to learn and make progress through them. If a question is ' +
+  'clearly outside that scope — weather, sports, politics, medical/legal/financial advice, ' +
+  'stock tips, personal chit-chat, "write my essay/homework", or anything unrelated to the ' +
+  'course material and unsupported by the context — REFUSE politely in one or two sentences ' +
+  'and redirect the learner back to a lesson, a concept, or how to make progress. Do not ' +
+  'attempt the off-topic task.\n\n' +
   'When it is relevant, teach the academy method: every lesson runs the 5-beat loop ' +
   'HOOK → MODEL → DO → PROVE → LOCK, and mastery here is evidence-gated — you reach it by ' +
   'PROVING you can do the thing (passing a teachback, shipping the mission), not by reading ' +
@@ -78,6 +86,85 @@ const INJECTION_PATTERNS: readonly RegExp[] = [
 export function looksLikeTutorInjection(text: string): boolean {
   if (typeof text !== 'string' || !text.trim()) return false
   return INJECTION_PATTERNS.some((re) => re.test(text))
+}
+
+/**
+ * Terms that signal a question is plausibly about software engineering, data/AI,
+ * the course material, learning/study, or careers in tech. A GENEROUS allowlist:
+ * when any of these appear we lean on-topic and let the LLM + grounding judge
+ * nuance. Lowercased substring match (so "functions", "debugging" hit too).
+ */
+const ON_TOPIC_TERMS: readonly string[] = [
+  // languages / runtimes
+  'python', 'javascript', 'typescript', 'java', 'golang', ' go ', 'rust', 'sql', 'html', 'css',
+  'bash', 'shell', 'react', 'node', 'next.js', 'nextjs',
+  // core CS / engineering
+  'code', 'coding', 'program', 'function', 'variable', 'loop', 'array', 'object', 'class',
+  'method', 'syntax', 'compile', 'runtime', 'algorithm', 'data structure', 'recursion',
+  'pointer', 'memory', 'async', 'await', 'promise', 'thread', 'concurren',
+  'bug', 'debug', 'error', 'exception', 'stack trace', 'test', 'refactor', 'git', 'commit',
+  'api', 'endpoint', 'request', 'response', 'json', 'http', 'server', 'client', 'backend',
+  'frontend', 'database', 'query', 'schema', 'migration', 'deploy', 'build', 'framework',
+  'library', 'package', 'dependency', 'terminal', 'command line', 'file', 'string', 'integer',
+  'boolean', 'conditional', 'if statement', 'else', 'parameter', 'argument', 'return',
+  // data / AI
+  'data', 'dataset', 'machine learning', 'ml ', 'model', 'neural', 'embedding', 'vector',
+  'rag', 'llm', 'prompt', 'token', 'training', 'inference', 'pipeline', 'feature', 'pandas',
+  'numpy', 'tensor', 'statistic', 'regression', 'classification', 'ai ', 'artificial intelligence',
+  // learning / academy
+  'lesson', 'course', 'module', 'concept', 'mission', 'teachback', 'sprint', 'mastery',
+  // NOTE: only concrete academy nouns here — NOT generic question-forms ("what's",
+  // "how do i") which would match any off-topic question phrased as a question.
+  'practice', 'exercise', 'quiz', 'study', 'learn', 'review', 'curriculum',
+  // careers in tech
+  'engineer', 'developer', 'interview', 'portfolio', 'resume', 'career', 'job', 'internship',
+]
+
+/**
+ * Phrases that mark a question as clearly OFF-topic even if a stray allowlist
+ * word slips in. Checked first so e.g. "write my essay about the weather" or
+ * "should i buy this stock" are rejected.
+ */
+const OFF_TOPIC_TERMS: readonly string[] = [
+  'weather', 'forecast', 'temperature outside',
+  'football', 'soccer', 'basketball', 'baseball', 'nba', 'nfl', 'world cup', 'sports score',
+  'politic', 'election', 'president', 'congress', 'vote for',
+  'medical advice', 'diagnos', 'symptom of', 'prescription', 'should i take',
+  'legal advice', 'sue ', 'lawsuit', 'lawyer',
+  'stock tip', 'buy stock', 'sell stock', 'invest in', 'crypto price', 'bitcoin price',
+  'write my essay', 'write my homework', 'do my homework', 'write my paper',
+  'horoscope', 'astrology', 'recipe for', 'cook ', 'dating', 'girlfriend', 'boyfriend',
+  'tell me a joke', 'who are you dating', 'movie recommendation', 'song lyrics',
+]
+
+/**
+ * PURE relevance gate. Returns true when the text plausibly concerns software
+ * engineering, data/AI, the course material, learning/study, or tech careers;
+ * false for clearly off-topic asks (weather, sports, politics, medical/legal,
+ * stock tips, "write my essay", chit-chat).
+ *
+ * Conservative by design: when nothing clearly off-topic is present and no
+ * allowlist term matches either, it leans TRUE — the LLM + KB grounding handle
+ * nuance, and the IO layer's hard guardrail also weighs retrieval score. Only a
+ * clearly off-topic phrase (and no on-topic term) forces FALSE.
+ */
+export function isLikelyOnTopic(text: string): boolean {
+  if (typeof text !== 'string') return false
+  const normalized = ` ${text.toLowerCase().replace(/\s+/g, ' ').trim()} `
+  if (normalized.trim().length === 0) return false
+
+  const onTopic = ON_TOPIC_TERMS.some((t) => normalized.includes(t))
+  if (onTopic) return true
+
+  const offTopic = OFF_TOPIC_TERMS.some((t) => normalized.includes(t))
+  if (offTopic) return false
+
+  // Firm guardrail: with no clear on-topic (software / data-AI / learning / career)
+  // signal, treat as off-topic. KB relevance (topScore ≥ RELEVANCE_MIN) is the escape
+  // hatch for in-scope questions that lack an obvious keyword, so a real lesson
+  // question still gets answered while "weather"/"stock tips"/etc. — which match
+  // nothing and retrieve nothing — are declined without an LLM call.
+  return false
 }
 
 /**

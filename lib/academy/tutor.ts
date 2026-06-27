@@ -2,25 +2,31 @@ import 'server-only'
 
 import {
   buildTutorMessages,
+  isLikelyOnTopic,
   looksLikeTutorInjection,
   type TutorTurn,
 } from '@/lib/academy/tutor-logic'
 import { getCatalogCourses, getCourse, getLesson } from '@/lib/academy/content'
+import { retrieveAcademyKb, type AcademyKbChunk } from '@/lib/academy/kb'
 import { deepSeekChat } from '@/lib/rag/deepseek'
 import type { LessonBlock } from '@/data/academy/sample-course'
 
 /**
- * The AI tutor IO layer. Validates the learner message, builds a grounded
- * knowledge-base context from the published lesson/course (or the academy method
- * + course catalog when no lesson is in scope), then asks deepSeekChat to reply
+ * The AI tutor IO layer. Validates the learner message, retrieves grounding from
+ * the academy-native RAG corpus (academy_kb_chunks) AND the current lesson/course
+ * distillate, applies a hard relevance guardrail, then asks deepSeekChat to reply
  * as the Sage Academy tutor.
  *
  * @security
  *  - userId is taken from the authenticated session by the caller — NEVER from
  *    the request body.
- *  - Lesson/course content and the learner message are untrusted: the prompt
- *    (see tutor-logic) fences them and instructs the model to ignore embedded
- *    instructions, and an injection pre-check short-circuits before any LLM call.
+ *  - Lesson/course content, retrieved passages, and the learner message are
+ *    untrusted: the prompt (see tutor-logic) fences them and instructs the model
+ *    to ignore embedded instructions; an injection pre-check short-circuits
+ *    before any LLM call.
+ *  - HARD GUARDRAIL: when retrieval finds nothing relevant (topScore <
+ *    RELEVANCE_MIN) AND the message isn't plausibly on-topic, the tutor refuses
+ *    and redirects WITHOUT calling the LLM.
  *  - Best-effort: a missing key or any IO/LLM failure degrades to a warm
  *    "warming up" reply and NEVER throws to the client.
  */
@@ -31,9 +37,23 @@ const TUTOR_MAX_TOKENS = 500
 const TUTOR_TEMPERATURE = 0.3
 
 /** Bound the grounding context so the prompt stays small and cheap. */
-const MAX_KB_CHARS = 4000
+const MAX_KB_CHARS = 5000
+
+/** How many KB passages to retrieve for grounding. */
+const KB_RETRIEVE_LIMIT = 6
+
+/**
+ * Hard relevance floor for the no-LLM guardrail. If the best retrieved chunk
+ * scores below this AND the message isn't plausibly on-topic, we refuse without
+ * calling the LLM (cost + a firm guardrail).
+ */
+const RELEVANCE_MIN = 0.34
 
 const WARMING_UP_REPLY = 'Your tutor is warming up — ask me again in a moment.'
+
+const OFF_SCOPE_REPLY =
+  "I'm your Sage Academy tutor — I can only help with the courses here and how to learn them. " +
+  'Ask me about a lesson, a concept, or how to make progress.'
 
 export type AskTutorInput = {
   message: string
@@ -169,11 +189,11 @@ function distillLessonBlocks(blocks: LessonBlock[]): string {
 }
 
 /**
- * Build the server-side grounding context. With a lesson in scope, distill its
+ * Build the current-lesson grounding context. With a lesson in scope, distill its
  * key blocks + the course title/subtitle. Otherwise, ground in the academy
  * method plus a short catalog of course titles so the tutor can point somewhere.
  */
-async function buildKbContext(courseSlug?: string, lessonSlug?: string): Promise<string> {
+async function buildLessonContext(courseSlug?: string, lessonSlug?: string): Promise<string> {
   if (courseSlug && lessonSlug) {
     try {
       const [lesson, course] = await Promise.all([
@@ -185,10 +205,10 @@ async function buildKbContext(courseSlug?: string, lessonSlug?: string): Promise
           (course ? `COURSE: ${course.title}${course.subtitle ? ` — ${course.subtitle}` : ''}\n` : '') +
           `LESSON: ${lesson.title}${lesson.eyebrow ? ` (${lesson.eyebrow})` : ''}\n`
         const body = distillLessonBlocks(lesson.blocks)
-        return clampKb(`${header}\n${body}`.trim())
+        return `${header}\n${body}`.trim()
       }
     } catch (err) {
-      console.error('[academy/tutor] buildKbContext lesson load failed', err)
+      console.error('[academy/tutor] buildLessonContext lesson load failed', err)
       // fall through to the catalog grounding
     }
   }
@@ -199,17 +219,46 @@ async function buildKbContext(courseSlug?: string, lessonSlug?: string): Promise
     const catalog = courses.length
       ? `AVAILABLE COURSES:\n${courses.map((c) => `- ${c.title}`).join('\n')}`
       : 'The course catalog is loading.'
-    return clampKb(
+    return (
       'No single lesson is in scope. Sage Academy teaches software engineering and data/AI ' +
-        'through hands-on, evidence-gated lessons that run the 5-beat loop ' +
-        'HOOK → MODEL → DO → PROVE → LOCK. Learners reach mastery by proving they can do the ' +
-        'work (passing a teachback, shipping the mission), not by reading or watching.\n\n' +
-        catalog,
+      'through hands-on, evidence-gated lessons that run the 5-beat loop ' +
+      'HOOK → MODEL → DO → PROVE → LOCK. Learners reach mastery by proving they can do the ' +
+      'work (passing a teachback, shipping the mission), not by reading or watching.\n\n' +
+      catalog
     )
   } catch (err) {
-    console.error('[academy/tutor] buildKbContext catalog load failed', err)
+    console.error('[academy/tutor] buildLessonContext catalog load failed', err)
     return 'Sage Academy teaches software engineering and data/AI through hands-on, evidence-gated lessons.'
   }
+}
+
+/** Render retrieved KB passages with their course/lesson headings, best-first. */
+function formatRetrievedPassages(chunks: AcademyKbChunk[]): string {
+  if (!chunks.length) return ''
+  return chunks
+    .map((c, i) => {
+      const heading = c.heading || `${c.courseSlug} · ${c.lessonSlug}`
+      return `[${i + 1}] ${heading}\n${c.content}`
+    })
+    .join('\n\n')
+}
+
+/**
+ * Compose the full grounding context from BOTH the current-lesson distillate and
+ * the retrieved KB passages, each clearly labelled. Bounded to {@link MAX_KB_CHARS}.
+ */
+function composeKbContext(lessonContext: string, chunks: AcademyKbChunk[]): string {
+  const sections: string[] = []
+  if (lessonContext.trim()) {
+    sections.push(`=== CURRENT LESSON ===\n${lessonContext.trim()}`)
+  }
+  const passages = formatRetrievedPassages(chunks)
+  if (passages) {
+    sections.push(`=== RETRIEVED COURSE PASSAGES (most relevant first) ===\n${passages}`)
+  }
+  const composed = sections.join('\n\n')
+  if (composed.length <= MAX_KB_CHARS) return composed
+  return `${composed.slice(0, MAX_KB_CHARS)}\n…(context truncated)`
 }
 
 export async function askTutor(input: AskTutorInput, userId: string): Promise<AskTutorResult> {
@@ -243,13 +292,26 @@ export async function askTutor(input: AskTutorInput, userId: string): Promise<As
     }
   }
 
+  // Retrieve academy KB passages (best-effort: never throws) + the current-lesson
+  // distillate. Both feed the grounding context and the hard relevance guardrail.
+  const [retrieval, lessonContext] = await Promise.all([
+    retrieveAcademyKb(message, KB_RETRIEVE_LIMIT),
+    buildLessonContext(input.courseSlug, input.lessonSlug),
+  ])
+
+  // HARD GUARDRAIL (before any LLM call): if nothing in the KB is even close AND
+  // the question doesn't look on-topic, refuse + redirect without spending a call.
+  if (retrieval.topScore < RELEVANCE_MIN && !isLikelyOnTopic(message)) {
+    return { available: true, reply: OFF_SCOPE_REPLY }
+  }
+
   // Honest degrade with no LLM key — never crash.
   if (!process.env.DEEPSEEK_API_KEY?.trim()) {
     return { available: false, reply: WARMING_UP_REPLY }
   }
 
   try {
-    const kbContext = await buildKbContext(input.courseSlug, input.lessonSlug)
+    const kbContext = composeKbContext(lessonContext, retrieval.chunks)
     const history = Array.isArray(input.history) ? input.history : []
 
     const result = await deepSeekChat({

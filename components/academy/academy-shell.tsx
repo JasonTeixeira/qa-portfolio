@@ -5,6 +5,7 @@ import { getGamification } from '@/lib/academy/gamification'
 import { getDueCount } from '@/lib/academy/fsrs'
 import { CommandPalette } from '@/components/academy/search/CommandPalette'
 import { AiTutorPanel } from '@/components/academy/tutor/AiTutorPanel'
+import { Icon } from '@/components/academy/ui/Icon'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
@@ -124,10 +125,10 @@ export async function AcademyShell({
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
           <Link href="/academy/dashboard" className="group flex items-center gap-2.5 shrink-0">
             <span
-              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent-strong)] text-[13px] font-bold text-white"
+              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent-strong)] text-white"
               aria-hidden
             >
-              ◆
+              <Icon name="compass" size={16} />
             </span>
             <span className="leading-tight">
               <span

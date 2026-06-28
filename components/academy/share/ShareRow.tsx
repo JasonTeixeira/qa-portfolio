@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './share.module.css'
 
 /**
@@ -42,13 +43,19 @@ export function ShareRow({
   return (
     <div className={styles.row}>
       <button type="button" className={styles.btn} onClick={copy}>
-        {copied ? '✓ Copied' : '⧉ Copy link'}
+        {copied ? (
+          <>
+            <Icon name="check" size={14} aria-hidden="true" /> Copied
+          </>
+        ) : (
+          'Copy link'
+        )}
       </button>
       <a className={styles.btn} href={linkedInCert ?? linkedInShare} target="_blank" rel="noopener noreferrer">
-        in {cert ? 'Add to LinkedIn' : 'Share on LinkedIn'}
+        {cert ? 'Add to LinkedIn' : 'Share on LinkedIn'}
       </a>
       <a className={styles.btn} href={xShare} target="_blank" rel="noopener noreferrer">
-        𝕏 Share
+        Share on X
       </a>
     </div>
   )

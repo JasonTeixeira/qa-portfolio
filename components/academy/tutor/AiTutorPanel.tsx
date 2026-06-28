@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { OPENER_SUGGESTION_FALLBACK } from '@/lib/academy/tutor-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './tutor-panel.module.css'
 
 /**
@@ -434,7 +435,7 @@ export function AiTutorPanel() {
         onClick={() => setOpen(true)}
       >
         <span className={styles.launcherMark} aria-hidden="true">
-          ◆
+          <Icon name="sparkle" size={20} />
         </span>
         <span className={styles.launcherLabel}>Sage Tutor</span>
       </button>
@@ -455,7 +456,7 @@ export function AiTutorPanel() {
           >
             <header className={styles.header}>
               <span className={styles.headerMark} aria-hidden="true">
-                ◆
+                <Icon name="sparkle" size={18} />
               </span>
               <span className={styles.headerText}>
                 <span id={titleId} className={styles.title}>
@@ -491,7 +492,7 @@ export function AiTutorPanel() {
               {messages.length === 0 && !pending ? (
                 <div className={styles.empty}>
                   <span className={styles.emptyMark} aria-hidden="true">
-                    ◆
+                    <Icon name="sparkle" size={26} />
                   </span>
                   <p className={styles.emptyText}>
                     Ask me anything about this lesson — or how to learn it.
@@ -507,7 +508,7 @@ export function AiTutorPanel() {
                   <span className={styles.roleTag}>
                     {m.role === 'assistant' ? (
                       <>
-                        <span aria-hidden="true">◆</span> Tutor
+                        <Icon name="sparkle" size={12} aria-hidden="true" /> Tutor
                       </>
                     ) : (
                       'You'
@@ -526,7 +527,7 @@ export function AiTutorPanel() {
               {pending ? (
                 <div className={`${styles.row} ${styles.rowTutor}`}>
                   <span className={styles.roleTag}>
-                    <span aria-hidden="true">◆</span> Tutor
+                    <Icon name="sparkle" size={12} aria-hidden="true" /> Tutor
                   </span>
                   <div className={`${styles.bubble} ${styles.bubbleTutor} ${styles.pending}`} aria-label="Tutor is thinking">
                     <span className={styles.dot} />

@@ -68,7 +68,8 @@
   color: var(--ac-mastery);
 }
 .statusGlyph {
-  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
   line-height: 1;
 }
 
@@ -174,6 +175,9 @@
   text-overflow: ellipsis;
 }
 .itemCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   flex: none;
   font-family: var(--ac-font-mono);
   font-size: 0.68rem;

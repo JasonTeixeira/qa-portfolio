@@ -8,7 +8,7 @@
   max-width: 880px;
   margin: 0 auto;
   padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 5rem;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--ac-font-body);
   color: var(--ink);
 }
 
@@ -35,10 +35,10 @@
   z-index: 0;
 }
 .head { position: relative; z-index: 1; margin-bottom: 1.6rem; }
-.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
-.title { margin: 0.5rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 2.8rem); letter-spacing: -0.02em; }
+.kicker { margin: 0; font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
+.title { margin: 0.5rem 0 0; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 2.8rem); letter-spacing: -0.02em; }
 .sub { margin: 0.7rem 0 0; max-width: 58ch; color: var(--dim); line-height: 1.55; }
-.sub strong { color: var(--ink); font-family: var(--font-mono), monospace; }
+.sub strong { color: var(--ink); font-family: var(--ac-font-mono); }
 
 .card {
   position: relative; z-index: 1; margin-bottom: 1.1rem; padding: 1.4rem 1.5rem;
@@ -61,20 +61,20 @@
   background: var(--ac-surface, rgba(255, 255, 255, 0.012));
   box-shadow: none;
 }
-.h2 { margin: 0 0 1rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; }
+.h2 { margin: 0 0 1rem; font-family: var(--ac-font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; }
 .cardQuiet .h2 { margin-bottom: 0.85rem; font-size: 1.06rem; color: var(--dim); }
 
 .addRow { display: flex; align-items: center; gap: 0.5rem; }
-.at { font-family: var(--font-mono), monospace; color: var(--muted); }
+.at { font-family: var(--ac-font-mono); color: var(--muted); }
 .input {
   flex: 1; min-width: 0; padding: 0.7rem 0.9rem; border-radius: 10px;
   border: 1px solid var(--line); background: rgba(0, 0, 0, 0.25); color: var(--ink);
-  font-family: var(--font-mono), monospace; font-size: 0.92rem;
+  font-family: var(--ac-font-mono); font-size: 0.92rem;
 }
 .input:focus { outline: none; border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .primary {
   flex-shrink: 0; padding: 0.65rem 1.3rem; border-radius: 100px; border: none;
-  background: var(--ac-accent-strong); color: #fff; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.82rem;
+  background: var(--ac-accent-strong); color: #fff; font-family: var(--ac-font-display); font-weight: 700; font-size: 0.82rem;
   cursor: pointer; box-shadow: var(--ac-shadow);
 }
 .primary:disabled { opacity: 0.6; cursor: default; }
@@ -85,18 +85,19 @@
 .avatar {
   flex-shrink: 0; width: 2.2rem; height: 2.2rem; display: grid; place-items: center;
   border-radius: 50%; border: 1px solid var(--line); background: rgba(61, 107, 255, 0.12);
-  font-family: var(--font-display), sans-serif; font-weight: 700; color: var(--accent);
+  font-family: var(--ac-font-display); font-weight: 700; color: var(--accent);
 }
 .name { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; font-weight: 600; }
-.handle { font-family: var(--font-mono), monospace; font-size: 0.74rem; font-weight: 400; color: var(--muted); }
-.meta { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--dim); }
+.handle { font-family: var(--ac-font-mono); font-size: 0.74rem; font-weight: 400; color: var(--muted); }
+.meta { font-family: var(--ac-font-mono); font-size: 0.7rem; color: var(--dim); }
 .accept {
   margin-left: auto; flex-shrink: 0; padding: 0.5rem 1.1rem; border-radius: 100px;
   border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); background: rgba(61, 107, 255, 0.1);
-  color: #fff; font-family: var(--font-mono), monospace; font-size: 0.78rem; cursor: pointer;
+  color: #fff; font-family: var(--ac-font-mono); font-size: 0.78rem; cursor: pointer;
 }
 .friendStreak {
-  margin-left: auto; flex-shrink: 0; font-family: var(--font-display), sans-serif; font-weight: 800;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  margin-left: auto; flex-shrink: 0; font-family: var(--ac-font-display); font-weight: 800;
   font-variant-numeric: tabular-nums; color: var(--muted); font-size: 1.05rem;
 }
 .streakAlive { color: #f5a623; }
@@ -109,16 +110,16 @@
   border: 1px solid var(--line); border-radius: 50%;
   color: var(--muted); font-size: 1rem;
 }
-.emptyTitle { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); }
+.emptyTitle { margin: 0; font-family: var(--ac-font-display); font-weight: 500; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); }
 .emptyHelp { margin: 0; max-width: 48ch; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
 
 .cohortList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
 .cohort { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: 9px; background: rgba(255, 255, 255, 0.015); }
 .cohortInfo { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
-.cohortName { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.02rem; }
+.cohortName { font-family: var(--ac-font-display); font-weight: 700; font-size: 1.02rem; }
 .cohortDesc { font-size: 0.84rem; color: var(--dim); line-height: 1.4; }
-.cohortMeta { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--muted); }
-.joined { margin-left: auto; flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.8rem; color: #2dd4bf; }
+.cohortMeta { font-family: var(--ac-font-mono); font-size: 0.7rem; color: var(--muted); }
+.joined { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; flex-shrink: 0; font-family: var(--ac-font-mono); font-size: 0.8rem; color: #2dd4bf; }
 
 .discord {
   position: relative; z-index: 1; display: flex; align-items: center; gap: 1rem; margin-top: 0.3rem;
@@ -129,9 +130,9 @@
 .discord:hover { transform: translateY(-2px); }
 .discordGlyph { flex-shrink: 0; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: rgba(88, 101, 242, 0.2); color: #aab2ff; font-size: 1.3rem; }
 .copy { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
-.discordTitle { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1rem; }
+.discordTitle { font-family: var(--ac-font-display); font-weight: 700; font-size: 1rem; }
 .discordSub { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
-.discordCta { margin-left: auto; flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.8rem; color: #aab2ff; }
+.discordCta { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; flex-shrink: 0; font-family: var(--ac-font-mono); font-size: 0.8rem; color: #aab2ff; }
 
 @media (max-width: 540px) {
   .addRow { flex-wrap: wrap; }

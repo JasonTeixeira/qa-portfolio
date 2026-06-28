@@ -1993,7 +1993,7 @@ async function main() {
     .eq('status', 'published')
   await sb.from('academy_courses').update({ lessons: count ?? 0 }).eq('slug', COURSE_SLUG)
 
-  console.log(`✓ Seeded "${COURSE_SLUG}" — ${count ?? 0} published lesson(s), ${pretest.length} pre / ${posttest.length} post questions.`)
+  console.log(`Seeded "${COURSE_SLUG}" — ${count ?? 0} published lesson(s), ${pretest.length} pre / ${posttest.length} post questions.`)
 }
 
 main().catch((err) => {

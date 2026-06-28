@@ -38,7 +38,7 @@ export const button = (href: string, label: string) =>
   `<a href="${href}" style="display:inline-block;margin-top:8px;padding:13px 22px;border-radius:999px;background-color:#3d5afe;background:${GRAD};color:#ffffff;font-family:${FONT};font-weight:700;font-size:15px;text-decoration:none;">${label}</a>`
 
 /** Discord-blurple invite button. */
-export const discordButton = (href: string, label = 'Join the founding Discord →') =>
+export const discordButton = (href: string, label = 'Join the founding Discord') =>
   `<a href="${href}" style="display:inline-block;padding:14px 26px;border-radius:999px;background-color:#5865f2;color:#ffffff;font-family:${FONT};font-weight:700;font-size:15px;text-decoration:none;">${label}</a>`
 
 /** A position / founding callout card, echoing the on-site meter. */
@@ -56,7 +56,7 @@ export const checklist = (items: string[]) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">${items
     .map(
       (it) =>
-        `<tr><td style="padding:5px 0;font-family:${FONT};font-size:14px;color:#b6b6c0;line-height:1.5;"><span style="color:#3d5afe;font-weight:800;">✓</span>&nbsp;&nbsp;${it}</td></tr>`,
+        `<tr><td style="padding:5px 0;font-family:${FONT};font-size:14px;color:#b6b6c0;line-height:1.5;"><span style="display:inline-block;vertical-align:middle;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3d5afe" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>&nbsp;&nbsp;${it}</td></tr>`,
     )
     .join('')}</table>`
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useSound } from '@/hooks/useSound'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './sound-toggle.module.css'
 
 /**
@@ -32,7 +33,7 @@ export function SoundToggle({ className = '' }: { className?: string }) {
       aria-label={enabled ? 'Mute interface sounds' : 'Enable interface sounds'}
     >
       <span className={styles.glyph} aria-hidden="true">
-        {enabled ? '♪' : '○'}
+        {enabled ? <Icon name="dot" size={14} /> : <Icon name="circle" size={14} />}
       </span>
       <span className={styles.label}>{enabled ? 'Sound on' : 'Sound off'}</span>
     </button>

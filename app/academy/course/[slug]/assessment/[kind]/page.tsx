@@ -43,7 +43,7 @@ export default async function AssessmentPage({
     ? `/academy/learn/${slug}/${overview.firstLessonSlug}`
     : `/academy/course/${slug}`
   const nextHref = kind === 'pretest' ? startHref : `/academy/course/${slug}`
-  const nextLabel = kind === 'pretest' ? 'Start the course →' : 'Back to the course →'
+  const nextLabel = kind === 'pretest' ? 'Start the course' : 'Back to the course'
 
   return (
     <AcademyShell active="learn">

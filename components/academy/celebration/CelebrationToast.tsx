@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import type { Celebration } from '@/lib/academy/gamification-logic'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './celebration.module.css'
 
-const GLYPH: Record<Celebration['kind'], string> = { level: '★', streak: '🔥', goal: '◎' }
+const GLYPH: Record<Celebration['kind'], IconName> = { level: 'star', streak: 'flame', goal: 'target' }
 
 /**
  * Brief, premium celebration overlay (level-up / streak-milestone / daily-goal).
@@ -39,7 +40,7 @@ export function CelebrationToast({ value, onClear }: { value: Celebration | null
             <span key={i} style={{ ['--i' as string]: String(i) } as React.CSSProperties} />
           ))}
         </div>
-        <span className={styles.glyph} aria-hidden="true">{GLYPH[shown.kind]}</span>
+        <span className={styles.glyph} aria-hidden="true"><Icon name={GLYPH[shown.kind]} size={28} /></span>
         <span className={styles.value}>{shown.label}</span>
         <span className={styles.sub}>{shown.sub}</span>
       </div>

@@ -224,7 +224,7 @@ async function buildLessonContext(courseSlug?: string, lessonSlug?: string): Pro
     return (
       'No single lesson is in scope. Sage Academy teaches software engineering and data/AI ' +
       'through hands-on, evidence-gated lessons that run the 5-beat loop ' +
-      'HOOK → MODEL → DO → PROVE → LOCK. Learners reach mastery by proving they can do the ' +
+      'HOOK · MODEL · DO · PROVE · LOCK. Learners reach mastery by proving they can do the ' +
       'work (passing a teachback, shipping the mission), not by reading or watching.\n\n' +
       catalog
     )

@@ -3,19 +3,20 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Trigger, TriggerTone } from '@/lib/academy/trigger-logic'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './trigger-banner.module.css'
 
 interface TriggerBannerProps {
-  /** Prioritised triggers from getTriggers (top-most first). Empty → renders nothing. */
+  /** Prioritised triggers from getTriggers (top-most first). Empty -> renders nothing. */
   triggers: Trigger[]
 }
 
-// Tone → leading glyph. Semantic, not decoration: urgent = the streak flame the
+// Tone -> leading icon. Semantic, not decoration: urgent = the streak flame the
 // copy already references; warm = a forward arrow; neutral = a steady marker.
-const TONE_ICON: Record<TriggerTone, string> = {
-  urgent: '🔥',
-  warm: '→',
-  neutral: '•',
+const TONE_ICON: Record<TriggerTone, IconName> = {
+  urgent: 'flame',
+  warm: 'arrow-right',
+  neutral: 'dot',
 }
 
 const TONE_CLASS: Record<TriggerTone, string> = {
@@ -53,12 +54,12 @@ export function TriggerBanner({ triggers }: TriggerBannerProps) {
       }}
     >
       <span className={styles.icon} aria-hidden="true">
-        {TONE_ICON[top.tone]}
+        <Icon name={TONE_ICON[top.tone]} size={15} />
       </span>
       <p className={styles.message}>{top.message}</p>
       <Link href={top.href} className={styles.cta}>
         {top.cta}
-        <span aria-hidden="true"> →</span>
+        <Icon name="arrow-right" size={14} aria-hidden />
       </Link>
       <button
         type="button"
@@ -66,7 +67,7 @@ export function TriggerBanner({ triggers }: TriggerBannerProps) {
         onClick={() => setDismissed(true)}
         aria-label="Dismiss this suggestion"
       >
-        <span aria-hidden="true">×</span>
+        <Icon name="x" size={15} aria-hidden />
       </button>
     </div>
   )

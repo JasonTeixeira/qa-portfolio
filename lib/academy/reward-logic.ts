@@ -15,7 +15,7 @@ import { BADGE_CATALOG } from '@/lib/academy/badges-logic'
 import { XP_PER_LEVEL } from '@/lib/academy/gamification-logic'
 
 /** The stat snapshot the near-miss engine reasons over: badge stats + longest streak. */
-export interface RewardStats extends BadgeStats {}
+export type RewardStats = BadgeStats
 
 /** The closest unearned badge, with a human "what unlocks it" line. */
 export interface NextBadge {

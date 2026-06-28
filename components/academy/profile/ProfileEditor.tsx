@@ -11,6 +11,7 @@ import {
   addMyArtifact,
   removeMyArtifact,
 } from '@/app/academy/_actions/profile'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './profile-editor.module.css'
 
 const titleCase = (s: string) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -121,7 +122,8 @@ export function ProfileEditor({
         {isPublic ? (
           <div className={styles.publicLink}>
             <Link href={`/academy/u/${profile.handle}`} className={styles.viewLink}>
-              View public profile →
+              View public profile
+              <Icon name="arrow-right" size={14} aria-hidden="true" />
             </Link>
             <ShareRow url={publicUrl} text={`Check out my AI build portfolio at Sage Academy`} />
           </div>
@@ -166,7 +168,8 @@ export function ProfileEditor({
               <li key={g.courseSlug} className={styles.gainRow}>
                 <span>{titleCase(g.courseSlug)}</span>
                 <span className={styles.gainBadge}>
-                  {g.pre} → {g.post} · {g.g !== null ? `g ${g.g.toFixed(2)}` : '—'}
+                  {g.pre} <Icon name="arrow-right" size={12} aria-label="to" /> {g.post} ·{' '}
+                  {g.g !== null ? `g ${g.g.toFixed(2)}` : '—'}
                 </span>
               </li>
             ))}
@@ -206,7 +209,7 @@ export function ProfileEditor({
               <li key={a.id} className={styles.artifactRow}>
                 <span className={styles.artifactTitle}>{a.title}</span>
                 <button type="button" className={styles.remove} onClick={() => onRemove(a.id)} aria-label="Remove">
-                  ✕
+                  <Icon name="x" size={14} aria-hidden="true" />
                 </button>
               </li>
             ))}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { NextRewards } from '@/lib/academy/reward-logic'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './next-up.module.css'
 
 interface NextUpProps {
@@ -22,7 +23,7 @@ interface NextUpProps {
  */
 interface Lane {
   id: 'badge' | 'level' | 'league'
-  glyph: string
+  glyph: IconName
   /** Bold near-miss figure, e.g. "1 lesson", "40 XP". */
   lead: string
   /** The rest of the line, e.g. "to unlock Five Lessons". */
@@ -42,7 +43,7 @@ function buildLanes(rewards: NextRewards, nextHref: string): Lane[] {
   if (nextBadge) {
     lanes.push({
       id: 'badge',
-      glyph: '◆',
+      glyph: 'star',
       lead: nextBadge.remainingLabel,
       toward: `to unlock ${nextBadge.label}`,
       href: '/academy/profile',
@@ -54,7 +55,7 @@ function buildLanes(rewards: NextRewards, nextHref: string): Lane[] {
   if (xpToNextLevel > 0 && levelPct > 0) {
     lanes.push({
       id: 'level',
-      glyph: '▲',
+      glyph: 'bolt',
       lead: `${xpToNextLevel} XP`,
       toward: 'to your next level',
       href: nextHref,
@@ -66,7 +67,7 @@ function buildLanes(rewards: NextRewards, nextHref: string): Lane[] {
   if (nextRank) {
     lanes.push({
       id: 'league',
-      glyph: '↑',
+      glyph: 'arrow-up-right',
       lead: `${nextRank.gapXp} XP`,
       toward: `to overtake ${nextRank.aheadOfRankLabel}`,
       href: '/academy/leagues',
@@ -129,7 +130,7 @@ export function NextUp({ rewards, nextHref, compact = false }: NextUpProps) {
 
       <Link href={hero.href} className={styles.hero}>
         <span className={styles.heroGlyph} aria-hidden="true">
-          {hero.glyph}
+          <Icon name={hero.glyph} size={22} />
         </span>
         <span className={styles.heroBody}>
           <span className={styles.heroLine}>
@@ -149,7 +150,10 @@ export function NextUp({ rewards, nextHref, compact = false }: NextUpProps) {
             </span>
           ) : null}
         </span>
-        <span className={styles.heroCta}>Finish lesson →</span>
+        <span className={styles.heroCta}>
+          Finish lesson
+          <Icon name="arrow-right" size={16} aria-hidden />
+        </span>
       </Link>
 
       {rest.length > 0 ? (
@@ -169,7 +173,7 @@ function SupportingItem({ lane }: { lane: Lane }) {
     <li className={styles.item}>
       <Link href={lane.href} className={styles.link}>
         <span className={styles.glyph} aria-hidden="true">
-          {lane.glyph}
+          <Icon name={lane.glyph} size={15} />
         </span>
         <span className={styles.body}>
           <span className={styles.line}>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { signUpAcademy } from '@/app/auth/actions';
 import { AuthShell, AuthSubmit, authFieldClass } from '@/components/auth/auth-shell';
+import { Icon } from '@/components/academy/ui/Icon';
 
 export const metadata = {
   title: 'Join Sage Academy',
@@ -30,8 +31,8 @@ export default async function AcademySignupPage({ searchParams }: Props) {
       signUpLabel="Create account"
       footer={
         <p className="text-[12px] text-[#52525B]">
-          <Link href="/academy" className="hover:text-[#9C9CA6] transition-colors">
-            ← Back to the Academy
+          <Link href="/academy" className="inline-flex items-center gap-1.5 hover:text-[#9C9CA6] transition-colors">
+            <Icon name="arrow-left" size={13} aria-hidden="true" /> Back to the Academy
           </Link>
         </p>
       }
@@ -79,7 +80,11 @@ export default async function AcademySignupPage({ searchParams }: Props) {
             className={authFieldClass}
           />
         </div>
-        <AuthSubmit>Create account &amp; start →</AuthSubmit>
+        <AuthSubmit>
+          <span className="inline-flex items-center gap-1.5">
+            Create account &amp; start <Icon name="arrow-right" size={14} aria-hidden="true" />
+          </span>
+        </AuthSubmit>
       </form>
     </AuthShell>
   );

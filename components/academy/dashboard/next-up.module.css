@@ -15,14 +15,14 @@
 
 .kicker {
   margin: 0 0 0.7rem;
-  font-family: var(--ac-font-mono), var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--ac-accent-text, #8fa0ff);
 }
 
-/* ── HERO: the single dominant "do this next" ──────────────────────────────── */
+/* -- HERO: the single dominant "do this next" -------------------------------- */
 .hero {
   position: relative;
   display: grid;
@@ -77,7 +77,7 @@
   letter-spacing: -0.01em;
 }
 .heroLead {
-  font-family: var(--ac-font-display), var(--font-display), sans-serif;
+  font-family: var(--ac-font-display);
   font-weight: 800;
   color: var(--ac-ink, #f2efe9);
 }
@@ -103,18 +103,21 @@
 
 .heroCta {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   align-self: center;
   padding: 0.62rem 1.25rem;
   border-radius: 24px;
   background: var(--ac-accent-strong, var(--ac-accent, #3d6bff));
   color: #ffffff;
-  font-family: var(--ac-font-display), var(--font-display), sans-serif;
+  font-family: var(--ac-font-display);
   font-weight: 700;
   font-size: 0.86rem;
   white-space: nowrap;
 }
 
-/* ── SUPPORT ROW: the demoted near-misses — unmistakably secondary ─────────── */
+/* -- SUPPORT ROW: the demoted near-misses — unmistakably secondary ----------- */
 .supportRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -213,7 +216,7 @@
 }
 
 .leagueHint {
-  font-family: var(--ac-font-mono), var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.66rem;
   letter-spacing: 0.04em;
   color: var(--muted);

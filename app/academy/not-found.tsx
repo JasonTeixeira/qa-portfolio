@@ -3,7 +3,7 @@ import { StateView, PrimaryLink, GhostLink } from '@/components/academy/feedback
 export default function AcademyNotFound() {
   return (
     <StateView
-      glyph="⌕"
+      glyph="search"
       title="We couldn't find that"
       body="The course, lesson, or path you're after doesn't exist or may have moved. Browse the catalog to find what's next."
     >

@@ -103,7 +103,7 @@ export default async function AcademyLearnPage({ params }: PageProps) {
 
             <SystemHeroPanel
               eyebrow="lesson operating system"
-              title="Watch ⇄ build ⇄ apply ⇄ ship"
+              title="Watch · build · apply · ship"
               nodes={['Lesson', 'Template', 'Artifact', 'Launch']}
               stats={[
                 { label: 'modules', value: String(modules.length).padStart(2, '0') },

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { topic as topicMeta } from '@/lib/academy/topics'
+import { Icon } from '@/components/academy/ui/Icon'
 import type {
   ContentMap as ContentMapData,
   ContentMapCourse,
@@ -8,8 +9,8 @@ import type {
 } from '@/lib/academy/content-map-logic'
 
 /**
- * The Content Map — a server-rendered view of the course universe: tracks →
- * courses → lessons, each lesson tagged done / current ('you are here') /
+ * The Content Map — a server-rendered view of the course universe: tracks,
+ * courses, and lessons, each lesson tagged done / current ('you are here') /
  * upcoming. Reads the structured graph from buildContentMap (pure); does no IO.
  *
  * State colors map to the semantic tokens: --ac-mastery (done),
@@ -58,7 +59,7 @@ function LessonRow({
           }}
           aria-hidden
         >
-          {lesson.state === 'done' ? '✓' : lesson.order}
+          {lesson.state === 'done' ? <Icon name="check" size={11} /> : lesson.order}
         </span>
         <span
           className="min-w-0 flex-1 truncate text-[13px]"
@@ -202,7 +203,7 @@ export function ContentMap({ map }: { map: ContentMapData }) {
     <section aria-labelledby="content-map-h" className="flex flex-col gap-8">
       <header className="flex flex-col gap-2">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ac-accent-text)]">
-          ◇ The map
+          The map
         </p>
         <h2
           id="content-map-h"
@@ -247,8 +248,8 @@ export function ContentMap({ map }: { map: ContentMapData }) {
           className="flex flex-col items-center gap-2 rounded-[var(--ac-radius)] border border-dashed px-6 py-12 text-center"
           style={{ borderColor: 'var(--ac-rule-strong)' }}
         >
-          <span className="text-2xl text-[color:var(--ac-ink-faint)]" aria-hidden>
-            ◇
+          <span className="text-[color:var(--ac-ink-faint)]" aria-hidden>
+            <Icon name="compass" size={26} />
           </span>
           <p className="text-[14px] font-medium text-[color:var(--ac-ink-soft)]">
             The map fills in as courses publish.

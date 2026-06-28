@@ -11,7 +11,7 @@
   background:
     radial-gradient(60% 40% at 50% 0%, rgba(61, 107, 255, 0.12), transparent 70%),
     #0b0d0c;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--ac-font-body);
   color: var(--ink);
 }
 
@@ -32,17 +32,17 @@
 .track span[data-on='true'] { background: var(--accent); }
 
 .stepCard { display: flex; flex-direction: column; }
-.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
-.title { margin: 0.7rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 2vw, 2.7rem); line-height: 1.08; letter-spacing: -0.02em; }
+.kicker { margin: 0; font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); }
+.title { margin: 0.7rem 0 0; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 2vw, 2.7rem); line-height: 1.08; letter-spacing: -0.02em; }
 .lede { margin: 0.9rem 0 0; color: var(--dim); font-size: 1rem; line-height: 1.55; }
 
 /* the loop (step 0) */
 .loop { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin-top: 1.6rem; }
 .loopStep { position: relative; display: flex; flex-direction: column; gap: 0.25rem; flex: 1 1 120px; padding: 1rem 1rem 1rem 0; }
 .loopGlyph { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: rgba(61, 107, 255, 0.08); color: var(--accent); font-size: 1.1rem; }
-.loopLabel { margin-top: 0.5rem; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.02rem; }
-.loopSub { font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
-.loopArrow { position: absolute; right: -0.9rem; top: 1.35rem; color: var(--muted); }
+.loopLabel { margin-top: 0.5rem; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.02rem; }
+.loopSub { font-family: var(--ac-font-mono); font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
+.loopArrow { position: absolute; right: -0.9rem; top: 1.35rem; display: inline-flex; align-items: center; color: var(--muted); }
 .loopFoot { margin: 1.4rem 0 0; font-size: 0.92rem; line-height: 1.6; color: var(--dim); }
 .loopFoot strong { color: var(--ink); font-weight: 600; }
 
@@ -69,8 +69,8 @@
 .option:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .option[data-on='true'] { border-color: var(--accent); background: rgba(61, 107, 255, 0.1); }
 .option:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
-.optLabel { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.08rem; }
-.optSub { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
+.optLabel { font-family: var(--ac-font-display); font-weight: 600; font-size: 1.08rem; }
+.optSub { font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--muted); }
 
 /* daily goal (step 3) */
 .goals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin-top: 1.6rem; }
@@ -83,16 +83,17 @@
 .goalCard:hover { transform: translateY(-2px); }
 .goalCard[data-on='true'] { border-color: var(--accent); background: rgba(61, 107, 255, 0.1); }
 .goalCard:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
-.recommend { position: absolute; top: -0.6rem; padding: 0.15rem 0.55rem; border-radius: 100px; background: var(--accent); color: #fff; font-family: var(--font-mono), monospace; font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; }
-.goalLabel { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1rem; }
-.goalXp { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; color: var(--accent); }
-.goalSub { font-family: var(--font-mono), monospace; font-size: 0.64rem; color: var(--muted); }
+.recommend { position: absolute; top: -0.6rem; padding: 0.15rem 0.55rem; border-radius: 100px; background: var(--accent); color: #fff; font-family: var(--ac-font-mono); font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.goalLabel { font-family: var(--ac-font-display); font-weight: 600; font-size: 1rem; }
+.goalXp { font-family: var(--ac-font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; color: var(--accent); }
+.goalSub { font-family: var(--ac-font-mono); font-size: 0.64rem; color: var(--muted); }
 
 /* buttons */
 .primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
   margin-top: 1.8rem; align-self: flex-start; padding: 0.9rem 1.7rem; border: 0; border-radius: 26px;
   background: var(--accent); color: #fff; cursor: pointer;
-  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.98rem;
+  font-family: var(--ac-font-display); font-weight: 700; font-size: 0.98rem;
   box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--accent) 60%, transparent);
   transition: filter 0.15s ease, transform 0.1s ease;
 }
@@ -100,7 +101,7 @@
 .primary:active { transform: translateY(1px); }
 .primary:disabled { opacity: 0.5; cursor: default; }
 .primary:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.5); outline-offset: 2px; }
-.back { margin-top: 1.1rem; align-self: flex-start; border: 0; background: none; cursor: pointer; font-family: var(--font-mono), monospace; font-size: 0.78rem; color: var(--muted); padding: 0; }
+.back { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 1.1rem; align-self: flex-start; border: 0; background: none; cursor: pointer; font-family: var(--ac-font-mono); font-size: 0.78rem; color: var(--muted); padding: 0; }
 .back:hover { color: var(--ink); }
 
 @media (max-width: 480px) {

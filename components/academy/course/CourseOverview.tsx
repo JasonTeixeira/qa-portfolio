@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { topic, TOPICS } from '@/lib/academy/topics'
 import type { CourseOverview as Overview } from '@/lib/academy/content'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
+import { Icon } from '@/components/academy/ui/Icon'
 import type { CSSProperties } from 'react'
 import styles from './course.module.css'
 
@@ -83,12 +84,14 @@ export function CourseOverview({
         <div className={styles.actions}>
           {ctaSlug ? (
             <Link href={`/academy/learn/${overview.slug}/${ctaSlug}`} className={styles.cta}>
-              {started ? 'Continue' : 'Start course'} →
+              {started ? 'Continue' : 'Start course'} <Icon name="arrow-right" size={15} aria-hidden="true" />
             </Link>
           ) : (
             <span className={styles.soon}>Lessons coming soon</span>
           )}
-          <Link href="/academy/catalog" className={styles.back}>← All courses</Link>
+          <Link href="/academy/catalog" className={styles.back}>
+            <Icon name="arrow-left" size={15} aria-hidden="true" /> All courses
+          </Link>
         </div>
       </header>
 
@@ -106,7 +109,7 @@ export function CourseOverview({
                 return (
                   <li key={l.slug}>
                     <Link href={`/academy/learn/${overview.slug}/${l.slug}`} className={styles.lesson} data-done={done}>
-                      <span className={styles.lessonNum} aria-hidden="true">{done ? '✓' : String(i + 1).padStart(2, '0')}</span>
+                      <span className={styles.lessonNum} aria-hidden="true">{done ? <Icon name="check" size={14} /> : String(i + 1).padStart(2, '0')}</span>
                       <span className={styles.lessonTitle}>{l.title}</span>
                       {l.isFreePreview ? <span className={styles.free}>Free</span> : null}
                       <span className={styles.lessonMin}>{l.estMinutes} min</span>

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { OpenRepair } from '@/lib/academy/repairs'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './repair-queue.module.css'
 
 /**
@@ -27,7 +28,7 @@ export function RepairQueue({
     return (
       <p className={styles.statusChip} role="status">
         <span className={styles.statusGlyph} aria-hidden="true">
-          ✓
+          <Icon name="check" size={14} />
         </span>
         Proofs holding — no repairs due.
       </p>
@@ -52,7 +53,7 @@ export function RepairQueue({
       {isClear ? (
         <div className={styles.empty}>
           <span className={styles.emptyGlyph} aria-hidden="true">
-            ✓
+            <Icon name="check" size={22} />
           </span>
           <p className={styles.emptyTitle}>No repairs — your proofs are holding.</p>
           <p className={styles.emptyHelp}>
@@ -72,7 +73,8 @@ export function RepairQueue({
                   <span className={styles.itemLesson}>{r.lessonTitle}</span>
                 </span>
                 <span className={styles.itemCta} aria-hidden="true">
-                  Redo teachback →
+                  Redo teachback
+                  <Icon name="arrow-right" size={14} />
                 </span>
               </Link>
             </li>

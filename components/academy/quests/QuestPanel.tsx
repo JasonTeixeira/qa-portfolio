@@ -8,6 +8,7 @@ import {
   type DailyBonus,
   type QuestMetric,
 } from '@/lib/academy/quest-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './quest-panel.module.css'
 
 /** One quest row: label, honest progress bar, count + done check. */
@@ -16,7 +17,7 @@ function QuestRow({ quest, lead }: { quest: QuestProgress; lead?: boolean }) {
   return (
     <li className={`${styles.row} ${quest.done ? styles.rowDone : ''} ${lead ? styles.rowLead : ''}`}>
       <span className={styles.check} aria-hidden="true">
-        {quest.done ? '✓' : '○'}
+        {quest.done ? <Icon name="check" size={13} /> : null}
       </span>
       <div className={styles.body}>
         <span className={styles.label}>{quest.label}</span>
@@ -69,14 +70,14 @@ function QuestGroup({
 
 /**
  * The variable-ratio reward banner — the visual LEAD of the quest panel. Reads
- * as today's claimable prize: a big honest headline value (2× / +N XP), what it
+ * as today's claimable prize: a big honest headline value (2x / +N XP), what it
  * is, and how to collect it. The "varies daily" tease surfaces the Hooked
  * variable-ratio anticipation WITHOUT promising a specific future value (it's
  * deterministic-but-unknown to the learner — that's the hook), so it stays
  * truthful: the bonus genuinely changes every UTC day and resets at midnight.
  *
  * Honest data: the reward amount, headline, and collected flag are all
- * server-derived (BonusState); the panel only renders them. armed → collected
+ * server-derived (BonusState); the panel only renders them. armed -> collected
  * flips to a mastery-green "banked" payoff (the claim moment).
  *
  * a11y: state is never color-only — armed vs collected, the headline, and the
@@ -98,7 +99,7 @@ function BonusBanner({ bonus }: { bonus: BonusState }) {
       aria-label={ariaLabel}
     >
       <span className={styles.bonusIcon} aria-hidden="true">
-        {collected ? '✦' : '◈'}
+        <Icon name={collected ? 'check' : 'sparkle'} size={18} />
       </span>
       <div className={styles.bonusBody}>
         <span className={styles.bonusKicker} aria-hidden="true">
@@ -154,7 +155,7 @@ function deriveBonusFromDaily(daily: QuestProgress[]): BonusState | null {
   // and varies as the catalog evolves, without reaching for Date/random.
   const signature = daily.map((q) => `${q.key}:${q.target}`).join('|')
   const seed = bonusSeedFromString(signature)
-  // 3-in-5 → lesson multiplier, else review flat — same split shape as dailyBonus.
+  // 3-in-5 -> lesson multiplier, else review flat — same split shape as dailyBonus.
   const multiplierDay = seed % 5 < 3
   const arm: QuestProgress | undefined = multiplierDay ? lesson : review
   if (!arm) return null
@@ -203,7 +204,7 @@ export function QuestPanel({ daily, weekly, bonus }: QuestPanelProps) {
     daily.length === 0
       ? ''
       : dailyDone === daily.length
-        ? '✓ All done — resets at UTC midnight'
+        ? 'All done — resets at UTC midnight'
         : dailyDone > 0
           ? `${dailyDone}/${daily.length} done · resets 00:00 UTC`
           : 'Fresh board · resets 00:00 UTC'
@@ -212,7 +213,7 @@ export function QuestPanel({ daily, weekly, bonus }: QuestPanelProps) {
     weekly.length === 0
       ? ''
       : weeklyDone === weekly.length
-        ? '✓ All done this week'
+        ? 'All done this week'
         : weeklyDone > 0
           ? `${weeklyDone}/${weekly.length} done`
           : 'None yet — a full week to go'

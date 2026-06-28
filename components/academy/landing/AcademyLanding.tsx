@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CATEGORIES, TRACKS } from '@/lib/academy/taxonomy'
 import { topic } from '@/lib/academy/topics'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './landing.module.css'
 
 const LOOP_STEPS = [
@@ -10,11 +11,11 @@ const LOOP_STEPS = [
   { n: '04', label: 'Unlock', body: 'Pass the gate, schedule spaced review, transfer the pattern. Then the next sprint opens.' },
 ]
 
-const PROOF = [
-  { glyph: '⬢', title: 'In-browser labs', body: 'Run real code in the page. Checkpoints verify your output before you advance.' },
-  { glyph: '▥', title: 'Calibration bank', body: 'Compare your work against weak, passing, and excellent examples — learn the difference.' },
-  { glyph: '⏻', title: 'Unlock gates', body: 'No advancing on “I read it.” Every sprint requires proof, repair, and review.' },
-  { glyph: '◆', title: 'Real certificates', body: 'Finish a course, earn a verifiable, shareable certificate tied to actual work.' },
+const PROOF: Array<{ icon: IconName; title: string; body: string }> = [
+  { icon: 'bolt', title: 'In-browser labs', body: 'Run real code in the page. Checkpoints verify your output before you advance.' },
+  { icon: 'target', title: 'Calibration bank', body: 'Compare your work against weak, passing, and excellent examples — learn the difference.' },
+  { icon: 'lock', title: 'Unlock gates', body: 'No advancing on "I read it." Every sprint requires proof, repair, and review.' },
+  { icon: 'trophy', title: 'Real certificates', body: 'Finish a course, earn a verifiable, shareable certificate tied to actual work.' },
 ]
 
 export function AcademyLanding() {
@@ -25,7 +26,7 @@ export function AcademyLanding() {
       {/* hero */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <span className={styles.kicker}>◆ Sage Academy</span>
+          <span className={styles.kicker}>Sage Academy</span>
           <h1 className={styles.heroTitle}>
             Stop watching tutorials.<br /><span className={styles.em}>Start shipping.</span>
           </h1>
@@ -35,7 +36,10 @@ export function AcademyLanding() {
             not just recognize.
           </p>
           <div className={styles.heroCtas}>
-            <Link href="/academy/catalog" className={styles.primary}>Browse the curriculum →</Link>
+            <Link href="/academy/catalog" className={styles.primary}>
+              Browse the curriculum
+              <Icon name="arrow-right" size={17} aria-hidden="true" />
+            </Link>
             <Link href="/academy/engine" className={styles.secondary}>See how a sprint works</Link>
           </div>
           <p className={styles.heroNote}>$20/month · $200/year · cancel anytime · new tracks included</p>
@@ -52,7 +56,10 @@ export function AcademyLanding() {
             science of how people actually learn: retrieval, productive failure, calibration, spaced review,
             and transfer. You don&rsquo;t finish a lesson by reading it. You finish it by proving it.
           </p>
-          <Link href="/academy/engine" className={styles.bandLink}>Walk through a full sprint →</Link>
+          <Link href="/academy/engine" className={styles.bandLink}>
+            Walk through a full sprint
+            <Icon name="arrow-right" size={15} aria-hidden="true" />
+          </Link>
         </div>
       </section>
 
@@ -86,7 +93,7 @@ export function AcademyLanding() {
         <div className={styles.catRow}>
           {CATEGORIES.map((c) => (
             <span key={c.id} className={styles.catPill} data-status={c.status}>
-              <span aria-hidden="true">{c.glyph}</span> {c.name}
+              {c.name}
               {c.status !== 'live' ? <em> · soon</em> : null}
             </span>
           ))}
@@ -102,7 +109,10 @@ export function AcademyLanding() {
             )
           })}
         </div>
-        <Link href="/academy/catalog" className={styles.bandLink}>Explore all tracks →</Link>
+        <Link href="/academy/catalog" className={styles.bandLink}>
+          Explore all tracks
+          <Icon name="arrow-right" size={15} aria-hidden="true" />
+        </Link>
       </section>
 
       {/* proof */}
@@ -114,7 +124,9 @@ export function AcademyLanding() {
         <div className={styles.proofGrid}>
           {PROOF.map((p) => (
             <div key={p.title} className={styles.proofCard}>
-              <span className={styles.proofGlyph} aria-hidden="true">{p.glyph}</span>
+              <span className={styles.proofGlyph} aria-hidden="true">
+                <Icon name={p.icon} size={22} />
+              </span>
               <h3 className={styles.proofTitle}>{p.title}</h3>
               <p className={styles.proofBody}>{p.body}</p>
             </div>
@@ -134,7 +146,10 @@ export function AcademyLanding() {
             <span className={styles.priceSave}>2 months free</span>
           </div>
           <div className={styles.heroCtas}>
-            <Link href="/academy/signup" className={styles.primary}>Start free — no card →</Link>
+            <Link href="/academy/signup" className={styles.primary}>
+              Start free — no card
+              <Icon name="arrow-right" size={17} aria-hidden="true" />
+            </Link>
             <Link href="/academy/catalog" className={styles.secondary}>Browse first</Link>
           </div>
           <p className={styles.heroNote}>

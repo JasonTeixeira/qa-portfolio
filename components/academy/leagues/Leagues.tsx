@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import type { LeagueStandings, StandingRow } from '@/lib/academy/leagues'
 import { LEAGUE_TIERS, relegationStake } from '@/lib/academy/leagues-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import { LeagueCountdown } from './LeagueCountdown'
 import styles from './leagues.module.css'
 
@@ -33,7 +34,7 @@ function resolveOvertake(
   return { gapXp: gap, rank: ahead.rank }
 }
 
-/** Avatar monogram from a real display name ("Maya R." → "MR"); falls back to last-2. */
+/** Avatar monogram from a real display name ("Maya R." to "MR"); falls back to last-2. */
 function initials(handle: string): string {
   const parts = handle.split(/\s+/).filter(Boolean)
   if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase()
@@ -77,7 +78,7 @@ export function Leagues({
         <p className={styles.kicker}>Leagues</p>
         <h1 className={styles.title}>
           <span className={styles.gem} aria-hidden="true">
-            ◆
+            <Icon name="trophy" size={22} />
           </span>
           {tierName} League
         </h1>
@@ -97,7 +98,8 @@ export function Leagues({
             <strong>{rival ? rival.handle : `#${overtake.rank}`}</strong> — one lab does it.
           </p>
           <Link href="/academy/review" className={styles.overtakeCta}>
-            Earn XP now →
+            Earn XP now
+            <Icon name="arrow-right" size={16} aria-hidden="true" />
           </Link>
         </section>
       ) : isLeader ? (
@@ -107,7 +109,8 @@ export function Leagues({
             You’re on top — <strong>defend it.</strong> One more lab keeps the gap open.
           </p>
           <Link href="/academy/review" className={styles.overtakeCta}>
-            Defend your lead →
+            Defend your lead
+            <Icon name="arrow-right" size={16} aria-hidden="true" />
           </Link>
         </section>
       ) : null}
@@ -149,13 +152,21 @@ export function Leagues({
       ) : null}
 
       <div className={styles.legend}>
-        {!topTier ? <span className={`${styles.legChip} ${styles.legPromote}`}>▲ Top {promoteZone} promote</span> : null}
+        {!topTier ? (
+          <span className={`${styles.legChip} ${styles.legPromote}`}>
+            <Icon name="chevron-up" size={13} aria-hidden="true" /> Top {promoteZone} promote
+          </span>
+        ) : null}
         {/* Only advertise relegation when it can actually happen at this population —
             otherwise "Bottom 5 relegate" in a 4-player league reads as impossible. */}
         {!bottomTier && stake.kind !== 'none' ? (
-          <span className={`${styles.legChip} ${styles.legRelegate}`}>▼ Bottom {relegateZone} relegate</span>
+          <span className={`${styles.legChip} ${styles.legRelegate}`}>
+            <Icon name="chevron-down" size={13} aria-hidden="true" /> Bottom {relegateZone} relegate
+          </span>
         ) : null}
-        <span className={styles.legChip}>↻ Resets Monday — fresh start</span>
+        <span className={styles.legChip}>
+          <Icon name="refresh" size={13} aria-hidden="true" /> Resets Monday — fresh start
+        </span>
       </div>
 
       <div className={styles.ledger}>
@@ -168,12 +179,12 @@ export function Leagues({
             >
               <span className={styles.rank}>{r.rank}</span>
               <span className={styles.avatar} aria-hidden="true">
-                {r.handle === 'You' ? '★' : initials(r.handle)}
+                {r.handle === 'You' ? <Icon name="star" size={14} /> : initials(r.handle)}
               </span>
               <span className={styles.name}>{r.handle}</span>
               {r.movement !== 'hold' ? (
-                <span className={styles.moveTag} aria-label={MOVEMENT_LABEL[r.movement]}>
-                  {r.movement === 'promote' ? '▲' : '▼'}
+                <span className={styles.moveTag} role="img" aria-label={MOVEMENT_LABEL[r.movement]}>
+                  <Icon name={r.movement === 'promote' ? 'chevron-up' : 'chevron-down'} size={14} aria-hidden="true" />
                 </span>
               ) : null}
               <span className={styles.xp}>
@@ -190,7 +201,7 @@ export function Leagues({
       {nextTier ? (
         <div className={styles.nextTier} style={{ ['--nextColor']: nextTier.color } as CSSProperties}>
           <span className={styles.nextTierGem} aria-hidden="true">
-            ◆
+            <Icon name="trophy" size={18} />
           </span>
           <div className={styles.nextTierBody}>
             <span className={styles.nextTierLabel}>Next up</span>

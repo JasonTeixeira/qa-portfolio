@@ -213,6 +213,7 @@
 .ctaButton {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.85rem 1.6rem;
   border-radius: 100px;
   background: var(--ac-accent-strong);

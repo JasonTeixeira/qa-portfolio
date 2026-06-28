@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { completeOnboarding } from '@/app/academy/_actions/onboarding'
 import { GoalPicker } from '@/components/academy/goals/GoalPicker'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import { Course00 } from './Course00'
 import styles from './onboarding.module.css'
 
@@ -25,11 +26,11 @@ const GOAL_XP = [
   { xp: 60, label: 'Serious', sub: '~3 lessons / day' },
 ]
 
-const LOOP = [
-  { glyph: '◆', label: 'Learn', sub: 'Tight, no-fluff concepts' },
-  { glyph: '⌘', label: 'Build', sub: 'Real code in the browser' },
-  { glyph: '↻', label: 'Review', sub: 'Spaced so it sticks' },
-  { glyph: '✦', label: 'Prove', sub: 'Certs + a proof-of-work record' },
+const LOOP: { icon: IconName; label: string; sub: string }[] = [
+  { icon: 'book', label: 'Learn', sub: 'Tight, no-fluff concepts' },
+  { icon: 'bolt', label: 'Build', sub: 'Real code in the browser' },
+  { icon: 'refresh', label: 'Review', sub: 'Spaced so it sticks' },
+  { icon: 'trophy', label: 'Prove', sub: 'Certs + a proof-of-work record' },
 ]
 
 const STEPS = 5
@@ -62,7 +63,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
           <Course00 />
           <div className={styles.primerActions}>
             <button type="button" className={styles.primary} onClick={() => setShowPrimer(false)}>
-              Continue — set up my account →
+              Continue — set up my account <Icon name="arrow-right" size={16} />
             </button>
           </div>
         </div>
@@ -87,10 +88,10 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
             <div className={styles.loop}>
               {LOOP.map((l, i) => (
                 <div key={l.label} className={styles.loopStep}>
-                  <span className={styles.loopGlyph} aria-hidden="true">{l.glyph}</span>
+                  <span className={styles.loopGlyph} aria-hidden="true"><Icon name={l.icon} size={20} /></span>
                   <span className={styles.loopLabel}>{l.label}</span>
                   <span className={styles.loopSub}>{l.sub}</span>
-                  {i < LOOP.length - 1 ? <span className={styles.loopArrow} aria-hidden="true">→</span> : null}
+                  {i < LOOP.length - 1 ? <span className={styles.loopArrow} aria-hidden="true"><Icon name="arrow-right" size={15} /></span> : null}
                 </div>
               ))}
             </div>
@@ -98,7 +99,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
               …and a <strong>daily streak</strong> + <strong>XP</strong> keep you moving. Miss a day? A streak freeze has your back.
             </p>
             <button type="button" className={styles.primary} onClick={() => setStep(1)}>
-              Got it — set me up →
+              Got it — set me up <Icon name="arrow-right" size={16} />
             </button>
           </section>
         )}
@@ -124,7 +125,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
                 </button>
               ))}
             </div>
-            <button type="button" className={styles.back} onClick={() => setStep(0)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(0)}><Icon name="arrow-left" size={15} /> Back</button>
           </section>
         )}
 
@@ -142,10 +143,10 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
             />
             {commitmentGoal ? (
               <button type="button" className={styles.primary} onClick={() => setStep(3)}>
-                Continue →
+                Continue <Icon name="arrow-right" size={16} />
               </button>
             ) : null}
-            <button type="button" className={styles.back} onClick={() => setStep(1)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(1)}><Icon name="arrow-left" size={15} /> Back</button>
           </section>
         )}
 
@@ -170,7 +171,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
                 </button>
               ))}
             </div>
-            <button type="button" className={styles.back} onClick={() => setStep(2)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(2)}><Icon name="arrow-left" size={15} /> Back</button>
           </section>
         )}
 
@@ -200,9 +201,9 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
               your goal, before you read a single lesson.
             </p>
             <button type="button" className={styles.primary} disabled={!dailyGoalXp || pending} onClick={finish}>
-              {pending ? 'Setting up…' : 'Claim my first win →'}
+              {pending ? 'Setting up…' : (<>Claim my first win <Icon name="arrow-right" size={16} /></>)}
             </button>
-            <button type="button" className={styles.back} onClick={() => setStep(3)}>← Back</button>
+            <button type="button" className={styles.back} onClick={() => setStep(3)}><Icon name="arrow-left" size={15} /> Back</button>
           </section>
         )}
       </div>

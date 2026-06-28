@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { saveCourse } from './_actions'
 import type { AdminCourseRow } from '@/lib/academy/admin'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './studio.module.css'
 
 const TOPICS = ['foundations', 'ai-engineering', 'ship-it', 'growth', 'data']
@@ -37,9 +38,9 @@ export function StudioHome({ courses }: { courses: AdminCourseRow[] }) {
       <p className={styles.sub}>Create and edit courses, lessons, and content blocks. Changes publish to the live academy.</p>
 
       <nav className={styles.crumb} aria-label="Admin surfaces" style={{ marginTop: '1rem', marginBottom: 0 }}>
-        <Link href="/academy-admin/metrics">Measurement →</Link>
+        <Link href="/academy-admin/metrics">Measurement <Icon name="arrow-right" size={13} aria-hidden="true" /></Link>
         <span aria-hidden="true">·</span>
-        <Link href="/academy-admin/experiments">Experiments →</Link>
+        <Link href="/academy-admin/experiments">Experiments <Icon name="arrow-right" size={13} aria-hidden="true" /></Link>
       </nav>
 
       <div className={styles.section}>

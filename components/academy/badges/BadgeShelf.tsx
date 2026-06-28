@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { BADGE_CATALOG, capstoneBadge } from '@/lib/academy/badges-logic'
 import type { EarnedBadge, NextBadgeStep } from '@/lib/academy/badges-logic'
 import type { NextBadge } from '@/lib/academy/reward-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './badge-shelf.module.css'
 
 interface BadgeShelfProps {
@@ -83,7 +84,7 @@ export function BadgeShelf({ earned, nextBadge = null, nextChain = [] }: BadgeSh
               className={`${styles.capstoneMark} ${capstoneEarned ? styles.capstoneMarkLit : ''}`}
               aria-hidden="true"
             >
-              {capstone.icon}
+              <Icon name={capstone.icon} size={16} />
             </span>
           ) : null}
         </span>
@@ -111,7 +112,7 @@ export function BadgeShelf({ earned, nextBadge = null, nextChain = [] }: BadgeSh
           <span className={styles.nextKicker}>Next badge</span>
           <div className={styles.nextRow}>
             <span className={styles.nextIcon} aria-hidden="true">
-              ◆
+              <Icon name="trophy" size={20} />
             </span>
             <div className={styles.nextBody}>
               <p className={styles.nextLine}>
@@ -143,7 +144,7 @@ export function BadgeShelf({ earned, nextBadge = null, nextChain = [] }: BadgeSh
                   style={{ '--step': i } as CSSProperties}
                 >
                   <span className={styles.trailGlyph} aria-hidden="true">
-                    {step.icon}
+                    <Icon name={step.icon} size={16} />
                   </span>
                   <span className={styles.trailText}>
                     then {step.teaser} <span className={styles.trailName}>{step.label}</span>
@@ -170,7 +171,7 @@ export function BadgeShelf({ earned, nextBadge = null, nextChain = [] }: BadgeSh
                 }
               >
                 <span className={styles.icon} aria-hidden="true">
-                  {isEarned ? badge.icon : '·'}
+                  {isEarned ? <Icon name={badge.icon} size={22} /> : <Icon name="lock" size={18} />}
                 </span>
                 <span className={styles.label} aria-hidden={!isEarned}>
                   {isEarned ? badge.label : 'Locked'}

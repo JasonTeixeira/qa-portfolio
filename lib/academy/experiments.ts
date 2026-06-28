@@ -65,7 +65,7 @@ export interface ExperimentDef {
 export const EXPERIMENTS: readonly ExperimentDef[] = [
   {
     key: 'streak-jeopardy',
-    label: 'Streak jeopardy → D7 return',
+    label: 'Streak jeopardy · D7 return',
     category: 8,
     metric: 'd7_return',
     convertedEvent: 'review_completed',
@@ -75,7 +75,7 @@ export const EXPERIMENTS: readonly ExperimentDef[] = [
   },
   {
     key: 'trigger-engine-d1',
-    label: 'In-app trigger engine → D1 return',
+    label: 'In-app trigger engine · D1 return',
     category: 5,
     metric: 'd1_return',
     convertedEvent: 'lesson_completed',
@@ -85,7 +85,7 @@ export const EXPERIMENTS: readonly ExperimentDef[] = [
   },
   {
     key: 'review-ritual-d7',
-    label: 'Spaced-review ritual → D7 return',
+    label: 'Spaced-review ritual · D7 return',
     category: 11,
     metric: 'd7_return',
     convertedEvent: 'review_completed',
@@ -95,7 +95,7 @@ export const EXPERIMENTS: readonly ExperimentDef[] = [
   },
   {
     key: 'emotional-hook-d7',
-    label: 'Emotional hook / return → D7 return',
+    label: 'Emotional hook / return · D7 return',
     category: 12,
     metric: 'd7_return',
     convertedEvent: 'lesson_completed',

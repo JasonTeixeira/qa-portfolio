@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import type { FirstWinSummary } from '@/lib/academy/first-win-logic'
 import { FIRST_WIN_MILESTONE_KEY } from '@/lib/academy/first-win-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './first-win.module.css'
 
 type Props = {
@@ -18,7 +19,7 @@ type Props = {
  * first lesson.
  */
 export function FirstWinScreen({ summary }: Props) {
-  const { won, goalLabel, milestoneLabel, progress, nextHref } = summary
+  const { won, goalLabel, progress, nextHref } = summary
 
   return (
     <main className={styles.page}>
@@ -28,7 +29,7 @@ export function FirstWinScreen({ summary }: Props) {
         </p>
 
         <div className={styles.seal} aria-hidden="true">
-          <span className={styles.sealMark}>✓</span>
+          <span className={styles.sealMark}><Icon name="check" size={34} /></span>
         </div>
 
         <h1 id="first-win-heading" className={styles.title}>
@@ -70,7 +71,7 @@ export function FirstWinScreen({ summary }: Props) {
               return (
                 <li key={m.key} className={styles.milestone} data-done={m.done} data-first={isFirstWin}>
                   <span className={styles.check} aria-hidden="true">
-                    {m.done ? '✓' : '○'}
+                    {m.done ? <Icon name="check" size={14} /> : <Icon name="circle" size={13} />}
                   </span>
                   <span className={styles.mLabel}>{m.label}</span>
                   {isFirstWin && m.done ? <span className={styles.justNow}>just now</span> : null}
@@ -81,7 +82,7 @@ export function FirstWinScreen({ summary }: Props) {
         </div>
 
         <Link href={nextHref} className={styles.cta}>
-          {won ? 'Continue your first lesson →' : 'Open your first lesson →'}
+          {won ? 'Continue your first lesson' : 'Open your first lesson'} <Icon name="arrow-right" size={17} />
         </Link>
         <p className={styles.subNote}>
           Next milestone: <strong>{progress.nextMilestone?.label ?? 'finish the lesson'}</strong>

@@ -181,7 +181,7 @@ export default async function AcademyTrackPage({ params }: PageProps) {
       <section className="border-b border-[var(--sage-border)] px-5 py-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <SurfaceSystemPanel
-            title="Course ⇄ Practice"
+            title="Course · Practice"
             body={track.outcome}
             cta={{ label: track.cta, href: `/academy/${track.slug}/enroll` }}
             steps={[

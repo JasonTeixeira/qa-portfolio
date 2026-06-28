@@ -19,8 +19,7 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic'
 
-const VIEWS = ['browse', 'map'] as const
-type View = (typeof VIEWS)[number]
+type View = 'browse' | 'map'
 
 const TABS: readonly Tab[] = [
   { key: 'browse', label: 'Browse', href: '/academy/catalog' },

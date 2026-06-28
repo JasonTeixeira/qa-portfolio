@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getAggregateEfficacy } from '@/lib/academy/efficacy'
 import { AcademyShell } from '@/components/academy/academy-shell'
 import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './efficacy.module.css'
 
 export const dynamic = 'force-dynamic'
@@ -78,7 +79,7 @@ export default async function EfficacyPage() {
       ) : (
         <div className={styles.collecting}>
           <span className={styles.collectGlyph} aria-hidden="true">
-            ◌
+            <Icon name="circle" size={28} />
           </span>
           <h2 className={styles.collectTitle}>Still collecting data.</h2>
           <p className={styles.collectBody}>
@@ -100,7 +101,7 @@ export default async function EfficacyPage() {
           </li>
         </ol>
         <Link href="/academy" className={styles.cta}>
-          Start a course →
+          Start a course <Icon name="arrow-right" size={15} aria-hidden="true" />
         </Link>
       </section>
       </div>

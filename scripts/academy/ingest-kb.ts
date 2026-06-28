@@ -239,13 +239,13 @@ async function main() {
       stats.push(stat)
       courseChunks += stat.chunks
       totalChunks += stat.chunks
-      console.log(`  ✓ ${course.slug}/${lesson.slug} → ${stat.chunks} chunk(s)`)
+      console.log(`  ${course.slug}/${lesson.slug} — ${stat.chunks} chunk(s)`)
     }
-    console.log(`✓ ${course.slug} — ${courseChunks} chunk(s) across ${lessons?.length ?? 0} lesson(s)\n`)
+    console.log(`${course.slug} — ${courseChunks} chunk(s) across ${lessons?.length ?? 0} lesson(s)\n`)
   }
 
   console.log(
-    `✓ KB INGEST COMPLETE — ${totalChunks} chunk(s) across ${stats.length} lesson(s) in ${courses.length} course(s)`,
+    `KB INGEST COMPLETE — ${totalChunks} chunk(s) across ${stats.length} lesson(s) in ${courses.length} course(s)`,
   )
   process.exit(0)
 }

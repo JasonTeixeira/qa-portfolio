@@ -5,15 +5,16 @@ import Link from 'next/link'
 import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
 import type { CourseItem } from '@/data/academy/learn-catalog'
 import { saveBuiltPath } from '@/app/academy/_actions/paths'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './build.module.css'
 
 const STORE_KEY = 'sage-academy-path'
 const TOPIC_CHIPS: Array<'all' | TopicKey> = ['all', 'foundations', 'ai-engineering', 'ship-it']
 
 const PRESETS: Array<{ key: string; label: string; sub: string; slugs: string[] }> = [
-  { key: 'ai-saas', label: 'AI SaaS Founder', sub: 'idea → shipped product', slugs: ['python-basics', 'the-llm-api', 'rag-retrieval', 'nextjs-supabase', 'stripe-auth'] },
+  { key: 'ai-saas', label: 'AI SaaS Founder', sub: 'idea to shipped product', slugs: ['python-basics', 'the-llm-api', 'rag-retrieval', 'nextjs-supabase', 'stripe-auth'] },
   { key: 'ai-engineer', label: 'AI Engineer', sub: 'LLMs, RAG, agents', slugs: ['python-basics', 'the-llm-api', 'prompt-engineering', 'rag-retrieval', 'agents-tool-use'] },
-  { key: 'fullstack', label: 'Full-stack Builder', sub: 'code → deployed', slugs: ['git-the-terminal', 'python-basics', 'data-structures', 'nextjs-supabase', 'stripe-auth'] },
+  { key: 'fullstack', label: 'Full-stack Builder', sub: 'code to deployed', slugs: ['git-the-terminal', 'python-basics', 'data-structures', 'nextjs-supabase', 'stripe-auth'] },
   { key: 'blank', label: 'Start blank', sub: 'pick everything yourself', slugs: [] },
 ]
 
@@ -79,14 +80,14 @@ export function PathBuilder({ courses }: { courses: CourseItem[] }) {
     setSaveMsg('')
     startSaving(async () => {
       const res = await saveBuiltPath(pathSlugs)
-      setSaveMsg(res.signedIn ? 'Saved to account ✓' : 'Sign in to save')
+      setSaveMsg(res.signedIn ? 'Saved to account' : 'Sign in to save')
     })
   }
 
   return (
     <div className={styles.page}>
       <header className={styles.head}>
-        <p className={styles.kicker}>⬡ Modular · build your own path</p>
+        <p className={styles.kicker}>Modular · build your own path</p>
         <h1 className={styles.title}>Assemble the exact track you want.</h1>
         <p className={styles.subtitle}>
           Start from an outcome or a blank slate, add the courses + labs you care about, and order them your way.
@@ -144,7 +145,15 @@ export function PathBuilder({ courses }: { courses: CourseItem[] }) {
                   <h3 className={styles.cardTitle}>{c.title}</h3>
                   <span className={styles.cardMeta}>{c.lessons} lessons · {c.hours}h</span>
                   <button type="button" className={styles.addBtn} onClick={() => toggle(c.slug)} aria-pressed={added}>
-                    {added ? '✓ Added' : '+ Add to path'}
+                    {added ? (
+                      <>
+                        <Icon name="check" size={14} aria-hidden="true" /> Added
+                      </>
+                    ) : (
+                      <>
+                        <Icon name="plus" size={14} aria-hidden="true" /> Add to path
+                      </>
+                    )}
                   </button>
                 </article>
               )
@@ -178,9 +187,9 @@ export function PathBuilder({ courses }: { courses: CourseItem[] }) {
                       <span className={styles.stepMeta}>{TOPICS[c.topic].label} · {c.lessons} lessons</span>
                     </span>
                     <span className={styles.stepCtrls}>
-                      <button type="button" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up">↑</button>
-                      <button type="button" onClick={() => move(i, 1)} disabled={i === path.length - 1} aria-label="Move down">↓</button>
-                      <button type="button" onClick={() => remove(c.slug)} aria-label="Remove" className={styles.stepRemove}>×</button>
+                      <button type="button" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up"><Icon name="chevron-up" size={15} aria-hidden="true" /></button>
+                      <button type="button" onClick={() => move(i, 1)} disabled={i === path.length - 1} aria-label="Move down"><Icon name="chevron-down" size={15} aria-hidden="true" /></button>
+                      <button type="button" onClick={() => remove(c.slug)} aria-label="Remove" className={styles.stepRemove}><Icon name="x" size={15} aria-hidden="true" /></button>
                     </span>
                   </li>
                 ))}
@@ -194,7 +203,8 @@ export function PathBuilder({ courses }: { courses: CourseItem[] }) {
                 aria-disabled={path.length === 0}
                 tabIndex={path.length === 0 ? -1 : 0}
               >
-                Start my path →
+                Start my path
+                <Icon name="arrow-right" size={16} aria-hidden="true" />
               </Link>
               <button
                 type="button"
@@ -204,7 +214,10 @@ export function PathBuilder({ courses }: { courses: CourseItem[] }) {
               >
                 {saving ? 'Saving…' : saveMsg || 'Save to account'}
               </button>
-              <Link href="/academy/catalog" className={styles.backLink}>← Back to catalog</Link>
+              <Link href="/academy/catalog" className={styles.backLink}>
+                <Icon name="arrow-left" size={14} aria-hidden="true" />
+                Back to catalog
+              </Link>
             </div>
           </div>
         </aside>

@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { FriendView, PendingRequest, CohortView } from '@/lib/academy/community'
 import { requestFriend, acceptFriend, joinCohortAction } from '@/app/academy/_actions/community'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './community.module.css'
 
 const REASON_COPY: Record<string, string> = {
@@ -98,13 +99,16 @@ export function CommunityHub({
         {discordUrl ? (
           <a className={styles.discord} href={discordUrl} target="_blank" rel="noopener noreferrer">
             <span className={styles.discordGlyph} aria-hidden="true">
-              ⌁
+              <Icon name="users" size={20} />
             </span>
             <div className={styles.copy}>
               <span className={styles.discordTitle}>Join the Discord</span>
               <span className={styles.discordSub}>Daily build chatter, help, and accountability with the whole community.</span>
             </div>
-            <span className={styles.discordCta}>Open →</span>
+            <span className={styles.discordCta}>
+              Open
+              <Icon name="arrow-up-right" size={14} aria-hidden="true" />
+            </span>
           </a>
         ) : null}
       </div>
@@ -137,7 +141,7 @@ export function CommunityHub({
         {friends.length === 0 ? (
           <div className={styles.emptyState}>
             <span className={styles.emptyGlyph} aria-hidden="true">
-              ◇
+              <Icon name="users" size={24} />
             </span>
             <p className={styles.emptyTitle}>No friends yet.</p>
             <p className={styles.emptyHelp}>
@@ -158,7 +162,7 @@ export function CommunityHub({
                   </span>
                 </span>
                 <span className={`${styles.friendStreak} ${f.alive ? styles.streakAlive : ''}`} title="Shared friend streak">
-                  {f.alive ? '🔥' : '○'} {f.friendStreak}
+                  <Icon name={f.alive ? 'flame' : 'circle'} size={14} aria-hidden="true" /> {f.friendStreak}
                 </span>
               </li>
             ))}
@@ -180,7 +184,7 @@ export function CommunityHub({
                 </span>
               </div>
               {c.isMember ? (
-                <span className={styles.joined}>✓ Joined</span>
+                <span className={styles.joined}><Icon name="check" size={14} aria-hidden="true" /> Joined</span>
               ) : (
                 <button type="button" className={styles.primary} onClick={() => join(c.slug)} disabled={pending}>
                   Join

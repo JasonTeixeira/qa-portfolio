@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { ShareRow } from '@/components/academy/share/ShareRow'
+import { Icon } from '@/components/academy/ui/Icon'
 import type { ReferralSummary } from '@/lib/academy/referral-logic'
 import styles from './referral.module.css'
 
@@ -55,7 +56,13 @@ export function ReferralHub({
         <div className={styles.linkRow}>
           <code className={styles.link}>{link.replace(/^https?:\/\//, '')}</code>
           <button type="button" className={styles.copyBtn} onClick={copyLink}>
-            {copied ? '✓ Copied' : 'Copy'}
+            {copied ? (
+              <>
+                <Icon name="check" size={14} aria-hidden="true" /> Copied
+              </>
+            ) : (
+              'Copy'
+            )}
           </button>
         </div>
         <div className={styles.codeNote}>

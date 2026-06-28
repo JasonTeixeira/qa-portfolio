@@ -208,7 +208,7 @@ export default async function AcademyEnrollPage({ params, searchParams }: PagePr
       <section className="border-b border-[var(--sage-border)] px-5 py-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <SurfaceSystemPanel
-            title="Learn ⇄ Build"
+            title="Learn · Build"
             body="This is the checkout-ready product surface. Until the course packaging and Stripe products are finalized, it collects early access instead of taking money."
             steps={[
               { label: 'Who it is for', detail: track.audience },

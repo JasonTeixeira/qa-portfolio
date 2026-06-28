@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { PublicProfile } from '@/lib/academy/profiles'
 import type { GainBand } from '@/lib/academy/efficacy-logic'
 import { ShareRow } from '@/components/academy/share/ShareRow'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './public-profile.module.css'
 
 const titleCase = (s: string) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -69,7 +70,7 @@ export function PublicProfileView({ profile, shareUrl }: { profile: PublicProfil
               <li key={gn.courseSlug} className={styles.gainRow} data-band={gn.band ?? 'none'}>
                 <span className={styles.gainCourse}>{titleCase(gn.courseSlug)}</span>
                 <span className={styles.gainScores}>
-                  {gn.pre} → {gn.post}
+                  {gn.pre} <Icon name="arrow-right" size={12} aria-label="to" /> {gn.post}
                 </span>
                 <span className={styles.gainBadge}>
                   {gn.g !== null ? `g ${gn.g.toFixed(2)}` : '—'} · {gn.band ? BAND_LABEL[gn.band] : '—'}
@@ -87,10 +88,13 @@ export function PublicProfileView({ profile, shareUrl }: { profile: PublicProfil
             {profile.certificates.map((c) => (
               <Link key={c.code} href={`/academy/certificate/${c.code}`} className={styles.cert}>
                 <span className={styles.certSeal} aria-hidden="true">
-                  ✦
+                  <Icon name="trophy" size={20} />
                 </span>
                 <span className={styles.certTitle}>{titleCase(c.courseSlug)}</span>
-                <span className={styles.certCta}>View certificate →</span>
+                <span className={styles.certCta}>
+                  View certificate
+                  <Icon name="arrow-right" size={13} aria-hidden="true" />
+                </span>
               </Link>
             ))}
           </div>
@@ -108,12 +112,14 @@ export function PublicProfileView({ profile, shareUrl }: { profile: PublicProfil
                 <div className={styles.artifactLinks}>
                   {a.repoUrl ? (
                     <a href={a.repoUrl} target="_blank" rel="noopener noreferrer">
-                      Code →
+                      Code
+                      <Icon name="arrow-up-right" size={13} aria-hidden="true" />
                     </a>
                   ) : null}
                   {a.demoUrl ? (
                     <a href={a.demoUrl} target="_blank" rel="noopener noreferrer">
-                      Demo →
+                      Demo
+                      <Icon name="arrow-up-right" size={13} aria-hidden="true" />
                     </a>
                   ) : null}
                 </div>
@@ -126,7 +132,8 @@ export function PublicProfileView({ profile, shareUrl }: { profile: PublicProfil
       <footer className={styles.cta}>
         <p>Build your own proof-of-work portfolio.</p>
         <Link href="/academy" className={styles.ctaBtn}>
-          Start at Sage Academy →
+          Start at Sage Academy
+          <Icon name="arrow-right" size={15} aria-hidden="true" />
         </Link>
       </footer>
     </div>

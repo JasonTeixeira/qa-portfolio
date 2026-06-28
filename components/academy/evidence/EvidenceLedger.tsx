@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { topic } from '@/lib/academy/topics'
 import type { EvidenceLedger as Ledger } from '@/lib/academy/evidence'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './evidence.module.css'
 
 function fmtDate(iso: string): string {
@@ -16,10 +17,13 @@ export function EvidenceLedger({ data }: { data: Ledger }) {
     return (
       <div className={styles.page}>
         <div className={styles.empty}>
-          <span className={styles.emptyGlyph} aria-hidden="true">⬡</span>
+          <span className={styles.emptyGlyph} aria-hidden="true"><Icon name="book" size={24} /></span>
           <h1 className={styles.emptyTitle}>Your proof of work</h1>
           <p className={styles.emptyBody}>Sign in to see every sprint you&rsquo;ve proven, course you&rsquo;ve finished, and certificate you&rsquo;ve earned — a record you can show an employer.</p>
-          <Link href="/login?next=/academy/evidence" className={styles.primary}>Sign in →</Link>
+          <Link href="/login?next=/academy/evidence" className={styles.primary}>
+            Sign in
+            <Icon name="arrow-right" size={15} aria-hidden="true" />
+          </Link>
         </div>
       </div>
     )
@@ -37,7 +41,7 @@ export function EvidenceLedger({ data }: { data: Ledger }) {
   return (
     <div className={styles.page}>
       <header className={styles.head}>
-        <span className={styles.kicker}>⬡ Proof of work</span>
+        <span className={styles.kicker}>Proof of work</span>
         <h1 className={styles.title}>{data.name}&rsquo;s evidence ledger</h1>
         <p className={styles.sub}>
           Not a list of videos watched — a record of work <em>proven</em>. Every entry passed a real
@@ -60,10 +64,13 @@ export function EvidenceLedger({ data }: { data: Ledger }) {
           <div className={styles.certGrid}>
             {data.certificates.map((c) => (
               <Link key={c.code} href={`/academy/certificate/${c.code}`} className={styles.certCard} style={{ ['--c' as string]: topic(c.topic).color }}>
-                <span className={styles.certSeal} aria-hidden="true">◆</span>
+                <span className={styles.certSeal} aria-hidden="true"><Icon name="trophy" size={20} /></span>
                 <span className={styles.certTitle}>{c.courseTitle}</span>
                 <span className={styles.certMeta}>{c.code} · {fmtDate(c.issuedAt)}</span>
-                <span className={styles.certView}>View certificate →</span>
+                <span className={styles.certView}>
+                  View certificate
+                  <Icon name="arrow-right" size={13} aria-hidden="true" />
+                </span>
               </Link>
             ))}
           </div>
@@ -81,15 +88,18 @@ export function EvidenceLedger({ data }: { data: Ledger }) {
                   <Link href={`/academy/learn/${it.courseSlug}/${it.lessonSlug}`} className={styles.entryTitle}>{it.lessonTitle}</Link>
                   <span className={styles.entryMeta}>{it.courseTitle} · proven {fmtDate(it.at)}</span>
                 </div>
-                <span className={styles.entryTag}>✓ proven</span>
+                <span className={styles.entryTag}><Icon name="check" size={13} aria-hidden="true" /> proven</span>
               </li>
             ))}
           </ol>
         ) : (
           <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">◇</span>
+            <span className={styles.emptyGlyph} aria-hidden="true"><Icon name="compass" size={24} /></span>
             <p className={styles.emptyBody}>No proof yet — finish a sprint and clear its unlock gate to start your ledger.</p>
-            <Link href="/academy/catalog" className={styles.primary}>Start a sprint →</Link>
+            <Link href="/academy/catalog" className={styles.primary}>
+              Start a sprint
+              <Icon name="arrow-right" size={15} aria-hidden="true" />
+            </Link>
           </div>
         )}
       </section>

@@ -11,6 +11,7 @@ import { academyTracks } from '@/data/academy/tracks'
 import { buildBreadcrumbList } from '@/lib/seo/jsonld'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
 import { AcademyShell } from '@/components/academy/academy-shell'
+import { Icon } from '@/components/academy/ui/Icon'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -91,7 +92,7 @@ export default async function MyCoursesPage() {
 
             <SystemHeroPanel
               eyebrow="academy access graph"
-              title="Checkout ⇄ enrollment ⇄ course access"
+              title="Checkout · enrollment · course access"
               nodes={['Stripe', 'Webhook', 'Enrollment', 'Access']}
               stats={[
                 { label: 'tracks', value: String(academyTracks.length).padStart(2, '0') },
@@ -159,9 +160,9 @@ export default async function MyCoursesPage() {
                       </p>
                       <Link
                         href={`/academy/${enrollment.track_slug}/learn`}
-                        className="mt-5 inline-flex text-sm font-semibold text-[var(--sage-accent-readable)] hover:text-[var(--sage-ink)]"
+                        className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--sage-accent-readable)] hover:text-[var(--sage-ink)]"
                       >
-                        Open lessons →
+                        Open lessons <Icon name="arrow-right" size={14} aria-hidden="true" />
                       </Link>
                     </article>
                   )

@@ -34,7 +34,7 @@ export interface Trigger {
   key: TriggerKind
   kind: TriggerKind
   tone: TriggerTone
-  /** Short, learner-facing nudge. Already includes any emoji glyph. */
+  /** Short, learner-facing nudge. Plain text — the banner renders a tone icon. */
   message: string
   /** The call-to-action label on the link. */
   cta: string
@@ -72,7 +72,6 @@ export interface TriggerState {
 }
 
 const REVIEW_HREF = '/academy/review'
-const ONBOARDING_HREF = '/academy/onboarding'
 
 // Tunable thresholds — named so the rules read as intent, not magic numbers.
 const NEAR_CERT_LESSONS = 2 // "you're N lessons from a certificate" fires at <= this
@@ -98,8 +97,8 @@ export function computeTriggers(state: TriggerState, resumeHref: string): Trigge
     const hrs = state.hoursUntilReset
     const message =
       hrs !== null && hrs > 0
-        ? `🔥 Your ${state.currentStreak}-day streak resets in ${hrs}h — one lesson saves it`
-        : `🔥 Your ${state.currentStreak}-day streak is at risk — a 2-minute review keeps it alive`
+        ? `Your ${state.currentStreak}-day streak resets in ${hrs}h — one lesson saves it`
+        : `Your ${state.currentStreak}-day streak is at risk — a 2-minute review keeps it alive`
     triggers.push({
       key: 'streak-risk',
       kind: 'streak-risk',

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { topic } from '@/lib/academy/topics'
 import type { CertificateView } from '@/lib/academy/learner'
 import { ShareRow } from '@/components/academy/share/ShareRow'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './certificate.module.css'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sageideas.dev'
@@ -19,7 +20,7 @@ export function Certificate({ cert }: { cert: CertificateView }) {
   return (
     <div className={styles.page} style={rootStyle}>
       <article className={styles.cert}>
-        <span className={styles.seal} aria-hidden="true">✦</span>
+        <span className={styles.seal} aria-hidden="true"><Icon name="award" size={32} /></span>
         <p className={styles.kicker}>Sage Academy · Certificate of Completion</p>
         <p className={styles.pre}>This certifies that</p>
         <h1 className={styles.name}>{cap(cert.recipientName)}</h1>

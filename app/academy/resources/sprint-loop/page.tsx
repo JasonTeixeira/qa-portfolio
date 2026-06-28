@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { LOOP, INTENSITIES } from '@/lib/academy/engine'
+import { Icon } from '@/components/academy/ui/Icon'
 import { PrintButton } from './PrintButton'
 import styles from './reference.module.css'
 
@@ -13,7 +14,9 @@ export default function SprintLoopReference() {
   return (
     <div className={styles.sheet}>
       <div className={styles.toolbar}>
-        <Link href="/academy/resources" className={styles.back}>← Resources</Link>
+        <Link href="/academy/resources" className={styles.back}>
+          <Icon name="arrow-left" size={15} aria-hidden="true" /> Resources
+        </Link>
         <PrintButton />
       </div>
 
@@ -30,9 +33,13 @@ export default function SprintLoopReference() {
         <ol className={styles.loop}>
           {LOOP.map((s) => (
             <li key={s.key} className={styles.step}>
-              <span className={styles.stepN}>{s.step === 0 ? '◆' : String(s.step).padStart(2, '0')}</span>
+              <span className={styles.stepN} aria-hidden="true">
+                {s.step === 0 ? <Icon name="star" size={14} /> : String(s.step).padStart(2, '0')}
+              </span>
               <div>
-                <span className={styles.stepLabel}>{s.glyph} {s.label}</span>
+                <span className={styles.stepLabel}>
+                  <Icon name={s.glyph} size={15} aria-hidden="true" /> {s.label}
+                </span>
                 <span className={styles.stepWhy}>{s.why}</span>
               </div>
             </li>

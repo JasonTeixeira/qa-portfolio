@@ -51,7 +51,7 @@
 
 .eyebrow {
   margin: 0.4rem 0 0;
-  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-family: var(--ac-font-mono);
   font-size: var(--ac-step--1, 0.83rem);
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -60,7 +60,7 @@
 
 .title {
   margin: 0;
-  font-family: var(--ac-font-display, Georgia, serif);
+  font-family: var(--ac-font-display);
   font-size: var(--ac-step-2, 1.4rem);
   line-height: 1.2;
   color: var(--ac-ink, #f2efe9);
@@ -79,7 +79,7 @@
    counting figure doesn't jitter. Decorative emphasis; meaning is in title/sub. */
 .figure {
   margin: 0.55rem 0 0.15rem;
-  font-family: var(--ac-font-display, Georgia, serif);
+  font-family: var(--ac-font-display);
   font-size: var(--ac-step-4, 2.6rem);
   font-weight: 600;
   line-height: 0.95;
@@ -91,7 +91,7 @@
 .dismiss {
   margin-top: 0.9rem;
   padding: 0.5rem 1.25rem;
-  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-family: var(--ac-font-mono);
   font-size: var(--ac-step--1, 0.83rem);
   text-transform: uppercase;
   letter-spacing: 0.1em;

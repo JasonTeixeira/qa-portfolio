@@ -24,7 +24,7 @@
   background: var(--ac-surface, rgba(255, 255, 255, 0.02));
 }
 
-/* ── variable-ratio bonus banner (the panel LEAD) ─────────────────────────
+/* -- variable-ratio bonus banner (the panel LEAD) -------------------------
    Spans both columns above the two quest groups and reads as today's claimable
    prize, not a status strip: a large headline value, a prominent icon, and an
    honest "varies daily" tease. Depth via a hairline + accent wash + soft inset,
@@ -130,7 +130,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -218,7 +218,7 @@
 }
 
 .kicker {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -226,7 +226,7 @@
 }
 
 .summary {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.68rem;
   color: var(--ac-text-dim, #8a8b96);
 }
@@ -321,7 +321,7 @@
 }
 
 .count {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.74rem;
   white-space: nowrap;
   color: var(--ac-text, #f2efe9);

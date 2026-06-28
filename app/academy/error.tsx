@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from '@/components/academy/feedback/feedback.module.css'
 
 export default function AcademyError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
@@ -12,7 +13,7 @@ export default function AcademyError({ error, reset }: { error: Error & { digest
 
   return (
     <section className={styles.state} role="alert">
-      <span className={styles.glyph} aria-hidden="true">⚠</span>
+      <span className={styles.glyph} aria-hidden="true"><Icon name="alert" size={28} /></span>
       <h1 className={styles.stateTitle}>Something interrupted this page</h1>
       <p className={styles.stateBody}>
         A hiccup loading the Academy — your progress is safe. Try again, and if it keeps happening, head back to the catalog.

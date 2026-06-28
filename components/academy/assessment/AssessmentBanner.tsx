@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { AssessmentState } from '@/lib/academy/assessments'
 import { gainBand } from '@/lib/academy/efficacy-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './assessment-banner.module.css'
 
 const BAND_LABEL = { high: 'High gain', medium: 'Medium gain', low: 'Low gain', negative: 'No gain yet' }
@@ -23,14 +24,14 @@ export function AssessmentBanner({
     return (
       <div className={`${styles.banner} ${styles.done}`}>
         <span className={styles.glyph} aria-hidden="true">
-          ↗
+          <Icon name="arrow-up-right" size={18} />
         </span>
         <div className={styles.copy}>
           <span className={styles.title}>
             Verified learning gain · g = {state.g.toFixed(2)} ({BAND_LABEL[gainBand(state.g)]})
           </span>
           <span className={styles.sub}>
-            Pre {state.pre} → Post {state.post}. This is on your public profile.
+            Pre {state.pre}, post {state.post}. This is on your public profile.
           </span>
         </div>
       </div>
@@ -41,13 +42,13 @@ export function AssessmentBanner({
     return (
       <Link href={`/academy/course/${slug}/assessment/posttest`} className={`${styles.banner} ${styles.action}`}>
         <span className={styles.glyph} aria-hidden="true">
-          ✓
+          <Icon name="check" size={18} />
         </span>
         <div className={styles.copy}>
           <span className={styles.title}>You finished — now prove the gain.</span>
           <span className={styles.sub}>Take the {state.posttestCount}-question post-assessment to measure how far you came.</span>
         </div>
-        <span className={styles.cta}>Prove it →</span>
+        <span className={styles.cta}>Prove it <Icon name="arrow-right" size={14} aria-hidden="true" /></span>
       </Link>
     )
   }
@@ -56,7 +57,7 @@ export function AssessmentBanner({
     return (
       <Link href={`/academy/course/${slug}/assessment/pretest`} className={`${styles.banner} ${styles.action}`}>
         <span className={styles.glyph} aria-hidden="true">
-          ◷
+          <Icon name="target" size={18} />
         </span>
         <div className={styles.copy}>
           <span className={styles.title}>Start with a quick baseline.</span>
@@ -64,7 +65,7 @@ export function AssessmentBanner({
             A {state.pretestCount}-question check (no pass/fail) so we can measure exactly how much you gain.
           </span>
         </div>
-        <span className={styles.cta}>Begin →</span>
+        <span className={styles.cta}>Begin <Icon name="arrow-right" size={14} aria-hidden="true" /></span>
       </Link>
     )
   }

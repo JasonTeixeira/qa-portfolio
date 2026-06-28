@@ -33,7 +33,7 @@
   }
 }
 
-/* Tone → semantic color. Urgent leans on danger, warm on accent, neutral on the
+/* Tone -> semantic color. Urgent leans on danger, warm on accent, neutral on the
    in-progress/pending hue. */
 .urgent {
   --tone: var(--ac-danger, #ff5436);
@@ -47,7 +47,8 @@
 
 .icon {
   flex: none;
-  font-size: 1.05rem;
+  display: inline-grid;
+  place-items: center;
   line-height: 1;
   color: var(--tone);
 }
@@ -56,7 +57,7 @@
   flex: 1 1 auto;
   margin: 0;
   min-width: 0;
-  font-family: var(--ac-font-body, system-ui, sans-serif);
+  font-family: var(--ac-font-body);
   font-size: var(--ac-step--1, 0.9rem);
   line-height: 1.35;
   color: var(--ac-ink-soft, #c0c0ca);
@@ -64,7 +65,10 @@
 
 .cta {
   flex: none;
-  font-family: var(--ac-font-body, system-ui, sans-serif);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--ac-font-body);
   font-size: var(--ac-step--1, 0.9rem);
   font-weight: 600;
   white-space: nowrap;

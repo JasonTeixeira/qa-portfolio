@@ -7,7 +7,7 @@
   max-width: 760px;
   margin: 0 auto;
   padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--ac-font-body);
   color: var(--ink);
 }
 
@@ -24,9 +24,9 @@
 }
 
 .head { position: relative; z-index: 1; margin-bottom: 1.6rem; text-align: center; }
-.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--tier); }
-.title { margin: 0.55rem 0 0; display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 3rem); letter-spacing: -0.02em; }
-.gem { color: var(--tier); }
+.kicker { margin: 0; font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--tier); }
+.title { margin: 0.55rem 0 0; display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 3rem); letter-spacing: -0.02em; }
+.gem { display: inline-flex; align-items: center; color: var(--tier); }
 .sub { margin: 0.7rem 0 0; font-size: 0.98rem; color: var(--dim); }
 .sub strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
@@ -40,7 +40,7 @@
   border: 1px solid color-mix(in srgb, var(--tier) 28%, var(--line));
   border-radius: 100px;
   background: color-mix(in srgb, var(--tier) 7%, transparent);
-  font-family: var(--font-mono), monospace; font-size: 0.74rem;
+  font-family: var(--ac-font-mono); font-size: 0.74rem;
 }
 .countdownLabel { color: var(--dim); letter-spacing: 0.02em; }
 .countdownValue { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
@@ -93,26 +93,26 @@
 }
 .overtakeKicker {
   margin: 0;
-  font-family: var(--font-mono), monospace; font-size: 0.66rem;
+  font-family: var(--ac-font-mono); font-size: 0.66rem;
   text-transform: uppercase; letter-spacing: 0.16em; color: var(--tier);
 }
 .overtake[data-leader='true'] .overtakeKicker { color: #34d399; }
 .overtakeLine {
   margin: 0;
-  font-family: var(--font-serif), Georgia, serif; font-weight: 500;
+  font-family: var(--ac-font-display); font-weight: 500;
   font-size: clamp(1.35rem, 1.05rem + 1.5vw, 1.9rem); line-height: 1.25; letter-spacing: -0.01em;
   color: var(--ink);
 }
 .overtakeLine strong { font-weight: 600; }
 .overtakeGap { color: var(--tier); font-variant-numeric: tabular-nums; }
 /* Stable AA-verified primary: white-on-accent-strong, not the variable tier
-   color (tier hues range light→dark and can't guarantee text contrast). */
+   color (tier hues range light-to-dark and can't guarantee text contrast). */
 .overtakeCta {
   margin-top: 0.35rem;
-  display: inline-flex; align-items: center;
+  display: inline-flex; align-items: center; gap: 0.4rem;
   padding: 0.7rem 1.3rem; border-radius: 26px;
   background: var(--ac-accent-strong, #3458e0); color: #fff; text-decoration: none;
-  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem;
+  font-family: var(--ac-font-display); font-weight: 700; font-size: 0.9rem;
   transition: filter 0.15s ease, transform 0.1s ease;
 }
 .overtakeCta:hover { filter: brightness(1.08); }
@@ -127,18 +127,18 @@
   display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem;
 }
 /* Dim the DOT per-state — never the whole rung, which drags the label text below
-   AA (axe: opacity 0.4 → 1.85:1). The label keeps a readable color in every state. */
+   AA (axe: opacity 0.4 -> 1.85:1). The label keeps a readable color in every state. */
 .rung { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
 .rungDot { width: 14px; height: 14px; border-radius: 50%; background: var(--rung); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); opacity: 0.4; transition: opacity 0.2s ease; }
 .rungPast .rungDot { opacity: 0.7; }
 .rungOn .rungDot { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 55%, transparent); }
-.rungName { font-family: var(--font-mono), monospace; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.rungName { font-family: var(--ac-font-mono); font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 .rungPast .rungName { color: var(--dim); }
 .rungOn .rungName { color: var(--ink); }
 
 /* legend */
 .legend { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.2rem; }
-.legChip { font-family: var(--font-mono), monospace; font-size: 0.66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 100px; padding: 0.32rem 0.75rem; }
+.legChip { display: inline-flex; align-items: center; gap: 0.3rem; font-family: var(--ac-font-mono); font-size: 0.66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 100px; padding: 0.32rem 0.75rem; }
 .legPromote { color: #34d399; border-color: color-mix(in srgb, #34d399 35%, transparent); }
 .legRelegate { color: #f87171; border-color: color-mix(in srgb, #f87171 35%, transparent); }
 
@@ -179,21 +179,21 @@
   box-shadow: inset 2px 0 0 var(--tier);
 }
 
-.rank { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1rem; color: var(--dim); font-variant-numeric: tabular-nums; text-align: center; }
+.rank { font-family: var(--ac-font-display); font-weight: 800; font-size: 1rem; color: var(--dim); font-variant-numeric: tabular-nums; text-align: center; }
 .avatar {
   width: 2rem; height: 2rem; display: grid; place-items: center;
   border-radius: 50%; border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.04);
-  font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; color: var(--dim);
+  font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; color: var(--dim);
 }
 .you .avatar { border-color: color-mix(in srgb, var(--tier) 55%, transparent); color: var(--tier); }
 .name { font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .you .name { color: var(--ink); }
-.moveTag { font-size: 0.7rem; }
+.moveTag { display: inline-flex; align-items: center; font-size: 0.7rem; }
 .promote .moveTag { color: #34d399; }
 .relegate .moveTag { color: #f87171; }
-.xp { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1rem; font-variant-numeric: tabular-nums; }
-.xpUnit { font-family: var(--font-mono), monospace; font-size: 0.6rem; color: var(--muted); font-weight: 400; }
+.xp { font-family: var(--ac-font-display); font-weight: 700; font-size: 1rem; font-variant-numeric: tabular-nums; }
+.xpUnit { font-family: var(--ac-font-mono); font-size: 0.6rem; color: var(--muted); font-weight: 400; }
 
 .thinNote { position: relative; z-index: 1; margin: 1.2rem 0 0; text-align: center; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
 
@@ -206,11 +206,11 @@
   border: 1px solid var(--line); border-radius: 14px;
   background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 8%, transparent), transparent 80%);
 }
-.nextTierGem { flex-shrink: 0; font-size: 1.05rem; color: var(--nextColor, var(--tier)); }
+.nextTierGem { display: inline-flex; align-items: center; flex-shrink: 0; color: var(--nextColor, var(--tier)); }
 .nextTierBody { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
-.nextTierLabel { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
-.nextTierName { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; color: var(--ink); }
-.nextTierHint { margin-left: auto; flex-shrink: 0; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--dim); text-align: right; }
+.nextTierLabel { font-family: var(--ac-font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.nextTierName { font-family: var(--ac-font-display); font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; color: var(--ink); }
+.nextTierHint { margin-left: auto; flex-shrink: 0; font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--dim); text-align: right; }
 @media (max-width: 520px) { .nextTierHint { display: none; } }
 
 @media (max-width: 520px) {

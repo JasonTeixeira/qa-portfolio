@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useSound } from '@/hooks/useSound'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './earn-moment.module.css'
 
 function prefersReducedMotion(): boolean {
@@ -77,11 +78,11 @@ type Props = {
   className?: string
 }
 
-const DEFAULT_GLYPH: Record<EarnKind, string> = {
-  badge: '◆',
-  level: '▲',
-  streak: '✦',
-  cert: '❖',
+const DEFAULT_ICON: Record<EarnKind, IconName> = {
+  badge: 'star',
+  level: 'bolt',
+  streak: 'flame',
+  cert: 'trophy',
 }
 
 const VERB: Record<EarnKind, string> = {
@@ -102,7 +103,7 @@ const VERB: Record<EarnKind, string> = {
  * - Overlay variant is a labelled dialog: Esc and backdrop dismiss, focus moves
  *   to the panel on open and returns to the previously-focused element on close,
  *   and Tab is trapped between the focusable controls.
- * - Reduced-motion → instant, no-motion variant (no scale/clip reveal).
+ * - Reduced-motion -> instant, no-motion variant (no scale/clip reveal).
  * - Never animates opacity on the text itself once revealed; the reveal is a
  *   one-shot transform on the card, after which text is fully opaque.
  */
@@ -200,7 +201,7 @@ export function EarnMoment({
       tabIndex={isOverlay ? -1 : undefined}
     >
       <span className={styles.glyph} aria-hidden="true">
-        {icon ?? DEFAULT_GLYPH[kind]}
+        {icon ?? <Icon name={DEFAULT_ICON[kind]} size={32} />}
       </span>
       <p className={styles.eyebrow}>{VERB[kind]}</p>
       <p id={labelId} className={styles.title}>

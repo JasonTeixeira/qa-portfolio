@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './studio.module.css'
 
 export function Gate() {
@@ -9,7 +10,7 @@ export function Gate() {
         <h1 className={styles.h1}>Admins only</h1>
         <p className={styles.sub}>Sign in with an admin account to author academy content.</p>
         <Link href="/login?next=/academy-admin" className={styles.save} style={{ display: 'inline-block', marginTop: '1.2rem', textDecoration: 'none' }}>
-          Sign in →
+          Sign in <Icon name="arrow-right" size={14} aria-hidden="true" />
         </Link>
       </div>
     </div>

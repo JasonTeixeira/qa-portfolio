@@ -11,7 +11,7 @@
   background:
     radial-gradient(60% 45% at 50% 0%, rgba(61, 107, 255, 0.16), transparent 70%),
     #0b0d0c;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--ac-font-body);
   color: var(--ink);
 }
 
@@ -31,7 +31,7 @@
 
 .kicker {
   margin: 0;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -51,7 +51,7 @@
   box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 8%, transparent);
   animation: pop 520ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) 120ms both;
 }
-.sealMark { font-size: 1.7rem; line-height: 1; color: var(--accent); font-weight: 700; }
+.sealMark { display: inline-flex; line-height: 1; color: var(--accent); }
 
 @keyframes pop {
   0% { transform: scale(0.6); opacity: 0; }
@@ -61,7 +61,7 @@
 
 .title {
   margin: 0.7rem 0 0;
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--ac-font-display);
   font-weight: 500;
   font-size: clamp(1.9rem, 1.4rem + 2vw, 2.7rem);
   line-height: 1.08;
@@ -80,8 +80,8 @@
   background: rgba(255, 255, 255, 0.02);
 }
 .progressHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
-.progressLabel { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.02rem; }
-.progressPct { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); }
+.progressLabel { font-family: var(--ac-font-display); font-weight: 600; font-size: 1.02rem; }
+.progressPct { font-family: var(--ac-font-display); font-weight: 800; font-size: 1.1rem; color: var(--accent); }
 
 .bar {
   margin-top: 0.7rem;
@@ -120,7 +120,7 @@
 .milestone[data-first='true'][data-done='true'] .mLabel { font-weight: 600; }
 .justNow {
   margin-left: auto;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -133,13 +133,15 @@
 /* dominant CTA */
 .cta {
   margin-top: 1.8rem;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.95rem 1.9rem;
   border-radius: 26px;
   background: var(--accent);
   color: #fff;
   text-decoration: none;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--ac-font-display);
   font-weight: 700;
   font-size: 1rem;
   box-shadow: 0 14px 34px -12px color-mix(in srgb, var(--accent) 65%, transparent);
@@ -149,7 +151,7 @@
 .cta:active { transform: translateY(1px); }
 .cta:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.6); outline-offset: 3px; }
 
-.subNote { margin: 1rem 0 0; font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); }
+.subNote { margin: 1rem 0 0; font-family: var(--ac-font-mono); font-size: 0.74rem; color: var(--muted); }
 .subNote strong { color: var(--dim); font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {

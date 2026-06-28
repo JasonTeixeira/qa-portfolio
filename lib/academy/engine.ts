@@ -8,6 +8,8 @@
  * type system, not by discipline.
  */
 
+import type { IconName } from '@/components/academy/ui/Icon'
+
 export type SprintIntensity = 'micro' | 'standard' | 'deep' | 'capstone'
 
 export type IntensitySpec = {
@@ -36,26 +38,26 @@ export type LoopStep = {
   step: number
   label: string
   why: string
-  glyph: string
+  glyph: IconName
 }
 
 export const LOOP: LoopStep[] = [
-  { key: 'sprint-contract', step: 0, label: 'Sprint contract', why: 'Set the standard before you start', glyph: '⬡' },
-  { key: 'mission', step: 1, label: 'Mission', why: 'A real problem, not a topic', glyph: '◎' },
-  { key: 'context', step: 2, label: 'Where this fits', why: 'Anchor the skill to real work', glyph: '⊹' },
-  { key: 'pretest', step: 3, label: 'Pretest', why: 'Retrieval & productive failure before reading', glyph: '◇' },
-  { key: 'worked-example', step: 4, label: 'Worked example', why: 'See a complete model first', glyph: '▤' },
-  { key: 'concept', step: 5, label: 'Concept capsule', why: 'The smallest idea needed to act', glyph: '◈' },
-  { key: 'lab', step: 6, label: 'Tiny build', why: 'Apply it in a small real task', glyph: '⬢' },
-  { key: 'debug', step: 7, label: 'Broken case', why: 'Handle failure, not just success', glyph: '⚠' },
-  { key: 'tradeoff', step: 8, label: 'Tradeoff decision', why: 'Choose under constraints', glyph: '⇄' },
-  { key: 'verification', step: 9, label: 'Verification', why: 'Prove the result — no vibes', glyph: '✓' },
-  { key: 'quiz', step: 10, label: 'Quick check', why: 'Calibrate recall', glyph: '?' },
-  { key: 'teachback', step: 11, label: 'Teach-back', why: 'Explain it to lock it in', glyph: '◍' },
-  { key: 'calibration', step: 12, label: 'Calibration', why: 'Compare to weak / passing / excellent', glyph: '▥' },
-  { key: 'transfer', step: 13, label: 'Transfer challenge', why: 'Use the pattern somewhere new', glyph: '⤳' },
-  { key: 'spaced-review', step: 14, label: 'Spaced review', why: 'Review over time, not in one cram', glyph: '↻' },
-  { key: 'unlock-gate', step: 15, label: 'Unlock gate', why: 'Advance only with proof', glyph: '⏻' },
+  { key: 'sprint-contract', step: 0, label: 'Sprint contract', why: 'Set the standard before you start', glyph: 'shield' },
+  { key: 'mission', step: 1, label: 'Mission', why: 'A real problem, not a topic', glyph: 'target' },
+  { key: 'context', step: 2, label: 'Where this fits', why: 'Anchor the skill to real work', glyph: 'compass' },
+  { key: 'pretest', step: 3, label: 'Pretest', why: 'Retrieval & productive failure before reading', glyph: 'search' },
+  { key: 'worked-example', step: 4, label: 'Worked example', why: 'See a complete model first', glyph: 'book' },
+  { key: 'concept', step: 5, label: 'Concept capsule', why: 'The smallest idea needed to act', glyph: 'book' },
+  { key: 'lab', step: 6, label: 'Tiny build', why: 'Apply it in a small real task', glyph: 'bolt' },
+  { key: 'debug', step: 7, label: 'Broken case', why: 'Handle failure, not just success', glyph: 'alert' },
+  { key: 'tradeoff', step: 8, label: 'Tradeoff decision', why: 'Choose under constraints', glyph: 'swap' },
+  { key: 'verification', step: 9, label: 'Verification', why: 'Prove the result — no vibes', glyph: 'check' },
+  { key: 'quiz', step: 10, label: 'Quick check', why: 'Calibrate recall', glyph: 'circle' },
+  { key: 'teachback', step: 11, label: 'Teach-back', why: 'Explain it to lock it in', glyph: 'users' },
+  { key: 'calibration', step: 12, label: 'Calibration', why: 'Compare to weak / passing / excellent', glyph: 'target' },
+  { key: 'transfer', step: 13, label: 'Transfer challenge', why: 'Use the pattern somewhere new', glyph: 'arrow-up-right' },
+  { key: 'spaced-review', step: 14, label: 'Spaced review', why: 'Review over time, not in one cram', glyph: 'refresh' },
+  { key: 'unlock-gate', step: 15, label: 'Unlock gate', why: 'Advance only with proof', glyph: 'lock' },
 ]
 
 const LOOP_BY_KEY = new Map(LOOP.map((s) => [s.key, s]))

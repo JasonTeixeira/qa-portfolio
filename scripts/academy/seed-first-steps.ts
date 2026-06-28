@@ -37,7 +37,7 @@ const NEW_FOUNDATIONS_MODULE = 'Module 2 · Foundations'
 const NEW_FOUNDATIONS_MODULE_SORT = 1
 
 // ================================================================= LESSON 1
-// "Your First Program" — running code, print(), the edit→run→see-output loop.
+// "Your First Program" — running code, print(), the edit, run, see-output loop.
 // Beginner-correct floor: NO variables, NO functions, NO types yet. The only
 // idea is: you type an instruction, you run it, the computer does exactly it.
 const FIRST_PROGRAM_LAB_STARTER = `# Make the program print this EXACT line:
@@ -89,7 +89,7 @@ const firstProgramBlocks = [
       'The parentheses ( ) hold what you want to show.',
       'The quotes " " mark the text (the string) you want printed — exactly what is inside them appears.',
       'Run it, and the output is the line:  Hello, world!',
-      'Change the text inside the quotes, run again, and the output changes to match — that is the edit→run→see loop.',
+      'Change the text inside the quotes, run again, and the output changes to match — that is the edit, run, see loop.',
     ],
     commonMistake:
       'Forgetting the quotes — writing print(Hello) instead of print("Hello"). Without quotes the computer thinks Hello is a command to look up (and there is none), so it errors. Text you want shown LITERALLY always goes inside quotes.',
@@ -144,7 +144,7 @@ print("I just ran my first program.")`,
       'You pressed Run and your line actually appeared in the output (you saw it, not just read about it)',
       'The output is EXACTLY:  Hello, world!  — same comma, same space, same exclamation mark',
       'Your text is wrapped in matching quotes inside print(...)',
-      'You changed the text once, re-ran, and watched the output change to match (the edit→run→see loop)',
+      'You changed the text once, re-ran, and watched the output change to match (the edit, run, see loop)',
     ],
   },
   {
@@ -152,7 +152,7 @@ print("I just ran my first program.")`,
     prompts: [
       'In one sentence, what does print(...) do?',
       'Why does the text you want shown go inside quotes?',
-      'What are the three steps of the loop every programmer repeats? (edit → ? → ?)',
+      'What are the three steps of the loop every programmer repeats? (edit, then what, then what?)',
       'A friend says "the computer figured out what I meant." Gently correct them.',
     ],
   },
@@ -652,7 +652,7 @@ const booleansBlocks = [
   {
     type: 'concept',
     title: 'Comparisons make booleans; if / elif / else branch on them',
-    text: 'A boolean is a value that is either True or False — the answer to a yes/no question. You make one by comparing: == (equal to), != (not equal), < (less than), > (greater than), <= (at most), >= (at least). Watch the trap: == asks "are these equal?", while a single = stores a value — never mix them. Combine conditions with and (both must be True), or (at least one True), and not (flips True↔False). Then if runs its indented block only when its condition is True; elif ("else if") checks the next condition only if the ones above were False; else runs when none matched. Python checks them top to bottom and takes the FIRST branch that is True — so order matters.',
+    text: 'A boolean is a value that is either True or False — the answer to a yes/no question. You make one by comparing: == (equal to), != (not equal), < (less than), > (greater than), <= (at most), >= (at least). Watch the trap: == asks "are these equal?", while a single = stores a value — never mix them. Combine conditions with and (both must be True), or (at least one True), and not (flips True to False and back). Then if runs its indented block only when its condition is True; elif ("else if") checks the next condition only if the ones above were False; else runs when none matched. Python checks them top to bottom and takes the FIRST branch that is True — so order matters.',
   },
   {
     type: 'worked-example',
@@ -1565,7 +1565,7 @@ async function main() {
   await sb.from('academy_courses').update({ lessons: count ?? 0 }).eq('slug', COURSE_SLUG)
 
   console.log(
-    `✓ Seeded "${FIRST_STEPS_MODULE}" (${firstSteps.length} lessons) + relabelled Foundations -> "${NEW_FOUNDATIONS_MODULE}". Course now has ${count ?? 0} published lesson(s).`,
+    `Seeded "${FIRST_STEPS_MODULE}" (${firstSteps.length} lessons) + relabelled Foundations -> "${NEW_FOUNDATIONS_MODULE}". Course now has ${count ?? 0} published lesson(s).`,
   )
 }
 

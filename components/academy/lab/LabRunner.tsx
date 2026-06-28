@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { verifyLab } from '@/app/academy/_actions/evidence'
 import { useSound } from '@/hooks/useSound'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './lab.module.css'
 
 const PYODIDE_VERSION = '0.26.4'
@@ -160,13 +161,13 @@ export function LabRunner({
   return (
     <div className={styles.root}>
       <header className={styles.topbar}>
-        <Link href={backHref} className={styles.back}>← Back to lesson</Link>
-        <span className={styles.title}>⬡ LAB · {title}</span>
+        <Link href={backHref} className={styles.back}><Icon name="arrow-left" size={15} /> Back to lesson</Link>
+        <span className={styles.title}><Icon name="bolt" size={14} /> LAB · {title}</span>
         <span className={styles.spacer} />
         <span className={styles.kbdHint} aria-hidden="true"><kbd>⌘</kbd><kbd>↵</kbd> run</span>
         <button type="button" className={styles.reset} onClick={() => { setCode(starter); setOutput(null); setPassed(false); lastOutputRef.current = '' }}>Reset</button>
         <button type="button" className={styles.run} onClick={run} disabled={!runnable} aria-keyshortcuts="Meta+Enter Control+Enter">
-          {status === 'loading' ? 'Loading Python…' : status === 'running' ? 'Running…' : '▶ Run'}
+          {status === 'loading' ? 'Loading Python…' : status === 'running' ? 'Running…' : (<><Icon name="play" size={14} /> Run</>)}
         </button>
       </header>
 
@@ -177,20 +178,20 @@ export function LabRunner({
           {passed ? (
             completed ? (
               <span className={styles.cpDone}>
-                ✓ Checkpoint complete — saved to your progress.{' '}
-                <Link href={backHref} className={styles.cpLink}>Back to lesson →</Link>
+                <Icon name="check" size={15} /> Checkpoint complete — saved to your progress.{' '}
+                <Link href={backHref} className={styles.cpLink}>Back to lesson <Icon name="arrow-right" size={14} /></Link>
               </span>
             ) : (
               <>
-                <span className={styles.cpPass}>✓ Checkpoint verified! Your solution is correct.</span>
+                <span className={styles.cpPass}><Icon name="check" size={15} /> Checkpoint verified! Your solution is correct.</span>
                 <button type="button" className={styles.cpComplete} onClick={complete} disabled={completing}>
-                  {completing ? 'Saving…' : 'Mark lesson complete →'}
+                  {completing ? 'Saving…' : (<>Mark lesson complete <Icon name="arrow-right" size={14} /></>)}
                 </button>
               </>
             )
           ) : (
             <>
-              <span className={styles.cpGoal}>🎯 Checkpoint: edit and Run your code, then check your solution.</span>
+              <span className={styles.cpGoal}><Icon name="target" size={15} /> Checkpoint: edit and Run your code, then check your solution.</span>
               <button type="button" className={styles.cpComplete} onClick={verify} disabled={verifying || status !== 'ready'}>
                 {verifying ? 'Checking…' : 'Check my solution'}
               </button>
@@ -205,7 +206,7 @@ export function LabRunner({
           <textarea className={styles.editor} value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={onEditorKeyDown} spellCheck={false} autoCapitalize="off" autoCorrect="off" aria-label="Python code" />
         </section>
         <section className={styles.outputPane} aria-label="Output">
-          <div className={styles.paneBar}><span className={styles.outLabel}>▸ output</span>
+          <div className={styles.paneBar}><span className={styles.outLabel}><Icon name="chevron-right" size={13} /> output</span>
             {status === 'error' ? <span className={styles.errTag}>runtime failed to load</span> : null}
           </div>
           <pre className={styles.output} data-empty={status !== 'error' && output == null ? 'true' : undefined} role="status" aria-live="polite">
@@ -213,7 +214,7 @@ export function LabRunner({
               : output != null ? output
               : (
                 <span className={styles.outEmpty}>
-                  <span className={styles.outEmptyMark} aria-hidden="true">⌁</span>
+                  <span className={styles.outEmptyMark} aria-hidden="true"><Icon name="play" size={18} /></span>
                   <span className={styles.outEmptyLine}>
                     {status === 'loading' ? 'Booting the Python runtime…' : 'Press Run to execute your code.'}
                   </span>

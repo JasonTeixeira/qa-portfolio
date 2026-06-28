@@ -15,6 +15,7 @@ import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import { CountUp } from '@/components/academy/ui/CountUp'
 import { GrowBar } from '@/components/academy/ui/GrowBar'
 import { SoundToggle } from '@/components/academy/ui/SoundToggle'
+import { Icon } from '@/components/academy/ui/Icon'
 import { JourneyHero } from './JourneyHero'
 import styles from './dashboard.module.css'
 
@@ -125,7 +126,16 @@ function HabitPanel({ game }: { game: GamificationState }) {
           <span className={styles.habitValue}>
             <CountUp value={dailyGoal.todayXp} /> <span className={styles.habitDim}>/ {dailyGoal.goalXp} XP</span>
           </span>
-          <span className={styles.habitSub}>{dailyGoal.met ? '✓ Goal hit today' : 'Earn XP to close the ring'}</span>
+          <span className={styles.habitSub}>
+            {dailyGoal.met ? (
+              <>
+                <Icon name="check" size={13} aria-hidden />
+                Goal hit today
+              </>
+            ) : (
+              'Earn XP to close the ring'
+            )}
+          </span>
         </div>
       </div>
 
@@ -134,7 +144,7 @@ function HabitPanel({ game }: { game: GamificationState }) {
           small secondary line AFTER the stakes, never the lead. */}
       <div className={`${styles.habitCard} ${streak.activeToday ? styles.habitActive : ''}`}>
         <span className={styles.flame} aria-hidden="true">
-          {streak.current > 0 ? '🔥' : '○'}
+          <Icon name={streak.current > 0 ? 'flame' : 'circle'} size={22} />
         </span>
         <div className={styles.habitMeta}>
           <span className={styles.habitLabel}>{streakStakes.headline}</span>
@@ -146,7 +156,7 @@ function HabitPanel({ game }: { game: GamificationState }) {
             <span className={styles.freezeNote}>
               <span className={styles.freezePips} aria-hidden="true">
                 {freezePips.map((_, i) => (
-                  <span key={i}>❄</span>
+                  <Icon key={i} name="sparkle" size={11} />
                 ))}
               </span>
               {streakStakes.reassurance}
@@ -212,7 +222,9 @@ function StreakStrip({ streak }: { streak: GamificationState['streak'] }) {
             className={`${styles.streakCell} ${d.active ? styles.streakOn : ''} ${d.isToday ? styles.streakToday : ''}`}
             title={d.isToday ? 'Today' : undefined}
           >
-            <span className={styles.streakDot} aria-hidden="true">{d.active ? '🔥' : '·'}</span>
+            <span className={styles.streakDot} aria-hidden="true">
+              <Icon name={d.active ? 'flame' : 'dot'} size={d.active ? 14 : 8} />
+            </span>
             <span className={styles.streakDay}>{d.label}</span>
             <span className={styles.srOnly}>
               {d.label}
@@ -240,7 +252,7 @@ interface DashboardProps {
   weeklyQuests?: QuestProgress[]
   /** Today's deterministic variable-reward bonus (server-derived). */
   dailyBonus?: BonusState | null
-  /** Prioritised in-app nudges (top 1-2). Empty → the banner renders nothing. */
+  /** Prioritised in-app nudges (top 1-2). Empty -> the banner renders nothing. */
   triggers?: Trigger[]
   /** Near-miss / next-reward bundle (closest badge, XP-to-level, league gap). */
   rewards?: NextRewards | null
@@ -270,7 +282,8 @@ export function Dashboard({
           <h1 className={styles.gateTitle}>Sign in to track your learning.</h1>
           <p className={styles.gateBody}>Your progress, courses, and certificates live here once you’re in.</p>
           <Link href="/login?audience=academy&next=/academy/dashboard" className={styles.gateBtn}>
-            Sign in →
+            Sign in
+            <Icon name="arrow-right" size={16} aria-hidden />
           </Link>
           <Link href="/academy" className={styles.gateAlt}>
             Back to the Academy
@@ -299,7 +312,10 @@ export function Dashboard({
     >
       <span className={styles.resumeGlow} aria-hidden="true" />
       <div className={styles.resumeBody}>
-        <span className={styles.resumeKicker}>▸ Pick up where you left off</span>
+        <span className={styles.resumeKicker}>
+          <Icon name="play" size={12} aria-hidden />
+          Pick up where you left off
+        </span>
         <span className={styles.resumeTitle}>{titleCase(dash.continueTo.lessonSlug)}</span>
         {continueCourse ? (
           <span className={styles.resumeCourse}>
@@ -308,7 +324,10 @@ export function Dashboard({
         ) : null}
       </div>
       {continueCourse ? <Ring pct={continueCourse.pct} /> : null}
-      <span className={styles.resumeBtn}>Finish lesson →</span>
+      <span className={styles.resumeBtn}>
+        Finish lesson
+        <Icon name="arrow-right" size={16} aria-hidden />
+      </span>
     </Link>
   ) : null
 
@@ -341,13 +360,6 @@ export function Dashboard({
       <header className={styles.head}>
         <h1 className={styles.title}>Welcome back, {displayName ?? cap(dash.name)}.</h1>
         <p className={styles.sub}>{subtitle}</p>
-        <nav className={styles.quickNav} aria-label="Learner areas">
-          <Link href="/academy/refer">◆ Invite a friend</Link>
-          <Link href="/academy/profile">◆ Public profile</Link>
-          <Link href="/academy/efficacy">↗ Does it work?</Link>
-          <Link href="/academy/catalog">Browse catalog →</Link>
-          <SoundToggle className={styles.soundToggle} />
-        </nav>
       </header>
 
       {/* Goal context — demoted beneath the action so it never competes with it. */}
@@ -387,13 +399,16 @@ export function Dashboard({
           <h2 className={styles.h2}>Your courses</h2>
           {dash.courses.length > 0 ? (
             <Link href="/academy/catalog" className={styles.sectionLink}>
-              Find more →
+              Find more
+              <Icon name="arrow-right" size={14} aria-hidden />
             </Link>
           ) : null}
         </div>
         {dash.courses.length === 0 ? (
           <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">◆</span>
+            <span className={styles.emptyGlyph} aria-hidden="true">
+              <Icon name="compass" size={26} />
+            </span>
             <div className={styles.emptyBody}>
               <p className={styles.emptyTitle}>Nothing in progress yet.</p>
               <p className={styles.emptyHelp}>
@@ -402,7 +417,8 @@ export function Dashboard({
               </p>
             </div>
             <Link href="/academy/catalog" className={styles.emptyCta}>
-              Browse the catalog →
+              Browse the catalog
+              <Icon name="arrow-right" size={15} aria-hidden />
             </Link>
           </div>
         ) : (
@@ -431,7 +447,20 @@ export function Dashboard({
                     className={styles.courseProgress}
                     ariaLabel={`${c.title}: ${c.done} of ${c.total} lessons complete`}
                   />
-                  <span className={styles.courseCta}>{finished ? '✓ Finished · review →' : 'Continue →'}</span>
+                  <span className={styles.courseCta}>
+                    {finished ? (
+                      <>
+                        <Icon name="check" size={13} aria-hidden />
+                        Finished · review
+                        <Icon name="arrow-right" size={13} aria-hidden />
+                      </>
+                    ) : (
+                      <>
+                        Continue
+                        <Icon name="arrow-right" size={13} aria-hidden />
+                      </>
+                    )}
+                  </span>
                 </Link>
               )
             })}
@@ -453,11 +482,14 @@ export function Dashboard({
                   style={tvars(t)}
                 >
                   <span className={styles.certSeal} aria-hidden="true">
-                    ✦
+                    <Icon name="trophy" size={20} />
                   </span>
                   <span className={styles.certKicker}>Certificate of completion</span>
                   <h3 className={styles.certTitle}>{cert.courseTitle}</h3>
-                  <span className={styles.certCta}>View certificate →</span>
+                  <span className={styles.certCta}>
+                    View certificate
+                    <Icon name="arrow-right" size={14} aria-hidden />
+                  </span>
                 </Link>
               )
             })}
@@ -474,13 +506,37 @@ export function Dashboard({
                 <span className={styles.pathName}>{p.name}</span>
                 <span className={styles.pathMeta}>{p.courseSlugs.length} courses</span>
                 <Link href="/academy/build" className={styles.pathEdit}>
-                  Edit →
+                  Edit
+                  <Icon name="arrow-right" size={13} aria-hidden />
                 </Link>
               </li>
             ))}
           </ul>
         </section>
       ) : null}
+
+      {/* Secondary / vanity destinations — demoted to a calm footer utility row so they
+          never compete with the dominant next-action hierarchy above. Clearly a
+          "more, when you want it" strip, not a primary nav. */}
+      <nav className={styles.utilityNav} aria-label="More">
+        <Link href="/academy/catalog" className={styles.utilityLink}>
+          <Icon name="book" size={15} aria-hidden />
+          Browse catalog
+        </Link>
+        <Link href="/academy/refer" className={styles.utilityLink}>
+          <Icon name="users" size={15} aria-hidden />
+          Invite a friend
+        </Link>
+        <Link href="/academy/profile" className={styles.utilityLink}>
+          <Icon name="trophy" size={15} aria-hidden />
+          Public profile
+        </Link>
+        <Link href="/academy/efficacy" className={styles.utilityLink}>
+          <Icon name="target" size={15} aria-hidden />
+          Does it work?
+        </Link>
+        <SoundToggle className={styles.soundToggle} />
+      </nav>
     </div>
   )
 }

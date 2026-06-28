@@ -13,7 +13,7 @@
     var(--ac-surface);
 }
 
-/* ── has-goal band ────────────────────────────────────────────────── */
+/* -- has-goal band -------------------------------------------------- */
 .band {
   display: flex;
   align-items: center;
@@ -81,6 +81,9 @@
   color: var(--ac-ink);
 }
 .nextArrow {
+  display: inline-grid;
+  place-items: center;
+  align-self: center;
   color: var(--ac-accent-text);
   transition: transform var(--ac-dur-fast) var(--ac-ease);
 }
@@ -104,11 +107,9 @@
   border-radius: 50%;
   background: color-mix(in srgb, var(--ac-mastery) 18%, transparent);
   color: var(--ac-mastery);
-  font-size: 0.8rem;
-  font-weight: 700;
 }
 
-/* ── progress ring ────────────────────────────────────────────────── */
+/* -- progress ring -------------------------------------------------- */
 .ringWrap {
   display: flex;
   flex-direction: column;
@@ -133,7 +134,7 @@
   color: var(--ac-ink-faint);
 }
 
-/* ── milestone trail ──────────────────────────────────────────────── */
+/* -- milestone trail ------------------------------------------------ */
 .trail {
   display: flex;
   flex-wrap: wrap;
@@ -154,7 +155,8 @@
   line-height: 1.2;
 }
 .mGlyph {
-  font-size: 0.78rem;
+  display: inline-grid;
+  place-items: center;
   line-height: 1;
 }
 .mLabel {
@@ -191,7 +193,7 @@
   color: var(--ac-ink-faint);
 }
 
-/* ── no-goal prompt ───────────────────────────────────────────────── */
+/* -- no-goal prompt ------------------------------------------------- */
 .promptBand {
   display: flex;
   flex-direction: column;
@@ -215,6 +217,9 @@
   color: var(--ac-ink-soft);
 }
 .promptCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   margin-top: 0.6rem;
   padding: 0.75rem 1.5rem;
   border-radius: 100px;

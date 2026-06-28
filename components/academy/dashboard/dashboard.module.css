@@ -8,7 +8,7 @@
   max-width: 1140px;
   margin: 0 auto;
   padding: clamp(1.5rem, 1.1rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--ac-font-body);
   color: var(--ink);
 }
 
@@ -19,30 +19,42 @@
 
 /* gate (logged out — rarely hit now middleware redirects) */
 .gate { position: relative; z-index: 1; max-width: 480px; margin: 4rem auto 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
-.gateTitle { margin: 0.4rem 0 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.7rem); letter-spacing: -0.02em; }
+.gateTitle { margin: 0.4rem 0 0; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.7rem); letter-spacing: -0.02em; }
 .gateBody { margin: 0; color: var(--muted); }
-.gateBtn { margin-top: 0.8rem; padding: 0.8rem 1.7rem; border-radius: 26px; background: var(--ac-accent-strong, var(--accent)); color: #ffffff; font-family: var(--font-display), sans-serif; font-weight: 700; text-decoration: none; box-shadow: var(--ac-shadow); }
-.gateAlt { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); text-decoration: none; }
+.gateBtn { margin-top: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.8rem 1.7rem; border-radius: 26px; background: var(--ac-accent-strong, var(--accent)); color: #ffffff; font-family: var(--ac-font-display); font-weight: 700; text-decoration: none; box-shadow: var(--ac-shadow); }
+.gateAlt { font-family: var(--ac-font-mono); font-size: 0.74rem; color: var(--muted); text-decoration: none; }
 .gateAlt:hover { color: var(--ink); }
 
 /* hero */
 /* Greeting header now sits BELOW the reward hero, so it's a context band, not the
    page's lead. Its top margin gives the hero breathing room above it. */
 .head { position: relative; z-index: 1; margin: 1.8rem 0 2rem; }
-.kicker { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ac-accent-text); }
+.kicker { margin: 0; font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ac-accent-text); }
 /* The lone eyebrow above the hero — a quiet surface label, not a competing CTA. */
 .eyebrow { margin: 0 0 0.9rem; }
 /* Greeting headline scaled DOWN: it must not be the largest type on the page, so the
    reward hero stays the first focal point. Reads as a warm context line, not the lead. */
-.title { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); letter-spacing: -0.02em; line-height: 1.05; color: var(--dim); }
+.title { margin: 0; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); letter-spacing: -0.02em; line-height: 1.05; color: var(--dim); }
 .sub { margin: 0.55rem 0 0; max-width: 54ch; font-size: clamp(0.92rem, 0.88rem + 0.25vw, 1rem); line-height: 1.5; color: var(--muted); }
 
-/* quick nav */
-.quickNav { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 1.4rem; }
-.quickNav a { font-family: var(--font-mono), monospace; font-size: 0.76rem; color: var(--dim); text-decoration: none; border: 1px solid var(--line); border-radius: 100px; padding: 0.45rem 0.95rem; transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease; }
-.quickNav a:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; background: rgba(61, 107, 255, 0.06); }
-.quickNav a:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
-/* sound toggle sits at the end of the quick-nav row, gently pushed to the right */
+/* utility nav — demoted footer strip of secondary/vanity destinations. Sits at the
+   very bottom of the page, hairline-separated, quieter than every primary action so
+   it never competes with the dominant next-action hierarchy. */
+.utilityNav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+  margin-top: clamp(2.8rem, 2rem + 2vw, 4rem);
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--ac-rule, var(--line));
+}
+.utilityLink {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: var(--ac-font-mono); font-size: 0.74rem; color: var(--muted);
+  text-decoration: none; border-radius: 100px; padding: 0.45rem 0.85rem;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+.utilityLink:hover { color: var(--ink); background: rgba(255, 255, 255, 0.04); }
+.utilityLink:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
+/* sound toggle sits at the end of the utility row, gently pushed to the right */
 .soundToggle { margin-left: auto; }
 @media (max-width: 560px) { .soundToggle { margin-left: 0; } }
 
@@ -56,10 +68,10 @@
 }
 .stat { padding: 0.8rem 1.3rem; display: flex; flex-direction: row; align-items: baseline; gap: 0.55rem; border-left: 1px solid var(--ac-rule, var(--line)); }
 .stat:first-child { border-left: none; }
-.stat dt { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; color: var(--ink); }
+.stat dt { font-family: var(--ac-font-display); font-weight: 800; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; color: var(--ink); }
 /* zero values read quieter than real ones */
 .stat[data-zero='true'] dt { color: var(--muted); }
-.stat dd { margin: 0; font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); line-height: 1.2; }
+.stat dd { margin: 0; font-family: var(--ac-font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); line-height: 1.2; }
 .statLive dt { color: var(--ac-accent-text); }
 
 /* habit panel — Today: daily goal, streak, level */
@@ -77,19 +89,24 @@
 .habitActive { border-color: color-mix(in srgb, var(--ac-pending, #f5a623) 40%, transparent); }
 .habitMet { border-color: color-mix(in srgb, var(--ac-mastery, #2dd4bf) 42%, transparent); }
 .habitMeta { display: flex; flex-direction: column; gap: 0.28rem; min-width: 0; }
-.habitLabel { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
-.habitValue { font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.55rem; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+.habitLabel { font-family: var(--ac-font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.habitValue { font-family: var(--ac-font-display); font-weight: 800; font-size: 1.55rem; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; }
 .habitDim { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
-.habitSub { font-family: var(--font-mono), monospace; font-size: 0.66rem; color: var(--dim); display: flex; align-items: center; gap: 0.35rem; }
+.habitSub { font-family: var(--ac-font-mono); font-size: 0.66rem; color: var(--dim); display: flex; align-items: center; gap: 0.35rem; }
 
-.flame { font-size: 2.5rem; line-height: 1; flex-shrink: 0; }
-.freezePips { color: #7cc7ff; letter-spacing: 0.05em; }
+.flame {
+  flex-shrink: 0; display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 12px;
+  color: var(--ac-pending, #f5a623);
+  background: color-mix(in srgb, var(--ac-pending, #f5a623) 12%, transparent);
+}
+.freezePips { display: inline-flex; align-items: center; gap: 0.15rem; color: #7cc7ff; }
 /* secondary freeze reassurance — quieter than the stakes line, but still AA on the
    panel surface (uses --dim, ~#c4c5cd, not an opacity dim on the text). */
 .freezeNote {
   margin-top: 0.1rem;
   display: flex; align-items: center; gap: 0.35rem;
-  font-family: var(--font-mono), monospace; font-size: 0.62rem;
+  font-family: var(--ac-font-mono); font-size: 0.62rem;
   letter-spacing: 0.01em; color: var(--dim);
 }
 
@@ -97,7 +114,7 @@
   flex-shrink: 0; width: 56px; height: 56px; display: grid; place-items: center;
   border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
-  font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--ink);
+  font-family: var(--ac-font-display); font-weight: 800; font-size: 1.5rem; color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
 .xpBar { display: block; width: 100%; min-width: 120px; height: 6px; border-radius: 100px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
@@ -111,7 +128,7 @@
 
 /* progress ring (real %) */
 .ring { display: block; flex-shrink: 0; }
-.ringText { fill: var(--ink); font-family: var(--font-mono), monospace; font-size: 12px; font-weight: 600; }
+.ringText { fill: var(--ink); font-family: var(--ac-font-mono); font-size: 12px; font-weight: 600; }
 
 /* continue / resume — the hero action */
 /* Promoted to the dominant next action: stronger border, fuller surface, and a
@@ -130,18 +147,18 @@
 .resume:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
 .resumeGlow { display: none; }
 .resumeBody { display: flex; flex-direction: column; gap: 0.32rem; min-width: 0; }
-.resumeKicker { font-family: var(--font-mono), monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ac-accent-text); }
-.resumeTitle { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem); letter-spacing: -0.02em; }
-.resumeCourse { font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--muted); }
-.resumeBtn { padding: 0.72rem 1.4rem; border-radius: 26px; background: var(--ac-accent-strong, var(--accent)); color: #ffffff; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: var(--ac-shadow); }
+.resumeKicker { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ac-accent-text); }
+.resumeTitle { font-family: var(--ac-font-display); font-weight: 600; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem); letter-spacing: -0.02em; }
+.resumeCourse { font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--muted); }
+.resumeBtn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.72rem 1.4rem; border-radius: 26px; background: var(--ac-accent-strong, var(--accent)); color: #ffffff; font-family: var(--ac-font-display); font-weight: 700; font-size: 0.9rem; white-space: nowrap; box-shadow: var(--ac-shadow); }
 
 /* sections */
 .section { position: relative; z-index: 1; margin-top: clamp(2.4rem, 1.8rem + 2vw, 3.4rem); }
 .sectionHead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.2rem; }
 .sectionHead .h2 { margin: 0; }
-.sectionLink { font-family: var(--font-mono), monospace; font-size: 0.74rem; color: var(--muted); text-decoration: none; }
+.sectionLink { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--ac-font-mono); font-size: 0.74rem; color: var(--muted); text-decoration: none; }
 .sectionLink:hover { color: var(--ink); }
-.h2 { margin: 0 0 1.2rem; font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
+.h2 { margin: 0 0 1.2rem; font-family: var(--ac-font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
 /* designed empty state — short composed band: glyph rail beside copy, CTA at the
    end. Reads as a deliberate prompt strip, not a tall dead rectangle. */
 .empty {
@@ -155,16 +172,16 @@
   display: grid; place-items: center; width: 46px; height: 46px;
   border-radius: 12px; border: 1px solid var(--ac-rule-strong, var(--line));
   background: var(--ac-surface-2, rgba(255, 255, 255, 0.015));
-  font-size: 1.3rem; color: var(--ac-accent-text);
+  color: var(--ac-accent-text);
 }
 .emptyBody { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-.emptyTitle { margin: 0; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.01em; color: var(--ink); }
+.emptyTitle { margin: 0; font-family: var(--ac-font-display); font-weight: 500; font-size: 1.35rem; letter-spacing: -0.01em; color: var(--ink); }
 .emptyHelp { margin: 0; max-width: 52ch; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
 .emptyCta {
-  display: inline-flex; align-items: center; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;
   padding: 0.62rem 1.3rem; border-radius: 24px;
   background: var(--ac-accent-strong, var(--accent)); color: #fff;
-  font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.86rem;
+  font-family: var(--ac-font-display); font-weight: 700; font-size: 0.86rem;
   text-decoration: none; box-shadow: var(--ac-shadow);
   transition: transform 0.18s ease;
 }
@@ -178,41 +195,41 @@
 .courseCard:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--topic) 55%, transparent); box-shadow: 0 24px 60px -36px color-mix(in srgb, var(--topic) 70%, black); }
 .courseCard:focus-visible { outline: 2px solid color-mix(in srgb, var(--topic) 60%, transparent); outline-offset: 2px; }
 .courseTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-.courseTag { font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--topic); padding-top: 0.45rem; }
-.courseTitle { margin: 0.9rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.28rem; letter-spacing: -0.02em; }
-.courseMeta { margin-top: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.68rem; color: var(--muted); }
+.courseTag { font-family: var(--ac-font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--topic); padding-top: 0.45rem; }
+.courseTitle { margin: 0.9rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.28rem; letter-spacing: -0.02em; }
+.courseMeta { margin-top: 0.5rem; font-family: var(--ac-font-mono); font-size: 0.68rem; color: var(--muted); }
 .courseProgress { margin-top: 0.7rem; }
-.courseCta { margin-top: auto; padding-top: 1.1rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
+.courseCta { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: auto; padding-top: 1.1rem; font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--topic); }
 
 /* streak strip — honest trailing 7 days */
 .streak { margin: 0 0 1.5rem; padding: 0.8rem 1.2rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 12px; background: var(--ac-surface, rgba(255, 255, 255, 0.02)); }
 .streakHead { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
-.streakKicker { font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.streakSummary { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--dim); }
+.streakKicker { font-family: var(--ac-font-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.streakSummary { font-family: var(--ac-font-mono); font-size: 0.7rem; color: var(--dim); }
 .streakRow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
 .streakCell { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.4rem 0; border: 1px solid var(--ac-rule, var(--line)); border-radius: 8px; background: var(--ac-surface-2, rgba(255, 255, 255, 0.015)); }
 .streakOn { border-color: color-mix(in srgb, var(--ac-mastery, #4ade80) 45%, transparent); background: color-mix(in srgb, var(--ac-mastery, #4ade80) 12%, transparent); }
 .streakToday { outline: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 55%, transparent); outline-offset: 1px; }
-.streakDot { font-size: 0.85rem; line-height: 1; color: var(--muted); }
-.streakOn .streakDot { color: var(--ac-mastery, #4ade80); }
-.streakDay { font-family: var(--font-mono), monospace; font-size: 0.6rem; letter-spacing: 0.04em; color: var(--muted); }
+.streakDot { display: grid; place-items: center; line-height: 1; color: var(--muted); }
+.streakOn .streakDot { color: var(--ac-pending, #f5a623); }
+.streakDay { font-family: var(--ac-font-mono); font-size: 0.6rem; letter-spacing: 0.04em; color: var(--muted); }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 /* certificate cards */
 .certGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
 .certCard { position: relative; display: flex; flex-direction: column; padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--topic) 40%, transparent); border-radius: 16px; background: var(--topic-soft); text-decoration: none; color: inherit; overflow: hidden; transition: transform 0.22s ease; }
 .certCard:hover { transform: translateY(-4px); }
-.certSeal { position: absolute; right: 1.1rem; top: 0.9rem; font-size: 1.5rem; color: var(--topic); opacity: 0.7; }
-.certKicker { font-family: var(--font-mono), monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: color-mix(in srgb, var(--topic) 85%, white); }
-.certTitle { margin: 0.5rem 0 0; font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em; }
-.certCta { margin-top: 1rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--topic); }
+.certSeal { position: absolute; right: 1.1rem; top: 0.9rem; display: grid; place-items: center; color: var(--topic); opacity: 0.75; }
+.certKicker { font-family: var(--ac-font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: color-mix(in srgb, var(--topic) 85%, white); }
+.certTitle { margin: 0.5rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em; }
+.certCta { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 1rem; font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--topic); }
 
 /* saved paths */
 .pathList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .pathRow { display: flex; align-items: center; gap: 1rem; padding: 0.95rem 1.2rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.02); }
-.pathName { font-family: var(--font-display), sans-serif; font-weight: 600; }
-.pathMeta { font-family: var(--font-mono), monospace; font-size: 0.7rem; color: var(--muted); }
-.pathEdit { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 0.72rem; color: var(--ac-accent-text); text-decoration: none; }
+.pathName { font-family: var(--ac-font-display); font-weight: 600; }
+.pathMeta { font-family: var(--ac-font-mono); font-size: 0.7rem; color: var(--muted); }
+.pathEdit { display: inline-flex; align-items: center; gap: 0.3rem; margin-left: auto; font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--ac-accent-text); text-decoration: none; }
 
 @media (max-width: 920px) {
   .stats { grid-template-columns: repeat(2, 1fr); }

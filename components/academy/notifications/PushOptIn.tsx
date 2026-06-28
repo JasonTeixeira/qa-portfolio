@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './push-optin.module.css'
 
 type State = 'checking' | 'unavailable' | 'idle' | 'working' | 'enabled' | 'denied'
@@ -76,7 +77,7 @@ export function PushOptIn() {
   return (
     <div className={styles.card} data-state={state}>
       <span className={styles.bell} aria-hidden="true">
-        {state === 'enabled' ? '🔔' : '🔕'}
+        <Icon name={state === 'enabled' ? 'bell' : 'bell-off'} size={20} />
       </span>
       <div className={styles.copy}>
         <span className={styles.title}>

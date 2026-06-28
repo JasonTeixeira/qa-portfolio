@@ -7,7 +7,7 @@
   border-radius: 100px;
   background: var(--ac-surface, rgba(255, 255, 255, 0.02));
   color: var(--ac-text-dim, #c4c5cd);
-  font-family: var(--font-mono), monospace;
+  font-family: var(--ac-font-mono);
   font-size: 0.72rem;
   cursor: pointer;
   transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
@@ -31,7 +31,8 @@
 }
 
 .glyph {
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
   line-height: 1;
 }
 

@@ -10,6 +10,7 @@
  */
 
 import type { GoalStats } from '@/lib/academy/goal-logic'
+import type { IconName } from '@/components/academy/ui/Icon'
 
 /**
  * The stat snapshot every badge check is evaluated against: the getLearnerStats
@@ -24,8 +25,8 @@ export interface Badge {
   key: string
   label: string
   blurb: string
-  /** A short emoji/glyph shown on the shelf + in the celebration. */
-  icon: string
+  /** The line icon shown on the shelf + in the celebration. */
+  icon: IconName
   /** Deterministic predicate — true once the learner has genuinely earned it. */
   check: (s: BadgeStats) => boolean
 }
@@ -35,7 +36,7 @@ export interface EarnedBadge {
   key: string
   label: string
   blurb: string
-  icon: string
+  icon: IconName
   earnedAt: string
 }
 
@@ -49,77 +50,77 @@ export const BADGE_CATALOG: readonly Badge[] = [
     key: 'first_lesson',
     label: 'First Steps',
     blurb: 'Completed your very first lesson.',
-    icon: '✦',
+    icon: 'check',
     check: (s) => s.lessonsCompleted >= 1,
   },
   {
     key: 'five_lessons',
     label: 'Getting Traction',
     blurb: 'Completed five lessons.',
-    icon: '✧',
+    icon: 'star',
     check: (s) => s.lessonsCompleted >= 5,
   },
   {
     key: 'first_course',
     label: 'Course Closer',
     blurb: 'Finished your first full course.',
-    icon: '◆',
+    icon: 'book',
     check: (s) => s.coursesFinished >= 1,
   },
   {
     key: 'three_courses',
     label: 'Curriculum Crusher',
     blurb: 'Finished three full courses.',
-    icon: '◈',
+    icon: 'trophy',
     check: (s) => s.coursesFinished >= 3,
   },
   {
     key: 'first_cert',
     label: 'Certified',
     blurb: 'Earned your first certificate.',
-    icon: '❖',
+    icon: 'award',
     check: (s) => s.certificates >= 1,
   },
   {
     key: 'three_certs',
     label: 'Triple Crown',
     blurb: 'Earned three certificates.',
-    icon: '⬗',
+    icon: 'shield',
     check: (s) => s.certificates >= 3,
   },
   {
     key: 'first_project',
     label: 'Shipped It',
     blurb: 'Shipped your first portfolio project.',
-    icon: '▲',
+    icon: 'bolt',
     check: (s) => s.projects >= 1,
   },
   {
     key: 'streak_3',
     label: 'Warming Up',
     blurb: 'Kept a three-day streak.',
-    icon: '◐',
+    icon: 'flame',
     check: (s) => s.currentStreak >= 3 || s.longestStreak >= 3,
   },
   {
     key: 'streak_7',
     label: 'On a Roll',
     blurb: 'Reached a seven-day streak.',
-    icon: '◑',
+    icon: 'flame',
     check: (s) => s.currentStreak >= 7 || s.longestStreak >= 7,
   },
   {
     key: 'streak_30',
     label: 'Unbroken',
     blurb: 'Sustained a thirty-day streak.',
-    icon: '●',
+    icon: 'flame',
     check: (s) => s.currentStreak >= 30 || s.longestStreak >= 30,
   },
   {
     key: 'hundred_xp',
     label: 'Century',
     blurb: 'Banked real momentum — a hundred lessons-worth of work is within reach.',
-    icon: '⬢',
+    icon: 'sparkle',
     // XP is awarded per lesson; 100 XP ≈ 10 completed lessons of base activity.
     check: (s) => s.lessonsCompleted >= 10,
   },
@@ -127,7 +128,7 @@ export const BADGE_CATALOG: readonly Badge[] = [
     key: 'comeback',
     label: 'Comeback',
     blurb: 'Returned after a lapse — your best streak is behind you, but you came back.',
-    icon: '↺',
+    icon: 'refresh',
     // Earned once a peak streak exists that the learner has since fallen from.
     check: (s) => s.longestStreak > s.currentStreak && s.longestStreak >= 3,
   },
@@ -245,7 +246,7 @@ function nextBadgeCopy(key: string, remaining: number): string {
 export interface NextBadgeStep {
   key: string
   label: string
-  icon: string
+  icon: IconName
   /** Units still needed (>= 1). */
   remaining: number
   /** 0–100 toward this badge's threshold. */

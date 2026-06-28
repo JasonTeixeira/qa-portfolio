@@ -7,6 +7,7 @@ import { gradeReview } from '@/app/academy/_actions/reviews'
 import type { DueReview, ReviewGrade } from '@/lib/academy/fsrs'
 import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
 import { XP_REWARDS, type Celebration } from '@/lib/academy/gamification-logic'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './review.module.css'
 
 const GRADES: { key: ReviewGrade; label: string; sub: string }[] = [
@@ -90,19 +91,22 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
         <p className={styles.kicker}>Spaced review</p>
         <div className={styles.emptyWrap}>
           <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">✓</span>
+            <span className={styles.emptyGlyph} aria-hidden="true"><Icon name="check" size={26} /></span>
             <h1 className={styles.emptyTitle}>You’re all caught up.</h1>
             <p className={styles.emptyBody}>
               Nothing’s due right now. Reviews resurface exactly when you’re about to forget — come back tomorrow.
             </p>
-            <Link href="/academy/dashboard" className={styles.emptyBtn}>Back to My Learning →</Link>
+            <Link href="/academy/dashboard" className={styles.emptyBtn}>
+              Back to My Learning
+              <Icon name="arrow-right" size={16} aria-hidden="true" />
+            </Link>
           </div>
           <div className={styles.schedule} aria-label="How spaced review resurfaces cards">
             <span className={styles.scheduleLabel}>Resurfaces at</span>
             <span className={styles.scheduleStep}>Again · same day</span>
-            <span className={styles.scheduleSep} aria-hidden="true">→</span>
+            <span className={styles.scheduleSep} aria-hidden="true"><Icon name="arrow-right" size={13} /></span>
             <span className={styles.scheduleStep}>Good · days</span>
-            <span className={styles.scheduleSep} aria-hidden="true">→</span>
+            <span className={styles.scheduleSep} aria-hidden="true"><Icon name="arrow-right" size={13} /></span>
             <span className={styles.scheduleStep}>Easy · weeks</span>
           </div>
         </div>
@@ -123,7 +127,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
         <div className={styles.emptyWrap}>
           {/* End-of-session reward moment: a single compositor-only rise/settle, no confetti. */}
           <div className={styles.done} role="status" aria-live="polite">
-            <span className={styles.doneGlyph} aria-hidden="true">★</span>
+            <span className={styles.doneGlyph} aria-hidden="true"><Icon name="star" size={26} /></span>
             <p className={styles.doneEyebrow}>Memory strengthened</p>
             <h1 className={styles.doneTitle}>Session complete.</h1>
             <ul className={styles.doneStats}>
@@ -138,7 +142,7 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
               {streak ? (
                 <li className={styles.doneStat} data-tone="streak">
                   <span className={styles.doneStatNum}>
-                    🔥 Streak locked in · {streak} {streak === 1 ? 'day' : 'days'}
+                    <Icon name="flame" size={15} aria-hidden="true" /> Streak locked in · {streak} {streak === 1 ? 'day' : 'days'}
                   </span>
                 </li>
               ) : null}
@@ -150,7 +154,8 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
             </p>
             <p className={styles.doneSignoff}>See you tomorrow — keep the chain alive.</p>
             <Link href="/academy/dashboard" className={styles.doneBtn}>
-              Back to My Learning →
+              Back to My Learning
+              <Icon name="arrow-right" size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -185,14 +190,14 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
               upside. Real numbers only: total × XP_REWARDS.review, matched to the
               completion beat. Gives the session a reason-TO, not just a reason-against. */}
           <p className={styles.ritualGain}>
-            <span className={styles.ritualGainDot} aria-hidden="true">＋</span>
+            <span className={styles.ritualGainDot} aria-hidden="true"><Icon name="plus" size={13} /></span>
             Lock in ~{gainXp} XP · strengthen all {total} {total === 1 ? 'card' : 'cards'}
           </p>
           {/* Loss aversion, reframed so it ESCALATES rather than echoes the count above:
               due cards have already decayed to FSRS target retention, so skipping keeps
               the weakest ones decaying. Phrased as a distinct consequence, not a restated N. */}
           <p className={styles.ritualStake}>
-            <span className={styles.ritualStakeDot} aria-hidden="true">●</span>
+            <span className={styles.ritualStakeDot} aria-hidden="true"><Icon name="dot" size={13} /></span>
             {total === 1
               ? 'Skip today and your weakest card keeps decaying below recall.'
               : 'Skip today and your weakest cards keep decaying below recall.'}
@@ -223,7 +228,8 @@ export function ReviewSession({ initialCards }: { initialCards: DueReview[] }) {
               Recall it out loud or in code, then rate how it went.{' '}
               {current.lessonSlug && current.courseSlug ? (
                 <Link href={`/academy/learn/${current.courseSlug}/${current.lessonSlug}`} className={styles.revisit}>
-                  Revisit the lesson →
+                  Revisit the lesson
+                  <Icon name="arrow-right" size={13} aria-hidden="true" />
                 </Link>
               ) : null}
             </p>

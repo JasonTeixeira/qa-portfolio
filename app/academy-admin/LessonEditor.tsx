@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { saveLesson } from './_actions'
 import { INTENSITIES, loopStep, type SprintIntensity } from '@/lib/academy/engine'
 import { defaultBlock, mergeScaffold, checkCompleteness, SECTION_TYPES, CONTENT_TYPES } from '@/lib/academy/scaffold'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './studio.module.css'
 
 type Block = Record<string, any> & { type: string }
@@ -72,7 +73,7 @@ export function LessonEditor({
         estMinutes: Number(estMinutes) || 5, isFreePreview: isFree, status, intensity, blocks: cleanBlocks,
       })
       if (res.ok) {
-        setMsg({ kind: 'ok', text: 'Saved ✓' })
+        setMsg({ kind: 'ok', text: 'Saved' })
         if (isNew && slug) router.push(`/academy-admin/${courseSlug}/${slug}`)
       } else {
         setMsg({ kind: 'err', text: res.error ?? 'Save failed' })
@@ -157,15 +158,19 @@ export function LessonEditor({
         </div>
         <div className={styles.scaffoldRow}>
           <button type="button" className={styles.scaffoldBtn} onClick={scaffoldLoop}>
-            ⬡ Scaffold the {intensity} loop
+            <Icon name="plus" size={14} aria-hidden="true" /> Scaffold the {intensity} loop
           </button>
           <span
             className={styles.completeness}
             data-complete={completeness.complete}
           >
-            {completeness.complete
-              ? '✓ All required loop sections present'
-              : `${completeness.present.length}/${completeness.required.length} required sections · missing: ${completeness.missingLabels.map((m) => m.label).join(', ')}`}
+            {completeness.complete ? (
+              <>
+                <Icon name="check" size={13} aria-hidden="true" /> All required loop sections present
+              </>
+            ) : (
+              `${completeness.present.length}/${completeness.required.length} required sections · missing: ${completeness.missingLabels.map((m) => m.label).join(', ')}`
+            )}
           </span>
         </div>
       </div>
@@ -178,9 +183,9 @@ export function LessonEditor({
               <div className={styles.blockBar}>
                 <span className={styles.blockType}>{b.type}</span>
                 <span className={styles.blockCtrls}>
-                  <button type="button" onClick={() => moveBlock(i, -1)} disabled={i === 0} aria-label="up">↑</button>
-                  <button type="button" onClick={() => moveBlock(i, 1)} disabled={i === blocks.length - 1} aria-label="down">↓</button>
-                  <button type="button" onClick={() => removeBlock(i)} aria-label="remove">×</button>
+                  <button type="button" onClick={() => moveBlock(i, -1)} disabled={i === 0} aria-label="Move block up"><Icon name="chevron-up" size={14} aria-hidden="true" /></button>
+                  <button type="button" onClick={() => moveBlock(i, 1)} disabled={i === blocks.length - 1} aria-label="Move block down"><Icon name="chevron-down" size={14} aria-hidden="true" /></button>
+                  <button type="button" onClick={() => removeBlock(i)} aria-label="Remove block"><Icon name="x" size={14} aria-hidden="true" /></button>
                 </span>
               </div>
               <div className={styles.blockBody}>
@@ -347,7 +352,7 @@ export function LessonEditor({
         <button type="button" className={styles.save} onClick={onSave} disabled={saving || !slug || !title}>
           {saving ? 'Saving…' : 'Save lesson'}
         </button>
-        {!isNew ? <Link href={`/academy/learn/${courseSlug}/${slug}`} className={styles.ghost} target="_blank">Preview →</Link> : null}
+        {!isNew ? <Link href={`/academy/learn/${courseSlug}/${slug}`} className={styles.ghost} target="_blank">Preview <Icon name="arrow-right" size={13} aria-hidden="true" /></Link> : null}
         {msg ? <span className={`${styles.msg} ${msg.kind === 'err' ? styles.msgErr : styles.msgOk}`}>{msg.text}</span> : null}
       </div>
     </div>

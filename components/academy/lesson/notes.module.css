@@ -38,7 +38,8 @@
 }
 
 .chevron {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   transition: transform var(--ac-dur-fast) var(--ac-ease);
 }
 

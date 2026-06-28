@@ -1,5 +1,6 @@
 import type { ExperimentMetric, ExperimentReadout } from '@/lib/academy/experiments'
 import type { ExperimentStatus } from '@/lib/academy/experiments-logic'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './experiments.module.css'
 
 /**
@@ -19,8 +20,8 @@ import styles from './experiments.module.css'
  */
 
 interface StatusMeta {
-  /** Text glyph — status legibility independent of color. */
-  glyph: string
+  /** Status icon — legibility independent of color. */
+  glyph: IconName
   /** Human label. */
   label: string
   /** Are the lift / z / p figures earned (safe to publish as numbers)? */
@@ -28,10 +29,10 @@ interface StatusMeta {
 }
 
 const STATUS_META: Record<ExperimentStatus, StatusMeta> = {
-  insufficient_data: { glyph: '◷', label: 'Collecting', resolved: false },
-  no_significant_effect: { glyph: '=', label: 'No effect', resolved: true },
-  treatment_wins: { glyph: '▲', label: 'Treatment wins', resolved: true },
-  holdout_wins: { glyph: '▼', label: 'Holdout wins', resolved: true },
+  insufficient_data: { glyph: 'refresh', label: 'Collecting', resolved: false },
+  no_significant_effect: { glyph: 'swap', label: 'No effect', resolved: true },
+  treatment_wins: { glyph: 'chevron-up', label: 'Treatment wins', resolved: true },
+  holdout_wins: { glyph: 'chevron-down', label: 'Holdout wins', resolved: true },
 }
 
 const METRIC_LABELS: Record<ExperimentMetric, string> = {
@@ -63,16 +64,16 @@ export function ExperimentsPanel({ readouts }: { readouts: ExperimentReadout[] }
         </p>
         <ul className={styles.legend} aria-label="Status key">
           <li className={`${styles.legendItem} ${styles.status_treatment_wins}`}>
-            <span aria-hidden="true">{STATUS_META.treatment_wins.glyph}</span> Treatment wins (earned, p&nbsp;&lt;&nbsp;0.05)
+            <Icon name={STATUS_META.treatment_wins.glyph} size={14} aria-hidden="true" /> Treatment wins (earned, p&nbsp;&lt;&nbsp;0.05)
           </li>
           <li className={`${styles.legendItem} ${styles.status_holdout_wins}`}>
-            <span aria-hidden="true">{STATUS_META.holdout_wins.glyph}</span> Holdout wins
+            <Icon name={STATUS_META.holdout_wins.glyph} size={14} aria-hidden="true" /> Holdout wins
           </li>
           <li className={`${styles.legendItem} ${styles.status_no_significant_effect}`}>
-            <span aria-hidden="true">{STATUS_META.no_significant_effect.glyph}</span> No significant effect
+            <Icon name={STATUS_META.no_significant_effect.glyph} size={14} aria-hidden="true" /> No significant effect
           </li>
           <li className={`${styles.legendItem} ${styles.status_insufficient_data}`}>
-            <span aria-hidden="true">{STATUS_META.insufficient_data.glyph}</span> Collecting (insufficient data)
+            <Icon name={STATUS_META.insufficient_data.glyph} size={14} aria-hidden="true" /> Collecting (insufficient data)
           </li>
         </ul>
       </header>
@@ -113,7 +114,7 @@ function ExperimentCard({ readout }: { readout: ExperimentReadout }) {
           role="status"
         >
           <span className={styles.badgeGlyph} aria-hidden="true">
-            {meta.glyph}
+            <Icon name={meta.glyph} size={14} />
           </span>
           {meta.label}
         </span>
@@ -143,7 +144,7 @@ function PendingNotice({ readout }: { readout: ExperimentReadout }) {
   return (
     <div className={styles.pendingNote}>
       <span className={styles.pendingNoteGlyph} aria-hidden="true">
-        ◷
+        <Icon name="refresh" size={16} />
       </span>
       <p className={styles.pendingNoteText}>
         <strong>Insufficient data — no verdict yet.</strong> A verdict needs at least{' '}
@@ -226,7 +227,7 @@ function VerdictTable({ readout, resolved }: { readout: ExperimentReadout; resol
         <tr>
           <th scope="row">z</th>
           <td colSpan={2} className={styles.muted}>
-            |z|&nbsp;&gt;&nbsp;1.96 ⇒ p&nbsp;&lt;&nbsp;0.05
+            |z|&nbsp;&gt;&nbsp;1.96 means p&nbsp;&lt;&nbsp;0.05
           </td>
           <td>{resolved ? readout.z.toFixed(2) : <span className={styles.held}>held</span>}</td>
         </tr>

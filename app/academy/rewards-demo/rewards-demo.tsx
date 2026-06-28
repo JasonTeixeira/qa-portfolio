@@ -47,7 +47,7 @@ export function RewardsDemo({ heroOpenDefault = false }: Props) {
       </header>
 
       <section className={styles.systemStrip} aria-label="Reward system — magnitude scale">
-        <p className={styles.stripLabel}>The system · streak → badge → level → cert</p>
+        <p className={styles.stripLabel}>The system · streak · badge · level · cert</p>
         <div className={styles.grid}>
           {SAMPLES.map((s) => (
             <EarnMoment

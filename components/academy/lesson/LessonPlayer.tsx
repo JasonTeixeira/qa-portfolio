@@ -15,6 +15,7 @@ import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
 import { NotesPanel } from './NotesPanel'
 import type { LessonNote } from '@/lib/academy/notes'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './lesson.module.css'
 
 const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
@@ -77,7 +78,7 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
   const correct = selected === block.answer
   return (
     <div className={styles.quiz}>
-      <span className={styles.quizKicker}>◇ Quick check</span>
+      <span className={styles.quizKicker}><Icon name="sparkle" size={13} /> Quick check</span>
       <p className={styles.quizQ}>{block.question}</p>
       <ul className={styles.quizOptions}>
         {(block.options ?? []).map((opt, i) => {
@@ -99,7 +100,7 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
         </button>
       ) : (
         <div className={styles.quizResult} data-correct={correct} role="status" aria-live="polite">
-          <strong>{correct ? '✓ Correct!' : '✗ Not quite.'}</strong>
+          <strong>{correct ? (<><Icon name="check" size={15} /> Correct!</>) : (<><Icon name="x" size={15} /> Not quite.</>)}</strong>
           {block.explanation ? <p>{block.explanation}</p> : null}
           {!correct ? (
             <button type="button" className={styles.quizRetry} onClick={() => { setChecked(false); setSelected(null) }}>Try again</button>
@@ -132,7 +133,7 @@ function Block({
       return (
         <figure className={styles.video}>
           <div className={styles.play} aria-hidden="true">
-            <span>▶</span>
+            <Icon name="play" size={20} />
           </div>
           <figcaption className={styles.videoCap}>{block.title} · video walkthrough coming soon</figcaption>
         </figure>
@@ -141,11 +142,11 @@ function Block({
       return (
         <div className={styles.lab}>
           <div>
-            <span className={styles.labKicker}>⬡ Guided lab · in-browser</span>
+            <span className={styles.labKicker}><Icon name="bolt" size={13} /> Guided lab · in-browser</span>
             <h3 className={styles.labTitle}>{block.title}</h3>
             <p className={styles.labSummary}>{block.summary}</p>
           </div>
-          <Link href={labHref} className={styles.labBtn}>Open lab →</Link>
+          <Link href={labHref} className={styles.labBtn}>Open lab <Icon name="arrow-right" size={16} /></Link>
         </div>
       )
     case 'callout':
@@ -268,7 +269,7 @@ export function LessonPlayer({
                     data-status={l.status}
                     aria-current={l.status === 'current' ? 'page' : undefined}
                   >
-                    <span className={styles.lessonDot} aria-hidden="true">{l.status === 'done' ? '✓' : ''}</span>
+                    <span className={styles.lessonDot} aria-hidden="true">{l.status === 'done' ? <Icon name="check" size={11} /> : null}</span>
                     <span className={styles.lessonName}>{l.title}</span>
                   </Link>
                 </li>
@@ -324,13 +325,13 @@ export function LessonPlayer({
                 </div>
               ) : null}
               <div className={styles.gate}>
-                <span className={styles.gateKicker}>◆ All-access</span>
+                <span className={styles.gateKicker}><Icon name="lock" size={13} /> All-access</span>
                 <h2 className={styles.gateTitle}>Unlock this lesson</h2>
                 <p className={styles.gateBody}>
                   This lesson is part of Sage Academy all-access. One membership opens every course,
                   lab, and certificate.
                 </p>
-                <Link href="/academy/join" className={styles.gateBtn}>See membership →</Link>
+                <Link href="/academy/join" className={styles.gateBtn}>See membership <Icon name="arrow-right" size={16} /></Link>
                 {!signedIn ? (
                   <a href="/login?next=/academy/join" className={styles.gateLink}>Already a member? Sign in</a>
                 ) : null}
@@ -357,7 +358,7 @@ export function LessonPlayer({
       {/* footer */}
       <footer className={styles.footer}>
         {lesson.prevSlug ? (
-          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}>← {lesson.prevLabel}</Link>
+          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}><Icon name="arrow-left" size={15} /> {lesson.prevLabel}</Link>
         ) : (
           <span />
         )}
@@ -365,7 +366,7 @@ export function LessonPlayer({
           <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>c</kbd> complete
         </span>
         {locked ? (
-          <Link className={styles.complete} href="/academy/join">Unlock all-access →</Link>
+          <Link className={styles.complete} href="/academy/join">Unlock all-access <Icon name="arrow-right" size={16} /></Link>
         ) : signedIn ? (
           <button
             type="button"
@@ -375,11 +376,11 @@ export function LessonPlayer({
             aria-busy={pending}
             aria-keyshortcuts="c"
           >
-            {completed ? '✓ Completed · continue →' : pending ? 'Saving…' : 'Mark complete & continue  →'}
+            {completed ? (<><Icon name="check" size={16} /> Completed · continue <Icon name="arrow-right" size={16} /></>) : pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={16} /></>)}
           </button>
         ) : (
           <a className={styles.complete} href="/login?next=/academy/preview">
-            Sign in to save progress  →
+            Sign in to save progress <Icon name="arrow-right" size={16} />
           </a>
         )}
       </footer>

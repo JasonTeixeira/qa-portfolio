@@ -4,6 +4,7 @@ import { useId, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { LessonNote } from '@/lib/academy/notes'
 import { saveNote, deleteNote } from '@/app/academy/_actions/notes'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './notes.module.css'
 
 const MAX = 4000
@@ -61,7 +62,7 @@ export function NotesPanel({ courseSlug, lessonSlug, signedIn, notes }: Props) {
     <details className={styles.panel}>
       <summary className={styles.summary}>
         <span className={styles.chevron} aria-hidden="true">
-          ›
+          <Icon name="chevron-right" size={15} />
         </span>
         Notes
         <span className={styles.count}>{notes.length}</span>
@@ -117,7 +118,7 @@ export function NotesPanel({ courseSlug, lessonSlug, signedIn, notes }: Props) {
                       disabled={pending}
                       aria-label="Delete note"
                     >
-                      {deletingId === note.id ? '…' : 'Delete'}
+                      {deletingId === note.id ? 'Deleting…' : 'Delete'}
                     </button>
                   </li>
                 ))}

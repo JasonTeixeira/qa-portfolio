@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './course00.module.css'
 
 type Beat = {
@@ -141,7 +142,7 @@ export function Course00() {
       <footer className={styles.cta}>
         <Link className={styles.ctaButton} href="/academy/course/programming-fundamentals">
           Start with Programming Fundamentals
-          <span aria-hidden="true"> →</span>
+          <Icon name="arrow-right" size={17} />
         </Link>
         <p className={styles.ctaNote}>
           You&rsquo;ll see all five beats for real in your first lesson.

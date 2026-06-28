@@ -1,13 +1,15 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Icon } from '@/components/academy/ui/Icon'
+import type { IconName } from '@/components/academy/ui/Icon'
 import styles from './badge-celebration.module.css'
 
 export interface CelebratedBadge {
   key: string
   label: string
   blurb: string
-  icon: string
+  icon: IconName
 }
 
 /**
@@ -39,7 +41,7 @@ export function BadgeCelebration({ badge }: { badge: CelebratedBadge | null }) {
     <div className={styles.region} role="status" aria-live="polite">
       <div className={styles.toast}>
         <span className={styles.icon} aria-hidden="true">
-          {shown.icon}
+          <Icon name={shown.icon} size={24} />
         </span>
         <div className={styles.body}>
           <p className={styles.kicker}>Badge earned</p>
@@ -53,7 +55,7 @@ export function BadgeCelebration({ badge }: { badge: CelebratedBadge | null }) {
           onClick={dismiss}
           aria-label="Dismiss badge notification"
         >
-          <span aria-hidden="true">×</span>
+          <Icon name="x" size={16} aria-hidden="true" />
         </button>
       </div>
     </div>

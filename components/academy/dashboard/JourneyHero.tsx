@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './journey-hero.module.css'
 
 const ONBOARDING_HREF = '/academy/onboarding'
@@ -15,9 +16,9 @@ interface JourneyHeroProps {
  * "YOUR JOURNEY" — the reason a learner returns. A prominent hero band at the top
  * of the dashboard that measures real progress toward the learner's chosen goal.
  *
- * Has a goal  → goal label (serif) + progress ring + next-milestone CTA + a compact
+ * Has a goal  -> goal label (serif) + progress ring + next-milestone CTA + a compact
  *               milestone trail (done = mastery check, next = accent, upcoming = locked).
- * No goal yet → a warm prompt to set one, linking into the goal picker.
+ * No goal yet -> a warm prompt to set one, linking into the goal picker.
  *
  * Pure presentational server component: all goal math is done upstream by the
  * sibling's computeGoalProgress() and handed in as `progress`.
@@ -36,7 +37,8 @@ export function JourneyHero({ progress, nextHref }: JourneyHeroProps) {
             direction — so you always know the next move.
           </p>
           <Link href={ONBOARDING_HREF} className={styles.promptCta}>
-            Set a goal to start your journey →
+            Set a goal to start your journey
+            <Icon name="arrow-right" size={16} aria-hidden />
           </Link>
         </div>
       </section>
@@ -60,7 +62,7 @@ export function JourneyHero({ progress, nextHref }: JourneyHeroProps) {
           {complete ? (
             <p className={styles.nextDone}>
               <span className={styles.nextCheck} aria-hidden="true">
-                ✓
+                <Icon name="check" size={13} />
               </span>
               Goal reached — you’ve done the whole path.
             </p>
@@ -69,7 +71,7 @@ export function JourneyHero({ progress, nextHref }: JourneyHeroProps) {
               <span className={styles.nextKicker}>Next</span>
               <span className={styles.nextLabel}>{progress.nextMilestone.label}</span>
               <span className={styles.nextArrow} aria-hidden="true">
-                →
+                <Icon name="arrow-right" size={15} />
               </span>
             </Link>
           ) : null}
@@ -82,12 +84,12 @@ export function JourneyHero({ progress, nextHref }: JourneyHeroProps) {
         {progress.milestones.map((m) => {
           const isNext = !m.done && m.key === nextKey
           const state = m.done ? styles.mDone : isNext ? styles.mNext : styles.mUpcoming
-          const glyph = m.done ? '✓' : isNext ? '◆' : '○'
+          const glyph: IconName = m.done ? 'check' : isNext ? 'target' : 'circle'
           const srState = m.done ? 'complete' : isNext ? 'up next' : 'upcoming'
           return (
             <li key={m.key} className={`${styles.milestone} ${state}`}>
               <span className={styles.mGlyph} aria-hidden="true">
-                {glyph}
+                <Icon name={glyph} size={m.done ? 13 : 12} />
               </span>
               <span className={styles.mLabel}>{m.label}</span>
               <span className={styles.srOnly}> — {srState}</span>

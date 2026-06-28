@@ -5,10 +5,32 @@ import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
 import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './sprint.module.css'
 
 /** Slugs threaded down so a sprint section can emit evidence for the right unit. */
 type EvidenceProps = { courseSlug?: string; lessonSlug?: string }
+
+/** Each loop step maps to one clean line icon — the engine's decorative glyph
+ *  field is intentionally not rendered. Keyed by the loop-step `key`. */
+const STEP_ICON: Record<string, IconName> = {
+  'sprint-contract': 'bolt',
+  mission: 'target',
+  context: 'compass',
+  pretest: 'sparkle',
+  'worked-example': 'book',
+  concept: 'star',
+  lab: 'bolt',
+  debug: 'search',
+  tradeoff: 'refresh',
+  verification: 'check',
+  quiz: 'sparkle',
+  teachback: 'users',
+  calibration: 'target',
+  transfer: 'arrow-up-right',
+  'spaced-review': 'refresh',
+  'unlock-gate': 'lock',
+}
 
 /** Loop-rail wrapper. Every sprint section carries its loop-step label so the
  *  learner perceives the engine, not just the content. */
@@ -18,9 +40,11 @@ function Section({ blockKey, children, tone }: { blockKey: string; children: Rea
     <section className={styles.section} data-tone={tone}>
       {s ? (
         <header className={styles.rail}>
-          <span className={styles.railStep}>{s.step === 0 ? '◆' : String(s.step).padStart(2, '0')}</span>
+          <span className={styles.railStep}>{String(s.step).padStart(2, '0')}</span>
           <span className={styles.railMeta}>
-            <span className={styles.railLabel}>{s.glyph} {s.label}</span>
+            <span className={styles.railLabel}>
+              <Icon name={STEP_ICON[s.key] ?? 'circle'} size={14} /> {s.label}
+            </span>
             <span className={styles.railWhy}>{s.why}</span>
           </span>
         </header>
@@ -43,7 +67,7 @@ function SprintContract({ b }: { b: Extract<LessonBlock, { type: 'sprint-contrac
   return (
     <section className={styles.contract}>
       <div className={styles.contractTop}>
-        <span className={styles.contractKicker}>⬡ Sprint contract</span>
+        <span className={styles.contractKicker}><Icon name="bolt" size={13} /> Sprint contract</span>
         <span className={styles.intensity} data-i={b.intensity}>{b.intensity} · {b.time}</span>
       </div>
       <dl className={styles.contractGrid}>
@@ -89,7 +113,7 @@ function Pretest({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type
       />
       {!shown ? (
         <button type="button" className={styles.ghostBtn} onClick={reveal} disabled={!val.trim()}>
-          {val.trim() ? 'Reveal the answer →' : 'Write a guess to reveal'}
+          {val.trim() ? (<>Reveal the answer <Icon name="arrow-right" size={14} /></>) : 'Write a guess to reveal'}
         </button>
       ) : (
         <div className={styles.reveal} role="status" aria-live="polite">
@@ -130,7 +154,7 @@ function DebugBlock({ b }: { b: Extract<LessonBlock, { type: 'debug' }> }) {
       <Mono code={b.brokenCode} />
       <p className={styles.task}>{b.task}</p>
       {!shown ? (
-        <button type="button" className={styles.ghostBtn} onClick={() => setShown(true)}>Show the fix →</button>
+        <button type="button" className={styles.ghostBtn} onClick={() => setShown(true)}>Show the fix <Icon name="arrow-right" size={14} /></button>
       ) : (
         <div className={styles.reveal}><span className={styles.revealTag}>Fix</span><p>{b.fix}</p></div>
       )}
@@ -177,14 +201,14 @@ function Verification({ b }: { b: Extract<LessonBlock, { type: 'verification' }>
         {items.map((it, i) => (
           <li key={i}>
             <button type="button" role="checkbox" aria-checked={!!checked[i]} data-on={!!checked[i]} onClick={() => toggle(i)}>
-              <span className={styles.box} aria-hidden="true">{checked[i] ? '✓' : ''}</span>
+              <span className={styles.box} aria-hidden="true">{checked[i] ? <Icon name="check" size={12} /> : null}</span>
               <span>{it}</span>
             </button>
           </li>
         ))}
       </ul>
       <p className={styles.progress} data-complete={allDone}>
-        {allDone ? '✓ Verified — proof complete' : `${done}/${items.length} proofs`}
+        {allDone ? (<><Icon name="check" size={14} /> Verified — proof complete</>) : `${done}/${items.length} proofs`}
       </p>
     </Section>
   )
@@ -223,12 +247,12 @@ function Teachback({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { ty
             disabled={pending}
           />
           <button type="button" className={styles.ghostBtn} onClick={submit} disabled={pending || !val.trim()}>
-            {pending ? 'Grading…' : 'Submit for grading →'}
+            {pending ? 'Grading…' : (<>Submit for grading <Icon name="arrow-right" size={14} /></>)}
           </button>
           {verdict ? (
             <div className={styles.reveal} role="status" aria-live="polite">
               <span className={styles.revealTag}>
-                {!verdict.available ? 'Grader' : verdict.passed ? '✓ Passed' : 'Needs work'}
+                {!verdict.available ? 'Grader' : verdict.passed ? (<><Icon name="check" size={13} /> Passed</>) : 'Needs work'}
               </span>
               {verdict.feedback ? <p>{verdict.feedback}</p> : null}
             </div>
@@ -277,7 +301,7 @@ function Transfer({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { typ
       <p className={styles.lead}>{b.text}</p>
       {canEmit ? (
         <button type="button" className={styles.ghostBtn} onClick={markAttempted} disabled={sent} data-on={sent}>
-          {sent ? '✓ Transfer attempt logged' : 'Mark transfer attempted →'}
+          {sent ? (<><Icon name="check" size={14} /> Transfer attempt logged</>) : (<>Mark transfer attempted <Icon name="arrow-right" size={14} /></>)}
         </button>
       ) : null}
     </Section>
@@ -306,9 +330,9 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
   return (
     <section className={styles.gate} data-open={allDone}>
       <header className={styles.rail}>
-        <span className={styles.railStep}>⏻</span>
+        <span className={styles.railStep} aria-hidden="true"><Icon name="lock" size={14} /></span>
         <span className={styles.railMeta}>
-          <span className={styles.railLabel}>Unlock gate</span>
+          <span className={styles.railLabel}><Icon name="lock" size={14} /> Unlock gate</span>
           <span className={styles.railWhy}>Advance only with proof</span>
         </span>
       </header>
@@ -316,14 +340,14 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
         {criteria.map((c, i) => (
           <li key={i}>
             <button type="button" role="checkbox" aria-checked={!!checked[i]} data-on={!!checked[i]} onClick={() => toggle(i)}>
-              <span className={styles.box} aria-hidden="true">{checked[i] ? '✓' : ''}</span>
+              <span className={styles.box} aria-hidden="true">{checked[i] ? <Icon name="check" size={12} /> : null}</span>
               <span>{c}</span>
             </button>
           </li>
         ))}
       </ul>
       <p className={styles.gateState} role="status" aria-live="polite">
-        {allDone ? '✓ Gate cleared — you may unlock the next sprint' : 'Meet every criterion to unlock'}
+        {allDone ? (<><Icon name="check" size={14} /> Gate cleared — you may unlock the next sprint</>) : 'Meet every criterion to unlock'}
       </p>
     </section>
   )

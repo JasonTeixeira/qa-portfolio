@@ -1,11 +1,11 @@
 'use client'
 
-import { useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
-import { CATEGORIES, TRACKS, type AcademyTrack } from '@/lib/academy/taxonomy'
 import type { PathItem, CourseItem, Level } from '@/data/academy/learn-catalog'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './catalog.module.css'
 
 type ResumeCard = { kicker: string; title: string; sub: string; href: string; pct: number }
@@ -19,239 +19,183 @@ function tvars(key: TopicKey): CSSProperties {
 
 export function CatalogClient({
   resume,
-  paths,
   courses,
   totalCourses,
   progress = {},
 }: {
   resume: ResumeCard | null
-  paths: PathItem[]
+  /** Curated multi-course paths — currently empty until rebuilt; kept for prop stability. */
+  paths?: PathItem[]
   courses: CourseItem[]
   totalCourses: number
   /** Completed-lesson count per course slug (RLS-scoped, 0 when signed out). */
   progress?: Record<string, number>
 }) {
-  const [trackFilter, setTrackFilter] = useState<AcademyTrack | null>(null)
   const [level, setLevel] = useState<'All' | Level>('All')
   const [query, setQuery] = useState('')
-  const coursesRef = useRef<HTMLElement>(null)
 
   const filtered = useMemo(
     () =>
       courses.filter(
         (c) =>
-          (!trackFilter || c.topic === trackFilter.topic) &&
           (level === 'All' || c.level === level) &&
           (!query || c.title.toLowerCase().includes(query.toLowerCase())),
       ),
-    [courses, trackFilter, level, query],
+    [courses, level, query],
   )
 
-  const liveCategory = CATEGORIES.find((c) => c.status === 'live')!
-  const liveTracks = TRACKS.filter((t) => t.categoryId === liveCategory.id)
-
-  const focusTrack = (t: AcademyTrack) => {
-    setTrackFilter((cur) => (cur?.id === t.id ? null : t))
-    coursesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  const inProgress = filtered.some((c) => {
+    const done = Math.min(progress[c.slug] ?? 0, c.lessons)
+    return done > 0 && done < c.lessons
+  })
 
   return (
     <div className={styles.page}>
-      <div className={styles.atmosphere} aria-hidden="true" />
-      {/* hero */}
+      {/* heading — say plainly what this page is */}
       <header className={styles.hero}>
-        <span className={styles.heroKicker}>◆ Sage Academy</span>
-        <h1 className={styles.heroTitle}>
-          Learn to build with AI —<br />
-          <span className={styles.heroEm}>by actually building.</span>
-        </h1>
+        <p className={styles.heroKicker}>Sage Academy</p>
+        <h1 className={styles.heroTitle}>Your courses</h1>
         <p className={styles.heroSub}>
-          Project-based tracks, in-browser labs, and a learning engine that won&rsquo;t let you fake it.
-          Browse the curriculum, follow a path, or assemble your own.
+          {totalCourses === 1
+            ? 'One course is ready. Pick up where you left off, or start from lesson one.'
+            : `${totalCourses} courses are ready. Pick one to start, or continue where you left off.`}
         </p>
-        <div className={styles.heroActions}>
-          <Link href="/academy/engine" className={styles.heroPrimary}>See how a sprint works →</Link>
-          <Link href="/academy/dashboard" className={styles.heroGhost}>My learning</Link>
-          <label className={styles.search}>
-            <span aria-hidden="true">⌕</span>
-            <input
-              type="search"
-              placeholder="Search courses, skills, labs…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search the catalog"
-            />
-          </label>
-        </div>
       </header>
 
-      {/* category switcher */}
-      <nav className={styles.categories} aria-label="Categories">
-        {CATEGORIES.map((c) => (
-          <div key={c.id} className={styles.category} data-status={c.status}>
-            <span className={styles.categoryGlyph} aria-hidden="true">{c.glyph}</span>
-            <span className={styles.categoryMeta}>
-              <span className={styles.categoryName}>{c.name}</span>
-              <span className={styles.categoryTag}>{c.tagline}</span>
-            </span>
-            {c.status !== 'live' ? <span className={styles.soon}>Coming soon</span> : <span className={styles.liveDot} aria-hidden="true" />}
-          </div>
-        ))}
-      </nav>
-
-      {/* the tracks — the architecture centerpiece */}
-      <section className={styles.section} aria-labelledby="tracks-h">
-        <div className={styles.sectionHead}>
-          <p className={styles.kicker}>{liveCategory.name}</p>
-          <h2 id="tracks-h" className={styles.h2}>Twelve tracks mapped — two live, the rest in build.</h2>
-        </div>
-        <div className={styles.trackGrid}>
-          {liveTracks.map((t) => {
-            const live = t.status === 'live'
-            return (
-              <button
-                key={t.id}
-                type="button"
-                className={styles.trackCard}
-                style={tvars(t.topic)}
-                data-on={trackFilter?.id === t.id}
-                data-status={t.status}
-                onClick={() => (live ? focusTrack(t) : undefined)}
-                aria-pressed={trackFilter?.id === t.id}
-                aria-disabled={!live}
-              >
-                <span className={styles.trackTop}>
-                  <span className={styles.trackGlyph} aria-hidden="true">{t.glyph}</span>
-                  <span className={styles.trackStatus} data-status={t.status}>
-                    {live ? 'Live' : <><span aria-hidden="true">🔒</span> Building</>}
-                  </span>
-                </span>
-                <h3 className={styles.trackName}>{t.name}</h3>
-                <p className={styles.trackBlurb}>{t.blurb}</p>
-                <span className={styles.trackOutcome}>→ {t.outcome}</span>
-              </button>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* resume — only when there is real recorded progress */}
+      {/* continue — only when there is real recorded progress */}
       {resume && (
         <Link href={resume.href} className={styles.resume}>
           <span className={styles.resumeAccent} aria-hidden="true" />
           <div className={styles.resumeBody}>
-            <span className={styles.resumeKicker}>▸ {resume.kicker}</span>
+            <span className={styles.resumeKicker}>{resume.kicker}</span>
             <span className={styles.resumeTitle}>{resume.title}</span>
+            <span className={styles.resumeSub}>{resume.sub}</span>
           </div>
           <div className={styles.resumeMeta}>
-            <span className={styles.resumeSub}>{resume.sub}</span>
-            <span className={styles.resumeBar} aria-hidden="true"><span style={{ width: `${resume.pct}%` }} /></span>
+            <span className={styles.resumeBar} aria-hidden="true">
+              <span style={{ width: `${resume.pct}%` }} />
+            </span>
+            <span className={styles.resumeBtn}>
+              {resume.pct > 0 ? 'Resume' : 'Start'}
+              <Icon name="arrow-right" size={16} />
+            </span>
           </div>
-          <span className={styles.resumeBtn}>{resume.pct > 0 ? 'Resume →' : 'Start →'}</span>
         </Link>
       )}
 
-      {/* curated paths */}
-      <section className={styles.section} aria-labelledby="paths-h">
-        <div className={styles.sectionHead}>
-          <p className={styles.kicker}>Curated paths</p>
-          <h2 id="paths-h" className={styles.h2}>Guided journeys — first line to shipped.</h2>
-        </div>
-        <div className={styles.pathGrid}>
-          {paths.map((p) => (
-            <Link key={p.slug} href="/academy/preview" className={styles.pathCard} style={tvars(p.topic)}>
-              <span className={styles.pathLayers} aria-hidden="true"><i /><i /><i /></span>
-              <span className={styles.pathLevel}>{p.level}</span>
-              <h3 className={styles.pathName}>{p.name}</h3>
-              <span className={styles.pathMeta}>{p.courses} courses · {p.hours} hrs</span>
-              <span className={styles.pathBar} aria-hidden="true">
-                <span style={{ width: `${Math.round((p.progress ?? 0) * 100)}%` }} />
-              </span>
-              <span className={styles.pathCta}>
-                {p.progress ? `${Math.round(p.progress * 100)}% · continue →` : 'Start path →'}
-              </span>
-            </Link>
-          ))}
-          <Link href="/academy/build" className={styles.buildCard}>
-            <span className={styles.buildKicker}>⬡ Modular</span>
-            <h3 className={styles.buildName}>Build your own path</h3>
-            <p className={styles.buildBody}>Pick your outcome, snap together the exact courses + labs you want — your own ordered track.</p>
-            <span className={styles.buildBtn}>Start building →</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* all courses */}
-      <section className={styles.section} aria-labelledby="courses-h" ref={coursesRef}>
+      {/* the one section that matters: the courses */}
+      <section className={styles.section} aria-labelledby="courses-h">
         <div className={styles.browseHead}>
-          <div>
-            <p className={styles.kicker}>{trackFilter ? trackFilter.name : 'All courses'}</p>
-            <h2 id="courses-h" className={styles.h2}>
-              {trackFilter ? (
-                <>Courses in this track. <button type="button" className={styles.clearFilter} onClick={() => setTrackFilter(null)}>clear ✕</button></>
-              ) : (
-                <>Browse the catalog. <span className={styles.count}>{totalCourses} live · more rolling out</span></>
-              )}
-            </h2>
-          </div>
-          <div className={styles.levels} role="group" aria-label="Filter by level">
-            {LEVELS.map((l) => (
-              <button
-                key={l}
-                type="button"
-                className={`${styles.level} ${level === l ? styles.levelOn : ''}`}
-                onClick={() => setLevel(l)}
-              >
-                {l}
-              </button>
-            ))}
+          <h2 id="courses-h" className={styles.h2}>
+            {inProgress ? 'Keep going' : 'All courses'}
+          </h2>
+          <div className={styles.controls}>
+            <label className={styles.search}>
+              <Icon name="search" size={16} aria-hidden="true" />
+              <input
+                type="search"
+                placeholder="Search courses"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Search courses"
+              />
+            </label>
+            <div className={styles.levels} role="group" aria-label="Filter by level">
+              {LEVELS.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  className={`${styles.level} ${level === l ? styles.levelOn : ''}`}
+                  onClick={() => setLevel(l)}
+                  aria-pressed={level === l}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         {filtered.length === 0 ? (
           <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">◇</span>
-            <p>{trackFilter ? `${trackFilter.name} sprints are rolling out.` : 'No courses match those filters yet.'}</p>
-            <span className={styles.emptySub}>New sprints ship into this engine continuously. {trackFilter ? <button type="button" className={styles.clearFilter} onClick={() => setTrackFilter(null)}>See all courses</button> : 'Widen your filters to see more.'}</span>
+            <span className={styles.emptyGlyph} aria-hidden="true">
+              <Icon name="search" size={22} />
+            </span>
+            <p>No courses match your search.</p>
+            <button
+              type="button"
+              className={styles.clearFilter}
+              onClick={() => {
+                setQuery('')
+                setLevel('All')
+              }}
+            >
+              Show all courses
+            </button>
           </div>
         ) : (
-          <div className={styles.courseGrid}>
+          <ul className={styles.courseGrid}>
             {filtered.map((c) => {
               const done = Math.min(progress[c.slug] ?? 0, c.lessons)
               const started = done > 0
               const pct = c.lessons ? Math.round((done / c.lessons) * 100) : 0
               const finished = c.lessons > 0 && done >= c.lessons
+              const action = finished ? 'Review' : started ? 'Continue' : 'Start'
               return (
-                <Link key={c.slug} href={`/academy/course/${c.slug}`} className={styles.courseCard} style={tvars(c.topic)}>
-                  <div className={styles.courseTop}>
-                    <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
-                    <span className={styles.courseLevel}>{c.level}</span>
-                  </div>
-                  <h3 className={styles.courseTitle}>{c.title}</h3>
-                  <span className={styles.courseMeta}>{c.lessons} lessons · {c.hours}h</span>
-                  {/* Progress only when there's real recorded progress — no fake 0% bars. */}
-                  {started ? (
-                    <div className={styles.courseProgress}>
-                      <ProgressBar
-                        value={pct}
-                        size="sm"
-                        ariaLabel={`${c.title}: ${done} of ${c.lessons} lessons complete`}
-                      />
-                      <span className={styles.courseProgressLabel}>
-                        {done}/{c.lessons} lessons · {pct}%
-                      </span>
+                <li key={c.slug}>
+                  <Link
+                    href={`/academy/course/${c.slug}`}
+                    className={styles.courseCard}
+                    style={tvars(c.topic)}
+                    data-state={finished ? 'done' : started ? 'active' : 'new'}
+                  >
+                    <div className={styles.courseTop}>
+                      <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
+                      <span className={styles.courseLevel}>{c.level}</span>
                     </div>
-                  ) : null}
-                  <div className={styles.courseFoot}>
-                    <span className={styles.courseStart}>{finished ? '✓ Finished' : started ? 'Continue →' : 'Start →'}</span>
-                    <span className={styles.coursePath}>+ add to path</span>
-                  </div>
-                </Link>
+                    <h3 className={styles.courseTitle}>{c.title}</h3>
+                    <span className={styles.courseMeta}>
+                      {c.lessons} lessons · {c.hours}h
+                    </span>
+
+                    {/* Progress only when there's real recorded progress — no fake 0% bars. */}
+                    {started && !finished ? (
+                      <div className={styles.courseProgress}>
+                        <ProgressBar
+                          value={pct}
+                          size="sm"
+                          ariaLabel={`${c.title}: ${done} of ${c.lessons} lessons complete`}
+                        />
+                        <span className={styles.courseProgressLabel}>
+                          {done}/{c.lessons} lessons · {pct}%
+                        </span>
+                      </div>
+                    ) : null}
+                    {finished ? (
+                      <span className={styles.courseDone}>
+                        <Icon name="check" size={15} aria-hidden="true" />
+                        Completed
+                      </span>
+                    ) : null}
+
+                    {/* ONE obvious action per course */}
+                    <span className={styles.courseAction}>
+                      {action}
+                      <Icon name="arrow-right" size={16} aria-hidden="true" />
+                    </span>
+                  </Link>
+                </li>
               )
             })}
-          </div>
+          </ul>
         )}
       </section>
+
+      {/* quiet escape hatch — never competes with the courses above */}
+      <Link href="/academy/build" className={styles.buildLink}>
+        <Icon name="plus" size={15} aria-hidden="true" />
+        Prefer to assemble your own path? Build one
+      </Link>
     </div>
   )
 }

@@ -42,7 +42,7 @@
 }
 .kicker {
   margin: 0;
-  font-family: var(--ac-font-mono), var(--font-mono), monospace;
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -50,7 +50,7 @@
 }
 .label {
   margin: 0.2rem 0 0;
-  font-family: var(--ac-font-display), var(--font-serif), Georgia, serif;
+  font-family: var(--ac-font-display), var(--ac-font-display);
   font-weight: 500;
   font-size: 1.05rem;
   letter-spacing: -0.01em;

@@ -18,10 +18,27 @@ declare global {
 
 type Status = 'loading' | 'ready' | 'running' | 'error'
 
+// Override builtins.input to read from a learner-invisible stdin buffer passed via
+// Pyodide globals (DATA, never interpolated into source — no injection). Re-run each
+// time so the read position resets. input() returns '' at EOF, matching a real prompt
+// with no more input. The prompt argument is intentionally NOT echoed to stdout
+// (Python's input() prompt doesn't go to stdout), so lab `check` strings stay exact.
+const STDIN_PREAMBLE = `
+import builtins as __b__
+__lab_lines__ = list(__lab_stdin_lines__)
+__lab_pos__ = [0]
+def __lab_input__(prompt=''):
+    i = __lab_pos__[0]
+    __lab_pos__[0] = i + 1
+    return __lab_lines__[i] if i < len(__lab_lines__) else ''
+__b__.input = __lab_input__
+`
+
 export function LabRunner({
   title,
   summary,
   starter,
+  stdin,
   hasCheck,
   backHref,
   courseSlug,
@@ -30,6 +47,7 @@ export function LabRunner({
   title: string
   summary: string
   starter: string
+  stdin?: string
   hasCheck?: boolean
   backHref: string
   courseSlug: string
@@ -83,6 +101,13 @@ export function LabRunner({
     py.setStdout({ batched: (s: string) => (buf += s + '\n') })
     py.setStderr({ batched: (s: string) => (buf += s + '\n') })
     try {
+      // Interactive labs: feed a predefined stdin to input() so lessons can teach
+      // input-driven programs and verify them deterministically (the buffer is data
+      // in a Pyodide global; the preamble overrides input() before the learner code).
+      if (stdin != null) {
+        py.globals.set('__lab_stdin_lines__', stdin.split('\n'))
+        await py.runPythonAsync(STDIN_PREAMBLE)
+      }
       await py.runPythonAsync(code)
       setOutput(buf.length ? buf : '(ran with no output)')
     } catch (e: unknown) {

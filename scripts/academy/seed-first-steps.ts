@@ -13,8 +13,8 @@
  * types, no loops; each concept is introduced only when its lesson arrives.
  * Every lesson follows the per-lesson quality bar in docs/academy/COURSE_PROGRAM.md:
  *   sprint-contract → mission → context → pretest → concept → worked-example →
- *   code → callout → lab (real Pyodide starter+check) → debug → quiz →
- *   verification → teachback → transfer → spaced-review.
+ *   code → callout → lab (real Pyodide starter+check; may feed input() a fixed
+ *   stdin) → debug → quiz → verification → teachback → transfer → spaced-review.
  *
  * Ordering: the reader (lib/academy/content.ts — getLesson / getCourse /
  * getCourseOverview) sorts by .order('module_sort').order('sort'). First Steps
@@ -453,11 +453,164 @@ print(a + b)     # meant to add -> prints "23", not 5`,
 ]
 
 // ================================================================= LESSON 4
+// "Reading Input: Make the Program Listen" — input() reads a typed line as a
+// STRING (here from the lab's provided stdin); convert with int()/float() to do
+// math. New idea vs L3: the program can RECEIVE data from outside instead of
+// only working with values you hardcode. Beginner-correct: uses ONLY print (L1),
+// variables (L2), strings/types/int()/f-strings (L3). NO if/lists/loops/functions
+// (those start next lesson). Forward pull: soon the program will DECIDE based on
+// what it reads (Booleans, L5).
+//
+// LAB MECHANICS: the runner feeds the lab's `stdin` (newline-separated) to
+// input() in order; input() returns the next line each call, and '' at EOF. The
+// prompt argument is NOT echoed to stdout, so `check` must equal exactly what the
+// program PRINTS — not the prompts. Verified in real Python:
+//   stdin "Sam\n3"  ->  correct solution prints  "Sam, you have 3 items."
+const READING_INPUT_LAB_STARTER = `# This program will read TWO lines the user "types" (provided for you below):
+#   line 1 = a name        (e.g. Sam)
+#   line 2 = a number of items (e.g. 3)
+# 1. Read the name with  input()  into a variable  name  (it comes in as text).
+# 2. Read the next line with  input(), convert it with  int(), into  count.
+# 3. Print EXACTLY this line, using an f-string:
+#       Sam, you have 3 items.
+# (input() hands you each line in order; the count must be a real number.)
+
+  # your code here
+`
+
+const readingInputBlocks = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      'Make your program RECEIVE data instead of only using values you typed in: read a line with input(), convert it to a number with int() when you need to do math, and print an exact line built from what you read.',
+    intensity: 'standard',
+    time: '25–35 min',
+    proof: 'A program that reads a name and a count from input, then prints one exact formatted line built from both — the numbers used as numbers, not text.',
+    unlock: 'Your program reads the provided input and prints the exact required line, with the count converted to a real number.',
+    doNotClaim:
+      "Don't claim you \"read input\" until your program has taken a line from input(), converted the numeric one with int(), and printed the exact line built from BOTH — printing a value you hardcoded is not reading input.",
+  },
+  {
+    type: 'mission',
+    text: 'Every program you have written so far already knew its answer — the name, the price, the scores were all typed in by you. But a real program does not know in advance who is using it or what they want. It has to ask, and then work with whatever comes back. Today your program stops talking to itself and starts listening: it reads a line the user provides, holds onto it, and builds its output around it. The same program now gives a different, correct answer for every different input — and once it can read what someone gives it, the very next step is to DECIDE based on what it heard.',
+  },
+  {
+    type: 'context',
+    text: 'Reading input is the front door of almost every program: a login form, a search box, a survey, a command typed at a terminal, a number scanned from a file. The whole job is the same shape — pull in a value from the outside, and (almost always) convert it before you compute with it, because input arrives as TEXT. Get comfortable with "read it, convert it, use it" now and every form, file, and prompt you ever handle is just this move repeated.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'Before you read on: a user types  3  and you read it with  count = input(). You then write  count + 1  to get 4. What actually happens?',
+    reveal:
+      'It does NOT give 4 — it errors. input() ALWAYS hands back text, so count is the string "3", not the number 3. And you cannot add a number to text, so  "3" + 1  stops with a TypeError. This is the catch that gets every beginner: a thing that LOOKS like a number on screen is still text until you convert it. Wrap it in int() first — count = int(input()) — and then count + 1 is 4. Read as text, convert before you do math.',
+  },
+  {
+    type: 'concept',
+    title: 'input() reads a line as text; convert with int() to get a number',
+    text: 'input() pauses the program, reads one line the user provides, and hands it back as a string — always text, even if it looks like a number. You usually store it in a variable: name = input(). (input() can take a prompt, like input("Name? "), but the prompt is just a hint shown to the user — it is not part of the value you get back.) Because the result is text, you must convert it when you need a number: int(input()) turns "3" into the whole number 3; float(input()) turns "3.5" into 3.5. This is exactly the "2" vs 2 type difference from Lesson 3 — the value arrives as a str, and you convert it deliberately. Once you have the pieces, build your output with an f-string, dropping the values in with { }.',
+  },
+  {
+    type: 'worked-example',
+    intro: 'Read two lines, convert the numeric one, then build the output. Watch where int() goes:',
+    language: 'python',
+    code: `name = input()              # reads a line -> text, e.g. "Sam"
+age_text = input()          # reads the next line -> text, e.g. "30"
+age = int(age_text)         # convert that text to a real number -> 30
+
+# build the line with an f-string; next year's age needs the NUMBER
+print(f"Hi {name}, next year you turn {age + 1}.")`,
+    steps: [
+      'The first input() reads one line and returns it as text; name becomes "Sam".',
+      'The second input() reads the NEXT line; age_text becomes the text "30".',
+      'int(age_text) converts that text into the number 30, stored in age.',
+      'Because age is now a real number, age + 1 does arithmetic → 31 (on text it would error).',
+      'The f-string drops name and the computed 31 into the sentence and prints it.',
+    ],
+    commonMistake:
+      'Doing math on the raw input, like  age_text + 1, or wrapping the wrong thing:  int(input()) + 1  is right, but  int(input() + 1)  errors because it tries to + text and a number BEFORE converting. Convert the input first, THEN compute: age = int(input()), then age + 1.',
+  },
+  {
+    type: 'code',
+    filename: 'reading_input.py',
+    language: 'python',
+    code: `name = input()              # text, e.g. "Sam"
+count = int(input())        # read the next line AND convert it to a number
+
+# count is a real number now, so it can be used in math or formatted cleanly
+print(f"{name}, you have {count} items.")   # -> Sam, you have 3 items.`,
+    // input() reads each line in order as text; int() converts the numeric one; f-string builds the exact line.
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
+    text: 'Pros convert input the instant it arrives, right at the boundary — count = int(input()) on one line — not three lines later when they have forgotten it is still text. The bug that bites beginners is letting a "number" travel through the program as a string and only exploding when they finally try to add it. Make the conversion the FIRST thing you do with numeric input, and the rest of your program can trust it is a real number. (And know that if the user types something that is not a number, int() will error — handling that gracefully is a Foundations lesson; for now, trust the input.)',
+  },
+  {
+    type: 'lab',
+    title: 'Read a name and a count',
+    summary:
+      'The program is given two input lines: a name (Sam) on the first line and a number (3) on the second. Read the name with input() into name, read the next line and convert it with int() into count, then print EXACTLY this line with an f-string: Sam, you have 3 items. The count must be read from input and converted — do not hardcode the name or the number.',
+    language: 'python',
+    starter: READING_INPUT_LAB_STARTER,
+    stdin: 'Sam\n3',
+    check: 'Sam, you have 3 items.',
+  },
+  {
+    type: 'debug',
+    symptom: 'This should read a count and print "You have 4 items." (3 typed, plus 1), but it crashes with a TypeError instead.',
+    language: 'python',
+    brokenCode: `count = input()              # the user typed 3
+print(f"You have {count + 1} items.")   # meant to add 1 -> errors`,
+    task: 'Find why adding 1 to the count crashes.',
+    fix: 'input() returns TEXT, so count is the string "3", not the number 3 — and  "3" + 1  cannot add a number to text, so Python raises a TypeError. Convert the input to a number first:  count = int(input()). Now count is the real number 3, count + 1 is 4, and the line prints "You have 4 items." Numeric input must be passed through int() before you do any math with it.',
+  },
+  {
+    type: 'quiz',
+    question: 'A program does  age = input()  and the user types  25. What is the type and value of  age, and what does  age + age  produce?',
+    options: [
+      'age is the number 25; age + age is 50',
+      'age is the text "25"; age + age is "2525" (text joins, it does not add)',
+      'age is the number 25; age + age errors',
+      'age is the text "25"; age + age is 50',
+    ],
+    answer: 1,
+    explanation:
+      'input() always returns a string, so age is the text "25", not the number 25. And + on text joins (concatenates), so age + age is "2525", exactly like "2" + "3" was "23" in Lesson 3. To add the numbers you must convert first: int(age) + int(age) gives 50. Input is text until you convert it.',
+  },
+  {
+    type: 'verification',
+    intro: 'Prove it — no vibes:',
+    items: [
+      'Your program reads its values with input() — it does not hardcode the name or the number',
+      'You converted the numeric input with int() (not left it as text)',
+      'You built the output with an f-string, dropping name and count in with { }',
+      'Your output is EXACTLY:  Sam, you have 3 items.',
+      'You can explain why input() gives back text, and why count needs int() before any math',
+    ],
+  },
+  {
+    type: 'teachback',
+    prompts: [
+      'In one sentence, what does input() do, and what TYPE does it always return?',
+      'Why must you usually wrap numeric input in int() (or float()) before using it?',
+      'What is the prompt argument in input("Name? "), and is it part of the value you get back?',
+      'How does this connect to the "2" + "3" vs 2 + 3 lesson from Numbers & Strings?',
+    ],
+  },
+  {
+    type: 'transfer',
+    text: 'In the lab, make the program ask for something real: read a person’s name and their age, convert the age with int(), and print a line that uses the age in a calculation (years until they turn 100, say). Then change the provided input and re-run — watch the SAME program produce a new, correct answer for new data. That is the leap from a program that knows its answer to one that works for anyone. Next, your program will look at what it read and DECIDE — greet differently, allow or deny, grade the number — which is exactly what Booleans & Decisions is for.',
+  },
+  { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
+]
+
+// ================================================================= LESSON 5
 // "Booleans & Decisions" — True/False, comparisons, and/or/not, if/elif/else.
-// New idea vs L3: a program can CHOOSE a path. Until now every line ran. Now a
+// New idea vs L4: a program can CHOOSE a path. Until now every line ran. Now a
 // block runs only when a condition is True. Uses ONLY variables, numbers,
-// strings, print (all taught). Introduces booleans + if/elif/else here for the
-// first time. Still NO loops, NO lists, NO functions.
+// strings, print, input (all taught). Introduces booleans + if/elif/else here for
+// the first time. Still NO loops, NO lists, NO functions.
 const BOOLEANS_LAB_STARTER = `# A score is stored for you below.
 # Print EXACTLY ONE line, decided by the score:
 #   score >= 90            -> print  Grade: A
@@ -601,11 +754,11 @@ if age = 18:
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
-// ================================================================= LESSON 5
+// ================================================================= LESSON 6
 // "Lists: Hold Many Values at Once" — create, index [0], len(), append(),
-// membership (in). New idea vs L4: one name can hold MANY values in order. Uses
-// variables/numbers/strings/print/if (all taught). Indexing + a method call are
-// introduced, but NO loops (next lesson) and NO functions yet.
+// membership (in). New idea vs L5: one name can hold MANY values in order. Uses
+// variables/numbers/strings/print/input/if (all taught). Indexing + a method call
+// are introduced, but NO loops (next lesson) and NO functions yet.
 const LISTS_LAB_STARTER = `# Below is a list of three cart items.
 # 1. Add  "eggs"  to the END of the list (use .append).
 # 2. Print the FIRST item in the list (index 0).
@@ -748,9 +901,9 @@ print(colors[3])     # meant to print the last one`,
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
-// ================================================================= LESSON 6
+// ================================================================= LESSON 7
 // "Loops: Do Something for Every Item" — for item in list, for i in range(n),
-// accumulating into a variable. New idea vs L5: REPEAT an action across a
+// accumulating into a variable. New idea vs L6: REPEAT an action across a
 // sequence without copy-paste. Lists had to come first (they did). Uses
 // variables/numbers/if/lists (all taught). Still NO functions.
 const LOOPS_LAB_STARTER = `# Below is a list of prices.
@@ -898,9 +1051,9 @@ print(total)             # prints 5, not 15`,
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
-// ================================================================= LESSON 7
+// ================================================================= LESSON 8
 // "Functions: Name and Reuse a Block of Code" — def, parameters, return, calling.
-// New idea vs L6: package a block of code under a name, hand it inputs
+// New idea vs L7: package a block of code under a name, hand it inputs
 // (parameters), get a value back (return), and call it as many times as you like.
 // Uses variables/numbers/strings/if/elif/else/lists/loops (all taught). Introduces
 // def/return/parameters for the FIRST time. This sets up Module 2's deeper
@@ -1049,11 +1202,12 @@ print(bill)                   # prints None, not 42`,
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '16 days'] },
 ]
 
-// ================================================================= LESSON 8
+// ================================================================= LESSON 9
 // "Build & Ship a Tiny Program" — THE CAPSTONE. Combine variables + if + a list +
 // a loop + a function into one small, genuinely useful program over in-code data.
-// No new syntax: this lesson is synthesis. Uses ONLY concepts from lessons 1-7.
-// NO input() (Pyodide labs are non-interactive — operate on in-code data).
+// No new syntax: this lesson is synthesis. Uses ONLY concepts from lessons 1-8.
+// The capstone lab operates on in-code data (no input()) so the synthesis stays
+// focused on combining the building blocks, not on I/O.
 const SHIP_LAB_STARTER = `# CAPSTONE — ship a tiny gradebook in one small program.
 # scores below are quiz results (0-100). Build ONE program that:
 #   1. defines a function  summarize(scores)  which LOOPS over the scores and,
@@ -1233,11 +1387,12 @@ async function main() {
             { slug: 'your-first-program', sort: 0, blocks: firstProgramBlocks.length },
             { slug: 'variables-and-values', sort: 1, blocks: variablesBlocks.length },
             { slug: 'numbers-and-strings', sort: 2, blocks: numbersStringsBlocks.length },
-            { slug: 'booleans-and-logic', sort: 3, blocks: booleansBlocks.length },
-            { slug: 'lists', sort: 4, blocks: listsBlocks.length },
-            { slug: 'loops', sort: 5, blocks: loopsBlocks.length },
-            { slug: 'functions-basics', sort: 6, blocks: functionsBlocks.length },
-            { slug: 'build-a-tiny-program', sort: 7, blocks: shipBlocks.length },
+            { slug: 'reading-input', sort: 3, blocks: readingInputBlocks.length },
+            { slug: 'booleans-and-logic', sort: 4, blocks: booleansBlocks.length },
+            { slug: 'lists', sort: 5, blocks: listsBlocks.length },
+            { slug: 'loops', sort: 6, blocks: loopsBlocks.length },
+            { slug: 'functions-basics', sort: 7, blocks: functionsBlocks.length },
+            { slug: 'build-a-tiny-program', sort: 8, blocks: shipBlocks.length },
           ],
           relabel: {
             from: `${OLD_FOUNDATIONS_MODULE} (module_sort 0)`,
@@ -1319,10 +1474,20 @@ async function main() {
       blocks: numbersStringsBlocks,
     },
     {
+      slug: 'reading-input',
+      title: 'Reading Input: Make the Program Listen',
+      eyebrow: 'Module 1 · Lesson 4 · 30 min',
+      sort: 3,
+      est_minutes: 30,
+      is_free_preview: false,
+      intensity: 'standard',
+      blocks: readingInputBlocks,
+    },
+    {
       slug: 'booleans-and-logic',
       title: 'Booleans & Decisions: Make the Program Choose',
-      eyebrow: 'Module 1 · Lesson 4 · 35 min',
-      sort: 3,
+      eyebrow: 'Module 1 · Lesson 5 · 35 min',
+      sort: 4,
       est_minutes: 35,
       is_free_preview: false,
       intensity: 'standard',
@@ -1331,8 +1496,8 @@ async function main() {
     {
       slug: 'lists',
       title: 'Lists: Hold Many Values at Once',
-      eyebrow: 'Module 1 · Lesson 5 · 35 min',
-      sort: 4,
+      eyebrow: 'Module 1 · Lesson 6 · 35 min',
+      sort: 5,
       est_minutes: 35,
       is_free_preview: false,
       intensity: 'standard',
@@ -1341,8 +1506,8 @@ async function main() {
     {
       slug: 'loops',
       title: 'Loops: Do Something for Every Item',
-      eyebrow: 'Module 1 · Lesson 6 · 40 min',
-      sort: 5,
+      eyebrow: 'Module 1 · Lesson 7 · 40 min',
+      sort: 6,
       est_minutes: 40,
       is_free_preview: false,
       intensity: 'standard',
@@ -1351,8 +1516,8 @@ async function main() {
     {
       slug: 'functions-basics',
       title: 'Functions: Name and Reuse a Block of Code',
-      eyebrow: 'Module 1 · Lesson 7 · 40 min',
-      sort: 6,
+      eyebrow: 'Module 1 · Lesson 8 · 40 min',
+      sort: 7,
       est_minutes: 40,
       is_free_preview: false,
       intensity: 'standard',
@@ -1361,8 +1526,8 @@ async function main() {
     {
       slug: 'build-a-tiny-program',
       title: 'Build & Ship a Tiny Program',
-      eyebrow: 'Module 1 · Lesson 8 · 50 min',
-      sort: 7,
+      eyebrow: 'Module 1 · Lesson 9 · 50 min',
+      sort: 8,
       est_minutes: 50,
       is_free_preview: false,
       intensity: 'capstone',

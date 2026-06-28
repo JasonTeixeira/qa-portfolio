@@ -10,7 +10,7 @@ export type LessonBlock =
   | { type: 'prose'; text: string }
   | { type: 'code'; filename: string; language: 'python' | 'ts' | 'bash'; code: string }
   | { type: 'video'; title: string; duration: string; playbackId?: string }
-  | { type: 'lab'; title: string; summary: string; href?: string; language?: string; starter?: string; check?: string }
+  | { type: 'lab'; title: string; summary: string; href?: string; language?: string; starter?: string; check?: string; stdin?: string }
   | { type: 'callout'; tone: 'tip' | 'note'; text: string }
   | { type: 'quiz'; question: string; options: string[]; answer: number; explanation?: string }
   // — Sage Learning Engine V2 sprint sections —

@@ -13,8 +13,8 @@ disciplined-dark academy — evolve it, don't fight it.)
 ## Surfaces
 | Stage | Surface | design | gates | status |
 |---|---|---:|:---:|---|
-| 0 | Token foundation (oklch palette + roles, type scale + pairing, spacing/radius/elevation, motion, grain) | — | — | next |
-| 0 | Reference surface (one component proving the tokens) | — | — | blocked-on-tokens |
+| 0 | Token foundation (oklch palette + roles, type scale + pairing, spacing/radius/elevation, motion, grain) | built | tsc·build·a11y ✓ | **awaiting operator sign-off** |
+| 0 | Reference surface (lesson header + callout, editorial dark-luxury) | rendered | a11y 7/7 | **awaiting operator sign-off** |
 | 1 | Lesson player (the 20 block-types styled with character) | — | — | Stage 1 |
 | 1 | Course overview (modules + lessons, editorial) | — | — | Stage 1 |
 | 1 | Lab surface (the interactive Pyodide lab, beautiful) | — | — | Stage 1 |

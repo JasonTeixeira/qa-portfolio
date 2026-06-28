@@ -281,8 +281,10 @@ export function LessonPlayer({
       {/* main */}
       <main className={styles.main}>
         <article className={styles.lesson}>
-          <p className={styles.eyebrow}>{lesson.eyebrow}</p>
-          <h1 className={styles.title}>{lesson.title}</h1>
+          <header className={styles.lessonHeader}>
+            <p className={styles.eyebrow}>{lesson.eyebrow}</p>
+            <h1 className={styles.title}>{lesson.title}</h1>
+          </header>
           {(unitState || unitScore) ? (
             <div style={{ margin: '0.5rem 0 1.25rem' }}>
               <div

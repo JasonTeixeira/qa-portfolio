@@ -1711,50 +1711,142 @@ a:focus-visible {
   }
 }
 
-/* ─── Sage Academy — Institutional Editorial tokens (Tier-1 foundation) ─── */
-/* Source of truth: docs/academy/DESIGN_SYSTEM.md. Disciplined dark, cohesive
-   with the Sage Living OS ramp above — NO bloom/glow on academy chrome. Every
-   academy surface/component reads from --ac-* so the shell has one source. */
+/* ─── Sage Academy — EDITORIAL DARK-LUXURY token foundation (Stage 0) ─── */
+/* "A premium dev magazine that happens to teach." Source of truth:
+   docs/academy/DESIGN_SYSTEM.md + DESIGN_OS_PROGRAM.md. Near-black layered
+   surfaces with real depth + hairline rules; a serif DISPLAY face (Fraunces,
+   already loaded as --font-serif) paired with a grotesk BODY (Hanken Grotesk,
+   --font-sans) + mono data (JetBrains Mono, --font-mono); ONE disciplined accent
+   used semantically. All --ac-* live HERE — one source, additive, never forked.
+   oklch is authored as the design intent; legacy names kept so nothing breaks. */
 :root {
-  /* base (aliases the --sage-* dark ramp — one product, no new palette) */
-  --ac-bg: #0b0b0e;
-  --ac-surface: #111115;
-  --ac-surface-2: #141418;
-  --ac-ink: #f2efe9;
-  --ac-ink-soft: #c0c0ca;
-  --ac-ink-faint: #8a8b96;
-  --ac-rule: #1e1e24;
-  --ac-rule-strong: #2a2a33;
-  --ac-accent: #3d6bff; /* non-text accent: tints, underlines, rings, focus */
-  --ac-accent-strong: #3458e0; /* white-on-accent ≥ AA 4.5 (button/badge backgrounds) */
-  --ac-accent-text: #8fa0ff; /* accent AS TEXT on the dark bg ≥ AA 4.5 (links, eyebrows) */
+  /* ── PALETTE · near-black surface ramp (oklch: perceptually even depth) ──
+     base → raised → overlay climbs ~2% L per step for layered editorial depth.
+     Each carries a tiny cool-violet chroma so the dark reads as ink, not soot. */
+  --ac-bg: oklch(15% 0.006 285); /* page floor — the deepest near-black */
+  --ac-surface: oklch(18.5% 0.007 285); /* default card / raised surface */
+  --ac-surface-2: oklch(21% 0.008 285); /* raised-above-raised / hover lift */
+  --ac-overlay: oklch(24% 0.009 285); /* overlays, popovers, the top layer */
 
-  /* semantic state — meaning only (8-state machine + score caps) */
-  --ac-mastery: #4ade80; /* proven / complete */
-  --ac-pending: #e8b75a; /* in-progress / proof-pending / capped */
-  --ac-locked: #52525b; /* locked / neutral */
-  --ac-danger: #ff5436; /* failure / repair-required */
+  /* INK ramp — every step ≥ AA 4.5:1 on --ac-bg (never opacity on text) */
+  --ac-ink: oklch(94% 0.012 75); /* primary — warm bone, ~14:1 */
+  --ac-ink-soft: oklch(80% 0.012 285); /* secondary prose / dim, ~7.5:1 */
+  --ac-ink-faint: oklch(64% 0.013 285); /* mono captions / labels, ~4.6:1 AA */
 
-  /* typography — a real pairing: serif display + grotesk body + mono data */
-  --ac-font-display: var(--font-newsreader, 'Newsreader', Georgia, serif);
-  --ac-font-body: var(--font-inter, Inter, system-ui, sans-serif);
-  --ac-font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', monospace;
-  --ac-step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
-  --ac-step-0: clamp(1rem, 0.95rem + 0.25vw, 1.075rem);
-  --ac-step-2: clamp(1.4rem, 1.2rem + 1vw, 1.85rem);
-  --ac-step-4: clamp(2.2rem, 1.6rem + 2.6vw, 3.4rem);
-  --ac-step-6: clamp(3rem, 2rem + 5vw, 5.5rem);
+  /* HAIRLINE rules — depth comes from these + surfaces, never glow */
+  --ac-rule: oklch(27% 0.008 285); /* default hairline divider */
+  --ac-rule-strong: oklch(33% 0.009 285); /* emphasized / focused edge */
 
-  /* space · rhythm · restrained depth (surfaces + rules, never glow) */
-  --ac-space: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  /* ACCENT — ONE disciplined hue, three SEMANTIC roles (not raw color) */
+  --ac-accent: oklch(62% 0.18 264); /* non-text: tints, underlines, rings, focus */
+  --ac-accent-strong: oklch(54% 0.2 264); /* fills: white-on-accent text ≥ AA 4.5 */
+  --ac-accent-text: oklch(76% 0.14 264); /* accent AS TEXT on dark bg ≥ AA 4.5 (links, eyebrows) */
+  --ac-accent-wash: oklch(62% 0.18 264 / 0.1); /* faint tint behind accented blocks */
+
+  /* SEMANTIC STATE — meaning only (8-state machine + score caps), each AA */
+  --ac-mastery: oklch(78% 0.16 152); /* proven / complete */
+  --ac-pending: oklch(80% 0.12 80); /* in-progress / proof-pending / capped */
+  --ac-locked: oklch(55% 0.01 285); /* locked / neutral */
+  --ac-danger: oklch(66% 0.2 27); /* failure / repair-required */
+
+  /* ── TYPOGRAPHY · a real pairing (serif display + grotesk body + mono data) ──
+     Wired to the faces the app ALREADY loads (app/layout.tsx) — no new font load.
+     --font-serif = Fraunces (the "expensive" editorial serif), --font-sans =
+     Hanken Grotesk, --font-mono = JetBrains Mono. */
+  --ac-font-display: var(--font-serif, Fraunces, 'Newsreader', Georgia, serif);
+  --ac-font-body: var(--font-sans, 'Hanken Grotesk', system-ui, sans-serif);
+  --ac-font-mono: var(--font-mono, ui-monospace, 'JetBrains Mono', 'SF Mono', monospace);
+
+  /* MODULAR SCALE — fluid clamp, ~1.25 ratio, big scale-contrast for hierarchy */
+  --ac-step--1: clamp(0.8rem, 0.77rem + 0.15vw, 0.875rem); /* fine print / captions */
+  --ac-step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem); /* body */
+  --ac-step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.3rem); /* lead / large body */
+  --ac-step-2: clamp(1.4rem, 1.2rem + 1vw, 1.85rem); /* sub-headings */
+  --ac-step-3: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem); /* section headers */
+  --ac-step-4: clamp(2.2rem, 1.6rem + 2.6vw, 3.4rem); /* lesson / course titles */
+  --ac-step-5: clamp(2.6rem, 1.8rem + 3.6vw, 4.4rem); /* page titles */
+  --ac-step-6: clamp(3rem, 2rem + 5vw, 5.5rem); /* hero scenario lines */
+
+  /* TRACKING + LEADING — display tightens, mono labels open up */
+  --ac-track-display: -0.022em; /* serif headings: tight, editorial */
+  --ac-track-body: -0.005em;
+  --ac-track-label: 0.12em; /* mono eyebrows / kickers: wide, institutional */
+  --ac-leading-tight: 1.06; /* big display lines */
+  --ac-leading-snug: 1.3; /* sub-headings */
+  --ac-leading-body: 1.62; /* prose comfort */
+
+  /* ── SPACE · rhythm scale (intentional, not uniform padding everywhere) ── */
+  --ac-space-3xs: 0.25rem;
+  --ac-space-2xs: 0.5rem;
+  --ac-space-xs: 0.75rem;
+  --ac-space-sm: 1rem;
+  --ac-space-md: 1.5rem;
+  --ac-space-lg: 2.25rem;
+  --ac-space-xl: 3.5rem;
+  --ac-space-2xl: 5.5rem;
+  --ac-space: clamp(1rem, 0.8rem + 1vw, 1.5rem); /* legacy base unit */
   --ac-gutter: clamp(1.5rem, 1rem + 2.5vw, 3rem);
   --ac-maxw-prose: 68ch;
   --ac-maxw-shell: 1320px;
-  --ac-radius: 6px;
-  --ac-shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 8px 24px rgb(0 0 0 / 0.28);
 
-  /* motion — purposeful, compositor-only */
+  /* RADIUS scale — restrained, consistent (no bouncy rounding) */
+  --ac-radius-sm: 4px;
+  --ac-radius: 8px; /* default */
+  --ac-radius-lg: 14px; /* cards / hero surfaces */
+  --ac-radius-pill: 999px;
+
+  /* ELEVATION scale — layered dark-luxury soft shadows (depth, never glow).
+     Two-layer: a tight contact shadow + a soft ambient cast on the page floor. */
+  --ac-elev-1: 0 1px 2px oklch(0% 0 0 / 0.4), 0 2px 6px oklch(0% 0 0 / 0.28);
+  --ac-elev-2: 0 1px 2px oklch(0% 0 0 / 0.45), 0 10px 28px oklch(0% 0 0 / 0.34);
+  --ac-elev-3: 0 2px 4px oklch(0% 0 0 / 0.5), 0 22px 56px oklch(0% 0 0 / 0.4);
+  --ac-shadow: var(--ac-elev-2); /* legacy alias */
+
+  /* ── MOTION · purposeful, compositor-only (transform / opacity / clip-path) ── */
   --ac-dur-fast: 150ms;
   --ac-dur: 300ms;
-  --ac-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ac-dur-slow: 620ms; /* the slow editorial reveal */
+  --ac-ease: cubic-bezier(0.16, 1, 0.3, 1); /* ease-out-expo */
+  --ac-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ac-ease-reveal: cubic-bezier(0.22, 1, 0.36, 1); /* slow, settled reveal */
+
+  /* GRAIN / ATMOSPHERE — tasteful fixed-noise tuning (see .ac-grain utility) */
+  --ac-grain-opacity: 0.035;
+  --ac-vignette: radial-gradient(
+    130% 100% at 50% -10%,
+    transparent 60%,
+    oklch(0% 0 0 / 0.35) 100%
+  );
+}
+
+/* GRAIN + VIGNETTE atmosphere utility — compositor-friendly (opacity only),
+   pointer-transparent, reduced-motion safe (it's static — no animation). Apply
+   to a positioned ancestor; the ::before paints fixed SVG noise + a soft
+   top-vignette for editorial atmosphere without touching text contrast. */
+.ac-grain {
+  position: relative;
+  isolation: isolate;
+}
+.ac-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--ac-grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: soft-light;
+}
+.ac-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--ac-vignette);
+}
+.ac-grain > * {
+  position: relative;
+  z-index: 1;
 }

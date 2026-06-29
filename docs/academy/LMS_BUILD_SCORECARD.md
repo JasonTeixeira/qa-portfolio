@@ -23,7 +23,7 @@
 ## Step 3 — Tutor KB ingest (after skeleton)
 | Task | status |
 |---|---|
-| Run KB pipeline over ingested lessons so Sage Tutor answers on the material | pending |
+| Run KB pipeline over ingested lessons so Sage Tutor answers on the material | **DONE** (561 chunks / 448 lessons / 23 courses) |
 
 ## Step 4 — Phase-B world-class transformation (long loop; PAUSE at each course)
 | Course | lessons | status |

@@ -173,6 +173,8 @@ function Block({
             nodes={block.nodes}
             edges={block.edges}
             legend={block.legend}
+            rankdir={block.rankdir}
+            caption={block.caption}
             height={block.height}
           />
         </RevealStagger>

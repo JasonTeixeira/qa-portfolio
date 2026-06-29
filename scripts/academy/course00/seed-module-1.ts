@@ -419,38 +419,36 @@ const systemMapBlocks: LessonBlock[] = [
       'Drawing components but no arrow directions — a box diagram with undirected lines. Without direction you cannot tell a write path from a read path, and the two fail differently. Always direct the flow.',
   },
   {
-    // The worked example, made visual: the six-box search-incident map with
-    // directed flow, the suspect edge marked (accent), and the blast-radius
-    // node called out (warning). Mirrors SYSTEM_MAP_SECTION below.
+    // The worked example, made visual — now LAYOUT-FREE. No x/y: the dagre
+    // engine in SageDiagram positions the six components by construction. Authors
+    // describe MEANING only — node kinds (store/service/client) and edge kinds
+    // (sync/async) + tones — and the system owns layout, spacing, and routing.
+    // The suspect path (Orders → Index Worker → Search Index) is accent-toned and
+    // async (dashed); the blast radius (stale Search Index) is warning; Postgres
+    // (source of truth) is success. Mirrors SYSTEM_MAP_SECTION below.
     type: 'diagram',
     title: 'The search-lag system map',
     subtitle:
       'Six components on the write → index → read path. The suspect edge (Orders → Index Worker → Search Index) is marked; the blast radius is the stale search catalog. Payments, auth, and billing are deliberately out of scope.',
-    height: 480,
     nodes: [
-      // Top row (write path) and bottom row (index/read cluster) sit close
-      // together (y 110 → 300, a 190px rhythm) so the write-path and the
-      // index/read cluster read as one connected system, not two stranded bands.
-      { id: 'client', label: 'Client', description: 'browser / app', x: 150, y: 110 },
-      { id: 'gateway', label: 'API Gateway', description: 'edge routing', x: 430, y: 110 },
-      { id: 'orders', label: 'Orders Service', description: 'write path', x: 710, y: 110 },
-      { id: 'postgres', label: 'Postgres', description: 'source of truth', x: 960, y: 110, tone: 'success' },
-      // Search Index and Index Worker are spaced 420px apart (x 340 / 760) so
-      // the heavy "indexes (LAGS)" blast-radius edge between them has room and
-      // its label never crowds either node.
-      { id: 'worker', label: 'Index Worker', description: 'event consumer', x: 760, y: 300, tone: 'accent' },
-      { id: 'search', label: 'Search Index', description: 'stale catalog', x: 340, y: 300, tone: 'warning' },
+      { id: 'client', label: 'Client', description: 'browser / app', kind: 'client' },
+      { id: 'gateway', label: 'API Gateway', description: 'edge routing', kind: 'service' },
+      { id: 'orders', label: 'Orders Service', description: 'write path', kind: 'service' },
+      { id: 'postgres', label: 'Postgres', description: 'source of truth', kind: 'store', tone: 'success' },
+      { id: 'worker', label: 'Index Worker', description: 'event consumer', kind: 'service', tone: 'accent' },
+      { id: 'search', label: 'Search Index', description: 'stale catalog', kind: 'store', tone: 'warning' },
     ],
     edges: [
-      { from: 'client', to: 'gateway', label: 'request' },
-      { from: 'gateway', to: 'orders', label: 'route' },
-      { from: 'orders', to: 'postgres', label: 'writes' },
+      { from: 'client', to: 'gateway', label: 'request', kind: 'sync' },
+      { from: 'gateway', to: 'orders', label: 'route', kind: 'sync' },
+      { from: 'orders', to: 'postgres', label: 'writes', kind: 'sync' },
       // The suspect path: Orders emits an event the Index Worker consumes
-      // (accent) and the lagging index copy (warning = blast radius). Toned +
-      // heavier so the diagnosis is legible from the graph alone, not just copy.
-      { from: 'orders', to: 'worker', label: 'emits event', dashed: true, tone: 'accent' },
-      { from: 'worker', to: 'search', label: 'indexes (LAGS)', dashed: true, tone: 'accent' },
-      { from: 'client', to: 'search', label: 'queries' },
+      // (async + accent) and the lagging index copy (async + accent; the
+      // warning-toned Search Index node is the blast radius). Toned + heavier so
+      // the diagnosis is legible from the graph alone, not just the copy.
+      { from: 'orders', to: 'worker', label: 'emits event', kind: 'async', tone: 'accent' },
+      { from: 'worker', to: 'search', label: 'indexes (LAGS)', kind: 'async', tone: 'accent' },
+      { from: 'client', to: 'search', label: 'queries', kind: 'sync' },
     ],
     legend: [
       { tone: 'accent', label: 'on the suspect path' },

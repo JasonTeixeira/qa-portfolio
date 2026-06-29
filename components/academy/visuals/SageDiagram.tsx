@@ -2,249 +2,69 @@
 
 import * as React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { type Tone } from './tones'
+import { DiagramNode, type DiagramNodeSpec, type DiagramEdgeSpec, type NodeKind, type DiagramEdgeKind } from './diagram-kinds'
+import { layoutDiagram, pointsToPath, pathLength, LABEL_PILL_H } from './diagram-layout'
+import { edgeStyle, dashFor, arrowId, warningGlowId, EdgeMarkers } from './diagram-edges'
+import { VisualFrame, deriveLegend, type LegendItem } from './VisualFrame'
+import {
+  EASE_OUT_EXPO,
+  NODE_STAGGER,
+  EDGE_STAGGER,
+  EDGE_DRAW_DURATION,
+  NODE_RISE_DURATION,
+  LABEL_FADE_DURATION,
+} from './motion'
 
 /**
- * SageDiagram — a zero-dependency, custom-SVG node/edge diagram renderer.
+ * SageDiagram — the AUTO-LAYOUT system-map renderer for the academy.
  *
- * Copied-in (self-contained) from the Sage Design OS `mermaid-diagram` block and
- * re-tokenized to the academy's editorial dark-luxury `--ac-*` system. Every
- * hardcoded color from the source (`#f7f2e8`, the `rgba(247,242,232,…)` washes,
- * the per-tone teal/lime/coral fills) is re-pointed to a semantic academy token:
- *   - ink / labels      → var(--ac-ink) / var(--ac-ink-soft) / var(--ac-ink-faint)
- *   - canvas + node fill → var(--ac-bg) / var(--ac-surface) + accent/state washes
- *     via color-mix() against the surface
- *   - hairlines / edges  → var(--ac-rule) / var(--ac-rule-strong)
- *   - accent tone        → var(--ac-accent) / var(--ac-accent-text)
- *   - success/warning    → var(--ac-mastery) / var(--ac-danger) (the state ramp)
+ * Authors write a LAYOUT-FREE spec: nodes carry only MEANING (id, label, kind,
+ * tone) with NO x/y, and edges carry only (from, to, kind, tone, label). The
+ * `@dagrejs/dagre` engine (diagram-layout.ts) computes every position + edge
+ * polyline + label anchor, so a diagram is best-in-class BY CONSTRUCTION — no
+ * overlaps, no clipping, consistent spacing — with zero per-diagram tuning.
  *
- * Motion: edges draw in (stroke-dashoffset) and nodes fade-up in order, on a
- * compositor-only path (opacity + transform). Under prefers-reduced-motion the
- * diagram renders in its final state instantly — the meaning is the structure,
- * never the motion. a11y: <figure>/<svg role="img"> carry an accessible
- * title + description; nodes/edges are decorative SVG under that label.
+ * The shared system does the rest: node-kind shapes (diagram-kinds), the
+ * semantic tone map + auto-legend (tones + VisualFrame), the edge taxonomy +
+ * per-tone arrowheads (diagram-edges), the standard frame (VisualFrame), and the
+ * house motion language (motion). Edges draw in along flow order; nodes fade up
+ * in rank order; prefers-reduced-motion renders the legible final state
+ * instantly. a11y: <svg role="img"> + aria-labelledby/describedby; the sr
+ * description names the toned path + node roles.
  */
 
-export type SageDiagramTone = 'default' | 'accent' | 'success' | 'warning'
-
-// Kept for back-compat; node tone is the same closed set as edge tone.
-export type SageDiagramNodeTone = SageDiagramTone
-
-export type SageDiagramNode = {
-  id: string
-  label: string
-  description?: string
-  x: number
-  y: number
-  tone?: SageDiagramTone
-}
-
-export type SageDiagramEdge = {
-  from: string
-  to: string
-  label?: string
-  dashed?: boolean
-  /**
-   * Semantic edge color. The toned edges carry the diagnosis: an `accent` or
-   * `warning` edge is the suspect path / blast radius and is drawn heavier so it
-   * pops out of the default-gray graph. Independent of `dashed` (they combine).
-   */
-  tone?: SageDiagramTone
-}
-
-export type SageDiagramLegendItem = {
-  tone: SageDiagramTone
-  label: string
-}
+// Re-export the spec types so callers/data layer import from one place.
+export type SageDiagramTone = Tone
+export type { NodeKind, DiagramEdgeKind, DiagramNodeSpec, DiagramEdgeSpec }
+export type SageDiagramNode = DiagramNodeSpec
+export type SageDiagramEdge = DiagramEdgeSpec
+export type SageDiagramLegendItem = LegendItem
 
 export type SageDiagramProps = {
   title: string
   subtitle?: string
-  nodes: SageDiagramNode[]
-  edges: SageDiagramEdge[]
-  /**
-   * Optional legend rows. When omitted, a legend is auto-derived from the set of
-   * non-default edge/node tones actually present, with sensible default labels.
-   * The legend renders only when at least one tone is in use.
-   */
-  legend?: SageDiagramLegendItem[]
+  nodes: DiagramNodeSpec[]
+  edges: DiagramEdgeSpec[]
+  /** Auto-derived from the non-default tones present when omitted. */
+  legend?: LegendItem[]
+  /** Flow direction. Default 'LR' (left→right). */
+  rankdir?: 'LR' | 'TB' | 'RL' | 'BT'
+  caption?: string
   className?: string
+  /** Optional rendered height cap; the viewBox aspect is owned by dagre. */
   height?: number
 }
 
-// Semantic token map per tone. Fills are an accent/state WASH mixed into the
-// surface via color-mix() so the node reads as a tinted card, not a flat block.
-const NODE_TONE: Record<
-  SageDiagramNodeTone,
-  { fill: string; stroke: string; text: string }
-> = {
-  default: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 86%, var(--ac-ink) 14%)',
-    stroke: 'var(--ac-rule-strong)',
-    text: 'var(--ac-ink)',
-  },
-  accent: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 82%, var(--ac-accent) 18%)',
-    stroke: 'var(--ac-accent)',
-    text: 'var(--ac-accent-text)',
-  },
-  success: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 84%, var(--ac-mastery) 16%)',
-    stroke: 'var(--ac-mastery)',
-    text: 'var(--ac-mastery)',
-  },
-  warning: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 84%, var(--ac-danger) 16%)',
-    stroke: 'var(--ac-danger)',
-    text: 'var(--ac-danger)',
-  },
-}
-
-// Edge color + stroke weight per tone. Default uses --ac-rule-strong (a real
-// hairline, not a faint wash) raised to ~2.25 so every supporting flow (incl.
-// long faint diagonals like "queries") reads clearly against the dark panel.
-// The semantic tones pull their hue from the academy state ramp and draw
-// HEAVIER so the suspect path and blast radius pop out of the graph on their
-// own; `warning` (the blast-radius edge) is the single heaviest stroke because
-// it is conceptually the most important edge in the diagram.
-const EDGE_TONE: Record<SageDiagramTone, { stroke: string; width: number }> = {
-  default: { stroke: 'var(--ac-ink-faint)', width: 2.25 },
-  accent: { stroke: 'var(--ac-accent)', width: 3.25 },
-  warning: { stroke: 'var(--ac-danger)', width: 4 },
-  success: { stroke: 'var(--ac-mastery)', width: 3 },
-}
-
-// Default legend copy, derived from which tones are present when no explicit
-// `legend` prop is passed. Tuned to the academy's diagnosis vocabulary.
-const DEFAULT_LEGEND_LABEL: Record<SageDiagramTone, string> = {
-  accent: 'on the suspect path',
-  warning: 'blast radius',
-  success: 'source of truth',
-  default: 'supporting flow',
-}
-
-// Stable legend ordering: suspect path → blast radius → source of truth.
-const TONE_ORDER: SageDiagramTone[] = ['accent', 'warning', 'success', 'default']
-
-const VIEW_W = 1080
-// viewBox height cropped to the tightened two-row layout (top row ~y110, bottom
-// row ~y300, node half-height 46) so the write path and the index/read cluster
-// read as one connected system without a dead band below them.
-const VIEW_H = 420
-const LABEL_PILL_H = 26
-const LABEL_PAD_X = 14 // horizontal padding inside the label pill
-const LABEL_CHAR_W = 7.1 // approx advance width of the 12px mono glyph
-const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const
-
-// Node box half-extents (the rect drawn at each node is 200×92, centered).
-const NODE_HALF_W = 100
-const NODE_HALF_H = 46
-// Clearance kept between a label pill and any node box it would otherwise touch.
-const LABEL_NODE_GAP = 8
-
-function deriveLegend(
-  nodes: SageDiagramNode[],
-  edges: SageDiagramEdge[],
-  explicit?: SageDiagramLegendItem[],
-): SageDiagramLegendItem[] {
-  if (explicit && explicit.length > 0) return explicit
-  const present = new Set<SageDiagramTone>()
-  for (const node of nodes) {
-    if (node.tone && node.tone !== 'default') present.add(node.tone)
-  }
-  for (const edge of edges) {
-    if (edge.tone && edge.tone !== 'default') present.add(edge.tone)
-  }
-  return TONE_ORDER.filter((tone) => present.has(tone)).map((tone) => ({
-    tone,
-    label: DEFAULT_LEGEND_LABEL[tone],
-  }))
-}
-
-// Clamp a pill's center-x so the rounded background + text stay inside the
-// viewBox (no clipping / truncation of labels like "indexes (LAGS)").
-function clampLabelX(centerX: number, halfWidth: number): number {
-  const margin = 6
-  const min = halfWidth + margin
-  const max = VIEW_W - halfWidth - margin
-  if (min > max) return VIEW_W / 2
-  return Math.min(Math.max(centerX, min), max)
-}
-
-// Clamp a pill's center-y so the rounded background stays inside the viewBox.
-function clampLabelY(centerY: number, halfHeight: number): number {
-  const margin = 6
-  const min = halfHeight + margin
-  const max = VIEW_H - halfHeight - margin
-  if (min > max) return VIEW_H / 2
-  return Math.min(Math.max(centerY, min), max)
-}
-
-// True when a label pill centered at (cx,cy) would overlap a node's box.
-// The node box is the 200×92 rect centered on the node, padded by the desired
-// clearance. AABB-vs-AABB test (both pill and box are axis-aligned).
-function pillOverlapsNode(
-  cx: number,
-  cy: number,
-  halfW: number,
-  halfH: number,
-  node: SageDiagramNode,
-): boolean {
-  const dx = Math.abs(cx - node.x)
-  const dy = Math.abs(cy - node.y)
-  return (
-    dx < halfW + NODE_HALF_W + LABEL_NODE_GAP &&
-    dy < halfH + NODE_HALF_H + LABEL_NODE_GAP
-  )
-}
-
-// Place an edge's label pill so it never sits on top of either endpoint node.
-// Default: centered on the edge midpoint. When that would overlap a node
-// (typical for short same-row edges where the centered pill spills into a box),
-// offset the pill PERPENDICULAR to the edge — trying above first, then below —
-// and pick the first clear, in-bounds side. Everything is clamped to the
-// viewBox so the pill is always fully padded and never truncates.
-function placeLabel(
-  start: { x: number; y: number },
-  end: { x: number; y: number },
-  halfW: number,
-  from: SageDiagramNode,
-  to: SageDiagramNode,
-): { cx: number; cy: number } {
-  const halfH = LABEL_PILL_H / 2
-  const midX = (start.x + end.x) / 2
-  const midY = (start.y + end.y) / 2
-
-  const overlaps = (cx: number, cy: number): boolean =>
-    pillOverlapsNode(cx, cy, halfW, halfH, from) ||
-    pillOverlapsNode(cx, cy, halfW, halfH, to)
-
-  // First choice: centered on the edge.
-  let cx = clampLabelX(midX, halfW)
-  let cy = clampLabelY(midY, halfH)
-  if (!overlaps(cx, cy)) return { cx, cy }
-
-  // Perpendicular unit vector to the edge direction.
-  const dx = end.x - start.x
-  const dy = end.y - start.y
-  const len = Math.hypot(dx, dy) || 1
-  const perpX = -dy / len
-  const perpY = dx / len
-
-  // Push out far enough to clear the taller of the two collisions, in steps.
-  const baseShift = halfH + NODE_HALF_H + LABEL_NODE_GAP + 6
-  for (let step = 1; step <= 4; step++) {
-    const shift = baseShift + (step - 1) * 18
-    for (const sign of [-1, 1] as const) {
-      const tryCx = clampLabelX(midX + perpX * shift * sign, halfW)
-      const tryCy = clampLabelY(midY + perpY * shift * sign, halfH)
-      if (!overlaps(tryCx, tryCy)) return { cx: tryCx, cy: tryCy }
-    }
-  }
-
-  // Fallback: the largest clear push we found direction-wise (above bias).
-  cx = clampLabelX(midX + perpX * baseShift * -1, halfW)
-  cy = clampLabelY(midY + perpY * baseShift * -1, halfH)
-  return { cx, cy }
+// Human-readable role names for the accessible description.
+const KIND_ROLE: Record<NodeKind, string> = {
+  service: 'service',
+  store: 'data store',
+  queue: 'queue',
+  external: 'external system',
+  client: 'client',
+  decision: 'decision',
+  process: 'process',
 }
 
 export function SageDiagram({
@@ -253,174 +73,108 @@ export function SageDiagram({
   nodes,
   edges,
   legend,
+  rankdir = 'LR',
+  caption,
   className,
-  height = 420,
+  height,
 }: SageDiagramProps) {
   const reduce = useReducedMotion()
   const titleId = React.useId()
   const descId = React.useId()
-  // One safe id stem; per-tone marker ids derive from it so each arrowhead can
-  // carry its edge color (marker fill cannot inherit the line's stroke).
   const uid = React.useId().replace(/[^a-zA-Z0-9_-]/g, '')
-  const nodeMap = React.useMemo(
-    () => new Map(nodes.map((node) => [node.id, node])),
-    [nodes],
+
+  // Run the layout engine once per spec change (pure, memoizable).
+  const layout = React.useMemo(
+    () => layoutDiagram(nodes, edges, { rankdir }),
+    [nodes, edges, rankdir],
   )
+
   const legendItems = React.useMemo(
-    () => deriveLegend(nodes, edges, legend),
+    () =>
+      deriveLegend(
+        [
+          ...nodes.map((n) => n.tone),
+          ...edges.map((e) => e.tone),
+        ],
+        legend,
+      ),
     [nodes, edges, legend],
   )
-  const arrowId = (tone: SageDiagramTone) => `arrow-${tone}-${uid}`
 
-  // Accessible description: name the suspect path + blast radius so the figure's
-  // meaning survives without color or motion.
-  const accentLabel = legendItems.find((item) => item.tone === 'accent')?.label
-  const warningLabel = legendItems.find((item) => item.tone === 'warning')?.label
-  const successLabel = legendItems.find((item) => item.tone === 'success')?.label
-  const semanticSentence = [
-    accentLabel ? `Highlighted edges are ${accentLabel}.` : '',
-    warningLabel ? `The blast-radius edge (${warningLabel}) is drawn in the warning color.` : '',
-    successLabel ? `The ${successLabel} is marked in the success color.` : '',
-  ]
-    .filter(Boolean)
-    .join(' ')
-  const srDescription = subtitle
-    ? `${subtitle}${semanticSentence ? ` ${semanticSentence}` : ''}`
-    : `Node-and-edge system diagram.${semanticSentence ? ` ${semanticSentence}` : ''}`
+  // Accessible description: name the suspect path + blast radius + toned roles so
+  // the figure's meaning survives without color or motion.
+  const srDescription = React.useMemo(
+    () => buildDescription(subtitle, nodes, legendItems),
+    [subtitle, nodes, legendItems],
+  )
+
+  const { minX: viewX, minY: viewY, width: viewW, height: viewH } = layout
+  // Explicit dims from the TIGHT content box = 0 CLS AND no dead-air band: the
+  // viewBox starts at the content's real min corner (not 0,0), so the diagram
+  // fills its frame top-to-bottom. Cap rendered height if requested while
+  // preserving the laid-out aspect ratio.
+  const renderHeight = height ? Math.min(height, viewH) : undefined
 
   return (
-    <figure
+    <VisualFrame
+      kicker="System map"
+      title={title}
+      titleId={titleId}
+      subtitle={subtitle}
+      descId={descId}
+      description={srDescription}
+      legend={legendItems}
+      caption={caption}
       className={className}
-      style={shellStyle}
-      aria-labelledby={titleId}
-      aria-describedby={descId}
     >
-      <div style={headerStyle}>
-        <p style={kickerStyle}>System map</p>
-        <h2 id={titleId} style={titleStyle}>
-          {title}
-        </h2>
-        {subtitle ? <p style={subtitleStyle}>{subtitle}</p> : null}
-        {/* Accessible description carries the visible subtitle PLUS the suspect
-            path / blast-radius semantics, so the figure reads identically with
-            color and motion stripped. */}
-        <p id={descId} style={srOnlyStyle}>
-          {srDescription}
-        </p>
-        {legendItems.length > 0 ? (
-          <ul style={legendRowStyle} aria-hidden="true">
-            {legendItems.map((item) => (
-              <li key={item.tone} style={legendItemStyle}>
-                <span
-                  style={{
-                    ...legendSwatchStyle,
-                    background: EDGE_TONE[item.tone].stroke,
-                  }}
-                />
-                <span style={legendLabelStyle}>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
       <svg
         role="img"
         aria-labelledby={titleId}
         aria-describedby={descId}
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+        viewBox={`${viewX} ${viewY} ${viewW} ${viewH}`}
         width="100%"
-        height={height}
-        style={svgStyle}
+        height={renderHeight}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ ...svgStyle, aspectRatio: `${viewW} / ${viewH}` }}
       >
-        <defs>
-          {/* One arrowhead marker per tone so direction reads in the edge's own
-              color (SVG markers cannot inherit the line's stroke). */}
-          {TONE_ORDER.map((tone) => (
-            <marker
-              key={tone}
-              id={arrowId(tone)}
-              markerWidth="13"
-              markerHeight="13"
-              refX="9.5"
-              refY="6"
-              orient="auto"
-              markerUnits="userSpaceOnUse"
-            >
-              <path d="M2 1.5 L11 6 L2 10.5 Z" fill={EDGE_TONE[tone].stroke} />
-            </marker>
-          ))}
-        </defs>
+        <EdgeMarkers uid={uid} />
         <rect
-          x="0"
-          y="0"
-          width={VIEW_W}
-          height={VIEW_H}
-          rx="20"
+          x={viewX}
+          y={viewY}
+          width={viewW}
+          height={viewH}
+          rx="16"
           fill="var(--ac-bg)"
           stroke="var(--ac-rule)"
         />
 
-        {/* Edges — draw in via stroke-dashoffset (compositor-friendly). */}
-        {edges.map((edge, edgeIndex) => {
-          const from = nodeMap.get(edge.from)
-          const to = nodeMap.get(edge.to)
-          if (!from || !to) return null
-
-          const start = edgePoint(from, to)
-          const end = edgePoint(to, from)
-          const len = Math.hypot(end.x - start.x, end.y - start.y)
-          const delay = edgeIndex * 0.08
-          const toneKey = edge.tone ?? 'default'
-          const edgeTone = EDGE_TONE[toneKey]
-          const isToned = toneKey !== 'default'
-          // Dash pattern scales with weight so dashed toned edges still read.
-          const dashPattern = edge.dashed ? '9 7' : undefined
-
-          // Label pill sized to the text so it never clips, then placed so it
-          // clears BOTH endpoint nodes (offset perpendicular to the edge when a
-          // centered pill would overlap a box — the "indexes (LAGS)" case) and
-          // clamped inside the viewBox so long labels never truncate.
-          const labelText = edge.label ?? ''
-          const pillW = Math.max(
-            56,
-            labelText.length * LABEL_CHAR_W + LABEL_PAD_X * 2,
-          )
-          const { cx: pillCx, cy: pillCy } = placeLabel(
-            start,
-            end,
-            pillW / 2,
-            from,
-            to,
-          )
+        {/* Edges — draw in along the dagre polyline via stroke-dashoffset. */}
+        {layout.edges.map((edge, edgeIndex) => {
+          const toneKey: Tone = edge.tone ?? 'default'
+          const { stroke, width, opacity } = edgeStyle(edge.tone)
+          const dash = dashFor(edge.kind, edge.dashed, toneKey)
+          const d = pointsToPath(edge.points)
+          const len = pathLength(edge.points)
+          const delay = edgeIndex * EDGE_STAGGER
+          const animate = !reduce && !dash
 
           return (
-            <g key={`${edge.from}-${edge.to}-${edge.label ?? 'edge'}`}>
-              <motion.line
-                x1={start.x}
-                y1={start.y}
-                x2={end.x}
-                y2={end.y}
-                stroke={edgeTone.stroke}
-                strokeWidth={edgeTone.width}
+            <g key={`${edge.from}-${edge.to}-${edge.label ?? edgeIndex}`}>
+              <motion.path
+                d={d}
+                fill="none"
+                stroke={stroke}
+                strokeWidth={width}
                 strokeLinecap="round"
-                strokeDasharray={
-                  edge.dashed ? dashPattern : reduce ? undefined : len
-                }
-                markerEnd={`url(#${arrowId(toneKey)})`}
-                opacity={isToned ? 1 : 0.92}
-                initial={
-                  reduce || edge.dashed
-                    ? false
-                    : { strokeDashoffset: len, opacity: 0 }
-                }
-                whileInView={
-                  reduce || edge.dashed
-                    ? undefined
-                    : { strokeDashoffset: 0, opacity: isToned ? 1 : 0.92 }
-                }
+                strokeLinejoin="round"
+                strokeDasharray={dash ?? (animate ? len : undefined)}
+                markerEnd={`url(#${arrowId(toneKey, uid)})`}
+                opacity={opacity}
+                initial={animate ? { strokeDashoffset: len, opacity: 0 } : false}
+                whileInView={animate ? { strokeDashoffset: 0, opacity } : undefined}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{
-                  duration: reduce ? 0 : 0.7,
+                  duration: reduce ? 0 : EDGE_DRAW_DURATION,
                   delay: reduce ? 0 : delay,
                   ease: EASE_OUT_EXPO,
                 }}
@@ -431,27 +185,33 @@ export function SageDiagram({
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true, amount: 0.4 }}
                   transition={{
-                    duration: reduce ? 0 : 0.4,
+                    duration: reduce ? 0 : LABEL_FADE_DURATION,
                     delay: reduce ? 0 : delay + 0.25,
                     ease: EASE_OUT_EXPO,
                   }}
                 >
                   <rect
-                    x={pillCx - pillW / 2}
-                    y={pillCy - LABEL_PILL_H / 2}
-                    width={pillW}
+                    x={edge.labelX - edge.labelWidth / 2}
+                    y={edge.labelY - LABEL_PILL_H / 2}
+                    width={edge.labelWidth}
                     height={LABEL_PILL_H}
                     rx={LABEL_PILL_H / 2}
                     fill="var(--ac-surface)"
-                    stroke={isToned ? edgeTone.stroke : 'var(--ac-rule-strong)'}
-                    strokeWidth={isToned ? 1.5 : 1}
+                    stroke={toneKey !== 'default' ? stroke : 'var(--ac-rule-strong)'}
+                    strokeWidth={toneKey !== 'default' ? 2 : 1.25}
                   />
                   <text
-                    x={pillCx}
-                    y={pillCy + 4}
-                    fill={isToned ? edgeTone.stroke : 'var(--ac-ink)'}
-                    fontSize="12"
-                    fontWeight={isToned ? 600 : 500}
+                    x={edge.labelX}
+                    y={edge.labelY + 4.5}
+                    /* FIX 3 — LABEL LEGIBILITY. Short parenthetical labels (e.g.
+                       "indexes (LAGS)") misread at figure scale. Bump to 14.5px
+                       and lift the default weight to 600 so the glyphs stay
+                       crisp and high-contrast; toned labels go 650. Pill width
+                       (LABEL_CHAR_W in diagram-layout) tracks this so clearance
+                       logic still holds — text never overflows the pill. */
+                    fill={toneKey !== 'default' ? stroke : 'var(--ac-ink-soft)'}
+                    fontSize="14.5"
+                    fontWeight={toneKey !== 'default' ? 650 : 600}
                     fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
                     textAnchor="middle"
                   >
@@ -463,11 +223,9 @@ export function SageDiagram({
           )
         })}
 
-        {/* Nodes — fade-up in order (opacity + translateY). */}
-        {nodes.map((node, nodeIndex) => {
-          const tone = NODE_TONE[node.tone ?? 'default']
-          const delay = nodeIndex * 0.07
-
+        {/* Nodes — fade up in rank order (opacity + translateY). */}
+        {layout.nodes.map((node, nodeIndex) => {
+          const delay = nodeIndex * NODE_STAGGER
           return (
             <motion.g
               key={node.id}
@@ -475,148 +233,78 @@ export function SageDiagram({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{
-                duration: reduce ? 0 : 0.55,
+                duration: reduce ? 0 : NODE_RISE_DURATION,
                 delay: reduce ? 0 : delay,
                 ease: EASE_OUT_EXPO,
               }}
               style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             >
               <g transform={`translate(${node.x}, ${node.y})`}>
-                <rect
-                  x="-100"
-                  y="-46"
-                  width="200"
-                  height="92"
-                  rx="14"
-                  fill={tone.fill}
-                  stroke={tone.stroke}
-                  strokeWidth="2"
+                <DiagramNode
+                  kind={node.kind}
+                  tone={node.tone ?? 'default'}
+                  label={node.label}
+                  description={node.description}
+                  width={node.width}
+                  height={node.height}
+                  glowId={warningGlowId(uid)}
                 />
-                <text
-                  x="0"
-                  y={node.description ? -7 : 6}
-                  fill={tone.text}
-                  fontSize="18"
-                  fontWeight="700"
-                  fontFamily="var(--ac-font-body, system-ui, sans-serif)"
-                  textAnchor="middle"
-                >
-                  {node.label}
-                </text>
-                {node.description ? (
-                  <text
-                    x="0"
-                    y="20"
-                    fill="var(--ac-ink-soft)"
-                    fontSize="12"
-                    fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
-                    textAnchor="middle"
-                  >
-                    {node.description}
-                  </text>
-                ) : null}
               </g>
             </motion.g>
           )
         })}
       </svg>
-    </figure>
+    </VisualFrame>
   )
 }
 
-// Clip an edge endpoint to the node's box edge so the arrow stops at the border.
-function edgePoint(from: SageDiagramNode, to: SageDiagramNode) {
-  const dx = to.x - from.x
-  const dy = to.y - from.y
-  const scale = Math.max(Math.abs(dx) / 106, Math.abs(dy) / 52, 1)
-  return { x: from.x + dx / scale, y: from.y + dy / scale }
+/** Compose the sr-only description that names the toned path + node roles. */
+function buildDescription(
+  subtitle: string | undefined,
+  nodes: DiagramNodeSpec[],
+  legendItems: LegendItem[],
+): string {
+  const accent = legendItems.find((i) => i.tone === 'accent')?.label
+  const warning = legendItems.find((i) => i.tone === 'warning')?.label
+  const success = legendItems.find((i) => i.tone === 'success')?.label
+
+  // Name nodes that carry a toned role so the diagnosis survives color removal.
+  const tonedNodes = nodes
+    .filter((n) => n.tone && n.tone !== 'default')
+    .map((n) => `${n.label} (${KIND_ROLE[n.kind ?? 'service']}, ${labelForTone(n.tone)})`)
+
+  const sentences = [
+    accent ? `Highlighted edges are ${accent}.` : '',
+    warning ? `The blast-radius element (${warning}) is shown in the warning color.` : '',
+    success ? `The ${success} is marked in the success color.` : '',
+    tonedNodes.length ? `Key nodes: ${tonedNodes.join('; ')}.` : '',
+  ].filter(Boolean)
+
+  const lead = subtitle ?? 'Node-and-edge system diagram laid out automatically.'
+  return sentences.length ? `${lead} ${sentences.join(' ')}` : lead
 }
 
-const shellStyle: React.CSSProperties = {
-  margin: '2.5rem 0',
-  border: '1px solid var(--ac-rule)',
-  borderRadius: 'var(--ac-radius-lg)',
-  padding: 'var(--ac-space-md)',
-  background: 'var(--ac-surface)',
-  boxShadow: 'var(--ac-elev-1)',
-  color: 'var(--ac-ink)',
-}
-
-const headerStyle: React.CSSProperties = {
-  padding: '0.25rem 0.25rem 1.1rem',
-}
-
-const kickerStyle: React.CSSProperties = {
-  margin: 0,
-  color: 'var(--ac-accent-text)',
-  fontFamily: 'var(--ac-font-mono, ui-monospace, monospace)',
-  fontSize: 'var(--ac-step--1, 0.8rem)',
-  letterSpacing: 'var(--ac-track-label, 0.12em)',
-  textTransform: 'uppercase',
-}
-
-const titleStyle: React.CSSProperties = {
-  margin: '0.4rem 0 0',
-  fontFamily: 'var(--ac-font-display, Georgia, serif)',
-  fontSize: 'var(--ac-step-3, 1.85rem)',
-  letterSpacing: 'var(--ac-track-display, -0.022em)',
-  lineHeight: 'var(--ac-leading-snug, 1.3)',
-  color: 'var(--ac-ink)',
-}
-
-const subtitleStyle: React.CSSProperties = {
-  maxWidth: '60ch',
-  margin: '0.55rem 0 0',
-  color: 'var(--ac-ink-soft)',
-  fontSize: 'var(--ac-step-0, 1rem)',
-  lineHeight: 'var(--ac-leading-body, 1.62)',
-}
-
-const legendRowStyle: React.CSSProperties = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '0.5rem 1.15rem',
-  listStyle: 'none',
-  margin: '0.85rem 0 0',
-  padding: 0,
-}
-
-const legendItemStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '0.45rem',
-}
-
-const legendSwatchStyle: React.CSSProperties = {
-  width: 18,
-  height: 4,
-  borderRadius: 999,
-  flex: '0 0 auto',
-}
-
-const legendLabelStyle: React.CSSProperties = {
-  color: 'var(--ac-ink-soft)',
-  fontFamily: 'var(--ac-font-mono, ui-monospace, monospace)',
-  fontSize: 'var(--ac-step--1, 0.8rem)',
-  letterSpacing: 'var(--ac-track-label, 0.04em)',
+function labelForTone(tone: Tone | undefined): string {
+  switch (tone) {
+    case 'accent':
+      return 'suspect path'
+    case 'warning':
+      return 'blast radius'
+    case 'success':
+      return 'source of truth'
+    case 'muted':
+      return 'out of scope'
+    default:
+      return 'supporting'
+  }
 }
 
 const svgStyle: React.CSSProperties = {
   display: 'block',
   width: '100%',
   height: 'auto',
+  position: 'relative',
+  zIndex: 1,
   borderRadius: 'var(--ac-radius)',
   overflow: 'hidden',
-}
-
-const srOnlyStyle: React.CSSProperties = {
-  position: 'absolute',
-  width: 1,
-  height: 1,
-  padding: 0,
-  margin: -1,
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  whiteSpace: 'nowrap',
-  border: 0,
 }

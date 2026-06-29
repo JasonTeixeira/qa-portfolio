@@ -29,13 +29,31 @@ export type LessonBlock =
   | { type: 'spaced-review'; schedule?: string[] }
   | { type: 'unlock-gate'; criteria: string[] }
   // — visual engine blocks (declarative specs → branded SageDiagram / SageViz) —
+  // The `diagram` block is LAYOUT-FREE: nodes carry MEANING only (no x/y); the
+  // dagre engine in SageDiagram computes positions + edge routing by construction.
   | {
       type: 'diagram'
       title: string
       subtitle?: string
-      nodes: { id: string; label: string; description?: string; x: number; y: number; tone?: 'default' | 'accent' | 'success' | 'warning' }[]
-      edges: { from: string; to: string; label?: string; dashed?: boolean; tone?: 'default' | 'accent' | 'success' | 'warning' }[]
-      legend?: { tone: 'default' | 'accent' | 'success' | 'warning'; label: string }[]
+      nodes: {
+        id: string
+        label: string
+        description?: string
+        kind?: 'service' | 'store' | 'queue' | 'external' | 'client' | 'decision' | 'process'
+        tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'
+      }[]
+      edges: {
+        from: string
+        to: string
+        label?: string
+        kind?: 'sync' | 'async' | 'data' | 'control'
+        dashed?: boolean
+        tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'
+      }[]
+      legend?: { tone: 'default' | 'accent' | 'success' | 'warning' | 'muted'; label: string }[]
+      /** Flow direction; default 'LR'. */
+      rankdir?: 'LR' | 'TB' | 'RL' | 'BT'
+      caption?: string
       height?: number
     }
   | {

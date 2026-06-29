@@ -28,7 +28,7 @@
 ## Step 4 — Phase-B world-class transformation (long loop; PAUSE at each course)
 | Course | lessons | status |
 |---|---|---|
-| 00 engineering_judgment_foundation (entry gate) | 16 | pending — do first |
+| 00 engineering_judgment_foundation (entry gate) | 16 | **DONE** — all 16 lessons → full 15-block judgment format (4 modules: Framing & Diagnosis · Build & Prove · Review & Repair · Transfer & Gate); course-wide decision-memo→mastery-packet artifact arc |
 | 00a concept_maps | 30 | pending |
 | 01 programming_cs_foundations | 20 | pending |
 | 02–19 (the rest) | ~220 | pending |

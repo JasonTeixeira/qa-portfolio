@@ -7,8 +7,8 @@
 ## Step 2 — Skeleton ingest (do first: gives the rails real data)
 | Task | status |
 |---|---|
-| `ingest-career-os.ts` — 21 manifests + modules/lessons → academy_courses + academy_lessons stubs | **in progress** |
-| Apply + verify catalog shows 21 courses, each walkable to module→lesson | pending |
+| `ingest-career-os.ts` — 21 manifests → academy_courses + academy_lessons | **DONE** (21 courses · 105 modules · 426 lessons live) |
+| Apply + verify catalog shows all 21 courses, walkable course→lesson | **DONE** (23 total incl. originals, across 6 domains) |
 
 ## Step 1 — The rails (IA consolidation + scaling)
 | Task | status |

@@ -2,13 +2,13 @@
   "ok": true,
   "responseType": 4,
   "ephemeral": true,
-  "answerId": "35b6f368-6f45-4b2d-886a-6134ea62bfd8",
-  "retrievalLogId": "3257bf93-cc4f-4d9c-893e-c3e91990b17d",
-  "traceId": "03a1933653b7c0b35530780a68d3f0dc",
+  "answerId": "1302edd0-ac5b-48d2-9fa7-6bc7f1b399fb",
+  "retrievalLogId": "7118e1c4-c176-4904-93f5-d4c28db38ea9",
+  "traceId": "740eef2b8b0d01adf4f6f017d0a7b95e",
   "observabilityProvider": "langfuse",
   "queueCount": 1,
   "pointsCount": 1,
   "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nA high-quality education Discord should onboard new members using the following concrete workflow:\n\n1. **Apply**: New members use Discord native **Apply to Join**, answer the application, accept the rules, and wait for manual approval [1].\n2. **Approve**: An approvable application names the member's goal, shows what they are trying to build or learn, confirms the rules/quality bar, and includes enough",
-  "startedAt": "2026-06-29T21:12:09.814Z",
-  "finishedAt": "2026-06-29T21:12:17.849Z"
+  "startedAt": "2026-06-29T21:24:11.116Z",
+  "finishedAt": "2026-06-29T21:24:17.443Z"
 }

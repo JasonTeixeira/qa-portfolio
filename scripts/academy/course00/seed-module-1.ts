@@ -419,6 +419,46 @@ const systemMapBlocks: LessonBlock[] = [
       'Drawing components but no arrow directions — a box diagram with undirected lines. Without direction you cannot tell a write path from a read path, and the two fail differently. Always direct the flow.',
   },
   {
+    // The worked example, made visual: the six-box search-incident map with
+    // directed flow, the suspect edge marked (accent), and the blast-radius
+    // node called out (warning). Mirrors SYSTEM_MAP_SECTION below.
+    type: 'diagram',
+    title: 'The search-lag system map',
+    subtitle:
+      'Six components on the write → index → read path. The suspect edge (Orders → Index Worker → Search Index) is marked; the blast radius is the stale search catalog. Payments, auth, and billing are deliberately out of scope.',
+    height: 480,
+    nodes: [
+      // Top row (write path) and bottom row (index/read cluster) sit close
+      // together (y 110 → 300, a 190px rhythm) so the write-path and the
+      // index/read cluster read as one connected system, not two stranded bands.
+      { id: 'client', label: 'Client', description: 'browser / app', x: 150, y: 110 },
+      { id: 'gateway', label: 'API Gateway', description: 'edge routing', x: 430, y: 110 },
+      { id: 'orders', label: 'Orders Service', description: 'write path', x: 710, y: 110 },
+      { id: 'postgres', label: 'Postgres', description: 'source of truth', x: 960, y: 110, tone: 'success' },
+      // Search Index and Index Worker are spaced 420px apart (x 340 / 760) so
+      // the heavy "indexes (LAGS)" blast-radius edge between them has room and
+      // its label never crowds either node.
+      { id: 'worker', label: 'Index Worker', description: 'event consumer', x: 760, y: 300, tone: 'accent' },
+      { id: 'search', label: 'Search Index', description: 'stale catalog', x: 340, y: 300, tone: 'warning' },
+    ],
+    edges: [
+      { from: 'client', to: 'gateway', label: 'request' },
+      { from: 'gateway', to: 'orders', label: 'route' },
+      { from: 'orders', to: 'postgres', label: 'writes' },
+      // The suspect path: Orders emits an event the Index Worker consumes
+      // (accent) and the lagging index copy (warning = blast radius). Toned +
+      // heavier so the diagnosis is legible from the graph alone, not just copy.
+      { from: 'orders', to: 'worker', label: 'emits event', dashed: true, tone: 'accent' },
+      { from: 'worker', to: 'search', label: 'indexes (LAGS)', dashed: true, tone: 'accent' },
+      { from: 'client', to: 'search', label: 'queries' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'on the suspect path' },
+      { tone: 'warning', label: 'blast radius (stale index)' },
+      { tone: 'success', label: 'source of truth' },
+    ],
+  },
+  {
     type: 'code',
     filename: MEMO,
     language: 'bash',

@@ -28,6 +28,24 @@ export type LessonBlock =
   | { type: 'transfer'; text: string }
   | { type: 'spaced-review'; schedule?: string[] }
   | { type: 'unlock-gate'; criteria: string[] }
+  // — visual engine blocks (declarative specs → branded SageDiagram / SageViz) —
+  | {
+      type: 'diagram'
+      title: string
+      subtitle?: string
+      nodes: { id: string; label: string; description?: string; x: number; y: number; tone?: 'default' | 'accent' | 'success' | 'warning' }[]
+      edges: { from: string; to: string; label?: string; dashed?: boolean; tone?: 'default' | 'accent' | 'success' | 'warning' }[]
+      legend?: { tone: 'default' | 'accent' | 'success' | 'warning'; label: string }[]
+      height?: number
+    }
+  | {
+      type: 'viz'
+      title: string
+      subtitle?: string
+      chart: 'bars' | 'line' | 'area'
+      data: { label: string; value: number }[]
+      unit?: string
+    }
 
 export type LessonStatus = 'done' | 'current' | 'todo'
 

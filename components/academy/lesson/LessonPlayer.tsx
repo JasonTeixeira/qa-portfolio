@@ -17,6 +17,9 @@ import { NotesPanel } from './NotesPanel'
 import type { LessonNote } from '@/lib/academy/notes'
 import { Icon } from '@/components/academy/ui/Icon'
 import { CourseRail } from './CourseRail'
+import { SageDiagram } from '@/components/academy/visuals/SageDiagram'
+import { SageViz } from '@/components/academy/visuals/SageViz'
+import { RevealStagger } from '@/components/academy/visuals/reveal'
 import styles from './lesson.module.css'
 
 const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
@@ -159,6 +162,33 @@ function Block({
       )
     case 'quiz':
       return <QuizBlock block={block} />
+    case 'diagram':
+      // Branded system-map renderer; the reveal wrapper fades the figure up in
+      // the house motion language (reduced-motion → final state instantly).
+      return (
+        <RevealStagger>
+          <SageDiagram
+            title={block.title}
+            subtitle={block.subtitle}
+            nodes={block.nodes}
+            edges={block.edges}
+            legend={block.legend}
+            height={block.height}
+          />
+        </RevealStagger>
+      )
+    case 'viz':
+      return (
+        <RevealStagger>
+          <SageViz
+            title={block.title}
+            subtitle={block.subtitle}
+            chart={block.chart}
+            data={block.data}
+            unit={block.unit}
+          />
+        </RevealStagger>
+      )
     default:
       // Sage Learning Engine V2 sprint sections render themselves.
       return <SprintBlock block={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />

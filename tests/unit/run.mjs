@@ -1809,7 +1809,7 @@ test('rag query planning and reranking: expands command questions and prioritize
 });
 
 test('discord ask-sage: formats RAG answers and wires the slash command', async () => {
-  const { formatAskSageDiscordAnswer, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
+  const { formatAskSageDiscordAnswer, formatAskSageDiscordMessage, normalizeAskSageQuestion } = await import('../../lib/discord/ask-sage.ts');
   const { SAGEBOT_PROMPT_VERSIONS } = await import('../../lib/discord/sagebot-personality.ts');
   const { isDeferredSageCommand } = await import('../../lib/discord/sage-commands.ts');
   const { buildDiscordFollowupRequest } = await import('../../lib/discord/followup.ts');
@@ -1835,6 +1835,20 @@ test('discord ask-sage: formats RAG answers and wires the slash command', async 
   assert.match(formatted, /Answer ID: `answer-1`/);
   assert.doesNotMatch(formatted, /Prompt: `sagebot_answer_v2`/);
   assert.ok(formatted.length <= 1900);
+  const messagePayload = formatAskSageDiscordMessage('How do I onboard members?', {
+    answer: 'Use a clear start-here path and approval gate [1].',
+    citations: [{ chunk_id: 'c1', title: 'Discord runbook', source_url: 'https://example.com/runbook', source_type: 'doc' }],
+    retrievalLogId: 'log-1',
+    answerId: 'answer-1',
+    model: 'deepseek-chat',
+    observability: { traceId: 'a'.repeat(32), observationId: 'b'.repeat(16), provider: 'local' },
+  });
+  assert.equal(messagePayload.content, undefined);
+  assert.equal(messagePayload.embeds?.[0]?.title, 'Sage Ideas Answer');
+  assert.equal(messagePayload.embeds?.[0]?.color, 0x50a7ff);
+  assert.ok(messagePayload.embeds?.[0]?.description?.includes('Good question'));
+  assert.deepEqual(messagePayload.embeds?.[0]?.fields?.map((field) => field.name), ['Your question', 'Sage take', 'Sources']);
+  assert.match(String(messagePayload.embeds?.[0]?.fields?.[1]?.value), /approval gate/);
   process.env.DISCORD_SHOW_PROMPT_VERSION = 'true';
   try {
     const debugFormatted = formatAskSageDiscordAnswer('How do I onboard members?', {
@@ -1875,15 +1889,17 @@ test('sagebot personality kernel: versions prompts and rejects low-quality outpu
   } = await import('../../lib/discord/sagebot-personality.ts');
   const docs = await readFile(new URL('../../docs/SAGEBOT_PERSONALITY_KERNEL.txt', import.meta.url), 'utf8');
 
-  assert.equal(SAGEBOT_PERSONALITY_VERSION, 'sagebot-personality-v1');
+  assert.equal(SAGEBOT_PERSONALITY_VERSION, 'sagebot-personality-v2');
   assert.equal(SAGEBOT_PROMPT_VERSIONS.answer, 'sagebot_answer_v2');
   assert.equal(SAGEBOT_PROMPT_VERSIONS.dailySignal, 'sagebot_daily_signal_v2');
   assert.equal(SAGEBOT_PROMPT_VERSIONS.quizGenerator, 'sagebot_quiz_generator_v2');
   assert.equal(SAGEBOT_PROMPT_VERSIONS.challengeGenerator, 'sagebot_challenge_generator_v2');
   assert.equal(SAGEBOT_PROMPT_VERSIONS.weeklyRecap, 'sagebot_weekly_recap_v2');
   assert.match(sageBotAnswerSystemPrompt(), /Answer only from the provided RAG context/);
+  assert.match(sageBotAnswerSystemPrompt(), /strong technical mentor/);
   assert.match(sageBotAnswerSystemPrompt(), /Do not invent policy, pricing, channels, roles/);
   assert.match(sageBotDailySignalSystemPrompt(), /approval-ready Discord education drafts/);
+  assert.match(sageBotDailySignalSystemPrompt(), /visually scannable in Discord/);
   assert.match(sageBotDailySignalSystemPrompt(), /Do not recommend OpenAI/);
   assert.match(sageBotLearningGeneratorSystemPrompt(), /strict JSON/);
   assert.match(sageBotWeeklyRecapPolicyLine(), /sagebot_weekly_recap_v2/);

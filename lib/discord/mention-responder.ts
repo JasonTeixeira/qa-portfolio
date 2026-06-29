@@ -71,20 +71,20 @@ export async function maybeRespondToSageMention(input: {
       : null,
     discordUserId: input.normalizedMessage.authorUserId,
     username: input.normalizedMessage.authorUsername,
-  });
-  const response = await discordApi<{ id: string }>(`/channels/${input.normalizedMessage.channelId}/messages`, {
-    method: 'POST',
-    body: JSON.stringify({
-      content: result.formatted.slice(0, 1900),
-      message_reference: {
-        message_id: input.normalizedMessage.discordMessageId,
-        channel_id: input.normalizedMessage.channelId,
-        guild_id: input.normalizedMessage.guildId ?? undefined,
-        fail_if_not_exists: false,
-      },
-      allowed_mentions: { replied_user: false },
-    }),
-  });
+	  });
+	  const response = await discordApi<{ id: string }>(`/channels/${input.normalizedMessage.channelId}/messages`, {
+	    method: 'POST',
+	    body: JSON.stringify({
+	      ...result.messagePayload,
+	      message_reference: {
+	        message_id: input.normalizedMessage.discordMessageId,
+	        channel_id: input.normalizedMessage.channelId,
+	        guild_id: input.normalizedMessage.guildId ?? undefined,
+	        fail_if_not_exists: false,
+	      },
+	      allowed_mentions: { parse: [], replied_user: false },
+	    }),
+	  });
 
   return { ...plan, postedMessageId: response.id };
 }

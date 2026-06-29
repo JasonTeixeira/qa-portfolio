@@ -2,6 +2,7 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { answerRagQuestion, type RagAnswerResult } from '@/lib/rag/retrieval';
 import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS, scoreSageBotPolicyOutput } from './sagebot-personality';
 import { validateRagUserInputSecurity } from './security-privacy';
+import { buildSageAnswerEmbed, type DiscordMessagePayload } from './message-formatting';
 
 const DISCORD_LIMIT = 1900;
 
@@ -14,6 +15,7 @@ export type AskSageDiscordInput = {
 
 export type AskSageDiscordResult = RagAnswerResult & {
   formatted: string;
+  messagePayload: DiscordMessagePayload;
   normalizedQuestion: string;
 };
 
@@ -34,7 +36,23 @@ export async function askSageFromDiscord(input: AskSageDiscordInput): Promise<As
     ...result,
     normalizedQuestion,
     formatted: formatAskSageDiscordAnswer(input.question, result),
+    messagePayload: formatAskSageDiscordMessage(input.question, result),
   };
+}
+
+export function formatAskSageDiscordMessage(question: string, result: RagAnswerResult): DiscordMessagePayload {
+  const citations = result.citations
+    .slice(0, 5)
+    .map((citation, index) => {
+      const title = citation.title ?? citation.source_type;
+      return `[${index + 1}] ${title}${citation.source_url ? ` - ${citation.source_url}` : ''}`;
+    });
+  return buildSageAnswerEmbed({
+    question,
+    answer: result.answer,
+    sources: citations,
+    answerId: result.answerId,
+  });
 }
 
 export function formatAskSageDiscordAnswer(question: string, result: RagAnswerResult): string {

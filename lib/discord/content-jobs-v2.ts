@@ -424,9 +424,9 @@ export async function publishApprovedDiscordContentDraft(input: {
   source: string;
 }): Promise<PublishDiscordContentDraftResult> {
   const sb = supabaseAdmin();
-  const { data: draft, error } = await sb
-    .from('discord_content_drafts')
-    .select('id, body, status, target_channel_base_name, published_message_id, metadata')
+	  const { data: draft, error } = await sb
+	    .from('discord_content_drafts')
+	    .select('id, draft_type, title, body, status, target_channel_base_name, published_message_id, metadata')
     .eq('id', input.draftId)
     .maybeSingle();
   if (error) throw new Error(error.message);
@@ -455,7 +455,12 @@ export async function publishApprovedDiscordContentDraft(input: {
     };
   }
 
-  const messageId = await postToChannelByBaseName(draft.target_channel_base_name, draft.body);
+  const messageId = await postToChannelByBaseName(draft.target_channel_base_name, draft.body, {
+    embed: true,
+    title: draft.title,
+    variant: draft.draft_type === 'weekly_recap' ? 'win' : draft.draft_type === 'daily_signal' ? 'signal' : 'sage',
+    footer: 'Sage Ideas content engine',
+  });
   const metadata = {
     ...(typeof draft.metadata === 'object' && draft.metadata ? draft.metadata : {}),
     published_by: input.source,

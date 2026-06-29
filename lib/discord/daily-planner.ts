@@ -300,7 +300,12 @@ export async function publishApprovedDailySignalDraft(input: {
     };
   }
 
-  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body);
+  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body, {
+    embed: true,
+    title: 'Daily Signal',
+    variant: 'signal',
+    footer: 'Sage Ideas daily build rhythm',
+  });
   await supabaseAdmin()
     .from('discord_content_drafts')
     .update({

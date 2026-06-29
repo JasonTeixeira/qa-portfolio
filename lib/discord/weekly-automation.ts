@@ -144,7 +144,12 @@ export async function publishApprovedWeeklyRecapDraft(input: {
     };
   }
 
-  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body);
+  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body, {
+    embed: true,
+    title: 'Weekly Recap',
+    variant: 'win',
+    footer: 'Sage Ideas weekly rhythm',
+  });
   await supabaseAdmin()
     .from('discord_content_drafts')
     .update({

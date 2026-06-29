@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-gateway-capture-diagnosis-v1",
-  "generatedAt": "2026-06-29T21:36:33.050Z",
+  "generatedAt": "2026-06-29T23:12:56.112Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof.",
   "diagnosis": {
@@ -15,8 +15,8 @@
     "latest": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "lastSeenAt": "2026-06-29T21:35:55.202+00:00",
-      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-29T23:12:30.204+00:00",
+      "ageMinutes": 0,
       "messageContentEnabled": true,
       "guildMembersEnabled": true,
       "intents": 34307,
@@ -27,22 +27,22 @@
       {
         "workerId": "sagebot-main",
         "status": "heartbeat_ack",
-        "lastSeenAt": "2026-06-29T21:35:55.202+00:00",
-        "ageMinutes": 1,
+        "lastSeenAt": "2026-06-29T23:12:30.204+00:00",
+        "ageMinutes": 0,
         "lastCloseCode": null
       },
       {
         "workerId": "sagebot-local",
         "status": "ready",
         "lastSeenAt": "2026-06-29T19:12:50.05+00:00",
-        "ageMinutes": 144,
+        "ageMinutes": 240,
         "lastCloseCode": null
       },
       {
         "workerId": "phase14-fix-once",
         "status": "ready",
         "lastSeenAt": "2026-06-24T22:17:23.229+00:00",
-        "ageMinutes": 7159,
+        "ageMinutes": 7256,
         "lastCloseCode": null
       }
     ]
@@ -51,7 +51,7 @@
     "latest": {
       "messageContentEnabled": true,
       "intents": 34307,
-      "createdAt": "2026-06-29T21:32:54.638018+00:00"
+      "createdAt": "2026-06-29T23:07:41.147753+00:00"
     },
     "messageContentSignalSource": "heartbeat",
     "effectiveMessageContentEnabled": true
@@ -60,10 +60,10 @@
     "discord_messages.total": 12,
     "discord_messages.bot": 0,
     "discord_messages.non_bot": 12,
-    "discord_messages.non_bot_non_empty": 3,
+    "discord_messages.non_bot_non_empty": 1,
     "discord_messages.empty_content": 7,
-    "discord_gateway_events.message_create_30m": 1,
-    "discord_gateway_events.message_candidate_queued_30m": 1,
+    "discord_gateway_events.message_create_30m": 0,
+    "discord_gateway_events.message_candidate_queued_30m": 0,
     "discord_gateway_events.message_candidate_skipped_30m": 0,
     "discord_gateway_dead_letters.open_recent": 0
   },
@@ -76,7 +76,7 @@
       "contentLength": 78,
       "detectedKind": "question",
       "capturedAt": "2026-06-29T21:27:54.744+00:00",
-      "deleted": false
+      "deleted": true
     },
     {
       "id": "1521256221472981184",
@@ -86,7 +86,7 @@
       "contentLength": 85,
       "detectedKind": "question",
       "capturedAt": "2026-06-29T20:49:06.773+00:00",
-      "deleted": false
+      "deleted": true
     },
     {
       "id": "1520521338777768027",
@@ -191,6 +191,114 @@
   ],
   "recentEvents": [
     {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1519568020769607680",
+      "createdAt": "2026-06-29T23:12:54.763007+00:00"
+    },
+    {
+      "eventType": "message_create_bot_skipped",
+      "hasMessageId": true,
+      "channelId": "1517198855555256430",
+      "createdAt": "2026-06-29T23:12:42.081179+00:00"
+    },
+    {
+      "eventType": "gateway_guild_create",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-29T23:07:41.583844+00:00"
+    },
+    {
+      "eventType": "gateway_ready",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-29T23:07:41.563782+00:00"
+    },
+    {
+      "eventType": "gateway_identify_sent",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-29T23:07:41.147753+00:00"
+    },
+    {
+      "eventType": "gateway_socket_open",
+      "hasMessageId": false,
+      "channelId": null,
+      "createdAt": "2026-06-29T23:07:41.130259+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1519717280995475736",
+      "createdAt": "2026-06-29T22:58:09.176879+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1519717280995475736",
+      "createdAt": "2026-06-29T22:58:05.647338+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1519717280995475736",
+      "createdAt": "2026-06-29T22:58:03.467301+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198847120511039",
+      "createdAt": "2026-06-29T22:57:57.976083+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198847120511039",
+      "createdAt": "2026-06-29T22:57:55.785357+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198847120511039",
+      "createdAt": "2026-06-29T22:57:53.561883+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T22:57:46.175725+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T22:57:44.601197+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T22:57:43.077085+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T22:57:40.913194+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T21:39:44.728699+00:00"
+    },
+    {
+      "eventType": "message_delete",
+      "hasMessageId": true,
+      "channelId": "1517198852355133691",
+      "createdAt": "2026-06-29T21:39:42.074327+00:00"
+    },
+    {
       "eventType": "message_create_bot_skipped",
       "hasMessageId": true,
       "channelId": "1517198852355133691",
@@ -201,114 +309,6 @@
       "hasMessageId": false,
       "channelId": null,
       "createdAt": "2026-06-29T21:33:10.269885+00:00"
-    },
-    {
-      "eventType": "gateway_resumed",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:33:10.219873+00:00"
-    },
-    {
-      "eventType": "gateway_resume_sent",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:33:09.969913+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:33:09.954879+00:00"
-    },
-    {
-      "eventType": "gateway_guild_create",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:55.148185+00:00"
-    },
-    {
-      "eventType": "gateway_ready",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:55.133833+00:00"
-    },
-    {
-      "eventType": "gateway_identify_sent",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:54.638018+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:54.636055+00:00"
-    },
-    {
-      "eventType": "gateway_reconnect_scheduled",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:53.163827+00:00"
-    },
-    {
-      "eventType": "gateway_socket_closed",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:53.121846+00:00"
-    },
-    {
-      "eventType": "gateway_invalid_session",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:52.837848+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:47.671693+00:00"
-    },
-    {
-      "eventType": "gateway_resume_sent",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:32:47.631492+00:00"
-    },
-    {
-      "eventType": "mention_response_failed",
-      "hasMessageId": true,
-      "channelId": "1517198852355133691",
-      "createdAt": "2026-06-29T21:27:57.50873+00:00"
-    },
-    {
-      "eventType": "message_candidate_queued",
-      "hasMessageId": true,
-      "channelId": "1517198852355133691",
-      "createdAt": "2026-06-29T21:27:55.226631+00:00"
-    },
-    {
-      "eventType": "message_create",
-      "hasMessageId": true,
-      "channelId": "1517198852355133691",
-      "createdAt": "2026-06-29T21:27:54.948516+00:00"
-    },
-    {
-      "eventType": "gateway_guild_create",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:12:52.856271+00:00"
-    },
-    {
-      "eventType": "gateway_ready",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:12:52.790295+00:00"
-    },
-    {
-      "eventType": "gateway_socket_open",
-      "hasMessageId": false,
-      "channelId": null,
-      "createdAt": "2026-06-29T21:12:52.340866+00:00"
     }
   ],
   "errors": []

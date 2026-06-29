@@ -72,10 +72,17 @@ async function main() {
     ]);
 
     const content = String(response.data?.content ?? '');
+    const embeds = Array.isArray(response.data?.embeds) ? response.data.embeds : [];
+    const answerEmbed = embeds[0] as { title?: string; description?: string; color?: number; fields?: Array<{ name?: string; value?: string }> } | undefined;
+    const fieldNames = answerEmbed?.fields?.map((field) => field.name) ?? [];
     const evidence = {
       ok: response.type === 4
-        && content.includes('# SageBot answer')
-        && content.includes('**Sources**')
+        && content.includes('SageBot answered your question')
+        && answerEmbed?.title === 'Sage Ideas Answer'
+        && answerEmbed.color === 0x50a7ff
+        && fieldNames.includes('Your question')
+        && fieldNames.includes('Sage take')
+        && fieldNames.includes('Sources')
         && Boolean(answerId)
         && Boolean(retrievalLogId)
         && Boolean(traceId)
@@ -90,6 +97,11 @@ async function main() {
       queueCount,
       pointsCount,
       answerPreview: content.slice(0, 500),
+      embedPreview: answerEmbed ? {
+        title: answerEmbed.title,
+        description: answerEmbed.description,
+        fields: answerEmbed.fields?.map((field) => ({ name: field.name, valuePreview: String(field.value ?? '').slice(0, 160) })),
+      } : null,
       startedAt,
       finishedAt: new Date().toISOString(),
     };

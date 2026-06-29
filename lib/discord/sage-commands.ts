@@ -740,7 +740,12 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
   ]
     .filter(Boolean)
     .join('\n');
-  await postToChannelByBaseName('build-lab', content);
+  await postToChannelByBaseName('build-lab', content, {
+    embed: true,
+    title: `Project Submission: ${sanitizeDiscordOutboundText(title, 120)}`,
+    variant: 'sage',
+    footer: 'Sage Ideas build lab',
+  });
   return ephemeral(`Project submitted to \`build-lab\` and queued for the content engine. Project ID: \`${result.id}\`.`);
 }
 
@@ -755,6 +760,12 @@ async function handleRequestReview(payload: DiscordInteractionPayload): Promise<
     [`# Review request: ${type}`, `**Member:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, formatTagLine(tags), `**Summary:** ${sanitizeDiscordOutboundText(summary)}`, link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null]
       .filter(Boolean)
       .join('\n'),
+    {
+      embed: true,
+      title: `Review Request: ${sanitizeDiscordOutboundText(type, 120)}`,
+      variant: 'warning',
+      footer: 'Sage Ideas review queue',
+    },
   );
   const id = userId(payload);
   if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'review', metadata: { type, tags } });
@@ -787,6 +798,12 @@ async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<
       `**Summary:** ${sanitizeDiscordOutboundText(summary)}`,
       link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null,
     ].filter(Boolean).join('\n'),
+    {
+      embed: true,
+      title: 'Premium Review Request',
+      variant: 'win',
+      footer: 'Sage Ideas premium',
+    },
   );
   await recordDiscordEvent({
     eventType: 'premium_review_requested',
@@ -818,6 +835,12 @@ async function handleCaptureContent(payload: DiscordInteractionPayload): Promise
     [`# Captured content idea`, `**Captured by:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, formatTagLine(tags), `**Idea:** ${sanitizeDiscordOutboundText(idea)}`, source ? `**Source:** ${sanitizeDiscordOutboundText(source)}` : null]
       .filter(Boolean)
       .join('\n'),
+    {
+      embed: true,
+      title: 'Captured Content Idea',
+      variant: 'signal',
+      footer: 'Sage Ideas content queue',
+    },
   );
   const id = userId(payload);
   if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'capture' });
@@ -852,7 +875,12 @@ async function handleAsk(payload: DiscordInteractionPayload): Promise<Interactio
     context ? `**Context:** ${sanitizeDiscordOutboundText(context)}` : null,
     '',
     `Answer with \`/answer question_id:${result.id} answer:<your answer>\`. Helpful answers can be marked with \`/mark-helpful\`.`,
-  ].filter(Boolean).join('\n'));
+  ].filter(Boolean).join('\n'), {
+    embed: true,
+    title: `Question: ${sanitizeDiscordOutboundText(question, 120)}`,
+    variant: 'answer',
+    footer: 'Sage Ideas questions',
+  });
   await captureContentQueueItem({
     source: 'question',
     idea: question,
@@ -913,7 +941,9 @@ async function handleAskSage(payload: DiscordInteractionPayload): Promise<Intera
       model: result.model,
     },
   });
-  return ephemeral(`${result.formatted}\n\nAwarded **3** points for asking a useful SageBot question.`);
+  return ephemeral('SageBot answered your question. Awarded **3** points for asking something useful.', {
+    embeds: result.messagePayload.embeds,
+  });
 }
 
 async function handlePremiumAsk(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
@@ -977,7 +1007,12 @@ async function handleAnswer(payload: DiscordInteractionPayload): Promise<Interac
     `**Answer:** ${sanitizeDiscordOutboundText(answer)}`,
     '',
     `If this helped, a moderator or question owner can mark it with \`/mark-helpful answer_id:${result.id}\`.`,
-  ].join('\n'));
+  ].join('\n'), {
+    embed: true,
+    title: 'Answer Submitted',
+    variant: 'sage',
+    footer: 'Sage Ideas questions',
+  });
   return ephemeral(`Answer recorded. Awarded **10** points. Answer ID: \`${result.id}\`${persistent ? '.' : '. Persistent answer tables are not migrated yet, so this is temporarily tracked through Discord only.'}`);
 }
 
@@ -1098,7 +1133,12 @@ export async function buildWeeklyRecapContent(): Promise<string> {
 
 export async function postDailySignal(source: string): Promise<string | null> {
   const content = await buildDailySignalContent(new Date());
-  const messageId = await postToChannelByBaseName('daily-signal', content);
+  const messageId = await postToChannelByBaseName('daily-signal', content, {
+    embed: true,
+    title: 'Daily Signal',
+    variant: 'signal',
+    footer: 'Sage Ideas daily build rhythm',
+  });
   await recordDiscordScheduledRun({
     runKey: `daily-signal-${new Date().toISOString().slice(0, 10)}`,
     kind: 'daily_signal',
@@ -1117,7 +1157,12 @@ export async function postDailySignal(source: string): Promise<string | null> {
 
 export async function postWeeklyRecap(source: string): Promise<string | null> {
   const content = await buildWeeklyRecapContent();
-  const messageId = await postToChannelByBaseName('wins-showcase', content);
+  const messageId = await postToChannelByBaseName('wins-showcase', content, {
+    embed: true,
+    title: 'Weekly Recap',
+    variant: 'win',
+    footer: 'Sage Ideas weekly proof loop',
+  });
   await recordDiscordScheduledRun({
     runKey: `weekly-recap-${weekKey(new Date())}`,
     kind: 'weekly_recap',

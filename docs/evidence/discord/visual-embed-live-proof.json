@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "startedAt": "2026-06-29T23:12:41.435Z",
+  "finishedAt": "2026-06-29T23:12:42.578Z",
+  "channelBaseName": "team-ops",
+  "messageId": "1521292355620175896",
+  "embed": {
+    "title": "SageBot Visual Proof",
+    "descriptionPreview": "This is the new Sage Ideas card format: warmer voice, cleaner sections, and a colored embed rail instead of a cold plain-text dump.",
+    "color": 15911244,
+    "fields": [
+      {
+        "name": "Today's move",
+        "valuePreview": "Use embeds for public bot content so members can scan the post without feeling buried in markdown."
+      },
+      {
+        "name": "Why it matters",
+        "valuePreview": "The server should feel like a live academy, not a log file."
+      },
+      {
+        "name": "Ship check",
+        "valuePreview": "Questions, answers, daily signals, weekly recaps, project submissions, reviews, premium requests, and content queue posts now route through the card formatter."
+      }
+    ],
+    "footer": "Sage Ideas visual system proof"
+  }
+}

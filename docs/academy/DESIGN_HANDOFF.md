@@ -52,5 +52,25 @@
 - `npx tsc --noEmit` = 0 · `npx next build` = 0 · **a11y 0 serious/critical** (axe) at 320/768/1024/1440 · Core Web Vitals (LCP<2.5s, CLS<0.1) · reduced-motion correct · **zero emoji** scan clean.
 - Reference for the bar + the loop: `docs/academy/DESIGN_OS_PROGRAM.md` (+ `DESIGN_SYSTEM.md`, `DESIGN_OS_SCORECARD.md`). Course/lesson structure: `docs/academy/COURSE_TEMPLATE.md`.
 
+## 8. Existing visual assets to use (already in `public/` — brand-coherent, high-end)
+The repo ships a polished ink-wash "dojo / constellation" art set that matches editorial dark-luxury. USE THESE
+(don't generate generic AI art). All are decorative → `aria-hidden`; prefer the `.avif` where present; lazy-load
+below-the-fold; the scene art has a built-in left/edge dark gradient designed for text overlay.
+- **Themed scene illustrations** — `public/path/scenes/{academy,diagnostic,growth,proof,studio,summit}.png`
+  (dark moonlit dojo + constellation network + gold-lit path; left gradient for hero copy). Recommended mapping:
+  `academy` → catalog/landing hero · `diagnostic` → assessment/onboarding · `growth` → progress/dashboard ·
+  `proof` → certificates/evidence · `studio` → lab/builder · `summit` → capstone/course-complete.
+- **Ink-wash atmosphere** — `public/art/inkwash-cliffs.{avif,png}`, `public/art/sunset-pagoda.png` — section
+  backgrounds / texture behind editorial moments.
+- **Samurai parallax hero** — `public/path/samurai-layers/*` (+ `public/path/{00-sky,03-fore,05-samurai}.png`) —
+  a layered parallax hero for the landing (compositor-only translate on scroll, reduced-motion = static).
+- **Brand identity** — `public/brand/{sage-mark.svg, sage-logo-hq.png, favicon-mark.svg, icon-monochrome.svg}`.
+  The academy shell currently uses a generic icon — swap in the real `sage-mark.svg`.
+- **Display fonts (optional accent)** — `public/fonts/{Coconat-Regular.otf, Aesthetic-Regular.otf}` — Coconat is an
+  elegant editorial serif; could be a distinctive display face for hero moments alongside Fraunces (load via
+  `next/font/local`, add as an `--ac-font-*` token).
+- **Lesson diagrams** — `public/images/diagrams/*.svg` (clean technical diagrams) for illustrating concepts.
+Perf budget still applies (LCP<2.5s): use `next/image`, explicit dimensions, `priority` only on the one hero.
+
 ## 7. What's already done (don't redo)
 Token foundation (§3), the icon system (§4), system-wide emoji purge (zero), font standardization, a simplified single nav, a rebuilt dumb-proof catalog, and an editorial lesson header. **What remains:** the full editorial treatment of all 20 lesson block-types, the lab surface, the course overview + landing, and a design-panel ≥95 pass on each surface at every breakpoint.

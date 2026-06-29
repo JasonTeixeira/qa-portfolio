@@ -119,7 +119,15 @@ Transformed via Workflow (one agent per seed file, 5 files, parallel). All tsc 0
 | programming-fundamentals M1 (`seed-first-steps`) | 9 lessons | sample: loops **96** (rendered; lab+debug intact) | code-walkthrough primary hero |
 | programming-fundamentals M2 (`seed-programming-fundamentals`) | 9 lessons | sample: error-handling **96** (rendered; lab+debug intact) | labs preserved exactly |
 
-**Honest verification note:** ONE LESSON PER FILE (5 of 30) was rendered + panel-scored in the real player — all **96**, labs/debug confirmed live in the coding samples, capstones roll-call + triumph. The other 25 are transformed, tsc-gated, seeded, and pattern-verified (same agent pattern that produced the five 96s) but NOT individually rendered (login throttle). A full render-sweep of the remaining 25 is the recommended follow-up before declaring every one locked. Recurring minor cosmetic across samples (non-blocking): long code-walkthrough lines reach the pane's horizontal-scroll edge — candidate for a batch-wide scroll-affordance fade.
+**Verification — COMPLETE.** All 30 batch lessons were render-swept in the real player and
+panel-scored: the first 5 (one per file) at **96**, and the remaining 25 via a single-login
+`sweep-lessons.mjs` run (no throttle) + a 25-agent scoring Workflow → **avg 96, zero below 95,
+none hollow, coding labs/debug intact** (23×96, 2×95). Together with Module 1's 4 (95–96),
+**all 34 authored academy lessons are now individually render-verified at ≥95.**
+
+The recurring long-line cosmetic was fixed engine-wide: `SageCodeWalkthrough` now shows an
+overflow-aware right-edge scroll fade (commit f124d0ec). The 414 skeleton lessons remain a
+separate authoring-from-scratch program (deferred).
 
 **Module 1 (course 00) — COMPLETE, visual-first, all ≥95.** Validation run confirmed the
 loop reliably crosses the bar (94→96 in one loop). Engine improvement landed during the

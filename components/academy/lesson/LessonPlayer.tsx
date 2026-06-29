@@ -19,6 +19,8 @@ import { Icon } from '@/components/academy/ui/Icon'
 import { CourseRail } from './CourseRail'
 import { SageDiagram } from '@/components/academy/visuals/SageDiagram'
 import { SageViz } from '@/components/academy/visuals/SageViz'
+import { SageCodeWalkthrough } from '@/components/academy/visuals/SageCodeWalkthrough'
+import { SageCompare } from '@/components/academy/visuals/SageCompare'
 import { RevealStagger } from '@/components/academy/visuals/reveal'
 import styles from './lesson.module.css'
 
@@ -188,6 +190,33 @@ function Block({
             chart={block.chart}
             data={block.data}
             unit={block.unit}
+          />
+        </RevealStagger>
+      )
+    case 'code-walkthrough':
+      // Animated, terminal-look code stepper; self-contained (own controls +
+      // reduced-motion static state), so no reveal wrapper needed.
+      return (
+        <SageCodeWalkthrough
+          title={block.title}
+          subtitle={block.subtitle}
+          filename={block.filename}
+          language={block.language}
+          code={block.code}
+          steps={block.steps}
+          caption={block.caption}
+        />
+      )
+    case 'compare':
+      return (
+        <RevealStagger>
+          <SageCompare
+            title={block.title}
+            subtitle={block.subtitle}
+            left={block.left}
+            right={block.right}
+            mono={block.mono}
+            caption={block.caption}
           />
         </RevealStagger>
       )

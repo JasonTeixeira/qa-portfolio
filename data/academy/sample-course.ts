@@ -64,6 +64,31 @@ export type LessonBlock =
       data: { label: string; value: number }[]
       unit?: string
     }
+  // Animated terminal-look code stepper. `steps` highlight 1-based line numbers
+  // with a caption + optional deeper note; the component owns auto-advance,
+  // prev/next controls, and the reduced-motion static state.
+  | {
+      type: 'code-walkthrough'
+      title: string
+      subtitle?: string
+      filename: string
+      language: 'python' | 'ts' | 'bash'
+      code: string
+      steps: { lines: number[]; label: string; note?: string }[]
+      caption?: string
+    }
+  // Animated 2-up comparison (weak-vs-gold / before-after / A-vs-B). Each panel
+  // carries a tone (wash + legend) and a tight list of lines; the contrast is
+  // the teaching signal. `mono` renders the body lines in the mono face.
+  | {
+      type: 'compare'
+      title: string
+      subtitle?: string
+      left: { label: string; tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'; lines: string[]; verdict?: string }
+      right: { label: string; tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'; lines: string[]; verdict?: string }
+      mono?: boolean
+      caption?: string
+    }
 
 export type LessonStatus = 'done' | 'current' | 'todo'
 

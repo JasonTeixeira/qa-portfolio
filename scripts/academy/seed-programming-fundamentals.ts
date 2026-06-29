@@ -198,11 +198,11 @@ const blocks = [
   },
   {
     type: 'mission',
-    text: 'You shipped a tiny program at the end of First Steps — a gradebook that read a clean list of scores and worked perfectly. Here is the catch nobody warned you about: real data is never clean. Hand that same gradebook a score of "ninety", or -5, or 4000, and it breaks or silently lies. Today your code grows up. Your signup endpoint just let a user register with an empty email, a 50,000-character name, and age = -3 — and that garbage is now in your database. Your job for the next nine lessons starts here: stop trusting input, and validate it at the boundary before the system ever believes a word of it.',
+    text: 'Your signup endpoint just accepted an empty email, a 50,000-character name, and age = -3 — and that garbage is now in your database. The gradebook you shipped in First Steps worked only because its data was clean; real data never is. Today your code stops trusting input and checks it at the boundary first.',
   },
   {
     type: 'context',
-    text: 'Unchecked input is the #1 cause of crashes, corrupted data, and an entire class of security bugs — injection, impossible states, the lot. It is the through-line of this whole module: the error handling, file reading, and CLI safety lessons ahead are all the same instinct — distrust the outside world, check it at the edge. Every API handler, CLI parser, config loader, and pipeline step needs this. Learn the pattern once here and it pays off in every system you will ever build.',
+    text: 'Unchecked input is the #1 cause of crashes, corrupted data, and a whole class of security bugs. It is the through-line of this module: distrust the outside world, check it at the edge.',
   },
   {
     type: 'pretest',
@@ -212,41 +212,61 @@ const blocks = [
       'The client is untrusted. Anyone can call the API directly — curl, a script, a malicious client — and skip the UI entirely. Validation must happen server-side, at the boundary. Client validation is only a UX nicety; it is never a security control.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'The boundary pattern: parse into a known shape, then check type → presence → range → length → business rules, rejecting with an actionable error. Here it is for a signup payload:',
+    type: 'concept',
+    title: 'Input is hostile until proven valid',
+    text: 'A trust boundary is any line where untrusted data crosses into your system. At that edge, confirm shape → type → presence → range → length → rules before the system believes a word of it. Reject by default; normalize only when the transform is safe and explicit.',
+  },
+  {
+    type: 'diagram',
+    title: 'Where validation lives — at the boundary, before any side effect',
+    subtitle: 'Untrusted input must pass the validator before it can touch the database. Validate first, act second.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'client', label: 'Untrusted input', description: 'form · API · curl · script', kind: 'client', tone: 'warning' },
+      { id: 'boundary', label: 'Validator', description: 'shape · type · range · length', kind: 'decision', tone: 'accent' },
+      { id: 'reject', label: 'Reject', description: 'actionable ValueError', kind: 'process', tone: 'warning' },
+      { id: 'logic', label: 'App logic', description: 'now trusts the data', kind: 'service', tone: 'success' },
+      { id: 'db', label: 'Database', description: 'CHECK backstops invariants', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'client', to: 'boundary', label: 'crosses the edge', kind: 'sync' },
+      { from: 'boundary', to: 'reject', label: 'invalid', kind: 'control', tone: 'warning' },
+      { from: 'boundary', to: 'logic', label: 'valid only', kind: 'data', tone: 'success' },
+      { from: 'logic', to: 'db', label: 'writes', kind: 'sync', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'warning', label: 'hostile until proven valid' },
+      { tone: 'accent', label: 'the boundary check' },
+      { tone: 'success', label: 'trusted past the edge' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'The boundary pattern, one check at a time',
+    subtitle: 'Parse into a known shape, then check type → presence → length → range, rejecting with an actionable error.',
+    filename: 'signup.py',
     language: 'python',
     code: `def validate_signup(data):
-    # 1. shape: must be a dict
     if not isinstance(data, dict):
         raise ValueError("signup must be an object")
-    # 2. presence + type
     email = data.get("email")
     if not isinstance(email, str) or "@" not in email:
         raise ValueError("email must be a valid address")
-    # 3. length (stops DoS / overflow)
     name = data.get("name", "")
     if not isinstance(name, str) or not (1 <= len(name) <= 100):
-        raise ValueError("name must be 1–100 characters")
-    # 4. range
+        raise ValueError("name must be 1-100 characters")
     age = data.get("age")
     if not isinstance(age, int) or not (0 <= age <= 120):
-        raise ValueError("age must be an integer 0–120")
+        raise ValueError("age must be an integer 0-120")
     return {"email": email, "name": name.strip(), "age": age}`,
     steps: [
-      'Identify the boundary — where untrusted data first enters.',
-      'Parse into a known shape before trusting anything.',
-      'Check type, required fields, range, and length — in that order.',
-      'Reject invalid data with an actionable error message.',
-      'Normalize only when the transform is safe and explicit (e.g. trim).',
+      { lines: [2, 3], label: 'Shape first', note: 'Parse into a known shape before trusting any field. If it is not even a dict, reject immediately.' },
+      { lines: [4, 5, 6], label: 'Presence + type', note: '`data.get("email")` is missing-safe; the isinstance check rejects non-strings before you ever call a string method.' },
+      { lines: [7, 8, 9], label: 'Length (stops DoS / overflow)', note: 'A 50,000-char name is a denial-of-service vector. Bound it at the edge.' },
+      { lines: [10, 11, 12], label: 'Range', note: 'age = -3 is the bug from the mission. isinstance(age, int) also blocks the hostile string "25".' },
+      { lines: [13], label: 'Normalize only when safe', note: 'Return a clean shape; `.strip()` is an explicit, safe transform — never silently coerce a wrong type.' },
     ],
-    commonMistake:
-      'Validating AFTER a side effect (e.g. after the DB insert). By then the bad data is already in. Validate first, act second.',
-  },
-  {
-    type: 'concept',
-    title: 'Trust boundary: input is hostile until proven valid',
-    text: 'A trust boundary is any line where untrusted data crosses into your system. Validation is the contract at that edge: confirm the shape, type, range, format, and business rules before the system trusts the data. Core models — input is hostile until proven valid; reject vs normalize; safe failure; the contract lives at the edge, not deep inside.',
+    caption: 'Common mistake: validating AFTER a side effect (e.g. after the DB insert). By then the bad data is already in.',
   },
   {
     type: 'lab',
@@ -269,18 +289,35 @@ const blocks = [
     fix: 'Truthiness is not validation: "25" and -3 are both truthy, and 0 is falsy (a valid age!). Check the TYPE explicitly with isinstance(value, int), then the range. Reject, don\'t coerce.',
   },
   {
-    type: 'tradeoff',
-    question: 'Invalid input arrives at the boundary. Reject it, or normalize it?',
-    optionA: {
-      label: 'Reject',
-      text: 'Fail fast with an actionable error. Safe, explicit, preserves the user’s intent — but adds friction.',
+    type: 'compare',
+    title: 'Invalid input at the boundary: reject vs normalize',
+    subtitle: 'Both run; only one preserves what the user actually meant.',
+    mono: true,
+    left: {
+      label: 'Reject (default)',
+      tone: 'success',
+      lines: [
+        'isinstance + range check fails',
+        'raise ValueError("age 0-120")',
+        'Caller sees exactly what was wrong',
+        'Hostile input never enters the system',
+        'Friction: the user must resend',
+      ],
+      verdict: 'Safe, explicit, preserves intent',
     },
-    optionB: {
-      label: 'Normalize',
-      text: 'Quietly fix it (trim, coerce, default). Smoother UX — but can hide invalid input and silently change what the user meant.',
+    right: {
+      label: 'Over-normalize',
+      tone: 'warning',
+      lines: [
+        'age = int(value or 0)',
+        '"-3" silently becomes 0 or -3',
+        'No error — looks like it worked',
+        'Hides attacks; corrupts the real value',
+        'Smoother UX, wrong data',
+      ],
+      verdict: 'Quietly changes what the user meant',
     },
-    guidance:
-      'Reject by default at trust boundaries. Normalize only when the transformation is safe AND explicit — like trimming whitespace. Over-normalization hides attacks and corrupts intent.',
+    caption: 'Reject by default at trust boundaries. Normalize only when the transform is safe AND explicit — like trimming whitespace.',
   },
   {
     type: 'verification',
@@ -315,16 +352,6 @@ const blocks = [
       'Name two validation failures that become security bugs.',
       'When would you normalize instead of reject?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your validate_age() + its negative test',
-    weak: '"I added a check for age." — vague, no type/range proof, no negative test.',
-    passing:
-      '"validate_age rejects non-ints and anything outside 0–120 with a clear ValueError; a test asserts that -3 and \'25\' are rejected." — correct and verifiable.',
-    excellent:
-      '"validate_age enforces type + range at the boundary and rejects (not normalizes) hostile input with an actionable error. Tests cover missing, wrong-type, out-of-range, and the boundaries 0 and 120. I added a DB CHECK constraint as a backstop and noted that client validation is UX-only. The same boundary pattern applies to our API request schemas." — specific, reasoned, transferable, production-aware.',
-    note: 'Excellent requires evidence of transfer + a backstop — that is L5–L7 on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -376,11 +403,11 @@ const errorHandlingBlocks = [
   },
   {
     type: 'mission',
-    text: 'Last lesson you rejected bad input at the door. But some failures slip past every guard — a network blips, a disk fills, a dependency dies — and what you do at that moment decides whether you find out in 30 seconds or 30 days. Here is the 30-day version: a background job has been "succeeding" for a week, because it wrapped everything in `except Exception: pass`. Thousands of records silently failed and no one knew. Your job: make failures loud, safe, and diagnosable — the opposite of that one catastrophic line.',
+    text: 'A background job has been "succeeding" for a week — because it wrapped everything in `except Exception: pass`. Thousands of records silently failed and no one knew. Last lesson you rejected bad input at the door; today you handle the failures that slip past every guard, making them loud, safe, and diagnosable.',
   },
   {
     type: 'context',
-    text: 'Error handling is where junior and senior code diverge. The same try/except can hide a production outage for a week or turn it into a 30-second fix. Every job, request handler, and pipeline step lives or dies on this.',
+    text: 'Error handling is where junior and senior code diverge. The same try/except can hide a production outage for a week or turn it into a 30-second fix.',
   },
   {
     type: 'pretest',
@@ -389,36 +416,60 @@ const errorHandlingBlocks = [
       'It swallows EVERY error — including ones you never anticipated (a real bug, disk-full, a typo). The program keeps running as if nothing happened, so the failure becomes invisible and undebuggable. Catch narrowly, handle deliberately, and never silently pass.',
   },
   {
-    type: 'worked-example',
-    intro: 'Catch deliberately, preserve operator context, surface a safe message, and define retry behaviour:',
+    type: 'concept',
+    title: 'Recoverable vs fatal · user message vs operator context',
+    text: 'Good error handling answers four questions: recoverable or fatal? retryable or not? what does the USER safely see? what does the OPERATOR need logged? Safe failure = the system fails in a known, observable state — loudly, with context — never silently.',
+  },
+  {
+    type: 'diagram',
+    title: 'An error arrives — classify, then act',
+    subtitle: 'Every failure routes through the same four questions. A bare `except: pass` short-circuits all of them.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'err', label: 'Exception raised', description: 'network · declined · bug', kind: 'client', tone: 'warning' },
+      { id: 'classify', label: 'Recoverable?', description: 'can I handle this?', kind: 'decision', tone: 'accent' },
+      { id: 'crash', label: 'Let it surface', description: 'unknown bug → crash loudly', kind: 'process', tone: 'warning' },
+      { id: 'retry', label: 'Retryable?', description: 'transient AND idempotent', kind: 'decision', tone: 'accent' },
+      { id: 'log', label: 'Log operator context', description: 'inputs + original error · chain `from e`', kind: 'store', tone: 'success' },
+      { id: 'user', label: 'Safe user message', description: 'no stack trace leaked', kind: 'service', tone: 'success' },
+    ],
+    edges: [
+      { from: 'err', to: 'classify', label: 'caught narrowly', kind: 'sync' },
+      { from: 'classify', to: 'crash', label: 'no — fatal', kind: 'control', tone: 'warning' },
+      { from: 'classify', to: 'retry', label: 'yes', kind: 'control', tone: 'accent' },
+      { from: 'retry', to: 'log', label: 'always log', kind: 'data', tone: 'success' },
+      { from: 'log', to: 'user', label: 'then surface', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'classify before acting' },
+      { tone: 'success', label: 'log context + safe message' },
+      { tone: 'warning', label: 'let the unhandleable crash' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Catch deliberately — one branch at a time',
+    subtitle: 'Specific catches, operator context logged, a safe user message, retry only where it is safe.',
+    filename: 'payments.py',
     language: 'python',
     code: `import logging
 
 def charge_card(user_id, amount):
     try:
-        return payment_api.charge(user_id, amount)  # illustrative API
+        return payment_api.charge(user_id, amount)
     except TransientNetworkError as e:
-        # transient -> retry ONLY if the call is idempotent (safe to repeat)
         logging.warning("charge retryable: user=%s amount=%s (%s)", user_id, amount, e)
         raise RetryableError("payment temporarily unavailable") from e
     except CardDeclinedError as e:
-        # non-retryable -> surface a safe user message, log operator context
         logging.error("charge declined: user=%s amount=%s (%s)", user_id, amount, e)
         raise UserError("Your card was declined.") from e`,
     steps: [
-      'Classify the error: recoverable vs unrecoverable, retryable vs not.',
-      'Catch the SPECIFIC errors you can handle — never a bare `except`.',
-      'Preserve operator context: log the inputs + the original error, and chain with `from e` so the operator sees the real root cause (Python keeps it as `__cause__`), not just your wrapper.',
-      'Return a SAFE user message — never leak internals or stack traces to users.',
-      'Retry only failures that are transient AND idempotent (safe to repeat).',
+      { lines: [4, 5], label: 'The risky call', note: 'Only the line that can fail goes in the try. Wrapping more would catch bugs you meant to let crash.' },
+      { lines: [6, 7, 8], label: 'Transient → retryable', note: 'A network blip is recoverable. Log operator context, then re-raise a typed RetryableError — retry only if the call is idempotent.' },
+      { lines: [9, 10, 11], label: 'Declined → non-retryable', note: 'Retrying a declined card just fails again. Surface a safe user message; log the real error for the operator.' },
+      { lines: [8, 11], label: 'Chain with `from e`', note: 'Python keeps the original as `__cause__`, so the operator sees the true root cause — not just your wrapper.' },
     ],
-    commonMistake:
-      'Overbroad `except Exception` that also catches the bugs you should let crash. Catch what you can actually handle; let the rest surface.',
-  },
-  {
-    type: 'concept',
-    title: 'Recoverable vs unrecoverable · user message vs operator context',
-    text: 'Good error handling answers four questions: Is this recoverable or fatal? Is it retryable or not? What does the USER safely need to see? What does the OPERATOR need logged to diagnose? Safe failure means the system fails in a known, observable state — loudly, with context — never silently.',
+    caption: 'Common mistake: an overbroad `except Exception` that also catches the bugs you should let crash. Catch what you can actually handle.',
   },
   {
     type: 'lab',
@@ -442,18 +493,34 @@ def charge_card(user_id, amount):
     fix: 'A bare/overbroad `except` + `pass` swallows everything. Catch the specific recoverable error, log operator context (which record, the real error), and either re-raise or record the failure to a dead-letter list — never `pass`.',
   },
   {
-    type: 'tradeoff',
-    question: 'An external API call fails. Retry, or fail fast?',
-    optionA: {
+    type: 'compare',
+    title: 'An external API call fails: retry vs fail fast',
+    subtitle: 'Classify first — the right move depends on whether the failure is transient AND idempotent.',
+    left: {
       label: 'Retry',
-      text: 'Right for transient failures (a timeout or 503) — but only if the call is idempotent. Retrying a declined card (400) just fails again; the real danger is retrying a timeout that may have already charged.',
+      tone: 'success',
+      lines: [
+        'Right for transient failures (timeout, 503)',
+        'ONLY if the call is idempotent',
+        'Idempotent = safe to repeat, same effect',
+        'Trap: retrying a timeout that may have charged',
+        'Wrong for a declined card (400) — fails again',
+      ],
+      verdict: 'Recovers blips a single retry would fix',
     },
-    optionB: {
+    right: {
       label: 'Fail fast',
-      text: 'Surface immediately. Safe for non-retryable errors, but gives up on transient blips a single retry would have fixed.',
+      tone: 'accent',
+      lines: [
+        'Surface the error immediately',
+        'Right for non-retryable errors',
+        'A declined card should NOT be retried',
+        'Gives up on a transient blip too early',
+        'Safe default when outcome is unknown',
+      ],
+      verdict: 'Safe, but abandons recoverable failures',
     },
-    guidance:
-      'Classify first. Retry only failures that are transient AND idempotent — “idempotent” means safe to repeat with the same effect as once (e.g. the API dedupes on a key). The double-charge trap isn’t the declined card — it’s retrying a timeout whose real outcome you don’t know.',
+    caption: 'The double-charge trap is not the declined card — it is retrying a timeout whose real outcome you do not know.',
   },
   {
     type: 'verification',
@@ -487,16 +554,6 @@ def charge_card(user_id, amount):
       'What is the difference between the user message and the operator context?',
       'When is retrying an error the WRONG move?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your safe_divide() + its test',
-    weak: '"I added a try/except." — it might be silently swallowing the error.',
-    passing:
-      '"safe_divide catches ZeroDivisionError, logs the inputs, and raises ValueError with a clear message; a test asserts it raises." — correct and verifiable.',
-    excellent:
-      '"safe_divide distinguishes recoverable vs not, logs operator context (inputs + original error chained with `from e`), returns a safe user message, and never swallows. Tests cover the happy path AND assert the error surfaces. I classified which API errors are retryable. The same pattern hardens our job runner." — specific, reasoned, production-aware, transferable.',
-    note: 'Excellent shows the user-vs-operator split + retry classification — L5–L7 on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -552,11 +609,11 @@ const functionsBlocks = [
   },
   {
     type: 'mission',
-    text: 'In First Steps you learned to write a function: inputs in, value out. Then the last two lessons leaned on that — a validator you could test, an error path you could prove. But there is a way to write a function that quietly poisons all of it. Your `calculate_total()` works perfectly when you run it by hand, then its tests fail at random for no reason you can see. The culprit: it reads a global `cart` and prints instead of returning. Today you make it a function you can actually trust — small, pure, and predictable enough that a test is just one line.',
+    text: 'Your `calculate_total()` works perfectly when you run it by hand, then its tests fail at random for no reason you can see — because it reads a global `cart` and prints instead of returning. Today you make it small, pure, and predictable enough that a test is just one line.',
   },
   {
     type: 'context',
-    text: 'Functions are the unit of reuse AND the unit of testing. Small, single-purpose, predictable functions are why some codebases are a joy and others a minefield. Every module, API, and pipeline is built from them.',
+    text: 'Functions are the unit of reuse AND the unit of testing. Small, single-purpose, predictable functions are why some codebases are a joy and others a minefield.',
   },
   {
     type: 'pretest',
@@ -565,40 +622,75 @@ const functionsBlocks = [
       'A function that depends on hidden global state behaves differently depending on what ran before it — tests become order-dependent and flaky. A function that takes its inputs as parameters and returns a value (a pure function) gives the same output for the same input every time, so a test is just `assert f(x) == expected`.',
   },
   {
-    type: 'worked-example',
-    intro: 'Turn a side-effecting function into a small, pure, testable one (before vs after — in one file the AFTER def would replace the BEFORE):',
-    language: 'python',
-    code: `# before — reads a global, prints instead of returning (hard to test)
-cart = [{"price": 10, "qty": 3}]
-def calculate_total():
-    total = 0
-    for item in cart:            # hidden dependency on a global
-        total += item["price"] * item["qty"]
-    print("Total:", total)       # side effect instead of a return
-
-# after — inputs in, value out, one job (trivially testable)
-def calculate_total(items):
-    return sum(i["price"] * i["qty"] for i in items)`,
-    steps: [
-      'One job: this function computes a total — nothing else.',
-      'Inputs as parameters: pass `items` in; read no globals.',
-      'Return, don’t print: hand back a value the caller can use or test.',
-      'No hidden state: same inputs → same output, always.',
-      'Name says what it does: `calculate_total`, not `do_stuff`.',
-    ],
-    commonMistake:
-      'Doing two things in one function (compute AND print/save). Split it: the function returns a value; a separate caller does the I/O.',
-  },
-  {
     type: 'concept',
     title: 'A function is a contract: name · inputs · output · one job',
-    text: 'A good function is a contract: its name says what it does, its parameters declare what it needs, its return value is what it promises. PURE functions (output depends only on inputs, no side effects) are the easiest to test, reuse, and reason about. A MODULE is just a file that groups related functions behind a clear interface — other code imports the contract, not the internals.',
+    text: 'Its name says what it does, its parameters declare what it needs, its return value is what it promises. PURE functions (output depends only on inputs, no side effects) are trivial to test and reuse. A MODULE groups related functions behind a clear interface.',
   },
   {
-    type: 'code',
-    filename: 'pricing.py  +  main.py',
+    type: 'diagram',
+    title: 'Pure vs impure — what a test can actually pin down',
+    subtitle: 'A pure function depends only on its arguments. An impure one also reads hidden state, so the same call can return different answers.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'args', label: 'Arguments', description: 'price, qty', kind: 'client', tone: 'accent' },
+      { id: 'pure', label: 'Pure function', description: 'inputs in → value out', kind: 'process', tone: 'success' },
+      { id: 'out', label: 'Return value', description: 'same inputs → same output', kind: 'store', tone: 'success' },
+      { id: 'global', label: 'Global state', description: 'discount, cart, tax_rate', kind: 'store', tone: 'warning' },
+      { id: 'impure', label: 'Impure function', description: 'also reads hidden state', kind: 'process', tone: 'warning' },
+      { id: 'flaky', label: 'Flaky result', description: 'depends on what ran first', kind: 'external', tone: 'warning' },
+    ],
+    edges: [
+      { from: 'args', to: 'pure', label: 'all it needs', kind: 'data', tone: 'success' },
+      { from: 'pure', to: 'out', label: 'deterministic', kind: 'data', tone: 'success' },
+      { from: 'args', to: 'impure', label: 'declared input', kind: 'data' },
+      { from: 'global', to: 'impure', label: 'hidden input', kind: 'control', dashed: true, tone: 'warning' },
+      { from: 'impure', to: 'flaky', label: 'order-dependent', kind: 'async', tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'success', label: 'pure — testable in one line' },
+      { tone: 'warning', label: 'hidden global → flaky test' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Same job, side-effecting vs pure',
+    subtitle: 'In one file the AFTER def replaces the BEFORE. Only one can be tested with a single assert.',
+    mono: true,
+    left: {
+      label: 'Before — reads a global, prints',
+      tone: 'warning',
+      lines: [
+        'cart = [{"price": 10, "qty": 3}]',
+        'def calculate_total():',
+        '    total = 0',
+        '    for item in cart:   # hidden global',
+        '        total += item["price"] * item["qty"]',
+        '    print("Total:", total)   # side effect',
+      ],
+      verdict: 'Untestable: depends on a global, returns nothing',
+    },
+    right: {
+      label: 'After — inputs in, value out',
+      tone: 'success',
+      lines: [
+        'def calculate_total(items):',
+        '    return sum(',
+        '        i["price"] * i["qty"]',
+        '        for i in items',
+        '    )',
+        '# assert calculate_total(cart) == 30',
+      ],
+      verdict: 'Pure: same inputs → same output, one assert',
+    },
+    caption: 'Common mistake: doing two things in one function (compute AND print/save). Split it — the function returns a value; a thin caller does the I/O.',
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'A module: related functions behind one interface',
+    subtitle: 'Group the pure functions in a file; other code imports the contract, not the internals.',
+    filename: 'pricing.py + main.py',
     language: 'python',
-    code: `# pricing.py — a MODULE: related functions, one clear interface
+    code: `# pricing.py - a MODULE: related functions, one clear interface
 def line_total(price, qty):
     return price * qty
 
@@ -606,10 +698,17 @@ def cart_total(items):
     return sum(line_total(i["price"], i["qty"]) for i in items)
 
 
-# main.py — import only what you need from the module
+# main.py - import only what you need from the module
 from pricing import cart_total
 
 print(cart_total([{"price": 10, "qty": 3}]))   # -> 30`,
+    steps: [
+      { lines: [2, 3], label: 'The smallest pure unit', note: '`line_total` does one job: price * qty. Nothing hidden, nothing printed.' },
+      { lines: [5, 6], label: 'Compose, do not repeat', note: '`cart_total` reuses `line_total` — small pure pieces wired together, each testable alone.' },
+      { lines: [9, 10], label: 'Import the contract', note: 'main.py pulls in only `cart_total`. It depends on the interface, not the internals.' },
+      { lines: [12], label: 'The caller does the I/O', note: 'Printing lives here, OUTSIDE the pure functions — so the core stays deterministic and reusable.' },
+    ],
+    caption: 'A module is just a file that groups related functions; the import line is the contract other code relies on.',
   },
   {
     type: 'lab',
@@ -630,20 +729,6 @@ def price_with_tax(amount):
     return amount + amount * tax_rate   # depends on hidden global state`,
     task: 'Why does the test depend on what ran before it?',
     fix: 'It reads the global `tax_rate` — if another test changed it, this one breaks. Pass `tax_rate` as a parameter (`def price_with_tax(amount, tax_rate):`) and return the value. No hidden state → deterministic test.',
-  },
-  {
-    type: 'tradeoff',
-    question: 'Should this function do one thing, or handle the whole workflow?',
-    optionA: {
-      label: 'One job (compose)',
-      text: 'Small pure functions: easy to test, reuse, and reason about — but you need a thin caller to wire them together.',
-    },
-    optionB: {
-      label: 'One big function',
-      text: 'Does everything in one place: fewer pieces to track — but untestable, unreusable, and every change risks the whole thing.',
-    },
-    guidance:
-      'Default to small, single-purpose functions and compose them. The function that "does everything" is the one that breaks every time you touch it.',
   },
   {
     type: 'verification',
@@ -679,16 +764,6 @@ def price_with_tax(amount):
       'When is a side effect unavoidable — and where should it live?',
       'Why group related functions into a module behind a clear interface?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your pure line_total() + its test',
-    weak: '"It works when I run it." — untested, and maybe impure.',
-    passing:
-      '"line_total takes price + qty, returns the total, reads no globals; a test asserts it across 3 inputs." — correct and testable.',
-    excellent:
-      '"line_total is pure (params in, value out, no side effects), single-purpose, and named for its job. Tests cover normal, zero, and edge inputs. I pushed the printing/saving out to a thin caller so the core stays pure and reusable — the same shape as the rest of our domain functions." — specific, reasoned, transferable.',
-    note: 'Excellent separates compute from I/O and tests the edges — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -742,11 +817,11 @@ const typesBlocks = [
   },
   {
     type: 'mission',
-    text: "You met this ghost once in First Steps — \"2\" + \"3\" is \"23\", not 5 — and it felt like a quirk. It is not a quirk; it is the bug that will haunt every form, file, and API you ever touch. Your form adds two quantities and shows '23' instead of 5, because the inputs arrived as strings ('2' and '3') and `+` quietly concatenated them. Now that you write functions you can trust, this is the next betrayal to defend against: know what your values actually are, and convert them deliberately at the edge — before they reach the clean code you just learned to write.",
+    text: "Your form adds two quantities and shows '23' instead of 5 — because the inputs arrived as strings ('2' and '3') and `+` quietly concatenated them. The \"2\" + \"3\" ghost from First Steps was not a quirk; it is the bug that haunts every form, file, and API. Today you defend against it: know what your values are, and convert them at the edge.",
   },
   {
     type: 'context',
-    text: "Type confusion is a top source of subtle bugs: '5' + '5' = '55', `if count:` silently skipping zero, a list used where a dict belonged. Knowing types — and converting at the boundary — underpins everything from form handling to APIs to data pipelines.",
+    text: "Type confusion is a top source of subtle bugs: '5' + '5' = '55', `if count:` silently skipping zero, a list used where a dict belonged. Converting at the boundary underpins forms, APIs, and data pipelines.",
   },
   {
     type: 'pretest',
@@ -755,11 +830,43 @@ const typesBlocks = [
       "`'2' + '3'` is `'23'` (string concatenation); `2 + 3` is `5` (integer addition). `+` does different things depending on the operand TYPE. Input from forms, files, and APIs usually arrives as STRINGS — so you must convert deliberately (`int('2')`) before doing math.",
   },
   {
-    type: 'worked-example',
-    intro: 'Convert at the boundary, then compute on real types:',
+    type: 'concept',
+    title: "A value's type decides what its operations mean",
+    text: "Core types: int, float, str, bool, list, dict, set, None. TYPE decides `+`, `==`, truthiness — `'2'+'3'` concatenates, `2+3` adds. Truthiness traps: 0, '', [], {} are all falsy. Pick structures by access: list (order), dict (lookup), set (uniqueness).",
+  },
+  {
+    type: 'diagram',
+    title: 'Same `+`, different meaning — the type dispatches the operation',
+    subtitle: 'Form/API input arrives as `str`. Until you convert, `+` concatenates instead of adding.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'input', label: 'Raw input', description: '"2", "3" from a form', kind: 'client', tone: 'warning' },
+      { id: 'strpath', label: 'str + str', description: 'no conversion', kind: 'process', tone: 'warning' },
+      { id: 'concat', label: '"23"', description: 'concatenated — the bug', kind: 'store', tone: 'warning' },
+      { id: 'convert', label: 'int() at the edge', description: 'parse deliberately', kind: 'decision', tone: 'accent' },
+      { id: 'intpath', label: 'int + int', description: 'real numeric types', kind: 'process', tone: 'success' },
+      { id: 'sum', label: '5', description: 'correct sum', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'input', to: 'strpath', label: 'left as str', kind: 'control', tone: 'warning' },
+      { from: 'strpath', to: 'concat', label: '+ concatenates', kind: 'data', tone: 'warning' },
+      { from: 'input', to: 'convert', label: 'convert first', kind: 'control', tone: 'accent' },
+      { from: 'convert', to: 'intpath', label: 'now numbers', kind: 'data', tone: 'success' },
+      { from: 'intpath', to: 'sum', label: '+ adds', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'warning', label: 'stringly-typed — silent concat' },
+      { tone: 'accent', label: 'convert at the boundary' },
+      { tone: 'success', label: 'real types → correct math' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Convert at the boundary, then compute on real types',
+    subtitle: 'Parse strings to int/float at the edge, handle the failure, then math is safe.',
+    filename: 'orders.py',
     language: 'python',
     code: `def order_total(qty_str, price_str):
-    # input from a form/API arrives as strings -> convert at the boundary
     try:
         qty = int(qty_str)
         price = float(price_str)
@@ -767,21 +874,15 @@ const typesBlocks = [
         raise ValueError("quantity and price must be numbers")
     if qty < 0 or price < 0:
         raise ValueError("quantity and price must be non-negative")
-    return qty * price        # now we compute on real numeric types`,
+    return qty * price`,
     steps: [
-      'Know the incoming type — form/file/API data is usually `str`.',
-      'Convert explicitly at the edge: `int(...)`, `float(...)`.',
-      'Handle conversion failure (`int("oops")` raises ValueError).',
-      'Compute on the real type — never `str + int`.',
-      'Pick the right structure: list (ordered), dict (keyed lookup), set (uniqueness).',
+      { lines: [1], label: 'Know the incoming type', note: 'qty_str and price_str are STRINGS — form/file/API data almost always is.' },
+      { lines: [3, 4], label: 'Convert explicitly at the edge', note: '`int(...)` and `float(...)` parse deliberately. Past this point the code works with real numbers.' },
+      { lines: [5, 6], label: 'Handle conversion failure', note: '`int("oops")` raises ValueError — catch it and reject with a clear message, exactly like Lesson 1.' },
+      { lines: [7, 8], label: 'Validate the real value', note: 'Now that they are numbers, a range check makes sense (negatives rejected).' },
+      { lines: [9], label: 'Compute on the real type', note: 'qty * price — never `str + int`, which would raise TypeError, or `str + str`, which would concatenate.' },
     ],
-    commonMistake:
-      'Assuming input is already the right type. Form/file/API data is usually a string — convert before you compute, or `+` will concatenate.',
-  },
-  {
-    type: 'concept',
-    title: 'A value has a type; the type decides what operations mean',
-    text: "Python's core types: int, float, str, bool, list, dict, set, None. A value's TYPE decides what `+`, `==`, and truthiness do — `'2' + '3'` concatenates, `2 + 3` adds. Watch truthiness pitfalls: `0`, `''`, `[]`, and `{}` are all falsy, so `if count:` skips a real zero. Choose structures by access pattern: list for order, dict for keyed lookup, set for uniqueness. Using the right type makes whole classes of bad state impossible to represent.",
+    caption: 'Common mistake: assuming input is already the right type. Convert before you compute, or `+` will concatenate.',
   },
   {
     type: 'lab',
@@ -805,18 +906,34 @@ const typesBlocks = [
     fix: "`values` are strings, and `+` on strings concatenates. Convert each to int first: `return sum(int(v) for v in values)` — and let `int()` reject non-numbers.",
   },
   {
-    type: 'tradeoff',
-    question: 'User input arrives as a string. Convert it early, or pass the string around?',
-    optionA: {
+    type: 'compare',
+    title: 'String input: convert at the boundary vs pass it around',
+    subtitle: '"Parse, don\'t smear." Where you convert decides where the bugs live.',
+    left: {
       label: 'Convert at the boundary',
-      text: 'Parse to the real type (int / date) the moment it enters. The rest of the code works with real types — you just handle conversion failures at the edge.',
+      tone: 'success',
+      lines: [
+        'Parse to int/float/date the moment it enters',
+        'One place handles conversion failure',
+        'Everything downstream works with real types',
+        'A type error surfaces at the edge, near the cause',
+        'Cost: an explicit parse + error path up front',
+      ],
+      verdict: 'Bugs caught at the source',
     },
-    optionB: {
+    right: {
       label: 'Keep it a string',
-      text: 'Pass the raw string deeper. Simpler at the edge — but every downstream caller must remember to convert, and bugs hide far from the source.',
+      tone: 'warning',
+      lines: [
+        'Pass the raw string deeper into the code',
+        'Every caller must remember to convert',
+        'One forgotten int() → silent concatenation',
+        'Bugs hide far from where input arrived',
+        'Simpler at the edge, fragile everywhere else',
+      ],
+      verdict: 'Stringly-typed — bugs hide downstream',
     },
-    guidance:
-      'Convert at the boundary — “parse, don’t smear.” Once past the edge, code should work with real types, not stringly-typed data.',
+    caption: 'Convert at the boundary; once past the edge, code should work with real types, not stringly-typed data.',
   },
   {
     type: 'verification',
@@ -850,16 +967,6 @@ const typesBlocks = [
       'Name a truthiness pitfall (e.g. with 0 or an empty list).',
       'When would you reach for a dict instead of a list?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your total_quantity() + its test',
-    weak: '"It adds the numbers." — it might be concatenating strings.',
-    passing:
-      '"total_quantity converts each string to int and sums; it rejects non-numbers with a ValueError; a test covers both." — correct and typed.',
-    excellent:
-      '"total_quantity parses at the boundary (int() per value), rejects non-integers with a clear error, and returns an int. Tests cover normal, empty, and bad-input cases. I used a list for ordered values and would reach for a dict if I needed keyed lookup. The same convert-at-the-edge pattern applies to our API params." — specific, typed, structure-aware, transferable.',
-    note: 'Excellent converts at the boundary AND reasons about data structures — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -918,11 +1025,11 @@ const controlFlowBlocks = [
   },
   {
     type: 'mission',
-    text: "You can write the if and the for-loop — First Steps gave you both. But knowing the syntax and writing logic a human can follow are two different skills, and the gap between them is where bugs live. A teammate's `process_order()` is five levels of nested if/else — nobody, including the author, can tell which path actually runs. And the loop that 'removes cancelled orders' silently leaves half of them behind. Your data is clean by now; today you keep the LOGIC clean too: make the path obvious with guard clauses, and make the loop correct.",
+    text: "A teammate's `process_order()` is five levels of nested if/else — nobody, including the author, can tell which path runs. And the loop that 'removes cancelled orders' silently leaves half of them behind. Your data is clean by now; today you keep the LOGIC clean too — guard clauses for the path, a correct loop for the filter.",
   },
   {
     type: 'context',
-    text: 'Control flow is the shape of your logic. Deeply nested conditionals hide bugs; clean guard clauses make the valid path obvious. And loops have a famous set of traps that bite everyone. This is daily-driver work.',
+    text: 'Control flow is the shape of your logic. Deeply nested conditionals hide bugs; guard clauses make the valid path obvious. And loops have a famous set of traps that bite everyone.',
   },
   {
     type: 'pretest',
@@ -931,24 +1038,77 @@ const controlFlowBlocks = [
       'Removing an item shifts the later indices, so the loop skips the element right after each removal — you end up processing every other item. Iterate over a COPY, or (better) build a NEW list with the items you want to keep (a comprehension).',
   },
   {
-    type: 'worked-example',
-    intro: 'Flatten nesting with guard clauses — handle the invalid cases first, then the happy path runs unindented:',
+    type: 'concept',
+    title: 'Guard clauses flatten logic; loops have classic traps',
+    text: 'A guard clause handles an invalid case and returns immediately, so the happy path stays flat (nesting past ~3 levels is a refactor signal). The three loop traps: off-by-one, infinite loop, and mutate-while-iterating. To prune a list, build a new one — never remove in place.',
+  },
+  {
+    type: 'compare',
+    title: 'Same logic: deep nesting vs guard clauses',
+    subtitle: 'Both return the same answers. Only one lets you see which path runs.',
+    mono: true,
+    left: {
+      label: 'Before — deep nesting',
+      tone: 'warning',
+      lines: [
+        'def charge(order):',
+        '    if order is not None:',
+        '        if order["total"] > 0:',
+        '            if order["status"] == "open":',
+        '                return pay(order)',
+        '            else: return "not open"',
+        '        else: return "empty"',
+        '    else: return "missing"',
+      ],
+      verdict: 'Which path runs? Buried in indentation',
+    },
+    right: {
+      label: 'After — guard clauses',
+      tone: 'success',
+      lines: [
+        'def charge(order):',
+        '    if order is None:',
+        '        return "missing"',
+        '    if order["total"] <= 0:',
+        '        return "empty"',
+        '    if order["status"] != "open":',
+        '        return "not open"',
+        '    return pay(order)   # happy path, flat',
+      ],
+      verdict: 'Reject bad cases first; the win is unindented',
+    },
+    caption: 'Common mistake: each `if` adding another level. Invert it — `if not valid: return` early, keep the happy path flat.',
+  },
+  {
+    type: 'diagram',
+    title: 'Why remove-while-iterating skips items',
+    subtitle: 'The loop cursor advances by index. A removal shifts every later item left, so the next one slides under the cursor unseen.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'i0', label: 'i=0 active', description: 'kept', kind: 'process', tone: 'success' },
+      { id: 'i1', label: 'i=1 cancelled', description: 'removed → list shifts left', kind: 'decision', tone: 'warning' },
+      { id: 'shift', label: 'index 2 → 1', description: 'next cancelled slides under cursor', kind: 'queue', tone: 'warning' },
+      { id: 'skip', label: 'cursor → i=2', description: 'the shifted item is SKIPPED', kind: 'external', tone: 'warning' },
+      { id: 'fix', label: 'Build a new list', description: '[o for o in orders if keep(o)]', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'i0', to: 'i1', label: 'advance', kind: 'control' },
+      { from: 'i1', to: 'shift', label: 'remove()', kind: 'async', tone: 'warning' },
+      { from: 'shift', to: 'skip', label: 'cursor moves on', kind: 'control', tone: 'warning' },
+      { from: 'i1', to: 'fix', label: 'instead:', kind: 'data', dashed: true, tone: 'success' },
+    ],
+    legend: [
+      { tone: 'warning', label: 'mutation shifts indices → skip' },
+      { tone: 'success', label: 'filter into a new list — no mutation' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'The guard-clause version, line by line',
+    subtitle: 'Each guard is one reason to stop; the happy path lands flat at the end.',
+    filename: 'orders.py',
     language: 'python',
-    code: `# before — deep nesting; which path actually runs?
-def charge(order):
-    if order is not None:
-        if order["total"] > 0:
-            if order["status"] == "open":
-                return pay(order)
-            else:
-                return "not open"
-        else:
-            return "empty"
-    else:
-        return "missing"
-
-# after — guard clauses: reject the bad cases first, happy path is flat
-def charge(order):
+    code: `def charge(order):
     if order is None:
         return "missing"
     if order["total"] <= 0:
@@ -957,19 +1117,12 @@ def charge(order):
         return "not open"
     return pay(order)`,
     steps: [
-      'Reject each invalid case early with its own `return`.',
-      'Each guard is one reason to stop — read top to bottom.',
-      'The happy path lands at the end, unindented and obvious.',
-      'For loops: never mutate the collection you are iterating.',
-      'To drop items, build a new list (filter) instead of removing in place.',
+      { lines: [2, 3], label: 'Reject the bad case early', note: 'Handle missing first with its own return — no nesting, one reason to stop.' },
+      { lines: [4, 5], label: 'Next invalid case', note: 'Empty order: another flat guard. Read top to bottom like a checklist.' },
+      { lines: [6, 7], label: 'Last guard', note: 'Wrong status bails out here. Every failure mode is named and unindented.' },
+      { lines: [8], label: 'Happy path, flat', note: 'Once the guards pass, the real work runs at the base indent — obvious and impossible to miss.' },
     ],
-    commonMistake:
-      'Deep nesting where each `if` adds another level. Invert it: `if not valid: return` early, and keep the happy path flat.',
-  },
-  {
-    type: 'concept',
-    title: 'Guard clauses flatten logic; loops have classic traps',
-    text: 'A guard clause handles an invalid case and returns immediately, so the happy path stays flat (deep nesting past ~3 levels is a refactor signal). Loops have three classic traps: off-by-one (wrong `range` bounds), infinite loop (the condition never changes), and mutate-while-iterating (removing items shifts indices and skips elements). To transform or prune a list, prefer a comprehension / filter over in-place mutation.',
+    caption: 'Same behavior as the five-level nest — but you can see the path, and you can see which case you forgot.',
   },
   {
     type: 'lab',
@@ -991,20 +1144,6 @@ def charge(order):
     return orders`,
     task: 'Why does it skip some cancelled orders?',
     fix: "`remove` shifts every later index down by one, so the loop skips the item right after each removal (and it mutates the caller's list). Build a new list instead: `[o for o in orders if o['status'] != 'cancelled']`.",
-  },
-  {
-    type: 'tradeoff',
-    question: 'Validate-and-act: nest the checks, or use guard clauses?',
-    optionA: {
-      label: 'Guard clauses',
-      text: 'Reject invalid cases up front and return early; the happy path runs unindented and obvious. More return statements, but flat and readable.',
-    },
-    optionB: {
-      label: 'Nested if/else',
-      text: 'One exit point, everything inside nested blocks. Familiar — but deep nesting hides which path runs and which case you forgot.',
-    },
-    guidance:
-      'Prefer guard clauses for validation: handle the bad cases first and return, keep the happy path flat. Deep nesting (>3 levels) is a refactor signal, not a style preference.',
   },
   {
     type: 'verification',
@@ -1038,16 +1177,6 @@ def charge(order):
       'Name the three classic loop bugs.',
       'When is a while loop the right choice over a for loop?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your active_orders() + its test',
-    weak: '"It removes the cancelled ones." — probably mutates the list and skips some.',
-    passing:
-      '"active_orders returns a NEW list of non-cancelled orders via a comprehension; the input is untouched; a test covers adjacent-cancelled." — correct.',
-    excellent:
-      '"active_orders filters with a comprehension (no mutation), so adjacent cancelled orders can\'t be skipped and the caller\'s list is preserved. Elsewhere I used guard clauses to keep validation flat. Tests cover adjacent-cancelled, all-cancelled, and empty. The same filter-don\'t-mutate rule applies anywhere we prune a collection." — specific, correct, transferable.',
-    note: 'Excellent avoids mutation AND tests the edge cases — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -1105,11 +1234,11 @@ const filesBlocks = [
   },
   {
     type: 'mission',
-    text: 'Until now your data lived safely in memory — lists and dicts that were just THERE. The moment you reach for a file, that comfort ends: the file might be missing, locked, half-read, or gigabytes too big, and every one of those is the outside world failing in a way pure code never does. A nightly job crashed because a config file was missing — and even when it worked, it leaked open file handles until the process ran out of them entirely. Read files the safe way: always close, and handle missing explicitly. This is where the distrust-the-boundary instinct from Lesson 1 meets the physical world.',
+    text: 'A nightly job crashed because a config file was missing — and even when it worked, it leaked open file handles until the process ran out of them. The moment you reach for a file, the outside world can fail in ways pure code never does. Read files the safe way: always close, and handle missing explicitly.',
   },
   {
     type: 'context',
-    text: 'Reading and writing files (and stdin/stdout, network streams) is I/O — slow, fallible, and full of resources you must release. The `with` statement and explicit error handling are the difference between a robust job and a 3am page.',
+    text: 'Files (and stdin/stdout, network streams) are I/O — slow, fallible, and full of resources you must release. The `with` statement and explicit error handling are the difference between a robust job and a 3am page.',
   },
   {
     type: 'pretest',
@@ -1118,33 +1247,60 @@ const filesBlocks = [
       'If anything between `open` and `f.close()` raises, the file is never closed — you leak a file handle (and on some systems keep the file locked). `with open(...) as f:` guarantees the file closes even when an error occurs. Always use `with` for files.',
   },
   {
-    type: 'worked-example',
-    intro: 'Use a context manager — the file closes even if parsing fails, and a missing file surfaces:',
+    type: 'concept',
+    title: '`with` guarantees cleanup; I/O is slow and fallible',
+    text: 'A context manager (`with`) closes its resource when the block exits — even on an exception. Iterate a file object to STREAM line by line; never `.read()` a multi-gigabyte file into memory. Surface I/O failures (missing, permission, encoding); never swallow them.',
+  },
+  {
+    type: 'diagram',
+    title: 'The `with` block guarantees the close — on every exit',
+    subtitle: 'Whether the body succeeds, raises, or hits a missing file, the context manager releases the handle. A bare `open()` only closes on the happy path.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'open', label: 'with open(path)', description: 'acquire the handle', kind: 'process', tone: 'accent' },
+      { id: 'missing', label: 'Missing file?', description: 'FileNotFoundError surfaces', kind: 'decision', tone: 'warning' },
+      { id: 'stream', label: 'for line in f', description: 'stream, not .read()', kind: 'process', tone: 'success' },
+      { id: 'raise', label: 'Parse error?', description: 'exception mid-read', kind: 'decision', tone: 'warning' },
+      { id: 'close', label: 'Handle closed', description: 'guaranteed on every path', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'open', to: 'missing', label: 'try to open', kind: 'sync' },
+      { from: 'missing', to: 'close', label: 'raises → still closes', kind: 'control', tone: 'warning' },
+      { from: 'missing', to: 'stream', label: 'opened', kind: 'data', tone: 'success' },
+      { from: 'stream', to: 'raise', label: 'per line', kind: 'sync' },
+      { from: 'raise', to: 'close', label: 'error → still closes', kind: 'control', tone: 'warning' },
+      { from: 'raise', to: 'close', label: 'done → closes', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'acquire' },
+      { tone: 'success', label: 'stream + guaranteed close' },
+      { tone: 'warning', label: 'errors surface, handle still released' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Read a config safely, line by line',
+    subtitle: 'A context manager that always closes, streams the file, and lets a missing file surface.',
+    filename: 'config.py',
     language: 'python',
     code: `def read_config(path):
     config = {}
-    with open(path) as f:            # raises FileNotFoundError if missing; always closes
-        for line in f:               # streams line by line, not the whole file at once
+    with open(path) as f:
+        for line in f:
             line = line.strip()
             if not line:
-                continue             # skip blank lines
+                continue
             key, value = line.split("=", 1)
             config[key] = value
     return config`,
     steps: [
-      'Open with `with` so the file closes on every path (success or error).',
-      'Iterate the file object — it streams line by line, not all into memory.',
-      'Skip blanks; parse each line defensively (`split("=", 1)`).',
-      "Let a missing file raise FileNotFoundError — don't swallow it.",
-      'Return a real value the caller can use.',
+      { lines: [3], label: 'Open with `with`', note: 'Closes the file on every path — success or error. A missing file raises FileNotFoundError here, never a silent {}.' },
+      { lines: [4], label: 'Stream, do not slurp', note: 'Iterating the file object reads ONE line at a time. A `.read()` would load a multi-gigabyte file into memory.' },
+      { lines: [5, 6, 7], label: 'Skip blanks defensively', note: 'Strip whitespace; ignore empty lines so a stray blank does not crash the parse.' },
+      { lines: [8, 9], label: 'Parse with a bound', note: '`split("=", 1)` splits on the FIRST `=` only — a value containing `=` survives intact.' },
+      { lines: [10], label: 'Return a real value', note: 'The handle is already closed by the time we return — the `with` block exited.' },
     ],
-    commonMistake:
-      'A bare `open()` without `with` (or try/finally) — one exception before `close()` and the handle leaks.',
-  },
-  {
-    type: 'concept',
-    title: '`with` guarantees cleanup; I/O is slow and fallible',
-    text: 'A context manager (`with`) closes its resource automatically when the block exits — even on an exception. Iterate a file object to STREAM it line by line; don\'t `.read()` a multi-gigabyte file into memory. I/O fails in ways pure code doesn\'t — missing file, permission denied, bad encoding — so handle or surface those, never silently swallow. The same `with` pattern manages network connections, locks, and DB cursors.',
+    caption: 'Common mistake: a bare `open()` without `with` — one exception before `close()` and the handle leaks. The same `with` pattern manages DB cursors and locks.',
   },
   {
     type: 'lab',
@@ -1173,18 +1329,35 @@ const filesBlocks = [
     fix: '(1) No `with`/close → the handle leaks if an error occurs mid-read. (2) `except Exception: return {}` swallows the missing-file (and parse) errors, so the job runs with empty config and fails mysteriously later. Use `with open(path)` and let FileNotFoundError surface.',
   },
   {
-    type: 'tradeoff',
-    question: 'Reading a large file: load it all, or stream it line by line?',
-    optionA: {
+    type: 'compare',
+    title: 'Reading a large file: load it all vs stream it',
+    subtitle: 'Both produce the same lines; only one survives a gigabyte file.',
+    mono: true,
+    left: {
       label: 'Read all',
-      text: '`data = f.read()` / `f.readlines()`: simple, gives random access — but loads the whole file into memory; a big file OOMs the process.',
+      tone: 'warning',
+      lines: [
+        'data = f.read()',
+        '# or f.readlines()',
+        'Whole file into memory at once',
+        'Random access — but a big file OOMs',
+        'Fine only when the file is small',
+      ],
+      verdict: 'Simple, but blows up on large files',
     },
-    optionB: {
+    right: {
       label: 'Stream',
-      text: 'Iterate the file object line by line: constant memory, handles huge files — but you process sequentially, in one pass.',
+      tone: 'success',
+      lines: [
+        'for line in f:',
+        '    process(line)',
+        'One line in memory at a time',
+        'Constant memory, handles huge files',
+        'Sequential, single pass',
+      ],
+      verdict: 'Constant memory — the safe default',
     },
-    guidance:
-      'Stream by default (`for line in f:`). Only load the whole file when it is small and you need random access — a log or dataset can be gigabytes.',
+    caption: 'Stream by default (`for line in f:`). Only load the whole file when it is small and you genuinely need random access.',
   },
   {
     type: 'verification',
@@ -1218,16 +1391,6 @@ const filesBlocks = [
       'Why is `except: return {}` on a missing config dangerous?',
       'Name another resource (besides a file) that `with` can manage.',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your read_config() + its test',
-    weak: '"It reads the file." — might leak the handle or swallow a missing file.',
-    passing:
-      '"read_config uses `with`, parses key=value into a dict, and lets a missing file raise; a test covers both." — correct.',
-    excellent:
-      '"read_config opens with a context manager (always closes), streams line by line, skips blanks, parses defensively, and surfaces FileNotFoundError instead of returning {}. Tests cover valid, missing, and malformed-line files. The same with-block pattern manages DB cursors and locks." — specific, robust, transferable.',
-    note: 'Excellent streams, surfaces errors, AND transfers the pattern — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -1278,11 +1441,11 @@ const testingBlocks = [
   },
   {
     type: 'mission',
-    text: 'Every lesson so far gave you a reason to trust your code — validation, error handling, pure functions. Tests are how you EARN that trust instead of just claiming it, and a bad test is worse than none because it sells you false confidence. Your `average()` passed every test and shipped. Then it crashed in production on an empty list, because the tests only ever checked the happy path. Add the test that would have caught it, and fix the bug — then you will never confuse "the tests are green" with "the code is right" again.',
+    text: 'Your `average()` passed every test and shipped — then crashed in production on an empty list, because the tests only ever checked the happy path. A bad test is worse than none: it sells false confidence. Add the test that would have caught it, fix the bug, and stop confusing "tests are green" with "the code is right".',
   },
   {
     type: 'context',
-    text: 'Tests are how you change code without fear. But a test that only checks the happy path gives false confidence. The skill is choosing the cheapest test that catches the real risk — usually an edge or negative case — and turning every production bug into a regression test.',
+    text: 'Tests are how you change code without fear. The skill is choosing the cheapest test that catches the real risk — usually an edge or negative case — and turning every production bug into a regression test.',
   },
   {
     type: 'pretest',
@@ -1291,34 +1454,58 @@ const testingBlocks = [
       'The empty list: `sum([]) / len([])` is `0 / 0` → ZeroDivisionError. The happy-path test never tried it. Edge cases (empty, zero, negative, huge, missing) are where bugs hide — test those, not just the obvious case.',
   },
   {
-    type: 'worked-example',
-    intro: 'Test the risk, not just the happy path — Arrange / Act / Assert, and add the edge case that bites:',
+    type: 'concept',
+    title: 'Cheapest test that catches the failure; behavior over implementation',
+    text: 'Spend test effort where a failure would hurt. The pyramid — many fast unit, fewer integration, a few E2E — keeps feedback fast. Assert BEHAVIOR (inputs → outputs), not internals, so a refactor does not break them. Every prod bug becomes a regression test.',
+  },
+  {
+    type: 'diagram',
+    title: 'The debug loop — every bug ends as a regression test',
+    subtitle: 'A production failure is not "fixed" until a test exists that fails before the fix and passes after. That test is the deliverable.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'bug', label: 'Prod failure', description: 'average([]) crashed', kind: 'client', tone: 'warning' },
+      { id: 'repro', label: 'Reproduce', description: 'a failing test for []', kind: 'process', tone: 'accent' },
+      { id: 'isolate', label: 'Isolate', description: '0 / 0 → ZeroDivisionError', kind: 'process', tone: 'accent' },
+      { id: 'fix', label: 'Fix', description: 'guard the empty case', kind: 'process', tone: 'success' },
+      { id: 'regress', label: 'Regression test', description: 'green forever after', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'bug', to: 'repro', label: 'first: make it fail', kind: 'sync', tone: 'accent' },
+      { from: 'repro', to: 'isolate', label: 'narrow the cause', kind: 'control', tone: 'accent' },
+      { from: 'isolate', to: 'fix', label: 'minimal change', kind: 'control', tone: 'success' },
+      { from: 'fix', to: 'regress', label: 'test now passes', kind: 'data', tone: 'success' },
+      { from: 'regress', to: 'bug', label: 'stops the return', kind: 'control', dashed: true, tone: 'muted' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'reproduce as a FAILING test first' },
+      { tone: 'success', label: 'fix → regression test locks it' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Test the risk — Arrange / Act / Assert with the edge that bites',
+    subtitle: 'Guard the empty case, then a tiny suite that includes the regression case.',
+    filename: 'stats.py',
     language: 'python',
     code: `def safe_average(numbers):
-    if not numbers:          # the edge the happy path forgot
+    if not numbers:
         return 0
     return sum(numbers) / len(numbers)
 
 def test_safe_average():
-    # Arrange / Act / Assert — behavior, not internals
-    assert safe_average([2, 4, 6]) == 4          # normal
-    assert safe_average([10]) == 10              # single
-    assert safe_average([]) == 0                 # EDGE / regression
-    assert safe_average([-2, 2]) == 0            # negatives`,
+    assert safe_average([2, 4, 6]) == 4
+    assert safe_average([10]) == 10
+    assert safe_average([]) == 0
+    assert safe_average([-2, 2]) == 0`,
     steps: [
-      'Identify the risk — what input could actually break this?',
-      'Pick the cheapest layer that catches it — usually a fast unit test.',
-      'Add the negative / edge case, not just the happy path.',
-      'Assert behavior (input → output), not implementation details.',
-      'Turn every production bug into a regression test.',
+      { lines: [2, 3], label: 'The edge the happy path forgot', note: 'An empty list short-circuits to 0 — `sum([]) / len([])` would be 0/0, a ZeroDivisionError.' },
+      { lines: [4], label: 'The normal computation', note: 'Only reached once the edge is handled. Order matters: guard first, compute second.' },
+      { lines: [7, 8], label: 'Assert behavior, not internals', note: 'Normal and single-element cases. We check input → output, so a refactor of the body cannot break the test.' },
+      { lines: [9], label: 'The regression case', note: 'The empty list — the exact input that crashed prod. This line is why the bug can never silently return.' },
+      { lines: [10], label: 'Negatives too', note: 'Edge inputs (empty, zero, negative, huge, missing) are where bugs hide — test those, not just the obvious case.' },
     ],
-    commonMistake:
-      "Testing only the happy path. The bug lives in the case you didn't try — empty, zero, negative, or missing.",
-  },
-  {
-    type: 'concept',
-    title: 'Cheapest test that catches the failure; behavior over implementation',
-    text: 'Risk-based testing: spend test effort where a failure would actually hurt. The pyramid — many fast unit tests, fewer integration tests, a few E2E — keeps feedback fast. Write tests with Arrange/Act/Assert, and assert BEHAVIOR (inputs → outputs), not internals, so a refactor doesn’t break them. Every production bug becomes a regression test. Debugging is a loop: reproduce → isolate → fix → add the test that proves it.',
+    caption: 'Common mistake: testing only the happy path. The bug lives in the case you did not try.',
   },
   {
     type: 'lab',
@@ -1342,18 +1529,34 @@ assert average([2, 4, 6]) == 4`,
     fix: 'An empty list → `sum([]) / len([])` → `0 / 0` → ZeroDivisionError. The happy-path test never tried `[]`. Guard it (`if not nums: return 0`) and add `assert average([]) == 0` as a regression test.',
   },
   {
-    type: 'tradeoff',
-    question: 'You found a bug. Fix it, or fix it AND add a test?',
-    optionA: {
+    type: 'compare',
+    title: 'You found a bug: just fix it vs fix it AND add a test',
+    subtitle: 'Same patch ships. Only one stops the bug from coming back.',
+    left: {
       label: 'Fix + regression test',
-      text: 'Fix the bug and add a test that fails BEFORE the fix and passes after. Slightly more work — but the bug can never silently return.',
+      tone: 'success',
+      lines: [
+        'Write the failing test FIRST (reproduces the bug)',
+        'Then fix until it is green',
+        'Test fails before the fix, passes after',
+        'The next refactor can never silently break it',
+        'Cost: one extra test',
+      ],
+      verdict: 'The bug can never silently return',
     },
-    optionB: {
+    right: {
       label: 'Just fix it',
-      text: 'Patch the bug and move on. Faster right now — but nothing stops the same bug coming back in the next refactor.',
+      tone: 'warning',
+      lines: [
+        'Patch the bug and move on',
+        'No test documents what was wrong',
+        'Faster right now',
+        'Same bug reappears in the next refactor',
+        'Nobody knows it was ever fixed',
+      ],
+      verdict: 'Fast today, the bug returns tomorrow',
     },
-    guidance:
-      'Always turn a bug into a regression test: write the failing test first (it reproduces the bug), then fix until it’s green. That is the test most likely to catch a real failure.',
+    caption: 'Always turn a bug into a regression test — the failing-test-first loop produces the test most likely to catch a real failure.',
   },
   {
     type: 'verification',
@@ -1387,16 +1590,6 @@ assert average([2, 4, 6]) == 4`,
       "What's the loop for turning a bug into a regression test?",
       'Name two edge cases worth testing for a function that takes a list.',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your safe_average() + its tests',
-    weak: '"It computes the average." — probably crashes on an empty list.',
-    passing:
-      '"safe_average returns 0 for an empty list and the mean otherwise; tests cover normal, single, and empty." — correct, edge-covered.',
-    excellent:
-      '"safe_average handles the empty list (the prod-crash edge) and returns the mean otherwise. Tests cover normal, single, empty, and negatives, each asserting behavior with a message. I added the empty case as a regression test after reproducing the crash. The same reproduce → test → fix loop applies to any bug." — specific, edge-aware, regression-minded, transferable.',
-    note: 'Excellent reproduces the bug as a failing test FIRST — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -1457,11 +1650,11 @@ const cliBlocks = [
   },
   {
     type: 'mission',
-    text: "You can write code that's validated, handled, typed, and tested — and still wipe a production database in one keystroke, because the TOOL around the code wasn't safe. This is the lesson where consequences get physical and irreversible. An internal cleanup script ran with its defaults and deleted production data, because 'no environment specified' quietly defaulted to prod and nothing asked the human to confirm. There is no try/except for a deleted table. Make the tool safe by default, so a forgotten flag previews instead of destroys.",
+    text: "An internal cleanup script ran with its defaults and deleted production data — because 'no environment specified' quietly meant prod, and nothing asked the human to confirm. There is no try/except for a deleted table. Make the tool safe by default, so a forgotten flag previews instead of destroys.",
   },
   {
     type: 'context',
-    text: 'Internal CLI tools are sharp: a wrong flag or a defaulted environment can delete real data with no undo. Safe defaults, dry-run previews, and confirmation for high-impact actions are the difference between a useful tool and an outage.',
+    text: 'Internal CLI tools are sharp: a wrong flag or a defaulted environment can delete real data with no undo. Safe defaults, dry-run previews, and confirmation for high-impact actions separate a useful tool from an outage.',
   },
   {
     type: 'pretest',
@@ -1470,29 +1663,53 @@ const cliBlocks = [
       'Defaults are what run when someone forgets a flag. If "execute" or "production" is the default, a tired engineer who omits a flag destroys real data. Safe tools default to dry-run and require explicit opt-in for destructive, production actions.',
   },
   {
-    type: 'worked-example',
-    intro: 'Safe by default: dry-run unless explicitly told to execute, and production needs confirmation:',
+    type: 'concept',
+    title: 'Safe defaults · dry-run · blast radius · confirmation',
+    text: 'Safe tools default to the harmless option: a DRY-RUN that previews the exact target set first. Limit BLAST RADIUS (explicit scope, no bare wildcards). Require CONFIRMATION for high-impact actions; never default env to production. Keep an AUDIT TRAIL. The default is what runs when a flag is forgotten.',
+  },
+  {
+    type: 'diagram',
+    title: 'The safety gate — a forgotten flag lands on dry-run',
+    subtitle: 'Action requires explicit opt-in; production requires explicit confirmation. Every "no" routes to the safe outcome.',
+    nodes: [
+      { id: 'cmd', label: 'Command run', description: 'maybe a flag forgotten', kind: 'client' },
+      { id: 'exec', label: 'execute = True?', description: 'explicit opt-in', kind: 'decision', tone: 'accent' },
+      { id: 'dry', label: 'dry-run', description: 'preview, touch nothing', kind: 'process', tone: 'success' },
+      { id: 'prod', label: 'env = production?', description: 'and confirmed?', kind: 'decision', tone: 'accent' },
+      { id: 'blocked', label: 'blocked', description: 'confirm production', kind: 'process', tone: 'warning' },
+      { id: 'run', label: 'execute', description: 'audited + scoped', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'cmd', to: 'exec', label: 'evaluate', kind: 'sync' },
+      { from: 'exec', to: 'dry', label: 'no / missing', kind: 'control', tone: 'success' },
+      { from: 'exec', to: 'prod', label: 'yes', kind: 'control', tone: 'accent' },
+      { from: 'prod', to: 'blocked', label: 'prod, unconfirmed', kind: 'control', tone: 'warning' },
+      { from: 'prod', to: 'run', label: 'confirmed / non-prod', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'explicit opt-in required' },
+      { tone: 'success', label: 'safe outcome (dry-run / audited execute)' },
+      { tone: 'warning', label: 'prod blocked until confirmed' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Safe by default — the decision gate',
+    subtitle: 'Dry-run unless explicitly told to execute; production needs confirmation.',
+    filename: 'deploy.py',
     language: 'python',
     code: `def decide(args):
     if not args.get("execute"):
-        return "dry-run"                 # default: preview, do nothing destructive
+        return "dry-run"
     if args.get("env") == "production" and not args.get("confirmed"):
-        return "blocked: confirm production"   # never act on prod without confirmation
+        return "blocked: confirm production"
     return "execute"`,
     steps: [
-      'Default to dry-run — a forgotten flag previews, it does not destroy.',
-      'Require an explicit `execute` to take action.',
-      'Never default the environment to production.',
-      'Require human confirmation for production / high blast radius.',
-      'Log operator + action + target + time, and preview the exact target set.',
+      { lines: [2, 3], label: 'Default to dry-run', note: 'The FIRST check: no explicit execute → preview only. A forgotten flag can never destroy data.' },
+      { lines: [4, 5], label: 'Guard production', note: 'Even with execute=True, production without confirmed=True is blocked. No accidental prod, ever.' },
+      { lines: [6], label: 'Execute only when earned', note: 'Reached only when the caller explicitly opted in AND (non-prod or confirmed). The safe path is the default; the dangerous path is opt-in.' },
     ],
-    commonMistake:
-      'Defaulting `execute=True` or `env="production"`. The default is what runs when a flag is forgotten — make it the SAFE option.',
-  },
-  {
-    type: 'concept',
-    title: 'Safe defaults · dry-run · blast radius · human confirmation',
-    text: 'Safe tools default to the harmless option: a DRY-RUN that previews the exact target set before touching anything. BLAST RADIUS is how much one command can affect — limit it (explicit scope, no bare wildcards). Require HUMAN CONFIRMATION for high-impact actions, and never default the environment to production. Keep an AUDIT TRAIL (operator/action/resource/time) and make rollback possible. The default is what runs when someone forgets a flag — so it must be safe.',
+    caption: 'Common mistake: defaulting `execute=True` or `env="production"`. The default is what runs when a flag is forgotten — make it the SAFE option.',
   },
   {
     type: 'lab',
@@ -1514,18 +1731,34 @@ const cliBlocks = [
     fix: "Both defaults are unsafe: `env='production'` means a forgotten flag targets prod, and `execute=True` means it acts with no opt-in. Default `env=None` (require an explicit choice) and `execute=False` (dry-run), and require confirmation before touching production.",
   },
   {
-    type: 'tradeoff',
-    question: 'A destructive command: run it immediately, or dry-run first?',
-    optionA: {
+    type: 'compare',
+    title: 'A destructive command: dry-run first vs execute immediately',
+    subtitle: 'One typo decides whether you preview or delete.',
+    left: {
       label: 'Dry-run first',
-      text: 'Show exactly what WOULD change, then require an explicit second step to execute. One extra step — but accidental data loss becomes very hard.',
+      tone: 'success',
+      lines: [
+        'Show exactly what WOULD change',
+        'Require an explicit second step to execute',
+        'Confirmation gate for production',
+        'Accidental data loss becomes very hard',
+        'Cost: one extra deliberate step',
+      ],
+      verdict: 'Cheap step; a deleted table is not',
     },
-    optionB: {
+    right: {
       label: 'Execute immediately',
-      text: "Do it in one command — fast for the happy path. But one typo or forgotten flag and there's no preview and no undo.",
+      tone: 'warning',
+      lines: [
+        'One command does it all',
+        'Fast for the happy path',
+        'No preview of the target set',
+        'A typo or forgotten flag → no undo',
+        'The cleanup-script outage from the mission',
+      ],
+      verdict: 'One mistake away from an outage',
     },
-    guidance:
-      'Default to dry-run for anything destructive. Preview the exact target set, then require an explicit execute (and confirmation for prod). The extra step is cheap; a deleted production table is not.',
+    caption: 'Default to dry-run for anything destructive: preview the exact target set, then require an explicit execute (and confirmation for prod).',
   },
   {
     type: 'verification',
@@ -1559,16 +1792,6 @@ const cliBlocks = [
       "What is 'blast radius' and how do you limit it?",
       'Why should the environment never default to production?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your decide() safety gate + its tests',
-    weak: '"It runs the command." — it probably executes by default.',
-    passing:
-      '"decide defaults to dry-run, requires an explicit execute, and blocks production without confirmation; tests cover each path." — correct, safe by default.',
-    excellent:
-      '"decide defaults to dry-run, never defaults env to production, and requires confirmation for prod; it would also preview the target set and log the action. Tests cover dry-run, staging-execute, prod-blocked, and prod-confirmed. The same safe-default + confirmation pattern applies to any high-blast-radius operation." — specific, safe, auditable, transferable.',
-    note: 'Excellent previews, audits, AND confirms for prod — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',
@@ -1628,11 +1851,11 @@ const gitBlocks = [
   },
   {
     type: 'mission',
-    text: "This is the last skill of Foundations, and it is the safety net under all the others. You can validate, handle errors, write pure functions, and test like a pro — and still lose a day's work, or ship a bug you can't trace, if your version history is a mess. Your teammate's branch is one giant commit titled 'stuff', and when a bug appeared, nobody could tell which change caused it or revert just that part. Make your history something you can actually use: small commits you can read, revert, and recover — so a mistake becomes a thirty-second undo instead of a panic.",
+    text: "Your teammate's branch is one giant commit titled 'stuff', and when a bug appeared, nobody could tell which change caused it or revert just that part. This is the safety net under every other skill: make your history small commits you can read, revert, and recover — so a mistake becomes a thirty-second undo instead of a panic.",
   },
   {
     type: 'context',
-    text: 'Git history is a tool, not a chore. Small atomic commits with clear messages let you bisect a bug, revert one change, and review work sanely. Branches isolate risk. And almost nothing in git is truly lost — if you know how to recover.',
+    text: 'Git history is a tool, not a chore. Small atomic commits with clear messages let you bisect a bug, revert one change, and review work sanely. Branches isolate risk; almost nothing in git is truly lost.',
   },
   {
     type: 'pretest',
@@ -1641,30 +1864,86 @@ const gitBlocks = [
       "A giant 'wip' commit can't be reviewed, can't be reverted in part, and tells you nothing about what changed or why. Small atomic commits (one logical change each, with a clear message) let you review, revert just the bad one, and bisect to find which change introduced a bug.",
   },
   {
-    type: 'worked-example',
-    intro: 'An atomic commit: one logical change, staged deliberately, with a message that says what and why:',
-    language: 'bash',
-    code: `# GOOD — one logical change, deliberate staging, clear message
-git add signup.py
-git commit -m "validate signup input: reject empty email and out-of-range age"
-
-# BAD — everything blended into one unreviewable, unrevertable blob
-git add .
-git commit -m "wip"`,
-    steps: [
-      'One logical change per commit — something you could revert on its own.',
-      'Stage deliberately (the related files), not a blind `git add .`.',
-      'Message = what changed + why (imperative: "add", "fix", "validate").',
-      'Work on a branch per task to isolate risk.',
-      'Recover with `git revert` / `git reflog`; never force-push a shared branch.',
-    ],
-    commonMistake:
-      "`git add .` + `git commit -m 'wip'` — an unreviewable, unrevertable blob. Stage the related change and describe it.",
-  },
-  {
     type: 'concept',
     title: 'Atomic commits · clear messages · branches · you can recover',
-    text: 'An ATOMIC commit is one logical change you could revert on its own. A good MESSAGE says what changed and why (imperative mood). Use a BRANCH per task to isolate work. You can almost always recover: `git revert` undoes a commit safely (a new commit), and `git reflog` finds "lost" commits. The one rule that protects everyone: NEVER force-push a shared branch — it rewrites history other people already have.',
+    text: 'An ATOMIC commit is one logical change you could revert on its own. A good MESSAGE says what changed and why. Use a BRANCH per task. Recover with `git revert` (safe undo) and `git reflog` (find "lost" commits). The one rule: NEVER force-push a shared branch.',
+  },
+  {
+    type: 'compare',
+    title: 'Atomic commits vs the "wip" blob',
+    subtitle: 'Same code lands. Only one history you can review, revert, and bisect.',
+    mono: true,
+    left: {
+      label: 'Atomic — one logical change',
+      tone: 'success',
+      lines: [
+        'git add signup.py',
+        'git commit -m "validate signup:',
+        '  reject empty email + bad age"',
+        '# stage deliberately, describe what + why',
+        '# revert THIS change alone, bisect to it',
+      ],
+      verdict: 'Reviewable, revertable, bisectable',
+    },
+    right: {
+      label: 'Blob — everything at once',
+      tone: 'warning',
+      lines: [
+        'git add .',
+        'git commit -m "wip"',
+        '# 12 unrelated changes in one commit',
+        '# revert undoes ALL twelve',
+        '# bisect can not narrow it down',
+      ],
+      verdict: 'Unreviewable, all-or-nothing',
+    },
+    caption: 'One logical change per commit, staged deliberately (not a blind `git add .`), with an imperative message: "add", "fix", "validate".',
+  },
+  {
+    type: 'diagram',
+    title: 'Why atomic commits make recovery cheap',
+    subtitle: 'Each commit is one revertable unit. That is what lets revert, bisect, and reflog do their job — and a blob defeats all three.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'atomic', label: 'Atomic commits', description: 'one logical change each', kind: 'process', tone: 'accent' },
+      { id: 'revert', label: 'git revert', description: 'undo ONE change safely', kind: 'process', tone: 'success' },
+      { id: 'bisect', label: 'git bisect', description: 'find the bad commit fast', kind: 'process', tone: 'success' },
+      { id: 'reflog', label: 'git reflog', description: 'recover a "lost" commit', kind: 'store', tone: 'success' },
+      { id: 'force', label: 'force-push shared', description: 'rewrites others history', kind: 'external', tone: 'warning' },
+    ],
+    edges: [
+      { from: 'atomic', to: 'revert', label: 'enables', kind: 'data', tone: 'success' },
+      { from: 'atomic', to: 'bisect', label: 'enables', kind: 'data', tone: 'success' },
+      { from: 'atomic', to: 'reflog', label: 'recoverable', kind: 'data', tone: 'success' },
+      { from: 'force', to: 'atomic', label: 'NEVER on shared', kind: 'control', dashed: true, tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'one revertable unit per commit' },
+      { tone: 'success', label: 'recovery you actually get' },
+      { tone: 'warning', label: 'the one move that destroys it' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'A commit gate, one rule at a time',
+    subtitle: 'The exact logic your lab implements: reject the empty and the lazy commit, accept the clear one.',
+    filename: 'commit_check.py',
+    language: 'python',
+    code: `LAZY = {"", "wip", "fix", "stuff", "update", ".", "asdf"}
+
+def check_commit(staged_files, message):
+    if not staged_files:
+        return "nothing to commit"
+    if message in LAZY or len(message) < 10:
+        return "weak message"
+    return "ok"`,
+    steps: [
+      { lines: [1], label: 'Name the lazy messages', note: 'A set of the throwaway messages that say nothing — "wip", "fix", "stuff". Set membership is the fast, readable check.' },
+      { lines: [4, 5], label: 'Atomic: there must be a change', note: 'No staged files → nothing to commit. A commit with no content is not a commit.' },
+      { lines: [6, 7], label: 'Reject the weak message', note: 'Lazy text OR under 10 chars fails — that is what makes history unreviewable later.' },
+      { lines: [8], label: 'Otherwise it is good', note: 'Staged change + a real message = "ok". This gate is exactly what a pre-commit hook would enforce on a team.' },
+    ],
+    caption: 'The same shape as the boundary validators from Lesson 1 — name the bad cases, reject them, let the good one through.',
   },
   {
     type: 'lab',
@@ -1683,20 +1962,6 @@ git commit -m "wip"`,
 git commit -m "wip"   # 12 unrelated changes blended into one commit`,
     task: "Why can't they isolate and revert the bad change?",
     fix: 'Everything is in one non-atomic commit, so `git revert` would undo all 12 changes and `git bisect` can\'t narrow it down. Commit one logical change at a time with a clear message — then you can revert or bisect precisely.',
-  },
-  {
-    type: 'tradeoff',
-    question: 'Finished a feature: one big commit, or several small ones?',
-    optionA: {
-      label: 'Small atomic commits',
-      text: 'Each commit is one logical change with a message. More entries — but reviewable, revertable, and bisectable.',
-    },
-    optionB: {
-      label: 'One big commit',
-      text: "Squash it all into one. Fewer entries — but you can't review, revert, or bisect a single change; it's all-or-nothing.",
-    },
-    guidance:
-      "Prefer small atomic commits while you work. You can always squash before merging if needed — but you can never un-blend a giant 'wip' commit.",
   },
   {
     type: 'verification',
@@ -1730,16 +1995,6 @@ git commit -m "wip"   # 12 unrelated changes blended into one commit`,
       "How do you safely undo a commit that's already pushed?",
       'Why is force-pushing a shared branch dangerous?',
     ],
-  },
-  {
-    type: 'calibration',
-    artifact: 'Your commit history on a real task',
-    weak: '"I committed my work." — probably one big "wip" blob.',
-    passing:
-      '"Small commits, each one logical change with a clear message, on a feature branch." — reviewable and revertable.',
-    excellent:
-      '"Atomic commits with what+why messages on a feature branch; I can revert any single change and bisect a regression. I recovered a dropped commit with reflog and never force-push shared branches, squashing only obvious fixups before merge." — specific, recoverable, collaborative.',
-    note: 'Excellent shows recovery (reflog / revert) AND collaboration safety — L5+ on the mastery scale.',
   },
   {
     type: 'transfer',

@@ -23,14 +23,22 @@
  * a coding course. The guaranteed win in each lesson is a REVIEWABLE ARTIFACT,
  * not a passing test. We carry that with sprint-contract (outcome + proof),
  * calibration (weak / passing / excellent rubric the learner self-scores
- * against), and verification (prove-it checklist). `tradeoff` carries the
- * decision; `debug` is a flawed-reasoning scenario the learner repairs;
- * `worked-example` is a worked judgment call with the common mistake named;
- * `code` appears ONLY where a real artifact (a memo template, a command, a
- * structured table) is the thing being produced.
+ * against), and verification (prove-it checklist).
  *
- * Mirrors scripts/academy/seed-first-steps.ts: createClient from env, default
- * dry-run, --apply flag, idempotent upserts, denormalized lesson counter.
+ * VISUAL-FIRST (mirrors seed-module-1.ts, the locked template): every lesson is
+ * a sequence of HERO VISUALS with tight captions, not prose. Each judgment
+ * lesson grows one memo SECTION, so each lesson folds its worked-example + raw
+ * memo code + calibration/debug contrast into THREE hero visuals:
+ *   - a `code-walkthrough` that steps the FILLED memo section line-by-line,
+ *   - a `diagram` for the lesson's flow/decision/structure,
+ *   - a `compare` for the weak-vs-gold (debug repair) contrast.
+ * Prose blocks (worked-example / standalone code) collapse INTO those visuals;
+ * the assessment beats (quiz / verification / teachback) stay. The `tradeoff`
+ * block survives in L07 (the decision IS a tradeoff).
+ *
+ * Mirrors scripts/academy/seed-first-steps.ts / seed-module-1.ts: createClient
+ * from env, default dry-run, --apply flag, idempotent upserts, denormalized
+ * lesson counter.
  *
  * Connective tissue: tiny-artifact -> failure-injection -> tradeoff -> proof reads
  * as one arc ("Build & Prove"), and each mission calls back to Module 1's
@@ -54,60 +62,11 @@ const MEMO = 'engineering_judgment_decision_memo.md'
 
 // ============================================================ LESSON 05
 // Tiny Artifact — the smallest reviewable thing that proves you can do the work.
-const tinyArtifactBlocks: LessonBlock[] = [
-  {
-    type: 'sprint-contract',
-    outcome:
-      `Turn an ambiguous engineering decision into one small, named, inspectable artifact — ${MEMO} — that a reviewer can open and judge in under two minutes.`,
-    intensity: 'standard',
-    time: '20–30 min',
-    proof:
-      `A real ${MEMO} on disk with context, the decision, the rejected option, and the proof you will run — not a note, an artifact someone could review.`,
-    unlock: 'You produced the memo and a reviewer could find the decision and its evidence without asking you a single question.',
-    doNotClaim:
-      'Do not claim you "have judgment" because you can describe the decision out loud. Until the artifact exists and is inspectable, you have an opinion, not evidence.',
-  },
-  {
-    type: 'mission',
-    text: 'A staff engineer drops into your channel: "Ship it, roll back, instrument, or redesign — you have ten minutes, the dashboards disagree, and two people above you want opposite things." In Module 1 you learned to frame the problem, diagnose the red signals, map the system, and retrieve under pressure. That was the thinking. Now the thinking has to leave your head and become something a reviewer can hold. The engineers who get trusted with hard calls are not the ones with the best monologue. They are the ones who can produce, on demand, a small artifact that survives a second pair of eyes.',
-  },
-  {
-    type: 'context',
-    text: 'This is the first lesson of Build & Prove. Module 1 made you a clearer thinker. This module makes you a producer of evidence: a tiny artifact (this lesson), a failure you injected on purpose (next), a tradeoff you can defend (after that), and a proof that holds up (the close). It all rides on one habit you build today — collapsing a fuzzy decision into the smallest thing a reviewer can actually inspect. Get this and every later lesson has a surface to write on.',
-  },
-  {
-    type: 'pretest',
-    prompt:
-      'You decide, under time pressure, to roll back a release. A teammate asks "why?" You say: "It felt risky and the error rate looked off." Before reading on — what is wrong with that answer in a review, even if rolling back was the RIGHT call?',
-    reveal:
-      'The decision may be correct and still fail review, because nothing is inspectable. "Felt risky" and "looked off" cannot be checked, reproduced, or argued with. A reviewer cannot tell a calibrated call from a lucky guess. The fix is not a better sentence — it is a smaller artifact: the exact metric, the threshold it crossed, the option you rejected, and how you would prove the rollback worked. The win in engineering judgment is never the opinion; it is the reviewable thing the opinion produced.',
-  },
-  {
-    type: 'concept',
-    title: 'A tiny artifact is the smallest output a reviewer can inspect without you in the room',
-    text: 'The invariant of the Tiny Artifact skill: every ambiguous decision must terminate in something named, small, and inspectable — not a note, an artifact. "Named" means it has a filename and lives somewhere (engineering_judgment_decision_memo.md). "Small" means a reviewer reads it in under two minutes. "Inspectable" means the reasoning, the rejected option, and the planned proof are all visible on the page. The point of small is not modesty; it is reviewability. A 12-page design doc nobody reads has less judgment-value than a 12-line memo a reviewer can actually check. Shrink the artifact until it is reviewable, then make sure it carries the decision, the road not taken, and the evidence.',
-  },
-  {
-    type: 'worked-example',
-    intro:
-      'Watch the same rollback decision become a tiny artifact. The weak version is a paragraph of vibes; the strong version is a memo a reviewer can check.',
-    steps: [
-      'Weak: "We rolled back because the new release seemed unstable and a few things looked wrong. Better safe than sorry." Nothing here is inspectable — no metric, no threshold, no rejected option, no proof.',
-      'Strong, step 1 — Context: "Release v2.4.0 at 14:02. Checkout p99 latency rose 280ms -> 910ms within 8 min; error rate flat."',
-      'Strong, step 2 — Decision: "Rolled back to v2.3.9 at 14:11."',
-      'Strong, step 3 — Rejected option: "Considered feature-flagging the new checkout path off instead of full rollback; rejected because the flag was not wired for the payment call, so a partial disable could double-charge."',
-      'Strong, step 4 — Proof to run: "Confirm p99 returns under 350ms within 5 min of rollback (it did: 14:16, p99 = 240ms)."',
-      'Strong, step 5 — Reviewer objection answered in advance: "Was 280ms->910ms real or a metrics blip? Cross-checked two independent latency sources; both agreed."',
-    ],
-    commonMistake:
-      'Padding the artifact to look rigorous — three pages of background, a glossary, five diagrams — so it stops being reviewable. Bulk is not evidence. The reviewer needs the decision, the rejected option, and the proof, on one screen. If they have to scroll to find the call, the artifact failed its one job.',
-  },
-  {
-    type: 'code',
-    filename: MEMO,
-    language: 'bash',
-    code: `# ${MEMO} — the tiny artifact template you will grow all module.
-# Keep it under two minutes to read. Inspectable beats impressive.
+// Hero visuals: code-walkthrough (the FILLED memo, line by line) ·
+// diagram (the anatomy of a tiny artifact) · compare (vibes vs inspectable).
+
+const TINY_ARTIFACT_MEMO = `# ${MEMO} — the tiny artifact (grows all module)
+# Under two minutes to read. Inspectable beats impressive.
 
 ## Context
 Release v2.4.0, 14:02. Checkout p99 latency 280ms -> 910ms in 8 min. Error rate flat.
@@ -122,43 +81,127 @@ Rolled back to v2.3.9 at 14:11.
 Feature-flag the new checkout path off. Rejected: flag not wired for the payment
 call -> partial disable risked double-charge.
 
-## Expected failure (the thing I am watching for)
-Rollback does NOT recover p99 -> means latency source is downstream, not the release.
-
 ## Verification method
 p99 < 350ms within 5 min of rollback. (Observed 14:16: p99 = 240ms. PASS.)
 
 ## Reviewer objection + answer
-"Was the spike a metrics blip?" -> Two independent latency sources agreed.
+"Was the spike a metrics blip?" -> Two independent latency sources agreed.`
 
-## Capstone connection
-This memo is the seed artifact reused by every later lesson in Build & Prove.`,
+const tinyArtifactBlocks: LessonBlock[] = [
+  {
+    type: 'sprint-contract',
+    outcome:
+      `Turn an ambiguous engineering decision into one small, named, inspectable artifact — ${MEMO} — that a reviewer can open and judge in under two minutes.`,
+    intensity: 'standard',
+    time: '20–30 min',
+    proof:
+      `A real ${MEMO} on disk with context, the decision, the rejected option, and the proof you will run — an artifact someone could review, not a note.`,
+    unlock: 'You produced the memo and a reviewer could find the decision and its evidence without asking you a single question.',
+    doNotClaim:
+      'Do not claim you "have judgment" because you can describe the decision out loud. Until the artifact exists and is inspectable, you have an opinion, not evidence.',
+  },
+  {
+    type: 'mission',
+    text: 'A staff engineer drops in: "Ship, roll back, instrument, or redesign — ten minutes, the dashboards disagree, two people above you want opposite things." Module 1 made you frame, diagnose, map, and retrieve under pressure. Now the thinking has to leave your head and become something a reviewer can hold.',
+  },
+  {
+    type: 'context',
+    text: 'This is the first lesson of Build & Prove: a tiny artifact (now), a failure you injected on purpose (next), a tradeoff you can defend, then a proof that holds. It all rides on one habit — collapsing a fuzzy decision into the smallest thing a reviewer can inspect.',
+  },
+  {
+    type: 'pretest',
+    prompt:
+      'You roll back a release under pressure. A teammate asks "why?" You say: "It felt risky and the error rate looked off." Before reading on — what is wrong with that answer in a review, even if rolling back was the RIGHT call?',
+    reveal:
+      'The decision may be correct and still fail review, because nothing is inspectable. "Felt risky" and "looked off" cannot be checked, reproduced, or argued with — a reviewer cannot tell a calibrated call from a lucky guess. The fix is not a better sentence; it is a smaller artifact: the exact metric, the threshold it crossed, the option you rejected, and how you would prove the rollback worked. The win in engineering judgment is never the opinion; it is the reviewable thing the opinion produced.',
+  },
+  {
+    type: 'concept',
+    title: 'A tiny artifact is the smallest output a reviewer can inspect without you in the room',
+    text: 'Every ambiguous decision must terminate in something named, small, and inspectable. Named = it has a filename. Small = read in under two minutes. Inspectable = the reasoning, the rejected option, and the planned proof are all on the page. Small is for reviewability, not modesty.',
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'The tiny artifact, line by line',
+    subtitle: 'Watch a paragraph of vibes become a memo a reviewer can check — the filled template you grow all module.',
+    filename: MEMO,
+    language: 'bash',
+    code: TINY_ARTIFACT_MEMO,
+    steps: [
+      { lines: [4, 5], label: 'Context — measured, not vibes', note: 'A number and a threshold ("280ms -> 910ms in 8 min"), not "seemed unstable". A reviewer can disagree with the number; they cannot disagree with a feeling.' },
+      { lines: [7, 8], label: 'Assumptions named up front', note: 'State the thing that could be wrong ("latency signal is real"). Naming the assumption is what makes the next lesson — injecting its failure — even possible.' },
+      { lines: [10, 11], label: 'The decision, one line', note: 'The actual call with a timestamp. Not "we discussed options" — the verb and the time.' },
+      { lines: [13, 14, 15], label: 'Rejected option — the most convincing line', note: 'The credible alternative AND the specific reason it loses (flag not wired for payments). Write this FIRST; it separates a calibrated call from a reflex.' },
+      { lines: [17, 18], label: 'Verification method', note: 'Something that could be RUN to confirm the call worked, with the observed result. This is the seed of the Lesson 08 proof.' },
+      { lines: [20, 21], label: 'Objection answered in advance', note: 'Pre-empt the sharpest "but what about…". The memo invites challenge instead of defending against it.' },
+    ],
+    caption: 'A reviewer who never spoke to you finds the decision and its evidence in under two minutes. That is the whole skill.',
+  },
+  {
+    type: 'diagram',
+    title: 'The anatomy of a tiny artifact',
+    subtitle: 'Four inspectable parts make the decision reviewable; bulk (background, glossary, five diagrams) is kept OUT — it destroys reviewability.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'context', label: 'Context', description: 'measured: metric + threshold', kind: 'process', tone: 'accent' },
+      { id: 'rejected', label: 'Rejected option', description: 'credible alt + why it loses', kind: 'process', tone: 'accent' },
+      { id: 'proof', label: 'Verification', description: 'a check you could run', kind: 'process', tone: 'success' },
+      { id: 'artifact', label: 'Tiny artifact', description: 'inspectable in < 2 min', kind: 'store', tone: 'success' },
+      { id: 'bulk', label: 'Bulk', description: 'padding to look rigorous', kind: 'external', tone: 'muted' },
+    ],
+    edges: [
+      { from: 'context', to: 'artifact', label: 'grounds', kind: 'data' },
+      { from: 'rejected', to: 'artifact', label: 'most convincing', kind: 'data', tone: 'accent' },
+      { from: 'proof', to: 'artifact', label: 'makes it checkable', kind: 'data', tone: 'success' },
+      { from: 'bulk', to: 'artifact', label: 'must NOT leak in', kind: 'control', dashed: true, tone: 'muted' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'the parts that carry the judgment' },
+      { tone: 'success', label: 'what makes it reviewable' },
+      { tone: 'muted', label: 'padding — kept out on purpose' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Two decision memos, same call',
+    subtitle: 'A teammate submits the left as their artifact. It reads as thorough; a reviewer cannot use it. Find the flaw — then read the repair.',
+    mono: true,
+    left: {
+      label: 'Unreviewable (vibes)',
+      tone: 'warning',
+      lines: [
+        'Decision memo: caching layer',
+        '"Weighed the tradeoffs carefully…"',
+        '"…the right call for our scale"',
+        '"…aligns with best practices"',
+        '"Everyone agreed. Confident."',
+      ],
+      verdict: 'No metric, no rejected option, no proof',
+    },
+    right: {
+      label: 'Inspectable (gold)',
+      tone: 'success',
+      lines: [
+        'Context: p99 = 740ms; 80% of reads hit 12 hot keys',
+        'Decision: 60s TTL cache on those keys',
+        'Rejected: read replica — bottleneck is repeated',
+        '  identical reads, not replication lag',
+        'Verify: p99 < 300ms + hit-rate > 85% over 24h',
+      ],
+      verdict: 'A reviewer can disagree with the number',
+    },
+    caption: '"Best practices" and "everyone agreed" are appeals to authority, not evidence. The repair names the metric, the rejected option, and the verification — now it is a real artifact.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The pro move beginners miss: write the "Rejected option" line FIRST, before you write the decision. The option you almost chose, and the specific reason you did not, is the single most convincing thing in the memo. Anyone can state what they did. Naming the credible alternative and why it loses is what separates a calibrated engineer from someone narrating a foregone conclusion. If you cannot name a real rejected option, you have not actually made a decision — you have had a reflex.',
+    text: 'The pro move beginners miss: write the "Rejected option" line FIRST, before the decision. The credible alternative and the specific reason it loses is the single most convincing thing in the memo. Anyone can state what they did; naming why the alternative loses is what separates a calibrated engineer from someone narrating a foregone conclusion. If you cannot name a real rejected option, you have not made a decision — you have had a reflex.',
   },
   {
     type: 'lab',
     title: `Produce ${MEMO} for a real decision`,
     summary:
-      `Take one ambiguous call you actually face right now (ship/rollback/instrument/redesign, a tool choice, a "do we refactor this") and fill the ${MEMO} template: Context, Assumptions, Decision, Rejected option (with the specific reason it loses), Expected failure, Verification method, Reviewer objection + answer. Keep it under two minutes to read. The win is the file existing and being inspectable — not being long.`,
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate submits this as their decision artifact and asks you to review it. It reads as thorough but a reviewer cannot actually use it. Find the flaw and repair it.',
-    brokenCode: `## Decision memo: caching layer
-We looked at a lot of options and discussed them as a team. After weighing the
-tradeoffs carefully, we decided to add a caching layer because it is the right
-call for our scale and aligns with best practices. We are confident this is the
-correct long-term direction. Everyone agreed.`,
-    language: 'bash',
-    task:
-      'This artifact is unreviewable. Name what is missing that makes it impossible to check, and rewrite it so a reviewer could challenge it.',
-    fix:
-      'Nothing here is inspectable: no metric ("our scale" = what number?), no named rejected option, no stated assumption, and no verification method. "Best practices" and "everyone agreed" are appeals to authority, not evidence. Repair: "Context: read p99 = 740ms, 80% of reads hit 12 hot keys. Decision: add a 60s TTL cache on those keys. Rejected: a read replica — rejected because the bottleneck is repeated identical reads, not replication lag. Verification: p99 < 300ms on the hot path after deploy; cache hit-rate > 85% measured for 24h." Now a reviewer can disagree with the number, the TTL, or the rejected option — which means it is finally a real artifact.',
+      `Take one ambiguous call you actually face right now (ship/rollback/instrument/redesign, a tool choice, a "do we refactor this") and fill the ${MEMO} template: Context, Assumptions, Decision, Rejected option (with the specific reason it loses), Verification method, Reviewer objection + answer. Keep it under two minutes to read. The win is the file existing and being inspectable — not being long.`,
   },
   {
     type: 'quiz',
@@ -194,7 +237,7 @@ correct long-term direction. Everyone agreed.`,
   },
   {
     type: 'transfer',
-    text: 'This is not just for incidents. The same tiny-artifact move upgrades a pull-request description (state the rejected approach and how you verified), a vendor choice (the one real alternative and the metric that decided it), and a postmortem (the inspectable timeline, not the narrated one). Anywhere a decision currently lives only in your head or a Slack thread, replace it with the smallest named, inspectable artifact — and you become reviewable, which is what "trusted with hard calls" actually means. Next lesson, you stop trusting the happy path: you will deliberately inject a failure into this very artifact to find out what it does NOT survive.',
+    text: 'This is not just for incidents. The same tiny-artifact move upgrades a pull-request description (state the rejected approach and how you verified), a vendor choice (the one real alternative and the metric that decided it), and a postmortem (the inspectable timeline, not the narrated one). Anywhere a decision currently lives only in your head or a Slack thread, replace it with the smallest named, inspectable artifact — and you become reviewable, which is what "trusted with hard calls" actually means. Next lesson, you stop trusting the happy path: you deliberately inject a failure into this very artifact to find out what it does NOT survive.',
   },
   {
     type: 'calibration',
@@ -206,7 +249,7 @@ correct long-term direction. Everyone agreed.`,
     excellent:
       'All of passing, plus a reviewer objection answered in advance, an explicitly stated assumption that could be wrong, and an "expected failure" line naming what observation would prove the decision wrong. The memo invites challenge instead of defending against it.',
     note:
-      'Score yourself honestly against this rubric. If you land at weak, the repair is not more words — it is naming the rejected option and the verification method. A correct call with an unreviewable artifact still scores weak, because in this module the artifact is the deliverable.',
+      'Score yourself honestly. If you land at weak, the repair is not more words — it is naming the rejected option and the verification method. A correct call with an unreviewable artifact still scores weak, because in this module the artifact is the deliverable.',
   },
   {
     type: 'spaced-review',
@@ -216,6 +259,29 @@ correct long-term direction. Everyone agreed.`,
 
 // ============================================================ LESSON 06
 // Failure Injection — break your own artifact on purpose, before reality does.
+// Hero visuals: code-walkthrough (the FILLED failure autopsy section) ·
+// diagram (inject -> blast radius -> detection -> response) ·
+// compare (theater "risks" line vs a real autopsy).
+
+const FAILURE_AUTOPSY_SECTION = `## Failure autopsy (appended to ${MEMO})
+# Attack your OWN decision with the most realistic failure — before reality does.
+
+## Injected failure
+The latency spike was caused by a downstream cache eviction, NOT the release.
+Rollback recovered p99 by coincidence; the real bug is still live in v2.3.9.
+
+## Blast radius
+We declare the incident resolved, page nobody, and the spike returns at the next
+traffic peak — now with no release to blame, so diagnosis takes 3x longer.
+
+## Detection signal
+Watch whether p99 stays recovered through the NEXT traffic peak, not just the
+5 minutes after rollback. Re-spike on v2.3.9 means the release was never the cause.
+
+## Response
+If it re-spikes on the old version: stop blaming the release, pull the downstream
+cache metrics, and REOPEN the incident instead of closing it.`
+
 const failureInjectionBlocks: LessonBlock[] = [
   {
     type: 'sprint-contract',
@@ -231,37 +297,97 @@ const failureInjectionBlocks: LessonBlock[] = [
   },
   {
     type: 'mission',
-    text: 'Last lesson you built a tiny artifact and felt good about it. Good. Now break it on purpose. Every decision you make has a failure mode that reality will find for you — at 3am, in front of a customer, during the demo. The only question is whether YOU find it first, in a quiet room, or whether production finds it for you, loud and expensive. Failure injection is choosing the quiet room. You take your own memo and ask the question reviewers and incidents both ask: "What is the realistic way this goes wrong, and would we even notice?"',
+    text: 'Last lesson you built a tiny artifact and felt good about it. Now break it on purpose. Every decision has a failure mode reality will find — at 3am, in front of a customer, during the demo. The only question is whether YOU find it first, in a quiet room, or production finds it for you, loud and expensive.',
   },
   {
     type: 'context',
-    text: 'Second lesson of Build & Prove. Your tiny artifact made the decision inspectable. But an inspectable happy-path decision is still a happy-path decision. This lesson hardens it: you inject the failure yourself so the artifact carries its own autopsy. This is the bridge to the next two lessons — the failure you find here is exactly the "risk if the choice is wrong" you will weigh in the tradeoff lesson, and the detection signal you write here is the seed of the proof you will run at the close.',
+    text: 'Second lesson of Build & Prove. Your tiny artifact made the decision inspectable — but a happy-path decision is still a happy-path decision. This lesson hardens it: the failure you find here becomes the "risk if wrong" in the tradeoff lesson, and the detection signal seeds the proof at the close.',
   },
   {
     type: 'pretest',
     prompt:
-      'Your rollback decision worked: latency recovered. A reviewer asks "what would have made the rollback the WRONG move?" You start to say "nothing, it worked." Before reading on — why is "it worked, so it was right" a dangerous answer?',
+      'Your rollback worked: latency recovered. A reviewer asks "what would have made the rollback the WRONG move?" You start to say "nothing, it worked." Before reading on — why is "it worked, so it was right" a dangerous answer?',
     reveal:
-      '"It worked" confirms the outcome, not the reasoning — and outcome and reasoning come apart constantly. A reckless call can get a good outcome by luck; a calibrated call can get a bad outcome from a risk you correctly accepted. If you cannot name what would have made the rollback wrong (e.g., the spike was downstream and the rollback masked the real cause, delaying the fix), you cannot tell skill from luck, and neither can your reviewer. Injecting the failure is how you separate the two: you state the condition under which your right-looking decision is actually wrong.',
+      '"It worked" confirms the outcome, not the reasoning — and outcome and reasoning come apart constantly. A reckless call can get a good outcome by luck; a calibrated call can get a bad outcome from a risk you correctly accepted. If you cannot name what would have made the rollback wrong (the spike was downstream and the rollback masked the real cause, delaying the fix), you cannot tell skill from luck, and neither can your reviewer. Injecting the failure is how you separate the two: you state the condition under which your right-looking decision is actually wrong.',
   },
   {
     type: 'concept',
     title: 'Failure injection: attack your own decision with the most realistic failure, not a toy one',
-    text: 'The invariant: a decision is not hardened until you have injected the most realistic failure it faces and shown what changes — in behavior, safety, correctness, user experience, operability, or security. Two rules make it real. First, no toy failures: if the domain has a credible production failure ("rollback masks a downstream cause", "cache serves stale prices", "feature flag double-charges"), use that, not a strawman you can easily wave away. Second, every injected failure needs a detection signal — the specific thing you would watch that would tell you it is happening. A failure you cannot detect is not handled; it is just named. The failure autopsy is the artifact: injected failure, blast radius, detection signal, response.',
+    text: 'A decision is not hardened until you inject the most realistic failure it faces and show what changes. Two rules: no toy failures (use the credible production one, not a strawman), and every injected failure needs a detection signal — the specific thing you would watch. A failure you cannot detect is not handled; it is just named.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'Inject a failure into the rollback memo from Lesson 05. Notice it attacks the decision that already looked good.',
+    type: 'code-walkthrough',
+    title: 'The failure autopsy, line by line',
+    subtitle: 'Inject a failure into the rollback memo from Lesson 05. Notice it attacks the decision that already looked good.',
+    filename: MEMO,
+    language: 'bash',
+    code: FAILURE_AUTOPSY_SECTION,
     steps: [
-      'Start from the good-looking decision: "Rolled back v2.4.0; p99 recovered to 240ms."',
-      'Inject the most realistic failure: "What if the latency spike was caused by a downstream cache eviction, NOT the release? Then the rollback recovered p99 by coincidence (load dropped at 14:16 anyway), and the real bug is still live in v2.3.9."',
-      'Blast radius: "We declare the incident resolved, page nobody, and the same spike returns at the next traffic peak — now without an obvious release to blame, so it takes 3x longer to diagnose."',
-      'Detection signal: "Watch whether p99 stays recovered through the NEXT traffic peak, not just the 5 minutes after rollback. If it spikes again with v2.3.9 deployed, the release was never the cause."',
-      'Response: "If it re-spikes on the old version, stop blaming the release, pull the downstream cache metrics, and reopen the incident instead of closing it."',
+      { lines: [5, 6], label: 'Inject the most realistic failure', note: 'Not "what if the data center floods?" — the credible one: the spike was downstream, so the rollback recovered p99 by coincidence and the real bug still lives.' },
+      { lines: [9, 10], label: 'Blast radius', note: 'What and who it hurts, and how widely. Closing the incident wrongly is worse than the spike: the next recurrence has no release to blame and takes 3x longer.' },
+      { lines: [13, 14], label: 'Detection signal — the hardest question', note: 'Not "what breaks?" but "how would we even know?" Here: watch the NEXT traffic peak, not the 5 minutes after rollback. A failure with no signal is the highest-priority gap.' },
+      { lines: [17, 18], label: 'Response', note: 'What you actually do when the signal fires. If the autopsy did not add a line to the response plan, you injected a strawman, not a failure.' },
     ],
-    commonMistake:
-      'Injecting a failure you can trivially dismiss ("what if the data center floods?") so you get to feel thorough without changing anything. A real injected failure should make you LESS comfortable with your decision and ADD a line to the response plan. If your failure autopsy did not change what you would do or watch, you injected a strawman, not a failure.',
+    caption: 'A real injected failure should make you LESS comfortable with your decision and ADD a line to the plan. If it changed nothing, it was theater.',
+  },
+  {
+    type: 'diagram',
+    title: 'The failure autopsy as a loop',
+    subtitle: 'Take the good-looking decision → inject the realistic failure → trace blast radius → demand a detection signal → write the response. The silent-failure branch (no signal) is the top risk.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'decision', label: 'Decision', description: 'the call that looked good', kind: 'process', tone: 'muted' },
+      { id: 'inject', label: 'Inject failure', description: 'most realistic, not a toy', kind: 'process', tone: 'accent' },
+      { id: 'blast', label: 'Blast radius', description: 'what + who, how widely', kind: 'process', tone: 'warning' },
+      { id: 'detect', label: 'Detection signal', description: '"how would we know?"', kind: 'decision', tone: 'accent' },
+      { id: 'response', label: 'Response', description: 'what you do on the signal', kind: 'store', tone: 'success' },
+      { id: 'silent', label: 'Silent gap', description: 'no signal = top risk', kind: 'store', tone: 'warning' },
+    ],
+    edges: [
+      { from: 'decision', to: 'inject', label: 'attack it', kind: 'control', tone: 'accent' },
+      { from: 'inject', to: 'blast', label: 'who it hurts', kind: 'data', tone: 'warning' },
+      { from: 'blast', to: 'detect', label: 'can we see it?', kind: 'control' },
+      { from: 'detect', to: 'response', label: 'on "yes"', kind: 'async', tone: 'success' },
+      { from: 'detect', to: 'silent', label: 'on "no" — flag it', kind: 'async', tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'inject + demand a detection signal' },
+      { tone: 'success', label: 'the response the signal triggers' },
+      { tone: 'warning', label: 'silent failure — the highest-value finding' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Theater vs a real autopsy',
+    subtitle: 'A teammate adds a "failure analysis" to look rigorous. It checks the box and does nothing. Spot why — then read the repair.',
+    mono: true,
+    left: {
+      label: 'Failure theater',
+      tone: 'warning',
+      lines: [
+        'Failure analysis: new caching layer',
+        'Risk: the cache could fail.',
+        'Mitigation: we will monitor it and fix issues.',
+        'Overall this is low risk.',
+        'We are confident in the approach.',
+      ],
+      verdict: 'A category, not a failure; no signal',
+    },
+    right: {
+      label: 'Real autopsy',
+      tone: 'success',
+      lines: [
+        'Injected: stale price served after a change',
+        '  (TTL 60s, no invalidate-on-write)',
+        'Blast radius: every read shows old price 60s →',
+        '  pricing-integrity bug at checkout',
+        'Detect: alert if checkout price != source-of-truth',
+        '  — we have NO such check (the real gap)',
+        'Response: invalidate on write, not TTL',
+      ],
+      verdict: 'Changes the design',
+    },
+    caption: '"The cache could fail" is a category, not a failure mode; "we will monitor it" names no signal. The repair injects a concrete failure, surfaces a silent-failure gap, and changes what you build.',
   },
   {
     type: 'callout',
@@ -272,21 +398,7 @@ const failureInjectionBlocks: LessonBlock[] = [
     type: 'lab',
     title: `Append a Failure autopsy to ${MEMO}`,
     summary:
-      `Take YOUR decision from Lesson 05's memo and inject the single most realistic failure it faces — not a toy one. Append a "Failure autopsy" section with four lines: Injected failure (the credible way it goes wrong), Blast radius (what and who it hurts, and how widely), Detection signal (the specific thing you would watch that tells you it is happening — or an honest "we currently could not detect this"), and Response (what you would do when you see the signal). The win is a memo that now documents its own most realistic failure.`,
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate adds a "failure analysis" to their decision to make it look rigorous. It checks the box but does nothing. Find why it is theater and repair it.',
-    brokenCode: `## Failure analysis: new caching layer
-Risk: the cache could fail.
-Mitigation: we will monitor it and fix any issues that come up.
-Overall this is low risk and we are confident in the approach.`,
-    language: 'bash',
-    task:
-      'This injects no real failure and adds no real safety. Name what makes it theater, and rewrite it as an actual failure autopsy.',
-    fix:
-      '"The cache could fail" is not a failure mode — it is a category. "We will monitor it" names no signal and no threshold. "Low risk, confident" is a feeling, not analysis. Real autopsy: "Injected failure: cache serves a stale price after a price change, because the TTL is 60s and we do not invalidate on write. Blast radius: every read of that product for up to 60s shows the old price; at checkout that is a pricing-integrity bug, not a latency one. Detection signal: alert if a checkout price differs from the source-of-truth price by more than $0 — we currently have no such check, which is the real gap. Response: invalidate the key on write instead of relying on TTL." Now it changes the design.',
+      `Take YOUR decision from Lesson 05's memo and inject the single most realistic failure it faces — not a toy one. Append a "Failure autopsy" section with four lines: Injected failure (the credible way it goes wrong), Blast radius (what and who it hurts, and how widely), Detection signal (the specific thing you would watch — or an honest "we currently could not detect this"), and Response (what you would do when you see the signal). The win is a memo that now documents its own most realistic failure.`,
   },
   {
     type: 'quiz',
@@ -322,7 +434,7 @@ Overall this is low risk and we are confident in the approach.`,
   },
   {
     type: 'transfer',
-    text: 'Failure injection is the engine behind premortems, chaos engineering, and threat modeling — all the same move at different scales: attack your own plan with a realistic failure before reality does, and demand a detection signal for each one. Apply it to a migration (what is the realistic data-loss path, and would we notice mid-migration?), to a hiring decision (what is the realistic way this is the wrong hire, and what early signal would tell us?), to a launch (what realistically makes us roll it back, and is that instrumented?). Next lesson, the failure you injected here becomes ammunition: it is the "risk if wrong" you weigh when you compare options and defend a tradeoff.',
+    text: 'Failure injection is the engine behind premortems, chaos engineering, and threat modeling — the same move at different scales: attack your own plan with a realistic failure before reality does, and demand a detection signal for each one. Apply it to a migration (what is the realistic data-loss path, and would we notice mid-migration?), to a hiring decision (what is the realistic way this is the wrong hire, and what early signal would tell us?), to a launch (what realistically makes us roll it back, and is that instrumented?). Next lesson, the failure you injected here becomes ammunition: it is the "risk if wrong" you weigh when you compare options and defend a tradeoff.',
   },
   {
     type: 'calibration',
@@ -344,6 +456,35 @@ Overall this is low risk and we are confident in the approach.`,
 
 // ============================================================ LESSON 07
 // Tradeoff Decision — compare real options and defend the call under pressure.
+// Hero visuals: code-walkthrough (the FILLED tradeoff section) ·
+// diagram (options -> binding constraint -> choice + reversal) ·
+// compare (pro-tally vs constraint-decided). Keeps the `tradeoff` block —
+// the decision IS a tradeoff.
+
+const TRADEOFF_SECTION = `## Tradeoff (added to ${MEMO})
+# Selection by the binding constraint, with a stated reversal condition.
+
+## Real options (each wins under SOME condition)
+A — full rollback to v2.3.9
+B — feature-flag the new checkout path off
+C — leave it up, instrument harder for 10 more minutes
+
+## Binding constraint (what actually decides)
+Customer-facing latency event: the cost of being slow now exceeds the cost of
+losing the new feature for an hour. Time-to-recover dominates.
+
+## Choice — by the constraint, not a pro/con tally
+A: fastest, fully reversible. B: flag not wired for payments (the L06 failure)
+-> double-charge risk. C: keeps the pain live. Under time-to-recover, A wins.
+
+## Reversal condition (the specific change that flips it)
+Once the payment flag is wired safely AND latency is isolated to a non-payment
+path, the same event next quarter flips to B (smaller blast radius, keeps feature).
+
+## Risk if wrong (reuse the L06 injected failure)
+If the spike was downstream, A recovers p99 by coincidence -> pair A with the
+L06 detection signal: watch the next traffic peak.`
+
 const tradeoffDecisionBlocks: LessonBlock[] = [
   {
     type: 'sprint-contract',
@@ -352,44 +493,72 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
     intensity: 'standard',
     time: '20–30 min',
     proof:
-      `A "Tradeoff" section in ${MEMO}: at least two credible options compared against the binding constraints, the chosen option, the explicit reversal condition, and the risk-if-wrong (which is the failure you injected last lesson).`,
+      `A "Tradeoff" section in ${MEMO}: at least two credible options compared against the binding constraints, the chosen option, the explicit reversal condition, and the risk-if-wrong (the failure you injected last lesson).`,
     unlock: 'Your memo now defends the decision as a tradeoff a reviewer could attack — with a stated reversal condition, not a one-way door pretending to be obvious.',
     doNotClaim:
       'Do not claim you "made a tradeoff" if you only listed the option you already wanted. A tradeoff requires a second option that could genuinely have won under different constraints.',
   },
   {
     type: 'mission',
-    text: 'Here is the review that ends careers-in-place: you present a decision, a principal engineer leans back and asks "what else did you consider, and what would have to be true for you to be wrong?" — and you have nothing. You picked the option you liked and reverse-engineered reasons. Everyone in the room knows. A tradeoff is the opposite posture: you put the real alternatives on the table, name the constraint that actually decided it, and state out loud the condition under which you would reverse yourself. That is not weakness. That is the single most senior thing you can do in a room.',
+    text: 'The review that ends careers-in-place: you present a decision, a principal leans back and asks "what else did you consider, and what would have to be true for you to be wrong?" — and you have nothing. A tradeoff is the opposite posture: real alternatives on the table, the constraint that decided named, and the condition under which you would reverse yourself, said out loud.',
   },
   {
     type: 'context',
-    text: 'Third lesson of Build & Prove. You have an inspectable decision (Lesson 05) and you have injected its failure (Lesson 06). Now you defend the choice itself. The failure you injected last lesson is not wasted — it becomes the "risk if wrong" column of your tradeoff. And the reversal condition you write here is what makes the decision honest: it admits the call depends on assumptions that could flip. Next lesson you prove the whole thing holds; this lesson makes sure the thing you are about to prove is actually the right thing to prove.',
+    text: 'Third lesson of Build & Prove. You have an inspectable decision (L05) and you injected its failure (L06). Now you defend the choice itself — the injected failure becomes the "risk if wrong" column, and the reversal condition admits the call depends on assumptions that could flip. Next lesson you prove the thing holds; this one makes sure it is the right thing to prove.',
   },
   {
     type: 'pretest',
     prompt:
-      'You compare two databases for a new service. You list Postgres with five upsides and the alternative with five downsides, and conclude "clearly Postgres." Before reading on — why will a sharp reviewer distrust this comparison even if Postgres is the right answer?',
+      'You compare two databases. You list Postgres with five upsides and the alternative with five downsides, and conclude "clearly Postgres." Before reading on — why will a sharp reviewer distrust this even if Postgres is the right answer?',
     reveal:
-      'A comparison where one option has all upsides and the other all downsides is not a tradeoff — it is a decision already made, dressed up. Real options each win under SOME conditions; if the alternative had no scenario where it wins, it was never a credible option and listing it is theater. The reviewer distrusts it because it shows no constraint actually doing the deciding — it reads as motivated reasoning. A real tradeoff names the binding constraint ("we need multi-region writes in 6 months") and shows how THAT, not a tally of pros, selects the option. Honest tradeoffs admit the alternative wins in a world slightly different from yours.',
+      'A comparison where one option has all upsides and the other all downsides is not a tradeoff — it is a decision already made, dressed up. Real options each win under SOME condition; if the alternative had no scenario where it wins, it was never credible and listing it is theater. The reviewer distrusts it because no constraint is doing the deciding — it reads as motivated reasoning. A real tradeoff names the binding constraint ("we need multi-region writes in 6 months") and shows how THAT, not a tally of pros, selects the option. Honest tradeoffs admit the alternative wins in a world slightly different from yours.',
   },
   {
     type: 'concept',
     title: 'A tradeoff is selection by binding constraint, with a stated reversal condition',
-    text: 'The invariant: a defensible decision compares real options against the constraints that actually bind, and states what would reverse it. Three parts. First, real options: each must win under some plausible condition, or it is not a credible alternative. Second, the binding constraint: not a pile of pros, but the one or two constraints (latency, cost, team skill, risk, time, privacy) that actually do the deciding — name them and you can explain the call in one sentence. Third, the reversal condition: the specific change in the world ("if write volume crosses 50k/s" or "if the team grows past 3 engineers") that would flip your choice. A decision with no reversal condition is either a true one-way door (rare) or a bluff. Stating the reversal condition is how you prove the decision is reasoned, not reflexive.',
+    text: 'Three parts. Real options: each must win under some plausible condition. The binding constraint: the one or two things (latency, cost, team skill, risk, time) that actually decide — name them and you explain the call in one sentence. The reversal condition: the specific change in the world that would flip your choice. No reversal condition means a true one-way door (rare) or a bluff.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'Defend the rollback decision as a tradeoff. Note how the injected failure from Lesson 06 becomes the risk-if-wrong, and how a constraint — not a pro/con tally — does the deciding.',
+    type: 'code-walkthrough',
+    title: 'The tradeoff section, line by line',
+    subtitle: 'Defend the rollback as a tradeoff. Watch a constraint — not a pro/con tally — do the deciding, and the L06 failure return as the risk-if-wrong.',
+    filename: MEMO,
+    language: 'bash',
+    code: TRADEOFF_SECTION,
     steps: [
-      'Frame the real options under pressure: Option A = full rollback to v2.3.9; Option B = feature-flag the new checkout path off; Option C = leave it up and instrument harder for 10 more minutes.',
-      'Name the binding constraint: "We are in a customer-facing latency event; the cost of being slow now exceeds the cost of losing the new feature for an hour. Time-to-recover dominates."',
-      'Select by the constraint: "A recovers fastest and is fully reversible; B is faster to ship but the flag is not wired for payments (the Lesson 06 failure); C keeps the pain live while we gather data. Under time-to-recover, A wins."',
-      'State the reversal condition: "If the latency had been isolated to a non-payment path, B would win — smaller blast radius, keeps the feature. The moment the flag is wired safely for payments, B beats A for this class of event."',
-      'Risk if wrong (reuse the injected failure): "If the spike was downstream, A recovers p99 by coincidence and hides the real cause — so A is paired with the Lesson 06 detection signal: watch the next traffic peak."',
+      { lines: [5, 6, 7], label: 'Real options, each credible', note: 'Three options that each win under SOME condition. If one is all-downside, it is set dressing — cut it and find a real alternative.' },
+      { lines: [10, 11], label: 'Name the binding constraint', note: 'Not a pile of pros — the one thing that decides: time-to-recover dominates. State it and the whole call fits in one sentence.' },
+      { lines: [14, 15], label: 'Select BY the constraint', note: 'A wins because time-to-recover dominates — not because "A has more pluses". One binding constraint beats ten pros listed evenly.' },
+      { lines: [18, 19], label: 'Reversal condition — the senior signal', note: 'The precise change that flips the call ("once the payment flag is wired safely"). Stating it proves the decision is reasoned, not reflexive.' },
+      { lines: [22, 23], label: 'Risk if wrong reuses L06', note: 'The injected failure is not wasted — it becomes the risk column, paired with its detection signal. The module compounds.' },
     ],
-    commonMistake:
-      'Listing options but letting a pro/con tally do the deciding instead of a constraint. Counting bullet points ("A has 4 pros, B has 2") is not judgment — it weights trivia equally with the thing that matters. The reviewer wants to hear "time-to-recover dominated, so A", not "A had more pluses". One binding constraint stated clearly beats ten pros listed evenly.',
+    caption: 'The senior signal is not picking A — it is naming the exact condition under which you would pick B instead.',
+  },
+  {
+    type: 'diagram',
+    title: 'How a tradeoff actually decides',
+    subtitle: 'Real options enter; the binding constraint — not a pro/con tally — selects the choice; the reversal condition and the L06 risk hang off it. A pro-tally is the failure mode, kept OUT.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'options', label: 'Real options', description: 'each wins under some condition', kind: 'process', tone: 'accent' },
+      { id: 'constraint', label: 'Binding constraint', description: 'the one thing that decides', kind: 'decision', tone: 'accent' },
+      { id: 'choice', label: 'Choice', description: 'selected BY the constraint', kind: 'process', tone: 'success' },
+      { id: 'reversal', label: 'Reversal condition', description: 'the change that flips it', kind: 'store', tone: 'success' },
+      { id: 'risk', label: 'Risk if wrong', description: 'the L06 injected failure', kind: 'store', tone: 'warning' },
+      { id: 'tally', label: 'Pro/con tally', description: 'counting bullets ≠ judgment', kind: 'external', tone: 'muted' },
+    ],
+    edges: [
+      { from: 'options', to: 'constraint', label: 'tested against', kind: 'data', tone: 'accent' },
+      { from: 'constraint', to: 'choice', label: 'selects', kind: 'control', tone: 'success' },
+      { from: 'choice', to: 'reversal', label: 'admits', kind: 'data', tone: 'success' },
+      { from: 'choice', to: 'risk', label: 'carries', kind: 'data', tone: 'warning' },
+      { from: 'tally', to: 'choice', label: 'must NOT decide', kind: 'control', dashed: true, tone: 'muted' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'options selected by the binding constraint' },
+      { tone: 'success', label: 'the choice + its reversal condition' },
+      { tone: 'muted', label: 'pro/con tally — kept from deciding' },
+    ],
   },
   {
     type: 'tradeoff',
@@ -407,6 +576,39 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
       'Choose A here, and say WHY in one line: time-to-recover dominates and the unsafe flag makes B a correctness risk, not just a smaller one. Then state the reversal explicitly: wire the payment flag safely and the same event next quarter flips to B. The senior signal is not picking A — it is naming the exact condition under which you would pick B instead.',
   },
   {
+    type: 'compare',
+    title: 'Pro-tally vs a defensible tradeoff',
+    subtitle: 'A teammate presents the left in a design review. It looks balanced; it is not a real decision. Find the flaw — then read the repair.',
+    mono: true,
+    left: {
+      label: 'Pro-tally (dressed up)',
+      tone: 'warning',
+      lines: [
+        'Tradeoff: message queue',
+        'A (Kafka): scalable, durable, standard, ecosystem',
+        'B (SQS): simple, managed, less ops',
+        'Decision: Kafka — scores higher overall',
+        'We can revisit later if needed.',
+      ],
+      verdict: 'No constraint decides; "revisit" commits to nothing',
+    },
+    right: {
+      label: 'Constraint-decided',
+      tone: 'success',
+      lines: [
+        'Binding constraint: 3-person team, no streaming',
+        '  experience, live in 4 weeks',
+        'Under that: SQS wins — Kafka ops burden is the',
+        '  biggest risk for a 3-person team',
+        'Reversal: ~10k msg/s sustained OR need replay',
+        '  -> Kafka earns its cost; migrate',
+        'Risk if wrong: 256KB limit -> alert at 200KB',
+      ],
+      verdict: 'The constraint decides; the reversal is concrete',
+    },
+    caption: '"Scores higher overall" is a tally, not a reason; "revisit later" is not a reversal condition. The repair names the constraint that decides and a trigger you could literally check.',
+  },
+  {
     type: 'callout',
     tone: 'tip',
     text: 'What principal engineers do that mid-levels skip: they argue the OTHER side first. Before defending your choice, state the strongest case for the option you rejected — out loud, generously. Two things happen. You find the condition under which you are wrong (your reversal condition writes itself), and the room trusts you, because someone who can articulate the opposing case clearly is obviously not just rationalizing. If you cannot make a genuinely strong case for the rejected option, you have not understood the decision well enough to defend yours.',
@@ -416,21 +618,6 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
     title: `Add a defended Tradeoff section to ${MEMO}`,
     summary:
       `Take YOUR decision and write a "Tradeoff" section with: at least two REAL options (each must win under some condition), the one or two binding constraints that actually decide it, the chosen option justified BY that constraint (not a pro/con tally), an explicit reversal condition (the specific change that would flip your choice), and the risk-if-wrong — reuse the failure you injected in Lesson 06. The win is a decision a reviewer could attack and you could defend without flinching.`,
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate presents this tradeoff in a design review. It looks balanced but is not a real decision. Find the flaw and repair it.',
-    brokenCode: `## Tradeoff: message queue
-Option A (Kafka): scalable, durable, industry standard, great ecosystem.
-Option B (SQS): simple, managed, less ops burden.
-Decision: Kafka, because it scores higher on our requirements overall.
-We can always revisit later if needed.`,
-    language: 'bash',
-    task:
-      'This is a pro-tally with a non-committal reversal. Name what is missing for it to be a defensible tradeoff, and repair it.',
-    fix:
-      'No binding constraint does the deciding — "scores higher overall" is a tally, not a reason. "Revisit later if needed" is not a reversal condition; it commits to nothing checkable. And SQS is described only by upsides too, so neither option shows where it loses. Repair: "Binding constraint: we are a 3-person team with no streaming experience and need this live in 4 weeks. Under that constraint, SQS wins — Kafka\'s ops burden is a 3-person team\'s biggest risk. Reversal condition: if we cross ~10k msg/s sustained OR need event replay, Kafka\'s durability earns its operational cost and we migrate. Risk if wrong: SQS\'s 256KB message limit forces a redesign if payloads grow — detection: alert at 200KB payloads." Now the constraint decides, and the reversal is concrete.',
   },
   {
     type: 'quiz',
@@ -488,11 +675,38 @@ We can always revisit later if needed.`,
 
 // ============================================================ LESSON 08
 // Testa Proof — close the loop with the strongest available evidence. CAPSTONE.
+// Hero visuals: code-walkthrough (the FILLED Proof section + roll-call) ·
+// diagram (the Testa mode ladder, strongest-first) ·
+// compare (weakest-proof-as-rigor vs named-strongest-mode).
+
+const PROOF_SECTION = `## Proof (Testa mode: executable test + contract check)
+# Capstone close. Strongest available evidence — and honesty about which it is.
+
+## Executable test (strongest mode available)
+Hot-path test asserts p99 < 300ms.
+FAILED pre-cache (740ms) -> PASSES cached (210ms). Both runs attached.
+
+## Contract check (closes the L06 failure)
+10k sampled reads: cached price == source-of-truth price.
+Result: 0 mismatches over 24h. (Proves the L06 stale-price failure absent.)
+
+## Calibrated confidence
+4/5. Not 5: load test was synthetic; real hot-key traffic not yet reproduced.
+What would raise it: replay production traffic shape against the cache.
+
+## Portfolio claim (names the proof, not the topic)
+"Cut checkout p99 740ms -> 210ms with a targeted TTL cache, and proved
+correctness under the stale-price failure with a 24h contract check (0 mismatches)."
+
+## Module roll-call — the four-part artifact, complete
+Inspectable (L05) -> Failure injected + detected (L06) ->
+Tradeoff defended with reversal (L07) -> Proven, strongest evidence (L08).`
+
 const testaProofBlocks: LessonBlock[] = [
   {
     type: 'sprint-contract',
     outcome:
-      `Close ${MEMO} with a Testa proof: the strongest available evidence that the decision actually holds — executable test, contract or schema check, a domain check (a11y/security/reliability/eval), or a reviewer rubric when execution is impossible — and a one-line portfolio claim that names the proof, not the topic.`,
+      `Close ${MEMO} with a Testa proof: the strongest available evidence that the decision actually holds — executable test, contract/schema check, a domain check (a11y/security/reliability/eval), or a reviewer rubric when execution is impossible — and a one-line portfolio claim that names the proof, not the topic.`,
     intensity: 'capstone',
     time: '25–35 min',
     proof:
@@ -503,87 +717,108 @@ const testaProofBlocks: LessonBlock[] = [
   },
   {
     type: 'mission',
-    text: 'This is the close of Build & Prove, and it is the difference between an engineer people trust and one they double-check. You have a memo that is inspectable, that fails honestly, and that defends its tradeoff. None of it matters if, when a reviewer says "prove it", you reach for a vibe. Testa proof is the discipline of reaching for the STRONGEST evidence the situation allows — and being honest about how strong that is. Run a real test if code exists. Check the contract if the artifact is structured. Run the security or reliability check if the domain demands it. And when none of that is possible, a rigorous reviewer rubric — not a shrug. The proof, and your honesty about its strength, is what you put your name on.',
+    text: 'The close of Build & Prove, and the difference between an engineer people trust and one they double-check. Your memo is inspectable, fails honestly, and defends its tradeoff. None of it matters if, when a reviewer says "prove it", you reach for a vibe. Testa proof is reaching for the STRONGEST evidence the situation allows — and being honest about how strong that is.',
   },
   {
     type: 'context',
-    text: 'Final lesson of Build & Prove, and the capstone of the module. Roll the call: in Lesson 05 you built a tiny, inspectable artifact; in Lesson 06 you injected the most realistic failure and demanded a detection signal; in Lesson 07 you defended the choice as a tradeoff with a reversal condition. This lesson closes the loop — you prove the thing holds with the strongest evidence available, calibrate your confidence to match that evidence, and turn the whole memo into a portfolio claim. This same four-part artifact — inspectable, injected, defended, proven — is exactly what the course capstone reuses. If you can produce it on demand, you have the engineering judgment this whole course was built to give you.',
+    text: 'Final lesson of Build & Prove, the capstone. Roll the call: L05 built a tiny inspectable artifact; L06 injected the most realistic failure and demanded a detection signal; L07 defended the choice as a tradeoff with a reversal condition. This lesson closes the loop — prove it holds with the strongest evidence, calibrate confidence to that evidence, and turn the memo into a portfolio claim. This same four-part artifact is exactly what the course capstone reuses.',
   },
   {
     type: 'pretest',
     prompt:
       'You changed a config and the bug went away, so you write "fixed and verified." Before reading on — under the Testa discipline, why is "the symptom disappeared" often the WEAKEST proof, not the strongest?',
     reveal:
-      'A vanished symptom proves the symptom is gone right now — not that you fixed the cause, and not that it stays gone. The bug could be intermittent (gone by luck of timing), or your change masked it (the cause still lurks), or it depended on load you are not currently generating. The strongest available proof targets the CAUSE and is repeatable: a failing test that now passes (and that failed before your fix), a contract check the artifact must satisfy, a load test that reproduces the original condition. "The symptom disappeared" is where proof STARTS, not where it ends. Testa discipline forces the question: what is the strongest evidence this situation actually allows, and did I run THAT?',
+      'A vanished symptom proves the symptom is gone right now — not that you fixed the cause, and not that it stays gone. The bug could be intermittent (gone by luck of timing), or your change masked it (the cause still lurks), or it depended on load you are not currently generating. The strongest available proof targets the CAUSE and is repeatable: a failing test that now passes (and failed before your fix), a contract check the artifact must satisfy, a load test that reproduces the original condition. "The symptom disappeared" is where proof STARTS, not where it ends. Testa forces the question: what is the strongest evidence this situation actually allows, and did I run THAT?',
   },
   {
     type: 'concept',
     title: 'Testa proof: the strongest evidence the situation allows — and honesty about which one it is',
-    text: 'The invariant: a decision is proven only by the strongest evidence mode available, named explicitly so its strength is legible. The modes, strongest to weakest: (1) executable test — if code exists, a test that FAILED before and PASSES after, run by you; (2) contract or schema check — if the artifact is structured, validate it against its contract; (3) domain check — accessibility, security, reliability, or eval check when the domain demands it; (4) reviewer rubric — when execution is genuinely impossible, a rigorous rubric a second person could apply identically. The skill is two-fold: reach for the strongest mode the situation allows (not the easiest), and STATE which mode you used so a reviewer can judge the proof\'s strength. "No proof" is not a tier — it is the absence of the skill. Pair the proof with calibrated confidence: your stated confidence should track the strength of the proof, not your mood.',
+    text: 'A decision is proven only by the strongest evidence mode available, named so its strength is legible. Strongest to weakest: (1) executable test — failed before, passes after, run by you; (2) contract/schema check; (3) domain check (a11y/security/reliability/eval); (4) reviewer rubric when execution is impossible. Reach for the strongest mode, not the easiest — and say which one. Pair it with calibrated confidence that tracks the proof, not your mood.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'Prove the caching decision from the module. Watch the strongest available mode get selected, and confidence get calibrated to it.',
-    steps: [
-      'Identify the artifact type: structured config + running code exists -> executable + contract modes are available, so a reviewer rubric alone would be cheating.',
-      'Strongest mode 1 (executable): "Wrote a test that hits the hot path 1000x and asserts p99 < 300ms. It FAILED on the pre-cache build (p99 = 740ms) and PASSES on the cached build (p99 = 210ms). Both runs attached."',
-      'Strongest mode 2 (contract): "The Lesson 06 failure was stale prices. Added a contract check: for 10k sampled reads, cached price == source-of-truth price. Result: 0 mismatches over 24h." This proves the injected failure does not occur.',
-      'Calibrate confidence: "Confidence 4/5. Not 5 — the load test used synthetic traffic; real traffic has hot-key patterns I have not reproduced. The reversal condition from Lesson 07 (write volume) is not yet load-tested."',
-      'Portfolio claim (names the proof, not the topic): "Cut checkout p99 from 740ms to 210ms with a targeted TTL cache, and proved correctness under the stale-price failure with a 24h source-of-truth contract check (0 mismatches)."',
-    ],
-    commonMistake:
-      'Claiming "proven" from the weakest mode because it was the easiest to reach — writing a reviewer rubric when an executable test was clearly possible, or asserting the symptom is gone without a test that failed first. The tell is a confidence level that does not match the evidence: "100% confident" off a single manual check. Calibrated confidence means your certainty tracks the proof\'s strength — and you say out loud what would raise it.',
-  },
-  {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'The Proof section, line by line',
+    subtitle: 'Prove the caching decision. Watch the strongest available mode get selected, the L06 failure closed, and confidence calibrated to the evidence.',
     filename: MEMO,
     language: 'bash',
-    code: `# ${MEMO} — the "Proof" section that closes the artifact (capstone).
-
-## Proof (Testa mode: executable test + contract check)
-- Executable: hot-path test asserts p99 < 300ms.
-  FAILED pre-cache (740ms) -> PASSES cached (210ms). Both runs attached.
-- Contract: 10k sampled reads, cached price == source-of-truth price.
-  Result: 0 mismatches over 24h. (Proves the Lesson 06 stale-price failure absent.)
-
-## Calibrated confidence
-4/5. Not 5: load test was synthetic; real hot-key traffic not yet reproduced.
-What would raise it: replay production traffic shape against the cache.
-
-## Portfolio claim (names the proof, not the topic)
-"Cut checkout p99 740ms -> 210ms with a targeted TTL cache, and proved
-correctness under the stale-price failure with a 24h source-of-truth contract
-check (0 mismatches)."
-
-## Module roll-call (the four-part artifact, complete)
-Inspectable (L05) -> Failure injected + detected (L06) -> Tradeoff defended with
-reversal condition (L07) -> Proven with the strongest available evidence (L08).`,
+    code: PROOF_SECTION,
+    steps: [
+      { lines: [4, 5, 6], label: 'Executable: strongest mode available', note: 'Running code exists, so a reviewer rubric would be cheating. The test FAILED pre-cache (740ms) and PASSES cached (210ms) — failed-then-passed is the proof, not "it works".' },
+      { lines: [8, 9, 10], label: 'Contract check closes L06', note: 'The Lesson 06 injected failure was stale prices. 10k sampled reads, 0 mismatches over 24h — this proves the injected failure does not occur. The module closes its own loop.' },
+      { lines: [12, 13], label: 'Calibrate confidence to the proof', note: '4/5, not 5 — the load test used synthetic traffic. Confidence tracks the evidence, and you say out loud what would raise it.' },
+      { lines: [16, 17], label: 'Portfolio claim names the PROOF', note: 'Not "I worked on caching" — "cut p99 740ms -> 210ms and proved correctness with a 24h contract check (0 mismatches)." Interview-ready: X under constraint Y, proved with Z.' },
+      { lines: [20, 21], label: 'Module roll-call', note: 'Inspectable (L05) -> injected + detected (L06) -> defended with reversal (L07) -> proven (L08). The four-part artifact, complete — what the course capstone asks for on demand.' },
+    ],
+    caption: 'Proven means strongest-available-and-named, with confidence that tracks the evidence. That standard, applied honestly, is the judgment this course exists to build.',
+  },
+  {
+    type: 'diagram',
+    title: 'The Testa mode ladder',
+    subtitle: 'Reach for the strongest mode the situation ALLOWS, not the easiest — and name it. "No proof" is not a tier; it is the absence of the skill. Confidence is calibrated to whichever rung you reached.',
+    rankdir: 'TB',
+    nodes: [
+      { id: 'executable', label: '1 · Executable test', description: 'failed before, passes after', kind: 'process', tone: 'success' },
+      { id: 'contract', label: '2 · Contract / schema', description: 'validate against the contract', kind: 'process', tone: 'accent' },
+      { id: 'domain', label: '3 · Domain check', description: 'a11y / security / reliability / eval', kind: 'process', tone: 'accent' },
+      { id: 'rubric', label: '4 · Reviewer rubric', description: 'only when execution is impossible', kind: 'process', tone: 'warning' },
+      { id: 'confidence', label: 'Calibrated confidence', description: 'tracks the rung you reached', kind: 'decision', tone: 'success' },
+    ],
+    edges: [
+      { from: 'executable', to: 'contract', label: 'else drop to', kind: 'control' },
+      { from: 'contract', to: 'domain', label: 'else drop to', kind: 'control' },
+      { from: 'domain', to: 'rubric', label: 'last resort', kind: 'control', tone: 'warning' },
+      { from: 'executable', to: 'confidence', label: 'name the mode', kind: 'data', tone: 'success' },
+      { from: 'rubric', to: 'confidence', label: 'lower the score', kind: 'data', tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'success', label: 'strongest available — reach for this' },
+      { tone: 'accent', label: 'mid-strength modes' },
+      { tone: 'warning', label: 'weakest — only if nothing stronger is possible' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Weakest proof dressed as rigor vs a named strongest mode',
+    subtitle: 'A teammate marks a decision "proven" and moves on. The proof is the weakest possible one in a suit. Spot it — then read the repair.',
+    mono: true,
+    left: {
+      label: 'Weakest, dressed up',
+      tone: 'warning',
+      lines: [
+        '## Proof',
+        'We tested it and it works.',
+        'Behaves correctly in our testing.',
+        'We are 100% confident, production-ready.',
+        'QA gave a thumbs up. Status: PROVEN.',
+      ],
+      verdict: 'No mode, no assertion, uncalibrated',
+    },
+    right: {
+      label: 'Strongest mode, named',
+      tone: 'success',
+      lines: [
+        'Testa mode: executable.',
+        'Discounted total for known cart == $42.30;',
+        '  FAILED pre-fix ($47.00) -> PASSES now.',
+        'Edge cases (empty cart, 100% off) covered.',
+        'Confidence 4/5 — concurrent discount+tax',
+        '  rounding not yet tested (next test).',
+        'Status: proven for single-discount path.',
+      ],
+      verdict: 'Names mode, strength, and honest boundary',
+    },
+    caption: '"We tested it and it works" names nothing that would have failed if the code were broken; "100% confident" is uncalibrated by definition. The repair states the mode, the failed-then-passed assertion, and the unproven boundary.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The senior tell that beginners never show: stating what would CHANGE your mind, attached to your proof. "Confidence 4/5; it drops to 2 if the load test does not hold at 3x traffic" signals that your confidence is a measured quantity tracking evidence, not a personality trait. Anyone can say "I am confident." Saying exactly what observation would lower your confidence — and by how much — is the difference between calibration and bravado. Reviewers trust calibrated engineers with bigger decisions, because calibration is the thing that makes your "I am confident" worth believing.',
+    text: 'The senior tell beginners never show: stating what would CHANGE your mind, attached to your proof. "Confidence 4/5; it drops to 2 if the load test does not hold at 3x traffic" signals that your confidence is a measured quantity tracking evidence, not a personality trait. Anyone can say "I am confident." Saying exactly what observation would lower your confidence — and by how much — is the difference between calibration and bravado. Reviewers trust calibrated engineers with bigger decisions, because calibration is what makes your "I am confident" worth believing.',
   },
   {
     type: 'lab',
     title: `Close ${MEMO} with a Testa proof, calibrated confidence, and a portfolio claim`,
     summary:
       `Take YOUR decision and add a "Proof" section: (1) name the STRONGEST Testa mode the situation allows — executable test, contract/schema check, domain check, or reviewer rubric — and run it, recording the concrete result; if you used a test, it must have FAILED before and PASSED after. (2) Add a calibrated-confidence line (1-5) with what would raise or lower it. (3) Write a one-line portfolio claim of the form "I decided X under constraint Y and proved it with Z" — naming the proof, not just the topic. The win is a complete four-part artifact you could hand to a reviewer or paste into a portfolio.`,
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate marks a decision "proven" and moves on. The proof is the weakest possible one dressed up as rigor. Find the flaw and repair it.',
-    brokenCode: `## Proof
-We tested it and it works. The feature behaves correctly in our testing and we
-are 100% confident it is production-ready. QA gave a thumbs up.
-Status: PROVEN.`,
-    language: 'bash',
-    task:
-      'Name why this is the weakest proof masquerading as the strongest, then rewrite it under the Testa discipline.',
-    fix:
-      '"We tested it and it works" names no mode, no assertion, and nothing that would have failed if the code were broken — an untestable claim. "100% confident" is uncalibrated by definition. "QA thumbs up" is an appeal to authority, not evidence a reviewer can re-run. Repair: "Testa mode: executable. Test asserts the discounted total for a known cart == $42.30; it FAILED on the pre-fix build ($47.00) and PASSES now. Edge cases (empty cart, 100% discount) covered. Confidence 4/5 — not 5 because we have not tested concurrent discount + tax-rounding; that is the next test. Status: proven for the single-discount path; the concurrent path is unproven and flagged." Now the proof states its mode, its strength, and its honest boundary.',
   },
   {
     type: 'quiz',

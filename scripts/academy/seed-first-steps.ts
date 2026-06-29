@@ -61,11 +61,11 @@ const firstProgramBlocks = [
   },
   {
     type: 'mission',
-    text: 'Right now the computer does nothing you tell it — because you have never told it anything. In the next twenty minutes that ends. You will type one line, press Run, and watch a machine do exactly what you said. Every programmer alive remembers this moment. After today, so will you.',
+    text: 'Right now the computer does nothing you tell it — because you have never told it anything. In the next twenty minutes you type one line, press Run, and watch a machine do exactly what you said.',
   },
   {
     type: 'context',
-    text: 'Everything you will ever build — games, websites, data tools, AI — is just instructions you write and the computer runs, one after another. The whole job rests on a single loop: you EDIT the instructions, you RUN them, you SEE what happened, and you adjust. Master that loop on day one and nothing later feels like magic — just more instructions.',
+    text: 'Everything you will ever build is just instructions you write and the computer runs, one after another. The whole job rests on one loop: edit, run, see, adjust.',
   },
   {
     type: 'pretest',
@@ -77,35 +77,70 @@ const firstProgramBlocks = [
   {
     type: 'concept',
     title: 'A program is instructions; print() shows text on screen',
-    text: 'A program is a list of instructions the computer runs from top to bottom, in order. The most basic instruction is print(...): it displays whatever you put inside the parentheses on screen (called the "output"). To show literal text, you wrap it in quotes — "like this" — so the computer knows it is text to display, not a command to run. That wrapped text is called a string. One idea today: you write print("..."), you run it, the text appears.',
+    text: 'A program runs instructions top to bottom. print(...) displays whatever is inside the parentheses; text goes in quotes so the computer shows it literally — that quoted text is a string.',
   },
   {
-    type: 'worked-example',
-    intro: 'Let us print a line, step by step. Read each part of this one instruction:',
-    language: 'python',
-    code: `print("Hello, world!")`,
-    steps: [
-      'print is the instruction — it means "show this on screen".',
-      'The parentheses ( ) hold what you want to show.',
-      'The quotes " " mark the text (the string) you want printed — exactly what is inside them appears.',
-      'Run it, and the output is the line:  Hello, world!',
-      'Change the text inside the quotes, run again, and the output changes to match — that is the edit, run, see loop.',
-    ],
-    commonMistake:
-      'Forgetting the quotes — writing print(Hello) instead of print("Hello"). Without quotes the computer thinks Hello is a command to look up (and there is none), so it errors. Text you want shown LITERALLY always goes inside quotes.',
-  },
-  {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'Your first instruction, part by part',
+    subtitle: 'One line of Python — read each piece, then watch the output appear.',
     filename: 'hello.py',
     language: 'python',
     code: `print("Hello, world!")
 print("I just ran my first program.")`,
-    // Two instructions, run top to bottom — proves order matters and you can have more than one line.
+    steps: [
+      { lines: [1], label: 'print is the instruction', note: 'It means "show this on screen". The output it produces is the line you see below the code.' },
+      { lines: [1], label: 'The parentheses hold what to show', note: 'Everything between ( and ) is what print displays.' },
+      { lines: [1], label: 'Quotes mark the text', note: 'The " " wrap a string — exactly what is inside them is printed: Hello, world!' },
+      { lines: [2], label: 'A second instruction runs next', note: 'Programs run top to bottom, so this line prints AFTER the first. Order is something you control.' },
+      { lines: [1, 2], label: 'Edit · run · see', note: 'Change the text inside the quotes, press Run, and the output changes to match. That loop is the whole job.' },
+    ],
+    caption: 'Output, in order: Hello, world! then I just ran my first program.',
+  },
+  {
+    type: 'diagram',
+    title: 'The loop every programmer lives in',
+    subtitle: 'You edit the instruction, run it, read the output, and adjust — round and round.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'edit', label: 'Edit', description: 'type print("...")', kind: 'process', tone: 'accent' },
+      { id: 'run', label: 'Run', description: 'press Run', kind: 'process' },
+      { id: 'see', label: 'See output', description: 'read what appeared', kind: 'store', tone: 'success' },
+      { id: 'adjust', label: 'Adjust', description: 'fix or extend', kind: 'decision' },
+    ],
+    edges: [
+      { from: 'edit', to: 'run', label: 'instructions', kind: 'data' },
+      { from: 'run', to: 'see', label: 'produces', kind: 'data', tone: 'success' },
+      { from: 'see', to: 'adjust', label: 'compare to goal', kind: 'control' },
+      { from: 'adjust', to: 'edit', label: 'try again', kind: 'control', dashed: true },
+    ],
+    legend: [
+      { tone: 'accent', label: 'where you type' },
+      { tone: 'success', label: 'what the computer shows back' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Quoted vs unquoted text',
+    subtitle: 'The same word, with and without quotes — only one runs.',
+    mono: true,
+    left: {
+      label: 'No quotes — error',
+      tone: 'warning',
+      lines: ['print(Hello)', 'Hello is read as a command to look up', 'there is no such command', 'NameError: name \'Hello\' is not defined'],
+      verdict: 'The computer cannot find "Hello"',
+    },
+    right: {
+      label: 'Quoted — a string',
+      tone: 'success',
+      lines: ['print("Hello")', '"Hello" is text to display, not a command', 'the quotes mark it as a string', 'output: Hello'],
+      verdict: 'Literal text always goes in quotes',
+    },
+    caption: 'Text you want shown LITERALLY always goes inside quotes — the #1 beginner fix.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'Here is the habit that separates people who get unstuck fast from people who panic: an error is not the computer scolding you — it is the computer telling you exactly where it got confused. Read it, do not fear it. And on day one, nine times out of ten the answer is a quote: it must wrap the WHOLE piece of text — opening quote, your text, closing quote — "Hello, world!". Mismatched or missing quotes is the #1 beginner error. When something breaks, check your quotes first, then read the message.',
+    text: 'Here is the habit that separates people who get unstuck fast from people who panic: an error is not the computer scolding you — it is the computer telling you exactly where it got confused. Read it, do not fear it. And on day one, nine times out of ten the answer is a quote: it must wrap the WHOLE piece of text — opening quote, your text, closing quote — "Hello, world!". When something breaks, check your quotes first, then read the message.',
   },
   {
     type: 'lab',
@@ -191,11 +226,11 @@ const variablesBlocks = [
   },
   {
     type: 'mission',
-    text: 'In Lesson 1 you printed a line — then the computer forgot it the instant it ran. But real programs remember: a score that climbs, a price that drops at checkout, a total built from parts. Today you give a value a name you can hold onto and reuse. That is the leap from a program that says something once to a program that actually keeps track — and next lesson, those remembered values start doing math.',
+    text: 'In Lesson 1 you printed a line — then the computer forgot it instantly. Real programs remember: a score that climbs, a total built from parts. Today you give a value a name you can hold onto and reuse.',
   },
   {
     type: 'context',
-    text: 'A variable is the most-used thing in all of programming. Every score, total, username, setting, and result you will ever work with lives in one. Get comfortable with "store a value under a name, then use the name" now, and every later topic — calculations, decisions, loops — is just variables being read and changed.',
+    text: 'A variable is the most-used thing in all of programming — every score, total, and result lives in one. Master "store under a name, then use the name" and every later topic is just variables being read and changed.',
   },
   {
     type: 'pretest',
@@ -207,40 +242,68 @@ const variablesBlocks = [
   {
     type: 'concept',
     title: 'A variable is a name that holds a value',
-    text: 'A variable is a name you attach to a value so you can use it later. You create one with assignment: name = value. The single = means "put the value on the right into the name on the left" (it is NOT the "equals" from math). Read the variable just by using its name — anywhere you write the name, the computer substitutes its current value. Assign to it again and the new value replaces the old one (reassignment). One value at a time, always the latest.',
+    text: 'Create one with assignment: name = value. The single = stores the right side into the name on the left (not math "equals"). Use the name to read its current value; assign again and the new value replaces the old.',
   },
   {
-    type: 'worked-example',
-    intro: 'Store a value, use it, then change it — watch the name follow the latest value:',
+    type: 'code-walkthrough',
+    title: 'Store, read, then reassign',
+    subtitle: 'Watch the name follow its latest value as each line runs.',
+    filename: 'variables.py',
     language: 'python',
     code: `price = 20          # store 20 under the name "price"
 print(price)        # use the name -> shows 20
-price = price - 5   # take the current price (20), subtract 5, store the result back
+price = price - 5   # compute the right side, store it back
 print(price)        # the name now holds 15 -> shows 15`,
     steps: [
-      'price = 20 puts the value 20 into the name price.',
-      'print(price) reads the name and shows its current value, 20.',
-      'price = price - 5 is read right-side first: compute 20 - 5 = 15, THEN store 15 back into price.',
-      'The old 20 is replaced — a variable holds only its latest value.',
-      'print(price) now shows 15. Same name, new value.',
+      { lines: [1], label: 'Assignment stores a value', note: 'price = 20 puts the value 20 into the name price. The single = means "store", not "is equal to".' },
+      { lines: [2], label: 'Read by using the name', note: 'print(price) substitutes the current value of price → shows 20.' },
+      { lines: [3], label: 'Right side first, then store', note: 'Compute 20 - 5 = 15, THEN store 15 back into price. The old 20 is replaced — a variable holds only its latest value.' },
+      { lines: [4], label: 'Same name, new value', note: 'print(price) now shows 15. The name followed the latest assignment.' },
     ],
-    commonMistake:
-      'Reading  price = price - 5  as a math equation (which would be impossible) instead of an instruction. It is not a claim that price equals price-minus-5; it is a command: "work out the right side, then store that into the name on the left."',
+    caption: 'price = price - 5 is a command, not a claim that price equals price minus five.',
   },
   {
-    type: 'code',
-    filename: 'variables.py',
-    language: 'python',
-    code: `per_box = 6          # eggs in one box
-boxes = 3            # number of boxes
-total_eggs = per_box * boxes   # use both names in a calculation
-print(total_eggs)              # -> 18`,
-    // Names make the calculation readable: total_eggs = per_box * boxes says what it MEANS.
+    type: 'diagram',
+    title: 'Assignment: a labelled box',
+    subtitle: 'The right side is computed, then dropped into the box on the left. Reading the name reads the box.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'value', label: 'per_box * boxes', description: 'compute the right side first', kind: 'process', tone: 'accent' },
+      { id: 'box', label: 'total_eggs', description: 'the named box (the variable)', kind: 'store', tone: 'success' },
+      { id: 'read', label: 'print(total_eggs)', description: 'read the box by its name', kind: 'process' },
+    ],
+    edges: [
+      { from: 'value', to: 'box', label: 'store with =', kind: 'data', tone: 'accent' },
+      { from: 'box', to: 'read', label: 'substitutes 18', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'the value being stored' },
+      { tone: 'success', label: 'the variable that holds it' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Cryptic names vs meaningful names',
+    subtitle: 'Same calculation, two ways to name it. One reads itself.',
+    mono: true,
+    left: {
+      label: 'Cryptic',
+      tone: 'warning',
+      lines: ['p = 6', 'b = 3', 't = p * b', '# what is t? scroll back to find out'],
+      verdict: 'Forces the next reader to reconstruct meaning',
+    },
+    right: {
+      label: 'Meaningful',
+      tone: 'success',
+      lines: ['per_box = 6', 'boxes = 3', 'total_eggs = per_box * boxes', '# the line explains itself'],
+      verdict: 'Name the value for its meaning',
+    },
+    caption: 'lowercase with underscores between words (per_box, max_score) — a name is the cheapest documentation you write.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'Pros treat a variable name as the cheapest documentation they will ever write. total_eggs explains itself; t and x force the next reader (usually future-you, at 11pm, debugging) to scroll back and reconstruct what it meant. The rule working programmers follow: name the value for its MEANING, lowercase with underscores between words (per_box, max_score). A good name is not neatness — it is how code stays readable long after you have forgotten writing it.',
+    text: 'Pros treat a variable name as the cheapest documentation they will ever write. total_eggs explains itself; t and x force the next reader (usually future-you, at 11pm, debugging) to scroll back and reconstruct what it meant. The rule working programmers follow: name the value for its MEANING, lowercase with underscores between words. A good name is not neatness — it is how code stays readable long after you have forgotten writing it.',
   },
   {
     type: 'lab',
@@ -335,11 +398,11 @@ const numbersStringsBlocks = [
   },
   {
     type: 'mission',
-    text: 'In Lesson 2 you added numbers and it just worked. So this will rattle you: ask a user for two quantities, add them, and you get "23" instead of 5 — and nothing looks wrong. The culprit is that your values have a hidden property called a type, and text and numbers obey different rules under the same + sign. Today you learn to see that hidden property. This single lesson kills more baffling beginner bugs than any other — and it is the groundwork for every form, file, and keyboard input you will ever handle.',
+    text: 'In Lesson 2 you added numbers and it just worked. So this will rattle you: add two quantities and get "23" instead of 5 — because your values have a hidden property called a type, and text and numbers obey different rules under the same + sign.',
   },
   {
     type: 'context',
-    text: 'Every value in a program has a type — and the type decides what operations mean. Numbers add; text joins. Input from forms, files, and the keyboard almost always arrives as TEXT, even when it looks like a number — so knowing how to tell them apart and convert between them is the foundation under input handling, validation, and clean output for everything you build later.',
+    text: 'Every value has a type, and the type decides what an operation means: numbers add, text joins. Input from forms, files, and the keyboard arrives as TEXT even when it looks like a number — so telling them apart and converting is foundational.',
   },
   {
     type: 'pretest',
@@ -351,42 +414,70 @@ const numbersStringsBlocks = [
   {
     type: 'concept',
     title: 'Values have types: int, float, and str',
-    text: 'Three everyday types: int is a whole number (4, -7, 0); float is a number with a decimal point (4.0, 3.14); str is text — anything in quotes ("Coffee", "4"). The type decides what + does: on numbers it adds (2 + 3 = 5); on strings it joins ("2" + "3" = "23"). Note "4" (with quotes) is text, while 4 is a number — they look alike but behave completely differently. To switch between them you convert deliberately: int("4") turns the text "4" into the number 4; str(4) turns the number 4 into the text "4".',
+    text: 'int is a whole number (4); float has a decimal (3.14); str is text in quotes ("4"). The type decides what + means — numbers add, strings join. Convert deliberately: int("4") gives 4; str(4) gives "4".',
   },
   {
-    type: 'worked-example',
-    intro: 'Do the math on numbers, then build the text with an f-string. Read how the pieces fit:',
+    type: 'compare',
+    title: 'The same + sign, two meanings',
+    subtitle: 'The TYPE of the values decides what + does. This is the whole lesson.',
+    mono: true,
+    left: {
+      label: 'Strings — joins',
+      tone: 'warning',
+      lines: ['"2" + "3"', 'both are text (in quotes)', '+ on text glues end to end', 'result: "23"'],
+      verdict: 'Concatenation, not addition',
+    },
+    right: {
+      label: 'Numbers — adds',
+      tone: 'success',
+      lines: ['2 + 3', 'both are int (no quotes)', '+ on numbers does arithmetic', 'result: 5'],
+      verdict: 'Real addition',
+    },
+    caption: '"4" with quotes is text; 4 without is a number. They look alike and behave completely differently.',
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Compute on numbers, format with an f-string',
+    subtitle: 'Do the math first, then drop the values into text with { }.',
+    filename: 'receipt.py',
     language: 'python',
     code: `price = 4
 qty = 3
 total = price * qty          # numbers -> arithmetic -> 12 (an int)
 
-# An f-string starts with f"..." and runs whatever is inside { } and drops the
-# result into the text. Numbers are turned into text automatically here.
 line = f"Total for {qty} items: \${total}"
 print(line)                  # -> Total for 3 items: $12`,
     steps: [
-      'price and qty are ints, so price * qty does real multiplication → 12.',
-      'An f-string is text that starts with the letter f before the opening quote.',
-      'Inside the f-string, anything in { } is evaluated and its value dropped in: {qty} → 3, {total} → 12.',
-      'The dollar sign and the words are plain text; only the { } parts get replaced.',
-      'print(line) shows the finished line: Total for 3 items: $12.',
+      { lines: [1, 2], label: 'These are numbers (int)', note: 'No quotes, so price and qty are ints — ready for arithmetic.' },
+      { lines: [3], label: 'Multiply the numbers', note: 'price * qty does real multiplication → 12, an int.' },
+      { lines: [5], label: 'An f-string starts with f', note: 'The f before the opening quote turns on substitution; anything in { } is evaluated and dropped in.' },
+      { lines: [5], label: 'Only the { } parts get replaced', note: '{qty} → 3, {total} → 12. The dollar sign and words are plain text. Numbers become text automatically here.' },
+      { lines: [6], label: 'Print the finished line', note: 'Output: Total for 3 items: $12 — numbers computed, then formatted.' },
     ],
-    commonMistake:
-      'Trying to join a number and text with +, like "Total: " + total — that errors, because you cannot + text and a number. Either convert the number with str(total), or (better) use an f-string: f"Total: {total}". F-strings handle the conversion for you.',
+    caption: 'Joining a number to text with + (like "Total: " + total) errors — use an f-string, which converts for you.',
   },
   {
-    type: 'code',
-    filename: 'convert.py',
-    language: 'python',
-    code: `typed = "25"           # text from a form/keyboard — looks like a number, but it's a str
-print(typed + typed)   # text + text JOINS -> "2525"
-
-age = int(typed)       # convert the text to a real number
-print(age + 1)         # now arithmetic works -> 26
-
-label = "Age: " + str(age)   # convert a number back to text to join it
-print(label)                 # -> Age: 25`,
+    type: 'diagram',
+    title: 'Converting across the type boundary',
+    subtitle: 'Text that looks numeric is str until int() crosses it over; str() crosses a number back to text.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'str', label: '"25"', description: 'str — from a form/keyboard', kind: 'store', tone: 'warning' },
+      { id: 'toint', label: 'int("25")', description: 'parse text to a number', kind: 'process', tone: 'accent' },
+      { id: 'num', label: '25', description: 'int — arithmetic works', kind: 'store', tone: 'success' },
+      { id: 'tostr', label: 'str(25)', description: 'number back to text', kind: 'process', tone: 'accent' },
+    ],
+    edges: [
+      { from: 'str', to: 'toint', label: 'convert', kind: 'data' },
+      { from: 'toint', to: 'num', label: 'now 25 + 1 = 26', kind: 'data', tone: 'success' },
+      { from: 'num', to: 'tostr', label: 'convert', kind: 'data' },
+      { from: 'tostr', to: 'str', label: 'now joins with +', kind: 'data' },
+    ],
+    legend: [
+      { tone: 'warning', label: 'text (str) — joins under +' },
+      { tone: 'success', label: 'number (int) — adds under +' },
+      { tone: 'accent', label: 'a deliberate conversion' },
+    ],
   },
   {
     type: 'callout',
@@ -492,11 +583,11 @@ const readingInputBlocks = [
   },
   {
     type: 'mission',
-    text: 'Every program you have written so far already knew its answer — the name, the price, the scores were all typed in by you. But a real program does not know in advance who is using it or what they want. It has to ask, and then work with whatever comes back. Today your program stops talking to itself and starts listening: it reads a line the user provides, holds onto it, and builds its output around it. The same program now gives a different, correct answer for every different input — and once it can read what someone gives it, the very next step is to DECIDE based on what it heard.',
+    text: 'Every program you have written already knew its answer — you typed it in. A real program does not know who is using it; it has to ask. Today your program stops talking to itself and starts listening.',
   },
   {
     type: 'context',
-    text: 'Reading input is the front door of almost every program: a login form, a search box, a survey, a command typed at a terminal, a number scanned from a file. The whole job is the same shape — pull in a value from the outside, and (almost always) convert it before you compute with it, because input arrives as TEXT. Get comfortable with "read it, convert it, use it" now and every form, file, and prompt you ever handle is just this move repeated.',
+    text: 'Reading input is the front door of almost every program — a login form, a search box, a number from a file. The shape is always the same: pull in a value, convert it (input arrives as TEXT), then use it.',
   },
   {
     type: 'pretest',
@@ -508,43 +599,74 @@ const readingInputBlocks = [
   {
     type: 'concept',
     title: 'input() reads a line as text; convert with int() to get a number',
-    text: 'input() pauses the program, reads one line the user provides, and hands it back as a string — always text, even if it looks like a number. You usually store it in a variable: name = input(). (input() can take a prompt, like input("Name? "), but the prompt is just a hint shown to the user — it is not part of the value you get back.) Because the result is text, you must convert it when you need a number: int(input()) turns "3" into the whole number 3; float(input()) turns "3.5" into 3.5. This is exactly the "2" vs 2 type difference from Lesson 3 — the value arrives as a str, and you convert it deliberately. Once you have the pieces, build your output with an f-string, dropping the values in with { }.',
+    text: 'input() reads one line the user provides and hands it back as a string — always text. Convert when you need a number: int(input()) turns "3" into 3. It is the "2" vs 2 type difference from Lesson 3, at the boundary.',
   },
   {
-    type: 'worked-example',
-    intro: 'Read two lines, convert the numeric one, then build the output. Watch where int() goes:',
+    type: 'code-walkthrough',
+    title: 'Read · convert · use',
+    subtitle: 'Two lines come in as text; only the numeric one is converted. Watch where int() goes.',
+    filename: 'reading_input.py',
     language: 'python',
     code: `name = input()              # reads a line -> text, e.g. "Sam"
 age_text = input()          # reads the next line -> text, e.g. "30"
 age = int(age_text)         # convert that text to a real number -> 30
 
-# build the line with an f-string; next year's age needs the NUMBER
 print(f"Hi {name}, next year you turn {age + 1}.")`,
     steps: [
-      'The first input() reads one line and returns it as text; name becomes "Sam".',
-      'The second input() reads the NEXT line; age_text becomes the text "30".',
-      'int(age_text) converts that text into the number 30, stored in age.',
-      'Because age is now a real number, age + 1 does arithmetic → 31 (on text it would error).',
-      'The f-string drops name and the computed 31 into the sentence and prints it.',
+      { lines: [1], label: 'First input() → text', note: 'Reads one line and returns it as a string; name becomes "Sam". The prompt argument, if any, is just a hint — not part of the value.' },
+      { lines: [2], label: 'Second input() → next line', note: 'Each call reads the NEXT line in order; age_text becomes the text "30".' },
+      { lines: [3], label: 'Convert the numeric one', note: 'int(age_text) crosses the text "30" into the number 30, stored in age.' },
+      { lines: [5], label: 'Now arithmetic works', note: 'Because age is a real number, age + 1 → 31 (on text it would error). The f-string drops name and 31 into the sentence.' },
     ],
-    commonMistake:
-      'Doing math on the raw input, like  age_text + 1, or wrapping the wrong thing:  int(input()) + 1  is right, but  int(input() + 1)  errors because it tries to + text and a number BEFORE converting. Convert the input first, THEN compute: age = int(input()), then age + 1.',
+    caption: 'int(input()) is right; int(input() + 1) errors — it tries to + text and a number BEFORE converting. Convert first, then compute.',
   },
   {
-    type: 'code',
-    filename: 'reading_input.py',
-    language: 'python',
-    code: `name = input()              # text, e.g. "Sam"
-count = int(input())        # read the next line AND convert it to a number
-
-# count is a real number now, so it can be used in math or formatted cleanly
-print(f"{name}, you have {count} items.")   # -> Sam, you have 3 items.`,
-    // input() reads each line in order as text; int() converts the numeric one; f-string builds the exact line.
+    type: 'diagram',
+    title: 'Input crosses the boundary as text',
+    subtitle: 'Outside the program everything is text. Convert at the door, then the rest of the program can trust real numbers.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'user', label: 'User types 3', description: 'outside the program', kind: 'external', tone: 'muted' },
+      { id: 'input', label: 'input()', description: 'reads the line', kind: 'process' },
+      { id: 'str', label: '"3"', description: 'str — even though it looks numeric', kind: 'store', tone: 'warning' },
+      { id: 'int', label: 'int(...)', description: 'convert at the boundary', kind: 'process', tone: 'accent' },
+      { id: 'num', label: '3', description: 'int — ready for math', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'user', to: 'input', label: 'one line', kind: 'async' },
+      { from: 'input', to: 'str', label: 'always text', kind: 'data', tone: 'warning' },
+      { from: 'str', to: 'int', label: 'convert now', kind: 'data', tone: 'accent' },
+      { from: 'int', to: 'num', label: 'count + 1 = 4', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'warning', label: 'text as it arrives' },
+      { tone: 'accent', label: 'convert at the door' },
+      { tone: 'success', label: 'a real number, trusted downstream' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'Math on raw input vs convert first',
+    subtitle: 'The user types 3. Adding 1 should give 4 — only one version does.',
+    mono: true,
+    left: {
+      label: 'Raw input — crashes',
+      tone: 'warning',
+      lines: ['count = input()        # "3", a string', 'count + 1', '# cannot + text and a number', 'TypeError'],
+      verdict: 'Input is still text',
+    },
+    right: {
+      label: 'Convert at the boundary',
+      tone: 'success',
+      lines: ['count = int(input())   # 3, a number', 'count + 1', '# real arithmetic', 'result: 4'],
+      verdict: 'Convert the FIRST thing you do',
+    },
+    caption: 'int(input()) is right; int(input() + 1) errors — it + text and a number before converting. Convert first, then compute.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'Pros convert input the instant it arrives, right at the boundary — count = int(input()) on one line — not three lines later when they have forgotten it is still text. The bug that bites beginners is letting a "number" travel through the program as a string and only exploding when they finally try to add it. Make the conversion the FIRST thing you do with numeric input, and the rest of your program can trust it is a real number. (And know that if the user types something that is not a number, int() will error — handling that gracefully is a Foundations lesson; for now, trust the input.)',
+    text: 'Pros convert input the instant it arrives, right at the boundary — count = int(input()) on one line — not three lines later when they have forgotten it is still text. The bug that bites beginners is letting a "number" travel through the program as a string and only exploding when they finally try to add it. Make the conversion the FIRST thing you do with numeric input. (If the user types something that is not a number, int() will error — handling that gracefully is a Foundations lesson; for now, trust the input.)',
   },
   {
     type: 'lab',
@@ -636,11 +758,11 @@ const booleansBlocks = [
   },
   {
     type: 'mission',
-    text: 'Until now every line of your program ran, every time, no matter what — print, store, compute, in lockstep. But real programs decide: pass or fail, in stock or sold out, logged in or kicked out. Today you hand your program a fork in the road: it looks at a value, answers a yes/no question, and runs different code depending on the answer. This is the moment your code stops reciting and starts reacting — and soon you will run these same decisions across a whole list of values at once.',
+    text: 'Until now every line ran, every time, in lockstep. Real programs decide: pass or fail, in stock or sold out, logged in or kicked out. Today you hand your program a fork in the road.',
   },
   {
     type: 'context',
-    text: 'Every app you have ever used is built on decisions: show this if the password matches, charge less if there is a discount, warn the user if the field is empty. The whole skill is: turn a question into a True/False value, then branch on it. Get comfortable with if / elif / else now and every later topic — loops, validation, game logic — is just decisions repeated and combined.',
+    text: 'Every app you use is built on decisions: show this if the password matches, warn if the field is empty. The skill is turning a question into a True/False value, then branching on it.',
   },
   {
     type: 'pretest',
@@ -652,11 +774,13 @@ const booleansBlocks = [
   {
     type: 'concept',
     title: 'Comparisons make booleans; if / elif / else branch on them',
-    text: 'A boolean is a value that is either True or False — the answer to a yes/no question. You make one by comparing: == (equal to), != (not equal), < (less than), > (greater than), <= (at most), >= (at least). Watch the trap: == asks "are these equal?", while a single = stores a value — never mix them. Combine conditions with and (both must be True), or (at least one True), and not (flips True to False and back). Then if runs its indented block only when its condition is True; elif ("else if") checks the next condition only if the ones above were False; else runs when none matched. Python checks them top to bottom and takes the FIRST branch that is True — so order matters.',
+    text: 'A comparison (==, !=, <, >, <=, >=) produces a boolean: True or False. if runs its block when its condition is True; elif checks the next only if earlier ones were False; else catches the rest. Python takes the FIRST True branch.',
   },
   {
-    type: 'worked-example',
-    intro: 'Watch one value pick exactly one branch. Read it top to bottom, the way Python does:',
+    type: 'code-walkthrough',
+    title: 'One value picks exactly one branch',
+    subtitle: 'Read it top to bottom, the way Python does — the first True condition wins.',
+    filename: 'decide.py',
     language: 'python',
     code: `temp = 50
 
@@ -667,33 +791,60 @@ elif temp >= 60:
 else:
     print("Cold")         # runs: nothing above matched -> Cold`,
     steps: [
-      'temp is 50.',
-      'Python checks the if first: temp > 85 → 50 > 85 → False, so that block is skipped.',
-      'It checks the elif: temp >= 60 → 50 >= 60 → False, so that block is skipped too.',
-      'Nothing matched, so the else block runs and prints Cold.',
-      'Exactly ONE branch runs — the first True one, or else if none are True. Change temp to 90 and the very first branch wins instead.',
+      { lines: [1], label: 'The value under test', note: 'temp is 50. Python will check each condition against it in order.' },
+      { lines: [3, 4], label: 'Check the if first', note: 'temp > 85 → 50 > 85 → False, so this block is skipped entirely.' },
+      { lines: [5, 6], label: 'Then the elif', note: 'Only checked because the if was False. temp >= 60 → 50 >= 60 → False, so skipped too.' },
+      { lines: [7, 8], label: 'else catches the rest', note: 'Nothing above matched, so else runs and prints Cold. Change temp to 90 and the very first branch wins instead.' },
     ],
-    commonMistake:
-      'Using a single = in a condition, like  if temp = 50:  — that is a store, not a question, and Python errors. To COMPARE you need ==:  if temp == 50:. One equals stores, two equals asks.',
+    caption: 'Exactly ONE branch runs — the first True one, or else if none are True.',
   },
   {
-    type: 'code',
-    filename: 'decide.py',
-    language: 'python',
-    code: `age = 20
-has_ticket = True
-
-# "and" needs BOTH sides True; this is True only for a ticketed adult.
-if age >= 18 and has_ticket:
-    print("Enjoy the show")
-else:
-    print("Entry denied")     # -> for age 20 with a ticket, prints "Enjoy the show"`,
-    // Two conditions joined with and: the block runs only when both are True.
+    type: 'diagram',
+    title: 'How if / elif / else flows',
+    subtitle: 'Conditions are checked top to bottom; the first True branch runs and the rest are skipped.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'q1', label: 'temp > 85 ?', description: 'the if', kind: 'decision', tone: 'accent' },
+      { id: 'hot', label: 'print Hot', description: 'if-branch', kind: 'process' },
+      { id: 'q2', label: 'temp >= 60 ?', description: 'the elif', kind: 'decision', tone: 'accent' },
+      { id: 'comf', label: 'print Comfortable', description: 'elif-branch', kind: 'process' },
+      { id: 'cold', label: 'print Cold', description: 'else — the catch-all', kind: 'process', tone: 'success' },
+    ],
+    edges: [
+      { from: 'q1', to: 'hot', label: 'True', kind: 'control', tone: 'success' },
+      { from: 'q1', to: 'q2', label: 'False', kind: 'control', tone: 'warning' },
+      { from: 'q2', to: 'comf', label: 'True', kind: 'control', tone: 'success' },
+      { from: 'q2', to: 'cold', label: 'False', kind: 'control', tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'a comparison → True/False' },
+      { tone: 'success', label: 'the branch that runs' },
+      { tone: 'warning', label: 'condition was False — move on' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: '= stores, == asks',
+    subtitle: 'The single most common condition bug. One equals is not the other.',
+    mono: true,
+    left: {
+      label: 'Single = — error',
+      tone: 'warning',
+      lines: ['if temp = 50:', '= means "store 50 into temp"', 'you cannot store inside an if', 'SyntaxError'],
+      verdict: 'A store, not a question',
+    },
+    right: {
+      label: 'Double == — asks',
+      tone: 'success',
+      lines: ['if temp == 50:', '== asks "are these equal?"', 'produces True or False', 'the if can act on it'],
+      verdict: 'A real comparison',
+    },
+    caption: 'One equals stores, two equals asks. Combine conditions with and (both True), or (either True), not (flip).',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'In most languages, curly braces { } mark what is "inside" a branch. Python deletes the braces and uses the indentation itself — which means in Python, whitespace is not style, it is syntax. The colon at the end of the line opens the branch; the four-space indent underneath says "these lines belong to it." Pros internalize this once and never fight it again: a stray colon or a wrong indent does not look wrong, but it silently puts code in the wrong branch. When an if misbehaves, check the colon and the indentation before anything else.',
+    text: 'In most languages, curly braces { } mark what is "inside" a branch. Python deletes the braces and uses the indentation itself — which means in Python, whitespace is not style, it is syntax. The colon at the end of the line opens the branch; the four-space indent underneath says "these lines belong to it." A stray colon or a wrong indent does not look wrong, but it silently puts code in the wrong branch. When an if misbehaves, check the colon and the indentation before anything else.',
   },
   {
     type: 'lab',
@@ -785,11 +936,11 @@ const listsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Every variable you have made so far holds exactly one value — perfect for a single score, useless for fifty. Nobody writes score1, score2, score3 … score50. A list lets one name hold a whole sequence of values in order: grow it, read any slot by position, count it. It is the container almost every real program is built around — and the moment you have many values under one name, the next lesson hands you a way to act on all of them in a single stroke.',
+    text: 'Every variable so far holds one value — useless for fifty. Nobody writes score1, score2 … score50. A list lets one name hold a whole sequence in order: grow it, read any slot, count it.',
   },
   {
     type: 'context',
-    text: 'A todo app holds a list of tasks; a cart holds a list of items; a chart holds a list of numbers. Lists are how programs handle "many of something" — and next lesson, loops will let you do something to every item at once. Master "store many under one name, reach any one by position, add more" today, and loops become almost free.',
+    text: 'A todo app holds a list of tasks; a cart a list of items; a chart a list of numbers. Lists are how programs handle "many of something" — and next lesson, loops act on every item at once.',
   },
   {
     type: 'pretest',
@@ -801,11 +952,32 @@ const listsBlocks = [
   {
     type: 'concept',
     title: 'A list holds many values in order, reachable by index',
-    text: 'A list is an ordered collection of values written in square brackets, separated by commas: scores = [90, 75, 88]. The values keep their order. Reach any one by its index in square brackets — and indexes start at 0, so scores[0] is 90 and scores[2] is 88. Ask how many items there are with len(scores). Add a new item to the end with scores.append(100) — note the dot: append is something the list does to itself, and it changes the list in place (it does not return a new one). Ask whether a value is present with the word in: 75 in scores is True. Lists can hold numbers, strings, anything — and you can mix them.',
+    text: 'Write values in square brackets: scores = [90, 75, 88]. Reach one by index (starting at 0): scores[0] is 90. Count with len(scores). Grow with scores.append(100) — it changes the list in place. Test membership with 75 in scores.',
   },
   {
-    type: 'worked-example',
-    intro: 'Build a list, read it, measure it, grow it. Watch the length change:',
+    type: 'diagram',
+    title: 'A list is slots numbered from zero',
+    subtitle: 'Each value sits in a numbered slot. The index is "steps from the start" — and the start is zero steps away.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'i0', label: 'Ann', description: 'index 0 — first', kind: 'store', tone: 'accent' },
+      { id: 'i1', label: 'Ben', description: 'index 1', kind: 'store' },
+      { id: 'i2', label: 'Cy', description: 'index 2 — last (len - 1)', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'i0', to: 'i1', label: 'next', kind: 'data' },
+      { from: 'i1', to: 'i2', label: 'next', kind: 'data' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'names[0] — the first item' },
+      { tone: 'success', label: 'names[-1] — always the last item' },
+    ],
+  },
+  {
+    type: 'code-walkthrough',
+    title: 'Build · read · measure · grow',
+    subtitle: 'Watch the length change as the list grows in place.',
+    filename: 'lists.py',
     language: 'python',
     code: `names = ["Ann", "Ben"]   # a list of two strings, in order
 print(names[0])          # index 0 = the first item -> Ann
@@ -815,28 +987,32 @@ names.append("Cy")       # add "Cy" to the END (changes names in place)
 print(len(names))        # the list grew -> 3
 print(names[2])          # the new last item is at index 2 -> Cy`,
     steps: [
-      'names starts with two items: "Ann" at index 0, "Ben" at index 1.',
-      'names[0] reads the item at position 0 → "Ann".',
-      'len(names) counts the items → 2.',
-      'names.append("Cy") adds "Cy" to the end; the list is now ["Ann", "Ben", "Cy"].',
-      'len(names) is now 3, and names[2] (the new last slot) is "Cy".',
+      { lines: [1], label: 'Create with [ ]', note: 'Two items in order: "Ann" at index 0, "Ben" at index 1.' },
+      { lines: [2], label: 'Read by index', note: 'names[0] reads position 0 → "Ann". Indexes start at zero.' },
+      { lines: [3], label: 'Count with len()', note: 'len(names) → 2, the number of items.' },
+      { lines: [5], label: 'append grows it in place', note: 'The dot means append is something the list does to itself; it adds "Cy" to the END and changes the list — it does not return a new one.' },
+      { lines: [6, 7], label: 'The list is now longer', note: 'len(names) → 3, and names[2] (the new last slot) is "Cy". The last valid index is always len - 1.' },
     ],
-    commonMistake:
-      'Reaching past the end, like names[3] on a 3-item list. The valid indexes are 0, 1, 2 — index 3 does not exist, so Python errors with "list index out of range". The last valid index is always len(list) - 1, because counting starts at 0.',
+    caption: 'names[3] on a 3-item list errors ("list index out of range") — valid indexes are 0, 1, 2.',
   },
   {
-    type: 'code',
-    filename: 'lists.py',
-    language: 'python',
-    code: `cart = ["milk", "bread"]
-cart.append("eggs")          # cart is now ["milk", "bread", "eggs"]
-
-print(cart[0])               # first item -> milk
-print(len(cart))             # how many items -> 3
-
-if "eggs" in cart:           # membership: is "eggs" somewhere in the list?
-    print("Got the eggs")    # -> Got the eggs`,
-    // .append grows the list; [0] reads by position; len() counts; "in" tests membership.
+    type: 'compare',
+    title: 'Index from the front vs from the end',
+    subtitle: 'Two ways to grab the last item of a list. One breaks when the length changes.',
+    mono: true,
+    left: {
+      label: 'Hardcoded position — fragile',
+      tone: 'warning',
+      lines: ['colors = ["red", "blue", "green"]', 'colors[3]  # guessing the last index', 'list has indexes 0, 1, 2 only', 'IndexError: list index out of range'],
+      verdict: 'Breaks the moment the length changes',
+    },
+    right: {
+      label: 'Negative index — robust',
+      tone: 'success',
+      lines: ['colors = ["red", "blue", "green"]', 'colors[-1]  # count from the end', '-1 is always the final item', 'result: green'],
+      verdict: 'Always the last, whatever the length',
+    },
+    caption: 'For "the last one", list[-1] beats guessing the number. Use "in" to test membership: "milk" in cart.',
   },
   {
     type: 'callout',
@@ -932,11 +1108,11 @@ const loopsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Last lesson you built a list that can hold a hundred values. Now picture writing a hundred lines to add them up — and rewriting all hundred the moment the list changes size. That is not programming; that is typing. A loop says "do this for every item" exactly once, and it runs whether the list holds 3 values or 3,000. This is the instruction that turns a list from a pile of data into something you can actually process — and bring along the if from Lesson 4 and you can count, filter, and decide across the whole pile.',
+    text: 'Last lesson you built a list that can hold a hundred values. Picture writing a hundred lines to add them up. That is not programming; that is typing. A loop says "do this for every item" exactly once.',
   },
   {
     type: 'context',
-    text: 'Looping is how every real program handles "for each": total every line of a receipt, send each user an email, check each answer on a quiz, draw each enemy on screen. Combine a loop with the if from earlier and you can count, filter, and decide across a whole dataset. Almost every program you will ever write has a loop near its heart.',
+    text: 'Looping is how every program handles "for each": total each line of a receipt, email each user, draw each enemy. Bring along the if from Lesson 5 and you can count, filter, and decide across a whole dataset.',
   },
   {
     type: 'pretest',
@@ -948,11 +1124,13 @@ const loopsBlocks = [
   {
     type: 'concept',
     title: 'A for-loop repeats a block once per item',
-    text: 'A for-loop runs its indented block once for each item in a sequence. Write  for price in prices:  — on each pass, the loop variable (price) is set to the next item of the list, and the indented body runs with that value. To repeat a fixed number of times instead, loop over range(n): for i in range(5): runs 5 times with i going 0, 1, 2, 3, 4. The most useful pattern is accumulation: create a result variable BEFORE the loop (total = 0 or count = 0), then update it INSIDE the loop (total = total + price). When the loop finishes, the variable holds the answer built across every item. Like if, the colon and the indentation mark what is "inside" the loop.',
+    text: 'for n in nums: runs the indented body once per item, with n set to each value in turn. The accumulator pattern: create a result (total = 0) BEFORE the loop, update it (total = total + n) INSIDE — when the loop ends, it holds the answer.',
   },
   {
-    type: 'worked-example',
-    intro: 'Add up a list with a running total. Watch total grow on each pass:',
+    type: 'code-walkthrough',
+    title: 'A running total, pass by pass',
+    subtitle: 'The bucket is created once; each pass pours one more value in.',
+    filename: 'loops.py',
     language: 'python',
     code: `nums = [4, 6, 10]
 total = 0                # the bucket, created ONCE before the loop
@@ -962,28 +1140,54 @@ for n in nums:           # n becomes 4, then 6, then 10
 
 print(total)             # after all passes -> 20`,
     steps: [
-      'total starts at 0 before the loop — the empty bucket.',
-      'Pass 1: n is 4, total = 0 + 4 → 4.',
-      'Pass 2: n is 6, total = 4 + 6 → 10.',
-      'Pass 3: n is 10, total = 10 + 10 → 20.',
-      'The loop ends; print(total) shows 20 — the sum built one item at a time.',
+      { lines: [2], label: 'Create the accumulator first', note: 'total = 0 runs ONCE, before the loop — the empty bucket.' },
+      { lines: [4], label: 'The loop variable changes each pass', note: 'n becomes 4, then 6, then 10 — the next item of the list on every pass.' },
+      { lines: [5], label: 'Pass 1 and 2', note: 'n=4: total = 0 + 4 → 4. n=6: total = 4 + 6 → 10. The body re-runs with the new n.' },
+      { lines: [5], label: 'Pass 3', note: 'n=10: total = 10 + 10 → 20. Each pass builds on the last because total lives OUTSIDE the loop.' },
+      { lines: [7], label: 'After the loop', note: 'print(total) shows 20 — the sum built one item at a time.' },
     ],
-    commonMistake:
-      'Putting  total = 0  INSIDE the loop. Then it resets to 0 every pass, and you end up with only the last item (10 here) instead of the sum. The accumulator must be created once, BEFORE the loop, and only updated inside.',
+    caption: 'Put total = 0 inside the loop and it resets every pass, leaving only the last item (10). Start outside, accumulate inside.',
   },
   {
-    type: 'code',
-    filename: 'loops.py',
-    language: 'python',
-    code: `scores = [55, 80, 42, 91]
-passes = 0                   # counter starts at 0, before the loop
-
-for score in scores:
-    if score >= 60:          # a loop and an if working together
-        passes = passes + 1  # count only the scores that pass
-
-print(passes)                # how many scores were 60+ -> 2`,
-    // Loop over the list, use if to test each item, count the matches in a variable.
+    type: 'diagram',
+    title: 'Accumulate inside, initialise outside',
+    subtitle: 'The accumulator is set up once, then the loop body updates the SAME bucket on every pass.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'init', label: 'total = 0', description: 'before the loop — once', kind: 'process', tone: 'accent' },
+      { id: 'loop', label: 'for n in nums', description: 'visit each item', kind: 'decision' },
+      { id: 'update', label: 'total = total + n', description: 'inside — every pass', kind: 'process' },
+      { id: 'result', label: 'total = 20', description: 'after the loop', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'init', to: 'loop', label: 'empty bucket', kind: 'data', tone: 'accent' },
+      { from: 'loop', to: 'update', label: 'each n', kind: 'control' },
+      { from: 'update', to: 'loop', label: 'next item', kind: 'control', dashed: true },
+      { from: 'loop', to: 'result', label: 'when done', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'set up once, outside' },
+      { tone: 'success', label: 'the answer, after the loop' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'for item vs for i in range',
+    subtitle: 'Two loop shapes. Reach for the one that fits what you need.',
+    mono: true,
+    left: {
+      label: 'for item in list — the value',
+      tone: 'success',
+      lines: ['for score in scores:', '    if score >= 60:', '        passes = passes + 1', '# reads like English; you get each value'],
+      verdict: 'Default when you want each item',
+    },
+    right: {
+      label: 'for i in range(n) — a count',
+      tone: 'accent',
+      lines: ['for i in range(5):', '    print(i)', '# runs 5 times: i = 0,1,2,3,4', '# use when you need the position / a count'],
+      verdict: 'When you need to repeat N times',
+    },
+    caption: 'A loop and an if together count matches: loop the scores, test each with if, bump a counter — passes ends at 2.',
   },
   {
     type: 'callout',
@@ -1081,11 +1285,11 @@ const functionsBlocks = [
   },
   {
     type: 'mission',
-    text: 'Look back at what you have built: a loop that totals a list, an if that grades a score. Useful — but each lives in one spot, and to reuse it you would copy-paste and pray. A function lets you name a block of code once and run it on demand, with different inputs every time. Fix it in one place and it is fixed everywhere it is used. This is the move that turns a wall of repeated lines into a handful of named, reusable tools — and it is the last piece you need before you wire everything together into a real program.',
+    text: 'Look back: a loop that totals a list, an if that grades a score. Useful — but each lives in one spot. A function lets you name a block of code once and run it on demand, with different inputs every time.',
   },
   {
     type: 'context',
-    text: 'Functions are how every real program stays manageable. Instead of one giant script, you build small named pieces — calculate_total, is_valid, format_line — and snap them together. Naming a step makes code readable; reusing it kills copy-paste bugs (fix it in one place, it is fixed everywhere). Every library you will ever import is just someone else’s functions. Learn to write your own and the whole ecosystem opens up.',
+    text: 'Functions are how every program stays manageable: small named pieces — calculate_total, is_valid — snapped together. Naming a step makes code readable; reusing it kills copy-paste bugs. Every library you import is just someone else\'s functions.',
   },
   {
     type: 'pretest',
@@ -1097,11 +1301,13 @@ const functionsBlocks = [
   {
     type: 'concept',
     title: 'def names a block; parameters feed it; return hands a value back',
-    text: 'A function is a named block of code you can run on demand. You define it with def: def total_price(unit_price, qty): — the names in the parentheses are parameters, placeholders for the inputs the caller will supply. The indented lines underneath are the body (the colon + indentation mark what is "inside", just like if and for). return value sends a value back to whoever called the function and ends it. You call the function by writing its name with real values — total_price(7, 6) — and those values (the arguments) fill the parameters in order. The call evaluates to whatever was returned, so you can store it: bill = total_price(7, 6). Defining a function does NOT run it; only calling it does.',
+    text: 'def total_price(unit_price, qty): names a function; the names in parentheses are parameters. return sends a value back to the caller and ends the function. Call it with arguments — total_price(7, 6) — and the call becomes whatever was returned.',
   },
   {
-    type: 'worked-example',
-    intro: 'Define once, call twice with different inputs. Watch the arguments fill the parameters and the value come back:',
+    type: 'code-walkthrough',
+    title: 'Define once, call many',
+    subtitle: 'Watch the arguments fill the parameters and the value come back to the caller.',
+    filename: 'functions.py',
     language: 'python',
     code: `def area(width, height):     # width and height are parameters (inputs)
     return width * height    # hand the result back to the caller
@@ -1109,32 +1315,56 @@ const functionsBlocks = [
 room = area(3, 4)            # arguments 3, 4 fill width, height -> returns 12
 print(room)                  # -> 12
 
-print(area(10, 2))           # call again with new inputs -> returns 20 -> prints 20`,
+print(area(10, 2))           # call again with new inputs -> returns 20`,
     steps: [
-      'def area(width, height): names a function with two parameters; nothing runs yet.',
-      'return width * height computes the value and sends it back, ending the function.',
-      'area(3, 4) calls it: 3 fills width, 4 fills height; the call becomes the returned 12.',
-      'room = area(3, 4) stores that 12, so print(room) shows 12.',
-      'area(10, 2) reuses the SAME function with new inputs → 20. One definition, many calls.',
+      { lines: [1], label: 'def names the function', note: 'Two parameters, width and height — placeholders for the inputs the caller supplies. Nothing runs yet; defining is not calling.' },
+      { lines: [2], label: 'return hands a value back', note: 'Computes width * height and sends it to whoever called the function, ending it.' },
+      { lines: [4], label: 'Calling fills the parameters', note: 'area(3, 4): the arguments 3 and 4 fill width and height in order; the call becomes the returned 12.' },
+      { lines: [4, 5], label: 'Store and use the result', note: 'room = area(3, 4) stores 12, so print(room) shows 12. The call evaluates to its return value.' },
+      { lines: [7], label: 'Reuse with new inputs', note: 'area(10, 2) runs the SAME function again → 20. One definition, many calls — the whole point.' },
     ],
-    commonMistake:
-      'Printing inside the function but forgetting to return, then trying to use the result: the function shows a number but hands back None, so bill = total_price(7, 6) stores None, not 42. If the caller needs the value, the function must return it — printing is not returning.',
+    caption: 'Defining a function does NOT run it; only calling it does.',
   },
   {
-    type: 'code',
-    filename: 'functions.py',
-    language: 'python',
-    code: `def grade(score):            # one input: a score
-    if score >= 90:
-        return "A"           # return ends the function immediately
-    elif score >= 70:
-        return "B"
-    else:
-        return "C"
-
-print(grade(95))             # -> A
-print(grade(84))             # reuse the same logic with a new input -> B`,
-    // def packages the if/elif/else once; each call reuses it with a different score. return ends the function.
+    type: 'diagram',
+    title: 'How a function call works',
+    subtitle: 'Arguments flow in to fill the parameters; the function runs; return flows the result back out.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'call', label: 'area(3, 4)', description: 'the caller, with arguments', kind: 'client', tone: 'accent' },
+      { id: 'params', label: 'width=3, height=4', description: 'arguments fill parameters', kind: 'process' },
+      { id: 'body', label: 'width * height', description: 'the body runs', kind: 'process' },
+      { id: 'ret', label: 'return 12', description: 'value flows back', kind: 'store', tone: 'success' },
+    ],
+    edges: [
+      { from: 'call', to: 'params', label: 'arguments in', kind: 'data', tone: 'accent' },
+      { from: 'params', to: 'body', label: 'run', kind: 'control' },
+      { from: 'body', to: 'ret', label: 'compute', kind: 'data' },
+      { from: 'ret', to: 'call', label: 'call becomes 12', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'arguments flow in' },
+      { tone: 'success', label: 'return flows the result back' },
+    ],
+  },
+  {
+    type: 'compare',
+    title: 'print shows; return gives back',
+    subtitle: 'Same function, one difference — only one lets the caller USE the result.',
+    mono: true,
+    left: {
+      label: 'Only prints — bill is None',
+      tone: 'warning',
+      lines: ['def total_price(u, q):', '    print(u * q)   # shows 42 on screen', 'bill = total_price(7, 6)', 'print(bill)        # None — nothing was handed back'],
+      verdict: 'Shows a value, gives back nothing',
+    },
+    right: {
+      label: 'Returns — bill is 42',
+      tone: 'success',
+      lines: ['def total_price(u, q):', '    return u * q   # hands 42 back', 'bill = total_price(7, 6)', 'print(bill)        # 42 — stored and reusable'],
+      verdict: 'The caller can store and reuse it',
+    },
+    caption: 'Does the caller need to USE the result? return it. Does it only need to appear on screen? print it.',
   },
   {
     type: 'callout',
@@ -1238,11 +1468,11 @@ const shipBlocks = [
   },
   {
     type: 'mission',
-    text: 'Seven lessons ago you could not make a computer print a line. Look at what you carry now: you can print (L1), name and reuse values (L2), tell numbers from text and format them (L3), make decisions (L4), hold many values in a list (L5), loop over them (L6), and package logic into a function (L7). Today none of it is practice. You snap all of it together into one real program — a tiny gradebook that reads a set of scores and reports how many passed and the class average. This is the line between "I am learning to code" and "I built a working program." It is small. It is entirely yours. And when you press Run, it actually works.',
+    text: 'Seven lessons ago you could not print a line. Today none of it is practice: you snap print, variables, types, decisions, lists, loops, and functions into one real program — a tiny gradebook that reports how many passed and the class average.',
   },
   {
     type: 'context',
-    text: 'Every real program is just the basics you already know, combined: take some data, loop over it, make decisions, compute results, report them. A bank statement, a leaderboard, a fitness summary, a sales report — same shape. The skill that separates someone who "knows syntax" from someone who "can build" is exactly this: holding several pieces in your head at once and wiring them into one program that does a real job. That is what you practice here.',
+    text: 'Every real program is the basics combined: take data, loop over it, decide, compute, report. A bank statement, a leaderboard, a sales report — same shape. Holding several pieces at once and wiring them together is what "can build" means.',
   },
   {
     type: 'pretest',
@@ -1254,38 +1484,39 @@ const shipBlocks = [
   {
     type: 'concept',
     title: 'A real program = data → loop → decide → accumulate → report',
-    text: 'Building a program is not a new skill — it is arranging the ones you have into a sensible order. The classic shape: (1) start with your data (a list); (2) set up your result holders BEFORE the loop (total = 0, passed = 0); (3) loop over the data once; (4) inside the loop, update the total every pass and use an if to update the count only when a condition is met; (5) after the loop, compute any final figures (average = total / len(scores)); (6) report the results (print, or return them from a function so the rest of the program can use them). Wrapping that in a function — summarize(scores) — names the whole job and lets you reuse it on any list of scores. No new syntax today: this is everything from lessons 1–7, working as a team.',
+    text: 'No new syntax — just arranging what you have: start with data, set up result holders before the loop, loop once (update the total, use an if to count), compute final figures after, then report. Wrap it in a function to name and reuse the whole job.',
   },
   {
-    type: 'worked-example',
-    intro: 'A complete tiny program — same shape as the lab, different data. Read how the pieces combine:',
-    language: 'python',
-    code: `def report(temps):           # a function that takes a list of temperatures
-    total = 0                # accumulator set up BEFORE the loop
-    hot_days = 0             # a second accumulator
-    for t in temps:          # one loop, doing two jobs
-        total = total + t    # build the running total every pass
-        if t >= 80:          # a decision inside the loop
-            hot_days = hot_days + 1   # count only the hot days
-    average = total / len(temps)      # compute after the loop
-    print(f"Hot days: {hot_days}")
-    return average           # hand the average back to the caller
-
-readings = [72, 85, 90, 68]  # the data
-avg = report(readings)       # call the function, capture what it returns
-print(f"Average: {int(avg)}")`,
-    steps: [
-      'report(temps) wraps the whole job in one named, reusable function (Lesson 7).',
-      'total and hot_days are created BEFORE the loop — the empty buckets (Lessons 2 & 6).',
-      'One for-loop walks the list once (Lesson 6), reading each temperature.',
-      'Inside, total grows every pass; the if counts only hot days (Lessons 4 & 6 together).',
-      'After the loop, average = total / len(temps) computes the result, the function prints the count and RETURNS the average, and the caller prints it with an f-string (Lessons 3 & 7).',
+    type: 'diagram',
+    title: 'The shape of every data program',
+    subtitle: 'Data flows into a loop that updates accumulators with a decision inside; final figures are computed after, then reported.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'data', label: 'scores (list)', description: 'the data — L6', kind: 'store', tone: 'muted' },
+      { id: 'init', label: 'total=0, passed=0', description: 'holders before the loop — L2', kind: 'process', tone: 'accent' },
+      { id: 'loop', label: 'for s in scores', description: 'one pass — L7', kind: 'decision' },
+      { id: 'decide', label: 'if s >= 60', description: 'count passes — L5', kind: 'decision', tone: 'warning' },
+      { id: 'after', label: 'total / len', description: 'compute after — L3', kind: 'process' },
+      { id: 'report', label: 'print + return', description: 'report — L1 & L8', kind: 'store', tone: 'success' },
     ],
-    commonMistake:
-      'Resetting an accumulator inside the loop (total = 0 on every pass) or computing the average inside the loop instead of after it — both give wrong numbers. Set up accumulators once before the loop; compute final figures once after it. The loop body should only UPDATE, not re-initialise.',
+    edges: [
+      { from: 'data', to: 'loop', label: 'feeds', kind: 'data' },
+      { from: 'init', to: 'loop', label: 'empty buckets', kind: 'data', tone: 'accent' },
+      { from: 'loop', to: 'decide', label: 'each score', kind: 'control' },
+      { from: 'decide', to: 'loop', label: 'next item', kind: 'control', dashed: true },
+      { from: 'loop', to: 'after', label: 'when done', kind: 'data' },
+      { from: 'after', to: 'report', label: 'figures', kind: 'data', tone: 'success' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'set up before the loop' },
+      { tone: 'warning', label: 'a decision inside the loop' },
+      { tone: 'success', label: 'report the result' },
+    ],
   },
   {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'The gradebook, every line earning its place',
+    subtitle: 'One program — variable, list, loop, if, function — working as a team.',
     filename: 'gradebook.py',
     language: 'python',
     code: `def summarize(scores):
@@ -1301,7 +1532,33 @@ print(f"Average: {int(avg)}")`,
 scores = [40, 80, 95, 50, 85]
 avg = summarize(scores)
 print(f"Average: {int(avg)}")    # -> Passed: 3 of 5 / Average: 70`,
-    // Variable + list + loop + if + function, combined into one working program.
+    steps: [
+      { lines: [1], label: 'Wrap the job in a function (L8)', note: 'summarize(scores) names the whole task and lets you reuse it on any list of scores.' },
+      { lines: [2, 3], label: 'Two accumulators, set up first (L2 & L7)', note: 'total and passed created BEFORE the loop — the empty buckets. Inside the loop they would reset every pass.' },
+      { lines: [4, 5], label: 'One loop, running total (L7)', note: 'Walk the list once; total grows on every pass.' },
+      { lines: [6, 7], label: 'A decision inside the loop (L5)', note: 'The if counts only scores >= 60 — loop and if working together.' },
+      { lines: [8, 9], label: 'Compute and report after (L1, L3, L8)', note: 'After the loop: print the count, then return the average (total / len). The caller prints it with an f-string and int(avg).' },
+    ],
+    caption: 'Output, two lines: Passed: 3 of 5 then Average: 70 — every number computed from the data.',
+  },
+  {
+    type: 'compare',
+    title: 'Accumulator outside vs inside the loop',
+    subtitle: 'The capstone\'s make-or-break bug. One line\'s placement changes the answer.',
+    mono: true,
+    left: {
+      label: 'total = 0 inside — wrong',
+      tone: 'warning',
+      lines: ['for s in scores:', '    total = 0          # resets every pass', '    total = total + s', 'return total / len(scores)', '# total ends as just 85 -> 85/5 = 17'],
+      verdict: 'Keeps only the last score',
+    },
+    right: {
+      label: 'total = 0 outside — right',
+      tone: 'success',
+      lines: ['total = 0              # once, before the loop', 'for s in scores:', '    total = total + s', 'return total / len(scores)', '# total = 350 -> 350/5 = 70'],
+      verdict: 'Accumulates across every score',
+    },
+    caption: 'Set up accumulators once before the loop; compute final figures once after it. The loop body should only UPDATE.',
   },
   {
     type: 'callout',

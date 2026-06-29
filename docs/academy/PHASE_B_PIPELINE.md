@@ -108,6 +108,19 @@ score · date · commit · notes`. The pipeline reads it to skip done lessons an
 | career-engineering_judgment_foundation / 03-system-map | 95 | 2026-06-29 | 1a018be2 | the locked template (reference) |
 | career-engineering_judgment_foundation / 04-retrieval-protocol | 95 | 2026-06-29 | — | capstone; diagram(4-move loop) + walkthrough + compare |
 
+### Batch run — the 30 authored transform-targets (2026-06-29)
+Transformed via Workflow (one agent per seed file, 5 files, parallel). All tsc 0, seeded live, labs/debug beats preserved (coding course), no hollow blocks.
+
+| group | lessons | verification | notes |
+|---|---|---|---|
+| judgment Module 2 (`seed-module-2`) | 05–08 | sample: 07-tradeoff-decision **96** (rendered) | 16–17 blocks, 3–4 hero visuals each |
+| judgment Module 3 (`seed-module-3`) | 09–12 | tsc + seeded; per-course sample | 16 blocks, diagram+walkthrough+compare |
+| judgment Module 4 capstone (`seed-module-4`) | 13–16 | tsc + seeded; per-course sample | 14 blocks, roll-call diagrams |
+| programming-fundamentals M1 (`seed-first-steps`) | 9 lessons | sample: loops **96** (rendered; lab+debug intact) | code-walkthrough primary hero |
+| programming-fundamentals M2 (`seed-programming-fundamentals`) | 9 lessons | tsc + seeded; per-course sample | labs preserved exactly |
+
+**Honest verification note:** 2 of 30 were rendered + panel-scored in the real player (96/96); the other 28 are transformed, tsc-gated, seeded, and pattern-verified (same agent pattern that produced the 96s), but NOT individually rendered — the login throttle makes per-lesson rendering impractical in one batch. Recommend a follow-up sampled render-sweep (one more per module) before declaring all 30 locked.
+
 **Module 1 (course 00) — COMPLETE, visual-first, all ≥95.** Validation run confirmed the
 loop reliably crosses the bar (94→96 in one loop). Engine improvement landed during the
 run: diagram node-label/description fonts bumped (`diagram-kinds.tsx`) — strictly improves

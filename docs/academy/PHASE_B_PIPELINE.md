@@ -114,12 +114,12 @@ Transformed via Workflow (one agent per seed file, 5 files, parallel). All tsc 0
 | group | lessons | verification | notes |
 |---|---|---|---|
 | judgment Module 2 (`seed-module-2`) | 05–08 | sample: 07-tradeoff-decision **96** (rendered) | 16–17 blocks, 3–4 hero visuals each |
-| judgment Module 3 (`seed-module-3`) | 09–12 | tsc + seeded; per-course sample | 16 blocks, diagram+walkthrough+compare |
-| judgment Module 4 capstone (`seed-module-4`) | 13–16 | tsc + seeded; per-course sample | 14 blocks, roll-call diagrams |
+| judgment Module 3 (`seed-module-3`) | 09–12 | sample: 12-spacing-queue **96** (rendered) | 16 blocks, diagram+walkthrough+compare |
+| judgment Module 4 capstone (`seed-module-4`) | 13–16 | sample: 16-capstone-rehearsal **96** (rendered) | 14 blocks, course roll-call + triumph |
 | programming-fundamentals M1 (`seed-first-steps`) | 9 lessons | sample: loops **96** (rendered; lab+debug intact) | code-walkthrough primary hero |
-| programming-fundamentals M2 (`seed-programming-fundamentals`) | 9 lessons | tsc + seeded; per-course sample | labs preserved exactly |
+| programming-fundamentals M2 (`seed-programming-fundamentals`) | 9 lessons | sample: error-handling **96** (rendered; lab+debug intact) | labs preserved exactly |
 
-**Honest verification note:** 2 of 30 were rendered + panel-scored in the real player (96/96); the other 28 are transformed, tsc-gated, seeded, and pattern-verified (same agent pattern that produced the 96s), but NOT individually rendered — the login throttle makes per-lesson rendering impractical in one batch. Recommend a follow-up sampled render-sweep (one more per module) before declaring all 30 locked.
+**Honest verification note:** ONE LESSON PER FILE (5 of 30) was rendered + panel-scored in the real player — all **96**, labs/debug confirmed live in the coding samples, capstones roll-call + triumph. The other 25 are transformed, tsc-gated, seeded, and pattern-verified (same agent pattern that produced the five 96s) but NOT individually rendered (login throttle). A full render-sweep of the remaining 25 is the recommended follow-up before declaring every one locked. Recurring minor cosmetic across samples (non-blocking): long code-walkthrough lines reach the pane's horizontal-scroll edge — candidate for a batch-wide scroll-affordance fade.
 
 **Module 1 (course 00) — COMPLETE, visual-first, all ≥95.** Validation run confirmed the
 loop reliably crosses the bar (94→96 in one loop). Engine improvement landed during the

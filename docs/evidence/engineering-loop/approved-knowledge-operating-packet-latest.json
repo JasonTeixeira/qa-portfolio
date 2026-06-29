@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approved-knowledge-operating-packet-v1",
-  "generatedAt": "2026-06-26T18:48:22.258Z",
+  "generatedAt": "2026-06-29T20:10:18.579Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof.",
   "status": "ready_for_collection",
@@ -9,8 +9,8 @@
     "current": 0,
     "target": 10,
     "remaining": 10,
-    "reviewableCandidates": 0,
-    "sourceVolumeState": "no_source_volume"
+    "reviewableCandidates": 2,
+    "sourceVolumeState": "needs_review"
   },
   "sourceTables": [
     "discord_questions",
@@ -418,7 +418,7 @@
   ],
   "nextActions": [
     "Approve 10 more high-signal Discord knowledge items with this packet.",
-    "Create source volume by asking members useful questions, reviewing builds, and capturing helpful answers/resources.",
+    "Review 2 candidates already visible in source-volume evidence.",
     "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
     "Rerun npm run discord:proof-source-scan after approvals."
   ],

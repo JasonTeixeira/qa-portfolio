@@ -1,0 +1,174 @@
+{
+  "ok": true,
+  "version": "sagebot-institutional-readiness-v1",
+  "generatedAt": "2026-06-29T20:10:32.043Z",
+  "mutationMode": "read_only_redacted_evidence",
+  "releaseMeaning": "This readiness report checks redacted integration presence, local evidence posture, and live-proof blockers. It does not print secrets, deploy, push, publish, approve, sync RAG, post to Discord, or mutate Supabase/Stripe/Railway/Vercel.",
+  "status": "locally_strong_waiting_on_live_operating_proof",
+  "score": 70,
+  "targetScoreRange": "95-99",
+  "categoryScores": {
+    "integrations": 100,
+    "localProof": 100,
+    "liveOperatingProof": 0,
+    "deploymentConnectivity": 100
+  },
+  "envChecks": [
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_URL",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Supabase reads/admin dashboard"
+    },
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "server-side Discord/RAG jobs"
+    },
+    {
+      "name": "DISCORD_BOT_TOKEN",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Discord slash commands/gateway worker"
+    },
+    {
+      "name": "DISCORD_GUILD_ID",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Discord command registration and live guild checks"
+    },
+    {
+      "name": "DISCORD_PUBLIC_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Discord interaction verification"
+    },
+    {
+      "name": "DEEPSEEK_API_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "SageBot generation and content drafts"
+    },
+    {
+      "name": "CRON_SECRET",
+      "present": true,
+      "source": "local",
+      "requiredFor": "scheduled job endpoint protection"
+    },
+    {
+      "name": "STRIPE_SECRET_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "premium checkout/webhooks"
+    },
+    {
+      "name": "STRIPE_WEBHOOK_SECRET",
+      "present": true,
+      "source": "vercel-production",
+      "requiredFor": "premium role sync"
+    },
+    {
+      "name": "STRIPE_PRICE_DISCORD_PREMIUM",
+      "present": true,
+      "source": "vercel-production",
+      "requiredFor": "premium Discord price"
+    },
+    {
+      "name": "LANGFUSE_PUBLIC_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "LLM trace visibility"
+    },
+    {
+      "name": "LANGFUSE_SECRET_KEY",
+      "present": true,
+      "source": "local",
+      "requiredFor": "LLM trace visibility"
+    }
+  ],
+  "optionalEnvChecks": [
+    {
+      "name": "LANGFUSE_BASEURL",
+      "present": false,
+      "source": "missing",
+      "requiredFor": "self-hosted/custom Langfuse endpoint"
+    },
+    {
+      "name": "NEXT_PUBLIC_SITE_URL",
+      "present": true,
+      "source": "local",
+      "requiredFor": "canonical site URLs"
+    },
+    {
+      "name": "DISCORD_CLIENT_ID",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Discord OAuth/app metadata"
+    },
+    {
+      "name": "DISCORD_CLIENT_SECRET",
+      "present": true,
+      "source": "local",
+      "requiredFor": "Discord OAuth/admin auth flows"
+    }
+  ],
+  "deploymentConnectivity": {
+    "vercelProductionEnvNamesDetected": 31,
+    "railwayStatusOk": true,
+    "railwayStatusTail": "Project: [redacted]\nEnvironment: production\nService: sagebot-gateway\n"
+  },
+  "localProof": {
+    "knowledgeBaseHarnessOk": true,
+    "knowledgeBaseHarnessStatus": "locally_verified_waiting_on_live_approval",
+    "knowledgeBaseHarnessScore": 76,
+    "worldClassReadinessOk": true,
+    "worldClassCategoriesAtOrAbove95": 0,
+    "worldClassCategoriesBelow95": 18,
+    "ragEvalOk": true,
+    "ragEvalPassRate": 1,
+    "ragEvalTotal": 65,
+    "localVerificationOk": true,
+    "finalAverageScore": 83,
+    "finalWorldClassEligible": false
+  },
+  "blockedLiveProof": [
+    {
+      "key": "approved_discord_knowledge",
+      "current": 0,
+      "target": 10,
+      "action": "Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow."
+    },
+    {
+      "key": "rag_discord_sources",
+      "current": 0,
+      "target": 10,
+      "action": "With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals."
+    },
+    {
+      "key": "public_proof_assets",
+      "current": 0,
+      "target": 4,
+      "action": "Create four privacy-safe public proof assets from approved Discord knowledge."
+    },
+    {
+      "key": "premium_workflow_proof",
+      "current": 0,
+      "target": 1,
+      "action": "Run one premium review/deeper answer/office-hours workflow with authorization and fulfillment evidence."
+    }
+  ],
+  "nextInstitutionalActions": [
+    "Run the guarded knowledge-base E2E proof after approving temporary Supabase rows: SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e.",
+    "Approve 10 reusable Discord knowledge items, then run npm run discord:proof-source-scan and npm run discord:operating-cycle:dry-run.",
+    "After explicit approval, sync approved Discord knowledge into authoritative RAG and run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing.",
+    "Create four approved public proof assets and one premium workflow proof before claiming 95-99 operating grade.",
+    "Only after live proof passes: deploy/register/pin with separate approval."
+  ],
+  "antiFakeRules": [
+    "Env presence is redacted and never proves secret correctness by itself.",
+    "Generated source seeds do not count as approved Discord knowledge.",
+    "Dry-run evidence does not count as public proof or premium fulfillment.",
+    "95-99 requires live operating proof, not just local tests."
+  ]
+}

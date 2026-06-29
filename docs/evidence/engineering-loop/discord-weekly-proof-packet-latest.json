@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-weekly-proof-packet-v1",
-  "generatedAt": "2026-06-26T18:48:26.837Z",
+  "generatedAt": "2026-06-29T20:10:23.021Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records.",
   "backlogStatus": "blocked",
@@ -9,10 +9,10 @@
     {
       "key": "gateway_capture",
       "title": "Gateway message capture",
-      "status": "blocked",
-      "currentCount": 0,
+      "status": "passed",
+      "currentCount": 1,
       "targetCount": 1,
-      "remainingCount": 1,
+      "remainingCount": 0,
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts",
       "sourceTables": [
         "discord_gateway_heartbeats",
@@ -852,47 +852,6 @@
   ],
   "executionPlan": [
     {
-      "priority": 1,
-      "laneKey": "gateway_capture",
-      "laneTitle": "Gateway message capture",
-      "status": "blocked",
-      "dependency": null,
-      "operatorAction": "Post or request one fresh non-bot member message, then confirm gateway capture stores non-empty content.",
-      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts",
-      "verificationCommand": "npm run discord:gateway-capture-diagnosis",
-      "requiredEvidenceFields": [
-        "proof_cycle_key",
-        "source_record_id",
-        "source_url_or_path",
-        "source_created_at",
-        "title",
-        "summary",
-        "reviewer",
-        "reviewed_at",
-        "decision_reason",
-        "evidence_artifact_path",
-        "operator_attestation",
-        "privacy_status",
-        "worker_id",
-        "message_content_enabled",
-        "usable_message_id",
-        "capture_health"
-      ],
-      "exitCriteria": [
-        "Target reaches 1/1.",
-        "Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.",
-        "Fresh heartbeat and Message Content Intent evidence are present.",
-        "At least one non-bot non-empty non-deleted message is visible in capture evidence."
-      ],
-      "doNotCount": [
-        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
-        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
-        "Screenshots or summaries without a source id and reviewer decision.",
-        "AI-generated content that was not approved by an admin/operator.",
-        "A gateway identify event with Message Content Intent but no captured non-empty message."
-      ]
-    },
-    {
       "priority": 2,
       "laneKey": "approved_discord_knowledge",
       "laneTitle": "Approved Discord knowledge",
@@ -1053,6 +1012,47 @@
         "AI-generated content that was not approved by an admin/operator.",
         "A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow."
       ]
+    },
+    {
+      "priority": 100,
+      "laneKey": "gateway_capture",
+      "laneTitle": "Gateway message capture",
+      "status": "passed",
+      "dependency": null,
+      "operatorAction": "Maintain Gateway message capture evidence and rerun the scorecard after the next operating cycle.",
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts",
+      "verificationCommand": "npm run discord:gateway-capture-diagnosis",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "worker_id",
+        "message_content_enabled",
+        "usable_message_id",
+        "capture_health"
+      ],
+      "exitCriteria": [
+        "Target reaches 1/1.",
+        "Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.",
+        "Fresh heartbeat and Message Content Intent evidence are present.",
+        "At least one non-bot non-empty non-deleted message is visible in capture evidence."
+      ],
+      "doNotCount": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "A gateway identify event with Message Content Intent but no captured non-empty message."
+      ]
     }
   ],
   "weeklyIntakeOrder": [
@@ -1065,7 +1065,6 @@
     "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
   ],
   "nextActions": [
-    "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

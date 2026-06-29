@@ -1,0 +1,1073 @@
+{
+  "ok": true,
+  "version": "career-content-harness-v1",
+  "generatedAt": "2026-06-29T18:42:47.111Z",
+  "mutationMode": "read_only_external_corpus_and_local_file_evidence_only",
+  "releaseMeaning": "This harness reads the AI Career Operating System corpus and writes local evidence only. It does not write Supabase rows, approve Discord knowledge, post to Discord, sync RAG, or satisfy live operating proof.",
+  "sourceRoot": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM",
+  "inventory": {
+    "fileCount": 9225,
+    "markdownCount": 6770,
+    "jsonCount": 1117,
+    "pythonCount": 1275,
+    "courseManifestCount": 23,
+    "practiceDrillCount": 111,
+    "testDrillCount": 53,
+    "categories": {
+      "course": 5707,
+      "practice": 165,
+      "learning_engine": 60,
+      "operating_system": 2279,
+      "course_factory": 135,
+      "curriculum_architecture": 51,
+      "agent_template": 8,
+      "root_doc": 13,
+      "other": 807
+    }
+  },
+  "readiness": {
+    "score": 100,
+    "targetScoreRange": "95-99",
+    "status": "ready_for_admin_seed_review",
+    "gates": [
+      {
+        "key": "corpus_exists",
+        "passed": true,
+        "reason": "Career OS corpus root is readable."
+      },
+      {
+        "key": "large_enough_corpus",
+        "passed": true,
+        "reason": "At least 100 source files are available for seed generation."
+      },
+      {
+        "key": "course_manifests_present",
+        "passed": true,
+        "reason": "At least 15 course manifests are present."
+      },
+      {
+        "key": "practice_drills_present",
+        "passed": true,
+        "reason": "At least 40 practice drill files are present."
+      },
+      {
+        "key": "candidate_volume_ready",
+        "passed": true,
+        "reason": "At least 20 high-signal Discord seed candidates are available."
+      },
+      {
+        "key": "institutional_sources_present",
+        "passed": true,
+        "reason": "Learning-engine and curriculum architecture sources are present."
+      },
+      {
+        "key": "human_appeal_sources_present",
+        "passed": true,
+        "reason": "At least one candidate has strong human appeal."
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "sourcePath": "practice/day_007_full_mock_interview_pack.md",
+      "title": "Day 7 Full Mock Interview",
+      "category": "practice",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 100,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:project,lab,interview,blocker,practice",
+        "institutional:rubric,test,scorecard,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:daily_drill",
+        "discord_fit:promptable_asset",
+        "category_bonus:practice"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/00_engineering_judgment_foundation/course_assets/capstone/framework_builder_module.md",
+      "title": "Framework Builder Module",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,scorecard,contract,runbook",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/00_engineering_judgment_foundation/course_assets/factory_alignment/05_sprints_labs_capstone_map.md",
+      "title": "Sprints, Labs, And Capstone Map",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,portfolio,capstone,diagnostic",
+        "institutional:rubric,test,audit,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/00_engineering_judgment_foundation/course_assets/factory_alignment/09_final_course_audit.md",
+      "title": "Final Course Audit",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,interview,portfolio,capstone,diagnostic",
+        "institutional:validator,test,audit,scorecard,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/00_engineering_judgment_foundation/modules/04_module_4/lessons/16_016_16_16_capstone_rehearsal_lesson.md",
+      "title": "Lesson Pack 016: 16 Capstone Rehearsal",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,portfolio,capstone,diagnostic",
+        "institutional:rubric,test,contract,runbook,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/evidence/capstone_scorecard.md",
+      "title": "Capstone Scorecard",
+      "category": "course",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:rubric,test,scorecard,runbook,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/external_review/reviewer_packet.md",
+      "title": "External Reviewer Packet",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,scorecard,runbook,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/adr.md",
+      "title": "ADR",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/explain_back.md",
+      "title": "Explain-Back",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/framework_lens_selection.md",
+      "title": "Framework Lens Selection",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/operations_or_runbook.md",
+      "title": "Operations Or Runbook",
+      "category": "course",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,runbook",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/options_matrix.md",
+      "title": "Options Matrix",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/repair_log.md",
+      "title": "Repair Log",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/risk_register.md",
+      "title": "Risk Register",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/sage_judgment_packet.md",
+      "title": "Sage Judgment Packet: 01 Programming Cs Foundations",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/semantic_review.md",
+      "title": "Semantic Review",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/judgment/verification_plan.md",
+      "title": "Verification Plan",
+      "category": "course",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/capstone/project/live_proof/live_execution_plan.md",
+      "title": "Live Execution Plan",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,capstone,blocker",
+        "institutional:manifest,test,scorecard,runbook,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/factory_alignment/09_final_course_audit.md",
+      "title": "Final Course Audit",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:manifest,rubric,validator,test,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/scorecards/track_scorecard.md",
+      "title": "Track 1 Proof Scorecard",
+      "category": "course",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:manifest,rubric,validator,test,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/course_assets/sprints/020_track_1_capstone/README.md",
+      "title": "Sprint 020: Track 1 Capstone",
+      "category": "course",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:rubric,test,scorecard,contract,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/01_module_1/lessons/01_001_001_terminal_files_lesson.md",
+      "title": "Lesson Pack 001: Terminal Files",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/01_module_1/lessons/02_002_002_python_functions_inputs_outputs_lesson.md",
+      "title": "Lesson Pack 002: Python Functions Inputs Outputs",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/01_module_1/lessons/03_003_003_types_dataclasses_lesson.md",
+      "title": "Lesson Pack 003: Types Dataclasses",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/01_module_1/lessons/04_004_004_lists_dicts_sets_lesson.md",
+      "title": "Lesson Pack 004: Lists Dicts Sets",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/02_module_2/lessons/05_005_005_files_json_csv_lesson.md",
+      "title": "Lesson Pack 005: Files Json Csv",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/02_module_2/lessons/06_006_006_errors_validation_lesson.md",
+      "title": "Lesson Pack 006: Errors Validation",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/02_module_2/lessons/07_007_007_testing_basics_lesson.md",
+      "title": "Lesson Pack 007: Testing Basics",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/02_module_2/lessons/08_008_008_complexity_big_o_lesson.md",
+      "title": "Lesson Pack 008: Complexity Big O",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/03_module_3/lessons/09_009_009_frequency_maps_lesson.md",
+      "title": "Lesson Pack 009: Frequency Maps",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/03_module_3/lessons/10_010_010_stacks_queues_lesson.md",
+      "title": "Lesson Pack 010: Stacks Queues",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/03_module_3/lessons/11_011_011_two_pointers_windows_lesson.md",
+      "title": "Lesson Pack 011: Two Pointers Windows",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/03_module_3/lessons/12_012_012_binary_search_lesson.md",
+      "title": "Lesson Pack 012: Binary Search",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/01_programming_cs_foundations/modules/04_module_4/lessons/13_013_013_heaps_top_k_lesson.md",
+      "title": "Lesson Pack 013: Heaps Top K",
+      "category": "course",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,audit,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/02_backend_engineering/course_assets/capstone/project/judgment/operations_or_runbook.md",
+      "title": "Operations Or Runbook",
+      "category": "course",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,challenge,interview,portfolio,capstone",
+        "institutional:rubric,validator,test,scorecard,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/02_backend_engineering/course_assets/scorecards/content_quality_audit.md",
+      "title": "Course 02 Content Quality Audit",
+      "category": "course",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:rubric,validator,test,audit,scorecard",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/02_backend_engineering/course_assets/scorecards/learner_simulation_report.md",
+      "title": "Learner Simulation Report",
+      "category": "course",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:rubric,test,scorecard,contract,runbook",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/03_frontend_fullstack/course_assets/scorecards/content_quality_audit.md",
+      "title": "Course 03 Content Quality Audit",
+      "category": "course",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:rubric,validator,test,audit,scorecard",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/04_databases_data_modeling/course_assets/scorecards/content_quality_audit.md",
+      "title": "Course 4 Content Quality Audit",
+      "category": "course",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:manifest,validator,test,audit,scorecard",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/04_databases_data_modeling/course_assets/sprints/001_database_systems_map/README.md",
+      "title": "Sprint 001: Database Systems Map",
+      "category": "course",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:test,audit,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/04_databases_data_modeling/course_assets/sprints/005_indexes_access_patterns/README.md",
+      "title": "Sprint 005: Indexes Access Patterns",
+      "category": "course",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:test,audit,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/04_databases_data_modeling/course_assets/sprints/010_query_plans_performance/README.md",
+      "title": "Sprint 010: Query Plans Performance",
+      "category": "course",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:test,audit,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/04_databases_data_modeling/course_assets/sprints/014_backup_restore_retention/README.md",
+      "title": "Sprint 014: Backup Restore Retention",
+      "category": "course",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,challenge,interview,portfolio",
+        "institutional:manifest,test,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/05_cloud_devops_operations/course_assets/scorecards/content_quality_audit.md",
+      "title": "Course 5 Content Quality Audit",
+      "category": "course",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:manifest,validator,test,audit,scorecard",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/06_architecture_system_design/course_assets/scorecards/content_quality_audit.md",
+      "title": "Course 06 Content Quality Audit",
+      "category": "course",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,challenge,interview,portfolio,capstone",
+        "institutional:manifest,rubric,validator,test,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/07_ai_engineering_rag_eval/course_assets/factory_alignment/00_course_identity.md",
+      "title": "Course 07 Factory Alignment: Course Identity",
+      "category": "course",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,interview,portfolio,capstone,diagnostic",
+        "institutional:rubric,validator,test,contract,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "courses/07_ai_engineering_rag_eval/course_assets/factory_alignment/06_proof_portfolio_interview_map.md",
+      "title": "Course 07 Factory Alignment: Proof Portfolio Interview Map",
+      "category": "course",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,interview,portfolio,capstone,diagnostic",
+        "institutional:validator,test,contract,schema,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:course"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "curriculum_architecture/MASTER_CURRICULUM_ONTOLOGY.md",
+      "title": "Master Curriculum Ontology",
+      "category": "curriculum_architecture",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:validator,test,scorecard,contract,evidence",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:curriculum_architecture"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "curriculum_architecture/RUN_EXPANSION_COURSE_BUILD_LOOP_13_19.md",
+      "title": "Run Expansion Course Build Loop 13-19",
+      "category": "curriculum_architecture",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:project,lab,interview,portfolio,capstone",
+        "institutional:validator,test,audit,scorecard,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:curriculum_architecture"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "learning_engine/BOARD_STYLE_WEB_APP_SCHEDULER_SPEC.md",
+      "title": "Board-Style Mastery Web-App Scheduler Spec",
+      "category": "learning_engine",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:lab,interview,capstone,weekly,practice",
+        "institutional:manifest,rubric,validator,contract,schema",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:learning_engine"
+      ],
+      "operatingProofEligible": false
+    }
+  ],
+  "channelPlan": [
+    {
+      "channel": "daily-signal",
+      "candidateCount": 5,
+      "purpose": "Short daily build prompts from high-signal source material."
+    },
+    {
+      "channel": "build-lab",
+      "candidateCount": 11,
+      "purpose": "Hands-on challenges, labs, projects, and capstone prompts."
+    },
+    {
+      "channel": "resources",
+      "candidateCount": 5,
+      "purpose": "Reusable rubrics, templates, checklists, validators, and reference material."
+    },
+    {
+      "channel": "questions",
+      "candidateCount": 5,
+      "purpose": "Discussion prompts and diagnostic questions that can become durable knowledge."
+    },
+    {
+      "channel": "office-hours",
+      "candidateCount": 19,
+      "purpose": "Live-session prompts built around blockers, artifacts, and decision points."
+    },
+    {
+      "channel": "content-queue",
+      "candidateCount": 5,
+      "purpose": "Source-backed ideas for future articles, lessons, public proof, and recaps."
+    },
+    {
+      "channel": "project-submissions",
+      "candidateCount": 0,
+      "purpose": "Artifact-driven submission prompts and portfolio proof tasks."
+    }
+  ],
+  "antiFakeRules": [
+    "Career OS source candidates are seed material only; they do not count as approved Discord knowledge until an admin approves the specific item.",
+    "Seed candidates do not count as live gateway capture, member participation, public proof, or premium workflow proof.",
+    "Generated Discord posts must remain approval-gated and quality-scored before publishing.",
+    "Only privacy-safe, reviewed, source-linked outputs can be promoted into authoritative RAG."
+  ],
+  "nextActions": [
+    "Review top candidates and select the first weekly content seed set.",
+    "Turn selected seed candidates into approval-gated Discord drafts, not live posts.",
+    "After member replies arrive, approve real member questions/answers separately before syncing them into authoritative RAG.",
+    "Use this corpus as educational fuel while keeping operating-proof lanes tied to real Discord activity."
+  ],
+  "failures": []
+}

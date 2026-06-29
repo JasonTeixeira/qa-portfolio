@@ -16,6 +16,10 @@ const SAFE_LOCAL_COMMANDS = [
   'npm run rag:evaluate:missing-preflight',
   'npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet',
   'npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan',
+  'npm run discord:career-content-harness',
+  'npm run discord:sage-kernel-content-harness',
+  'npm run discord:knowledge-base-e2e-readiness',
+  'npm run discord:knowledge-base-harness',
   'npm run discord:proof-backlog && npm run discord:proof-candidate-audit',
   'npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence',
 ];

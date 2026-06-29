@@ -7,50 +7,18 @@
     "coverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
     "missingPlan": "docs/evidence/rag/eval-missing-plan.json"
   },
-  "status": "approval_required",
-  "coverageStillBlocked": true,
+  "status": "not_required",
+  "coverageStillBlocked": false,
   "selectedMatchesCoverage": true,
   "expectedQuestionCount": 65,
-  "evaluatedQuestionCount": 50,
-  "missingEvalKeys": [
-    "rag_ai_011",
-    "rag_ai_012",
-    "rag_ai_013",
-    "rag_ai_014",
-    "rag_ai_015",
-    "rag_content_011",
-    "rag_content_012",
-    "rag_content_013",
-    "rag_content_014",
-    "rag_content_015",
-    "rag_content_016",
-    "rag_content_017",
-    "rag_content_018",
-    "rag_content_019",
-    "rag_content_020"
-  ],
-  "selectedKeys": [
-    "rag_ai_011",
-    "rag_ai_012",
-    "rag_ai_013",
-    "rag_ai_014",
-    "rag_ai_015",
-    "rag_content_011",
-    "rag_content_012",
-    "rag_content_013",
-    "rag_content_014",
-    "rag_content_015",
-    "rag_content_016",
-    "rag_content_017",
-    "rag_content_018",
-    "rag_content_019",
-    "rag_content_020"
-  ],
+  "evaluatedQuestionCount": 65,
+  "missingEvalKeys": [],
+  "selectedKeys": [],
   "commandPlan": {
     "dryRunCommand": "npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness",
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
-    "mutationWarning": "Approved command runs the guarded missing-eval repair sequence; it can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.",
-    "requiresExplicitApproval": true
+    "mutationWarning": "No missing keys selected; only readiness refresh is needed.",
+    "requiresExplicitApproval": false
   },
   "preRunChecks": [
     "Confirm NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present in .env.local.",
@@ -80,6 +48,6 @@
     "Passing 50/50 old evals does not satisfy the 65-question gate.",
     "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
   ],
-  "startedAt": "2026-06-26T18:48:17.064Z",
-  "finishedAt": "2026-06-26T18:48:17.067Z"
+  "startedAt": "2026-06-29T20:10:13.938Z",
+  "finishedAt": "2026-06-29T20:10:13.940Z"
 }

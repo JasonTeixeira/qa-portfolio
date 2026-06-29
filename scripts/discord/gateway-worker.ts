@@ -15,6 +15,7 @@ import {
   type DiscordGatewayReactionPayload,
   type DiscordGatewayThreadPayload,
 } from '../../lib/discord/gateway-ingestion';
+import { maybeRespondToSageMention } from '../../lib/discord/mention-responder';
 import { getGuildChannels } from '../../lib/discord/sage-rest';
 
 const DEFAULT_GATEWAY = 'wss://gateway.discord.gg/?v=10&encoding=json';
@@ -323,7 +324,40 @@ async function connectOnce(input: {
             if (packet.t.startsWith('THREAD')) await recordDiscordThread(packet.d as DiscordGatewayThreadPayload);
             break;
           case 'MESSAGE_CREATE':
-            await recordDiscordMessageCreate(packet.d as DiscordGatewayMessagePayload, channelNames.get(String(packet.d.channel_id)));
+            {
+              const payload = packet.d as DiscordGatewayMessagePayload;
+              const message = await recordDiscordMessageCreate(payload, channelNames.get(String(payload.channel_id)));
+              if (message) {
+                try {
+                  const response = await maybeRespondToSageMention({ payload, normalizedMessage: message });
+                  await recordDiscordGatewayEvent({
+                    eventType: response.shouldRespond ? 'mention_response_posted' : 'mention_response_skipped',
+                    discordMessageId: message.discordMessageId,
+                    channelId: message.channelId,
+                    authorUserId: message.authorUserId,
+                    payload: {
+                      reason: response.reason,
+                      posted_message_id: response.postedMessageId ?? null,
+                    },
+                  });
+                } catch (err) {
+                  const error = err instanceof Error ? err.message : String(err);
+                  await recordDiscordGatewayDeadLetter({
+                    workerId: input.workerId,
+                    eventType: 'mention_response_failed',
+                    error,
+                    payload: { discord_message_id: message.discordMessageId, channel_id: message.channelId },
+                  });
+                  await recordDiscordGatewayEvent({
+                    eventType: 'mention_response_failed',
+                    discordMessageId: message.discordMessageId,
+                    channelId: message.channelId,
+                    authorUserId: message.authorUserId,
+                    payload: { error },
+                  });
+                }
+              }
+            }
             break;
           case 'MESSAGE_UPDATE':
             await recordDiscordMessageUpdate(packet.d as Partial<DiscordGatewayMessagePayload> & { id: string; channel_id?: string }, channelNames.get(String(packet.d.channel_id)));

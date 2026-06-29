@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "autonomous-loop-harness-verification-v1",
-  "generatedAt": "2026-06-26T17:43:13.858Z",
+  "generatedAt": "2026-06-27T23:44:39.574Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This verifier reads package scripts and harness source files, then writes local evidence only. It does not run the loop, push, deploy, mutate Discord, mutate Supabase, change Stripe, or run non-dry RAG eval.",
   "requiredScripts": {
@@ -9,7 +9,16 @@
     "loop:verify": "node tools/engineering-loop/verify-harness.mjs && npm run loop:audit && npm run loop:world-class:dry-run",
     "loop:world-class": "node tools/engineering-loop/run-world-class-loop.mjs",
     "loop:world-class:once": "node tools/engineering-loop/run-world-class-loop.mjs --once",
-    "loop:world-class:dry-run": "node tools/engineering-loop/run-world-class-loop.mjs --once --dry-run"
+    "loop:world-class:dry-run": "node tools/engineering-loop/run-world-class-loop.mjs --once --dry-run",
+    "discord:career-content-harness": "tsx scripts/discord/write-career-content-harness.ts",
+    "discord:sage-kernel-content-harness": "tsx scripts/discord/write-sage-kernel-content-harness.ts",
+    "discord:knowledge-base-e2e": "node scripts/discord/run-knowledge-base-e2e.mjs",
+    "discord:knowledge-base-e2e-readiness": "node scripts/discord/write-knowledge-base-e2e-readiness.mjs",
+    "discord:knowledge-base-harness": "tsx scripts/discord/write-knowledge-base-engineering-harness.ts",
+    "loop:knowledge-base": "node tools/engineering-loop/run-knowledge-base-loop.mjs",
+    "loop:knowledge-base:once": "node tools/engineering-loop/run-knowledge-base-loop.mjs --once",
+    "loop:knowledge-base:dry-run": "node tools/engineering-loop/run-knowledge-base-loop.mjs --once --dry-run",
+    "loop:knowledge-base:full": "node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate"
   },
   "forbiddenScriptReferences": [
     "git push",
@@ -31,7 +40,16 @@
     "package.json",
     "tools/engineering-loop/audit-state.mjs",
     "tools/engineering-loop/run-world-class-loop.mjs",
-    "tools/engineering-loop/verify-harness.mjs"
+    "tools/engineering-loop/verify-harness.mjs",
+    "scripts/discord/write-career-content-harness.ts",
+    "lib/discord/career-content-harness.ts",
+    "scripts/discord/write-sage-kernel-content-harness.ts",
+    "lib/discord/sage-kernel-content-harness.ts",
+    "scripts/discord/run-knowledge-base-e2e.mjs",
+    "scripts/discord/write-knowledge-base-e2e-readiness.mjs",
+    "scripts/discord/write-knowledge-base-engineering-harness.ts",
+    "lib/discord/knowledge-base-engineering-harness.ts",
+    "tools/engineering-loop/run-knowledge-base-loop.mjs"
   ],
   "failures": []
 }

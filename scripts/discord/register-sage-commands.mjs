@@ -112,6 +112,7 @@ const commands = [
       { name: 'path', description: 'Learning path', type: 3, required: true },
       { name: 'goal', description: 'What this project should accomplish', type: 3, required: true },
       { name: 'link', description: 'Optional repo, demo, screenshot, or doc link', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: ai-apps, review, beginner', type: 3, required: false },
     ],
   },
   {
@@ -134,6 +135,7 @@ const commands = [
       },
       { name: 'summary', description: 'What should be reviewed?', type: 3, required: true },
       { name: 'link', description: 'Optional link or screenshot', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: design, blocker, shipping', type: 3, required: false },
     ],
   },
   {
@@ -158,6 +160,7 @@ const commands = [
       },
       { name: 'summary', description: 'What should be reviewed, and what outcome do you want?', type: 3, required: true },
       { name: 'link', description: 'Artifact link, repo, page, doc, screenshot, or loom', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: premium, ai-apps, review', type: 3, required: false },
     ],
   },
   {
@@ -166,6 +169,7 @@ const commands = [
     options: [
       { name: 'idea', description: 'Content-worthy question, lesson, win, or angle', type: 3, required: true },
       { name: 'source', description: 'Optional source/context', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: lesson, resource, win', type: 3, required: false },
     ],
   },
   {
@@ -174,6 +178,7 @@ const commands = [
     options: [
       { name: 'question', description: 'The question you need answered', type: 3, required: true },
       { name: 'context', description: 'Goal, blocker, attempted solution, or link context', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: blocker, ai-apps, beginner', type: 3, required: false },
     ],
   },
   {
@@ -324,6 +329,7 @@ const commands = [
     options: [
       { name: 'summary', description: 'What you shipped or produced', type: 3, required: true },
       { name: 'link', description: 'Optional link, screenshot, repo, or doc', type: 3, required: false },
+      { name: 'tags', description: 'Optional tags, comma separated: challenge, web-design, shipping', type: 3, required: false },
     ],
   },
   {

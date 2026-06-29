@@ -2,13 +2,13 @@
   "ok": true,
   "responseType": 4,
   "ephemeral": true,
-  "answerId": "d451622f-2a9f-44fe-9192-787a8aed6dab",
-  "retrievalLogId": "d51a6ed9-2d1f-4811-8ccc-8e2b3a9d2bd1",
-  "traceId": "a3c516c8e4d338f72aaf19375623500c",
-  "observabilityProvider": "local",
+  "answerId": "35b6f368-6f45-4b2d-886a-6134ea62bfd8",
+  "retrievalLogId": "3257bf93-cc4f-4d9c-893e-c3e91990b17d",
+  "traceId": "03a1933653b7c0b35530780a68d3f0dc",
+  "observabilityProvider": "langfuse",
   "queueCount": 1,
   "pointsCount": 1,
-  "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nBased on the provided context, here is how a high-quality education Discord should onboard new members:\n\n1.  **Gate access with an application.** Use the native Discord \"Apply to Join\" feature. Approve only members who accept the rules, state a clear learning/building goal, name a real first build, and show enough context to route them. Reject vague answers, spam, or requests for financial/legal/medic",
-  "startedAt": "2026-06-24T18:22:58.901Z",
-  "finishedAt": "2026-06-24T18:23:06.718Z"
+  "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nA high-quality education Discord should onboard new members using the following concrete workflow:\n\n1. **Apply**: New members use Discord native **Apply to Join**, answer the application, accept the rules, and wait for manual approval [1].\n2. **Approve**: An approvable application names the member's goal, shows what they are trying to build or learn, confirms the rules/quality bar, and includes enough",
+  "startedAt": "2026-06-29T21:12:09.814Z",
+  "finishedAt": "2026-06-29T21:12:17.849Z"
 }

@@ -952,6 +952,7 @@ export async function submitProjectToBuildLab(input: {
   pathKey?: string | null;
   goal: string;
   link?: string | null;
+  tags?: string[] | null;
 }): Promise<{ id: string; contentQueueId: string | null }> {
   const title = cleanText(input.title);
   const goal = cleanText(input.goal);
@@ -965,7 +966,7 @@ export async function submitProjectToBuildLab(input: {
     channelBaseName: 'build-lab',
     angle: input.pathKey ?? null,
     priority: 68,
-    metadata: { title, path_key: input.pathKey ?? null, link: input.link ?? null },
+    metadata: { title, path_key: input.pathKey ?? null, link: input.link ?? null, tags: input.tags ?? [] },
   });
   const { data, error } = await supabaseAdmin()
     .from('discord_project_submissions')

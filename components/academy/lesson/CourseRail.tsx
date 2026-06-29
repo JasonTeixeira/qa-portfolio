@@ -69,9 +69,7 @@ function ModuleGroup({
         hidden={!expanded}
         aria-label={mod.title}
       >
-        {mod.lessons.map((l) => {
-          const isLocked = l.status === 'todo'
-          return (
+        {mod.lessons.map((l) => (
             <li key={l.slug}>
               <Link
                 href={lessonHref(l.slug)}
@@ -89,8 +87,7 @@ function ModuleGroup({
                 ) : null}
               </Link>
             </li>
-          )
-        })}
+        ))}
       </ul>
     </div>
   )

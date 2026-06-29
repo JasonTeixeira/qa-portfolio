@@ -1,0 +1,66 @@
+{
+  "ok": true,
+  "version": "discord-knowledge-review-queue-v1",
+  "generatedAt": "2026-06-29T20:15:02.572Z",
+  "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
+  "releaseMeaning": "This queue exports exact review candidates for the admin approval workflow. It does not approve records, sync RAG, publish content, assign roles, or mutate live services.",
+  "summary": {
+    "candidateCount": 1,
+    "reviewableCandidateCount": 0,
+    "approvedKnowledgeTarget": 10,
+    "approvedKnowledgeShortfall": 10,
+    "recommendedNextAction": "Create more real source volume from member questions, answers, builds, reviews, wins, and resources."
+  },
+  "candidates": [
+    {
+      "sourceTable": "discord_content_queue",
+      "sourceRecordId": "96b5b421-a862-4a6b-90c7-4d9719dad9e9",
+      "status": "captured",
+      "title": "Turn this shared resource into a resource drop: I build an Engineering Loop MCP servers f…",
+      "summary": "Resource drop: explain when to use it, who it helps, and one practical next step.",
+      "channelBaseName": "build-lab",
+      "qualitySignal": 71,
+      "createdAt": "2026-06-27T20:08:57.660437+00:00",
+      "evidence": {
+        "source": "discord_message_classifier",
+        "source_message_id": "1520521338777768027",
+        "source_classification_action": "candidate_resource",
+        "source_classification_category": "resource",
+        "metadata": {
+          "signals": {
+            "empty": false,
+            "reply": false,
+            "short": false,
+            "has_link": true,
+            "author_bot": false,
+            "spam_terms": false,
+            "word_count": 15,
+            "has_question": false,
+            "mentions_win": false,
+            "has_attachment": false,
+            "mentions_build": true,
+            "asks_for_review": false,
+            "shares_resource": true,
+            "asks_for_support": false,
+            "content_opportunity": false
+          },
+          "rationale": "resource -> candidate_resource because mentions build, shares resource, has link",
+          "confidence": 0.7633,
+          "quality_score": 55,
+          "classifier_action": "candidate_resource",
+          "classifier_category": "resource",
+          "content_value_score": 75,
+          "source_content_preview": "I build an Engineering Loop MCP servers for building apps anyone can use @everyone \n\nhttps://github.com/JasonTeixeira/sage-kernel"
+        }
+      },
+      "recommendedDecision": "needs_more_context",
+      "approvalChecklist": [
+        "Confirm this candidate_resource is reusable for future members, not only the original thread.",
+        "Confirm private names, handles, screenshots, credentials, client names, and sensitive context are removed or permissioned.",
+        "Add a decision reason, privacy status, reviewer, reviewed_at timestamp, and RAG-safe approved text.",
+        "Reject if the source is generic, synthetic, low-context, moderation-sensitive, or unsupported."
+      ]
+    }
+  ],
+  "errors": []
+}

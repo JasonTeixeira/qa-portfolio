@@ -46,14 +46,28 @@ try {
   if (!emailEl || !passEl) throw new Error('login form not found (email/password inputs)')
   await emailEl.fill(email)
   await passEl.fill(password)
-  const btn = await page.$('button[type=submit], button:has-text("Sign in"), button:has-text("Log in")')
-  if (!btn) throw new Error('login submit button not found')
-  await btn.click()
-  await page.waitForTimeout(3500)
+  // Submit, then wait for the auth redirect to actually LAND (not a fixed sleep —
+  // the redirect can lag past a fixed wait, leaving the session unset). Retry the
+  // submit once if we're still on /login.
+  async function submitLogin() {
+    const btn = await page.$('button[type=submit], button:has-text("Sign in"), button:has-text("Log in")')
+    if (!btn) throw new Error('login submit button not found')
+    await btn.click()
+    try {
+      await page.waitForURL((u) => !String(u).includes('/login'), { timeout: 15000 })
+    } catch {
+      /* still on /login — caller retries or fails at the lesson check */
+    }
+  }
+  await submitLogin()
+  if (page.url().includes('/login')) {
+    await page.waitForTimeout(2000)
+    await submitLogin()
+  }
 
   // 2) navigate to the lesson; fail loudly if redirected to /login (gated/unentitled)
   const res = await page.goto(LESSON, { waitUntil: 'networkidle', timeout: 60000 })
-  if (page.url().includes('/login')) throw new Error(`redirected to login — user not entitled to ${courseSlug}`)
+  if (page.url().includes('/login')) throw new Error(`redirected to login — login did not stick or user not entitled to ${courseSlug}`)
   if (!res || res.status() >= 400) throw new Error(`lesson returned status ${res ? res.status() : 'none'}`)
   await page.waitForTimeout(1500)
 

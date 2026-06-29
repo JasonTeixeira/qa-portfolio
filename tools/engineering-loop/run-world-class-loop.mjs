@@ -10,6 +10,10 @@ const statePath = path.join(evidenceDir, 'AUTONOMOUS_LOOP_STATE.json');
 const LOOP_COMMANDS = [
   'npm run loop:audit',
   'npm run discord:release-local',
+  'npm run discord:career-content-harness',
+  'npm run discord:sage-kernel-content-harness',
+  'npm run discord:knowledge-base-e2e-readiness',
+  'npm run discord:knowledge-base-harness',
   'npm run ops:approval-boundaries',
   'npm run verify:local:evidence',
   'npm run loop:audit',

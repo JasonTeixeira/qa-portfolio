@@ -1,14 +1,14 @@
 {
   "ok": true,
   "version": "discord-proof-backlog-v1",
-  "generatedAt": "2026-06-26T18:48:34.077Z",
+  "generatedAt": "2026-06-29T20:10:27.527Z",
   "mutationMode": "local_file_evidence_only",
   "status": "blocked",
   "lanes": [
     {
       "key": "gateway_capture",
       "title": "Gateway message capture",
-      "currentCount": 0,
+      "currentCount": 1,
       "targetCount": 1,
       "sourceTables": [
         "discord_gateway_heartbeats",
@@ -37,9 +37,9 @@
       "safeLocalCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
       "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "liveActionRequired": "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-      "evidenceRequired": "Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main.",
-      "status": "blocked"
+      "liveActionRequired": "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+      "evidenceRequired": "Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: fresh_usable_message_proven; Message Content Intent: true via heartbeat; heartbeat fresh: true; worker: sagebot-main.",
+      "status": "passed"
     },
     {
       "key": "approved_discord_knowledge",
@@ -169,18 +169,6 @@
   "weeklyChecklist": [
     {
       "order": 1,
-      "laneKey": "gateway_capture",
-      "title": "Gateway message capture",
-      "operatorAction": "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-      "safeLocalCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
-      "liveCommand": null,
-      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
-      "verificationCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
-      "evidencePath": "docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
-      "acceptanceCriteria": "Gateway message capture reaches 1/1; current evidence is 0/1. Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main."
-    },
-    {
-      "order": 2,
       "laneKey": "approved_discord_knowledge",
       "title": "Approved Discord knowledge",
       "operatorAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
@@ -192,7 +180,7 @@
       "acceptanceCriteria": "Approved Discord knowledge reaches 10/10; current evidence is 0/10. At least 10 approved Discord knowledge sources before RAG sync and scorecard improvement."
     },
     {
-      "order": 3,
+      "order": 2,
       "laneKey": "rag_discord_sources",
       "title": "Discord knowledge synced into RAG",
       "operatorAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
@@ -204,7 +192,7 @@
       "acceptanceCriteria": "Discord knowledge synced into RAG reaches 10/10; current evidence is 0/10. RAG sources include approved Discord question/answer/content/draft records, not raw unapproved chatter."
     },
     {
-      "order": 4,
+      "order": 3,
       "laneKey": "public_proof_assets",
       "title": "Public proof growth assets",
       "operatorAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -216,7 +204,7 @@
       "acceptanceCriteria": "Public proof growth assets reaches 4/4; current evidence is 0/4. Four weekly proof drafts or published assets with application/source tracking."
     },
     {
-      "order": 5,
+      "order": 4,
       "laneKey": "premium_workflow_proof",
       "title": "Premium workflow proof",
       "operatorAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
@@ -229,7 +217,6 @@
     }
   ],
   "nextActions": [
-    "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
     "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",

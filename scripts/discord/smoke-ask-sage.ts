@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { flushAiObservability } from '../../lib/ai/observability';
 import { handleSageCommand } from '../../lib/discord/sage-commands';
 import { normalizeAskSageQuestion } from '../../lib/discord/ask-sage';
 
@@ -98,6 +99,7 @@ async function main() {
     console.log(JSON.stringify({ ...evidence, evidencePath }, null, 2));
     if (!evidence.ok) process.exitCode = 1;
   } finally {
+    await flushAiObservability();
     await sb.from('discord_content_queue').delete().eq('discord_user_id', smokeUserId);
     await sb.from('discord_points_ledger').delete().eq('discord_user_id', smokeUserId);
     await sb.from('discord_events').delete().eq('discord_user_id', smokeUserId);
@@ -117,6 +119,7 @@ main().catch(async (error) => {
   await mkdir(evidenceDir, { recursive: true });
   const evidencePath = path.join(evidenceDir, 'ask-sage-smoke.json');
   await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
+  await flushAiObservability();
   console.error(JSON.stringify({ ...evidence, evidencePath }, null, 2));
   process.exit(1);
 });

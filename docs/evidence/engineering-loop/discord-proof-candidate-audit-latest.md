@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-26T18:48:34.604Z
+Generated: 2026-06-29T20:10:28.027Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -13,7 +13,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 
 - approvedDiscordKnowledgeSources: 0
 - ragDiscordSources: 0
-- pendingKnowledgeCandidates: 0
+- pendingKnowledgeCandidates: 1
 - pendingPublicDrafts: 0
 - publishedPublicDrafts: 0
 - premiumMembers: 0
@@ -24,29 +24,28 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 ### Gateway message capture
 
 - Key: gateway_capture
-- Status: blocked
-- Candidate state: needs_source_volume
-- Current: 0/1
-- Candidate count: 0
-- Remaining: 1
+- Status: passed
+- Candidate state: target_met
+- Current: 1/1
+- Candidate count: 1
+- Remaining: 0
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
 - Proving command: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog
 - Required fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
 - Critical lane fields: worker_id, message_content_enabled, usable_message_id, capture_health
 
 Blockers:
-- Current proof is 0/1; lane remains blocked until the target is met.
-- Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message.
+- None from local evidence.
 
-Next review action: Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
+Next review action: Maintain proof quality and rerun scorecard after the next operating cycle.
 
 ### Approved Discord knowledge
 
 - Key: approved_discord_knowledge
 - Status: blocked
-- Candidate state: needs_source_volume
+- Candidate state: needs_review
 - Current: 0/10
-- Candidate count: 0
+- Candidate count: 1
 - Remaining: 10
 - Admin surface: /admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels
 - Proving command: npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog
@@ -55,11 +54,9 @@ Next review action: Post or request one fresh non-bot member message now that id
 
 Blockers:
 - Current proof is 0/10; lane remains blocked until the target is met.
-- Approved knowledge plus pending candidates is 0/10; more real member source material is needed.
-- No pending knowledge candidates are available for admin review.
-- Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge.
+- Approved knowledge plus pending candidates is 1/10; more real member source material is needed.
 
-Next review action: Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
+Next review action: Review pending knowledge candidates and approve only reusable, privacy-safe items.
 
 ### Discord knowledge synced into RAG
 
@@ -125,8 +122,7 @@ Next review action: Run one premium review, deeper-answer, or office-hours flow 
 
 ## Next Actions
 
-- Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
-- Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
+- Review pending knowledge candidates and approve only reusable, privacy-safe items.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.
 - Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.

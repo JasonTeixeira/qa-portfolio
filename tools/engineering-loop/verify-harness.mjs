@@ -12,6 +12,15 @@ const requiredScripts = {
   'loop:world-class': 'node tools/engineering-loop/run-world-class-loop.mjs',
   'loop:world-class:once': 'node tools/engineering-loop/run-world-class-loop.mjs --once',
   'loop:world-class:dry-run': 'node tools/engineering-loop/run-world-class-loop.mjs --once --dry-run',
+  'discord:career-content-harness': 'tsx scripts/discord/write-career-content-harness.ts',
+  'discord:sage-kernel-content-harness': 'tsx scripts/discord/write-sage-kernel-content-harness.ts',
+  'discord:knowledge-base-e2e': 'node scripts/discord/run-knowledge-base-e2e.mjs',
+  'discord:knowledge-base-e2e-readiness': 'node scripts/discord/write-knowledge-base-e2e-readiness.mjs',
+  'discord:knowledge-base-harness': 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts',
+  'loop:knowledge-base': 'node tools/engineering-loop/run-knowledge-base-loop.mjs',
+  'loop:knowledge-base:once': 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once',
+  'loop:knowledge-base:dry-run': 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --dry-run',
+  'loop:knowledge-base:full': 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate',
 };
 
 const forbiddenScriptReferences = [
@@ -44,6 +53,9 @@ async function main() {
   const scripts = packageJson.scripts ?? {};
   const auditScript = await readText('tools/engineering-loop/audit-state.mjs');
   const runnerScript = await readText('tools/engineering-loop/run-world-class-loop.mjs');
+  const knowledgeRunnerScript = await readText('tools/engineering-loop/run-knowledge-base-loop.mjs');
+  const knowledgeBaseE2eRunner = await readText('scripts/discord/run-knowledge-base-e2e.mjs');
+  const knowledgeBaseE2eReadiness = await readText('scripts/discord/write-knowledge-base-e2e-readiness.mjs');
   const verifierScript = await readText('tools/engineering-loop/verify-harness.mjs');
 
   const failures = [];
@@ -66,16 +78,31 @@ async function main() {
   if (!auditScript.includes('explicitApprovalRequiredFor')) failures.push('audit_state_missing_approval_boundaries');
   if (!auditScript.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing')) failures.push('audit_state_missing_guarded_rag_eval_command');
   if (!auditScript.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle')) failures.push('audit_state_missing_operating_cycle_approval_command');
+  if (!auditScript.includes('npm run discord:career-content-harness')) failures.push('audit_state_missing_career_content_harness_command');
+  if (!auditScript.includes('npm run discord:sage-kernel-content-harness')) failures.push('audit_state_missing_sage_kernel_content_harness_command');
+  if (!auditScript.includes('npm run discord:knowledge-base-e2e-readiness')) failures.push('audit_state_missing_knowledge_base_e2e_readiness_command');
+  if (!auditScript.includes('npm run discord:knowledge-base-harness')) failures.push('audit_state_missing_knowledge_base_harness_command');
 
   if (!runnerScript.includes('FORBIDDEN_COMMAND_PATTERNS')) failures.push('runner_missing_forbidden_command_patterns');
   if (!runnerScript.includes('external_approval_or_live_proof_required')) failures.push('runner_missing_external_boundary_stop');
   if (!runnerScript.includes('blocked_fingerprint_repeated')) failures.push('runner_missing_repeated_fingerprint_stop');
   if (!runnerScript.includes('discord:release-local')) failures.push('runner_missing_release_local_command');
+  if (!runnerScript.includes('discord:career-content-harness')) failures.push('runner_missing_career_content_harness_command');
+  if (!runnerScript.includes('discord:sage-kernel-content-harness')) failures.push('runner_missing_sage_kernel_content_harness_command');
+  if (!runnerScript.includes('discord:knowledge-base-e2e-readiness')) failures.push('runner_missing_knowledge_base_e2e_readiness_command');
+  if (!runnerScript.includes('discord:knowledge-base-harness')) failures.push('runner_missing_knowledge_base_harness_command');
   if (runnerScript.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing') && !runnerScript.includes('/SAGE_ALLOW_/')) {
     failures.push('runner_embeds_approval_command_without_refusal_pattern');
   }
 
   if (!verifierScript.includes('forbiddenScriptReferences')) failures.push('verifier_missing_forbidden_script_references');
+  if (!verifierScript.includes('loop:knowledge-base:full')) failures.push('verifier_missing_knowledge_base_full_loop_script');
+  if (!knowledgeRunnerScript.includes('discord:knowledge-base-e2e-readiness')) failures.push('knowledge_runner_missing_e2e_readiness_command');
+  if (knowledgeRunnerScript.includes('SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved')) failures.push('knowledge_runner_embeds_live_e2e_approval_command');
+  if (!knowledgeBaseE2eRunner.includes("SAGE_ALLOW_KNOWLEDGE_BASE_E2E === 'approved'")) failures.push('knowledge_base_e2e_runner_missing_env_guard');
+  if (!knowledgeBaseE2eRunner.includes('temporary_supabase_e2e_rows_with_cleanup')) failures.push('knowledge_base_e2e_runner_missing_mutation_disclosure');
+  if (!knowledgeBaseE2eReadiness.includes('local_file_evidence_only')) failures.push('knowledge_base_e2e_readiness_not_local_only');
+  if (!knowledgeBaseE2eReadiness.includes('finally cleanup paths')) failures.push('knowledge_base_e2e_readiness_missing_cleanup_contract');
 
   const evidence = {
     ok: failures.length === 0,
@@ -90,6 +117,15 @@ async function main() {
       'tools/engineering-loop/audit-state.mjs',
       'tools/engineering-loop/run-world-class-loop.mjs',
       'tools/engineering-loop/verify-harness.mjs',
+      'scripts/discord/write-career-content-harness.ts',
+      'lib/discord/career-content-harness.ts',
+      'scripts/discord/write-sage-kernel-content-harness.ts',
+      'lib/discord/sage-kernel-content-harness.ts',
+      'scripts/discord/run-knowledge-base-e2e.mjs',
+      'scripts/discord/write-knowledge-base-e2e-readiness.mjs',
+      'scripts/discord/write-knowledge-base-engineering-harness.ts',
+      'lib/discord/knowledge-base-engineering-harness.ts',
+      'tools/engineering-loop/run-knowledge-base-loop.mjs',
     ],
     failures,
   };

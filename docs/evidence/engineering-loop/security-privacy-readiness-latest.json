@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "security-privacy-readiness-v1",
-  "generatedAt": "2026-06-26T18:48:24.434Z",
+  "generatedAt": "2026-06-29T20:10:20.685Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "securityPrivacy": "lib/discord/security-privacy.ts",
@@ -91,7 +91,7 @@
   "validation": {
     "ok": true,
     "validator": "security-privacy-readiness-validator-v1",
-    "validatedAt": "2026-06-26T18:48:24.435Z",
+    "validatedAt": "2026-06-29T20:10:20.686Z",
     "failures": []
   }
 }

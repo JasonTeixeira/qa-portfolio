@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-26T18:48:35.656Z
+Generated: 2026-06-29T20:10:29.550Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -10,16 +10,6 @@ World-class eligible: no
 The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.
 
 ## Blocked Proof Lanes
-
-### Gateway message capture
-
-- Status: blocked
-- Current: 0/1
-- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts panels
-- Local check: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet
-- Verification: npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog
-- Evidence required: Gateway packet must reach 1/1 usable non-bot non-empty message. Gateway packet state: message_content_ready_needs_fresh_member_message; Message Content Intent: true via identify_event; heartbeat fresh: true; worker: sagebot-main.
-- Live action: Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 
 ### Approved Discord knowledge
 
@@ -68,7 +58,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Total shortfall: 25
 - Next lane: approvedDiscordKnowledge
 - Lane states:
-  - approvedDiscordKnowledge: 0/10, no_source_volume, shortfall 10, cadence checks 3, acceptance checks 3
+  - approvedDiscordKnowledge: 0/10, needs_review, shortfall 10, cadence checks 3, acceptance checks 3
   - ragDiscordSources: 0/10, no_source_volume, shortfall 10, cadence checks 3, acceptance checks 3
   - publicProofAssets: 0/4, no_source_volume, shortfall 4, cadence checks 3, acceptance checks 3
   - premiumWorkflowProof: 0/1, needs_fulfillment, shortfall 1, cadence checks 3, acceptance checks 3
@@ -78,82 +68,77 @@ The local system is verified, but real operating proof is still missing. Close g
 - Status: ready_for_explicitly_approved_eval
 - OK: yes
 - Keys match coverage: yes
-- Ready: 15/15
-- Sources ready: 15/15
-- Terms ready: 15/15
+- Ready: 0/0
+- Sources ready: 0/0
+- Terms ready: 0/0
 - Approved command after explicit approval: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing
 - Boundary: This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage.
 
 ## RAG Eval Recovery Plan
 
-- Status: blocked
+- Status: ready
 - OK: yes
-- Missing eval backlog ready: 15/15
+- Missing eval backlog ready: 0/0
 - Failed eval backlog: 0
 - Approved command after explicit approval: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing
 - Boundary: This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.
 
 ## Gateway Capture
 
-- Status: blocked
+- Status: healthy
 - OK: yes
-- Usable non-bot message count: 0
-- Packet status: ready_for_fresh_message
-- Packet target: 0/1
-- Packet remaining: 1
-- Packet state: message_content_ready_needs_fresh_member_message
-- Message content: true via identify_event
+- Usable non-bot message count: 1
+- Packet status: proven
+- Packet target: 1/1
+- Packet remaining: 0
+- Packet state: fresh_usable_message_proven
+- Message content: true via heartbeat
 - Heartbeat: fresh (sagebot-main, age 0 minutes)
-- Root causes:
-  - Non-bot messages exist, but message content is empty.
+- Root causes: none reported
 - Next actions:
-  - Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
-  - Rerun npm run discord:gateway-capture-diagnosis after the message is posted.
-  - Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row.
+  - Run classifier and content queue jobs only with explicit approval for live Supabase mutation.
+  - Review resulting candidates in /admin/discord and approve durable knowledge items.
+  - Rerun proof-source scan after approvals.
 
 ## Release Gates
 
-- Passed: 15/17
-- Failures:
-  - rag_eval_latest
-  - rag_eval_coverage_readiness
+- Passed: 17/17
+- Failures: none
 
 ## Required Command Order
 
-1. `npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet`
-2. `npm run discord:operating-cycle:dry-run`
-3. `npm run discord:smoke-premium-workflows`
-4. `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
-5. `npm run discord:proof-source-recovery-plan`
-6. `npm run rag:evaluate:missing-preflight`
-7. `npm run rag:evaluate:recovery-plan`
-8. `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
-9. `npm run rag:evaluate:coverage-readiness`
-10. `npm run rag:discord-corpus-readiness`
-11. `npm run discord:durable-jobs-readiness`
-12. `npm run discord:security-privacy-readiness`
-13. `npm run discord:observability-quality-readiness`
-14. `npm run discord:channel-matrix-readiness`
-15. `npm run discord:content-factory-readiness`
-16. `npm run discord:premium-readiness`
-17. `npm run discord:public-growth-readiness`
-18. `npm run discord:proof-intake-readiness`
-19. `npm run discord:weekly-proof-packet`
-20. `npm run discord:proof-rehearsal-readiness`
-21. `npm run discord:smoke-final-scorecard`
-22. `npm run discord:proof-backlog`
-23. `npm run discord:proof-candidate-audit`
-24. `npm run discord:world-class-readiness`
-25. `npm run discord:operator-brief`
-26. `npm run discord:gateway-capture-diagnosis`
-27. `npm run discord:gateway-operating-packet`
-28. `npm run verify:local:evidence`
+1. `npm run discord:operating-cycle:dry-run`
+2. `npm run discord:smoke-premium-workflows`
+3. `SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle`
+4. `npm run discord:proof-source-recovery-plan`
+5. `npm run rag:evaluate:missing-preflight`
+6. `npm run rag:evaluate:recovery-plan`
+7. `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
+8. `npm run rag:evaluate:coverage-readiness`
+9. `npm run rag:discord-corpus-readiness`
+10. `npm run discord:durable-jobs-readiness`
+11. `npm run discord:security-privacy-readiness`
+12. `npm run discord:observability-quality-readiness`
+13. `npm run discord:channel-matrix-readiness`
+14. `npm run discord:content-factory-readiness`
+15. `npm run discord:premium-readiness`
+16. `npm run discord:public-growth-readiness`
+17. `npm run discord:proof-intake-readiness`
+18. `npm run discord:weekly-proof-packet`
+19. `npm run discord:proof-rehearsal-readiness`
+20. `npm run discord:smoke-final-scorecard`
+21. `npm run discord:proof-backlog`
+22. `npm run discord:proof-candidate-audit`
+23. `npm run discord:world-class-readiness`
+24. `npm run discord:operator-brief`
+25. `npm run discord:gateway-capture-diagnosis`
+26. `npm run discord:gateway-operating-packet`
+27. `npm run verify:local:evidence`
 
 ## Action Plan By Permission Boundary
 
 ### Safe Local Commands
 
-- `npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet`
 - `npm run discord:operating-cycle:dry-run`
 - `npm run discord:smoke-premium-workflows`
 - `npm run discord:proof-source-recovery-plan`
@@ -186,15 +171,14 @@ The local system is verified, but real operating proof is still missing. Close g
 
 ### Live Operator Actions
 
-- Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.
 - Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.
-- Rerun npm run discord:gateway-capture-diagnosis after the message is posted.
-- Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row.
-- Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.
-- Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event.
+- Run classifier and content queue jobs only with explicit approval for live Supabase mutation.
+- Review resulting candidates in /admin/discord and approve durable knowledge items.
+- Rerun proof-source scan after approvals.
+- Run npm run discord:classify-messages, then npm run discord:queue-content to create reviewable candidates.
 
 ## Non-Claim Rule
 

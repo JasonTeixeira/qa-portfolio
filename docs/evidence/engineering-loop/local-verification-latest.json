@@ -1,29 +1,25 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-26T18:48:36.568Z",
+  "timestamp": "2026-06-29T20:10:29.832Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
     "localVerificationPassed": true,
     "worldClassEligible": false,
     "averageScore": 83,
-    "releaseGateFailures": [
-      "rag_eval_latest",
-      "rag_eval_coverage_readiness"
-    ],
+    "releaseGateFailures": [],
     "ragEvalCoverage": {
-      "releaseReady": false,
-      "evaluatedQuestionCount": 50,
+      "releaseReady": true,
+      "evaluatedQuestionCount": 65,
       "expectedQuestionCount": 65,
-      "missingEvalKeyCount": 15,
+      "missingEvalKeyCount": 0,
       "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "requiresExplicitApproval": true
     },
     "operatingProof": {
       "status": "blocked",
       "blockedLanes": [
-        "gateway_capture:0/1",
         "approved_discord_knowledge:0/10",
         "rag_discord_sources:0/10",
         "public_proof_assets:0/4",
@@ -40,8 +36,6 @@
     },
     "actionPlan": {
       "localOnlyCommands": [
-        "npm run rag:evaluate:recovery-plan",
-        "npm run rag:evaluate:missing-preflight",
         "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
         "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
         "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
@@ -52,7 +46,6 @@
         "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
       ],
       "liveOperatorActions": [
-        "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
         "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
         "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
         "Create and approve four privacy-safe public proof assets from approved Discord source material.",
@@ -122,14 +115,11 @@
     "worldClassReadiness": "docs/evidence/engineering-loop/world-class-readiness-latest.json"
   },
   "scorecard": {
-    "ok": false,
+    "ok": true,
     "averageScore": 83,
     "worldClassEligible": false,
     "worldClassThreshold": 95,
-    "releaseGateFailures": [
-      "rag_eval_latest",
-      "rag_eval_coverage_readiness"
-    ],
+    "releaseGateFailures": [],
     "blockedBelow95": [
       "server_access_onboarding",
       "role_routing_member_state",
@@ -150,7 +140,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782499708028"
+    "runKey": "phase-20-final-1782763824121"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -167,10 +157,10 @@
   "operatingCycle": {
     "status": "blocked",
     "ok": false,
-    "cycleKey": "2026-W26",
+    "cycleKey": "2026-W27",
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 0,
+    "pendingKnowledgeCandidates": 1,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "approvedMembers": 7,
@@ -190,14 +180,11 @@
   },
   "gatewayCapture": {
     "ok": true,
-    "status": "blocked",
-    "usableMessageCount": 0,
-    "rootCauses": [
-      "Non-bot messages exist, but message content is empty."
-    ],
+    "status": "healthy",
+    "usableMessageCount": 1,
+    "rootCauses": [],
     "nextActions": [
-      "Identify events show Message Content Intent enabled; redeploy the heartbeat metadata build only if future heartbeat rows still omit intent metadata.",
-      "Capture a fresh non-bot message after the latest Message Content Intent-enabled identify event."
+      "Run npm run discord:classify-messages, then npm run discord:queue-content to create reviewable candidates."
     ],
     "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof."
   },
@@ -218,65 +205,25 @@
   "ragEvalCoverageReadiness": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "releaseReady": false,
+    "releaseReady": true,
     "expectedQuestionCount": 65,
-    "seededQuestionCount": 50,
-    "evaluatedQuestionCount": 50,
-    "missingEvalKeys": [
-      "rag_ai_011",
-      "rag_ai_012",
-      "rag_ai_013",
-      "rag_ai_014",
-      "rag_ai_015",
-      "rag_content_011",
-      "rag_content_012",
-      "rag_content_013",
-      "rag_content_014",
-      "rag_content_015",
-      "rag_content_016",
-      "rag_content_017",
-      "rag_content_018",
-      "rag_content_019",
-      "rag_content_020"
-    ],
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "missingEvalKeys": [],
     "unexpectedEvalKeys": [],
-    "blockers": [
-      "latest_seeded_eval_count_below_target:50/65",
-      "latest_evaluated_eval_count_below_target:50/65",
-      "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
-    ],
+    "blockers": [],
     "nextActions": [
-      "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
-      "Safe local planning command: npm run rag:evaluate:missing-plan",
-      "If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
-      "Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
-      "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
+      "No eval coverage action needed before the next scorecard run."
     ]
   },
   "ragEvalExecutionPacket": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "status": "approval_required",
+    "status": "not_required",
     "selectedMatchesCoverage": true,
-    "missingEvalKeys": [
-      "rag_ai_011",
-      "rag_ai_012",
-      "rag_ai_013",
-      "rag_ai_014",
-      "rag_ai_015",
-      "rag_content_011",
-      "rag_content_012",
-      "rag_content_013",
-      "rag_content_014",
-      "rag_content_015",
-      "rag_content_016",
-      "rag_content_017",
-      "rag_content_018",
-      "rag_content_019",
-      "rag_content_020"
-    ],
+    "missingEvalKeys": [],
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
-    "requiresExplicitApproval": true,
+    "requiresExplicitApproval": false,
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
   },
@@ -285,26 +232,10 @@
     "mutationMode": "local_file_evidence_only",
     "status": "ready_for_explicitly_approved_eval",
     "selectedMatchesCoverage": true,
-    "missingEvalKeys": [
-      "rag_ai_011",
-      "rag_ai_012",
-      "rag_ai_013",
-      "rag_ai_014",
-      "rag_ai_015",
-      "rag_content_011",
-      "rag_content_012",
-      "rag_content_013",
-      "rag_content_014",
-      "rag_content_015",
-      "rag_content_016",
-      "rag_content_017",
-      "rag_content_018",
-      "rag_content_019",
-      "rag_content_020"
-    ],
-    "sourceReadyCount": 15,
-    "termCoverageReadyCount": 15,
-    "readyForApprovedEvalCount": 15,
+    "missingEvalKeys": [],
+    "sourceReadyCount": 0,
+    "termCoverageReadyCount": 0,
+    "readyForApprovedEvalCount": 0,
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
@@ -312,10 +243,10 @@
   "ragEvalRecoveryPlan": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "status": "blocked",
-    "missingEvalCount": 15,
+    "status": "ready",
+    "missingEvalCount": 0,
     "failedEvalCount": 0,
-    "missingEvalBacklogReadyCount": 15,
+    "missingEvalBacklogReadyCount": 0,
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "antiFakeRuleCount": 4,
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
@@ -329,7 +260,7 @@
       "smokeProofCommandAvailable": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
       "approvedKnowledgeCount": 0,
       "discordRagSourceCount": 0,
-      "reviewableCandidateCount": 0
+      "reviewableCandidateCount": 2
     },
     "checkCount": 8,
     "failures": [],
@@ -826,14 +757,12 @@
       "premium_workflow_proof"
     ],
     "blockedLanes": [
-      "gateway_capture:0/1",
       "approved_discord_knowledge:0/10",
       "rag_discord_sources:0/10",
       "public_proof_assets:0/4",
       "premium_workflow_proof:0/1"
     ],
     "nextActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
@@ -853,7 +782,6 @@
       "premium_workflow_proof"
     ],
     "blockedLanes": [
-      "gateway_capture:0/1",
       "approved_discord_knowledge:0/10",
       "rag_discord_sources:0/10",
       "public_proof_assets:0/4",
@@ -911,8 +839,8 @@
       "premium_workflow_proof"
     ],
     "candidateStates": [
-      "gateway_capture:needs_source_volume:0/1",
-      "approved_discord_knowledge:needs_source_volume:0/10",
+      "gateway_capture:target_met:1/1",
+      "approved_discord_knowledge:needs_review:0/10",
       "rag_discord_sources:needs_source_volume:0/10",
       "public_proof_assets:needs_source_volume:0/4",
       "premium_workflow_proof:needs_source_volume:0/1"
@@ -973,8 +901,7 @@
       }
     ],
     "nextActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-      "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
       "Run the approved Discord RAG sync after approving knowledge candidates.",
       "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
       "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
@@ -989,8 +916,8 @@
       "current": 0,
       "target": 10,
       "remaining": 10,
-      "reviewableCandidates": 0,
-      "sourceVolumeState": "no_source_volume"
+      "reviewableCandidates": 2,
+      "sourceVolumeState": "needs_review"
     },
     "requiredFieldCount": 18,
     "weeklySlotCount": 10,
@@ -1004,7 +931,7 @@
     ],
     "nextActions": [
       "Approve 10 more high-signal Discord knowledge items with this packet.",
-      "Create source volume by asking members useful questions, reviewing builds, and capturing helpful answers/resources.",
+      "Review 2 candidates already visible in source-volume evidence.",
       "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
       "Rerun npm run discord:proof-source-scan after approvals."
     ],
@@ -1013,27 +940,27 @@
   "gatewayOperatingPacket": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "status": "ready_for_fresh_message",
+    "status": "proven",
     "target": {
-      "current": 0,
+      "current": 1,
       "target": 1,
-      "remaining": 1,
-      "usableMessageState": "message_content_ready_needs_fresh_member_message"
+      "remaining": 0,
+      "usableMessageState": "fresh_usable_message_proven"
     },
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
       "ageMinutes": 0,
-      "lastSeenAt": "2026-06-26T18:48:00.642+00:00",
+      "lastSeenAt": "2026-06-29T20:09:51.206+00:00",
       "fresh": true,
       "lastCloseCode": null
     },
     "messageContentSignal": {
       "effectiveEnabled": true,
-      "source": "identify_event",
+      "source": "heartbeat",
       "identifyEnabled": true,
-      "heartbeatEnabled": null,
-      "identifyCreatedAt": "2026-06-26T16:34:11.608494+00:00"
+      "heartbeatEnabled": true,
+      "identifyCreatedAt": "2026-06-29T19:14:48.322001+00:00"
     },
     "requiredFieldCount": 18,
     "antiFakeRules": [
@@ -1045,9 +972,9 @@
       "Do not claim Discord corpus readiness until capture, classification, candidate queueing, approval, and RAG sync are separately proven."
     ],
     "nextActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-      "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
-      "Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row."
+      "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+      "Review resulting candidates in /admin/discord and approve durable knowledge items.",
+      "Rerun proof-source scan after approvals."
     ],
     "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
   },
@@ -1058,8 +985,8 @@
       "approvedDiscordKnowledge": {
         "current": 0,
         "target": 10,
-        "reviewableCandidates": 0,
-        "blocker": "Approved knowledge is 0/10; no reviewable Discord knowledge candidates found in captured messages/classifications/content queue."
+        "reviewableCandidates": 2,
+        "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
       },
       "ragDiscordSources": {
         "current": 0,
@@ -1084,19 +1011,19 @@
       }
     },
     "counts": {
-      "discord_messages.all": 9,
-      "discord_messages.non_empty_visible": 0,
-      "discord_messages.recent_7d_visible": 0,
-      "discord_message_classifications.all": 0,
-      "discord_message_classifications.recommended_action.in": 0,
-      "discord_content_queue.all": 0,
-      "discord_content_queue.status.in": 0,
+      "discord_messages.all": 10,
+      "discord_messages.non_empty_visible": 1,
+      "discord_messages.recent_7d_visible": 1,
+      "discord_message_classifications.all": 1,
+      "discord_message_classifications.recommended_action.in": 1,
+      "discord_content_queue.all": 1,
+      "discord_content_queue.status.in": 1,
       "discord_content_queue.status=published": 0,
       "discord_questions.all": 0,
       "discord_questions.status.in": 0,
       "discord_answers.all": 0,
       "discord_answers.helpful=true": 0,
-      "discord_content_drafts.all": 34,
+      "discord_content_drafts.all": 35,
       "discord_content_drafts.approved_with_discord_provenance": 0,
       "rag_sources.or": 0,
       "discord_public_proof_sources.all": 0,
@@ -1124,7 +1051,7 @@
       {
         "key": "approvedDiscordKnowledge",
         "status": "blocked",
-        "sourceVolumeState": "no_source_volume",
+        "sourceVolumeState": "needs_review",
         "current": 0,
         "target": 10,
         "shortfall": 10,
@@ -1168,7 +1095,7 @@
   "operatorBrief": {
     "ok": true,
     "mutationMode": "local_file_evidence_only",
-    "blockedLaneCount": 5,
+    "blockedLaneCount": 4,
     "proofSourceRecoveryPlan": {
       "status": "blocked",
       "blockedLaneCount": 4,
@@ -1178,7 +1105,7 @@
         {
           "key": "approvedDiscordKnowledge",
           "status": "blocked",
-          "sourceVolumeState": "no_source_volume",
+          "sourceVolumeState": "needs_review",
           "current": 0,
           "target": 10,
           "shortfall": 10,
@@ -1235,24 +1162,21 @@
       "ok": true,
       "failures": []
     },
-    "releaseGateFailures": [
-      "rag_eval_latest",
-      "rag_eval_coverage_readiness"
-    ],
+    "releaseGateFailures": [],
     "ragEvalMissingPreflight": {
       "status": "ready_for_explicitly_approved_eval",
       "ok": true,
-      "missingEvalCount": 15,
-      "readyForApprovedEvalCount": 15,
+      "missingEvalCount": 0,
+      "readyForApprovedEvalCount": 0,
       "selectedMatchesCoverage": true,
       "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
     },
     "ragEvalRecoveryPlan": {
-      "status": "blocked",
+      "status": "ready",
       "ok": true,
-      "missingEvalCount": 15,
-      "readyMissingEvalCount": 15,
+      "missingEvalCount": 0,
+      "readyMissingEvalCount": 0,
       "failedEvalCount": 0,
       "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
@@ -1265,7 +1189,7 @@
       "nextLaneKey": "approvedDiscordKnowledge",
       "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
     },
-    "immediateActionCount": 20
+    "immediateActionCount": 16
   },
   "remainingGaps": [
     "Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.",

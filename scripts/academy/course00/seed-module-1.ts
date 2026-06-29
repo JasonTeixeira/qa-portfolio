@@ -75,75 +75,99 @@ const problemFrameBlocks: LessonBlock[] = [
   },
   {
     type: 'mission',
-    text: 'A staff engineer is pulled into a war room: the checkout page is slow, the VP wants it "fixed by Friday," and three people are already arguing about Redis. She says one sentence — "What is actually failing, and for whom?" — and the room goes quiet, because nobody can answer it. That sentence is the whole job. Before you touch a tool, before you pick a side, you frame. This module builds the four moves senior engineers run on autopilot; this lesson is the first and the one most people skip.',
+    text: 'A war room: checkout is slow, the VP wants it "fixed by Friday," three people are already arguing about Redis. The staff engineer asks one sentence — "What is actually failing, and for whom?" — and the room goes silent, because nobody framed it.',
   },
   {
     type: 'context',
-    text: 'Every engineering decision worth the name starts ambiguous: incomplete evidence, stakeholders who disagree, a clock running. The frame is what converts "everyone is anxious" into "here is the one decision, the one constraint, and the one failure we cannot accept." Get the frame right and the diagnosis, the system map, and the proof that follow have something true to hang on. Get it wrong — solve the wrong problem fast — and every hour after is wasted with confidence. This is Section 1 of a memo you will carry through all four lessons.',
+    text: 'Every real decision starts ambiguous: partial evidence, stakeholders who disagree, a clock running. The frame converts "everyone is anxious" into one decision, one constraint, one unacceptable failure — Section 1 of the memo you carry through all four lessons.',
   },
   {
     type: 'pretest',
     prompt:
-      'A teammate opens with: "We need to add a cache to the orders service." Before you debate caching — what is wrong with that as a problem statement? Write your answer before reading on.',
+      '"We need to add a cache to the orders service." Before you debate caching — what is wrong with that as a problem statement? Answer before reading on.',
     reveal:
-      'It is not a problem statement at all — it is an answer wearing a problem\'s clothes. "Add a cache" presumes the problem is read latency, the cause is recomputation, and the fix is caching — three unproven leaps. The real frame might be "p99 order-confirmation latency is 4s and the SLO is 1s, and we do not yet know why." Naming the solution first is the most common senior-level mistake there is, because it feels like progress while quietly deciding the answer. The frame must describe the pain with zero fix inside it.',
+      'It is an answer wearing a problem\'s clothes. "Add a cache" presumes the problem is read latency, the cause is recomputation, and the fix is caching — three unproven leaps. The real frame: "p99 order-confirmation latency is 4s, the SLO is 1s, and we do not yet know why." Naming the fix first feels like progress while quietly deciding the answer.',
   },
   {
     type: 'concept',
     title: 'A frame is problem + constraint + feared failure — and no solution',
-    text: 'The Problem Frame is a forcing function: it makes you state, in writing, (1) the real problem in one solution-free sentence, (2) the one hard constraint that is not negotiable (a deadline, a budget, a compliance line, a backwards-compat guarantee), and (3) the specific failure you fear if you get it wrong. The invariant: the frame contains the problem, never the answer. If a solution has leaked into your problem sentence, you have pre-decided — and you will spend the rest of the decision defending a guess instead of diagnosing a system. A good frame is also small enough to fit in a few lines and sharp enough that a peer can restate it back to you correctly.',
+    text: 'State the real problem in one solution-free sentence, the one non-negotiable constraint, and the specific failure you fear. The invariant: the frame holds the problem, never the answer. A solution in the problem line means you pre-decided.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'A real one. The trigger: "Search is broken, customers are complaining." Watch a weak frame become a strong one.',
-    steps: [
-      'Weak frame: "Search is broken — we should reindex Elasticsearch tonight." Problem and solution are fused; reindexing is already decided.',
-      'Strip the solution. What is the actual pain? "Customers report that recent products do not appear in search results."',
-      'Quantify and bound it: "Products created in the last 6 hours are missing from search for ~30% of queries." Now it is a problem, not a vibe.',
-      'Name the hard constraint: "We cannot take search offline during business hours — it is the primary conversion path." That constraint will rule out options later.',
-      'Name the feared failure: "If we act on the wrong cause, we either index-storm the cluster into an outage or quietly keep losing conversions for days."',
-      'Final frame: problem (recent products missing for ~30% of queries), constraint (no daytime downtime), feared failure (cluster outage OR silent conversion loss). Zero solution inside it.',
-    ],
-    commonMistake:
-      'Quantifying the SOLUTION instead of the problem: "we need 3 more replicas" is a measured answer, still an answer. Measure the pain (how much, who, since when), not the fix.',
+    type: 'compare',
+    title: 'Same trigger, two frames',
+    subtitle: 'Trigger: "Search is broken, customers are complaining." Only one is a frame.',
+    left: {
+      label: 'Disguised solution',
+      tone: 'warning',
+      lines: [
+        'Problem: "search is broken, reindex tonight"',
+        'Solution fused into the problem line',
+        'Constraint: "make it fast" (decoration)',
+        'Feared failure: "it stays broken" (a vibe)',
+        'A peer cannot restate it without the fix',
+      ],
+      verdict: 'Pre-decided — defends a guess',
+    },
+    right: {
+      label: 'Real frame',
+      tone: 'success',
+      lines: [
+        'Problem: recent products missing for ~30% of queries',
+        'Quantified: how much, who, since when',
+        'Constraint: no daytime downtime (primary conversion path)',
+        'Feared failure: cluster outage OR silent conversion loss',
+        'Zero solution inside it — opponent would sign it',
+      ],
+      verdict: 'Diagnosable — aims every later move',
+    },
+    caption: 'Measure the pain (how much, who, since when), never the fix. "3 more replicas" is a measured answer, still an answer.',
   },
   {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'Writing Section 1, one line at a time',
+    subtitle: 'The Frame template in the memo — each line a forcing function.',
     filename: MEMO,
     language: 'bash',
     code: FRAME_MEMO_TEMPLATE,
+    steps: [
+      { lines: [3], label: 'The header', note: 'This memo threads all four lessons — one artifact, grown a section at a time.' },
+      { lines: [6], label: 'Decision + deadline', note: 'Name the call and when it is due. "ship | rollback | instrument | redesign" — pick the verb, not a hunch.' },
+      { lines: [7], label: 'The problem line', note: 'One sentence, no solution in it. If it names a technology or an action you would take, you smuggled in the answer.' },
+      { lines: [8], label: 'The hard constraint', note: 'The one thing that is NOT negotiable — and it must rule out at least one plausible option, or it is decoration.' },
+      { lines: [9], label: 'Feared failure', note: 'Specific enough to recognize in a dashboard. The strong version names both a false-positive and a false-negative.' },
+      { lines: [10], label: 'Reversibility', note: 'One-way vs two-way door sets how much proof the later lessons demand.' },
+    ],
+    caption: 'A peer should read these five lines and restate the problem back to you without correction.',
+  },
+  {
+    type: 'diagram',
+    title: 'The anatomy of a frame',
+    subtitle: 'Four parts feed the decision; the solution is deliberately OUT — it belongs to the diagnosis, not the frame.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'problem', label: 'Problem', description: 'one sentence, solution-free', kind: 'process', tone: 'accent' },
+      { id: 'constraint', label: 'Constraint', description: 'the non-negotiable', kind: 'process' },
+      { id: 'feared', label: 'Feared failure', description: 'what "wrong" looks like', kind: 'process', tone: 'warning' },
+      { id: 'decision', label: 'Decision', description: 'the call + deadline', kind: 'decision', tone: 'success' },
+      { id: 'solution', label: 'Solution', description: 'out of scope here', kind: 'external', tone: 'muted' },
+    ],
+    edges: [
+      { from: 'problem', to: 'decision', label: 'defines', kind: 'data' },
+      { from: 'constraint', to: 'decision', label: 'bounds', kind: 'data' },
+      { from: 'feared', to: 'decision', label: 'raises the bar', kind: 'data', tone: 'warning' },
+      { from: 'solution', to: 'problem', label: 'must NOT leak in', kind: 'control', dashed: true, tone: 'muted' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'the problem (the whole skill)' },
+      { tone: 'warning', label: 'feared failure' },
+      { tone: 'muted', label: 'kept out on purpose' },
+    ],
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The tell that separates senior from mid: a senior engineer can state the problem in a sentence that the person who disagrees with them would also sign. If your frame only sounds true to people who already favor your fix, it is not a frame — it is a campaign. Write the version your opponent would accept; that is the one with no solution smuggled inside.',
-  },
-  {
-    type: 'calibration',
-    artifact: `Section 1 "Frame" of ${MEMO}`,
-    weak:
-      'The problem sentence contains a solution ("add a cache", "reindex tonight"); the constraint is vague ("make it fast") or missing; no specific feared failure. Reads like a plan, not a frame.',
-    passing:
-      'One solution-free problem sentence, one named non-negotiable constraint, and a concrete feared failure. A peer can restate the problem correctly. Reversibility is marked.',
-    excellent:
-      'The problem is quantified (how much, who, since when), the constraint is the one that will actually eliminate options downstream, and the feared failure names BOTH a false-positive and a false-negative outcome — the version your opponent would still sign.',
-    note: 'Grade against the artifact, not against how confident the author sounds. Confidence is not calibration.',
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate hands you this frame and asks you to approve it. It feels reasonable but it is quietly broken. Find the flaw and rewrite the problem line.',
-    language: 'bash',
-    brokenCode: `## 1. Frame
-- Decision: migrate the orders DB to Postgres 16 this sprint
-- Real problem: our database is outdated and we should upgrade
-- Constraint: finish before the quarter ends
-- Feared failure: the migration is hard`,
-    task:
-      'Name what is wrong with the "Real problem" and "Feared failure" lines, then rewrite the problem as a solution-free sentence.',
-    fix:
-      '"Our database is outdated and we should upgrade" is a solution (upgrade) plus an opinion (outdated), not a problem — and "the migration is hard" is an effort estimate, not a failure mode. Rewrite, e.g.: Real problem: "On Postgres 13 we cannot use the index type we need for the new search query, and that query is timing out for 5% of users." Now the upgrade is one candidate option, not a foregone conclusion, and the feared failure becomes concrete: "a botched migration corrupts order rows or causes extended write downtime during business hours."',
+    text: 'The tell that separates senior from mid: a senior engineer states the problem in a sentence the person who disagrees with them would also sign. If your frame only sounds true to people who already favor your fix, it is a campaign, not a frame.',
   },
   {
     type: 'quiz',
@@ -178,23 +202,8 @@ const problemFrameBlocks: LessonBlock[] = [
     ],
   },
   {
-    type: 'tradeoff',
-    question:
-      'You have 30 minutes before the war-room call. Do you spend it sharpening the Frame, or jumping straight into the logs to look busy?',
-    optionA: {
-      label: 'Sharpen the Frame first',
-      text: 'Spend 10 minutes writing the solution-free problem, the constraint, and the feared failure. You walk in able to say "here is the one decision and the one thing we cannot accept" — and the diagnosis that follows is aimed.',
-    },
-    optionB: {
-      label: 'Dive into the logs now',
-      text: 'Start grepping immediately. You will have screenshots to show, but no shared definition of what "fixed" means — so the room keeps re-litigating the goal while you dig in a direction nobody agreed to.',
-    },
-    guidance:
-      'Option A, almost always, for an ambiguous decision with stakeholders. The frame is cheap (minutes) and it makes every later minute count; un-framed investigation is motion mistaken for progress. The only time B wins is a true sev-1 where the failure is already obvious and the clock is the only constraint — and even then you frame in one spoken sentence before you dig.',
-  },
-  {
     type: 'transfer',
-    text: 'This is not a software move — it is the move. A doctor frames before treating ("chest pain, 55-year-old, fear is an MI, constraint is we cannot wait for slow labs"). A founder frames before building ("retention drops after week 2, fear is the core loop is boring, constraint is we cannot rebuild onboarding this quarter"). Anywhere a decision is ambiguous and a clock is running, the Frame is the first artifact. Next lesson you keep this exact memo and add Section 2 — the Diagnostic Route — which turns your feared failure into an ordered plan for finding the real cause.',
+    text: 'Not a software move — the move. A doctor frames before treating ("chest pain, 55, fear is an MI, constraint is we cannot wait for slow labs"). A founder frames before building. Anywhere a decision is ambiguous and a clock is running, the Frame is the first artifact. Next lesson keeps this exact memo and adds Section 2 — the Diagnostic Route — turning your feared failure into an ordered plan for finding the real cause.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '30 days'] },
 ]
@@ -207,11 +216,11 @@ const problemFrameBlocks: LessonBlock[] = [
 // ============================================================================
 
 const ROUTE_MEMO_SECTION = `## 2. Diagnostic Route
-- Hypothesis A (most likely): ______  → kill-test: ______  → cost: <cheap|mid|expensive>
-- Hypothesis B: ______              → kill-test: ______  → cost: ______
-- Hypothesis C: ______              → kill-test: ______  → cost: ______
-- Run order (cheapest disqualifier first): ______
-- Stop rule (when do we stop diagnosing and decide): ______`
+- Hypothesis A (lag): index worker is behind        → kill-test: newest indexed doc vs newest DB write  → cost: cheap
+- Hypothesis B (silent-fail): worker crashes on some events → kill-test: worker error-log + dead-letter count → cost: cheap
+- Hypothesis C (stale-cache): query layer serves old results → kill-test: bypass cache, re-query primary → cost: mid
+- Run order (cheapest disqualifier first): A → B → C
+- Stop rule: one branch confirmed by evidence, or 30 min elapsed → decide`
 
 const diagnosticRouteBlocks: LessonBlock[] = [
   {
@@ -227,75 +236,103 @@ const diagnosticRouteBlocks: LessonBlock[] = [
   },
   {
     type: 'mission',
-    text: 'Two engineers get the same incident: "payments are failing intermittently." The first starts at the code she wrote last week, because that is what she knows best, and burns four hours there. The second writes three hypotheses on a whiteboard, picks the one a 2-minute log query could rule out, runs it, and crosses off a third of the search space before the first engineer has even opened a file. Same incident, same skill with code — wildly different outcomes — because one had a route and one had a hunch. You wrote the Frame last lesson; now you turn its feared failure into a search you can actually win.',
+    text: 'Same incident, two engineers: "payments are failing intermittently." The first digs into the code she wrote last week and burns four hours. The second writes three hypotheses, picks the one a 2-minute query could rule out, and crosses off a third of the search space before the first opens a file. One had a route; one had a hunch.',
   },
   {
     type: 'context',
-    text: 'Diagnosis is search through a space of possible causes, and ambiguous problems have large spaces. The amateur move is to search where the light is good (the code you wrote, the service you own). The senior move is to search where the information is densest per unit of effort — to run the test that eliminates the most possibility for the least cost, regardless of whose code it implicates. The Route is the artifact that makes that discipline visible and reviewable. It is Section 2 of the memo you started in Lesson 1.',
+    text: 'Diagnosis is search through a space of causes, and ambiguous problems have large spaces. The amateur searches where the light is good (the code they own); the senior searches where information is densest per unit of effort. The Route makes that discipline visible — Section 2 of the memo.',
   },
   {
     type: 'pretest',
     prompt:
-      'You have three suspects for a bug and limited time. Do you investigate the one you think is MOST likely first — or something else? Decide before reading.',
+      'Three suspects, limited time. Do you investigate the one you think is MOST likely first — or something else? Decide before reading.',
     reveal:
-      'Not necessarily the most likely — the most CHEAPLY DISQUALIFIABLE. Information theory beats intuition here: a 2-minute test that, whatever its result, eliminates half the suspects is worth more than an hour spent confirming your top guess. You are not trying to be right early; you are trying to shrink the search space fastest. Often the best first move is a test you expect to pass, precisely because passing it rules a whole branch out.',
+      'Not the most likely — the most CHEAPLY DISQUALIFIABLE. A 2-minute test that eliminates half the suspects whatever its result beats an hour confirming your top guess. You are not trying to be right early; you are trying to shrink the space fastest. Often the best first move is a test you expect to PASS, precisely because passing it rules a whole branch out.',
   },
   {
     type: 'concept',
     title: 'A route ranks hypotheses by information-per-cost, not by gut',
-    text: 'The Diagnostic Route lists the plausible causes (hypotheses), attaches to each a single falsifiable kill-test — a check whose "no" result eliminates that hypothesis — and orders the tests so the cheapest disqualifier runs first. Two invariants. First, every test must be able to fail; a check that can only confirm your bias adds no information. Second, you order by expected information per unit cost, not by which hypothesis you favor. The Route also needs a stop rule: the point where you stop gathering evidence and decide, because in a real decision more diagnosis past a point is just procrastination with a stack trace.',
+    text: 'List plausible causes, attach to each a falsifiable kill-test (a check whose "no" eliminates it), and run the cheapest disqualifier first. Every test must be able to fail. Add a stop rule — the point where you stop diagnosing and decide.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'Carrying the search problem from Lesson 1 forward: "recent products missing from search for ~30% of queries." Here is the Route.',
-    steps: [
-      'List hypotheses: (A) the indexing job is failing silently, (B) the index job runs but lags hours behind writes, (C) the query layer filters out fresh docs by a stale cache, (D) a recent mapping change drops the new fields.',
-      'Attach a kill-test to each. A: check the indexer job exit codes / dead-letter queue — non-empty kills "silent failure". B: compare newest doc timestamp in the index vs the DB — a small gap kills "hours of lag". C: bypass the cache on one query — fresh docs appearing kills "stale cache". D: inspect the live mapping for the fields — fields present kills "mapping drop".',
-      'Cost each test: A and B and D are minutes (a query or an API call); C requires a code path change — more expensive.',
-      'Order cheapest-disqualifier-first: B (one timestamp compare) → A (queue check) → D (mapping read) → C (code change). Each cheap test can cross off a whole branch.',
-      'Set the stop rule: "If B, A, and D all pass and C is implicated, we stop diagnosing and decide on a cache fix — we do not keep hunting for a fifth cause past 45 minutes."',
-      'Run B first. The newest indexed doc is 5 hours old while the DB has writes from 2 minutes ago — "hours of lag" is now the leading hypothesis, and you got there with one query.',
+    type: 'diagram',
+    title: 'The diagnostic route as a decision flow',
+    subtitle:
+      'Frame\'s feared failure → ranked hypotheses → cheapest kill-test first → eliminate or decide. The stop rule ends the loop; "hours of lag" survives.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'feared', label: 'Feared failure', description: 'from the Frame', kind: 'process', tone: 'muted' },
+      { id: 'rank', label: 'Rank hypotheses', description: 'A lag · B silent-fail · C stale-cache · D mapping-drop', kind: 'process', tone: 'accent' },
+      { id: 'cheapest', label: 'Cheapest kill-test', description: 'B: compare newest index vs DB timestamp', kind: 'decision', tone: 'accent' },
+      { id: 'eliminate', label: 'Eliminate branch', description: 'a passing test is pure profit', kind: 'process', tone: 'success' },
+      { id: 'stop', label: 'Stop rule', description: 'time/evidence box → decide', kind: 'decision', tone: 'warning' },
+      { id: 'cause', label: 'Leading cause', description: '"index lags 5h"', kind: 'store', tone: 'success' },
     ],
-    commonMistake:
-      'Writing hypotheses that are not mutually testable — "maybe it is a config issue" is not a hypothesis, it is a shrug. A hypothesis you cannot write a kill-test for cannot be on the route.',
+    edges: [
+      { from: 'feared', to: 'rank', label: 'spawns', kind: 'data' },
+      { from: 'rank', to: 'cheapest', label: 'order by info/cost', kind: 'control', tone: 'accent' },
+      { from: 'cheapest', to: 'eliminate', label: 'on "no"', kind: 'async', tone: 'success' },
+      { from: 'eliminate', to: 'cheapest', label: 'next cheapest', kind: 'control' },
+      { from: 'cheapest', to: 'cause', label: 'survivor', kind: 'data', tone: 'success' },
+      { from: 'eliminate', to: 'stop', label: 'box hit?', kind: 'control', tone: 'warning' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'rank + order by information-per-cost' },
+      { tone: 'success', label: 'a kill-test that eliminates a branch' },
+      { tone: 'warning', label: 'stop rule — stop diagnosing, decide' },
+    ],
   },
   {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'Writing Section 2, one line at a time',
+    subtitle: 'The Route in the memo — ranked, falsifiable, ordered cheapest-first.',
     filename: MEMO,
     language: 'bash',
     code: ROUTE_MEMO_SECTION,
+    steps: [
+      { lines: [2], label: 'Most-likely hypothesis', note: 'A real hypothesis, not a shrug: "maybe a config issue" has no kill-test, so it cannot be on the route.' },
+      { lines: [3, 4], label: 'Span layers you do not own', note: 'B and C should reach beyond your own code. Bias hides in "it must be my service".' },
+      { lines: [2, 3, 4], label: 'A falsifiable kill-test each', note: 'Each test must be able to return "no" and eliminate a branch. A test that can only confirm is theater.' },
+      { lines: [2, 3, 4], label: 'Cost each test', note: 'A timestamp compare is minutes; a code-path change is expensive. Cost decides the order, not your favorite suspect.' },
+      { lines: [5], label: 'Cheapest disqualifier first', note: 'Order by elimination-per-minute. The first move can cross off a whole branch in one query.' },
+      { lines: [6], label: 'The stop rule', note: 'A concrete time or evidence threshold — past it, diagnosis is procrastination with a stack trace.' },
+    ],
+    caption: 'Run the cheapest test: newest indexed doc is 5h old, DB has 2-minute-old writes — "lag" survives, found with one query.',
+  },
+  {
+    type: 'compare',
+    title: 'One guess vs a real route',
+    subtitle: 'Same incident: "API returns 500s intermittently." Both feel like work; only one shrinks the space.',
+    left: {
+      label: 'Search where the light is good',
+      tone: 'warning',
+      lines: [
+        'Step 1: re-read my own endpoint code',
+        'Step 2: add logging to my endpoint, redeploy',
+        'Step 3: maybe ask the DB team (last)',
+        'Redeploy (slow) before any cheap elimination',
+        'Other teams pushed last because not "mine"',
+      ],
+      verdict: 'Burns the on-call\'s night proving you are innocent',
+    },
+    right: {
+      label: 'Cheapest disqualifier first',
+      tone: 'success',
+      lines: [
+        '3+ ranked hypotheses across layers you do not own',
+        'A falsifiable kill-test on each (can return "no")',
+        'Step 1: gateway logs — do 500s even reach my service?',
+        'One query eliminates half the stack',
+        'Stop rule: a time/evidence box, not a feeling',
+      ],
+      verdict: 'Crosses off a branch before opening a file',
+    },
+    caption: 'A passing kill-test is pure profit — it permanently removes a branch. If every test "succeeds" at finding the bug, you are confirming, not diagnosing.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The pros run the test they expect to PASS on purpose. Beginners only test what they think is broken, so a passing test feels like wasted effort. But a passing kill-test is pure profit — it permanently removes a branch you no longer have to think about. If every test you run "succeeds" at finding the bug, you are not diagnosing, you are confirming. A good route spends most of its early tests buying eliminations.',
-  },
-  {
-    type: 'calibration',
-    artifact: `Section 2 "Diagnostic Route" of ${MEMO}`,
-    weak:
-      'One or two hypotheses, no falsifiable tests (or tests that can only confirm), no cost estimate, no run order. Effectively "I will go look at the thing I suspect."',
-    passing:
-      '3+ hypotheses, each with a kill-test that can return "no", a rough cost, an explicit cheapest-first order, and a stop rule.',
-    excellent:
-      'Hypotheses span layers you do NOT own (not just your own code), the ordering visibly maximizes elimination-per-minute, and at least one early test is one you expect to pass purely to rule a branch out. The stop rule names a time or evidence threshold, not a feeling.',
-    note: 'Grade the route on whether each test can eliminate something, not on whether it points at the "right" answer — you do not know the answer yet; that is the point.',
-  },
-  {
-    type: 'debug',
-    symptom:
-      'Here is a colleague\'s diagnostic plan for "API returns 500s intermittently." It looks busy but it will waste the on-call\'s night. Find the flaw.',
-    language: 'bash',
-    brokenCode: `## 2. Diagnostic Route
-- Step 1: re-read my new endpoint code carefully
-- Step 2: add more logging to my endpoint and redeploy
-- Step 3: if still failing, ask the database team to check their side
-- Run order: as listed`,
-    task:
-      'Explain why this ordering wastes time and rewrite the first move.',
-    fix:
-      'Every early step searches where the author has the most familiarity (their own endpoint), not where information is cheapest — and Step 2 requires a redeploy (expensive, slow) before any cheap elimination has happened. The database, network, and upstream dependencies are pushed to last precisely because they are not "mine", which is bias, not strategy. Rewrite Step 1 as the cheapest disqualifier: "Check the load balancer / gateway error logs to see whether the 500s even reach my service, or are emitted upstream — one query, eliminates half the stack." Only after that should code-level redeploys be on the table.',
+    text: 'The pros run the test they expect to PASS on purpose. Beginners only test what they think is broken, so a passing test feels wasted — but it permanently removes a branch. A good route spends most of its early tests buying eliminations.',
   },
   {
     type: 'quiz',
@@ -330,23 +367,8 @@ const diagnosticRouteBlocks: LessonBlock[] = [
     ],
   },
   {
-    type: 'tradeoff',
-    question:
-      'A 5-minute log query would rule out a whole branch but implicates another team. A 1-hour deep-dive stays entirely inside your own code. Which first?',
-    optionA: {
-      label: 'Run the cross-team log query',
-      text: 'Five minutes, eliminates a third of the search space, and tells you whether the problem is even yours before you spend an hour. The social friction of "checking someone else\'s side" is trivial against an hour saved.',
-    },
-    optionB: {
-      label: 'Do the hour inside your own code',
-      text: 'No need to involve another team, feels productive, and you understand your own code best — but if the cause is upstream you have burned an hour proving your own service is innocent the slow way.',
-    },
-    guidance:
-      'Option A. The route is ordered by information-per-cost, and "whose code does it implicate" is not a cost — it is bias dressed as politeness. The cheap, branch-killing test wins even when it points away from you, especially when it points away from you. If org politics genuinely block the query, that is a real constraint to note in the Frame — but solve it, do not let it silently reorder your diagnosis.',
-  },
-  {
     type: 'transfer',
-    text: 'Same route, any domain with a hidden cause. A mechanic does not rebuild the engine — they run the cheap test that splits the space ("is the battery dead? click the lights") before the expensive one. A growth team debugging a conversion drop ranks "tracking broke / a competitor moved / the funnel changed" and runs the analytics check that disqualifies a branch before redesigning anything. You have now framed the problem and routed the diagnosis. Next lesson you add Section 3 — the System Map — because the test you just ran ("index is 5 hours behind") only makes sense if you can see the system the lag lives in.',
+    text: 'Same route, any domain with a hidden cause. A mechanic runs the cheap test that splits the space ("is the battery dead? click the lights") before rebuilding the engine. A growth team ranks "tracking broke / competitor moved / funnel changed" and runs the analytics check before redesigning anything. You have framed and routed; next lesson adds Section 3 — the System Map — because "index is 5h behind" only makes sense once you can see the system the lag lives in.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '30 days'] },
 ]
@@ -537,77 +559,103 @@ const retrievalProtocolBlocks: LessonBlock[] = [
   },
   {
     type: 'mission',
-    text: 'It is 2 a.m., the page just fired, and there is no time to open a doc or read a checklist — the judgment either lives in your hands or it does not. This is the difference between an engineer who is good in the review meeting and one who is good in the incident. Over three lessons you built a memo with someone watching; tonight you prove you can run it with no notes and no audience, and — harder — that you know which of your answers to trust. This is the capstone: not new material, but the move that makes the other three survive contact with pressure.',
+    text: 'It is 2 a.m., the page just fired, and there is no time to open a doc — the judgment either lives in your hands or it does not. Over three lessons you built a memo with someone watching; tonight you prove you can run it with no notes, and — harder — that you know which of your answers to trust.',
   },
   {
     type: 'context',
-    text: 'Knowledge you can only retrieve with your notes open is knowledge you do not have when it counts. Retrieval practice — recalling the moves closed-note — is what converts "I understand framing" into "I frame automatically at 2 a.m." And calibration — scoring how confident you were and checking it against what was true — is what stops the most dangerous engineer in the building: the one who is confidently wrong and never finds out. This lesson closes the loop on the whole module: it makes the Frame, the Route, and the Map portable and trustworthy.',
+    text: 'Knowledge you can only retrieve with notes open is knowledge you do not have when it counts. Retrieval practice converts "I understand framing" into "I frame automatically at 2 a.m." Calibration — scoring confidence and checking it against truth — stops the most dangerous engineer: the one confidently wrong who never finds out.',
   },
   {
     type: 'pretest',
     prompt:
       'You feel 5/5 confident about a diagnosis. Is high confidence good news or a warning sign? Decide before reading.',
     reveal:
-      'It is unverified data — and on its own, a mild warning. Confidence and correctness are different axes; the dangerous quadrant is high-confidence-and-wrong, because you stop checking exactly when you should not. The point of logging confidence is not to feel sure — it is to find the gap between how sure you felt and how right you were, so the next 5/5 means something. A calibrated engineer is not the most confident one; it is the one whose confidence predicts their accuracy.',
+      'Unverified data — and on its own, a mild warning. Confidence and correctness are different axes; the dangerous quadrant is high-confidence-and-wrong, because you stop checking exactly when you should not. Logging confidence is not to feel sure — it is to find the gap between how sure you felt and how right you were. A calibrated engineer is the one whose confidence predicts their accuracy.',
   },
   {
     type: 'concept',
     title: 'A protocol is the three moves from memory, scored for calibration',
-    text: 'The Retrieval Protocol is a closed-note checklist that runs the module: Frame the problem, Route the diagnosis, Map the system, then Decide (chosen option, rejected option, reversal condition). You run it from memory — that is the retrieval practice that makes it stick — and you attach a confidence (1–5) to each step. Then, after proof, you compare confidence to reality and log every place confidence exceeded correctness. Those over-confident misses are not failures; they are the calibration signal, and each one routes to a repair. The invariant: the protocol is only "passed" when it has been run closed-note AND the confidence has been checked against truth — recall plus calibration, never one without the other.',
+    text: 'A closed-note checklist that runs the module — Frame, Route, Map, then Decide — from memory, with a 1–5 confidence per step. After proof, you compare confidence to reality and log every gap. Passed only when run closed-note AND checked against truth: recall plus calibration, never one without the other.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'The whole module, run from memory on the search incident — and the calibration that follows.',
-    steps: [
-      'Frame (from memory): "Recent products missing from search for ~30% of queries; constraint: no daytime downtime; feared failure: cluster outage or silent conversion loss." Confidence 4/5.',
-      'Route (from memory): hypotheses indexer-failure / index-lag / stale-cache / mapping-drop; cheapest kill-test first is the timestamp compare. Confidence 4/5.',
-      'Map (from memory): Client→Gateway→Orders→Postgres, Orders→IndexWorker→SearchIndex, Client reads SearchIndex; suspect edge is the index path; blast radius is stale catalog, no data loss. Confidence 3/5.',
-      'Decide: chosen — fix the lagging index worker and backfill; rejected — full reindex (violates the no-daytime-downtime constraint); reversal condition — if backfill does not close the gap in 30 min, fall back to a throttled off-hours reindex. Confidence 4/5.',
-      'Now PROVE and calibrate: the timestamp test confirmed the lag (Route was right, 4/5 earned). But the map missed that the Index Worker also feeds Analytics — a real edge you forgot. Map confidence was 3/5 and still too high.',
-      'Calibration log: "Map step — confidence 3/5, reality: incomplete (missed the Analytics consumer). Repair: when mapping, always ask \'who else reads from this node\' before declaring blast radius." That single logged miss is the most useful line in the memo.',
+    type: 'diagram',
+    title: 'The closed-note loop — four moves, scored and proven',
+    subtitle:
+      'Frame → Route → Map → Decide, each run from memory with a confidence score, then PROVE feeds back the calibration repair. This is the whole module in one circuit.',
+    rankdir: 'LR',
+    nodes: [
+      { id: 'frame', label: 'Frame', description: 'L1 · problem · constraint · feared failure', kind: 'process', tone: 'accent' },
+      { id: 'route', label: 'Route', description: 'L2 · ranked hypotheses · kill-tests', kind: 'process', tone: 'accent' },
+      { id: 'map', label: 'Map', description: 'L3 · directed flow · suspect edge · blast radius', kind: 'process', tone: 'accent' },
+      { id: 'decide', label: 'Decide', description: 'chosen · rejected · reversal condition', kind: 'decision', tone: 'success' },
+      { id: 'prove', label: 'Prove + calibrate', description: 'confidence vs reality', kind: 'decision', tone: 'warning' },
+      { id: 'repair', label: 'Repair', description: 'a reusable rule per miss', kind: 'store', tone: 'warning' },
     ],
-    commonMistake:
-      'Logging only the steps you got right and quietly dropping the miss. The miss IS the deliverable — a calibration log with no honest gap (and no honest "I verified none") is just a confidence brag, and it teaches you nothing.',
+    edges: [
+      { from: 'frame', to: 'route', label: 'closed-note', kind: 'control', tone: 'accent' },
+      { from: 'route', to: 'map', label: 'closed-note', kind: 'control', tone: 'accent' },
+      { from: 'map', to: 'decide', label: 'closed-note', kind: 'control', tone: 'accent' },
+      { from: 'decide', to: 'prove', label: 'score 1–5/step', kind: 'data' },
+      { from: 'prove', to: 'repair', label: 'where confidence > truth', kind: 'async', tone: 'warning' },
+      { from: 'repair', to: 'frame', label: 'sharpens next run', kind: 'control', dashed: true, tone: 'muted' },
+    ],
+    legend: [
+      { tone: 'accent', label: 'the four moves, run from memory' },
+      { tone: 'success', label: 'the decision the module exists to make' },
+      { tone: 'warning', label: 'calibration — the gap, and its repair' },
+    ],
   },
   {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'Running the protocol, one checkbox at a time',
+    subtitle: 'The closed-note checklist + calibration log — the whole module made portable.',
     filename: MEMO,
     language: 'bash',
     code: RETRIEVAL_PROTOCOL_SECTION,
+    steps: [
+      { lines: [2], label: 'Frame, from memory (L1)', note: 'Problem · constraint · feared failure, no notes. Score how sure you are BEFORE you check it.' },
+      { lines: [3], label: 'Route, from memory (L2)', note: 'Three ranked hypotheses, a kill-test each, cheapest first. The timestamp compare was the cheapest disqualifier.' },
+      { lines: [4], label: 'Map, from memory (L3)', note: 'Directed flow, suspect edge, blast radius, boundary. This is the step the worked run scored 3/5 — and still too high.' },
+      { lines: [5], label: 'Decide', note: 'Chosen (fix the lagging worker + backfill), rejected (full reindex — violates no-daytime-downtime), reversal condition (off-hours reindex if backfill misses 30 min).' },
+      { lines: [8, 9], label: 'Calibration: confidence vs reality', note: 'The Map missed the Index Worker also feeds Analytics. 3/5 was too confident — that honest miss is the most useful line here.' },
+      { lines: [10], label: 'The repair', note: 'A reusable rule, not "be more careful": "before declaring blast radius, ask who else reads from this node."' },
+    ],
+    caption: 'Run it from memory, score, prove, then log one honest gap (or a defended "verified, none over"). The miss IS the deliverable.',
+  },
+  {
+    type: 'compare',
+    title: 'Two calibration logs, same engineer',
+    subtitle: 'One trains reading; one trains judgment. The difference is the whole lesson.',
+    left: {
+      label: 'Confidence brag (open-note)',
+      tone: 'warning',
+      lines: [
+        'Ran with the Lesson 1–3 memo open in another tab',
+        'Frame 5/5 · Route 5/5 · Map 5/5 · Decide 5/5',
+        '"I was confident and it all felt right"',
+        'No comparison to reality — no axis of truth',
+        'Confident-and-wrong is invisible by construction',
+      ],
+      verdict: 'Tests reading, not 2 a.m. recall',
+    },
+    right: {
+      label: 'Honest calibration (closed-note)',
+      tone: 'success',
+      lines: [
+        'Ran from memory, notes closed',
+        'Confidence scored per step BEFORE checking',
+        'Each step compared to proof',
+        'One honest gap logged: Map 3/5, missed Analytics edge',
+        'Repair = a reusable rule that prevents the miss class',
+      ],
+      verdict: 'Proves pressure performance + calibration',
+    },
+    caption: 'A 5/5 that turns out wrong is the most valuable line in the log. A flawless-looking log with no honest miss teaches you nothing.',
   },
   {
     type: 'callout',
     tone: 'note',
-    text: 'The trait that correlates with senior judgment is not being right more often — it is knowing when you are not. An engineer who says "70% on this, here is what would change my mind" is worth more in a room than one who is reflexively 100% on everything, because the first one\'s confidence is information and the second one\'s is noise. Calibration is the skill that makes all your other answers trustworthy to other people.',
-  },
-  {
-    type: 'calibration',
-    artifact: `The completed ${MEMO} + calibration log`,
-    weak:
-      'The protocol was run with notes open (no real retrieval); confidence scores are all 5/5; the log records no miss and no verification of "no miss". It proves nothing about pressure performance.',
-    passing:
-      'All four sections completed from memory, a 1–5 confidence on each step, and at least one honest calibration entry comparing confidence to reality with a repair (or a defended "I checked each and none were overconfident").',
-    excellent:
-      'The closed-note run surfaced a real gap (an over-confident step that proof contradicted), the repair is a reusable rule that prevents the same miss class next time, and the memo is genuinely reusable on a fresh decision without edits to its structure.',
-    note: 'The most valuable artifact here contains an honest miss. Grade up calibration that found its own error; grade down a flawless-looking log with no evidence it was run closed-note.',
-  },
-  {
-    type: 'debug',
-    symptom:
-      'An engineer submits this calibration log as proof of judgment under pressure. It is the exact anti-pattern this lesson targets. Diagnose it.',
-    language: 'bash',
-    brokenCode: `## Calibration log
-- Frame: confidence 5/5
-- Route: confidence 5/5
-- Map: confidence 5/5
-- Decide: confidence 5/5
-- Notes: I was confident about everything and it all felt right.
-  (ran with the memo from Lesson 1-3 open in the other tab)`,
-    task:
-      'Name the two things that make this log worthless, and state what a passing log would show instead.',
-    fix:
-      'Two fatal flaws. First, it was not run closed-note ("memo open in the other tab") — so it tests reading, not retrieval, and proves nothing about 2 a.m. performance. Second, uniform 5/5 with no comparison to reality is a confidence brag, not calibration — there is no axis of truth to measure against, so the most dangerous quadrant (confident-and-wrong) is invisible by construction. A passing log is run from memory, scores confidence per step, then checks each against proof and records at least one honest gap (or a defended "verified, none over") with a reusable repair.',
+    text: 'The trait that correlates with senior judgment is not being right more often — it is knowing when you are not. "70% on this, here is what would change my mind" is worth more in a room than reflexive 100%, because the first one\'s confidence is information and the second one\'s is noise.',
   },
   {
     type: 'quiz',
@@ -640,21 +688,6 @@ const retrievalProtocolBlocks: LessonBlock[] = [
       'Explain why high confidence is data to be tested, not proof — using a real step from your own log.',
       'Which step were you most over-confident on, and what reusable repair did it earn?',
     ],
-  },
-  {
-    type: 'tradeoff',
-    question:
-      'Practicing the protocol: do you run it closed-note and risk fumbling, or keep your notes open so it goes smoothly?',
-    optionA: {
-      label: 'Run it closed-note',
-      text: 'You will stumble, and the stumble is the point — it shows you exactly which move is not yet automatic, which is the gap you would have hit at 2 a.m. anyway. Effortful recall is what makes it stick and what surfaces your real calibration.',
-    },
-    optionB: {
-      label: 'Keep notes open',
-      text: 'It feels smooth and competent — but it trains reading, not recall, and it hides every gap behind the open tab. You will leave feeling ready and be unready the first time the page fires.',
-    },
-    guidance:
-      'Option A. Smoothness with notes open is an illusion of mastery — the fluency belongs to the document, not to you. The desirable difficulty of closed-note recall is precisely what builds retrievable judgment and honest calibration. Use the notes to CHECK yourself after, never to carry yourself through.',
   },
   {
     type: 'transfer',

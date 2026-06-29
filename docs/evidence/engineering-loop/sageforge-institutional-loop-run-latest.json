@@ -1,0 +1,463 @@
+{
+  "ok": true,
+  "version": "sageforge-institutional-loop-run-v1",
+  "startedAt": "2026-06-29T20:10:06.604Z",
+  "finishedAt": "2026-06-29T20:10:33.631Z",
+  "mutationMode": "local_evidence_and_safe_local_commands_only",
+  "releaseMeaning": "This loop runs only local-safe SageForge institutional commands. It refuses deploys, pushes, live Discord mutations, Stripe/Supabase production changes, and non-dry RAG eval.",
+  "options": {
+    "dryRun": false,
+    "once": true,
+    "qualityGate": false,
+    "maxCycles": 1
+  },
+  "loopCommands": [
+    "npm run langfuse:smoke",
+    "npm run discord:gateway-capture-diagnosis",
+    "npm run discord:release-local",
+    "npm run discord:institutional-readiness",
+    "npm run discord:knowledge-base-harness",
+    "npm run discord:live-proof-accelerator",
+    "npm run discord:sageforge-institutional-harness"
+  ],
+  "commandValidation": [
+    {
+      "command": "npm run langfuse:smoke",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:gateway-capture-diagnosis",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:release-local",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:institutional-readiness",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:knowledge-base-harness",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:live-proof-accelerator",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:sageforge-institutional-harness",
+      "ok": true,
+      "failures": []
+    }
+  ],
+  "cycles": [
+    {
+      "cycle": 1,
+      "startedAt": "2026-06-29T20:10:06.605Z",
+      "commands": [
+        {
+          "command": "npm run langfuse:smoke",
+          "startedAt": "2026-06-29T20:10:06.606Z",
+          "finishedAt": "2026-06-29T20:10:09.502Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 langfuse:smoke\n> tsx --env-file=.env.local scripts/ai/smoke-langfuse.ts\n\n{\n  \"ok\": true,\n  \"version\": \"sagebot-langfuse-smoke-v1\",\n  \"generatedAt\": \"2026-06-29T20:10:08.785Z\",\n  \"mutationMode\": \"langfuse_trace_and_deepseek_generation_only\",\n  \"releaseMeaning\": \"Creates one minimal Langfuse trace and one minimal DeepSeek generation to prove credentials, trace export, model name, token usage, nested observation, redaction, and flush behavior. It does not mutate Discord, Supabase, Stripe, Vercel, Railway, or Git.\",\n  \"configured\": true,\n  \"mode\": \"langfuse\",\n  \"baseUrlConfigured\": true,\n  \"rootTraceId\": \"d75890c8840f2ea371e90045601fe52b\",\n  \"rootObservationId\": \"b1b617ff02e7105c\",\n  \"generationTraceId\": \"d75890c8840f2ea371e90045601fe52b\",\n  \"generationObservationId\": \"796454d1edc6e9e9\",\n  \"provider\": \"langfuse\",\n  \"model\": \"deepseek-v4-flash\",\n  \"usage\": {\n    \"prompt_tokens\": 30,\n    \"completion_tokens\": 8,\n    \"total_tokens\": 38,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": 0\n    },\n    \"prompt_cache_hit_tokens\": 0,\n    \"prompt_cache_miss_tokens\": 30\n  },\n  \"outputMatched\": true,\n  \"startedAt\": \"2026-06-29T20:10:07.457Z\",\n  \"finishedAt\": \"2026-06-29T20:10:08.785Z\",\n  \"evidencePath\": \"/Users/Sage/code/active/sageideas.dev/docs/evidence/engineering-loop/langfuse-smoke-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:gateway-capture-diagnosis",
+          "startedAt": "2026-06-29T20:10:09.502Z",
+          "finishedAt": "2026-06-29T20:10:10.610Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": " \"id\": \"1519145108564344912\",\n      \"channelBaseName\": \"introductions\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 26,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-24T01:00:18.233+00:00\",\n      \"deleted\": true\n    },\n    {\n      \"id\": \"1519144644330524813\",\n      \"channelBaseName\": \"introductions\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 213,\n      \"detectedKind\": \"question\",\n      \"capturedAt\": \"2026-06-24T00:58:27.551+00:00\",\n      \"deleted\": true\n    },\n    {\n      \"id\": \"1518687510631288997\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T18:41:58.384+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518645949331935286\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T15:56:49.398+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518626761439449130\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T14:40:34.648+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518625985216381101\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T14:37:29.582+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518624473887014953\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T14:31:29.253+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518622374000464164\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T14:23:08.601+00:00\",\n      \"deleted\": false\n    },\n    {\n      \"id\": \"1518622354618585251\",\n      \"channelBaseName\": \"introduce-yourself\",\n      \"authorBot\": false,\n      \"authorPresent\": true,\n      \"contentLength\": 0,\n      \"detectedKind\": \"general\",\n      \"capturedAt\": \"2026-06-22T14:23:03.98+00:00\",\n      \"deleted\": false\n    }\n  ],\n  \"recentEvents\": [\n    {\n      \"eventType\": \"gateway_ready\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:49.290192+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_guild_create\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:48.951581+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_identify_sent\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:48.322001+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_open\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:48.321543+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_reconnect_scheduled\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:46.263915+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_closed\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:46.211553+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_invalid_session\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:45.830944+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_resume_sent\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:41.494074+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_open\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:14:41.43001+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_guild_create\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:39.365631+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_ready\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:39.328574+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_open\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:38.957975+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_identify_sent\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:38.95533+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_reconnect_scheduled\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:37.012321+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_closed\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:36.912218+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_invalid_session\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:36.508415+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_socket_open\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:31.467852+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_resume_sent\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:13:31.404892+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_ready\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:12:50.282611+00:00\"\n    },\n    {\n      \"eventType\": \"gateway_guild_create\",\n      \"hasMessageId\": false,\n      \"channelId\": null,\n      \"createdAt\": \"2026-06-29T19:12:49.74973+00:00\"\n    }\n  ],\n  \"errors\": [],\n  \"evidencePath\": \"/Users/Sage/code/active/sageideas.dev/docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:release-local",
+          "startedAt": "2026-06-29T20:10:10.610Z",
+          "finishedAt": "2026-06-29T20:10:29.845Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": ": false,\n    \"sourceId\": null,\n    \"draftId\": null,\n    \"sourceTable\": null,\n    \"sourceRecordId\": null,\n    \"draftType\": null,\n    \"reusedExistingSource\": false,\n    \"blocker\": \"Dry run does not create public proof drafts.\"\n  },\n  \"finalScorecard\": {\n    \"averageScore\": 83,\n    \"blockedBelow95\": [\n      \"server_access_onboarding\",\n      \"role_routing_member_state\",\n      \"gateway_capture_classification\",\n      \"rag_corpus_quality\",\n      \"retrieval_answer_faithfulness\",\n      \"eval_coverage\",\n      \"sagebot_command_ux_personality\",\n      \"content_engine_quality\",\n      \"quiz_challenge_learning_engine\",\n      \"points_leaderboard_integrity\",\n      \"member_intelligence\",\n      \"admin_dashboard\",\n      \"job_reliability\",\n      \"observability\",\n      \"premium_workflows\",\n      \"growth_loop\",\n      \"security_privacy\",\n      \"scale_readiness\"\n    ],\n    \"latestRunKey\": \"phase-20-final-1782763824121\"\n  },\n  \"gates\": [\n    {\n      \"name\": \"approved_knowledge_available\",\n      \"passed\": false,\n      \"evidence\": \"0/10 approved Discord knowledge sources available\",\n      \"nextAction\": \"Approve high-signal questions, helpful answers, resources, wins, or content queue items.\"\n    },\n    {\n      \"name\": \"approved_knowledge_synced_to_rag\",\n      \"passed\": false,\n      \"evidence\": \"0/10 Discord RAG sources after sync\",\n      \"nextAction\": \"Run approved Discord RAG sync after weekly approvals.\"\n    },\n    {\n      \"name\": \"public_proof_draft_created\",\n      \"passed\": false,\n      \"evidence\": \"0/4 public proof drafts or published assets (0 pending / 0 published)\",\n      \"nextAction\": \"Create four privacy-gated weekly public proof drafts from approved source material.\"\n    },\n    {\n      \"name\": \"growth_metrics_tracked\",\n      \"passed\": false,\n      \"evidence\": \"0/1 public proof apply clicks / 0/1 applications / 0 approved / 7 members / 7 active 7d / 0 premium / 0 premium workflow proofs\",\n      \"nextAction\": \"Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.\"\n    },\n    {\n      \"name\": \"final_scorecard_current\",\n      \"passed\": true,\n      \"evidence\": \"average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness\",\n      \"nextAction\": \"After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing after the operating proof cycle. Use the full rag:evaluate drift check only when source quality changed, not for routine missing-coverage repair.\"\n    },\n    {\n      \"name\": \"world_class_score_threshold\",\n      \"passed\": false,\n      \"evidence\": \"average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness\",\n      \"nextAction\": \"Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard.\"\n    }\n  ],\n  \"nextActions\": [\n    \"Approve high-signal questions, helpful answers, resources, wins, or content queue items.\",\n    \"Run approved Discord RAG sync after weekly approvals.\",\n    \"Create four privacy-gated weekly public proof drafts from approved source material.\",\n    \"Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.\",\n    \"Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard.\"\n  ],\n  \"auditRowId\": null,\n  \"note\": \"Operating cycle ran, but one or more operating gates still need real community volume or admin action.\",\n  \"evidencePath\": \"/Users/Sage/code/active/sageideas.dev/docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json\"\n}\n\n> qa-portfolio@0.2.0 discord:proof-backlog\n> tsx scripts/discord/write-proof-backlog.ts\n\nWrote docs/evidence/engineering-loop/discord-proof-backlog-latest.json\n\n> qa-portfolio@0.2.0 discord:proof-candidate-audit\n> tsx scripts/discord/write-proof-candidate-audit.ts\n\nWrote docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json and docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.md\n\n> qa-portfolio@0.2.0 discord:live-proof-accelerator\n> tsx scripts/discord/write-live-proof-accelerator.ts\n\n{\n  \"ok\": true,\n  \"status\": \"proof_acceleration_required\",\n  \"blockedLaneCount\": 4,\n  \"nextBestLane\": \"approved_discord_knowledge\",\n  \"nextBestAction\": \"Approved Discord knowledge: Generate source-backed draft seeds from approved local knowledge sources.\",\n  \"evidencePath\": \"docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.json\",\n  \"markdownPath\": \"docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.md\",\n  \"failures\": []\n}\n\n> qa-portfolio@0.2.0 discord:world-class-readiness\n> tsx scripts/discord/write-world-class-readiness.ts\n\nWrote docs/evidence/engineering-loop/world-class-readiness-latest.json\n\n> qa-portfolio@0.2.0 discord:operator-brief\n> tsx scripts/discord/write-operator-brief.ts\n\nWrote docs/evidence/engineering-loop/discord-operator-brief-latest.json and docs/evidence/engineering-loop/discord-operator-brief-latest.md\n\n> qa-portfolio@0.2.0 verify:local:evidence\n> node scripts/ops/write-local-verification-evidence.mjs\n\nWrote docs/evidence/engineering-loop/local-verification-latest.json\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:institutional-readiness",
+          "startedAt": "2026-06-29T20:10:29.845Z",
+          "finishedAt": "2026-06-29T20:10:32.056Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "io@0.2.0 discord:institutional-readiness\n> tsx --env-file=.env.local scripts/discord/write-institutional-readiness.ts\n\n{\n  \"ok\": true,\n  \"version\": \"sagebot-institutional-readiness-v1\",\n  \"generatedAt\": \"2026-06-29T20:10:32.043Z\",\n  \"mutationMode\": \"read_only_redacted_evidence\",\n  \"releaseMeaning\": \"This readiness report checks redacted integration presence, local evidence posture, and live-proof blockers. It does not print secrets, deploy, push, publish, approve, sync RAG, post to Discord, or mutate Supabase/Stripe/Railway/Vercel.\",\n  \"status\": \"locally_strong_waiting_on_live_operating_proof\",\n  \"score\": 70,\n  \"targetScoreRange\": \"95-99\",\n  \"categoryScores\": {\n    \"integrations\": 100,\n    \"localProof\": 100,\n    \"liveOperatingProof\": 0,\n    \"deploymentConnectivity\": 100\n  },\n  \"envChecks\": [\n    {\n      \"name\": \"NEXT_PUBLIC_SUPABASE_URL\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Supabase reads/admin dashboard\"\n    },\n    {\n      \"name\": \"SUPABASE_SERVICE_ROLE_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"server-side Discord/RAG jobs\"\n    },\n    {\n      \"name\": \"DISCORD_BOT_TOKEN\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Discord slash commands/gateway worker\"\n    },\n    {\n      \"name\": \"DISCORD_GUILD_ID\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Discord command registration and live guild checks\"\n    },\n    {\n      \"name\": \"DISCORD_PUBLIC_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Discord interaction verification\"\n    },\n    {\n      \"name\": \"DEEPSEEK_API_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"SageBot generation and content drafts\"\n    },\n    {\n      \"name\": \"CRON_SECRET\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"scheduled job endpoint protection\"\n    },\n    {\n      \"name\": \"STRIPE_SECRET_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"premium checkout/webhooks\"\n    },\n    {\n      \"name\": \"STRIPE_WEBHOOK_SECRET\",\n      \"present\": true,\n      \"source\": \"vercel-production\",\n      \"requiredFor\": \"premium role sync\"\n    },\n    {\n      \"name\": \"STRIPE_PRICE_DISCORD_PREMIUM\",\n      \"present\": true,\n      \"source\": \"vercel-production\",\n      \"requiredFor\": \"premium Discord price\"\n    },\n    {\n      \"name\": \"LANGFUSE_PUBLIC_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"LLM trace visibility\"\n    },\n    {\n      \"name\": \"LANGFUSE_SECRET_KEY\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"LLM trace visibility\"\n    }\n  ],\n  \"optionalEnvChecks\": [\n    {\n      \"name\": \"LANGFUSE_BASEURL\",\n      \"present\": false,\n      \"source\": \"missing\",\n      \"requiredFor\": \"self-hosted/custom Langfuse endpoint\"\n    },\n    {\n      \"name\": \"NEXT_PUBLIC_SITE_URL\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"canonical site URLs\"\n    },\n    {\n      \"name\": \"DISCORD_CLIENT_ID\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Discord OAuth/app metadata\"\n    },\n    {\n      \"name\": \"DISCORD_CLIENT_SECRET\",\n      \"present\": true,\n      \"source\": \"local\",\n      \"requiredFor\": \"Discord OAuth/admin auth flows\"\n    }\n  ],\n  \"deploymentConnectivity\": {\n    \"vercelProductionEnvNamesDetected\": 31,\n    \"railwayStatusOk\": true,\n    \"railwayStatusTail\": \"Project: [redacted]\\nEnvironment: production\\nService: sagebot-gateway\\n\"\n  },\n  \"localProof\": {\n    \"knowledgeBaseHarnessOk\": true,\n    \"knowledgeBaseHarnessStatus\": \"locally_verified_waiting_on_live_approval\",\n    \"knowledgeBaseHarnessScore\": 76,\n    \"worldClassReadinessOk\": true,\n    \"worldClassCategoriesAtOrAbove95\": 0,\n    \"worldClassCategoriesBelow95\": 18,\n    \"ragEvalOk\": true,\n    \"ragEvalPassRate\": 1,\n    \"ragEvalTotal\": 65,\n    \"localVerificationOk\": true,\n    \"finalAverageScore\": 83,\n    \"finalWorldClassEligible\": false\n  },\n  \"blockedLiveProof\": [\n    {\n      \"key\": \"approved_discord_knowledge\",\n      \"current\": 0,\n      \"target\": 10,\n      \"action\": \"Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow.\"\n    },\n    {\n      \"key\": \"rag_discord_sources\",\n      \"current\": 0,\n      \"target\": 10,\n      \"action\": \"With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.\"\n    },\n    {\n      \"key\": \"public_proof_assets\",\n      \"current\": 0,\n      \"target\": 4,\n      \"action\": \"Create four privacy-safe public proof assets from approved Discord knowledge.\"\n    },\n    {\n      \"key\": \"premium_workflow_proof\",\n      \"current\": 0,\n      \"target\": 1,\n      \"action\": \"Run one premium review/deeper answer/office-hours workflow with authorization and fulfillment evidence.\"\n    }\n  ],\n  \"nextInstitutionalActions\": [\n    \"Run the guarded knowledge-base E2E proof after approving temporary Supabase rows: SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e.\",\n    \"Approve 10 reusable Discord knowledge items, then run npm run discord:proof-source-scan and npm run discord:operating-cycle:dry-run.\",\n    \"After explicit approval, sync approved Discord knowledge into authoritative RAG and run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing.\",\n    \"Create four approved public proof assets and one premium workflow proof before claiming 95-99 operating grade.\",\n    \"Only after live proof passes: deploy/register/pin with separate approval.\"\n  ],\n  \"antiFakeRules\": [\n    \"Env presence is redacted and never proves secret correctness by itself.\",\n    \"Generated source seeds do not count as approved Discord knowledge.\",\n    \"Dry-run evidence does not count as public proof or premium fulfillment.\",\n    \"95-99 requires live operating proof, not just local tests.\"\n  ],\n  \"evidencePath\": \"docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.json\",\n  \"markdownPath\": \"docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.md\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:knowledge-base-harness",
+          "startedAt": "2026-06-29T20:10:32.056Z",
+          "finishedAt": "2026-06-29T20:10:32.577Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "covery\": \"Run npm run discord:knowledge-base-e2e-readiness and fix guarded runner/spec cleanup contract failures.\"\n        }\n      ],\n      \"status\": \"passed\",\n      \"score\": 50,\n      \"maxScore\": 50\n    },\n    {\n      \"key\": \"rag_readiness\",\n      \"title\": \"RAG Readiness\",\n      \"gates\": [\n        {\n          \"key\": \"discord_corpus_readiness_valid\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"discord corpus readiness ok=true\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run rag:discord-corpus-readiness and fix corpus/readiness contract failures.\"\n        },\n        {\n          \"key\": \"rag_eval_coverage_ready\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"rag eval coverage ok=true releaseReady=true\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run rag:evaluate:coverage-readiness and repair missing eval coverage before RAG claims.\"\n        },\n        {\n          \"key\": \"approved_knowledge_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/10 approved Discord knowledge sources\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.\"\n        },\n        {\n          \"key\": \"rag_sources_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/10 Discord RAG sources\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.\"\n        }\n      ],\n      \"status\": \"blocked\",\n      \"score\": 20,\n      \"maxScore\": 40\n    },\n    {\n      \"key\": \"operating_proof\",\n      \"title\": \"Operating Proof\",\n      \"gates\": [\n        {\n          \"key\": \"local_verification_passes\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"local verification ok=true summary=true\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run verify:local:evidence and fix release evidence failures.\"\n        },\n        {\n          \"key\": \"autonomous_loop_state_current\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"loop state ok=true average=83\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run loop:audit and fix stale or missing autonomous loop state.\"\n        },\n        {\n          \"key\": \"public_proof_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/4 public proof assets\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Create and approve four privacy-safe public proof assets from approved Discord knowledge.\"\n        },\n        {\n          \"key\": \"premium_workflow_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/1 premium workflow proofs\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence.\"\n        }\n      ],\n      \"status\": \"blocked\",\n      \"score\": 20,\n      \"maxScore\": 40\n    }\n  ],\n  \"productionStopConditions\": [\n    \"approved_knowledge_target_met: Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.\",\n    \"rag_sources_target_met: With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.\",\n    \"public_proof_target_met: Create and approve four privacy-safe public proof assets from approved Discord knowledge.\",\n    \"premium_workflow_target_met: Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence.\"\n  ],\n  \"safeLocalCommands\": [\n    \"npm run discord:career-content-harness\",\n    \"npm run discord:sage-kernel-content-harness\",\n    \"npm run discord:knowledge-base-e2e-readiness\",\n    \"npm run discord:release-local\",\n    \"npm run discord:knowledge-base-harness\",\n    \"npm run loop:knowledge-base:once\",\n    \"npm run loop:knowledge-base:full\"\n  ],\n  \"explicitApprovalCommands\": [\n    \"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\",\n    \"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\",\n    \"SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e\"\n  ],\n  \"liveOperatorActions\": [\n    \"Approve 10 high-signal Discord knowledge items through the admin review workflow.\",\n    \"Sync approved Discord knowledge into authoritative RAG only after explicit approval.\",\n    \"Approve or publish four privacy-safe public proof assets from approved knowledge.\",\n    \"Complete one premium workflow proof with authorization, SLA, and fulfillment evidence.\",\n    \"Run the guarded knowledge-base E2E command only against an approved Supabase environment.\"\n  ],\n  \"antiFakeRules\": [\n    \"Source seeds and generated drafts are curriculum fuel only; they are not approved Discord knowledge.\",\n    \"Raw Discord messages, dry-run rows, smoke rows, and generated templates cannot satisfy operating proof.\",\n    \"RAG can cite only approved, privacy-safe, source-linked knowledge records.\",\n    \"The system cannot claim 95-99 until live approval, RAG sync, public proof, premium proof, and final scorecard evidence pass.\",\n    \"E2E readiness is not the same as live E2E execution; the guarded Playwright command must pass before claiming admin workflow proof.\"\n  ],\n  \"failures\": [\n    \"rag_readiness:approved_knowledge_target_met\",\n    \"rag_readiness:rag_sources_target_met\",\n    \"operating_proof:public_proof_target_met\",\n    \"operating_proof:premium_workflow_target_met\"\n  ],\n  \"evidencePath\": \"docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:live-proof-accelerator",
+          "startedAt": "2026-06-29T20:10:32.577Z",
+          "finishedAt": "2026-06-29T20:10:33.106Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 discord:live-proof-accelerator\n> tsx scripts/discord/write-live-proof-accelerator.ts\n\n{\n  \"ok\": true,\n  \"status\": \"proof_acceleration_required\",\n  \"blockedLaneCount\": 4,\n  \"nextBestLane\": \"approved_discord_knowledge\",\n  \"nextBestAction\": \"Approved Discord knowledge: Generate source-backed draft seeds from approved local knowledge sources.\",\n  \"evidencePath\": \"docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.json\",\n  \"markdownPath\": \"docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.md\",\n  \"failures\": []\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:sageforge-institutional-harness",
+          "startedAt": "2026-06-29T20:10:33.106Z",
+          "finishedAt": "2026-06-29T20:10:33.630Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 discord:sageforge-institutional-harness\n> tsx scripts/discord/write-sageforge-institutional-harness.ts\n\n{\n  \"ok\": true,\n  \"status\": \"locally_strong_waiting_on_live_proof\",\n  \"score\": 80,\n  \"targetScoreRange\": \"95-99\",\n  \"failures\": [\n    \"knowledge_base:approved_discord_knowledge_live_target\",\n    \"knowledge_base:discord_rag_sources_live_target\",\n    \"content_factory:public_proof_live_target\",\n    \"learning_engagement:premium_workflow_live_target\"\n  ],\n  \"evidencePath\": \"docs/evidence/engineering-loop/sageforge-institutional-harness-latest.json\",\n  \"markdownPath\": \"docs/evidence/engineering-loop/sageforge-institutional-harness-latest.md\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        }
+      ],
+      "harnessAfter": {
+        "ok": true,
+        "version": "sageforge-institutional-harness-v1",
+        "generatedAt": "2026-06-29T20:10:33.616Z",
+        "botName": "SageForge",
+        "botNameRationale": "SageForge is builder-oriented, brandable, memorable in Discord mentions, and keeps SageBot OS available as the internal system name.",
+        "mutationMode": "local_file_evidence_only",
+        "releaseMeaning": "This institutional harness reads local/prod evidence files and grades SageForge readiness. It does not post to Discord, approve knowledge, sync RAG, push, deploy, change Stripe, mutate Supabase, or claim live operating proof.",
+        "status": "locally_strong_waiting_on_live_proof",
+        "score": 80,
+        "targetScoreRange": "95-99",
+        "categoryScores": {
+          "bot_identity_invocation": 100,
+          "personality_kernel": 100,
+          "knowledge_base": 50,
+          "content_factory": 67,
+          "learning_engagement": 67,
+          "production_operations": 100
+        },
+        "categories": [
+          {
+            "key": "bot_identity_invocation",
+            "title": "Bot Identity And Invocation",
+            "gates": [
+              {
+                "key": "name_selected",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "botName=SageForge",
+                "requiredForProduction": true,
+                "recovery": "Set the public bot identity to SageForge and keep SageBot OS as the internal system name."
+              },
+              {
+                "key": "ask_commands_registered_in_code",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "discord:register and discord:smoke scripts exist",
+                "requiredForProduction": true,
+                "recovery": "Keep Discord command registration and smoke verification scripts wired in package.json."
+              },
+              {
+                "key": "core_member_commands_present",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "ask-sage, learning lab, and approved slash-flow smoke scripts exist",
+                "requiredForProduction": true,
+                "recovery": "Add smoke coverage for /ask-sage, /quiz, /challenge, /submit-project, /leaderboard, and approved-member flows."
+              }
+            ],
+            "status": "passed",
+            "score": 30,
+            "maxScore": 30
+          },
+          {
+            "key": "personality_kernel",
+            "title": "Personality Kernel",
+            "gates": [
+              {
+                "key": "prompt_versions_defined",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "personality=sagebot-personality-v1; prompts=sagebot_answer_v2, sagebot_daily_signal_v2, sagebot_quiz_generator_v2, sagebot_challenge_generator_v2, sagebot_weekly_recap_v2",
+                "requiredForProduction": true,
+                "recovery": "Define versioned prompts for answer, daily signal, quiz, challenge, and weekly recap paths."
+              },
+              {
+                "key": "policy_scoring_active",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "sample SageForge answer passes source-grounded builder policy score",
+                "requiredForProduction": true,
+                "recovery": "Fix scoreSageBotPolicyOutput so generic, unsupported, too-long, or hype-driven answers are blocked."
+              },
+              {
+                "key": "quality_readiness_valid",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "observability/quality ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:observability-quality-readiness and fix trace, quality rollup, and admin-surface gaps."
+              }
+            ],
+            "status": "passed",
+            "score": 30,
+            "maxScore": 30
+          },
+          {
+            "key": "knowledge_base",
+            "title": "Authoritative Knowledge Base",
+            "gates": [
+              {
+                "key": "knowledge_harness_local_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "knowledge harness score=76",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:knowledge-base-harness and fix source seed, approval, RAG, and proof contract failures."
+              },
+              {
+                "key": "rag_eval_strong",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "rag passRate=1; total=65",
+                "requiredForProduction": true,
+                "recovery": "Improve missing eval coverage, approved sources, retrieval/reranking, and failed golden questions."
+              },
+              {
+                "key": "approved_discord_knowledge_live_target",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/10",
+                "requiredForProduction": true,
+                "recovery": "Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow."
+              },
+              {
+                "key": "discord_rag_sources_live_target",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/10",
+                "requiredForProduction": true,
+                "recovery": "After approval, sync approved Discord knowledge into authoritative RAG and rerun evals."
+              }
+            ],
+            "status": "blocked",
+            "score": 20,
+            "maxScore": 40
+          },
+          {
+            "key": "content_factory",
+            "title": "Content Factory",
+            "gates": [
+              {
+                "key": "content_factory_readiness_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "content factory ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:content-factory-readiness and fix daily, weekly, approval, quality, and source-link gates."
+              },
+              {
+                "key": "public_proof_live_target",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/4",
+                "requiredForProduction": true,
+                "recovery": "Approve or publish four privacy-safe proof assets sourced from real approved Discord knowledge."
+              },
+              {
+                "key": "growth_loop_readiness_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "public growth ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:public-growth-readiness and fix public proof/privacy/growth-cycle gaps."
+              }
+            ],
+            "status": "blocked",
+            "score": 20,
+            "maxScore": 30
+          },
+          {
+            "key": "learning_engagement",
+            "title": "Learning And Engagement Engine",
+            "gates": [
+              {
+                "key": "learning_scripts_exist",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "learning generator, scheduler, and weekly leaderboard recap scripts exist",
+                "requiredForProduction": true,
+                "recovery": "Wire quiz, challenge, scheduler, and weekly leaderboard proof commands into package.json."
+              },
+              {
+                "key": "durable_jobs_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "durable jobs ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:durable-jobs-readiness and fix idempotency, retry, dead-letter, and admin visibility gaps."
+              },
+              {
+                "key": "premium_workflow_live_target",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/1",
+                "requiredForProduction": true,
+                "recovery": "Run one premium review/deeper-answer/office-hours workflow with authorization and fulfillment evidence."
+              }
+            ],
+            "status": "blocked",
+            "score": 20,
+            "maxScore": 30
+          },
+          {
+            "key": "production_operations",
+            "title": "Production Operations",
+            "gates": [
+              {
+                "key": "gateway_healthy",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "gateway=healthy; worker=sagebot-main; messageContent=true",
+                "requiredForProduction": true,
+                "recovery": "Keep Railway gateway alive with DISCORD_GATEWAY_MESSAGE_CONTENT=true and rerun npm run discord:gateway-capture-diagnosis."
+              },
+              {
+                "key": "langfuse_smoke_passes",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "langfuse ok=true provider=langfuse",
+                "requiredForProduction": true,
+                "recovery": "Run npm run langfuse:smoke and confirm production env vars are set in Vercel/Railway."
+              },
+              {
+                "key": "security_privacy_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "security/privacy ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:security-privacy-readiness and fix approval gates, privacy, abuse, and public-proof safeguards."
+              },
+              {
+                "key": "local_verification_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "local verification ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run verify:local:evidence after local gates and fix missing evidence files."
+              }
+            ],
+            "status": "passed",
+            "score": 40,
+            "maxScore": 40
+          }
+        ],
+        "productionStopConditions": [
+          "approved_discord_knowledge_live_target: Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow.",
+          "discord_rag_sources_live_target: After approval, sync approved Discord knowledge into authoritative RAG and rerun evals.",
+          "public_proof_live_target: Approve or publish four privacy-safe proof assets sourced from real approved Discord knowledge.",
+          "premium_workflow_live_target: Run one premium review/deeper-answer/office-hours workflow with authorization and fulfillment evidence."
+        ],
+        "safeAutonomousCommands": [
+          "npm run discord:sageforge-institutional-harness",
+          "npm run loop:sageforge:once",
+          "npm run loop:sageforge:quality",
+          "npm run langfuse:smoke",
+          "npm run discord:gateway-capture-diagnosis",
+          "npm run discord:knowledge-base-harness",
+          "npm run discord:release-local"
+        ],
+        "explicitApprovalCommands": [
+          "npm run discord:register",
+          "npm run discord:pin-posts",
+          "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+          "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+          "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e",
+          "vercel deploy --prod",
+          "railway up --service sagebot-gateway",
+          "git push"
+        ],
+        "liveOperatorActions": [
+          "Approve 10 high-signal Discord knowledge items.",
+          "Sync approved Discord knowledge into authoritative RAG.",
+          "Run real member /ask-sage, /quiz, /challenge, /submit-project flows and capture evidence.",
+          "Approve four privacy-safe public proof assets.",
+          "Fulfill one premium workflow proof.",
+          "Review Langfuse production traces for real bot calls."
+        ],
+        "autonomyContract": {
+          "allowedWithoutMoreInput": [
+            "Run local-safe audits, typecheck, lint, build, unit tests, dry-runs, readiness scripts, and evidence writers.",
+            "Improve local harnesses, quality gates, prompt policy, deterministic evals, admin dashboard code, and documentation.",
+            "Generate approval-gated drafts and local proof artifacts that do not publish or mutate live services."
+          ],
+          "stopsForApproval": [
+            "Pushes, deploys, production database migrations, Stripe changes, live Discord mutations, publishing, deleting remote resources, or commands containing SAGE_ALLOW_.",
+            "Any action that approves knowledge into authoritative RAG or sends messages to live Discord."
+          ],
+          "completionDefinition": [
+            "All local gates pass.",
+            "SageForge institutional harness score is 95+.",
+            "No local harness failures remain.",
+            "Live proof blockers are either satisfied with evidence or explicitly listed as operator actions."
+          ]
+        },
+        "antiFakeRules": [
+          "Generated seeds and local dry-runs do not count as approved Discord knowledge.",
+          "Smoke rows do not count as live member usage.",
+          "Env presence does not prove integration correctness; at least one smoke/readback is required.",
+          "No 95-99 claim without live approved knowledge, Discord RAG sources, public proof, premium workflow proof, and production traces.",
+          "Bot personality is not complete until real replies are scored and reviewed against the policy kernel.",
+          "Current world-class category state: 0 categories at/above 95 and 18 below 95."
+        ],
+        "failures": [
+          "knowledge_base:approved_discord_knowledge_live_target",
+          "knowledge_base:discord_rag_sources_live_target",
+          "content_factory:public_proof_live_target",
+          "learning_engagement:premium_workflow_live_target"
+        ]
+      },
+      "stoppedEarly": true,
+      "stopReason": "external_approval_or_live_proof_required",
+      "finishedAt": "2026-06-29T20:10:33.631Z"
+    }
+  ],
+  "stopReason": "external_approval_or_live_proof_required",
+  "finalHarnessPath": "docs/evidence/engineering-loop/sageforge-institutional-harness-latest.json"
+}

@@ -1,10 +1,10 @@
 {
   "ok": true,
   "version": "discord-proof-source-recovery-plan-v1",
-  "generatedAt": "2026-06-26T18:48:21.729Z",
+  "generatedAt": "2026-06-29T20:10:18.069Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof.",
-  "scanGeneratedAt": "2026-06-26T18:48:21.193Z",
+  "scanGeneratedAt": "2026-06-29T20:10:17.545Z",
   "status": "blocked",
   "summary": {
     "laneCount": 4,
@@ -20,7 +20,7 @@
       "target": 10,
       "shortfall": 10,
       "priority": 1,
-      "sourceVolumeState": "no_source_volume",
+      "sourceVolumeState": "needs_review",
       "evidenceToCollect": [
         "Specific member question with goal, attempt, blocker, and reusable teaching value.",
         "Helpful answer or review that explains a decision, risk, or build pattern.",
@@ -45,7 +45,7 @@
       "safeLocalCommand": "npm run discord:proof-source-scan",
       "liveActionRequired": "Collect and approve high-signal member questions, helpful answers, project submissions, reviews, wins, and resources.",
       "verificationCommand": "npm run discord:proof-source-scan && npm run discord:operating-cycle:dry-run",
-      "blocker": "Approved knowledge is 0/10; no reviewable Discord knowledge candidates found in captured messages/classifications/content queue."
+      "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
     },
     {
       "key": "ragDiscordSources",

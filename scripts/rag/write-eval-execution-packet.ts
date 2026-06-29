@@ -31,9 +31,7 @@ async function main() {
     && missingEvalKeys.every((key) => selectedKeys.includes(key));
   const coverageStillBlocked = coverageReadiness.releaseReady !== true && missingEvalKeys.length > 0;
 
-  const approvedCommand = selectedKeys.length
-    ? `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
-    : 'npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence';
+  const approvedCommand = 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing';
   const dryRunCommand = 'npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness';
 
   const evidence = {

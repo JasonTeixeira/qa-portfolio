@@ -1,7 +1,7 @@
 {
-  "ok": false,
+  "ok": true,
   "version": "discord-final-scorecard-v2",
-  "runKey": "phase-20-final-1782499708028",
+  "runKey": "phase-20-final-1782763824121",
   "dryRun": true,
   "auditRowId": null,
   "averageScore": 83,
@@ -591,7 +591,7 @@
       {
         "path": "docs/evidence/rag/eval-execution-packet.json",
         "ok": true,
-        "status": "approval_required"
+        "status": "not_required"
       },
       {
         "path": "docs/evidence/rag/eval-missing-preflight.json",
@@ -712,18 +712,18 @@
     "counts": {
       "discord_security_audit_runs": 8,
       "discord_scale_readiness_runs": 2,
-      "discord_final_scorecard_runs": 10,
+      "discord_final_scorecard_runs": 11,
       "discord_job_runs": 0,
       "discord_job_dead_letters": 0,
       "discord_gateway_heartbeats": 9,
-      "rag_eval_runs": 37,
-      "rag_eval_results": 1192
+      "rag_eval_runs": 44,
+      "rag_eval_results": 1376
     }
   },
   "ragEvalCoverageReadinessValidation": {
     "ok": true,
     "failures": [],
-    "evidence": "50/65 evaluated, missing 15, releaseReady=false"
+    "evidence": "65/65 evaluated, missing 0, releaseReady=true"
   },
   "proofRehearsalValidation": {
     "ok": true,
@@ -783,13 +783,13 @@
     },
     {
       "name": "rag_eval_latest",
-      "passed": false,
-      "evidence": "50/50 passed, seeded 50/65, dryRun=false, avg 0.986, context precision 1, usefulness 0.9733"
+      "passed": true,
+      "evidence": "65/65 passed, seeded 65/65, dryRun=false, avg 0.9869, context precision 1, usefulness 0.9795"
     },
     {
       "name": "rag_eval_coverage_readiness",
-      "passed": false,
-      "evidence": "50/65 evaluated, missing 15, releaseReady=false"
+      "passed": true,
+      "evidence": "65/65 evaluated, missing 0, releaseReady=true"
     },
     {
       "name": "database_release_tables",
@@ -844,63 +844,36 @@
   ],
   "ragEvalLatest": {
     "ok": true,
-    "seededQuestionCount": 50,
-    "evaluatedQuestionCount": 50,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
     "requiredQuestionCount": 65,
     "summary": {
-      "total": 50,
-      "passed": 50,
+      "total": 65,
+      "passed": 65,
       "failed": 0,
       "passRate": 1,
-      "avgScore": 0.986,
+      "avgScore": 0.9869,
       "retrievalHitRate": 1,
       "citationCoverage": 1,
       "contextPrecision": 1,
       "faithfulness": 0.95,
       "groundedness": 1,
-      "answerUsefulness": 0.9733
+      "answerUsefulness": 0.9795
     }
   },
   "ragEvalCoverageReadiness": {
-    "releaseReady": false,
+    "releaseReady": true,
     "expectedQuestionCount": 65,
-    "seededQuestionCount": 50,
-    "evaluatedQuestionCount": 50,
-    "missingEvalKeys": [
-      "rag_ai_011",
-      "rag_ai_012",
-      "rag_ai_013",
-      "rag_ai_014",
-      "rag_ai_015",
-      "rag_content_011",
-      "rag_content_012",
-      "rag_content_013",
-      "rag_content_014",
-      "rag_content_015",
-      "rag_content_016",
-      "rag_content_017",
-      "rag_content_018",
-      "rag_content_019",
-      "rag_content_020"
-    ],
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "missingEvalKeys": [],
     "unexpectedEvalKeys": [],
-    "blockers": [
-      "latest_seeded_eval_count_below_target:50/65",
-      "latest_evaluated_eval_count_below_target:50/65",
-      "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
-    ],
+    "blockers": [],
     "nextActions": [
-      "Run the full RAG eval only with explicit approval because it writes Supabase eval rows and can call DeepSeek.",
-      "Safe local planning command: npm run rag:evaluate:missing-plan",
-      "If only coverage is stale, the lower-cost approved command is: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
-      "Expected full command after approval when quality drift is suspected: SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate && npm run discord:smoke-final-scorecard",
-      "Keep dry-run release gates blocked until eval-latest covers every seeded eval question."
+      "No eval coverage action needed before the next scorecard run."
     ]
   },
-  "failures": [
-    "release_gate:rag_eval_latest",
-    "release_gate:rag_eval_coverage_readiness"
-  ],
-  "startedAt": "2026-06-26T18:48:28.028Z",
-  "finishedAt": "2026-06-26T18:48:29.592Z"
+  "failures": [],
+  "startedAt": "2026-06-29T20:10:24.121Z",
+  "finishedAt": "2026-06-29T20:10:25.661Z"
 }

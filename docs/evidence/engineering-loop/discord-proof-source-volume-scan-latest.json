@@ -1,23 +1,23 @@
 {
   "ok": true,
   "version": "discord-proof-source-volume-scan-v1",
-  "generatedAt": "2026-06-26T18:48:21.193Z",
+  "generatedAt": "2026-06-29T20:10:17.545Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof.",
   "counts": {
-    "discord_messages.all": 9,
-    "discord_messages.non_empty_visible": 0,
-    "discord_messages.recent_7d_visible": 0,
-    "discord_message_classifications.all": 0,
-    "discord_message_classifications.recommended_action.in": 0,
-    "discord_content_queue.all": 0,
-    "discord_content_queue.status.in": 0,
+    "discord_messages.all": 10,
+    "discord_messages.non_empty_visible": 1,
+    "discord_messages.recent_7d_visible": 1,
+    "discord_message_classifications.all": 1,
+    "discord_message_classifications.recommended_action.in": 1,
+    "discord_content_queue.all": 1,
+    "discord_content_queue.status.in": 1,
     "discord_content_queue.status=published": 0,
     "discord_questions.all": 0,
     "discord_questions.status.in": 0,
     "discord_answers.all": 0,
     "discord_answers.helpful=true": 0,
-    "discord_content_drafts.all": 34,
+    "discord_content_drafts.all": 35,
     "discord_content_drafts.approved_with_discord_provenance": 0,
     "rag_sources.or": 0,
     "discord_public_proof_sources.all": 0,
@@ -32,8 +32,8 @@
     "approvedDiscordKnowledge": {
       "current": 0,
       "target": 10,
-      "reviewableCandidates": 0,
-      "blocker": "Approved knowledge is 0/10; no reviewable Discord knowledge candidates found in captured messages/classifications/content queue."
+      "reviewableCandidates": 2,
+      "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
     },
     "ragDiscordSources": {
       "current": 0,
@@ -58,15 +58,25 @@
     }
   },
   "samples": {
-    "contentQueue": []
+    "contentQueue": [
+      {
+        "id": "96b5b421-a862-4a6b-90c7-4d9719dad9e9",
+        "status": "captured",
+        "priority": 71,
+        "channelBaseName": "build-lab",
+        "action": "candidate_resource",
+        "category": "resource",
+        "createdAt": "2026-06-27T20:08:57.660437+00:00"
+      }
+    ]
   },
   "errors": [],
   "nextActions": [
-    "Generate source volume by capturing real member questions, answers, builds, reviews, wins, and resources.",
+    "Review captured/classified candidates in /admin/discord and approve only privacy-safe reusable knowledge.",
     "Do not run RAG sync yet; there are no approved Discord knowledge rows.",
     "Create public proof drafts only after approved Discord source material exists.",
     "Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness."
   ],
-  "startedAt": "2026-06-26T18:48:20.497Z",
-  "finishedAt": "2026-06-26T18:48:21.193Z"
+  "startedAt": "2026-06-29T20:10:16.905Z",
+  "finishedAt": "2026-06-29T20:10:17.545Z"
 }

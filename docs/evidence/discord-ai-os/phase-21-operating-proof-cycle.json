@@ -1,13 +1,13 @@
 {
   "ok": false,
   "status": "blocked",
-  "cycleKey": "2026-W26",
-  "startedAt": "2026-06-26T18:48:30.251Z",
-  "finishedAt": "2026-06-26T18:48:33.547Z",
+  "cycleKey": "2026-W27",
+  "startedAt": "2026-06-29T20:10:26.281Z",
+  "finishedAt": "2026-06-29T20:10:27.015Z",
   "metricsBefore": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 0,
+    "pendingKnowledgeCandidates": 1,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "approvedMembers": 7,
@@ -22,7 +22,7 @@
   "metricsAfter": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 0,
+    "pendingKnowledgeCandidates": 1,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "approvedMembers": 7,
@@ -83,7 +83,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "latestRunKey": "phase-20-final-1782499708028"
+    "latestRunKey": "phase-20-final-1782763824121"
   },
   "gates": [
     {

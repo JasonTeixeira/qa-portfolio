@@ -1,0 +1,367 @@
+{
+  "ok": true,
+  "version": "sagebot-live-deploy-harness-v1",
+  "startedAt": "2026-06-29T21:07:05.712Z",
+  "finishedAt": "2026-06-29T21:11:54.371Z",
+  "mode": "execute",
+  "mutationMode": "explicitly_approved_live_deploy_push_capable",
+  "releaseMeaning": "Deploy harness for Sage Ideas SageBot/SageForge. Plan mode writes evidence only. Execute mode can deploy Vercel, deploy Railway gateway, register commands, pin posts, and optionally push when explicitly requested.",
+  "siteUrl": "https://www.sageideas.dev",
+  "railwayService": "sagebot-gateway",
+  "options": {
+    "execute": true,
+    "push": false,
+    "skipVercel": false,
+    "skipRailway": false,
+    "skipPins": false,
+    "skipBuild": false,
+    "yes": true
+  },
+  "git": {
+    "branch": "feat/community-rag-content-ops-cleanup",
+    "localSha": "32fe0d5786199c7dbc988835c27da2796f54bee8",
+    "dirty": true,
+    "statusShort": [
+      "M components/academy/lesson/CourseRail.tsx",
+      " M components/academy/visuals/SageCodeWalkthrough.tsx",
+      " M components/academy/visuals/diagram-kinds.tsx",
+      " M docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+      " M docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+      " M docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+      " M docs/evidence/discord/approved-member-slash-flows-smoke.json",
+      " M docs/evidence/discord/ask-sage-smoke.json",
+      " M docs/evidence/engineering-loop/AUTONOMOUS_LOOP_STATE.json",
+      " M docs/evidence/engineering-loop/approval-boundary-check-latest.json",
+      " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
+      " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.md",
+      " M docs/evidence/engineering-loop/autonomous-loop-dry-run-latest.json",
+      " M docs/evidence/engineering-loop/autonomous-loop-harness-verification-latest.json",
+      " M docs/evidence/engineering-loop/autonomous-loop-run-latest.json",
+      " M docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+      " M docs/evidence/engineering-loop/discord-operator-brief-latest.json",
+      " M docs/evidence/engineering-loop/discord-operator-brief-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+      " M docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.md",
+      " M docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+      " M docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
+      " M docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.md",
+      " M docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+      " M docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
+      " M docs/evidence/engineering-loop/gateway-operating-packet-latest.md",
+      " M docs/evidence/engineering-loop/local-verification-latest.json",
+      " M docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
+      " M docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+      " M docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+      " M docs/evidence/engineering-loop/public-growth-readiness-latest.json",
+      " M docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+      " M docs/evidence/engineering-loop/world-class-readiness-latest.json",
+      " M docs/evidence/rag/chunk-run.json",
+      " M docs/evidence/rag/eval-coverage-readiness.json",
+      " M docs/evidence/rag/eval-execution-packet.json",
+      " M docs/evidence/rag/eval-latest.json",
+      " M docs/evidence/rag/eval-missing-plan.json",
+      " M docs/evidence/rag/eval-missing-preflight.json",
+      " M docs/evidence/rag/eval-recovery-plan.json",
+      " M docs/evidence/rag/eval-seed-dry-run.json",
+      " M docs/evidence/rag/eval-seed-quality.json",
+      " M docs/evidence/rag/local-embedding-run.json",
+      " M docs/evidence/rag/source-sync-sample.json",
+      " M lib/discord/engagement.ts",
+      " M lib/discord/sage-commands.ts",
+      " M lib/rag/query-planning.ts",
+      " M lib/rag/retrieval.ts",
+      " M package-lock.json",
+      " M package.json",
+      " M scripts/academy/course00/seed-module-1.ts",
+      " M scripts/discord/gateway-worker.ts",
+      " M scripts/discord/pin-sage-operating-posts.mjs",
+      " M scripts/discord/register-sage-commands.mjs",
+      " M scripts/discord/smoke-ask-sage.ts",
+      " M scripts/ops/write-local-verification-evidence.mjs",
+      " M scripts/rag/evaluate-rag.ts",
+      " M scripts/rag/smoke-answer.ts",
+      " M scripts/rag/write-eval-execution-packet.ts",
+      " M tests/unit/run.mjs",
+      " M tools/engineering-loop/audit-state.mjs",
+      " M tools/engineering-loop/run-world-class-loop.mjs",
+      " M tools/engineering-loop/verify-harness.mjs",
+      "?? .github/workflows/sage-gate.yml",
+      "?? docs/evidence/engineering-loop/career-content-harness-latest.json",
+      "?? docs/evidence/engineering-loop/discord-knowledge-review-queue-latest.json",
+      "?? docs/evidence/engineering-loop/discord-knowledge-review-queue-latest.md",
+      "?? docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.json",
+      "?? docs/evidence/engineering-loop/discord-live-proof-accelerator-latest.md",
+      "?? docs/evidence/engineering-loop/knowledge-base-e2e-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-e2e-readiness-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-loop-run-latest.json",
+      "?? docs/evidence/engineering-loop/langfuse-smoke-latest.json",
+      "?? docs/evidence/engineering-loop/sage-kernel-content-harness-latest.json",
+      "?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.json",
+      "?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.md",
+      "?? docs/evidence/engineering-loop/sagebot-live-deploy-latest.json",
+      "?? docs/evidence/engineering-loop/sageforge-institutional-harness-latest.json",
+      "?? docs/evidence/engineering-loop/sageforge-institutional-harness-latest.md",
+      "?? docs/evidence/engineering-loop/sageforge-institutional-loop-run-latest.json",
+      "?? lib/discord/career-content-harness.ts",
+      "?? lib/discord/knowledge-base-engineering-harness.ts",
+      "?? lib/discord/live-proof-accelerator.ts",
+      "?? lib/discord/mention-responder.ts",
+      "?? lib/discord/sage-kernel-content-harness.ts",
+      "?? lib/discord/sageforge-institutional-harness.ts",
+      "?? scripts/ai/",
+      "?? scripts/discord/deploy-sagebot-live.mjs",
+      "?? scripts/discord/export-knowledge-review-queue.ts",
+      "?? scripts/discord/run-knowledge-base-e2e.mjs",
+      "?? scripts/discord/write-career-content-harness.ts",
+      "?? scripts/discord/write-institutional-readiness.ts",
+      "?? scripts/discord/write-knowledge-base-e2e-readiness.mjs",
+      "?? scripts/discord/write-knowledge-base-engineering-harness.ts",
+      "?? scripts/discord/write-live-proof-accelerator.ts",
+      "?? scripts/discord/write-sage-kernel-content-harness.ts",
+      "?? scripts/discord/write-sageforge-institutional-harness.ts",
+      "?? tools/engineering-loop/run-knowledge-base-loop.mjs",
+      "?? tools/engineering-loop/run-sageforge-institutional-loop.mjs"
+    ],
+    "productionShaBefore": "cfda3231395f71f9e738f1ae18e8c44ab4c96910",
+    "productionBehindLocal": true
+  },
+  "envPresence": {
+    "DISCORD_BOT_TOKEN": true,
+    "DISCORD_CLIENT_ID": true,
+    "DISCORD_APPLICATION_ID": false,
+    "DISCORD_GUILD_ID": true,
+    "DISCORD_PUBLIC_KEY": true,
+    "DEEPSEEK_API_KEY": true,
+    "NEXT_PUBLIC_SUPABASE_URL": true,
+    "SUPABASE_SERVICE_ROLE_KEY": true
+  },
+  "packageScripts": {
+    "register": "node --env-file-if-exists=.env.local scripts/discord/register-sage-commands.mjs",
+    "pins": "node --env-file-if-exists=.env.local scripts/discord/pin-sage-operating-posts.mjs",
+    "smokeAskSage": "tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts",
+    "gateway": "tsx scripts/discord/gateway-worker.ts"
+  },
+  "localGates": [
+    {
+      "command": "npm run test:unit",
+      "startedAt": "2026-06-29T21:07:05.712Z",
+      "finishedAt": "2026-06-29T21:07:09.751Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "builds queued parallel work with retries and rate limits\n  PASS  revenue os durable worker: claims due jobs with leases and leaves future jobs queued\n  PASS  revenue os durable worker: completes, retries, and dead-letters jobs with attempt records\n  PASS  revenue os ai personalization: grounds drafts in evidence and blocks hallucinated claims\n  PASS  revenue os ai personalization v2: creates evidence-locked draft versions and quality gates\n  PASS  revenue os inbox intelligence: classifies replies and recommends CRM transitions\n  PASS  revenue os ml scoring: compares rule score with calibrated learned score\n  PASS  revenue os ml learning loop: trains, scores, calibrates, and persists model decisions\n  PASS  revenue os adaptive sequences: branches from events and stops on reply or suppression\n  PASS  revenue os tenant os: isolates client configs, sources, sending domains, and exports\n  PASS  revenue os tenant os: builds multi-tenant SaaS foundation with scoped access and persistence rows\n  PASS  revenue os eval gates: scores lead, draft, spam, deliverability, hallucination, and conversion quality\n  PASS  opportunity os: unifies job and client opportunities into one queue and proof model\n  PASS  traffic os: builds source campaigns distribution discord and conversion growth loop\n  PASS  engine: LOOP steps + keys are unique and ordered\n  PASS  engine: every required section maps to a known loop step\n  PASS  scaffold: scaffoldSections covers all required sections, in loop order\n  PASS  scaffold: defaultBlock returns a block whose type matches the request\n  PASS  scaffold: checkCompleteness flags missing then clears when scaffolded\n  PASS  scaffold: mergeScaffold preserves authored blocks and adds only missing\n  PASS  gamification: levelForXp crosses at every 150 XP boundary\n  PASS  gamification: xpView reports honest into-level / to-next / pct\n  PASS  gamification: streak — same calendar day does not change or reset\n  PASS  gamification: streak — first ever activity starts at 1\n  PASS  gamification: streak — consecutive day increments without spending a freeze\n  PASS  gamification: streak — exactly one missed day spends a freeze to survive\n  PASS  gamification: streak — one missed day with NO freeze resets to 1\n  PASS  gamification: streak — gap of 3+ days always resets even with freezes\n  PASS  gamification: streak — month boundary counts as consecutive\n  PASS  gamification: pickCelebration prioritises level-up over streak/goal\n  PASS  gamification: pickCelebration fires streak only on a milestone day\n  PASS  gamification: pickCelebration returns goal-hit when only the goal was met\n  PASS  gamification: pickCelebration is null when nothing notable happened\n  PASS  fsrs: scheduler is configured at 0.90 target retention\n  PASS  fsrs: a better recall grade schedules a later return than a worse one\n  PASS  leagues: seedTierForLevel lifts one tier every 3 levels, clamped\n  PASS  leagues: nextTier / prevTier clamp at the ends\n  PASS  leagues: tierMeta clamps out-of-range indices\n  PASS  leagues: rankMembers orders by weekly XP desc with 1-based ranks\n  PASS  leagues: rankMembers breaks ties deterministically (earlier joiner wins)\n  PASS  leagues: top 7 promote, bottom 5 relegate, middle holds\n  PASS  leagues: top tier never promotes, bottom tier never relegates\n  PASS  leagues: in a thin league promotion takes precedence over relegation\n  PASS  notify: withinFrequencyCap — never-sent is not capped, recent is capped\n  PASS  notify: isWithinSendWindow respects the waking-hours window\n  PASS  notify: localHourInTz resolves an hour for a known UTC instant\n  PASS  notify: streakAtRisk only fires for a live streak, late in the day, not-yet-active\n  PASS  notify: shouldSendStreakReminder gates on channel, risk, window and cap\n  PASS  leagues rollover: promotes the top, relegates the bottom, holds the middle\n  PASS  leagues rollover: clamps at the tier ends\n  PASS  efficacy: hakeG captures the fraction of available improvement\n  PASS  efficacy: hakeG returns null when there is no headroom (pre = 100)\n  PASS  efficacy: gainBand uses Hake conventional thresholds\n  PASS  efficacy: aggregate refuses to publish below the n-threshold\n  PASS  efficacy: aggregate excludes pairs with undefined gain (pre = 100)\n  PASS  profiles: slugifyHandle produces clean, bounded slugs\n  PASS  profiles: isValidHandle rejects reserved, too-short, and malformed\n  PASS  profiles: deriveHandle pads short seeds and de-reserves\n  PASS  profiles: handleCandidates yields ordered, length-clamped fallbacks\n  PASS  assessment: scoreAssessment is percent-correct, wrong/missing count as 0\n  PASS  assessment: parseQuestions drops malformed entries\n  PASS  assessment: stripAnswers removes the key, isComplete gates submission\n  PASS  referrals: proposeReferralCode is deterministic + bounded from the uuid\n  PASS  referrals: normalizeCode upper-cases, strips junk, bounds length\n  PASS  referrals: candidates are ordered + length-clamped\n  PASS  referrals: attributionCheck blocks self-referral, unknown code, double-attribution\n  PASS  referrals: conversion qualifies only after real engagement\n  PASS  referrals: summarize counts statuses and rewards\n  PASS  community: bumpFriendStreak — same day holds, consecutive +1, gap resets\n  PASS  community: friendStreakAlive is true today or yesterday, false older/null\n  PASS  community: pairKey is order-independent\n  PASS  community: friendRequestCheck blocks self, missing target, existing link\n  PASS  enforcement: scripted evidence sequence drives locked → complete with capped score\n  PASS  caps: empty evidence caps at 70; full evidence + contract gap still binds\n  PASS  enforcement: stray repair_completed does not lift the repair cap; reopened repair holds\n  PASS  grader-logic: buildTeachbackGradingMessages builds a JSON-only system + user prompt\n  PASS  grader-logic: parseGradingVerdict is robust + fails safe\n  PASS  grader-logic: looksLikeInjection flags prompt-injection, allows real explanations\n  PASS  metrics-logic: currRate, evidenceFunnel, aggregateGain honor MIN_AGGREGATE_N\n  PASS  content-map-logic: buildContentMap tags done/current/upcoming + rollups\n  PASS  mastery-logic: deriveMasteryLevel buckets by score + state\n  PASS  search-logic: rankAcademySearch filters + ranks prefix over substring\n  PASS  tutor-logic: buildTutorMessages grounds in KB + fences the user message\n  PASS  tutor-logic: looksLikeTutorInjection flags injections, allows real questions\n  PASS  tutor-logic: isLikelyOnTopic gates off-topic questions (guardrail)\n  PASS  goal-logic: computeGoalProgress milestones, pct, nextMilestone, fallback\n  PASS  badges-logic: earnedBadgeKeys is deterministic + server-derivable from stats\n  PASS  quest-logic: computeQuests clamps + done; variableXpBonus is pure-from-seed\n  PASS  trigger-logic: computeTriggers prioritises nudges + empty when on track\n  PASS  trigger-logic: streak-risk jeopardy uses hoursUntilReset (W5)\n  PASS  leagues-logic: relegationStake + leagueResetAt (W5)\n  PASS  badges-logic: collectionProgress + nextBadges chain (W5)\n  PASS  quest-logic: daily variable reward is deterministic + varies (S1.1)\n  PASS  quest-logic: bonusHeadline + honest variability tease (S1.1r2)\n  PASS  tutor-logic: buildOpenerSuggestions tap-to-resume chips (S1.1r2)\n  PASS  motion-logic: easing + count-up timing (S1.2)\n  PASS  first-win: win is genuine only when a lesson was really started (S1.2)\n  PASS  metrics-logic: retention/activation rates + human time (Stage 2)\n  PASS  experiments-logic: deterministic assignment + balance (Stage 3)\n  PASS  experiments-logic: z-test textbook value + honest insufficient-data guard (Stage 3)\n  PASS  tutor-logic: cross-session memory opener + bounded derive (S1.1)\n  PASS  badges-logic: capstoneBadge is the catalog pinnacle (W5r2)\n  PASS  reward-logic: computeNextRewards near-miss (badge, xp-to-level, rank gap)\n  PASS  sageforge institutional harness: enforces identity, proof, and autonomy boundaries\n\nResult: 289 passed, 0 failed\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run typecheck",
+      "startedAt": "2026-06-29T21:07:09.753Z",
+      "finishedAt": "2026-06-29T21:07:13.852Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "\n> qa-portfolio@0.2.0 typecheck\n> tsc --noEmit\n\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run lint",
+      "startedAt": "2026-06-29T21:07:13.853Z",
+      "finishedAt": "2026-06-29T21:07:44.240Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "\n> qa-portfolio@0.2.0 lint\n> eslint .\n\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run build",
+      "startedAt": "2026-06-29T21:07:44.243Z",
+      "finishedAt": "2026-06-29T21:08:29.150Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "/community\n├ ƒ /academy/course/[slug]\n├ ƒ /academy/course/[slug]/assessment/[kind]\n├ ƒ /academy/dashboard\n├ ƒ /academy/efficacy\n├ ƒ /academy/engine\n├ ƒ /academy/engine/lab\n├ ƒ /academy/evidence\n├ ƒ /academy/join\n├ ƒ /academy/leagues\n├ ƒ /academy/learn/[course]/[lesson]\n├ ƒ /academy/learn/[course]/[lesson]/lab\n├ ƒ /academy/my-courses\n├ ƒ /academy/onboarding\n├ ƒ /academy/onboarding/win\n├ ƒ /academy/preview\n├ ƒ /academy/profile\n├ ƒ /academy/progress\n├ ƒ /academy/refer\n├ ƒ /academy/resources\n├ ƒ /academy/resources/sprint-loop\n├ ƒ /academy/review\n├ ƒ /academy/rewards-demo\n├ ƒ /academy/signup\n├ ƒ /academy/u/[handle]\n├ ƒ /admin\n├ ƒ /admin/academy\n├ ƒ /admin/acquisition\n├ ƒ /admin/audit-log\n├ ƒ /admin/availability\n├ ƒ /admin/bookings\n├ ƒ /admin/calendar\n├ ƒ /admin/crm\n├ ƒ /admin/crm/[orgId]\n├ ƒ /admin/discord\n├ ƒ /admin/documents\n├ ƒ /admin/invoices\n├ ƒ /admin/invoices/[id]\n├ ƒ /admin/invoices/new\n├ ƒ /admin/job-applications\n├ ƒ /admin/leads\n├ ƒ /admin/observability\n├ ƒ /admin/opportunities\n├ ƒ /admin/payments\n├ ƒ /admin/pipeline\n├ ƒ /admin/profitability\n├ ƒ /admin/project-templates\n├ ƒ /admin/proposals\n├ ƒ /admin/proposals/[id]\n├ ƒ /admin/proposals/new\n├ ƒ /admin/settings\n├ ƒ /admin/templates\n├ ƒ /admin/templates/[id]\n├ ƒ /admin/time-tracking\n├ ƒ /admin/time-tracking/new\n├ ƒ /admin/traffic\n├ ƒ /admin/users\n├ ƒ /admin/waitlist\n├ ƒ /admin/workload\n├ ƒ /api/academy/push/public-key\n├ ƒ /api/academy/push/subscribe\n├ ƒ /api/academy/tutor\n├ ƒ /api/academy/waitlist\n├ ƒ /api/academy/waitlist-count\n├ ƒ /api/admin/academy/enrollments/export\n├ ƒ /api/admin/availability/[id]\n├ ƒ /api/admin/calendar-events\n├ ƒ /api/admin/calendar-events/[id]\n├ ƒ /api/admin/contracts/generate\n├ ƒ /api/admin/documents\n├ ƒ /api/admin/documents/[id]\n├ ƒ /api/admin/documents/[id]/download\n├ ƒ /api/admin/documents/[id]/share\n├ ƒ /api/admin/engagements\n├ ƒ /api/admin/engagements/[id]/move\n├ ƒ /api/admin/invoices\n├ ƒ /api/admin/invoices/[id]/mark-paid\n├ ƒ /api/admin/invoices/[id]/remind\n├ ƒ /api/admin/invoices/[id]/void\n├ ƒ /api/admin/job-application-os/artifacts/[id]/download\n├ ƒ /api/admin/organizations\n├ ƒ /api/admin/organizations/[id]\n├ ƒ /api/admin/payments/[id]/retry\n├ ƒ /api/admin/profile/[id]/decision\n├ ƒ /api/admin/project-templates/[id]/instantiate\n├ ƒ /api/admin/projects/[id]/status-report\n├ ƒ /api/admin/proposals\n├ ƒ /api/admin/proposals/[id]\n├ ƒ /api/admin/revenue-os/application-packets/[id]/download\n├ ƒ /api/admin/settings\n├ ƒ /api/admin/team/invite\n├ ƒ /api/admin/templates\n├ ƒ /api/admin/templates/[id]\n├ ƒ /api/admin/time-entries\n├ ƒ /api/admin/time-entries/[id]\n├ ƒ /api/admin/waitlist/export\n├ ƒ /api/auth/email-hook\n├ ƒ /api/badge/[id]\n├ ƒ /api/blog/search\n├ ƒ /api/book\n├ ƒ /api/book/slots\n├ ƒ /api/checkout\n├ ƒ /api/contact\n├ ƒ /api/contracts/[id]/pdf\n├ ƒ /api/cron/academy-sequence\n├ ƒ /api/cron/academy/daily\n├ ƒ /api/cron/academy/weekly\n├ ƒ /api/cron/blog-search-sync\n├ ƒ /api/cron/discord/daily\n├ ƒ /api/cron/discord/daily/publish\n├ ƒ /api/cron/discord/learning-lab\n├ ƒ /api/cron/discord/learning-lab/publish\n├ ƒ /api/cron/discord/learning-lab/weekly\n├ ƒ /api/cron/discord/weekly\n├ ƒ /api/cron/dunning\n├ ƒ /api/cron/revenue-os/daily\n├ ƒ /api/cron/revenue-os/workers\n├ ƒ /api/cron/weekly-digest\n├ ƒ /api/deliverable-comments/[commentId]\n├ ƒ /api/deliverable-comments/[commentId]/resolve\n├ ƒ /api/deliverables/[id]/comments\n├ ƒ /api/deliverables/[id]/decision\n├ ƒ /api/discord/interactions\n├ ƒ /api/documents/[id]/pdf\n├ ƒ /api/email/webhook\n├ ƒ /api/health\n├ ƒ /api/health/revenue-os\n├ ƒ /api/inquiry\n├ ƒ /api/invoices/[id]/pdf\n├ ƒ /api/lab/newsletter\n├ ƒ /api/messages/[id]\n├ ƒ /api/messages/[id]/reactions\n├ ƒ /api/messages/send\n├ ○ /api/newsletter/confirm\n├ ƒ /api/newsletter/subscribe\n├ ○ /api/newsletter/unsubscribe\n├ ƒ /api/notification-preferences/update\n├ ƒ /api/notifications\n├ ƒ /api/notifications/all\n├ ƒ /api/notifications/read\n├ ƒ /api/notifications/read-all\n├ ƒ /api/portal/avatar\n├ ƒ /api/portal/avatar/url\n├ ƒ /api/portal/bookings\n├ ƒ /api/portal/bookings/[id]/cancel\n├ ƒ /api/portal/bookings/[id]/ics\n├ ƒ /api/portal/calendar/[id]/ics\n├ ƒ /api/portal/checkout\n├ ƒ /api/portal/documents/[id]/download\n├ ƒ /api/portal/documents/[id]/sign\n├ ƒ /api/portal/engagements/[id]/intake\n├ ƒ /api/portal/engagements/[id]/time-summary\n├ ƒ /api/portal/files\n├ ƒ /api/portal/files/[id]\n├ ƒ /api/portal/files/[id]/download\n├ ƒ /api/portal/files/[id]/versions\n├ ƒ /api/portal/files/list\n├ ƒ /api/portal/health\n├ ƒ /api/portal/inbox/bulk\n├ ƒ /api/portal/messages/attachments\n├ ƒ /api/portal/messages/attachments/url\n├ ƒ /api/portal/proposals/[id]/accept\n├ ƒ /api/portal/proposals/[id]/decline\n├ ƒ /api/portal/threads/create\n├ ƒ /api/profile/update\n├ ƒ /api/quality\n├ ƒ /api/revenue-os/v1/[resource]\n├ ƒ /api/revenue-os/v1/webhooks\n├ ƒ /api/stripe/checkout\n├ ƒ /api/stripe/subscription/[id]/cancel\n├ ƒ /api/stripe/subscription/create\n├ ƒ /api/stripe/webhook\n├ ƒ /api/telemetry/error\n├ ƒ /api/telemetry/perf\n├ ƒ /api/telemetry/slo\n├ ƒ /api/tools/seo-audit\n├ ƒ /api/webhooks/stripe\n├ ƒ /api/welcome-email\n├ ○ /apple-icon\n├ ƒ /artifacts/sample-audit\n├ ƒ /ascent\n├ ƒ /atom.xml\n├ ƒ /auth/callback\n├ ƒ /auth/forgot-password\n├ ƒ /auth/mfa\n├ ƒ /auth/redirect\n├ ƒ /auth/reset\n├ ƒ /blog\n├ ƒ /blog/[slug]\n├ ƒ /blog/page/[n]\n├ ƒ /book\n├ ƒ /capabilities\n├ ƒ /changelog\n├ ƒ /checkout/cancel\n├ ƒ /checkout/success\n├ ƒ /compare\n├ ƒ /compare/[slug]\n├ ƒ /contact\n├ ƒ /content-ops\n├ ƒ /discord\n├ ƒ /engineering-os\n├ ƒ /feed.xml\n├ ● /feed/[cluster]\n│ ├ /feed/testing-qa.xml\n│ ├ /feed/ai-engineering.xml\n│ ├ /feed/fintech-trading.xml\n│ └ [+3 more paths]\n├ ƒ /founder\n├ ƒ /hire-ai-engineer\n├ ƒ /how-it-works\n├ ○ /icon\n├ ƒ /industries\n├ ƒ /industries/[slug]\n├ ƒ /lab\n├ ƒ /lab/[slug]\n├ ƒ /lab/ai-readiness\n├ ƒ /lab/calculators\n├ ƒ /lab/templates\n├ ƒ /lab/templates/[slug]\n├ ƒ /learn\n├ ƒ /learn/email-preview\n├ ƒ /learn/waitlist\n├ ƒ /legal\n├ ƒ /legal/cookies\n├ ƒ /legal/msa\n├ ƒ /legal/nda\n├ ƒ /legal/privacy\n├ ƒ /legal/sow-template\n├ ƒ /legal/terms\n├ ƒ /login\n├ ○ /manifest.webmanifest\n├ ƒ /offline\n├ ƒ /og\n├ ƒ /og/academy\n├ ƒ /onboarding\n├ ƒ /path\n├ ƒ /pending-approval\n├ ƒ /portal\n├ ƒ /portal/[...catchall]\n├ ƒ /portal/billing\n├ ƒ /portal/billing/manage\n├ ƒ /portal/booking\n├ ƒ /portal/calendar\n├ ƒ /portal/catalog\n├ ƒ /portal/documents\n├ ƒ /portal/documents/[id]\n├ ƒ /portal/documents/[id]/sign\n├ ƒ /portal/documents/sign/[id]\n├ ƒ /portal/engagements\n├ ƒ /portal/engagements/[id]\n├ ƒ /portal/help\n├ ƒ /portal/help/[slug]\n├ ƒ /portal/home\n├ ƒ /portal/inbox\n├ ƒ /portal/intake/[engagementId]\n├ ƒ /portal/invoices\n├ ƒ /portal/invoices/[id]\n├ ƒ /portal/invoices/[id]/pay\n├ ƒ /portal/invoices/[id]/pay/cancel\n├ ƒ /portal/invoices/[id]/pay/success\n├ ƒ /portal/messages\n├ ƒ /portal/messages/[engagementId]\n├ ƒ /portal/not-found-render\n├ ƒ /portal/projects\n├ ƒ /portal/projects/[id]\n├ ƒ /portal/proposals\n├ ƒ /portal/proposals/[id]\n├ ƒ /portal/settings\n├ ƒ /portal/settings/audit-log\n├ ƒ /pov\n├ ƒ /pricing\n├ ƒ /process\n├ ƒ /proto\n├ ƒ /reports/ai-search-readiness-2026\n├ ○ /robots.txt\n├ ƒ /services\n├ ƒ /services/[slug]\n├ ƒ /services/[slug]/for/[industry]\n├ ƒ /services/ai-development\n├ ƒ /services/brand-care\n├ ƒ /services/cloud-infrastructure\n├ ƒ /services/content-care\n├ ƒ /services/enterprise-qa\n├ ƒ /services/fintech\n├ ƒ /services/site-care\n├ ƒ /services/site-starter\n├ ƒ /services/studio-engagement\n├ ƒ /services/technical-consulting\n├ ƒ /services/trading-systems\n├ ƒ /showcase\n├ ƒ /showcase/[slug]\n├ ƒ /showcase/admin\n├ ƒ /showcase/admin/[slug]\n├ ƒ /showcase/compare\n├ ƒ /showcase/contractor-quote-engine\n├ ƒ /showcase/private/[slug]\n├ ƒ /showcase/private/[slug]/preview\n├ ƒ /showcase/proof\n├ ƒ /showcase/revenue-os\n├ ƒ /signup\n├ ○ /sitemap.xml\n├ ƒ /stack\n├ ƒ /studio\n├ ƒ /tools/route-finder\n├ ƒ /tools/seo-audit\n├ ƒ /tools/seo-audit/r/[id]\n├ ƒ /topics\n├ ƒ /topics/[hub]\n├ ƒ /trust\n├ ƒ /unsubscribe\n├ ƒ /work\n└ ƒ /work/[slug]\n\n\nƒ Proxy (Middleware)\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand\n\n",
+      "stderrTail": "⚠ Using edge runtime on a page currently disables static generation for that page\n"
+    },
+    {
+      "command": "git diff --check",
+      "startedAt": "2026-06-29T21:08:29.154Z",
+      "finishedAt": "2026-06-29T21:08:29.261Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "",
+      "stderrTail": ""
+    }
+  ],
+  "plannedDeployCommands": [
+    "vercel deploy --prod --yes",
+    "railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true --service sagebot-gateway",
+    "railway variables --set DISCORD_BOT_USER_ID=1516816082122309775 --service sagebot-gateway",
+    "railway up --service sagebot-gateway",
+    "npm run discord:register",
+    "npm run discord:pin-posts"
+  ],
+  "deployCommands": [
+    {
+      "command": "vercel deploy --prod --yes",
+      "startedAt": "2026-06-29T21:08:29.262Z",
+      "finishedAt": "2026-06-29T21:11:12.474Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "https://qa-portfolio-i5wnekyqj-sage-ideas.vercel.app",
+      "stderrTail": "s/[id]\nBuilding: ├ ƒ /api/admin/time-entries\nBuilding: ├ ƒ /api/admin/time-entries/[id]\nBuilding: ├ ƒ /api/admin/waitlist/export\nBuilding: ├ ƒ /api/auth/email-hook\nBuilding: ├ ƒ /api/badge/[id]\nBuilding: ├ ƒ /api/blog/search\nBuilding: ├ ƒ /api/book\nBuilding: ├ ƒ /api/book/slots\nBuilding: ├ ƒ /api/checkout\nBuilding: ├ ƒ /api/contact\nBuilding: ├ ƒ /api/contracts/[id]/pdf\nBuilding: ├ ƒ /api/cron/academy-sequence\nBuilding: ├ ƒ /api/cron/academy/daily\nBuilding: ├ ƒ /api/cron/academy/weekly\nBuilding: ├ ƒ /api/cron/blog-search-sync\nBuilding: ├ ƒ /api/cron/discord/daily\nBuilding: ├ ƒ /api/cron/discord/daily/publish\nBuilding: ├ ƒ /api/cron/discord/learning-lab\nBuilding: ├ ƒ /api/cron/discord/learning-lab/publish\nBuilding: ├ ƒ /api/cron/discord/learning-lab/weekly\nBuilding: ├ ƒ /api/cron/discord/weekly\nBuilding: ├ ƒ /api/cron/dunning\nBuilding: ├ ƒ /api/cron/revenue-os/daily\nBuilding: ├ ƒ /api/cron/revenue-os/workers\nBuilding: ├ ƒ /api/cron/weekly-digest\nBuilding: ├ ƒ /api/deliverable-comments/[commentId]\nBuilding: ├ ƒ /api/deliverable-comments/[commentId]/resolve\nBuilding: ├ ƒ /api/deliverables/[id]/comments\nBuilding: ├ ƒ /api/deliverables/[id]/decision\nBuilding: ├ ƒ /api/discord/interactions\nBuilding: ├ ƒ /api/documents/[id]/pdf\nBuilding: ├ ƒ /api/email/webhook\nBuilding: ├ ƒ /api/health\nBuilding: ├ ƒ /api/health/revenue-os\nBuilding: ├ ƒ /api/inquiry\nBuilding: ├ ƒ /api/invoices/[id]/pdf\nBuilding: ├ ƒ /api/lab/newsletter\nBuilding: ├ ƒ /api/messages/[id]\nBuilding: ├ ƒ /api/messages/[id]/reactions\nBuilding: ├ ƒ /api/messages/send\nBuilding: ├ ○ /api/newsletter/confirm\nBuilding: ├ ƒ /api/newsletter/subscribe\nBuilding: ├ ○ /api/newsletter/unsubscribe\nBuilding: ├ ƒ /api/notification-preferences/update\nBuilding: ├ ƒ /api/notifications\nBuilding: ├ ƒ /api/notifications/all\nBuilding: ├ ƒ /api/notifications/read\nBuilding: ├ ƒ /api/notifications/read-all\nBuilding: ├ ƒ /api/portal/avatar\nBuilding: ├ ƒ /api/portal/avatar/url\nBuilding: ├ ƒ /api/portal/bookings\nBuilding: ├ ƒ /api/portal/bookings/[id]/cancel\nBuilding: ├ ƒ /api/portal/bookings/[id]/ics\nBuilding: ├ ƒ /api/portal/calendar/[id]/ics\nBuilding: ├ ƒ /api/portal/checkout\nBuilding: ├ ƒ /api/portal/documents/[id]/download\nBuilding: ├ ƒ /api/portal/documents/[id]/sign\nBuilding: ├ ƒ /api/portal/engagements/[id]/intake\nBuilding: ├ ƒ /api/portal/engagements/[id]/time-summary\nBuilding: ├ ƒ /api/portal/files\nBuilding: ├ ƒ /api/portal/files/[id]\nBuilding: ├ ƒ /api/portal/files/[id]/download\nBuilding: ├ ƒ /api/portal/files/[id]/versions\nBuilding: ├ ƒ /api/portal/files/list\nBuilding: ├ ƒ /api/portal/health\nBuilding: ├ ƒ /api/portal/inbox/bulk\nBuilding: ├ ƒ /api/portal/messages/attachments\nBuilding: ├ ƒ /api/portal/messages/attachments/url\nBuilding: ├ ƒ /api/portal/proposals/[id]/accept\nBuilding: ├ ƒ /api/portal/proposals/[id]/decline\nBuilding: ├ ƒ /api/portal/threads/create\nBuilding: ├ ƒ /api/profile/update\nBuilding: ├ ƒ /api/quality\nBuilding: ├ ƒ /api/revenue-os/v1/[resource]\nBuilding: ├ ƒ /api/revenue-os/v1/webhooks\nBuilding: ├ ƒ /api/stripe/checkout\nBuilding: ├ ƒ /api/stripe/subscription/[id]/cancel\nBuilding: ├ ƒ /api/stripe/subscription/create\nBuilding: ├ ƒ /api/stripe/webhook\nBuilding: ├ ƒ /api/telemetry/error\nBuilding: ├ ƒ /api/telemetry/perf\nBuilding: ├ ƒ /api/telemetry/slo\nBuilding: ├ ƒ /api/tools/seo-audit\nBuilding: ├ ƒ /api/webhooks/stripe\nBuilding: ├ ƒ /api/welcome-email\nBuilding: ├ ○ /apple-icon\nBuilding: ├ ƒ /artifacts/sample-audit\nBuilding: ├ ƒ /ascent\nBuilding: ├ ƒ /atom.xml\nBuilding: ├ ƒ /auth/callback\nBuilding: ├ ƒ /auth/forgot-password\nBuilding: ├ ƒ /auth/mfa\nBuilding: ├ ƒ /auth/redirect\nBuilding: ├ ƒ /auth/reset\nBuilding: ├ ƒ /blog\nBuilding: ├ ƒ /blog/[slug]\nBuilding: ├ ƒ /blog/page/[n]\nBuilding: ├ ƒ /book\nBuilding: ├ ƒ /capabilities\nBuilding: ├ ƒ /changelog\nBuilding: ├ ƒ /checkout/cancel\nBuilding: ├ ƒ /checkout/success\nBuilding: ├ ƒ /compare\nBuilding: ├ ƒ /compare/[slug]\nBuilding: ├ ƒ /contact\nBuilding: ├ ƒ /content-ops\nBuilding: ├ ƒ /discord\nBuilding: ├ ƒ /engineering-os\nBuilding: ├ ƒ /feed.xml\nBuilding: ├ ● /feed/[cluster]\nBuilding: │ ├ /feed/testing-qa.xml\nBuilding: │ ├ /feed/ai-engineering.xml\nBuilding: │ ├ /feed/fintech-trading.xml\nBuilding: │ └ [+3 more paths]\nBuilding: ├ ƒ /founder\nBuilding: ├ ƒ /hire-ai-engineer\nBuilding: ├ ƒ /how-it-works\nBuilding: ├ ○ /icon\nBuilding: ├ ƒ /industries\nBuilding: ├ ƒ /industries/[slug]\nBuilding: ├ ƒ /lab\nBuilding: ├ ƒ /lab/[slug]\nBuilding: ├ ƒ /lab/ai-readiness\nBuilding: ├ ƒ /lab/calculators\nBuilding: ├ ƒ /lab/templates\nBuilding: ├ ƒ /lab/templates/[slug]\nBuilding: ├ ƒ /learn\nBuilding: ├ ƒ /learn/email-preview\nBuilding: ├ ƒ /learn/waitlist\nBuilding: ├ ƒ /legal\nBuilding: ├ ƒ /legal/cookies\nBuilding: ├ ƒ /legal/msa\nBuilding: ├ ƒ /legal/nda\nBuilding: ├ ƒ /legal/privacy\nBuilding: ├ ƒ /legal/sow-template\nBuilding: ├ ƒ /legal/terms\nBuilding: ├ ƒ /login\nBuilding: ├ ○ /manifest.webmanifest\nBuilding: ├ ƒ /offline\nBuilding: ├ ƒ /og\nBuilding: ├ ƒ /og/academy\nBuilding: ├ ƒ /onboarding\nBuilding: ├ ƒ /path\nBuilding: ├ ƒ /pending-approval\nBuilding: ├ ƒ /portal\nBuilding: ├ ƒ /portal/[...catchall]\nBuilding: ├ ƒ /portal/billing\nBuilding: ├ ƒ /portal/billing/manage\nBuilding: ├ ƒ /portal/booking\nBuilding: ├ ƒ /portal/calendar\nBuilding: ├ ƒ /portal/catalog\nBuilding: ├ ƒ /portal/documents\nBuilding: ├ ƒ /portal/documents/[id]\nBuilding: ├ ƒ /portal/documents/[id]/sign\nBuilding: ├ ƒ /portal/documents/sign/[id]\nBuilding: ├ ƒ /portal/engagements\nBuilding: ├ ƒ /portal/engagements/[id]\nBuilding: ├ ƒ /portal/help\nBuilding: ├ ƒ /portal/help/[slug]\nBuilding: ├ ƒ /portal/home\nBuilding: ├ ƒ /portal/inbox\nBuilding: ├ ƒ /portal/intake/[engagementId]\nBuilding: ├ ƒ /portal/invoices\nBuilding: ├ ƒ /portal/invoices/[id]\nBuilding: ├ ƒ /portal/invoices/[id]/pay\nBuilding: ├ ƒ /portal/invoices/[id]/pay/cancel\nBuilding: ├ ƒ /portal/invoices/[id]/pay/success\nBuilding: ├ ƒ /portal/messages\nBuilding: ├ ƒ /portal/messages/[engagementId]\nBuilding: ├ ƒ /portal/not-found-render\nBuilding: ├ ƒ /portal/projects\nBuilding: ├ ƒ /portal/projects/[id]\nBuilding: ├ ƒ /portal/proposals\nBuilding: ├ ƒ /portal/proposals/[id]\nBuilding: ├ ƒ /portal/settings\nBuilding: ├ ƒ /portal/settings/audit-log\nBuilding: ├ ƒ /pov\nBuilding: ├ ƒ /pricing\nBuilding: ├ ƒ /process\nBuilding: ├ ƒ /proto\nBuilding: ├ ƒ /reports/ai-search-readiness-2026\nBuilding: ├ ○ /robots.txt\nBuilding: ├ ƒ /services\nBuilding: ├ ƒ /services/[slug]\nBuilding: ├ ƒ /services/[slug]/for/[industry]\nBuilding: ├ ƒ /services/ai-development\nBuilding: ├ ƒ /services/brand-care\nBuilding: ├ ƒ /services/cloud-infrastructure\nBuilding: ├ ƒ /services/content-care\nBuilding: ├ ƒ /services/enterprise-qa\nBuilding: ├ ƒ /services/fintech\nBuilding: ├ ƒ /services/site-care\nBuilding: ├ ƒ /services/site-starter\nBuilding: ├ ƒ /services/studio-engagement\nBuilding: ├ ƒ /services/technical-consulting\nBuilding: ├ ƒ /services/trading-systems\nBuilding: ├ ƒ /showcase\nBuilding: ├ ƒ /showcase/[slug]\nBuilding: ├ ƒ /showcase/admin\nBuilding: ├ ƒ /showcase/admin/[slug]\nBuilding: ├ ƒ /showcase/compare\nBuilding: ├ ƒ /showcase/contractor-quote-engine\nBuilding: ├ ƒ /showcase/private/[slug]\nBuilding: ├ ƒ /showcase/private/[slug]/preview\nBuilding: ├ ƒ /showcase/proof\nBuilding: ├ ƒ /showcase/revenue-os\nBuilding: ├ ƒ /signup\nBuilding: ├ ○ /sitemap.xml\nBuilding: ├ ƒ /stack\nBuilding: ├ ƒ /studio\nBuilding: ├ ƒ /tools/route-finder\nBuilding: ├ ƒ /tools/seo-audit\nBuilding: ├ ƒ /tools/seo-audit/r/[id]\nBuilding: ├ ƒ /topics\nBuilding: ├ ƒ /topics/[hub]\nBuilding: ├ ƒ /trust\nBuilding: ├ ƒ /unsubscribe\nBuilding: ├ ƒ /work\nBuilding: └ ƒ /work/[slug]\nBuilding: ƒ Proxy (Middleware)\nBuilding: ○  (Static)   prerendered as static content\nBuilding: ●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nBuilding: ƒ  (Dynamic)  server-rendered on demand\nBuilding: Build Completed in /vercel/output [2m]\nBuilding: Deploying outputs...\nBuilding: Deployment completed\nBuilding: Creating build cache...\n\u001b[2K\u001b[1A\u001b[2K\u001b[GProduction: https://qa-portfolio-i5wnekyqj-sage-ideas.vercel.app [3m]\nCompleting...\nAliased: https://www.sageideas.dev [3m]\n"
+    },
+    {
+      "command": "railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true --service sagebot-gateway",
+      "startedAt": "2026-06-29T21:11:12.475Z",
+      "finishedAt": "2026-06-29T21:11:13.348Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "command": "railway variables --set DISCORD_BOT_USER_ID=1516816082122309775 --service sagebot-gateway",
+      "startedAt": "2026-06-29T21:11:13.349Z",
+      "finishedAt": "2026-06-29T21:11:14.294Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "command": "railway up --service sagebot-gateway",
+      "startedAt": "2026-06-29T21:11:14.295Z",
+      "finishedAt": "2026-06-29T21:11:27.438Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "Indexing...\nUploading...\n  Build Logs: https://railway.com/project/e067a900-e8d5-4c25-a2f6-627b9ffa4de6/service/5d409035-7acf-41b4-82a5-f720f14f0a57?id=b816f2d0-84c4-469e-bb35-224b4d30a80b&\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run discord:register",
+      "startedAt": "2026-06-29T21:11:27.439Z",
+      "finishedAt": "2026-06-29T21:11:28.073Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "\n> qa-portfolio@0.2.0 discord:register\n> node --env-file-if-exists=.env.local scripts/discord/register-sage-commands.mjs\n\nRegistered 37 SageBot commands.\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run discord:pin-posts",
+      "startedAt": "2026-06-29T21:11:28.074Z",
+      "finishedAt": "2026-06-29T21:11:42.688Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "\n> qa-portfolio@0.2.0 discord:pin-posts\n> node --env-file-if-exists=.env.local scripts/discord/pin-sage-operating-posts.mjs\n\n{\n  \"ok\": true,\n  \"results\": [\n    {\n      \"channel\": \"start-here\",\n      \"ok\": true,\n      \"messageId\": \"1517250265516871710\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"academy-roadmap\",\n      \"ok\": true,\n      \"messageId\": \"1519717380681367654\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"introductions\",\n      \"ok\": true,\n      \"messageId\": \"1519717384519286965\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"announcements\",\n      \"ok\": true,\n      \"messageId\": \"1519717387379675208\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"daily-signal\",\n      \"ok\": true,\n      \"messageId\": \"1520599780248780941\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"questions\",\n      \"ok\": true,\n      \"messageId\": \"1520599783427805306\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"ask-sage\",\n      \"ok\": true,\n      \"messageId\": \"1519717396821184542\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"lesson-discussion\",\n      \"ok\": true,\n      \"messageId\": \"1519717401476993146\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"build-lab\",\n      \"ok\": true,\n      \"messageId\": \"1517250279332904961\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"project-submissions\",\n      \"ok\": true,\n      \"messageId\": \"1519717408950976542\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"review-queue\",\n      \"ok\": true,\n      \"messageId\": \"1517250283753701478\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"content-queue\",\n      \"ok\": true,\n      \"messageId\": \"1519717416848855151\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"live-room\",\n      \"ok\": true,\n      \"messageId\": \"1520599807020892301\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"office-hours\",\n      \"ok\": true,\n      \"messageId\": \"1520599810363752558\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"accountability\",\n      \"ok\": true,\n      \"messageId\": \"1519717425292247221\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"resources\",\n      \"ok\": true,\n      \"messageId\": \"1517250292603683000\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"wins-showcase\",\n      \"ok\": true,\n      \"messageId\": \"1517250296076701896\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"premium\",\n      \"ok\": true,\n      \"messageId\": \"1517250298958053398\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"premium-reviews\",\n      \"ok\": true,\n      \"messageId\": \"1519717436247507047\",\n      \"pinned\": true\n    },\n    {\n      \"channel\": \"team-ops\",\n      \"ok\": true,\n      \"messageId\": \"1517250304498864269\",\n      \"pinned\": true\n    }\n  ]\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "liveVerification": [
+    {
+      "command": "curl -fsS https://www.sageideas.dev/api/health",
+      "startedAt": "2026-06-29T21:11:42.690Z",
+      "finishedAt": "2026-06-29T21:11:44.098Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "{\"status\":\"healthy\",\"ok\":true,\"sha\":\"32fe0d5786199c7dbc988835c27da2796f54bee8\",\"environment\":\"production\",\"region\":\"iad1\",\"timestamp\":\"2026-06-29T21:11:44.078Z\",\"checks\":{\"db\":{\"status\":\"ok\",\"latency_ms\":301},\"env\":{\"status\":\"ok\",\"latency_ms\":0}}}",
+      "stderrTail": ""
+    },
+    {
+      "command": "curl -fsS https://www.sageideas.dev/api/discord/interactions",
+      "startedAt": "2026-06-29T21:11:44.099Z",
+      "finishedAt": "2026-06-29T21:11:44.598Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "{\"ok\":true,\"configured\":true,\"endpoint\":\"/api/discord/interactions\"}",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run discord:smoke-ask-sage",
+      "startedAt": "2026-06-29T21:11:44.600Z",
+      "finishedAt": "2026-06-29T21:11:53.820Z",
+      "exitCode": 0,
+      "signal": null,
+      "ok": true,
+      "stdoutTail": "\n> qa-portfolio@0.2.0 discord:smoke-ask-sage\n> tsx --env-file=.env.local scripts/discord/smoke-ask-sage.ts\n\n{\n  \"ok\": true,\n  \"responseType\": 4,\n  \"ephemeral\": true,\n  \"answerId\": \"e15093fb-b4af-4b6e-b08e-ce05a878cf66\",\n  \"retrievalLogId\": \"fb3ed92d-da53-4a3d-acc7-89702a876799\",\n  \"traceId\": \"9517e026dfb153f3d1492b378c9f0304\",\n  \"observabilityProvider\": \"langfuse\",\n  \"queueCount\": 1,\n  \"pointsCount\": 1,\n  \"answerPreview\": \"# SageBot answer\\n**Question:** How should a high quality education Discord onboard new members?\\nA high-quality education Discord should onboard new members using the following concrete workflow:\\n\\n1. **Apply**: New members use Discord native **Apply to Join**, answer the application, accept the rules, and wait for manual approval [1].\\n2. **Read**: After approval, they read `start-here` [1].\\n3. **Run Command**: They run `/onboard` to choose path and level roles (e.g., `Academy Member`, `AI Enginee\",\n  \"startedAt\": \"2026-06-29T21:11:45.829Z\",\n  \"finishedAt\": \"2026-06-29T21:11:52.770Z\",\n  \"evidencePath\": \"/Users/Sage/code/active/sageideas.dev/docs/evidence/discord/ask-sage-smoke.json\"\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "healthBefore": {
+    "ok": true,
+    "status": 200,
+    "sha": "cfda3231395f71f9e738f1ae18e8c44ab4c96910",
+    "body": {
+      "status": "healthy",
+      "ok": true,
+      "sha": "cfda3231395f71f9e738f1ae18e8c44ab4c96910",
+      "environment": "production",
+      "region": "iad1",
+      "timestamp": "2026-06-29T21:07:05.691Z",
+      "checks": {
+        "db": {
+          "status": "ok",
+          "latency_ms": 317
+        },
+        "env": {
+          "status": "ok",
+          "latency_ms": 0
+        }
+      }
+    }
+  },
+  "healthAfter": {
+    "ok": true,
+    "status": 200,
+    "sha": "32fe0d5786199c7dbc988835c27da2796f54bee8",
+    "body": {
+      "status": "healthy",
+      "ok": true,
+      "sha": "32fe0d5786199c7dbc988835c27da2796f54bee8",
+      "environment": "production",
+      "region": "iad1",
+      "timestamp": "2026-06-29T21:11:54.358Z",
+      "checks": {
+        "db": {
+          "status": "ok",
+          "latency_ms": 326
+        },
+        "env": {
+          "status": "ok",
+          "latency_ms": 0
+        }
+      }
+    }
+  },
+  "explicitApprovalCommands": [
+    "vercel deploy --prod --yes",
+    "railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true --service sagebot-gateway",
+    "railway up --service sagebot-gateway",
+    "npm run discord:register",
+    "npm run discord:pin-posts",
+    "git push"
+  ],
+  "stopReason": null,
+  "nextActions": [
+    "In Discord, run /ask-sage with a real question.",
+    "In Discord, mention @Sage Ideas with a real question and confirm Railway logs include mention_response_posted.",
+    "If mention response fails, check DISCORD_ENABLE_MENTION_RESPONSES and DISCORD_BOT_USER_ID in Railway."
+  ]
+}

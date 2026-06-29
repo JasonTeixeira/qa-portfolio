@@ -1,0 +1,320 @@
+{
+  "ok": true,
+  "version": "sageforge-institutional-harness-v1",
+  "generatedAt": "2026-06-29T20:10:33.616Z",
+  "botName": "SageForge",
+  "botNameRationale": "SageForge is builder-oriented, brandable, memorable in Discord mentions, and keeps SageBot OS available as the internal system name.",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This institutional harness reads local/prod evidence files and grades SageForge readiness. It does not post to Discord, approve knowledge, sync RAG, push, deploy, change Stripe, mutate Supabase, or claim live operating proof.",
+  "status": "locally_strong_waiting_on_live_proof",
+  "score": 80,
+  "targetScoreRange": "95-99",
+  "categoryScores": {
+    "bot_identity_invocation": 100,
+    "personality_kernel": 100,
+    "knowledge_base": 50,
+    "content_factory": 67,
+    "learning_engagement": 67,
+    "production_operations": 100
+  },
+  "categories": [
+    {
+      "key": "bot_identity_invocation",
+      "title": "Bot Identity And Invocation",
+      "gates": [
+        {
+          "key": "name_selected",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "botName=SageForge",
+          "requiredForProduction": true,
+          "recovery": "Set the public bot identity to SageForge and keep SageBot OS as the internal system name."
+        },
+        {
+          "key": "ask_commands_registered_in_code",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "discord:register and discord:smoke scripts exist",
+          "requiredForProduction": true,
+          "recovery": "Keep Discord command registration and smoke verification scripts wired in package.json."
+        },
+        {
+          "key": "core_member_commands_present",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "ask-sage, learning lab, and approved slash-flow smoke scripts exist",
+          "requiredForProduction": true,
+          "recovery": "Add smoke coverage for /ask-sage, /quiz, /challenge, /submit-project, /leaderboard, and approved-member flows."
+        }
+      ],
+      "status": "passed",
+      "score": 30,
+      "maxScore": 30
+    },
+    {
+      "key": "personality_kernel",
+      "title": "Personality Kernel",
+      "gates": [
+        {
+          "key": "prompt_versions_defined",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "personality=sagebot-personality-v1; prompts=sagebot_answer_v2, sagebot_daily_signal_v2, sagebot_quiz_generator_v2, sagebot_challenge_generator_v2, sagebot_weekly_recap_v2",
+          "requiredForProduction": true,
+          "recovery": "Define versioned prompts for answer, daily signal, quiz, challenge, and weekly recap paths."
+        },
+        {
+          "key": "policy_scoring_active",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "sample SageForge answer passes source-grounded builder policy score",
+          "requiredForProduction": true,
+          "recovery": "Fix scoreSageBotPolicyOutput so generic, unsupported, too-long, or hype-driven answers are blocked."
+        },
+        {
+          "key": "quality_readiness_valid",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "observability/quality ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:observability-quality-readiness and fix trace, quality rollup, and admin-surface gaps."
+        }
+      ],
+      "status": "passed",
+      "score": 30,
+      "maxScore": 30
+    },
+    {
+      "key": "knowledge_base",
+      "title": "Authoritative Knowledge Base",
+      "gates": [
+        {
+          "key": "knowledge_harness_local_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "knowledge harness score=76",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:knowledge-base-harness and fix source seed, approval, RAG, and proof contract failures."
+        },
+        {
+          "key": "rag_eval_strong",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "rag passRate=1; total=65",
+          "requiredForProduction": true,
+          "recovery": "Improve missing eval coverage, approved sources, retrieval/reranking, and failed golden questions."
+        },
+        {
+          "key": "approved_discord_knowledge_live_target",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/10",
+          "requiredForProduction": true,
+          "recovery": "Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow."
+        },
+        {
+          "key": "discord_rag_sources_live_target",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/10",
+          "requiredForProduction": true,
+          "recovery": "After approval, sync approved Discord knowledge into authoritative RAG and rerun evals."
+        }
+      ],
+      "status": "blocked",
+      "score": 20,
+      "maxScore": 40
+    },
+    {
+      "key": "content_factory",
+      "title": "Content Factory",
+      "gates": [
+        {
+          "key": "content_factory_readiness_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "content factory ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:content-factory-readiness and fix daily, weekly, approval, quality, and source-link gates."
+        },
+        {
+          "key": "public_proof_live_target",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/4",
+          "requiredForProduction": true,
+          "recovery": "Approve or publish four privacy-safe proof assets sourced from real approved Discord knowledge."
+        },
+        {
+          "key": "growth_loop_readiness_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "public growth ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:public-growth-readiness and fix public proof/privacy/growth-cycle gaps."
+        }
+      ],
+      "status": "blocked",
+      "score": 20,
+      "maxScore": 30
+    },
+    {
+      "key": "learning_engagement",
+      "title": "Learning And Engagement Engine",
+      "gates": [
+        {
+          "key": "learning_scripts_exist",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "learning generator, scheduler, and weekly leaderboard recap scripts exist",
+          "requiredForProduction": true,
+          "recovery": "Wire quiz, challenge, scheduler, and weekly leaderboard proof commands into package.json."
+        },
+        {
+          "key": "durable_jobs_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "durable jobs ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:durable-jobs-readiness and fix idempotency, retry, dead-letter, and admin visibility gaps."
+        },
+        {
+          "key": "premium_workflow_live_target",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/1",
+          "requiredForProduction": true,
+          "recovery": "Run one premium review/deeper-answer/office-hours workflow with authorization and fulfillment evidence."
+        }
+      ],
+      "status": "blocked",
+      "score": 20,
+      "maxScore": 30
+    },
+    {
+      "key": "production_operations",
+      "title": "Production Operations",
+      "gates": [
+        {
+          "key": "gateway_healthy",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "gateway=healthy; worker=sagebot-main; messageContent=true",
+          "requiredForProduction": true,
+          "recovery": "Keep Railway gateway alive with DISCORD_GATEWAY_MESSAGE_CONTENT=true and rerun npm run discord:gateway-capture-diagnosis."
+        },
+        {
+          "key": "langfuse_smoke_passes",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "langfuse ok=true provider=langfuse",
+          "requiredForProduction": true,
+          "recovery": "Run npm run langfuse:smoke and confirm production env vars are set in Vercel/Railway."
+        },
+        {
+          "key": "security_privacy_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "security/privacy ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:security-privacy-readiness and fix approval gates, privacy, abuse, and public-proof safeguards."
+        },
+        {
+          "key": "local_verification_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "local verification ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run verify:local:evidence after local gates and fix missing evidence files."
+        }
+      ],
+      "status": "passed",
+      "score": 40,
+      "maxScore": 40
+    }
+  ],
+  "productionStopConditions": [
+    "approved_discord_knowledge_live_target: Approve 10 reusable, privacy-safe Discord knowledge items through the admin workflow.",
+    "discord_rag_sources_live_target: After approval, sync approved Discord knowledge into authoritative RAG and rerun evals.",
+    "public_proof_live_target: Approve or publish four privacy-safe proof assets sourced from real approved Discord knowledge.",
+    "premium_workflow_live_target: Run one premium review/deeper-answer/office-hours workflow with authorization and fulfillment evidence."
+  ],
+  "safeAutonomousCommands": [
+    "npm run discord:sageforge-institutional-harness",
+    "npm run loop:sageforge:once",
+    "npm run loop:sageforge:quality",
+    "npm run langfuse:smoke",
+    "npm run discord:gateway-capture-diagnosis",
+    "npm run discord:knowledge-base-harness",
+    "npm run discord:release-local"
+  ],
+  "explicitApprovalCommands": [
+    "npm run discord:register",
+    "npm run discord:pin-posts",
+    "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e",
+    "vercel deploy --prod",
+    "railway up --service sagebot-gateway",
+    "git push"
+  ],
+  "liveOperatorActions": [
+    "Approve 10 high-signal Discord knowledge items.",
+    "Sync approved Discord knowledge into authoritative RAG.",
+    "Run real member /ask-sage, /quiz, /challenge, /submit-project flows and capture evidence.",
+    "Approve four privacy-safe public proof assets.",
+    "Fulfill one premium workflow proof.",
+    "Review Langfuse production traces for real bot calls."
+  ],
+  "autonomyContract": {
+    "allowedWithoutMoreInput": [
+      "Run local-safe audits, typecheck, lint, build, unit tests, dry-runs, readiness scripts, and evidence writers.",
+      "Improve local harnesses, quality gates, prompt policy, deterministic evals, admin dashboard code, and documentation.",
+      "Generate approval-gated drafts and local proof artifacts that do not publish or mutate live services."
+    ],
+    "stopsForApproval": [
+      "Pushes, deploys, production database migrations, Stripe changes, live Discord mutations, publishing, deleting remote resources, or commands containing SAGE_ALLOW_.",
+      "Any action that approves knowledge into authoritative RAG or sends messages to live Discord."
+    ],
+    "completionDefinition": [
+      "All local gates pass.",
+      "SageForge institutional harness score is 95+.",
+      "No local harness failures remain.",
+      "Live proof blockers are either satisfied with evidence or explicitly listed as operator actions."
+    ]
+  },
+  "antiFakeRules": [
+    "Generated seeds and local dry-runs do not count as approved Discord knowledge.",
+    "Smoke rows do not count as live member usage.",
+    "Env presence does not prove integration correctness; at least one smoke/readback is required.",
+    "No 95-99 claim without live approved knowledge, Discord RAG sources, public proof, premium workflow proof, and production traces.",
+    "Bot personality is not complete until real replies are scored and reviewed against the policy kernel.",
+    "Current world-class category state: 0 categories at/above 95 and 18 below 95."
+  ],
+  "failures": [
+    "knowledge_base:approved_discord_knowledge_live_target",
+    "knowledge_base:discord_rag_sources_live_target",
+    "content_factory:public_proof_live_target",
+    "learning_engagement:premium_workflow_live_target"
+  ]
+}

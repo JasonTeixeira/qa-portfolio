@@ -260,9 +260,12 @@ async function main() {
     evalExecutionPacket.selectedMatchesCoverage === true,
     'RAG eval execution packet selected keys must match missing coverage keys.',
   );
+  const evalExecutionMissingCount = Array.isArray(evalExecutionPacket.missingEvalKeys)
+    ? evalExecutionPacket.missingEvalKeys.length
+    : 0;
   requireTruthy(
-    evalExecutionPacket.commandPlan?.requiresExplicitApproval === true,
-    'RAG eval execution packet must require explicit approval while eval keys are missing.',
+    evalExecutionPacket.commandPlan?.requiresExplicitApproval === (evalExecutionMissingCount > 0),
+    'RAG eval execution packet approval requirement must match whether eval keys are missing.',
   );
   requireTruthy(
     evalExecutionPacket.commandPlan?.approvedCommand?.includes('npm run rag:evaluate:approved-missing')
@@ -619,10 +622,19 @@ async function main() {
     proofBacklog.lanes[0]?.key === 'gateway_capture',
     'Proof backlog must start with gateway_capture.',
   );
-  requireTruthy(
-    proofBacklog.weeklyChecklist?.[0]?.laneKey === 'gateway_capture',
-    'Proof backlog weekly checklist must start with gateway_capture.',
-  );
+  {
+    const gatewayLane = proofBacklog.lanes.find((lane) => lane.key === 'gateway_capture');
+    requireTruthy(gatewayLane, 'Proof backlog must include gateway_capture.');
+    requireTruthy(
+      gatewayLane.status !== 'blocked' || proofBacklog.weeklyChecklist?.[0]?.laneKey === 'gateway_capture',
+      'Proof backlog weekly checklist must start with gateway_capture when gateway capture is still blocked.',
+    );
+    requireTruthy(
+      gatewayLane.status !== 'passed'
+        || !proofBacklog.weeklyChecklist?.some((step) => step.laneKey === 'gateway_capture'),
+      'Proof backlog weekly checklist must not include gateway_capture after gateway capture is already passed.',
+    );
+  }
   requireTruthy(
     proofLaneRagEvalCommandsAreGuarded(proofBacklog.lanes),
     'Proof backlog must guard non-dry RAG eval commands with SAGE_ALLOW_NON_DRY_RAG_EVAL=approved.',
@@ -806,10 +818,14 @@ async function main() {
     operatorBrief.mutationMode === 'local_file_evidence_only',
     'Operator brief must not mutate external systems.',
   );
-  requireTruthy(
-    operatorBrief.blockedLaneCount === 5,
-    'Operator brief must report all five blocked proof lanes.',
-  );
+  {
+    const operatorProofLanes = operatorBrief.proofLanes ?? [];
+    const expectedBlockedLaneCount = operatorProofLanes.filter((lane) => lane.status === 'blocked').length;
+    requireTruthy(
+      operatorBrief.blockedLaneCount === expectedBlockedLaneCount,
+      'Operator brief must report the actual blocked proof lane count.',
+    );
+  }
   requireTruthy(
     operatorBrief.proofLanes?.[0]?.key === 'gateway_capture',
     'Operator brief must start proof lanes with gateway_capture.',
@@ -911,13 +927,17 @@ async function main() {
     worldClassReadiness.proofSourceRecoveryPlan?.nextLaneKey === proofSourceRecoveryPlan.summary?.nextLane,
     'World-class readiness next proof lane must match the recovery plan.',
   );
+  const ragEvalRecoveryPending = Number(worldClassReadiness.ragEvalRecoveryPlan?.missingEvalCount ?? 0) > 0
+    || Number(worldClassReadiness.ragEvalRecoveryPlan?.failedEvalCount ?? 0) > 0;
   requireTruthy(
-    worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:recovery-plan')),
-    'World-class readiness must put the RAG eval recovery plan in immediate actions.',
+    !ragEvalRecoveryPending
+      || worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:recovery-plan')),
+    'World-class readiness must put the RAG eval recovery plan in immediate actions when eval recovery is pending.',
   );
   requireTruthy(
-    worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:missing-preflight')),
-    'World-class readiness must put the missing-eval preflight in immediate actions.',
+    !ragEvalRecoveryPending
+      || worldClassReadiness.immediateActionOrder?.some((action) => action.includes('rag:evaluate:missing-preflight')),
+    'World-class readiness must put the missing-eval preflight in immediate actions when eval recovery is pending.',
   );
   requireTruthy(
     worldClassReadiness.immediateActionOrder?.some((action) => action.includes('discord:proof-source-recovery-plan')),

@@ -93,6 +93,20 @@ function optionBool(payload: DiscordInteractionPayload, name: string): boolean {
   return option?.value === true;
 }
 
+function normalizedTagList(value?: string | null): string[] {
+  return String(value ?? '')
+    .split(/[,\s]+/)
+    .map((item) => item.trim().toLowerCase().replace(/^#/, ''))
+    .map((item) => item.replace(/[^a-z0-9_-]/g, ''))
+    .filter(Boolean)
+    .slice(0, 8);
+}
+
+function formatTagLine(tags: string[]): string | null {
+  if (!tags.length) return null;
+  return `**Tags:** ${tags.map((tag) => `\`${tag}\``).join(' ')}`;
+}
+
 function userId(payload: DiscordInteractionPayload): string | null {
   return payload.member?.user?.id ?? payload.user?.id ?? null;
 }
@@ -702,6 +716,7 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
   const path = optionValue(payload, 'path');
   const goal = optionValue(payload, 'goal');
   const link = optionValue(payload, 'link');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   const result = await submitProjectToBuildLab({
     discordUserId: id,
     username: username(payload),
@@ -709,6 +724,7 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
     pathKey: path || null,
     goal,
     link: link || null,
+    tags,
   });
   const content = [
     `# New project submission: ${sanitizeDiscordOutboundText(title)}`,
@@ -716,6 +732,7 @@ async function handleSubmitProject(payload: DiscordInteractionPayload): Promise<
     `**Project ID:** \`${result.id}\``,
     result.contentQueueId ? `**Content queue ID:** \`${result.contentQueueId}\`` : null,
     `**Path:** ${sanitizeDiscordOutboundText(path, 120)}`,
+    formatTagLine(tags),
     `**Goal:** ${sanitizeDiscordOutboundText(goal)}`,
     link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null,
     '',
@@ -731,15 +748,16 @@ async function handleRequestReview(payload: DiscordInteractionPayload): Promise<
   const type = optionValue(payload, 'type');
   const summary = optionValue(payload, 'summary');
   const link = optionValue(payload, 'link');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   const target = 'review-queue';
   await postToChannelByBaseName(
     target,
-    [`# Review request: ${type}`, `**Member:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, `**Summary:** ${sanitizeDiscordOutboundText(summary)}`, link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null]
+    [`# Review request: ${type}`, `**Member:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, formatTagLine(tags), `**Summary:** ${sanitizeDiscordOutboundText(summary)}`, link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null]
       .filter(Boolean)
       .join('\n'),
   );
   const id = userId(payload);
-  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'review', metadata: { type } });
+  if (id) await completeOnboardingStep({ discordUserId: id, username: username(payload), stepKey: 'review', metadata: { type, tags } });
   return ephemeral(`Review request routed to \`${target}\`.`);
 }
 
@@ -749,6 +767,7 @@ async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<
   const type = optionValue(payload, 'type') || 'general';
   const summary = optionValue(payload, 'summary');
   const link = optionValue(payload, 'link');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   const result = await createPremiumReviewRequest({
     discordUserId: id,
     username: username(payload),
@@ -764,6 +783,7 @@ async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<
       `**Type:** ${type}`,
       `**Priority:** ${result.priority}`,
       `**Request ID:** \`${result.id}\``,
+      formatTagLine(tags),
       `**Summary:** ${sanitizeDiscordOutboundText(summary)}`,
       link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null,
     ].filter(Boolean).join('\n'),
@@ -774,7 +794,7 @@ async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<
     discordUserId: id,
     discordUsername: username(payload),
     channelBaseName: 'premium',
-    metadata: { request_id: result.id, type, priority: result.priority },
+    metadata: { request_id: result.id, type, priority: result.priority, tags },
   });
   return ephemeral(`Premium review queued. Request ID: \`${result.id}\`. Priority: **${result.priority}**.`);
 }
@@ -782,6 +802,7 @@ async function handlePremiumReview(payload: DiscordInteractionPayload): Promise<
 async function handleCaptureContent(payload: DiscordInteractionPayload): Promise<InteractionResponse> {
   const idea = optionValue(payload, 'idea');
   const source = optionValue(payload, 'source');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   await captureContentQueueItem({
     source: 'slash_command',
     idea,
@@ -790,10 +811,11 @@ async function handleCaptureContent(payload: DiscordInteractionPayload): Promise
     channelBaseName: 'content-queue',
     angle: source || null,
     priority: 60,
+    metadata: { tags },
   });
   await postToChannelByBaseName(
     'content-queue',
-    [`# Captured content idea`, `**Captured by:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, `**Idea:** ${sanitizeDiscordOutboundText(idea)}`, source ? `**Source:** ${sanitizeDiscordOutboundText(source)}` : null]
+    [`# Captured content idea`, `**Captured by:** ${sanitizeDiscordOutboundText(username(payload), 120)}`, formatTagLine(tags), `**Idea:** ${sanitizeDiscordOutboundText(idea)}`, source ? `**Source:** ${sanitizeDiscordOutboundText(source)}` : null]
       .filter(Boolean)
       .join('\n'),
   );
@@ -807,6 +829,7 @@ async function handleAsk(payload: DiscordInteractionPayload): Promise<Interactio
   if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
   const question = optionValue(payload, 'question');
   const context = optionValue(payload, 'context');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   let result: { id: string };
   let persistent = true;
   try {
@@ -825,6 +848,7 @@ async function handleAsk(payload: DiscordInteractionPayload): Promise<Interactio
     `# Question: ${sanitizeDiscordOutboundText(question)}`,
     `**Asked by:** ${sanitizeDiscordOutboundText(username(payload), 120)}`,
     `**Question ID:** \`${result.id}\``,
+    formatTagLine(tags),
     context ? `**Context:** ${sanitizeDiscordOutboundText(context)}` : null,
     '',
     `Answer with \`/answer question_id:${result.id} answer:<your answer>\`. Helpful answers can be marked with \`/mark-helpful\`.`,
@@ -837,7 +861,7 @@ async function handleAsk(payload: DiscordInteractionPayload): Promise<Interactio
     channelBaseName: 'questions',
     angle: context || null,
     priority: 65,
-    metadata: { question_id: result.id },
+    metadata: { question_id: result.id, tags },
   });
   return ephemeral(`Question posted to \`questions\`. Awarded **5** points. Question ID: \`${result.id}\`${persistent ? '.' : '. Persistent question tables are not migrated yet, so this is temporarily tracked through Discord/content queue only.'}`);
 }
@@ -1284,6 +1308,7 @@ async function handleSubmitChallenge(payload: DiscordInteractionPayload): Promis
   if (!id) return ephemeral('I could not resolve your Discord user. Try again inside the server.');
   const summary = optionValue(payload, 'summary');
   const link = optionValue(payload, 'link');
+  const tags = normalizedTagList(optionValue(payload, 'tags'));
   const result = await submitDailyChallenge({ discordUserId: id, username: username(payload), summary, link });
   if (result.alreadySubmitted) {
     return ephemeral(`You already submitted today’s challenge. Submission ID: \`${result.id ?? 'existing'}\`. No extra points awarded.`);
@@ -1295,7 +1320,7 @@ async function handleSubmitChallenge(payload: DiscordInteractionPayload): Promis
     username: username(payload),
     channelBaseName: 'build-lab',
     priority: 70,
-    metadata: { challenge_key: result.challenge.key, submission_id: result.id, link: link || null, status: 'pending_review' },
+    metadata: { challenge_key: result.challenge.key, submission_id: result.id, link: link || null, status: 'pending_review', tags },
   });
   await postToChannelByBaseName(
     'build-lab',
@@ -1303,6 +1328,7 @@ async function handleSubmitChallenge(payload: DiscordInteractionPayload): Promis
       `# Challenge submission pending review: ${sanitizeDiscordOutboundText(result.challenge.title)}`,
       `**Member:** ${sanitizeDiscordOutboundText(username(payload), 120)}`,
       `**Submission ID:** \`${result.id}\``,
+      formatTagLine(tags),
       `**Summary:** ${sanitizeDiscordOutboundText(summary)}`,
       link ? `**Link:** ${sanitizeDiscordOutboundText(link, 300)}` : null,
       '',
@@ -1503,7 +1529,10 @@ export async function handleSageCommand(payload: DiscordInteractionPayload): Pro
       discordUsername: username(payload),
       metadata: { error: err instanceof Error ? err.message : String(err) },
     });
-    throw err;
+    return ephemeral([
+      'SageBot hit an internal error before it could finish that command.',
+      'The failure was logged for admin review. Try again in a minute, or use `questions` if this is urgent.',
+    ].join('\n'));
   }
 }
 

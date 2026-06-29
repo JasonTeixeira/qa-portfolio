@@ -101,12 +101,28 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:proof-intake-readiness'], 'tsx scripts/discord/write-proof-intake-readiness.ts');
   assert.equal(packageJson.scripts['discord:weekly-proof-packet'], 'tsx scripts/discord/write-weekly-proof-packet.ts');
   assert.equal(packageJson.scripts['discord:proof-candidate-audit'], 'tsx scripts/discord/write-proof-candidate-audit.ts');
+  assert.equal(packageJson.scripts['discord:knowledge-review-queue'], 'tsx --env-file=.env.local scripts/discord/export-knowledge-review-queue.ts');
+  assert.equal(packageJson.scripts['discord:live-proof-accelerator'], 'tsx scripts/discord/write-live-proof-accelerator.ts');
   assert.equal(packageJson.scripts['discord:proof-source-scan'], 'tsx --env-file=.env.local scripts/discord/scan-proof-source-volume.ts');
   assert.equal(packageJson.scripts['discord:proof-source-recovery-plan'], 'tsx scripts/discord/write-proof-source-recovery-plan.ts');
   assert.equal(packageJson.scripts['discord:approved-knowledge-packet'], 'tsx scripts/discord/write-approved-knowledge-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:gateway-capture-diagnosis'], 'tsx --env-file=.env.local scripts/discord/diagnose-gateway-capture.ts');
   assert.equal(packageJson.scripts['discord:gateway-operating-packet'], 'tsx scripts/discord/write-gateway-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:career-content-harness'], 'tsx scripts/discord/write-career-content-harness.ts');
+  assert.equal(packageJson.scripts['discord:sage-kernel-content-harness'], 'tsx scripts/discord/write-sage-kernel-content-harness.ts');
+  assert.equal(packageJson.scripts['discord:knowledge-base-harness'], 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts');
+  assert.equal(packageJson.scripts['discord:sageforge-institutional-harness'], 'tsx scripts/discord/write-sageforge-institutional-harness.ts');
+  assert.equal(packageJson.scripts['sagebot:deploy-live:plan'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs');
+  assert.equal(packageJson.scripts['sagebot:deploy-live'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes');
+  assert.equal(packageJson.scripts['sagebot:deploy-live:push'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes --push');
+  assert.equal(packageJson.scripts['loop:knowledge-base'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs');
+  assert.equal(packageJson.scripts['loop:knowledge-base:once'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once');
+  assert.equal(packageJson.scripts['loop:knowledge-base:dry-run'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --dry-run');
+  assert.equal(packageJson.scripts['loop:knowledge-base:full'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate');
+  assert.equal(packageJson.scripts['loop:sageforge'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs');
+  assert.equal(packageJson.scripts['loop:sageforge:once'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once');
+  assert.equal(packageJson.scripts['loop:sageforge:dry-run'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --dry-run');
+  assert.equal(packageJson.scripts['loop:sageforge:quality'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --quality-gate');
   assert.equal(packageJson.scripts['discord:channel-matrix-readiness'], 'tsx scripts/discord/write-channel-matrix-readiness.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
@@ -151,6 +167,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assertReleaseBefore('discord:weekly-proof-packet', 'discord:smoke-final-scorecard:dry-run');
   assertReleaseBefore('discord:operating-cycle:dry-run', 'discord:proof-backlog');
   assertReleaseBefore('discord:proof-backlog', 'discord:proof-candidate-audit');
+  assertReleaseBefore('discord:proof-candidate-audit', 'discord:knowledge-review-queue');
+  assertReleaseBefore('discord:knowledge-review-queue', 'discord:live-proof-accelerator');
+  assertReleaseBefore('discord:live-proof-accelerator', 'discord:world-class-readiness');
   assertReleaseBefore('discord:proof-candidate-audit', 'discord:world-class-readiness');
   assertReleaseBefore('discord:world-class-readiness', 'discord:operator-brief');
   assertReleaseBefore('discord:operator-brief', 'verify:local:evidence');
@@ -547,6 +566,24 @@ test('engineering loop harness: local-only scripts, approval boundaries, and sto
   assert.match(verifier, /loop_script_contains_forbidden_reference/);
 });
 
+test('sagebot live deploy harness: gates deployment, registers commands, and verifies live endpoints', async () => {
+  const script = await readFile(new URL('../../scripts/discord/deploy-sagebot-live.mjs', import.meta.url), 'utf8');
+  assert.match(script, /sagebot-live-deploy-harness-v1/);
+  assert.match(script, /LOCAL_GATES/);
+  assert.match(script, /npm run test:unit/);
+  assert.match(script, /npm run typecheck/);
+  assert.match(script, /npm run lint/);
+  assert.match(script, /npm run build/);
+  assert.match(script, /vercel deploy --prod --yes/);
+  assert.match(script, /railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true/);
+  assert.match(script, /railway up --service/);
+  assert.match(script, /npm run discord:register/);
+  assert.match(script, /npm run discord:pin-posts/);
+  assert.match(script, /npm run discord:smoke-ask-sage/);
+  assert.match(script, /plan_only_no_live_mutation/);
+  assert.match(script, /explicitly_approved_live_deploy_push_capable/);
+});
+
 test('career content harness: scores AI Career OS sources without claiming live proof', async () => {
   const {
     buildCareerContentHarness,
@@ -586,6 +623,174 @@ test('career content harness: package script and autonomous loop wiring are loca
   assert.match(runner, /discord:career-content-harness/);
   assert.match(verifier, /discord:career-content-harness/);
   assert.doesNotMatch(writer, /createClient|supabaseAdmin|discord\.js|fetch\(/i);
+});
+
+test('sage-kernel content harness: scores source repo and creates approval-gated drafts', async () => {
+  const {
+    buildSageKernelContentHarness,
+    SAGE_KERNEL_CONTENT_HARNESS_VERSION,
+  } = await import('../../lib/discord/sage-kernel-content-harness.ts');
+
+  const result = await buildSageKernelContentHarness({
+    sourceRoot: '/Users/Sage/code/external/sage-kernel',
+    maxFiles: 8000,
+    candidateLimit: 40,
+    draftLimit: 12,
+  });
+
+  assert.equal(result.version, SAGE_KERNEL_CONTENT_HARNESS_VERSION);
+  assert.equal(result.mutationMode, 'read_only_external_repo_and_local_file_evidence_only');
+  assert.match(result.releaseMeaning, /does not write Supabase rows/);
+  assert.match(result.sourceCommit ?? '', /^[0-9a-f]{40}$/);
+  assert.ok(result.inventory.fileCount >= 100);
+  assert.ok(result.inventory.packageCount >= 20);
+  assert.ok(result.inventory.categories.docs >= 10);
+  assert.ok(result.inventory.categories.package_proof >= 3);
+  assert.ok(result.inventory.categories.package_evals >= 2);
+  assert.equal(result.readiness.status, 'ready_for_admin_seed_review');
+  assert.ok(result.readiness.score >= 95);
+  assert.ok(result.candidates.length >= 20);
+  assert.ok(result.approvalDrafts.length >= 8);
+  assert.ok(result.candidates.every((candidate) => candidate.operatingProofEligible === false));
+  assert.ok(result.approvalDrafts.every((draft) => draft.status === 'planned_for_admin_review'));
+  assert.ok(result.approvalDrafts.every((draft) => draft.operatingContract.adminAction === 'review_then_approve_or_reject'));
+  assert.ok(result.approvalDrafts.every((draft) => draft.operatingContract.publishAllowedBeforeApproval === false));
+  assert.ok(result.approvalDrafts.every((draft) => draft.body.includes('does not count as approved Discord knowledge')));
+  assert.ok(result.approvalDrafts.every((draft) => draft.qualityScore >= 90));
+  assert.ok(result.channelPlan.filter((channel) => channel.candidateCount > 0).length >= 5);
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'resources' && channel.draftCount > 0));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'build-lab' && channel.draftCount > 0));
+  assert.ok(result.channelPlan.some((channel) => channel.channel === 'daily-signal' && channel.draftCount > 0));
+  assert.ok(result.antiFakeRules.some((rule) => rule.includes('do not count as approved Discord knowledge')));
+});
+
+test('sage-kernel content harness: package script and autonomous loop wiring are local-only', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const audit = await readFile(new URL('../../tools/engineering-loop/audit-state.mjs', import.meta.url), 'utf8');
+  const runner = await readFile(new URL('../../tools/engineering-loop/run-world-class-loop.mjs', import.meta.url), 'utf8');
+  const verifier = await readFile(new URL('../../tools/engineering-loop/verify-harness.mjs', import.meta.url), 'utf8');
+  const writer = await readFile(new URL('../../scripts/discord/write-sage-kernel-content-harness.ts', import.meta.url), 'utf8');
+
+  assert.equal(packageJson.scripts['discord:sage-kernel-content-harness'], 'tsx scripts/discord/write-sage-kernel-content-harness.ts');
+  assert.match(audit, /discord:sage-kernel-content-harness/);
+  assert.match(runner, /discord:sage-kernel-content-harness/);
+  assert.match(verifier, /discord:sage-kernel-content-harness/);
+  assert.doesNotMatch(writer, /createClient|supabaseAdmin|discord\.js|fetch\(/i);
+});
+
+test('knowledge-base engineering harness: grades source seeds without claiming live proof', async () => {
+  const { buildKnowledgeBaseEngineeringHarness } = await import('../../lib/discord/knowledge-base-engineering-harness.ts');
+  const sourceDraft = (channel = 'daily-signal') => ({
+    status: 'planned_for_admin_review',
+    targetChannelBaseName: channel,
+    operatingContract: {
+      adminAction: 'review_then_approve_or_reject',
+      publishAllowedBeforeApproval: false,
+      operatingProofEligible: false,
+    },
+  });
+  const result = buildKnowledgeBaseEngineeringHarness({
+    generatedAt: '2026-06-27T00:00:00.000Z',
+    careerContentHarness: {
+      ok: true,
+      candidates: Array.from({ length: 50 }, (_, index) => ({ proposedChannel: ['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours'][index % 5] })),
+      approvalDrafts: Array.from({ length: 10 }, (_, index) => sourceDraft(['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours'][index % 5])),
+      channelPlan: ['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours'].map((channel) => ({ channel })),
+      antiFakeRules: ['Career seeds do not count as approved Discord knowledge.'],
+    },
+    sageKernelContentHarness: {
+      ok: true,
+      candidates: Array.from({ length: 60 }, (_, index) => ({ proposedChannel: ['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours', 'content-queue'][index % 6] })),
+      approvalDrafts: Array.from({ length: 18 }, (_, index) => sourceDraft(['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours', 'content-queue'][index % 6])),
+      channelPlan: ['daily-signal', 'build-lab', 'resources', 'questions', 'office-hours', 'content-queue'].map((channel) => ({ channel })),
+      antiFakeRules: ['sage-kernel candidates do not count as approved Discord knowledge until reviewed.'],
+    },
+    approvedKnowledgePacket: {
+      ok: true,
+      target: { current: 0, target: 10 },
+      antiFakeRules: ['This packet is not operating proof.'],
+    },
+    proofCandidateAudit: {
+      ok: true,
+      lanes: [
+        { key: 'approved_discord_knowledge', currentCount: 0, targetCount: 10 },
+        { key: 'rag_discord_sources', currentCount: 0, targetCount: 10 },
+        { key: 'public_proof_assets', currentCount: 0, targetCount: 4 },
+        { key: 'premium_workflow_proof', currentCount: 0, targetCount: 1 },
+      ],
+    },
+    discordCorpusReadiness: { ok: true },
+    knowledgeBaseE2eReadiness: {
+      ok: true,
+      approvalEnvRequiredForLiveE2e: 'SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved',
+    },
+    ragEvalCoverage: { ok: true, releaseReady: true },
+    localVerification: { ok: true, summary: { localVerificationPassed: true } },
+    autonomousLoopState: { ok: true, current: { localVerificationPassed: true, averageScore: 83 } },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'locally_verified_waiting_on_live_approval');
+  assert.equal(result.sourceSeedSummary.totalCandidates, 110);
+  assert.equal(result.sourceSeedSummary.totalApprovalDrafts, 28);
+  assert.ok(result.sourceSeedSummary.channelsCovered.includes('content-queue'));
+  assert.ok(result.failures.includes('rag_readiness:approved_knowledge_target_met'));
+  assert.ok(result.failures.includes('operating_proof:public_proof_target_met'));
+  assert.ok(result.productionStopConditions.some((item) => item.includes('Approve at least 10')));
+  assert.ok(result.safeLocalCommands.includes('npm run loop:knowledge-base:full'));
+  assert.ok(result.safeLocalCommands.includes('npm run discord:knowledge-base-e2e-readiness'));
+  assert.ok(result.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')));
+  assert.ok(result.explicitApprovalCommands.some((command) => command.includes('SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved')));
+  assert.match(result.releaseMeaning, /does not approve records/);
+  assert.ok(result.antiFakeRules.some((rule) => rule.includes('Source seeds')));
+  assert.ok(result.antiFakeRules.some((rule) => rule.includes('E2E readiness is not the same')));
+});
+
+test('knowledge-base engineering loop: scripts are wired and guarded', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const runner = await readFile(new URL('../../tools/engineering-loop/run-knowledge-base-loop.mjs', import.meta.url), 'utf8');
+  const worldRunner = await readFile(new URL('../../tools/engineering-loop/run-world-class-loop.mjs', import.meta.url), 'utf8');
+  const audit = await readFile(new URL('../../tools/engineering-loop/audit-state.mjs', import.meta.url), 'utf8');
+  const verifier = await readFile(new URL('../../tools/engineering-loop/verify-harness.mjs', import.meta.url), 'utf8');
+
+  assert.equal(packageJson.scripts['discord:knowledge-base-harness'], 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts');
+  assert.equal(packageJson.scripts['discord:knowledge-base-e2e'], 'node scripts/discord/run-knowledge-base-e2e.mjs');
+  assert.equal(packageJson.scripts['discord:knowledge-base-e2e-readiness'], 'node scripts/discord/write-knowledge-base-e2e-readiness.mjs');
+  assert.equal(packageJson.scripts['loop:knowledge-base:full'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate');
+  assert.match(runner, /FORBIDDEN_COMMAND_PATTERNS/);
+  assert.match(runner, /external_approval_or_live_proof_required/);
+  assert.match(runner, /QUALITY_GATE_COMMANDS/);
+  assert.match(runner, /npm run build/);
+  assert.match(runner, /git diff --check/);
+  assert.match(runner, /discord:knowledge-base-e2e-readiness/);
+  assert.match(runner, /discord:knowledge-base-harness/);
+  assert.match(worldRunner, /discord:knowledge-base-e2e-readiness/);
+  assert.match(worldRunner, /discord:knowledge-base-harness/);
+  assert.match(audit, /discord:knowledge-base-e2e-readiness/);
+  assert.match(audit, /discord:knowledge-base-harness/);
+  assert.match(verifier, /loop:knowledge-base:full/);
+  assert.doesNotMatch(packageJson.scripts['loop:knowledge-base:full'], /SAGE_ALLOW_/);
+  assert.doesNotMatch(runner, /SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved/);
+  assert.doesNotMatch(runner, /git push/);
+});
+
+test('knowledge-base E2E runner: guarded and readiness-only path is local safe', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const e2eRunner = await readFile(new URL('../../scripts/discord/run-knowledge-base-e2e.mjs', import.meta.url), 'utf8');
+  const readiness = await readFile(new URL('../../scripts/discord/write-knowledge-base-e2e-readiness.mjs', import.meta.url), 'utf8');
+
+  assert.equal(packageJson.scripts['discord:knowledge-base-e2e'], 'node scripts/discord/run-knowledge-base-e2e.mjs');
+  assert.equal(packageJson.scripts['discord:knowledge-base-e2e-readiness'], 'node scripts/discord/write-knowledge-base-e2e-readiness.mjs');
+  assert.match(e2eRunner, /SAGE_ALLOW_KNOWLEDGE_BASE_E2E === 'approved'/);
+  assert.match(e2eRunner, /blocked_without_explicit_approval/);
+  assert.match(e2eRunner, /temporary_supabase_e2e_rows_with_cleanup/);
+  assert.match(e2eRunner, /playwright\.e2e\.config\.ts/);
+  assert.match(e2eRunner, /discord-knowledge-candidates\.spec\.ts/);
+  assert.match(e2eRunner, /discord-rag-corpus\.spec\.ts/);
+  assert.match(e2eRunner, /discord-rag-health\.spec\.ts/);
+  assert.match(readiness, /local_file_evidence_only/);
+  assert.match(readiness, /finally cleanup paths/);
+  assert.doesNotMatch(packageJson.scripts['discord:knowledge-base-e2e'], /SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved/);
 });
 
 test('ops scripts: approval-boundary verifier blocks risky commands from local release graph', async () => {
@@ -1189,6 +1394,8 @@ test('rag deepseek: builds authenticated chat requests and parses content', asyn
   assert.equal(requireDeepSeekApiKey({ DEEPSEEK_API_KEY: ' test-key ' }), 'test-key');
 
   const originalFetch = globalThis.fetch;
+  const originalLangfusePublicKey = process.env.LANGFUSE_PUBLIC_KEY;
+  const originalLangfuseSecretKey = process.env.LANGFUSE_SECRET_KEY;
   const calls = [];
   globalThis.fetch = async (url, init) => {
     calls.push({ url, init });
@@ -1200,6 +1407,8 @@ test('rag deepseek: builds authenticated chat requests and parses content', asyn
   };
 
   try {
+    delete process.env.LANGFUSE_PUBLIC_KEY;
+    delete process.env.LANGFUSE_SECRET_KEY;
     const result = await deepSeekChat({
       apiKey: 'unit-key',
       baseUrl: 'https://api.deepseek.com/',
@@ -1213,9 +1422,11 @@ test('rag deepseek: builds authenticated chat requests and parses content', asyn
     assert.match(result.observability.traceId, /^[a-f0-9]{32}$/);
     assert.equal(calls[0].url, 'https://api.deepseek.com/chat/completions');
   assert.equal(calls[0].init.headers.Authorization, 'Bearer unit-key');
-  assert.match(String(calls[0].init.body), /"model":"deepseek-chat"/);
+    assert.match(String(calls[0].init.body), /"model":"deepseek-chat"/);
   } finally {
     globalThis.fetch = originalFetch;
+    if (originalLangfusePublicKey) process.env.LANGFUSE_PUBLIC_KEY = originalLangfusePublicKey;
+    if (originalLangfuseSecretKey) process.env.LANGFUSE_SECRET_KEY = originalLangfuseSecretKey;
   }
 });
 
@@ -1224,12 +1435,21 @@ test('ai observability: local fallback trace ids and redaction are deterministic
   assert.equal(aiObservabilityMode({}), 'local');
   assert.equal(aiObservabilityMode({ LANGFUSE_PUBLIC_KEY: 'pk', LANGFUSE_SECRET_KEY: 'sk' }), 'langfuse');
 
-  const observation = startAiObservation('unit-test', { input: { safe: true } });
-  const metadata = aiTraceMetadata(observation);
-  assert.equal(metadata.ai_observability_provider, 'local');
-  assert.equal(metadata.langfuse_trace_id, null);
-  assert.match(String(metadata.ai_trace_id), /^[a-f0-9]{32}$/);
-  assert.match(String(metadata.ai_observation_id), /^[a-f0-9]{16}$/);
+  const originalLangfusePublicKey = process.env.LANGFUSE_PUBLIC_KEY;
+  const originalLangfuseSecretKey = process.env.LANGFUSE_SECRET_KEY;
+  try {
+    delete process.env.LANGFUSE_PUBLIC_KEY;
+    delete process.env.LANGFUSE_SECRET_KEY;
+    const observation = startAiObservation('unit-test', { input: { safe: true } });
+    const metadata = aiTraceMetadata(observation);
+    assert.equal(metadata.ai_observability_provider, 'local');
+    assert.equal(metadata.langfuse_trace_id, null);
+    assert.match(String(metadata.ai_trace_id), /^[a-f0-9]{32}$/);
+    assert.match(String(metadata.ai_observation_id), /^[a-f0-9]{16}$/);
+  } finally {
+    if (originalLangfusePublicKey) process.env.LANGFUSE_PUBLIC_KEY = originalLangfusePublicKey;
+    if (originalLangfuseSecretKey) process.env.LANGFUSE_SECRET_KEY = originalLangfuseSecretKey;
+  }
 
   const redacted = redactAiPayload({
     apiKey: 'abc',
@@ -3299,6 +3519,49 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(passing.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 1);
   assert.equal(passing.lanes.find((item) => item.key === 'premium_workflow_proof')?.currentCount, 1);
 
+  const gatewayPassedKnowledgeBlocked = buildDiscordProofBacklogReport({
+    generatedAt: '2026-06-25T00:00:00.000Z',
+    gatewayCapture: {
+      status: 'healthy',
+      usableMessageCount: 1,
+      rootCauses: [],
+      nextActions: ['Run classifier and queue automation.'],
+    },
+    gatewayOperatingPacket: {
+      status: 'proven',
+      current: 1,
+      target: 1,
+      remaining: 0,
+      usableMessageState: 'fresh_usable_message_proven',
+      messageContentEnabled: true,
+      messageContentSignalSource: 'identify_event',
+      heartbeatFresh: true,
+      workerId: 'sagebot-main',
+      nextActions: ['Run classifier and queue automation.'],
+      antiFakeRules: [],
+    },
+    metrics: {
+      approvedDiscordKnowledgeSources: 0,
+      ragDiscordSources: 0,
+      pendingKnowledgeCandidates: 1,
+      pendingPublicDrafts: 0,
+      publishedPublicDrafts: 0,
+      approvedMembers: 7,
+      onboardedMembers: 7,
+      activeMembers7d: 7,
+      premiumMembers: 0,
+      premiumWorkflowProofs: 0,
+      applicationsSubmitted: 0,
+      applicationsApproved: 0,
+      publicProofApplyClicks: 0,
+    },
+  });
+  assert.equal(gatewayPassedKnowledgeBlocked.status, 'blocked');
+  assert.equal(gatewayPassedKnowledgeBlocked.lanes[0].key, 'gateway_capture');
+  assert.equal(gatewayPassedKnowledgeBlocked.lanes[0].status, 'passed');
+  assert.equal(gatewayPassedKnowledgeBlocked.weeklyChecklist[0].laneKey, 'approved_discord_knowledge');
+  assert.ok(!gatewayPassedKnowledgeBlocked.weeklyChecklist.some((item) => item.laneKey === 'gateway_capture'));
+
   const memberOnlyPremium = buildDiscordProofBacklogReport({
     generatedAt: '2026-06-25T00:00:00.000Z',
     gatewayCapture: {
@@ -3355,6 +3618,46 @@ test('discord proof backlog: turns missing operating proof into concrete lanes',
   assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.status, 'blocked');
   assert.equal(warningGateway.lanes.find((item) => item.key === 'gateway_capture')?.currentCount, 0);
   assert.match(warningGateway.weeklyChecklist[0].acceptanceCriteria, /Gateway heartbeat is stale/);
+});
+
+test('discord live proof accelerator: ranks proof shortfalls without mutating live systems', async () => {
+  const {
+    buildDiscordLiveProofAccelerator,
+    validateDiscordLiveProofAccelerator,
+  } = await import('../../lib/discord/live-proof-accelerator.ts');
+  const report = buildDiscordLiveProofAccelerator({
+    generatedAt: '2026-06-29T00:00:00.000Z',
+    gatewayOperatingPacket: {
+      status: 'proven',
+      target: { current: 1, target: 1, remaining: 0, usableMessageState: 'fresh_non_bot_message_captured' },
+      messageContentSignal: { effectiveEnabled: true },
+      heartbeat: { fresh: true },
+    },
+    proofSourceVolumeScan: {
+      laneReadiness: {
+        approvedDiscordKnowledge: { current: 1, target: 10, reviewableCandidates: 3 },
+        ragDiscordSources: { current: 0, target: 10, approvedKnowledgeAvailable: 1 },
+        publicProofAssets: { current: 0, target: 4, approvedKnowledgeAvailable: 1, applyClicks: 0 },
+        premiumWorkflowProof: { current: 0, target: 1, premiumMembers: 0, premiumReviews: 0, officeHours: 0 },
+      },
+    },
+  });
+
+  assert.equal(report.ok, true);
+  assert.equal(report.version, 'discord-live-proof-accelerator-v1');
+  assert.equal(report.mutationMode, 'local_file_evidence_only');
+  assert.equal(report.status, 'proof_acceleration_required');
+  assert.equal(report.summary.blockedLaneCount, 4);
+  assert.equal(report.summary.nextBestLane, 'approved_discord_knowledge');
+  assert.equal(report.lanes.find((lane) => lane.key === 'gateway_capture')?.status, 'passed');
+  assert.equal(report.lanes.find((lane) => lane.key === 'approved_discord_knowledge')?.shortfall, 9);
+  assert.equal(report.lanes.find((lane) => lane.key === 'approved_discord_knowledge')?.status, 'needs_live_input');
+  assert.equal(report.lanes.find((lane) => lane.key === 'rag_discord_sources')?.status, 'ready_for_guarded_run');
+  assert.ok(report.autonomousCommandPlan.includes('npm run discord:live-proof-accelerator'));
+  assert.ok(report.explicitApprovalCommandPlan.some((command) => command.includes('SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved')));
+  assert.ok(report.antiFakeRules.some((rule) => rule.includes('raw captured messages')));
+  assert.ok(report.antiFakeRules.some((rule) => rule.includes('premium role')));
+  assert.deepEqual(validateDiscordLiveProofAccelerator(report), { ok: true, failures: [] });
 });
 
 test('discord proof source recovery plan: turns source-volume gaps into auditable collection plan', async () => {
@@ -5133,6 +5436,51 @@ test('discord gateway ingestion: classifies normal messages for capture', async 
     alreadyApproved: true,
     bot: false,
   }), false);
+});
+
+test('discord mention responder: gates and extracts @Sage Ideas questions', async () => {
+  const { planSageMentionResponse, stripDiscordBotMention } = await import('../../lib/discord/mention-responder.ts');
+  const botId = '1516816082122309775';
+  const baseMessage = {
+    authorBot: false,
+    authorUserId: 'user-1',
+    content: `<@${botId}> how should I structure my first AI app project?`,
+  };
+
+  assert.equal(stripDiscordBotMention(`<@${botId}> hello`, botId), 'hello');
+  assert.deepEqual(
+    planSageMentionResponse({
+      payload: { content: baseMessage.content, mentions: [{ id: botId }] },
+      normalizedMessage: baseMessage,
+      botId,
+      enabled: false,
+    }),
+    { shouldRespond: false, reason: 'mention_responses_disabled', question: null },
+  );
+
+  const plan = planSageMentionResponse({
+    payload: { content: baseMessage.content, mentions: [{ id: botId }] },
+    normalizedMessage: baseMessage,
+    botId,
+    enabled: true,
+  });
+  assert.equal(plan.shouldRespond, true);
+  assert.equal(plan.reason, 'bot_mentioned_with_question');
+  assert.equal(plan.question, 'how should I structure my first AI app project?');
+
+  assert.equal(planSageMentionResponse({
+    payload: { content: 'plain message', mentions: [] },
+    normalizedMessage: { ...baseMessage, content: 'plain message' },
+    botId,
+    enabled: true,
+  }).reason, 'bot_not_mentioned');
+
+  assert.equal(planSageMentionResponse({
+    payload: { content: `<@${botId}> hi`, mentions: [{ id: botId }] },
+    normalizedMessage: { ...baseMessage, content: `<@${botId}> hi` },
+    botId,
+    enabled: true,
+  }).reason, 'question_too_short');
 });
 
 // -------------------------------------------------------------- rate-limit
@@ -9559,6 +9907,51 @@ test('reward-logic: computeNextRewards near-miss (badge, xp-to-level, rank gap)'
   assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1, leagueStandings: standings, currentUserId: 'me' }).nextRank.gapXp, 51);
   assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1, leagueStandings: standings, currentUserId: 'a' }).nextRank, null); // #1 → null
   assert.equal(computeNextRewards({ stats: base, earnedBadgeKeys: [], totalXp: 0, level: 1 }).nextRank, null); // no league → null
+});
+
+test('sageforge institutional harness: enforces identity, proof, and autonomy boundaries', async () => {
+  const { buildSageForgeInstitutionalHarness } = await import('../../lib/discord/sageforge-institutional-harness.ts');
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const runner = await readFile(new URL('../../tools/engineering-loop/run-sageforge-institutional-loop.mjs', import.meta.url), 'utf8');
+  const report = buildSageForgeInstitutionalHarness({
+    generatedAt: '2026-06-29T00:00:00.000Z',
+    botName: 'SageForge',
+    packageJson,
+    institutionalReadiness: {
+      score: 70,
+      blockedLiveProof: [
+        { key: 'approved_discord_knowledge', current: 0, target: 10 },
+        { key: 'rag_discord_sources', current: 0, target: 10 },
+        { key: 'public_proof_assets', current: 0, target: 4 },
+        { key: 'premium_workflow_proof', current: 0, target: 1 },
+      ],
+    },
+    knowledgeBaseHarness: { ok: true, score: 76 },
+    worldClassReadiness: { summary: { categoriesAtOrAbove95: 0, categoriesBelow95: 18 } },
+    gatewayCaptureDiagnosis: { diagnosis: { status: 'healthy' }, heartbeat: { latest: { workerId: 'sagebot-main', messageContentEnabled: true } } },
+    observabilityQualityReadiness: { ok: true },
+    contentFactoryReadiness: { ok: true },
+    durableJobsReadiness: { ok: true },
+    premiumWorkflowReadiness: { ok: true },
+    publicGrowthReadiness: { ok: true },
+    securityPrivacyReadiness: { ok: true },
+    localVerification: { ok: true },
+    ragEvalLatest: { ok: true, summary: { passRate: 1, total: 65 } },
+    langfuseSmoke: { ok: true, provider: 'langfuse' },
+  });
+  assert.equal(report.botName, 'SageForge');
+  assert.equal(report.ok, true);
+  assert.equal(report.status, 'locally_strong_waiting_on_live_proof');
+  assert.ok(report.productionStopConditions.some((item) => item.includes('Approve 10 reusable')));
+  assert.ok(report.explicitApprovalCommands.includes('git push'));
+  assert.ok(report.explicitApprovalCommands.some((item) => item.includes('vercel deploy --prod')));
+  assert.ok(report.autonomyContract.stopsForApproval.some((item) => item.includes('live Discord mutations')));
+  assert.ok(report.antiFakeRules.some((item) => item.includes('Smoke rows do not count')));
+  assert.match(runner, /discord:live-proof-accelerator/);
+  assert.doesNotMatch(runner, /SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved/);
+  for (const key of ['bot_identity_invocation', 'personality_kernel', 'knowledge_base', 'content_factory', 'learning_engagement', 'production_operations']) {
+    assert.ok(report.categories.some((category) => category.key === key), `missing ${key}`);
+  }
 });
 
 // -------------------------------------------------------------- runner

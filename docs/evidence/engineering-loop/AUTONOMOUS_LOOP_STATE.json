@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "autonomous-engineering-loop-state-v1",
-  "generatedAt": "2026-06-26T18:48:36.939Z",
+  "generatedAt": "2026-06-29T18:43:09.983Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This state audit reads local evidence and git status, then writes local evidence only. It does not push, deploy, mutate Discord, mutate Supabase, change Stripe, or run non-dry RAG eval.",
   "current": {
@@ -9,12 +9,8 @@
     "worldClassEligible": false,
     "averageScore": 83,
     "targetScoreRange": "95-99",
-    "releaseGateFailures": [
-      "rag_eval_latest",
-      "rag_eval_coverage_readiness"
-    ],
+    "releaseGateFailures": [],
     "operatingProofBlockedLanes": [
-      "gateway_capture:0/1",
       "approved_discord_knowledge:0/10",
       "rag_discord_sources:0/10",
       "public_proof_assets:0/4",
@@ -29,35 +25,39 @@
       "premium_workflow_proof_below_target:0/1"
     ],
     "ragEvalCoverage": {
-      "releaseReady": false,
-      "evaluatedQuestionCount": 50,
+      "releaseReady": true,
+      "evaluatedQuestionCount": 65,
       "expectedQuestionCount": 65,
-      "missingEvalKeyCount": 15,
+      "missingEvalKeyCount": 0,
       "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "requiresExplicitApproval": true
     }
   },
   "commandPlan": {
     "safeLocalCommands": [
-      "npm run rag:evaluate:recovery-plan",
-      "npm run rag:evaluate:missing-preflight",
       "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
       "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
       "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
-      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence",
+      "npm run rag:evaluate:recovery-plan",
+      "npm run rag:evaluate:missing-preflight",
+      "npm run discord:career-content-harness",
+      "npm run discord:sage-kernel-content-harness",
+      "npm run discord:knowledge-base-e2e-readiness",
+      "npm run discord:knowledge-base-harness"
     ],
     "explicitApprovalCommands": [
       "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
       "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
     ],
     "liveOperatorActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
       "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
       "Create and approve four privacy-safe public proof assets from approved Discord source material.",
       "Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.",
       "Drive at least one measured Discord application from the approval-gated growth funnel.",
-      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.",
+      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled."
     ],
     "defaultLoopCommands": [
       "npm run loop:audit",
@@ -93,13 +93,22 @@
     "statusCommand": "git status --short",
     "statusExitCode": 0,
     "statusShort": [
-      "M docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+      "M components/academy/lesson/CourseRail.tsx",
+      " M components/academy/lesson/LessonPlayer.tsx",
+      " M components/academy/visuals/SageDiagram.tsx",
+      " M data/academy/sample-course.ts",
+      " M docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
       " M docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
       " M docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+      " M docs/evidence/discord/approved-member-slash-flows-smoke.json",
+      " M docs/evidence/discord/ask-sage-smoke.json",
       " M docs/evidence/engineering-loop/AUTONOMOUS_LOOP_STATE.json",
       " M docs/evidence/engineering-loop/approval-boundary-check-latest.json",
       " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
       " M docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.md",
+      " M docs/evidence/engineering-loop/autonomous-loop-dry-run-latest.json",
+      " M docs/evidence/engineering-loop/autonomous-loop-harness-verification-latest.json",
+      " M docs/evidence/engineering-loop/autonomous-loop-run-latest.json",
       " M docs/evidence/engineering-loop/content-factory-readiness-latest.json",
       " M docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
       " M docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
@@ -126,21 +135,65 @@
       " M docs/evidence/engineering-loop/public-growth-readiness-latest.json",
       " M docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
       " M docs/evidence/engineering-loop/world-class-readiness-latest.json",
+      " M docs/evidence/rag/chunk-run.json",
       " M docs/evidence/rag/eval-coverage-readiness.json",
       " M docs/evidence/rag/eval-execution-packet.json",
+      " M docs/evidence/rag/eval-latest.json",
       " M docs/evidence/rag/eval-missing-plan.json",
       " M docs/evidence/rag/eval-missing-preflight.json",
       " M docs/evidence/rag/eval-recovery-plan.json",
       " M docs/evidence/rag/eval-seed-dry-run.json",
-      " M docs/evidence/rag/eval-seed-quality.json"
+      " M docs/evidence/rag/eval-seed-quality.json",
+      " M docs/evidence/rag/local-embedding-run.json",
+      " M docs/evidence/rag/source-sync-sample.json",
+      " M lib/discord/engagement.ts",
+      " M lib/discord/sage-commands.ts",
+      " M lib/rag/query-planning.ts",
+      " M lib/rag/retrieval.ts",
+      " M package-lock.json",
+      " M package.json",
+      " M scripts/academy/course00/seed-module-1.ts",
+      " M scripts/discord/pin-sage-operating-posts.mjs",
+      " M scripts/discord/register-sage-commands.mjs",
+      " M scripts/ops/write-local-verification-evidence.mjs",
+      " M scripts/rag/evaluate-rag.ts",
+      " M scripts/rag/write-eval-execution-packet.ts",
+      " M tests/unit/run.mjs",
+      " M tools/engineering-loop/audit-state.mjs",
+      " M tools/engineering-loop/run-world-class-loop.mjs",
+      " M tools/engineering-loop/verify-harness.mjs",
+      "?? app/visual-probe/",
+      "?? components/academy/visuals/VisualFrame.tsx",
+      "?? components/academy/visuals/diagram-edges.tsx",
+      "?? components/academy/visuals/diagram-kinds.tsx",
+      "?? components/academy/visuals/diagram-layout.ts",
+      "?? components/academy/visuals/motion.ts",
+      "?? components/academy/visuals/tones.ts",
+      "?? docs/evidence/engineering-loop/career-content-harness-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-e2e-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-e2e-readiness-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json",
+      "?? docs/evidence/engineering-loop/knowledge-base-loop-run-latest.json",
+      "?? docs/evidence/engineering-loop/sage-kernel-content-harness-latest.json",
+      "?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.json",
+      "?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.md",
+      "?? lib/discord/career-content-harness.ts",
+      "?? lib/discord/knowledge-base-engineering-harness.ts",
+      "?? lib/discord/sage-kernel-content-harness.ts",
+      "?? scripts/discord/run-knowledge-base-e2e.mjs",
+      "?? scripts/discord/write-career-content-harness.ts",
+      "?? scripts/discord/write-institutional-readiness.ts",
+      "?? scripts/discord/write-knowledge-base-e2e-readiness.mjs",
+      "?? scripts/discord/write-knowledge-base-engineering-harness.ts",
+      "?? scripts/discord/write-sage-kernel-content-harness.ts",
+      "?? tools/engineering-loop/run-knowledge-base-loop.mjs"
     ],
     "statusError": null
   },
   "stopReasons": [
-    "release_gates_blocked:rag_eval_latest,rag_eval_coverage_readiness",
-    "operating_proof_blocked:gateway_capture:0/1,approved_discord_knowledge:0/10,rag_discord_sources:0/10,public_proof_assets:0/4,premium_workflow_proof:0/1",
+    "operating_proof_blocked:approved_discord_knowledge:0/10,rag_discord_sources:0/10,public_proof_assets:0/4,premium_workflow_proof:0/1",
     "score_below_95:83"
   ],
   "nextHarnessAction": "Run safe local loop commands until the fingerprint repeats, then stop at the explicit approval/live proof boundary.",
-  "blockerFingerprint": "{\"score\":83,\"releaseGateFailures\":[\"rag_eval_latest\",\"rag_eval_coverage_readiness\"],\"operatingProofBlockedLanes\":[\"gateway_capture:0/1\",\"approved_discord_knowledge:0/10\",\"rag_discord_sources:0/10\",\"public_proof_assets:0/4\",\"premium_workflow_proof:0/1\"],\"explicitApprovalCommands\":[\"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\",\"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\"],\"liveOperatorActions\":[\"Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.\",\"Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.\",\"Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.\",\"Create and approve four privacy-safe public proof assets from approved Discord source material.\",\"Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.\",\"Drive at least one measured Discord application from the approval-gated growth funnel.\",\"Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.\"]}"
+  "blockerFingerprint": "{\"score\":83,\"releaseGateFailures\":[],\"operatingProofBlockedLanes\":[\"approved_discord_knowledge:0/10\",\"rag_discord_sources:0/10\",\"public_proof_assets:0/4\",\"premium_workflow_proof:0/1\"],\"explicitApprovalCommands\":[\"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\",\"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\"],\"liveOperatorActions\":[\"Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.\",\"Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.\",\"Create and approve four privacy-safe public proof assets from approved Discord source material.\",\"Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.\",\"Drive at least one measured Discord application from the approval-gated growth funnel.\",\"Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.\",\"Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.\"]}"
 }

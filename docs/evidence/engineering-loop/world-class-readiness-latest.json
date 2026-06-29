@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "world-class-readiness-v1",
-  "generatedAt": "2026-06-26T18:48:35.127Z",
+  "generatedAt": "2026-06-29T20:10:29.044Z",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
   "worldClassThreshold": 95,
@@ -14,7 +14,6 @@
     "categoriesBelow85": 6,
     "maxScoreGapTo95": 50,
     "operatingBlockers": [
-      "discord_gateway_capture_blocked",
       "approved_discord_knowledge_sources_below_target:0/10",
       "rag_discord_sources_below_target:0/10",
       "public_proof_assets_below_target:0/4",
@@ -23,26 +22,23 @@
       "premium_workflow_proof_below_target:0/1"
     ],
     "releaseGateCount": 17,
-    "releaseGatesPassed": 15,
-    "releaseGateFailures": [
-      "rag_eval_latest",
-      "rag_eval_coverage_readiness"
-    ]
+    "releaseGatesPassed": 17,
+    "releaseGateFailures": []
   },
   "ragEvalMissingPreflight": {
     "status": "ready_for_explicitly_approved_eval",
     "ok": true,
-    "missingEvalCount": 15,
-    "readyForApprovedEvalCount": 15,
+    "missingEvalCount": 0,
+    "readyForApprovedEvalCount": 0,
     "selectedMatchesCoverage": true,
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
   },
   "ragEvalRecoveryPlan": {
-    "status": "blocked",
+    "status": "ready",
     "ok": true,
-    "missingEvalCount": 15,
-    "readyMissingEvalCount": 15,
+    "missingEvalCount": 0,
+    "readyMissingEvalCount": 0,
     "failedEvalCount": 0,
     "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
     "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
@@ -56,27 +52,23 @@
     "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
   },
   "gatewayOperatingPacket": {
-    "status": "ready_for_fresh_message",
-    "current": 0,
+    "status": "proven",
+    "current": 1,
     "target": 1,
-    "remaining": 1,
-    "usableMessageState": "message_content_ready_needs_fresh_member_message",
+    "remaining": 0,
+    "usableMessageState": "fresh_usable_message_proven",
     "messageContentEnabled": true,
-    "messageContentSignalSource": "identify_event",
+    "messageContentSignalSource": "heartbeat",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
     "nextActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-      "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
-      "Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row."
+      "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+      "Review resulting candidates in /admin/discord and approve durable knowledge items.",
+      "Rerun proof-source scan after approvals."
     ],
     "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
   },
   "immediateActionOrder": [
-    "Run npm run rag:evaluate:recovery-plan to review the local missing/failed eval backlog before any approved eval execution.",
-    "Run npm run rag:evaluate:missing-preflight before any approved missing-eval execution to confirm local source coverage is still ready.",
-    "With explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing to close missing RAG eval coverage.",
-    "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
     "Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan to refresh source-volume blockers.",
     "Work the next proof lane: approvedDiscordKnowledge.",
     "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
@@ -96,8 +88,6 @@
   ],
   "actionPlan": {
     "localOnlyCommands": [
-      "npm run rag:evaluate:recovery-plan",
-      "npm run rag:evaluate:missing-preflight",
       "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
       "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
       "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
@@ -108,7 +98,6 @@
       "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
     ],
     "liveOperatorActions": [
-      "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
       "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
       "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
       "Create and approve four privacy-safe public proof assets from approved Discord source material.",

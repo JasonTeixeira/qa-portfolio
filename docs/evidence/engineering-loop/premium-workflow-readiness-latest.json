@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "premium-workflow-readiness-v1",
-  "generatedAt": "2026-06-26T18:48:25.522Z",
+  "generatedAt": "2026-06-29T20:10:21.769Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "premiumProof": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
@@ -97,7 +97,7 @@
   "validation": {
     "ok": true,
     "validator": "premium-workflow-readiness-validator-v1",
-    "validatedAt": "2026-06-26T18:48:25.524Z",
+    "validatedAt": "2026-06-29T20:10:21.771Z",
     "failures": []
   }
 }

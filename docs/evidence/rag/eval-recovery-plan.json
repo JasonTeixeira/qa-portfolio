@@ -1,292 +1,25 @@
 {
   "ok": true,
   "version": "rag-eval-recovery-plan-v1",
-  "generatedAt": "2026-06-26T18:48:18.180Z",
+  "generatedAt": "2026-06-29T20:10:14.966Z",
   "mutationMode": "local_file_evidence_only",
-  "status": "blocked",
+  "status": "ready",
   "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",
   "latestEval": {
     "ok": true,
-    "seededQuestionCount": 50,
-    "evaluatedQuestionCount": 50,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
     "passRate": 1,
     "failedCount": 0
   },
   "coverage": {
     "expectedQuestionCount": 65,
-    "missingEvalCount": 15,
-    "missingEvalKeys": [
-      "rag_ai_011",
-      "rag_ai_012",
-      "rag_ai_013",
-      "rag_ai_014",
-      "rag_ai_015",
-      "rag_content_011",
-      "rag_content_012",
-      "rag_content_013",
-      "rag_content_014",
-      "rag_content_015",
-      "rag_content_016",
-      "rag_content_017",
-      "rag_content_018",
-      "rag_content_019",
-      "rag_content_020"
-    ],
-    "releaseReady": false,
-    "blockers": [
-      "latest_seeded_eval_count_below_target:50/65",
-      "latest_evaluated_eval_count_below_target:50/65",
-      "missing_eval_keys:rag_ai_011,rag_ai_012,rag_ai_013,rag_ai_014,rag_ai_015,rag_content_011,rag_content_012,rag_content_013,rag_content_014,rag_content_015,rag_content_016,rag_content_017,rag_content_018,rag_content_019,rag_content_020"
-    ]
+    "missingEvalCount": 0,
+    "missingEvalKeys": [],
+    "releaseReady": true,
+    "blockers": []
   },
-  "missingEvalBacklog": [
-    {
-      "evalKey": "rag_ai_011",
-      "category": "rag_ai_build",
-      "question": "What source types should feed the RAG source registry?",
-      "expectedSources": [
-        "rag-system-build-plan.txt"
-      ],
-      "requiredTerms": [
-        "discord_questions",
-        "discord_answers",
-        "discord_content_queue"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_ai_012",
-      "category": "rag_ai_build",
-      "question": "What does the admin RAG dashboard need to inspect?",
-      "expectedSources": [
-        "rag-system-build-plan.txt"
-      ],
-      "requiredTerms": [
-        "sources",
-        "chunks",
-        "feedback"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_ai_013",
-      "category": "rag_ai_build",
-      "question": "Why should RAG content generation require admin approval?",
-      "expectedSources": [
-        "rag-system-build-plan.txt",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "content",
-        "approval",
-        "publishing"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_ai_014",
-      "category": "rag_ai_build",
-      "question": "When should Haystack or RAGFlow be avoided for this implementation?",
-      "expectedSources": [
-        "rag-system-build-plan.txt"
-      ],
-      "requiredTerms": [
-        "first implementation",
-        "Python",
-        "RAGFlow"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_ai_015",
-      "category": "rag_ai_build",
-      "question": "What makes the RAG system production-ready?",
-      "expectedSources": [
-        "rag-system-build-plan.txt"
-      ],
-      "requiredTerms": [
-        "retrieval",
-        "citations",
-        "evals"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_011",
-      "category": "content_engine",
-      "question": "How should the content factory use introductions without creating channel noise?",
-      "expectedSources": [
-        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "introductions",
-        "path",
-        "blocker"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_012",
-      "category": "content_engine",
-      "question": "What should members submit in project-submissions?",
-      "expectedSources": [
-        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "project",
-        "screenshot",
-        "risk"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_013",
-      "category": "content_engine",
-      "question": "How should office-hours questions be prepared?",
-      "expectedSources": [
-        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "artifact",
-        "blocker",
-        "decision"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_014",
-      "category": "content_engine",
-      "question": "What should accountability check-ins include?",
-      "expectedSources": [
-        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "committed",
-        "shipped",
-        "next action"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_015",
-      "category": "content_engine",
-      "question": "How should review-queue requests be framed?",
-      "expectedSources": [
-        "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-        "SAGEBOT_DISCORD_OPERATING_FAQ.md"
-      ],
-      "requiredTerms": [
-        "specific",
-        "critique",
-        "artifact"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_016",
-      "category": "content_engine",
-      "question": "What proof lanes block a 95+ Sage Ideas Discord claim?",
-      "expectedSources": [
-        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
-      ],
-      "requiredTerms": [
-        "approved Discord knowledge",
-        "public proof",
-        "premium workflow"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_017",
-      "category": "content_engine",
-      "question": "What should not count as world-class Discord proof?",
-      "expectedSources": [
-        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
-      ],
-      "requiredTerms": [
-        "dry-run",
-        "synthetic",
-        "unapproved chatter"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_018",
-      "category": "content_engine",
-      "question": "What weekly checklist steps move approved Discord knowledge into RAG?",
-      "expectedSources": [
-        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
-      ],
-      "requiredTerms": [
-        "approve",
-        "operating-cycle",
-        "RAG sync"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_019",
-      "category": "content_engine",
-      "question": "What evidence proves public proof growth assets are ready?",
-      "expectedSources": [
-        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
-      ],
-      "requiredTerms": [
-        "four weekly",
-        "public proof drafts",
-        "application"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    },
-    {
-      "evalKey": "rag_content_020",
-      "category": "content_engine",
-      "question": "What evidence proves premium workflow readiness?",
-      "expectedSources": [
-        "WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
-      ],
-      "requiredTerms": [
-        "premium review",
-        "office-hours",
-        "SLA"
-      ],
-      "readyForApprovedEval": true,
-      "blocker": null,
-      "nextAction": "Run the explicitly approved missing-eval command so this key gets a real persisted eval result."
-    }
-  ],
+  "missingEvalBacklog": [],
   "failedEvalBacklog": [],
   "antiFakeRules": [
     "This plan is not an eval run and must not be counted as eval coverage.",
@@ -296,7 +29,7 @@
   ],
   "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
   "nextActions": [
-    "Get explicit approval and run the approved missing-eval command after preflight remains ready.",
+    "No local eval recovery action is pending. Keep adding real failure-derived evals during weekly operations.",
     "Regenerate eval coverage readiness, final scorecard, world-class readiness, and local verification after any approved eval run."
   ],
   "validation": {

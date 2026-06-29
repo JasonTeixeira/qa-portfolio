@@ -29,7 +29,6 @@
 import * as React from 'react'
 import { useReducedMotion } from 'framer-motion'
 import { VisualFrame } from './VisualFrame'
-import { EASE_OUT_EXPO } from './motion'
 import { renderTokens } from './code-colorizer'
 
 export type CodeWalkthroughLanguage = 'python' | 'ts' | 'bash'

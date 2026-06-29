@@ -49,11 +49,18 @@ export type DiagramEdgeSpec = {
 }
 
 // Standard node footprint. Width grows with the longer of label/description.
-const MIN_W = 168
-const MAX_W = 260
-const BASE_H = 84
-const LABEL_CHAR_W = 9.2 // ~17px display label advance
-const DESC_CHAR_W = 7.2 // ~13px mono description advance (bumped for legibility)
+//
+// LEGIBILITY: the SVG scales DOWN to the lesson column, so on-screen text size =
+// fontSize × (renderedWidth / viewBoxWidth). To make labels read larger at any
+// column width we bump the FONT and the per-glyph advance (CHAR_W) + padding +
+// box height TOGETHER. dagre reserves the box from measureNode, so a larger box
+// means text occupies a larger share of the viewBox → bigger on screen — while
+// the box still fully contains the (now wider) text run, so nothing overflows.
+const MIN_W = 180
+const MAX_W = 280
+const BASE_H = 90
+const LABEL_CHAR_W = 11.0 // ~19px display label advance (font 16→19, ×1.19)
+const DESC_CHAR_W = 8.4 // ~15px mono description advance (font 13→15, ×1.15)
 const PAD_X = 30
 // Diamonds need extra footprint (text inscribed in a rotated square).
 const DECISION_SCALE = 1.32
@@ -270,9 +277,9 @@ export function DiagramNode({
       ) : null}
       <text
         x={0}
-        y={(description ? -5 : 6) + labelDy}
+        y={(description ? -6 : 6) + labelDy}
         fill={t.text}
-        fontSize={16}
+        fontSize={19}
         fontWeight={700}
         fontFamily="var(--ac-font-body, system-ui, sans-serif)"
         textAnchor="middle"
@@ -282,11 +289,13 @@ export function DiagramNode({
       {description ? (
         <text
           x={0}
-          y={17 + labelDy}
+          /* Pushed 17→20 so the larger label (19px) and description (15px) keep
+             ≥5px of line gap and the two rows stay centered in the taller box. */
+          y={20 + labelDy}
           /* AA on the tinted card / dark bg — --ac-ink-soft (oklch 80%), not
              --ac-ink-faint (oklch 64%, fails small-text AA). */
           fill="var(--ac-ink-soft)"
-          fontSize={13}
+          fontSize={15}
           fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
           textAnchor="middle"
         >

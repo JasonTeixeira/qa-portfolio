@@ -1,16 +1,16 @@
 # Gateway Operating Packet
 
-Generated: 2026-06-26T18:48:19.893Z
-Status: ready_for_fresh_message
+Generated: 2026-06-29T20:10:16.322Z
+Status: proven
 Mutation mode: local_file_evidence_only
 
 This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.
 
 ## Target
 
-- Current usable non-bot non-empty messages: 0/1
-- Remaining: 1
-- State: message_content_ready_needs_fresh_member_message
+- Current usable non-bot non-empty messages: 1/1
+- Remaining: 0
+- State: fresh_usable_message_proven
 - Source evidence: docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json
 - Admin surface: /admin/discord -> Gateway operating packet, Gateway capture diagnosis, Jobs, Knowledge/RAG
 
@@ -20,8 +20,8 @@ This gateway operating packet converts the latest diagnosis into a live proof co
 - Heartbeat fresh: true
 - Heartbeat age minutes: 0
 - Effective message content: true
-- Signal source: identify_event
-- Identify created at: 2026-06-26T16:34:11.608494+00:00
+- Signal source: heartbeat
+- Identify created at: 2026-06-29T19:14:48.322001+00:00
 
 ## Required Fields
 
@@ -89,6 +89,6 @@ This gateway operating packet converts the latest diagnosis into a live proof co
 
 ## Next Actions
 
-- Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
-- Rerun npm run discord:gateway-capture-diagnosis after the message is posted.
-- Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row.
+- Run classifier and content queue jobs only with explicit approval for live Supabase mutation.
+- Review resulting candidates in /admin/discord and approve durable knowledge items.
+- Rerun proof-source scan after approvals.

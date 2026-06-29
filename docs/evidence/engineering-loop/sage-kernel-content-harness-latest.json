@@ -1,0 +1,1755 @@
+{
+  "ok": true,
+  "version": "sage-kernel-content-harness-v1",
+  "generatedAt": "2026-06-29T18:42:49.424Z",
+  "sourceRoot": "/Users/Sage/code/external/sage-kernel",
+  "mutationMode": "read_only_external_repo_and_local_file_evidence_only",
+  "releaseMeaning": "This harness reads the local sage-kernel clone and writes local evidence/draft packets only. It does not write Supabase rows, approve Discord knowledge, post to Discord, sync RAG, deploy, push, or satisfy live operating proof.",
+  "sourceCommit": "52f77653a2322c9e7b03a32b3d445dedec2d995a",
+  "inventory": {
+    "fileCount": 560,
+    "markdownCount": 68,
+    "jsonCount": 60,
+    "moduleCount": 427,
+    "testCount": 134,
+    "packageCount": 235,
+    "categories": {
+      "root_doc": 9,
+      "docs": 31,
+      "adr": 5,
+      "agent_profile": 6,
+      "dashboard": 8,
+      "mcp_server": 17,
+      "worker": 13,
+      "catalog": 5,
+      "package_core": 11,
+      "package_evals": 2,
+      "package_proof": 8,
+      "package_operate": 6,
+      "package_orchestration": 5,
+      "package_security": 14,
+      "package_intelligence": 60,
+      "package_other": 129,
+      "test": 131,
+      "other": 100
+    }
+  },
+  "readiness": {
+    "score": 100,
+    "targetScoreRange": "95-99",
+    "status": "ready_for_admin_seed_review",
+    "gates": [
+      {
+        "key": "corpus_exists",
+        "passed": true,
+        "reason": "sage-kernel source root is readable."
+      },
+      {
+        "key": "large_enough_corpus",
+        "passed": true,
+        "reason": "At least 100 source files are available."
+      },
+      {
+        "key": "docs_present",
+        "passed": true,
+        "reason": "Documentation sources are present."
+      },
+      {
+        "key": "package_modules_present",
+        "passed": true,
+        "reason": "Implementation package sources are present."
+      },
+      {
+        "key": "evals_and_proof_present",
+        "passed": true,
+        "reason": "Eval and proof system modules are present."
+      },
+      {
+        "key": "candidate_volume_ready",
+        "passed": true,
+        "reason": "At least 20 high-signal candidates are available."
+      },
+      {
+        "key": "approval_drafts_ready",
+        "passed": true,
+        "reason": "Approval-gated draft packets are available."
+      },
+      {
+        "key": "channel_balance_ready",
+        "passed": true,
+        "reason": "Candidates cover at least five Discord operating channels."
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "sourcePath": "docs/ARCHITECTURE.md",
+      "title": "Architecture",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 100,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:workflow,dashboard,command,prompt,template",
+        "institutional:policy,schema,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/USAGE.md",
+      "title": "Usage Guide",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 100,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:guide,workflow,dashboard,command,prompt",
+        "institutional:policy,test,audit,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/MCP_SERVER.md",
+      "title": "Sage Kernel MCP Server",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:guide,workflow,dashboard,command,prompt",
+        "institutional:policy,test,audit,contract,durable",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/SDLC_AI_GAP_AUDIT.md",
+      "title": "SDLC, AI, Orchestration, And Architecture Gap Audit",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 95,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:guide,workflow,dashboard,command,prompt",
+        "institutional:proof,policy,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/mcp-prompts.md",
+      "title": "Sage Kernel MCP Prompts",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 90,
+      "humanAppealScore": 30,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,prompt,template,checklist",
+        "institutional:test,eval,audit,security,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/mcp-resources.md",
+      "title": "Sage Kernel MCP Resources",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 90,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/mcp-tools.md",
+      "title": "Sage Kernel MCP Tools",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 90,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:proof,test,eval,audit,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/PROGRAM_2_INTELLIGENCE_LAYER.md",
+      "title": "Program 2: Intelligence Layer",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 90,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,command,prompt,template,runbook",
+        "institutional:policy,schema,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/100_SCORE_IMPLEMENTATION_PROGRAM.md",
+      "title": "Sage Kernel 100/100 Implementation Program",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,prompt",
+        "institutional:proof,schema,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/GLOBAL.md",
+      "title": "Sage Kernel Global Engineering Operating Contract",
+      "category": "docs",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,operator",
+        "institutional:proof,schema,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/PROGRAM_1_FOUNDATION_HARDENING.md",
+      "title": "Program 1: Foundation Hardening",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,checklist,visual",
+        "institutional:policy,test,eval,audit,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/PROGRAM_3_CLOSED_LOOP_PROOF.md",
+      "title": "Program 3 Closed-Loop Workflow Engine",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,prompt",
+        "institutional:proof,test,audit,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/QUALITY_RATCHET.md",
+      "title": "Quality Ratchet",
+      "category": "docs",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 25,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:workflow,dashboard,command,runbook",
+        "institutional:proof,policy,test,eval,boundary",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/RELEASE_PROCESS.md",
+      "title": "Release Process",
+      "category": "docs",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 85,
+      "humanAppealScore": 25,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,prompt,template",
+        "institutional:proof,test,audit,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/SECURITY_MODEL.md",
+      "title": "Sage Kernel Security Model",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 85,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,template",
+        "institutional:policy,schema,audit,security,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/AUDIT_REPORT.md",
+      "title": "Sage Kernel Audit Report",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 80,
+      "humanAppealScore": 20,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,prompt",
+        "institutional:proof,test,audit,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/PROGRAM_1_BASELINE_PROOF.md",
+      "title": "Program 1 Baseline Proof And Release Stability",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 80,
+      "humanAppealScore": 15,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,runbook",
+        "institutional:proof,policy,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/ROADMAP.md",
+      "title": "Roadmap",
+      "category": "docs",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 80,
+      "humanAppealScore": 20,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:dashboard,template,example,runbook",
+        "institutional:policy,test,security,contract,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/security/guard.mjs",
+      "title": "guard",
+      "category": "package_security",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 80,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:proof,policy,test,eval,audit",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_security"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/mcp-server/src/kernel-prompts.mjs",
+      "title": "kernel prompts",
+      "category": "mcp_server",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 75,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,prompt,template,checklist",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/DEMO_ASSETS.md",
+      "title": "Demo Assets",
+      "category": "docs",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 75,
+      "humanAppealScore": 25,
+      "institutionalScore": 15,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,runbook,visual",
+        "institutional:test,audit,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/RELEASE_PROOF.md",
+      "title": "Release Proof",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 75,
+      "humanAppealScore": 20,
+      "institutionalScore": 20,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,dashboard,command,template",
+        "institutional:proof,test,audit,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/USING_SAGE_KERNEL.md",
+      "title": "Using sage-kernel — your local senior-engineer operating system",
+      "category": "docs",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 75,
+      "humanAppealScore": 10,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:command,template",
+        "institutional:proof,test,eval,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/VISUAL_GUIDE.md",
+      "title": "Visual Guide",
+      "category": "docs",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 75,
+      "humanAppealScore": 25,
+      "institutionalScore": 15,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:guide,workflow,dashboard,runbook,visual",
+        "institutional:policy,audit,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "README.md",
+      "title": "Sage Kernel",
+      "category": "root_doc",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 75,
+      "humanAppealScore": 20,
+      "institutionalScore": 25,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:dashboard,command,prompt,template",
+        "institutional:proof,test,audit,security,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "tests/mcp-contracts.test.mjs",
+      "title": "mcp contracts.test",
+      "category": "test",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 75,
+      "humanAppealScore": 30,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,prompt,template,example",
+        "institutional:schema,test,eval,audit,contract",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "agents/AGENTS.md",
+      "title": "Sage Global Agent Operating System",
+      "category": "other",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 70,
+      "humanAppealScore": 15,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,command,example",
+        "institutional:proof,policy,schema,test,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/mcp-server/contracts/prompts.snapshot.json",
+      "title": "prompts.snapshot",
+      "category": "mcp_server",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 70,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,prompt,template,checklist,runbook",
+        "institutional:test,eval,audit,security,contract",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/mcp-server/contracts/resources.snapshot.json",
+      "title": "resources.snapshot",
+      "category": "mcp_server",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 70,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/mcp-server/src/kernel-resources.mjs",
+      "title": "kernel resources",
+      "category": "mcp_server",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 70,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/PROGRAM_2_PROFILE_PROOF.md",
+      "title": "Program 2 Universal Project Detection And SDLC Profiles",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 70,
+      "humanAppealScore": 10,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,command",
+        "institutional:proof,test,audit,security,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/intelligence/runbooks.mjs",
+      "title": "runbooks",
+      "category": "package_intelligence",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 70,
+      "humanAppealScore": 15,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,runbook",
+        "institutional:schema,test,eval,audit,durable",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_intelligence"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/intelligence/scripts/validate-intelligence.mjs",
+      "title": "validate intelligence",
+      "category": "package_intelligence",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 70,
+      "humanAppealScore": 15,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,runbook",
+        "institutional:schema,test,eval,security,contract",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_intelligence"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "tests/dashboard-app.test.mjs",
+      "title": "dashboard app.test",
+      "category": "test",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 70,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "tests/mcp-tool-matrix.test.mjs",
+      "title": "mcp tool matrix.test",
+      "category": "test",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 70,
+      "humanAppealScore": 25,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:proof,schema,test,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": ".github/ISSUE_TEMPLATE/mcp_tool_request.md",
+      "title": "mcp tool request",
+      "category": "other",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 15,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,prompt,template",
+        "institutional:schema,test,contract,approval,boundary",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/dashboard/dashboard-render.mjs",
+      "title": "dashboard render",
+      "category": "dashboard",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 25,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,runbook",
+        "institutional:proof,test,eval,audit,approval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/dashboard/server.mjs",
+      "title": "server",
+      "category": "dashboard",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,template,runbook",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/mcp-server/src/kernel-tools.mjs",
+      "title": "kernel tools",
+      "category": "mcp_server",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,template,runbook",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "bin/sage-runtime.mjs",
+      "title": "sage runtime",
+      "category": "other",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,template,example",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "catalog/phases.json",
+      "title": "phases",
+      "category": "catalog",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,template,visual",
+        "institutional:policy,schema,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "catalog/repos.json",
+      "title": "repos",
+      "category": "catalog",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 25,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template,example",
+        "institutional:policy,test,eval,contract,approval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "CHANGELOG.md",
+      "title": "Changelog",
+      "category": "root_doc",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 10,
+      "institutionalScore": 30,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,command",
+        "institutional:proof,test,eval,audit,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/ENGINEERING_LOOP.md",
+      "title": "The Sage Kernel Engineering Loop (how to 100x a session)",
+      "category": "docs",
+      "proposedChannel": "daily-signal",
+      "proposedContentType": "daily_signal",
+      "score": 65,
+      "humanAppealScore": 5,
+      "institutionalScore": 30,
+      "discordFitScore": 20,
+      "reasons": [
+        "human:command",
+        "institutional:proof,policy,test,eval,audit",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "docs/source-repo-policy.md",
+      "title": "Source Repo Policy",
+      "category": "docs",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 10,
+      "institutionalScore": 20,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:template,example",
+        "institutional:policy,test,contract,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset",
+        "category_bonus:docs"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "package.json",
+      "title": "package",
+      "category": "root_doc",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 25,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,template,example,runbook",
+        "institutional:proof,eval,audit,security,contract",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/agents/runtime.mjs",
+      "title": "runtime",
+      "category": "package_other",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,checklist",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/companion/repo-cleanup.mjs",
+      "title": "repo cleanup",
+      "category": "package_other",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:guide,prompt,example,visual",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/intelligence/README.md",
+      "title": "Intelligence Contracts",
+      "category": "package_intelligence",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 5,
+      "institutionalScore": 20,
+      "discordFitScore": 30,
+      "reasons": [
+        "human:runbook",
+        "institutional:schema,test,eval,contract",
+        "discord_fit:readable_markdown",
+        "discord_fit:member_friendly_entrypoint",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_intelligence"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/intelligence/schemas/eval-definition.schema.json",
+      "title": "eval definition.schema",
+      "category": "package_intelligence",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 15,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,template",
+        "institutional:schema,eval,security,contract,approval",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_intelligence"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/orchestration/durable-proof.mjs",
+      "title": "durable proof",
+      "category": "package_orchestration",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 10,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,command",
+        "institutional:proof,test,audit,security,durable",
+        "discord_fit:promptable_asset",
+        "category_bonus:package_orchestration"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/qa/profiles.json",
+      "title": "profiles",
+      "category": "package_other",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,prompt,visual",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/testing/testing-lab.mjs",
+      "title": "testing lab",
+      "category": "package_other",
+      "proposedChannel": "content-queue",
+      "proposedContentType": "lesson",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,template,visual",
+        "institutional:proof,policy,schema,test,eval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "scripts/release-check.mjs",
+      "title": "release check",
+      "category": "other",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,command,template,runbook",
+        "institutional:proof,policy,test,eval,audit",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "tests/mcp-resources.test.mjs",
+      "title": "mcp resources.test",
+      "category": "test",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 20,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:dashboard,command,template,runbook",
+        "institutional:schema,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "tests/release-quality.test.mjs",
+      "title": "release quality.test",
+      "category": "test",
+      "proposedChannel": "resources",
+      "proposedContentType": "resource_drop",
+      "score": 65,
+      "humanAppealScore": 25,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,template,example,runbook",
+        "institutional:proof,test,eval,audit,security",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": ".github/PULL_REQUEST_TEMPLATE.md",
+      "title": "PULL REQUEST TEMPLATE",
+      "category": "other",
+      "proposedChannel": "questions",
+      "proposedContentType": "quiz",
+      "score": 60,
+      "humanAppealScore": 10,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,template",
+        "institutional:test,audit,security,contract,approval",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "apps/dashboard/dashboard-workflows.mjs",
+      "title": "dashboard workflows",
+      "category": "dashboard",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 60,
+      "humanAppealScore": 20,
+      "institutionalScore": 25,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,dashboard,command,template",
+        "institutional:proof,test,audit,security,approval",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "CLAUDE.md",
+      "title": "Sage Kernel Local Claude Instructions",
+      "category": "root_doc",
+      "proposedChannel": "office-hours",
+      "proposedContentType": "office_hours_prompt",
+      "score": 60,
+      "humanAppealScore": 10,
+      "institutionalScore": 25,
+      "discordFitScore": 25,
+      "reasons": [
+        "human:workflow,command",
+        "institutional:proof,schema,test,audit,security",
+        "discord_fit:readable_markdown",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    },
+    {
+      "sourcePath": "packages/workflows/closed-loop.mjs",
+      "title": "closed loop",
+      "category": "package_other",
+      "proposedChannel": "build-lab",
+      "proposedContentType": "challenge",
+      "score": 60,
+      "humanAppealScore": 15,
+      "institutionalScore": 30,
+      "discordFitScore": 15,
+      "reasons": [
+        "human:workflow,command,runbook",
+        "institutional:proof,test,audit,security,contract",
+        "discord_fit:promptable_asset"
+      ],
+      "operatingProofEligible": false
+    }
+  ],
+  "approvalDrafts": [
+    {
+      "draftKey": "sage-kernel:docs/ARCHITECTURE.md",
+      "sourcePath": "docs/ARCHITECTURE.md",
+      "sourceTitle": "Architecture",
+      "targetChannelBaseName": "content-queue",
+      "draftType": "lesson",
+      "title": "Content Seed - Architecture",
+      "body": "# Content Seed - Architecture\n**Source:** sage-kernel/docs/ARCHITECTURE.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Convert the source idea into a useful lesson, prompt, or member discussion starter.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/USAGE.md",
+      "sourcePath": "docs/USAGE.md",
+      "sourceTitle": "Usage Guide",
+      "targetChannelBaseName": "content-queue",
+      "draftType": "lesson",
+      "title": "Content Seed - Usage Guide",
+      "body": "# Content Seed - Usage Guide\n**Source:** sage-kernel/docs/USAGE.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Convert the source idea into a useful lesson, prompt, or member discussion starter.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/MCP_SERVER.md",
+      "sourcePath": "docs/MCP_SERVER.md",
+      "sourceTitle": "Sage Kernel MCP Server",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "title": "Resource Drop - Sage Kernel MCP Server",
+      "body": "# Resource Drop - Sage Kernel MCP Server\n**Source:** sage-kernel/docs/MCP_SERVER.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Extract one reusable rule, checklist, or review standard and apply it to your current build.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/SDLC_AI_GAP_AUDIT.md",
+      "sourcePath": "docs/SDLC_AI_GAP_AUDIT.md",
+      "sourceTitle": "SDLC, AI, Orchestration, And Architecture Gap Audit",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "title": "Resource Drop - SDLC, AI, Orchestration, And Architecture Gap Audit",
+      "body": "# Resource Drop - SDLC, AI, Orchestration, And Architecture Gap Audit\n**Source:** sage-kernel/docs/SDLC_AI_GAP_AUDIT.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Extract one reusable rule, checklist, or review standard and apply it to your current build.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/mcp-prompts.md",
+      "sourcePath": "docs/mcp-prompts.md",
+      "sourceTitle": "Sage Kernel MCP Prompts",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "title": "Resource Drop - Sage Kernel MCP Prompts",
+      "body": "# Resource Drop - Sage Kernel MCP Prompts\n**Source:** sage-kernel/docs/mcp-prompts.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Extract one reusable rule, checklist, or review standard and apply it to your current build.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/mcp-resources.md",
+      "sourcePath": "docs/mcp-resources.md",
+      "sourceTitle": "Sage Kernel MCP Resources",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "title": "Resource Drop - Sage Kernel MCP Resources",
+      "body": "# Resource Drop - Sage Kernel MCP Resources\n**Source:** sage-kernel/docs/mcp-resources.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Extract one reusable rule, checklist, or review standard and apply it to your current build.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/mcp-tools.md",
+      "sourcePath": "docs/mcp-tools.md",
+      "sourceTitle": "Sage Kernel MCP Tools",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "title": "Resource Drop - Sage Kernel MCP Tools",
+      "body": "# Resource Drop - Sage Kernel MCP Tools\n**Source:** sage-kernel/docs/mcp-tools.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Extract one reusable rule, checklist, or review standard and apply it to your current build.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/PROGRAM_2_INTELLIGENCE_LAYER.md",
+      "sourcePath": "docs/PROGRAM_2_INTELLIGENCE_LAYER.md",
+      "sourceTitle": "Program 2: Intelligence Layer",
+      "targetChannelBaseName": "content-queue",
+      "draftType": "lesson",
+      "title": "Content Seed - Program 2: Intelligence Layer",
+      "body": "# Content Seed - Program 2: Intelligence Layer\n**Source:** sage-kernel/docs/PROGRAM_2_INTELLIGENCE_LAYER.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Convert the source idea into a useful lesson, prompt, or member discussion starter.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/GLOBAL.md",
+      "sourcePath": "docs/GLOBAL.md",
+      "sourceTitle": "Sage Kernel Global Engineering Operating Contract",
+      "targetChannelBaseName": "office-hours",
+      "draftType": "office_hours_prompt",
+      "title": "Office Hours - Sage Kernel Global Engineering Operating Contract",
+      "body": "# Office Hours - Sage Kernel Global Engineering Operating Contract\n**Source:** sage-kernel/docs/GLOBAL.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Bring one blocker or decision that this source artifact helps resolve.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/QUALITY_RATCHET.md",
+      "sourcePath": "docs/QUALITY_RATCHET.md",
+      "sourceTitle": "Quality Ratchet",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "title": "Daily Signal - Quality Ratchet",
+      "body": "# Daily Signal - Quality Ratchet\n**Source:** sage-kernel/docs/QUALITY_RATCHET.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Apply one source-backed operating principle to today’s build and post the concrete result.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/RELEASE_PROCESS.md",
+      "sourcePath": "docs/RELEASE_PROCESS.md",
+      "sourceTitle": "Release Process",
+      "targetChannelBaseName": "office-hours",
+      "draftType": "office_hours_prompt",
+      "title": "Office Hours - Release Process",
+      "body": "# Office Hours - Release Process\n**Source:** sage-kernel/docs/RELEASE_PROCESS.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Bring one blocker or decision that this source artifact helps resolve.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/ROADMAP.md",
+      "sourcePath": "docs/ROADMAP.md",
+      "sourceTitle": "Roadmap",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "title": "Daily Signal - Roadmap",
+      "body": "# Daily Signal - Roadmap\n**Source:** sage-kernel/docs/ROADMAP.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Apply one source-backed operating principle to today’s build and post the concrete result.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 100,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:docs/USING_SAGE_KERNEL.md",
+      "sourcePath": "docs/USING_SAGE_KERNEL.md",
+      "sourceTitle": "Using sage-kernel — your local senior-engineer operating system",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "title": "Daily Signal - Using sage-kernel — your local senior-engineer operating system",
+      "body": "# Daily Signal - Using sage-kernel — your local senior-engineer operating system\n**Source:** sage-kernel/docs/USING_SAGE_KERNEL.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Apply one source-backed operating principle to today’s build and post the concrete result.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:bin/sage-runtime.mjs",
+      "sourcePath": "bin/sage-runtime.mjs",
+      "sourceTitle": "sage runtime",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "title": "Build Lab - sage runtime",
+      "body": "# Build Lab - sage runtime\n**Source:** sage-kernel/bin/sage-runtime.mjs\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Turn this operating-system pattern into a small artifact: a config, checklist, runbook, test, or dashboard card.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:packages/agents/runtime.mjs",
+      "sourcePath": "packages/agents/runtime.mjs",
+      "sourceTitle": "runtime",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "title": "Build Lab - runtime",
+      "body": "# Build Lab - runtime\n**Source:** sage-kernel/packages/agents/runtime.mjs\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Turn this operating-system pattern into a small artifact: a config, checklist, runbook, test, or dashboard card.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:scripts/release-check.mjs",
+      "sourcePath": "scripts/release-check.mjs",
+      "sourceTitle": "release check",
+      "targetChannelBaseName": "office-hours",
+      "draftType": "office_hours_prompt",
+      "title": "Office Hours - release check",
+      "body": "# Office Hours - release check\n**Source:** sage-kernel/scripts/release-check.mjs\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Bring one blocker or decision that this source artifact helps resolve.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:.github/PULL_REQUEST_TEMPLATE.md",
+      "sourcePath": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sourceTitle": "PULL REQUEST TEMPLATE",
+      "targetChannelBaseName": "questions",
+      "draftType": "quiz",
+      "title": "Question - PULL REQUEST TEMPLATE",
+      "body": "# Question - PULL REQUEST TEMPLATE\n**Source:** sage-kernel/.github/PULL_REQUEST_TEMPLATE.md\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Answer the diagnostic question, then name the evidence that would prove the answer.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    },
+    {
+      "draftKey": "sage-kernel:apps/dashboard/dashboard-workflows.mjs",
+      "sourcePath": "apps/dashboard/dashboard-workflows.mjs",
+      "sourceTitle": "dashboard workflows",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "title": "Build Lab - dashboard workflows",
+      "body": "# Build Lab - dashboard workflows\n**Source:** sage-kernel/apps/dashboard/dashboard-workflows.mjs\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\n**Action:** Turn this operating-system pattern into a small artifact: a config, checklist, runbook, test, or dashboard card.\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\n\nHow to participate:\n1. Read the source-backed prompt.\n2. Ship or explain one specific artifact.\n3. Include context, failure mode, and what needs review.\n\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.",
+      "qualityScore": 90,
+      "status": "planned_for_admin_review",
+      "operatingContract": {
+        "sourceKind": "sage_kernel_source_seed",
+        "adminAction": "review_then_approve_or_reject",
+        "publishAllowedBeforeApproval": false,
+        "operatingProofEligible": false,
+        "requiredReviewChecks": [
+          "source path is real and privacy-safe",
+          "draft has one concrete member action",
+          "draft does not claim live proof",
+          "draft is appropriate for the target Discord channel",
+          "factual claims stay grounded in the source artifact"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate."
+      }
+    }
+  ],
+  "channelPlan": [
+    {
+      "channel": "daily-signal",
+      "candidateCount": 5,
+      "draftCount": 3,
+      "purpose": "Short operating-system lessons that turn Sage Kernel concepts into one builder action."
+    },
+    {
+      "channel": "build-lab",
+      "candidateCount": 4,
+      "draftCount": 3,
+      "purpose": "Hands-on implementation prompts from loops, workers, orchestration, and proof-gate modules."
+    },
+    {
+      "channel": "resources",
+      "candidateCount": 27,
+      "draftCount": 5,
+      "purpose": "Reusable runbooks, policies, schemas, quality gates, proof checklists, and security boundaries."
+    },
+    {
+      "channel": "questions",
+      "candidateCount": 1,
+      "draftCount": 1,
+      "purpose": "Diagnostic prompts that help members reason about agent operations, tool design, and failure modes."
+    },
+    {
+      "channel": "office-hours",
+      "candidateCount": 4,
+      "draftCount": 3,
+      "purpose": "Live-session prompts around blockers, architecture decisions, operating contracts, and reviews."
+    },
+    {
+      "channel": "content-queue",
+      "candidateCount": 19,
+      "draftCount": 3,
+      "purpose": "Source-backed ideas for future lessons, articles, recaps, and public proof assets."
+    }
+  ],
+  "antiFakeRules": [
+    "sage-kernel candidates are source seeds only; they do not count as approved Discord knowledge until an admin approves the specific item.",
+    "Planned draft packets do not count as live Discord posts, gateway capture, member participation, public proof, or RAG sync.",
+    "Every public post must remain approval-gated, source-linked, quality-scored, and privacy-safe before publishing.",
+    "No source file is promoted into authoritative RAG until an admin marks the exact candidate as approved knowledge."
+  ],
+  "nextActions": [
+    "Review the approvalDrafts array and choose the first seed set for the Sage Ideas Discord admin queue.",
+    "Convert selected drafts into pending approval records only after explicit live Supabase approval.",
+    "After publishing, collect member replies and approve real questions, answers, builds, and resources separately.",
+    "Use these source-backed drafts to teach operating-system thinking without claiming they are real community proof."
+  ],
+  "failures": []
+}

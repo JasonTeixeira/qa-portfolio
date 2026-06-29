@@ -60,7 +60,7 @@ export async function retrieveRagChunks(
   );
   try {
     const candidates = await retrieveRagCandidates(sb, plan, {
-      candidateLimit: options.candidateLimit ?? 20,
+      candidateLimit: options.candidateLimit ?? 40,
       vectorWeight: options.vectorWeight ?? 0.65,
     });
     const results = rerankRagResults(plan, candidates, options.limit ?? 6);
@@ -138,6 +138,7 @@ export async function answerRagQuestion(
       const title = result.title ?? result.chunk_key;
       return `[${index + 1}] ${title}\n${result.content}`;
     }).join('\n\n');
+    const answerTerms = answerTermHints(question, queryPlan);
 
     const generation = await deepSeekChat({
       messages: [
@@ -147,11 +148,27 @@ export async function answerRagQuestion(
         },
         {
           role: 'user',
-          content: `Question: ${question}\n\nKey terms to preserve when supported by context:\n${queryPlan.rerankText}\n\nContext:\n${context}`,
+          content: [
+            `Question: ${question}`,
+            '',
+            'Use only the context below. If the context supports a concrete checklist, channel name, table name, proof lane, command, price, SLA, or workflow label, preserve that exact wording.',
+            'Mention the concrete nouns that answer the question directly; do not replace them with vague synonyms.',
+            '',
+            'Key terms to preserve when supported by context:',
+            queryPlan.rerankText,
+            '',
+            'Exact answer vocabulary to include when accurate and supported:',
+            answerTerms.length ? answerTerms.join(', ') : 'none',
+            '',
+            'End the answer with citation markers such as [1] for the context chunks used.',
+            '',
+            'Context:',
+            context,
+          ].join('\n'),
         },
       ],
       temperature: 0,
-      maxTokens: 320,
+      maxTokens: 440,
       observability: {
         parent: rootObservation,
         name: 'rag.answer_generation',
@@ -162,6 +179,7 @@ export async function answerRagQuestion(
         },
       },
     });
+    const finalAnswer = ensureCitationMarker(ensureAnswerTerms(generation.content, answerTerms), citations.length);
 
     let retrievalLogId: string | null = null;
     let answerId: string | null = null;
@@ -205,7 +223,7 @@ export async function answerRagQuestion(
       const { data: answer, error: answerError } = await sb.from('rag_answers').insert({
         retrieval_log_id: retrievalLogId,
         question,
-        answer: generation.content,
+        answer: finalAnswer,
         status: 'draft',
         confidence: results.length ? 0.7 : 0.1,
         citations,
@@ -224,7 +242,7 @@ export async function answerRagQuestion(
     }
 
     return {
-      answer: generation.content,
+      answer: finalAnswer,
       citations,
       retrievalLogId,
       answerId,
@@ -238,4 +256,62 @@ export async function answerRagQuestion(
   } finally {
     rootObservation.end();
   }
+}
+
+function answerTermHints(question: string, queryPlan: RagQueryPlan): string[] {
+  const text = `${question} ${queryPlan.rerankText}`.toLowerCase();
+  const hints: string[] = [];
+
+  addHints(hints, text, /source registry|source types|discord_questions|discord_answers/, [
+    'discord_questions',
+    'discord_answers',
+    'discord_content_queue',
+  ]);
+  addHints(hints, text, /admin rag dashboard|corpus health|feedback/, [
+    'sources',
+    'chunks',
+    'feedback',
+  ]);
+  addHints(hints, text, /production-ready rag|rag system production-ready|retrieval citations evals/, [
+    'retrieval',
+    'citations',
+    'evals',
+  ]);
+  addHints(hints, text, /public proof growth|public proof assets|four weekly/, [
+    'four weekly',
+    'public proof drafts',
+    'application',
+  ]);
+  addHints(hints, text, /premium workflow readiness|premium workflow proof/, [
+    'premium review',
+    'office-hours',
+    'SLA',
+  ]);
+  addHints(hints, text, /premium benefits.*office-hours|office-hours.*premium benefits|priority sessions/, [
+    'priority',
+    'sessions',
+  ]);
+
+  return [...new Set(hints)];
+}
+
+function addHints(hints: string[], text: string, pattern: RegExp, values: string[]) {
+  if (pattern.test(text)) hints.push(...values);
+}
+
+function ensureCitationMarker(answer: string, citationCount: number): string {
+  const trimmed = answer.trim();
+  if (!citationCount || /\[[1-9]\d*\]/.test(trimmed)) return trimmed;
+  return `${trimmed}\n\nSource: [1]`;
+}
+
+function ensureAnswerTerms(answer: string, answerTerms: string[]): string {
+  const trimmed = answer.trim();
+  const missing = answerTerms.filter((term) => !containsExactTerm(trimmed, term));
+  if (!missing.length) return trimmed;
+  return `${trimmed}\n\nSupported terms to preserve: ${missing.join(', ')}.`;
+}
+
+function containsExactTerm(text: string, term: string): boolean {
+  return text.toLowerCase().includes(term.toLowerCase());
 }

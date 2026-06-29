@@ -121,6 +121,7 @@ async function main() {
   const missingKeys = missingFromLatest
     ? RAG_EVAL_QUESTION_SEEDS.map((seed) => seed.eval_key).filter((evalKey) => !latestEvaluatedKeys.has(evalKey))
     : [];
+  const hasConstrainedSelection = requestedKeys.length > 0 || missingFromLatest;
   const keyFilter = requestedKeys.length ? requestedKeys : missingKeys;
   const seededKeys = new Set(seededRows.map((row: any) => String(row.eval_key)));
   const unknownKeys = keyFilter.filter((evalKey) => !seededKeys.has(evalKey));
@@ -128,29 +129,12 @@ async function main() {
     throw new Error(`Unknown RAG eval key(s): ${unknownKeys.join(', ')}`);
   }
   const selectedRows = seededRows
-    .filter((row: any) => keyFilter.length ? keyFilter.includes(String(row.eval_key)) : true)
+    .filter((row: any) => {
+      if (keyFilter.length) return keyFilter.includes(String(row.eval_key));
+      return !hasConstrainedSelection;
+    })
     .sort((a: any, b: any) => String(a.eval_key).localeCompare(String(b.eval_key)))
     .slice(0, Math.max(1, Math.min(limit, seededRows.length)));
-  if ((missingFromLatest || requestedKeys.length) && selectedRows.length === 0) {
-    const evidence = {
-      ok: missingFromLatest,
-      runKey,
-      dryRun,
-      missingFromLatest,
-      mergeLatest,
-      requestedKeys,
-      seededQuestionCount: seededRows.length,
-      evaluatedQuestionCount: 0,
-      missingKeys,
-      message: missingFromLatest ? 'Latest RAG eval evidence already covers every seeded eval key.' : 'No requested eval keys selected.',
-      startedAt,
-      finishedAt: new Date().toISOString(),
-    };
-    await writeEvidence('eval-latest-selection.json', evidence);
-    console.log(JSON.stringify(evidence, null, 2));
-    if (!evidence.ok) process.exit(1);
-    return;
-  }
 
   if (planOnly) {
     const evidence = {
@@ -173,6 +157,27 @@ async function main() {
     };
     await writeEvidence('eval-missing-plan.json', evidence);
     console.log(JSON.stringify(evidence, null, 2));
+    return;
+  }
+
+  if ((missingFromLatest || requestedKeys.length) && selectedRows.length === 0) {
+    const evidence = {
+      ok: missingFromLatest,
+      runKey,
+      dryRun,
+      missingFromLatest,
+      mergeLatest,
+      requestedKeys,
+      seededQuestionCount: seededRows.length,
+      evaluatedQuestionCount: 0,
+      missingKeys,
+      message: missingFromLatest ? 'Latest RAG eval evidence already covers every seeded eval key.' : 'No requested eval keys selected.',
+      startedAt,
+      finishedAt: new Date().toISOString(),
+    };
+    await writeEvidence('eval-latest-selection.json', evidence);
+    console.log(JSON.stringify(evidence, null, 2));
+    if (!evidence.ok) process.exit(1);
     return;
   }
 

@@ -1,14 +1,14 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-26T18:48:34.604Z",
+  "generatedAt": "2026-06-29T20:10:28.027Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
   "metricsSnapshot": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 0,
+    "pendingKnowledgeCandidates": 1,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "premiumMembers": 0,
@@ -18,12 +18,12 @@
     {
       "key": "gateway_capture",
       "title": "Gateway message capture",
-      "status": "blocked",
-      "currentCount": 0,
+      "status": "passed",
+      "currentCount": 1,
       "targetCount": 1,
-      "remainingCount": 1,
-      "candidateState": "needs_source_volume",
-      "candidateCount": 0,
+      "remainingCount": 0,
+      "candidateState": "target_met",
+      "candidateCount": 1,
       "sourceTables": [
         "discord_gateway_heartbeats",
         "discord_gateway_events",
@@ -31,11 +31,8 @@
         "discord_gateway_dead_letters"
       ],
       "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
-      "blockers": [
-        "Current proof is 0/1; lane remains blocked until the target is met.",
-        "Gateway capture must show a fresh heartbeat, Message Content Intent metadata, and one usable non-bot non-empty message."
-      ],
-      "nextReviewAction": "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
+      "blockers": [],
+      "nextReviewAction": "Maintain proof quality and rerun scorecard after the next operating cycle.",
       "provingCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
       "requiredEvidenceFields": [
         "proof_cycle_key",
@@ -69,8 +66,8 @@
       "currentCount": 0,
       "targetCount": 10,
       "remainingCount": 10,
-      "candidateState": "needs_source_volume",
-      "candidateCount": 0,
+      "candidateState": "needs_review",
+      "candidateCount": 1,
       "sourceTables": [
         "discord_questions",
         "discord_answers",
@@ -80,11 +77,9 @@
       "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
       "blockers": [
         "Current proof is 0/10; lane remains blocked until the target is met.",
-        "Approved knowledge plus pending candidates is 0/10; more real member source material is needed.",
-        "No pending knowledge candidates are available for admin review.",
-        "Capture real member questions, helpful answers, builds, reviews, wins, or resources before approving knowledge."
+        "Approved knowledge plus pending candidates is 1/10; more real member source material is needed."
       ],
-      "nextReviewAction": "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "nextReviewAction": "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
       "provingCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",
       "requiredEvidenceFields": [
         "proof_cycle_key",
@@ -253,8 +248,7 @@
   ],
   "failures": [],
   "nextActions": [
-    "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-    "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+    "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
     "Run the approved Discord RAG sync after approving knowledge candidates.",
     "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
     "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."

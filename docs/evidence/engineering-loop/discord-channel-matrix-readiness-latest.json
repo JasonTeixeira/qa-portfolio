@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-channel-matrix-readiness-v1",
-  "generatedAt": "2026-06-26T18:48:23.574Z",
+  "generatedAt": "2026-06-29T20:10:19.856Z",
   "mutationMode": "local_file_evidence_only",
   "channelCount": 20,
   "approvedMemberChannelCount": 16,
@@ -131,6 +131,6 @@
     "ok": true,
     "failures": [],
     "validator": "discord-channel-matrix-readiness-validator-v1",
-    "validatedAt": "2026-06-26T18:48:23.576Z"
+    "validatedAt": "2026-06-29T20:10:19.858Z"
   }
 }

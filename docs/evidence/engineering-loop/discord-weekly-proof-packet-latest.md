@@ -1,6 +1,6 @@
 # Sage Ideas Discord Weekly Proof Packet
 
-Generated: 2026-06-26T18:48:26.837Z
+Generated: 2026-06-29T20:10:23.021Z
 Mutation mode: local_file_evidence_only
 Backlog status: blocked
 Packet OK: yes
@@ -20,29 +20,6 @@ Weekly proof packet is an operator collection template. It does not create or sa
 7. Rerun operating cycle, proof backlog, operator brief, and final scorecard.
 
 ## Execution Plan
-
-### 1. Gateway message capture
-
-- Lane: gateway_capture
-- Status: blocked
-- Dependency: none
-- Operator action: Post or request one fresh non-bot member message, then confirm gateway capture stores non-empty content.
-- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts
-- Verify: npm run discord:gateway-capture-diagnosis
-- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
-
-Exit criteria:
-- Target reaches 1/1.
-- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
-- Fresh heartbeat and Message Content Intent evidence are present.
-- At least one non-bot non-empty non-deleted message is visible in capture evidence.
-
-Do not count:
-- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
-- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
-- Screenshots or summaries without a source id and reviewer decision.
-- AI-generated content that was not approved by an admin/operator.
-- A gateway identify event with Message Content Intent but no captured non-empty message.
 
 ### 2. Approved Discord knowledge
 
@@ -136,15 +113,38 @@ Do not count:
 - AI-generated content that was not approved by an admin/operator.
 - A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.
 
+### 100. Gateway message capture
+
+- Lane: gateway_capture
+- Status: passed
+- Dependency: none
+- Operator action: Maintain Gateway message capture evidence and rerun the scorecard after the next operating cycle.
+- Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts
+- Verify: npm run discord:gateway-capture-diagnosis
+- Required evidence fields: proof_cycle_key, source_record_id, source_url_or_path, source_created_at, title, summary, reviewer, reviewed_at, decision_reason, evidence_artifact_path, operator_attestation, privacy_status, worker_id, message_content_enabled, usable_message_id, capture_health
+
+Exit criteria:
+- Target reaches 1/1.
+- Reviewer, timestamp, evidence artifact path, decision reason, and operator attestation are present.
+- Fresh heartbeat and Message Content Intent evidence are present.
+- At least one non-bot non-empty non-deleted message is visible in capture evidence.
+
+Do not count:
+- Unit tests, typecheck, lint, build, and dry-run scripts by themselves.
+- Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.
+- Screenshots or summaries without a source id and reviewer decision.
+- AI-generated content that was not approved by an admin/operator.
+- A gateway identify event with Message Content Intent but no captured non-empty message.
+
 
 ## Proof Lanes
 
 ### Gateway message capture
 
 - Key: gateway_capture
-- Status: blocked
-- Current: 0/1
-- Remaining: 1
+- Status: passed
+- Current: 1/1
+- Remaining: 0
 - Admin surface: /admin/discord -> Gateway, Messages, Jobs, and Alerts
 - Source tables: discord_gateway_heartbeats, discord_gateway_events, discord_messages, discord_gateway_dead_letters
 - Verify: npm run discord:gateway-capture-diagnosis && npm run discord:proof-source-scan && npm run discord:proof-backlog
@@ -459,7 +459,6 @@ Does not count as proof:
 
 ## Next Actions
 
-- Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.
 - Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.
 - Run the approved Discord RAG sync after approving knowledge candidates.
 - Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.

@@ -1,6 +1,6 @@
 # Discord Proof Source Recovery Plan
 
-Generated: 2026-06-26T18:48:21.729Z
+Generated: 2026-06-29T20:10:18.069Z
 Status: blocked
 Mutation mode: local_file_evidence_only
 
@@ -20,7 +20,7 @@ This recovery plan reads source-volume evidence and writes local guidance only. 
 - Status: blocked
 - Count: 0/10
 - Shortfall: 10
-- State: no_source_volume
+- State: needs_review
 - Admin surface: /admin/discord -> Content Queue, Drafts, Knowledge/RAG
 - Safe local command: `npm run discord:proof-source-scan`
 - Live action: Collect and approve high-signal member questions, helpful answers, project submissions, reviews, wins, and resources.

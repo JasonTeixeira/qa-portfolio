@@ -103,7 +103,17 @@ score · date · commit · notes`. The pipeline reads it to skip done lessons an
 
 | course / lesson | score | date | commit | notes |
 |---|---|---|---|---|
+| career-engineering_judgment_foundation / 01-problem-frame | 96 | 2026-06-29 | — | compare + walkthrough + diagram; 94→96 after engine font bump |
+| career-engineering_judgment_foundation / 02-diagnostic-route | 96 | 2026-06-29 | — | diagram + walkthrough + compare; 94→96 after font bump + worked-example fill |
 | career-engineering_judgment_foundation / 03-system-map | 95 | 2026-06-29 | 1a018be2 | the locked template (reference) |
+| career-engineering_judgment_foundation / 04-retrieval-protocol | 95 | 2026-06-29 | — | capstone; diagram(4-move loop) + walkthrough + compare |
+
+**Module 1 (course 00) — COMPLETE, visual-first, all ≥95.** Validation run confirmed the
+loop reliably crosses the bar (94→96 in one loop). Engine improvement landed during the
+run: diagram node-label/description fonts bumped (`diagram-kinds.tsx`) — strictly improves
+every diagram. Harness hardened to wait for the auth redirect (login no longer races).
+Known limit surfaced: the test account throttles after many rapid logins in one batch — the
+pipeline must reuse ONE authenticated context per course (already noted under Parallelism).
 
 ---
 

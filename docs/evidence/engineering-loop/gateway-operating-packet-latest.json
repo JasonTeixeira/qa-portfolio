@@ -1,30 +1,30 @@
 {
   "ok": true,
   "version": "gateway-operating-packet-v1",
-  "generatedAt": "2026-06-26T18:48:19.893Z",
+  "generatedAt": "2026-06-29T20:10:16.322Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.",
-  "status": "ready_for_fresh_message",
+  "status": "proven",
   "target": {
-    "current": 0,
+    "current": 1,
     "target": 1,
-    "remaining": 1,
-    "usableMessageState": "message_content_ready_needs_fresh_member_message"
+    "remaining": 0,
+    "usableMessageState": "fresh_usable_message_proven"
   },
   "sourceEvidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
   "adminSurface": "/admin/discord -> Gateway operating packet, Gateway capture diagnosis, Jobs, Knowledge/RAG",
   "messageContentSignal": {
     "effectiveEnabled": true,
-    "source": "identify_event",
+    "source": "heartbeat",
     "identifyEnabled": true,
-    "heartbeatEnabled": null,
-    "identifyCreatedAt": "2026-06-26T16:34:11.608494+00:00"
+    "heartbeatEnabled": true,
+    "identifyCreatedAt": "2026-06-29T19:14:48.322001+00:00"
   },
   "heartbeat": {
     "workerId": "sagebot-main",
     "status": "heartbeat_ack",
     "ageMinutes": 0,
-    "lastSeenAt": "2026-06-26T18:48:00.642+00:00",
+    "lastSeenAt": "2026-06-29T20:09:51.206+00:00",
     "fresh": true,
     "lastCloseCode": null
   },
@@ -177,9 +177,9 @@
     "npm run verify:local:evidence"
   ],
   "nextActions": [
-    "Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.",
-    "Rerun npm run discord:gateway-capture-diagnosis after the message is posted.",
-    "Do not claim Discord corpus readiness until content_length is greater than zero for a fresh non-bot row."
+    "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+    "Review resulting candidates in /admin/discord and approve durable knowledge items.",
+    "Rerun proof-source scan after approvals."
   ],
   "failures": [],
   "validation": {

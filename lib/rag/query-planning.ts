@@ -24,8 +24,8 @@ const DISCORD_OPERATING_SOURCES = [
   'SAGEBOT_DISCORD_OPERATING_FAQ.md',
   'DISCORD_COMMUNITY_OPERATING_SYSTEM.md',
   'DISCORD_EDUCATION_SERVER_RUNBOOK.md',
-  'WORLD_CLASS_PROOF_OPERATING_CONTROLS.md',
 ];
+const DISCORD_PROOF_CONTROL_SOURCES = ['WORLD_CLASS_PROOF_OPERATING_CONTROLS.md'];
 
 const SPECIFIC_QUERY_RULES: Array<{
   patterns: RegExp[];
@@ -45,12 +45,82 @@ const SPECIFIC_QUERY_RULES: Array<{
   {
     patterns: [/world.?class proof|proof backlog|proof lane|weekly proof checklist|95\+|operating proof/i],
     expansion: 'Discord world-class proof backlog proof lanes weekly proof checklist approved knowledge RAG sync public proof premium workflow evidence no synthetic smoke rows',
-    preferredSources: ['WORLD_CLASS_PROOF_OPERATING_CONTROLS.md', ...DISCORD_OPERATING_SOURCES],
+    preferredSources: [...DISCORD_PROOF_CONTROL_SOURCES, ...DISCORD_OPERATING_SOURCES],
+  },
+  {
+    patterns: [/weekly checklist.*approved discord knowledge|approved discord knowledge.*rag|move approved discord knowledge/i],
+    expansion: 'weekly checklist approve approved Discord knowledge operating-cycle RAG sync rag_sources rag_documents proof backlog admin review',
+    preferredSources: [...DISCORD_PROOF_CONTROL_SOURCES, ...DISCORD_OPERATING_SOURCES],
+  },
+  {
+    patterns: [/public proof growth assets|evidence proves public proof|public proof assets.*ready/i],
+    expansion: 'four weekly public proof drafts application apply click approved source material privacy review published proof asset growth metrics',
+    preferredSources: [...DISCORD_PROOF_CONTROL_SOURCES, ...DISCORD_OPERATING_SOURCES],
+  },
+  {
+    patterns: [/premium workflow readiness|evidence proves premium workflow|premium workflow proof/i],
+    expansion: 'premium workflow proof premium review office-hours SLA fulfilled response completed request status premium member evidence',
+    preferredSources: [...DISCORD_PROOF_CONTROL_SOURCES, ...DISCORD_OPERATING_SOURCES],
   },
   {
     patterns: [/repeated questions|durable assets|promoted into durable/i],
     expansion: 'Discord repeated questions promote into resources lessons durable assets content queue capture-content publish content-queue',
     preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/project-submissions|project submissions|members submit.*project/i],
+    expansion: 'project-submissions project screenshot proof link risk next risk goal target user build artifact',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/office-hours questions|prepare.*office hours|office hours.*prepared/i],
+    expansion: 'office-hours questions artifact blocker decision useful live session context submitted blocker',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/accountability check/i],
+    expansion: 'accountability check committed shipped slipped next action weekly proof shipping rhythm',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/weekly winners|purpose.*weekly winners/i],
+    expansion: 'weekly winners leaderboard weekly winners featured builds wins showcase points challenge recap',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/founding price.*premium|premium.*founding price/i],
+    expansion: '$29 month premium founding price Premium Member checkout private ephemeral',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/premium critique.*free support|free support.*premium critique/i],
+    expansion: 'premium critique priority deeper review priority review deeper critique specific artifact risks next steps',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/premium benefits.*office hours|office hours.*premium benefits/i],
+    expansion: 'premium benefits office-hours priority sessions replays premium review queue',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/avoid too many.*channels|too many discord channels|channel sprawl/i],
+    expansion: 'lean focused channels avoid sprawl simple server structure fewer channels clear routing',
+    preferredSources: DISCORD_OPERATING_SOURCES,
+  },
+  {
+    patterns: [/source types.*rag source registry|rag source registry.*source types/i],
+    expansion: 'discord_questions discord_answers discord_content_queue source registry approved Discord knowledge rag_sources source types',
+    preferredSources: ['rag-system-build-plan.txt'],
+  },
+  {
+    patterns: [/admin rag dashboard|rag dashboard.*inspect/i],
+    expansion: 'admin RAG dashboard inspect sources chunks feedback eval failures retrieval logs corpus health',
+    preferredSources: ['rag-system-build-plan.txt'],
+  },
+  {
+    patterns: [/rag system production-ready|production-ready.*rag|rag.*production-ready/i],
+    expansion: 'production-ready RAG retrieval citations evals traces quality gates approved sources admin dashboard failure visibility',
+    preferredSources: ['rag-system-build-plan.txt'],
   },
   {
     patterns: [/weekly recap|recap.*community growth|community growth.*recap/i],
@@ -110,8 +180,9 @@ const INTENT_RULES: Array<{
 export function planRagQuery(query: string): RagQueryPlan {
   const normalizedQuery = normalizeQuery(query);
   const commandExpanded = expandCommandTerms(normalizedQuery);
-  const matched = INTENT_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(commandExpanded)));
-  const specific = SPECIFIC_QUERY_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(commandExpanded)));
+  const ruleText = `${normalizedQuery} ${commandExpanded}`;
+  const matched = INTENT_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(ruleText)));
+  const specific = SPECIFIC_QUERY_RULES.find((rule) => rule.patterns.some((pattern) => pattern.test(ruleText)));
   const intent = matched?.intent ?? 'general';
   const rewriteReasons = [];
   const preferredSources = uniqueNonEmpty([...(specific?.preferredSources ?? []), ...(matched?.preferredSources ?? [])]);

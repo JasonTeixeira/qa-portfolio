@@ -85,6 +85,8 @@ export function SageCodeWalkthrough({
   const [active, setActive] = React.useState(0)
   const [inView, setInView] = React.useState(false)
   const rootRef = React.useRef<HTMLDivElement | null>(null)
+  const codeScrollRef = React.useRef<HTMLDivElement | null>(null)
+  const [codeOverflow, setCodeOverflow] = React.useState(false)
 
   // Clamp if the steps prop shrinks.
   const activeStep = hasSteps ? Math.min(active, steps.length - 1) : 0
@@ -136,6 +138,19 @@ export function SageCodeWalkthrough({
     }, Math.max(1200, intervalMs))
     return () => window.clearInterval(id)
   }, [reduce, inView, hasSteps, steps.length, intervalMs])
+
+  // Show a right-edge fade only when the code actually overflows horizontally,
+  // so a long line reads as "scroll for more" instead of a hard clip — and short
+  // lines are never dimmed. Re-measured on resize.
+  React.useEffect(() => {
+    const el = codeScrollRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const measure = () => setCodeOverflow(el.scrollWidth - el.clientWidth > 2)
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [lines])
 
   // Keyboard: arrows step, Home/End jump, on the stepper group.
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -210,8 +225,10 @@ export function SageCodeWalkthrough({
             </span>
           </div>
 
-          {/* Real, selectable code text. Height reserved => 0 CLS. */}
-          <div style={{ ...codeScrollStyle, minHeight: codeAreaHeight }}>
+          {/* Real, selectable code text. Height reserved => 0 CLS. A right-edge
+              fade appears only when the code overflows horizontally (scroll hint). */}
+          <div style={codeScrollWrapStyle}>
+            <div ref={codeScrollRef} style={{ ...codeScrollStyle, minHeight: codeAreaHeight }}>
             <pre style={preStyle}>
               <code style={codeStyle}>
                 {lines.map((lineText, index) => {
@@ -262,6 +279,8 @@ export function SageCodeWalkthrough({
                 })}
               </code>
             </pre>
+            </div>
+            {codeOverflow ? <span aria-hidden="true" style={codeFadeStyle} /> : null}
           </div>
         </div>
 
@@ -479,8 +498,23 @@ const langBadgeStyle: React.CSSProperties = {
   padding: '0.1rem 0.55rem',
 }
 
+const codeScrollWrapStyle: React.CSSProperties = {
+  position: 'relative',
+}
+
 const codeScrollStyle: React.CSSProperties = {
   overflowX: 'auto',
+}
+
+// Right-edge scroll affordance — only rendered when the code overflows (see effect).
+const codeFadeStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  width: 36,
+  pointerEvents: 'none',
+  background: 'linear-gradient(to right, transparent, var(--ac-bg))',
 }
 
 const preStyle: React.CSSProperties = {

@@ -128,7 +128,10 @@ export async function AcademyShell({
               className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent-strong)] text-white"
               aria-hidden
             >
-              <Icon name="compass" size={16} />
+              {/* Real Sage brand mark (monochrome, inherits currentColor) */}
+              <svg viewBox="0 0 64 64" width={17} height={17} fill="currentColor" aria-hidden focusable="false">
+                <path d="M16 18c0-5 4-9 9-9h14c5 0 9 4 9 9v3a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3v-2c0-1.7-1.3-3-3-3H27c-1.7 0-3 1.3-3 3v6c0 1.7 1.3 3 3 3h11c5 0 9 4 9 9v9c0 5-4 9-9 9H25c-5 0-9-4-9-9v-3a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2c0 1.7 1.3 3 3 3h12c1.7 0 3-1.3 3-3v-6c0-1.7-1.3-3-3-3H28c-5 0-9-4-9-9z" />
+              </svg>
             </span>
             <span className="leading-tight">
               <span

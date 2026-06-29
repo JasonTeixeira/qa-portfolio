@@ -14,11 +14,46 @@
   color: var(--ac-ink);
 }
 
-/* heading ---------------------------------------------------- */
+/* heading — the academy scene as a hero band, text anchored bottom-left over a
+   dark veil that keeps it AA-readable. The scene art sits to the right. ------- */
 .hero {
   position: relative;
   z-index: 1;
-  padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(220px, 30vw, 360px);
+  margin-bottom: 1.4rem;
+  padding: clamp(1.6rem, 1.1rem + 3vw, 3rem);
+  border: 1px solid var(--ac-rule);
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.heroScene {
+  object-fit: cover;
+  object-position: 78% center; /* keep the dojo + reflection visible on the right */
+  z-index: -2;
+}
+.heroVeil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--ac-bg) 0%,
+      color-mix(in srgb, var(--ac-bg) 88%, transparent) 36%,
+      color-mix(in srgb, var(--ac-bg) 30%, transparent) 66%,
+      transparent 88%
+    ),
+    linear-gradient(0deg, color-mix(in srgb, var(--ac-bg) 72%, transparent), transparent 58%);
+}
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 56ch;
 }
 .heroKicker {
   margin: 0;

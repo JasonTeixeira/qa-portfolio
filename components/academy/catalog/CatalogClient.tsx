@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
 import type { PathItem, CourseItem, Level } from '@/data/academy/learn-catalog'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
@@ -51,15 +52,27 @@ export function CatalogClient({
 
   return (
     <div className={styles.page}>
-      {/* heading — say plainly what this page is */}
+      {/* heading — say plainly what this page is, over the academy scene */}
       <header className={styles.hero}>
-        <p className={styles.heroKicker}>Sage Academy</p>
-        <h1 className={styles.heroTitle}>Your courses</h1>
-        <p className={styles.heroSub}>
-          {totalCourses === 1
-            ? 'One course is ready. Pick up where you left off, or start from lesson one.'
-            : `${totalCourses} courses are ready. Pick one to start, or continue where you left off.`}
-        </p>
+        <Image
+          src="/path/scenes/academy.png"
+          alt=""
+          aria-hidden
+          fill
+          priority
+          sizes="(max-width: 1100px) 100vw, 1100px"
+          className={styles.heroScene}
+        />
+        <span className={styles.heroVeil} aria-hidden />
+        <div className={styles.heroContent}>
+          <p className={styles.heroKicker}>Sage Academy</p>
+          <h1 className={styles.heroTitle}>Your courses</h1>
+          <p className={styles.heroSub}>
+            {totalCourses === 1
+              ? 'One course is ready. Pick up where you left off, or start from lesson one.'
+              : `${totalCourses} courses are ready. Pick one to start, or continue where you left off.`}
+          </p>
+        </div>
       </header>
 
       {/* continue — only when there is real recorded progress */}

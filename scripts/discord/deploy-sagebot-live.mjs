@@ -27,6 +27,7 @@ const LIVE_VERIFY_COMMANDS = [
 const EXPLICIT_APPROVAL_COMMANDS = [
   'vercel deploy --prod --yes',
   `railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true --service ${RAILWAY_SERVICE}`,
+  `railway variables --set DEEPSEEK_API_KEY=<from local env> --service ${RAILWAY_SERVICE}`,
   `railway up --service ${RAILWAY_SERVICE}`,
   'npm run discord:register',
   'npm run discord:pin-posts',
@@ -108,6 +109,9 @@ function deployCommands(options) {
     commands.push(`railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true --service ${RAILWAY_SERVICE}`);
     const botId = process.env.DISCORD_APPLICATION_ID || process.env.DISCORD_CLIENT_ID;
     if (botId) commands.push(`railway variables --set DISCORD_BOT_USER_ID=${botId} --service ${RAILWAY_SERVICE}`);
+    if (process.env.DEEPSEEK_API_KEY?.trim()) {
+      commands.push(`railway variables --set "DEEPSEEK_API_KEY=$DEEPSEEK_API_KEY" --service ${RAILWAY_SERVICE}`);
+    }
     commands.push(`railway up --service ${RAILWAY_SERVICE}`);
   }
   commands.push('npm run discord:register');

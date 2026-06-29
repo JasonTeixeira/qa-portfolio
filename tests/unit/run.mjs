@@ -576,6 +576,7 @@ test('sagebot live deploy harness: gates deployment, registers commands, and ver
   assert.match(script, /npm run build/);
   assert.match(script, /vercel deploy --prod --yes/);
   assert.match(script, /railway variables --set DISCORD_ENABLE_MENTION_RESPONSES=true/);
+  assert.match(script, /DEEPSEEK_API_KEY=\$DEEPSEEK_API_KEY/);
   assert.match(script, /railway up --service/);
   assert.match(script, /npm run discord:register/);
   assert.match(script, /npm run discord:pin-posts/);

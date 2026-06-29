@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "version": "sagebot-mention-live-proof-v1",
+  "generatedAt": "2026-06-29T21:35:16.464Z",
+  "mutationMode": "live_discord_reply_posted_and_dead_letter_resolved_after_user_approval",
+  "originalMessageId": "1521265985691189503",
+  "postedMessageId": "1521267731318706378",
+  "channelId": "1517198852355133691",
+  "authorBot": true,
+  "referencedMessageId": "1521265985691189503",
+  "contentPreview": "# SageBot answer\n**Question:** Sage Ideas how should I start building my first AI app?\nTo start building your first AI app in Sage Ideas Academy, follow this concrete checklist from the onboarding flow:\n\n1. **Post your intro** in `questions` using the template: Name, Path, Current level, What I am building, What I want to get better at, Current blocker, and a link/screenshot if useful [4].\n2. **Choose path and level** with `/onboard` [5].\n3. **Complete one daily signal** with `/daily` in `daily-"
+}

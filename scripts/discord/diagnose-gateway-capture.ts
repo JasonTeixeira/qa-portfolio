@@ -172,7 +172,7 @@ async function main() {
     recentMessageCreates,
     recentCandidateQueued,
     recentCandidateSkipped,
-    recentDeadLetters,
+    recentOpenDeadLetters,
   ] = await Promise.all([
     latestHeartbeat(sb),
     latestMessages(sb),
@@ -185,7 +185,7 @@ async function main() {
     countRows(sb, 'discord_gateway_events.message_create_30m', 'discord_gateway_events', (query) => query.eq('event_type', 'message_create').gte('created_at', since30m)),
     countRows(sb, 'discord_gateway_events.message_candidate_queued_30m', 'discord_gateway_events', (query) => query.eq('event_type', 'message_candidate_queued').gte('created_at', since30m)),
     countRows(sb, 'discord_gateway_events.message_candidate_skipped_30m', 'discord_gateway_events', (query) => query.eq('event_type', 'message_candidate_skipped').gte('created_at', since30m)),
-    countRows(sb, 'discord_gateway_dead_letters.recent', 'discord_gateway_dead_letters', (query) => query.gte('created_at', since30m)),
+    countRows(sb, 'discord_gateway_dead_letters.open_recent', 'discord_gateway_dead_letters', (query) => query.gte('created_at', since30m).is('resolved_at', null)),
   ]);
 
   const latestHeartbeatRows = heartbeatRead.data ?? [];
@@ -213,7 +213,7 @@ async function main() {
     messageContentEnabled,
     messageContentSignalSource,
     lastCloseCode: primaryHeartbeat?.last_close_code == null ? null : Number(primaryHeartbeat.last_close_code),
-    recentDeadLetters: recentDeadLetters.count,
+    recentDeadLetters: recentOpenDeadLetters.count,
   });
 
   const evidence = {
@@ -229,7 +229,7 @@ async function main() {
       recentMessageCreates,
       recentCandidateQueued,
       recentCandidateSkipped,
-      recentDeadLetters,
+      recentOpenDeadLetters,
     ].every((item) => !item.error),
     version: 'discord-gateway-capture-diagnosis-v1',
     generatedAt: new Date().toISOString(),
@@ -276,7 +276,7 @@ async function main() {
       [recentMessageCreates.label]: recentMessageCreates.count,
       [recentCandidateQueued.label]: recentCandidateQueued.count,
       [recentCandidateSkipped.label]: recentCandidateSkipped.count,
-      [recentDeadLetters.label]: recentDeadLetters.count,
+      [recentOpenDeadLetters.label]: recentOpenDeadLetters.count,
     },
     recentMessages: latestMessagesRows.map((row: any) => ({
       id: String(row.discord_message_id),
@@ -306,7 +306,7 @@ async function main() {
       recentMessageCreates,
       recentCandidateQueued,
       recentCandidateSkipped,
-      recentDeadLetters,
+      recentOpenDeadLetters,
     ].filter((item) => item.error).map((item) => ({ label: item.label, error: item.error })),
   };
 

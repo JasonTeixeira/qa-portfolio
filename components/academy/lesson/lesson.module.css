@@ -123,6 +123,19 @@
 /* main */
 .main { grid-column: 2; grid-row: 2; overflow-y: auto; padding: 2.6rem 2rem 7rem; }
 .lesson { max-width: 680px; margin: 0 auto; }
+
+/* visual bleed — lets a figure exceed the 680px prose column while staying
+   centered in the content cell. .lesson is centered in the cell (margin:0 auto),
+   so a child centered on the column-center (left:50% + translateX(-50%)) is also
+   cell-centered. Width caps at 960px but never exceeds the cell's content box:
+   304px rail + the cell's 2rem×2 horizontal padding (.main padding) = -304px -4rem.
+   Layout-only (no animation) → 0 CLS. */
+.visualBleed {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(960px, calc(100vw - 304px - 4rem));
+}
 .notesSlot { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--ac-rule); }
 
 /* REFERENCE SURFACE · editorial dark-luxury header (proves the tokens)
@@ -317,6 +330,9 @@
   .main { grid-column: 1; grid-row: 2; }
   .footer { left: 0; }
   .kbdHint { display: none; }
+
+  /* rail collapsed + grid is 1fr: the bleed is just full-width within the cell. */
+  .visualBleed { left: auto; transform: none; width: 100%; }
 
   .railTrigger {
     grid-column: 1;

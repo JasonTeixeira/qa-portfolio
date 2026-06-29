@@ -167,58 +167,67 @@ function Block({
     case 'diagram':
       // Branded system-map renderer; the reveal wrapper fades the figure up in
       // the house motion language (reduced-motion → final state instantly).
+      // visualBleed widens it past the 680px prose column (node labels stay legible).
       return (
-        <RevealStagger>
-          <SageDiagram
-            title={block.title}
-            subtitle={block.subtitle}
-            nodes={block.nodes}
-            edges={block.edges}
-            legend={block.legend}
-            rankdir={block.rankdir}
-            caption={block.caption}
-            height={block.height}
-          />
-        </RevealStagger>
+        <div className={styles.visualBleed}>
+          <RevealStagger>
+            <SageDiagram
+              title={block.title}
+              subtitle={block.subtitle}
+              nodes={block.nodes}
+              edges={block.edges}
+              legend={block.legend}
+              rankdir={block.rankdir}
+              caption={block.caption}
+              height={block.height}
+            />
+          </RevealStagger>
+        </div>
       )
     case 'viz':
       return (
-        <RevealStagger>
-          <SageViz
-            title={block.title}
-            subtitle={block.subtitle}
-            chart={block.chart}
-            data={block.data}
-            unit={block.unit}
-          />
-        </RevealStagger>
+        <div className={styles.visualBleed}>
+          <RevealStagger>
+            <SageViz
+              title={block.title}
+              subtitle={block.subtitle}
+              chart={block.chart}
+              data={block.data}
+              unit={block.unit}
+            />
+          </RevealStagger>
+        </div>
       )
     case 'code-walkthrough':
       // Animated, terminal-look code stepper; self-contained (own controls +
       // reduced-motion static state), so no reveal wrapper needed.
       return (
-        <SageCodeWalkthrough
-          title={block.title}
-          subtitle={block.subtitle}
-          filename={block.filename}
-          language={block.language}
-          code={block.code}
-          steps={block.steps}
-          caption={block.caption}
-        />
+        <div className={styles.visualBleed}>
+          <SageCodeWalkthrough
+            title={block.title}
+            subtitle={block.subtitle}
+            filename={block.filename}
+            language={block.language}
+            code={block.code}
+            steps={block.steps}
+            caption={block.caption}
+          />
+        </div>
       )
     case 'compare':
       return (
-        <RevealStagger>
-          <SageCompare
-            title={block.title}
-            subtitle={block.subtitle}
-            left={block.left}
-            right={block.right}
-            mono={block.mono}
-            caption={block.caption}
-          />
-        </RevealStagger>
+        <div className={styles.visualBleed}>
+          <RevealStagger>
+            <SageCompare
+              title={block.title}
+              subtitle={block.subtitle}
+              left={block.left}
+              right={block.right}
+              mono={block.mono}
+              caption={block.caption}
+            />
+          </RevealStagger>
+        </div>
       )
     default:
       // Sage Learning Engine V2 sprint sections render themselves.

@@ -359,73 +359,39 @@ const diagnosticRouteBlocks: LessonBlock[] = [
 // the named blast radius.
 // ============================================================================
 
-const SYSTEM_MAP_SECTION = `## 3. System Map
-\`\`\`
-[Client] --request--> [API Gateway] --> [Orders Service] --writes--> [Postgres]
-                                              |
-                                              +--emits event--> [Index Worker] --> [Search Index]
-                                                                       ^
-                                              [Client] --query-------- + (reads here)
-\`\`\`
-- Suspect edge (where the diagnosis landed): Orders write -> Index Worker -> Search Index
-- Blast radius if this edge fails: search shows stale catalog; conversions drop; no data loss
-- Boundary we will NOT cross this decision: <e.g. the payments path is out of scope>`
-
 const systemMapBlocks: LessonBlock[] = [
   {
     type: 'sprint-contract',
     outcome:
-      'Draw the smallest accurate map of the system your decision lives in — the components, the direction of data/control flow between them, and the one edge where your diagnosis landed — then name the blast radius if that edge fails.',
+      'Draw the smallest accurate map of the system your decision lives in — components, directed flow, the suspect edge — then name the blast radius if that edge fails.',
     intensity: 'standard',
     time: '25 min',
-    proof: `Section 3 ("System Map") of ${MEMO}: a text diagram of the relevant components and the directed flows between them, the suspect edge marked, the blast radius named, and an explicit out-of-scope boundary. A peer can trace a request through it without you narrating.`,
-    unlock: 'Your Map shows directed flow between the components that matter, marks the suspect edge, and names the blast radius and the out-of-scope boundary.',
+    proof: `Section 3 of ${MEMO}: a directed map of the relevant components, the suspect edge marked, the blast radius named, an explicit out-of-scope boundary. A peer traces a request through it without you narrating.`,
+    unlock: 'Your map shows directed flow, marks the suspect edge, and names the blast radius and the out-of-scope boundary.',
     doNotClaim:
-      'Do not claim a system map if you have drawn every box in the company. A map that includes everything explains nothing. The skill is leaving things OUT on purpose and being able to defend each omission.',
+      'Not a system map if you drew every box in the company. The skill is leaving things OUT on purpose — and defending each omission.',
   },
   {
     type: 'mission',
-    text: 'An incident bridge has twelve people on it, and the architecture diagram someone screen-shares has ninety boxes. Nobody can find the failure on it because it shows everything and therefore nothing. A principal engineer mutes the noise, sketches five boxes and four arrows in a text file — "request comes in here, writes here, this worker copies it to here, the client reads from here" — and says "the gap is on this arrow." The room finally has a place to stand. You routed the diagnosis last lesson and landed on "the index lags." Now you draw the map that makes that lag a location, not a guess.',
+    text: 'Ninety boxes on the incident bridge’s architecture diagram, and nobody can find the failure — until a principal sketches five boxes, points to one arrow, and says “the gap is here.”',
   },
   {
     type: 'context',
-    text: 'A diagnosis without a map is a finding with nowhere to live. "The index is 5 hours behind" only becomes actionable when you can see WHERE the index sits, what feeds it, who reads from it, and what else breaks if that path fails. The System Map is the smallest accurate picture that lets you reason about flow and blast radius — not the org-wide architecture poster, but the four-to-eight boxes this decision actually touches. It is Section 3 of your memo, and the thing every later argument will point at.',
+    text: 'A diagnosis without a map is a finding with nowhere to live. The system map is the smallest picture that still lets you reason about flow and blast radius — not the org-wide poster.',
   },
   {
     type: 'pretest',
     prompt:
-      'You are asked to draw the system for an incident. Do you draw the complete architecture, or something smaller? And what makes a map USEFUL versus merely accurate? Answer first.',
+      'You are asked to draw the system for an incident. The complete architecture, or something smaller? And what makes a map USEFUL versus merely accurate?',
     reveal:
-      'Useful beats complete. A map that includes every service is accurate and worthless — it cannot be held in one head, and the failure is lost in the clutter. A useful map is the smallest one that still contains the decision: the components on the suspect path, the direction data flows between them, and the boundary of what you are deliberately NOT touching. The skill is not drawing — it is omission with a reason. Every box you leave out, you should be able to defend.',
+      'Useful beats complete. A map with every service is accurate and worthless — the failure is lost in the clutter. A useful map is the smallest one that still contains the decision, with directed flow and a boundary you can defend. The skill is omission with a reason.',
   },
   {
     type: 'concept',
-    title: 'A map is directed flow + suspect edge + blast radius — kept small on purpose',
-    text: 'The System Map names the components that the decision touches and the directed flow between them (who calls whom, which way the data moves), marks the edge where the diagnosis landed, and states the blast radius — what else breaks, and how badly, if that edge fails. The invariant is parsimony with intent: the map is as small as it can be while still containing the failure and its consequences. Arrows have direction because direction is where causation hides — "A writes to B" and "B reads from A" fail in opposite ways. And a real map draws its own boundary: this is in scope, that is explicitly not, and you can say why.',
+    title: 'Directed flow + suspect edge + blast radius — kept small on purpose',
+    text: 'Name the components the decision touches, the direction data flows between them, the edge where the diagnosis landed, and what breaks if it fails. As small as it can be while still holding the failure.',
   },
   {
-    type: 'worked-example',
-    intro:
-      'From Lesson 2 you know the index lags. Now locate that on a map small enough to reason about.',
-    steps: [
-      'List only the components on the path: Client, API Gateway, Orders Service, Postgres, Index Worker, Search Index. Six boxes — payments, auth, billing are deliberately omitted; they are not on this path.',
-      'Draw directed flow: Client → Gateway → Orders Service → Postgres (the write); Orders Service emits an event → Index Worker → Search Index (the copy); Client → Search Index (the read).',
-      'Mark the suspect edge: the "Orders Service emits event → Index Worker → Search Index" path is where the 5-hour lag lives. Circle that arrow.',
-      'Name the blast radius: if that edge stalls, the search index serves a stale catalog — customers see old availability and prices, conversions drop — but no order data is lost (Postgres is still the source of truth). That distinction (stale vs lost) shapes how urgent and how reversible the fix is.',
-      'Draw the boundary: payments and auth are out of scope for this decision; you write that down so nobody re-expands the map mid-call.',
-      'Sanity check: can a peer trace a fresh product from creation to "should appear in search" along your arrows? If yes, the map is sufficient.',
-    ],
-    commonMistake:
-      'Drawing components but no arrow directions — a box diagram with undirected lines. Without direction you cannot tell a write path from a read path, and the two fail differently. Always direct the flow.',
-  },
-  {
-    // The worked example, made visual — now LAYOUT-FREE. No x/y: the dagre
-    // engine in SageDiagram positions the six components by construction. Authors
-    // describe MEANING only — node kinds (store/service/client) and edge kinds
-    // (sync/async) + tones — and the system owns layout, spacing, and routing.
-    // The suspect path (Orders → Index Worker → Search Index) is accent-toned and
-    // async (dashed); the blast radius (stale Search Index) is warning; Postgres
-    // (source of truth) is success. Mirrors SYSTEM_MAP_SECTION below.
     type: 'diagram',
     title: 'The search-lag system map',
     subtitle:
@@ -442,10 +408,6 @@ const systemMapBlocks: LessonBlock[] = [
       { from: 'client', to: 'gateway', label: 'request', kind: 'sync' },
       { from: 'gateway', to: 'orders', label: 'route', kind: 'sync' },
       { from: 'orders', to: 'postgres', label: 'writes', kind: 'sync' },
-      // The suspect path: Orders emits an event the Index Worker consumes
-      // (async + accent) and the lagging index copy (async + accent; the
-      // warning-toned Search Index node is the blast radius). Toned + heavier so
-      // the diagnosis is legible from the graph alone, not just the copy.
       { from: 'orders', to: 'worker', label: 'emits event', kind: 'async', tone: 'accent' },
       { from: 'worker', to: 'search', label: 'indexes (LAGS)', kind: 'async', tone: 'accent' },
       { from: 'client', to: 'search', label: 'queries', kind: 'sync' },
@@ -457,41 +419,52 @@ const systemMapBlocks: LessonBlock[] = [
     ],
   },
   {
-    type: 'code',
+    type: 'code-walkthrough',
+    title: 'Writing Section 3, one line at a time',
+    subtitle: 'The same map as text in the memo — built up flow by flow.',
     filename: MEMO,
     language: 'bash',
-    code: SYSTEM_MAP_SECTION,
+    code: `## 3. System Map
+[Client] --request--> [API Gateway] --> [Orders Service] --writes--> [Postgres]
+                                              |
+                                              +--emits event--> [Index Worker] --> [Search Index]
+                                                                       ^
+              [Client] --query-------- + (reads here)
+- Suspect edge: Orders write -> Index Worker -> Search Index
+- Blast radius if it fails: search shows stale catalog; conversions drop; no data loss
+- Boundary we will NOT cross: the payments path is out of scope`,
+    steps: [
+      { lines: [2], label: 'The write path', note: 'Request routes to Orders, which writes to Postgres — the source of truth.' },
+      { lines: [3, 4], label: 'The index hand-off', note: 'Orders emits an event; the Index Worker copies the write into Search. Asynchronous — this is where lag hides.' },
+      { lines: [5, 6], label: 'The read path', note: 'The Client reads from Search, not Postgres. Stale here means wrong answers to customers.' },
+      { lines: [7], label: 'Suspect edge', note: 'The 5-hour lag lives on write → index → search. Name it explicitly.' },
+      { lines: [8], label: 'Blast radius', note: 'Stale catalog, conversions drop — but no data loss. Stale vs lost shapes urgency.' },
+      { lines: [9], label: 'Boundary', note: 'Payments is out of scope — and you can defend why.' },
+    ],
+    caption: 'A peer should trace a fresh product from creation to "appears in search" along these arrows.',
+  },
+  {
+    type: 'compare',
+    title: 'Two maps of the same incident',
+    subtitle: 'Both are true. Only one lets the room decide.',
+    left: {
+      label: 'Architecture poster',
+      tone: 'warning',
+      lines: ['~20 boxes, every service', 'No arrow directions', 'No suspect edge', 'No blast radius', 'Failure hidden in the clutter'],
+      verdict: 'The call spends 20 minutes orienting',
+    },
+    right: {
+      label: 'Decision map',
+      tone: 'success',
+      lines: ['6 boxes on the suspect path', 'Directed write → index → read', 'Suspect edge circled', 'Blast radius named (stale ≠ lost)', 'Payments explicitly out of scope'],
+      verdict: 'The call argues the right arrow',
+    },
+    caption: 'Smaller and directed beats complete and flat.',
   },
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The senior tell is the boundary, not the boxes. Anyone can add components; the judgment is in what you cross out and your reason for it. "Payments is out of scope because nothing on the suspect path writes to or reads from it" is a defended omission. A map you can defend the edges of — both the arrows you drew and the boxes you refused to draw — is a map a reviewer trusts.',
-  },
-  {
-    type: 'calibration',
-    artifact: `Section 3 "System Map" of ${MEMO}`,
-    weak:
-      'A bag of boxes with no arrows or undirected lines; either everything or too little; no marked suspect edge; no blast radius; no scope boundary. Cannot be used to trace a request.',
-    passing:
-      'The components on the relevant path with directed flow, the suspect edge marked, a stated blast radius, and an explicit out-of-scope boundary.',
-    excellent:
-      'The map is the smallest one that still contains the failure; the blast radius distinguishes severity (e.g. stale data vs data loss, degraded vs down); and every omission can be defended ("X is out because nothing on this path touches it"). A peer traces a request through it unaided.',
-    note: 'Grade on whether the map lets someone REASON about the failure, not on how pretty or complete it is.',
-  },
-  {
-    type: 'debug',
-    symptom:
-      'A teammate shares this "system map" for the search incident. It is technically true and completely useless for the decision. Diagnose why.',
-    language: 'bash',
-    brokenCode: `## 3. System Map
-- Components: Web, iOS, Android, Gateway, Auth, Orders, Payments, Billing,
-  Inventory, Notifications, Email, Postgres, Redis, Kafka, Index Worker,
-  Search, Analytics, Data Lake, CDN, Load Balancer
-- (no arrows; "everything connects to everything")`,
-    task:
-      'Explain why this map cannot help the search-lag decision and rewrite it down to what matters.',
-    fix:
-      'It is the org architecture poster, not a decision map: twenty undirected boxes, no flow direction, no marked suspect edge, no blast radius. You cannot locate the 5-hour index lag on it because the relevant path is buried in noise and the arrows that would show causation are missing. Rewrite to the six components on the write-then-index-then-read path with directed arrows, circle the Orders→IndexWorker→Search edge, and explicitly drop Payments/Billing/Notifications/Analytics as out of scope. Smaller and directed beats complete and flat.',
+    text: 'The senior tell is the boundary, not the boxes. A map whose omissions you can each defend — "payments is out because nothing on this path touches it" — is a map a reviewer trusts.',
   },
   {
     type: 'quiz',
@@ -526,23 +499,8 @@ const systemMapBlocks: LessonBlock[] = [
     ],
   },
   {
-    type: 'tradeoff',
-    question:
-      'For the war-room call, do you spend 15 minutes drawing the small decision-map, or paste the existing full architecture diagram everyone already has?',
-    optionA: {
-      label: 'Draw the small map',
-      text: 'Fifteen minutes produces six boxes the room can actually reason on, with the suspect edge circled. The call moves to "what do we do about this arrow" instead of "where even is the problem".',
-    },
-    optionB: {
-      label: 'Paste the full architecture',
-      text: 'Zero effort, and it is "official" — but ninety boxes means the failure is invisible, the call spends twenty minutes orienting, and three people propose fixes to components that are not even on the path.',
-    },
-    guidance:
-      'Option A. The full diagram optimizes for completeness; the decision needs orientation, and those are different jobs. The fifteen minutes to draw the small map are repaid many times over by a call that argues about the right arrow. Keep the full architecture as a reference to pull omitted components back IN if the diagnosis moves — but lead with the small map.',
-  },
-  {
     type: 'transfer',
-    text: 'Cartography of the relevant, nothing more — it travels everywhere. A surgeon studies the anatomy of the region they will operate on, not the entire body, and marks where a nick is catastrophic versus survivable. An investigator maps the people and money flows around one event, not the whole city. Anywhere you must reason about how a failure propagates, you draw the smallest accurate map and name the blast radius. You have now framed, routed, and mapped. The last lesson adds Section 4 — the Retrieval Protocol — the discipline that lets you run these three moves from memory under pressure, when there is no time to look any of it up.',
+    text: 'Cartography of the relevant, nothing more — it travels everywhere. A surgeon studies the region they will operate on and marks where a nick is catastrophic versus survivable. You have framed, routed, and mapped; next is the Retrieval Protocol — running these three moves from memory under pressure.',
   },
   { type: 'spaced-review', schedule: ['1 day', '3 days', '7 days', '30 days'] },
 ]

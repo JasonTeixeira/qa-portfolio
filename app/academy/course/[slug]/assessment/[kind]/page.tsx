@@ -46,7 +46,7 @@ export default async function AssessmentPage({
   const nextLabel = kind === 'pretest' ? 'Start the course' : 'Back to the course'
 
   return (
-    <AcademyShell active="learn">
+    <AcademyShell active="courses">
       <AssessmentGate
         courseSlug={slug}
         kind={kind}

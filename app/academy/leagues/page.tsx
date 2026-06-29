@@ -23,7 +23,7 @@ export default async function LeaguesPage() {
   const [standings, rewards] = await Promise.all([getLeagueStandings(user.id), getNextRewards(user.id)])
 
   return (
-    <AcademyShell active="compete">
+    <AcademyShell active="profile">
       <GroupSubNav group="compete" tab="leagues" />
       <Leagues standings={standings} nextRank={rewards.nextRank} />
     </AcademyShell>

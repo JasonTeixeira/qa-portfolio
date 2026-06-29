@@ -16,6 +16,7 @@ import { SprintBlock } from './SprintBlocks'
 import { NotesPanel } from './NotesPanel'
 import type { LessonNote } from '@/lib/academy/notes'
 import { Icon } from '@/components/academy/ui/Icon'
+import { CourseRail } from './CourseRail'
 import styles from './lesson.module.css'
 
 const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
@@ -250,34 +251,8 @@ export function LessonPlayer({
         <span className={styles.avatar} aria-hidden="true" />
       </header>
 
-      {/* outline sidebar */}
-      <aside className={styles.sidebar}>
-        <h2 className={styles.courseTitle}>{course.title}</h2>
-        <p className={styles.courseSub}>{course.subtitle.toUpperCase()}</p>
-        <div className={styles.bar} aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
-        <p className={styles.barLabel}>{pct}% complete · {course.lessonsDone} / {course.lessonsTotal} lessons</p>
-
-        {course.modules.map((mod) => (
-          <div key={mod.title} className={styles.module}>
-            <p className={styles.moduleTitle}>{mod.title}</p>
-            <ul className={styles.lessonList}>
-              {mod.lessons.map((l) => (
-                <li key={l.slug}>
-                  <Link
-                    href={lessonHref(l.slug)}
-                    className={`${styles.lessonItem} ${l.status === 'current' ? styles.lessonOn : ''}`}
-                    data-status={l.status}
-                    aria-current={l.status === 'current' ? 'page' : undefined}
-                  >
-                    <span className={styles.lessonDot} aria-hidden="true">{l.status === 'done' ? <Icon name="check" size={11} /> : null}</span>
-                    <span className={styles.lessonName}>{l.title}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </aside>
+      {/* course side-menu: collapsible module → lesson tree (desktop rail + mobile drawer) */}
+      <CourseRail course={course} lessonHref={lessonHref} />
 
       {/* main */}
       <main className={styles.main}>

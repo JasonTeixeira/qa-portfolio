@@ -39,7 +39,7 @@ export default async function EfficacyPage() {
   const agg = await getAggregateEfficacy()
 
   return (
-    <AcademyShell active="progress">
+    <AcademyShell active="profile">
       <GroupSubNav group="progress" tab="efficacy" />
       <div className={styles.page}>
         <div className={styles.atmosphere} aria-hidden="true" />

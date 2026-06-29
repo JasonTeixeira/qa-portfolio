@@ -84,7 +84,7 @@ export default async function CatalogPage({
   }
 
   return (
-    <AcademyShell active="learn">
+    <AcademyShell active="courses">
       <div className="mx-auto max-w-6xl px-5 pt-4 sm:px-8">
         <TabBar tabs={TABS} active={view} ariaLabel="Catalog views" />
       </div>

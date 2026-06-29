@@ -25,7 +25,7 @@ export default async function ReferPage() {
   const { code, summary } = await getReferralSummary(user.id)
 
   return (
-    <AcademyShell active="progress">
+    <AcademyShell active="profile">
       <GroupSubNav group="progress" tab="refer" />
       <ReferralHub code={code} link={`${SITE}/academy?ref=${code}`} summary={summary} rewards={REFERRAL_REWARDS} />
     </AcademyShell>

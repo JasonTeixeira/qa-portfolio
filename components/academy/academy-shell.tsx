@@ -5,20 +5,26 @@ import { getGamification } from '@/lib/academy/gamification'
 import { getDueCount } from '@/lib/academy/fsrs'
 import { CommandPalette } from '@/components/academy/search/CommandPalette'
 import { AiTutorPanel } from '@/components/academy/tutor/AiTutorPanel'
-import { Icon } from '@/components/academy/ui/Icon'
+import { Icon, type IconName } from '@/components/academy/ui/Icon'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
  * every authenticated academy page a consistent, premium "learning product" chrome
  * (electric blue, progress-forward) so a learner always knows they're in the Academy.
  * Renders the habit widget (streak + level + XP) in the header on every academy page.
+ *
+ * One canonical nav contract: the SAME five destinations render in the desktop top bar
+ * (≥ md) and in the persistent mobile bottom tab bar (< md). Active key fixed so exactly
+ * one destination lights per page. Secondary surfaces (leagues, community) nest in Profile.
  */
-const NAV = [
-  { href: '/academy/dashboard', label: 'My Learning', key: 'home' },
-  { href: '/academy/catalog', label: 'Learn', key: 'learn' },
-  { href: '/academy/review', label: 'Review', key: 'review' },
-  { href: '/academy/leagues', label: 'Compete', key: 'compete' },
-  { href: '/academy/profile', label: 'Progress', key: 'progress' },
+type NavItem = { href: string; label: string; key: string; icon: IconName }
+
+const NAV: readonly NavItem[] = [
+  { href: '/academy/dashboard', label: 'Home', key: 'home', icon: 'compass' },
+  { href: '/academy/catalog', label: 'Courses', key: 'courses', icon: 'book' },
+  { href: '/academy/progress', label: 'My Path', key: 'path', icon: 'target' },
+  { href: '/academy/review', label: 'Practice', key: 'practice', icon: 'refresh' },
+  { href: '/academy/profile', label: 'Profile', key: 'profile', icon: 'users' },
 ] as const
 
 const ACCENT = '#3D6BFF'
@@ -66,13 +72,18 @@ async function HabitWidget() {
   )
 }
 
-/** The academy nav links — shared by the desktop bar and the mobile row (DRY). */
+/** Whether a nav item carries a "due" review badge. */
+function dueBadgeFor(key: string, dueCount: number): number | null {
+  return key === 'practice' && dueCount > 0 ? dueCount : null
+}
+
+/** The desktop top-bar nav links (≥ md). */
 function NavLinks({ active, dueCount }: { active?: string; dueCount: number }) {
   return (
     <>
       {NAV.map((item) => {
         const on = active === item.key
-        const badge = item.key === 'review' && dueCount > 0 ? dueCount : null
+        const badge = dueBadgeFor(item.key, dueCount)
         return (
           <Link
             key={item.key}
@@ -94,6 +105,56 @@ function NavLinks({ active, dueCount }: { active?: string; dueCount: number }) {
         )
       })}
     </>
+  )
+}
+
+/**
+ * The persistent mobile bottom tab bar (< md). Same five destinations as the desktop
+ * bar, thumb-reachable, ≥44px tap targets, safe-area padding, current destination
+ * highlighted with aria-current. Icon + label, no hover-only affordances.
+ */
+function MobileTabBar({ active, dueCount }: { active?: string; dueCount: number }) {
+  return (
+    <nav
+      aria-label="Academy"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--ac-rule)] bg-[color-mix(in_srgb,var(--ac-bg)_94%,transparent)] backdrop-blur-xl md:hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
+      <ul className="mx-auto flex max-w-md items-stretch justify-around">
+        {NAV.map((item) => {
+          const on = active === item.key
+          const badge = dueBadgeFor(item.key, dueCount)
+          return (
+            <li key={item.key} className="flex-1">
+              <Link
+                href={item.href}
+                aria-current={on ? 'page' : undefined}
+                className={`relative flex min-h-[56px] flex-col items-center justify-center gap-1 px-1 py-2 text-[10px] font-medium transition-colors ${
+                  on ? 'text-[var(--ac-ink)]' : 'text-[color:var(--ac-ink-faint)]'
+                }`}
+              >
+                <span className="relative inline-flex">
+                  <Icon name={item.icon} size={22} style={on ? { color: 'var(--ac-accent-text)' } : undefined} />
+                  {badge ? (
+                    <span className="absolute -right-2 -top-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--ac-accent-strong)] px-1 text-[9px] font-semibold leading-none text-white">
+                      {badge}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="whitespace-nowrap tracking-tight">{item.label}</span>
+                {on ? (
+                  <span
+                    className="absolute inset-x-4 top-0 h-0.5 rounded-full"
+                    style={{ background: 'var(--ac-accent)' }}
+                    aria-hidden
+                  />
+                ) : null}
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }
 
@@ -175,17 +236,13 @@ export async function AcademyShell({
           </div>
         </div>
 
-        {/* mobile nav — the desktop bar is md+ only; this scrollable row keeps
-            every destination reachable on a phone without JS. */}
-        <nav
-          aria-label="Academy menu"
-          className="flex gap-1 overflow-x-auto border-t border-[color:var(--ac-rule)] px-3 py-2 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          <NavLinks active={active} dueCount={dueCount} />
-        </nav>
       </header>
 
-      <main>{children}</main>
+      {/* On mobile the top bar simplifies to brand + search (above); primary nav
+          lives in the fixed bottom tab bar. Pad the bottom so content clears it. */}
+      <main className="pb-[calc(64px+env(safe-area-inset-bottom,0px))] md:pb-0">{children}</main>
+
+      <MobileTabBar active={active} dueCount={dueCount} />
 
       {/* Persistent master-tutor — available on every academy page. */}
       <AiTutorPanel />

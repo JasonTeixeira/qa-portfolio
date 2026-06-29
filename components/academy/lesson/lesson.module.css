@@ -33,24 +33,77 @@
 .topPct { color: var(--topic); font-variant-numeric: tabular-nums; }
 .avatar { width: 30px; height: 30px; border-radius: 50%; background: #14161f; margin-left: 0.4rem; }
 
-/* sidebar */
+/* sidebar — sticky, independently scrollable course side-menu */
 .sidebar {
   grid-column: 1;
   grid-row: 2;
   border-right: 1px solid var(--line);
   background: #0b0b0f;
   padding: 1.6rem 0 5rem;
+  /* stick to the viewport under the 60px topbar; scroll on its own. */
+  position: sticky;
+  top: 60px;
+  align-self: start;
+  max-height: calc(100vh - 60px);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
+.railHead { padding-bottom: 0.4rem; }
 .courseTitle { margin: 0 0 0.25rem; padding: 0 1.5rem; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.2rem; letter-spacing: -0.02em; }
-.courseSub { margin: 0; padding: 0 1.5rem; font-family: var(--ac-font-mono); font-size: 0.62rem; letter-spacing: 0.08em; color: #8a8b96; }
+.courseSub { margin: 0; padding: 0 1.5rem; font-family: var(--ac-font-mono); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--ac-ink-faint); }
 .bar { margin: 0.9rem 1.5rem 0.45rem; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
 .bar span { display: block; height: 100%; background: var(--topic); border-radius: 3px; }
 .barLabel { margin: 0 1.5rem; font-family: var(--ac-font-mono); font-size: 0.62rem; color: var(--muted); }
-.module { margin-top: 1.4rem; }
-.moduleTitle { margin: 0 1.5rem 0.5rem; font-family: var(--ac-font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #8a8b96; }
-.lessonList { margin: 0; padding: 0; list-style: none; }
-.lessonItem { position: relative; display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 1.5rem; cursor: pointer; text-decoration: none; color: inherit; transition: background 0.2s ease; }
+
+/* module → lesson tree */
+.tree { display: block; }
+.module { margin-top: 0.5rem; }
+.module + .module { border-top: 1px solid var(--line); }
+
+/* module header — a real <button> so it's keyboard + SR correct */
+.moduleHead {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.85rem 1.5rem 0.7rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+.moduleHead:hover { background: rgba(255, 255, 255, 0.025); }
+.moduleChevron { flex: none; color: var(--ac-ink-faint); }
+.moduleName {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--ac-font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+}
+.moduleCount {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--ac-radius-pill, 999px);
+  background: rgba(255, 255, 255, 0.05);
+  font-family: var(--ac-font-mono);
+  font-size: 0.58rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--ac-ink-faint);
+}
+.moduleCount[data-complete] { background: color-mix(in srgb, var(--ac-mastery) 18%, transparent); color: var(--ac-mastery); }
+
+.lessonList { margin: 0 0 0.3rem; padding: 0; list-style: none; }
+.lessonItem { position: relative; display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 1.5rem 0.5rem 2.2rem; cursor: pointer; text-decoration: none; color: inherit; transition: background var(--ac-dur-fast, 150ms) var(--ac-ease, ease); }
 .lessonItem:hover { background: rgba(255, 255, 255, 0.025); }
 .lessonOn { background: var(--topic-soft); }
 .lessonOn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--topic); }
@@ -58,9 +111,14 @@
 .lessonItem[data-status='done'] .lessonDot { background: var(--topic); color: #08080b; }
 .lessonItem[data-status='current'] .lessonDot { border: 1.5px solid var(--topic); }
 .lessonItem[data-status='todo'] .lessonDot { background: rgba(255, 255, 255, 0.08); }
-.lessonName { font-size: 0.86rem; letter-spacing: -0.01em; color: var(--muted); }
+.lessonName { flex: 1 1 auto; min-width: 0; font-size: 0.86rem; letter-spacing: -0.01em; color: var(--muted); }
 .lessonItem[data-status='done'] .lessonName { color: #b9bac2; }
 .lessonOn .lessonName { color: var(--ink); font-family: var(--ac-font-display); font-weight: 600; }
+.lessonHere { flex: none; font-family: var(--ac-font-mono); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--topic); }
+
+/* mobile trigger — hidden on desktop; opens the drawer on phones */
+.railTrigger { display: none; }
+.drawerRoot { display: none; }
 
 /* main */
 .main { grid-column: 2; grid-row: 2; overflow-y: auto; padding: 2.6rem 2rem 7rem; }
@@ -251,16 +309,74 @@
   border-radius: 6px;
 }
 
+/* < md: rail collapses to a top "Module N · Lesson · Contents" control that
+   opens the tree as a bottom sheet, so the lesson content is full-width. */
 @media (max-width: 900px) {
   .root { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { grid-column: 1; }
+  .main { grid-column: 1; grid-row: 2; }
   .footer { left: 0; }
   .kbdHint { display: none; }
+
+  .railTrigger {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    position: sticky;
+    top: 60px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 1.1rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: rgba(11, 11, 15, 0.92);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+    color: var(--ink);
+    text-align: left;
+  }
+  /* the trigger and main share the same grid cell; push main below the sticky bar */
+  .main { padding-top: 1.4rem; }
+  .railTriggerMod { flex: none; font-family: var(--ac-font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--topic); }
+  .railTriggerSep { flex: none; color: var(--muted); }
+  .railTriggerTitle { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--ac-font-display); font-weight: 600; font-size: 0.92rem; }
+  .railTriggerOpen { flex: none; display: inline-flex; align-items: center; gap: 0.25rem; font-family: var(--ac-font-mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+  .drawerRoot { display: block; position: fixed; inset: 0; z-index: 50; }
+  .drawerScrim { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(4, 4, 7, 0.6); cursor: pointer; animation: rail-scrim-in var(--ac-dur, 300ms) var(--ac-ease, ease) both; }
+  .drawerPanel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    border-top-left-radius: var(--ac-radius-lg, 14px);
+    border-top-right-radius: var(--ac-radius-lg, 14px);
+    border-top: 1px solid var(--line);
+    background: #0b0b0f;
+    box-shadow: var(--ac-elev-3);
+    animation: rail-sheet-in var(--ac-dur, 300ms) var(--ac-ease, ease) both;
+  }
+  .drawerBar { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--line); }
+  .drawerBarLabel { font-family: var(--ac-font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .drawerClose { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.05); color: var(--ink); cursor: pointer; }
+  .drawerClose:hover { background: rgba(255, 255, 255, 0.1); }
+  .drawerBody { overflow-y: auto; overscroll-behavior: contain; padding: 0.4rem 0 1.6rem; }
 }
+
+@keyframes rail-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rail-sheet-in { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: translateY(0); } }
+
 @media (prefers-reduced-motion: reduce) {
-  .play, .complete, .lessonItem, .callout { transition: none; }
+  .play, .complete, .lessonItem, .callout, .moduleHead { transition: none; }
   .complete:hover, .play:hover, .callout:hover { transform: none; }
   /* reference-surface reveal: show final state instantly, no motion */
   .title { animation: none; clip-path: none; opacity: 1; transform: none; }
+  .drawerScrim, .drawerPanel { animation: none; }
 }

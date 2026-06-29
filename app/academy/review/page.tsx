@@ -24,7 +24,7 @@ export default async function ReviewPage() {
   const [due, repairs] = await Promise.all([getDueReviews(user.id), getOpenRepairs(user.id)])
 
   return (
-    <AcademyShell active="review">
+    <AcademyShell active="practice">
       <RepairQueue repairs={repairs} hasActiveReview={due.length > 0} />
       <ReviewSession initialCards={due} />
     </AcademyShell>

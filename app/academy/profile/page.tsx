@@ -63,7 +63,7 @@ export default async function ProfilePage({
   const celebrated = badgeParam ? earnedBadges.find((b) => b.key === badgeParam) ?? null : null
 
   return (
-    <AcademyShell active="progress">
+    <AcademyShell active="profile">
       <GroupSubNav group="progress" tab="mastery" />
       <div className={styles.stack}>
         <MasteryMap map={masteryMap} />

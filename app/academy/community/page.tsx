@@ -27,7 +27,7 @@ export default async function CommunityPage() {
   ])
 
   return (
-    <AcademyShell active="compete">
+    <AcademyShell active="profile">
       <GroupSubNav group="compete" tab="community" />
       <CommunityHub
         myHandle={handle}

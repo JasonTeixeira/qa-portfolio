@@ -168,31 +168,131 @@
   font-size: 0.9rem;
 }
 
-/* courses ---------------------------------------------------- */
-.section {
-  margin-top: clamp(2.2rem, 1.8rem + 2vw, 3.4rem);
-}
-.h2 {
-  margin: 0;
-  font-family: var(--ac-font-display);
-  font-weight: 600;
-  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.85rem);
-  letter-spacing: var(--ac-track-display);
-}
-
-.browseHead {
+/* demoted controls bar — My/Browse + search + level. A quiet utility strip that
+   sits above the curriculum without competing with the domain headers. -------- */
+.controlsBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.2rem;
+  gap: 1rem 1.4rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-top: clamp(1.8rem, 1.4rem + 1.5vw, 2.8rem);
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--ac-rule);
+}
+.scope {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  border-radius: var(--ac-radius-pill);
+  border: 1px solid var(--ac-line);
+  background: rgba(255, 255, 255, 0.02);
+}
+.scopeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  border-radius: var(--ac-radius-pill);
+  background: none;
+  color: var(--ac-ink-faint);
+  font-family: var(--ac-font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color var(--ac-dur-fast, 0.16s) ease, background var(--ac-dur-fast, 0.16s) ease;
+}
+.scopeBtn:hover:not(:disabled) {
+  color: var(--ac-ink);
+}
+.scopeBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.scopeOn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ac-ink);
+}
+.scopeCount {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.35rem;
+  border-radius: var(--ac-radius-pill);
+  background: var(--ac-accent-wash);
+  color: var(--ac-accent-text);
+  font-size: 0.64rem;
 }
 .controls {
   display: flex;
   align-items: center;
   gap: 0.8rem;
   flex-wrap: wrap;
+}
+
+/* curriculum — the domains, in learning order ----------------- */
+.curriculum {
+  margin-top: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.4rem, 2rem + 2vw, 3.6rem);
+}
+.filterNote {
+  margin: 0;
+  font-family: var(--ac-font-mono);
+  font-size: 0.74rem;
+  color: var(--ac-ink-faint);
+}
+
+.domain {
+  --topic: var(--ac-accent);
+}
+.domainHead {
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.domainRail {
+  align-self: stretch;
+  min-height: 2.4rem;
+  border-radius: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--topic),
+    color-mix(in srgb, var(--topic) 20%, transparent)
+  );
+}
+.domainHeadText {
+  min-width: 0;
+}
+.domainTitle {
+  margin: 0;
+  font-family: var(--ac-font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 1.2rem + 1.3vw, 2.1rem);
+  line-height: var(--ac-leading-tight);
+  letter-spacing: var(--ac-track-display);
+}
+.domainBlurb {
+  margin: 0.35rem 0 0;
+  max-width: 60ch;
+  color: var(--ac-ink-soft);
+  font-size: clamp(0.92rem, 0.88rem + 0.2vw, 1.02rem);
+  line-height: var(--ac-leading-snug);
+}
+.domainCount {
+  align-self: start;
+  margin-top: 0.4rem;
+  white-space: nowrap;
+  font-family: var(--ac-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ac-ink-faint);
 }
 .search {
   display: inline-flex;
@@ -423,6 +523,18 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+@media (max-width: 720px) {
+  .controlsBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .controls {
+    justify-content: space-between;
+  }
+  .search {
+    flex: 1 1 auto;
+  }
+}
 @media (max-width: 640px) {
   .courseGrid {
     grid-template-columns: 1fr;
@@ -434,8 +546,13 @@
   .resumeMeta {
     align-items: flex-start;
   }
-  .browseHead {
-    align-items: flex-start;
+  .domainHead {
+    grid-template-columns: 3px minmax(0, 1fr);
+    row-gap: 0.5rem;
+  }
+  .domainCount {
+    grid-column: 2;
+    margin-top: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {

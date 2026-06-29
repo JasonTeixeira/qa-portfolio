@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function EvidencePage() {
   const data = await getEvidence()
   return (
-    <AcademyShell active="progress">
+    <AcademyShell active="profile">
       <GroupSubNav group="progress" tab="certificates" />
       <EvidenceLedger data={data} />
     </AcademyShell>

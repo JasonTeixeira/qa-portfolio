@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ResourcesPage() {
   return (
-    <AcademyShell active="resources">
+    <AcademyShell active="courses">
       <ResourcesHub />
     </AcademyShell>
   )

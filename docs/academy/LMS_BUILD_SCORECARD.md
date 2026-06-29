@@ -13,12 +13,12 @@
 ## Step 1 — The rails (IA consolidation + scaling)
 | Task | status |
 |---|---|
-| Retire/redirect legacy `/[track]/*` → canonical Courses; fold `my-courses` into catalog | pending |
-| Menu rename Home·Courses·My Path·Practice·Profile + fix `active` keys + breadcrumbs | pending |
-| Catalog groups 21 courses by domain + prereq order (00 gates) | pending |
-| Lesson left-rail → collapsible Module→Lesson tree (the course side-menu) | pending |
-| Promote ContentMap → first-class `/progress` "My Path" map | pending |
-| Mount responsive mobile bottom TabBar (top bar ≥ md, bottom tabs < md) | pending |
+| Retire/redirect legacy `/[track]/*` + fold `my-courses` → /catalog | **DONE** |
+| Menu rename Home·Courses·My Path·Practice·Profile + active keys + Breadcrumbs | **DONE** |
+| Catalog grouped by 6 domains (Foundations→…→Growth), 00 gates | **DONE** |
+| Lesson left-rail → collapsible Module→Lesson tree + mobile drawer | **DONE** |
+| Promote ContentMap → first-class /academy/progress "My Path" map | **DONE** |
+| Mount responsive mobile bottom TabBar (5 destinations) | **DONE** |
 
 ## Step 3 — Tutor KB ingest (after skeleton)
 | Task | status |

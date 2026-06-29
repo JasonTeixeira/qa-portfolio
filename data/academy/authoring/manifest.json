@@ -1,0 +1,3512 @@
+[
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "the-on-call-problem",
+    "title": "The On Call Problem",
+    "moduleTitle": "Module 1 · Why Maps Beat Memorization",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/01_why_maps_beat_memorization/lessons/01_the_on_call_problem.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "from-notes-to-maps",
+    "title": "From Notes To Maps",
+    "moduleTitle": "Module 1 · Why Maps Beat Memorization",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/01_why_maps_beat_memorization/lessons/02_from_notes_to_maps.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "the-senior-engineer-view",
+    "title": "The Senior Engineer View",
+    "moduleTitle": "Module 1 · Why Maps Beat Memorization",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/01_why_maps_beat_memorization/lessons/03_the_senior_engineer_view.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "weak-maps-strong-maps",
+    "title": "Weak Maps Strong Maps",
+    "moduleTitle": "Module 1 · Why Maps Beat Memorization",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/01_why_maps_beat_memorization/lessons/04_weak_maps_strong_maps.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "the-first-redraw-gate",
+    "title": "The First Redraw Gate",
+    "moduleTitle": "Module 1 · Why Maps Beat Memorization",
+    "moduleSort": 0,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/01_why_maps_beat_memorization/lessons/05_the_first_redraw_gate.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "user-action-to-system-behavior",
+    "title": "User Action To System Behavior",
+    "moduleTitle": "Module 2 · System Components And Boundaries",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/02_system_components_and_boundaries/lessons/01_user_action_to_system_behavior.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "component-boundary-mapping",
+    "title": "Component Boundary Mapping",
+    "moduleTitle": "Module 2 · System Components And Boundaries",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/02_system_components_and_boundaries/lessons/02_component_boundary_mapping.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "data-state-and-time",
+    "title": "Data State And Time",
+    "moduleTitle": "Module 2 · System Components And Boundaries",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/02_system_components_and_boundaries/lessons/03_data_state_and_time.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "trust-and-ownership-boundaries",
+    "title": "Trust And Ownership Boundaries",
+    "moduleTitle": "Module 2 · System Components And Boundaries",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/02_system_components_and_boundaries/lessons/04_trust_and_ownership_boundaries.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "boundary-review-board",
+    "title": "Boundary Review Board",
+    "moduleTitle": "Module 2 · System Components And Boundaries",
+    "moduleSort": 1,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/02_system_components_and_boundaries/lessons/05_boundary_review_board.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "symptom-to-signal",
+    "title": "Symptom To Signal",
+    "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/03_failure_branches_and_debugging_maps/lessons/01_symptom_to_signal.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "hypothesis-tree-mapping",
+    "title": "Hypothesis Tree Mapping",
+    "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/03_failure_branches_and_debugging_maps/lessons/02_hypothesis_tree_mapping.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "failure-path-maps",
+    "title": "Failure Path Maps",
+    "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/03_failure_branches_and_debugging_maps/lessons/03_failure_path_maps.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "bad-fix-autopsy",
+    "title": "Bad Fix Autopsy",
+    "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/03_failure_branches_and_debugging_maps/lessons/04_bad_fix_autopsy.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "repair-map-drill",
+    "title": "Repair Map Drill",
+    "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
+    "moduleSort": 2,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/03_failure_branches_and_debugging_maps/lessons/05_repair_map_drill.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "requirement-to-tradeoff",
+    "title": "Requirement To Tradeoff",
+    "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/04_tradeoff_decision_and_proof_maps/lessons/01_requirement_to_tradeoff.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "decision-map-patterns",
+    "title": "Decision Map Patterns",
+    "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/04_tradeoff_decision_and_proof_maps/lessons/02_decision_map_patterns.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "proof-artifact-mapping",
+    "title": "Proof Artifact Mapping",
+    "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/04_tradeoff_decision_and_proof_maps/lessons/03_proof_artifact_mapping.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "rejected-option-maps",
+    "title": "Rejected Option Maps",
+    "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/04_tradeoff_decision_and_proof_maps/lessons/04_rejected_option_maps.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "decision-memo-gate",
+    "title": "Decision Memo Gate",
+    "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
+    "moduleSort": 3,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/04_tradeoff_decision_and_proof_maps/lessons/05_decision_memo_gate.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "retrieval-without-the-map",
+    "title": "Retrieval Without The Map",
+    "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/05_transfer_retrieval_and_oral_defense/lessons/01_retrieval_without_the_map.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "transfer-to-a-new-domain",
+    "title": "Transfer To A New Domain",
+    "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/05_transfer_retrieval_and_oral_defense/lessons/02_transfer_to_a_new_domain.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "socratic-map-review",
+    "title": "Socratic Map Review",
+    "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/05_transfer_retrieval_and_oral_defense/lessons/03_socratic_map_review.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "interview-map-translation",
+    "title": "Interview Map Translation",
+    "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/05_transfer_retrieval_and_oral_defense/lessons/04_interview_map_translation.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "oral-defense-gate",
+    "title": "Oral Defense Gate",
+    "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
+    "moduleSort": 4,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/05_transfer_retrieval_and_oral_defense/lessons/05_oral_defense_gate.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "capstone-brief",
+    "title": "Capstone Brief",
+    "moduleTitle": "Module 6 · Capstone Map A Real System",
+    "moduleSort": 5,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/01_capstone_brief.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "capstone-system-map",
+    "title": "Capstone System Map",
+    "moduleTitle": "Module 6 · Capstone Map A Real System",
+    "moduleSort": 5,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/02_capstone_system_map.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "capstone-failure-autopsy",
+    "title": "Capstone Failure Autopsy",
+    "moduleTitle": "Module 6 · Capstone Map A Real System",
+    "moduleSort": 5,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/03_capstone_failure_autopsy.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "capstone-proof-packet",
+    "title": "Capstone Proof Packet",
+    "moduleTitle": "Module 6 · Capstone Map A Real System",
+    "moduleSort": 5,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/04_capstone_proof_packet.md"
+  },
+  {
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "slug": "final-review-board",
+    "title": "Final Review Board",
+    "moduleTitle": "Module 6 · Capstone Map A Real System",
+    "moduleSort": 5,
+    "sort": 4,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/05_final_review_board.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "backend-request-response",
+    "title": "Backend Request Response",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/01_module_1/lessons/01_001_001_backend_request_response_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "resource-modeling",
+    "title": "Resource Modeling",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/01_module_1/lessons/02_002_002_resource_modeling_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "api-contracts-schemas",
+    "title": "Api Contracts Schemas",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/01_module_1/lessons/03_003_003_api_contracts_schemas_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "validation-error-model",
+    "title": "Validation Error Model",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/01_module_1/lessons/04_004_004_validation_error_model_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "http-status-codes",
+    "title": "Http Status Codes",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/02_module_2/lessons/05_005_005_http_status_codes_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "pagination-filtering-sorting",
+    "title": "Pagination Filtering Sorting",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/02_module_2/lessons/06_006_006_pagination_filtering_sorting_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "idempotency-retry-safety",
+    "title": "Idempotency Retry Safety",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/02_module_2/lessons/07_007_007_idempotency_retry_safety_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "auth-authorization-boundaries",
+    "title": "Auth Authorization Boundaries",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/02_module_2/lessons/08_008_008_auth_authorization_boundaries_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "persistence-repository-boundary",
+    "title": "Persistence Repository Boundary",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/03_module_3/lessons/09_009_009_persistence_repository_boundary_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "background-jobs-queue-basics",
+    "title": "Background Jobs Queue Basics",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/03_module_3/lessons/10_010_010_background_jobs_queue_basics_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "worker-state-retries-dlq",
+    "title": "Worker State Retries Dlq",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/03_module_3/lessons/11_011_011_worker_state_retries_dlq_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "event-vs-command",
+    "title": "Event Vs Command",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/03_module_3/lessons/12_012_012_event_vs_command_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "observability-request-ids-logs-metrics",
+    "title": "Observability Request Ids Logs Metrics",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/04_module_4/lessons/13_013_013_observability_request_ids_logs_metrics_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "backend-testing-contracts",
+    "title": "Backend Testing Contracts",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/04_module_4/lessons/14_014_014_backend_testing_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "rate-limits-backpressure",
+    "title": "Rate Limits Backpressure",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/04_module_4/lessons/15_015_015_rate_limits_backpressure_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "versioning-compatibility",
+    "title": "Versioning Compatibility",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/04_module_4/lessons/16_016_016_versioning_compatibility_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "security-privacy-boundaries",
+    "title": "Security Privacy Boundaries",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/05_module_5/lessons/17_017_017_security_privacy_boundaries_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "backend-debugging-incident-loop",
+    "title": "Backend Debugging Incident Loop",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/05_module_5/lessons/18_018_018_backend_debugging_incident_loop_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "backend-integration-mini-project",
+    "title": "Backend Integration Mini Project",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/05_module_5/lessons/19_019_019_backend_integration_mini_project_lesson.md"
+  },
+  {
+    "courseSlug": "career-backend_engineering",
+    "slug": "backend-capstone",
+    "title": "Backend Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/02_backend_engineering/modules/05_module_5/lessons/20_020_020_backend_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "product-workflow-states",
+    "title": "Product Workflow States",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/01_module_1/lessons/01_001_001_product_workflow_states_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "semantic-html-structure",
+    "title": "Semantic Html Structure",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/01_module_1/lessons/02_002_002_semantic_html_structure_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "responsive-layout-grid",
+    "title": "Responsive Layout Grid",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/01_module_1/lessons/03_003_003_responsive_layout_grid_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "types-and-ui-contracts",
+    "title": "Types And Ui Contracts",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/01_module_1/lessons/04_004_004_types_and_ui_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "component-composition",
+    "title": "Component Composition",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/02_module_2/lessons/05_005_005_component_composition_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "client-state-machine",
+    "title": "Client State Machine",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/02_module_2/lessons/06_006_006_client_state_machine_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "forms-validation",
+    "title": "Forms Validation",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/02_module_2/lessons/07_007_007_forms_validation_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "loading-empty-error-success",
+    "title": "Loading Empty Error Success",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/02_module_2/lessons/08_008_008_loading_empty_error_success_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "api-client-contracts",
+    "title": "Api Client Contracts",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/03_module_3/lessons/09_009_009_api_client_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "tables-filters-pagination",
+    "title": "Tables Filters Pagination",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/03_module_3/lessons/10_010_010_tables_filters_pagination_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "dashboard-metrics-charts",
+    "title": "Dashboard Metrics Charts",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/03_module_3/lessons/11_011_011_dashboard_metrics_charts_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "detail-routes-drawers",
+    "title": "Detail Routes Drawers",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/03_module_3/lessons/12_012_012_detail_routes_drawers_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "action-safety-optimistic-ui",
+    "title": "Action Safety Optimistic Ui",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/04_module_4/lessons/13_013_013_action_safety_optimistic_ui_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "auth-protected-routes",
+    "title": "Auth Protected Routes",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/04_module_4/lessons/14_014_014_auth_protected_routes_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "accessibility-keyboard",
+    "title": "Accessibility Keyboard",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/04_module_4/lessons/15_015_015_accessibility_keyboard_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "responsive-visual-proof",
+    "title": "Responsive Visual Proof",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/04_module_4/lessons/16_016_016_responsive_visual_proof_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "frontend-testing-strategy",
+    "title": "Frontend Testing Strategy",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/05_module_5/lessons/17_017_017_frontend_testing_strategy_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "fullstack-integration-workflow",
+    "title": "Fullstack Integration Workflow",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/05_module_5/lessons/18_018_018_fullstack_integration_workflow_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "deployment-env-observability",
+    "title": "Deployment Env Observability",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/05_module_5/lessons/19_019_019_deployment_env_observability_lesson.md"
+  },
+  {
+    "courseSlug": "career-frontend_fullstack",
+    "slug": "fullstack-capstone",
+    "title": "Fullstack Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/03_frontend_fullstack/modules/05_module_5/lessons/20_020_020_fullstack_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "database-systems-map",
+    "title": "Database Systems Map",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/01_module_1/lessons/01_001_001_database_systems_map_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "entities-relationships",
+    "title": "Entities Relationships",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/01_module_1/lessons/02_002_002_entities_relationships_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "normalization-denormalization",
+    "title": "Normalization Denormalization",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/01_module_1/lessons/03_003_003_normalization_denormalization_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "constraints-invariants",
+    "title": "Constraints Invariants",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/01_module_1/lessons/04_004_004_constraints_invariants_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "indexes-access-patterns",
+    "title": "Indexes Access Patterns",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/02_module_2/lessons/05_005_005_indexes_access_patterns_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "query-design-joins",
+    "title": "Query Design Joins",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/02_module_2/lessons/06_006_006_query_design_joins_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "transactions-atomicity",
+    "title": "Transactions Atomicity",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/02_module_2/lessons/07_007_007_transactions_atomicity_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "isolation-concurrency",
+    "title": "Isolation Concurrency",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/02_module_2/lessons/08_008_008_isolation_concurrency_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "migrations-schema-evolution",
+    "title": "Migrations Schema Evolution",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/03_module_3/lessons/09_009_009_migrations_schema_evolution_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "query-plans-performance",
+    "title": "Query Plans Performance",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/03_module_3/lessons/10_010_010_query_plans_performance_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "repository-data-access-layer",
+    "title": "Repository Data Access Layer",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/03_module_3/lessons/11_011_011_repository_data_access_layer_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "seed-fixtures-test-data",
+    "title": "Seed Fixtures Test Data",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/03_module_3/lessons/12_012_012_seed_fixtures_test_data_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "data-quality-checks",
+    "title": "Data Quality Checks",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/04_module_4/lessons/13_013_013_data_quality_checks_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "backup-restore-retention",
+    "title": "Backup Restore Retention",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/04_module_4/lessons/14_014_014_backup_restore_retention_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "security-privacy-compliance",
+    "title": "Security Privacy Compliance",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/04_module_4/lessons/15_015_015_security_privacy_compliance_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "caching-read-models",
+    "title": "Caching Read Models",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/04_module_4/lessons/16_016_016_caching_read_models_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "analytics-warehouse-boundaries",
+    "title": "Analytics Warehouse Boundaries",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/05_module_5/lessons/17_017_017_analytics_warehouse_boundaries_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "observability-incidents",
+    "title": "Observability Incidents",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/05_module_5/lessons/18_018_018_observability_incidents_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "integration-mini-project",
+    "title": "Integration Mini Project",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/05_module_5/lessons/19_019_019_integration_mini_project_lesson.md"
+  },
+  {
+    "courseSlug": "career-databases_data_modeling",
+    "slug": "database-capstone",
+    "title": "Database Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/04_databases_data_modeling/modules/05_module_5/lessons/20_020_020_database_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "cloud-operating-model",
+    "title": "Cloud Operating Model",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/01_module_1/lessons/01_001_001_cloud_operating_model_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "linux-processes-ports",
+    "title": "Linux Processes Ports",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/01_module_1/lessons/02_002_002_linux_processes_ports_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "environment-config-secrets",
+    "title": "Environment Config Secrets",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/01_module_1/lessons/03_003_003_environment_config_secrets_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "container-image-design",
+    "title": "Container Image Design",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/01_module_1/lessons/04_004_004_container_image_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "docker-compose-local-stack",
+    "title": "Docker Compose Local Stack",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/02_module_2/lessons/05_005_005_docker_compose_local_stack_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "networking-dns-tls",
+    "title": "Networking Dns Tls",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/02_module_2/lessons/06_006_006_networking_dns_tls_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "ci-pipeline-quality-gates",
+    "title": "Ci Pipeline Quality Gates",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/02_module_2/lessons/07_007_007_ci_pipeline_quality_gates_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "artifact-versioning-releases",
+    "title": "Artifact Versioning Releases",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/02_module_2/lessons/08_008_008_artifact_versioning_releases_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "deployment-strategies",
+    "title": "Deployment Strategies",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/03_module_3/lessons/09_009_009_deployment_strategies_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "health-readiness-liveness",
+    "title": "Health Readiness Liveness",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/03_module_3/lessons/10_010_010_health_readiness_liveness_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "kubernetes-manifests",
+    "title": "Kubernetes Manifests",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/03_module_3/lessons/11_011_011_kubernetes_manifests_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "infrastructure-as-code",
+    "title": "Infrastructure As Code",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/03_module_3/lessons/12_012_012_infrastructure_as_code_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "observability-logs-metrics-traces",
+    "title": "Observability Logs Metrics Traces",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/04_module_4/lessons/13_013_013_observability_logs_metrics_traces_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "alerting-slo-error-budgets",
+    "title": "Alerting Slo Error Budgets",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/04_module_4/lessons/14_014_014_alerting_slo_error_budgets_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "rollbacks-incident-response",
+    "title": "Rollbacks Incident Response",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/04_module_4/lessons/15_015_015_rollbacks_incident_response_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "security-supply-chain",
+    "title": "Security Supply Chain",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/04_module_4/lessons/16_016_016_security_supply_chain_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "cost-capacity-finops",
+    "title": "Cost Capacity Finops",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/05_module_5/lessons/17_017_017_cost_capacity_finops_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "multi-env-promotion",
+    "title": "Multi Env Promotion",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/05_module_5/lessons/18_018_018_multi_env_promotion_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "production-readiness-review",
+    "title": "Production Readiness Review",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/05_module_5/lessons/19_019_019_production_readiness_review_lesson.md"
+  },
+  {
+    "courseSlug": "career-cloud_devops_operations",
+    "slug": "cloud-devops-capstone",
+    "title": "Cloud Devops Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/05_cloud_devops_operations/modules/05_module_5/lessons/20_020_020_cloud_devops_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "problem-framing-requirements",
+    "title": "Problem Framing Requirements",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/01_module_1/lessons/01_001_001_problem_framing_requirements_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "capacity-estimation",
+    "title": "Capacity Estimation",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/01_module_1/lessons/02_002_002_capacity_estimation_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "domain-boundaries",
+    "title": "Domain Boundaries",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/01_module_1/lessons/03_003_003_domain_boundaries_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "api-contracts",
+    "title": "Api Contracts",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/01_module_1/lessons/04_004_004_api_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "data-architecture",
+    "title": "Data Architecture",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/02_module_2/lessons/05_005_005_data_architecture_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "consistency-transactions",
+    "title": "Consistency Transactions",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/02_module_2/lessons/06_006_006_consistency_transactions_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "caching-strategy",
+    "title": "Caching Strategy",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/02_module_2/lessons/07_007_007_caching_strategy_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "queue-event-architecture",
+    "title": "Queue Event Architecture",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/02_module_2/lessons/08_008_008_queue_event_architecture_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "service-decomposition",
+    "title": "Service Decomposition",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/03_module_3/lessons/09_009_009_service_decomposition_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "resilience-timeouts-retries",
+    "title": "Resilience Timeouts Retries",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/03_module_3/lessons/10_010_010_resilience_timeouts_retries_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "security-privacy-threat-model",
+    "title": "Security Privacy Threat Model",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/03_module_3/lessons/11_011_011_security_privacy_threat_model_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "observability-operability",
+    "title": "Observability Operability",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/03_module_3/lessons/12_012_012_observability_operability_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "scaling-partitioning",
+    "title": "Scaling Partitioning",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/04_module_4/lessons/13_013_013_scaling_partitioning_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "migration-evolution",
+    "title": "Migration Evolution",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/04_module_4/lessons/14_014_014_migration_evolution_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "cost-reliability-tradeoffs",
+    "title": "Cost Reliability Tradeoffs",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/04_module_4/lessons/15_015_015_cost_reliability_tradeoffs_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "architecture-decision-records",
+    "title": "Architecture Decision Records",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/04_module_4/lessons/16_016_016_architecture_decision_records_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "design-review-critique",
+    "title": "Design Review Critique",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/05_module_5/lessons/17_017_017_design_review_critique_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "interview-system-design",
+    "title": "Interview System Design",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/05_module_5/lessons/18_018_018_interview_system_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "architecture-proof-packet",
+    "title": "Architecture Proof Packet",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/05_module_5/lessons/19_019_019_architecture_proof_packet_lesson.md"
+  },
+  {
+    "courseSlug": "career-architecture_system_design",
+    "slug": "architecture-capstone",
+    "title": "Architecture Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/06_architecture_system_design/modules/05_module_5/lessons/20_020_020_architecture_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "ai-product-framing",
+    "title": "Ai Product Framing",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/01_module_1/lessons/01_001_001_ai_product_framing_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "prompt-contracts",
+    "title": "Prompt Contracts",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/01_module_1/lessons/02_002_002_prompt_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "structured-outputs",
+    "title": "Structured Outputs",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/01_module_1/lessons/03_003_003_structured_outputs_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "document-ingestion",
+    "title": "Document Ingestion",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/01_module_1/lessons/04_004_004_document_ingestion_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "chunking-metadata",
+    "title": "Chunking Metadata",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/02_module_2/lessons/05_005_005_chunking_metadata_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "embeddings-indexing",
+    "title": "Embeddings Indexing",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/02_module_2/lessons/06_006_006_embeddings_indexing_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "retrieval-quality",
+    "title": "Retrieval Quality",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/02_module_2/lessons/07_007_007_retrieval_quality_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "rag-answer-grounding",
+    "title": "Rag Answer Grounding",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/02_module_2/lessons/08_008_008_rag_answer_grounding_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "eval-dataset-design",
+    "title": "Eval Dataset Design",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/03_module_3/lessons/09_009_009_eval_dataset_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "llm-judges-graders",
+    "title": "Llm Judges Graders",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/03_module_3/lessons/10_010_010_llm_judges_graders_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "safety-policy-guardrails",
+    "title": "Safety Policy Guardrails",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/03_module_3/lessons/11_011_011_safety_policy_guardrails_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "tool-calling-workflows",
+    "title": "Tool Calling Workflows",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/03_module_3/lessons/12_012_012_tool_calling_workflows_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "agent-workflow-control",
+    "title": "Agent Workflow Control",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/04_module_4/lessons/13_013_013_agent_workflow_control_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "observability-cost-latency",
+    "title": "Observability Cost Latency",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/04_module_4/lessons/14_014_014_observability_cost_latency_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "regression-testing-drift",
+    "title": "Regression Testing Drift",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/04_module_4/lessons/15_015_015_regression_testing_drift_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "security-privacy-ai",
+    "title": "Security Privacy Ai",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/04_module_4/lessons/16_016_016_security_privacy_ai_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "human-feedback-review",
+    "title": "Human Feedback Review",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/05_module_5/lessons/17_017_017_human_feedback_review_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "llmops-release-process",
+    "title": "Llmops Release Process",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/05_module_5/lessons/18_018_018_llmops_release_process_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "ai-interview-portfolio",
+    "title": "Ai Interview Portfolio",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/05_module_5/lessons/19_019_019_ai_interview_portfolio_lesson.md"
+  },
+  {
+    "courseSlug": "career-ai_engineering_rag_eval",
+    "slug": "ai-capstone",
+    "title": "Ai Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/07_ai_engineering_rag_eval/modules/05_module_5/lessons/20_020_020_ai_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "data-product-framing",
+    "title": "Data Product Framing",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/01_module_1/lessons/01_001_001_data_product_framing_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "source-contracts",
+    "title": "Source Contracts",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/01_module_1/lessons/02_002_002_source_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "ingestion-patterns",
+    "title": "Ingestion Patterns",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/01_module_1/lessons/03_003_003_ingestion_patterns_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "orchestration-dags",
+    "title": "Orchestration Dags",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/01_module_1/lessons/04_004_004_orchestration_dags_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "raw-bronze-layer",
+    "title": "Raw Bronze Layer",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/02_module_2/lessons/05_005_005_raw_bronze_layer_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "staging-models",
+    "title": "Staging Models",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/02_module_2/lessons/06_006_006_staging_models_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "transformations-marts",
+    "title": "Transformations Marts",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/02_module_2/lessons/07_007_007_transformations_marts_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "incremental-processing",
+    "title": "Incremental Processing",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/02_module_2/lessons/08_008_008_incremental_processing_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "data-quality-tests",
+    "title": "Data Quality Tests",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/03_module_3/lessons/09_009_009_data_quality_tests_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "reconciliation",
+    "title": "Reconciliation",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/03_module_3/lessons/10_010_010_reconciliation_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "lineage-catalog-docs",
+    "title": "Lineage Catalog Docs",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/03_module_3/lessons/11_011_011_lineage_catalog_docs_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "backfills-reprocessing",
+    "title": "Backfills Reprocessing",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/03_module_3/lessons/12_012_012_backfills_reprocessing_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "streaming-event-data",
+    "title": "Streaming Event Data",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/04_module_4/lessons/13_013_013_streaming_event_data_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "warehouse-performance",
+    "title": "Warehouse Performance",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/04_module_4/lessons/14_014_014_warehouse_performance_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "privacy-governance",
+    "title": "Privacy Governance",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/04_module_4/lessons/15_015_015_privacy_governance_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "observability-alerting",
+    "title": "Observability Alerting",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/04_module_4/lessons/16_016_016_observability_alerting_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "cost-capacity",
+    "title": "Cost Capacity",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/05_module_5/lessons/17_017_017_cost_capacity_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "ci-cd-data",
+    "title": "Ci Cd Data",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/05_module_5/lessons/18_018_018_ci_cd_data_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "incident-response",
+    "title": "Incident Response",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/05_module_5/lessons/19_019_019_incident_response_lesson.md"
+  },
+  {
+    "courseSlug": "career-data_engineering_analytics",
+    "slug": "data-capstone",
+    "title": "Data Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/08_data_engineering_analytics/modules/05_module_5/lessons/20_020_020_data_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "security-mindset-risk",
+    "title": "Security Mindset Risk",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/01_module_1/lessons/01_001_001_security_mindset_risk_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "identity-authentication",
+    "title": "Identity Authentication",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/01_module_1/lessons/02_002_002_identity_authentication_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "session-token-security",
+    "title": "Session Token Security",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/01_module_1/lessons/03_003_003_session_token_security_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "authorization-rbac-abac",
+    "title": "Authorization Rbac Abac",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/01_module_1/lessons/04_004_004_authorization_rbac_abac_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "object-level-authorization",
+    "title": "Object Level Authorization",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/02_module_2/lessons/05_005_005_object_level_authorization_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "input-validation-injection",
+    "title": "Input Validation Injection",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/02_module_2/lessons/06_006_006_input_validation_injection_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "secrets-management",
+    "title": "Secrets Management",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/02_module_2/lessons/07_007_007_secrets_management_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "secure-api-design",
+    "title": "Secure Api Design",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/02_module_2/lessons/08_008_008_secure_api_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "threat-modeling",
+    "title": "Threat Modeling",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/03_module_3/lessons/09_009_009_threat_modeling_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "attack-trees",
+    "title": "Attack Trees",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/03_module_3/lessons/10_010_010_attack_trees_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "secure-coding-review",
+    "title": "Secure Coding Review",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/03_module_3/lessons/11_011_011_secure_coding_review_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "dependency-supply-chain",
+    "title": "Dependency Supply Chain",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/03_module_3/lessons/12_012_012_dependency_supply_chain_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "cloud-iam-least-privilege",
+    "title": "Cloud Iam Least Privilege",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/04_module_4/lessons/13_013_013_cloud_iam_least_privilege_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "network-edge-security",
+    "title": "Network Edge Security",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/04_module_4/lessons/14_014_014_network_edge_security_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "data-protection-privacy",
+    "title": "Data Protection Privacy",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/04_module_4/lessons/15_015_015_data_protection_privacy_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "logging-detection-response",
+    "title": "Logging Detection Response",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/04_module_4/lessons/16_016_016_logging_detection_response_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "incident-response",
+    "title": "Incident Response",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/05_module_5/lessons/17_017_017_incident_response_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "compliance-evidence",
+    "title": "Compliance Evidence",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/05_module_5/lessons/18_018_018_compliance_evidence_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "security-interview-practice",
+    "title": "Security Interview Practice",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/05_module_5/lessons/19_019_019_security_interview_practice_lesson.md"
+  },
+  {
+    "courseSlug": "career-security_identity",
+    "slug": "security-capstone",
+    "title": "Security Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/09_security_identity/modules/05_module_5/lessons/20_020_020_security_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "observability-mindset",
+    "title": "Observability Mindset",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/01_module_1/lessons/01_001_001_observability_mindset_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "service-level-objectives",
+    "title": "Service Level Objectives",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/01_module_1/lessons/02_002_002_service_level_objectives_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "golden-signals-red",
+    "title": "Golden Signals Red",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/01_module_1/lessons/03_003_003_golden_signals_red_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "use-method-resources",
+    "title": "Use Method Resources",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/01_module_1/lessons/04_004_004_use_method_resources_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "instrumentation-contracts",
+    "title": "Instrumentation Contracts",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/02_module_2/lessons/05_005_005_instrumentation_contracts_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "structured-logging",
+    "title": "Structured Logging",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/02_module_2/lessons/06_006_006_structured_logging_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "distributed-tracing",
+    "title": "Distributed Tracing",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/02_module_2/lessons/07_007_007_distributed_tracing_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "trace-context-propagation",
+    "title": "Trace Context Propagation",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/02_module_2/lessons/08_008_008_trace_context_propagation_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "dashboards-as-code",
+    "title": "Dashboards As Code",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/03_module_3/lessons/09_009_009_dashboards_as_code_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "alert-design",
+    "title": "Alert Design",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/03_module_3/lessons/10_010_010_alert_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "burn-rate-alerting",
+    "title": "Burn Rate Alerting",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/03_module_3/lessons/11_011_011_burn_rate_alerting_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "incident-triage",
+    "title": "Incident Triage",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/03_module_3/lessons/12_012_012_incident_triage_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "incident-communication",
+    "title": "Incident Communication",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/04_module_4/lessons/13_013_013_incident_communication_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "postmortems",
+    "title": "Postmortems",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/04_module_4/lessons/14_014_014_postmortems_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "performance-profiling",
+    "title": "Performance Profiling",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/04_module_4/lessons/15_015_015_performance_profiling_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "capacity-planning",
+    "title": "Capacity Planning",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/04_module_4/lessons/16_016_016_capacity_planning_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "queue-backpressure",
+    "title": "Queue Backpressure",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/05_module_5/lessons/17_017_017_queue_backpressure_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "resilience-patterns",
+    "title": "Resilience Patterns",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/05_module_5/lessons/18_018_018_resilience_patterns_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "release-observability",
+    "title": "Release Observability",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/05_module_5/lessons/19_019_019_release_observability_lesson.md"
+  },
+  {
+    "courseSlug": "career-observability_reliability_performance",
+    "slug": "observability-capstone",
+    "title": "Observability Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/10_observability_reliability_performance/modules/05_module_5/lessons/20_020_020_observability_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "role-targeting",
+    "title": "Role Targeting",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/01_module_1/lessons/01_001_001_role_targeting_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "market-scan",
+    "title": "Market Scan",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/01_module_1/lessons/02_002_002_market_scan_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "resume-positioning",
+    "title": "Resume Positioning",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/01_module_1/lessons/03_003_003_resume_positioning_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "linkedin-github-positioning",
+    "title": "Linkedin Github Positioning",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/01_module_1/lessons/04_004_004_linkedin_github_positioning_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "portfolio-proof-map",
+    "title": "Portfolio Proof Map",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/02_module_2/lessons/05_005_005_portfolio_proof_map_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "project-case-studies",
+    "title": "Project Case Studies",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/02_module_2/lessons/06_006_006_project_case_studies_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "behavioral-story-bank",
+    "title": "Behavioral Story Bank",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/02_module_2/lessons/07_007_007_behavioral_story_bank_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "technical-explanation",
+    "title": "Technical Explanation",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/02_module_2/lessons/08_008_008_technical_explanation_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "system-design-interview",
+    "title": "System Design Interview",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/03_module_3/lessons/09_009_009_system_design_interview_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "coding-interview-loop",
+    "title": "Coding Interview Loop",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/03_module_3/lessons/10_010_010_coding_interview_loop_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "debugging-interview",
+    "title": "Debugging Interview",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/03_module_3/lessons/11_011_011_debugging_interview_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "architecture-tradeoffs",
+    "title": "Architecture Tradeoffs",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/03_module_3/lessons/12_012_012_architecture_tradeoffs_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "ai-tooling-interview",
+    "title": "Ai Tooling Interview",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/04_module_4/lessons/13_013_013_ai_tooling_interview_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "cloud-data-interview",
+    "title": "Cloud Data Interview",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/04_module_4/lessons/14_014_014_cloud_data_interview_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "take-home-execution",
+    "title": "Take Home Execution",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/04_module_4/lessons/15_015_015_take_home_execution_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "outreach-networking",
+    "title": "Outreach Networking",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/04_module_4/lessons/16_016_016_outreach_networking_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "application-pipeline",
+    "title": "Application Pipeline",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/05_module_5/lessons/17_017_017_application_pipeline_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "offer-negotiation",
+    "title": "Offer Negotiation",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/05_module_5/lessons/18_018_018_offer_negotiation_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "feedback-retro",
+    "title": "Feedback Retro",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/05_module_5/lessons/19_019_019_feedback_retro_lesson.md"
+  },
+  {
+    "courseSlug": "career-interview_career_portfolio",
+    "slug": "career-capstone",
+    "title": "Career Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/11_interview_career_portfolio/modules/05_module_5/lessons/20_020_020_career_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "problem-framing",
+    "title": "Problem Framing",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/01_module_1/lessons/01_001_001_problem_framing_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "customer-discovery",
+    "title": "Customer Discovery",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/01_module_1/lessons/02_002_002_customer_discovery_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "competitive-landscape",
+    "title": "Competitive Landscape",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/01_module_1/lessons/03_003_003_competitive_landscape_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "value-proposition",
+    "title": "Value Proposition",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/01_module_1/lessons/04_004_004_value_proposition_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "user-journey",
+    "title": "User Journey",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/02_module_2/lessons/05_005_005_user_journey_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "experiment-design",
+    "title": "Experiment Design",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/02_module_2/lessons/06_006_006_experiment_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "mvp-scope",
+    "title": "Mvp Scope",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/02_module_2/lessons/07_007_007_mvp_scope_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "prd-rfc",
+    "title": "Prd Rfc",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/02_module_2/lessons/08_008_008_prd_rfc_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "metric-design",
+    "title": "Metric Design",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/03_module_3/lessons/09_009_009_metric_design_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "instrumentation",
+    "title": "Instrumentation",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/03_module_3/lessons/10_010_010_instrumentation_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "feedback-intake",
+    "title": "Feedback Intake",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/03_module_3/lessons/11_011_011_feedback_intake_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "prioritization",
+    "title": "Prioritization",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/03_module_3/lessons/12_012_012_prioritization_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "roadmap-strategy",
+    "title": "Roadmap Strategy",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/04_module_4/lessons/13_013_013_roadmap_strategy_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "go-to-market",
+    "title": "Go To Market",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/04_module_4/lessons/14_014_014_go_to_market_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "pricing-packaging",
+    "title": "Pricing Packaging",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/04_module_4/lessons/15_015_015_pricing_packaging_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "launch-readiness",
+    "title": "Launch Readiness",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/04_module_4/lessons/16_016_016_launch_readiness_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "post-launch-analysis",
+    "title": "Post Launch Analysis",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/05_module_5/lessons/17_017_017_post_launch_analysis_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "iteration-loop",
+    "title": "Iteration Loop",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/05_module_5/lessons/18_018_018_iteration_loop_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "stakeholder-communication",
+    "title": "Stakeholder Communication",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/05_module_5/lessons/19_019_019_stakeholder_communication_lesson.md"
+  },
+  {
+    "courseSlug": "career-product_execution_market_feedback",
+    "slug": "product-capstone",
+    "title": "Product Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/12_product_execution_market_feedback/modules/05_module_5/lessons/20_020_020_product_capstone_lesson.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "native-vs-cross-platform-decision",
+    "title": "Native Vs Cross-Platform Decision",
+    "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/01_mobile_architecture_and_app_shape/lessons/01_native_vs_cross_platform_decision.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "navigation-and-state-boundaries",
+    "title": "Navigation And State Boundaries",
+    "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/01_mobile_architecture_and_app_shape/lessons/02_navigation_and_state_boundaries.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "feature-modularization",
+    "title": "Feature Modularization",
+    "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/01_mobile_architecture_and_app_shape/lessons/03_feature_modularization.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "platform-lifecycle-constraints",
+    "title": "Platform Lifecycle Constraints",
+    "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/01_mobile_architecture_and_app_shape/lessons/04_platform_lifecycle_constraints.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "local-database-model",
+    "title": "Local Database Model",
+    "moduleTitle": "Module 2 · Offline Data And Sync",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/02_offline_data_and_sync/lessons/01_local_database_model.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "repository-sync-contract",
+    "title": "Repository Sync Contract",
+    "moduleTitle": "Module 2 · Offline Data And Sync",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/02_offline_data_and_sync/lessons/02_repository_sync_contract.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "conflict-resolution",
+    "title": "Conflict Resolution",
+    "moduleTitle": "Module 2 · Offline Data And Sync",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/02_offline_data_and_sync/lessons/03_conflict_resolution.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "flaky-network-repair",
+    "title": "Flaky Network Repair",
+    "moduleTitle": "Module 2 · Offline Data And Sync",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/02_offline_data_and_sync/lessons/04_flaky_network_repair.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "secure-token-storage",
+    "title": "Secure Token Storage",
+    "moduleTitle": "Module 3 · Mobile Security And Identity",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/03_mobile_security_and_identity/lessons/01_secure_token_storage.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "permission-boundaries",
+    "title": "Permission Boundaries",
+    "moduleTitle": "Module 3 · Mobile Security And Identity",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/03_mobile_security_and_identity/lessons/02_permission_boundaries.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "session-expiry",
+    "title": "Session Expiry",
+    "moduleTitle": "Module 3 · Mobile Security And Identity",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/03_mobile_security_and_identity/lessons/03_session_expiry.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "privacy-safe-telemetry",
+    "title": "Privacy-Safe Telemetry",
+    "moduleTitle": "Module 3 · Mobile Security And Identity",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/03_mobile_security_and_identity/lessons/04_privacy_safe_telemetry.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "small-screen-workflow",
+    "title": "Small-Screen Workflow",
+    "moduleTitle": "Module 4 · Device Ux And Accessibility",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/04_device_ux_and_accessibility/lessons/01_small_screen_workflow.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "loading-empty-error-states",
+    "title": "Loading Empty Error States",
+    "moduleTitle": "Module 4 · Device Ux And Accessibility",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/04_device_ux_and_accessibility/lessons/02_loading_empty_error_states.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "mobile-accessibility",
+    "title": "Mobile Accessibility",
+    "moduleTitle": "Module 4 · Device Ux And Accessibility",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/04_device_ux_and_accessibility/lessons/03_mobile_accessibility.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "gesture-and-input-constraints",
+    "title": "Gesture And Input Constraints",
+    "moduleTitle": "Module 4 · Device Ux And Accessibility",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/04_device_ux_and_accessibility/lessons/04_gesture_and_input_constraints.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "mobile-test-plan",
+    "title": "Mobile Test Plan",
+    "moduleTitle": "Module 5 · Quality Release And Operations",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/05_quality_release_and_operations/lessons/01_mobile_test_plan.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "crash-and-analytics-signals",
+    "title": "Crash And Analytics Signals",
+    "moduleTitle": "Module 5 · Quality Release And Operations",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/05_quality_release_and_operations/lessons/02_crash_and_analytics_signals.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "app-store-readiness",
+    "title": "App Store Readiness",
+    "moduleTitle": "Module 5 · Quality Release And Operations",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/05_quality_release_and_operations/lessons/03_app_store_readiness.md"
+  },
+  {
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "slug": "post-release-incident-loop",
+    "title": "Post-Release Incident Loop",
+    "moduleTitle": "Module 5 · Quality Release And Operations",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/13_mobile_engineering_deep_dive/modules/05_quality_release_and_operations/lessons/04_post_release_incident_loop.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "risk-based-test-planning",
+    "title": "Risk-Based Test Planning",
+    "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/01_quality_strategy_and_risk_model/lessons/01_risk_based_test_planning.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "test-pyramid-and-test-trophy",
+    "title": "Test Pyramid And Test Trophy",
+    "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/01_quality_strategy_and_risk_model/lessons/02_test_pyramid_and_test_trophy.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "release-confidence-model",
+    "title": "Release Confidence Model",
+    "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/01_quality_strategy_and_risk_model/lessons/03_release_confidence_model.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "defect-taxonomy",
+    "title": "Defect Taxonomy",
+    "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/01_quality_strategy_and_risk_model/lessons/04_defect_taxonomy.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "unit-integration-boundary",
+    "title": "Unit/Integration Boundary",
+    "moduleTitle": "Module 2 · Automation Foundations",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/02_automation_foundations/lessons/01_unit_integration_boundary.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "api-contract-tests",
+    "title": "Api Contract Tests",
+    "moduleTitle": "Module 2 · Automation Foundations",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/02_automation_foundations/lessons/02_api_contract_tests.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "fixture-design",
+    "title": "Fixture Design",
+    "moduleTitle": "Module 2 · Automation Foundations",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/02_automation_foundations/lessons/03_fixture_design.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "test-data-isolation",
+    "title": "Test Data Isolation",
+    "moduleTitle": "Module 2 · Automation Foundations",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/02_automation_foundations/lessons/04_test_data_isolation.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "user-visible-behavior-tests",
+    "title": "User-Visible Behavior Tests",
+    "moduleTitle": "Module 3 · End To End And Browser Automation",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/03_end_to_end_and_browser_automation/lessons/01_user_visible_behavior_tests.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "locator-strategy",
+    "title": "Locator Strategy",
+    "moduleTitle": "Module 3 · End To End And Browser Automation",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/03_end_to_end_and_browser_automation/lessons/02_locator_strategy.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "auto-waiting-and-flake-reduction",
+    "title": "Auto-Waiting And Flake Reduction",
+    "moduleTitle": "Module 3 · End To End And Browser Automation",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/03_end_to_end_and_browser_automation/lessons/03_auto_waiting_and_flake_reduction.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "visual-regression",
+    "title": "Visual Regression",
+    "moduleTitle": "Module 3 · End To End And Browser Automation",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/03_end_to_end_and_browser_automation/lessons/04_visual_regression.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "accessibility-checks",
+    "title": "Accessibility Checks",
+    "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/04_nonfunctional_quality_gates/lessons/01_accessibility_checks.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "performance-smoke-tests",
+    "title": "Performance Smoke Tests",
+    "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/04_nonfunctional_quality_gates/lessons/02_performance_smoke_tests.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "security-smoke-checks",
+    "title": "Security Smoke Checks",
+    "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/04_nonfunctional_quality_gates/lessons/03_security_smoke_checks.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "ci-quality-gates",
+    "title": "Ci Quality Gates",
+    "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/04_nonfunctional_quality_gates/lessons/04_ci_quality_gates.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "flaky-test-triage",
+    "title": "Flaky Test Triage",
+    "moduleTitle": "Module 5 · Sdet Operations And Review Board",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/05_sdet_operations_and_review_board/lessons/01_flaky_test_triage.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "bug-reports",
+    "title": "Bug Reports",
+    "moduleTitle": "Module 5 · Sdet Operations And Review Board",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/05_sdet_operations_and_review_board/lessons/02_bug_reports.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "release-risk-scoring",
+    "title": "Release Risk Scoring",
+    "moduleTitle": "Module 5 · Sdet Operations And Review Board",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/05_sdet_operations_and_review_board/lessons/03_release_risk_scoring.md"
+  },
+  {
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
+    "slug": "quality-review-board",
+    "title": "Quality Review Board",
+    "moduleTitle": "Module 5 · Sdet Operations And Review Board",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/14_qa_sdet_test_automation_engineering/modules/05_sdet_operations_and_review_board/lessons/04_quality_review_board.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "tcp-ip-model-without-trivia",
+    "title": "Tcp/Ip Model Without Trivia",
+    "moduleTitle": "Module 1 · Network Mental Models",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/01_network_mental_models/lessons/01_tcp_ip_model_without_trivia.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "packet-path-reasoning",
+    "title": "Packet Path Reasoning",
+    "moduleTitle": "Module 1 · Network Mental Models",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/01_network_mental_models/lessons/02_packet_path_reasoning.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "latency-and-throughput",
+    "title": "Latency And Throughput",
+    "moduleTitle": "Module 1 · Network Mental Models",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/01_network_mental_models/lessons/03_latency_and_throughput.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "failure-domain-mapping",
+    "title": "Failure-Domain Mapping",
+    "moduleTitle": "Module 1 · Network Mental Models",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/01_network_mental_models/lessons/04_failure_domain_mapping.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "dns-resolution",
+    "title": "Dns Resolution",
+    "moduleTitle": "Module 2 · Dns Http Tls And Quic",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/02_dns_http_tls_and_quic/lessons/01_dns_resolution.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "http-semantics",
+    "title": "Http Semantics",
+    "moduleTitle": "Module 2 · Dns Http Tls And Quic",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/02_dns_http_tls_and_quic/lessons/02_http_semantics.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "tls-handshake-and-certificates",
+    "title": "Tls Handshake And Certificates",
+    "moduleTitle": "Module 2 · Dns Http Tls And Quic",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/02_dns_http_tls_and_quic/lessons/03_tls_handshake_and_certificates.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "quic-tradeoffs",
+    "title": "Quic Tradeoffs",
+    "moduleTitle": "Module 2 · Dns Http Tls And Quic",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/02_dns_http_tls_and_quic/lessons/04_quic_tradeoffs.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "cidr-and-subnets",
+    "title": "Cidr And Subnets",
+    "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/03_addressing_routing_and_load_balancing/lessons/01_cidr_and_subnets.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "nat-and-routes",
+    "title": "Nat And Routes",
+    "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/03_addressing_routing_and_load_balancing/lessons/02_nat_and_routes.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "load-balancer-modes",
+    "title": "Load Balancer Modes",
+    "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/03_addressing_routing_and_load_balancing/lessons/03_load_balancer_modes.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "proxy-and-cdn-path",
+    "title": "Proxy And Cdn Path",
+    "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/03_addressing_routing_and_load_balancing/lessons/04_proxy_and_cdn_path.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "vpc-vnet-design",
+    "title": "Vpc/Vnet Design",
+    "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/04_cloud_and_kubernetes_networking/lessons/01_vpc_vnet_design.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "service-discovery",
+    "title": "Service Discovery",
+    "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/04_cloud_and_kubernetes_networking/lessons/02_service_discovery.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "ingress-and-services",
+    "title": "Ingress And Services",
+    "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/04_cloud_and_kubernetes_networking/lessons/03_ingress_and_services.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "networkpolicy-boundaries",
+    "title": "Networkpolicy Boundaries",
+    "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/04_cloud_and_kubernetes_networking/lessons/04_networkpolicy_boundaries.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "packet-capture-plan",
+    "title": "Packet Capture Plan",
+    "moduleTitle": "Module 5 · Network Debugging And Security",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/05_network_debugging_and_security/lessons/01_packet_capture_plan.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "firewall-denial-repair",
+    "title": "Firewall Denial Repair",
+    "moduleTitle": "Module 5 · Network Debugging And Security",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/05_network_debugging_and_security/lessons/02_firewall_denial_repair.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "zero-trust-access",
+    "title": "Zero-Trust Access",
+    "moduleTitle": "Module 5 · Network Debugging And Security",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/05_network_debugging_and_security/lessons/03_zero_trust_access.md"
+  },
+  {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "slug": "network-incident-runbook",
+    "title": "Network Incident Runbook",
+    "moduleTitle": "Module 5 · Network Debugging And Security",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/15_networking_fundamentals_advanced_networking/modules/05_network_debugging_and_security/lessons/04_network_incident_runbook.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "platform-vs-devops-boundary",
+    "title": "Platform Vs Devops Boundary",
+    "moduleTitle": "Module 1 · Platform Product Model",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/01_platform_product_model/lessons/01_platform_vs_devops_boundary.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "developer-journey-mapping",
+    "title": "Developer Journey Mapping",
+    "moduleTitle": "Module 1 · Platform Product Model",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/01_platform_product_model/lessons/02_developer_journey_mapping.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "golden-path-definition",
+    "title": "Golden Path Definition",
+    "moduleTitle": "Module 1 · Platform Product Model",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/01_platform_product_model/lessons/03_golden_path_definition.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "adoption-metrics",
+    "title": "Adoption Metrics",
+    "moduleTitle": "Module 1 · Platform Product Model",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/01_platform_product_model/lessons/04_adoption_metrics.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "service-scaffold",
+    "title": "Service Scaffold",
+    "moduleTitle": "Module 2 · Service Templates And Delivery",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/02_service_templates_and_delivery/lessons/01_service_scaffold.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "ci-cd-contract",
+    "title": "Ci/Cd Contract",
+    "moduleTitle": "Module 2 · Service Templates And Delivery",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/02_service_templates_and_delivery/lessons/02_ci_cd_contract.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "artifact-promotion",
+    "title": "Artifact Promotion",
+    "moduleTitle": "Module 2 · Service Templates And Delivery",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/02_service_templates_and_delivery/lessons/03_artifact_promotion.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "rollback-workflow",
+    "title": "Rollback Workflow",
+    "moduleTitle": "Module 2 · Service Templates And Delivery",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/02_service_templates_and_delivery/lessons/04_rollback_workflow.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "iac-module-design",
+    "title": "Iac Module Design",
+    "moduleTitle": "Module 3 · Infrastructure And Environments",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/03_infrastructure_and_environments/lessons/01_iac_module_design.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "environment-lifecycle",
+    "title": "Environment Lifecycle",
+    "moduleTitle": "Module 3 · Infrastructure And Environments",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/03_infrastructure_and_environments/lessons/02_environment_lifecycle.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "secrets-management",
+    "title": "Secrets Management",
+    "moduleTitle": "Module 3 · Infrastructure And Environments",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/03_infrastructure_and_environments/lessons/03_secrets_management.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "policy-as-code",
+    "title": "Policy As Code",
+    "moduleTitle": "Module 3 · Infrastructure And Environments",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/03_infrastructure_and_environments/lessons/04_policy_as_code.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "kubernetes-abstractions",
+    "title": "Kubernetes Abstractions",
+    "moduleTitle": "Module 4 · Runtime Platform And Observability",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/04_runtime_platform_and_observability/lessons/01_kubernetes_abstractions.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "logging-metrics-traces",
+    "title": "Logging Metrics Traces",
+    "moduleTitle": "Module 4 · Runtime Platform And Observability",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/04_runtime_platform_and_observability/lessons/02_logging_metrics_traces.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "slo-defaults",
+    "title": "Slo Defaults",
+    "moduleTitle": "Module 4 · Runtime Platform And Observability",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/04_runtime_platform_and_observability/lessons/03_slo_defaults.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "incident-ready-services",
+    "title": "Incident-Ready Services",
+    "moduleTitle": "Module 4 · Runtime Platform And Observability",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/04_runtime_platform_and_observability/lessons/04_incident_ready_services.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "self-service-controls",
+    "title": "Self-Service Controls",
+    "moduleTitle": "Module 5 · Platform Governance And Scale",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/05_platform_governance_and_scale/lessons/01_self_service_controls.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "cost-and-quota-guardrails",
+    "title": "Cost And Quota Guardrails",
+    "moduleTitle": "Module 5 · Platform Governance And Scale",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/05_platform_governance_and_scale/lessons/02_cost_and_quota_guardrails.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "support-model",
+    "title": "Support Model",
+    "moduleTitle": "Module 5 · Platform Governance And Scale",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/05_platform_governance_and_scale/lessons/03_support_model.md"
+  },
+  {
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "slug": "platform-roadmap-review",
+    "title": "Platform Roadmap Review",
+    "moduleTitle": "Module 5 · Platform Governance And Scale",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/16_platform_engineering_internal_developer_platforms/modules/05_platform_governance_and_scale/lessons/04_platform_roadmap_review.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "problem-framing",
+    "title": "Problem Framing",
+    "moduleTitle": "Module 1 · Product Problem And User Journey",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/01_product_problem_and_user_journey/lessons/01_problem_framing.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "user-journey-mapping",
+    "title": "User Journey Mapping",
+    "moduleTitle": "Module 1 · Product Problem And User Journey",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/01_product_problem_and_user_journey/lessons/02_user_journey_mapping.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "information-architecture",
+    "title": "Information Architecture",
+    "moduleTitle": "Module 1 · Product Problem And User Journey",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/01_product_problem_and_user_journey/lessons/03_information_architecture.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "non-goals",
+    "title": "Non-Goals",
+    "moduleTitle": "Module 1 · Product Problem And User Journey",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/01_product_problem_and_user_journey/lessons/04_non_goals.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "workflow-structure",
+    "title": "Workflow Structure",
+    "moduleTitle": "Module 2 · Interaction Design And States",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/02_interaction_design_and_states/lessons/01_workflow_structure.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "forms-and-validation",
+    "title": "Forms And Validation",
+    "moduleTitle": "Module 2 · Interaction Design And States",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/02_interaction_design_and_states/lessons/02_forms_and_validation.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "empty-loading-error-states",
+    "title": "Empty Loading Error States",
+    "moduleTitle": "Module 2 · Interaction Design And States",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/02_interaction_design_and_states/lessons/03_empty_loading_error_states.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "edge-case-ux",
+    "title": "Edge-Case Ux",
+    "moduleTitle": "Module 2 · Interaction Design And States",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/02_interaction_design_and_states/lessons/04_edge_case_ux.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "layout-hierarchy",
+    "title": "Layout Hierarchy",
+    "moduleTitle": "Module 3 · Visual Systems For Engineers",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/03_visual_systems_for_engineers/lessons/01_layout_hierarchy.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "design-tokens",
+    "title": "Design Tokens",
+    "moduleTitle": "Module 3 · Visual Systems For Engineers",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/03_visual_systems_for_engineers/lessons/02_design_tokens.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "component-states",
+    "title": "Component States",
+    "moduleTitle": "Module 3 · Visual Systems For Engineers",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/03_visual_systems_for_engineers/lessons/03_component_states.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "data-ui-clarity",
+    "title": "Data Ui Clarity",
+    "moduleTitle": "Module 3 · Visual Systems For Engineers",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/03_visual_systems_for_engineers/lessons/04_data_ui_clarity.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "wcag-principles",
+    "title": "Wcag Principles",
+    "moduleTitle": "Module 4 · Accessibility And Usability",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/04_accessibility_and_usability/lessons/01_wcag_principles.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "keyboard-and-screen-reader-flows",
+    "title": "Keyboard And Screen Reader Flows",
+    "moduleTitle": "Module 4 · Accessibility And Usability",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/04_accessibility_and_usability/lessons/02_keyboard_and_screen_reader_flows.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "usability-test-plan",
+    "title": "Usability Test Plan",
+    "moduleTitle": "Module 4 · Accessibility And Usability",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/04_accessibility_and_usability/lessons/03_usability_test_plan.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "critique-loop",
+    "title": "Critique Loop",
+    "moduleTitle": "Module 4 · Accessibility And Usability",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/04_accessibility_and_usability/lessons/04_critique_loop.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "prototype-to-code-handoff",
+    "title": "Prototype-To-Code Handoff",
+    "moduleTitle": "Module 5 · Implementation And Measurement",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/05_implementation_and_measurement/lessons/01_prototype_to_code_handoff.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "instrumentation-plan",
+    "title": "Instrumentation Plan",
+    "moduleTitle": "Module 5 · Implementation And Measurement",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/05_implementation_and_measurement/lessons/02_instrumentation_plan.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "metric-tree",
+    "title": "Metric Tree",
+    "moduleTitle": "Module 5 · Implementation And Measurement",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/05_implementation_and_measurement/lessons/03_metric_tree.md"
+  },
+  {
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "slug": "design-review-packet",
+    "title": "Design Review Packet",
+    "moduleTitle": "Module 5 · Implementation And Measurement",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/17_ux_ui_product_design_for_engineers/modules/05_implementation_and_measurement/lessons/04_design_review_packet.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "scope-expansion",
+    "title": "Scope Expansion",
+    "moduleTitle": "Module 1 · Senior To Staff Operating Model",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/01_senior_to_staff_operating_model/lessons/01_scope_expansion.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "judgment-under-ambiguity",
+    "title": "Judgment Under Ambiguity",
+    "moduleTitle": "Module 1 · Senior To Staff Operating Model",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/01_senior_to_staff_operating_model/lessons/02_judgment_under_ambiguity.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "influence-without-authority",
+    "title": "Influence Without Authority",
+    "moduleTitle": "Module 1 · Senior To Staff Operating Model",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/01_senior_to_staff_operating_model/lessons/03_influence_without_authority.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "evidence-backed-leadership",
+    "title": "Evidence-Backed Leadership",
+    "moduleTitle": "Module 1 · Senior To Staff Operating Model",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/01_senior_to_staff_operating_model/lessons/04_evidence_backed_leadership.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "strategy-memo",
+    "title": "Strategy Memo",
+    "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/02_technical_strategy_and_architecture_influence/lessons/01_strategy_memo.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "architecture-review",
+    "title": "Architecture Review",
+    "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/02_technical_strategy_and_architecture_influence/lessons/02_architecture_review.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "tradeoff-framing",
+    "title": "Tradeoff Framing",
+    "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/02_technical_strategy_and_architecture_influence/lessons/03_tradeoff_framing.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "decision-record",
+    "title": "Decision Record",
+    "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/02_technical_strategy_and_architecture_influence/lessons/04_decision_record.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "planning-cadence",
+    "title": "Planning Cadence",
+    "moduleTitle": "Module 3 · Execution Systems",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/03_execution_systems/lessons/01_planning_cadence.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "dependency-management",
+    "title": "Dependency Management",
+    "moduleTitle": "Module 3 · Execution Systems",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/03_execution_systems/lessons/02_dependency_management.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "risk-register",
+    "title": "Risk Register",
+    "moduleTitle": "Module 3 · Execution Systems",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/03_execution_systems/lessons/03_risk_register.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "delivery-review",
+    "title": "Delivery Review",
+    "moduleTitle": "Module 3 · Execution Systems",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/03_execution_systems/lessons/04_delivery_review.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "mentoring",
+    "title": "Mentoring",
+    "moduleTitle": "Module 4 · People And Communication",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/04_people_and_communication/lessons/01_mentoring.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "feedback",
+    "title": "Feedback",
+    "moduleTitle": "Module 4 · People And Communication",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/04_people_and_communication/lessons/02_feedback.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "conflict-repair",
+    "title": "Conflict Repair",
+    "moduleTitle": "Module 4 · People And Communication",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/04_people_and_communication/lessons/03_conflict_repair.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "executive-updates",
+    "title": "Executive Updates",
+    "moduleTitle": "Module 4 · People And Communication",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/04_people_and_communication/lessons/04_executive_updates.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "incident-command",
+    "title": "Incident Command",
+    "moduleTitle": "Module 5 · Incident And Organizational Learning",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/05_incident_and_organizational_learning/lessons/01_incident_command.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "postmortem-quality",
+    "title": "Postmortem Quality",
+    "moduleTitle": "Module 5 · Incident And Organizational Learning",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/05_incident_and_organizational_learning/lessons/02_postmortem_quality.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "systemic-repair",
+    "title": "Systemic Repair",
+    "moduleTitle": "Module 5 · Incident And Organizational Learning",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/05_incident_and_organizational_learning/lessons/03_systemic_repair.md"
+  },
+  {
+    "courseSlug": "career-engineering_leadership_staff_execution",
+    "slug": "operating-cadence",
+    "title": "Operating Cadence",
+    "moduleTitle": "Module 5 · Incident And Organizational Learning",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/18_engineering_leadership_staff_execution/modules/05_incident_and_organizational_learning/lessons/04_operating_cadence.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "business-system-map",
+    "title": "Business System Map",
+    "moduleTitle": "Module 1 · Enterprise Saas Landscape",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/01_enterprise_saas_landscape/lessons/01_business_system_map.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "admin-vs-builder-boundary",
+    "title": "Admin Vs Builder Boundary",
+    "moduleTitle": "Module 1 · Enterprise Saas Landscape",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/01_enterprise_saas_landscape/lessons/02_admin_vs_builder_boundary.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "record-ownership",
+    "title": "Record Ownership",
+    "moduleTitle": "Module 1 · Enterprise Saas Landscape",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/01_enterprise_saas_landscape/lessons/03_record_ownership.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "workflow-lifecycle",
+    "title": "Workflow Lifecycle",
+    "moduleTitle": "Module 1 · Enterprise Saas Landscape",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/01_enterprise_saas_landscape/lessons/04_workflow_lifecycle.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "saml-oidc-sso",
+    "title": "Saml/Oidc Sso",
+    "moduleTitle": "Module 2 · Identity Access And Provisioning",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/02_identity_access_and_provisioning/lessons/01_saml_oidc_sso.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "scim-provisioning",
+    "title": "Scim Provisioning",
+    "moduleTitle": "Module 2 · Identity Access And Provisioning",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/02_identity_access_and_provisioning/lessons/02_scim_provisioning.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "rbac-modeling",
+    "title": "Rbac Modeling",
+    "moduleTitle": "Module 2 · Identity Access And Provisioning",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/02_identity_access_and_provisioning/lessons/03_rbac_modeling.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "access-review",
+    "title": "Access Review",
+    "moduleTitle": "Module 2 · Identity Access And Provisioning",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/02_identity_access_and_provisioning/lessons/04_access_review.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "approval-flow",
+    "title": "Approval Flow",
+    "moduleTitle": "Module 3 · Business Process Automation",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/03_business_process_automation/lessons/01_approval_flow.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "ticketing-workflow",
+    "title": "Ticketing Workflow",
+    "moduleTitle": "Module 3 · Business Process Automation",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/03_business_process_automation/lessons/02_ticketing_workflow.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "crm-itsm-patterns",
+    "title": "Crm/Itsm Patterns",
+    "moduleTitle": "Module 3 · Business Process Automation",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/03_business_process_automation/lessons/03_crm_itsm_patterns.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "change-control",
+    "title": "Change Control",
+    "moduleTitle": "Module 3 · Business Process Automation",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/03_business_process_automation/lessons/04_change_control.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "api-and-webhook-integration",
+    "title": "Api And Webhook Integration",
+    "moduleTitle": "Module 4 · Integrations Data And Audit",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/04_integrations_data_and_audit/lessons/01_api_and_webhook_integration.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "data-sync-contract",
+    "title": "Data Sync Contract",
+    "moduleTitle": "Module 4 · Integrations Data And Audit",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/04_integrations_data_and_audit/lessons/02_data_sync_contract.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "audit-trail",
+    "title": "Audit Trail",
+    "moduleTitle": "Module 4 · Integrations Data And Audit",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/04_integrations_data_and_audit/lessons/03_audit_trail.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "reporting-controls",
+    "title": "Reporting Controls",
+    "moduleTitle": "Module 4 · Integrations Data And Audit",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/04_integrations_data_and_audit/lessons/04_reporting_controls.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "security-review",
+    "title": "Security Review",
+    "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/05_governance_operations_and_vendor_risk/lessons/01_security_review.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "grc-evidence",
+    "title": "Grc Evidence",
+    "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/05_governance_operations_and_vendor_risk/lessons/02_grc_evidence.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "admin-incident-runbook",
+    "title": "Admin Incident Runbook",
+    "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/05_governance_operations_and_vendor_risk/lessons/03_admin_incident_runbook.md"
+  },
+  {
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "slug": "operating-review",
+    "title": "Operating Review",
+    "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/05_governance_operations_and_vendor_risk/lessons/04_operating_review.md"
+  }
+]

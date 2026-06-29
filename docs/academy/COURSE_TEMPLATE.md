@@ -69,6 +69,41 @@ All lessons ≥95 · one coherent start→ship arc with connective tissue · a c
 pre/post **assessment spanning every module** · a final whole-course coherence read. Reference: Programming
 Fundamentals = Module 1 First Steps (8, polished to 99) → Module 2 Foundations (9, craft).
 
+## VISUAL-FIRST DOCTRINE (the master rule — show, don't tell)
+The default is a wall of text. Reverse it. A Sage lesson is a sequence of VISUALS with tight supporting captions —
+not paragraphs with an occasional diagram. Build this into every lesson:
+
+1. **Show before you tell.** Every concept that CAN be a visual MUST be one. Replace prose with:
+   | Instead of a paragraph explaining… | Use a visual block |
+   |---|---|
+   | a system / flow / architecture / state machine | `diagram` (nodes/edges + tones + legend) |
+   | a number, trend, distribution, tradeoff in data | `viz` (bars/line/area, honest axes) |
+   | how code works / a walkthrough | `code-walkthrough` (animated stepper, line-by-line) |
+   | how a mechanism works ("how X works") | `concept-anim` (from the asset bank) |
+   | weak-vs-gold, before/after, option A vs B | `compare` (animated 2-up) |
+   | a process / sequence of steps | `diagram` or a stepped visual — never a numbered prose list |
+   Prose survives ONLY for what genuinely can't be shown (a definition, a stake, a one-line takeaway).
+
+2. **Text budget (hard caps).** `mission` ≤ 2 sentences. `concept` = ONE model in ≤ 40 words, paired with a visual.
+   `context` ≤ 2 sentences. No block is a wall of paragraphs. `sprint-contract` renders as a SCANNABLE card
+   (icons + short lines), never a dense text grid. Every block earns its words; cut hedging, restating, throat-clearing.
+
+3. **Visual coverage (enforced).** Every lesson has **≥ 3 real visuals** (diagram / viz / code-walkthrough /
+   concept-anim / compare), and **every major concept is shown, not just told**. The visual is the HERO of its
+   section; text is a tight caption beside/below it — not a separate text card before it.
+
+4. **Progressive disclosure.** Depth lives behind a "go deeper" disclosure; the default scroll is scannable +
+   visual. A learner should grasp the lesson from the visuals + captions alone, then expand for detail.
+
+5. **Authoring order.** Author the VISUALS first (what diagram/animation/comparison teaches this?), then write the
+   tight caption. Never prose-first.
+
+### The text-density gate (added to the per-lesson gate)
+- **Words/block cap** respected (no wall-of-text block); **visual:prose block ratio** healthy (visuals carry the load).
+- **≥ 3 real visuals/lesson**; every major concept has one (coverage check).
+- The design/pedagogy panel scores **"visual-first, not text-dense" ≥ 95** — a lesson that reads as paragraphs fails,
+  regardless of how good the prose is.
+
 ## Guardrails
 Prerequisite-correct. Labs genuinely verify (no theatre checks). Real teaching, not LLM filler. Idempotent
 seeds, scoped commits, no push. A lesson is "world-class" only when the pedagogy review says so on the rendered page.

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-29T19:57:44.992Z",
+  "timestamp": "2026-06-30T00:25:39.797Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -17,6 +17,8 @@
     "discord:durable-jobs-readiness",
     "discord:gateway-capture-diagnosis",
     "discord:gateway-operating-packet",
+    "discord:knowledge-review-queue",
+    "discord:live-proof-accelerator",
     "discord:observability-quality-readiness",
     "discord:operating-cycle:dry-run",
     "discord:operator-brief",
@@ -185,6 +187,14 @@
     {
       "from": "discord:release-local",
       "to": "discord:proof-candidate-audit"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:knowledge-review-queue"
+    },
+    {
+      "from": "discord:release-local",
+      "to": "discord:live-proof-accelerator"
     },
     {
       "from": "discord:release-local",

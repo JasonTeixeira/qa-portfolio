@@ -1,6 +1,6 @@
 # Gateway Operating Packet
 
-Generated: 2026-06-29T20:10:16.322Z
+Generated: 2026-06-30T00:25:58.821Z
 Status: proven
 Mutation mode: local_file_evidence_only
 
@@ -18,10 +18,10 @@ This gateway operating packet converts the latest diagnosis into a live proof co
 
 - Worker: sagebot-main
 - Heartbeat fresh: true
-- Heartbeat age minutes: 0
+- Heartbeat age minutes: 1
 - Effective message content: true
 - Signal source: heartbeat
-- Identify created at: 2026-06-29T19:14:48.322001+00:00
+- Identify created at: missing
 
 ## Required Fields
 

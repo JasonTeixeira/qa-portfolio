@@ -1,9 +1,9 @@
 # SageForge Institutional Harness
 
-Generated: 2026-06-29T20:10:33.616Z
+Generated: 2026-06-30T00:26:16.597Z
 Bot name: SageForge
 Status: locally_strong_waiting_on_live_proof
-Score: 80/100
+Score: 83/100
 Target: 95-99
 
 ## Bot Name
@@ -14,6 +14,7 @@ SageForge is builder-oriented, brandable, memorable in Discord mentions, and kee
 
 - Bot Identity And Invocation: 100/100 (passed)
 - Personality Kernel: 100/100 (passed)
+- Human Appeal And Visual System: 100/100 (passed)
 - Authoritative Knowledge Base: 50/100 (blocked)
 - Content Factory: 67/100 (blocked)
 - Learning And Engagement Engine: 67/100 (blocked)
@@ -29,8 +30,10 @@ SageForge is builder-oriented, brandable, memorable in Discord mentions, and kee
 ## Safe Autonomous Commands
 
 - npm run discord:sageforge-institutional-harness
+- npm run discord:human-appeal-harness
 - npm run loop:sageforge:once
 - npm run loop:sageforge:quality
+- npm run loop:sageforge:human
 - npm run langfuse:smoke
 - npm run discord:gateway-capture-diagnosis
 - npm run discord:knowledge-base-harness

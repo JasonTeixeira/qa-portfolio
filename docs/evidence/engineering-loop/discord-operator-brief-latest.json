@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-operator-brief-v1",
-  "generatedAt": "2026-06-29T20:10:29.550Z",
+  "generatedAt": "2026-06-30T00:26:12.667Z",
   "mutationMode": "local_file_evidence_only",
   "releaseDecision": "do_not_claim_world_class",
   "averageScore": 83,
@@ -314,7 +314,7 @@
     "messageContentSignalSource": "heartbeat",
     "heartbeatFresh": true,
     "workerId": "sagebot-main",
-    "heartbeatAgeMinutes": 0,
+    "heartbeatAgeMinutes": 1,
     "nextActions": [
       "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
       "Review resulting candidates in /admin/discord and approve durable knowledge items.",

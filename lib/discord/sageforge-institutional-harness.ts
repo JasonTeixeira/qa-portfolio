@@ -1,6 +1,6 @@
 import { SAGEBOT_PERSONALITY_VERSION, SAGEBOT_PROMPT_VERSIONS, scoreSageBotPolicyOutput } from './sagebot-personality';
 
-export const SAGEFORGE_INSTITUTIONAL_HARNESS_VERSION = 'sageforge-institutional-harness-v1';
+export const SAGEFORGE_INSTITUTIONAL_HARNESS_VERSION = 'sageforge-institutional-harness-v2';
 
 export type SageForgeGateStatus = 'passed' | 'blocked';
 
@@ -40,6 +40,7 @@ export type SageForgeInstitutionalHarnessInput = {
   localVerification: any;
   ragEvalLatest: any;
   langfuseSmoke: any;
+  humanAppealHarness: any;
 };
 
 export type SageForgeInstitutionalHarnessResult = {
@@ -179,9 +180,9 @@ export function buildSageForgeInstitutionalHarness(
         }),
       ],
     }),
-    category({
-      key: 'personality_kernel',
-      title: 'Personality Kernel',
+	    category({
+	      key: 'personality_kernel',
+	      title: 'Personality Kernel',
       gates: [
         gate({
           key: 'prompt_versions_defined',
@@ -202,9 +203,33 @@ export function buildSageForgeInstitutionalHarness(
           recovery: 'Run npm run discord:observability-quality-readiness and fix trace, quality rollup, and admin-surface gaps.',
         }),
       ],
-    }),
+	    }),
     category({
-      key: 'knowledge_base',
+      key: 'human_appeal_visual_system',
+      title: 'Human Appeal And Visual System',
+      gates: [
+        gate({
+          key: 'human_appeal_harness_ready',
+          passed: input.humanAppealHarness?.ok === true && numberValue(input.humanAppealHarness?.score) >= 95,
+          evidence: `human appeal ok=${String(input.humanAppealHarness?.ok)} score=${numberValue(input.humanAppealHarness?.score)}`,
+          recovery: 'Run npm run discord:human-appeal-harness and fix embed, voice, smoke, and live visual proof gaps.',
+        }),
+        gate({
+          key: 'ask_sage_embed_proven',
+          passed: input.humanAppealHarness?.categories?.some((category: any) => category.key === 'proof_and_regression_gates' && category.status === 'passed') === true,
+          evidence: 'human appeal proof/regression gates passed',
+          recovery: 'Ensure /ask-sage smoke proves a Sage Ideas Answer embed with question, Sage take, and Sources fields.',
+        }),
+        gate({
+          key: 'visual_proof_live_card_exists',
+          passed: input.humanAppealHarness?.categories?.some((category: any) => category.key === 'visual_embed_contract' && category.status === 'passed') === true,
+          evidence: 'human appeal visual embed contract passed',
+          recovery: 'Keep member-facing bot messages on Discord embed cards with colored rails, readable fields, and footers.',
+        }),
+      ],
+    }),
+	    category({
+	      key: 'knowledge_base',
       title: 'Authoritative Knowledge Base',
       gates: [
         gate({
@@ -350,9 +375,11 @@ export function buildSageForgeInstitutionalHarness(
     categories,
     productionStopConditions,
     safeAutonomousCommands: [
-      'npm run discord:sageforge-institutional-harness',
-      'npm run loop:sageforge:once',
-      'npm run loop:sageforge:quality',
+	      'npm run discord:sageforge-institutional-harness',
+	      'npm run discord:human-appeal-harness',
+	      'npm run loop:sageforge:once',
+	      'npm run loop:sageforge:quality',
+	      'npm run loop:sageforge:human',
       'npm run langfuse:smoke',
       'npm run discord:gateway-capture-diagnosis',
       'npm run discord:knowledge-base-harness',

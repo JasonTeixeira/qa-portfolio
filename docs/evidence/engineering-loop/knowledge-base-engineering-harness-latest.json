@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "knowledge-base-engineering-harness-v1",
-  "generatedAt": "2026-06-29T20:10:32.563Z",
+  "generatedAt": "2026-06-30T00:26:15.595Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This harness reads local evidence and grades the Discord knowledge-base pipeline. It does not approve records, post to Discord, mutate Supabase, sync RAG, call AI models, push, deploy, or satisfy live operating proof.",
   "status": "locally_verified_waiting_on_live_approval",

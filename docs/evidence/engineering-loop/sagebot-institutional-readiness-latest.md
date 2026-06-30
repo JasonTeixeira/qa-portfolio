@@ -1,6 +1,6 @@
 # SageBot Institutional Readiness
 
-Generated: 2026-06-29T20:10:32.043Z
+Generated: 2026-06-30T00:26:15.082Z
 Status: locally_strong_waiting_on_live_operating_proof
 Score: 70/100
 

@@ -1,14 +1,14 @@
 {
   "ok": true,
   "version": "discord-proof-candidate-audit-v1",
-  "generatedAt": "2026-06-29T20:10:28.027Z",
+  "generatedAt": "2026-06-30T00:26:10.370Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
   "status": "blocked",
   "metricsSnapshot": {
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 1,
+    "pendingKnowledgeCandidates": 3,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "premiumMembers": 0,
@@ -67,7 +67,7 @@
       "targetCount": 10,
       "remainingCount": 10,
       "candidateState": "needs_review",
-      "candidateCount": 1,
+      "candidateCount": 3,
       "sourceTables": [
         "discord_questions",
         "discord_answers",
@@ -77,7 +77,7 @@
       "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
       "blockers": [
         "Current proof is 0/10; lane remains blocked until the target is met.",
-        "Approved knowledge plus pending candidates is 1/10; more real member source material is needed."
+        "Approved knowledge plus pending candidates is 3/10; more real member source material is needed."
       ],
       "nextReviewAction": "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
       "provingCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",

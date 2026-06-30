@@ -1,17 +1,18 @@
 {
   "ok": true,
-  "version": "sageforge-institutional-harness-v1",
-  "generatedAt": "2026-06-29T20:10:33.616Z",
+  "version": "sageforge-institutional-harness-v2",
+  "generatedAt": "2026-06-30T00:26:16.597Z",
   "botName": "SageForge",
   "botNameRationale": "SageForge is builder-oriented, brandable, memorable in Discord mentions, and keeps SageBot OS available as the internal system name.",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This institutional harness reads local/prod evidence files and grades SageForge readiness. It does not post to Discord, approve knowledge, sync RAG, push, deploy, change Stripe, mutate Supabase, or claim live operating proof.",
   "status": "locally_strong_waiting_on_live_proof",
-  "score": 80,
+  "score": 83,
   "targetScoreRange": "95-99",
   "categoryScores": {
     "bot_identity_invocation": 100,
     "personality_kernel": 100,
+    "human_appeal_visual_system": 100,
     "knowledge_base": 50,
     "content_factory": 67,
     "learning_engagement": 67,
@@ -63,7 +64,7 @@
           "status": "passed",
           "score": 10,
           "maxScore": 10,
-          "evidence": "personality=sagebot-personality-v1; prompts=sagebot_answer_v2, sagebot_daily_signal_v2, sagebot_quiz_generator_v2, sagebot_challenge_generator_v2, sagebot_weekly_recap_v2",
+          "evidence": "personality=sagebot-personality-v2; prompts=sagebot_answer_v2, sagebot_daily_signal_v2, sagebot_quiz_generator_v2, sagebot_challenge_generator_v2, sagebot_weekly_recap_v2",
           "requiredForProduction": true,
           "recovery": "Define versioned prompts for answer, daily signal, quiz, challenge, and weekly recap paths."
         },
@@ -84,6 +85,42 @@
           "evidence": "observability/quality ok=true",
           "requiredForProduction": true,
           "recovery": "Run npm run discord:observability-quality-readiness and fix trace, quality rollup, and admin-surface gaps."
+        }
+      ],
+      "status": "passed",
+      "score": 30,
+      "maxScore": 30
+    },
+    {
+      "key": "human_appeal_visual_system",
+      "title": "Human Appeal And Visual System",
+      "gates": [
+        {
+          "key": "human_appeal_harness_ready",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "human appeal ok=true score=100",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:human-appeal-harness and fix embed, voice, smoke, and live visual proof gaps."
+        },
+        {
+          "key": "ask_sage_embed_proven",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "human appeal proof/regression gates passed",
+          "requiredForProduction": true,
+          "recovery": "Ensure /ask-sage smoke proves a Sage Ideas Answer embed with question, Sage take, and Sources fields."
+        },
+        {
+          "key": "visual_proof_live_card_exists",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "human appeal visual embed contract passed",
+          "requiredForProduction": true,
+          "recovery": "Keep member-facing bot messages on Discord embed cards with colored rails, readable fields, and footers."
         }
       ],
       "status": "passed",
@@ -261,8 +298,10 @@
   ],
   "safeAutonomousCommands": [
     "npm run discord:sageforge-institutional-harness",
+    "npm run discord:human-appeal-harness",
     "npm run loop:sageforge:once",
     "npm run loop:sageforge:quality",
+    "npm run loop:sageforge:human",
     "npm run langfuse:smoke",
     "npm run discord:gateway-capture-diagnosis",
     "npm run discord:knowledge-base-harness",

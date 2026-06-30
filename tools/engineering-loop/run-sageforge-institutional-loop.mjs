@@ -11,6 +11,8 @@ const harnessPath = path.join(evidenceDir, 'sageforge-institutional-harness-late
 const BASE_COMMANDS = [
   'npm run langfuse:smoke',
   'npm run discord:gateway-capture-diagnosis',
+  'npm run discord:smoke-ask-sage',
+  'npm run discord:human-appeal-harness',
   'npm run discord:release-local',
   'npm run discord:institutional-readiness',
   'npm run discord:knowledge-base-harness',

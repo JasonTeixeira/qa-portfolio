@@ -1,17 +1,66 @@
 {
   "ok": true,
   "version": "discord-knowledge-review-queue-v1",
-  "generatedAt": "2026-06-29T20:15:02.572Z",
+  "generatedAt": "2026-06-30T00:26:11.169Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This queue exports exact review candidates for the admin approval workflow. It does not approve records, sync RAG, publish content, assign roles, or mutate live services.",
   "summary": {
-    "candidateCount": 1,
+    "candidateCount": 3,
     "reviewableCandidateCount": 0,
     "approvedKnowledgeTarget": 10,
     "approvedKnowledgeShortfall": 10,
     "recommendedNextAction": "Create more real source volume from member questions, answers, builds, reviews, wins, and resources."
   },
   "candidates": [
+    {
+      "sourceTable": "discord_content_queue",
+      "sourceRecordId": "8533ea39-861e-4d09-b53d-3749d586c542",
+      "status": "captured",
+      "title": "Answer this member question: <@1516816082122309775> Sage Ideas how should I start buildin…",
+      "summary": "Question-driven teaching asset: answer publicly, capture the resource gap, and consider a daily prompt.",
+      "channelBaseName": "live-room",
+      "qualitySignal": 75,
+      "createdAt": "2026-06-29T21:27:55.159594+00:00",
+      "evidence": {
+        "source": "discord_message_classifier",
+        "source_message_id": "1521265985691189503",
+        "source_classification_action": "track_question",
+        "source_classification_category": "question",
+        "metadata": {
+          "signals": {
+            "empty": false,
+            "reply": false,
+            "short": false,
+            "has_link": false,
+            "author_bot": false,
+            "spam_terms": false,
+            "word_count": 12,
+            "has_question": true,
+            "mentions_win": false,
+            "has_attachment": false,
+            "mentions_build": true,
+            "asks_for_review": false,
+            "shares_resource": false,
+            "asks_for_support": false,
+            "content_opportunity": false
+          },
+          "rationale": "question -> track_question because has question, mentions build",
+          "confidence": 0.72,
+          "quality_score": 60,
+          "classifier_action": "track_question",
+          "classifier_category": "question",
+          "content_value_score": 80,
+          "source_content_preview": "<@1516816082122309775> Sage Ideas how should I start building my first AI app?"
+        }
+      },
+      "recommendedDecision": "needs_more_context",
+      "approvalChecklist": [
+        "Confirm this track_question is reusable for future members, not only the original thread.",
+        "Confirm private names, handles, screenshots, credentials, client names, and sensitive context are removed or permissioned.",
+        "Add a decision reason, privacy status, reviewer, reviewed_at timestamp, and RAG-safe approved text.",
+        "Reject if the source is generic, synthetic, low-context, moderation-sensitive, or unsupported."
+      ]
+    },
     {
       "sourceTable": "discord_content_queue",
       "sourceRecordId": "96b5b421-a862-4a6b-90c7-4d9719dad9e9",
@@ -56,6 +105,55 @@
       "recommendedDecision": "needs_more_context",
       "approvalChecklist": [
         "Confirm this candidate_resource is reusable for future members, not only the original thread.",
+        "Confirm private names, handles, screenshots, credentials, client names, and sensitive context are removed or permissioned.",
+        "Add a decision reason, privacy status, reviewer, reviewed_at timestamp, and RAG-safe approved text.",
+        "Reject if the source is generic, synthetic, low-context, moderation-sensitive, or unsupported."
+      ]
+    },
+    {
+      "sourceTable": "discord_content_queue",
+      "sourceRecordId": "315a3cc1-8fe4-404c-94da-b3e8e3f1e347",
+      "status": "captured",
+      "title": "Answer this member question: <@1516816082122309775> hey I has some question about the cou…",
+      "summary": "Question-driven teaching asset: answer publicly, capture the resource gap, and consider a daily prompt.",
+      "channelBaseName": "live-room",
+      "qualitySignal": 61,
+      "createdAt": "2026-06-29T20:49:07.177762+00:00",
+      "evidence": {
+        "source": "discord_message_classifier",
+        "source_message_id": "1521256221472981184",
+        "source_classification_action": "track_question",
+        "source_classification_category": "question",
+        "metadata": {
+          "signals": {
+            "empty": false,
+            "reply": false,
+            "short": false,
+            "has_link": false,
+            "author_bot": false,
+            "spam_terms": false,
+            "word_count": 14,
+            "has_question": true,
+            "mentions_win": false,
+            "has_attachment": false,
+            "mentions_build": false,
+            "asks_for_review": false,
+            "shares_resource": false,
+            "asks_for_support": true,
+            "content_opportunity": false
+          },
+          "rationale": "question -> track_question because has question, asks for support",
+          "confidence": 0.67,
+          "quality_score": 45,
+          "classifier_action": "track_question",
+          "classifier_category": "question",
+          "content_value_score": 65,
+          "source_content_preview": "<@1516816082122309775> hey I has some question about the courses can you help me out?"
+        }
+      },
+      "recommendedDecision": "needs_more_context",
+      "approvalChecklist": [
+        "Confirm this track_question is reusable for future members, not only the original thread.",
         "Confirm private names, handles, screenshots, credentials, client names, and sensitive context are removed or permissioned.",
         "Add a decision reason, privacy status, reviewer, reviewed_at timestamp, and RAG-safe approved text.",
         "Reject if the source is generic, synthetic, low-context, moderation-sensitive, or unsupported."

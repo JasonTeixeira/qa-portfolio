@@ -1,6 +1,6 @@
 # Sage Ideas Discord Operator Brief
 
-Generated: 2026-06-29T20:10:29.550Z
+Generated: 2026-06-30T00:26:12.667Z
 Release decision: do_not_claim_world_class
 Average score: 83/100
 World-class eligible: no
@@ -93,7 +93,7 @@ The local system is verified, but real operating proof is still missing. Close g
 - Packet remaining: 0
 - Packet state: fresh_usable_message_proven
 - Message content: true via heartbeat
-- Heartbeat: fresh (sagebot-main, age 0 minutes)
+- Heartbeat: fresh (sagebot-main, age 1 minutes)
 - Root causes: none reported
 - Next actions:
   - Run classifier and content queue jobs only with explicit approval for live Supabase mutation.

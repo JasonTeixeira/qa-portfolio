@@ -110,8 +110,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['discord:gateway-operating-packet'], 'tsx scripts/discord/write-gateway-operating-packet.ts');
   assert.equal(packageJson.scripts['discord:career-content-harness'], 'tsx scripts/discord/write-career-content-harness.ts');
   assert.equal(packageJson.scripts['discord:sage-kernel-content-harness'], 'tsx scripts/discord/write-sage-kernel-content-harness.ts');
-  assert.equal(packageJson.scripts['discord:knowledge-base-harness'], 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts');
-  assert.equal(packageJson.scripts['discord:sageforge-institutional-harness'], 'tsx scripts/discord/write-sageforge-institutional-harness.ts');
+	  assert.equal(packageJson.scripts['discord:knowledge-base-harness'], 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts');
+	  assert.equal(packageJson.scripts['discord:sageforge-institutional-harness'], 'tsx scripts/discord/write-sageforge-institutional-harness.ts');
+	  assert.equal(packageJson.scripts['discord:human-appeal-harness'], 'tsx scripts/discord/write-human-appeal-harness.ts');
   assert.equal(packageJson.scripts['sagebot:deploy-live:plan'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs');
   assert.equal(packageJson.scripts['sagebot:deploy-live'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes');
   assert.equal(packageJson.scripts['sagebot:deploy-live:push'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes --push');
@@ -121,8 +122,9 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
   assert.equal(packageJson.scripts['loop:knowledge-base:full'], 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate');
   assert.equal(packageJson.scripts['loop:sageforge'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs');
   assert.equal(packageJson.scripts['loop:sageforge:once'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once');
-  assert.equal(packageJson.scripts['loop:sageforge:dry-run'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --dry-run');
-  assert.equal(packageJson.scripts['loop:sageforge:quality'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --quality-gate');
+	  assert.equal(packageJson.scripts['loop:sageforge:dry-run'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --dry-run');
+	  assert.equal(packageJson.scripts['loop:sageforge:quality'], 'node tools/engineering-loop/run-sageforge-institutional-loop.mjs --once --quality-gate');
+	  assert.equal(packageJson.scripts['loop:sageforge:human'], 'npm run discord:smoke-ask-sage && npm run discord:human-appeal-harness');
   assert.equal(packageJson.scripts['discord:channel-matrix-readiness'], 'tsx scripts/discord/write-channel-matrix-readiness.ts');
   assert.equal(packageJson.scripts['discord:durable-jobs-readiness'], 'node scripts/discord/write-durable-jobs-readiness.mjs');
   assert.equal(packageJson.scripts['discord:security-privacy-readiness'], 'node scripts/discord/write-security-privacy-readiness.mjs');
@@ -583,6 +585,72 @@ test('sagebot live deploy harness: gates deployment, registers commands, and ver
   assert.match(script, /npm run discord:smoke-ask-sage/);
   assert.match(script, /plan_only_no_live_mutation/);
   assert.match(script, /explicitly_approved_live_deploy_push_capable/);
+});
+
+test('sagebot human appeal harness: blocks cold markdown regressions', async () => {
+  const { buildHumanAppealHarness } = await import('../../lib/discord/human-appeal-harness.ts');
+  const packageJson = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  const files = Object.fromEntries(
+    await Promise.all([
+      'lib/discord/ask-sage.ts',
+      'lib/discord/message-formatting.ts',
+      'lib/discord/mention-responder.ts',
+      'lib/discord/sage-commands.ts',
+      'lib/discord/sage-rest.ts',
+      'lib/discord/sagebot-personality.ts',
+      'scripts/discord/smoke-ask-sage.ts',
+    ].map(async (file) => [file, await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')])),
+  );
+
+  const report = buildHumanAppealHarness({
+    generatedAt: '2026-06-29T00:00:00.000Z',
+    packageJson,
+    sourceFiles: files,
+    askSageSmoke: {
+      ok: true,
+      embedPreview: {
+        title: 'Sage Ideas Answer',
+        fields: [
+          { name: 'Your question' },
+          { name: 'Sage take' },
+          { name: 'Sources' },
+        ],
+      },
+    },
+    visualEmbedProof: {
+      ok: true,
+      messageId: 'message-1',
+      embed: {
+        title: 'SageBot Visual Proof',
+        fields: [
+          { name: "Today's move" },
+          { name: 'Why it matters' },
+          { name: 'Ship check' },
+        ],
+      },
+    },
+  });
+
+  assert.equal(report.ok, true);
+  assert.equal(report.status, 'human_appeal_ready');
+  assert.equal(report.score, 100);
+  assert.ok(report.categories.some((category) => category.key === 'visual_embed_contract' && category.status === 'passed'));
+  assert.ok(report.categories.some((category) => category.key === 'human_voice_contract' && category.status === 'passed'));
+  assert.ok(report.categories.some((category) => category.key === 'proof_and_regression_gates' && category.status === 'passed'));
+
+  const broken = buildHumanAppealHarness({
+    generatedAt: '2026-06-29T00:00:00.000Z',
+    packageJson: { scripts: {} },
+    sourceFiles: {
+      ...files,
+      'scripts/discord/smoke-ask-sage.ts': "content.includes('# SageBot answer')",
+    },
+    askSageSmoke: { ok: true, embedPreview: { title: 'Plain text', fields: [] } },
+    visualEmbedProof: { ok: false },
+  });
+  assert.equal(broken.ok, false);
+  assert.ok(broken.failures.includes('proof_and_regression_gates:smoke_script_blocks_markdown_regression'));
+  assert.ok(broken.failures.includes('proof_and_regression_gates:ask_sage_smoke_proves_embed'));
 });
 
 test('career content harness: scores AI Career OS sources without claiming live proof', async () => {
@@ -9953,9 +10021,17 @@ test('sageforge institutional harness: enforces identity, proof, and autonomy bo
     publicGrowthReadiness: { ok: true },
     securityPrivacyReadiness: { ok: true },
     localVerification: { ok: true },
-    ragEvalLatest: { ok: true, summary: { passRate: 1, total: 65 } },
-    langfuseSmoke: { ok: true, provider: 'langfuse' },
-  });
+	    ragEvalLatest: { ok: true, summary: { passRate: 1, total: 65 } },
+	    langfuseSmoke: { ok: true, provider: 'langfuse' },
+	    humanAppealHarness: {
+	      ok: true,
+	      score: 100,
+	      categories: [
+	        { key: 'visual_embed_contract', status: 'passed' },
+	        { key: 'proof_and_regression_gates', status: 'passed' },
+	      ],
+	    },
+	  });
   assert.equal(report.botName, 'SageForge');
   assert.equal(report.ok, true);
   assert.equal(report.status, 'locally_strong_waiting_on_live_proof');
@@ -9964,11 +10040,12 @@ test('sageforge institutional harness: enforces identity, proof, and autonomy bo
   assert.ok(report.explicitApprovalCommands.some((item) => item.includes('vercel deploy --prod')));
   assert.ok(report.autonomyContract.stopsForApproval.some((item) => item.includes('live Discord mutations')));
   assert.ok(report.antiFakeRules.some((item) => item.includes('Smoke rows do not count')));
-  assert.match(runner, /discord:live-proof-accelerator/);
-  assert.doesNotMatch(runner, /SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved/);
-  for (const key of ['bot_identity_invocation', 'personality_kernel', 'knowledge_base', 'content_factory', 'learning_engagement', 'production_operations']) {
-    assert.ok(report.categories.some((category) => category.key === key), `missing ${key}`);
-  }
+	  assert.match(runner, /discord:human-appeal-harness/);
+	  assert.match(runner, /discord:live-proof-accelerator/);
+	  assert.doesNotMatch(runner, /SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved/);
+	  for (const key of ['bot_identity_invocation', 'personality_kernel', 'human_appeal_visual_system', 'knowledge_base', 'content_factory', 'learning_engagement', 'production_operations']) {
+	    assert.ok(report.categories.some((category) => category.key === key), `missing ${key}`);
+	  }
 });
 
 // -------------------------------------------------------------- runner

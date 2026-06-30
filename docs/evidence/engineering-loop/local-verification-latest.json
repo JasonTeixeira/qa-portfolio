@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-29T20:10:29.832Z",
+  "timestamp": "2026-06-30T00:26:12.944Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -140,7 +140,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782763824121"
+    "runKey": "phase-20-final-1782779166411"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -160,7 +160,7 @@
     "cycleKey": "2026-W27",
     "approvedDiscordKnowledgeSources": 0,
     "ragDiscordSources": 0,
-    "pendingKnowledgeCandidates": 1,
+    "pendingKnowledgeCandidates": 3,
     "pendingPublicDrafts": 0,
     "publishedPublicDrafts": 0,
     "approvedMembers": 7,
@@ -260,7 +260,7 @@
       "smokeProofCommandAvailable": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
       "approvedKnowledgeCount": 0,
       "discordRagSourceCount": 0,
-      "reviewableCandidateCount": 2
+      "reviewableCandidateCount": 6
     },
     "checkCount": 8,
     "failures": [],
@@ -916,7 +916,7 @@
       "current": 0,
       "target": 10,
       "remaining": 10,
-      "reviewableCandidates": 2,
+      "reviewableCandidates": 6,
       "sourceVolumeState": "needs_review"
     },
     "requiredFieldCount": 18,
@@ -931,7 +931,7 @@
     ],
     "nextActions": [
       "Approve 10 more high-signal Discord knowledge items with this packet.",
-      "Review 2 candidates already visible in source-volume evidence.",
+      "Review 6 candidates already visible in source-volume evidence.",
       "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
       "Rerun npm run discord:proof-source-scan after approvals."
     ],
@@ -950,17 +950,17 @@
     "heartbeat": {
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
-      "ageMinutes": 0,
-      "lastSeenAt": "2026-06-29T20:09:51.206+00:00",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-30T00:25:25.899+00:00",
       "fresh": true,
       "lastCloseCode": null
     },
     "messageContentSignal": {
       "effectiveEnabled": true,
       "source": "heartbeat",
-      "identifyEnabled": true,
+      "identifyEnabled": null,
       "heartbeatEnabled": true,
-      "identifyCreatedAt": "2026-06-29T19:14:48.322001+00:00"
+      "identifyCreatedAt": null
     },
     "requiredFieldCount": 18,
     "antiFakeRules": [
@@ -985,7 +985,7 @@
       "approvedDiscordKnowledge": {
         "current": 0,
         "target": 10,
-        "reviewableCandidates": 2,
+        "reviewableCandidates": 6,
         "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
       },
       "ragDiscordSources": {
@@ -1011,13 +1011,13 @@
       }
     },
     "counts": {
-      "discord_messages.all": 10,
+      "discord_messages.all": 12,
       "discord_messages.non_empty_visible": 1,
       "discord_messages.recent_7d_visible": 1,
-      "discord_message_classifications.all": 1,
-      "discord_message_classifications.recommended_action.in": 1,
-      "discord_content_queue.all": 1,
-      "discord_content_queue.status.in": 1,
+      "discord_message_classifications.all": 3,
+      "discord_message_classifications.recommended_action.in": 3,
+      "discord_content_queue.all": 3,
+      "discord_content_queue.status.in": 3,
       "discord_content_queue.status=published": 0,
       "discord_questions.all": 0,
       "discord_questions.status.in": 0,

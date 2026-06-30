@@ -25,9 +25,10 @@ const files = {
   publicGrowthReadiness: 'docs/evidence/engineering-loop/public-growth-readiness-latest.json',
   securityPrivacyReadiness: 'docs/evidence/engineering-loop/security-privacy-readiness-latest.json',
   localVerification: 'docs/evidence/engineering-loop/local-verification-latest.json',
-  ragEvalLatest: 'docs/evidence/rag/eval-latest.json',
-  langfuseSmoke: 'docs/evidence/engineering-loop/langfuse-smoke-latest.json',
-} as const;
+	  ragEvalLatest: 'docs/evidence/rag/eval-latest.json',
+	  langfuseSmoke: 'docs/evidence/engineering-loop/langfuse-smoke-latest.json',
+	  humanAppealHarness: 'docs/evidence/engineering-loop/sagebot-human-appeal-harness-latest.json',
+	} as const;
 
 async function readJson(relativePath: string): Promise<any> {
   const filePath = path.join(root, relativePath);

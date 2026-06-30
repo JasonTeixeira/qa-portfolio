@@ -1,6 +1,6 @@
 # Sage Ideas Discord Proof Candidate Audit
 
-Generated: 2026-06-29T20:10:28.027Z
+Generated: 2026-06-30T00:26:10.370Z
 Mutation mode: local_file_evidence_only
 Status: blocked
 Audit OK: yes
@@ -13,7 +13,7 @@ Candidate audit reads current evidence and explains what can be reviewed next. I
 
 - approvedDiscordKnowledgeSources: 0
 - ragDiscordSources: 0
-- pendingKnowledgeCandidates: 1
+- pendingKnowledgeCandidates: 3
 - pendingPublicDrafts: 0
 - publishedPublicDrafts: 0
 - premiumMembers: 0
@@ -45,7 +45,7 @@ Next review action: Maintain proof quality and rerun scorecard after the next op
 - Status: blocked
 - Candidate state: needs_review
 - Current: 0/10
-- Candidate count: 1
+- Candidate count: 3
 - Remaining: 10
 - Admin surface: /admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels
 - Proving command: npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog
@@ -54,7 +54,7 @@ Next review action: Maintain proof quality and rerun scorecard after the next op
 
 Blockers:
 - Current proof is 0/10; lane remains blocked until the target is met.
-- Approved knowledge plus pending candidates is 1/10; more real member source material is needed.
+- Approved knowledge plus pending candidates is 3/10; more real member source material is needed.
 
 Next review action: Review pending knowledge candidates and approve only reusable, privacy-safe items.
 

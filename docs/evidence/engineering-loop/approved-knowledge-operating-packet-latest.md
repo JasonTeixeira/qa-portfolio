@@ -1,6 +1,6 @@
 # Approved Discord Knowledge Operating Packet
 
-Generated: 2026-06-29T20:10:18.579Z
+Generated: 2026-06-30T00:26:01.037Z
 Status: ready_for_collection
 Mutation mode: local_file_evidence_only
 
@@ -10,7 +10,7 @@ This approved-knowledge packet defines the weekly review contract for the next p
 
 - Current: 0/10
 - Remaining: 10
-- Reviewable candidates: 2
+- Reviewable candidates: 6
 - Source volume state: needs_review
 - Admin surface: /admin/discord -> RAG knowledge approval desk, Content Queue, Drafts, Questions, Challenges
 
@@ -120,6 +120,6 @@ Pass score: 80/100
 ## Next Actions
 
 - Approve 10 more high-signal Discord knowledge items with this packet.
-- Review 2 candidates already visible in source-volume evidence.
+- Review 6 candidates already visible in source-volume evidence.
 - Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.
 - Rerun npm run discord:proof-source-scan after approvals.

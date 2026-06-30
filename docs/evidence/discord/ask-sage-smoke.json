@@ -2,9 +2,9 @@
   "ok": true,
   "responseType": 4,
   "ephemeral": true,
-  "answerId": "64e9fb6f-1d34-4cdd-800f-909b6c7fe828",
-  "retrievalLogId": "417f96d6-676b-4fe1-bc5e-c60e16de0053",
-  "traceId": "80d27a09c964993b7ce41e6a5f0987d5",
+  "answerId": "bb8effca-2345-437c-bc5e-25b2e0038eea",
+  "retrievalLogId": "10bf0b60-9eb0-4111-97f8-519944e51e32",
+  "traceId": "c116d4c448cc9fe914e0373a3dc86cc3",
   "observabilityProvider": "langfuse",
   "queueCount": 1,
   "pointsCount": 1,
@@ -27,6 +27,6 @@
       }
     ]
   },
-  "startedAt": "2026-06-29T23:02:59.952Z",
-  "finishedAt": "2026-06-29T23:03:08.212Z"
+  "startedAt": "2026-06-30T00:25:44.201Z",
+  "finishedAt": "2026-06-30T00:25:51.705Z"
 }

@@ -73,6 +73,10 @@ here once scored).
 | career-backend_engineering | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-concept_maps_real_world_engineering | 30 | 30 | 30 | **30** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-frontend_fullstack | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| _(remaining 16 courses)_ | ~320 | — | — | — | queued (databases authoring; cloud/devops next) |
+| career-databases_data_modeling | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| career-cloud_devops_operations | 20 | 1 | 1 | — | 1/20 (re-authoring 19; concurrent-author starvation, now serialized) |
+| _(remaining 14 courses)_ | ~280 | — | — | — | queued, SERIAL (one Workflow at a time) |
+
+> Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 
 **Measured cost per course (backend):** ~3M subagent tokens (author 4+16 lessons + score 20) across ~4 Workflows. The remaining 18 courses scale roughly linearly. Engine proven end-to-end AND at full-course scale.

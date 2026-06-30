@@ -24,6 +24,20 @@ if (!payload || typeof payload !== 'object') {
   process.exit(1)
 }
 
+// Normalize: the code-walkthrough union allows only python|ts|bash. Agents
+// sometimes emit sql/yaml/json/etc — coerce to 'bash' (renders fine) so the
+// validator (fail-closed) doesn't reject the whole course.
+const OK_LANG = new Set(['python', 'ts', 'bash'])
+let coerced = 0
+for (const blocks of Object.values(payload)) {
+  for (const b of blocks) {
+    if (b?.type === 'code-walkthrough' && !OK_LANG.has(b.language)) {
+      b.language = 'bash'
+      coerced++
+    }
+  }
+}
+
 const flat = JSON.stringify(payload)
 const entities = ['&lt;', '&gt;', '&amp;'].filter((e) => flat.includes(e))
 
@@ -46,6 +60,7 @@ console.log(JSON.stringify({
   merged: Object.keys(payload).length,
   totalInFile: Object.keys(cur).length,
   added: Object.keys(cur).length - before,
+  coercedLanguages: coerced,
   htmlEntities: entities,
   lowVisualLessons: lowVisual,
   dest,

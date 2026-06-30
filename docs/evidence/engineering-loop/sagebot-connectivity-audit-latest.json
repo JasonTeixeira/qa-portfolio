@@ -1,0 +1,240 @@
+{
+  "ok": true,
+  "version": "sagebot-connectivity-audit-v1",
+  "generatedAt": "2026-06-30T13:26:29.734Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This audit checks local source connectivity, package-script targets, knip static results, scaffold markers, and existing SageBot harness evidence. It does not push, deploy, mutate Discord, mutate Supabase, publish content, or approve knowledge.",
+  "status": "connected_with_review_items",
+  "score": 85,
+  "fileCounts": {
+    "sourceFiles": 149,
+    "connectedFiles": 149,
+    "disconnectedFiles": 0,
+    "scriptReferencedFiles": 87,
+    "importReferencedFiles": 60,
+    "knipUnusedSageBotFiles": 0,
+    "scaffoldHits": 0
+  },
+  "categories": [
+    {
+      "key": "entrypoint_connectivity",
+      "title": "Entrypoint Connectivity",
+      "status": "passed",
+      "score": 25,
+      "maxScore": 25,
+      "findings": []
+    },
+    {
+      "key": "dead_code_static_scan",
+      "title": "Dead Code Static Scan",
+      "status": "passed",
+      "score": 20,
+      "maxScore": 20,
+      "findings": []
+    },
+    {
+      "key": "scaffold_marker_scan",
+      "title": "Scaffold Marker Scan",
+      "status": "passed",
+      "score": 15,
+      "maxScore": 15,
+      "findings": []
+    },
+    {
+      "key": "harness_health",
+      "title": "Harness Health",
+      "status": "passed",
+      "score": 25,
+      "maxScore": 25,
+      "findings": []
+    },
+    {
+      "key": "live_proof_posture",
+      "title": "Live Proof Posture",
+      "status": "warning",
+      "score": 0,
+      "maxScore": 15,
+      "findings": [
+        {
+          "severity": "medium",
+          "key": "live_operating_proof_missing",
+          "summary": "8 live operating proof targets are still unmet.",
+          "evidence": [
+            "knowledge_base:approved_discord_knowledge_live_target",
+            "knowledge_base:discord_rag_sources_live_target",
+            "content_factory:public_proof_live_target",
+            "learning_engagement:premium_workflow_live_target",
+            "rag_readiness:approved_knowledge_target_met",
+            "rag_readiness:rag_sources_target_met",
+            "operating_proof:public_proof_target_met",
+            "operating_proof:premium_workflow_target_met"
+          ],
+          "recommendation": "Approve real Discord knowledge, sync it into RAG, create public proof assets, and run one premium workflow proof."
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "severity": "medium",
+      "key": "live_operating_proof_missing",
+      "summary": "8 live operating proof targets are still unmet.",
+      "evidence": [
+        "knowledge_base:approved_discord_knowledge_live_target",
+        "knowledge_base:discord_rag_sources_live_target",
+        "content_factory:public_proof_live_target",
+        "learning_engagement:premium_workflow_live_target",
+        "rag_readiness:approved_knowledge_target_met",
+        "rag_readiness:rag_sources_target_met",
+        "operating_proof:public_proof_target_met",
+        "operating_proof:premium_workflow_target_met"
+      ],
+      "recommendation": "Approve real Discord knowledge, sync it into RAG, create public proof assets, and run one premium workflow proof."
+    }
+  ],
+  "connectedEntryPoints": [
+    "app/admin/discord/actions.ts",
+    "app/admin/discord/page.tsx",
+    "app/api/discord/interactions/route.ts",
+    "scripts/discord/archive-old-community-structure.mjs",
+    "scripts/discord/audit-member-approval.mjs",
+    "scripts/discord/audit-sage-community.mjs",
+    "scripts/discord/audit-sagebot-connectivity.ts",
+    "scripts/discord/categorize-lean-community.mjs",
+    "scripts/discord/check-migrations.mjs",
+    "scripts/discord/classify-messages.ts",
+    "scripts/discord/create-weekly-recap-draft.ts",
+    "scripts/discord/deploy-sagebot-live.mjs",
+    "scripts/discord/diagnose-gateway-capture.ts",
+    "scripts/discord/enforce-approval-gate.mjs",
+    "scripts/discord/evaluate-content-drafts.ts",
+    "scripts/discord/export-knowledge-review-queue.ts",
+    "scripts/discord/gateway-worker.ts",
+    "scripts/discord/generate-learning-content.ts",
+    "scripts/discord/harden-sage-community.mjs",
+    "scripts/discord/nudge-approved-onboarding.ts",
+    "scripts/discord/pin-sage-operating-posts.mjs",
+    "scripts/discord/plan-daily-content.ts",
+    "scripts/discord/prove-onboarding-live.ts",
+    "scripts/discord/provision-sage-community.mjs",
+    "scripts/discord/queue-content-from-messages.ts",
+    "scripts/discord/rebuild-member-intelligence.ts",
+    "scripts/discord/register-sage-commands.mjs",
+    "scripts/discord/run-content-factory.ts",
+    "scripts/discord/run-knowledge-base-e2e.mjs",
+    "scripts/discord/run-operating-proof-cycle.ts",
+    "scripts/discord/scan-proof-source-volume.ts",
+    "scripts/discord/smoke-admin-cockpit-v2.ts",
+    "scripts/discord/smoke-approved-member-slash-flows.ts",
+    "scripts/discord/smoke-ask-sage.ts",
+    "scripts/discord/smoke-challenge-lab.ts",
+    "scripts/discord/smoke-content-approval.ts",
+    "scripts/discord/smoke-content-jobs-v2.ts",
+    "scripts/discord/smoke-content-queue-automation.ts",
+    "scripts/discord/smoke-daily-approval-publish.ts",
+    "scripts/discord/smoke-daily-signal-publish.ts",
+    "scripts/discord/smoke-daily-signal-scheduler.ts",
+    "scripts/discord/smoke-durable-jobs.ts",
+    "scripts/discord/smoke-final-scorecard.ts",
+    "scripts/discord/smoke-knowledge-capture.ts",
+    "scripts/discord/smoke-learning-lab-scheduler.ts",
+    "scripts/discord/smoke-learning-lab-v2.ts",
+    "scripts/discord/smoke-message-classifier.ts",
+    "scripts/discord/smoke-news-ingestion.ts",
+    "scripts/discord/smoke-news-to-action.ts",
+    "scripts/discord/smoke-observability-quality-v2.ts",
+    "scripts/discord/smoke-premium-workflows.ts",
+    "scripts/discord/smoke-public-proof-growth.ts",
+    "scripts/discord/smoke-quiz-scoring.ts",
+    "scripts/discord/smoke-sage-community.mjs",
+    "scripts/discord/smoke-scale-failure-readiness.ts",
+    "scripts/discord/smoke-security-privacy-abuse.ts",
+    "scripts/discord/smoke-weekly-approval-publish.ts",
+    "scripts/discord/smoke-weekly-leaderboard-recap.ts",
+    "scripts/discord/sync-native-approved-roles.ts",
+    "scripts/discord/verify-message-content-intent.mjs",
+    "scripts/discord/write-approved-knowledge-operating-packet.ts",
+    "scripts/discord/write-career-content-harness.ts",
+    "scripts/discord/write-channel-matrix-readiness.ts",
+    "scripts/discord/write-content-factory-readiness.ts",
+    "scripts/discord/write-durable-jobs-readiness.mjs",
+    "scripts/discord/write-gateway-operating-packet.ts",
+    "scripts/discord/write-human-appeal-harness.ts",
+    "scripts/discord/write-institutional-readiness.ts",
+    "scripts/discord/write-knowledge-base-e2e-readiness.mjs",
+    "scripts/discord/write-knowledge-base-engineering-harness.ts",
+    "scripts/discord/write-live-proof-accelerator.ts",
+    "scripts/discord/write-observability-quality-readiness.mjs",
+    "scripts/discord/write-operator-brief.ts",
+    "scripts/discord/write-premium-workflow-readiness.mjs",
+    "scripts/discord/write-proof-backlog.ts",
+    "scripts/discord/write-proof-candidate-audit.ts",
+    "scripts/discord/write-proof-intake-readiness.ts",
+    "scripts/discord/write-proof-rehearsal-readiness.ts",
+    "scripts/discord/write-proof-source-recovery-plan.ts",
+    "scripts/discord/write-public-growth-readiness.mjs",
+    "scripts/discord/write-sage-kernel-content-harness.ts",
+    "scripts/discord/write-sageforge-institutional-harness.ts",
+    "scripts/discord/write-security-privacy-readiness.mjs",
+    "scripts/discord/write-weekly-proof-packet.ts",
+    "scripts/discord/write-world-class-readiness.ts",
+    "tools/engineering-loop/audit-state.mjs",
+    "tools/engineering-loop/run-knowledge-base-loop.mjs",
+    "tools/engineering-loop/run-sageforge-institutional-loop.mjs",
+    "tools/engineering-loop/run-world-class-loop.mjs",
+    "tools/engineering-loop/verify-harness.mjs"
+  ],
+  "suspectedDeadOrDisconnectedFiles": [],
+  "scaffoldHits": [],
+  "remainingProductionGaps": [
+    "knowledge_base:approved_discord_knowledge_live_target",
+    "knowledge_base:discord_rag_sources_live_target",
+    "content_factory:public_proof_live_target",
+    "learning_engagement:premium_workflow_live_target",
+    "rag_readiness:approved_knowledge_target_met",
+    "rag_readiness:rag_sources_target_met",
+    "operating_proof:public_proof_target_met",
+    "operating_proof:premium_workflow_target_met"
+  ],
+  "harnessSummaries": {
+    "institutional": {
+      "ok": true,
+      "score": 83,
+      "status": "locally_strong_waiting_on_live_proof",
+      "failures": [
+        "knowledge_base:approved_discord_knowledge_live_target",
+        "knowledge_base:discord_rag_sources_live_target",
+        "content_factory:public_proof_live_target",
+        "learning_engagement:premium_workflow_live_target"
+      ]
+    },
+    "humanAppeal": {
+      "ok": true,
+      "score": 100,
+      "status": "human_appeal_ready",
+      "failures": []
+    },
+    "knowledgeBase": {
+      "ok": true,
+      "score": 76,
+      "status": "locally_verified_waiting_on_live_approval",
+      "failures": [
+        "rag_readiness:approved_knowledge_target_met",
+        "rag_readiness:rag_sources_target_met",
+        "operating_proof:public_proof_target_met",
+        "operating_proof:premium_workflow_target_met"
+      ]
+    },
+    "latestLoop": {
+      "ok": true,
+      "stopReason": "external_approval_or_live_proof_required"
+    }
+  },
+  "evidenceInputs": {
+    "knipPath": "docs/evidence/engineering-loop/sagebot-knip-audit-latest.json",
+    "institutionalHarnessPath": "docs/evidence/engineering-loop/sageforge-institutional-harness-latest.json",
+    "humanAppealHarnessPath": "docs/evidence/engineering-loop/sagebot-human-appeal-harness-latest.json",
+    "knowledgeHarnessPath": "docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json",
+    "loopRunPath": "docs/evidence/engineering-loop/sageforge-institutional-loop-run-latest.json"
+  }
+}

@@ -113,6 +113,7 @@ test('ops scripts: local e2e and Supabase commands load env and use durable wrap
 	  assert.equal(packageJson.scripts['discord:knowledge-base-harness'], 'tsx scripts/discord/write-knowledge-base-engineering-harness.ts');
 	  assert.equal(packageJson.scripts['discord:sageforge-institutional-harness'], 'tsx scripts/discord/write-sageforge-institutional-harness.ts');
 	  assert.equal(packageJson.scripts['discord:human-appeal-harness'], 'tsx scripts/discord/write-human-appeal-harness.ts');
+	  assert.equal(packageJson.scripts['discord:connectivity-audit'], 'tsx scripts/discord/audit-sagebot-connectivity.ts');
   assert.equal(packageJson.scripts['sagebot:deploy-live:plan'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs');
   assert.equal(packageJson.scripts['sagebot:deploy-live'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes');
   assert.equal(packageJson.scripts['sagebot:deploy-live:push'], 'node --env-file-if-exists=.env.local scripts/discord/deploy-sagebot-live.mjs --execute --yes --push');

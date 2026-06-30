@@ -23,6 +23,7 @@ const requiredScripts = {
 	  'loop:knowledge-base:full': 'node tools/engineering-loop/run-knowledge-base-loop.mjs --once --quality-gate',
 	  'loop:sageforge:human': 'npm run discord:smoke-ask-sage && npm run discord:human-appeal-harness',
 	  'discord:human-appeal-harness': 'tsx scripts/discord/write-human-appeal-harness.ts',
+	  'discord:connectivity-audit': 'tsx scripts/discord/audit-sagebot-connectivity.ts',
 	};
 
 const forbiddenScriptReferences = [
@@ -59,6 +60,7 @@ async function main() {
 	  const knowledgeRunnerScript = await readText('tools/engineering-loop/run-knowledge-base-loop.mjs');
 	  const humanAppealHarnessScript = await readText('scripts/discord/write-human-appeal-harness.ts');
 	  const humanAppealHarnessLib = await readText('lib/discord/human-appeal-harness.ts');
+	  const sageBotConnectivityAuditScript = await readText('scripts/discord/audit-sagebot-connectivity.ts');
 	  const knowledgeBaseE2eRunner = await readText('scripts/discord/run-knowledge-base-e2e.mjs');
   const knowledgeBaseE2eReadiness = await readText('scripts/discord/write-knowledge-base-e2e-readiness.mjs');
   const verifierScript = await readText('tools/engineering-loop/verify-harness.mjs');
@@ -98,6 +100,7 @@ async function main() {
 	  if (!runnerScript.includes('discord:knowledge-base-harness')) failures.push('runner_missing_knowledge_base_harness_command');
 	  if (!sageForgeRunnerScript.includes('discord:human-appeal-harness')) failures.push('sageforge_runner_missing_human_appeal_harness_command');
 	  if (!sageForgeRunnerScript.includes('discord:smoke-ask-sage')) failures.push('sageforge_runner_missing_ask_sage_smoke_command');
+	  if (!sageForgeRunnerScript.includes('discord:connectivity-audit')) failures.push('sageforge_runner_missing_connectivity_audit_command');
 	  if (runnerScript.includes('SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing') && !runnerScript.includes('/SAGE_ALLOW_/')) {
 	    failures.push('runner_embeds_approval_command_without_refusal_pattern');
 	  }
@@ -105,6 +108,9 @@ async function main() {
 	  if (!humanAppealHarnessLib.includes('SAGEBOT_HUMAN_APPEAL_HARNESS_VERSION')) failures.push('human_appeal_lib_missing_version');
 	  if (!humanAppealHarnessLib.includes('live_visual_embed_proof_exists')) failures.push('human_appeal_lib_missing_live_visual_proof_gate');
 	  if (!humanAppealHarnessLib.includes('smoke_script_blocks_markdown_regression')) failures.push('human_appeal_lib_missing_markdown_regression_gate');
+	  if (!sageBotConnectivityAuditScript.includes('sagebot-connectivity-audit-latest.json')) failures.push('connectivity_audit_missing_evidence_json');
+	  if (!sageBotConnectivityAuditScript.includes('knipUnusedSageBotFiles')) failures.push('connectivity_audit_missing_knip_gate');
+	  if (!sageBotConnectivityAuditScript.includes('disconnectedFiles')) failures.push('connectivity_audit_missing_disconnected_file_gate');
 
   if (!verifierScript.includes('forbiddenScriptReferences')) failures.push('verifier_missing_forbidden_script_references');
   if (!verifierScript.includes('loop:knowledge-base:full')) failures.push('verifier_missing_knowledge_base_full_loop_script');
@@ -131,6 +137,7 @@ async function main() {
 	      'tools/engineering-loop/verify-harness.mjs',
 	      'scripts/discord/write-human-appeal-harness.ts',
 	      'lib/discord/human-appeal-harness.ts',
+	      'scripts/discord/audit-sagebot-connectivity.ts',
 	      'scripts/discord/write-career-content-harness.ts',
       'lib/discord/career-content-harness.ts',
       'scripts/discord/write-sage-kernel-content-harness.ts',

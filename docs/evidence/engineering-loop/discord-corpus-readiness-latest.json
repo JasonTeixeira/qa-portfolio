@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-corpus-readiness-v1",
-  "generatedAt": "2026-06-30T00:26:02.496Z",
+  "generatedAt": "2026-06-30T13:25:46.959Z",
   "mutationMode": "local_file_evidence_only",
   "sourceEvidence": {
     "authoritativeSources": "lib/rag/discord-authoritative-sources.ts",
@@ -84,7 +84,7 @@
   "validation": {
     "ok": true,
     "validator": "discord-corpus-readiness-validator-v1",
-    "validatedAt": "2026-06-30T00:26:02.497Z",
+    "validatedAt": "2026-06-30T13:25:46.961Z",
     "failures": []
   }
 }

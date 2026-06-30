@@ -1,6 +1,6 @@
 # Gateway Operating Packet
 
-Generated: 2026-06-30T00:25:58.821Z
+Generated: 2026-06-30T13:25:43.250Z
 Status: proven
 Mutation mode: local_file_evidence_only
 
@@ -21,7 +21,7 @@ This gateway operating packet converts the latest diagnosis into a live proof co
 - Heartbeat age minutes: 1
 - Effective message content: true
 - Signal source: heartbeat
-- Identify created at: missing
+- Identify created at: 2026-06-30T12:40:18.938637+00:00
 
 ## Required Fields
 

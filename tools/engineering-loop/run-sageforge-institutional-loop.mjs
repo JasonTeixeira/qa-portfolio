@@ -13,6 +13,7 @@ const BASE_COMMANDS = [
   'npm run discord:gateway-capture-diagnosis',
   'npm run discord:smoke-ask-sage',
   'npm run discord:human-appeal-harness',
+  'npm run discord:connectivity-audit',
   'npm run discord:release-local',
   'npm run discord:institutional-readiness',
   'npm run discord:knowledge-base-harness',

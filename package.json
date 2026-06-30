@@ -125,6 +125,7 @@
     "discord:world-class-readiness": "tsx scripts/discord/write-world-class-readiness.ts",
     "discord:sageforge-institutional-harness": "tsx scripts/discord/write-sageforge-institutional-harness.ts",
     "discord:human-appeal-harness": "tsx scripts/discord/write-human-appeal-harness.ts",
+    "discord:connectivity-audit": "tsx scripts/discord/audit-sagebot-connectivity.ts",
     "discord:institutional-readiness": "tsx --env-file=.env.local scripts/discord/write-institutional-readiness.ts",
     "discord:proof-backlog": "tsx scripts/discord/write-proof-backlog.ts",
     "discord:knowledge-review-queue": "tsx --env-file=.env.local scripts/discord/export-knowledge-review-queue.ts",

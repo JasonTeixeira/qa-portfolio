@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "sagebot-human-appeal-harness-v1",
-  "generatedAt": "2026-06-30T00:25:53.305Z",
+  "generatedAt": "2026-06-30T13:25:36.894Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This harness verifies SageForge visual formatting, human voice, and regression evidence from source files and evidence JSON. It writes local evidence only and does not post, deploy, push, or mutate production.",
   "status": "human_appeal_ready",

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-live-proof-accelerator-v1",
-  "generatedAt": "2026-06-30T00:26:16.091Z",
+  "generatedAt": "2026-06-30T13:26:02.236Z",
   "mutationMode": "local_file_evidence_only",
   "releaseMeaning": "This accelerator writes local evidence and command plans only. It does not approve knowledge, sync RAG, publish public proof, mutate Discord, or create premium fulfillments.",
   "status": "proof_acceleration_required",

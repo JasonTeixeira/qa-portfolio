@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "local-verification-evidence-v1",
-  "timestamp": "2026-06-30T00:26:12.944Z",
+  "timestamp": "2026-06-30T13:25:58.700Z",
   "command": "npm run verify:local",
   "mutationMode": "local_file_evidence_only",
   "summary": {
@@ -140,7 +140,7 @@
       "security_privacy",
       "scale_readiness"
     ],
-    "runKey": "phase-20-final-1782779166411"
+    "runKey": "phase-20-final-1782825951052"
   },
   "approvalBoundaryCheck": {
     "ok": true,
@@ -951,16 +951,16 @@
       "workerId": "sagebot-main",
       "status": "heartbeat_ack",
       "ageMinutes": 1,
-      "lastSeenAt": "2026-06-30T00:25:25.899+00:00",
+      "lastSeenAt": "2026-06-30T13:25:02.422+00:00",
       "fresh": true,
       "lastCloseCode": null
     },
     "messageContentSignal": {
       "effectiveEnabled": true,
       "source": "heartbeat",
-      "identifyEnabled": null,
+      "identifyEnabled": true,
       "heartbeatEnabled": true,
-      "identifyCreatedAt": null
+      "identifyCreatedAt": "2026-06-30T12:40:18.938637+00:00"
     },
     "requiredFieldCount": 18,
     "antiFakeRules": [

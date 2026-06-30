@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "sageforge-institutional-harness-v2",
-  "generatedAt": "2026-06-30T00:26:16.597Z",
+  "generatedAt": "2026-06-30T13:26:02.744Z",
   "botName": "SageForge",
   "botNameRationale": "SageForge is builder-oriented, brandable, memorable in Discord mentions, and keeps SageBot OS available as the internal system name.",
   "mutationMode": "local_file_evidence_only",

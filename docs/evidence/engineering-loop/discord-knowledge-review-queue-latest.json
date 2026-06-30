@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "discord-knowledge-review-queue-v1",
-  "generatedAt": "2026-06-30T00:26:11.169Z",
+  "generatedAt": "2026-06-30T13:25:56.923Z",
   "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
   "releaseMeaning": "This queue exports exact review candidates for the admin approval workflow. It does not approve records, sync RAG, publish content, assign roles, or mutate live services.",
   "summary": {

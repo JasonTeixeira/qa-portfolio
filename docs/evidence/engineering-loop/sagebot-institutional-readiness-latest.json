@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "sagebot-institutional-readiness-v1",
-  "generatedAt": "2026-06-30T00:26:15.082Z",
+  "generatedAt": "2026-06-30T13:26:01.245Z",
   "mutationMode": "read_only_redacted_evidence",
   "releaseMeaning": "This readiness report checks redacted integration presence, local evidence posture, and live-proof blockers. It does not print secrets, deploy, push, publish, approve, sync RAG, post to Discord, or mutate Supabase/Stripe/Railway/Vercel.",
   "status": "locally_strong_waiting_on_live_operating_proof",

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "rag-eval-recovery-plan-v1",
-  "generatedAt": "2026-06-30T00:25:57.475Z",
+  "generatedAt": "2026-06-30T13:25:41.937Z",
   "mutationMode": "local_file_evidence_only",
   "status": "ready",
   "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",

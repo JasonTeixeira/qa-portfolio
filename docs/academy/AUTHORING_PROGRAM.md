@@ -70,7 +70,8 @@ here once scored).
 
 | course | lessons | authored | applied | scored ≥95 | notes |
 |---|---:|---:|---:|---:|---|
-| career-backend_engineering | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow; engine proven at full-course scale |
-| _(remaining 18 courses)_ | ~370 | — | — | — | queued, course-by-course (same loop) |
+| career-backend_engineering | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| career-concept_maps_real_world_engineering | 30 | 30 | 30 | **30** | DONE — avg 96 (96–97), all grounded, none hollow |
+| _(remaining 17 courses)_ | ~340 | — | — | — | queued, course-by-course (same loop) |
 
 **Measured cost per course (backend):** ~3M subagent tokens (author 4+16 lessons + score 20) across ~4 Workflows. The remaining 18 courses scale roughly linearly. Engine proven end-to-end AND at full-course scale.

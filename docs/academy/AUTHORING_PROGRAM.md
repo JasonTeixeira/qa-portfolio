@@ -75,7 +75,8 @@ here once scored).
 | career-frontend_fullstack | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-databases_data_modeling | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-cloud_devops_operations | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| _(remaining 13 courses)_ | ~260 | — | — | — | queued, SERIAL (architecture next) |
+| career-architecture_system_design | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| _(remaining 12 courses)_ | ~240 | — | — | — | queued, SERIAL (ai-engineering next) |
 
 > Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 

@@ -270,7 +270,9 @@ APP (members, gated):
   /academy/leagues          League standing (XP, rank, drop line)
   /academy/evidence         Evidence ledger / portfolio (shareable)
   /academy/certificate/[code]  Verifiable certificate
-  /academy/recall           The spaced-review / recall queue
+  /academy/recall           The spaced-review / recall queue  [DESIGN — TO BUILD: the
+                            FSRS engine is LIVE (lib/academy/fsrs.ts) but no recall-
+                            queue PAGE exists yet. Design it; it binds to real data.]
   /academy/u/[handle]       Public learner profile (proof + certs + badges)
 
 
@@ -483,6 +485,64 @@ DATA THE FRONT-END BINDS TO (real tables/objects):
   spaced-review (FSRS) · certificates. Blocks are the LessonBlock union (24 types;
   4 visual types). Topic tracks: foundations · engineering · data · ai-engineering ·
   ship-it · growth.
+
+===============================================================================
+16. VERIFIED DATA BINDINGS  (code audit 2026-07-01 — THIS SECTION IS AUTHORITATIVE)
+===============================================================================
+Every backend mechanic below was confirmed in the codebase. Bind the design to it.
+
+CONFIRMED LIVE — wired in the backend, safe to design panels against:
+  ✔ Mastery caps ........ lib/academy/caps-logic.ts (scoreCaps, resolveScore,
+                          ScoreResolution) + components/academy/shell/ScoreCapMeter.tsx.
+                          A score is capped by its weakest dimension. DESIGN THE CAP.
+  ✔ XP / levels / streaks lib/academy/gamification-logic.ts (XP, STREAK, levelForXp,
+                          GamificationState, computeStreakTransition, pickCelebration).
+  ✔ Leagues ............. lib/academy/leagues-logic.ts + leagues.ts + leagues-rollover.ts
+                          + app/academy/leagues/page.tsx (weekly-XP standing, promotion/
+                          relegation, drop line).
+  ✔ Evidence ledger ..... lib/academy/evidence-events-logic.ts (EvidenceEvent, UnitState,
+                          deriveUnitState, hasOpenRepair) + app/academy/evidence/page.tsx.
+  ✔ Certificates ........ app/academy/certificate/[code]/page.tsx + lib (verifiable code).
+  ✔ FSRS spaced review .. lib/academy/fsrs.ts (the scheduling ENGINE is live).
+  ✔ Progress ............ lib/academy/progress.ts (completions → progress).
+  ✔ Quests .............. lib/academy/quest-logic.ts (DAILY + WEEKLY quests) — already
+                          rendered by the dashboard's QuestPanel.
+  ✔ Goals ............... lib/academy/goals.ts (getLearnerGoal, computeGoalProgress).
+  ✔ Badges .............. lib/academy/badges-logic.ts + badges.ts.
+  ✔ Rewards / bonus ..... lib/academy/reward-logic.ts + rewards.ts (getNextRewards,
+                          daily bonus).
+  ✔ Triggers / nudges ... lib/academy/trigger-logic.ts (behavioral triggers) — rendered
+                          as TriggerBanner today.
+  ✔ Assessments ......... lib/academy/assessment-logic.ts (pre/post course assessment).
+  ✔ Learner path ........ lib/academy/path.ts (build-your-own path).
+  ✔ Profiles ............ lib/academy/profile-logic.ts + app/academy/u/[handle].
+
+THE CURRENT DASHBOARD ALREADY RENDERS (components/academy/dashboard/Dashboard.tsx) —
+you are ELEVATING a rich existing cockpit, not building from zero. Existing pieces:
+  JourneyHero · NextUp (≈ "Next Best Action" — ALREADY EXISTS) · QuestPanel (daily/
+  weekly quests) · HabitPanel · StreakStrip · Ring / ProgressBar / GrowBar · CountUp ·
+  TriggerBanner · PushOptIn · SoundToggle.
+  → Redesign brief: keep every real mechanic; upgrade the composition to the editorial
+    dark-luxury bento cockpit in §10, make NextUp the true hero, add the Mastery-cap
+    meter + Evidence ledger prominently, and fold quests/habits/streak/triggers into a
+    coherent momentum system instead of separate widgets.
+
+[DESIGN — TO BUILD] (real ENGINE exists, but no UI page yet — safe to design fresh):
+  • /academy/recall — the spaced-review QUEUE UI over the live FSRS engine.
+  • The Evidence PORTFOLIO / shareable view can be richer than today's evidence page.
+
+TAG CORRECTIONS vs earlier in this doc:
+  - §7/§8 listed /academy/recall as if it existed — it does NOT yet (engine only).
+  - ADD to the dashboard spec: daily/weekly QUESTS, GOALS + goal-progress, BADGES,
+    REWARDS + daily bonus, TRIGGERS/nudges, ASSESSMENTS (pre/post), build-your-own PATH
+    — all LIVE, all worth surfacing in the cockpit.
+
+MODULE TITLES: source manifests contain no descriptive module names (literally
+  "Module 1"), so career-course modules currently read "Module N" (a de-dup fix was
+  applied to remove a "Module N · Module N" doubling). Course 00 has real names
+  ("Module 1 · Framing & Diagnosis"). If you want descriptive module names platform-
+  wide, that's a content decision, not a data gap — design for "Module N: <optional
+  name>" and it degrades gracefully to just "Module N".
 
 ===============================================================================
 END OF HANDOFF — build the marketing story + the learning cockpit as ONE system:

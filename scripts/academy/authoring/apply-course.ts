@@ -254,7 +254,9 @@ async function applyAll(courseSlug: string, plans: LessonPlan[], warnings: strin
         course_slug: p.entry.courseSlug,
         slug: p.entry.slug,
         title: p.entry.title,
-        module_title: p.entry.moduleTitle,
+        // De-dup the ingest artifact "Module N · Module N" -> "Module N"
+        // (source manifests carry no descriptive module name).
+        module_title: p.entry.moduleTitle.replace(/^(Module \d+) · \1$/, '$1'),
         module_sort: p.entry.moduleSort,
         sort: p.entry.sort,
         status: 'published',

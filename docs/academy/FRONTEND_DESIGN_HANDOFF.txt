@@ -1,0 +1,490 @@
+===============================================================================
+SAGE ACADEMY — ULTIMATE FRONT-END + MEMBERS DASHBOARD DESIGN HANDOFF
+For Claude Design / Fable. Build the marketing site + the member experience.
+Verified against the live platform (DB + built design system) — 2026-07-01.
+===============================================================================
+
+HOW TO USE THIS DOC
+  This is the single source of truth for the redesign. It gives you: the story +
+  copy, the exact design system (tokens already in code — MATCH them), the full
+  course catalog + data model, the information architecture, and screen-by-screen
+  specs for (A) the marketing front-end and (B) the members dashboard + learning
+  pipeline. Sections marked [LIVE] already exist in the backend — bind the design
+  to that real data. Sections marked [DESIGN] are the ultimate-experience UX to
+  create. Do not invent features that contradict [LIVE]; do elevate the UX around
+  them. The built front-end will be brought back into the codebase, so conform to
+  the design tokens and component names exactly.
+
+
+===============================================================================
+1. PRODUCT IDENTITY & POSITIONING
+===============================================================================
+
+NAME:            Sage Academy  (brand: Sage / sageideas.dev)
+CATEGORY:        Engineering-judgment & career-mastery platform (not a tutorial site)
+ONE-LINER:       "Learn to think like a senior engineer — and prove it."
+THE PROMISE:     You don't finish with notes. You finish with inspectable EVIDENCE
+                 a reviewer, interviewer, or staff engineer trusts.
+
+THE WEDGE (why this exists):
+  Tutorials teach syntax; they don't teach JUDGMENT — framing an ambiguous problem,
+  routing a diagnosis, mapping a system, deciding under tradeoffs, and PROVING it
+  under a skeptic's eye. Sage Academy is a judgment-and-proof factory. Every lesson
+  ends in a reviewable artifact, a real failure you repair, and proof you can defend.
+
+THE THROUGH-LINE (repeat everywhere — this is the spine of the whole product):
+  FRAME → ROUTE → MAP → DECIDE → PROVE → REVIEW → REPAIR → SPACE → TRANSFER → PACKAGE
+  (This is the "Sage Learning Operating System" / the mastery loop. Course 00 teaches
+   it; every other course is an instance of it. Surface it as the product's signature.)
+
+VISUAL DIRECTION:  Editorial dark-luxury. Institutional, premium, serious-but-warm.
+                   Think a quant research desk crossed with a fine magazine — not a
+                   playful bootcamp, not a corporate LMS. Confidence over decoration.
+
+TONE OF VOICE:     Sharp, warm, opinionated, zero filler. Every sentence earns its
+                   place. "Prove it — no vibes." Never hype; always specific.
+
+
+===============================================================================
+2. AUDIENCE & THE TRANSFORMATION
+===============================================================================
+
+PRIMARY LEARNER:  Engineers (junior→senior) who can code but want senior JUDGMENT,
+                  and career-switchers who need a portfolio of real proof, not a
+                  certificate of completion.
+
+BEFORE  →  AFTER  (use this contrast in marketing + onboarding):
+  - "I finished a course."            →  "I have proof I can do the work."
+  - Confident guesses in a war room.  →  A map that makes the failure a location.
+  - A pile of tutorials.              →  A portfolio of reviewable decision memos.
+  - Cramming, then forgetting.        →  Spaced recall that holds under pressure.
+  - "Trust me, it works."             →  "Pick any claim — follow the artifact."
+
+
+===============================================================================
+3. THE COURSE CATALOG  [LIVE]   (23 courses · 448 lessons · 6 topic tracks)
+===============================================================================
+
+Status legend:  ✅ built (visual-first, verified)   ⬜ coming soon (in production)
+
+TRACK: FOUNDATIONS
+  ✅ Engineering Judgment & the Sage Learning OS ...... 16 lessons · 4 modules
+  ✅ Think Like a Senior Engineer: Concept Maps ....... 30 lessons · 6 modules
+  ⬜ Programming & CS Foundations ..................... 20 lessons · 5 modules
+  ⬜ Python Basics .....................................  4 lessons · 1 module
+
+TRACK: ENGINEERING
+  ✅ Programming Fundamentals ......................... 18 lessons · 2 modules
+  ✅ Backend Engineering .............................. 20 lessons · 5 modules
+  ✅ Frontend & Fullstack Product Engineering ......... 20 lessons · 5 modules
+  ⬜ Architecture & System Design ..................... 20 lessons · 5 modules
+  ⬜ Security & Identity Engineering .................. 20 lessons · 5 modules
+  ⬜ Mobile Engineering Deep Dive ..................... 20 lessons · 5 modules
+  ⬜ QA / SDET & Test Automation ...................... 20 lessons · 5 modules
+  ⬜ Networking Fundamentals & Advanced ............... 20 lessons · 5 modules
+  ⬜ UX / UI & Product Design for Engineers ........... 20 lessons · 5 modules
+
+TRACK: DATA
+  ✅ Databases & Data Modeling ........................ 20 lessons · 5 modules
+  ⬜ Data Engineering & Analytics Platforms ........... 20 lessons · 5 modules
+
+TRACK: AI-ENGINEERING
+  ⬜ AI Engineering, RAG, Evals, Safety & LLMOps ...... 20 lessons · 5 modules
+
+TRACK: SHIP-IT (Cloud / Platform / Ops)
+  ⬜ Cloud, DevOps & Production Operations ............ 20 lessons · 5 modules
+  ⬜ Observability, Reliability & Performance ......... 20 lessons · 5 modules
+  ⬜ Platform Engineering & Internal Dev Platforms .... 20 lessons · 5 modules
+  ⬜ Enterprise IT, SaaS Admin & Business Systems ..... 20 lessons · 5 modules
+
+TRACK: GROWTH (Career / Product / Leadership)
+  ⬜ Interview, Career & Portfolio .................... 20 lessons · 5 modules
+  ⬜ Product Execution & Market Feedback .............. 20 lessons · 5 modules
+  ⬜ Engineering Leadership & Staff-Level Execution ... 20 lessons · 5 modules
+
+DESIGN NOTE: 6 of 23 courses are live now; the rest ship on the same engine. The
+catalog UI must gracefully show ✅ enrollable vs ⬜ "in production / notify me"
+without looking empty — lead with the 6 built courses; the coming-soon set proves
+the roadmap scale (a 23-course, 448-lesson institution).
+
+
+===============================================================================
+4. THE DESIGN SYSTEM  [LIVE — MATCH EXACTLY]
+===============================================================================
+The app already ships an editorial dark-luxury token system (CSS custom props,
+prefix `--ac-`). The redesign MUST use these so the built front-end drops in.
+
+TYPOGRAPHY:
+  Display / headings ...... "Fraunces" (serif, high-contrast, editorial)   var(--ac-font-display)
+  Body / UI ............... "Hanken Grotesk" (humanist sans)               var(--ac-font-body)
+  Code / mono / data ...... "JetBrains Mono"                               var(--ac-font-mono)
+  Scale: fluid clamp() steps; hero display very large, tight leading; body 16–18px.
+  Rule: scale CONTRAST carries hierarchy (huge serif head over quiet mono kicker).
+
+COLOR (oklch, dark-luxury base):
+  --ac-bg            near-black charcoal (page)          ~oklch(15% ...)
+  --ac-surface       elevated panel                      slightly lifted
+  --ac-ink           primary text (bone/off-white)       ~94% L
+  --ac-ink-soft      secondary text                      ~80% L
+  --ac-ink-faint     tertiary / captions                 ~64% L
+  --ac-accent        focus / primary action (blue)       the brand accent
+  --ac-accent-text   accent text on dark
+  --ac-success/-mastery  green (truth / mastery)
+  --ac-danger        red (risk / blast-radius / error)
+  --ac-pending       amber (in-progress / warning)
+  --ac-rule / -rule-strong  hairlines & dividers
+  Semantic tone system (used in all diagrams/visuals):
+    accent = focus/suspect · warning = risk/blast-radius · success = source-of-truth
+    · muted = out-of-scope · default = neutral. Color carries MEANING, not decoration.
+
+DEPTH & TEXTURE:
+  Layered surfaces (--ac-elev-1/-2), hairline borders, subtle grain (.ac-grain),
+  restrained shadow (--ac-shadow). Atmosphere over flatness. No heavy neumorphism.
+
+MOTION:
+  Compositor-only (transform/opacity/clip-path). Easing var(--ac-ease-out-expo)
+  cubic-bezier(0.16,1,0.3,1). Durations --ac-dur-fast/-normal. ALWAYS honor
+  prefers-reduced-motion (meaning must never live only in motion). Reveal-on-scroll
+  staggers; edges "draw in" along flow; nodes fade-up in dependency order.
+
+RADIUS / SPACING:
+  One spacing rhythm (space-xs…section), one radius scale, one elevation scale.
+  Deliberate rhythm — NOT uniform padding everywhere. Grid-breaking editorial
+  composition where it earns attention.
+
+ANTI-TEMPLATE MANDATE:
+  Do NOT ship default card grids, stock hero + gradient blob, or unmodified library
+  defaults. Every surface shows: scale-contrast hierarchy · intentional rhythm ·
+  depth/layering · typographic character · semantic color · designed hover/focus/
+  active states · editorial/bento composition where it fits · motion that clarifies.
+
+
+===============================================================================
+5. THE SIGNATURE VISUAL LANGUAGE  [LIVE — the moat]
+===============================================================================
+Lessons are VISUAL-FIRST: every concept that can be shown IS shown. Four
+standardized, on-brand visual components already exist (build the marketing +
+dashboard to preview/echo them — they ARE the product's visual identity):
+
+  SageDiagram        Auto-layout system diagrams (dagre engine). Author writes
+                     MEANING only (nodes+edges+kinds+tones); engine owns layout,
+                     routing, spacing. Node kinds: service/store(cylinder)/queue/
+                     external/client/decision(diamond)/process. Semantic tones +
+                     auto-legend. THE hero visual of most lessons.
+  SageCodeWalkthrough Terminal-look animated code stepper: per-step line highlight
+                     + annotation + step dots. Real, filled code, JetBrains Mono.
+  SageCompare        Animated weak-vs-gold / before-after 2-up. Tone-keyed panels,
+                     check-vs-triangle markers (works in grayscale), "vs" seam.
+  SageViz            Institutional charts (bars/line/area), honest axes, one accent
+                     series, tabular nums, zero chartjunk.
+  VisualFrame        The shared figure chrome (kicker + serif title + legend +
+                     caption + grain) every visual sits in.
+
+USE IN MARKETING: show a real SageDiagram (e.g., a system map with the suspect edge
+lit) and a SageCompare (weak map vs gold map) as HERO proof of the teaching quality.
+This is the single most differentiating visual — lead with it.
+
+
+===============================================================================
+6. THE LESSON ANATOMY  [LIVE]   (what a "lesson" is — design the player around it)
+===============================================================================
+Every lesson is a deliberate 14-block arc (visual-first, prose to strict budgets):
+  1  sprint-contract  the outcome + the proof + what NOT to claim (scannable card)
+  2  mission          a vivid stake (1–2 sentences)
+  3  context          why it matters (≤2 sentences)
+  4  pretest          productive-failure question → "oh!" reveal
+  5  concept          ONE mental model (≤40 words) + paired hero visual
+  6  DIAGRAM          hero: the system/flow/structure
+  7  CODE-WALKTHROUGH hero: real code/artifact, stepped
+  8  COMPARE          hero: weak vs gold
+  9  callout          the pro insight / standards grounding (e.g., SWEBOK, OWASP, WCAG)
+  10 quiz             one sharp check + explanation
+  11 verification     "prove it — no vibes": concrete confirmable items
+  12 teachback        say it back in your own words (Feynman)
+  13 transfer         a real application elsewhere
+  14 spaced-review    seeds the recall schedule (1/3/7/30 days)
+  (+ some lessons: lab (in-browser Python), debug (find+fix a real bug), tradeoff,
+   calibration (weak/passing/excellent bar), unlock-gate.)
+
+THE RUNNING ARTIFACT: across a course, the learner grows ONE artifact (e.g., a
+decision memo / evidence packet). Design the player to surface "your artifact so far."
+
+
+===============================================================================
+7. THE MASTERY LOOP & METRICS  [LIVE + DESIGN]   (the heart of the dashboard)
+===============================================================================
+This is what makes the members experience "ultimate" — surface the LEARNING SCIENCE
+as a live cockpit, not a progress bar. Real mechanics in the platform:
+
+  MASTERY SCORE WITH CAPS [LIVE]:  A lesson/course score is not an average — it's
+    CAPPED by its weakest load-bearing dimension. A failed PROOF caps you (e.g., at
+    78) no matter how good the rest is. Design a "cap meter" that shows the ceiling
+    and WHY (which dimension caps you) + the one repair that lifts it. (Component
+    already exists: ScoreCapMeter / StateBadge.)
+  EVIDENCE / PROOF [LIVE]:  Learners produce reviewable artifacts ("evidence
+    events"). The dashboard shows an EVIDENCE LEDGER — claim → artifact → verdict.
+  IN-BROWSER LABS [LIVE]:  Real Python labs (Pyodide) with a starter + a real check
+    (starter fails; correct solution passes). "A guaranteed win" per lesson.
+  SPACED REVIEW / RECALL [LIVE]:  FSRS-style recall queue (1/3/7/30d). The dashboard
+    surfaces "due for recall today" — retention as a first-class metric, not a nag.
+  GAMIFICATION [LIVE]:  XP, streaks, and LEAGUES with promotion/relegation (a
+    weekly-XP standing with a "drop line" / relegation stake). Celebration moments
+    (CelebrationToast) on real wins. Momentum without cheapening the rigor.
+  CERTIFICATES [LIVE]:  Auto-issued on genuine completion (verifiable code/URL).
+
+METRICS TO SHOW THE LEARNER (the cockpit gauges):
+  - Mastery score (with the CAP + the capping dimension + the lift)
+  - Course/module/lesson progress (real, from completions)
+  - Streak (days) + weekly XP + league standing (rank vs drop line)
+  - Recall due today (retention health) + retention % over time
+  - Evidence artifacts produced (the portfolio count)
+  - "Next best action" (the single highest-leverage next step — see dashboard spec)
+  - Time-to-outcome (est. minutes to the next proof/certificate)
+
+DESIGN PRINCIPLE: every number must imply an ACTION. A cap meter shows the repair;
+a recall count opens the queue; a league rank shows the XP to stay safe. No vanity
+metrics — this is a decision instrument, matching the product's own doctrine.
+
+
+===============================================================================
+8. INFORMATION ARCHITECTURE (sitemap)
+===============================================================================
+
+MARKETING (public):
+  /                     Home (the story + the offer)
+  /how-it-works         The mastery loop explained (FRAME→…→PACKAGE)
+  /courses              The catalog (23 courses, 6 tracks, ✅/⬜)
+  /courses/[slug]       Course landing (outcome, modules, sample lesson, proof)
+  /why-proof            The "prove it, not claim it" manifesto (the wedge)
+  /pricing              Membership / all-access
+  /proof  (or /outcomes) Learner artifacts, certificates, testimonials
+  /login  /signup
+
+APP (members, gated):
+  /academy/dashboard        The learning cockpit (default home)
+  /academy/catalog          Enroll / continue / explore tracks
+  /academy/learn/[c]/[l]    The lesson player (the 14-block experience)
+  /academy/learn/.../lab    The in-browser lab (Pyodide)
+  /academy/course/[slug]    Course overview + module map + assessment
+  /academy/progress         Progress + mastery + evidence over time
+  /academy/leagues          League standing (XP, rank, drop line)
+  /academy/evidence         Evidence ledger / portfolio (shareable)
+  /academy/certificate/[code]  Verifiable certificate
+  /academy/recall           The spaced-review / recall queue
+  /academy/u/[handle]       Public learner profile (proof + certs + badges)
+
+
+===============================================================================
+9. MARKETING FRONT-END — SCREEN-BY-SCREEN  [DESIGN]
+===============================================================================
+
+HOME (/)  — the story, top to bottom:
+  A) HERO
+     - Kicker (mono): "ENGINEERING JUDGMENT · PROVEN, NOT CLAIMED"
+     - Display headline (Fraunces, huge): "Learn to think like a senior engineer —
+       and prove it."
+     - Subhead (1 line): "23 courses that end in evidence a reviewer trusts —
+       not a certificate of completion."
+     - Primary CTA: "Start with Engineering Judgment"  · Secondary: "See a real lesson"
+     - HERO VISUAL: a live SageDiagram (a real system map with the suspect edge lit)
+       + a peek of a SageCompare. This is the proof-of-quality above the fold. Motion:
+       the diagram edges draw in along flow (reduced-motion = final state).
+  B) THE PROBLEM (the wedge): "Tutorials teach syntax. Nobody teaches judgment."
+     Weak-vs-gold: a bag-of-boxes diagram vs a decision map. Use a real SageCompare.
+  C) THE LOOP (the signature): FRAME→ROUTE→MAP→DECIDE→PROVE→REVIEW→REPAIR→SPACE→
+     TRANSFER→PACKAGE as an editorial horizontal/stepped visual. "Every course is an
+     instance of this loop."
+  D) HOW A LESSON WORKS: scrollytelling through the 14-block arc — show the diagram,
+     the code-walkthrough stepper, the compare, the lab, the verification. "Visual-
+     first. Real labs. Proof, not vibes."
+  E) THE CATALOG PREVIEW: the 6 built courses as premium cards (track-tinted), + the
+     roadmap scale ("+17 more in production"). Link to /courses.
+  F) THE PROOF: the evidence ledger concept + certificates + (when available)
+     learner artifacts/testimonials. "You leave with a portfolio, not a receipt."
+  G) THE MASTERY LOOP FOR RETENTION: "You won't forget it" — spaced recall + mastery
+     caps (honest scoring). A small SageViz of a retention curve.
+  H) THE OFFER / PRICING teaser + big CTA. Footer.
+
+COURSES (/courses):
+  - Track filter (Foundations · Engineering · Data · AI · Ship-It · Growth) + ✅/⬜.
+  - Course cards: title, track tint, lessons·modules, the OUTCOME (what you can do +
+    the artifact you leave with), ✅ Enroll / ⬜ Notify me. Lead with the 6 built.
+
+COURSE LANDING (/courses/[slug]):
+  - Outcome-first hero ("By the end you can ___ and you'll have ___ [artifact]").
+  - Module map (the arc). A SAMPLE LESSON (free-preview) rendered in the real player.
+  - The proof/verification bar. Prereqs. CTA to enroll/continue.
+
+WHY-PROOF (/why-proof): the manifesto page — the single strongest brand asset. The
+  "defended omission," "a map you can defend the edges of," "prove it — no vibes."
+
+PRICING: all-access membership. Frame value as OUTCOME (a portfolio + judgment),
+  not hours of video. One clear plan; annual emphasis; honest guarantee.
+
+COPY VOICE for marketing: specific, opinionated, zero hype. Lead with the learner's
+  real pain (the war room, the duplicate charge, the stale index) and the senior move.
+
+
+===============================================================================
+10. MEMBERS DASHBOARD — "THE LEARNING COCKPIT"  [DESIGN, bound to LIVE data]
+===============================================================================
+Not a course list with a progress bar — a decision instrument for the learner's
+growth. Editorial dark-luxury, bento/grid-breaking, every gauge implies an action.
+
+TOP BAR: greeting + current streak (flame, days) + weekly XP + league badge +
+  "recall due: N" pill (opens the recall queue). Avatar → profile/evidence.
+
+PRIMARY PANEL — "NEXT BEST ACTION" (the single most important element):
+  One card that computes the highest-leverage next step and makes it one click:
+   - If recall is due → "Recall 4 concepts (6 min) — keep your retention above 90%."
+   - Else if a lesson is mid-progress → "Continue: Backend · Idempotency (Step 3/6)."
+   - Else if a mastery cap is lifting-able → "Repair your PROOF on Lesson 10 to lift
+     78 → 91." (deep-links to the exact block.)
+   - Else → "Start the next lesson in your active course."
+  Show the est. time + the outcome. This is the product's "one arrow."
+
+CONTINUE LEARNING: the active course with a live module map (done/current/todo),
+  the running ARTIFACT preview ("your decision memo so far"), and resume CTA.
+
+MASTERY PANEL: the ScoreCapMeter per active course — the ceiling, the CAP dimension,
+  and the one repair that lifts it. Honest scoring made visual (this is a signature).
+
+EVIDENCE LEDGER: the learner's artifacts (claim → artifact → verdict), count, and a
+  "share portfolio" action (→ /academy/u/[handle]). The tangible outcome.
+
+MOMENTUM: streak calendar, weekly XP trend (SageViz), league standing with the drop
+  line + "XP to stay safe." Celebration on real milestones (not participation).
+
+RETENTION: recall queue health — due today, upcoming, retention % curve (SageViz).
+  "Learning that holds under pressure."
+
+TRACKS / CATALOG: your tracks with progress rings; explore/enroll more; ⬜ coming-soon
+  courses framed as roadmap, with "notify me."
+
+CERTIFICATES: earned + in-progress (with the exact proof remaining to earn each).
+
+LAYOUT: bento grid — Next-Best-Action is the largest tile (hero); Continue + Mastery
+  are secondary; Evidence/Momentum/Retention are the supporting row; Catalog +
+  Certificates below. Responsive: single column on mobile, Next-Best-Action first.
+
+STATE HANDLING: design the empty/first-session state (no data yet → "start Course 00")
+  and the returning state (rich cockpit). The first session must feel like a guided
+  first win, not an empty dashboard.
+
+
+===============================================================================
+11. THE LEARNING PIPELINE — SCREEN-BY-SCREEN  [DESIGN, bound to LIVE]
+===============================================================================
+The core loop the design must make effortless and addictive-in-a-good-way:
+
+  CATALOG → COURSE OVERVIEW → LESSON PLAYER → LAB → VERIFICATION → MASTERY →
+  CERTIFICATE → EVIDENCE/PORTFOLIO → (SPACED RECALL brings you back)
+
+COURSE OVERVIEW (/academy/course/[slug]):
+  Outcome + artifact, the module map (visual), progress, pre/post assessment, and
+  "continue where you left off." Modules denormalized (module_title + sort order).
+
+LESSON PLAYER (/academy/learn/[course]/[lesson]) — the crown jewel:
+  - Left rail: the course/module lesson list with state (done/current/todo) + a
+    thin progress spine + mastery pill.
+  - Center: the 14-block arc, VISUAL-FIRST. Hero visuals (SageDiagram / Code-
+    walkthrough / SageCompare) render at a WIDER "bleed" than the prose column so
+    diagram labels stay legible and code never truncates (already solved in code as
+    `.visualBleed` — replicate the widths). Prose to budget; scannable.
+  - Reveal-on-scroll staggers; reduced-motion = instant final state.
+  - Sticky bottom bar: progress, "mark complete & continue," keyboard hints (j/k
+    move, c complete). Interactive blocks: quiz (check + explain), pretest (guess →
+    reveal gate), lab (Open lab), debug (find + fix, "show the fix").
+  - "Your artifact so far" affordance (the running proof).
+
+LAB (Pyodide, in-browser Python): a real editor + run; starter fails; the check is
+  a concrete output only produced by doing the real skill. The "guaranteed win."
+
+VERIFICATION / MASTERY: the "prove it" checklist → mastery score with caps → the
+  repair path if capped. Certificate on genuine completion (verifiable code).
+
+SPACED RECALL (/academy/recall): a focused, low-friction queue — one prompt at a
+  time, quick grade, FSRS reschedule. Feels like 6 minutes, not homework.
+
+
+===============================================================================
+12. COMPONENT INVENTORY (design a cohesive kit; names match/echo the codebase)
+===============================================================================
+VISUAL SYSTEM (exists): SageDiagram · SageCodeWalkthrough · SageCompare · SageViz ·
+  VisualFrame  — preview/echo these in marketing + dashboard.
+UI KIT (design): SurfaceCard (bento tile), TrackChip, CourseCard (✅/⬜ variants),
+  ProgressRing, ScoreCapMeter (ceiling + cap-reason + lift), StreakFlame, XPBar,
+  LeagueBadge (+ drop-line), RecallPill, EvidenceRow (claim→artifact→verdict),
+  NextBestAction (hero card), ModuleMap, LessonRailItem (done/current/todo),
+  StickyLessonFooter, CelebrationToast, CertificateCard, CTAButton (primary/ghost),
+  AnimatedText (reveal), SectionKicker (mono), Legend (tone swatches).
+STATES: every interactive element needs designed hover / focus-visible / active /
+  disabled / loading / empty / error states (WCAG AA; keyboard-operable).
+
+
+===============================================================================
+13. COPY — VOICE GUIDE + READY-TO-USE BLOCKS
+===============================================================================
+VOICE: sharp, warm, opinionated, concrete, zero filler. Lead with a real stake.
+BANNED: "unlock your potential," "world-class," "revolutionary," feature-listing.
+PREFERRED: the specific senior move, the real failure, the defended decision.
+
+HERO H1:        "Learn to think like a senior engineer — and prove it."
+HERO SUB:       "23 courses that end in evidence a reviewer trusts, not a
+                 certificate of completion."
+WEDGE:          "Tutorials teach syntax. Nobody teaches judgment. We do — and we
+                 make you prove it."
+LOOP LINE:      "Frame it. Route it. Map it. Decide it. Prove it. Every course is
+                 an instance of the loop senior engineers run on autopilot."
+PROOF LINE:     "You leave with a portfolio of decision memos and passing proofs —
+                 pick any claim, follow the artifact, see for yourself."
+MASTERY LINE:   "Your score is capped by your weakest proof — because that's how a
+                 reviewer reads it. We show you the one repair that lifts it."
+RETENTION LINE: "Spaced recall means it holds under pressure — not just until the
+                 quiz."
+DASHBOARD NBA:  "One arrow. The single highest-leverage next move, every time you
+                 log in."
+CTA PRIMARY:    "Start with Engineering Judgment"
+CTA SECONDARY:  "See a real lesson"
+EMPTY STATE:    "You haven't drawn a map yet. Start Course 00 — in 25 minutes you'll
+                 turn a messy incident into a decision a reviewer can inspect."
+
+
+===============================================================================
+14. SCREENS TO DESIGN (the concrete Fable deliverable list)
+===============================================================================
+MARKETING:  Home · How-It-Works (the loop) · Courses (catalog) · Course Landing ·
+            Why-Proof (manifesto) · Pricing · Proof/Outcomes · Signup/Login.
+APP:        Dashboard (cockpit — empty + rich states) · Catalog · Lesson Player
+            (with each hero-visual block) · Lab · Course Overview · Progress/Mastery ·
+            Leagues · Evidence/Portfolio · Recall Queue · Certificate · Public Profile.
+BREAKPOINTS: 320 · 375 · 768 · 1024 · 1440 · 1920. Test overflow, touch, and both
+            the dense desktop cockpit and the focused mobile flow.
+
+
+===============================================================================
+15. WHAT MAKES IT "ULTIMATE" (success criteria — hold the design to these)
+===============================================================================
+  [ ] Above the fold sells JUDGMENT + PROOF (not "courses") and shows a REAL visual.
+  [ ] The mastery loop is the product's signature, visible in marketing AND app.
+  [ ] Every dashboard number implies a one-click ACTION (esp. Next-Best-Action).
+  [ ] Honest scoring (mastery caps) is a feature you can SEE, not hidden.
+  [ ] Retention (spaced recall) is first-class, not a nag.
+  [ ] The lesson player makes visual-first hero blocks legible + beautiful (bleed).
+  [ ] The evidence/portfolio makes the OUTCOME tangible and shareable.
+  [ ] Both themes/states feel intentional; nothing reads as a default template.
+  [ ] The design binds cleanly to the [LIVE] data model + the --ac-* token system so
+      the built front-end drops back into the codebase.
+
+DATA THE FRONT-END BINDS TO (real tables/objects):
+  academy_courses(slug,title,subtitle,topic,status) · academy_lessons(course_slug,
+  slug,title,module_title,module_sort,sort,blocks[jsonb],is_free_preview,status) ·
+  progress/completions · mastery/score-caps · evidence events · XP/streak/league ·
+  spaced-review (FSRS) · certificates. Blocks are the LessonBlock union (24 types;
+  4 visual types). Topic tracks: foundations · engineering · data · ai-engineering ·
+  ship-it · growth.
+
+===============================================================================
+END OF HANDOFF — build the marketing story + the learning cockpit as ONE system:
+"Learn to think like a senior engineer — and prove it."
+===============================================================================

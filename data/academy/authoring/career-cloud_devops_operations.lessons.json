@@ -1,0 +1,284 @@
+{
+  "cloud-operating-model": [
+    {
+      "type": "sprint-contract",
+      "outcome": "Take one deployable service you run (or the seed search-index service) and produce deployment_incident_repair_packet.md: the operating model for shipping it safely — rollout, rollback trigger, health check, telemetry signal, and the runbook step that turns a bad deploy into a fast recovery instead of a 2 a.m. guessing game.",
+      "intensity": "standard",
+      "time": "25–30 min",
+      "proof": "deployment_incident_repair_packet.md attached to the evidence ledger, containing: context, assumptions, selected approach, rejected approach, expected failure, verification method (a kubectl rollout transcript + a metric snapshot), a reviewer objection, repair notes, and the capstone connection. A reviewer can trace one deploy from push → health-gate → live, and one rollback, without you narrating.",
+      "unlock": "Your packet names the rollout strategy, the exact rollback trigger (an SLO breach, not a hunch), the health check that gates traffic, and the telemetry you would read first during an incident.",
+      "doNotClaim": "Do not claim a 'cloud operating model' if your packet only describes the happy-path deploy. An operating model that has no named rollback trigger and no telemetry signal is a deploy script wearing a suit. The model is defined by how it FAILS safely, not how it ships on a good day."
+    },
+    {
+      "type": "mission",
+      "text": "A deploy goes out at 16:50 on a Friday. Error rate climbs from 0.2% to 6%, the SLO burns, and three engineers start arguing about whether to roll back while customers see stale search results — because nobody agreed in advance what a bad deploy even looks like, or who pulls the cord."
+    },
+    {
+      "type": "context",
+      "text": "The cloud operating model is the foundation lesson of Course 05: it is the contract that ties together containers, Kubernetes rollout, health checks, observability, and incident response into one repeatable loop. Everything downstream — canary, SLOs, runbooks — is an instance of this loop, so we build the loop first as a reviewable packet."
+    },
+    {
+      "type": "pretest",
+      "prompt": "Your deployment.yaml has readinessProbe and livenessProbe both pointing at GET /health, which returns 200 as soon as the process boots. The deploy goes 'green' in kubectl, but users get errors. What did the operating model get wrong? Answer before reading on.",
+      "reveal": "The health check lied. /health returned 200 before the service could actually serve traffic — DB pool not warm, index client not connected — so Kubernetes marked pods Ready and shifted live traffic onto them. 'Ready' must mean 'can serve a real request', not 'process is alive'. A liveness probe answers 'should I restart this?'; a readiness probe answers 'should I send traffic?' — conflating them turns your rollout gate into a rubber stamp, and a green kubectl rollout into a silent outage."
+    },
+    {
+      "type": "concept",
+      "title": "An operating model is a closed deploy loop: gate, observe, reverse",
+      "text": "Define how a change reaches production (rollout strategy + readiness gate), how you SEE it behaving (telemetry tied to an SLO), and how you UNDO it (a named rollback trigger and command). The invariant: every deploy has a reversal path proven before you need it."
+    },
+    {
+      "type": "diagram",
+      "title": "The deploy loop — and its two paths through an incident",
+      "subtitle": "Push → CI → rolling deploy gated by the readiness probe → live traffic, watched by telemetry. The SLO breach is the decision: healthy continues; breach forces the rollback path. Payments and auth are out of scope.",
+      "rankdir": "LR",
+      "nodes": [
+        {
+          "id": "push",
+          "label": "git push",
+          "description": "image tag built in CI",
+          "kind": "client"
+        },
+        {
+          "id": "registry",
+          "label": "Image Registry",
+          "description": "immutable container tag",
+          "kind": "store"
+        },
+        {
+          "id": "deploy",
+          "label": "Rolling Deploy",
+          "description": "kubectl apply · surge 25%",
+          "kind": "service",
+          "tone": "accent"
+        },
+        {
+          "id": "probe",
+          "label": "Readiness Gate",
+          "description": "probe = can serve real request?",
+          "kind": "decision",
+          "tone": "accent"
+        },
+        {
+          "id": "live",
+          "label": "Live Service",
+          "description": "search-index pods take traffic",
+          "kind": "service"
+        },
+        {
+          "id": "obs",
+          "label": "Telemetry + SLO",
+          "description": "error rate · p99 · burn rate",
+          "kind": "external",
+          "tone": "warning"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "description": "kubectl rollout undo",
+          "kind": "process",
+          "tone": "success"
+        }
+      ],
+      "edges": [
+        {
+          "from": "push",
+          "to": "registry",
+          "label": "build image",
+          "kind": "sync"
+        },
+        {
+          "from": "registry",
+          "to": "deploy",
+          "label": "apply tag",
+          "kind": "sync"
+        },
+        {
+          "from": "deploy",
+          "to": "probe",
+          "label": "gate each pod",
+          "kind": "control",
+          "tone": "accent"
+        },
+        {
+          "from": "probe",
+          "to": "live",
+          "label": "Ready → shift traffic",
+          "kind": "sync",
+          "tone": "accent"
+        },
+        {
+          "from": "live",
+          "to": "obs",
+          "label": "emit metrics",
+          "kind": "data"
+        },
+        {
+          "from": "obs",
+          "to": "rollback",
+          "label": "SLO breach → undo",
+          "kind": "async",
+          "tone": "warning"
+        },
+        {
+          "from": "rollback",
+          "to": "live",
+          "label": "restore last-good",
+          "kind": "control",
+          "tone": "success"
+        }
+      ],
+      "legend": [
+        {
+          "tone": "accent",
+          "label": "the rollout gate (readiness, not liveness)"
+        },
+        {
+          "tone": "warning",
+          "label": "telemetry + the SLO that triggers rollback"
+        },
+        {
+          "tone": "success",
+          "label": "the proven reversal path"
+        }
+      ]
+    },
+    {
+      "type": "code-walkthrough",
+      "title": "The operating model as config + the rollback transcript",
+      "subtitle": "deployment_incident_repair_packet.md embeds the real artifact: a Deployment with an honest readiness gate, plus the kubectl proof of a safe reverse.",
+      "filename": "deployment_incident_repair_packet.md",
+      "language": "bash",
+      "code": "# Rollout strategy: never replace all pods at once.\nstrategy:\n  type: RollingUpdate\n  rollingUpdate: { maxSurge: 25%, maxUnavailable: 0 }\n\n# Readiness gate: 'Ready' must mean 'can serve a real request'.\nreadinessProbe: { httpGet: { path: /readyz, port: 8080 }, periodSeconds: 5 }\nlivenessProbe:  { httpGet: { path: /livez, port: 8080 }, periodSeconds: 10 }\n\n# Rollback trigger (the cord): error-rate SLO burns > 2% for 2 min.\n# Proof of a safe reverse — captured live, pasted into the packet:\n$ kubectl rollout status deploy/search-index\nWaiting for rollout: 2 of 4 updated replicas available...\nerror: deployment exceeded progress deadline   # bad image never went 100%\n$ kubectl rollout undo deploy/search-index\ndeployment.apps/search-index rolled back\n$ kubectl rollout status deploy/search-index\ndeployment \"search-index\" successfully rolled out   # last-good restored",
+      "steps": [
+        {
+          "lines": [
+            2,
+            3,
+            4
+          ],
+          "label": "Rolling, never big-bang",
+          "note": "maxUnavailable: 0 means old pods keep serving until new ones pass the gate. A bad image degrades a slice, not the whole service."
+        },
+        {
+          "lines": [
+            7
+          ],
+          "label": "Readiness = serve, not boot",
+          "note": "/readyz checks the DB pool and index client are actually connected. This is the gate the pretest's /health failed to be."
+        },
+        {
+          "lines": [
+            8
+          ],
+          "label": "Liveness = restart, not traffic",
+          "note": "/livez answers a different question: is the process wedged and worth killing? Conflating the two turns the rollout green while users get 500s."
+        },
+        {
+          "lines": [
+            11
+          ],
+          "label": "The named trigger",
+          "note": "The rollback cord is an SLO breach with a threshold and a window — not 'it feels bad'. This is the line that makes it an operating model."
+        },
+        {
+          "lines": [
+            14,
+            15
+          ],
+          "label": "The gate caught it",
+          "note": "Because maxUnavailable was 0 and the gate was honest, the bad image hit the progress deadline instead of 100% of traffic."
+        },
+        {
+          "lines": [
+            16,
+            17,
+            18
+          ],
+          "label": "The proven reverse",
+          "note": "kubectl rollout undo restores the last-good ReplicaSet. This transcript IS the verification evidence the packet requires."
+        }
+      ],
+      "caption": "A reviewer should read this and trace both paths: a deploy that gates safely, and a breach that reverses in one command."
+    },
+    {
+      "type": "callout",
+      "tone": "tip",
+      "text": "Standards grounding (DORA 2024): the four keys — deploy frequency, lead time, change-fail rate, and failed-deployment recovery time — are all properties of THIS loop. Elite teams are not the ones who never break prod; they are the ones whose operating model makes recovery boring. A named rollback trigger plus a proven undo is what moves your change-fail recovery from hours to minutes."
+    },
+    {
+      "type": "quiz",
+      "question": "A reviewer asks: 'Show me the exact evidence this operating model survives a bad deploy, not just a good one.' Which artifact answers the challenge?",
+      "options": [
+        "A clean kubectl rollout status showing a successful green deploy.",
+        "A kubectl rollout undo transcript triggered by a named SLO breach, plus the metric snapshot that fired it and the readiness gate that contained the blast radius.",
+        "A README paragraph explaining that the team 'follows DevOps best practices'.",
+        "A screenshot of the CI pipeline passing all unit tests."
+      ],
+      "answer": 1,
+      "explanation": "The reviewer asked for failure-path evidence. Only option 2 proves the loop reverses under a real breach: the metric that tripped the trigger, the gate that limited damage, and the undo that restored last-good. A green deploy (1), a prose claim (3), and passing tests (4) are all happy-path — none show the model recovering, which is the property the whole lesson exists to prove."
+    },
+    {
+      "type": "compare",
+      "title": "Two deploy practices, same Kubernetes",
+      "subtitle": "Both 'use CI/CD and Kubernetes'. Only one is an operating model.",
+      "left": {
+        "label": "Deploy-and-pray",
+        "tone": "warning",
+        "lines": [
+          "kubectl apply, watch for the word 'green'",
+          "readiness = livez = /health returns 200 on boot",
+          "Rollback = 're-deploy the old branch' (minutes of guessing)",
+          "Telemetry = tail the logs after a customer complains",
+          "No threshold for 'bad' — it is an argument each time"
+        ],
+        "verdict": "Recovery time = however long the debate lasts"
+      },
+      "right": {
+        "label": "Operating model",
+        "tone": "success",
+        "lines": [
+          "RollingUpdate, maxUnavailable 0 — old pods serve until gate passes",
+          "/readyz gates traffic; /livez gates restarts (different questions)",
+          "Rollback = kubectl rollout undo to last-good ReplicaSet (one command)",
+          "SLO + burn-rate alert fires before customers do",
+          "Trigger is written down: error-rate > 2% for 2 min → undo"
+        ],
+        "verdict": "Recovery is boring, fast, and rehearsed"
+      },
+      "caption": "Stale search results that recover in 90 seconds are an incident note; the same failure debated for 40 minutes is a postmortem. The difference is entirely in the operating model, not the cluster."
+    },
+    {
+      "type": "verification",
+      "intro": "Prove your packet is an operating model, not a deploy script:",
+      "items": [
+        "Your readiness probe checks something that can FAIL when the service cannot serve real traffic (DB pool, downstream client) — not just that the process booted. If /readyz can only return 200, it is not a gate.",
+        "Liveness and readiness answer different questions: name what /livez restarts and what /readyz gates. If they hit the same endpoint, fix it.",
+        "The rollback trigger is a written threshold + window tied to an SLO (e.g. error-rate > 2% for 2 min), not 'when it looks bad'.",
+        "You captured a real kubectl rollout undo transcript that restored the last-good ReplicaSet — paste it; do not describe it.",
+        "The packet names the blast radius (stale search ≠ data loss) and one out-of-scope boundary (e.g. payments path), so urgency is calibrated."
+      ]
+    },
+    {
+      "type": "teachback",
+      "prompts": [
+        "Explain, using your own packet, why a liveness probe and a readiness probe must answer different questions — and what breaks when they are the same endpoint.",
+        "Walk a junior through your rollback trigger: what number fires it, over what window, and what command they run at 2 a.m. without thinking.",
+        "Connect your loop to one DORA key: which of deploy frequency, lead time, change-fail rate, or recovery time does your rollback evidence most directly improve, and why?"
+      ]
+    },
+    {
+      "type": "transfer",
+      "text": "The loop is invariant across runtimes and risk profiles — only the dials change. On a low-traffic internal tool the rollback trigger can be loose and manual; on a regulated payments path the same model demands a canary, automated burn-rate alerts, and a tighter SLO, because the feared failure shifts from 'stale results' to 'lost money'. Serverless or VM, the three parts hold: gate the rollout, observe against an SLO, prove the reverse. The capstone reuses this exact deployment_incident_repair_packet.md — you will replay the search-index incident, trip the trigger, roll back, and attach the kubectl transcript and metric snapshot as your portfolio claim: not 'I understand cloud ops', but 'here is a deploy I shipped, broke, and recovered in one command — read the evidence.'"
+    },
+    {
+      "type": "spaced-review",
+      "schedule": [
+        "1 day",
+        "3 days",
+        "7 days",
+        "30 days"
+      ]
+    }
+  ]
+}

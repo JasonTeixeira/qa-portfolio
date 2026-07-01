@@ -78,7 +78,8 @@ here once scored).
 | career-architecture_system_design | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-ai_engineering_rag_eval | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-data_engineering_analytics | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| _(remaining 10 courses)_ | ~200 | — | — | — | queued, SERIAL (security next) |
+| career-security_identity | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| _(remaining 9 courses)_ | ~180 | — | — | — | queued, SERIAL (observability next) |
 
 > Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 

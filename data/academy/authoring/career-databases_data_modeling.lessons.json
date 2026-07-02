@@ -228,6 +228,14 @@
       "explanation": "Usefulness comes from showing guarantees and flow: which store holds truth (with its ACID/constraint/isolation guarantees), which stores are lagging copies, where a stale or inconsistent read can be served, and why the chosen system class fits the constraint. Completeness (2) reintroduces the clutter that hides the suspect edge; the tool (1) and ownership (4) are not the modeling decision."
     },
     {
+      "type": "lab",
+      "title": "Find the products that are invisible to search because the CDC index hasn't caught up",
+      "summary": "Write one SQLite query (run it in the browser) that finds every product in the Postgres primary that has no row yet in the derived search index — the exact freshness-gap products a catalog search would fail to return.",
+      "starter": "-- Database Systems Map: the CDC freshness gap\n--\n-- The store's SOURCE OF TRUTH is products_primary (the OLTP Postgres primary).\n-- Every write lands here first, atomically.\n--\n-- The catalog page does NOT read the primary. It reads search_index, a DERIVED\n-- store kept up to date by Change-Data-Capture (CDC). CDC is asynchronous, so a\n-- brand-new product exists in the primary but is QUERY-INVISIBLE until it is\n-- indexed. That lag is the \"suspect edge\" from the lesson.\n--\n-- products 3 and 5 were written to the primary but have not been indexed yet.\n\nCREATE TABLE products_primary (\n  product_id  INTEGER PRIMARY KEY,\n  name        TEXT NOT NULL,\n  price_cents INTEGER NOT NULL,\n  created_at  TEXT NOT NULL\n);\n\nINSERT INTO products_primary (product_id, name, price_cents, created_at) VALUES\n  (1, 'Cedar Desk',   24900, '2026-06-01T09:00:00Z'),\n  (2, 'Oak Shelf',    13500, '2026-06-02T11:30:00Z'),\n  (3, 'Maple Stool',   6900, '2026-06-03T08:15:00Z'),\n  (4, 'Walnut Bench', 18800, '2026-06-04T14:45:00Z'),\n  (5, 'Birch Lamp',    4200, '2026-06-05T10:05:00Z');\n\n-- The derived, eventually-consistent read store the catalog actually queries.\nCREATE TABLE search_index (\n  product_id INTEGER PRIMARY KEY,\n  indexed_at TEXT NOT NULL\n);\n\nINSERT INTO search_index (product_id, indexed_at) VALUES\n  (1, '2026-06-01T09:00:07Z'),\n  (2, '2026-06-02T11:30:05Z'),\n  (4, '2026-06-04T14:45:09Z');\n\n-- TODO: Select product_id and name for every product that exists in\n-- products_primary but is MISSING from search_index (the freshness-gap rows).\n-- Return columns named product_id and name, ordered by product_id ascending.\n",
+      "check": "product_id | name\n3 | Maple Stool\n5 | Birch Lamp",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your Systems Map earns its place - no hand-waving:",
       "items": [
@@ -480,6 +488,14 @@
       ],
       "answer": 2,
       "explanation": "A many-to-many relationship cannot be expressed by a single foreign key on either side — that only models one-to-many. You resolve it with a join entity carrying one FK to each parent and a composite PK that prevents duplicate pairings. Option 1 destroys referential integrity (you cannot FK a comma-list); option 2 forces a product into exactly one order; option 4 duplicates the order entity and corrupts its identity."
+    },
+    {
+      "type": "lab",
+      "title": "Compute each customer's total spend by joining across the customer -> order -> order_item -> product relationships",
+      "summary": "Write one SQL query that traverses a many-to-many relationship (customers to products through orders and order_items) to compute total spend per customer, and run it in the browser.",
+      "starter": "-- Entities & Relationships lab\n-- Schema models: a customer places many orders (1-to-many),\n-- and each order contains many products via order_items (many-to-many).\n-- The order_items table is the JOIN (junction) table linking orders <-> products,\n-- carrying its own attribute: quantity.\n\nCREATE TABLE customers (\n  id     INTEGER PRIMARY KEY,\n  email  TEXT NOT NULL UNIQUE\n);\n\nCREATE TABLE products (\n  id     INTEGER PRIMARY KEY,\n  name   TEXT NOT NULL,\n  price  INTEGER NOT NULL          -- price in whole dollars\n);\n\nCREATE TABLE orders (\n  id           INTEGER PRIMARY KEY,\n  customer_id  INTEGER NOT NULL REFERENCES customers(id)\n);\n\nCREATE TABLE order_items (\n  order_id    INTEGER NOT NULL REFERENCES orders(id),\n  product_id  INTEGER NOT NULL REFERENCES products(id),\n  quantity    INTEGER NOT NULL CHECK (quantity > 0),\n  PRIMARY KEY (order_id, product_id)   -- composite key: one line per product per order\n);\n\nINSERT INTO customers (id, email) VALUES\n  (1, 'ada@example.com'),\n  (2, 'grace@example.com'),\n  (3, 'linus@example.com');   -- linus has no orders\n\nINSERT INTO products (id, name, price) VALUES\n  (1, 'Keyboard', 80),\n  (2, 'Mouse', 25),\n  (3, 'Monitor', 200);\n\nINSERT INTO orders (id, customer_id) VALUES\n  (1, 1),   -- ada\n  (2, 1),   -- ada\n  (3, 2);   -- grace\n\nINSERT INTO order_items (order_id, product_id, quantity) VALUES\n  (1, 1, 1),   -- order 1: 1 Keyboard  (80)\n  (1, 2, 2),   -- order 1: 2 Mouse     (50)\n  (2, 3, 1),   -- order 2: 1 Monitor   (200)\n  (3, 2, 4);   -- order 3: 4 Mouse     (100)\n\n-- TODO: Return the email and total_spent for every customer who has placed\n-- at least one order. total_spent = SUM(quantity * price) across all their\n-- order items. Traverse customers -> orders -> order_items -> products.\n-- Columns (exactly): email, total_spent\n-- Order by total_spent DESC, then email ASC.\n-- Write your SELECT below:\n",
+      "check": "email | total_spent\nada@example.com | 330\ngrace@example.com | 100",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -763,6 +779,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 shows the full contract: a measured query plan justifying the duplication, an enforced sync mechanism (trigger) so the copy cannot silently drift, a reconciliation backstop, and a rollback that restores from the single source of truth. The others are vibes ('feels snappier'), a myth ('joins are always slow'), or a hope ('a comment telling people to update it') — none of which survive a refund deleting a row."
+    },
+    {
+      "type": "lab",
+      "title": "Join normalized orders to the single source of truth to report spend per customer",
+      "summary": "Write one SQL query that joins the normalized orders table to the customers table (the single source of truth for email) and reports each customer's name, email, and total spend, ordered by spend descending — run it in the browser.",
+      "starter": "-- Normalized schema (3NF): email lives ONCE, on customers.\n-- orders no longer carries a duplicated customer_email copy;\n-- the foreign key guards the invariant, and reads JOIN to get email.\n\nCREATE TABLE customers (\n  id    INTEGER PRIMARY KEY,\n  name  TEXT NOT NULL,\n  email TEXT NOT NULL\n);\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  customer_id INTEGER NOT NULL REFERENCES customers(id),  -- FK: single source of truth\n  total       INTEGER NOT NULL,\n  created_at  TEXT NOT NULL\n);\n\nINSERT INTO customers (id, name, email) VALUES\n  (1, 'Ada Lovelace',   'ada@calc.io'),\n  (2, 'Grace Hopper',   'grace@navy.mil'),\n  (3, 'Alan Turing',    'alan@bletchley.uk');\n\nINSERT INTO orders (id, customer_id, total, created_at) VALUES\n  (101, 1, 120, '2026-01-04'),\n  (102, 2,  40, '2026-01-05'),\n  (103, 1,  60, '2026-01-06'),\n  (104, 3, 200, '2026-01-07'),\n  (105, 2,  75, '2026-01-08');\n\n-- TODO: Because email is no longer duplicated on orders, you must JOIN\n-- orders to customers to read it. Return three columns aliased exactly:\n--   name  | email | spent\n-- where spent is the SUM of that customer's order totals.\n-- Order by spent DESC, then name ASC. Write your query below.\n",
+      "check": "name | email | spent\nAlan Turing | alan@bletchley.uk | 200\nAda Lovelace | ada@calc.io | 180\nGrace Hopper | grace@navy.mil | 115",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -1076,6 +1100,14 @@
       "explanation": "The invariant choice (UNIQUE) is right — option 3 inverts reality, since the constraint is exactly what closes the race app code can't. The real production failure is operational: validating 40M rows under a blocking lock stalls writes. The gold path builds the index CONCURRENTLY off the critical path, attaches it, and carries a tested rollback. Option 1 misframes correctness as a read-perf tradeoff; option 4 picks a constraint type that can't express uniqueness."
     },
     {
+      "type": "lab",
+      "title": "Find the candidate rows that would violate an account's enforced invariants",
+      "summary": "Write one SQLite SELECT (run it in the browser) that flags each proposed account row that would break a NOT NULL, UNIQUE, or CHECK invariant before it is inserted.",
+      "starter": "-- Enforced invariants live in `accounts`:\n--   INV-1  email is NOT NULL and UNIQUE (one account per email)\n--   INV-2  balance CHECK (balance >= 0)  -- money can never go negative\nCREATE TABLE accounts (\n  id      INTEGER PRIMARY KEY,\n  email   TEXT    NOT NULL UNIQUE,\n  balance INTEGER NOT NULL CHECK (balance >= 0)\n);\n\nINSERT INTO accounts (id, email, balance) VALUES\n  (1, 'ada@corp.io',    120),\n  (2, 'grace@corp.io',   45),\n  (3, 'linus@corp.io',    0);\n\n-- A staging table of proposed new rows an import wants to add.\n-- None of these have been inserted into `accounts` yet.\nCREATE TABLE candidate_accounts (\n  cand_id INTEGER PRIMARY KEY,\n  email   TEXT,\n  balance INTEGER\n);\n\nINSERT INTO candidate_accounts (cand_id, email, balance) VALUES\n  (1, 'mike@corp.io',   50),    -- ok\n  (2, 'ada@corp.io',    10),    -- violates INV-1 (duplicate email)\n  (3, NULL,             30),    -- violates INV-1 (null email)\n  (4, 'ken@corp.io',   -5),     -- violates INV-2 (negative balance)\n  (5, 'dennis@corp.io', 75);    -- ok\n\n-- TODO: Report every candidate that would VIOLATE an enforced invariant if it\n-- were inserted into `accounts`. Output columns: cand_id, reason.\n-- Use reason = 'null_email'        when the email is NULL,\n--             'negative_balance'  when balance < 0,\n--             'duplicate_email'   when the email already exists in accounts.\n-- Each violating row here breaks exactly one invariant. Order by cand_id ascending.\n--\n-- Write your SELECT below:\n",
+      "check": "cand_id | reason\n2 | duplicate_email\n3 | null_email\n4 | negative_balance",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your invariants are enforced — no vibes:",
       "items": [
@@ -1367,6 +1399,14 @@
       ],
       "answer": 1,
       "explanation": "Equality predicates (org_id, archived) must lead so the B-tree pins one contiguous slice; updated_at last means that slice is already ordered, so the planner reads it in reverse and skips the Sort. Leading with updated_at (1) can't pin the slice → Seq Scan. Three separate indexes (3) force a slower bitmap combine and still need a sort. Reordering equality columns (4) doesn't help the sort — and 'most selective first' is a single-column heuristic, not a composite-ordering rule."
+    },
+    {
+      "type": "lab",
+      "title": "Write the hot-path query the index (tenant_id, status, created_at DESC) was built to serve",
+      "summary": "Write the exact tenant/status filtered, newest-first, limited read that the composite index (tenant_id, status, created_at DESC) is designed to serve, and run it in the browser.",
+      "starter": "-- Access pattern lab: serve the \"open orders for a tenant, newest first\" read.\n--\n-- The team added this index to serve one hot query:\n--   CREATE INDEX idx_orders_tenant_status_created\n--     ON orders (tenant_id, status, created_at DESC);\n-- Equality on (tenant_id, status) pins a slice, then created_at gives sorted order.\n--\n-- Fixed seed data (do not change):\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  tenant_id   INTEGER NOT NULL,\n  status      TEXT NOT NULL,\n  total       INTEGER NOT NULL,\n  created_at  TEXT NOT NULL\n);\n\nINSERT INTO orders (id, tenant_id, status, total, created_at) VALUES\n  (1, 42, 'open',      120, '2026-06-01 09:00:00'),\n  (2, 42, 'closed',    300, '2026-06-02 09:00:00'),\n  (3, 42, 'open',      250, '2026-06-05 14:30:00'),\n  (4, 42, 'open',      180, '2026-06-04 11:15:00'),\n  (5, 99, 'open',      500, '2026-06-06 08:00:00'),\n  (6, 42, 'cancelled',  90, '2026-06-03 10:00:00'),\n  (7, 42, 'open',      410, '2026-06-06 16:45:00'),\n  (8, 99, 'closed',    220, '2026-06-05 12:00:00');\n\n-- TODO: Write the query this index serves.\n-- Return id and total for tenant_id = 42 with status = 'open',\n-- ordered by created_at newest-first, limited to the 3 most recent.\n-- Replace the line below with your SELECT.\n",
+      "check": "id | total\n7 | 410\n3 | 250\n4 | 180",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -1664,6 +1704,14 @@
       "explanation": "The SUM is inflated because the one-to-many join fanned each invoice out across its payments, duplicating invoice_amount. Pre-aggregating payments to invoice grain restores a 1:1 join so invoice_amount is summed once. DISTINCT (1) collapses identical rows but silently drops legitimately-equal amounts and breaks COUNT; LEFT JOIN (3) changes which rows appear, not the fan-out; an index (4) makes the wrong number arrive faster."
     },
     {
+      "type": "lab",
+      "title": "Fix a join fan-out: pre-aggregate line items before summing order revenue",
+      "summary": "Write a query (running it in the browser) that reports each customer's total revenue and item count without the fan-out that joining straight through line_items causes.",
+      "starter": "-- Scenario: a small store. Each customer has orders; each order has line items.\n-- Joining customers -> orders -> line_items changes the grain to one row PER ITEM,\n-- so SUM(order_total) double/triple-counts multi-item orders.\n--\n-- Goal: return one row per customer with:\n--   name       = customer name\n--   revenue    = correct SUM of order_total (each order counted ONCE)\n--   item_count = total number of line items across the customer's orders\n-- Order by revenue DESC, then name ASC.\n\nCREATE TABLE customers (\n  id   INTEGER PRIMARY KEY,\n  name TEXT NOT NULL\n);\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  customer_id INTEGER NOT NULL,\n  order_total INTEGER NOT NULL\n);\n\nCREATE TABLE line_items (\n  id       INTEGER PRIMARY KEY,\n  order_id INTEGER NOT NULL,\n  sku      TEXT NOT NULL\n);\n\nINSERT INTO customers (id, name) VALUES\n  (1, 'Ada'),\n  (2, 'Grace'),\n  (3, 'Linus');\n\nINSERT INTO orders (id, customer_id, order_total) VALUES\n  (10, 1, 200),   -- Ada, 3 items\n  (11, 1, 150),   -- Ada, 1 item\n  (12, 2, 300),   -- Grace, 2 items\n  (13, 3,  90);   -- Linus, 1 item\n\nINSERT INTO line_items (id, order_id, sku) VALUES\n  (100, 10, 'A'),\n  (101, 10, 'B'),\n  (102, 10, 'C'),\n  (103, 11, 'D'),\n  (104, 12, 'E'),\n  (105, 12, 'F'),\n  (106, 13, 'G');\n\n-- TODO: Write ONE SELECT below.\n-- Hint: pre-aggregate line_items to ORDER grain in a CTE (one row per order,\n-- with its item_count), THEN join customers -> orders -> that rollup.\n-- Columns must be named exactly: name, revenue, item_count.\n-- ORDER BY revenue DESC, name ASC.\n",
+      "check": "name | revenue | item_count\nAda | 350 | 4\nGrace | 300 | 2\nLinus | 90 | 1",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove the join's grain — no vibes:",
       "items": [
@@ -1927,6 +1975,14 @@
       ],
       "answer": 2,
       "explanation": "Atomicity is the all-or-nothing guarantee under failure, so the only evidence that proves it is the abort path: a forced mid-transaction failure leaving ZERO partial state. Keywords (0) describe intent, the happy-path run (1) only shows a successful write, and the constraint (3) guards the value but does not by itself prove the debit rolls back with the failed credit."
+    },
+    {
+      "type": "lab",
+      "title": "Make a money transfer atomic, then prove a rolled-back transfer leaves no trace",
+      "summary": "Wrap two account transfers in transactions — one you COMMIT and one you ROLLBACK — then run the script in the browser to prove that a rolled-back unit of work changes nothing, while a committed one persists in full.",
+      "starter": "-- Bank ledger. The CHECK constraint is the invariant we must never break:\n-- no account may ever go negative.\nCREATE TABLE accounts (\n  id      TEXT PRIMARY KEY,\n  owner   TEXT NOT NULL,\n  balance INTEGER NOT NULL CHECK (balance >= 0)\n);\n\nINSERT INTO accounts (id, owner, balance) VALUES\n  ('A', 'Ada',  300),\n  ('B', 'Boaz', 120),\n  ('C', 'Cyra', 900);\n\n-- A transfer is a single ATOMIC unit of work: the debit and the credit\n-- either BOTH happen or NEITHER does. Two loose UPDATEs are a bug — a crash\n-- between them loses money. Wrap each transfer in BEGIN ... COMMIT/ROLLBACK.\n\n-- ============================================================\n-- TODO 1: Transfer 250 from Cyra ('C') to Ada ('A') as ONE atomic unit,\n--         and COMMIT it so it persists.\n--         (debit C by 250, credit A by 250, inside one transaction)\n\n\n-- TODO 2: Start a transfer of 90 from Boaz ('B') to Cyra ('C'), but this\n--         one gets cancelled: ROLLBACK the WHOLE unit so NEITHER row\n--         changes. Because it is rolled back, it must leave zero trace.\n\n\n-- ============================================================\n-- Do not edit below. This inspects the final ledger.\nSELECT id, owner, balance FROM accounts ORDER BY id;",
+      "check": "id | owner | balance\nA | Ada | 550\nB | Boaz | 120\nC | Cyra | 650",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -2212,6 +2268,14 @@
       ],
       "answer": 1,
       "explanation": "Write skew is the anomaly that survives snapshot isolation: two transactions each read a consistent snapshot, each check an invariant that holds, and each commit a change that — together — violate it. The classic case is two withdrawals that each see the combined balance as sufficient. REPEATABLE READ on Postgres is snapshot isolation and does not forbid it; SERIALIZABLE or SELECT ... FOR UPDATE on the read set does. Options 1 and 4 confuse atomicity with serializability."
+    },
+    {
+      "type": "lab",
+      "title": "Detect lost updates in a transaction audit log",
+      "summary": "Write one SQLite query that finds the inventory items hit by a lost update -- where two or more sessions committed a write after reading the same starting qty -- and run it in the browser.",
+      "starter": "-- Isolation & concurrency: hunting the lost-update anomaly\n--\n-- A lost update happens when two sessions each do read-modify-write on the\n-- same row: they BOTH read the same starting qty, both subtract, and the\n-- second COMMIT silently overwrites the first. The lesson's fix was to take\n-- a row lock on read (SELECT ... FOR UPDATE) so the second session blocks.\n--\n-- This table is the post-mortem audit log. Each row is one committed\n-- transaction: which item it touched, which session did it, the qty it READ\n-- at BEGIN, and the qty it WROTE at COMMIT. The fingerprint of a lost update\n-- is two or more committed writes to the SAME item that READ the SAME qty --\n-- proof they ran against the same snapshot instead of being serialized.\n\nCREATE TABLE audit_log (\n  id           INTEGER PRIMARY KEY,\n  item_id      INTEGER NOT NULL,\n  session      TEXT    NOT NULL,\n  qty_read     INTEGER NOT NULL,  -- value the txn read at BEGIN\n  qty_written  INTEGER NOT NULL,  -- value the txn wrote at COMMIT\n  committed_at TEXT    NOT NULL\n);\n\nINSERT INTO audit_log (id, item_id, session, qty_read, qty_written, committed_at) VALUES\n  (1, 7,  'A', 5, 4, '2026-06-01T09:00:01'),  -- A reads 5\n  (2, 7,  'B', 5, 4, '2026-06-01T09:00:02'),  -- B ALSO read 5 -> lost update\n  (3, 12, 'A', 8, 7, '2026-06-01T09:05:00'),  -- read 8...\n  (4, 12, 'A', 7, 6, '2026-06-01T09:05:03'),  -- then read 7: serialized, safe\n  (5, 20, 'A', 3, 2, '2026-06-01T09:10:00'),  -- read 3...\n  (6, 20, 'B', 2, 1, '2026-06-01T09:10:04'),  -- read 2: serialized, safe\n  (7, 31, 'A', 9, 8, '2026-06-01T09:20:00'),  -- A reads 9\n  (8, 31, 'B', 9, 8, '2026-06-01T09:20:01'),  -- B read 9\n  (9, 31, 'C', 9, 8, '2026-06-01T09:20:02');  -- C read 9 -> three-way lost update\n\n-- TODO: Return one row per (item_id, shared read value) where MORE THAN ONE\n-- session committed a write against that same read value. Report three columns:\n--   item_id            -- the affected item\n--   overlapping_writes -- how many committed writes collided on that read value\n--   shared_read        -- the qty they all read (use MIN(qty_read))\n-- Group by item_id and qty_read, keep only groups with COUNT(*) > 1,\n-- and ORDER BY item_id so the output is deterministic.\n--\n-- Write your SELECT below:\n",
+      "check": "item_id | overlapping_writes | shared_read\n7 | 2 | 5\n31 | 3 | 9",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -2535,6 +2599,14 @@
       "explanation": "Only option 2 names inspectable artifacts that span the real risks: the DDL diff (what changed), a rollback (reversibility), a constraint validation against existing data (truth preserved), and a query-plan comparison (the change actually does what it was for). A green local run (1) proves nothing on a populated, concurrently-written table; fewer steps (4) is exactly the destructive shortcut."
     },
     {
+      "type": "lab",
+      "title": "Write the Phase-2 backfill for an expand-contract migration",
+      "summary": "You'll complete the idempotent backfill UPDATE that fills a newly-added nullable column mid-migration, then run it in the browser to prove every row now carries a contact email.",
+      "starter": "-- Expand-contract migration, mid-flight.\n-- Phase 1 (expand) already ran: a nullable contact_email column was added\n-- to orders. Some rows were backfilled by an earlier batch; the rest are\n-- still NULL. Your job is Phase 2: the BACKFILL.\n\nCREATE TABLE orders (\n  id            integer PRIMARY KEY,\n  customer      text    NOT NULL,\n  email         text    NOT NULL,   -- old column, still the source of truth\n  contact_email text                -- new column, added nullable (expand)\n);\n\nINSERT INTO orders (id, customer, email, contact_email) VALUES\n  (1, 'Ada Lovelace',    'ada@calc.io',     'ada@calc.io'),  -- already backfilled\n  (2, 'Alan Turing',     'alan@bombe.uk',    NULL),           -- still needs backfill\n  (3, 'Grace Hopper',    'grace@navy.mil',   NULL),           -- still needs backfill\n  (4, 'Katherine J.',    'kat@nasa.gov',     'kat@nasa.gov'), -- already backfilled\n  (5, 'Edsger Dijkstra', 'edsger@ewd.nl',    NULL);           -- still needs backfill\n\n-- TODO: Write the Phase-2 backfill UPDATE.\n-- Copy email into contact_email, but ONLY for rows that still need it.\n-- It must be IDEMPOTENT: re-running it must not touch already-backfilled\n-- rows. (Guard on contact_email IS NULL, exactly as the lesson showed.)\n-- Write your UPDATE here:\n\n\n-- Verification query (leave this as-is): every row must now have a contact_email.\nSELECT id, customer, contact_email\nFROM orders\nORDER BY id;",
+      "check": "id | customer | contact_email\n1 | Ada Lovelace | ada@calc.io\n2 | Alan Turing | alan@bombe.uk\n3 | Grace Hopper | grace@navy.mil\n4 | Katherine J. | kat@nasa.gov\n5 | Edsger Dijkstra | edsger@ewd.nl",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your migration packet holds — no vibes:",
       "items": [
@@ -2821,6 +2893,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 is proof. A faster re-run (1, 4) can be warm buffer cache, not the index — the planner might still be doing a Seq Scan over cached pages. The index merely existing (3) says nothing about whether the planner USES it. The before/after plans show the node type changed from Seq Scan to Index Scan with identical rows out — that, and only that, proves the index is the cause."
+    },
+    {
+      "type": "lab",
+      "title": "Write the query whose WHERE shape matches the partial composite index",
+      "summary": "Complete the SELECT so its filter shape (status equality + created_at range) matches the partial index the lesson built, then run it in the browser to return the recent open orders in plan order.",
+      "starter": "-- Scenario: an \"orders\" table. The slow query in the lesson scanned every row\n-- filtering on status = 'open' AND a recent created_at range. The fix was a\n-- PARTIAL COMPOSITE index that matches exactly that WHERE shape:\n--\n--   CREATE INDEX idx_orders_open_recent\n--     ON orders (created_at)\n--     WHERE status = 'open';\n--\n-- The index is already created below. Your job: write the query whose filter\n-- shape lines up with that index so the planner can use it.\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  status      TEXT    NOT NULL,\n  total       INTEGER NOT NULL,\n  created_at  TEXT    NOT NULL   -- ISO date, sorts lexicographically\n);\n\nINSERT INTO orders (id, status, total, created_at) VALUES\n  (1,  'open',      120, '2026-06-01'),\n  (2,  'shipped',   340, '2026-06-02'),\n  (3,  'open',       55, '2026-06-10'),\n  (4,  'open',      890, '2026-06-14'),\n  (5,  'cancelled', 200, '2026-06-15'),\n  (6,  'open',       75, '2026-05-20'),\n  (7,  'shipped',   410, '2026-06-16'),\n  (8,  'open',      260, '2026-06-16'),\n  (9,  'open',      130, '2026-06-17'),\n  (10, 'cancelled',  99, '2026-06-12');\n\nCREATE INDEX idx_orders_open_recent\n  ON orders (created_at)\n  WHERE status = 'open';\n\n-- TODO: Select id and total for OPEN orders created on or after '2026-06-13'.\n-- Match the index's WHERE shape (status = 'open') plus the created_at range.\n-- Order by created_at, then id, so the result is deterministic.\n",
+      "check": "id | total\n4 | 890\n8 | 260\n9 | 130",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -3218,6 +3298,14 @@
       "explanation": "Decoupling is a property you demonstrate, not assert. The proof is a real migration whose blast radius stops at the repository: the DDL diff shows the column changed, and the code diff shows nothing outside the one implementation file moved — yet the suite still passes. Clean method names (1), consensus (3), and brevity (4) are happy-path signals; only the zero-caller-change migration falsifies 'the schema leaked'."
     },
     {
+      "type": "lab",
+      "title": "Implement the findByCustomer query for an OrderRepository",
+      "summary": "Write the SELECT that a PgOrderRepository.findByCustomer would run — filter orders by customer_id and alias the physical storage columns into the clean domain shape — then run it in the browser.",
+      "starter": "-- An OrderRepository hides storage details from callers.\n-- The physical table uses `amount_cents`, but the domain object\n-- exposes camelCase fields: orderId, customerId, amountCents, status.\n--\n-- Your job: write the query that PgOrderRepository.findByCustomer('cust-ada')\n-- would run. It must:\n--   1. Return ONLY orders for customer 'cust-ada'.\n--   2. Map every column into the domain shape using these exact aliases:\n--        id           -> orderId\n--        customer_id  -> customerId\n--        amount_cents -> amountCents\n--        status       -> status\n--   3. Order the rows by orderId so results are deterministic.\n\nCREATE TABLE orders (\n  id           TEXT PRIMARY KEY,\n  customer_id  TEXT NOT NULL,\n  amount_cents INTEGER NOT NULL,\n  status       TEXT NOT NULL\n);\n\nINSERT INTO orders (id, customer_id, amount_cents, status) VALUES\n  ('o-1001', 'cust-ada',   12900, 'paid'),\n  ('o-1002', 'cust-ada',    4550, 'pending'),\n  ('o-1003', 'cust-grace',  9999, 'paid'),\n  ('o-1004', 'cust-ada',    8000, 'refunded'),\n  ('o-1005', 'cust-grace',  2500, 'pending');\n\n-- TODO: write the findByCustomer('cust-ada') query below.\n-- Replace this comment with your SELECT statement.\n",
+      "check": "orderId | customerId | amountCents | status\no-1001 | cust-ada | 12900 | paid\no-1002 | cust-ada | 4550 | pending\no-1004 | cust-ada | 8000 | refunded",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove the repository holds — DDL diff, dry run, rollback, query plan, constraint test:",
       "items": [
@@ -3523,6 +3611,14 @@
       "explanation": "Proof is behavior under repetition and breakage, not a single green run. Option 2 demonstrates idempotency (run twice, same state), constraint enforcement (FK fails when the parent is missing), and clean teardown (back to empty) — the three properties that make a fixture trustworthy. Coverage (3) and plausible data (4) say nothing about determinism; a first-run success (1) is exactly the happy path the reviewer is challenging."
     },
     {
+      "type": "lab",
+      "title": "Seed FK-safe, deterministic test fixtures for users and orders",
+      "summary": "Fill in fixed inline seed rows (parents before children, fixed timestamps) so the join report runs deterministically, then run it in the browser.",
+      "starter": "-- Schema: orders.user_id references users.id (FK).\nCREATE TABLE users (\n  id         INTEGER PRIMARY KEY,\n  email      TEXT NOT NULL,\n  created_at TEXT NOT NULL\n);\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  user_id     INTEGER NOT NULL REFERENCES users(id),\n  total_cents INTEGER NOT NULL,\n  placed_at   TEXT NOT NULL\n);\n\n-- TODO: Write the seed fixtures below.\n-- Rules from the lesson:\n--   1. Insert PARENT rows (users) before CHILD rows (orders) so every\n--      order.user_id points at a user that already exists (FK-safe).\n--   2. Use FIXED timestamp literals, never NOW()/CURRENT_TIMESTAMP, so the\n--      data is identical on every run (deterministic).\n-- Seed exactly these fixtures:\n--   users:  id 1 ada@example.test, id 2 lin@example.test, id 3 mei@example.test\n--           (all created_at '2024-01-01T12:00:00Z')\n--   orders: id 10 -> user 1, 4200 cents\n--           id 11 -> user 1,  800 cents\n--           id 12 -> user 2,  900 cents\n--           (all placed_at '2024-01-01T12:00:00Z')\n-- NOTE: user 3 (mei) intentionally has NO orders.\n\n-- INSERT INTO users ... ;\n-- INSERT INTO orders ... ;\n\n-- Report (do not edit): per-user order count and total.\nSELECT u.email AS email,\n       COUNT(o.id) AS order_count,\n       COALESCE(SUM(o.total_cents), 0) AS total_cents\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.id\nGROUP BY u.id, u.email\nORDER BY u.email;",
+      "check": "email | order_count | total_cents\nada@example.test | 2 | 5000\nlin@example.test | 1 | 900\nmei@example.test | 0 | 0",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your fixtures hold — no vibes:",
       "items": [
@@ -3800,6 +3896,14 @@
       ],
       "answer": 1,
       "explanation": "A check that has only ever returned zero rows might be enforcing nothing — you can't tell a real pass from a check that can't fail. The evidence is the demonstrated FAIL-then-PASS transcript: it proves the assertion is falsifiable AND that the violation it guards against is now absent. The schema constraints (3) cover shape going forward but not pre-existing or state-consistency invariants; 'looked correct' (4) is exactly the vibe this lesson kills."
+    },
+    {
+      "type": "lab",
+      "title": "Write a data-quality check that lists every order violating an invariant",
+      "summary": "Build one SQL query that surfaces the \"bad\" orders — those with a negative amount, or marked shipped without a shipped_at — and run it in the browser against the seeded orders table.",
+      "starter": "-- Data-quality contract lab · SQLite (sql.js), runs fresh in your browser.\n-- In the lesson, a PASSING check returns ZERO rows; any returned row is a violation to fix.\n-- Here we INVERT that: your job is to LIST the violating orders so a human can triage them.\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  customer_id INTEGER,\n  amount      REAL,\n  status      TEXT,\n  shipped_at  TEXT      -- ISO date, or NULL if not yet shipped\n);\n\nINSERT INTO orders (id, customer_id, amount, status, shipped_at) VALUES\n  (1, 100,  49.99, 'shipped',    '2026-06-01'),  -- clean\n  (2, 101,  -5.00, 'refunded',    NULL),          -- BAD: amount < 0\n  (3, 102, 120.00, 'shipped',     NULL),          -- BAD: shipped but no shipped_at\n  (4, 103,   0.00, 'pending',     NULL),          -- clean (0 is allowed)\n  (5, 104, -19.50, 'shipped',     NULL),          -- BAD: amount < 0 AND shipped w/o date\n  (6, 105,  75.25, 'shipped',    '2026-06-10'),   -- clean\n  (7, 106,  10.00, 'pending',     NULL);          -- clean\n\n-- DOMAIN INVARIANT: amount must be >= 0, and status='shipped' implies shipped_at IS NOT NULL.\n-- TODO: SELECT the id of every order that VIOLATES the invariant.\n-- Return one column named \"id\", ordered by id ascending.\n",
+      "check": "id\n2\n3\n5",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -4089,6 +4193,14 @@
       "explanation": "Only option 2 proves recovery. The green cron (1) and the file list (3) prove dumps were *written* — the exact thing that was true in the mission while every dump was zero bytes. A runbook note (4) is an assertion, not evidence. The restore transcript is the only artifact that demonstrates the data comes back, intact, within RTO — the invariant of this skill."
     },
     {
+      "type": "lab",
+      "title": "Verify a restored backup: prove parity and check the recovery window",
+      "summary": "Write one SQL query (run it in the browser) that joins each nightly restore-drill against the source orders count, computes row deltas and elapsed restore minutes, and flags whether each drill met the RTO target and had zero-drift parity — the automated integrity check a restore runbook performs.",
+      "starter": "-- Scenario: nightly disaster-recovery drills.\n-- Every night a backup of the production `orders` table is restored into a\n-- scratch DB and verified. A drill PASSES only if:\n--   (1) restored_rows == source_rows for that day  (zero-drift parity), AND\n--   (2) elapsed restore time <= the RTO target (30 minutes).\n--\n-- source_rows = the true production row count captured at backup time.\n-- restored_rows / elapsed_min = what the restore drill actually measured.\n\nCREATE TABLE restore_drills (\n  drill_date     TEXT PRIMARY KEY,  -- YYYY-MM-DD\n  source_rows    INTEGER NOT NULL,  -- prod count at backup time\n  restored_rows  INTEGER NOT NULL,  -- rows found after pg_restore\n  elapsed_min    INTEGER NOT NULL   -- restore + verify wall-clock minutes\n);\n\nINSERT INTO restore_drills (drill_date, source_rows, restored_rows, elapsed_min) VALUES\n  ('2026-06-13', 480200, 480200, 22),  -- clean\n  ('2026-06-14', 481050, 481050, 41),  -- clean rows but too slow (RTO breach)\n  ('2026-06-15', 482310, 482297, 19),  -- fast but 13 rows short (drift)\n  ('2026-06-16', 483500, 483500, 30),  -- clean, exactly at the RTO limit\n  ('2026-06-17', 484900, 484915, 28);  -- extra 15 rows (drift, wrong direction)\n\n-- RTO target is 30 minutes. Parity means restored_rows = source_rows.\n-- TODO: return one row per drill (ordered by drill_date) with columns:\n--   drill_date,\n--   row_delta  = restored_rows - source_rows,\n--   elapsed_min,\n--   verdict    = 'PASS' when parity AND elapsed_min <= 30, else 'FAIL'\n",
+      "check": "drill_date | row_delta | elapsed_min | verdict\n2026-06-13 | 0 | 22 | PASS\n2026-06-14 | 0 | 41 | FAIL\n2026-06-15 | -13 | 19 | FAIL\n2026-06-16 | 0 | 30 | PASS\n2026-06-17 | 15 | 28 | FAIL",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your policy recovers — no green-checkmark theatre:",
       "items": [
@@ -4373,6 +4485,14 @@
       "explanation": "Only option 2 proves the control lives in the database and survives bypassing the app: FORCE RLS applies the policy to the very role the app uses, and the least-privilege grant means that role can't turn it off. App unit tests (1) and ORM clauses (3) both evaporate the moment any other query path touches the table; restricting human access (4) does nothing against an automated job or a leaked credential using app_rw."
     },
     {
+      "type": "lab",
+      "title": "Query only live rows for a single tenant (RLS + soft-delete erasure)",
+      "summary": "Write the SELECT that an isolated app role would run against a multi-tenant users table — returning only tenant \"acme\" rows that have not been soft-deleted (erased) — and run it in the browser.",
+      "starter": "-- Security, privacy & compliance in the database itself.\n--\n-- In Postgres the lesson enforced two rules structurally:\n--   * TENANT ISOLATION  -> a row-level-security policy:  tenant_id = current_setting('app.tenant_id')\n--   * ERASURE / SOFT DELETE -> a partial index over live rows only:  WHERE deleted_at IS NULL\n--\n-- SQLite has no RLS, so here you write the query a correctly-scoped\n-- app role would run: restrict to one tenant AND exclude erased rows.\n\nCREATE TABLE users (\n  id           INTEGER PRIMARY KEY,\n  tenant_id    TEXT    NOT NULL,\n  email        TEXT    NOT NULL,\n  ssn_last4    TEXT,          -- would be encrypted at the boundary in prod\n  deleted_at   TEXT           -- NULL = live; a timestamp = erased (soft-deleted)\n);\n\nINSERT INTO users (id, tenant_id, email, ssn_last4, deleted_at) VALUES\n  (1, 'acme',   'ada@acme.io',    '1234', NULL),\n  (2, 'acme',   'grace@acme.io',  '5678', NULL),\n  (3, 'acme',   'alan@acme.io',   '9012', '2026-01-15'),  -- erased under right-to-erasure\n  (4, 'globex', 'root@globex.io', '3456', NULL),          -- different tenant: must not leak\n  (5, 'globex', 'eve@globex.io',  '7890', NULL),          -- different tenant: must not leak\n  (6, 'acme',   'linus@acme.io',  '2222', NULL);\n\n-- TODO: SELECT id, email for tenant 'acme' only, excluding erased rows.\n-- Order by id so the result is deterministic.\n",
+      "check": "id | email\n1 | ada@acme.io\n2 | grace@acme.io\n6 | linus@acme.io",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove the packet's controls hold — no vibes:",
       "items": [
@@ -4655,6 +4775,14 @@
       "explanation": "A read model is a derived copy, so drift from the source is guaranteed, not hypothetical. Safety comes from a named staleness bound plus an invalidation/rebuild trigger that reconciles the copy back to truth — that is what makes 'stale' mean 'bounded and self-healing' instead of 'silently wrong'. Latency (1), engine choice (3), and coverage (4) are real but secondary; none of them stop the cache from contradicting the source forever."
     },
     {
+      "type": "lab",
+      "title": "Rebuild the daily_revenue read model from the orders source of truth",
+      "summary": "Populate a query-shaped read model (daily_revenue) by aggregating only settled orders from the source-of-truth orders table, then read it back — run it in the browser.",
+      "starter": "-- SCENARIO: A dashboard reads a derived \"read model\" (daily_revenue),\n-- never SUM(orders) live. daily_revenue is a query-shaped copy that must be\n-- REBUILT from the source of truth. The invalidation rule: only 'settled'\n-- orders count toward revenue (pending/refunded are excluded).\n\n-- Source of truth\nCREATE TABLE orders (\n  id           INTEGER PRIMARY KEY,\n  order_date   TEXT    NOT NULL,\n  amount_cents INTEGER NOT NULL,\n  status       TEXT    NOT NULL\n);\n\nINSERT INTO orders (id, order_date, amount_cents, status) VALUES\n  (1, '2026-06-01', 1200, 'settled'),\n  (2, '2026-06-01',  800, 'settled'),\n  (3, '2026-06-01',  500, 'pending'),\n  (4, '2026-06-02', 3000, 'settled'),\n  (5, '2026-06-02',  450, 'refunded'),\n  (6, '2026-06-02', 2000, 'settled'),\n  (7, '2026-06-03',  999, 'pending'),\n  (8, '2026-06-03', 1500, 'settled'),\n  (9, '2026-06-01',  300, 'refunded');\n\n-- The read model (starts empty; you must refresh it from orders)\nCREATE TABLE daily_revenue (\n  order_date    TEXT PRIMARY KEY,\n  revenue_cents INTEGER NOT NULL,\n  order_count   INTEGER NOT NULL\n);\n\n-- TODO 1: Refresh/rebuild the read model. INSERT one row per order_date into\n--   daily_revenue holding SUM(amount_cents) AS revenue_cents and COUNT(*) AS\n--   order_count, counting ONLY status = 'settled' orders, grouped by order_date.\n\n-- TODO 2: Serve the dashboard by reading the read model:\n--   SELECT order_date, revenue_cents, order_count FROM daily_revenue\n--   ORDER BY order_date.\n",
+      "check": "order_date | revenue_cents | order_count\n2026-06-01 | 2000 | 2\n2026-06-02 | 5000 | 2\n2026-06-03 | 1500 | 1",
+      "language": "sql"
+    },
+    {
       "type": "verification",
       "intro": "Prove your read model is safe — no vibes:",
       "items": [
@@ -4925,6 +5053,14 @@
         "verdict": "Analytics can fail without risking checkout"
       },
       "caption": "Source of truth on one side, derived read model on the other, one-way arrow between -- and a rollback that proves the seam by what it cannot reach."
+    },
+    {
+      "type": "lab",
+      "title": "Deduplicate CDC soft-duplicates in the analytics warehouse to compute true revenue per customer",
+      "summary": "Write one query the learner runs in the browser that dedupes replayed CDC rows in a warehouse fact table (no unique constraint) down to the latest-loaded row per order, then sums completed-order revenue per customer.",
+      "starter": "-- Boundary: OLTP orders (source of truth) -> analytics.fct_orders (warehouse).\n-- The warehouse has NO UNIQUE constraint on order_id, so CDC replays can land the\n-- SAME order_id more than once. Each reload gets a fresh loaded_at. The row with the\n-- greatest loaded_at is the current truth; older rows are stale soft-duplicates.\n-- (This in-memory SQLite table stands in for analytics.fct_orders.)\n\nCREATE TABLE fct_orders (\n  order_id      INTEGER,   -- NOT unique: soft-duplicate tolerant\n  customer_hash TEXT,\n  total_cents   INTEGER,\n  status        TEXT,\n  ordered_at    TEXT,\n  loaded_at     TEXT       -- later load = newer snapshot of that order_id\n);\n\nINSERT INTO fct_orders (order_id, customer_hash, total_cents, status, ordered_at, loaded_at) VALUES\n  -- order 101: first loaded as 'pending', CDC replay later corrects it to 'completed' + new total\n  (101, 'c_ada',  2000, 'pending',   '2024-01-02', '2024-01-02T06:00:00Z'),\n  (101, 'c_ada',  2500, 'completed', '2024-01-02', '2024-01-03T06:00:00Z'),\n  -- order 102: clean single load, completed\n  (102, 'c_ada',  4000, 'completed', '2024-01-02', '2024-01-02T06:05:00Z'),\n  -- order 103: replayed twice; final snapshot is 'refunded' (must NOT count)\n  (103, 'c_bob',  9000, 'completed', '2024-01-02', '2024-01-02T06:10:00Z'),\n  (103, 'c_bob',  9000, 'refunded',  '2024-01-02', '2024-01-04T06:10:00Z'),\n  -- order 104: bob, completed, single load\n  (104, 'c_bob',  1500, 'completed', '2024-01-03', '2024-01-03T06:00:00Z'),\n  -- order 105: cid, only ever pending -> excluded by status\n  (105, 'c_cid',  7000, 'pending',   '2024-01-03', '2024-01-03T06:00:00Z'),\n  -- order 106: cid, replayed; stale row says completed 500, latest says completed 800\n  (106, 'c_cid',   500, 'completed', '2024-01-03', '2024-01-03T06:00:00Z'),\n  (106, 'c_cid',   800, 'completed', '2024-01-03', '2024-01-05T06:00:00Z');\n\n-- TODO: Collapse each order_id to its LATEST-loaded row (greatest loaded_at),\n-- keep only status = 'completed', then return each customer's total revenue in dollars.\n-- Output columns: customer_hash, revenue_dollars  (revenue_dollars = SUM(total_cents)/100.0)\n-- Order by customer_hash ascending.\n",
+      "check": "customer_hash | revenue_dollars\nc_ada | 65.0\nc_bob | 15.0\nc_cid | 8.0",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -5220,6 +5356,14 @@
       "language": "bash",
       "task": "The symptom is lock contention, not a slow plan — so the right signal is the LOCK layer, not pg_stat_statements. Name the observability signal that exposes it and the safer migration shape.",
       "fix": "Inspect pg_locks / pg_stat_activity (wait_event_type = 'Lock'): the long transaction holds an ACCESS EXCLUSIVE lock on orders for the whole rewrite, blocking every concurrent write until COMMIT. That is the signal a CPU/latency dashboard hides. The fix is to stop holding one giant lock: add the column with a cheap default, backfill risk_score in batched transactions outside the migration, and build the index with CREATE INDEX CONCURRENTLY so it does not lock writes. Same end state, no peak-hour ACCESS EXCLUSIVE lock — and the rollback trigger watches lock-wait time, not just latency."
+    },
+    {
+      "type": "lab",
+      "title": "Find the regressed query and confirm its missing index",
+      "summary": "Join a query-stats table against the index catalog to surface statements that regressed after a deploy AND have no index on their filter column — the exact triage move from the lesson — running it in the browser against an in-memory SQLite database.",
+      "starter": "-- Incident triage: a deploy at 14:00 made the app slow.\n-- You have two observability tables captured from the database.\n\n-- query_stats: one row per statement the DB executed a lot.\n--   filter_column = the column the statement filters on (like pg_stat_statements normalized text)\n--   mean_ms_before / mean_ms_after = mean execution time before vs after the deploy\nCREATE TABLE query_stats (\n  statement       TEXT NOT NULL,\n  table_name      TEXT NOT NULL,\n  filter_column   TEXT NOT NULL,\n  calls           INTEGER NOT NULL,\n  mean_ms_before  REAL NOT NULL,\n  mean_ms_after   REAL NOT NULL\n);\n\n-- indexes: the index catalog AFTER the deploy (which indexes still exist).\nCREATE TABLE indexes (\n  table_name    TEXT NOT NULL,\n  indexed_column TEXT NOT NULL\n);\n\nINSERT INTO query_stats (statement, table_name, filter_column, calls, mean_ms_before, mean_ms_after) VALUES\n  ('SELECT * FROM orders WHERE customer_id = $1',   'orders',   'customer_id',  90000, 3.0,   842.0),\n  ('SELECT * FROM sessions WHERE token = $1',       'sessions', 'token',        50000, 2.5,   2.7),\n  ('SELECT * FROM shipments WHERE order_id = $1',    'shipments','order_id',     12000, 4.0,   611.0),\n  ('SELECT * FROM users WHERE email = $1',           'users',    'email',        8000,  1.8,   1.9),\n  ('SELECT * FROM invoices WHERE account_id = $1',   'invoices', 'account_id',   3000,  5.0,   9.0);\n\n-- indexes remaining after the deploy (customer_id and order_id indexes were dropped):\nINSERT INTO indexes (table_name, indexed_column) VALUES\n  ('sessions', 'token'),\n  ('users',    'email'),\n  ('invoices', 'account_id');\n\n-- TODO:\n-- Report every statement that REGRESSED after the deploy\n-- (mean_ms_after is at least 10x mean_ms_before) AND whose filter_column\n-- has NO matching index in the `indexes` catalog for its table.\n-- Return columns: table_name, filter_column, mean_ms_after\n-- Order by mean_ms_after descending.",
+      "check": "table_name | filter_column | mean_ms_after\norders | customer_id | 842.0\nshipments | order_id | 611.0",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -5527,6 +5671,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 proves both axes the packet exists to defend: measured (EXPLAIN before/after is evidence the index changed the plan, not a guess) and reversible (an executed rollback returns the schema to its exact prior state — a two-way door). A clean local run (1) tests nothing about production load or constraints; a name (3) is cosmetics; a full-database backup (4) is a blunt last resort, not a surgical, tested rollback — restoring 40M rows to undo one column is the failure this packet replaces."
+    },
+    {
+      "type": "lab",
+      "title": "Migrate the orders table: add a nullable status column, backfill it, then report status totals",
+      "summary": "In the browser, run one SQL script that performs a safe forward migration on an existing orders table — add a nullable status column, backfill every row, reclassify high-value orders — then produce a per-status summary of order counts and revenue.",
+      "starter": "-- Scenario: the orders table already exists with data, but has no status column.\n-- Apply a SAFE forward migration (the pattern from the lesson):\n--   1. Add the new column as NULLABLE  (no full-table rewrite/lock)\n--   2. Backfill existing rows to a default value BEFORE relying on it\n--   3. Reclassify the rows that need a different status\n-- Then prove the new column works by summarizing orders per status.\n\nCREATE TABLE orders (\n  id       INTEGER PRIMARY KEY,\n  customer TEXT NOT NULL,\n  amount   INTEGER NOT NULL\n);\n\nINSERT INTO orders (id, customer, amount) VALUES\n  (1, 'Ada',   120),\n  (2, 'Grace', 80),\n  (3, 'Ada',   200),\n  (4, 'Linus', 50),\n  (5, 'Grace', 300);\n\n-- ============================================================\n-- TODO: Complete the migration below, then write the summary query.\n--\n-- Step 1: add a nullable TEXT column named `status`.\n-- Step 2: backfill EVERY existing row so status = 'fulfilled' (the rows are\n--         currently NULL because the column was just added).\n-- Step 3: reclassify big orders — set status = 'pending' where amount >= 200.\n--\n-- Step 4: write the final SELECT so its result set is EXACTLY:\n--         columns  -> status, order_count, revenue\n--         where    order_count = COUNT(*) per status\n--                  revenue     = SUM(amount) per status\n--         GROUP BY status, and ORDER BY status so row order is deterministic.\n-- ============================================================\n\n-- Step 1:\n\n\n-- Step 2:\n\n\n-- Step 3:\n\n\n-- Step 4 (final query — its output is checked):\n",
+      "check": "status | order_count | revenue\nfulfilled | 3 | 250\npending | 2 | 500",
+      "language": "sql"
     },
     {
       "type": "verification",
@@ -5851,6 +6003,14 @@
       ],
       "answer": 1,
       "explanation": "Capstone readiness is reversibility + proof, not forward success. Option 2 demonstrates the rollback actually restores the prior state (two-way door) AND that the new index changed the query plan (the goal was met). Forward-only success (1), prose (3), and brevity (4) all leave the dangerous question — can you put it back, and did it work — unanswered."
+    },
+    {
+      "type": "lab",
+      "title": "Find rows that would violate a per-org, case-insensitive email uniqueness invariant before adding the constraint",
+      "summary": "Write the verification query from a real migration — group the users table by org and lowercased email to surface every collision that would block a new UNIQUE (org_id, lower(email)) constraint — and run it in the browser.",
+      "starter": "-- Migration capstone: you are about to add a per-org unique invariant on\n--   UNIQUE (org_id, lower(email))\n-- so that within one org, emails are unique case-insensitively.\n-- Before promoting the index into a constraint, you MUST prove no existing\n-- data violates it. Write the \"verify\" query that lists each colliding group.\n\nCREATE TABLE users (\n  id      INTEGER PRIMARY KEY,\n  org_id  INTEGER NOT NULL,\n  email   TEXT    NOT NULL\n);\n\nINSERT INTO users (id, org_id, email) VALUES\n  (1, 10, 'ada@acme.io'),\n  (2, 10, 'grace@acme.io'),\n  (3, 10, 'ADA@acme.io'),     -- collides with id 1 (same org, same email ignoring case)\n  (4, 20, 'ada@acme.io'),     -- different org, so NOT a collision with id 1\n  (5, 20, 'lin@beta.dev'),\n  (6, 20, 'Lin@beta.dev'),    -- collides with id 5\n  (7, 20, 'lin@BETA.dev'),    -- also collides with id 5\n  (8, 30, 'sole@gamma.co');\n\n-- TODO: Return one row per violating group.\n-- Columns (in this order and with these names):\n--   org_id, email_key, dup_count\n-- where email_key is the lowercased email, and dup_count is how many rows\n-- share that (org_id, email_key). Only include groups with more than one row.\n-- Order by org_id, then email_key, so the output is deterministic.\n",
+      "check": "org_id | email_key | dup_count\n10 | ada@acme.io | 2\n20 | lin@beta.dev | 3",
+      "language": "sql"
     },
     {
       "type": "verification",

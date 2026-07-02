@@ -70,7 +70,9 @@ fail → `collect-labs` (insert before consolidation tail) → `apply-course` �
 | career-ai_engineering_rag_eval | 20 | **20/20** | RAG framing gates, grounding/refusal prompt contracts, structured-output validation, LLMOps release gates, eval harnesses. Sweep clean. Applied (300 blocks). |
 | career-qa_sdet_test_automation_engineering | 20 | **20/20** | risk-based test planning (exposure ranking), test-pyramid layer routing, release-confidence gates (retry/triage), defect taxonomy, flaky-test triage. Sweep clean. Applied (300 blocks). |
 | **CODE-LAB TOTAL** | **100** | **100/100** | 5 Python-native courses. Every lab's solution executed with python3 and satisfies its check under verifyLab's exact rule. All render sweeps clean. |
-| frontend / databases / mobile | — | — | RUNTIME-GATED — need quickjs (JS) / sql.js (SQL); Python labs would be forced/hollow. Deferred until runtimes wired. |
+| career-databases_data_modeling | 20 | **20/20** | SQL (sql.js) runtime. CDC freshness-gap anti-joins, many-to-many traversal, normalization, constraint-invariant detection, index access patterns. Verified via real sqlite3. Sweep clean. Applied (304 blocks). |
+| career-frontend_fullstack | 20 | in progress | JS (sandboxed worker) runtime — authoring this run |
+| mobile | — | — | RUNTIME-GATED — Swift/Kotlin; needs its own runtime, NOT forced JS. Deferred. |
 
 ## P3 — TRANSLATION (top world languages)
 Infra: `scripts/translate-academy.ts` + `i18n:audit` + `i18n:verify`. Translate block

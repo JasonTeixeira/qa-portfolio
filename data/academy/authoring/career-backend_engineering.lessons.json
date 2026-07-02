@@ -2022,7 +2022,7 @@
             15
           ],
           "label": "Pass the key downstream too",
-          "note": "Stripe and most gateways accept their own idempotency key. Forward it so even a partial-commit retry can't double-charge externally."
+          "note": "Stripe and most gateways accept their own idempotency key. Forward it so even a partial-commit retry can't double-charge externally. But the DB transaction cannot roll back an external charge: if the gateway succeeds and the COMMIT then fails, you have a charge with no record. It is the gateway's OWN idempotency key (not the DB transaction) that makes the external effect exactly-once — and holding DB row locks across a network call is itself a cost. A transactional outbox avoids this."
         }
       ],
       "caption": "Run the replay test: fire the same key twice → assert one row in charges, one gateway call, identical response body both times."
@@ -2060,7 +2060,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK and the OWASP API Top 10 both treat retry-safety as a correctness AND a security property: a duplicate-submission bug is also an abuse vector (replayed payments, doubled credits). The senior tell — scope the key's lifetime and store the response, not just the key. A key with no stored result can't answer a replay; a key that never expires leaks storage forever. Bound it (24h is a common TTL) and store the exact body you returned."
+      "text": "Retry-safety is both a correctness property (no duplicate effects) and a security property — a duplicate-submission bug is also an abuse vector (replayed payments, doubled credits). Replayed state-changing requests relate to OWASP API6:2023 (Unrestricted Access to Sensitive Business Flows), where idempotency keys are a commonly recommended MITIGATION — the Top 10 text itself doesn't name retry-safety. The senior tell — scope the key's lifetime and store the response, not just the key. A key with no stored result can't answer a replay; a key that never expires leaks storage forever. Bound it (24h is a common TTL) and store the exact body you returned."
     },
     {
       "type": "quiz",
@@ -3119,7 +3119,7 @@
       "subtitle": "The handler from the failure-repair packet — keyed, capped, and routed. Each step is a forcing function.",
       "filename": "worker.py",
       "language": "python",
-      "code": "MAX_ATTEMPTS = 5\n\ndef handle(message):\n    key = message.idempotency_key      # stable per real-world event\n    attempt = message.delivery_count   # broker-tracked, survives redelivery\n\n    if store.already_processed(key):\n        return ack(message)            # duplicate: no second side effect\n\n    try:\n        with db.transaction():\n            charge_card(message.amount, key)\n            store.mark_processed(key)  # commit work + key atomically\n        return ack(message)\n    except TransientError as e:\n        if attempt >= MAX_ATTEMPTS:\n            return dead_letter(message, reason=str(e))\n        return requeue(message, delay=backoff(attempt))\n    except PermanentError as e:\n        return dead_letter(message, reason=str(e))  # never retry a 4xx",
+      "code": "MAX_ATTEMPTS = 5\n\ndef handle(message):\n    key = message.idempotency_key      # stable per real-world event\n    attempt = message.delivery_count   # broker-tracked, survives redelivery\n\n    if store.already_processed(key):\n        return ack(message)            # duplicate: no second side effect\n\n    try:\n        with db.transaction():\n            charge_card(message.amount, key)\n            store.mark_processed(key)  # commit work + key atomically\n        return ack(message)\n    except TransientError as e:\n        if attempt >= MAX_ATTEMPTS:\n            return dead_letter(message, reason=str(e))\n        return requeue(message, delay=backoff(attempt))\n    except PermanentError as e:\n        return dead_letter(message, reason=str(e))  # never retry a NON-RETRYABLE 4xx (400/401/403/404/422)",
       "steps": [
         {
           "lines": [
@@ -3175,7 +3175,7 @@
             20
           ],
           "label": "Permanent → dead-letter immediately",
-          "note": "A malformed payload or a 4xx will fail identically forever. Retrying it is just slower failure. Route it straight to the DLQ."
+          "note": "Most 4xx (malformed payload — 400/401/403/404/422) fail identically forever — dead-letter them. But 429 Too Many Requests and 408 Request Timeout are TRANSIENT 4xx: retry them with backoff (honor Retry-After for 429), don't dead-letter on first sight."
         }
       ],
       "caption": "Replay the same message twice: the first charges and marks the key; the second sees the key, acks, and skips. One side effect, two deliveries — the proof the sprint demands."

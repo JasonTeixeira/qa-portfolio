@@ -246,6 +246,14 @@
       "explanation": "Only option 2 is evidence of the non-happy-path states — the ones a demo skips. A loaded screenshot (1) and success-only tests (4) prove the easy state; the bare claim (3) is the vibe the reviewer is challenging. The matrix forces each reachable state to have a render AND an accessible cue, and the keyboard + viewport notes prove it was exercised, not assumed."
     },
     {
+      "type": "lab",
+      "title": "Render every UI state from a discriminated union of workflow states",
+      "summary": "Complete a renderStatus function that switches over a tagged union of workflow states (loading/empty/error/success) and returns the right string for each, then run it in the browser to log the rendered output for a fixed list of states.",
+      "starter": "// A workflow status is a discriminated union tagged by `kind`.\n// Same idea as the lesson's OrderList: branch on status.kind and\n// render exactly one thing per state — never a spinner AND an error.\n//\n// Render rules (return a STRING for each kind):\n//   loading -> \"Loading orders...\"\n//   empty   -> \"No orders yet\"\n//   error   -> \"Error: <message>\"            e.g. \"Error: Network down\"\n//   success -> \"Orders: <id>, <id>, ...\"     joined by \", \" in array order\n//             (if orders is empty, render \"Orders: (none)\")\n\n// Fixed inline data — do not change.\nconst states = [\n  { kind: 'loading' },\n  { kind: 'empty' },\n  { kind: 'error', message: 'Network down' },\n  { kind: 'success', orders: [{ id: 'A1' }, { id: 'A2' }, { id: 'A3' }] },\n  { kind: 'success', orders: [] },\n];\n\nfunction renderStatus(status) {\n  // TODO: switch on status.kind and return the correct string for each case.\n  // Handle all four kinds. For 'success', join the order ids with \", \"\n  // or return \"Orders: (none)\" when there are no orders.\n}\n\n// --- test tail: do not change ---\nfor (const s of states) {\n  console.log(renderStatus(s));\n}",
+      "check": "Loading orders...\nNo orders yet\nError: Network down\nOrders: A1, A2, A3\nOrders: (none)",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove your state matrix is complete — no vibes:",
       "items": [
@@ -534,6 +542,14 @@
       "explanation": "Validation (1) checks syntax, not meaning — div-soup validates fine. Visual sameness and firing handlers (4) are exactly the trap from the pretest. Bolting role+tabindex onto divs (3) is the weak version: it re-implements a button by hand, usually missing Enter/Space and disabled state, and is what WCAG 4.1.2 exists to catch. Only (2) points at the accessibility tree and landmark list — the actual evidence that structure survived where non-visual consumers read it."
     },
     {
+      "type": "lab",
+      "title": "Audit a page outline for semantic landmark elements and ARIA labeling",
+      "summary": "Build a function that walks a page's element outline, tags each landmark element and flags missing accessible names, then run it in the browser to print the audit — reinforcing which HTML elements are semantic landmarks and when they need an accessible name.",
+      "starter": "// LESSON: semantic HTML structure — landmark elements + accessible names.\n//\n// Landmark elements (each maps to an implicit ARIA landmark role):\n//   main -> \"main\", header -> \"banner\", nav -> \"navigation\",\n//   section -> \"region\", footer -> \"contentinfo\"\n// Everything else (h1, article, p, button, a, div, ...) is NOT a landmark.\n//\n// Accessibility rule taught in the lesson:\n//   A <section> only becomes a real \"region\" landmark when it has an\n//   accessible name (an aria-labelledby OR aria-label attribute).\n//   A <nav> should also be named when a page has more than one nav.\n//   Here: flag any `section` OR `nav` node that has NO `label` attribute set.\n\n// Fixed inline data: a flattened page outline (document order).\nconst NODES = [\n  { tag: \"main\",    label: null },\n  { tag: \"header\",  label: null },\n  { tag: \"nav\",     label: \"Account\" },\n  { tag: \"a\",       label: null },\n  { tag: \"section\", label: \"recent-heading\" },\n  { tag: \"h1\",      label: null },\n  { tag: \"article\", label: null },\n  { tag: \"button\",  label: null },\n  { tag: \"nav\",     label: null },\n  { tag: \"footer\",  label: null },\n];\n\nconst LANDMARK_ROLES = {\n  main: \"main\",\n  header: \"banner\",\n  nav: \"navigation\",\n  section: \"region\",\n  footer: \"contentinfo\",\n};\n\n// TODO: implement auditOutline(nodes).\n// Return an object: { landmarks, roles, unnamed }\n//   - landmarks: count of nodes whose tag IS a landmark element\n//   - roles: array of the implicit landmark roles, in document order,\n//            only for landmark nodes (skip non-landmark tags)\n//   - unnamed: array of tags that REQUIRE an accessible name\n//              (tag === \"section\" || tag === \"nav\") but have label == null,\n//              in document order\nfunction auditOutline(nodes) {\n  // TODO\n}\n\nconst result = auditOutline(NODES);\nconsole.log(\"landmarks=\", result.landmarks);\nconsole.log(\"roles=\", result.roles);\nconsole.log(\"unnamed=\", result.unnamed);",
+      "check": "landmarks= 6\nroles= [\"main\",\"banner\",\"navigation\",\"region\",\"navigation\",\"contentinfo\"]\nunnamed= [\"nav\"]",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove the structure is real — inspect the accessibility tree, not the screenshot:",
       "items": [
@@ -804,6 +820,14 @@
       ],
       "answer": 1,
       "explanation": "Responsiveness is proven by behavior across viewports, not by the presence of a feature. Option 2 names the rendered result at each breakpoint, the WCAG 1.4.10 no-overflow check at 320px, and the specific line (min-width:0) that defends against the realistic failure — that is the evidence a reviewer can re-run. 'It has a media query' (1) and 'it uses Flexbox' (3) name tools, not outcomes; 'looks fine on my screen' (4) is exactly the happy-path claim the reviewer is challenging."
+    },
+    {
+      "type": "lab",
+      "title": "Compute auto-fit grid columns and track width from container width and gap",
+      "summary": "Build a function that replicates how CSS `repeat(auto-fit, minmax(minTrack, 1fr))` resolves — given a container width and gap, compute how many columns fit and how wide each stretched column becomes — and run it in the browser.",
+      "starter": "// Lesson: responsive grid with repeat(auto-fit, minmax(MIN, 1fr)) + a gap.\n//\n// CSS lays out columns like this:\n//   .card-grid {\n//     display: grid;\n//     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n//     gap: 16px;\n//   }\n//\n// The engine fits as many MIN-wide tracks as possible (each separated by `gap`),\n// then stretches every track equally to fill the leftover space (the `1fr` part).\n//\n// Formula for N columns of min width `min` inside `containerWidth` with `gap`\n// between adjacent columns:\n//   total width used by N tracks = N*min + (N-1)*gap  must be <= containerWidth\n//   => N = floor((containerWidth + gap) / (min + gap)), and at least 1 column.\n//   trackWidth = (containerWidth - (N-1)*gap) / N   (equal 1fr stretch)\n//\n// Fixed inputs (px). min track = 220, gap = 16.\nconst MIN_TRACK = 220;\nconst GAP = 16;\nconst CONTAINERS = [200, 480, 760, 1000];\n\n// TODO: implement resolveGrid(containerWidth) -> { columns, trackWidth }\n// - columns: how many columns fit (integer, minimum 1)\n// - trackWidth: width in px of each stretched column, rounded to 2 decimals (a Number)\nfunction resolveGrid(containerWidth) {\n  // TODO: replace this\n  return { columns: 0, trackWidth: 0 };\n}\n\n// --- do not edit below ---\nconst results = CONTAINERS.map((w) => {\n  const { columns, trackWidth } = resolveGrid(w);\n  return { w, columns, trackWidth };\n});\nfor (const r of results) {\n  console.log(r.w + \"px ->\", r.columns, \"cols @\", r.trackWidth + \"px\");\n}",
+      "check": "200px -> 1 cols @ 200px\n480px -> 2 cols @ 232px\n760px -> 3 cols @ 242.67px\n1000px -> 4 cols @ 238px",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -1087,6 +1111,14 @@
       "explanation": "Only option 2 is reviewable proof: the union enumerates the legal states, the matrix shows each renders a distinct accessible surface, and assertNever makes 'unhandled state' a compile error rather than a promise. The prose (1) and happy-path screenshot (3) prove nothing about the failure states; booleans-plus-a-comment (4) is exactly the soup that permits the illegal combinations a contract exists to forbid."
     },
     {
+      "type": "lab",
+      "title": "Render a tagged-union CardState exhaustively",
+      "summary": "Write a renderCard(state) that switches over a discriminated-union CardState and returns the right text for every status, then run it in the browser to log each rendered state.",
+      "starter": "// LESSON: types & UI contracts — model state as ONE tagged union so\n// illegal states are unrepresentable, then render every variant exhaustively.\n//\n// Each \"state\" object has a `status` discriminant. Depending on status, it\n// carries extra fields:\n//   { status: 'loading' }\n//   { status: 'empty' }\n//   { status: 'error',   message: string }\n//   { status: 'success', user: { name: string } }\n//\n// TODO: implement renderCard(state) to return a string per the contract:\n//   'loading' -> 'Loading profile…'\n//   'empty'   -> 'No profile yet'\n//   'error'   -> 'Error: ' + state.message\n//   'success' -> 'Profile: ' + state.user.name\n// Handle EVERY status. For any unknown status, return 'UNHANDLED'.\n\nconst states = [\n  { status: 'loading' },\n  { status: 'empty' },\n  { status: 'error', message: 'Network down' },\n  { status: 'success', user: { name: 'Ada' } },\n];\n\nfunction renderCard(state) {\n  // TODO: switch on state.status and return the correct string for each variant\n}\n\nfor (const s of states) {\n  console.log(renderCard(s));\n}",
+      "check": "Loading profile…\nNo profile yet\nError: Network down\nProfile: Ada",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove your UI contract holds — no vibes:",
       "items": [
@@ -1337,6 +1369,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 points at evidence: the state matrix row, the boundary that turns a throw into a rendered fallback, and the accessibility proof (focusable retry + role=alert). Option 1 is a claim with no proof, option 3 only exercises the happy path, and option 4 describes the monolith this lesson exists to break — 'nothing missed' is exactly how the error state gets silently dropped."
+    },
+    {
+      "type": "lab",
+      "title": "Compose a checkout panel that renders the right state component from cart data",
+      "summary": "Build a pure renderCart() function that composes the correct state \"component\" (loading, error, empty, or list) from a cart-state object, mirroring the lesson's CheckoutPanel composition; run it in the browser.",
+      "starter": "// Component composition: choose the right piece from state.\n// In the lesson, CheckoutPanel composed LoadingState / ErrorState /\n// EmptyState / CartList based on { isLoading, error, data }.\n// Here, each \"component\" is a pure function returning a string.\n\nconst LoadingState = () => \"LOADING\";\nconst ErrorState = () => \"ERROR\";\nconst EmptyState = () => \"EMPTY\";\nconst CartList = (items) => \"CART(\" + items.map((i) => i.name).join(\",\") + \")\";\n\n// Fixed inline cart states (deterministic).\nconst states = [\n  { isLoading: true, error: null, data: null },\n  { isLoading: false, error: \"network\", data: null },\n  { isLoading: false, error: null, data: [] },\n  { isLoading: false, error: null, data: [{ name: \"boots\" }, { name: \"hat\" }] },\n];\n\n// TODO: implement renderCart(state) to compose the right component.\n// Precedence (same order as the lesson's panel):\n//   1. isLoading            -> LoadingState()\n//   2. error               -> ErrorState()\n//   3. data with length 0  -> EmptyState()\n//   4. data with items     -> CartList(data)\nfunction renderCart(state) {\n  // TODO: return the correct component's string for this state\n}\n\n// --- do not edit below ---\nconsole.log(states.map(renderCart).join(\" | \"));",
+      "check": "LOADING | ERROR | EMPTY | CART(boots,hat)",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -1657,6 +1697,14 @@
       "explanation": "useReducer (1) is a mechanism, not proof — you can write boolean soup inside a reducer. Brevity (3) and the mere presence of a spinner (4) say nothing about reachability. The proof is structural: a transition graph that shows which moves are legal, a named combination that is now impossible by construction, and an accessibility commitment per state. That is the difference between modeling the states and decorating them."
     },
     {
+      "type": "lab",
+      "title": "Implement the form state-machine reducer",
+      "summary": "Build a reducer(state, event) that drives a form UI through idle/disabled/loading/empty/error/success states, then run it in the browser to trace a fixed event sequence.",
+      "starter": "// A UI form is modeled as an explicit state machine.\n// States: 'idle' | 'disabled' | 'loading' | 'empty' | 'error' | 'success'\n// Events:\n//   { type: 'VALIDATE' }              disabled -> idle\n//   { type: 'INVALIDATE' }            idle -> disabled\n//   { type: 'SUBMIT' }                idle -> loading\n//   { type: 'RESOLVE', count }        loading -> success (count > 0) or empty (count === 0)\n//   { type: 'REJECT', message }       loading -> error (carry message onto state.error)\n//   { type: 'RETRY' }                 error -> loading\n// Any event that does not match the current state returns the state UNCHANGED.\n\n// TODO: implement reducer so that, for each state, only the listed\n// transitions apply and everything else is a no-op (return the same-shaped state).\nfunction reducer(state, event) {\n  // TODO: switch on state.status and handle each event per the table above.\n  return state;\n}\n\n// --- fixed driver (do not edit) ---\nconst events = [\n  { type: 'INVALIDATE' },\n  { type: 'VALIDATE' },\n  { type: 'SUBMIT' },\n  { type: 'REJECT', message: 'network down' },\n  { type: 'RETRY' },\n  { type: 'RESOLVE', count: 0 },\n  { type: 'SUBMIT' },       // ignored: not in 'empty'\n];\n\nlet state = { status: 'idle' };\nconst trace = [];\nfor (const ev of events) {\n  state = reducer(state, ev);\n  trace.push(state.status);\n}\nconsole.log(\"trace=\", trace);\nconsole.log(\"final=\", state);",
+      "check": "trace= [\"disabled\",\"idle\",\"loading\",\"error\",\"loading\",\"empty\",\"empty\"]\nfinal= {\"status\":\"empty\"}",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove your Client State Machine holds — no vibes:",
       "items": [
@@ -1937,6 +1985,14 @@
       ],
       "answer": 1,
       "explanation": "The challenge is specifically about perceivability and recovery for a non-sighted user, so only the keyboard pass + screen-reader transcript proves it: it shows aria-invalid/aria-describedby actually announcing, and focus management after submit. A green screenshot (1) and red borders (3) only prove the sighted happy path; the schema (4) proves the rules exist but not that any human can perceive or recover from a violation."
+    },
+    {
+      "type": "lab",
+      "title": "Compute email field validation state for a set of inputs",
+      "summary": "Build a validateEmailField function that mirrors the lesson's touched-gated email validation, then run it in the browser to print each field's error state as an array.",
+      "starter": "// The lesson validated an email field: an error only shows once the field is\n// \"touched\" (blurred), and only when the value fails the email pattern.\n// Pattern from the lesson: /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/\n//\n// TODO: implement validateEmailField(value, touched).\n// - If NOT touched, return null (no error yet, even if the value is invalid).\n// - If touched AND value FAILS the pattern, return the error string:\n//     \"Enter a valid email, e.g. you@work.com\"\n// - If touched AND value PASSES the pattern, return null.\n\nconst EMAIL_RE = /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/;\nconst ERROR_MSG = \"Enter a valid email, e.g. you@work.com\";\n\nfunction validateEmailField(value, touched) {\n  // TODO: your code here\n}\n\n// Fixed inline data: [value, touched]\nconst cases = [\n  [\"you@work.com\", true],  // touched + valid   -> null\n  [\"nope\", true],          // touched + invalid -> error\n  [\"\", false],             // untouched         -> null\n  [\"nope\", false],         // untouched         -> null\n  [\"a@b.co\", true],        // touched + valid   -> null\n  [\"a@b\", true],           // touched + invalid (no dot) -> error\n];\n\nconst results = cases.map(([value, touched]) => validateEmailField(value, touched));\nconsole.log(results);",
+      "check": "[null,\"Enter a valid email, e.g. you@work.com\",null,null,null,\"Enter a valid email, e.g. you@work.com\"]",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -2221,6 +2277,14 @@
       ],
       "answer": 1,
       "explanation": "The reviewer is asking for evidence of the non-happy states specifically. Only option 2 points to the artifact and the forced-failure proof: a matrix that distinguishes empty from loading, and screenshots that exercise the states the happy path hides. A loading boolean + try/catch (3) still can’t tell empty from success; 'renders correctly' (1) and 'types compile' (4) only attest to the success branch."
+    },
+    {
+      "type": "lab",
+      "title": "Write renderState to resolve loading, error, empty, and success in the correct priority order",
+      "summary": "Build a pure renderState function that maps a query result (isPending / error / data) to one of four UI state strings in the right priority order, then run it in the browser against the fixed cases.",
+      "starter": "// A query result can be in one of four states. Your UI must resolve them\n// in the SAME priority order the lesson taught:\n//   1. loading  -> isPending is true            (show skeleton)\n//   2. error    -> error is not null            (show alert + retry)\n//   3. empty    -> data is [] (length 0)        (show designed empty state)\n//   4. success  -> data has items               (show results)\n//\n// Order matters: check pending FIRST, then error, then empty, then success.\n// While pending, data/error are not trusted yet, so pending wins.\n\n// TODO: return one of: \"loading\", \"error\", \"empty\", \"success\"\nfunction renderState({ isPending, error, data }) {\n  // TODO: implement the four checks in priority order\n}\n\n// --- fixed test cases (do not edit) ---\nconst cases = [\n  { isPending: true,  error: null,            data: null },\n  { isPending: false, error: new Error('boom'), data: null },\n  { isPending: false, error: null,            data: [] },\n  { isPending: false, error: null,            data: ['a', 'b'] },\n  // pending must win even when error/data are also present:\n  { isPending: true,  error: new Error('x'), data: ['a'] },\n];\n\nconst result = cases.map(renderState);\nconsole.log(result);\nconsole.log(\"firstEmptyAt\", result.indexOf(\"empty\"));",
+      "check": "[\"loading\",\"error\",\"empty\",\"success\",\"loading\"]\nfirstEmptyAt 2",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -2509,6 +2573,14 @@
       "explanation": "A green build (1, 4) only proves the happy path compiles — TypeScript never sees the runtime payload. A spinner and bare try/catch (3) don't prove the bad shape is caught or that failure is accessible. The contract is proven only when a deliberately malformed response is rejected at the boundary AND every outcome maps to a designed, announced state — that is what survives review and the capstone."
     },
     {
+      "type": "lab",
+      "title": "Enforce an API contract at the boundary and reject non-conforming orders",
+      "summary": "Complete the isValidOrder contract check so the client accepts only orders matching the schema and rejects the rest, then run it in the browser.",
+      "starter": "// An API returned this response. It is UNTRUSTED — some records violate the contract.\nconst RAW_RESPONSE = {\n  orders: [\n    { id: \"a1\", status: \"shipped\", total: 42 },\n    { id: \"a2\", status: \"flying\", total: 10 },     // status not in enum\n    { id: \"a3\", status: \"delivered\", total: -5 },   // total is negative\n    { id: \"a4\", status: \"pending\", total: 0 },\n    { id: 99, status: \"pending\", total: 7 },        // id is not a string\n  ],\n};\n\n// The contract: the exact shape the UI is allowed to depend on.\n//   id:     string\n//   status: one of \"pending\" | \"shipped\" | \"delivered\"\n//   total:  number, and >= 0 (nonnegative)\nconst STATUSES = [\"pending\", \"shipped\", \"delivered\"];\n\nfunction isValidOrder(o) {\n  // TODO: return true only if `o` satisfies the contract above.\n  // Check the type of id, that status is one of STATUSES,\n  // and that total is a number that is >= 0.\n}\n\nfunction parseOrders(response) {\n  const valid = [];\n  const rejected = [];\n  for (const o of response.orders) {\n    if (isValidOrder(o)) valid.push(o.id);\n    else rejected.push(o.id);\n  }\n  return { valid, rejected };\n}\n\nconst result = parseOrders(RAW_RESPONSE);\nconsole.log(\"valid:\", result.valid);\nconsole.log(\"rejected:\", result.rejected);\nconsole.log(\"count:\", result.valid.length);",
+      "check": "valid: [\"a1\",\"a4\"]\nrejected: [\"a2\",\"a3\",99]\ncount: 2",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove the contract — no vibes:",
       "items": [
@@ -2784,6 +2856,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 points at the artifact: the full state matrix (loading/empty/error/success), the URL contract that survives refresh and sharing, page-reset-on-filter, and the aria-live announcement. The others are happy-path vibes — 'it renders,' 'the library handles it,' 'looks good' — none of which a reviewer can verify against a refresh or a screen reader."
+    },
+    {
+      "type": "lab",
+      "title": "Derive a filtered, paginated table view from URL query params",
+      "summary": "Build a pure function that reads status/page from a URL query string, filters and paginates fixed order data, and applies the \"changing the filter resets to page 1\" rule — then run it in the browser and match the printed output.",
+      "starter": "// The query string IS the state. Refresh reproduces the view exactly.\n// Fixed data (do not change):\nconst ORDERS = [\n  { id: 1, status: 'open' },\n  { id: 2, status: 'shipped' },\n  { id: 3, status: 'open' },\n  { id: 4, status: 'open' },\n  { id: 5, status: 'shipped' },\n  { id: 6, status: 'open' },\n  { id: 7, status: 'shipped' },\n  { id: 8, status: 'open' },\n];\n\nconst LIMIT = 3;\n\n// Parse a query string like \"status=open&page=2\" into { status, page }.\n// Defaults: status = 'all', page = 1.\nfunction parseQuery(qs) {\n  const params = new URLSearchParams(qs);\n  const status = params.get('status') ?? 'all';\n  const page = Number(params.get('page') ?? '1');\n  return { status, page };\n}\n\n// TODO: Implement getView(qs).\n// 1. Parse the query with parseQuery.\n// 2. Filter ORDERS: if status === 'all', keep all; otherwise keep matching status.\n// 3. Paginate with LIMIT (page 1 = first LIMIT rows, etc.).\n// 4. Return { status, page, total, ids } where:\n//    - total  = count of rows AFTER filtering (all pages)\n//    - ids    = array of order ids on the requested page\nfunction getView(qs) {\n  // TODO: your code here\n}\n\n// setFilter simulates changing the status filter.\n// Rule from the lesson: a NEW filter resets to page 1.\n// TODO: return the query string for the new filter (page reset to 1).\nfunction setFilter(nextStatus) {\n  // TODO: your code here\n}\n\n// --- tail (do not change) ---\nconst v1 = getView('status=open&page=1');\nconsole.log('page1', v1.ids, 'of', v1.total);\n\nconst v2 = getView('status=open&page=2');\nconsole.log('page2', v2.ids, 'of', v2.total);\n\nconst v3 = getView('status=all&page=1');\nconsole.log('all', v3.ids, 'of', v3.total);\n\nconsole.log('newFilter', setFilter('shipped'));\nconst v4 = getView(setFilter('shipped'));\nconsole.log('reset', v4.page, v4.ids);",
+      "check": "page1 [1,3,4] of 5\npage2 [6,8] of 5\nall [1,2,3] of 8\nnewFilter status=shipped&page=1\nreset 1 [2,5,7]",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -3089,6 +3169,14 @@
       "explanation": "Only option 2 points at the four pieces the reviewer challenge demands: the artifact (state matrix), the broken cases (mocked empty/500/slow), the proof (Playwright asserting a distinct accessible surface per state), and reproducibility. A success screenshot (1) and 'it worked' (3) are exactly the happy-path claims the challenge exists to reject; compiling (4) proves types, not behavior across states."
     },
     {
+      "type": "lab",
+      "title": "Derive a chart's view state from raw metric responses",
+      "summary": "Write a resolveState function that maps a raw metrics-fetch result to a discriminated-union view state (loading/error/empty/success), then render each state to a string; run it in the browser worker.",
+      "starter": "// Dashboard metrics chart: model view state as a discriminated union.\n// A State is one of:\n//   { kind: 'loading' }\n//   { kind: 'error',   message: string }\n//   { kind: 'empty' }\n//   { kind: 'success', data: Point[] }   Point = { label, value }\n//\n// resolveState(result) turns a raw fetch outcome into a State:\n//   - result.pending === true            -> loading\n//   - result.ok === false                -> error, message `Metrics unavailable (${result.status})`\n//   - result.points has length 0         -> empty\n//   - otherwise                          -> success with result.points as data\n//\n// render(state) turns a State into a one-line summary string:\n//   loading -> \"Loading...\"\n//   error   -> \"Error: <message>\"\n//   empty   -> \"No data\"\n//   success -> \"Chart: <n> points, total <sum-of-values>\"\n\nfunction resolveState(result) {\n  // TODO: return the correct State object for the given raw result.\n}\n\nfunction render(state) {\n  // TODO: switch on state.kind and return the summary string.\n}\n\n// Fixed inline data (do not edit).\nconst results = [\n  { pending: true },\n  { pending: false, ok: false, status: 503 },\n  { pending: false, ok: true, points: [] },\n  { pending: false, ok: true, points: [{ label: 'Mon', value: 12 }, { label: 'Tue', value: 30 }] },\n];\n\nfor (const r of results) {\n  console.log(render(resolveState(r)));\n}",
+      "check": "Loading...\nError: Metrics unavailable (503)\nNo data\nChart: 2 points, total 42",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove the panel across every state — no vibes, no happy-path screenshot:",
       "items": [
@@ -3366,6 +3454,14 @@
       ],
       "answer": 1,
       "explanation": "The reviewer challenge is specifically about evidence beyond the happy path. Only option 2 exercises the broken cases the lesson exists to cover — empty (404 id), error (network failure), loading — and proves the URL-as-source-of-truth invariant by deep-linking in a fresh tab and surviving refresh. A success screenshot (1), a component choice (3), and a clean compile (4) all say nothing about empty, error, or shareability."
+    },
+    {
+      "type": "lab",
+      "title": "Resolve a detail route's view state from query status and data",
+      "summary": "Implement a pure resolveDetailState(query) that maps a data-fetching query's status/data into one of four detail-route UI states (loading, error, empty, success), then run it in the browser to print the resolved states.",
+      "starter": "// Detail routes render exactly ONE of four states, in priority order:\n//   status 'pending'      -> 'loading'\n//   status 'error'        -> 'error'\n//   data === null (404)   -> 'empty'\n//   otherwise             -> 'success'\n//\n// Fixed inline queries (like results from useQuery):\nconst queries = [\n  { status: 'pending', data: undefined },\n  { status: 'error',   data: undefined },\n  { status: 'success', data: null },\n  { status: 'success', data: { number: 'A-100' } },\n];\n\n// TODO: return one of 'loading' | 'error' | 'empty' | 'success'\n// following the priority order above.\nfunction resolveDetailState(query) {\n  // your code here\n}\n\n// --- do not edit below ---\nconst states = queries.map(resolveDetailState);\nconsole.log(states.join(\",\"));\nconst success = queries.find((q) => resolveDetailState(q) === \"success\");\nconsole.log(\"title:\", success ? `Order ${success.data.number}` : \"none\");",
+      "check": "loading,error,empty,success\ntitle: Order A-100",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -3693,6 +3789,14 @@
       "explanation": "Safety lives on the failure path, so the proof must exercise failure: force a reject, assert the snapshot is restored (no guessing, no flash) and that the revert is announced accessibly. The happy-path recording (1) shows speed, not safety; using a library (3) or a comment (4) proves intent, not behavior. The reviewer challenge is answered only by demonstrating rollback + announcement under a forced failure."
     },
     {
+      "type": "lab",
+      "title": "Implement snapshot-and-rollback handlers for an optimistic \"follow\" toggle",
+      "summary": "Build the onMutate (snapshot + optimistic write) and onError (rollback) handlers for an optimistic follow mutation over a simulated query cache, and run it in the browser.",
+      "starter": "// Simulated query cache + mutation machinery (provided).\nfunction makeCache(initial) {\n  let data = { ...initial };\n  return {\n    get: () => ({ ...data }),\n    set: (updater) => { data = updater({ ...data }); },\n  };\n}\n\nconst cache = makeCache({ userId: \"u1\", isFollowing: false, followers: 100 });\n\n// A mutation runner that mimics react-query's onMutate/onError flow.\nfunction runMutation({ next, shouldFail }, handlers) {\n  const ctx = handlers.onMutate(next);   // apply optimistic change, get snapshot ctx\n  if (shouldFail) {\n    handlers.onError(ctx);               // roll back using ctx\n    return \"error\";\n  }\n  return \"success\";\n}\n\n// TODO: implement the two handlers for an optimistic \"follow\" toggle.\n//  onMutate(next): 1) snapshot the current cache into `prev`\n//                  2) optimistically write { isFollowing: next } and adjust\n//                     followers: +1 when next is true, -1 when next is false\n//                  3) return the snapshot as { prev }\n//  onError(ctx):   restore the cache from ctx.prev (undo the optimistic write)\nconst handlers = {\n  onMutate(next) {\n    // TODO\n  },\n  onError(ctx) {\n    // TODO\n  },\n};\n\n// Scenario 1: server succeeds -> optimistic state sticks.\nconst r1 = runMutation({ next: true, shouldFail: false }, handlers);\nconsole.log(\"after success:\", r1, cache.get().isFollowing, cache.get().followers);\n\n// Scenario 2: server fails -> cache rolls back to the snapshot.\nconst r2 = runMutation({ next: false, shouldFail: true }, handlers);\nconsole.log(\"after error:\", r2, cache.get().isFollowing, cache.get().followers);",
+      "check": "after success: success true 101\nafter error: error true 101",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove the mutation is fast AND safe — force the failure, do not assume it:",
       "items": [
@@ -3959,6 +4063,14 @@
       ],
       "answer": 1,
       "explanation": "Protection is proven by the unauthorized path, server-side. Only option 2 exercises the route with no session and asserts the private data is never delivered (DOM + curl) — the falsifiable check. The happy-path screenshot (1) never tests the gate; the useEffect (3) is exactly the late-redirect leak; password validation (4) is a different concern entirely."
+    },
+    {
+      "type": "lab",
+      "title": "Implement the auth gate: redirect unauthenticated requests and serve dashboard data only to valid sessions",
+      "summary": "Build a route-guard function that mirrors Next.js middleware + Server Component re-verification — redirect to /login?next=... when there's no session, otherwise return the user's dashboard — then run it in the browser against fixed requests.",
+      "starter": "// auth-protected-routes lab\n// The lesson: middleware runs at the edge and redirects unauthenticated\n// requests to /login?next=<path> (a 307). The Server Component then\n// re-verifies the session before fetching private data.\n//\n// Model both layers in ONE function `handleRoute(req)`:\n//   - `req` = { path, sessionId }  (sessionId is null when logged out)\n//   - Look the session up in SESSIONS. A session is valid only if it\n//     exists AND is not expired.\n//   - If NO valid session  -> return a redirect:\n//         { status: 307, location: '/login?next=' + req.path }\n//   - If a valid session    -> re-verify, then return the dashboard:\n//         { status: 200, body: 'Welcome ' + session.user }\n//\n// Fixed inline data — do not change:\nconst SESSIONS = {\n  's_alice': { user: 'alice', expired: false },\n  's_bob':   { user: 'bob',   expired: true  }, // expired -> treat as no session\n}\n\nconst REQUESTS = [\n  { path: '/dashboard',          sessionId: 's_alice' }, // valid   -> 200\n  { path: '/dashboard/settings', sessionId: 's_bob'   }, // expired -> redirect\n  { path: '/dashboard/billing',  sessionId: null      }, // none    -> redirect\n]\n\nfunction handleRoute(req) {\n  // TODO: implement the guard described above and return the response object.\n}\n\n// --- test harness (do not change) ---\nfor (const req of REQUESTS) {\n  const res = handleRoute(req)\n  if (res.status === 307) {\n    console.log(res.status, res.location)\n  } else {\n    console.log(res.status, res.body)\n  }\n}",
+      "check": "200 Welcome alice\n307 /login?next=/dashboard/settings\n307 /login?next=/dashboard/billing",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -4238,6 +4350,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 produces inspectable proof of operability: a keyboard-only flow that exercises every binding and asserts the focus-restore (WCAG 2.1.1 Keyboard / 2.1.2 No Keyboard Trap). Option 1 tests announcement, not operability. Option 3 tests the mouse path. Option 4 adds a role but a div is still not focusable or Enter/Space-operable — it announces as a button it cannot behave as."
+    },
+    {
+      "type": "lab",
+      "title": "Implement the keyboard reducer for an accessible listbox dropdown",
+      "summary": "Write a pure reduceKey(state, key) that applies accessible-dropdown keyboard semantics (Enter/Space, ArrowDown/ArrowUp with clamping, Escape), then run it in the browser against a fixed keystroke sequence.",
+      "starter": "// Accessible dropdown keyboard handling — no DOM here, just the pure state logic.\n// This mirrors the onKeyDown handler from the lesson's AccessibleDropdown.\n//\n// State shape: { open, active, selected, options }\n// Keyboard contract:\n//   \"Enter\" or \" \" (Space):\n//       - if the list is OPEN  -> set selected to options[active]\n//       - if the list is CLOSED -> open it (set open = true)\n//   \"ArrowDown\": move active down by 1, clamped to the LAST index\n//   \"ArrowUp\":   move active up by 1, clamped to index 0\n//   \"Escape\":    close the list (open = false)\n//   any other key: no change\n//\n// IMPORTANT: return a NEW state object each time; never mutate the input.\n\nconst OPTIONS = [\"Apples\", \"Bananas\", \"Cherries\", \"Dates\"]\n\nfunction reduceKey(state, key) {\n  // TODO: implement the keyboard contract above and return the next state.\n  // Hint: const last = state.options.length - 1\n  //       use Math.min / Math.max to clamp active.\n}\n\n// --- fixed driver: do not edit below ---\nconst keys = [\"Enter\", \"ArrowDown\", \"ArrowDown\", \"ArrowUp\", \"Enter\", \"Escape\"]\nlet state = { open: false, active: 0, selected: null, options: OPTIONS }\nfor (const k of keys) state = reduceKey(state, k)\n\nconsole.log(\"open=\", state.open)\nconsole.log(\"active=\", state.active)\nconsole.log(\"selected=\", state.selected)",
+      "check": "open= false\nactive= 1\nselected= Bananas",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -4527,6 +4647,14 @@
       "explanation": "Only option 2 produces evidence for every cell of the claim: each state at each viewport, browser-captured, with the overflow and keyboard assertions a screenshot can't make — and crucially it includes the error and empty states, not just success. A desktop screenshot (1), a description of the CSS (3), and a single desktop Lighthouse run (4) all prove at most one happy-path cell."
     },
     {
+      "type": "lab",
+      "title": "Write a responsive proof gate that flags horizontal overflow and missing states across viewports",
+      "summary": "Build a pure-function responsive audit — for each viewport width, verify no horizontal overflow (contentWidth <= viewport) and that every required UI state was rendered — then run it in the browser and log a pass/fail report.",
+      "starter": "// Responsive visual proof — pure-logic version (no browser needed).\n// The lesson checked two things per viewport: (1) no horizontal overflow,\n// (2) every required state actually rendered. Reproduce that gate here.\n\nconst VIEWPORTS = [320, 768, 1024, 1440];\nconst REQUIRED_STATES = [\"loading\", \"empty\", \"error\", \"disabled\", \"success\"];\n\n// Simulated render results captured from the (headless) app.\n// contentWidth = document.documentElement.scrollWidth for that viewport.\n// renderedStates = the state-* testids that were visible.\nconst CAPTURES = {\n  320:  { contentWidth: 360, renderedStates: [\"loading\", \"empty\", \"error\", \"disabled\", \"success\"] },\n  768:  { contentWidth: 768, renderedStates: [\"loading\", \"empty\", \"error\", \"disabled\", \"success\"] },\n  1024: { contentWidth: 1024, renderedStates: [\"loading\", \"empty\", \"error\", \"success\"] },\n  1440: { contentWidth: 1440, renderedStates: [\"loading\", \"empty\", \"error\", \"disabled\", \"success\"] },\n};\n\n// TODO: return { width, overflow, missing, pass } for one viewport.\n//   overflow = how many px the content exceeds the viewport (0 if none, never negative)\n//   missing  = REQUIRED_STATES not present in renderedStates, in REQUIRED_STATES order\n//   pass     = true only when overflow === 0 AND missing.length === 0\nfunction auditViewport(width, capture) {\n  // TODO: implement\n}\n\nconst results = VIEWPORTS.map((w) => auditViewport(w, CAPTURES[w]));\nconst failures = results.filter((r) => !r.pass);\n\nfor (const r of results) {\n  console.log(r.width + \"px\", \"overflow=\" + r.overflow, \"missing=\" + JSON.stringify(r.missing), r.pass ? \"PASS\" : \"FAIL\");\n}\nconsole.log(\"failures=\", failures.length);",
+      "check": "320px overflow=40 missing=[] FAIL\n768px overflow=0 missing=[] PASS\n1024px overflow=0 missing=[\"disabled\"] FAIL\n1440px overflow=0 missing=[] PASS\nfailures= 2",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove your packet is real proof — no vibes:",
       "items": [
@@ -4802,6 +4930,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 points to tests that can FAIL on the non-success states — empty, error, disabled — plus the keyboard + viewport check WCAG demands. Coverage % (1) can be 92% and still skip every error branch; one e2e flow (3) is still one path; render-without-throwing (4) is the weakest possible assertion. The proof is a red-capable test per state, not a green badge."
+    },
+    {
+      "type": "lab",
+      "title": "Write assertions that pin down every UI state: loading, empty, error, and disabled",
+      "summary": "Build a pure describeSearchPanel(state) that returns the accessible view a SearchPanel would render for each state, then a runInSearchPanelTests harness that asserts the right role/message per state — run it in the browser and log the results.",
+      "starter": "// Frontend testing strategy: every state gets its own assertion.\n// Instead of a real React tree, we model the SearchPanel as a PURE function\n// that maps an input state -> the accessible \"view\" it would render.\n// Then we write tests (like the lesson's loading/empty/error/disabled cases)\n// against that view. Deterministic: same input -> same output, every run.\n\n// --- Component under test (already written for you) ---\n// Given a props object, returns { role, text, ctaEnabled }.\n//   loading            -> role \"status\",  text mentions \"Searching\"\n//   success + results  -> role \"list\",    text = \"N results\"\n//   success + []        -> role \"status\",  text \"No results\"  (empty state!)\n//   error              -> role \"alert\",   text \"Try again\",  retry ENABLED\n//   disabled query \"\"  -> role \"search\",  text \"Type to search\", cta DISABLED\nfunction describeSearchPanel(props) {\n  const { state, results, query } = props;\n  if (state === \"loading\") return { role: \"status\", text: \"Searching...\", ctaEnabled: false };\n  if (state === \"error\")   return { role: \"alert\",  text: \"Try again\",   ctaEnabled: true  };\n  if (state === \"success\") {\n    const n = (results || []).length;\n    if (n === 0) return { role: \"status\", text: \"No results\", ctaEnabled: false };\n    return { role: \"list\", text: n + \" results\", ctaEnabled: true };\n  }\n  // idle / disabled: nothing typed yet\n  if (!query) return { role: \"search\", text: \"Type to search\", ctaEnabled: false };\n  return { role: \"search\", text: \"Ready\", ctaEnabled: true };\n}\n\n// Fixed inline test cases (arrange). Each is { name, props, wantRole, wantText, wantCta }.\nconst CASES = [\n  { name: \"loading\",  props: { state: \"loading\" },                     wantRole: \"status\", wantText: \"Searching...\", wantCta: false },\n  { name: \"results\",  props: { state: \"success\", results: [1, 2, 3] }, wantRole: \"list\",   wantText: \"3 results\",    wantCta: true  },\n  { name: \"empty\",    props: { state: \"success\", results: [] },        wantRole: \"status\", wantText: \"No results\",   wantCta: false },\n  { name: \"error\",    props: { state: \"error\" },                       wantRole: \"alert\",  wantText: \"Try again\",    wantCta: true  },\n  { name: \"disabled\", props: { state: \"idle\", query: \"\" },             wantRole: \"search\", wantText: \"Type to search\", wantCta: false },\n];\n\n// TODO: implement runInSearchPanelTests(cases).\n// For each case, call describeSearchPanel(c.props) and compare the returned\n// role, text, and ctaEnabled to the wanted values (act + assert).\n// Return an object: { passed, failed, failures }\n//   passed   = number of cases where role, text, AND ctaEnabled all match\n//   failed   = number of cases that did NOT fully match\n//   failures = array of the NAMES of failing cases, in case order\nfunction runInSearchPanelTests(cases) {\n  // TODO: your code here\n}\n\nconst report = runInSearchPanelTests(CASES);\nconsole.log(\"passed=\", report.passed);\nconsole.log(\"failed=\", report.failed);\nconsole.log(\"failures=\", report.failures);",
+      "check": "passed= 5\nfailed= 0\nfailures= []",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -5106,6 +5242,14 @@
       "explanation": "Proof that it is not happy-path-only must exercise a non-happy path. Option 2 drives the error state, asserts the UI recovers (re-enable + focus), and asserts the announcement reaches assistive tech — the matrix made executable. The success screenshot (1) and the fetch-was-called test (4) only cover the path that was never in doubt; the backlog note (3) concedes the holes exist."
     },
     {
+      "type": "lab",
+      "title": "Map API responses to a discriminated-union status that drives UI + announcement",
+      "summary": "Complete a status state machine that turns fake fetch responses into a tagged union, then renders button-disabled state and a screen-reader announcement from that single source of truth; run it in the browser.",
+      "starter": "// Lesson: one status value drives BOTH the UI and the announcement.\n// Status is a discriminated union tagged by `kind`.\n//\n// A fake response looks like: { ok: boolean, status: number, created?: boolean }\n//   - !ok           -> { kind: 'error', message: `Subscribe failed (${status})` }\n//   - ok & created  -> { kind: 'success', email }\n//   - ok & !created -> { kind: 'empty' }   (already subscribed, nothing created)\n//\n// Fixed inline scenarios (email + the response the server would return):\nconst SCENARIOS = [\n  { email: 'ada@dev.io',  res: { ok: true,  status: 200, created: true  } },\n  { email: 'lin@dev.io',  res: { ok: true,  status: 200, created: false } },\n  { email: 'bad@dev.io',  res: { ok: false, status: 429 } },\n  { email: 'rex@dev.io',  res: { ok: false, status: 500 } },\n];\n\n// TODO 1: return the Status object for a given email + fake response.\nfunction toStatus(email, res) {\n  // ...your code here...\n}\n\n// TODO 2: from a Status, return { disabled, announce }.\n//   disabled: true only while kind === 'loading' (never true here, but keep the rule)\n//   announce: the screen-reader string per kind:\n//     success -> `Subscribed ${email}`\n//     empty   -> 'Already subscribed'\n//     error   -> the status message\nfunction describe(status) {\n  // ...your code here...\n}\n\nfor (const s of SCENARIOS) {\n  const status = toStatus(s.email, s.res);\n  const view = describe(status);\n  console.log(status.kind, JSON.stringify(view));\n}",
+      "check": "success {\"disabled\":false,\"announce\":\"Subscribed ada@dev.io\"}\nempty {\"disabled\":false,\"announce\":\"Already subscribed\"}\nerror {\"disabled\":false,\"announce\":\"Subscribe failed (429)\"}\nerror {\"disabled\":false,\"announce\":\"Subscribe failed (500)\"}",
+      "language": "js"
+    },
+    {
       "type": "verification",
       "intro": "Prove the workflow — no vibes:",
       "items": [
@@ -5392,6 +5536,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 exercises the production environment: it hits the deployed url (not localhost), proves the workflow's state machine runs there (loading → real data), confirms the error boundary did not trip, and shows env config that genuinely differs per environment. Green CI (1) proves compilation, the README (3) proves nothing executes, and 'tested locally' (4) re-proves the one machine that was never the question."
+    },
+    {
+      "type": "lab",
+      "title": "Resolve env config at boot and derive a health signal",
+      "summary": "Build resolveEnv (throws on a missing required var) and healthCheck (turns resolved config plus an upstream ping into a status object), then run it in the browser against fixed inline data.",
+      "starter": "// Environment + observability lab — run this in the browser.\n// The lesson: config is resolved PER environment and VALIDATED AT BOOT,\n// and a deploy exposes one cheap health signal derived from that config.\n\n// Fixed inline \"environments\" (stand-in for process.env per deploy target).\nconst ENVS = {\n  production: { NEXT_PUBLIC_API_ORIGIN: \"https://api.example.com\" },\n  preview:    { NEXT_PUBLIC_API_ORIGIN: \"https://preview.api.example.com\" },\n  broken:     {} // NEXT_PUBLIC_API_ORIGIN is missing here\n};\n\n// Fixed inline \"upstream /ping\" results per origin (stand-in for fetch().ok).\nconst PING = {\n  \"https://api.example.com\": true,\n  \"https://preview.api.example.com\": false\n};\n\n// TODO 1: Resolve config for a given environment.\n// Read NEXT_PUBLIC_API_ORIGIN from ENVS[name]. If it is missing/empty,\n// throw new Error(name + \": NEXT_PUBLIC_API_ORIGIN missing\").\n// Otherwise return { apiOrigin: <the origin> }.\nfunction resolveEnv(name) {\n  // TODO: implement\n}\n\n// TODO 2: Build the health signal from resolved config + the upstream ping.\n// upstreamOk = PING[cfg.apiOrigin] === true (default false if unknown).\n// Return { ok: upstreamOk, origin: cfg.apiOrigin, status: upstreamOk ? 200 : 503 }.\nfunction healthCheck(cfg) {\n  // TODO: implement\n}\n\n// --- test harness (do not edit) ---\nconst prod = healthCheck(resolveEnv(\"production\"));\nconst prev = healthCheck(resolveEnv(\"preview\"));\nlet bootError = \"\";\ntry {\n  resolveEnv(\"broken\");\n} catch (e) {\n  bootError = e.message;\n}\n\nconsole.log(\"prod\", prod);\nconsole.log(\"preview\", prev);\nconsole.log(\"boot\", bootError);",
+      "check": "prod {\"ok\":true,\"origin\":\"https://api.example.com\",\"status\":200}\npreview {\"ok\":false,\"origin\":\"https://preview.api.example.com\",\"status\":503}\nboot broken: NEXT_PUBLIC_API_ORIGIN missing",
+      "language": "js"
     },
     {
       "type": "verification",
@@ -5712,6 +5864,14 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 points to executed proof of the non-happy states. The matrix names every state, the Playwright flow drives the failure paths (not just success), the keyboard checklist proves accessibility, and the viewport shot proves responsiveness. Describing states (1), explaining architecture (3), or a smoke test that only confirms it renders (4) all dodge the exact question — does it work when reality refuses to cooperate."
+    },
+    {
+      "type": "lab",
+      "title": "Implement the checkout submit state machine (disabled gate + error preservation)",
+      "summary": "Build a pure reducer that drives a checkout form's submit lifecycle — gating empty/in-flight submits, transitioning idle→loading→success/error, and never clearing the cart on error — then run it in the browser to log the final state trace.",
+      "starter": "// Checkout submit state machine (from the capstone CheckoutForm).\n// A \"submit\" fires with the current cart. Rules mirror handleSubmit:\n//   - GATE: if cart is empty OR status is already 'loading', ignore the submit\n//           (return state unchanged).\n//   - On an accepted submit: go to 'loading' and clear any prior error.\n//   - 'resolve' -> status 'success'.\n//   - 'reject' with a message -> status 'error', error = message,\n//           and the cart items are NOT cleared (preserved as-is).\n//\n// State shape: { status, error, items }\n// Actions:\n//   { type: 'submit' }\n//   { type: 'resolve' }\n//   { type: 'reject', message }\n\nconst initialState = { status: 'idle', error: null, items: ['sku-1', 'sku-2'] };\n\nfunction reducer(state, action) {\n  // TODO: implement the transitions described above.\n  // Remember: return a NEW state object, never mutate `state`.\n}\n\n// --- driver (do not edit) ---\nconst actions = [\n  { type: 'submit' },                        // accepted: idle + non-empty\n  { type: 'submit' },                        // gated: already loading\n  { type: 'reject', message: 'card declined' }, // -> error, items kept\n  { type: 'submit' },                        // accepted again: retry\n  { type: 'resolve' },                       // -> success\n];\n\nlet state = initialState;\nconst trace = [];\nfor (const action of actions) {\n  state = reducer(state, action);\n  trace.push(state.status);\n}\nconsole.log(\"trace\", trace);\nconsole.log(\"final\", state);\nconsole.log(\"itemsKept\", state.items.length === initialState.items.length);",
+      "check": "trace [\"loading\",\"loading\",\"error\",\"loading\",\"success\"]\nfinal {\"status\":\"success\",\"error\":null,\"items\":[\"sku-1\",\"sku-2\"]}\nitemsKept true",
+      "language": "js"
     },
     {
       "type": "verification",

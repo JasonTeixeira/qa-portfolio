@@ -71,8 +71,9 @@ fail → `collect-labs` (insert before consolidation tail) → `apply-course` �
 | career-qa_sdet_test_automation_engineering | 20 | **20/20** | risk-based test planning (exposure ranking), test-pyramid layer routing, release-confidence gates (retry/triage), defect taxonomy, flaky-test triage. Sweep clean. Applied (300 blocks). |
 | **CODE-LAB TOTAL** | **100** | **100/100** | 5 Python-native courses. Every lab's solution executed with python3 and satisfies its check under verifyLab's exact rule. All render sweeps clean. |
 | career-databases_data_modeling | 20 | **20/20** | SQL (sql.js) runtime. CDC freshness-gap anti-joins, many-to-many traversal, normalization, constraint-invariant detection, index access patterns. Verified via real sqlite3. Sweep clean. Applied (304 blocks). |
-| career-frontend_fullstack | 20 | in progress | JS (sandboxed worker) runtime — authoring this run |
-| mobile | — | — | RUNTIME-GATED — Swift/Kotlin; needs its own runtime, NOT forced JS. Deferred. |
+| career-frontend_fullstack | 20 | **20/20** | JS (sandboxed Web Worker) runtime. Tagged-union UI states, semantic-HTML landmark audits, auto-fit grid math, component composition, testing strategy. Verified via node + worker shim. Sweep clean. Applied (300 blocks). |
+| **GRAND TOTAL (code labs)** | **140** | **140/140** | 7 coding courses across 3 runtimes (Python·SQL·JS), every lab proven by real execution vs check. |
+| mobile | — | — | RUNTIME-GATED — Swift/Kotlin; needs its own runtime, NOT forced JS. Deferred (only remaining code course without labs). |
 
 ## P3 — TRANSLATION (top world languages)
 Infra: `scripts/translate-academy.ts` + `i18n:audit` + `i18n:verify`. Translate block
@@ -97,7 +98,7 @@ Exit: installable PWA live; store builds submitted.
 |---|---|
 | P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
 | P1 accuracy verification | **✅ DONE (targeted standards pass) — 469/471 standards-claims verified vs primary sources, 261 corrected, re-applied clean + committed (2026-07-02). Deep per-lesson verify remains optional.** |
-| P2 interactivity + labs | CODE-LAB LANE DONE (100 labs, 5 courses) + ARTIFACT-BUILDER LANE DONE — interactive composer wired into the sprint-contract block renderer, so EVERY course's sprint-contract lessons gain a live-validated, server-verified, exportable artifact builder with zero re-authoring (2026-07-02). REMAINING: runtime-gated code courses (frontend→quickjs, databases→sql.js, mobile). |
+| P2 interactivity + labs | **✅ DONE (2026-07-02)** — (1) 140 verified-executable code labs across 7 courses in 3 runtimes: Python/Pyodide (CS-foundations, backend, data-eng, ai-eng, qa), SQL/sql.js (databases), JS/sandboxed-worker (frontend); each proven by real execution vs check. (2) Artifact-builder lane: interactive sprint-contract composer on EVERY course. Only mobile (Swift/Kotlin) lacks a runtime. |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
 

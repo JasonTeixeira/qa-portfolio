@@ -83,7 +83,8 @@ here once scored).
 | career-interview_career_portfolio | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-product_execution_market_feedback | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-mobile_engineering_deep_dive | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| _(remaining 5 courses)_ | ~100 | — | — | — | queued, SERIAL (qa/sdet next) |
+| career-qa_sdet_test_automation_engineering | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| _(remaining 4 courses)_ | ~80 | — | — | — | queued, SERIAL (networking next) |
 
 > Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 

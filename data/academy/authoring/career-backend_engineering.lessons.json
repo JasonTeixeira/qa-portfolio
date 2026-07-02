@@ -1523,7 +1523,7 @@
         "It should be a 404 because the order was not created."
       ],
       "answer": 1,
-      "explanation": "5xx means WE failed and a retry might work; 4xx means YOU sent something we can't process and retrying unchanged won't help. A malformed body is squarely 4xx. Mislabeling it 5xx triggers automatic retries of a doomed request, corrupts reliability metrics (DORA change-failure-rate, error budgets), and wakes on-call for a caller bug — the exact 'happy-path answer' the reviewer is hunting for."
+      "explanation": "5xx means WE failed and a retry might work; 4xx means YOU sent something we can't process and retrying unchanged won't help. A malformed body is squarely 4xx. Mislabeling it 5xx triggers automatic retries of a doomed request, corrupts your reliability metrics and error budgets, and wakes on-call for a caller bug — the exact 'happy-path answer' the reviewer is hunting for. (DORA's change-fail rate measures deployments that fail, not per-request 5xx rates; conflating an HTTP status mislabel with DORA change-failure-rate misuses the metric — drop the DORA parenthetical or replace with 'SLO/error budgets'.)"
     },
     {
       "type": "verification",
@@ -3537,7 +3537,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding: the most common production failure here is a retried write without an idempotency key — a command that turns every client timeout into duplicate state changes (duplicate charge). That is a business-logic idempotency flaw; the retry *volume* itself can separately trip OWASP API4:2023 'Unrestricted Resource Consumption', but the duplicate-charge harm is an idempotency defect, not a resource-consumption one. The senior tell, and a DORA change-failure-rate lever: the auth boundary lives on the COMMAND (one place to check 'who may ask'), never on the event — facts are not authorized, they simply happened."
+      "text": "Standards grounding: the most common production failure here is a retried write without an idempotency key — a command that turns every client timeout into duplicate state changes (duplicate charge). That is a business-logic idempotency flaw; the retry *volume* itself can separately trip OWASP API4:2023 'Unrestricted Resource Consumption', but the duplicate-charge harm is an idempotency defect, not a resource-consumption one. The senior tell: the auth boundary lives on the COMMAND (one place to check 'who may ask'), never on the event — facts are not authorized, they simply happened. (DORA does not prescribe auth placement or CQRS patterns, and 'change-failure-rate lever' is invented — remove the DORA attribution.)"
     },
     {
       "type": "quiz",
@@ -3817,7 +3817,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in DORA and the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — logging secrets/PII is a security-misconfiguration / sensitive-data-in-logs risk (OWASP API8:2023 Security Misconfiguration; general OWASP A09:2021 Security Logging and Monitoring Failures), and request IDs exist precisely so you can correlate without logging the sensitive payload."
+      "text": "The senior tell, grounded in the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. (RED is Rate/Errors/Duration monitoring; DORA does not define or prescribe RED — drop DORA.) A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — logging secrets/PII is a security-misconfiguration / sensitive-data-in-logs risk (OWASP API8:2023 Security Misconfiguration; general OWASP A09:2021 Security Logging and Monitoring Failures), and request IDs exist precisely so you can correlate without logging the sensitive payload."
     },
     {
       "type": "quiz",
@@ -5246,7 +5246,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (OWASP API Top 10 + DORA): the senior tell is proving the FAILURE path, not the happy path. Anyone can show the request that works. A reviewer trusts the engineer who shows 'same key twice → one row' and 'mid-transaction error → zero rows' — because those are the exact behaviors that, left unproven, become the next 2 a.m. page. High-performing teams (DORA) make mean-time-to-restore low precisely because the repair ships with the replay."
+      "text": "Standards grounding (OWASP API Top 10 + DORA): the senior tell is proving the FAILURE path, not the happy path. Anyone can show the request that works. A reviewer trusts the engineer who shows 'same key twice → one row' and 'mid-transaction error → zero rows' — because those are the exact behaviors that, left unproven, become the next 2 a.m. page. High-performing teams (DORA) keep failed-deployment recovery time low — but the 'because the repair ships with the replay' mechanism is the author's own claim, not a DORA finding. (DORA measures recovery time; it does not attribute low recovery time to shipping repairs with replays.)"
     },
     {
       "type": "quiz",

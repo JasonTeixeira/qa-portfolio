@@ -278,7 +278,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move, grounded in the DORA research: alert on symptoms (SLO burn the user feels), page on burn RATE not raw thresholds, and treat your error budget as a spendable currency — it decides whether you ship or freeze. An alert that does not map to a user-visible SLO is noise you will eventually learn to ignore, which is worse than no alert at all."
+      "text": "The senior move, grounded in Google SRE (DORA's monitoring capability backs only the symptom-based part): alert on symptoms (SLO burn the user feels), page on burn RATE not raw thresholds, and treat your error budget as a spendable currency — it decides whether you ship or freeze. (DORA endorses symptom-based alerting but says nothing about SLOs, burn-rate paging, or error budgets — those are SRE.) An alert that does not map to a user-visible SLO is noise you will eventually learn to ignore, which is worse than no alert at all."
     },
     {
       "type": "quiz",
@@ -549,7 +549,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Google's SRE practice (and DORA's reliability findings) converge on one insight beginners miss: the error budget is a feature, not a failure. 100% reliability is the wrong target — it means you shipped nothing risky. The budget exists to be SPENT on releases; you only freeze when it runs out. An SLO with no budget-spend policy is a wall poster, not an operating contract."
+      "text": "Google's SRE practice makes the point beginners miss: the error budget is a feature, not a failure. (Error budgets are an SRE construct; DORA does not define error budgets or frame this as a reliability finding — drop the DORA attribution.) 100% reliability is the wrong target — it means you shipped nothing risky. The budget exists to be SPENT on releases; you only freeze when it runs out. An SLO with no budget-spend policy is a wall poster, not an operating contract."
     },
     {
       "type": "quiz",
@@ -1133,7 +1133,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "USE Method grounding (Brendan Gregg; echoed in Google SRE's saturation signal and DORA's reliability findings): utilization is necessary but never sufficient. The senior tell is that they alert and reason on SATURATION and ERRORS — the two signals that predict imminent failure — and treat a green utilization number next to a rising queue as the most dangerous reading on the board, not the most reassuring."
+      "text": "USE Method grounding (Brendan Gregg; echoed in Google SRE's saturation golden signal): utilization is necessary but never sufficient. (DORA does not discuss the USE method, saturation, or utilization signals — remove the DORA attribution.) The senior tell is that they alert and reason on SATURATION and ERRORS — the two signals that predict imminent failure — and treat a green utilization number next to a rising queue as the most dangerous reading on the board, not the most reassuring."
     },
     {
       "type": "quiz",
@@ -1435,7 +1435,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is treating a metric rename or a unit change as a BREAKING API change, because it is one — every dashboard and alert is a caller. DORA-elite teams gate telemetry the way they gate public APIs: version it, diff it in CI, and require a migration. If your telemetry can be renamed in a PR without any check going red, you don't have observability, you have luck."
+      "text": "The senior tell is treating a metric rename or a unit change as a BREAKING API change, because it is one — every dashboard and alert is a caller. A strong practice is to gate telemetry the way you gate public APIs: version it, diff it in CI, and require a migration. (DORA never describes 'telemetry versioning' or attributes this practice to elite performers — remove the DORA-elite framing.) If your telemetry can be renamed in a PR without any check going red, you don't have observability, you have luck."
     },
     {
       "type": "quiz",
@@ -1705,7 +1705,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell isn't more logs — it's a stable event vocabulary and a correlation id on every line. \"checkout.failed\" as a constant means you can alert on its rate and chart it on a dashboard; a hand-written sentence can't be counted. DORA and SWEBOK both put observability behind the same discipline: telemetry is only useful when it's structured enough to query under pressure."
+      "text": "The senior tell isn't more logs — it's a stable event vocabulary and a correlation id on every line. \"checkout.failed\" as a constant means you can alert on its rate and chart it on a dashboard; a hand-written sentence can't be counted. DORA's observability guidance points the same way: telemetry is only useful when it's structured enough to query under pressure. (DORA does mention structured log entries; SWEBOK does not frame observability this way, so drop the SWEBOK co-attribution unless a SWEBOK section is cited.)"
     },
     {
       "type": "quiz",
@@ -1965,7 +1965,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding (DORA 2024): elite performers pair fast delivery with fast RESTORE, and traces are what collapse mean-time-to-restore — you find the guilty span in seconds instead of bisecting five services by hand. The pro move: trace-driven sampling. Sample most traffic cheaply, but keep 100% of traces that breach the SLO, so the slow requests you actually need are never the ones you threw away."
+      "text": "Standards grounding (DORA): elite performers pair fast delivery with fast RESTORE (failed-deployment recovery time), and DORA's observability guidance ties traces/spans to rapidly understanding what broke — you find the guilty span in seconds instead of bisecting five services by hand. (DORA supports both restore-time and tracing, but does not use the phrase 'collapse mean-time-to-restore'; keep the causal link as 'aids time-to-restore.') The pro move: trace-driven sampling. Sample most traffic cheaply, but keep 100% of traces that breach the SLO, so the slow requests you actually need are never the ones you threw away."
     },
     {
       "type": "quiz",
@@ -2542,7 +2542,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding: DORA ties elite performance to version control and peer review of ALL production changes — and a dashboard is a production change. The senior tell is binding the panel threshold to the same SLO constant your alert rule imports. When the graph, the error budget, and the page all read from one number, an incident review can trust the dashboard instead of re-deriving what it was supposed to show."
+      "text": "Standards grounding: DORA ties elite performance to version control of ALL production changes (application code, infrastructure, and configuration) and recommends peer review to replace heavyweight approvals — and a dashboard is a production change. (DORA mandates version control of all changes but frames peer review as a recommended alternative to heavy approval, not an explicit ALL-changes mandate.) The senior tell is binding the panel threshold to the same SLO constant your alert rule imports. When the graph, the error budget, and the page all read from one number, an incident review can trust the dashboard instead of re-deriving what it was supposed to show."
     },
     {
       "type": "quiz",
@@ -2831,7 +2831,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The Google SRE test for whether an alert deserves a page: 'Is a real user being hurt right now, and does this need a human within minutes?' If either answer is no, it is a ticket or a dashboard line, not a page. Multi-window burn-rate alerting (fast window for speed, long window to suppress single-spike noise) is how you get both a low false-positive AND a low false-negative rate — the DORA-linked teams treat pager fatigue as a reliability defect, not a personality flaw."
+      "text": "The Google SRE test for whether an alert deserves a page: 'Is a real user being hurt right now, and does this need a human within minutes?' If either answer is no, it is a ticket or a dashboard line, not a page. Multi-window burn-rate alerting (fast window for speed, long window to suppress single-spike noise) is how you get both a low false-positive AND a low false-negative rate — mature SRE teams treat pager fatigue as a reliability defect, not a personality flaw. (Multi-window burn-rate alerting is from the Google SRE Workbook, not DORA; remove the DORA-linked attribution.)"
     },
     {
       "type": "quiz",
@@ -3112,7 +3112,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The Google SRE Workbook multiwindow menu is the field standard: page at 14.4× (2%/1h) and 6× (5%/6h), ticket at 3× and 1× — each burn rate paired with a long window to qualify and a short window (1/12th the long) to confirm. Pros don't invent thresholds; they map their budget onto that menu and defend the choice in review. That's your Standards Grounding: DORA + the SRE Workbook, not a gut-feel '>1%'."
+      "text": "The Google SRE Workbook multiwindow menu is the field standard: page at 14.4× (2%/1h) and 6× (5%/6h), ticket at 3× and 1× — each burn rate paired with a long window to qualify and a short window (1/12th the long) to confirm. Pros don't invent thresholds; they map their budget onto that menu and defend the choice in review. That's your Standards Grounding: the SRE Workbook (with DORA backing symptom-based alerting), not a gut-feel '>1%'. (The specific alerting-threshold discipline is SRE Workbook; DORA only endorses symptom-based alerting, so lead with SRE and scope DORA's role.)"
     },
     {
       "type": "quiz",
@@ -3402,7 +3402,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in triage is the severity basis. Anyone can say 'this feels bad.' A staff engineer sets severity from error-budget burn — '14x burn, budget half gone by dawn if this holds' — because that number is defensible in the postmortem and it decides whether you wake the VP. Severity from alert count is a vibe; severity from budget is an argument. (Grounded in DORA reliability practice and the SRE golden-signals model.)"
+      "text": "The senior tell in triage is the severity basis. Anyone can say 'this feels bad.' A staff engineer sets severity from error-budget burn — '14x burn, budget half gone by dawn if this holds' — because that number is defensible in the postmortem and it decides whether you wake the VP. Severity from alert count is a vibe; severity from budget is an argument. (Grounded in DORA's monitoring/observability capability and the SRE golden-signals model.) (DORA does not have a standalone 'reliability practice' construct or golden signals; anchor DORA to its monitoring capability instead.)"
     },
     {
       "type": "quiz",
@@ -3714,7 +3714,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from DORA's research on incident response: teams with low change-fail recovery communicate a next-update cadence and hold it, even when the update is 'no change, still investigating, next by X.' A boring on-time update beats a brilliant late one — predictability is the trust, and trust is what lets you keep working instead of fielding escalations."
+      "text": "The senior tell on incident response (from SRE incident-command practice, not DORA): during an incident, communicate a next-update cadence and hold it, even when the update is 'no change, still investigating, next by X.' A boring on-time update beats a brilliant late one — predictability is the trust, and trust is what lets you keep working instead of fielding escalations. (DORA's own contribution here is only the outcome metric: fast failed-deployment recovery time.)"
     },
     {
       "type": "quiz",
@@ -4318,7 +4318,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they never trust an average or a CPU gauge to explain latency — they demand a trace at the tail. DORA and SWEBOK both frame reliability as measured against user-facing SLIs, not machine utilization. A green resource dashboard next to a burning error budget is the single most common way teams stay busy while the SLO dies."
+      "text": "The senior tell: they never trust an average or a CPU gauge to explain latency — they demand a trace at the tail. SRE practice frames reliability as measured against user-facing SLIs/SLOs, not machine utilization; DORA reinforces this by measuring reliability as whether teams meet their reliability targets, which centers the end-user experience. A green resource dashboard next to a burning error budget is the single most common way teams stay busy while the SLO dies."
     },
     {
       "type": "quiz",
@@ -4580,7 +4580,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The standards-grounded tell (DORA, SWEBOK): reliable teams trigger scaling on SLO-relevant saturation, not on CPU. CPU is a proxy that lies when the real constraint is a pool, a lock, a thread, or a downstream quota. 'Scale at 70% CPU' is the single most common capacity plan — and it silently fails on every workload whose knee is somewhere other than the CPU."
+      "text": "The SRE-grounded tell: reliable teams trigger scaling on SLO-relevant saturation, not on raw CPU. CPU is a proxy that lies when the real constraint is a pool, a lock, a thread, or a downstream quota. 'Scale at 70% CPU' is the single most common capacity plan — and it silently fails on every workload whose knee is somewhere other than the CPU."
     },
     {
       "type": "quiz",
@@ -4867,7 +4867,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Alert on SATURATION, not just latency. By the time p99 latency breaches the SLO, the queue is already deep and you're minutes into burning error budget. queue_depth crossing 80% of MAX_QUEUE fires while there's still time to react — it's a leading indicator. Latency alerts tell you the SLO already broke; saturation alerts tell you it's about to. DORA and SRE practice both rank saturation among the signals worth paging on precisely because it's predictive."
+      "text": "Alert on SATURATION, not just latency. By the time p99 latency breaches the SLO, the queue is already deep and you're minutes into burning error budget. queue_depth crossing 80% of MAX_QUEUE fires while there's still time to react — it's a leading indicator. Latency alerts tell you the SLO already broke; saturation alerts tell you it's about to. SRE practice ranks saturation among the four golden signals worth paging on precisely because it's predictive. (DORA does not address paging signals.)"
     },
     {
       "type": "quiz",
@@ -5183,7 +5183,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from DORA and SRE practice: resilience is only real if it's observable and rehearsed. Emit the breaker state as a metric, alert on time-in-OPEN, and inject the fault on purpose (a game day) to watch it trip. A circuit breaker you've never seen open is a config you're hoping works — not a control you've proven."
+      "text": "The senior tell, straight from SRE practice: resilience is only real if it's observable and rehearsed. (DORA's related contribution is measuring recovery-time and reliability outcomes, not prescribing rehearsal.) Emit the breaker state as a metric, alert on time-in-OPEN, and inject the fault on purpose (a game day) to watch it trip. A circuit breaker you've never seen open is a config you're hoping works — not a control you've proven."
     },
     {
       "type": "quiz",
@@ -5466,7 +5466,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "DORA's research ties elite delivery to a low change-failure rate and fast time-to-restore — both of which depend on catching a bad release from a signal, not a support ticket. The senior tell: they alert on error-budget BURN RATE (with fast and slow windows), never on a raw metric crossing a fixed line. A fixed threshold either flaps on every deploy or sleeps through a slow bleed; burn rate is the SLO-aware signal that pages exactly when the budget is genuinely at risk."
+      "text": "DORA's research ties elite delivery to a low change-failure rate and fast failed-deployment recovery time. Practically, hitting both depends on catching a bad release from a signal rather than a support ticket — though that operational how-to is SRE guidance, not DORA itself. The senior tell: they alert on error-budget BURN RATE (with fast and slow windows), never on a raw metric crossing a fixed line. A fixed threshold either flaps on every deploy or sleeps through a slow bleed; burn rate is the SLO-aware signal that pages exactly when the budget is genuinely at risk."
     },
     {
       "type": "quiz",
@@ -5747,7 +5747,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Google's SRE guidance and the DORA research point the same way: alert on symptoms (user-facing SLO burn), not causes (CPU, disk). A cause-based alert cries wolf every deploy; a burn-rate alert only pages when the user's error budget is actually draining — which is the only time a human should lose sleep."
+      "text": "Google's SRE guidance is explicit here: alert on symptoms (user-facing SLO burn), not causes (CPU, disk). DORA points the same direction only in spirit — it rewards catching failures fast — but does not prescribe symptom-based alerting. A cause-based alert cries wolf every deploy; a burn-rate alert only pages when the user's error budget is actually draining — which is the only time a human should lose sleep."
     },
     {
       "type": "quiz",

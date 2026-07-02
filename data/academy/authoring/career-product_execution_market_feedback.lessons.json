@@ -539,7 +539,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior product tell: set the invalidation threshold BEFORE you see the data, and say it out loud in the room. 'If activation is under 30%, we kill this' pre-commits you to the evidence. Teams that set the kill line after the results always find a reason the results don't count — which is why they ship 2% launches. This discipline is exactly what DORA and the NIST AI RMF call for: decisions gated on measured signal, not on confidence."
+      "text": "The senior product tell: set the invalidation threshold BEFORE you see the data, and say it out loud in the room. 'If activation is under 30%, we kill this' pre-commits you to the evidence. Teams that set the kill line after the results always find a reason the results don't count — which is why they ship 2% launches. This discipline is exactly what the NIST AI RMF calls for: decisions gated on measured signal, not on confidence. (It also echoes DORA's broader principle of measuring delivery outcomes rather than asserting them.)"
     },
     {
       "type": "quiz",
@@ -1426,7 +1426,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (DORA, NIST AI RMF): the same discipline that governs engineering delivery governs product feedback — a claim only counts when it's tied to evidence a skeptic would inspect. A senior product engineer states the activation threshold their loudest internal champion would also sign. If your metric only sounds like success to people who already want the feature shipped, it's advocacy, not an experiment."
+      "text": "Standards grounding: DORA's measurement-first ethos and the NIST AI RMF's evidence-based posture share a principle — a claim only counts when it's tied to evidence a skeptic would inspect. A senior product engineer states the activation threshold their loudest internal champion would also sign. If your metric only sounds like success to people who already want the feature shipped, it's advocacy, not an experiment."
     },
     {
       "type": "quiz",
@@ -2255,7 +2255,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they write the KILL threshold before the experiment, not after. Anyone can rationalize a shipped feature once the data is in. Naming the number that would make you kill your own idea — while you still love it — is the discipline DORA and product review actually reward. A PRD without a pre-committed invalidation threshold is a plan to declare victory regardless of outcome."
+      "text": "The senior tell: they write the KILL threshold before the experiment, not after. Anyone can rationalize a shipped feature once the data is in. Naming the number that would make you kill your own idea — while you still love it — is the discipline good product review actually rewards, and it mirrors DORA's habit of deciding from a metric rather than a narrative. A PRD without a pre-committed invalidation threshold is a plan to declare victory regardless of outcome."
     },
     {
       "type": "compare",
@@ -2876,7 +2876,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move nobody tells you: write the invalidation threshold and the fire-rate check into the packet BEFORE the feature ships. Instrumentation added after launch always gets tuned — consciously or not — until the data agrees with the team that shipped it. Pre-committed thresholds (DORA-style) are the difference between a feedback loop and a confirmation loop."
+      "text": "The senior move nobody tells you: write the invalidation threshold and the fire-rate check into the packet BEFORE the feature ships. Instrumentation added after launch always gets tuned — consciously or not — until the data agrees with the team that shipped it. Pre-committed thresholds (in the SLO/experiment-design sense) are the difference between a feedback loop and a confirmation loop — consistent with DORA's principle of judging by the metric."
     },
     {
       "type": "quiz",
@@ -3133,7 +3133,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in DORA's research on evidence-driven delivery: teams that decide from a metric read faster and reverse cheaper than teams that decide from the loudest quote. State the number that would change your mind BEFORE you run the experiment — a threshold written after the result is a story, not a decision."
+      "text": "The senior tell, grounded in DORA's measurement-driven approach to delivery: teams that decide from a metric tend to move faster and reverse cheaper than teams that decide from the loudest quote. State the number that would change your mind BEFORE you run the experiment — a threshold written after the result is a story, not a decision."
     },
     {
       "type": "quiz",
@@ -4065,7 +4065,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in go-to-market: they name the number that would make them abandon their own idea — before the data arrives. DORA's research on delivery performance rewards this exact loop: tight, measured feedback beats big-bang launches. If your launch metric can only trend one way, you built a scoreboard that always says you win, and that is noise, not evidence."
+      "text": "The senior tell in go-to-market: they name the number that would make them abandon their own idea — before the data arrives. DORA's research associates smaller, more frequent, well-measured changes with higher delivery performance — supporting the idea that tight, measured feedback beats big-bang launches. If your launch metric can only trend one way, you built a scoreboard that always says you win, and that is noise, not evidence."
     },
     {
       "type": "quiz",
@@ -4933,7 +4933,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: DORA's research frames delivery as a feedback loop where change must be measured against a prior expectation, not judged after the fact. The senior tell in a launch review is a pre-dated invalidation threshold. If your success bar has no date earlier than your data, you are grading your own homework."
+      "text": "Standards grounding: DORA frames its metrics as indicators tracked over time to see how delivery performance is changing — the 'measure change against a pre-committed expectation' framing is an experiment/SLO practice layered on top, not DORA's own wording. The senior tell in a launch review is a pre-dated invalidation threshold. If your success bar has no date earlier than your data, you are grading your own homework."
     },
     {
       "type": "quiz",
@@ -5852,7 +5852,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: DORA and NIST AI RMF both hinge on the same move this packet enforces — decisions are trustworthy only when tied to evidence defined in advance, not narrated after. The senior product tell is identical: the person who says 'here is the number that would have killed this, and it didn't' is worth more in the room than the one with five confident slides, because the first one's confidence is falsifiable and the second one's is decoration."
+      "text": "Standards grounding: DORA's measurement ethos and the NIST AI RMF's evidence-based posture both push the same direction this packet enforces — trust decisions that are tied to measured evidence rather than after-the-fact narration. The senior product tell is identical: the person who says 'here is the number that would have killed this, and it didn't' is worth more in the room than the one with five confident slides, because the first one's confidence is falsifiable and the second one's is decoration."
     },
     {
       "type": "quiz",

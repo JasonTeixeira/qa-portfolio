@@ -1637,7 +1637,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is a one-line anomaly budget: 'reads may be up to 5s stale; payment and inventory reconcile within one saga retry; the order invariant never breaks.' Grounded in DORA's finding that elite teams recover fast because failure modes are explicit — a consistency model you cannot state as a bounded, named anomaly is a model you have not actually chosen."
+      "text": "The senior tell is a one-line anomaly budget: 'reads may be up to 5s stale; payment and inventory reconcile within one saga retry; the order invariant never breaks.' A consistency model you cannot state as a bounded, named anomaly is a model you have not actually chosen. (Note: DORA measures failed-deployment recovery time; it does not make findings about consistency models or 'explicit failure modes' — remove the DORA attribution.)"
     },
     {
       "type": "quiz",
@@ -2506,7 +2506,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move is naming the coupling you REFUSE to break. Every seam keeps one dependency — here, the OrderPlaced event schema. Juniors try to decouple everything and ship a chatty mesh; seniors pick the one contract to defend and version it. DORA's research ties independent deployability to delivery performance — but only when the data boundary is real, not just the repo boundary."
+      "text": "The senior move is naming the coupling you REFUSE to break. Every seam keeps one dependency — here, the OrderPlaced event schema. Juniors try to decouple everything and ship a chatty mesh; seniors pick the one contract to defend and version it. DORA's research ties loosely coupled architecture (independent deployability of teams/services) to delivery performance — but the data-boundary caveat ('not just the repo boundary') is the author's own point, not a DORA finding."
     },
     {
       "type": "quiz",
@@ -3296,7 +3296,7 @@
             6
           ],
           "label": "Four golden signals, each with a source",
-          "note": "Latency, traffic, errors, saturation — the DORA/SRE quartet. A signal with no named metric source is a wish. Saturation here is index_lag_seconds: the direct measure of the feared failure."
+          "note": "Latency, traffic, errors, saturation — the Google SRE 'four golden signals'. (These are from Google SRE, not DORA; DORA's reliability metric is a separate operational-performance measure.) A signal with no named metric source is a wish. Saturation here is index_lag_seconds: the direct measure of the feared failure."
         },
         {
           "lines": [
@@ -3369,7 +3369,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from DORA and Google's SRE practice: alert on SYMPTOMS and BURN RATE, not on causes or raw thresholds. 'CPU > 80%' pages you at 3 a.m. for a system that is fine; 'freshness SLO will exhaust its error budget in 2 hours' pages you for a system that will actually hurt customers. Cause-based alerts train on-call to ignore the pager; symptom + budget alerts earn its trust."
+      "text": "The senior tell, straight from Google's SRE practice: alert on SYMPTOMS and BURN RATE, not on causes or raw thresholds. (Symptom/burn-rate alerting is SRE guidance; DORA does not prescribe alerting techniques — drop DORA here.) 'CPU > 80%' pages you at 3 a.m. for a system that is fine; 'freshness SLO will exhaust its error budget in 2 hours' pages you for a system that will actually hurt customers. Cause-based alerts train on-call to ignore the pager; symptom + budget alerts earn its trust."
     },
     {
       "type": "quiz",
@@ -4231,7 +4231,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "DORA's research is blunt on this: past a point, more reliability effort stops improving outcomes and starts hurting throughput and cost — the elite move is matching the target to the service, not maximizing it everywhere. A tradeoff a reviewer trusts is one where you can name the failure you deliberately chose NOT to buy down (a full-region outage, here) because the target didn't require it. Un-bought risk, stated on purpose, is the signature of a real cost/reliability decision."
+      "text": "Past a point, more reliability effort stops improving outcomes and starts hurting throughput and cost — the move is matching the target to the service, not maximizing it everywhere. (DORA finds speed and stability are NOT tradeoffs and does not make this diminishing-returns claim; the reliability-vs-cost tradeoff is an SRE/error-budget idea, not DORA — remove the DORA attribution.) A tradeoff a reviewer trusts is one where you can name the failure you deliberately chose NOT to buy down (a full-region outage, here) because the target didn't require it. Un-bought risk, stated on purpose, is the signature of a real cost/reliability decision."
     },
     {
       "type": "quiz",

@@ -800,7 +800,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in ingestion is the row floor and the freshness SLO, not the loader. Anyone can wire a pipe; a data engineer encodes what 'normal' looks like as a number the pipeline can enforce — so a partial file or a stalled vendor trips an alert at 3 a.m. instead of surfacing as a wrong number in the Monday board review. DORA's research ties reliable delivery to exactly this kind of fast, automated failure signal."
+      "text": "The senior tell in ingestion is the row floor and the freshness SLO, not the loader. Anyone can wire a pipe; a data engineer encodes what 'normal' looks like as a number the pipeline can enforce — so a partial file or a stalled vendor trips an alert at 3 a.m. instead of surfacing as a wrong number in the Monday board review. DORA's research associates strong delivery performance with fast recovery, but it does not prescribe a specific automated failure-signal technique."
     },
     {
       "type": "quiz",
@@ -1066,7 +1066,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in orchestration: they gate on data, not just on exit codes. A junior's DAG passes when every task returns 0; a senior's validate_source asserts freshness, schema, and row-count against a written source contract, so a task that 'ran fine' on garbage still fails the run. Grounded in ACM/IEEE CS2023 and DORA's change-failure-rate discipline: reliability comes from catching bad state early, not from more retries."
+      "text": "The senior tell in orchestration: they gate on data, not just on exit codes. A junior's DAG passes when every task returns 0; a senior's validate_source asserts freshness, schema, and row-count against a written source contract, so a task that 'ran fine' on garbage still fails the run. Change-failure rate is a DORA outcome metric; the claim that 'reliability comes from catching bad state early, not from more retries' is our engineering position, not something DORA states. Rephrase: 'Change-failure rate is the DORA metric this affects; catching bad state early rather than adding retries is our design choice.'"
     },
     {
       "type": "quiz",
@@ -1586,7 +1586,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the source() call, not the SQL. Analysts who ref the raw table directly lose dbt's freshness contract and lineage graph — so schema drift arrives as a wrong number in a dashboard instead of a failed build. DORA's 2024 findings tie reliability to exactly this: catch the defect at the earliest contracted boundary, not three models downstream in production."
+      "text": "The senior tell is the source() call, not the SQL. Analysts who ref the raw table directly lose dbt's freshness contract and lineage graph — so schema drift arrives as a wrong number in a dashboard instead of a failed build. DORA's 2024 findings do not prescribe catching defects at the earliest contracted boundary; that is our design principle. Rephrase without attributing the technique to DORA: 'Catching the defect at the earliest contracted boundary is our practice; DORA only measures the resulting change-failure and recovery outcomes.'"
     },
     {
       "type": "compare",
@@ -1881,7 +1881,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior move is source freshness as a build blocker, not a dashboard footnote. Juniors test the mart's output; seniors test the mart's INPUT contract — because a metric computed on stale or duplicated source is wrong no matter how clean the SQL is. Grounded in CS2023 data-management and DORA's 'quality gates before delivery': the gate lives upstream of the number, not beside it."
+      "text": "The senior move is source freshness as a build blocker, not a dashboard footnote. Juniors test the mart's output; seniors test the mart's INPUT contract — because a metric computed on stale or duplicated source is wrong no matter how clean the SQL is. DORA does not have a 'quality gates before delivery' doctrine; it measures delivery outcomes, not gate placement. Rephrase: 'Grounded in CS2023 data-management practice: the gate lives upstream of the number, not beside it.'"
     },
     {
       "type": "quiz",
@@ -2211,7 +2211,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: sizing the look-back window from the DATA, not a guess. Measure the p99 gap between created_at and _loaded_at across a month of history — if 99% of events land within 90 minutes, a 3h window is defensible and you can say so in review. 'I set it to 24h to be safe' is not caution; it is 8x the redundant work with no evidence behind the number. Grounds it in DORA/SWEBOK data-quality practice: every threshold in a pipeline should trace to a measurement, not a vibe."
+      "text": "The senior tell: sizing the look-back window from the DATA, not a guess. Measure the p99 gap between created_at and _loaded_at across a month of history — if 99% of events land within 90 minutes, a 3h window is defensible and you can say so in review. 'I set it to 24h to be safe' is not caution; it is 8x the redundant work with no evidence behind the number. DORA does not define a data-quality practice; it defines delivery-performance metrics. Rephrase: 'Grounds it in SWEBOK data-quality practice: every threshold in a pipeline should trace to a measurement, not a vibe.'"
     },
     {
       "type": "quiz",
@@ -2783,7 +2783,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is quarantine, not drop. A junior pipeline WHERE-clauses away malformed rows and the counts quietly stop tying; a senior one routes them to a quarantine table so src_rows = wh_rows + bad_rows still holds and the bad records are inspectable. If your reconciliation passes only because you deleted the evidence, you built a cover-up, not a control. This is what ACM/IEEE CS2023 and DORA's reliability guidance mean by observable, recoverable data pipelines — the failure is visible and the path back is defined."
+      "text": "The senior tell is quarantine, not drop. A junior pipeline WHERE-clauses away malformed rows and the counts quietly stop tying; a senior one routes them to a quarantine table so src_rows = wh_rows + bad_rows still holds and the bad records are inspectable. If your reconciliation passes only because you deleted the evidence, you built a cover-up, not a control. DORA has no 'reliability guidance' on observable, recoverable data pipelines; DORA measures recovery time, it does not prescribe pipeline observability. Rephrase: 'This reflects ACM/IEEE CS2023 guidance on observable, recoverable data pipelines; DORA only measures the recovery-time outcome.'"
     },
     {
       "type": "quiz",
@@ -3332,7 +3332,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a backfill is not the SQL — it is the reconciliation report and the quarantine count. DORA-elite teams treat a data backfill like a deploy with a rollback plan: bounded change, a proof gate, and a reversal condition. If your backfill has no number that says \"the metric matches the source again,\" you have a job that ran, not a change you can defend in review."
+      "text": "The senior tell in a backfill is not the SQL — it is the reconciliation report and the quarantine count. DORA does not characterize how elite teams handle data backfills or prescribe bounded change / proof gate / reversal condition. Rephrase without DORA attribution: 'Treat a data backfill like a deploy with a rollback plan: bounded change, a proof gate, and a reversal condition.' If your backfill has no number that says \"the metric matches the source again,\" you have a job that ran, not a change you can defend in review."
     },
     {
       "type": "quiz",
@@ -3614,7 +3614,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in streaming: they quarantine, they never silently drop. Dropping a malformed event makes the pipeline look green while destroying the evidence you need to explain the gap and replay it after the fix. A held bad record with a reason string is a diagnosis; a dropped one is a mystery. This is also the DORA/CS2023 discipline — treat late and malformed events as expected states with a defined path, not exceptions you swallow. (Anchors: ACM/IEEE CS2023, DORA 2024.)"
+      "text": "The senior tell in streaming: they quarantine, they never silently drop. Dropping a malformed event makes the pipeline look green while destroying the evidence you need to explain the gap and replay it after the fix. A held bad record with a reason string is a diagnosis; a dropped one is a mystery. DORA does not address event handling or malformed-event discipline. Rephrase: 'This is CS2023 discipline — treat late and malformed events as expected states with a defined path, not exceptions you swallow.' Only cite DORA 2024 as an anchor where the point is a delivery-performance metric (deploy frequency, lead time, change-failure rate, recovery time); do not anchor implementation-technique claims to DORA."
     },
     {
       "type": "quiz",
@@ -4204,7 +4204,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding (DORA 2024): elite teams treat governance as a build gate, not a review meeting — the same discipline that makes deploys safe makes data safe. The senior tell is column-level lineage: not \"this table has PII\" but \"this metric is derived from email, masked here, and here is the query that proves the raw value never left staging.\" A reviewer trusts the tag they can trace, not the promise they're told."
+      "text": "DORA 2024 does not state that elite teams treat governance as a build gate; that is not a DORA finding. Rephrase without DORA attribution: 'Treat governance as a build gate, not a review meeting — the same discipline that makes deploys safe makes data safe.' The senior tell is column-level lineage: not \"this table has PII\" but \"this metric is derived from email, masked here, and here is the query that proves the raw value never left staging.\" A reviewer trusts the tag they can trace, not the promise they're told."
     },
     {
       "type": "quiz",
@@ -4497,7 +4497,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (DORA 2024): the teams with the best reliability outcomes don't alert on more things — they alert on fewer, sharper signals tied to a runbook, and they measure alert-to-action time. The senior tell is a page you can act on half-asleep: 'orders_raw stale 30h → run backfill_runbook.md §3'. If your alert needs a Slack thread to figure out what it means, it is a symptom, not a signal."
+      "text": "DORA 2024 does not make claims about alerting practice, signal count, runbooks, or alert-to-action time. Rephrase without DORA attribution: 'Best-performing teams alert on fewer, sharper signals tied to a runbook and measure alert-to-action time.' The senior tell is a page you can act on half-asleep: 'orders_raw stale 30h → run backfill_runbook.md §3'. If your alert needs a Slack thread to figure out what it means, it is a symptom, not a signal."
     },
     {
       "type": "quiz",
@@ -5062,7 +5062,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (and the DORA one): elite teams deploy data pipelines frequently AND recover fast — impossible if humans hand-verify every metric. The gate is what buys that: a freshness + reconciliation check that fails closed lets you ship on a schedule, because bad data is stopped by the pipeline, not by someone noticing the dashboard looks wrong at 9 a.m."
+      "text": "The senior tell (grounded in DORA's four keys): elite teams score high on both throughput (deploy frequency, lead time) AND stability (fast recovery) — hard to sustain if humans hand-verify every metric. (DORA measures these outcomes; it does not frame frequent deploys plus fast recovery as a prescription about hand-verification.) The gate is what buys that: a freshness + reconciliation check that fails closed lets you ship on a schedule, because bad data is stopped by the pipeline, not by someone noticing the dashboard looks wrong at 9 a.m."
     },
     {
       "type": "quiz",
@@ -5353,7 +5353,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (DORA 2024): elite teams are separated less by having fewer incidents than by low change-fail rate and fast, evidence-based recovery. In data, that means the schema check that only tests presence is a trap — a renamed column passes it while the metric goes to zero. Senior responders test the column contract AND freshness AND a value assertion (not_null, non-negative), because malformed rarely means missing; it means subtly wrong."
+      "text": "Standards grounding (DORA): stability in DORA is measured by change-fail rate and failed-deployment recovery time, not by raw incident count. (DORA does not use the phrase 'evidence-based recovery,' and its 2024 model separates performance by throughput and stability rather than by 'fewer incidents.') In data, that means the schema check that only tests presence is a trap — a renamed column passes it while the metric goes to zero. Senior responders test the column contract AND freshness AND a value assertion (not_null, non-negative), because malformed rarely means missing; it means subtly wrong."
     },
     {
       "type": "quiz",

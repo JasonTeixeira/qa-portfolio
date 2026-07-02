@@ -468,7 +468,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (DORA): elite teams win on fast, evidence-backed recovery, not on never breaking. The senior tell here is never `kill -9 <pid>` on a hunch — you `ss`/`lsof` to name the owner first, because killing the wrong PID during an incident is how a one-service blip becomes a multi-service outage. Identify, then act."
+      "text": "Standards grounding (DORA): top performers keep failed-deployment recovery time low and do well on both speed and stability. (DORA's framing is 'speed and stability are not tradeoffs' — the 'win on recovery, not on never breaking' is a fair gloss but 'evidence-backed' is the author's addition; DORA does not say elite teams win by recovering rather than avoiding failure.) The senior tell here is never `kill -9 <pid>` on a hunch — you `ss`/`lsof` to name the owner first, because killing the wrong PID during an incident is how a one-service blip becomes a multi-service outage. Identify, then act."
     },
     {
       "type": "quiz",
@@ -782,7 +782,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: rotation. Ask \"if this credential leaked right now, how fast can we rotate it, and does the app pick up the new value without a rebuild?\" If the secret is baked into the image, rotation means a full rebuild-and-redeploy of every service — minutes-to-hours of exposure. If it is injected from a secret store, rotation is a store update plus a pod restart — seconds. 12-factor (DORA, SWEBOK) exists to make that answer \"seconds\"."
+      "text": "The senior tell: rotation. Ask \"if this credential leaked right now, how fast can we rotate it, and does the app pick up the new value without a rebuild?\" If the secret is baked into the image, rotation means a full rebuild-and-redeploy of every service — minutes-to-hours of exposure. If it is injected from a secret store, rotation is a store update plus a pod restart — seconds. 12-factor exists to make that answer \"seconds\". (Twelve-Factor App is its own methodology by Adam Wiggins/Heroku; it is not authored or defined by DORA or SWEBOK — remove both attributions.)"
     },
     {
       "type": "quiz",
@@ -1055,7 +1055,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the digest, not the size. DORA's elite performers restore service fast because every deploy is a reproducible, pinned artifact — so rollback is \"redeploy this exact sha256,\" not \"rebuild and pray.\" If your rollback target is a mutable tag like :latest or :prod, you do not have a rollback; you have a rebuild with your fingers crossed."
+      "text": "The senior tell is the digest, not the size. Elite performers restore service fast, and pinned, reproducible artifacts help make that possible — so rollback is \"redeploy this exact sha256,\" not \"rebuild and pray.\" If your rollback target is a mutable tag like :latest or :prod, you do not have a rollback; you have a rebuild with your fingers crossed. (DORA does not claim elite performers recover fast *because* deploys are pinned artifacts; DORA does not discuss reproducible/pinned artifacts at all — remove the causal DORA attribution.)"
     },
     {
       "type": "quiz",
@@ -1332,7 +1332,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "DORA's research ties elite delivery to fast, reliable feedback loops — and that loop starts with a stack any engineer can rebuild in one command. The senior tell is that they never document manual setup: if a step isn't in the compose file, it doesn't exist. A README full of \"first, start Postgres, then export DATABASE_URL...\" is a bug report about your compose.yaml."
+      "text": "DORA's research ties strong delivery performance to fast feedback loops — but the 'stack any engineer can rebuild in one command' is the author's framing, not a DORA finding. The senior tell is that they never document manual setup: if a step isn't in the compose file, it doesn't exist. A README full of \"first, start Postgres, then export DATABASE_URL...\" is a bug report about your compose.yaml."
     },
     {
       "type": "quiz",
@@ -1595,7 +1595,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they check the cert's expiry and the Service's endpoints BEFORE touching a single pod. DORA's elite performers keep change-failure low precisely by making the failure observable per hop — an incident note that says 'endpoints was empty because a label drifted' is reusable; 'we restarted it and it came back' teaches no one and will page you again next week."
+      "text": "The senior tell: they check the cert's expiry and the Service's endpoints BEFORE touching a single pod. DORA measures elite performers by a low change-failure rate, but it does not prescribe HOW they achieve it — 'making the failure observable per hop' is an implementation technique DORA does not name. Rewrite as: 'Keeping change-failure low means making the failure observable per hop — an incident note that says \\'endpoints was empty because a label drifted\\' is reusable; \\'we restarted it and it came back\\' teaches no one and will page you again next week.'"
     },
     {
       "type": "quiz",
@@ -1658,7 +1658,7 @@
     },
     {
       "type": "context",
-      "text": "A CI pipeline quality gate is the smallest place where 'we should test this' becomes 'this cannot ship untested' — enforced by the machine, not remembered by a human. It is the control that turns DORA's change-failure-rate from luck into policy, and it is the evidence a reviewer trusts before they trust your service."
+      "text": "A CI pipeline quality gate is the smallest place where 'we should test this' becomes 'this cannot ship untested' — enforced by the machine, not remembered by a human. Change-failure rate is a genuine DORA metric, but DORA does not frame any specific 'control' as turning it 'from luck into policy' — that framing is the author's, not DORA's. Rewrite as: 'It is the control that improves your change-failure rate (a DORA metric) from luck into policy, and it is the evidence a reviewer trusts before they trust your service.'"
     },
     {
       "type": "pretest",
@@ -1873,7 +1873,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move DORA makes explicit: a good gate is FAST and TRUSTWORTHY, not just strict. A gate that takes 40 minutes or fails randomly (flaky tests) trains engineers to bypass it — and a routinely-overridden gate is worse than none, because it launders bad ships as 'reviewed'. Quarantine flakes, keep the gate under ~10 minutes, and make every override an explicit, logged decision. A gate people trust is a gate people obey."
+      "text": "DORA does not 'make explicit' any statement about what makes a good gate; it measures delivery outcomes, not gate design. Rewrite as: 'The senior move: a good gate is FAST and TRUSTWORTHY, not just strict.' A gate that takes 40 minutes or fails randomly (flaky tests) trains engineers to bypass it — and a routinely-overridden gate is worse than none, because it launders bad ships as 'reviewed'. Quarantine flakes, keep the gate under ~10 minutes, and make every override an explicit, logged decision. A gate people trust is a gate people obey."
     },
     {
       "type": "quiz",
@@ -2166,7 +2166,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell isn't the semver scheme — it's provenance plus retention. DORA's elite performers restore service fast because a prior good artifact still exists and is addressable; SWEBOK's configuration-management discipline says the build is reproducible and identifiable, not re-derived. If you can't name the digest of what's running in prod right now, and prove where it came from, you don't have a release — you have a deployment you're hoping stays up."
+      "text": "The senior tell isn't the semver scheme — it's provenance plus retention. DORA measures fast time-to-restore (failed-deployment recovery time) but does not attribute it to 'a prior good artifact still existing and being addressable' — that causal mechanism is not DORA's claim. Rewrite as: 'DORA's elite performers are defined partly by fast service restoration (failed-deployment recovery time); a practical way to get there is keeping a prior good artifact addressable — and SWEBOK's configuration-management discipline says the build should be reproducible and identifiable, not re-derived.' If you can't name the digest of what's running in prod right now, and prove where it came from, you don't have a release — you have a deployment you're hoping stays up."
     },
     {
       "type": "quiz",
@@ -2721,7 +2721,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The DORA elite-performer signal isn't 'we have health checks' — it's low change-failure rate and fast recovery, and mis-scoped probes are a top hidden cause of both. The tell that separates senior from mid: a senior engineer can point to a pod that went NotReady and was drained WITHOUT a restart, and explain why that's the system working correctly. If your only tool is 'restart it,' every dependency hiccup becomes an outage."
+      "text": "The first half is accurate (DORA's signal is low change-failure rate and fast recovery, not health checks), but 'mis-scoped probes are a top hidden cause of both' is the author's engineering claim, not something DORA states. Rewrite as: 'The DORA elite-performer signal isn\\'t \\'we have health checks\\' — it\\'s low change-failure rate and fast recovery; in practice, mis-scoped probes are a common hidden cause of both.' The tell that separates senior from mid: a senior engineer can point to a pod that went NotReady and was drained WITHOUT a restart, and explain why that's the system working correctly. If your only tool is 'restart it,' every dependency hiccup becomes an outage."
     },
     {
       "type": "quiz",
@@ -3014,7 +3014,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounding (DORA 2024): the elite-performer signal is not deploy frequency alone — it is change-fail rate and failed-deployment recovery time. A readiness probe plus a preserved revision history is exactly what turns a bad rollout from an incident into a `kubectl rollout undo` that recovers in seconds. The manifest is where mean-time-to-recovery is either bought or lost."
+      "text": "DORA defines performance tiers across ALL of its metrics together, not just change-fail rate and failed-deployment recovery time — deployment frequency and lead time are equally part of the signal. Rewrite as: 'Grounding (DORA): the elite-performer signal is not deploy frequency alone — it combines throughput (deployment frequency, lead time) with stability (change-fail rate and failed-deployment recovery time).' A readiness probe plus a preserved revision history is exactly what turns a bad rollout from an incident into a `kubectl rollout undo` that recovers in seconds. The manifest is where mean-time-to-recovery is either bought or lost."
     },
     {
       "type": "quiz",
@@ -3306,7 +3306,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "DORA's research ties reproducible, version-controlled infrastructure directly to elite delivery: teams whose infra changes flow through code recover from incidents faster and deploy more safely, because rollback is `git revert` not archaeology. IaC is also how NIST-style controls become auditable — 'the config is in the repo, reviewed, and diffable' is evidence; 'someone set it in the console' is not."
+      "text": "DORA's Accelerate research does identify version control and infrastructure-as-code as capabilities correlated with higher delivery performance, but DORA does not prescribe 'rollback is git revert' — that specific technique is the author's, not DORA's. Rewrite as: 'DORA\\'s research associates version-controlled, reproducible infrastructure with higher delivery performance: teams whose infra changes flow through code tend to recover and deploy more safely — and in practice that means rollback can be `git revert` not archaeology.' IaC is also how NIST-style controls become auditable — 'the config is in the repo, reviewed, and diffable' is evidence; 'someone set it in the console' is not."
     },
     {
       "type": "quiz",
@@ -3622,7 +3622,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding, not vibes: DORA's 2024 report ties elite delivery to fast, reliable recovery — and you cannot recover fast on a system you cannot see. Two pro tells: (1) tail-based sampling (decide AFTER the request completes) keeps the erroring traces the head-sampler would have thrown away — the 1% you drop is exactly the 1% you need at 2 a.m. (2) Log cardinality is a cost bomb: put high-cardinality identifiers (order_id, trace_id) in structured FIELDS you can index and drop, not baked into the message string."
+      "text": "DORA does tie delivery performance to fast recovery (failed-deployment recovery time is a core metric), but 'you cannot recover fast on a system you cannot see' is the author's observability assertion, not a DORA finding. Rewrite as: 'Standards grounding: DORA ties strong delivery performance to fast recovery (failed-deployment recovery time) — and in practice you cannot recover fast on a system you cannot see.' Two pro tells: (1) tail-based sampling (decide AFTER the request completes) keeps the erroring traces the head-sampler would have thrown away — the 1% you drop is exactly the 1% you need at 2 a.m. (2) Log cardinality is a cost bomb: put high-cardinality identifiers (order_id, trace_id) in structured FIELDS you can index and drop, not baked into the message string."
     },
     {
       "type": "quiz",
@@ -3905,7 +3905,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The Google SRE workbook standard (and DORA's reliability guidance) is exactly this: alert on error-budget burn rate over MULTIPLE windows, page fast burn, ticket slow burn. The reason two windows are ANDed is the whole trick — the long window proves the burn is significant, the short window proves it is still happening. Drop either and you are back to noise or blindness."
+      "text": "Multi-window error-budget burn-rate alerting is from the Google SRE Workbook, not from DORA — DORA does not provide error-budget or burn-rate alerting guidance. Rewrite as: 'The Google SRE Workbook standard is exactly this: alert on error-budget burn rate over MULTIPLE windows, page fast burn, ticket slow burn.' The reason two windows are ANDed is the whole trick — the long window proves the burn is significant, the short window proves it is still happening. Drop either and you are back to noise or blindness."
     },
     {
       "type": "quiz",
@@ -4202,7 +4202,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "This is the DORA signal, not an opinion: elite teams optimize change-failure rate and time-to-restore TOGETHER. Fast, frequent deploys are only safe because rollback is cheap and reversible — reversibility is what lets you ship boldly. NIST AI RMF frames the same idea as governed recoverability: a system you cannot quickly return to a known-good state is a system you cannot responsibly operate."
+      "text": "Change-failure rate and time-to-restore are both real DORA stability metrics, but DORA characterizes elite teams by ALL metrics together (throughput AND stability), and does not phrase it as 'optimizing the two together.' Rewrite as: 'This is grounded in DORA: elite teams score well on both stability metrics — change-failure rate and time-to-restore — not just one.' Fast, frequent deploys are only safe because rollback is cheap and reversible — reversibility is what lets you ship boldly. NIST AI RMF frames the same idea as governed recoverability: a system you cannot quickly return to a known-good state is a system you cannot responsibly operate."
     },
     {
       "type": "quiz",
@@ -4454,7 +4454,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "SLSA (Supply-chain Levels for Software Artifacts) grades exactly this: Level 1 is 'provenance exists', Level 3 is 'provenance is signed by a hardened, non-falsifiable build service' — which keyless cosign + OIDC gets you for free. DORA's 2024 research ties secure delivery practices to both stability and throughput: the teams that enforce artifact integrity ship MORE, not less, because a trusted pipeline removes the manual review fear-tax."
+      "text": "SLSA (Supply-chain Levels for Software Artifacts) grades exactly this: Level 1 is 'provenance exists', Level 3 is 'provenance is signed by a hardened, non-falsifiable build service' — which keyless cosign + OIDC gets you for free. DORA's research links security/software-supply-chain capabilities to performance, but the specific claims 'enforce artifact integrity ship MORE' and 'removes the manual review fear-tax' are the author's causal framing, not stated DORA findings; the 2024 report notably found AI adoption correlated with a stability drop. Rewrite as: 'DORA\\'s research associates secure software-supply-chain practices with stronger delivery performance; in practice, teams that enforce artifact integrity can ship confidently because a trusted pipeline removes the manual-review fear-tax.'"
     },
     {
       "type": "quiz",
@@ -4791,7 +4791,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell, straight from DORA and SRE practice: reliability is a feature you fund, and it has a floor set by an SLO — not by the invoice. The engineer who cuts to the SLO (with an error budget as the negotiable slack) keeps their job; the one who cuts past it saves 50% for three weeks and then spends it all on an incident. Cost-per-request AT the target is the only number that means anything."
+      "text": "Reliability is a DORA metric and SLOs are core SRE practice, but 'reliability is a feature you fund, with a floor set by an SLO not the invoice' is the author's phrasing, not a direct DORA statement. Rewrite as: 'The senior tell, grounded in SRE practice (and DORA\\'s reliability metric): reliability is a feature you fund, and its floor is set by an SLO — not by the invoice.' The engineer who cuts to the SLO (with an error budget as the negotiable slack) keeps their job; the one who cuts past it saves 50% for three weeks and then spends it all on an incident. Cost-per-request AT the target is the only number that means anything."
     },
     {
       "type": "quiz",
@@ -5070,7 +5070,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "DORA's elite performers are defined by deployment frequency AND change-failure rate together — and the lever that moves both is promoting one small, immutable artifact behind automated gates. NIST AI RMF frames the same idea as traceability: you must be able to prove which exact version is in production and reverse it fast. The senior tell is that their rollback path is code that runs on a breach, not a runbook step someone remembers to do."
+      "text": "Elite performers are defined across all four/five metrics, not just deployment frequency and change-failure rate; and 'promoting one small immutable artifact behind automated gates' is an implementation technique DORA does not prescribe (DORA does note reducing batch size helps). Rewrite as: 'DORA\\'s elite performers score well across all the key metrics — throughput and stability together — and DORA notes reducing batch size improves them; promoting one small, immutable artifact behind automated gates is a practical way to do that.' NIST AI RMF frames the same idea as traceability: you must be able to prove which exact version is in production and reverse it fast. The senior tell is that their rollback path is code that runs on a breach, not a runbook step someone remembers to do."
     },
     {
       "type": "quiz",
@@ -5379,7 +5379,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from DORA's elite-performer research: the teams that ship fastest are the ones with the SHORTEST time-to-restore, and that comes from a rehearsed rollback, not a careful deploy. When your readiness review proves 'undo returns to last-good in under 90 seconds,' you have earned the right to deploy on a Friday. Failure recovery is a feature you build, not a hope you hold."
+      "text": "DORA's research does show elite performers combine high throughput with short time-to-restore (speed and stability are not tradeoffs), but 'that comes from a rehearsed rollback, not a careful deploy' is the author's prescription, not a DORA finding. Rewrite as: 'Grounded in DORA\\'s research: the teams that ship fastest also tend to have the SHORTEST time-to-restore (speed and stability aren\\'t tradeoffs) — and in practice that comes from a rehearsed rollback, not just a careful deploy.' When your readiness review proves 'undo returns to last-good in under 90 seconds,' you have earned the right to deploy on a Friday. Failure recovery is a feature you build, not a hope you hold."
     },
     {
       "type": "quiz",
@@ -5654,7 +5654,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "DORA's four keys measure exactly this capstone: deployment frequency and lead time (your CI/CD gate), change-failure rate (the bad :v2.4), and time-to-restore (your rollout undo transcript). Elite performers are not the teams that never break production — they are the teams whose time-to-restore is measured in minutes because rollback is rehearsed and telemetry is wired. A packet with a fast, proven recovery is DORA-grade evidence; a packet with only a green deploy is not."
+      "text": "DORA's four keys measure exactly this capstone: deployment frequency and lead time (your CI/CD gate), change-failure rate (the bad :v2.4), and time-to-restore (your rollout undo transcript). Elite performers are not the teams that never break production — they are the teams whose time-to-restore is measured in minutes because rollback is rehearsed and telemetry is wired. A packet with a fast, proven recovery maps to DORA's failed-deployment-recovery-time metric, which a green-deploy-only packet does not exercise. (DORA measures delivery performance; it does not define 'evidence packets'.)"
     },
     {
       "type": "quiz",
@@ -5708,7 +5708,7 @@
           "Chosen: rollback-first · Rejected: root-cause-live, with reversal condition",
           "Repair rule: SLO-burn gate auto-halts the next rollout"
         ],
-        "verdict": "Reversible, measured, reusable — DORA-grade evidence"
+        "verdict": "Reversible, measured, reusable — aligned with the delivery qualities DORA measures. (DORA does not define an 'evidence' standard or these three properties.)"
       },
       "caption": "The transcript and the recovered SLO snapshot are the whole difference. A packet that only narrates the outage teaches nothing and reuses into nothing; the operable one drops straight into the course capstone."
     },

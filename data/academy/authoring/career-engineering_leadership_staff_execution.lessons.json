@@ -545,7 +545,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The staff tell, straight from the SRE/DORA playbook: a strong leadership answer proves judgment through artifacts, not charisma. State the decision so the person who disagrees with you would still sign the constraint — then let the risk register and owner map carry the alignment. If your packet only convinces people who already favor your fix, you wrote a campaign, not a decision record."
+      "text": "The staff tell: a strong leadership answer proves judgment through artifacts, not charisma. (Remove the SRE/DORA attribution — DORA is a delivery-performance measurement program and does not prescribe leadership-answer or decision-artifact practices.) State the decision so the person who disagrees with you would still sign the constraint — then let the risk register and owner map carry the alignment. If your packet only convinces people who already favor your fix, you wrote a campaign, not a decision record."
     },
     {
       "type": "quiz",
@@ -1160,7 +1160,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell borrowed from SRE and DORA: a staff engineer writes the decision so the person who disagreed with them would still sign the CONSTRAINT and the INVALIDATION condition. If your packet only reads as true to people who already favor your approach, it is a campaign, not leadership. Separate signal from noise on the page: what was directly observed, what was inferred, and what would invalidate the call."
+      "text": "The senior tell: a staff engineer writes the decision so the person who disagreed with them would still sign the CONSTRAINT and the INVALIDATION condition. (Remove the SRE/DORA attribution — this decision-record practice is not something DORA defines or prescribes.) If your packet only reads as true to people who already favor your approach, it is a campaign, not leadership. Separate signal from noise on the page: what was directly observed, what was inferred, and what would invalidate the call."
     },
     {
       "type": "quiz",
@@ -1756,7 +1756,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff tell is not the chosen architecture — it is the written rejected option. A lead who can state, on paper, exactly how the approach they turned down fails under a partial outage has proven judgment; one who only praises their pick has run a campaign. Anchor it to the operating review cadence and DORA/SRE language (SLO, blast radius, error budget) so the decision is legible to the whole org, not just the room."
+      "text": "The staff tell is not the chosen architecture — it is the written rejected option. A lead who can state, on paper, exactly how the approach they turned down fails under a partial outage has proven judgment; one who only praises their pick has run a campaign. Anchor it to the operating review cadence and SRE language (SLO, blast radius, error budget) so the decision is legible to the whole org, not just the room. (SLO, blast radius, and error budget are Google SRE concepts, not DORA metrics; DORA's vocabulary is deploy frequency, lead time, change-fail rate, and recovery time.)"
     },
     {
       "type": "quiz",
@@ -1954,7 +1954,7 @@
       "subtitle": "staff_execution_strategy_and_review_packet.md — each field a forcing function a reviewer can inspect.",
       "filename": "staff_execution_strategy_and_review_packet.md",
       "language": "bash",
-      "code": "# Staff Execution Strategy & Review Packet — Tradeoff Frame\n\n## Context\n- Decision: consolidate 3 teams' event pipelines onto one bus, by <Fri>\n- Teams disagreeing: Orders, Search, Analytics\n\n## Constraint table (the non-negotiables)\n| Constraint            | Source                | Rules out                        |\n| no daytime downtime   | primary conversion path | big-bang cutover                |\n| DORA lead time <= 1d  | quarterly exec goal   | hand-rolled per-team adapters    |\n| on-call owns <= 1 bus | SRE capacity          | keeping 3 parallel pipelines     |\n\n## Selected approach\n- Strangler migration: dual-write, shadow-read, cut per topic\n- Why it fits: zero daytime downtime; incremental; one owner emerges\n\n## Rejected approach\n- Big-bang cutover in one release\n- Why it fails under operational evidence: violates no-daytime-downtime;\n  one bad topic = full rollback; no incremental verification signal\n\n## Expected failure (the trigger)\n- Shadow-read divergence > 0.5% on any topic for > 15 min\n\n## Verification method (inspection hooks)\n- ADR review checklist signed by all 3 leads\n- risk register review before cutover of each topic\n- stakeholder update cadence: weekly divergence + lead-time chart\n\n## Reviewer objection + response\n- Objection: \"Is this proven or just described?\"\n- Response: divergence dashboard + per-topic cutover log = replayable proof\n\n## Invalidation condition\n- If dual-write p99 write latency regresses SLO, the frame is wrong -> pause\n\n## Transfer note\n- In a regulated env: add change-approval gate + audit trail per cutover",
+      "code": "# Staff Execution Strategy & Review Packet — Tradeoff Frame\n\n## Context\n- Decision: consolidate 3 teams' event pipelines onto one bus, by <Fri>\n- Teams disagreeing: Orders, Search, Analytics\n\n## Constraint table (the non-negotiables)\n| Constraint            | Source                | Rules out                        |\n| no daytime downtime   | primary conversion path | big-bang cutover                |\n| lead time <= 1d (team-set target) | quarterly exec goal | hand-rolled per-team adapters | (Lead time is a real DORA metric, but the <= 1d threshold is a team/exec-chosen goal, not a value DORA prescribes; DORA explicitly avoids setting metrics as numerical goals.)\n| on-call owns <= 1 bus | SRE capacity          | keeping 3 parallel pipelines     |\n\n## Selected approach\n- Strangler migration: dual-write, shadow-read, cut per topic\n- Why it fits: zero daytime downtime; incremental; one owner emerges\n\n## Rejected approach\n- Big-bang cutover in one release\n- Why it fails under operational evidence: violates no-daytime-downtime;\n  one bad topic = full rollback; no incremental verification signal\n\n## Expected failure (the trigger)\n- Shadow-read divergence > 0.5% on any topic for > 15 min\n\n## Verification method (inspection hooks)\n- ADR review checklist signed by all 3 leads\n- risk register review before cutover of each topic\n- stakeholder update cadence: weekly divergence + lead-time chart\n\n## Reviewer objection + response\n- Objection: \"Is this proven or just described?\"\n- Response: divergence dashboard + per-topic cutover log = replayable proof\n\n## Invalidation condition\n- If dual-write p99 write latency regresses SLO, the frame is wrong -> pause\n\n## Transfer note\n- In a regulated env: add change-approval gate + audit trail per cutover",
       "steps": [
         {
           "lines": [
@@ -2336,7 +2336,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff-level tell, straight from DORA/SRE practice: the strongest decision record states the option it rejected in terms the champion of that option would sign. If your record only reads as fair to people who already favor your choice, it is a campaign, not a decision — and the reviewer challenge exists precisely to expose that a record is proven, not merely described."
+      "text": "The staff-level tell: the strongest decision record states the option it rejected in terms the champion of that option would sign. (Remove the DORA/SRE attribution — decision-record craft is not a DORA or SRE prescription.) If your record only reads as fair to people who already favor your choice, it is a campaign, not a decision — and the reviewer challenge exists precisely to expose that a record is proven, not merely described."
     },
     {
       "type": "quiz",
@@ -2578,7 +2578,7 @@
       "subtitle": "The staff execution packet — each line a forcing function that turns disagreement into an inspectable decision.",
       "filename": "staff_execution_strategy_and_review_packet.md",
       "language": "bash",
-      "code": "## 1. Planning Cadence\n- Operating constraint: no daytime downtime on checkout during the Q3 reliability freeze (non-negotiable)\n- Decision this cycle must produce: split Orders service now | after the freeze (owner: staff eng · due Thu)\n- Rejected cadence: open-ended weekly sync (creates activity, leaves no decision record)\n- Owner map: Orders = Team A · Index = Team B · SRE sign-off = on-call lead\n- Cadence rhythm: Mon frame + risks -> Wed evidence review -> Thu commit + ADR -> Fri stakeholder update\n- Reversal condition: if DORA change-failure-rate > 15% for two deploys, reopen the decision\n- Failure trigger: a cycle ends with a meeting recap and no ADR, no owner, no reversal condition\n- Inspection hooks used: ADR review checklist · risk register review · stakeholder update cadence",
+      "code": "## 1. Planning Cadence\n- Operating constraint: no daytime downtime on checkout during the Q3 reliability freeze (non-negotiable)\n- Decision this cycle must produce: split Orders service now | after the freeze (owner: staff eng · due Thu)\n- Rejected cadence: open-ended weekly sync (creates activity, leaves no decision record)\n- Owner map: Orders = Team A · Index = Team B · SRE sign-off = on-call lead\n- Cadence rhythm: Mon frame + risks -> Wed evidence review -> Thu commit + ADR -> Fri stakeholder update\n- Reversal condition: if change-failure-rate (a DORA metric) exceeds your chosen threshold (e.g., 15%) for two deploys, reopen the decision. (Change-fail rate is a genuine DORA metric, but the 15% cutoff is a locally chosen threshold; DORA does not define a 15% bound.)\n- Failure trigger: a cycle ends with a meeting recap and no ADR, no owner, no reversal condition\n- Inspection hooks used: ADR review checklist · risk register review · stakeholder update cadence",
       "steps": [
         {
           "lines": [
@@ -2933,7 +2933,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff-level move is to separate signal from noise: write what you can directly observe (Auth's service is not in staging), what you must infer (\"they'll probably make it\"), and what would invalidate the plan (a silent slip past T-5). DORA and SRE thinking apply upward — treat a cross-team dependency like an SLO with an error budget and an alert, not a promise you hope holds."
+      "text": "The staff-level move is to separate signal from noise: write what you can directly observe (Auth's service is not in staging), what you must infer (\"they'll probably make it\"), and what would invalidate the plan (a silent slip past T-5). SRE thinking applies upward — treat a cross-team dependency like an SLO with an error budget and an alert, not a promise you hope holds. (SLOs and error budgets are SRE constructs; DORA measures delivery performance and does not define SLOs or error budgets.)"
     },
     {
       "type": "quiz",
@@ -3843,7 +3843,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff tell: after mentoring, you should be able to leave the room and the decision still holds. If alignment depends on you being present to re-explain it, you transferred an answer, not judgment. DORA and SRE cultures make this measurable — a mentored decision shows up as a durable ADR and a repair loop, not a Slack thread that dies when you go on call."
+      "text": "The staff tell: after mentoring, you should be able to leave the room and the decision still holds. If alignment depends on you being present to re-explain it, you transferred an answer, not judgment. DORA and SRE cultures value making work measurable — a mentored decision shows up as a durable ADR and a repair loop, not a Slack thread that dies when you go on call. (DORA studies generative/learning culture as predictors of performance; it does not prescribe ADRs or repair loops as artifacts.)"
     },
     {
       "type": "quiz",
@@ -4128,7 +4128,7 @@
           "Constraint first: no daytime downtime (rules out big-bang)",
           "Selected + rejected approach both on the record",
           "Feedback delta shown: added per-team rate cap",
-          "Failure trigger (replay dual-write, diff stores) + DORA/SRE proof",
+          "Failure trigger (replay dual-write, diff stores) + DORA/SRE proof. (Dual-write and diffing stores are implementation techniques DORA does not prescribe; only the DORA change-failure-rate/recovery-time signals are DORA's — keep the technique attribution off DORA.)",
           "Owner map signed; risk register linked",
           "A reviewer can replay the failure and evaluate the repair"
         ],
@@ -4175,7 +4175,7 @@
     },
     {
       "type": "transfer",
-      "text": "The move is domain-independent. Shrink it to a two-person design review and the same skill applies — constraint, rejected option, the one line feedback moved, a failure trigger, signed ownership. Scale it to a regulated enterprise and the constraint hardens (an auditor now reads the ADR) and the risk register gains a compliance owner; scale it to a high-throughput product and the verification shifts to DORA and SRE error-budget burn on live traffic. What stays invariant: feedback is judged by the inspectable delta it produces and the failure behavior it survives, never by who was most persuasive. Your staff_execution_strategy_and_review_packet.md carries straight into the module capstone — the same packet, the same proof, reused."
+      "text": "The move is domain-independent. Shrink it to a two-person design review and the same skill applies — constraint, rejected option, the one line feedback moved, a failure trigger, signed ownership. Scale it to a regulated enterprise and the constraint hardens (an auditor now reads the ADR) and the risk register gains a compliance owner; scale it to a high-throughput product and the verification shifts to DORA change-failure-rate and SRE error-budget burn on live traffic. (Error budgets are an SRE construct, not DORA; attribute error-budget burn to SRE only.) What stays invariant: feedback is judged by the inspectable delta it produces and the failure behavior it survives, never by who was most persuasive. Your staff_execution_strategy_and_review_packet.md carries straight into the module capstone — the same packet, the same proof, reused."
     },
     {
       "type": "spaced-review",
@@ -4436,7 +4436,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff-level tell: alignment is proven by the artifact the LOSING team would sign, not by the meeting where you talked most. If your decision record only reads as fair to the side you favored, you produced a verdict, not a repair. Attach the rejected-option reasoning and a risk register with owners, and the disagreement stops being about people — DORA, SRE, and the SLO decide it, and the packet survives into your incident learning."
+      "text": "The staff-level tell: alignment is proven by the artifact the LOSING team would sign, not by the meeting where you talked most. If your decision record only reads as fair to the side you favored, you produced a verdict, not a repair. Attach the rejected-option reasoning and a risk register with owners, and the disagreement stops being about people — the DORA signals, SRE practices, and the SLO decide it, and the packet survives into your incident learning. (The SLO is an SRE construct, not a DORA one; DORA supplies the delivery-performance signals, not the SLO.)"
     },
     {
       "type": "quiz",
@@ -4738,7 +4738,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move is to separate what you can directly observe from what you must infer, and to state the invalidation condition out loud: 'this decision is wrong if shadow-read drift exceeds 0.1%.' An executive update that names its own kill-condition earns trust the way a DORA/SRE post-incident review does - by being falsifiable, not by sounding confident."
+      "text": "The senior move is to separate what you can directly observe from what you must infer, and to state the invalidation condition out loud: 'this decision is wrong if shadow-read drift exceeds 0.1%.' An executive update that names its own kill-condition earns trust the way an SRE post-incident review (blameless postmortem) does - by being falsifiable, not by sounding confident. (Post-incident review/postmortem is an SRE practice; DORA measures outcomes and does not define a post-incident review process.)"
     },
     {
       "type": "quiz",
@@ -5042,7 +5042,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The staff-level tell, straight from SRE practice: the incident commander is measured by the quality of the decision record, not by who found the bug. DORA's high performers recover fast because command is a named role with a timeline and a repair loop — MTTR is an organizational property, not a hero's reflex. If your incident \"command\" has no artifact a stranger could audit next quarter, you had activity, not command."
+      "text": "The staff-level tell, straight from SRE practice: the incident commander is measured by the quality of the decision record, not by who found the bug. DORA's high performers show faster failed-deployment recovery time, and SRE practice makes command a named role with a timeline and a repair loop — recovery is an organizational property, not a hero's reflex. (DORA measures failed deployment recovery time; it does not define incident command as a named role, and 'MTTR' has been superseded in DORA's own framing by failed deployment recovery time. Named incident command is an SRE concept.) If your incident \"command\" has no artifact a stranger could audit next quarter, you had activity, not command."
     },
     {
       "type": "quiz",
@@ -5233,7 +5233,7 @@
       "subtitle": "postmortem_quality_decision_packet.md — a real staff-level postmortem, filled, not a template shell.",
       "filename": "postmortem_quality_decision_packet.md",
       "language": "bash",
-      "code": "# Postmortem — Search index 5h stale (SEV2)\n\n## Impact\n- 5h 12m stale search catalog; ~30% of queries missing recent products; est. conversion loss ~$14k. No data loss.\n- DORA: this is our MTTR event for the quarter — detection lag was 4h 40m of the 5h 12m.\n\n## Timeline (UTC)\n- 02:11  Index worker OOM-killed; no page (alert only on read errors, not on lag)\n- 06:51  On-call notices via customer report, not monitoring\n- 07:04  Root of lag found: worker crash-looped, dead-letter queue full\n- 07:38  Worker scaled + backfill started; catalog fresh 07:23\n\n## Contributing factors (systemic — not a person)\n| Factor | Type | Why reasonable in the moment |\n| --- | --- | --- |\n| Lag had no alert; only read-errors paged | detection gap | worker had never crash-looped before |\n| Backfill was a manual runbook step | tooling gap | last backfill was 9 months ago |\n| Dead-letter queue had no size alarm | observability gap | queue was assumed self-draining |\n\n## Action items\n| Action | Owner | Due | Failure class removed |\n| --- | --- | --- | --- |\n| Page on index lag > 15m (SLO burn) | @priya | 2026-07-09 | silent staleness |\n| Auto-backfill on worker recovery | @dan | 2026-07-16 | manual-runbook drift |\n| Alarm on dead-letter depth > 100 | @priya | 2026-07-09 | invisible queue fill |\n\n## Reviewer objection + response\n- Objection: \"Is the $14k real or a guess?\" → Response: derived from conversion delta on affected query share; method linked, not asserted.",
+      "code": "# Postmortem — Search index 5h stale (SEV2)\n\n## Impact\n- 5h 12m stale search catalog; ~30% of queries missing recent products; est. conversion loss ~$14k. No data loss.\n- DORA: this is our failed-deployment-recovery event for the quarter (DORA's restore-time key; MTTR is the SRE framing) — detection lag was 4h 40m of the 5h 12m.\n\n## Timeline (UTC)\n- 02:11  Index worker OOM-killed; no page (alert only on read errors, not on lag)\n- 06:51  On-call notices via customer report, not monitoring\n- 07:04  Root of lag found: worker crash-looped, dead-letter queue full\n- 07:38  Worker scaled + backfill started; catalog fresh 07:23\n\n## Contributing factors (systemic — not a person)\n| Factor | Type | Why reasonable in the moment |\n| --- | --- | --- |\n| Lag had no alert; only read-errors paged | detection gap | worker had never crash-looped before |\n| Backfill was a manual runbook step | tooling gap | last backfill was 9 months ago |\n| Dead-letter queue had no size alarm | observability gap | queue was assumed self-draining |\n\n## Action items\n| Action | Owner | Due | Failure class removed |\n| --- | --- | --- | --- |\n| Page on index lag > 15m (SLO burn) | @priya | 2026-07-09 | silent staleness |\n| Auto-backfill on worker recovery | @dan | 2026-07-16 | manual-runbook drift |\n| Alarm on dead-letter depth > 100 | @priya | 2026-07-09 | invisible queue fill |\n\n## Reviewer objection + response\n- Objection: \"Is the $14k real or a guess?\" → Response: derived from conversion delta on affected query share; method linked, not asserted.",
       "steps": [
         {
           "lines": [
@@ -5242,7 +5242,7 @@
             5
           ],
           "label": "Impact in business + SRE terms",
-          "note": "Lead with customer/revenue impact AND the DORA framing (this is your MTTR event). A postmortem that only speaks in stack traces cannot align stakeholders."
+          "note": "Lead with customer/revenue impact AND the DORA framing (this is your failed-deployment-recovery / restore-time event — 'MTTR' is the SRE term for the same thing). A postmortem that only speaks in stack traces cannot align stakeholders."
         },
         {
           "lines": [
@@ -5300,7 +5300,7 @@
           "Timeline is a wall of Slack quotes, no UTC",
           "One factor: the human; investigation stops there",
           "Action items: 'be more careful', 'add tests' (no owner)",
-          "No blast radius, no DORA/MTTR framing",
+          "No blast radius, no DORA restore-time / MTTR framing",
           "Reads as an apology; cannot be inspected"
         ],
         "verdict": "Same class of incident re-fires in weeks"
@@ -5618,7 +5618,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The staff-level tell in incident learning: the DORA / SRE crowd doesn't grade a postmortem by how contrite it is — they grade it by whether the same class of failure can recur. If your repair has no owner map and no re-test trigger, you filed tickets; you didn't repair the system. The minimum expert move is to separate what you directly observed, what you inferred, and what would invalidate the decision — in writing."
+      "text": "The staff-level tell in incident learning: the SRE crowd (and DORA's learning-culture research) doesn't grade a postmortem by how contrite it is — they grade it by whether the same class of failure can recur. (Postmortem grading is an SRE practice; DORA's contribution is the generative/learning-culture finding, not a postmortem rubric.) If your repair has no owner map and no re-test trigger, you filed tickets; you didn't repair the system. The minimum expert move is to separate what you directly observed, what you inferred, and what would invalidate the decision — in writing."
     },
     {
       "type": "quiz",
@@ -5904,7 +5904,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding: the DORA / SRE tell is that a good operating cadence is an inspection loop, not a status ritual. A senior lead proves cadence with artifacts a reviewer can replay — a decision record, an owned risk register, a change-trigger — not with charisma or a full calendar. If your cadence only sounds aligned to people already on your side, it is a campaign; if the person who disagreed with the direction can read the beat's output and agree the plan is on track, it is a cadence."
+      "text": "Standards grounding: the SRE tell (consistent with DORA's generative-culture research) is that a good operating cadence is an inspection loop, not a status ritual. (DORA does not describe operating cadences as inspection loops; that is an SRE/Lean framing.) A senior lead proves cadence with artifacts a reviewer can replay — a decision record, an owned risk register, a change-trigger — not with charisma or a full calendar. If your cadence only sounds aligned to people already on your side, it is a campaign; if the person who disagreed with the direction can read the beat's output and agree the plan is on track, it is a cadence."
     },
     {
       "type": "quiz",

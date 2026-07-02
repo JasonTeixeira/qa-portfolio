@@ -95,7 +95,7 @@ Exit: installable PWA live; store builds submitted.
 |---|---|
 | P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
 | P1 accuracy verification | **✅ DONE (targeted standards pass) — 469/471 standards-claims verified vs primary sources, 261 corrected, re-applied clean + committed (2026-07-02). Deep per-lesson verify remains optional.** |
-| P2 interactivity + labs | CODE-LAB LANE DONE — 100 verified-executable Python labs across 5 courses (CS-foundations, backend, data-eng, ai-eng, qa), each proven by real python3 execution vs check (2026-07-02). REMAINING: runtime-gated courses (frontend→quickjs, databases→sql.js, mobile) + artifact-builder lane for the ~11 judgment/design/leadership/security/product/etc. courses. |
+| P2 interactivity + labs | CODE-LAB LANE DONE (100 labs, 5 courses) + ARTIFACT-BUILDER LANE DONE — interactive composer wired into the sprint-contract block renderer, so EVERY course's sprint-contract lessons gain a live-validated, server-verified, exportable artifact builder with zero re-authoring (2026-07-02). REMAINING: runtime-gated code courses (frontend→quickjs, databases→sql.js, mobile). |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
 

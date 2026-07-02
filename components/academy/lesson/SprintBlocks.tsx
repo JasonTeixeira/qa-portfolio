@@ -4,6 +4,7 @@ import { useState, useTransition, type ReactNode } from 'react'
 import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
+import { ArtifactComposer } from './ArtifactComposer'
 import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
 import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './sprint.module.css'
@@ -58,7 +59,7 @@ function Mono({ code }: { code: string }) {
   return <pre className={styles.code}><code>{code}</code></pre>
 }
 
-function SprintContract({ b }: { b: Extract<LessonBlock, { type: 'sprint-contract' }> }) {
+function SprintContract({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'sprint-contract' }> } & EvidenceProps) {
   const rows: [string, string][] = [
     ['Outcome', b.outcome],
     ['Proof required', b.proof],
@@ -79,6 +80,7 @@ function SprintContract({ b }: { b: Extract<LessonBlock, { type: 'sprint-contrac
         ))}
       </dl>
       {b.doNotClaim ? <p className={styles.doNotClaim}>Don&rsquo;t claim after reading: {b.doNotClaim}</p> : null}
+      <ArtifactComposer proof={b.proof} outcome={b.outcome} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     </section>
   )
 }
@@ -356,7 +358,7 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
 /** Returns a renderer for an engine section block, or null for legacy content blocks. */
 export function SprintBlock({ block, courseSlug, lessonSlug }: { block: LessonBlock } & EvidenceProps): ReactNode {
   switch (block.type) {
-    case 'sprint-contract': return <SprintContract b={block} />
+    case 'sprint-contract': return <SprintContract b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'mission': return <Section blockKey="mission"><p className={styles.missionText}>{block.text}</p></Section>
     case 'context': return <Section blockKey="context"><p className={styles.lead}>{block.text}</p></Section>
     case 'pretest': return <Pretest b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />

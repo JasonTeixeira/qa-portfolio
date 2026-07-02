@@ -4,6 +4,7 @@ import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server
 import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 import type { EvidenceEventType } from '@/lib/academy/evidence-events-logic'
 import type { LessonBlock } from '@/data/academy/sample-course'
+import { deriveRequirements, gradeArtifact } from '@/lib/academy/artifact-logic'
 
 /**
  * Learner-triggered evidence events from the sprint sections (Tier-2 Slice 2).
@@ -123,5 +124,65 @@ export async function verifyLab(
   } catch (err) {
     console.error('[academy/evidence] verifyLab failed', err)
     return { ok: false, verified: false }
+  }
+}
+
+/**
+ * Server-side ARTIFACT verification — the anti-cheat write of record for a produced
+ * sprint-contract deliverable (the non-code analog of verifyLab, for judgment/design/
+ * leadership lessons that have no runnable lab).
+ *
+ * @security The requirements are re-derived HERE from the lesson's own `sprint-contract.proof`
+ * spec (server-held content) and the submitted draft is graded server-side — the client cannot
+ * forge `sprint_artifact_created` by passing a flag. userId is server-derived; payload is empty.
+ * The draft text itself is never stored (privacy); only the earned evidence fact is recorded.
+ */
+export async function verifyArtifact(
+  courseSlug: string,
+  lessonSlug: string,
+  draft: string,
+): Promise<{ ok: boolean; verified: boolean; results: { label: string; met: boolean }[] }> {
+  const sb = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await sb.auth.getUser()
+  if (!user) return { ok: false, verified: false, results: [] }
+
+  try {
+    const admin = supabaseAdmin()
+    const { data: lesson } = await admin
+      .from('academy_lessons')
+      .select('blocks')
+      .eq('course_slug', courseSlug)
+      .eq('slug', lessonSlug)
+      .eq('status', 'published')
+      .maybeSingle()
+
+    const blocks = (lesson?.blocks ?? []) as LessonBlock[]
+    const contract = blocks.find(
+      (b): b is Extract<LessonBlock, { type: 'sprint-contract' }> => b.type === 'sprint-contract',
+    )
+    if (!contract?.proof) return { ok: true, verified: false, results: [] }
+
+    const requirements = deriveRequirements(contract.proof)
+    const grade = gradeArtifact(typeof draft === 'string' ? draft : '', requirements)
+
+    if (grade.ok) {
+      // A produced artifact that covers the contract's required elements = a real sprint
+      // artifact. unitId = lessonSlug (one lesson = one unit). Never stores the draft text.
+      await recordEvidenceEvent({
+        userId: user.id,
+        courseSlug,
+        lessonSlug,
+        unitId: lessonSlug,
+        type: 'sprint_artifact_created',
+        payload: {},
+      })
+    }
+
+    return { ok: true, verified: grade.ok, results: grade.results }
+  } catch (err) {
+    console.error('[academy/evidence] verifyArtifact failed', err)
+    return { ok: false, verified: false, results: [] }
   }
 }

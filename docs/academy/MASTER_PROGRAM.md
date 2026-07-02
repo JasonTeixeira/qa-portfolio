@@ -67,7 +67,8 @@ fail → `collect-labs` (insert before consolidation tail) → `apply-course` �
 | career-programming_cs_foundations | 20 | **20/20** | slice-1 proof. All solutions run + satisfy checks under production semantics; 3-lesson render sweep clean (0 overflow). Applied (303 blocks). Runtime = Pyodide/Python. |
 | career-backend_engineering | 20 | **20/20** | idempotency/exactly-once, auth boundaries, DLQ/retries, rate-limits, contract-testing. All execute + satisfy checks. Render sweep clean. Applied (302 blocks). |
 | career-data_engineering_analytics | 20 | **20/20** | data-contract quality gates, watermark incremental ingestion, dbt-style source contracts, reconcile/incident-response. 1 check healed to real stdout (learner-format lab). Sweep clean. Applied (300 blocks). |
-| ai-eng / qa (Python-native) | — | — | in progress — same engine, this scaling run |
+| career-ai_engineering_rag_eval | 20 | **20/20** | RAG framing gates, grounding/refusal prompt contracts, structured-output validation, LLMOps release gates, eval harnesses. Sweep clean. Applied (300 blocks). |
+| qa_sdet (Python-native) | — | — | in progress — last course this run |
 | frontend / databases / mobile | — | — | RUNTIME-GATED — need quickjs (JS) / sql.js (SQL); Python labs would be forced/hollow. Deferred until runtimes wired. |
 
 ## P3 — TRANSLATION (top world languages)

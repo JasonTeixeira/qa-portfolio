@@ -68,7 +68,8 @@ fail → `collect-labs` (insert before consolidation tail) → `apply-course` �
 | career-backend_engineering | 20 | **20/20** | idempotency/exactly-once, auth boundaries, DLQ/retries, rate-limits, contract-testing. All execute + satisfy checks. Render sweep clean. Applied (302 blocks). |
 | career-data_engineering_analytics | 20 | **20/20** | data-contract quality gates, watermark incremental ingestion, dbt-style source contracts, reconcile/incident-response. 1 check healed to real stdout (learner-format lab). Sweep clean. Applied (300 blocks). |
 | career-ai_engineering_rag_eval | 20 | **20/20** | RAG framing gates, grounding/refusal prompt contracts, structured-output validation, LLMOps release gates, eval harnesses. Sweep clean. Applied (300 blocks). |
-| qa_sdet (Python-native) | — | — | in progress — last course this run |
+| career-qa_sdet_test_automation_engineering | 20 | **20/20** | risk-based test planning (exposure ranking), test-pyramid layer routing, release-confidence gates (retry/triage), defect taxonomy, flaky-test triage. Sweep clean. Applied (300 blocks). |
+| **CODE-LAB TOTAL** | **100** | **100/100** | 5 Python-native courses. Every lab's solution executed with python3 and satisfies its check under verifyLab's exact rule. All render sweeps clean. |
 | frontend / databases / mobile | — | — | RUNTIME-GATED — need quickjs (JS) / sql.js (SQL); Python labs would be forced/hollow. Deferred until runtimes wired. |
 
 ## P3 — TRANSLATION (top world languages)
@@ -94,7 +95,7 @@ Exit: installable PWA live; store builds submitted.
 |---|---|
 | P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
 | P1 accuracy verification | **✅ DONE (targeted standards pass) — 469/471 standards-claims verified vs primary sources, 261 corrected, re-applied clean + committed (2026-07-02). Deep per-lesson verify remains optional.** |
-| P2 interactivity + labs | IN PROGRESS — code-lab engine proven; slice-1 (CS-foundations) 20/20 verified-executable labs applied (2026-07-02). Scaling to other coding courses next; artifact-builders (judgment courses) + more runtimes after. |
+| P2 interactivity + labs | CODE-LAB LANE DONE — 100 verified-executable Python labs across 5 courses (CS-foundations, backend, data-eng, ai-eng, qa), each proven by real python3 execution vs check (2026-07-02). REMAINING: runtime-gated courses (frontend→quickjs, databases→sql.js, mobile) + artifact-builder lane for the ~11 judgment/design/leadership/security/product/etc. courses. |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
 

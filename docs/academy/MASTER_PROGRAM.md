@@ -76,11 +76,16 @@ Exit: installable PWA live; store builds submitted.
 ## Master ledger
 | Program | Status |
 |---|---|
-| P0 complete content (448) | IN PROGRESS — CS-foundations authoring; python-basics next |
-| P1 accuracy verification | POC proven (bug caught + fixed); full run queued after P0 |
-| P2 interactivity + labs | queued |
+| P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
+| P1 accuracy verification | STARTING — harness build + course-by-course run (context7 + OWASP/RFC/MDN) |
+| P2 interactivity + labs | queued (30/448 have labs today) |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
+
+### P1 run ledger (verify all 448 against primary sources)
+| course | verified | wrong-fixed | notes |
+|---|---|---|---|
+| (security_identity) | POC: 3 lessons 82–98 | 1 (403→404) | proof-of-concept done before the full run |
 
 ## Guardrails (unchanged)
 Grounded, never hollow. Verify before translate/ship. Scoped commits, no push. Never fake a

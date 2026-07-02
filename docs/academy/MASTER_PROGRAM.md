@@ -55,6 +55,18 @@ Have: Pyodide + `LabRunner` (27/448 runnable). Build:
 - Clickable/expandable diagrams (SageDiagram node → detail drawer).
 Exit: every lesson has ≥1 real interactive element (lab, artifact-builder, or interactive viz).
 
+### P2 engine + run ledger (code-lab lane)
+Key finding: a runnable lab is **pure block-JSON** — `verifyLab` reads `labBlock.check` server-side
+(never sent to client), so no new API/check-store is needed and Python runs today via Pyodide.
+Engine: `gen-lab-workflow` (author one grounded lab/lesson, throttled waves) → decode HTML entities →
+`gen-verify-labs` (agent returns full solution) → `run-labs-check` (execute with python3, PASS iff
+solution stdout satisfies `check` under verifyLab's exact rule: case-insensitive substring) → fix any
+fail → `collect-labs` (insert before consolidation tail) → `apply-course` → authenticated render sweep.
+| course (code lane) | labs | verified-executable | notes |
+|---|---|---|---|
+| career-programming_cs_foundations | 20 | **20/20** | slice-1 proof. All solutions run + satisfy checks under production semantics; 3-lesson render sweep clean (0 overflow). Applied (303 blocks). Runtime = Pyodide/Python. |
+| backend/frontend/databases/data-eng/ai-eng/mobile/qa | — | — | queued — same engine, Python-expressible labs; SQL(sql.js)/JS(quickjs) runtimes later |
+
 ## P3 — TRANSLATION (top world languages)
 Infra: `scripts/translate-academy.ts` + `i18n:audit` + `i18n:verify`. Translate block
 text/labels/captions + diagram node/edge labels per locale; keep code + structure.
@@ -78,7 +90,7 @@ Exit: installable PWA live; store builds submitted.
 |---|---|
 | P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
 | P1 accuracy verification | **✅ DONE (targeted standards pass) — 469/471 standards-claims verified vs primary sources, 261 corrected, re-applied clean + committed (2026-07-02). Deep per-lesson verify remains optional.** |
-| P2 interactivity + labs | queued (30/448 have labs today) |
+| P2 interactivity + labs | IN PROGRESS — code-lab engine proven; slice-1 (CS-foundations) 20/20 verified-executable labs applied (2026-07-02). Scaling to other coding courses next; artifact-builders (judgment courses) + more runtimes after. |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
 

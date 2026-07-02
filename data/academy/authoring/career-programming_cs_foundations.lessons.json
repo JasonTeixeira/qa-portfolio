@@ -256,6 +256,13 @@
       "explanation": "Only option 2 points to the four things a reviewer inspects: the artifact (test_solution.py), the broken case (a missing-file test that can FAIL), the proof (the pytest transcript), and the repair (behavior changed after adding the handler). 'It printed the right count' (1) and 'works on my machine' (4) are happy-path claims with no failing case; 'has a try/except' (3) shows code, not evidence it behaves."
     },
     {
+      "type": "lab",
+      "title": "Count CSV data rows with DictReader and validate the header",
+      "summary": "Complete count_orders so it counts data rows in a CSV, raises a clear ValueError when the header lacks an 'order_id' column, and a clear FileNotFoundError for a missing path; run it in the browser to print the checked output.",
+      "starter": "import csv\n\n# --- Fixed input data written to the in-memory filesystem ---\n# A well-formed orders file (has an 'order_id' column, 4 data rows).\nGOOD_CSV = \"\"\"order_id,customer,total\n1001,alice,42.50\n1002,bob,19.00\n1003,alice,7.25\n1004,carol,88.10\n\"\"\"\n\n# A malformed file: header is missing the 'order_id' column.\nBAD_CSV = \"\"\"id,customer\n1,alice\n\"\"\"\n\nwith open(\"orders.csv\", \"w\", newline=\"\") as f:\n    f.write(GOOD_CSV)\n\nwith open(\"bad.csv\", \"w\", newline=\"\") as f:\n    f.write(BAD_CSV)\n\n\ndef count_orders(path: str) -> int:\n    \"\"\"Return the number of DATA rows (not counting the header) in a CSV.\n\n    Requirements:\n      - Open `path` and read it with csv.DictReader.\n      - If the header is missing (fieldnames is None) or has no 'order_id'\n        column, raise ValueError with the message:\n            f\"{path}: expected an 'order_id' column\"\n      - If the file does not exist, raise FileNotFoundError with the message:\n            f\"no such file: {path} (check your pwd)\"\n      - Otherwise return the count of data rows.\n    \"\"\"\n    # TODO: implement using a try/except around open(...) with csv.DictReader.\n    raise NotImplementedError\n\n\n# Do not edit below this line.\nprint(count_orders(\"orders.csv\"))\n\ntry:\n    count_orders(\"missing.csv\")\nexcept FileNotFoundError as e:\n    print(f\"FileNotFoundError: {e}\")\n\ntry:\n    count_orders(\"bad.csv\")\nexcept ValueError as e:\n    print(f\"ValueError: {e}\")\n",
+      "check": "4\nFileNotFoundError: no such file: missing.csv (check your pwd)\nValueError: bad.csv: expected an 'order_id' column\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your utility holds — no vibes, run the commands:",
       "items": [
@@ -529,6 +536,13 @@
       ],
       "answer": 1,
       "explanation": "Happy-path output (1) only shows it works when nothing goes wrong — the exact case that never fails in review. Prose (3) and readability (4) are claims, not proof. Only option 2 exercises BOTH exits of the contract: the return value on good input and the raise on bad input. A test that asserts on the output and a pytest.raises that confirms the refusal is the evidence a reviewer trusts."
+    },
+    {
+      "type": "lab",
+      "title": "Write a function that summarizes ticket sales rows",
+      "summary": "Complete the summarize_sales function so it parses \"seller,amount\" rows into a summary dict and prints the result; run it in the browser to check your output.",
+      "starter": "def summarize_sales(rows):\n    \"\"\"rows: list[str] like 'Ada,120'. Each seller appears at most once.\n\n    Return a dict with:\n      'count'   -> number of sellers\n      'total'   -> sum of all amounts (float)\n      'average' -> total / count (float)\n      'top'     -> name of the seller with the highest amount\n\n    Rules (mirror the lesson's parse_grades):\n      - If rows is empty, raise ValueError(\"no rows given\").\n      - Split each row on the first comma using str.partition(\",\").\n      - If a row has no amount after the comma, raise\n        ValueError(f\"missing amount in row: {row!r}\").\n      - Convert amounts with float(...).\n      - Use max(mapping, key=mapping.get) to find the top seller.\n    \"\"\"\n    # TODO: implement this function following the rules above.\n    pass\n\n\nDATA = [\"Ada,120\", \"Grace,95\", \"Linus,200\", \"Ada,120\"]\n\nresult = summarize_sales(DATA)\nprint(\"count:\", result[\"count\"])\nprint(\"total:\", result[\"total\"])\nprint(\"average:\", result[\"average\"])\nprint(\"top:\", result[\"top\"])\n",
+      "check": "count: 3\ntotal: 415.0\naverage: 138.33333333333334\ntop: Linus\n"
     },
     {
       "type": "verification",
@@ -812,6 +826,13 @@
       "explanation": "Type hints (1) and the decorator (3) document shape but enforce nothing at runtime; __repr__ (4) shows values, not validity. Only an executed pytest that shows a bad input RAISING and a good input SUCCEEDING proves the invariant is live — the falsifiable, red-then-green evidence a reviewer can inspect."
     },
     {
+      "type": "lab",
+      "title": "Build a validated frozen Order dataclass and total up a batch",
+      "summary": "Complete a frozen @dataclass with __post_init__ validation and a total property, parse a fixed batch of order dicts, and print each line plus a grand total (run it in the browser).",
+      "starter": "from dataclasses import dataclass\n\n\n# TODO: Complete this frozen dataclass.\n# Requirements:\n#   - fields: sku (str), quantity (int), unit_price (float)\n#   - make it frozen (immutable)\n#   - in __post_init__, validate:\n#       * quantity must be an int (reject bool) -> raise TypeError\n#         message: f\"quantity must be int, got {type(self.quantity).__name__}\"\n#       * quantity must be > 0 -> raise ValueError\n#         message: f\"quantity must be positive, got {self.quantity}\"\n#       * unit_price must be >= 0 -> raise ValueError\n#         message: f\"unit_price must be >= 0, got {self.unit_price}\"\n#   - add a `total` property returning quantity * unit_price\n@dataclass(frozen=True)\nclass Order:\n    sku: str\n    quantity: int\n    unit_price: float\n\n    def __post_init__(self) -> None:\n        ...  # TODO: implement the three validations above\n\n    @property\n    def total(self) -> float:\n        ...  # TODO: return quantity * unit_price\n\n\ndef parse_order(row: dict) -> Order:\n    \"\"\"Build a validated Order from a raw dict; missing keys raise KeyError.\"\"\"\n    # TODO: construct and return an Order from row[\"sku\"], row[\"quantity\"], row[\"unit_price\"]\n    ...\n\n\n# Fixed input data (do not change).\nROWS = [\n    {\"sku\": \"A-100\", \"quantity\": 3, \"unit_price\": 4.50},\n    {\"sku\": \"B-200\", \"quantity\": 10, \"unit_price\": 1.25},\n    {\"sku\": \"C-300\", \"quantity\": 2, \"unit_price\": 12.00},\n]\n\n\ndef main() -> None:\n    orders = [parse_order(r) for r in ROWS]\n    grand_total = 0.0\n    for order in orders:\n        print(f\"{order.sku}: {order.quantity} x {order.unit_price:.2f} = {order.total:.2f}\")\n        grand_total += order.total\n    print(f\"TOTAL: {grand_total:.2f}\")\n\n    # Prove the instance is frozen.\n    try:\n        orders[0].quantity = 99\n    except Exception as exc:\n        print(f\"frozen: {type(exc).__name__}\")\n\n    # Prove validation rejects a bad row.\n    try:\n        parse_order({\"sku\": \"X\", \"quantity\": 0, \"unit_price\": 1.0})\n    except ValueError as exc:\n        print(f\"invalid: {exc}\")\n\n\nif __name__ == \"__main__\":\n    main()\n",
+      "check": "A-100: 3 x 4.50 = 13.50\nB-200: 10 x 1.25 = 12.50\nC-300: 2 x 12.00 = 24.00\nTOTAL: 50.00\nfrozen: FrozenInstanceError\ninvalid: quantity must be positive, got 0\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove the record enforces its shape — no vibes:",
       "items": [
@@ -1052,6 +1073,13 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 exercises the invariant under stress: a duplicate id is the exact failure the set exists to prevent, so a passing assertion on double-submitted revenue is the evidence. Running clean (1) is happy-path; 'sets are unordered' (3) confuses order with uniqueness and doesn't touch the list/dict; docstrings (4) are hygiene, not proof."
+    },
+    {
+      "type": "lab",
+      "title": "Deduplicate orders and tally revenue by customer",
+      "summary": "Complete summarize_orders to dedup order events by id (first occurrence wins, order preserved) and total revenue per customer using a set, list, and dict, then run it in the browser.",
+      "starter": "from collections import defaultdict\n\n# Fixed input data (do not change).\nEVENTS = [\n    {\"id\": 101, \"customer\": \"acme\",  \"amount\": 40.0},\n    {\"id\": 102, \"customer\": \"globex\", \"amount\": 25.0},\n    {\"id\": 101, \"customer\": \"acme\",  \"amount\": 40.0},   # duplicate id, ignore\n    {\"id\": 103, \"customer\": \"acme\",  \"amount\": 10.0},\n    {\"id\": 102, \"customer\": \"globex\", \"amount\": 25.0},  # duplicate id, ignore\n    {\"id\": 104, \"customer\": \"initech\", \"amount\": 5.0},\n]\n\n\ndef summarize_orders(events):\n    \"\"\"Return (ordered_unique_ids, revenue_by_customer).\n\n    Contract:\n      - The first occurrence of each id wins; later duplicates are ignored.\n      - ordered_unique_ids preserves arrival order of first occurrences.\n      - revenue_by_customer sums amount per customer over counted events only.\n    \"\"\"\n    seen = set()\n    ordered_ids = []\n    revenue = defaultdict(float)\n\n    # TODO: iterate over events. Use `seen` (a set) as an O(1) uniqueness\n    # gate: skip an event whose id is already in `seen`. Otherwise record the\n    # id in `seen`, append it to `ordered_ids`, and add its amount to\n    # revenue[e[\"customer\"]]. Return (ordered_ids, dict(revenue)).\n    return ordered_ids, dict(revenue)\n\n\nids, revenue = summarize_orders(EVENTS)\nprint(\"ids:\", ids)\nfor customer in sorted(revenue):\n    print(f\"{customer}: {revenue[customer]:.1f}\")\n",
+      "check": "ids: [101, 102, 103, 104]\nacme: 50.0\nglobex: 25.0\ninitech: 5.0\n"
     },
     {
       "type": "verification",
@@ -1349,6 +1377,13 @@
       "explanation": "Only option 2 is falsifiable proof. `pytest.raises(ValueError)` over a real malformed CSV proves the rejection path fires — the boundary works. A docstring (1) is intent, not evidence; a happy-path screenshot (3) proves nothing about failure; and 'I tested manually' (4) is exactly the unverifiable claim the reviewer challenge exists to catch."
     },
     {
+      "type": "lab",
+      "title": "Parse an orders CSV into typed dicts and total it",
+      "summary": "Complete a parse_orders function that reads an in-memory CSV of orders into typed dicts (int qty, float price) with error handling, then prints each line total and the grand total; run it in the browser.",
+      "starter": "import csv\nimport io\n\n# An orders CSV, embedded as text so the lab is self-contained.\nCSV_TEXT = \"\"\"id,item,qty,price\nA1,widget,3,2.50\nA2,gadget,10,1.10\nA3,gizmo,1,9.99\n\"\"\"\n\n\ndef parse_orders(text: str) -> list[dict]:\n    \"\"\"Read the orders CSV text into a list of typed dicts.\n\n    Each returned dict must look like:\n        {\"id\": str, \"item\": str, \"qty\": int, \"price\": float}\n\n    Rules (from the lesson):\n      - Use csv.DictReader over the CSV text.\n      - .strip() the id, item, qty, and price fields.\n      - If qty or price is empty, raise ValueError.\n      - Convert qty with int(...) and price with float(...).\n    \"\"\"\n    orders: list[dict] = []\n    reader = csv.DictReader(io.StringIO(text))\n    for i, row in enumerate(reader, start=2):  # line 1 is the header\n        # TODO: pull id/item/qty/price from row, strip them,\n        #       validate qty/price are non-empty, convert types,\n        #       and append a typed dict to `orders`.\n        pass\n    return orders\n\n\ndef main() -> None:\n    orders = parse_orders(CSV_TEXT)\n    total = 0.0\n    for o in orders:\n        line = o[\"qty\"] * o[\"price\"]\n        total += line\n        print(f\"{o['id']}: {o['qty']} x {o['price']:.2f} = {line:.2f}\")\n    print(f\"TOTAL: {total:.2f}\")\n\n\nmain()\n",
+      "check": "A1: 3 x 2.50 = 7.50\nA2: 10 x 1.10 = 11.00\nA3: 1 x 9.99 = 9.99\nTOTAL: 28.49\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your utility holds — no vibes:",
       "items": [
@@ -1611,6 +1646,13 @@
         "verdict": "Loud, local, and reviewable"
       },
       "caption": "A bare `except: qty = 0` is the single most expensive line in the mission's 40,000-unit error. The fix is not more caution — it is raising a typed error the caller and the test can both see."
+    },
+    {
+      "type": "lab",
+      "title": "Validate order records with a custom exception",
+      "summary": "Complete a validate_order function that raises a custom OrderError naming the bad field, then run it in the browser over a fixed batch to print the accepted/rejected report.",
+      "starter": "class OrderError(ValueError):\n    \"\"\"Raised when an order record fails validation.\"\"\"\n\n\ndef validate_order(row: dict) -> dict:\n    \"\"\"Contract: row must have 'sku' (str), 'qty' (int > 0), 'price' (float >= 0).\n\n    Return a clean typed dict {\"sku\": str, \"qty\": int, \"price\": float}.\n    Raise OrderError with a message naming the offending field when invalid.\n\n    Required error messages (exact text):\n      - missing fields:  f\"missing fields: {sorted(missing)}\"\n                         where missing = required - row.keys()\n      - qty not int:     f\"qty not an integer: {row['qty']!r}\"\n      - qty <= 0:        f\"qty must be > 0, got {qty}\"\n      - price < 0:       f\"price must be >= 0, got {price}\"\n    \"\"\"\n    required = {\"sku\", \"qty\", \"price\"}\n    # TODO: implement the validation rules above and return the clean dict.\n    raise NotImplementedError\n\n\n# Fixed input batch. Do not modify.\nROWS = [\n    {\"sku\": \"A1\", \"qty\": \"3\", \"price\": \"9.5\"},   # valid (strings coerce)\n    {\"sku\": \"B2\", \"qty\": 0, \"price\": 4.0},        # qty must be > 0\n    {\"qty\": 2, \"price\": 1.0},                     # missing sku\n    {\"sku\": \"C3\", \"qty\": \"x\", \"price\": 1.0},      # qty not an integer\n    {\"sku\": \"D4\", \"qty\": 5, \"price\": -2.0},       # price must be >= 0\n    {\"sku\": \"E5\", \"qty\": 1, \"price\": 0},          # valid\n]\n\nclean = []\nerrors = []\nfor row in ROWS:\n    try:\n        clean.append(validate_order(row))\n    except OrderError as e:\n        errors.append(str(e))\n\nfor rec in clean:\n    print(f\"OK {rec['sku']} qty={rec['qty']} price={rec['price']}\")\nprint(f\"accepted={len(clean)} rejected={len(errors)}\")\nfor msg in errors:\n    print(f\"ERR {msg}\")\n",
+      "check": "OK A1 qty=3 price=9.5\nOK E5 qty=1 price=0.0\naccepted=2 rejected=4\nERR qty must be > 0, got 0\nERR missing fields: ['sku']\nERR qty not an integer: 'x'\nERR price must be >= 0, got -2.0\n"
     },
     {
       "type": "verification",
@@ -1901,6 +1943,13 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 is evidence a reviewer can re-run and that can fail: it exercises input the author did not hand-pick (empty list) and pins that bad input RAISES rather than silently drops (pytest.raises). A one-time screenshot (1), a prose claim (3), and commented source (4) all describe intended behavior — none of them can return 'no'."
+    },
+    {
+      "type": "lab",
+      "title": "Make the parse_orders test suite pass",
+      "summary": "Implement parse_orders so it sums order prices and raises ValueError on bad rows, then run it in the browser to make all four asserted tests pass and print the summary line.",
+      "starter": "\"\"\"Testing basics: make the test suite pass.\n\nThe test harness below encodes four behaviors your function must satisfy:\n  1. It sums the \"price\" field (as a float) across all order rows.\n  2. An empty list totals 0.0.\n  3. A row with no \"price\" key raises ValueError.\n  4. A \"price\" that is not numeric raises ValueError.\n\nImplement parse_orders so every check prints PASS, then the final \"4 passed\".\nDo NOT edit run_tests() or the print loop -- only fill in parse_orders.\n\"\"\"\n\n\ndef parse_orders(rows):\n    # TODO: implement this.\n    # - Return the sum of float(row[\"price\"]) over every row, rounded to 2 decimals.\n    # - Return 0.0 for an empty list.\n    # - Raise ValueError if a row has no \"price\" key.\n    # - Raise ValueError if a row's \"price\" is not a valid number.\n    raise NotImplementedError\n\n\ndef run_tests():\n    results = []\n\n    # test_sums_valid_orders\n    if parse_orders([{\"price\": \"20.00\"}, {\"price\": \"25.50\"}]) == 45.50:\n        results.append(\"PASS test_sums_valid_orders\")\n    else:\n        results.append(\"FAIL test_sums_valid_orders\")\n\n    # test_empty_list_totals_zero\n    if parse_orders([]) == 0.0:\n        results.append(\"PASS test_empty_list_totals_zero\")\n    else:\n        results.append(\"FAIL test_empty_list_totals_zero\")\n\n    # test_row_missing_price_raises\n    try:\n        parse_orders([{\"sku\": \"A1\"}])\n        results.append(\"FAIL test_row_missing_price_raises\")\n    except ValueError:\n        results.append(\"PASS test_row_missing_price_raises\")\n\n    # test_non_numeric_price_raises\n    try:\n        parse_orders([{\"price\": \"free\"}])\n        results.append(\"FAIL test_non_numeric_price_raises\")\n    except ValueError:\n        results.append(\"PASS test_non_numeric_price_raises\")\n\n    return results\n\n\nfor line in run_tests():\n    print(line)\nprint(\"4 passed\")\n",
+      "check": "PASS test_sums_valid_orders\nPASS test_empty_list_totals_zero\nPASS test_row_missing_price_raises\nPASS test_non_numeric_price_raises\n4 passed"
     },
     {
       "type": "verification",
@@ -2209,6 +2258,13 @@
       "explanation": "Complexity is a claim about growth, so the proof is about growth: constant work per step (verified from the structure — a hashed lookup, not a hidden inner scan) plus a measurement across increasing n confirming a linear curve. One fast run (0) proves nothing about scale; a single visible loop (1) can still hide O(n) work per step (like `x in a_list`); a comment (3) is an assertion, not evidence."
     },
     {
+      "type": "lab",
+      "title": "Find the first repeated value in O(n)",
+      "summary": "Complete first_repeated() so it makes ONE pass using a set for O(1) lookups (not a nested O(n squared) scan), then run it in the browser to see the exact output.",
+      "starter": "OPERATION_COUNT = 0\n\n\ndef first_repeated(items):\n    \"\"\"Return the FIRST value that appears a second time, or None if all\n    values are unique.\n\n    Big-O goal: ONE pass over items, O(n) total. Use a set for membership\n    checks (a set lookup is O(1) average, NOT a second scan of the list).\n\n    For every element you look at, increment OPERATION_COUNT by 1 so we can\n    see that the work grows linearly with the input size.\n\n    Do NOT use a nested loop -- that would be O(n squared).\n    \"\"\"\n    global OPERATION_COUNT\n    seen = set()\n    # TODO: loop over items once.\n    #   - increment OPERATION_COUNT by 1 for each element\n    #   - if the element is already in `seen`, return it (the first repeat)\n    #   - otherwise add it to `seen`\n    # After the loop, return None (no repeats found).\n    pass\n\n\nDATA = [4, 8, 15, 16, 23, 8, 42, 4]\n\nif __name__ == \"__main__\":\n    result = first_repeated(DATA)\n    print(f\"first repeated: {result}\")\n    print(f\"operations: {OPERATION_COUNT}\")\n    print(f\"empty case: {first_repeated([])}\")\n",
+      "check": "first repeated: 8\noperations: 6\nempty case: None\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your complexity claim — no vibes:",
       "items": [
@@ -2492,6 +2548,13 @@
       "explanation": "Only option 2 points at the artifact (test_solution.py), the failure cases it covers (empty list → {}, non-list → TypeError), and the proof (pytest transcript). \"It ran once\" (1), \"the library is good\" (3), and \"it looks clean\" (4) are all vibes — none survives the reviewer challenge because none shows a case that could have failed and didn't."
     },
     {
+      "type": "lab",
+      "title": "Tally votes with a frequency map",
+      "summary": "Build count_frequencies to tally a list of vote strings into a {choice: count} map, then print the sorted tallies and the winner; run it in the browser.",
+      "starter": "VOTES = [\n    \"yes\", \"no\", \"yes\", \"abstain\", \"yes\",\n    \"no\", \"yes\", \"abstain\", \"no\", \"yes\",\n    \"yes\", \"no\", \"abstain\", \"yes\", \"no\",\n]\n\n\ndef count_frequencies(items):\n    \"\"\"Return {item: count} for a list of strings.\n\n    Use the dict.get(item, 0) + 1 pattern from the lesson so an\n    unseen item starts at 0 instead of raising KeyError.\n    \"\"\"\n    counts = {}\n    # TODO: loop over items and tally each one into counts using\n    #       counts[item] = counts.get(item, 0) + 1\n    return counts\n\n\nfreqs = count_frequencies(VOTES)\n\n# TODO: print one line per choice as \"choice: count\",\n#       iterating choices in sorted() order.\n\n# TODO: compute the winning choice (highest count) and print\n#       \"winner: <choice>\". Iterate sorted choices so ties break\n#       deterministically toward the alphabetically-first choice.\n",
+      "check": "abstain: 3\nno: 5\nyes: 7\nwinner: yes\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your frequency map holds — no vibes:",
       "items": [
@@ -2736,6 +2799,13 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 exercises the two failure modes the invariant guards: unmatched leftover openers (`return not stack`) and a closing bracket when the stack is empty (`not stack` short-circuit). Options 1 and 4 only confirm the happy path — a broken pop-order could still pass them. Option 3 is eyeballing, not a falsifiable check."
+    },
+    {
+      "type": "lab",
+      "title": "Validate expressions with a stack and schedule jobs with a queue",
+      "summary": "Implement is_balanced (LIFO bracket matching with a stack) and run_jobs (FIFO scheduling with a deque), then run it in the browser to print the results.",
+      "starter": "from collections import deque\n\n# Closing bracket -> the opener it must match.\nPAIRS = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n\n\ndef is_balanced(text: str) -> bool:\n    \"\"\"Return True if every bracket in `text` is correctly nested.\n\n    LIFO rule: a closing bracket must match the MOST RECENT unmatched opener.\n    Use a list as a stack: append() to push an opener, pop() to match a closer.\n    Ignore any non-bracket characters. At the end, the stack must be empty.\n    \"\"\"\n    stack: list[str] = []\n    # TODO: loop over each character in `text`.\n    #   - If it is an opener \"(\", \"[\", or \"{\": push it onto the stack.\n    #   - If it is a closer (a key in PAIRS): the stack must be non-empty AND\n    #     the popped opener must equal PAIRS[closer], otherwise return False.\n    # After the loop, return True only if the stack is empty (no leftover openers).\n    raise NotImplementedError\n\n\ndef run_jobs(jobs: list[str]) -> list[str]:\n    \"\"\"Return the jobs in the order they run.\n\n    FIFO rule: jobs run in arrival order. Load `jobs` into a deque and\n    repeatedly popleft() the head until the queue is empty.\n    \"\"\"\n    q: deque[str] = deque(jobs)\n    order: list[str] = []\n    # TODO: while the queue is non-empty, popleft() the head and append it to `order`.\n    raise NotImplementedError\n\n\n# Fixed, self-contained input data.\nEXPRESSIONS = [\"(a[b]{c})\", \"([)]\", \"{[}\", \"()[]{}\", \"((\"]\nJOBS = [\"build\", \"test\", \"deploy\"]\n\nfor expr in EXPRESSIONS:\n    print(f\"{expr} -> {is_balanced(expr)}\")\n\nprint(\"order:\", \" \".join(run_jobs(JOBS)))\n",
+      "check": "(a[b]{c}) -> True\n([)] -> False\n{[} -> False\n()[]{} -> True\n(( -> False\norder: build test deploy\n"
     },
     {
       "type": "verification",
@@ -3055,6 +3125,13 @@
       "caption": "The window isn’t just faster — it makes the off-by-one and the negative-input failure explicit instead of silent."
     },
     {
+      "type": "lab",
+      "title": "Implement longest_subarray_at_most with a sliding window",
+      "summary": "Complete the sliding-window function that finds the longest contiguous sub-array whose sum stays at or below k, then run it in the browser to print the results for the fixed test cases.",
+      "starter": "def longest_subarray_at_most(nums: list[int], k: int) -> int:\n    \"\"\"Length of the longest contiguous sub-array whose sum is <= k.\n\n    Assumes non-negative integers. Returns 0 for an empty list.\n\n    Use the two-pointer sliding-window technique:\n      - Expand `right` one step at a time, adding nums[right] to a running sum.\n      - While the window sum exceeds k, shrink from the left by subtracting\n        nums[left] and advancing left.\n      - Track the best (largest) valid window width seen so far.\n    \"\"\"\n    if any(n < 0 for n in nums):\n        raise ValueError(\"nums must be non-negative for the sliding window\")\n\n    # TODO: implement the sliding window and return the best window length.\n    # Replace the line below with your solution.\n    best = 0\n    return best\n\n\n# Fixed test cases (do not change these).\ncases = [\n    ([2, 1, 5, 1, 3, 2], 8),\n    ([1, 1, 1, 1, 1], 3),\n    ([10, 2, 3], 5),\n    ([], 5),\n    ([4, 4, 4], 3),\n]\n\nfor nums, k in cases:\n    print(f\"{nums} k={k} -> {longest_subarray_at_most(nums, k)}\")\n",
+      "check": "[2, 1, 5, 1, 3, 2] k=8 -> 3\n[1, 1, 1, 1, 1] k=3 -> 3\n[10, 2, 3] k=5 -> 2\n[] k=5 -> 0\n[4, 4, 4] k=3 -> 0\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove the artifact holds — no vibes, run it:",
       "items": [
@@ -3324,6 +3401,13 @@
       ],
       "answer": 1,
       "explanation": "The middle case (1) passes even for broken bounds, so it proves nothing. The last-index and empty-list cases are exactly where `while lo < hi` vs `<=` and the ±1 diverge: a boundary bug misses the final element or fails to return -1 on []. Testing the boundary is how you show it is not happy-path — the 'smaller than everything' case (4) is good but the last-index case is the sharper off-by-one probe."
+    },
+    {
+      "type": "lab",
+      "title": "Implement binary search and look up targets in a sorted list",
+      "summary": "Complete the binary_search function so it returns the index of a target in a sorted list (or -1 if absent), then run it in the browser to print the lookup results for a fixed set of targets.",
+      "starter": "def binary_search(items: list[int], target: int) -> int:\n    \"\"\"Return the index of target in the sorted list items, or -1 if absent.\n\n    Use the binary-search technique: track a lo/hi window, check the\n    midpoint each iteration, and halve the search range accordingly.\n    \"\"\"\n    # TODO: implement binary search on the sorted list `items`.\n    # Maintain lo and hi bounds, compare items[mid] to target,\n    # and move lo or hi until you find target or the window is empty.\n    raise NotImplementedError\n\n\n# Fixed, already-sorted input data (do not change).\ndata = [2, 5, 8, 12, 16, 23, 38, 45, 56, 72, 91]\ntargets = [23, 2, 91, 16, 7, 100]\n\nfor t in targets:\n    print(f\"{t} -> {binary_search(data, t)}\")\n",
+      "check": "23 -> 5\n2 -> 0\n91 -> 10\n16 -> 4\n7 -> -1\n100 -> -1\n"
     },
     {
       "type": "verification",
@@ -3635,6 +3719,13 @@
       "explanation": "Only option 2 points at the mechanism that holds the invariant: the size cap (push-until-k, then heappushpop) keeps the working set at exactly k across all n items. That is the evidence — not the library name (1), a vibe (3), or a shrug that the output happens to match (4). The reviewer wants the guarantee, not the outcome."
     },
     {
+      "type": "lab",
+      "title": "Implement streaming top-k with a size-k min-heap",
+      "summary": "Complete the top_k function so it returns the k largest values (ascending) from a stream using a size-k min-heap, then run it in the browser to print the four printed results.",
+      "starter": "import heapq\nfrom typing import Iterable, List\n\n\ndef top_k(nums: Iterable[float], k: int) -> List[float]:\n    \"\"\"Return the k largest values, ascending, in O(n log k) time and O(k) memory.\n\n    Strategy (from the lesson): keep a MIN-heap of at most k items. The root is\n    the weakest survivor. While the heap isn't full, push. Once full, only admit\n    a new value if it beats the root -- and do the evict+admit in a single\n    heappushpop. Return the heap contents sorted ascending.\n    \"\"\"\n    if not isinstance(k, int) or k < 0:\n        raise ValueError(f\"k must be a non-negative int, got {k!r}\")\n    if k == 0:\n        return []\n\n    heap: List[float] = []  # size-k MIN-heap; root = smallest kept\n    # TODO: iterate over nums, maintaining a min-heap of at most k items.\n    #   - if the heap has fewer than k items, push x\n    #   - else if x is greater than the current root, use heappushpop\n    # Then return the heap sorted ascending.\n    raise NotImplementedError(\"implement top_k\")\n\n\nSTREAM = [7, 2, 9, 4, 1, 9, 5, 8, 3, 6, 0, 9]\n\nprint(top_k(STREAM, 3))\nprint(top_k(STREAM, 5))\nprint(top_k(STREAM, 0))\nprint(top_k(STREAM, 20))\n",
+      "check": "[9, 9, 9]\n[7, 8, 9, 9, 9]\n[]\n[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9]\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove the artifact — run these, no vibes:",
       "items": [
@@ -3909,6 +4000,13 @@
         "verdict": "Correct, terminating, and proven under a reviewer rubric"
       },
       "caption": "The teaching signal: choosing the traversal that MATCHES the question (BFS=shortest, DFS=reachable) plus a visited set is the difference between an answer that demos and an answer that ships."
+    },
+    {
+      "type": "lab",
+      "title": "Implement BFS shortest-path on an adjacency-list graph",
+      "summary": "Complete the queue-based bfs_shortest_path function so it returns the fewest-hops path between nodes, then run it in the browser to print three routes.",
+      "starter": "from collections import deque\n\n# An undirected social network as an adjacency list.\nnetwork = {\n    \"A\": [\"B\", \"C\"],\n    \"B\": [\"A\", \"D\", \"E\"],\n    \"C\": [\"A\", \"F\"],\n    \"D\": [\"B\"],\n    \"E\": [\"B\", \"F\", \"G\"],\n    \"F\": [\"C\", \"E\", \"G\"],\n    \"G\": [\"E\", \"F\"],\n}\n\n\ndef bfs_shortest_path(graph, start, goal):\n    \"\"\"Return a fewest-hops path start->goal as a list of nodes, or None if\n    unreachable. Use a FIFO queue of paths so the first time you reach `goal`\n    it is guaranteed to be a shortest path.\n    \"\"\"\n    if start not in graph:\n        raise KeyError(f\"start node {start!r} not in graph\")\n    # TODO: implement BFS.\n    #  - queue: a deque seeded with the one-node path [start]\n    #  - visited: a set seeded with {start}\n    #  - while the queue is non-empty, popleft a path, look at its last node;\n    #    if it equals goal, return the path; otherwise enqueue path + [nbr]\n    #    for each unvisited neighbor (marking it visited as you enqueue).\n    #  - return None if the queue empties without reaching goal.\n    return None\n\n\n# Print three routes. Each line: \"<start>-><goal>: n1 n2 ... (k hops)\".\nfor start, goal in [(\"A\", \"G\"), (\"D\", \"F\"), (\"A\", \"A\")]:\n    path = bfs_shortest_path(network, start, goal)\n    print(f\"{start}->{goal}:\", \" \".join(path), f\"({len(path) - 1} hops)\")\n",
+      "check": "A->G: A B E G (3 hops)\nD->F: D B E F (3 hops)\nA->A: A (0 hops)\n"
     },
     {
       "type": "verification",
@@ -4238,6 +4336,13 @@
       "explanation": "Only option 2 points to concrete evidence: the cache line (the DP mechanism), a proof case that only the memoized version can pass (fib(50) instantly), a validated bad input (fib(-1) → ValueError), and the passing pytest transcript. The others are vibes — recursion alone isn't DP, 'Python is fast' explains nothing, and confidence is not proof."
     },
     {
+      "type": "lab",
+      "title": "Solve minimum coin change with dynamic programming",
+      "summary": "Build a bottom-up dynamic-programming function that returns the fewest coins needed to make each target amount, then run it in the browser to print the results.",
+      "starter": "def min_coins(coins: list[int], amount: int) -> int:\n    \"\"\"Return the fewest coins from `coins` that sum to `amount`.\n\n    Like the Fibonacci walkthrough, this problem has OVERLAPPING\n    SUBPROBLEMS: the best way to make `amount` reuses the best way to\n    make smaller amounts. Instead of recomputing them, build a table\n    `dp` where dp[a] = fewest coins to make amount `a`, from a=0 upward.\n\n    Rules:\n      - dp[0] == 0  (zero coins make amount 0)\n      - for each amount a, try every coin c with c <= a:\n            candidate = dp[a - c] + 1\n            keep the smallest candidate\n      - if `amount` is unreachable, return -1\n\n    Coins may be reused any number of times.\n    \"\"\"\n    # Use amount + 1 as an \"infinity\" sentinel (no valid answer can exceed amount).\n    INF = amount + 1\n    dp = [0] + [INF] * amount\n\n    # TODO: fill dp[1..amount] using the recurrence above,\n    # then return dp[amount] (or -1 if it stayed INF).\n    raise NotImplementedError\n\n\ncoins = [1, 3, 4]\nfor amt in [0, 6, 7, 10, 2]:\n    print(f\"amount={amt} -> {min_coins(coins, amt)}\")\n",
+      "check": "amount=0 -> 0\namount=6 -> 2\namount=7 -> 2\namount=10 -> 3\namount=2 -> 2\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your DP artifact holds — no vibes:",
       "items": [
@@ -4492,6 +4597,13 @@
       ],
       "answer": 1,
       "explanation": "The proof is behavior that varies with the environment while the code is fixed: 9001 binds, 'abc' is rejected, and you never touched the source between runs. Merely printing a default (1), the presence of a call (3), or an unrun test (4) do not demonstrate that config actually flows from the environment into the process."
+    },
+    {
+      "type": "lab",
+      "title": "Read and validate PORT and LOG_LEVEL from an env dict",
+      "summary": "Implement two config readers that parse PORT and LOG_LEVEL from a simulated environment dict with defaults and validation, then run it in the browser to print each scenario's result.",
+      "starter": "import os\n\nALLOWED_LEVELS = {\"debug\", \"info\", \"warning\", \"error\"}\n\n\ndef read_port(env: dict) -> int:\n    \"\"\"Return the PORT as an int.\n\n    - Default to \"8080\" when PORT is missing.\n    - Raise ValueError(\"PORT must be an integer, got <raw>\") if it is not an int\n      (use repr of the raw string, e.g. got '80x').\n    - Raise ValueError(\"PORT out of range 1..65535: <port>\") if outside 1..65535.\n    \"\"\"\n    # TODO: implement using env.get(\"PORT\", \"8080\") and int() with try/except\n    raise NotImplementedError\n\n\ndef read_level(env: dict) -> str:\n    \"\"\"Return the LOG_LEVEL, lowercased.\n\n    - Default to \"info\" when LOG_LEVEL is missing.\n    - Raise ValueError(\"LOG_LEVEL invalid: <level>\") if not in ALLOWED_LEVELS\n      (use repr of the offending lowercased level).\n    \"\"\"\n    # TODO: implement using env.get(\"LOG_LEVEL\", \"info\").lower()\n    raise NotImplementedError\n\n\n# Fixed scenarios (do not change) --------------------------------------------\nSCENARIOS = [\n    {},                                    # both default\n    {\"PORT\": \"3000\", \"LOG_LEVEL\": \"DEBUG\"},  # valid, level upper-cased\n    {\"PORT\": \"80x\"},                       # bad port\n    {\"PORT\": \"70000\"},                     # port out of range\n    {\"LOG_LEVEL\": \"trace\"},                # bad level\n]\n\n\ndef describe(env: dict) -> str:\n    try:\n        port = read_port(env)\n        level = read_level(env)\n    except ValueError as exc:\n        return f\"ERROR: {exc}\"\n    return f\"port={port} level={level}\"\n\n\nif __name__ == \"__main__\":\n    for env in SCENARIOS:\n        print(describe(env))\n",
+      "check": "port=8080 level=info\nport=3000 level=debug\nERROR: PORT must be an integer, got '80x'\nERROR: PORT out of range 1..65535: 70000\nERROR: LOG_LEVEL invalid: 'trace'\n"
     },
     {
       "type": "verification",
@@ -4810,6 +4922,13 @@
       "caption": "The one-liner isn't wrong, it's blind. Making the three layers separate is what converts 'it errored' into 'TLS failed because the cert expired 3 days ago.'"
     },
     {
+      "type": "lab",
+      "title": "Parse URLs and TLS certificate expiry dates",
+      "summary": "Complete a check_url function that splits an https URL into host/port and parses a TLS certificate's notAfter field into an expiry date and days-remaining, then run it in the browser.",
+      "starter": "\"\"\"\nHTTP / DNS / TLS basics lab.\n\nIn a real client the certificate comes off a live TLS handshake, but the\nparsing logic is the same offline. Here the certs are hard-coded so the lab\nis self-contained and deterministic. Your job is the pure-Python part the\nlesson showed: pull the host + port out of an https URL with urlparse, and\nturn the cert's `notAfter` string into an expiry date + days remaining.\n\nnotAfter format (RFC-style, same as tls.getpeercert()): \"%b %d %H:%M:%S %Y %Z\"\ne.g. \"Aug 10 23:59:59 2026 GMT\"\n\"\"\"\nfrom datetime import datetime, timezone\nfrom urllib.parse import urlparse\n\n# Fixed \"now\" so the output is deterministic (pretend today is this instant).\nNOW = datetime(2026, 6, 18, tzinfo=timezone.utc)\n\n# (url, cert) pairs. Each cert mimics what tls.getpeercert() returns.\nSITES = [\n    (\"https://example.com/path?q=1\", {\"notAfter\": \"Aug 10 23:59:59 2026 GMT\"}),\n    (\"https://api.internal:8443/v1\", {\"notAfter\": \"Jul 01 00:00:00 2026 GMT\"}),\n    (\"https://shop.example.org\",      {\"notAfter\": \"Jun 20 12:00:00 2026 GMT\"}),\n]\n\nRENEW_THRESHOLD_DAYS = 30\n\n\ndef check_url(url: str, cert: dict) -> tuple:\n    \"\"\"Return (host, port, expires_datetime, days_left) for an https URL.\n\n    - Reject anything that isn't https:// with a hostname (raise ValueError).\n    - port defaults to 443 when the URL has none.\n    - Parse cert[\"notAfter\"] with strptime and treat it as UTC.\n    - days_left = whole days from NOW until expiry.\n    \"\"\"\n    # TODO: implement using urlparse and datetime.strptime\n    raise NotImplementedError\n\n\nfor url, cert in SITES:\n    host, port, expires, days_left = check_url(url, cert)\n    status = \"OK\" if days_left >= RENEW_THRESHOLD_DAYS else \"RENEW\"\n    print(f\"{host}:{port} expires {expires.date().isoformat()} ({days_left}d) [{status}]\")\n",
+      "check": "example.com:443 expires 2026-08-10 (53d) [OK]\napi.internal:8443 expires 2026-07-01 (13d) [RENEW]\nshop.example.org:443 expires 2026-06-20 (2d) [RENEW]\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your utility — no vibes:",
       "items": [
@@ -5100,6 +5219,13 @@
       "explanation": "Only option 2 is evidence: a reproduction test that was red first proves the bug existed on a real input, the traceback frame proves you localized it rather than guessed, and green-after proves the fix works — and the test stays as a regression guard. Code that 'looks right' (1), transient prints (3), and understanding (4) are not proof the behavior changed."
     },
     {
+      "type": "lab",
+      "title": "Fix the missing-key crash in total_revenue",
+      "summary": "Reproduce a KeyError bug with a test, then fix total_revenue to skip rows missing a field, and run it in the browser to print the results.",
+      "starter": "# Debugging loop: reproduce the bug with a test, then fix the code.\n#\n# total_revenue should sum row[\"qty\"] * row[\"price\"] over every row,\n# but skip any row that is missing \"qty\" or \"price\" instead of crashing.\n#\n# The test below reproduces the bug: the second row has no \"price\".\n# Right now total_revenue raises a KeyError on that row (RED).\n# Fix total_revenue so the test passes (GREEN), then the prints run.\n\ndef total_revenue(rows: list[dict]) -> float:\n    \"\"\"Sum row['qty'] * row['price'] across rows. Skip rows missing a field.\"\"\"\n    total = 0.0\n    for row in rows:\n        # TODO: guard against rows missing \"qty\" or \"price\" so this\n        # does not raise KeyError. Skip those rows, then add the rest.\n        total += row[\"qty\"] * row[\"price\"]\n    return total\n\n\ndef test_reproduces_missing_price_bug():\n    rows = [{\"qty\": 2, \"price\": 5.0}, {\"qty\": 3}]  # 2nd row has no \"price\"\n    assert total_revenue(rows) == 10.0  # RED before the guard, GREEN after\n\n\n# Fixed input data (self-contained)\nORDERS = [\n    {\"qty\": 4, \"price\": 2.5},   # 10.0\n    {\"qty\": 3},                 # missing price -> skipped\n    {\"price\": 9.0},             # missing qty   -> skipped\n    {\"qty\": 5, \"price\": 1.5},   # 7.5\n    {\"qty\": 2, \"price\": 10.0},  # 20.0\n]\n\ntest_reproduces_missing_price_bug()\nprint(\"test passed\")\nprint(total_revenue(ORDERS))\n",
+      "check": "test passed\n37.5\n"
+    },
+    {
       "type": "verification",
       "intro": "Prove your loop closed — no vibes:",
       "items": [
@@ -5388,6 +5514,13 @@
         "verdict": "An artifact — a reviewer can sign it"
       },
       "caption": "The gap between them is not more code — it is the validation, the test that exercises the bad path, and the recorded proof."
+    },
+    {
+      "type": "lab",
+      "title": "Build a top-words frequency counter",
+      "summary": "Complete the top_words function to read a text file, tokenize with regex, count with Counter, and rank the most common words, then run it in the browser.",
+      "starter": "from collections import Counter\nfrom pathlib import Path\nimport re\n\n# The lesson's mini-project: build the whole slice end to end.\n# A short product review is written to a real file below, so the\n# file-reading contract from the walkthrough still applies.\nREVIEW_TEXT = \"\"\"The quick brown fox jumps over the lazy dog.\nThe dog was not amused, and the fox did not care.\nQuick, quick! The fox said, jumping over the dog again and again.\"\"\"\n\nPath(\"review.txt\").write_text(REVIEW_TEXT, encoding=\"utf-8\")\n\n\ndef top_words(path: str, n: int = 5) -> list[tuple[str, int]]:\n    \"\"\"Return the n most common words in the file at `path`.\n\n    Contract: path must point to a readable file; n must be >= 1.\n    Raises FileNotFoundError or ValueError on a broken contract.\n    \"\"\"\n    # TODO: implement the mini-project, following the lesson walkthrough:\n    #   1. Guard the contract: raise ValueError if n < 1.\n    #   2. Guard the contract: raise FileNotFoundError if the path\n    #      is not a readable file.\n    #   3. Read the file text and lowercase it.\n    #   4. Tokenize with re.findall(r\"[a-z']+\", text) so punctuation is\n    #      stripped but apostrophes are kept.\n    #   5. Count words with Counter and return counts.most_common(n).\n    raise NotImplementedError(\"implement top_words\")\n\n\n# Print the top 3 words as \"word: count\", one per line.\nfor word, count in top_words(\"review.txt\", 3):\n    print(f\"{word}: {count}\")\n",
+      "check": "the: 6\nquick: 3\nfox: 3\n"
     },
     {
       "type": "verification",
@@ -5686,6 +5819,13 @@
       ],
       "answer": 1,
       "explanation": "Only option 2 is executable evidence of the non-happy path: it drives the malformed-row branch and asserts the utility's promised behavior (skip + count, no crash), with a transcript. A clean-CSV screenshot (1) tests nothing you feared; a docstring (3) or a comment (4) is a claim, not a proof. The reviewer challenge is answered by the broken-case test, not by narration."
+    },
+    {
+      "type": "lab",
+      "title": "Summarize orders: per-product revenue with bad-row skipping",
+      "summary": "Complete summarize_orders so it sums revenue per product from an inline CSV and counts skipped rows, then run it in the browser to print the totals and skip count.",
+      "starter": "import csv\nimport io\n\n# Fixed, self-contained order data (same shape as the lesson's orders CSV).\n# Some rows are intentionally bad: a missing product, a non-numeric price,\n# and a blank price. Your function must skip those and count them.\nCSV_DATA = \"\"\"product,price\nWidget,10.00\nGadget,25.50\nWidget,5.00\n,7.00\nGadget,notaprice\nGizmo,100.00\nWidget,\nGizmo,50.25\n\"\"\"\n\n\ndef summarize_orders(text: str) -> tuple[dict[str, float], int]:\n    \"\"\"Sum revenue per product from CSV text.\n\n    Contract: text -> ({product: total_revenue}, skipped_row_count).\n    Skip (and count) any row that has a missing/blank product OR a\n    non-numeric price. Never raise on a single bad row.\n    \"\"\"\n    totals: dict[str, float] = {}\n    skipped = 0\n    for row in csv.DictReader(io.StringIO(text)):\n        # TODO:\n        #   1. Read and strip the \"product\" field (treat missing as blank).\n        #   2. Try to convert row[\"price\"] to float; on ValueError/KeyError,\n        #      increment skipped and continue.\n        #   3. If the product is blank, increment skipped and continue.\n        #   4. Otherwise add the price into totals[product].\n        pass\n    return totals, skipped\n\n\ntotals, skipped = summarize_orders(CSV_DATA)\nfor product in sorted(totals):\n    print(f\"{product}: {totals[product]:.2f}\")\nprint(f\"skipped: {skipped}\")\n",
+      "check": "Gadget: 25.50\nGizmo: 150.25\nWidget: 15.00\nskipped: 3\n"
     },
     {
       "type": "verification",

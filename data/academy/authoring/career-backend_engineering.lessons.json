@@ -459,38 +459,38 @@
       "subtitle": "The contract as code — schema, invariant, ownership, response. Each line moves a rule out of the handler's head and onto the boundary.",
       "filename": "order_resource.ts",
       "language": "ts",
-      "code": "import { z } from 'zod'\n\n// Request contract: the ONLY shape the outside world may send.\nexport const CreateOrderRequest = z.object({\n  cartId: z.string().uuid(),\n  items: z.array(z.object({\n    sku: z.string().min(1),\n    qty: z.number().int().positive(),\n    unitPrice: z.number().int().nonnegative(), // cents\n  })).min(1),\n  total: z.number().int().nonnegative(),       // cents, client-asserted\n}).strict() // reject unknown fields — no isAdmin smuggling\n\n// Invariant the resource must satisfy before it persists.\nexport function assertOrderInvariant(req: CreateOrderRequest): void {\n  const sum = req.items.reduce((n, i) => n + i.qty * i.unitPrice, 0)\n  if (sum !== req.total) throw new ContractError('total != sum(items)')\n}\n\n// Response contract: what the resource looks like coming back.\nexport const OrderResponse = z.object({\n  id: z.string().uuid(),\n  status: z.enum(['pending', 'paid', 'cancelled']),\n  total: z.number().int().nonnegative(),\n  ownerId: z.string().uuid(),\n  createdAt: z.string().datetime(),\n})",
+      "code": "import { z } from 'zod'\n\n// Request contract: the ONLY shape the outside world may send.\n// Zod 4: z.strictObject() is the idiomatic whitelist (.strict() still works but is deprecated).\nexport const CreateOrderRequest = z.strictObject({\n  cartId: z.string().uuid(),\n  items: z.array(z.object({\n    sku: z.string().min(1),\n    qty: z.number().int().positive(),\n    unitPrice: z.number().int().nonnegative(), // cents\n  })).min(1),\n  total: z.number().int().nonnegative(),       // cents, client-asserted — reject unknown fields, no isAdmin smuggling\n})\n\n// Invariant the resource must satisfy before it persists.\nexport function assertOrderInvariant(req: CreateOrderRequest): void {\n  const sum = req.items.reduce((n, i) => n + i.qty * i.unitPrice, 0)\n  if (sum !== req.total) throw new ContractError('total != sum(items)')\n}\n\n// Response contract: what the resource looks like coming back.\nexport const OrderResponse = z.object({\n  id: z.string().uuid(),\n  status: z.enum(['pending', 'paid', 'cancelled']),\n  total: z.number().int().nonnegative(),\n  ownerId: z.string().uuid(),\n  createdAt: z.iso.datetime(), // Zod 4: ISO datetime lives under z.iso\n})",
       "steps": [
         {
           "lines": [
-            4,
-            11
+            5,
+            13
           ],
           "label": "The request schema",
           "note": "The resource's inbound shape, typed. The client may send these fields and only these — this is the contract, not a suggestion."
         },
         {
           "lines": [
-            12
+            5
           ],
-          "label": ".strict() — the field whitelist",
-          "note": "Reject unknown fields. Without this, a client can append isAdmin: true or ownerId: <someone-else> and you'd silently persist it. This single call closes a mass-assignment hole (OWASP API3)."
+          "label": "z.strictObject() — the field whitelist",
+          "note": "Reject unknown fields. Without this, a client can append isAdmin: true or ownerId: <someone-else> and you'd silently persist it. In Zod 4 the idiomatic form is z.strictObject({...}); the older z.object({...}).strict() still works but is deprecated. Either way, this closes a mass-assignment hole (OWASP API3)."
         },
         {
           "lines": [
-            15,
-            18
+            16,
+            19
           ],
           "label": "The invariant",
           "note": "A resource is more than its types: total must equal the sum of line items. Types can't express this; the invariant function can. A test that can only confirm the happy path never catches a tampered total — this can."
         },
         {
           "lines": [
-            21,
-            27
+            22,
+            28
           ],
           "label": "The response contract",
-          "note": "What the resource looks like coming back — including ownerId, set by the server, never by the client. The outbound shape is part of the model, not an afterthought."
+          "note": "What the resource looks like coming back — including ownerId, set by the server, never by the client. The outbound shape is part of the model, not an afterthought. (Zod 4: the ISO timestamp uses z.iso.datetime().)"
         }
       ],
       "caption": "A reviewer should read these declarations and send a request with a mismatched total or an extra field — and predict the exact rejection before running anything."
@@ -516,7 +516,7 @@
         "label": "Modeled resource (contract + boundary)",
         "tone": "success",
         "lines": [
-          "Parse → .strict() schema rejects unknown fields",
+          "Parse → strict schema (z.strictObject) rejects unknown fields",
           "assertOrderInvariant: total == sum(items)",
           "Authorize: caller may create for THIS cart",
           "ownerId set by server from the session, never the body",
@@ -548,7 +548,7 @@
       "type": "verification",
       "intro": "Prove your resource model holds — under bad input, not good:",
       "items": [
-        "Contract test: send a request with an extra field the schema doesn't list. It must be rejected (422), not silently dropped or persisted — that proves .strict() closed mass-assignment.",
+        "Contract test: send a request with an extra field the schema doesn't list. It must be rejected (422), not silently dropped or persisted — that proves the strict schema (z.strictObject) closed mass-assignment.",
         "Integrity test: send items whose quantities×prices do not equal total. The invariant must reject it before any write reaches the store.",
         "Authorization test: as caller B, attempt to create a resource owned by caller A. It must return 403, and no row may be written — proves the auth boundary, not just the schema.",
         "Idempotency replay: send the same create request twice with the same idempotency key. The second must return the first order, not create a duplicate — proves the exactly-once invariant the mission's double-click broke.",
@@ -2911,7 +2911,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they design for at-least-once, never exactly-once. True exactly-once delivery across a network is effectively impossible — so the discipline is to make every worker idempotent and let the queue redeliver freely. 'I'll just make sure it only fires once' is the sentence that precedes every double-charge incident. (OWASP API Top 10 flags the same class under unrestricted resource consumption + improper inventory of async side effects.)"
+      "text": "The senior tell: they design for at-least-once, never exactly-once. True exactly-once delivery across a network is effectively impossible (Two Generals Problem) — so make every worker idempotent and let the queue redeliver freely. 'I'll just make sure it only fires once' is the sentence that precedes every double-charge incident. A double-charge is a data-integrity / idempotency failure, not something the OWASP API Top 10 names directly."
     },
     {
       "type": "quiz",
@@ -3213,7 +3213,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from OWASP API Top 10 and DORA: a poison message must FAIL LOUDLY, not silently retry. A DLQ with the payload and the failure reason is operator evidence — it converts '3 a.m. mystery' into 'here is the exact message that broke and why.' A worker that swallows permanent failures is not resilient; it is hiding the incident until it is bigger."
+      "text": "The senior tell from reliability engineering (AWS SQS dead-letter queues, the Enterprise Integration Patterns 'Dead Letter Channel', general SRE practice): a poison message must FAIL LOUDLY, not silently retry. A DLQ with the payload and the failure reason is operator evidence — it converts '3 a.m. mystery' into 'here is the exact message that broke and why.' A worker that swallows permanent failures is not resilient; it is hiding the incident until it is bigger."
     },
     {
       "type": "quiz",
@@ -3537,7 +3537,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (OWASP API Top 10 / DORA): the most common production failure here is OWASP API4 'Unrestricted Resource Consumption' via retried writes — a command without an idempotency key turns every client timeout into duplicate state changes. The senior tell, and a DORA change-failure-rate lever: the auth boundary lives on the COMMAND (one place to check 'who may ask'), never on the event — facts are not authorized, they simply happened."
+      "text": "Standards grounding: the most common production failure here is a retried write without an idempotency key — a command that turns every client timeout into duplicate state changes (duplicate charge). That is a business-logic idempotency flaw; the retry *volume* itself can separately trip OWASP API4:2023 'Unrestricted Resource Consumption', but the duplicate-charge harm is an idempotency defect, not a resource-consumption one. The senior tell, and a DORA change-failure-rate lever: the auth boundary lives on the COMMAND (one place to check 'who may ask'), never on the event — facts are not authorized, they simply happened."
     },
     {
       "type": "quiz",
@@ -3596,7 +3596,7 @@
     },
     {
       "type": "mission",
-      "text": "3 a.m. page: \"checkout is failing for some users.\" One engineer greps a million lines of \"Error: something went wrong\" and finds nothing. The other pastes the customer's request ID into the log search, watches the request flow gateway → orders → payment → 502 from a downstream timeout, and ships the fix before the first finishes scrolling."
+      "text": "3 a.m. page: \"checkout is failing for some users.\" One engineer greps a million lines of \"Error: something went wrong\" and finds nothing. The other pastes the customer's request ID into the log search, watches the request flow gateway → orders → payment → 504 from a downstream timeout, and ships the fix before the first finishes scrolling."
     },
     {
       "type": "context",
@@ -3615,7 +3615,7 @@
     {
       "type": "diagram",
       "title": "How a request ID flows — and the trace/log view it unlocks",
-      "subtitle": "A request enters at the gateway, gets (or keeps) an X-Request-ID, and that ID is bound to the log context and forwarded on every downstream call. The failure path: a downstream 502 is logged WITH the id; the metrics pipeline counts it as an error and records its duration.",
+      "subtitle": "A request enters at the gateway, gets (or keeps) an X-Request-ID, and that ID is bound to the log context and forwarded on every downstream call. The failure path: a downstream 504 (gateway timeout) is logged WITH the id; the metrics pipeline counts it as an error and records its duration.",
       "rankdir": "LR",
       "nodes": [
         {
@@ -3684,7 +3684,7 @@
         {
           "from": "payment",
           "to": "handler",
-          "label": "502 timeout",
+          "label": "504 timeout",
           "kind": "sync",
           "tone": "warning"
         },
@@ -3710,7 +3710,7 @@
         },
         {
           "tone": "warning",
-          "label": "failure path (downstream 502)"
+          "label": "failure path (downstream 504)"
         },
         {
           "tone": "success",
@@ -3817,7 +3817,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in DORA and the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — observability data leaks are an OWASP API issue (excessive data exposure), and request IDs exist precisely so you can correlate without logging the sensitive payload."
+      "text": "The senior tell, grounded in DORA and the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — logging secrets/PII is a security-misconfiguration / sensitive-data-in-logs risk (OWASP API8:2023 Security Misconfiguration; general OWASP A09:2021 Security Logging and Monitoring Failures), and request IDs exist precisely so you can correlate without logging the sensitive payload."
     },
     {
       "type": "quiz",
@@ -3838,7 +3838,7 @@
         "Fire a request, grab the returned X-Request-ID, and query your logs for it — you get exactly that request's lines, in structured (parseable) form, and nothing else.",
         "Make a downstream call inside the handler and confirm the SAME request_id appears in the downstream service's logs — the id propagated, it did not die at your boundary.",
         "Hit the metrics endpoint and confirm three things exist: a request rate, an error count you can filter by status>=500, and a latency histogram with a real p99 — RED, not a bare counter.",
-        "Force a failure (e.g. downstream timeout) and confirm the error log line carries the request_id AND the error counter increments — the failure is attributable.",
+        "Force a failure (e.g. downstream timeout → 504) and confirm the error log line carries the request_id AND the error counter increments — the failure is attributable.",
         "Grep your logs for a token, password, or card number and confirm none leak — you correlate by request_id, not by logging the sensitive payload."
       ]
     },

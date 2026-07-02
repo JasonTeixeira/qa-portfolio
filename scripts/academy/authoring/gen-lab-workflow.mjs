@@ -12,8 +12,9 @@
 
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const [courseSlug] = process.argv.slice(2)
-if (!courseSlug) { console.error('usage: gen-lab-workflow.mjs <courseSlug>'); process.exit(2) }
+const [courseSlug, chunkArg] = process.argv.slice(2)
+if (!courseSlug) { console.error('usage: gen-lab-workflow.mjs <courseSlug> [chunkSize]'); process.exit(2) }
+const CHUNK = Number(chunkArg) || 5 // throttle: run this many agents per wave to coexist with other processes
 
 const jsonPath = `data/academy/authoring/${courseSlug}.lessons.json`
 const course = JSON.parse(readFileSync(jsonPath, 'utf8'))
@@ -70,7 +71,14 @@ const promptFor = (lesson) => 'You are authoring ONE runnable, self-checking Pyt
   '- Prefer printing a concrete computed answer over interactive I/O. If you must read input(), provide stdin (newline-separated) and make check reflect the resulting output.\\n' +
   '- Verify mentally: does the intended solution, run on the starter, print check EXACTLY? State that solution in solutionNote.\\n\\n' +
   'Return via StructuredOutput: slug="' + lesson.slug + '", title, summary, starter, check, stdin (if used), solutionNote.'
-const results = await parallel(LESSONS.map((l) => () => agent(promptFor(l), { label: 'lab:' + l.slug, phase: 'Author', schema: SCHEMA }).catch(() => null)))
+const CHUNK = ${CHUNK} // throttled waves to coexist with the concurrent design process
+const results = []
+for (let i = 0; i < LESSONS.length; i += CHUNK) {
+  const wave = LESSONS.slice(i, i + CHUNK)
+  const r = await parallel(wave.map((l) => () => agent(promptFor(l), { label: 'lab:' + l.slug, phase: 'Author', schema: SCHEMA }).catch(() => null)))
+  results.push(...r)
+  log('wave ' + (Math.floor(i / CHUNK) + 1) + ': ' + r.filter(Boolean).length + '/' + wave.length + ' authored')
+}
 const ok = results.filter(Boolean)
 return { course: COURSE, needed: LESSONS.length, authored: ok.length, labs: ok }
 `

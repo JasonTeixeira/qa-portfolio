@@ -6,40 +6,17 @@ import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { verifyLab } from '@/app/academy/_actions/evidence'
 import { useSound } from '@/hooks/useSound'
 import { Icon } from '@/components/academy/ui/Icon'
+import { loadRuntime, normalizeLanguage, RUNTIME_LABEL, RUNTIME_FILE, type LabRuntime } from './runtimes'
 import styles from './lab.module.css'
 
-const PYODIDE_VERSION = '0.26.4'
-const PYODIDE_BASE = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`
-
-declare global {
-  interface Window {
-    loadPyodide?: (opts: { indexURL: string }) => Promise<any>
-  }
-}
-
 type Status = 'loading' | 'ready' | 'running' | 'error'
-
-// Override builtins.input to read from a learner-invisible stdin buffer passed via
-// Pyodide globals (DATA, never interpolated into source — no injection). Re-run each
-// time so the read position resets. input() returns '' at EOF, matching a real prompt
-// with no more input. The prompt argument is intentionally NOT echoed to stdout
-// (Python's input() prompt doesn't go to stdout), so lab `check` strings stay exact.
-const STDIN_PREAMBLE = `
-import builtins as __b__
-__lab_lines__ = list(__lab_stdin_lines__)
-__lab_pos__ = [0]
-def __lab_input__(prompt=''):
-    i = __lab_pos__[0]
-    __lab_pos__[0] = i + 1
-    return __lab_lines__[i] if i < len(__lab_lines__) else ''
-__b__.input = __lab_input__
-`
 
 export function LabRunner({
   title,
   summary,
   starter,
   stdin,
+  language,
   hasCheck,
   backHref,
   courseSlug,
@@ -49,11 +26,13 @@ export function LabRunner({
   summary: string
   starter: string
   stdin?: string
+  language?: string
   hasCheck?: boolean
   backHref: string
   courseSlug: string
   lessonSlug: string
 }) {
+  const lang = normalizeLanguage(language)
   const [code, setCode] = useState(starter)
   const [output, setOutput] = useState<string | null>(null)
   const [status, setStatus] = useState<Status>('loading')
@@ -63,7 +42,7 @@ export function LabRunner({
   const [completed, setCompleted] = useState(false)
   const [completing, startComplete] = useTransition()
   const { play } = useSound()
-  const pyodideRef = useRef<any>(null)
+  const runtimeRef = useRef<LabRuntime | null>(null)
   // The exact stdout buffer from the most recent run — submitted to the server so
   // it can verify the lab against the server-held `check` string. The expected
   // value never reaches the client.
@@ -73,18 +52,9 @@ export function LabRunner({
     let cancelled = false
     async function boot() {
       try {
-        if (!window.loadPyodide) {
-          await new Promise<void>((resolve, reject) => {
-            const s = document.createElement('script')
-            s.src = `${PYODIDE_BASE}pyodide.js`
-            s.onload = () => resolve()
-            s.onerror = () => reject(new Error('Failed to load Python runtime'))
-            document.head.appendChild(s)
-          })
-        }
-        const py = await window.loadPyodide!({ indexURL: PYODIDE_BASE })
+        const rt = await loadRuntime(lang)
         if (cancelled) return
-        pyodideRef.current = py
+        runtimeRef.current = rt
         setStatus('ready')
       } catch {
         if (!cancelled) setStatus('error')
@@ -92,28 +62,19 @@ export function LabRunner({
     }
     boot()
     return () => { cancelled = true }
-  }, [])
+  }, [lang])
 
   const run = async () => {
-    const py = pyodideRef.current
-    if (!py || status === 'running') return
+    const rt = runtimeRef.current
+    if (!rt || status === 'running') return
     setStatus('running')
     let buf = ''
-    py.setStdout({ batched: (s: string) => (buf += s + '\n') })
-    py.setStderr({ batched: (s: string) => (buf += s + '\n') })
     try {
-      // Interactive labs: feed a predefined stdin to input() so lessons can teach
-      // input-driven programs and verify them deterministically (the buffer is data
-      // in a Pyodide global; the preamble overrides input() before the learner code).
-      if (stdin != null) {
-        py.globals.set('__lab_stdin_lines__', stdin.split('\n'))
-        await py.runPythonAsync(STDIN_PREAMBLE)
-      }
-      await py.runPythonAsync(code)
+      buf = await rt.run(code, stdin)
       setOutput(buf.length ? buf : '(ran with no output)')
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e)
-      setOutput((buf ? buf + '\n' : '') + msg)
+      setOutput(msg)
       buf = ''
     }
     // Capture the stdout for server-side verification. Running fresh code
@@ -167,7 +128,7 @@ export function LabRunner({
         <span className={styles.kbdHint} aria-hidden="true"><kbd>⌘</kbd><kbd>↵</kbd> run</span>
         <button type="button" className={styles.reset} onClick={() => { setCode(starter); setOutput(null); setPassed(false); lastOutputRef.current = '' }}>Reset</button>
         <button type="button" className={styles.run} onClick={run} disabled={!runnable} aria-keyshortcuts="Meta+Enter Control+Enter">
-          {status === 'loading' ? 'Loading Python…' : status === 'running' ? 'Running…' : (<><Icon name="play" size={14} /> Run</>)}
+          {status === 'loading' ? `Loading ${RUNTIME_LABEL[lang]}…` : status === 'running' ? 'Running…' : (<><Icon name="play" size={14} /> Run</>)}
         </button>
       </header>
 
@@ -202,21 +163,21 @@ export function LabRunner({
 
       <div className={styles.grid}>
         <section className={styles.editorPane} aria-label="Code editor">
-          <div className={styles.paneBar}><span className={styles.dots}><i /><i /><i /></span><span className={styles.fileName}>main.py</span></div>
-          <textarea className={styles.editor} value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={onEditorKeyDown} spellCheck={false} autoCapitalize="off" autoCorrect="off" aria-label="Python code" />
+          <div className={styles.paneBar}><span className={styles.dots}><i /><i /><i /></span><span className={styles.fileName}>{RUNTIME_FILE[lang]}</span></div>
+          <textarea className={styles.editor} value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={onEditorKeyDown} spellCheck={false} autoCapitalize="off" autoCorrect="off" aria-label={`${RUNTIME_LABEL[lang]} code`} />
         </section>
         <section className={styles.outputPane} aria-label="Output">
           <div className={styles.paneBar}><span className={styles.outLabel}><Icon name="chevron-right" size={13} /> output</span>
             {status === 'error' ? <span className={styles.errTag}>runtime failed to load</span> : null}
           </div>
           <pre className={styles.output} data-empty={status !== 'error' && output == null ? 'true' : undefined} role="status" aria-live="polite">
-            {status === 'error' ? 'Could not load the Python runtime. Check your connection and reload.'
+            {status === 'error' ? `Could not load the ${RUNTIME_LABEL[lang]} runtime. Check your connection and reload.`
               : output != null ? output
               : (
                 <span className={styles.outEmpty}>
                   <span className={styles.outEmptyMark} aria-hidden="true"><Icon name="play" size={18} /></span>
                   <span className={styles.outEmptyLine}>
-                    {status === 'loading' ? 'Booting the Python runtime…' : 'Press Run to execute your code.'}
+                    {status === 'loading' ? `Booting the ${RUNTIME_LABEL[lang]} runtime…` : 'Press Run to execute your code.'}
                   </span>
                 </span>
               )}

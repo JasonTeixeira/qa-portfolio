@@ -33,6 +33,7 @@ for (const lab of labs) {
   if (blocks.some((b) => b.type === 'lab')) { skipped++; report.push(`skip ${lab.slug} (already has lab)`); continue }
   const block = { type: 'lab', title: lab.title, summary: lab.summary, starter: lab.starter, check: lab.check }
   if (lab.stdin != null && String(lab.stdin).length) block.stdin = lab.stdin
+  if (lab.language && lab.language !== 'python') block.language = lab.language
   const at = blocks.findIndex((b) => TAIL.has(b.type))
   if (at === -1) blocks.push(block)
   else blocks.splice(at, 0, block)

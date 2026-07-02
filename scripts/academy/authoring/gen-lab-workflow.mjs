@@ -12,9 +12,23 @@
 
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const [courseSlug, chunkArg] = process.argv.slice(2)
-if (!courseSlug) { console.error('usage: gen-lab-workflow.mjs <courseSlug> [chunkSize]'); process.exit(2) }
+// usage: gen-lab-workflow.mjs <courseSlug> [language=python|sql|js] [chunkSize]
+// language arg is optional + order-flexible (a bare number is read as chunkSize, language=python)
+const [courseSlug, a2, a3] = process.argv.slice(2)
+if (!courseSlug) { console.error('usage: gen-lab-workflow.mjs <courseSlug> [language] [chunkSize]'); process.exit(2) }
+const LANGS = { sql: 'sql', js: 'js', ts: 'js', python: 'python' }
+let language = 'python', chunkArg
+if (a2 && LANGS[a2.toLowerCase()]) { language = LANGS[a2.toLowerCase()]; chunkArg = a3 } else { chunkArg = a2 }
 const CHUNK = Number(chunkArg) || 5 // throttle: run this many agents per wave to coexist with other processes
+
+const LANG_LABEL = { python: 'Python', sql: 'SQL', js: 'JavaScript' }[language]
+// Per-language execution + output-format contract. The `check` MUST match the runtime output
+// byte-for-byte (components/academy/lab/runtimes.ts + run-labs-check.mjs), else the lab can't verify.
+const LANG_GUIDE = {
+  python: 'The lab runs in-browser via Pyodide (Python 3). starter: imports + a clearly-marked TODO skeleton; a runnable file (a stub that prints a placeholder or nothing is fine). check: the EXACT full stdout a correct solution prints (Python input() prompts do NOT reach stdout). If it reads input(), provide stdin (newline-separated) and reflect it in check.',
+  sql: 'The lab is ONE SQL script run against a FRESH in-memory SQLite database (sql.js) — SQLite dialect only, no network/attached files. starter: CREATE TABLE + INSERT fixed inline seed data for a realistic scenario, then a clearly-marked TODO comment where the learner writes the query. check: the final query result set formatted as the column-name header row then one line per row, cells joined by " | " (e.g. "name | total" then "Ada | 415"). You MUST use ORDER BY so row order is deterministic. Keep the result small. NULL renders as an empty string. Do NOT set stdin.',
+  js: 'The lab is JavaScript in a sandboxed Web Worker (no DOM/window/network; standard ES2022). Output is via console.log ONLY: each console.log(...args) prints its args joined by a single space, objects/arrays JSON.stringified (console.log("n=",3) -> "n= 3"; console.log({ok:true}) -> \'{"ok":true}\'). starter: fixed inline data + a clear TODO; the tail console.logs the results. check: the EXACT console.log output, one line per call. Do NOT set stdin.',
+}[language]
 
 const jsonPath = `data/academy/authoring/${courseSlug}.lessons.json`
 const course = JSON.parse(readFileSync(jsonPath, 'utf8'))
@@ -43,34 +57,37 @@ const todo = lessons.filter((l) => !l.hasLab)
 
 const script = `export const meta = {
   name: 'lab-${courseSlug}',
-  description: 'Author runnable Python labs for ${courseSlug} (${todo.length} lessons need one)',
-  phases: [{ title: 'Author', detail: 'one grounded lab per lesson' }],
+  description: 'Author runnable ${LANG_LABEL} labs for ${courseSlug} (${todo.length} lessons need one)',
+  phases: [{ title: 'Author', detail: 'one grounded ${LANG_LABEL} lab per lesson' }],
 }
 phase('Author')
 const COURSE = ${JSON.stringify(courseSlug)}
+const LANGUAGE = ${JSON.stringify(language)}
+const LANG_LABEL = ${JSON.stringify(LANG_LABEL)}
+const LANG_GUIDE = ${JSON.stringify(LANG_GUIDE)}
 const LESSONS = ${JSON.stringify(todo)}
 const SCHEMA = {
   type: 'object', additionalProperties: false,
   required: ['slug', 'title', 'summary', 'starter', 'check'],
   properties: {
     slug: { type: 'string' },
-    title: { type: 'string', description: 'the lab task, imperative (e.g. "Implement binary search")' },
+    title: { type: 'string', description: 'the lab task, imperative' },
     summary: { type: 'string', description: 'one sentence: what to build + that they run it in the browser' },
-    starter: { type: 'string', description: 'Python starter: imports + a clear TODO skeleton the learner completes; must be a runnable file (a stub that prints nothing or a placeholder is fine)' },
-    check: { type: 'string', description: 'the EXACT, complete stdout a CORRECT solution prints — deterministic, no trailing prompt text. This is compared verbatim server-side.' },
-    stdin: { type: 'string', description: 'optional newline-separated stdin if the lab uses input(); omit if none' },
+    starter: { type: 'string', description: LANG_LABEL + ' starter: a clearly-marked TODO skeleton the learner completes; runnable/self-contained with fixed inline data' },
+    check: { type: 'string', description: 'the EXACT output a CORRECT solution produces, in the format the runtime prints. Compared server-side (case-insensitive substring). Deterministic.' },
+    stdin: { type: 'string', description: 'Python only: optional newline-separated stdin if the lab uses input(); omit otherwise' },
     solutionNote: { type: 'string', description: 'one line: the intended correct solution, so a reviewer can confirm starter+check are consistent' },
   },
 }
-const promptFor = (lesson) => 'You are authoring ONE runnable, self-checking Python lab for an academy lesson. The lab runs in-browser via Pyodide (Python 3 only). It must be SOLVABLE from the starter plus what the lesson taught, and DETERMINISTIC (same output every run).\\n\\n' +
+const promptFor = (lesson) => 'You are authoring ONE runnable, self-checking ' + LANG_LABEL + ' lab for an academy lesson. It must be SOLVABLE from the starter plus what the lesson taught, and DETERMINISTIC (same output every run).\\n\\n' +
+  'RUNTIME + OUTPUT CONTRACT (the check MUST match this exactly): ' + LANG_GUIDE + '\\n\\n' +
   'LESSON: ' + lesson.slug + ' (course ' + COURSE + ')\\nWHAT THE LESSON TAUGHT:\\n' + lesson.ctx + '\\n\\n' +
   'DESIGN THE LAB:\\n' +
   '- The task must exercise THIS lesson\\'s core concept (not a generic warm-up).\\n' +
-  '- starter: a runnable Python file with imports and a clearly-marked TODO the learner fills in. Include any fixed input data inline so the lab is self-contained. The starter itself may print a placeholder or nothing.\\n' +
-  '- check: the EXACT full stdout that a CORRECT completed solution prints — every line, verbatim, no extra prompt text (Python input() prompts do not reach stdout). It is compared byte-for-byte server-side. Keep output small and unambiguous (e.g. print a computed result, or a few asserted lines).\\n' +
-  '- Prefer printing a concrete computed answer over interactive I/O. If you must read input(), provide stdin (newline-separated) and make check reflect the resulting output.\\n' +
-  '- Verify mentally: does the intended solution, run on the starter, print check EXACTLY? State that solution in solutionNote.\\n\\n' +
-  'Return via StructuredOutput: slug="' + lesson.slug + '", title, summary, starter, check, stdin (if used), solutionNote.'
+  '- starter: self-contained with fixed inline data and a clearly-marked TODO the learner fills in.\\n' +
+  '- check: the EXACT output a CORRECT completed solution produces, in the runtime output format above. Keep it small and unambiguous.\\n' +
+  '- Verify mentally: does the intended solution, run on the starter, produce check EXACTLY (in the specified format)? State that solution in solutionNote.\\n\\n' +
+  'Return via StructuredOutput: slug="' + lesson.slug + '", title, summary, starter, check, stdin (Python only, if used), solutionNote.'
 const CHUNK = ${CHUNK} // throttled waves to coexist with the concurrent design process
 const results = []
 for (let i = 0; i < LESSONS.length; i += CHUNK) {
@@ -79,7 +96,8 @@ for (let i = 0; i < LESSONS.length; i += CHUNK) {
   results.push(...r)
   log('wave ' + (Math.floor(i / CHUNK) + 1) + ': ' + r.filter(Boolean).length + '/' + wave.length + ' authored')
 }
-const ok = results.filter(Boolean)
+// stamp the language on every lab so collect-labs / LabRunner / run-labs-check route correctly
+const ok = results.filter(Boolean).map((l) => ({ ...l, language: LANGUAGE }))
 return { course: COURSE, needed: LESSONS.length, authored: ok.length, labs: ok }
 `
 const outPath = `/tmp/lab-${courseSlug}.wf.js`

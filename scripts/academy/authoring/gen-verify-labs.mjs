@@ -13,9 +13,15 @@ const [inPath, chunkArg] = process.argv.slice(2)
 if (!inPath) { console.error('usage: gen-verify-labs.mjs <labs-result.json> [chunkSize]'); process.exit(2) }
 const CHUNK = Number(chunkArg) || 5
 
+const normLang = (l) => { const s = (l ?? '').toLowerCase(); return s === 'sql' ? 'sql' : (['js', 'ts', 'javascript', 'typescript'].includes(s) ? 'js' : 'python') }
+const LANG_RUN = {
+  python: 'plain CPython 3 (no external packages)',
+  sql: 'a fresh in-memory SQLite database (SQLite dialect). Output = the final query result set: the column-name header row then one line per row, cells joined by " | ", rows in the query ORDER BY order.',
+  js: 'a sandboxed JS worker (ES2022, no DOM/network). Output = console.log lines; each console.log(...args) prints args joined by a space, objects JSON.stringified.',
+}
 const r = JSON.parse(readFileSync(inPath, 'utf8'))
 const course = r.course
-const labs = (r.labs ?? []).map((l) => ({ slug: l.slug, starter: l.starter, stdin: l.stdin ?? null, solutionNote: l.solutionNote ?? '' }))
+const labs = (r.labs ?? []).map((l) => ({ slug: l.slug, starter: l.starter, stdin: l.stdin ?? null, solutionNote: l.solutionNote ?? '', language: normLang(l.language) }))
 
 const script = `export const meta = {
   name: 'verifylab-${course}',
@@ -24,19 +30,20 @@ const script = `export const meta = {
 }
 phase('Solve')
 const LABS = ${JSON.stringify(labs)}
+const LANG_RUN = ${JSON.stringify(LANG_RUN)}
 const CHUNK = ${CHUNK}
 const SCHEMA = {
   type: 'object', additionalProperties: false,
   required: ['slug', 'solution'],
   properties: {
     slug: { type: 'string' },
-    solution: { type: 'string', description: 'the COMPLETE runnable Python file: the starter with every TODO filled in by a correct implementation. Must run top-to-bottom under plain CPython 3 and print the intended output. Return code only, no markdown fences.' },
+    solution: { type: 'string', description: 'the COMPLETE runnable solution: the starter with every TODO filled in by a correct implementation, in the lab\\'s language. Runs top-to-bottom and produces the intended output. Code only, no markdown fences.' },
   },
 }
-const promptFor = (lab) => 'Complete this Python lab starter into a FULL, correct, runnable solution. Fill every TODO / NotImplementedError / pass / ellipsis with a correct implementation that satisfies the docstrings and comments. Do NOT change the fixed input data or the pre-written print/main section below the "do not edit" line. The file must run under plain CPython 3 with no external packages.\\n\\n' +
+const promptFor = (lab) => 'Complete this ' + lab.language.toUpperCase() + ' lab starter into a FULL, correct, runnable solution. Fill every TODO / placeholder with a correct implementation that satisfies the comments. Do NOT change the fixed input/seed data or any pre-written output section. It runs under ' + (LANG_RUN[lab.language] || LANG_RUN.python) + '\\n\\n' +
   'INTENDED APPROACH (from the author): ' + (lab.solutionNote || '(none given)') + '\\n\\n' +
   'STARTER:\\n' + lab.starter + '\\n\\n' +
-  'Return via StructuredOutput: slug="' + lab.slug + '" and solution = the complete runnable file (code only, no markdown fences).'
+  'Return via StructuredOutput: slug="' + lab.slug + '" and solution = the complete runnable ' + lab.language.toUpperCase() + ' (code only, no markdown fences).'
 const results = []
 for (let i = 0; i < LABS.length; i += CHUNK) {
   const wave = LABS.slice(i, i + CHUNK)

@@ -22,22 +22,43 @@ const solutions = (solOut.result ?? solOut).solutions ?? []
 const labsDoc = JSON.parse(readFileSync(labsPath, 'utf8'))
 const labs = labsDoc.labs ?? []
 const labBySlug = new Map(labs.map((l) => [l.slug, l]))
-const checkBySlug = new Map(labs.map((l) => [l.slug, { check: l.check, stdin: l.stdin ?? null }]))
+// language: mirror runtimes.ts normalizeLanguage (python default, sql, js)
+const normLang = (l) => { const s = (l ?? '').toLowerCase(); return s === 'sql' ? 'sql' : (['js', 'ts', 'javascript', 'typescript'].includes(s) ? 'js' : 'python') }
+const checkBySlug = new Map(labs.map((l) => [l.slug, { check: l.check, stdin: l.stdin ?? null, language: normLang(l.language) }]))
 let healed = 0
 
 const dir = mkdtempSync(join(tmpdir(), 'labcheck-'))
 const norm = (s) => String(s ?? '').replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '') // trailing-ws tolerant, else exact
+
+// Execute a solution in its runtime, producing output BYTE-IDENTICAL to the browser runtime
+// (components/academy/lab/runtimes.ts): python3 / sqlite3 list-mode / node with the worker shim.
+const JS_SHIM = `const __lines=[];const __str=a=>(typeof a==='object'&&a!==null)?JSON.stringify(a):String(a);const console={log:(...a)=>__lines.push(a.map(__str).join(' ')),error:(...a)=>__lines.push(a.map(__str).join(' ')),warn:(...a)=>__lines.push(a.map(__str).join(' ')),info:(...a)=>__lines.push(a.map(__str).join(' '))};\n`
+const JS_TAIL = `\nprocess.stdout.write(__lines.join('\\n'))`
+function execSolution(slug, solution, meta) {
+  if (meta.language === 'sql') {
+    const f = join(dir, `${slug.replace(/[^a-z0-9_-]/gi, '_')}.sql`)
+    writeFileSync(f, solution)
+    return execFileSync('sqlite3', ['-batch', '-cmd', '.mode list', '-cmd', '.headers on', '-cmd', '.separator " | "', ':memory:'], { input: solution, encoding: 'utf8', timeout: 15000, stdio: ['pipe', 'pipe', 'pipe'] })
+  }
+  if (meta.language === 'js') {
+    const f = join(dir, `${slug.replace(/[^a-z0-9_-]/gi, '_')}.js`)
+    // run learner code through the SAME console shim the worker uses, isolated in new Function
+    writeFileSync(f, `${JS_SHIM}(new Function('console', ${JSON.stringify(solution)}))(console);${JS_TAIL}`)
+    return execFileSync('node', [f], { encoding: 'utf8', timeout: 15000, stdio: ['pipe', 'pipe', 'pipe'] })
+  }
+  const f = join(dir, `${slug.replace(/[^a-z0-9_-]/gi, '_')}.py`)
+  writeFileSync(f, solution)
+  return execFileSync('python3', [f], { input: meta.stdin ?? '', encoding: 'utf8', timeout: 15000, stdio: ['pipe', 'pipe', 'pipe'] })
+}
 
 let pass = 0, fail = 0
 const failures = []
 for (const { slug, solution } of solutions) {
   const meta = checkBySlug.get(slug)
   if (!meta) { failures.push({ slug, why: 'no matching lab/check' }); fail++; continue }
-  const file = join(dir, `${slug.replace(/[^a-z0-9_-]/gi, '_')}.py`)
-  writeFileSync(file, solution)
   let out
   try {
-    out = execFileSync('python3', [file], { input: meta.stdin ?? '', encoding: 'utf8', timeout: 15000, stdio: ['pipe', 'pipe', 'pipe'] })
+    out = execSolution(slug, solution, meta)
   } catch (e) {
     failures.push({ slug, why: 'runtime error', detail: (e.stderr || e.message || '').toString().slice(-400) })
     fail++; continue

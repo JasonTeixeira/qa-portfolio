@@ -1,0 +1,1023 @@
+{
+  "your-first-line": [
+    {
+      "type": "sprint-contract",
+      "outcome": "Write your very first Python program from a blank file, run it in the terminal, watch a real line of text appear on screen because you told the computer to say it — then read a real error and know exactly what it is telling you.",
+      "intensity": "micro",
+      "time": "10 min",
+      "proof": "A .py file with a print(...) line that, when run, shows your exact text on the screen — and a moment where you deliberately break it, read the SyntaxError, and understand what the message means.",
+      "unlock": "You can write print(\"...\"), run the file, see the output, and read an error instead of fearing it.",
+      "doNotClaim": "Do not claim you 'know Python' from one line. You know how to make Python speak and how to read when it complains — that is the door, not the house. Every lesson after this stands on it."
+    },
+    {
+      "type": "mission",
+      "text": "Right now the computer is silent. In the next ten minutes you will type one line, hit run, and make it say something back to you — the first moment a machine does exactly what you told it to."
+    },
+    {
+      "type": "context",
+      "text": "Every program you will ever write is you giving the computer instructions, one line at a time, top to bottom. print() is the first instruction anyone learns because it lets the program show you what it is doing — you will lean on it in every lesson that follows."
+    },
+    {
+      "type": "pretest",
+      "prompt": "You type print(\"Hello, world!\") into a file and run it. What appears on your screen? And do the quotes show up too? Answer before reading on.",
+      "reveal": "The screen shows: Hello, world! — with NO quotes. The quotes are not part of the message; they are how you tell Python where your text starts and ends. Python prints what is BETWEEN the quotes and drops the quotes themselves. That gap between what you typed and what appears is the whole idea: you write instructions, Python carries them out."
+    },
+    {
+      "type": "concept",
+      "title": "A program is instructions; print() sends text to the screen",
+      "text": "A program is a list of instructions the computer runs top to bottom. print(\"...\") is one instruction: it takes the text inside the quotes and displays it. The quotes mark the text; they are not shown."
+    },
+    {
+      "type": "diagram",
+      "title": "How your text reaches the screen",
+      "subtitle": "You write a line in a file; Python reads it, runs the print instruction, and the text lands in the terminal. Four steps, one direction.",
+      "rankdir": "LR",
+      "nodes": [
+        {
+          "id": "you",
+          "label": "You",
+          "description": "type print(\"Hello, world!\")",
+          "kind": "client",
+          "tone": "accent"
+        },
+        {
+          "id": "file",
+          "label": "hello.py",
+          "description": "your saved file of instructions",
+          "kind": "store"
+        },
+        {
+          "id": "python",
+          "label": "Python",
+          "description": "reads the file top to bottom",
+          "kind": "process",
+          "tone": "accent"
+        },
+        {
+          "id": "print",
+          "label": "print instruction",
+          "description": "takes the text inside the quotes",
+          "kind": "process"
+        },
+        {
+          "id": "screen",
+          "label": "Terminal",
+          "description": "shows: Hello, world!",
+          "kind": "external",
+          "tone": "success"
+        }
+      ],
+      "edges": [
+        {
+          "from": "you",
+          "to": "file",
+          "label": "you write + save",
+          "kind": "data"
+        },
+        {
+          "from": "file",
+          "to": "python",
+          "label": "you run it",
+          "kind": "control",
+          "tone": "accent"
+        },
+        {
+          "from": "python",
+          "to": "print",
+          "label": "runs the line",
+          "kind": "control"
+        },
+        {
+          "from": "print",
+          "to": "screen",
+          "label": "displays the text (no quotes)",
+          "kind": "data",
+          "tone": "success"
+        }
+      ],
+      "legend": [
+        {
+          "tone": "accent",
+          "label": "you, and the code you wrote"
+        },
+        {
+          "tone": "success",
+          "label": "the result you can see"
+        }
+      ],
+      "caption": "The quotes never make it to the screen — they only tell Python where your text begins and ends."
+    },
+    {
+      "type": "code-walkthrough",
+      "title": "Your first program, line by line",
+      "subtitle": "Two real, runnable lines. Run this and you see two lines of output — proof the computer ran your instructions in order.",
+      "filename": "hello.py",
+      "language": "python",
+      "code": "print(\"Hello, world!\")\nprint(\"Python is running my code.\")",
+      "steps": [
+        {
+          "lines": [
+            1
+          ],
+          "label": "The print instruction",
+          "note": "print is the command. The parentheses () hold what you want to show. Inside them, the quotes \"...\" wrap your text."
+        },
+        {
+          "lines": [
+            1
+          ],
+          "label": "What actually appears",
+          "note": "This line puts Hello, world! on the screen — without the quotes. The quotes only marked where the text started and stopped."
+        },
+        {
+          "lines": [
+            2
+          ],
+          "label": "The second instruction",
+          "note": "Python runs lines top to bottom, so this prints AFTER the first line. Order in the file is order on the screen."
+        },
+        {
+          "lines": [
+            1,
+            2
+          ],
+          "label": "Two lines in, two lines out",
+          "note": "Running the file shows: Hello, world! then Python is running my code. — one line of output per print, in the order you wrote them."
+        }
+      ],
+      "caption": "Run it: the terminal shows two lines, top one first. You wrote instructions; Python obeyed them in order."
+    },
+    {
+      "type": "compare",
+      "title": "The mistake everyone makes on line one: a missing quote",
+      "subtitle": "Same intent, one tiny difference. One crashes; one runs. Spot the difference before reading the verdicts.",
+      "mono": true,
+      "left": {
+        "label": "Broken (a quote is missing)",
+        "tone": "warning",
+        "lines": [
+          "print(\"Hello, world!)",
+          "",
+          "Only ONE quote — the closing \" is gone.",
+          "Python: SyntaxError: unterminated string literal",
+          "It could not tell where your text was meant to end."
+        ],
+        "verdict": "Crashes before running — a typo, not a disaster"
+      },
+      "right": {
+        "label": "Correct (both quotes present)",
+        "tone": "success",
+        "lines": [
+          "print(\"Hello, world!\")",
+          "",
+          "Opening \" and closing \" both there.",
+          "Output: Hello, world!",
+          "Python knew exactly where the text began and ended."
+        ],
+        "verdict": "Runs — the text appears on screen"
+      },
+      "caption": "'unterminated string literal' is Python's plain way of saying: you opened a quote and never closed it. Add the missing \" and it runs. Reading the error IS the skill."
+    },
+    {
+      "type": "callout",
+      "tone": "tip",
+      "text": "Pros do not fear the red error text — they read it. The last line tells you WHAT went wrong (SyntaxError: unterminated string literal) and the line number tells you WHERE. Beginners panic and delete everything; the move is to read the last line, go to that line number, and look for the small thing it named."
+    },
+    {
+      "type": "lab",
+      "title": "Make Python say your first line",
+      "summary": "The file is blank except a comment. Write ONE print() line so that running it shows exactly: Hello, world! — quotes included in your code, but not in the output. This is your guaranteed first win.",
+      "language": "python",
+      "starter": "# Use print() to show the exact line: Hello, world!\n# Remember: text goes inside \"double quotes\", inside the ( ).\n# your code here",
+      "check": "Hello, world!"
+    },
+    {
+      "type": "quiz",
+      "question": "You run a file and see this: SyntaxError: unterminated string literal. What does it most likely mean?",
+      "options": [
+        "The computer is broken and needs to restart.",
+        "You opened a quote for some text but never closed it, so Python could not tell where the text ends.",
+        "print() is not a real Python command.",
+        "Your text was too long to display."
+      ],
+      "answer": 1,
+      "explanation": "'String' means text; 'unterminated' means it was never finished. You started your text with a \" but the closing \" is missing, so Python does not know where the text stops. The fix is to add the missing quote — the error even points to the line. Nothing is broken; it is a typo Python caught for you before running."
+    },
+    {
+      "type": "verification",
+      "intro": "Prove it — no vibes. You can honestly check each of these:",
+      "items": [
+        "You wrote a print(\"...\") line in a .py file and ran it, and your exact text appeared on the screen.",
+        "You can point to the two quotes in your line and explain that they mark where your text starts and ends — and that they do NOT appear in the output.",
+        "You deliberately deleted one quote, ran it, and got a SyntaxError — and you read the last line of the error instead of panicking.",
+        "You can say, in one sentence, what a program is: a list of instructions the computer runs top to bottom."
+      ]
+    },
+    {
+      "type": "teachback",
+      "prompts": [
+        "In your own words: what does print() do, and why don't the quotes show up on the screen?",
+        "Explain to a friend who has never coded what a 'program' is, using your one-line program as the example.",
+        "You see 'SyntaxError' with a line number. Walk through, out loud, the first two things you would do to fix it."
+      ]
+    },
+    {
+      "type": "transfer",
+      "text": "print() is not just a first-day toy — it stays with you for your whole coding life. When a program misbehaves later, the fastest way to see what it is actually doing is to drop a print() in and watch the value appear, exactly like you just did. And reading an error's last line instead of fearing it is the single habit that separates people who get unstuck from people who quit. You made the computer speak and you read it when it complained back. Next lesson, you'll give your text a name you can reuse — that's a variable — so your program can remember things instead of just saying them once."
+    },
+    {
+      "type": "spaced-review",
+      "schedule": [
+        "1 day",
+        "3 days",
+        "7 days",
+        "30 days"
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "type": "sprint-contract",
+      "outcome": "Store real values in named variables, name the four everyday types (int, float, str, bool), reassign a variable, and print a sentence built from variables you set yourself.",
+      "intensity": "micro",
+      "time": "12-15 min",
+      "proof": "A tiny program that assigns two variables, reassigns one, and prints a labeled sentence that mixes text and a number — output you can read and recognize as yours.",
+      "unlock": "You can bind a value to a name, change what that name holds, and use it inside print.",
+      "doNotClaim": "Do not claim you 'know variables' if you only ever printed literal text. A variable is a NAME you set once and reuse — if the value only ever appears inside the quotes, you skipped the whole point."
+    },
+    {
+      "type": "mission",
+      "text": "In Lesson 1 you printed one fixed line — change it and you rewrite the code. Today the program remembers a value for you, so the same line can say your name, then your friend's, without touching the print at all."
+    },
+    {
+      "type": "context",
+      "text": "Every program you ever write remembers things: a score, a username, a price. Variables are how code holds onto a value and gives it a name, so the rest of your program can use it — the foundation everything after this stands on."
+    },
+    {
+      "type": "pretest",
+      "prompt": "score = 7 sets a variable. Then the next line says score = 10. What does print(score) show after that — 7, 10, or an error? Answer before reading on.",
+      "reveal": "It prints 10. A variable holds ONE value at a time, and the newer assignment simply replaces the old one — the 7 is gone. The name score didn't change; what it points to did. That swap is called reassignment, and it's how a score counts up or a total grows."
+    },
+    {
+      "type": "concept",
+      "title": "A variable is a name bound to a value",
+      "text": "An assignment (name = value) binds a name to a value you can reuse. Reassigning points the same name at a new value. Every value has a type: whole number (int), decimal (float), text (str), or true/false (bool)."
+    },
+    {
+      "type": "diagram",
+      "title": "How a variable binds a name to a value",
+      "subtitle": "The name lives on the left, the value on the right; assignment draws the arrow. Reassigning just redraws it to a new value — the name stays put.",
+      "rankdir": "LR",
+      "nodes": [
+        {
+          "id": "name",
+          "label": "score",
+          "description": "the name you chose",
+          "kind": "client",
+          "tone": "accent"
+        },
+        {
+          "id": "assign",
+          "label": "=",
+          "description": "assignment (bind)",
+          "kind": "process"
+        },
+        {
+          "id": "v7",
+          "label": "7",
+          "description": "first value (int)",
+          "kind": "store",
+          "tone": "muted"
+        },
+        {
+          "id": "v10",
+          "label": "10",
+          "description": "new value after score = 10",
+          "kind": "store",
+          "tone": "success"
+        },
+        {
+          "id": "use",
+          "label": "print(score)",
+          "description": "reads whatever it points to now",
+          "kind": "process"
+        }
+      ],
+      "edges": [
+        {
+          "from": "name",
+          "to": "assign",
+          "label": "score =",
+          "kind": "control",
+          "tone": "accent"
+        },
+        {
+          "from": "assign",
+          "to": "v7",
+          "label": "binds to",
+          "kind": "data",
+          "dashed": true,
+          "tone": "muted"
+        },
+        {
+          "from": "assign",
+          "to": "v10",
+          "label": "re-binds to",
+          "kind": "data",
+          "tone": "success"
+        },
+        {
+          "from": "name",
+          "to": "use",
+          "label": "looked up",
+          "kind": "data"
+        },
+        {
+          "from": "use",
+          "to": "v10",
+          "label": "gets 10",
+          "kind": "data",
+          "tone": "success"
+        }
+      ],
+      "legend": [
+        {
+          "tone": "accent",
+          "label": "the name (stays the same)"
+        },
+        {
+          "tone": "success",
+          "label": "the value it points to now"
+        },
+        {
+          "tone": "muted",
+          "label": "the old value, replaced"
+        }
+      ],
+      "caption": "The name is a label, not a box. Reassignment moves the label to a new value — it doesn't overwrite the number."
+    },
+    {
+      "type": "code-walkthrough",
+      "title": "Four types, one reassignment, read line by line",
+      "subtitle": "A real, runnable program — every line does exactly one thing you can name.",
+      "filename": "profile.py",
+      "language": "python",
+      "code": "score = 7\nprint(\"Score:\", score)\n\nscore = 10\nprint(\"Score:\", score)\n\ntemperature = 98.6\ncity = \"Tokyo\"\nis_open = True\nprint(type(score), type(temperature), type(city), type(is_open))",
+      "steps": [
+        {
+          "lines": [
+            1
+          ],
+          "label": "Assign an int",
+          "note": "score = 7 binds the name score to the whole number 7. The = means 'bind', not 'equals' — it's an instruction, not a question."
+        },
+        {
+          "lines": [
+            2
+          ],
+          "label": "Use the variable",
+          "note": "print(\"Score:\", score) prints Score: 7. The word Score: is literal text in quotes; score with no quotes is the variable, looked up to 7."
+        },
+        {
+          "lines": [
+            4
+          ],
+          "label": "Reassign it",
+          "note": "score = 10 points the same name at a new value. The old 7 is gone — no error, just replaced."
+        },
+        {
+          "lines": [
+            5
+          ],
+          "label": "See the change",
+          "note": "Now print(\"Score:\", score) prints Score: 10. Same line of code, new value, because the name now points somewhere new."
+        },
+        {
+          "lines": [
+            7,
+            8,
+            9
+          ],
+          "label": "The other three types",
+          "note": "98.6 is a float (a decimal), \"Tokyo\" is a str (text, in quotes), True is a bool (true/false, capital T, no quotes)."
+        },
+        {
+          "lines": [
+            10
+          ],
+          "label": "Ask Python the types",
+          "note": "type(...) reports each one. Output: <class 'int'> <class 'float'> <class 'str'> <class 'bool'> — the four you'll use constantly."
+        }
+      ],
+      "caption": "Run it top to bottom and you see Score: 7, then Score: 10, then the four types — proof the name re-pointed and each value has a kind."
+    },
+    {
+      "type": "compare",
+      "title": "Text about a variable vs the variable itself",
+      "subtitle": "Same goal: print the value of name. One prints the value; one prints the letters n-a-m-e.",
+      "mono": true,
+      "left": {
+        "label": "Quoting the variable name",
+        "tone": "warning",
+        "lines": [
+          "name = \"Ada\"",
+          "print(\"name\")",
+          "Output:  name",
+          "The quotes make it literal text",
+          "Python never looks up the variable"
+        ],
+        "verdict": "Prints the word, not the value"
+      },
+      "right": {
+        "label": "Using the variable",
+        "tone": "success",
+        "lines": [
+          "name = \"Ada\"",
+          "print(name)",
+          "Output:  Ada",
+          "No quotes -> Python looks up name",
+          "Gets the value you stored"
+        ],
+        "verdict": "Prints Ada, the stored value"
+      },
+      "caption": "Quotes mean 'these exact characters'. No quotes means 'look up this name'. Mixing them up is the single most common beginner slip."
+    },
+    {
+      "type": "callout",
+      "tone": "tip",
+      "text": "Pros pick names that say what the value MEANS, not what it is: user_score beats x, temperature_c beats t. Six months later you'll read your own code like a stranger — a good name is a note to that stranger. And names can't start with a number or contain spaces: use_snake_case, the Python house style."
+    },
+    {
+      "type": "lab",
+      "title": "Introduce someone in one line",
+      "summary": "Store a name and an age in two variables, then print a single sentence that uses both. The starter prints nothing on its own — you supply the variables and the print. Match the check exactly.",
+      "language": "python",
+      "starter": "# Store a person's name in a variable called: name\n# Store their age (a whole number) in a variable called: age\n# Then print exactly:  Ada is 36 years old.\n# Use the variables you set — don't just print the finished sentence as text.\n\n# your code here",
+      "check": "Ada is 36 years old."
+    },
+    {
+      "type": "quiz",
+      "question": "After age = 25 runs, the next line is age = age + 1. What does print(age) show?",
+      "options": [
+        "An error, because you can't use age while defining age",
+        "25, because the first assignment wins",
+        "26, because the right side is worked out first (25 + 1), then bound back to age",
+        "age + 1, printed as literal text"
+      ],
+      "answer": 2,
+      "explanation": "Python evaluates the right side first: age is looked up (25), then 25 + 1 makes 26, and only then does 26 get bound to age. This 'read the old value, store the new one' pattern is how counters and running totals work — you'll use it constantly."
+    },
+    {
+      "type": "verification",
+      "intro": "Prove you actually used variables — no vibes:",
+      "items": [
+        "Point to a line that is an assignment: a name, an =, then a value. If every value only lives inside print's quotes, you have no variables yet.",
+        "Reassign one variable and print it before and after. The two prints must differ — that's proof the name re-pointed.",
+        "Name the type of each value you stored: int, float, str, or bool. If you can't, look at it — quotes mean str, True/False mean bool, a dot means float.",
+        "Print a variable with NO quotes around its name and confirm you see the value, not the letters of the name.",
+        "In the lab, confirm the output is exactly Ada is 36 years old. — same words, same spacing, same period."
+      ]
+    },
+    {
+      "type": "teachback",
+      "prompts": [
+        "In your own words, what does the = do in name = \"Ada\"? Why is it not the same as 'equals' in math?",
+        "Explain the difference between print(score) and print(\"score\") to someone who's never coded.",
+        "What are the four types you met today, and give a real value for each (a whole number, a decimal, some text, a true/false)?"
+      ]
+    },
+    {
+      "type": "transfer",
+      "text": "Variables are where every program's memory begins — a game's score, a shopping cart's total, a login's username all live in named values you reassign as things change. You printed a fixed line in Lesson 1; now your program can hold values and change them. Next lesson, Logic & conditionals, uses exactly these variables to make the program DECIDE — 'if score > 10, print a win' — so the code reacts instead of just remembering."
+    },
+    {
+      "type": "spaced-review",
+      "schedule": [
+        "1 day",
+        "3 days",
+        "7 days",
+        "30 days"
+      ]
+    }
+  ],
+  "logic-conditionals": [
+    {
+      "type": "sprint-contract",
+      "outcome": "Write a program that reads a number already stored in a variable and prints a different message for each range it falls into — using if / elif / else so exactly one branch runs.",
+      "intensity": "standard",
+      "time": "8 min",
+      "proof": "A runnable Python file where changing the starting value changes which line prints, and the branches are ordered so the right one always wins. You can point to the single branch that fired and say why the others did not.",
+      "unlock": "Your program picks exactly one branch based on a comparison, and you can explain why order decides the outcome.",
+      "doNotClaim": "Do not claim you 'used conditionals' if every branch is a separate if with no elif/else — that lets two branches fire and hides the ordering bug this lesson exists to teach. One decision means one chain."
+    },
+    {
+      "type": "mission",
+      "text": "You gave your variable a value in the last lesson — now make the program act on it: a thermostat that says 'bundle up' at 40 and 't-shirt weather' at 80, deciding for itself which line to print."
+    },
+    {
+      "type": "context",
+      "text": "So far your code has run every line, top to bottom, no matter what. Conditionals are the first time the program chooses — the seed of every game, form check, and app that behaves differently for different input."
+    },
+    {
+      "type": "pretest",
+      "prompt": "x = 100. You write: if x > 0: print(\"positive\") then elif x > 50: print(\"big\"). What prints — \"positive\", \"big\", or both? Decide before reading.",
+      "reveal": "Only \"positive\". Python checks branches top to bottom and stops at the FIRST true one — x > 0 is true, so it prints \"positive\" and never even looks at elif x > 50. That second branch is dead code: 100 is greater than 50, but it can never fire because the branch above it already caught every positive number. Order is not decoration — it decides the answer."
+    },
+    {
+      "type": "concept",
+      "title": "if / elif / else — checked top to bottom, first true wins",
+      "text": "A comparison (x > 50) is either True or False. Python tests each branch in order and runs the block of the FIRST one that is True — then skips the rest. else catches everything left over."
+    },
+    {
+      "type": "diagram",
+      "title": "How if / elif / else picks one branch",
+      "subtitle": "The value enters at the top and falls through each test in order. The first True catches it; else is the floor that catches whatever falls past every test.",
+      "rankdir": "TB",
+      "nodes": [
+        {
+          "id": "value",
+          "label": "value",
+          "description": "e.g. temp = 58",
+          "kind": "client",
+          "tone": "accent"
+        },
+        {
+          "id": "if",
+          "label": "if temp > 75",
+          "description": "first test",
+          "kind": "decision"
+        },
+        {
+          "id": "warm",
+          "label": "\"Warm\"",
+          "description": "runs if True",
+          "kind": "process",
+          "tone": "success"
+        },
+        {
+          "id": "elif",
+          "label": "elif temp > 50",
+          "description": "checked only if above was False",
+          "kind": "decision",
+          "tone": "accent"
+        },
+        {
+          "id": "mild",
+          "label": "\"Mild\"",
+          "description": "the branch that fires here",
+          "kind": "process",
+          "tone": "success"
+        },
+        {
+          "id": "else",
+          "label": "else",
+          "description": "catches everything left",
+          "kind": "decision",
+          "tone": "muted"
+        },
+        {
+          "id": "cold",
+          "label": "\"Cold\"",
+          "description": "the fallback",
+          "kind": "process",
+          "tone": "muted"
+        }
+      ],
+      "edges": [
+        {
+          "from": "value",
+          "to": "if",
+          "label": "enter at top",
+          "kind": "control"
+        },
+        {
+          "from": "if",
+          "to": "warm",
+          "label": "True",
+          "kind": "control",
+          "tone": "success"
+        },
+        {
+          "from": "if",
+          "to": "elif",
+          "label": "False — fall through",
+          "kind": "control",
+          "tone": "muted"
+        },
+        {
+          "from": "elif",
+          "to": "mild",
+          "label": "True",
+          "kind": "control",
+          "tone": "success"
+        },
+        {
+          "from": "elif",
+          "to": "else",
+          "label": "False — fall through",
+          "kind": "control",
+          "tone": "muted"
+        },
+        {
+          "from": "else",
+          "to": "cold",
+          "label": "always",
+          "kind": "control",
+          "tone": "muted"
+        }
+      ],
+      "legend": [
+        {
+          "tone": "accent",
+          "label": "the value + the test that catches it"
+        },
+        {
+          "tone": "success",
+          "label": "the ONE branch that runs"
+        },
+        {
+          "tone": "muted",
+          "label": "fell through — skipped"
+        }
+      ],
+      "caption": "Exactly one message prints. Once a test is True, everything below is skipped — that is why order is the whole game."
+    },
+    {
+      "type": "code-walkthrough",
+      "title": "One value, one branch — line by line",
+      "subtitle": "temp is 58. Watch which test catches it and which lines never run.",
+      "filename": "weather.py",
+      "language": "python",
+      "code": "temp = 58\nif temp > 75:\n    print(\"Warm — t-shirt weather.\")\nelif temp > 50:\n    print(\"Mild — bring a jacket.\")\nelse:\n    print(\"Cold — bundle up.\")",
+      "steps": [
+        {
+          "lines": [
+            1
+          ],
+          "label": "The value",
+          "note": "temp holds 58 — a variable, exactly like last lesson. The conditionals below read it; they never change it."
+        },
+        {
+          "lines": [
+            2
+          ],
+          "label": "First test: temp > 75",
+          "note": "58 > 75 is False. The indented print on line 3 is skipped entirely — Python does not run it and moves on."
+        },
+        {
+          "lines": [
+            4
+          ],
+          "label": "elif temp > 50",
+          "note": "Only checked because the first test failed. 58 > 50 is True — so THIS branch wins."
+        },
+        {
+          "lines": [
+            5
+          ],
+          "label": "The line that prints",
+          "note": "\"Mild — bring a jacket.\" is the one and only output. The colon + 4-space indent is what marks a line as belonging to its branch."
+        },
+        {
+          "lines": [
+            6,
+            7
+          ],
+          "label": "else never runs",
+          "note": "A branch already fired, so else is skipped. It would only catch a temp of 50 or below."
+        }
+      ],
+      "caption": "Output: Mild — bring a jacket. Change temp to 80 and \"Warm\" prints instead; change it to 40 and \"Cold\" does. One value, one line."
+    },
+    {
+      "type": "compare",
+      "title": "Order matters: the same branches, one broken",
+      "subtitle": "Grading a score of 95. Both use the right comparisons — only one gives the right grade.",
+      "left": {
+        "label": "Loosest test first (bug)",
+        "tone": "warning",
+        "lines": [
+          "if score >= 60:",
+          "    print(\"D or better\")",
+          "elif score >= 90:",
+          "    print(\"A\")",
+          "score = 95 → prints \"D or better\"",
+          "The elif >= 90 can NEVER fire"
+        ],
+        "verdict": "95 gets a D — the wide net caught it first"
+      },
+      "right": {
+        "label": "Strictest test first (correct)",
+        "tone": "success",
+        "lines": [
+          "if score >= 90:",
+          "    print(\"A\")",
+          "elif score >= 60:",
+          "    print(\"D or better\")",
+          "score = 95 → prints \"A\"",
+          "Each branch guards the ones below it"
+        ],
+        "verdict": "95 gets an A — the narrow test wins"
+      },
+      "mono": true,
+      "caption": "Overlapping ranges must go strictest-to-loosest. Put the widest condition first and it swallows every case below it before they get a turn."
+    },
+    {
+      "type": "callout",
+      "tone": "tip",
+      "text": "The classic beginner trap: writing = when you mean ==. A single = assigns a value (grade = \"A\"), but == asks 'are these equal?' (if grade == \"A\":). In a Python if, using = is a syntax error — a small mercy, because it fails loudly instead of silently overwriting your variable."
+    },
+    {
+      "type": "lab",
+      "title": "Build a grade classifier",
+      "summary": "A score is already in the variable. Add an if / elif / else chain — ordered strictest-first — so the program prints the right letter grade. Run it in the browser.",
+      "language": "python",
+      "starter": "score = 72\ngrade = \"\"\n# your code here\nprint(\"Grade: \" + grade)",
+      "check": "Grade: C"
+    },
+    {
+      "type": "quiz",
+      "question": "n = 5. What does this print?\n\nif n > 10:\n    print(\"big\")\nelif n > 3:\n    print(\"medium\")\nelif n > 0:\n    print(\"small\")\nelse:\n    print(\"zero or less\")",
+      "options": [
+        "big",
+        "medium",
+        "small",
+        "medium then small (both fire)"
+      ],
+      "answer": 1,
+      "explanation": "Python checks top to bottom and stops at the first True. n > 10 is False, so it moves on; n > 3 is True (5 > 3), so it prints \"medium\" and skips every remaining branch — including elif n > 0, which is also true but never gets a turn. One chain, one winner."
+    },
+    {
+      "type": "verification",
+      "intro": "Prove your chain actually decides — no vibes:",
+      "items": [
+        "Run it with the given value and confirm exactly ONE line prints, not zero and not two.",
+        "Change the starting value to land in each branch (top, middle, else) and confirm the output changes to match every time.",
+        "Read your conditions top to bottom: is any lower branch impossible to reach because a wider test above already catches its cases? If so, reorder strictest-first.",
+        "Check every comparison uses == for equality (not a single =), and every branch line ends in a colon with its body indented 4 spaces.",
+        "Confirm else has no condition — it is the catch-all, and it should fire only when every test above was False."
+      ]
+    },
+    {
+      "type": "teachback",
+      "prompts": [
+        "In your own words: why does Python stop at the first True branch instead of checking them all?",
+        "Explain, using your grade classifier, why a branch can be 'dead code' even though its comparison would be True.",
+        "What is the difference between = and == , and what happens if you use the wrong one inside an if?"
+      ]
+    },
+    {
+      "type": "transfer",
+      "text": "This one move — test in order, first match wins — is everywhere: a login form deciding 'wrong password' vs 'account locked', a game reacting to a keypress, a checkout choosing a shipping tier by cart total. You just taught the program to choose. Next lesson you'll teach it to REPEAT — loops run a branch like this over and over, so your conditional can decide once per item in a whole list."
+    },
+    {
+      "type": "spaced-review",
+      "schedule": [
+        "1 day",
+        "3 days",
+        "7 days",
+        "30 days"
+      ]
+    }
+  ],
+  "loops": [
+    {
+      "type": "sprint-contract",
+      "outcome": "Write a real loop that walks a list of numbers and builds a running total, then prints it — proving you can make Python repeat work instead of copy-pasting it. This is the final piece: print, variables, conditionals, and now loops.",
+      "intensity": "standard",
+      "time": "10 min",
+      "proof": "A Pyodide lab that prints the exact line 'Total: 60' — produced only by a loop that accumulates. Your accumulator starts at 0 OUTSIDE the loop and grows INSIDE it.",
+      "unlock": "You can write a for loop over a list, keep a running total that survives across passes, and print the final result.",
+      "doNotClaim": "Do not claim you 'used a loop' if you reset the total to 0 inside the loop. That throws away every pass but the last — a total that never adds up is not accumulation, it is amnesia."
+    },
+    {
+      "type": "mission",
+      "text": "You have three prices and you want the sum. In Lesson 1 you would have printed each one by hand; today one loop adds all of them — and would add three thousand just as happily. This is the moment a script stops being a list of lines and starts being a program."
+    },
+    {
+      "type": "context",
+      "text": "A loop is how a program does the same step many times without you repeating yourself. Pair it with a variable that remembers a running total, and you can add, count, or scan any amount of data — the leap from 'a few lines' to 'real software'."
+    },
+    {
+      "type": "pretest",
+      "prompt": "total = 0\nfor n in [1, 2, 3]:\n    total = total + n\nprint(total)\n\nWhat does this print? Guess before you read on.",
+      "reveal": "6. The loop runs three times. total starts at 0, then becomes 0+1=1, then 1+2=3, then 3+3=6. The key is that total is declared ONCE before the loop and survives each pass — the loop body just keeps adding to what is already there. That surviving variable is the whole trick behind accumulation."
+    },
+    {
+      "type": "concept",
+      "title": "A loop repeats a step; an accumulator remembers across passes",
+      "text": "init the total OUTSIDE the loop (once), update it INSIDE the loop (every pass). The variable lives through all passes and carries the running sum. Reset it inside and you erase every pass but the last."
+    },
+    {
+      "type": "diagram",
+      "title": "How a loop iterates and accumulates",
+      "subtitle": "total starts at 0 OUTSIDE the loop, then each pass over [10, 20, 30] adds one item INSIDE the loop. The accumulator survives every pass — that is why it grows.",
+      "rankdir": "LR",
+      "nodes": [
+        {
+          "id": "init",
+          "label": "total = 0",
+          "description": "OUTSIDE the loop — runs once",
+          "kind": "store",
+          "tone": "success"
+        },
+        {
+          "id": "p1",
+          "label": "Pass 1: +10",
+          "description": "total becomes 10",
+          "kind": "process",
+          "tone": "accent"
+        },
+        {
+          "id": "p2",
+          "label": "Pass 2: +20",
+          "description": "total becomes 30",
+          "kind": "process",
+          "tone": "accent"
+        },
+        {
+          "id": "p3",
+          "label": "Pass 3: +30",
+          "description": "total becomes 60",
+          "kind": "process",
+          "tone": "accent"
+        },
+        {
+          "id": "done",
+          "label": "print(total)",
+          "description": "AFTER the loop — total is 60",
+          "kind": "decision",
+          "tone": "success"
+        }
+      ],
+      "edges": [
+        {
+          "from": "init",
+          "to": "p1",
+          "label": "enter loop",
+          "kind": "control"
+        },
+        {
+          "from": "p1",
+          "to": "p2",
+          "label": "next item",
+          "kind": "control",
+          "tone": "accent"
+        },
+        {
+          "from": "p2",
+          "to": "p3",
+          "label": "next item",
+          "kind": "control",
+          "tone": "accent"
+        },
+        {
+          "from": "p3",
+          "to": "done",
+          "label": "list exhausted",
+          "kind": "control"
+        }
+      ],
+      "legend": [
+        {
+          "tone": "success",
+          "label": "runs once (init + final print)"
+        },
+        {
+          "tone": "accent",
+          "label": "runs every pass (the update)"
+        }
+      ],
+      "caption": "Init once, update every pass. The line that changes total is INSIDE the loop; the line that creates it is OUTSIDE."
+    },
+    {
+      "type": "code-walkthrough",
+      "title": "A real running total, stepped",
+      "subtitle": "Sum three game scores with a for loop — watch total grow one pass at a time.",
+      "filename": "scores.py",
+      "language": "python",
+      "code": "total = 0\nfor score in [8, 5, 9]:\n    total = total + score\nprint('Points:', total)",
+      "steps": [
+        {
+          "lines": [
+            1
+          ],
+          "label": "Init OUTSIDE the loop",
+          "note": "total is born once, at 0, BEFORE the loop. This is the accumulator — the memory the loop writes into. Its indentation is flush-left, so it is not part of the repeated body."
+        },
+        {
+          "lines": [
+            2
+          ],
+          "label": "The for loop over a list",
+          "note": "'for score in [8, 5, 9]' hands you one item at a time. Pass 1 score is 8, pass 2 it is 5, pass 3 it is 9. The list decides how many times the body runs."
+        },
+        {
+          "lines": [
+            3
+          ],
+          "label": "Update INSIDE the loop",
+          "note": "Indented, so it repeats every pass. total = total + score means 'take the total so far and add this score.' 0+8=8, then 8+5=13, then 13+9=22."
+        },
+        {
+          "lines": [
+            4
+          ],
+          "label": "Print AFTER the loop",
+          "note": "Flush-left again, so it runs once, after all passes finish. total is now 22. The loop did the repeating; this line reports the result."
+        }
+      ],
+      "caption": "Line 1 runs once, line 3 runs three times, line 4 runs once. Indentation is what puts a line inside or outside the loop."
+    },
+    {
+      "type": "compare",
+      "title": "The bug every beginner writes: init inside the loop",
+      "subtitle": "Same list [8, 5, 9], same goal. Only the placement of 'total = 0' changes — and it changes everything.",
+      "left": {
+        "label": "Broken: total = 0 INSIDE",
+        "tone": "warning",
+        "lines": [
+          "for score in [8, 5, 9]:",
+          "    total = 0",
+          "    total = total + score",
+          "print(total)  ->  9",
+          "Every pass wipes the total back to 0",
+          "Only the LAST score survives"
+        ],
+        "verdict": "Prints 9, not 22 — amnesia every pass"
+      },
+      "right": {
+        "label": "Correct: total = 0 OUTSIDE",
+        "tone": "success",
+        "lines": [
+          "total = 0",
+          "for score in [8, 5, 9]:",
+          "    total = total + score",
+          "print(total)  ->  22",
+          "Init runs once, before the loop",
+          "Each pass adds to what is already there"
+        ],
+        "verdict": "Prints 22 — the running total survives"
+      },
+      "mono": true,
+      "caption": "Init inside the loop resets your memory on every pass. The accumulator must be born ABOVE the loop, once."
+    },
+    {
+      "type": "callout",
+      "tone": "tip",
+      "text": "Two loop tools, one rule. 'for x in [a, b, c]' walks a list; 'for i in range(3)' repeats a fixed number of times (i is 0, 1, 2). Both put the repeated work INDENTED underneath — and if you accumulate, the total is always declared one line ABOVE the loop. Indentation is not decoration in Python; it is what decides which lines repeat."
+    },
+    {
+      "type": "lab",
+      "title": "Loop to a running total",
+      "summary": "You have a list of prices. Write a for loop that adds every price into total, so the program prints exactly 'Total: 60'. The starter sets total to 0 but never loops — run it and you get 'Total: 0'. Your job is the accumulation.",
+      "language": "python",
+      "starter": "prices = [10, 20, 30]\ntotal = 0\n# your code here\nprint('Total: ' + str(total))",
+      "check": "Total: 60"
+    },
+    {
+      "type": "quiz",
+      "question": "You want to sum a list with a running total. Where must the line 'total = 0' go?",
+      "options": [
+        "Inside the loop, so it is fresh on every pass.",
+        "Before (outside) the loop, so it runs once and the total survives every pass.",
+        "After the loop, right before you print.",
+        "It does not matter where total = 0 goes."
+      ],
+      "answer": 1,
+      "explanation": "The accumulator must be initialized once, OUTSIDE the loop. Inside the loop it resets to 0 every pass and you keep only the last item. After the loop is too late — you would be adding to something that does not exist yet. Outside-and-above is the only placement that lets the total grow."
+    },
+    {
+      "type": "verification",
+      "intro": "Prove you can loop and accumulate — no vibes:",
+      "items": [
+        "You can write a for loop over a list ('for x in [1, 2, 3]:') and know it runs once per item.",
+        "Your accumulator (total = 0) sits OUTSIDE the loop, above it, and runs exactly once.",
+        "The update line (total = total + x) is INDENTED inside the loop, so it repeats every pass.",
+        "You can predict the output of a 3-item running-total loop by hand before running it.",
+        "You know why moving 'total = 0' inside the loop breaks the result — and what it prints instead."
+      ]
+    },
+    {
+      "type": "teachback",
+      "prompts": [
+        "In your own words: why must the accumulator be created OUTSIDE the loop but updated INSIDE it?",
+        "Explain what 'for score in [8, 5, 9]' hands you on each of its three passes.",
+        "A friend's total prints only the last number in the list. What is almost certainly wrong, and how do you fix it?"
+      ]
+    },
+    {
+      "type": "transfer",
+      "text": "Roll-call the whole course. In Lesson 1 you made the computer speak with print. In Lesson 2 you gave it memory with variables. In Lesson 3 you taught it to choose with if / elif / else. Today you taught it to repeat with for and while, and to remember across passes with a running total. Put those four together and you have the entire skeleton of real software: a program reads a value, decides something with it, and repeats — over a list of prices, a file of rows, a stream of users. That IS a program. You are not 'learning to code' anymore; you can write a small one, by hand, that actually works. Everything ahead — data structures, files, APIs — is just more interesting things to read, decide about, and loop over. Same four moves. You already own them."
+    },
+    {
+      "type": "spaced-review",
+      "schedule": [
+        "1 day",
+        "3 days",
+        "7 days",
+        "30 days"
+      ]
+    }
+  ]
+}

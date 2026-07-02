@@ -270,6 +270,186 @@
     "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/00a_concept_maps_real_world_engineering/modules/06_capstone_map_a_real_system/lessons/05_final_review_board.md"
   },
   {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "terminal-files",
+    "title": "Terminal Files",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/01_module_1/lessons/01_001_001_terminal_files_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "python-functions-inputs-outputs",
+    "title": "Python Functions Inputs Outputs",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/01_module_1/lessons/02_002_002_python_functions_inputs_outputs_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "types-dataclasses",
+    "title": "Types Dataclasses",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/01_module_1/lessons/03_003_003_types_dataclasses_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "lists-dicts-sets",
+    "title": "Lists Dicts Sets",
+    "moduleTitle": "Module 1 · Module 1",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/01_module_1/lessons/04_004_004_lists_dicts_sets_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "files-json-csv",
+    "title": "Files Json Csv",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/02_module_2/lessons/05_005_005_files_json_csv_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "errors-validation",
+    "title": "Errors Validation",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/02_module_2/lessons/06_006_006_errors_validation_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "testing-basics",
+    "title": "Testing Basics",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/02_module_2/lessons/07_007_007_testing_basics_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "complexity-big-o",
+    "title": "Complexity Big O",
+    "moduleTitle": "Module 2 · Module 2",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/02_module_2/lessons/08_008_008_complexity_big_o_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "frequency-maps",
+    "title": "Frequency Maps",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/03_module_3/lessons/09_009_009_frequency_maps_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "stacks-queues",
+    "title": "Stacks Queues",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/03_module_3/lessons/10_010_010_stacks_queues_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "two-pointers-windows",
+    "title": "Two Pointers Windows",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/03_module_3/lessons/11_011_011_two_pointers_windows_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "binary-search",
+    "title": "Binary Search",
+    "moduleTitle": "Module 3 · Module 3",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/03_module_3/lessons/12_012_012_binary_search_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "heaps-top-k",
+    "title": "Heaps Top K",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/04_module_4/lessons/13_013_013_heaps_top_k_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "graphs-bfs-dfs",
+    "title": "Graphs Bfs Dfs",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/04_module_4/lessons/14_014_014_graphs_bfs_dfs_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "dynamic-programming-intro",
+    "title": "Dynamic Programming Intro",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/04_module_4/lessons/15_015_015_dynamic_programming_intro_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "processes-ports-env-vars",
+    "title": "Processes Ports Env Vars",
+    "moduleTitle": "Module 4 · Module 4",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/04_module_4/lessons/16_016_016_processes_ports_env_vars_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "http-dns-tls-basics",
+    "title": "Http Dns Tls Basics",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 0,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/05_module_5/lessons/17_017_017_http_dns_tls_basics_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "debugging-loop",
+    "title": "Debugging Loop",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 1,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/05_module_5/lessons/18_018_018_debugging_loop_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "integration-mini-project",
+    "title": "Integration Mini Project",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 2,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/05_module_5/lessons/19_019_019_integration_mini_project_lesson.md"
+  },
+  {
+    "courseSlug": "career-programming_cs_foundations",
+    "slug": "track-1-capstone",
+    "title": "Track 1 Capstone",
+    "moduleTitle": "Module 5 · Module 5",
+    "moduleSort": 4,
+    "sort": 3,
+    "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/01_programming_cs_foundations/modules/05_module_5/lessons/20_020_020_track_1_capstone_lesson.md"
+  },
+  {
     "courseSlug": "career-backend_engineering",
     "slug": "backend-request-response",
     "title": "Backend Request Response",

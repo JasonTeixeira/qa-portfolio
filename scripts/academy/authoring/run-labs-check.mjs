@@ -35,10 +35,17 @@ for (const { slug, solution } of solutions) {
     failures.push({ slug, why: 'runtime error', detail: (e.stderr || e.message || '').toString().slice(-400) })
     fail++; continue
   }
-  if (norm(out) === norm(meta.check)) { pass++; console.log(`  PASS ${slug}`) }
-  else {
+  // Mirror verifyLab EXACTLY: verified = output.toLowerCase().includes(check.trim().toLowerCase()).
+  // That substring rule is what learners actually hit; a lab is real iff its solution satisfies it.
+  const outN = norm(out), checkN = norm(meta.check).trim()
+  const verified = checkN.length > 0 && outN.toLowerCase().includes(checkN.toLowerCase())
+  if (verified) {
+    pass++
+    const exact = outN === norm(meta.check)
+    console.log(`  PASS ${slug}${exact ? '' : ' (substring; check not exact stdout — ok for prod, quality nit)'}`)
+  } else {
     fail++
-    failures.push({ slug, why: 'stdout != check', got: out.slice(0, 400), want: meta.check.slice(0, 400) })
+    failures.push({ slug, why: 'check not found in solution stdout', got: out.slice(0, 400), want: meta.check.slice(0, 400) })
     console.log(`  FAIL ${slug}`)
   }
 }

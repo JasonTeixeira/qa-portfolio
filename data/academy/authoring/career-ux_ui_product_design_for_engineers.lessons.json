@@ -2552,7 +2552,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding: visual hierarchy and accessible structure are the same discipline, not a tradeoff. WCAG 1.3.1 (Info & Relationships) and 2.4.3 (Focus Order) require that the DOM/heading/tab order convey the SAME sequence a sighted user sees. If you used CSS order or flex-direction to reorder the visual hierarchy, you may have split it from the accessibility tree — a screen-reader or keyboard user now traverses a different, scrambled hierarchy. Rank once, in the source, and let visual and assistive order agree."
+      "text": "Standards grounding: visual hierarchy and accessible structure are the same discipline, not a tradeoff. WCAG 1.3.1 (Info & Relationships) requires that structure and relationships be programmatically determinable, and 2.4.3 (Focus Order) requires the focus order to preserve meaning and operability — so DOM/heading/tab order should convey a sequence consistent with the meaning a sighted user perceives. If you used CSS order or flex-direction to reorder the visual hierarchy, you may have split it from the accessibility tree — a screen-reader or keyboard user now traverses a different, scrambled hierarchy. Rank once, in the source, and let visual and assistive order agree."
     },
     {
       "type": "quiz",
@@ -3695,7 +3695,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell: automated scanners (axe, Lighthouse) catch roughly a third of WCAG issues — missing alt text, contrast, absent labels — the machine-checkable ones. They cannot judge whether focus order is logical, whether an error message actually helps, or whether alt text is meaningful. WCAG 2.2 AA is the legal bar most regulations point to (ADA, EN 301 549, the European Accessibility Act). 'The scan is green' is where the audit starts, not where it ends."
+      "text": "The senior tell: automated scanners (axe, Lighthouse) catch only a subset of WCAG issues — estimates range from roughly a third to about half — the machine-checkable ones like missing alt text, contrast, and absent labels. They cannot judge whether focus order is logical, whether an error message actually helps, or whether alt text is meaningful. WCAG 2.1 AA is the legal bar most regulations currently point to (ADA Title II, EN 301 549 v3.2.1, the European Accessibility Act); WCAG 2.2 is the newer W3C version but not yet the referenced legal standard. 'The scan is green' is where the audit starts, not where it ends."
     },
     {
       "type": "quiz",
@@ -3707,16 +3707,16 @@
         "Explain that no users have complained yet, so it must be fine."
       ],
       "answer": 1,
-      "explanation": "Conformance needs proof across principles a machine can't judge. axe covers the machine-checkable slice (~30–40%); the keyboard walkthrough proves Operable (focus order, no traps — WCAG 2.4.3, 2.1.2) and the screen-reader pass proves Understandable + Robust (errors announced with a suggestion — 3.3.1, 3.3.3, 4.1.2). Options 1, 3, and 4 all substitute a proxy (a partial scan, a mockup, absence of complaints) for the actual inspection."
+      "explanation": "Conformance needs proof across principles a machine can't judge. axe covers the machine-checkable slice (~30–40%); the keyboard walkthrough proves Operable (focus order, no traps — WCAG 2.4.3, 2.1.2) and the screen-reader pass proves Understandable + Robust (errors identified and announced with a suggestion — 3.3.1, 3.3.3 under Understandable; 4.1.2 Name, Role, Value under Robust). Options 1, 3, and 4 all substitute a proxy (a partial scan, a mockup, absence of complaints) for the actual inspection."
     },
     {
       "type": "verification",
       "intro": "Prove the WCAG section holds — no vibes, use at least two hooks:",
       "items": [
         "Perceivable: run the axe scan; confirm zero contrast failures AND confirm no state (error, selected, required) is signaled by color alone. Paste the scan line or the color-only note.",
-        "Operable: do a keyboard-only walkthrough — Tab through the whole flow. Every interactive element is reachable, focus is always visible, and no keyboard trap exists (WCAG 2.1.2, 2.4.3, 2.4.7).",
+        "Operable: do a keyboard-only walkthrough — Tab through the whole flow. Every interactive element is reachable, focus is always visible, and no keyboard trap exists (WCAG 2.1.1 Keyboard, 2.1.2 No Keyboard Trap, 2.4.7 Focus Visible).",
         "Understandable: trigger every error. Each one names WHAT is wrong and HOW to fix it, and moves focus to the problem — not a generic 'submission failed' (WCAG 3.3.1, 3.3.3).",
-        "Robust: run a screen-reader smoke pass (VoiceOver / NVDA). Every field announces its label, role, and current value; errors are announced via role=alert or aria-describedby (WCAG 4.1.2).",
+        "Robust: run a screen-reader smoke pass (VoiceOver / NVDA). Every field announces its label, role, and current value (WCAG 4.1.2 Name, Role, Value); error messages are announced via role=alert or aria-live regions (WCAG 4.1.3 Status Messages), with aria-describedby associating the message to the field.",
         "Record the invalidation condition: name one change (a redesign, a new modal, an async state) that would silently re-break one principle, so the packet flags where conformance is fragile."
       ]
     },
@@ -3730,7 +3730,7 @@
     },
     {
       "type": "transfer",
-      "text": "POUR is not a web ritual — it is the general test for 'can this human sense it, work it, follow it, and reach it with their tools'. On a mobile viewport, Operable shifts to touch-target size (min 44px, WCAG 2.5.8) and Perceivable to reflow at 320px. On an enterprise dashboard, Understandable becomes the load: consistent navigation and predictable state across dense screens. On a first-time onboarding flow, error suggestion and visible progress carry the weight. The principles stay invariant; what changes is which one is your weakest link. Carry the WCAG section forward — the module's capstone reuses this exact ux_state_accessibility_and_review_packet.md, and the accessibility flags you wrote here become the audit trail a reviewer replays."
+      "text": "POUR is not a web ritual — it is the general test for 'can this human sense it, work it, follow it, and reach it with their tools'. On a mobile viewport, Operable shifts to touch-target size (min 24×24 CSS px, WCAG 2.5.8 Target Size (Minimum); 44px is the AAA 2.5.5 / platform-HIG target) and Perceivable to reflow at 320px (WCAG 1.4.10 Reflow). On an enterprise dashboard, Understandable becomes the load: consistent navigation and predictable state across dense screens. On a first-time onboarding flow, error suggestion and visible progress carry the weight. The principles stay invariant; what changes is which one is your weakest link. Carry the WCAG section forward — the module's capstone reuses this exact ux_state_accessibility_and_review_packet.md, and the accessibility flags you wrote here become the audit trail a reviewer replays."
     },
     {
       "type": "spaced-review",
@@ -4811,7 +4811,7 @@
             18
           ],
           "label": "Name the rejected option",
-          "note": "Toast-only errors fail WCAG 3.3.1 (Error Identification) — they vanish before assistive tech announces them. Recording the reject stops the engineer re-proposing it."
+          "note": "Toast-only errors risk failing WCAG 4.1.3 Status Messages (Level AA) — a status message that vanishes may not be programmatically exposed for assistive tech to announce (and if it's a detected input error, it must also be identified in text per 3.3.1, Level A). Recording the reject stops the engineer re-proposing it."
         },
         {
           "lines": [

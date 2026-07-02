@@ -4220,7 +4220,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell, straight from WCAG's own scope: automated tools catch about a third of accessibility issues — the rest need a human. Name, role, and state (the accessibility-node contract behind TalkBack and VoiceOver) is the trio automated scans routinely miss, and it is exactly the trio that breaks under offline and lifecycle transitions. If your evidence is only a green scan, you have proven the easy third and skipped the two-thirds that fail your user in the field."
+      "text": "The senior tell: automated tools catch only a fraction of accessibility issues — the rest need a human. (Note: this ~30% figure comes from tooling vendors like Deque/axe-core, not from WCAG itself.) Name, role, and state (the accessibility-node contract behind TalkBack and VoiceOver) is the trio automated scans routinely miss, and it is exactly the trio that breaks under offline and lifecycle transitions. If your evidence is only a green scan, you have proven the easy third and skipped the two-thirds that fail your user in the field."
     },
     {
       "type": "quiz",

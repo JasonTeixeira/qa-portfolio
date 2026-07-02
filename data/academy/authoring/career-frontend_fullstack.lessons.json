@@ -231,7 +231,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell isn't more states — it's the accessible cue on each. WCAG 2.2 Status Messages (4.1.3) says a state change a sighted user sees (spinner, error banner, 'saved') must also reach assistive tech via role=\"alert\" or aria-live — without moving focus. A visually perfect error banner that a screen reader never announces is a silent failure for the users who most need the signal."
+      "text": "The senior tell isn't more states — it's the accessible cue on each. WCAG 2.2 Status Messages (4.1.3) says a status message a sighted user sees (spinner, error banner, 'saved') must be programmatically determinable through role or properties so it reaches assistive tech without moving focus; role=\"alert\" and aria-live are the standard techniques for doing so. A visually perfect error banner that a screen reader never announces is a silent failure for the users who most need the signal."
     },
     {
       "type": "quiz",
@@ -791,7 +791,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, and the WCAG 2.2 receipt: Success Criterion 1.4.10 (Reflow) requires content to render at 320 CSS px wide with no two-dimensional scrolling. An intrinsic grid passes 1.4.10 by construction; a fixed-px grid fails it the moment the column is wider than the viewport. 'Responsive' is not an aesthetic — it is an accessibility conformance requirement (WCAG 2.2 · SWEBOK V4 software-design quality · ABET problem-solving outcomes), and your state matrix is the evidence that you met it."
+      "text": "The senior tell, and the WCAG 2.2 receipt: Success Criterion 1.4.10 (Reflow, Level AA) requires content to be presentable without loss of information or functionality and without two-dimensional scrolling for vertically-scrolling content at a width of 320 CSS px, except where a two-dimensional layout is essential (e.g. maps, data tables). An intrinsic grid passes 1.4.10 by construction; a fixed-px grid fails it the moment the column is wider than the viewport. Reflow behavior is not just an aesthetic — WCAG 2.2 SC 1.4.10 (Reflow, Level AA) makes it an accessibility conformance requirement, and your state matrix is the evidence that you met it."
     },
     {
       "type": "quiz",
@@ -997,7 +997,7 @@
             11
           ],
           "label": "loading → aria-busy",
-          "note": "A skeleton with aria-busy='true' tells assistive tech 'content is coming', satisfying WCAG 2.2 status-message expectations. A bare spinner with no label is invisible to a screen reader."
+          "note": "A skeleton with aria-busy='true' signals to assistive tech that content is being updated, a supporting technique for conveying loading state (related to, though not sufficient on its own for, WCAG 2.2 SC 4.1.3 Status Messages). A bare spinner with no label is invisible to a screen reader."
         },
         {
           "lines": [
@@ -1072,7 +1072,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they design the state type BEFORE the JSX. Beginners write the happy-path markup, then bolt on isLoading and error as afterthoughts — which is exactly how empty and disabled get dropped. Grounded in WCAG 2.2, every one of those five states is also an accessibility surface: loading needs aria-busy, error needs role='alert', disabled needs aria-disabled plus a reason. The type isn't just for the compiler — it's the contract your screen-reader users depend on."
+      "text": "The senior tell: they design the state type BEFORE the JSX. Beginners write the happy-path markup, then bolt on isLoading and error as afterthoughts — which is exactly how empty and disabled get dropped. Consistent with WCAG 2.2 (SC 4.1.2 Name/Role/Value and 4.1.3 Status Messages), every one of those five states is also an accessibility surface, and ARIA techniques cover them: loading via aria-busy, error via role='alert', disabled via aria-disabled plus a reason. The type isn't just for the compiler — it's the contract your screen-reader users depend on."
     },
     {
       "type": "quiz",
@@ -1094,7 +1094,7 @@
         "Confirm data lives ONLY on the success arm: accessing `state.user` in the loading branch should be a compile error, not a runtime null.",
         "Delete the success case from your render switch. The build must fail at `assertNever`. If it compiles, your exhaustiveness guard is missing.",
         "Walk your state matrix: every one of loading / empty / error / disabled / success renders a DISTINCT surface — empty is not a blank div, disabled is not just greyed pixels.",
-        "Tie each non-happy state to a WCAG 2.2 signal: loading→aria-busy, error→role='alert', disabled→aria-disabled + visible reason. A state with no a11y signal is a state a screen-reader user cannot perceive."
+        "Tie each non-happy state to an accessible signal: loading→aria-busy, error→role='alert', disabled→aria-disabled + visible reason. (These are ARIA authoring patterns, not WCAG 2.2 success criteria; the closest normative SC is 4.1.3 Status Messages, AA.) A state with no a11y signal is a state a screen-reader user cannot perceive."
       ]
     },
     {
@@ -1324,7 +1324,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from WCAG 2.2: every non-success state must be a real, announced thing, not a vanished UI. A loading state needs aria-busy, an error state needs role=\"alert\", an empty state needs readable text — a screen-reader user who hits the error path should hear it, not silence. Composition makes this cheap: each state is its own component, so its accessibility lives in one place instead of being smeared across one monolith's conditionals."
+      "text": "The senior tell, in the spirit of WCAG 2.2 SC 4.1.3 (Status Messages, AA): status changes must be programmatically announced, not a vanished UI. A loading state needs aria-busy, an error state needs role=\"alert\", an empty state needs readable text — a screen-reader user who hits the error path should hear it, not silence. Composition makes this cheap: each state is its own component, so its accessibility lives in one place instead of being smeared across one monolith's conditionals."
     },
     {
       "type": "quiz",
@@ -1642,7 +1642,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 grounds this: each state is a perceivable announcement, not just a pixel. loading sets aria-busy=\"true\"; error renders role=\"alert\" so a screen reader announces it without a focus jump; success moves focus to the result heading so keyboard and AT users are not stranded on a dead button. The senior tell: a state machine whose transitions each name what is ANNOUNCED and where FOCUS goes, not just what is drawn. A reviewer calls this the row in your matrix that proves you thought about the user who cannot see the spinner. (SWEBOK does not use the phrase 'making the model explicit'; remove the SWEBOK attribution.)"
+      "text": "WCAG 2.2's Perceivable principle and SC 4.1.3 (Status Messages, AA) inform this: a status change should be a programmatically announced event, not just a pixel. loading sets aria-busy=\"true\"; error renders role=\"alert\" so a screen reader announces it without a focus jump; success moves focus to the result heading so keyboard and AT users are not stranded on a dead button. The senior tell: a state machine whose transitions each name what is ANNOUNCED and where FOCUS goes, not just what is drawn. A reviewer calls this the row in your matrix that proves you thought about the user who cannot see the spinner. (SWEBOK does not use the phrase 'making the model explicit'; remove the SWEBOK attribution.)"
     },
     {
       "type": "quiz",
@@ -2208,7 +2208,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 makes this non-optional, not nice-to-have: a sighted user sees the spinner stop, but a screen-reader user gets silence unless you announce the change. Loading needs aria-busy, errors need role=\"alert\" (assertive), and a successful swap needs an aria-live region — otherwise the state changed for everyone except the people who most need to be told. Status by color alone (red error text, no icon or label) also fails contrast and color-only signaling."
+      "text": "WCAG 2.2 SC 4.1.3 (Status Messages, AA) applies here: a sighted user sees the spinner stop, but a screen-reader user gets silence unless you announce the change. Loading needs aria-busy, errors need role=\"alert\" (assertive), and a successful swap needs an aria-live region — otherwise the state changed for everyone except the people who most need to be told. Status by color alone (red error text, no icon or label) also fails contrast and color-only signaling."
     },
     {
       "type": "quiz",
@@ -2494,7 +2494,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (WCAG 2.2 + SWEBOK V4): the error state is not done when it renders red — it is done when it is announced. Put `role=\"alert\"` (or an aria-live region) on the error and empty states so a screen-reader user learns the fetch failed without watching the viewport. The contract owns the data shape; the state matrix owns the accessible behavior of each outcome. A reviewer checks both."
+      "text": "Standards grounding (WCAG 2.2 SC 3.3.1 and 4.1.3): the error state is not done when it renders red — it is done when it is identified in text and programmatically announced. Put `role=\"alert\"` (or an aria-live region) on the error and empty states so a screen-reader user learns the fetch failed without watching the viewport. The contract owns the data shape; the state matrix owns the accessible behavior of each outcome. A reviewer checks both."
     },
     {
       "type": "quiz",
@@ -2771,7 +2771,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 is why empty and loading are first-class states, not afterthoughts. A blank table after filtering is a 'status message' failure (SC 4.1.3) — the screen-reader user gets silence and assumes the app froze. aria-live=\"polite\" on the results region and aria-busy on the skeleton are the whole fix. Senior engineers design the empty and error cells of the matrix before the happy path, because that's where products actually break in production."
+      "text": "Good state design is why empty and loading are first-class states, not afterthoughts (WCAG 2.2 SC 4.1.3 Status Messages, AA, covers announcing such changes to assistive tech). A blank table after filtering is a 'status message' failure (SC 4.1.3) — the screen-reader user gets silence and assumes the app froze. aria-live=\"polite\" on the results region and aria-busy on the skeleton are the whole fix. Senior engineers design the empty and error cells of the matrix before the happy path, because that's where products actually break in production."
     },
     {
       "type": "quiz",
@@ -3353,7 +3353,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 grounding the pros internalize: a drawer is a modal, so it must trap focus, restore focus to the triggering row on close, close on Escape, and carry aria-modal / role=dialog. A routed detail page doesn't trap focus — it moves focus to the new <h1>. Picking route vs drawer silently picks which accessibility contract you owe."
+      "text": "ARIA Authoring Practices grounding the pros internalize: a drawer used as a modal should manage focus, restore focus to the triggering row on close, close on Escape, and carry aria-modal / role=dialog. (WCAG 2.2 itself only requires no keyboard trap — SC 2.1.2, A — and meaningful focus order — SC 2.4.3, A.) A routed detail page doesn't trap focus — it moves focus to the new <h1>. Picking route vs drawer silently picks which accessibility contract you owe."
     },
     {
       "type": "quiz",
@@ -3946,7 +3946,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they verify the session in TWO places — the edge (cheap redirect) and the page (re-check before the data fetch) — because a cookie reaching your Server Component proves it exists, not that it's valid. And they scope every query to session.userId: authentication asks 'who are you?', authorization asks 'is this YOUR row?'. Skipping the second is the IDOR bug that leaks one user's data to another even when both are logged in. WCAG 2.2 closes the loop: a route transition (the redirect, and the protected page mounting) must move focus and announce, or a screen-reader user is silently teleported."
+      "text": "The senior tell: they verify the session in TWO places — the edge (cheap redirect) and the page (re-check before the data fetch) — because a cookie reaching your Server Component proves it exists, not that it's valid. And they scope every query to session.userId: authentication asks 'who are you?', authorization asks 'is this YOUR row?'. Skipping the second is the IDOR bug that leaks one user's data to another even when both are logged in. Route transitions (the redirect, and the protected page mounting) should move focus and announce the change, or a screen-reader user is silently teleported. (WCAG 2.2 doesn't name SPA route transitions directly, but 2.4.3 Focus Order and 4.1.3 Status Messages inform the practice.)"
     },
     {
       "type": "quiz",
@@ -4205,7 +4205,7 @@
           "Screen reader announces 'group', not 'button'",
           "No visible focus ring (divs get none)"
         ],
-        "verdict": "Fails keyboard, role, and focus — three WCAG criteria"
+        "verdict": "Fails keyboard and focus — WCAG criteria (2.1.1 Keyboard, 2.4.7 Focus Visible); a missing/incorrect ARIA role is a related implementation defect, not a separate WCAG success criterion."
       },
       "right": {
         "label": "Native button + key handlers",
@@ -4237,7 +4237,7 @@
         "'I added role=\"button\" and aria-label to the div, so assistive tech sees it.'"
       ],
       "answer": 1,
-      "explanation": "Only option 2 produces inspectable proof of operability: a keyboard-only flow that exercises every binding and asserts the focus-restore (WCAG 2.1.2). Option 1 tests announcement, not operability. Option 3 tests the mouse path. Option 4 adds a role but a div is still not focusable or Enter/Space-operable — it announces as a button it cannot behave as."
+      "explanation": "Only option 2 produces inspectable proof of operability: a keyboard-only flow that exercises every binding and asserts the focus-restore (WCAG 2.1.1 Keyboard / 2.1.2 No Keyboard Trap). Option 1 tests announcement, not operability. Option 3 tests the mouse path. Option 4 adds a role but a div is still not focusable or Enter/Space-operable — it announces as a button it cannot behave as."
     },
     {
       "type": "verification",
@@ -4465,7 +4465,7 @@
             24
           ],
           "label": "Keyboard + focus check (WCAG 2.2)",
-          "note": "Tab must land on the primary action and focus must be visible (WCAG 2.2 SC 2.4.7 / 2.4.11). Mouse-only proof hides every keyboard failure."
+          "note": "Tab must land on the primary action and focus must be visible (WCAG 2.2 SC 2.4.7 Focus Visible), and not obscured by overlays (SC 2.4.11 Focus Not Obscured). Mouse-only proof hides every keyboard failure."
         },
         {
           "lines": [
@@ -4512,7 +4512,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 (SC 1.4.10 Reflow) requires content to work at 320px CSS width with no horizontal scrolling — that's not a nice-to-have, it's the line the law draws. The senior tell: they prove the error and empty states at the smallest viewport FIRST, because that's the cell that fails. Anyone can screenshot success at 1440."
+      "text": "WCAG 2.2 (SC 1.4.10 Reflow, Level AA) requires content to work at 320px CSS width without scrolling in two dimensions — that's not a nice-to-have, it's the line the standard draws. The senior tell: they prove the error and empty states at the smallest viewport FIRST, because that's the cell that fails. Anyone can screenshot success at 1440."
     },
     {
       "type": "quiz",
@@ -4532,7 +4532,7 @@
       "items": [
         "Every state (loading, empty, error, disabled, success) appears at every breakpoint (320, 768, 1024, 1440) — count the cells, not the screenshots you happened to take.",
         "The 320px cell of the error state has a screenshot AND a passing no-horizontal-overflow assertion. If the error toast overflows, that's a real failure to log, not a cell to skip.",
-        "A keyboard-only pass reaches the primary action and focus is visible at each cell (WCAG 2.2 SC 2.4.7 / 2.4.11) — recorded as a checklist, not a memory.",
+        "A keyboard-only pass reaches the primary action and focus is visible at each cell (WCAG 2.2 SC 2.4.7 Focus Visible; SC 2.4.11 Focus Not Obscured for overlay cases) — recorded as a checklist, not a memory.",
         "The error state was triggered by a real failure path (a mocked 500 or thrown error boundary), not faked by a ?state=error that silently renders success.",
         "The Playwright flow re-runs green from a clean checkout — a reviewer can reproduce your evidence without you, or it is your screenshot, not proof."
       ]
@@ -5379,7 +5379,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in WCAG 2.2: observability isn't only logs — it's the user-facing states. A deploy that fails should degrade to a real error boundary with role=\"alert\" and a recovery action, not a blank viewport. If your only 'observability' is a dashboard nobody on call is watching, the loading/error/empty states ARE your first line of production telemetry — make them accessible and unmistakable."
+      "text": "The senior tell: observability isn't only logs — it's the user-facing states, and WCAG 2.2 SC 4.1.3 makes surfacing those states an accessibility requirement. A deploy that fails should degrade to a real error boundary with role=\"alert\" and a recovery action, not a blank viewport. If your only 'observability' is a dashboard nobody on call is watching, the loading/error/empty states ARE your first line of production telemetry — make them accessible and unmistakable."
     },
     {
       "type": "quiz",
@@ -5699,7 +5699,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 is not a final-checklist item — it is a state-machine constraint. The moment your status changes, ask: does focus go somewhere sensible, and is the change announced (aria-live / role='alert')? A spinner with no aria-busy and a success with no moved focus are invisible to a third of your error states' worst-affected users. Bake the announcement into the same handler that flips the state, never bolt it on after."
+      "text": "WCAG 2.2 is not just a final-checklist item — treat it as a per-state constraint (each UI state must satisfy the relevant success criteria). The moment your status changes, ask: does focus go somewhere sensible, and is the change announced (aria-live / role='alert')? A spinner with no aria-busy and a success with no moved focus are invisible to a third of your error states' worst-affected users. Bake the announcement into the same handler that flips the state, never bolt it on after."
     },
     {
       "type": "quiz",

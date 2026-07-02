@@ -3692,7 +3692,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: automated tooling like axe-core catches roughly 30-40% of WCAG issues — missing labels, contrast, ARIA misuse, tab order violations it can infer. It cannot judge whether alt text is meaningful or whether focus order makes sense to a human. So the gate is a floor, not a ceiling: it blocks the regressions a machine can prove, and the packet must say so explicitly, or a reviewer will read 'axe passed' as 'accessible' — a claim the tool never made."
+      "text": "Tooling reality: automated tooling like axe-core catches only a portion of WCAG issues — missing labels, contrast, ARIA misuse, tab-order violations it can infer. (The commonly cited ~30-40% figure is a tooling-vendor estimate, not a WCAG standard.) It cannot judge whether alt text is meaningful or whether focus order makes sense to a human. So the gate is a floor, not a ceiling: it blocks the regressions a machine can prove, and the packet must say so explicitly, or a reviewer will read 'axe passed' as 'accessible' — a claim the tool never made."
     },
     {
       "type": "quiz",
@@ -3722,7 +3722,7 @@
       "prompts": [
         "In your own words: why is a role/label locator (getByRole) itself an accessibility assertion, and how does that make your test resist both flakiness and a11y regressions at once?",
         "Explain the difference between an accessibility scan that is logged and one that is gated, using your own exit-code and threshold as the example.",
-        "axe-core covers ~30-40% of WCAG. Explain to a PM what your gate does guarantee and what it explicitly does not — and why claiming full accessibility from a green scan is a false-confidence failure."
+        "axe-core catches roughly 30-57% of WCAG issues automatically (Deque's study reports ~57%); the rest require manual review. Explain to a PM what your gate does guarantee and what it explicitly does not — and why claiming full accessibility from a green scan is a false-confidence failure."
       ]
     },
     {

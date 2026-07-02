@@ -94,8 +94,8 @@ occurrences → re-apply affected courses → commit. Order by false-attribution
 | OWASP | 102 | 64 | **38** | 63% confirmed (concrete categories fare better) — corrections were miscited category numbers (API1 vs API3/5/8), the retired "Excessive Data Exposure", A09 vs A02 mixups. Fixed across 4 courses, re-applied clean. |
 | WCAG | 132 | 101 | **31** | 77% confirmed — corrections were the WCAG-vs-ARIA conflation (aria-busy/role=alert/aria-modal cited as "WCAG requirements" when they're ARIA techniques; WCAG sets the outcome) + omitted SC exceptions (1.4.10 Reflow). Fixed across 4 courses, re-applied clean. |
 | NIST | 36 | 6 | **30** | 83% false/imprecise (framework over-attributed like SWEBOK/DORA) — "traceability" cited as a named trustworthiness property (it's "accountable and transparent"), "abstention" prescribed (word absent), cost/latency named as a monitored triad (not in text). Fixed across 3 courses, re-applied clean. |
-| SOC2 | 18 | — | — | running next |
-| RFC | 10 | — | — | queued |
+| SOC2 | 18 | 5 | **13** | "SOC 2 certified" (it's an attestation report, not a certification), invented SLA windows (24h/15min attributed to CC6.3, which sets none), a non-existent "access-review control", mandated quarterly cadence (org-chosen). Fixed across 2 courses, re-applied clean. |
+| RFC | 10 | — | — | running last |
 | (security_identity) | POC: 3 lessons 82–98 | 1 (403→404) | proof-of-concept done before the full run |
 
 ## Guardrails (unchanged)

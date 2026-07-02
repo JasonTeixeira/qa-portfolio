@@ -136,7 +136,7 @@
       "subtitle": "enterprise_saas_governance_and_integration_packet.md — the map as text, backed by an RBAC matrix diff and a SCIM replay.",
       "filename": "enterprise_saas_governance_and_integration_packet.md",
       "language": "bash",
-      "code": "# Business System Map — SaaS Rollout Decision Packet\n\n## Constraint\n- Non-negotiable: a terminated user MUST lose all SaaS access within 24h (SOC 2 CC6.3)\n\n## System Map (six layers, directed)\n[HR] --lifecycle event--> [IdP: SAML/OIDC] --SSO--> [Salesforce]\n         (source of truth)        |\n                                   +--SCIM--> [Salesforce RBAC]  (DEprovision lags here)\n[Approvals] --elevates--> [Salesforce]        [Salesforce] --events--> [Audit Log]\n- Suspect boundary: IdP term event -> SCIM -> app role revocation\n- Blast radius if it fails: ghost account keeps live access + record edits; NO data loss\n- Out of scope (defended): billing + marketing tools — nothing on this path grants them\n\n## Selected approach\n- Drive deprovisioning from HR term event via SCIM (single source of truth)\n\n## Rejected approach\n- Manual offboarding checklist per app — bypassed under load, no audit trail\n\n## Inspection-hook outputs (attach)\n- RBAC matrix diff: 3 roles grant record export; only 1 was approved\n- SCIM provisioning event replay: term event fired, revoke event NEVER acked by app\n\n## Expected failure / verification / reviewer objection / repair notes / capstone connection",
+      "code": "# Business System Map — SaaS Rollout Decision Packet\n\n## Constraint\n- Non-negotiable: a terminated user MUST lose all SaaS access promptly on offboarding. SOC 2 CC6.3 requires that access be removed on role change/termination but sets no fixed deadline; the 24h SLA is our internal policy.\n\n## System Map (six layers, directed)\n[HR] --lifecycle event--> [IdP: SAML/OIDC] --SSO--> [Salesforce]\n         (source of truth)        |\n                                   +--SCIM--> [Salesforce RBAC]  (DEprovision lags here)\n[Approvals] --elevates--> [Salesforce]        [Salesforce] --events--> [Audit Log]\n- Suspect boundary: IdP term event -> SCIM -> app role revocation\n- Blast radius if it fails: ghost account keeps live access + record edits; NO data loss\n- Out of scope (defended): billing + marketing tools — nothing on this path grants them\n\n## Selected approach\n- Drive deprovisioning from HR term event via SCIM (single source of truth)\n\n## Rejected approach\n- Manual offboarding checklist per app — bypassed under load, no audit trail\n\n## Inspection-hook outputs (attach)\n- RBAC matrix diff: 3 roles grant record export; only 1 was approved\n- SCIM provisioning event replay: term event fired, revoke event NEVER acked by app\n\n## Expected failure / verification / reviewer objection / repair notes / capstone connection",
       "steps": [
         {
           "lines": [
@@ -144,7 +144,7 @@
             4
           ],
           "label": "The hard constraint first",
-          "note": "Name the non-negotiable before the solution — here a 24h deprovision SLA tied to a real control (SOC 2 CC6.3). It must rule out at least one option, or it is decoration."
+          "note": "Name the non-negotiable before the solution — here a 24h deprovision SLA (our own target) that satisfies the deprovisioning obligation in SOC 2 CC6.3, which mandates removing access but sets no time window. It must rule out at least one option, or it is decoration."
         },
         {
           "lines": [
@@ -1005,7 +1005,7 @@
       "subtitle": "enterprise_saas_governance_and_integration_packet.md — the lifecycle mapped, the failure named, the proof attached.",
       "filename": "enterprise_saas_governance_and_integration_packet.md",
       "language": "bash",
-      "code": "# Enterprise SaaS Governance & Integration Packet\n\n## 1. Lifecycle stages (the workflow, end-to-end)\nrequest -> approval -> SCIM provision -> RBAC role -> audit log -> deprovision\n\n## 2. Constraint (non-negotiable)\nOffboarding MUST revoke all access within 24h — SOC2 access-review control.\n\n## 3. Selected approach\nDrive lifecycle from the IdP: SCIM push provisions AND deprovisions the SaaS app.\n\n## 4. Rejected approach\nManual ticket to revoke access on offboard — breaks under release/review risk:\nthe ticket is the transition nobody fires, so access outlives employment.\n\n## 5. Expected failure\nIdP offboard event does not propagate: SCIM deprovision never reaches the app;\norphaned account keeps its RBAC role; audit log shows no revoke event.\n\n## 6. Verification (inspection hooks)\n- [ ] SCIM provisioning event replay: replay an offboard, confirm deprovision fires\n- [ ] RBAC matrix diff: compare IdP roles vs SaaS roles — zero drift, zero orphans\n\n## 7. Reviewer objection + answer\nObjection: \"Is deprovisioning PROVEN or just configured?\"\nAnswer: attached replay log + RBAC diff showing the March contractor now revoked.",
+      "code": "# Enterprise SaaS Governance & Integration Packet\n\n## 1. Lifecycle stages (the workflow, end-to-end)\nrequest -> approval -> SCIM provision -> RBAC role -> audit log -> deprovision\n\n## 2. Constraint (non-negotiable)\nOffboarding MUST revoke all access promptly (our target: within 24h). This maps to SOC 2 CC6.3's requirement to remove access on termination, which specifies no fixed deadline.\n\n## 3. Selected approach\nDrive lifecycle from the IdP: SCIM push provisions AND deprovisions the SaaS app.\n\n## 4. Rejected approach\nManual ticket to revoke access on offboard — breaks under release/review risk:\nthe ticket is the transition nobody fires, so access outlives employment.\n\n## 5. Expected failure\nIdP offboard event does not propagate: SCIM deprovision never reaches the app;\norphaned account keeps its RBAC role; audit log shows no revoke event.\n\n## 6. Verification (inspection hooks)\n- [ ] SCIM provisioning event replay: replay an offboard, confirm deprovision fires\n- [ ] RBAC matrix diff: compare IdP roles vs SaaS roles — zero drift, zero orphans\n\n## 7. Reviewer objection + answer\nObjection: \"Is deprovisioning PROVEN or just configured?\"\nAnswer: attached replay log + RBAC diff showing the March contractor now revoked.",
       "steps": [
         {
           "lines": [
@@ -1019,7 +1019,7 @@
             7
           ],
           "label": "The hard constraint",
-          "note": "Offboard revokes within 24h. This is the SOC2 access-review control — it must rule out the manual approach, or it is decoration."
+          "note": "Offboard revokes within 24h. This maps to SOC 2 CC6.3 (removing access on termination) — the design must actually enforce revocation, not just document intent, or it is decoration. SOC 2 does not mandate automation over a manual approach."
         },
         {
           "lines": [
@@ -1080,7 +1080,7 @@
         "tone": "success",
         "lines": [
           "Six stages incl. deprovision + audit, transitions named",
-          "Constraint: 24h revoke on offboard (SOC2 control)",
+          "Constraint: 24h revoke on offboard (internal SLA satisfying SOC 2 CC6.3, which requires removal but sets no deadline)",
           "IdP-driven SCIM chosen; manual-ticket revoke rejected + why",
           "Proof: SCIM replay log + RBAC matrix diff (zero orphans)",
           "Reviewer objection answered with attached evidence"
@@ -1092,7 +1092,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in enterprise IT: they don't ask 'can the user log in?' — they ask 'when this user leaves, what fires, and where's the audit event?' Provisioning is the stage everyone tests because it's visible on day one. Deprovisioning and audit are the stages that decide whether you pass SOC2, precisely because they only surface months later, at review. Design the lifecycle backward from offboarding."
+      "text": "The senior tell in enterprise IT: they don't ask 'can the user log in?' — they ask 'when this user leaves, what fires, and where's the audit event?' Provisioning is the stage everyone tests because it's visible on day one. Deprovisioning (CC6.3) and its audit trail are stages auditors scrutinize hard, precisely because gaps often surface later at review — though they are only part of what a SOC 2 examination assesses. Design the lifecycle backward from offboarding."
     },
     {
       "type": "quiz",
@@ -2135,7 +2135,7 @@
       "subtitle": "The real artifact from Build: an entitlement diff that surfaces drift, feeds one revocation decision, and cites the audit evidence.",
       "filename": "enterprise_saas_governance_and_integration_packet.md",
       "language": "bash",
-      "code": "## Access Review — BillingApp (SaaS)\n- Constraint: SOC 2 access-review is quarterly; every revocation needs an audit-log line + approver.\n- Source of truth: Okta (SSO) + SCIM provisioning events; baseline = RBAC matrix v3.\n\n### RBAC matrix diff (actual − intended)\n| user            | role (intended) | entitlement (actual)   | status       |\n|-----------------|-----------------|------------------------|--------------|\n| a.lee@co        | Finance         | Finance                | OK           |\n| j.ruiz@co       | (offboarded)    | Billing-Admin          | DRIFT: stale |\n| svc-reporting   | Read-Only       | Billing-Admin          | DRIFT: over  |\n| m.osei@co       | Support         | Support + Refund-Admin | DRIFT: over  |\n\n- Decision: REVOKE j.ruiz Billing-Admin (offboarded 03-14, SCIM deprovision never fired).\n- Rejected: 'recertify with manager' — manager can't attest access for a person who already left.\n- Verification (audit evidence): SCIM event replay shows `active:false` on j.ruiz but Billing-Admin\n  group membership persisted; post-fix log line: `2026-07-02 revoke Billing-Admin j.ruiz by s.admin (ticket ACC-118)`.\n- Transfer: in a regulated tenant, refund-admin over-grant (m.osei) escalates to a segregation-of-duties finding.",
+      "code": "## Access Review — BillingApp (SaaS)\n- Constraint (our policy): access reviews run quarterly and every revocation carries an audit-log line + approver. SOC 2 (CC6.3) requires access be controlled and evidenced but does not itself set the cadence or these specifics.\n- Source of truth: Okta (SSO) + SCIM provisioning events; baseline = RBAC matrix v3.\n\n### RBAC matrix diff (actual − intended)\n| user            | role (intended) | entitlement (actual)   | status       |\n|-----------------|-----------------|------------------------|--------------|\n| a.lee@co        | Finance         | Finance                | OK           |\n| j.ruiz@co       | (offboarded)    | Billing-Admin          | DRIFT: stale |\n| svc-reporting   | Read-Only       | Billing-Admin          | DRIFT: over  |\n| m.osei@co       | Support         | Support + Refund-Admin | DRIFT: over  |\n\n- Decision: REVOKE j.ruiz Billing-Admin (offboarded 03-14, SCIM deprovision never fired).\n- Rejected: 'recertify with manager' — manager can't attest access for a person who already left.\n- Verification (audit evidence): SCIM event replay shows `active:false` on j.ruiz but Billing-Admin\n  group membership persisted; post-fix log line: `2026-07-02 revoke Billing-Admin j.ruiz by s.admin (ticket ACC-118)`.\n- Transfer: in a regulated tenant, refund-admin over-grant (m.osei) escalates to a segregation-of-duties finding.",
       "steps": [
         {
           "lines": [
@@ -3699,7 +3699,7 @@
       "options": [
         "\"The webhook fires on every user change — we tested it in staging and it worked.\"",
         "\"We disabled the webhook receiver, ran the reconciler, and it detected the stale offboarded role, replayed the deprovision, and wrote an audit line showing before/after — here is the RBAC matrix diff and the SCIM replay output.\"",
-        "\"The vendor is SOC 2 certified, so the integration is compliant.\"",
+        "\"The vendor has a SOC 2 report, so the integration is compliant.\" (SOC 2 is an attestation report, not a certification; a vendor's report does not make your integration compliant.)",
         "\"We poll every 24 hours, so any drift is eventually consistent.\""
       ],
       "answer": 1,
@@ -4802,7 +4802,7 @@
       "options": [
         "\"We enabled SSO, gave the vendor least-privilege admin, and turned on MFA — all best practices.\"",
         "\"Here is a SCIM replay showing a disabled user deprovisioned in 9 minutes, an RBAC matrix diff with zero orphaned admins, and a 30-event audit sample with no post-disable reads.\"",
-        "\"The vendor is SOC 2 certified and their docs say they support SAML and SCIM.\"",
+        "\"The vendor has a SOC 2 report and their docs say they support SAML and SCIM.\"",
         "\"Access is correct because I configured the roles carefully and no one has complained.\""
       ],
       "answer": 1,
@@ -5025,7 +5025,7 @@
       "subtitle": "The strong artifact from the worked example — a real, inspectable decision packet, not a description.",
       "filename": "grc_evidence_decision_packet.md",
       "language": "bash",
-      "code": "# GRC Evidence Decision Packet — Contractor Offboarding Control\n## Constraint\n- Non-negotiable: terminated identities lose access in ALL apps within 15 min (SOC 2 CC6.3)\n- Rules out: any app integrated by direct token, no SCIM revoke hook\n## Selected approach\n- IdP-driven SCIM deprovision; RBAC matrix is source of role->entitlement truth\n## Rejected approach\n- Manual quarterly access review only -> fails: drift lives for up to 90 days\n## Expected failure (trigger)\n- App honors a stale OAuth token after SCIM disables the user -> access lingers\n## Verification method (inspection hooks)\n- RBAC matrix diff: entitlements before vs after termination event\n- SCIM provisioning event replay: assert deprovision event id=evt_8842 fired\n- Audit-log sample: app 'access.revoked' entry timestamp within 15 min of evt_8842\n## Reviewer objection + response\n- Objection: 'proven or just described?' -> replay evt_8842, show revoke + audit row\n## Evidence location\n- evidence/rbac_diff.json, evidence/scim_replay.log, evidence/audit_sample.json",
+      "code": "# GRC Evidence Decision Packet — Contractor Offboarding Control\n## Constraint\n- Non-negotiable: terminated identities lose access in ALL apps within 15 min (our internal SLA). SOC 2 CC6.3 requires removing access on termination but sets no fixed time window.\n- Rules out: any app integrated by direct token, no SCIM revoke hook\n## Selected approach\n- IdP-driven SCIM deprovision; RBAC matrix is source of role->entitlement truth\n## Rejected approach\n- Manual quarterly access review only -> fails: drift lives for up to 90 days\n## Expected failure (trigger)\n- App honors a stale OAuth token after SCIM disables the user -> access lingers\n## Verification method (inspection hooks)\n- RBAC matrix diff: entitlements before vs after termination event\n- SCIM provisioning event replay: assert deprovision event id=evt_8842 fired\n- Audit-log sample: app 'access.revoked' entry timestamp within 15 min of evt_8842\n## Reviewer objection + response\n- Objection: 'proven or just described?' -> replay evt_8842, show revoke + audit row\n## Evidence location\n- evidence/rbac_diff.json, evidence/scim_replay.log, evidence/audit_sample.json",
       "steps": [
         {
           "lines": [
@@ -5034,7 +5034,7 @@
             4
           ],
           "label": "Constraint before control",
-          "note": "Name the non-negotiable first (15-min revoke, mapped to SOC 2 CC6.3) and what it rules out. A constraint that eliminates no option is decoration, not governance."
+          "note": "Name the non-negotiable first (a 15-min revoke target — our own SLA — mapped to the access-removal requirement of SOC 2 CC6.3, which sets no time window) and what it rules out. A constraint that eliminates no option is decoration, not governance."
         },
         {
           "lines": [
@@ -5095,7 +5095,7 @@
         "A policy document stating that SCIM auto-deprovisions all terminated users.",
         "A screenshot of the IdP showing SSO is enforced for the app.",
         "A replayed SCIM deprovision event (evt_8842) plus the matching audit-log entry showing access revoked in the app within the constraint window, alongside an RBAC matrix diff.",
-        "A vendor's SOC 2 report asserting they support SCIM."
+        "A vendor's product documentation (or security/trust page) asserting they support SCIM — SOC 2 itself does not mandate or reference SCIM; a SOC 2 report only describes whatever access controls the vendor designed to meet CC6.x."
       ],
       "answer": 2,
       "explanation": "Only option 3 is inspectable operational proof: it ties a specific deprovision event to an observable audit record and an RBAC diff, so a reviewer can replay the failure and confirm the repair. The policy (1), the SSO screenshot (2), and the vendor's report (4) all describe intended behavior — none show the control behaving correctly under a real termination event."

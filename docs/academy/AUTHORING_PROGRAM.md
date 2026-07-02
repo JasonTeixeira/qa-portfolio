@@ -85,7 +85,8 @@ here once scored).
 | career-mobile_engineering_deep_dive | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-qa_sdet_test_automation_engineering | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-networking_fundamentals_advanced_networking | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| _(remaining 3 courses)_ | ~60 | — | — | — | queued, SERIAL (platform next) |
+| career-platform_engineering_internal_developer_platforms | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+| _(remaining 2 courses)_ | ~40 | — | — | — | queued, SERIAL (ux/ui next, then leadership, enterprise) |
 
 > Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 

@@ -91,8 +91,8 @@ occurrences → re-apply affected courses → commit. Order by false-attribution
 |---|---|---|---|---|
 | SWEBOK | 66 | 7 | **59** | 89% false/imprecise — SWEBOK invoked for distributed-systems/ops practices it doesn't cover; DORA/ABET co-citations also stripped. Fixed across 7 courses, re-applied clean. |
 | DORA | 105 | 20 | **85** | 81% false/imprecise — SRE golden signals, RED method, 12-factor, error budgets all falsely credited to DORA; DORA measures delivery outcomes, doesn't prescribe techniques. Fixed across 7 courses, re-applied clean. (1 rate-limit retry.) |
-| OWASP | 102 | — | — | running next |
-| WCAG | 132 | — | — | queued |
+| OWASP | 102 | 64 | **38** | 63% confirmed (concrete categories fare better) — corrections were miscited category numbers (API1 vs API3/5/8), the retired "Excessive Data Exposure", A09 vs A02 mixups. Fixed across 4 courses, re-applied clean. |
+| WCAG | 132 | — | — | running next (largest group) |
 | NIST | 36 | — | — | queued |
 | SOC2 | 18 | — | — | queued |
 | RFC | 10 | — | — | queued |

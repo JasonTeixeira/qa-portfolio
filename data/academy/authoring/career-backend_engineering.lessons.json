@@ -848,7 +848,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the error envelope, not the happy path. Anyone can return 200 on good input; a contract you can trust returns a typed, machine-readable 422 with per-field errors on bad input — every time, in the same shape. This is exactly what OWASP API Security flags as the difference between a hardened endpoint and one waiting to be exploited: unvalidated input and leaked 500 stack traces are top-10 API risks, not style nits."
+      "text": "The senior tell is the error envelope, not the happy path. Anyone can return 200 on good input; a contract you can trust returns a typed, machine-readable 422 with per-field errors on bad input — every time, in the same shape. This is the kind of gap OWASP API Security calls out: unvalidated input and verbose error responses (e.g., leaked 500 stack traces) fall under API8:2023 Security Misconfiguration — a top-10 API risk, not a style nit. (OWASP does not use the exact phrase 'leaked 500 stack traces'; leaking stack traces is an instance of Security Misconfiguration, and there is no standalone 'unvalidated input' item in the 2023 list.)"
     },
     {
       "type": "quiz",
@@ -1186,7 +1186,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Grounding, not vibes: OWASP API Security Top 10 lists Broken Object/Property-Level Authorization and excessive data exposure among the top risks — a leaked stack trace in an error body hits both at once. RFC 9457 (Problem Details) exists precisely so you do not invent a bespoke error shape per service. A sound design principle is that the contract is part of the design, not an afterthought (consistent with SWEBOK V4's Software Design knowledge area). The senior tell: their error model is designed with the success path, never bolted on after the demo."
+      "text": "Grounding, not vibes: OWASP API Security Top 10 lists Broken Object Level Authorization (API1) and Broken Object Property Level Authorization (API3, which absorbed the former 'Excessive Data Exposure') among the top risks; separately, a leaked stack trace in an error body is an instance of API8 Security Misconfiguration. (In the 2023 edition 'Excessive Data Exposure' is no longer its own entry, and a leaked stack trace maps to Security Misconfiguration, not to object/property authorization — so it does not 'hit both' of those authorization risks.) RFC 9457 (Problem Details) exists precisely so you do not invent a bespoke error shape per service. A sound design principle is that the contract is part of the design, not an afterthought (consistent with SWEBOK V4's Software Design knowledge area). The senior tell: their error model is designed with the success path, never bolted on after the demo."
     },
     {
       "type": "quiz",
@@ -1506,12 +1506,12 @@
         ],
         "verdict": "Five codes, five correct client actions"
       },
-      "caption": "OWASP API Security flags both extremes: leaking detail in error bodies AND hiding real failures behind 200s. The status class is the safe, machine-readable channel; the body is where you stay sparing."
+      "caption": "OWASP API Security (API8 Security Misconfiguration) flags leaking detail in error bodies; hiding real failures behind 200 responses is a sound engineering concern but is not something the OWASP API Top 10 explicitly names. The status class is the safe, machine-readable channel; the body is where you stay sparing."
     },
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in OWASP API Top 10: the dangerous failures are not the loud 500s — they're the 200s that hide an error and the 5xx that leaks a stack trace. Pick the code by what the CLIENT must do (retry / fix / re-auth / reconcile / stop), then keep the body minimal. A correct status code with a vague body beats a 200 with a perfect error message every time, because every layer between you and the user reads the code and almost none read the body."
+      "text": "The senior tell: the dangerous failures are not the loud 500s — they're the 200s that hide an error and the 5xx that leaks a stack trace. (Only the stack-trace-leak half maps to OWASP API Top 10 via API8 Security Misconfiguration; the '200 that hides an error' pattern is not named in the OWASP API Top 10, so the blanket 'grounded in OWASP API Top 10' framing overstates the authority.) Pick the code by what the CLIENT must do (retry / fix / re-auth / reconcile / stop), then keep the body minimal. A correct status code with a vague body beats a 200 with a perfect error message every time, because every layer between you and the user reads the code and almost none read the body."
     },
     {
       "type": "quiz",
@@ -2336,7 +2336,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP grounds this: Broken Object-Level Authorization is API Security Top 10 #1, precisely because the happy-path test always passes and the boundary is one easy-to-omit line. The senior tell is testing authorization with a VALID token for the WRONG object — not an expired or missing one. Anyone tests the locked door; pros test whether a real key opens the wrong lock."
+      "text": "OWASP grounds this: Broken Object-Level Authorization is API Security Top 10 #1. OWASP attributes its severity to the wide attack surface of endpoints that expose object identifiers with inadequate object-level access control; in practice the happy-path test still passes and the boundary is often one easy-to-omit line. The senior tell is testing authorization with a VALID token for the WRONG object — not an expired or missing one. Anyone tests the locked door; pros test whether a real key opens the wrong lock."
     },
     {
       "type": "quiz",
@@ -2610,7 +2610,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell isn't \"we use the repository pattern\" — it's where the transaction boundary sits. If a reviewer asks \"what happens when this exact POST arrives twice?\" and your answer points to a unique idempotency-key constraint inside one repository transaction, you have a boundary. If the answer is \"the client shouldn't retry,\" you have a leak with a nice interface bolted on top (OWASP API6: unrestricted access to business flows starts exactly here)."
+      "text": "The senior tell isn't \"we use the repository pattern\" — it's where the transaction boundary sits. If a reviewer asks \"what happens when this exact POST arrives twice?\" and your answer points to a unique idempotency-key constraint inside one repository transaction, you have a boundary. If the answer is \"the client shouldn't retry,\" you have a leak with a nice interface bolted on top (related to OWASP API6:2023 Unrestricted Access to Sensitive Business Flows, which is about a business flow being abused when invoked excessively or in an automated way)."
     },
     {
       "type": "quiz",
@@ -3817,7 +3817,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. (RED is Rate/Errors/Duration monitoring; DORA does not define or prescribe RED — drop DORA.) A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — logging secrets/PII is a security-misconfiguration / sensitive-data-in-logs risk (OWASP API8:2023 Security Misconfiguration; general OWASP A09:2021 Security Logging and Monitoring Failures), and request IDs exist precisely so you can correlate without logging the sensitive payload."
+      "text": "The senior tell, grounded in the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests. (RED is Rate/Errors/Duration monitoring; DORA does not define or prescribe RED — drop DORA.) A single error is noise; a rate change against an objective is a signal. And never log a token, password, or full card number into your structured fields — logging secrets/PII is a sensitive-data-exposure / security-misconfiguration risk (OWASP API8:2023 Security Misconfiguration; general OWASP A02:2021 Cryptographic Failures / A05:2021 Security Misconfiguration), and request IDs exist precisely so you can correlate without logging the sensitive payload."
     },
     {
       "type": "quiz",
@@ -4093,7 +4093,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight out of OWASP API Top 10: most production incidents live on the unhappy paths — broken object-level auth, missing input validation, unsafe retries — not the happy path. So pros write the failing-path tests FIRST and treat the 200 case as the easy one. If your suite can only go green, it is documentation, not a contract."
+      "text": "The senior tell: most production incidents live on the unhappy paths — broken object-level auth (OWASP API1:2023), missing input validation, unsafe retries — not the happy path. So pros write the failing-path tests FIRST and treat the 200 case as the easy one. If your suite can only go green, it is documentation, not a contract."
     },
     {
       "type": "quiz",
@@ -4707,7 +4707,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from the OWASP API and SWEBOK V4 evolution guidance: backward compatibility is owned by the CONSUMER, not the producer. A change is breaking if any deployed caller would behave differently — which means the real review question is never 'is my new code correct?' but 'name the oldest client still in the wild, and show me it still passes.' If you can't name that client, you haven't assessed compatibility, you've assumed it."
+      "text": "The senior tell: backward compatibility is owned by the CONSUMER, not the producer. A change is breaking if any deployed caller would behave differently — which means the real review question is never 'is my new code correct?' but 'name the oldest client still in the wild, and show me it still passes.' If you can't name that client, you haven't assessed compatibility, you've assumed it."
     },
     {
       "type": "quiz",
@@ -5246,7 +5246,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (OWASP API Top 10 + DORA): the senior tell is proving the FAILURE path, not the happy path. Anyone can show the request that works. A reviewer trusts the engineer who shows 'same key twice → one row' and 'mid-transaction error → zero rows' — because those are the exact behaviors that, left unproven, become the next 2 a.m. page. High-performing teams (DORA) keep failed-deployment recovery time low — but the 'because the repair ships with the replay' mechanism is the author's own claim, not a DORA finding. (DORA measures recovery time; it does not attribute low recovery time to shipping repairs with replays.)"
+      "text": "The senior tell: prove the FAILURE path, not just the happy path. Anyone can show the request that works. A reviewer trusts the engineer who shows 'same key twice → one row' and 'mid-transaction error → zero rows' — because those are the exact behaviors that, left unproven, become the next 2 a.m. page. High-performing teams (DORA) keep failed-deployment recovery time low — but the 'because the repair ships with the replay' mechanism is the author's own claim, not a DORA finding. (DORA measures recovery time; it does not attribute low recovery time to shipping repairs with replays.)"
     },
     {
       "type": "quiz",
@@ -5481,7 +5481,7 @@
             7
           ],
           "label": "Auth boundary",
-          "note": "Authorize BEFORE any side effect. A 401/403 must never leave a half-written charge behind. This is the OWASP API broken-authorization control on the write path."
+          "note": "Authorize BEFORE any side effect. A 401/403 must never leave a half-written charge behind. This is the OWASP API1:2023 Broken Object Level Authorization control on the write path."
         },
         {
           "lines": [
@@ -5556,7 +5556,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: OWASP API Top 10 puts broken object/function authorization at the top — so the auth boundary fires before any write, never after. This is a construction-for-verification pattern: the unique(actorId,key) constraint and the transactional outbox move correctness from 'the app remembers to check' to 'the database makes the wrong state impossible'. The senior tell is pushing the invariant down to the constraint, where a careless caller can't bypass it."
+      "text": "Standards grounding: the OWASP API Security Top 10 (2023) ranks Broken Object Level Authorization at #1 (with Broken Function Level Authorization at #5) — so the auth boundary should fire before any write, never after. This is a construction-for-verification pattern: the unique(actorId,key) constraint and the transactional outbox move correctness from 'the app remembers to check' to 'the database makes the wrong state impossible'. The senior tell is pushing the invariant down to the constraint, where a careless caller can't bypass it."
     },
     {
       "type": "quiz",

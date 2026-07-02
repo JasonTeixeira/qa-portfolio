@@ -871,7 +871,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (OWASP API Top 10, NIST GenAI Profile): the model output is an external, untrusted boundary — treat it exactly like a request body. You would never insert a raw HTTP body into your DB without schema validation; an LLM response earns the same distrust. The senior tell is a rejected-trace in the evidence, not just a passing one — anyone can show a happy path; proving the gate says 'no' is proving the contract exists."
+      "text": "Following the spirit of OWASP's API and LLM guidance: treat model output as an external, untrusted boundary — the same posture you'd apply to a request body. (Note: neither the OWASP API Top 10 nor the NIST GenAI Profile explicitly prescribes 'treat model output like a request body'; this is an applied inference, not a quotation.) You would never insert a raw HTTP body into your DB without schema validation; an LLM response earns the same distrust. The senior tell is a rejected-trace in the evidence, not just a passing one — anyone can show a happy path; proving the gate says 'no' is proving the contract exists."
     },
     {
       "type": "quiz",
@@ -3289,7 +3289,7 @@
       "time": "25–30 min",
       "proof": "The 'Tool Calling Workflow' section of rag_eval_and_guardrail_packet.md: a named tool schema (required params + types), a pre-execution validator with at least one rejected call, a grounding rule tying the answer to tool output, one broken case (unvalidated arguments), and a reviewer objection. An eval trace shows one call passing and one call blocked.",
       "unlock": "Your workflow validates tool arguments BEFORE execution, grounds the answer in tool output, and you can show one call that was correctly blocked.",
-      "doNotClaim": "Do not claim you have a tool-calling workflow if the model's arguments flow straight into the tool with no schema check. A workflow that trusts the model's JSON is not a workflow — it is an injection surface (OWASP API1: Broken Object Level Authorization). The validator is the skill, not the schema."
+      "doNotClaim": "Do not claim you have a tool-calling workflow if the model's arguments flow straight into the tool with no schema check. A workflow that trusts the model's JSON is not a workflow — it is an injection surface. (The injection framing maps to OWASP LLM01 Prompt Injection, not to API1 Broken Object Level Authorization, which is about failing to check that a caller may act on a specific object — a different failure than trusting model-emitted JSON.) The validator is the skill, not the schema."
     },
     {
       "type": "mission",
@@ -3460,7 +3460,7 @@
             12
           ],
           "label": "Reject unknown tools",
-          "note": "The model can hallucinate a tool name (refund_order it was never given). An allowlist of real tools is the first gate — OWASP API1."
+          "note": "The model can hallucinate a tool name (refund_order it was never given). An allowlist of real tools is the first gate. (An allowlist constraining which tools/functions may be invoked is not what API1 Broken Object Level Authorization describes; if a standard citation is wanted it is closer to API5 Broken Function Level Authorization, but ideally drop the specific-number citation since the OWASP text does not name tool allowlists.)"
         },
         {
           "lines": [

@@ -2509,7 +2509,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP MASVS-STORAGE is explicit: credentials must live in the platform keystore, never in app-scoped plaintext (Preferences, files, or DBs). The senior tell is the accessibility flag, not the API call — an engineer who reaches for Keychain but leaves it at the default `WHEN_UNLOCKED` (not `..._THIS_DEVICE_ONLY`) still leaks the token through device backups. The store is necessary; the access policy is what makes it sufficient."
+      "text": "OWASP MASVS-STORAGE is explicit: sensitive data and credentials must use the platform's secure credential storage (iOS Keychain, Android Keystore-backed encrypted storage), never app-scoped plaintext (Preferences, files, or DBs). The senior tell is the accessibility flag, not the API call — an engineer who reaches for Keychain but leaves it at the default `WHEN_UNLOCKED` (not `..._THIS_DEVICE_ONLY`) still leaks the token through device backups. The store is necessary; the access policy is what makes it sufficient."
     },
     {
       "type": "quiz",

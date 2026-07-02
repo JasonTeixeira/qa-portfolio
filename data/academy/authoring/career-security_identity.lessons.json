@@ -866,7 +866,7 @@
     },
     {
       "type": "mission",
-      "text": "The audit log shows a 200, not a 403: user A, a legitimate 'billing_reader', pulled tenant B's invoices — same role, wrong tenant. The role check passed; nothing checked whose data it was. That single missing attribute is the most-exploited API flaw on the OWASP API Top 10."
+      "text": "The audit log shows a 200, not a 403: user A, a legitimate 'billing_reader', pulled tenant B's invoices — same role, wrong tenant. The role check passed; nothing checked whose data it was. That single missing attribute maps to the #1-ranked flaw on the OWASP API Security Top 10 (Broken Object Level Authorization)."
     },
     {
       "type": "context",
@@ -1054,7 +1054,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP grounding (API Security Top 10): API1 Broken Object Level Authorization is the #1 API risk precisely because RBAC-only code looks correct in review — the role check is right there. The tell reviewers are trained to demand: 'show me where the OBJECT's owner is compared to the CALLER's identity.' No object-level predicate = no authorization, regardless of how many roles you defined."
+      "text": "OWASP grounding (API Security Top 10 2023): API1 Broken Object Level Authorization is the #1 API risk. The RBAC-only trap — where the role check looks correct in review because it's right there, yet the object-ownership check is missing — is the author's framing, not OWASP's stated rationale. The tell reviewers are trained to demand: 'show me where the OBJECT's owner is compared to the CALLER's identity.' No object-level predicate = no authorization, regardless of how many roles you defined."
     },
     {
       "type": "quiz",
@@ -1358,7 +1358,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP API Security Top 10 ranks Broken Object Level Authorization #1 because it is the most common and most damaging API flaw — one unchecked ID exposes every record. The pro move: never authorize with a claim the client controls (userId in the body, tenant in a header). Resolve the caller server-side from the token, and enforce ownership in the datastore query so a missed check fails closed, not open."
+      "text": "OWASP API Security Top 10 2023 ranks Broken Object Level Authorization #1 and describes it as extremely common in API-based applications, with serious impact — one unchecked ID can expose records the caller shouldn't reach. ('most common and most damaging' is not OWASP's wording.) The pro move: never authorize with a claim the client controls (userId in the body, tenant in a header). Resolve the caller server-side from the token, and enforce ownership in the datastore query so a missed check fails closed, not open."
     },
     {
       "type": "quiz",
@@ -1422,7 +1422,7 @@
     },
     {
       "type": "context",
-      "text": "Injection is OWASP's oldest survivor because every app has a trust boundary where external strings meet an interpreter — SQL, a shell, a template, a file path. This lesson turns 'we validate input' into a reviewable control in threat_model_and_access_control_packet.md, the same artifact the security capstone reuses."
+      "text": "Injection is a long-standing OWASP category (A03:2021, down from #1 in 2017) because every app has a boundary where untrusted data meets an interpreter — SQL, NoSQL, an OS command, an ORM, LDAP, or an expression language. ('oldest survivor' is not OWASP's term.) This lesson turns 'we validate input' into a reviewable control in threat_model_and_access_control_packet.md, the same artifact the security capstone reuses."
     },
     {
       "type": "pretest",
@@ -1644,7 +1644,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP A03:2021 folds Injection and XSS into one category for a reason: the fix is identical across sinks — keep untrusted data out of the interpreter's code channel. SQL gets bind parameters, the shell gets an argv array (never a shell string), templates get context-aware auto-escaping, file paths get canonicalization inside a confined root. Different interpreter, same invariant."
+      "text": "OWASP A03:2021 maps Cross-Site Scripting (CWE-79) into the Injection category alongside SQL injection (CWE-89). The shared prevention principle is to keep untrusted data separate from commands and queries — though OWASP does not claim the fix is literally identical across every sink. SQL gets bind parameters, the shell gets an argv array (never a shell string), templates get context-aware auto-escaping, file paths get canonicalization inside a confined root. Different interpreter, same invariant."
     },
     {
       "type": "quiz",
@@ -1920,7 +1920,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounded in OWASP (A07: Identification & Authentication Failures, and the secrets-exposure patterns behind A05: Security Misconfiguration) and the NICE Framework's least-privilege tasks: the reviewable evidence is not \"we use a vault.\" It is the access matrix (who can read this secret) plus a captured audit event proving reads are logged. A vault with a wildcard IAM policy and audit logging turned off is theater — it has the tool and none of the invariant."
+      "text": "The OWASP A07:2021 (Identification and Authentication Failures) and A05:2021 (Security Misconfiguration) titles are correct, but OWASP does not prescribe an 'access matrix plus captured audit event' as the evidence standard. Present that access-matrix-and-logged-reads standard as the lesson's own recommendation informed by OWASP and NICE least-privilege guidance, not as an OWASP mandate. A vault with a wildcard IAM policy and audit logging turned off is theater — it has the tool and none of the invariant."
     },
     {
       "type": "quiz",
@@ -1988,7 +1988,7 @@
     {
       "type": "pretest",
       "prompt": "The endpoint requires a valid session token and returns the order for the id in the URL. A logged-in user changes the id to one they don't own. What stops them? Answer before reading on.",
-      "reveal": "Nothing. Authentication checked that the token is valid — it never checked that THIS user owns THAT order. This is Broken Object Level Authorization (OWASP API1:2023), the single most common API vulnerability. The fix is one predicate: the query must filter by the caller's identity (WHERE user_id = session.user_id AND id = :id), so a non-owner gets zero rows, not someone else's data."
+      "reveal": "Nothing. Authentication checked that the token is valid — it never checked that THIS user owns THAT order. This is Broken Object Level Authorization (OWASP API1:2023), ranked #1 in the API Security Top 10 and described by OWASP as extremely common in API-based applications. The fix is one predicate: the query must filter by the caller's identity (WHERE user_id = session.user_id AND id = :id), so a non-owner gets zero rows, not someone else's data."
     },
     {
       "type": "concept",
@@ -2199,7 +2199,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The tell that separates a security-minded engineer: they never trust an identifier the client can change. Broken Object Level Authorization tops the OWASP API Security Top 10 precisely because \"require a token\" feels like security while every endpoint still trusts the id in the URL. Authorize the object, from the session, on the server — every time, per object, not once at the door."
+      "text": "The tell that separates a security-minded engineer: they never trust an identifier the client can change. Broken Object Level Authorization tops the OWASP API Security Top 10. A common cause is that authentication ('require a token') is in place while endpoints still trust the id in the URL without an object-ownership check — the framing of why is the author's, not OWASP's stated rationale. Authorize the object, from the session, on the server — every time, per object, not once at the door."
     },
     {
       "type": "quiz",
@@ -2258,7 +2258,7 @@
     },
     {
       "type": "mission",
-      "text": "A pentester types your own user ID into someone else's invoice URL, hits enter, and your API cheerfully returns their bank details — OWASP API1, Broken Object Level Authorization, the single most-exploited API flaw on the internet. Nobody wrote that request down as a threat, so nobody built the control that stops it."
+      "text": "A pentester swaps the id in an invoice URL, hits enter, and the API returns another user's record — OWASP API1, Broken Object Level Authorization, ranked #1 in the API Security Top 10 and described by OWASP as extremely common. ('single most-exploited API flaw on the internet' is not OWASP's characterization.) Nobody wrote that request down as a threat, so nobody built the control that stops it."
     },
     {
       "type": "context",
@@ -2526,7 +2526,7 @@
     },
     {
       "type": "context",
-      "text": "An attack tree turns a pile of vulnerabilities into a structured map of how an attacker actually reaches a goal — root goal, branching paths, and leaves you can price by attacker cost. It sits in the applied-skill phase of threat modeling: it is where OWASP findings and STRIDE categories become a prioritized, defendable plan for which control to build first."
+      "text": "An attack tree turns a pile of vulnerabilities into a structured map of how an attacker actually reaches a goal — root goal, branching paths, and leaves you can price by attacker cost. It sits in the applied-skill phase of threat modeling: it is where OWASP findings and STRIDE categories (used as inputs, not as the method itself) are turned into a prioritized, defensible plan for which control to build first."
     },
     {
       "type": "pretest",
@@ -2541,7 +2541,7 @@
     {
       "type": "diagram",
       "title": "Attack tree — goal: take over a user account",
-      "subtitle": "Root goal on top; two OR paths to reach it. The password-reset path is an AND-node (attacker needs a guessable token AND no rate limit). The cheapest leaf — weak reset token — is the branch a rate-limit control severs. STRIDE Spoofing / OWASP A07 territory.",
+      "subtitle": "Root goal on top; two OR paths to reach it. The password-reset path is an AND-node (attacker needs a guessable token AND no rate limit). The cheapest leaf — weak reset token — is the branch a rate-limit control severs. STRIDE Spoofing, which corresponds to OWASP A07 (Identification and Authentication Failures) territory (informal cross-mapping; OWASP itself does not use STRIDE).",
       "rankdir": "TB",
       "nodes": [
         {
@@ -2755,7 +2755,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Grounded in NICE Framework threat-modeling tasks and OWASP A07 (Identification & Authentication Failures): the senior tell is pricing leaves by ATTACKER cost, not defender effort. A junior tree lists what could go wrong; a senior tree ranks each leaf by dollars-and-skill-to-exploit and defends the cheapest one — because that is the only path the attacker's economics actually select."
+      "text": "Grounded in threat-modeling practice (attack-tree leaf costing) and informed by OWASP A07 (Identification and Authentication Failures): the senior tell is pricing leaves by ATTACKER cost, not defender effort. (Note: attacker-cost leaf pricing is attack-tree methodology, not an OWASP prescription.) A junior tree lists what could go wrong; a senior tree ranks each leaf by dollars-and-skill-to-exploit and defends the cheapest one — because that is the only path the attacker's economics actually select."
     },
     {
       "type": "quiz",
@@ -3011,7 +3011,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP grounding: Broken Object Level Authorization is #1 on the OWASP API Security Top 10 and the core of A01 Broken Access Control in the OWASP Top 10 — the most exploited class in production because every reviewer's eye slides past a passing auth decorator. The senior tell in review is asking 'which object, and who owns it?' on every id parameter, then demanding the failing request, not the reassuring read."
+      "text": "OWASP grounding: Broken Object Level Authorization is #1 on the OWASP API Security Top 10, and object-level authorization failures fall under A01 Broken Access Control (#1) in the OWASP Top 10 — one of the most prevalent classes OWASP measures, because every reviewer's eye slides past a passing auth decorator. The senior tell in review is asking 'which object, and who owns it?' on every id parameter, then demanding the failing request, not the reassuring read."
     },
     {
       "type": "quiz",
@@ -3578,7 +3578,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounding this in the standards: OWASP maps this to Broken Access Control (A01) and the NICE Framework treats least-privilege authorization as a core work role. The pro tell is the explicit Deny on iam:* and PassRole — because privilege escalation rarely needs admin directly; it needs one verb that can create or assume an admin. Pin those shut and log every attempt."
+      "text": "Grounding this in the standards: OWASP maps this to Broken Access Control (A01, which explicitly covers least-privilege violations), and the NICE Framework covers authorization and least-privilege enforcement within its cybersecurity work-role tasks and competencies. The pro tell is the explicit Deny on iam:* and PassRole — because privilege escalation rarely needs admin directly; it needs one verb that can create or assume an admin. Pin those shut and log every attempt."
     },
     {
       "type": "quiz",
@@ -3705,7 +3705,7 @@
         {
           "id": "waf",
           "label": "WAF",
-          "description": "inspect payload · OWASP ruleset",
+          "description": "inspect payload · OWASP CRS (Core Rule Set) — if referring to a runnable WAF ruleset; otherwise drop 'ruleset' since the OWASP Top 10 is a catalog, not a rule engine.",
           "kind": "process",
           "tone": "accent"
         },
@@ -3877,7 +3877,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "OWASP Top 10 and the API Top 10 both map cleanly onto edge controls — A05 Security Misconfiguration and API4 Unrestricted Resource Consumption are edge failures by construction. But the senior tell is that the edge is defense-in-depth, never the whole defense: authorization is still re-checked at the origin. An engineer who says 'the WAF handles it' has one boundary; an engineer who treats the edge as the first of several has a threat model."
+      "text": "OWASP Top 10 and the API Top 10 include categories that edge controls can help mitigate — A05 Security Misconfiguration and API4 Unrestricted Resource Consumption are two examples that often surface at the edge. But the senior tell is that the edge is defense-in-depth, never the whole defense: authorization is still re-checked at the origin. An engineer who says 'the WAF handles it' has one boundary; an engineer who treats the edge as the first of several has a threat model."
     },
     {
       "type": "quiz",
@@ -3975,7 +3975,7 @@
     {
       "type": "pretest",
       "prompt": "GET /api/users/42 requires a valid session, and the code checks the caller is logged in. Is the data protected? Answer before reading on.",
-      "reveal": "No — that is authentication, not data protection. OWASP API Top 10 calls the gap here BOLA (Broken Object Level Authorization, API1) plus Excessive Data Exposure (API3): a logged-in caller requests user 42's record and the server hands it over without asking whether THIS identity may read THAT object, or filtering which fields it may see. 'Logged in' is a doorway; the record is a vault. Protection is per-object, per-field, and it is the check almost everyone forgets because the happy path looks identical."
+      "reveal": "No — that is authentication, not data protection. OWASP API Top 10 calls the gap here BOLA (Broken Object Level Authorization, API1) plus Broken Object Property Level Authorization (API3, which absorbed the 2019 'Excessive Data Exposure'): a logged-in caller requests user 42's record and the server hands it over without asking whether THIS identity may read THAT object, or filtering which fields it may see. 'Logged in' is a doorway; the record is a vault. Protection is per-object, per-field, and it is the check almost everyone forgets because the happy path looks identical."
     },
     {
       "type": "concept",
@@ -4500,7 +4500,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounded in the NICE Framework and OWASP: the OWASP Top 10 lists \"Security Logging and Monitoring Failures\" as a category precisely because most teams log the happy path and never detect the abuse. The senior tell — you log the DENIED decision and can prove, with a replay, that your rule fires on abuse and stays silent on baseline. Detection you can't demonstrate firing is a hope, not a control."
+      "text": "Grounded in the NICE Framework and OWASP: the OWASP Top 10 lists \"Security Logging and Monitoring Failures\" (A09:2021) as a category because insufficient logging and monitoring lets breaches go undetected; a common instance is teams logging only the happy path and never detecting abuse. The senior tell — you log the DENIED decision and can prove, with a replay, that your rule fires on abuse and stays silent on baseline. Detection you can't demonstrate firing is a hope, not a control."
     },
     {
       "type": "quiz",
@@ -4790,7 +4790,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: this maps to OWASP Top 10 A01 Broken Access Control and A09 Security Logging & Monitoring Failures — the two most common findings in real audits. A01 is the missing control; A09 is the un-observed denial. Incident Response fails on A09 far more often than A01: the check exists, but nothing logged the refusal, so no one could detect or reconstruct it. The NICE Framework ties this to the Incident Response and Cyber Defense Analysis work roles — evidence-first, not narrative-first."
+      "text": "Standards grounding: this maps to OWASP Top 10 A01 Broken Access Control (the highest-ranked 2021 category) and A09 Security Logging & Monitoring Failures. A01 is the missing control; A09 is the un-observed denial. Incident Response fails on A09 far more often than A01: the check exists, but nothing logged the refusal, so no one could detect or reconstruct it. The NICE Framework ties this to the Incident Response and Cyber Defense Analysis work roles — evidence-first, not narrative-first."
     },
     {
       "type": "quiz",
@@ -5056,7 +5056,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The standard the auditor is actually holding: OWASP API Top 10 (API1 Broken Object Level Authorization) and the NICE Framework both demand that a control be VERIFIABLE, not merely declared. Mapping your abuse case to a named standard turns 'we check ownership' into 'we deny API1 and here is the logged proof' — that mapping is what separates a control from evidence of a control."
+      "text": "The standard the auditor is actually holding: OWASP API Top 10 (API1 Broken Object Level Authorization) and the NICE Framework — OWASP recommends implementing and testing object-level authorization checks rather than assuming them. Mapping your abuse case to a named standard turns 'we check ownership' into 'we deny API1 and here is the logged proof' — that mapping is what separates a control from evidence of a control."
     },
     {
       "type": "quiz",
@@ -5361,7 +5361,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounded in OWASP API Security Top 10: Broken Object Level Authorization (BOLA/API #1) is the most exploited API flaw precisely because auth checks the user, not the object. Interviewers reach for the invoice/order/document question because it separates candidates who authenticate from candidates who authorize. The NICE Framework calls this the Securely Provision + Protect-and-Defend seam — say it in the object's terms, not the user's."
+      "text": "Grounded in OWASP API Security Top 10: Broken Object Level Authorization (BOLA/API #1) is ranked the top API risk, with a 'Widespread' prevalence rating, and it occurs because auth checks the user, not the object. Interviewers reach for the invoice/order/document question because it separates candidates who authenticate from candidates who authorize. The NICE Framework calls this the Securely Provision + Protect-and-Defend seam — say it in the object's terms, not the user's."
     },
     {
       "type": "quiz",
@@ -5608,7 +5608,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "OWASP puts Broken Object Level Authorization at API1 because it is the most common and most damaging API flaw — and it hides behind green tests. The NICE Framework frames this as the securely-provision + protect-and-defend loop: you don't just build the control, you produce the audit evidence that a defender and an auditor can both replay."
+      "text": "OWASP puts Broken Object Level Authorization at API1 — its top-ranked API risk, with a 'Widespread' prevalence rating — and it hides behind green tests. The NICE Framework frames this as the securely-provision + protect-and-defend loop: you don't just build the control, you produce the audit evidence that a defender and an auditor can both replay."
     },
     {
       "type": "quiz",

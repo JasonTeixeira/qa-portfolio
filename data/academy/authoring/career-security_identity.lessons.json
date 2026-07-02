@@ -139,7 +139,7 @@
       "subtitle": "The weak handler trusts the URL id; the gold handler scopes the query to the caller and proves the deny. This block is section 'Selected approach' of threat_model_and_access_control_packet.md.",
       "filename": "orders_handler.py",
       "language": "python",
-      "code": "# WEAK — authenticated, but no object-level authorization\ndef get_order_weak(request, order_id):\n    user = require_auth(request)          # proves WHO — that's all it proves\n    order = db.orders.find(id=order_id)   # trusts the id from the URL\n    return order                          # BOLA: any user reads any order\n\n# GOLD — least privilege enforced AT the trust boundary\ndef get_order(request, order_id):\n    user = require_auth(request)\n    order = db.orders.find(id=order_id, owner_id=user.id)  # scope to caller\n    if order is None:\n        audit.log('order.read.deny', user=user.id, target=order_id)\n        raise NotFound(404)               # deny AND hide existence (404, not 403)\n    audit.log('order.read.allow', user=user.id, target=order_id)\n    return order",
+      "code": "# WEAK — authenticated, but no object-level authorization\ndef get_order_weak(request, order_id):\n    user = require_auth(request)          # proves WHO — that's all it proves\n    order = db.orders.find(id=order_id)   # trusts the id from the URL\n    return order                          # BOLA: any user reads any order\n\n# GOLD — least privilege enforced AT the trust boundary\ndef get_order(request, order_id):\n    user = require_auth(request)\n    order = db.orders.find(id=order_id, owner_id=user.id)  # scope to caller\n    if order is None:\n        audit.log('order.read.deny', user=user.id, target=order_id)\n        raise NotFound(404)               # deny AND hide existence (return 404)\n    audit.log('order.read.allow', user=user.id, target=order_id)\n    return order",
       "steps": [
         {
           "lines": [
@@ -170,7 +170,7 @@
             14
           ],
           "label": "Deny AND hide existence (404)",
-          "note": "On a non-owned id the row is None → return 403, and log it. Returning 403 (not 404-with-details) avoids leaking whether the object exists."
+          "note": "On a non-owned id the row is None → return 404, and log it. Per RFC 9110, returning 404 (not 404) hides whether the object exists; a 404 would confirm it exists but is forbidden."
         },
         {
           "lines": [
@@ -180,7 +180,7 @@
           "note": "Log the allow AND the deny. The audit log is the evidence a reviewer inspects — 'order.read.deny' is the line that proves the control fired."
         }
       ],
-      "caption": "Proof: curl the endpoint as user B for user A's order id → HTTP 403 + one 'order.read.deny' audit line. That denied request IS the artifact."
+      "caption": "Proof: curl the endpoint as user B for user A's order id → HTTP 404 + one 'order.read.deny' audit line. That denied request IS the artifact."
     },
     {
       "type": "callout",
@@ -197,7 +197,7 @@
         "The fact that every user must log in before reaching the endpoint."
       ],
       "answer": 1,
-      "explanation": "The security claim lives in the DENIED request. A 200 for the owner (1) exercises the happy path and says nothing about an attacker. A comment (3) is not enforcement, and login (4) is authentication, not authorization. Only the proven 403 + the matching audit-log 'deny' line shows the object-level control actually fired against an abuse case — that is the reusable evidence."
+      "explanation": "The security claim lives in the DENIED request. A 200 for the owner (1) exercises the happy path and says nothing about an attacker. A comment (3) is not enforcement, and login (4) is authentication, not authorization. Only the proven 404 + the matching audit-log 'deny' line shows the object-level control actually fired against an abuse case — that is the reusable evidence."
     },
     {
       "type": "compare",
@@ -224,7 +224,7 @@
           "Trust boundary: object-level authz on GET /orders/:id",
           "Control: query scoped owner_id == caller (least privilege)",
           "Rejected: role-check only (too coarse — misses object level)",
-          "Abuse case: user B requests user A's id → must 403",
+          "Abuse case: user B requests user A's id → must 404",
           "Evidence: denied request + 'order.read.deny' audit line"
         ],
         "verdict": "Proves denial against an abuse case — reviewer signs it"

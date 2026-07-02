@@ -217,7 +217,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a senior PM from a feature-factory PM: they write the invalidation threshold BEFORE gathering evidence, and they honor it. If your \"validation\" plan has no number that could make you cancel the idea, you are not running discovery — you are collecting quotes to justify a build you already approved. (This is the falsifiability discipline behind NIST-style risk framing and ABET's evidence-based decision outcomes: a claim you cannot disprove is not evidence.)"
+      "text": "The tell that separates a senior PM from a feature-factory PM: they write the invalidation threshold BEFORE gathering evidence, and they honor it. If your \"validation\" plan has no number that could make you cancel the idea, you are not running discovery — you are collecting quotes to justify a build you already approved. (This is the evidence-based discipline behind NIST's MEASURE function (test, evaluation, verification, and validation) and ABET's evidence-based decision outcomes: a claim you cannot test is not evidence.) (Note: 'falsifiability' is not NIST RMF language; MEASURE frames this as TEVV / measurable evidence.)"
     },
     {
       "type": "quiz",
@@ -840,7 +840,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Grounded in NIST AI RMF and DORA thinking: the senior tell is treating your landscape as a testable claim about the world, not a positioning slide. A wedge you cannot invalidate is not evidence — it is a wish. The strongest landscapes name the market segment that would fire the incumbent for you AND the invalidation threshold at which you would walk away. If your landscape has no line that could ever say 'do not build,' you wrote marketing, not analysis."
+      "text": "Grounded in NIST AI RMF's MAP-then-MEASURE discipline (frame the context, then test it) and DORA thinking: the senior tell is treating your landscape as a testable claim about the world, not a positioning slide. (Note: 'testable claim' is your framing of MEASURE/TEVV; DORA is a separate source, not NIST.) A wedge you cannot invalidate is not evidence — it is a wish. The strongest landscapes name the market segment that would fire the incumbent for you AND the invalidation threshold at which you would walk away. If your landscape has no line that could ever say 'do not build,' you wrote marketing, not analysis."
     },
     {
       "type": "quiz",
@@ -1145,7 +1145,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, grounded in NIST AI RMF and DORA validation discipline: a strong value prop is one where you can name the exact number that would make you NOT ship. If you can't state what result kills the idea, you haven't written a value proposition — you've written marketing copy, and you'll only discover the difference after launch, at full cost."
+      "text": "The senior tell, echoing NIST AI RMF's MEASURE/MAP discipline (metrics feeding go/no-go decisions) and DORA validation: a strong value prop is one where you can name the exact number that would make you NOT ship. (Note: the RMF supports metric-driven go/no-go decisions but does not use 'the exact number that would make you not ship' as a term.) If you can't state what result kills the idea, you haven't written a value proposition — you've written marketing copy, and you'll only discover the difference after launch, at full cost."
     },
     {
       "type": "quiz",
@@ -1701,7 +1701,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Pros pre-register the kill-number in the packet before the experiment runs (NIST AI RMF's 'measure against a threshold you set in advance' discipline). Deciding the threshold after seeing the data is how a flat result gets narrated into a launch — the human bias the pre-commitment exists to defeat. If your threshold moved once the numbers arrived, you ran a rationalization, not an experiment."
+      "text": "Pros pre-register the kill-number in the packet before the experiment runs (in the spirit of NIST AI RMF's MEASURE function, which calls for defined metrics and acceptance criteria set for the deployment context). (Note: 'measure against a threshold you set in advance' is not a NIST RMF quote; do not attribute it as one.) Deciding the threshold after seeing the data is how a flat result gets narrated into a launch — the human bias the pre-commitment exists to defeat. If your threshold moved once the numbers arrived, you ran a rationalization, not an experiment."
     },
     {
       "type": "quiz",
@@ -1989,7 +1989,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (grounded in NIST AI RMF's 'map risk before you build' and DORA's small-batch discipline): scope the experiment around the assumption a person who DISAGREES with you would attack first. If your MVP only tests things you already believe, it is a demo, not a test — it can only say 'yes'."
+      "text": "The senior tell (grounded in NIST AI RMF's MAP function, which frames context and risk to inform initial go/no-go decisions, and DORA's small-batch discipline): scope the experiment around the assumption a person who DISAGREES with you would attack first. (Note: 'map risk before you build' paraphrases MAP but is not verbatim NIST text.) If your MVP only tests things you already believe, it is a demo, not a test — it can only say 'yes'."
     },
     {
       "type": "quiz",
@@ -2585,7 +2585,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (echoed in NIST AI RMF's measure function): design the invalidation threshold before you run the experiment, not after you see the chart. If you only decide what 'good' means once the data is in, you will always find a story that makes the number look good — that is how a failing product ships with a green dashboard."
+      "text": "The senior tell (echoed in NIST AI RMF's MEASURE function, which calls for defining metrics and acceptance criteria before evaluation): design the invalidation threshold before you run the experiment, not after you see the chart. (Note: the RMF supports defining measurement criteria in advance; 'invalidation threshold' is your term, not NIST's.) If you only decide what 'good' means once the data is in, you will always find a story that makes the number look good — that is how a failing product ships with a green dashboard."
     },
     {
       "type": "quiz",
@@ -3469,7 +3469,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they prioritize the confidence axis by going and getting evidence, not by arguing harder. When a PM says 'confidence is 0.2 because we've talked to nobody', that is not weakness — it is the cheapest next action (five interviews) surfacing itself. NIST AI RMF calls this making uncertainty explicit so it can be managed; a blank confidence column is unmanaged risk wearing a roadmap."
+      "text": "The senior tell: they prioritize the confidence axis by going and getting evidence, not by arguing harder. When a PM says 'confidence is 0.2 because we've talked to nobody', that is not weakness — it is the cheapest next action (five interviews) surfacing itself. NIST AI RMF's MEASURE function calls for pairing performance assessment with \"associated measures of uncertainty\" and documenting them, so risk can be managed; a blank confidence column is unmeasured, undocumented uncertainty. (Note: \"making uncertainty explicit\" is a paraphrase; NIST's exact phrasing is \"associated measures of uncertainty,\" and it never uses the phrase \"confidence column.\")"
     },
     {
       "type": "quiz",
@@ -3765,7 +3765,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior product tell, and the ABET/NIST-AI-RMF instinct behind it: decisions are traceable to evidence and carry a stated reversal condition. A staff PM does not defend a bet by restating the vision; they point to the invalidation threshold and say \"here is the number that would make me cut my own feature.\" A roadmap whose bets can only be confirmed, never killed, is a feedback loop with the feedback removed."
+      "text": "The senior product tell: decisions are traceable to evidence. NIST AI RMF supports the traceability half directly (\"measurement provides a traceable basis to inform management decisions\"); the \"stated reversal condition\" is a reasonable extension of MANAGE 2.4's deactivation mechanisms but NIST does not use the term \"reversal condition,\" and ABET does not speak to this at all. A staff PM does not defend a bet by restating the vision; they point to the invalidation threshold and say \"here is the number that would make me cut my own feature.\" A roadmap whose bets can only be confirmed, never killed, is a feedback loop with the feedback removed."
     },
     {
       "type": "quiz",
@@ -4384,7 +4384,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a founder from a discounter: the value metric is chosen so the customer's bill grows only when their success grows. If your metric bills people for using the product more (seats they had to add, events they had to process), expansion is automatic and churn is aligned. If it bills them for pain (per-seat when value is per-project), you've built a meter that punishes your happiest customers — and you'll blame \"the market\" when they leave. Grounded in the NIST AI RMF discipline: a metric you can't tie to measured value is a metric you can't govern."
+      "text": "The tell that separates a founder from a discounter: the value metric is chosen so the customer's bill grows only when their success grows. If your metric bills people for using the product more (seats they had to add, events they had to process), expansion is automatic and churn is aligned. If it bills them for pain (per-seat when value is per-project), you've built a meter that punishes your happiest customers — and you'll blame \"the market\" when they leave. Grounded in the NIST AI RMF MEASURE discipline of assessing and documenting metric appropriateness and effectiveness: a metric you can't tie to measured value is a metric you can't govern. (This is an inference in the spirit of MEASURE; NIST does not state the aphorism verbatim.)"
     },
     {
       "type": "quiz",
@@ -5243,7 +5243,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding — this is the market-feedback face of NIST AI RMF's MEASURE/MANAGE discipline and DORA's build-measure-learn: decisions are gated on pre-committed, instrumented signals, not retrospective narrative. The senior tell: a PM who writes the kill-threshold before the launch, and honors it when the number comes in under. Anyone can persevere; judgment is killing your own idea on a number you set in advance."
+      "text": "Standards grounding — this echoes NIST AI RMF's MEASURE/MANAGE discipline of instrumenting and monitoring AI performance and DORA's measurement culture: decisions should be gated on instrumented signals, not retrospective narrative. (NIST does not use the phrase \"pre-committed signals\" and does not frame this as \"market feedback\"; those are your extensions.) The senior tell: a PM who writes the kill-threshold before the launch, and honors it when the number comes in under. Anyone can persevere; judgment is killing your own idea on a number you set in advance."
     },
     {
       "type": "quiz",
@@ -5523,7 +5523,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the reversal condition, not the confidence. Anyone can present a decision they believe; naming the exact metric value that would prove you wrong — 'revert if 30-day activation drops below 25%' — is what makes a stakeholder trust a call they did not run. NIST AI RMF and DORA both treat a named reversal threshold as the mark of a governed decision, not a hopeful one."
+      "text": "The senior tell is the reversal condition, not the confidence. Anyone can present a decision they believe; naming the exact metric value that would prove you wrong — 'revert if 30-day activation drops below 25%' — is what makes a stakeholder trust a call they did not run. NIST AI RMF calls for mechanisms to supersede, disengage, or deactivate AI systems whose performance is inconsistent with intended use (MANAGE 2.4), and DORA emphasizes measurable rollback/recovery — together supporting the practice of defining conditions under which a decision is reversed. (NIST does not use the term \"reversal threshold\" and does not call it \"the mark of a governed decision.\")"
     },
     {
       "type": "quiz",

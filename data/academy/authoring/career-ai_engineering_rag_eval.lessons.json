@@ -590,7 +590,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they design the refusal before the answer. NIST's Generative AI Profile treats confident fabrication (confabulation) as a top risk to manage, not a rough edge to tolerate — so a grounded system is judged first on how cleanly it abstains, not on how well it answers the easy questions. If your contract has a beautiful answer path and an undefined silence, you shipped the risk, not the mitigation."
+      "text": "The senior tell: they design the refusal before the answer. NIST's Generative AI Profile treats confident fabrication (confabulation) as a named top risk to manage, not a rough edge to tolerate — so a grounded system should be judged first on how reliably it avoids confidently presenting false content, not on how well it answers the easy questions. (The 'cleanly abstains' framing is sound engineering but is not NIST's wording — NIST names confabulation as a risk but does not prescribe abstention as the control.) If your contract has a beautiful answer path and an undefined silence, you shipped the risk, not the mitigation."
     },
     {
       "type": "quiz",
@@ -1148,7 +1148,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a production RAG engineer from a demo builder: they treat ingestion as the place they earn the right to say 'grounded'. Per the NIST AI RMF, traceability is a first-class property of a trustworthy AI system — and provenance metadata on every chunk is where a RAG pipeline actually earns it. If a chunk can't point back to its source line, no downstream guardrail or eval can save the citation."
+      "text": "The tell that separates a production RAG engineer from a demo builder: they treat ingestion as the place they earn the right to say 'grounded'. Per the NIST AI RMF, 'accountable and transparent' is a first-class characteristic of a trustworthy AI system — and the RMF notes that maintaining data provenance and supporting attribution assist transparency and accountability; provenance metadata on every chunk is where a RAG pipeline actually earns it. (NIST does not name 'traceability' as a trustworthiness property.) If a chunk can't point back to its source line, no downstream guardrail or eval can save the citation."
     },
     {
       "type": "quiz",
@@ -1435,7 +1435,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a RAG review is the re-ingest question: 'what happens to old chunks when the source changes?' A stable, deterministic chunk_id used as the upsert key makes re-ingestion idempotent — v3 overwrites v3. Teams that key on row-index quietly accumulate stale duplicates that pass every happy-path eval and answer with retired policy. NIST's GenAI Profile calls this out as provenance and data-integrity risk (MP/MS): un-versioned, un-attributable retrieval sources are a documented failure mode, not a nicety."
+      "text": "The senior tell in a RAG review is the re-ingest question: 'what happens to old chunks when the source changes?' A stable, deterministic chunk_id used as the upsert key makes re-ingestion idempotent — v3 overwrites v3. Teams that key on row-index quietly accumulate stale duplicates that pass every happy-path eval and answer with retired policy. NIST's GenAI Profile calls this out under its Information Integrity risk and content-provenance actions (MP/MS action IDs): un-versioned, un-attributable retrieval sources undermine documented provenance expectations, not a nicety."
     },
     {
       "type": "quiz",
@@ -1721,7 +1721,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, and what NIST AI RMF calls measurable trustworthiness: retrieval quality is a NUMBER on a held-out set, not an anecdote. 'It found the right doc when I tried it' is the phrase that precedes every silent production regression. Pin the model version, freeze an eval set you never tune against, and gate releases on recall@k — a model or chunking change that drops recall should block the deploy, not surprise a customer."
+      "text": "The senior tell, aligned with the NIST AI RMF MEASURE function (which uses quantitative metrics against clearly defined, realistic test sets): retrieval quality is a NUMBER on a held-out set, not an anecdote. 'It found the right doc when I tried it' is the phrase that precedes every silent production regression. Pin the model version, freeze an eval set you never tune against, and gate releases on recall@k — a model or chunking change that drops recall should block the deploy, not surprise a customer."
     },
     {
       "type": "quiz",
@@ -1975,7 +1975,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The NIST AI RMF 'Measure' function is exactly this move: you cannot manage a risk you have not measured. A RAG feature with no labeled eval set and no refusal path is unmeasured-and-unmanaged by definition — the retrieval metric and the grounding guardrail are how you make 'it hallucinates sometimes' into a number a release gate can block on."
+      "text": "The NIST AI RMF MEASURE function supports exactly this move: measurement outcomes inform the MANAGE function, so a risk is measured before it is managed. (The phrase 'you cannot manage a risk you have not measured' is a paraphrase, not a NIST quote.) A RAG feature with no labeled eval set and no refusal path is unmeasured-and-unmanaged by definition — the retrieval metric and the grounding guardrail are how you make 'it hallucinates sometimes' into a number a release gate can block on."
     },
     {
       "type": "quiz",
@@ -2330,7 +2330,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell in a RAG review: they don't ask 'is the answer right?' — they ask 'point to the exact span that supports this sentence, and show me the eval case where the correct output is a refusal.' A feature that can never say 'I don't know' has no grounding; it has a confident random number generator. NIST's GenAI Profile calls this out directly as a confabulation risk that requires provenance and abstention."
+      "text": "The senior tell in a RAG review: they don't ask 'is the answer right?' — they ask 'point to the exact span that supports this sentence, and show me the eval case where the correct output is a refusal.' A feature that can never say 'I don't know' has no grounding; it has a confident random number generator. NIST's GenAI Profile calls this out directly as a confabulation risk and prescribes content-provenance controls. (The Profile does not use the word 'abstention'; treat abstention as your own engineering control, not a NIST prescription.)"
     },
     {
       "type": "quiz",
@@ -2620,7 +2620,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior move, straight from NIST's GenAI Profile: an eval set is a living safety control, not a one-time gate. Every production hallucination becomes a new labeled case — you never fix a bug you can't reproduce in the eval set first. A team's eval set grows every time reality surprises it; that growth curve is the real maturity signal, not the score."
+      "text": "A senior move consistent with NIST's GenAI Profile (which requires regular, ongoing re-evaluation of safety, not a one-time check): an eval set is a living safety control, not a one-time gate. Every production hallucination becomes a new labeled case — you never fix a bug you can't reproduce in the eval set first. A team's eval set grows every time reality surprises it; that growth curve is the real maturity signal, not the score."
     },
     {
       "type": "quiz",
@@ -3502,7 +3502,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell: tool arguments are user input, because the model that wrote them was steered by user input. NIST AI RMF's MEASURE function and OWASP API Top 10 both land on the same rule — validate at the boundary. Treat every model-emitted tool call as an unauthenticated API request from a stranger, and the whole class of prompt-injection-to-action attacks closes."
+      "text": "The senior tell: tool arguments are user input, because the model that wrote them was steered by user input. OWASP API Top 10 lands on the rule 'validate at the boundary'; the NIST AI RMF MEASURE function complements it by requiring you to measure the resulting risk with metrics and test sets. (Boundary validation is an OWASP rule, not a MEASURE-function prescription.) Treat every model-emitted tool call as an unauthenticated API request from a stranger, and the whole class of prompt-injection-to-action attacks closes."
     },
     {
       "type": "quiz",
@@ -3843,7 +3843,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "NIST AI RMF names this MEASURE + MANAGE: you cannot manage a risk (hallucination) you have not measured (the eval set) or bounded (the budget + grounding gate). A reviewer grounded in the RMF won't accept \"the agent seems reliable\" — they want the eval result AND the control that produces it. The refusal path is the MANAGE function made concrete: the system's designed response to an unsupported claim."
+      "text": "The NIST AI RMF MEASURE + MANAGE functions map to this: MEASURE quantifies the risk (e.g., a hallucination eval set) and MANAGE responds to and bounds it (e.g., a budget + grounding gate). (The bracketed mechanisms are your implementation, not NIST-named controls.) A reviewer grounded in the RMF won't accept \"the agent seems reliable\" — they want the eval result AND the control that produces it. The refusal path is the MANAGE function made concrete: the system's designed response to an unsupported claim."
     },
     {
       "type": "quiz",
@@ -4139,7 +4139,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The NIST GenAI Profile treats operational monitoring — cost, latency, and drift — as a first-class risk control, not an ops nicety: a system you cannot measure in production is a system you cannot govern. Pros bind the price sheet and SLOs to the same config the release gate reads, so a model swap that quietly doubles cost or p95 fails CI instead of shipping and surfacing on the invoice."
+      "text": "The NIST GenAI Profile treats ongoing production monitoring of system performance and drift as a first-class risk control, not an ops nicety: a system you cannot measure in production is a system you cannot govern. (NIST does not specifically name cost and latency as monitored metrics — that triad is your own operational instrumentation.) Pros bind the price sheet and SLOs to the same config the release gate reads, so a model swap that quietly doubles cost or p95 fails CI instead of shipping and surfacing on the invoice."
     },
     {
       "type": "quiz",
@@ -4455,7 +4455,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell: the eval set and the baseline live in the SAME commit as the code, so a PR that changes model or prompt must move the frozen behavior in the open — reviewers see the diff. Standards back this (NIST AI RMF MEASURE, OWASP API Top 10): continuous, versioned measurement against a known-good reference is the control, and an unversioned eval set that mutates silently is the vulnerability it warns against."
+      "text": "The senior tell: the eval set and the baseline live in the SAME commit as the code, so a PR that changes model or prompt must move the frozen behavior in the open — reviewers see the diff. Standards support the spirit of this (NIST AI RMF MEASURE calls for ongoing measurement; the GenAI Profile recommends version control to track AI changes; OWASP API Top 10 warns on unmanaged assets): continuous, versioned measurement against a known-good reference is the control, and an unversioned eval set that mutates silently undermines it. (The 'vulnerability it warns against' framing is inference, not explicit NIST text.)"
     },
     {
       "type": "quiz",
@@ -4741,7 +4741,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The NIST AI RMF and GenAI Profile make this a control, not a vibe: MEASURE the risk (a red-team eval suite) and MANAGE it (guardrails + least-privilege), then gate release on it. OWASP's LLM Top 10 ranks prompt injection #1 for exactly this reason — the senior tell is treating retrieved context as an untrusted input boundary, the same way you'd never trust a query string. A guardrail with no eval proving it fires is undocumented and, at review, presumed broken."
+      "text": "The NIST AI RMF and GenAI Profile make this a control, not a vibe: MEASURE the risk (evaluation and red-teaming) and MANAGE it (guardrails and human approval gates), then use that measurement to inform your release decision. (Note: 'least-privilege' and 'gate release' are not NIST RMF terms; MANAGE covers guardrails/oversight and MEASURE covers red-teaming/evaluation.) OWASP's LLM Top 10 ranks prompt injection #1 for exactly this reason — the senior tell is treating retrieved context as an untrusted input boundary, the same way you'd never trust a query string. A guardrail with no eval proving it fires is undocumented and, at review, presumed broken."
     },
     {
       "type": "quiz",
@@ -5050,7 +5050,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The senior tell in a feedback review is that the reviewers DISAGREE and you measured it. A review where every label is unanimous usually means the rubric is vague enough that everyone projected their own standard. NIST's GenAI Profile leans on human oversight precisely because inter-rater agreement is the signal that your 'grounded' means the same thing twice — a 94% automated score with no human agreement number behind the gate is a number nobody can defend in an incident review."
+      "text": "The senior tell in a feedback review is that the reviewers DISAGREE and you measured it. A review where every label is unanimous usually means the rubric is vague enough that everyone projected their own standard. NIST's GenAI Profile calls for human oversight calibrated to the risk level of the application — which in practice means a 94% automated score with no human review behind the gate is a number that is hard to defend in an incident review. (Note: the Profile does not invoke 'inter-rater agreement'; that is an added interpretation, not NIST text.)"
     },
     {
       "type": "quiz",
@@ -5332,7 +5332,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: the eval set is versioned and frozen, and the gate compares against the LIVE baseline — not against zero. A gate with no baseline can only answer 'is this good?' A gate with a baseline answers the question that actually ships product: 'is this better, and did it break anything that already worked?' NIST's AI RMF calls this continuous measurement against a known reference; in practice it is one pinned filename and one pinned baseline run."
+      "text": "The senior tell: the eval set is versioned and frozen, and the gate compares against the LIVE baseline — not against zero. A gate with no baseline can only answer 'is this good?' A gate with a baseline answers the question that actually ships product: 'is this better, and did it break anything that already worked?' NIST's AI RMF MEASURE function calls for tracking risks over time and comparing performance to benchmarks; in practice it is one pinned filename and one pinned baseline run. (Note: 'continuous measurement against a known reference' is not verbatim NIST phrasing.)"
     },
     {
       "type": "quiz",
@@ -5651,7 +5651,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounded in NIST AI RMF and its Generative AI Profile: 'measure' means demonstrated behavior on an eval set plus provenance (the retrieval trace showing which source grounded the answer), not a description of intent. A portfolio that names the proof — the eval numbers, the traced failure, the guardrail refusal rate — is speaking the language reviewers and risk frameworks both trust. A confident claim with no measurement is the exact failure mode these frameworks exist to catch."
+      "text": "Grounded in NIST AI RMF and its Generative AI Profile: MEASURE means AI performance demonstrated for deployment-similar conditions, and the RMF treats provenance as part of transparency and accountability — so a retrieval trace showing which source grounded the answer is stronger evidence than a description of intent. (Note: NIST uses 'provenance' for data/training lineage, not specifically as 'retrieval trace'; that mapping is your own.) A portfolio that names the proof — the eval numbers, the traced failure, the guardrail refusal rate — is speaking the language reviewers and risk frameworks both trust. A confident claim with no measurement is the exact failure mode these frameworks exist to catch."
     },
     {
       "type": "quiz",
@@ -5978,7 +5978,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Grounding the packet in the NIST GenAI Profile: the release gate maps to MEASURE (an eval set that quantifies grounded-answer rate) and MANAGE (a guardrail + reversal condition that bounds the harm of a wrong answer). A reviewer trained on NIST AI RMF reads this packet and sees the risk function named, measured, and mitigated — not asserted."
+      "text": "Grounding the packet in the NIST GenAI Profile: the release decision maps to MEASURE (measuring and monitoring output/confabulation rates, e.g. a grounded-answer rate) and MANAGE (guardrails and human approval gates that bound the harm of a wrong answer). (Note: 'reversal condition' is not GenAI Profile language; MANAGE does cover recovery/fallback more broadly.) A reviewer trained on NIST AI RMF reads this packet and sees the risk function named, measured, and mitigated — not asserted."
     },
     {
       "type": "quiz",

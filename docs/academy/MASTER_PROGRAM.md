@@ -93,8 +93,8 @@ occurrences → re-apply affected courses → commit. Order by false-attribution
 | DORA | 105 | 20 | **85** | 81% false/imprecise — SRE golden signals, RED method, 12-factor, error budgets all falsely credited to DORA; DORA measures delivery outcomes, doesn't prescribe techniques. Fixed across 7 courses, re-applied clean. (1 rate-limit retry.) |
 | OWASP | 102 | 64 | **38** | 63% confirmed (concrete categories fare better) — corrections were miscited category numbers (API1 vs API3/5/8), the retired "Excessive Data Exposure", A09 vs A02 mixups. Fixed across 4 courses, re-applied clean. |
 | WCAG | 132 | 101 | **31** | 77% confirmed — corrections were the WCAG-vs-ARIA conflation (aria-busy/role=alert/aria-modal cited as "WCAG requirements" when they're ARIA techniques; WCAG sets the outcome) + omitted SC exceptions (1.4.10 Reflow). Fixed across 4 courses, re-applied clean. |
-| NIST | 36 | — | — | running next |
-| SOC2 | 18 | — | — | queued |
+| NIST | 36 | 6 | **30** | 83% false/imprecise (framework over-attributed like SWEBOK/DORA) — "traceability" cited as a named trustworthiness property (it's "accountable and transparent"), "abstention" prescribed (word absent), cost/latency named as a monitored triad (not in text). Fixed across 3 courses, re-applied clean. |
+| SOC2 | 18 | — | — | running next |
 | RFC | 10 | — | — | queued |
 | (security_identity) | POC: 3 lessons 82–98 | 1 (403→404) | proof-of-concept done before the full run |
 

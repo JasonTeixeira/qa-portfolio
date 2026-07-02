@@ -3306,7 +3306,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "DORA's Accelerate research does identify version control and infrastructure-as-code as capabilities correlated with higher delivery performance, but DORA does not prescribe 'rollback is git revert' — that specific technique is the author's, not DORA's. Rewrite as: 'DORA\\'s research associates version-controlled, reproducible infrastructure with higher delivery performance: teams whose infra changes flow through code tend to recover and deploy more safely — and in practice that means rollback can be `git revert` not archaeology.' IaC is also how NIST-style controls become auditable — 'the config is in the repo, reviewed, and diffable' is evidence; 'someone set it in the console' is not."
+      "text": "DORA's Accelerate research does identify version control and infrastructure-as-code as capabilities correlated with higher delivery performance, but DORA does not prescribe 'rollback is git revert' — that specific technique is the author's, not DORA's. Rewrite as: 'DORA\\'s research associates version-controlled, reproducible infrastructure with higher delivery performance: teams whose infra changes flow through code tend to recover and deploy more safely — and in practice that means rollback can be `git revert` not archaeology.' IaC is also how controls become auditable in the spirit of NIST's GOVERN function (which calls for documented, repeatable processes) — 'the config is in the repo, reviewed, and diffable' is evidence; 'someone set it in the console' is not. (Note: 'NIST-style controls' and IaC auditability are not specific RMF text; this is your framing.)"
     },
     {
       "type": "quiz",
@@ -4202,7 +4202,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Change-failure rate and time-to-restore are both real DORA stability metrics, but DORA characterizes elite teams by ALL metrics together (throughput AND stability), and does not phrase it as 'optimizing the two together.' Rewrite as: 'This is grounded in DORA: elite teams score well on both stability metrics — change-failure rate and time-to-restore — not just one.' Fast, frequent deploys are only safe because rollback is cheap and reversible — reversibility is what lets you ship boldly. NIST AI RMF frames the same idea as governed recoverability: a system you cannot quickly return to a known-good state is a system you cannot responsibly operate."
+      "text": "Change-failure rate and time-to-restore are both real DORA stability metrics, but DORA characterizes elite teams by ALL metrics together (throughput AND stability), and does not phrase it as 'optimizing the two together.' Rewrite as: 'This is grounded in DORA: elite teams score well on both stability metrics — change-failure rate and time-to-restore — not just one.' Fast, frequent deploys are only safe because rollback is cheap and reversible — reversibility is what lets you ship boldly. NIST AI RMF frames this under its 'Secure and Resilient' characteristic — resilience is the ability to return to normal function after an unexpected adverse event — so a system you cannot quickly return to a known-good state is a system you cannot responsibly operate. (Note: 'governed recoverability' is not a NIST term; the RMF's phrasing is 'resilience' / 'return to normal function'.)"
     },
     {
       "type": "quiz",
@@ -5070,7 +5070,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Elite performers are defined across all four/five metrics, not just deployment frequency and change-failure rate; and 'promoting one small immutable artifact behind automated gates' is an implementation technique DORA does not prescribe (DORA does note reducing batch size helps). Rewrite as: 'DORA\\'s elite performers score well across all the key metrics — throughput and stability together — and DORA notes reducing batch size improves them; promoting one small, immutable artifact behind automated gates is a practical way to do that.' NIST AI RMF frames the same idea as traceability: you must be able to prove which exact version is in production and reverse it fast. The senior tell is that their rollback path is code that runs on a breach, not a runbook step someone remembers to do."
+      "text": "Elite performers are defined across all four/five metrics, not just deployment frequency and change-failure rate; and 'promoting one small immutable artifact behind automated gates' is an implementation technique DORA does not prescribe (DORA does note reducing batch size helps). Rewrite as: 'DORA\\'s elite performers score well across all the key metrics — throughput and stability together — and DORA notes reducing batch size improves them; promoting one small, immutable artifact behind automated gates is a practical way to do that.' NIST AI RMF frames the related idea under 'Accountable and Transparent' and provenance: you should be able to prove which exact version is in production and reverse it fast. (Note: the RMF does not use the word 'traceability'; it uses 'provenance' and accountability/transparency.) The senior tell is that their rollback path is code that runs on a breach, not a runbook step someone remembers to do."
     },
     {
       "type": "quiz",

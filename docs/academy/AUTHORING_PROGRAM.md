@@ -88,7 +88,14 @@ here once scored).
 | career-platform_engineering_internal_developer_platforms | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-ux_ui_product_design_for_engineers | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
 | career-engineering_leadership_staff_execution | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
-| career-enterprise_it_saas_admin_business_systems | 20 | — | — | — | FINAL course — authoring |
+| career-enterprise_it_saas_admin_business_systems | 20 | 20 | 20 | **20** | DONE — avg 96 (96–97), all grounded, none hollow |
+
+**PROGRAM COMPLETE (2026-07-02).** All 19 manifest career courses authored visual-first
+from source curriculum + render-verified ≥95 (avg 96). With the 2 originally-authored
+courses (programming-fundamentals, engineering-judgment), 21 of 23 courses are done.
+Deliberately out of scope: `python-basics` (4 lessons, no source curriculum) and
+`career-programming_cs_foundations` (20 lessons, a superseded duplicate of
+programming-fundamentals).
 
 > Process note: NEVER run two 20-agent Workflows at once — they exceed the machine's core count and agents drop. Strictly serial from cloud onward.
 

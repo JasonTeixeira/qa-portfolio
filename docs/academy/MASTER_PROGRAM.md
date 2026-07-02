@@ -82,9 +82,20 @@ Exit: installable PWA live; store builds submitted.
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
 
-### P1 run ledger (verify all 448 against primary sources)
-| course | verified | wrong-fixed | notes |
-|---|---|---|---|
+### P1 run ledger — TARGETED: standards-claims verified by source (471 distinct claims)
+Method: `extract-standards-claims.mjs` inventoried every standards citation (471 distinct,
+deduped) → `gen-standards-verify.mjs <STD>` batches by source (fetch primary source once) →
+Workflow verifies → `apply-standards-fixes.mjs` substitutes fixes verbatim across all
+occurrences → re-apply affected courses → commit. Order by false-attribution risk.
+| standard | claims | confirmed | corrected | notes |
+|---|---|---|---|---|
+| SWEBOK | 66 | 7 | **59** | 89% false/imprecise — SWEBOK invoked for distributed-systems/ops practices it doesn't cover; DORA/ABET co-citations also stripped. Fixed across 7 courses, re-applied clean. |
+| DORA | 105 | — | — | running next (highest remaining risk) |
+| OWASP | 102 | — | — | queued |
+| WCAG | 132 | — | — | queued |
+| NIST | 36 | — | — | queued |
+| SOC2 | 18 | — | — | queued |
+| RFC | 10 | — | — | queued |
 | (security_identity) | POC: 3 lessons 82–98 | 1 (403→404) | proof-of-concept done before the full run |
 
 ## Guardrails (unchanged)

@@ -213,7 +213,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is naming guarantees, not products. 'Postgres' tells a reviewer nothing; 'a transactional source of truth with foreign-key constraints and read-committed isolation, fronted by an eventually-consistent search index' tells them exactly what can break and where. SWEBOK V4's data-management knowledge area frames this as choosing the data model and consistency guarantees BEFORE the implementation - the map is how you make that choice visible and reviewable."
+      "text": "The senior tell is naming guarantees, not products. 'Postgres' tells a reviewer nothing; 'a transactional source of truth with foreign-key constraints and read-committed isolation, fronted by an eventually-consistent search index' tells them exactly what can break and where. A sound design principle is choosing the data model and consistency guarantees BEFORE the implementation - the map is how you make that choice visible and reviewable."
     },
     {
       "type": "quiz",
@@ -467,7 +467,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they decide ON DELETE behavior per relationship before writing the FK, because it encodes meaning. CASCADE says 'this child cannot exist without its parent' (order items); RESTRICT says 'this parent is referenced, refuse to orphan it' (a product on live orders); SET NULL says 'the link is optional, keep the row.' Grounded in SWEBOK V4 data-modeling and the relational integrity rules of the SQL standard, the constraint is where the domain rule lives — not in a code comment."
+      "text": "The senior tell: they decide ON DELETE behavior per relationship before writing the FK, because it encodes meaning. CASCADE says 'this child cannot exist without its parent' (order items); RESTRICT says 'this parent is referenced, refuse to orphan it' (a product on live orders); SET NULL says 'the link is optional, keep the row.' Grounded in the relational integrity rules of the SQL standard, the constraint is where the domain rule lives — not in a code comment."
     },
     {
       "type": "quiz",
@@ -750,7 +750,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is not 'normalize everything' — it is 'normalize by default, denormalize on evidence.' SWEBOK and the relational model both start from one-fact-one-home; a pro deviates only with a measured query plan AND a named sync rule, and writes both into the migration. 'It felt slow' is not evidence, and a copy with no sync rule is not a cache — it is a future incident."
+      "text": "The senior tell is not 'normalize everything' — it is 'normalize by default, denormalize on evidence.' The relational model starts from one-fact-one-home; a pro deviates only with a measured query plan AND a named sync rule, and writes both into the migration. 'It felt slow' is not evidence, and a copy with no sync rule is not a cache — it is a future incident."
     },
     {
       "type": "quiz",
@@ -1061,7 +1061,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: a constraint that's never been rolled back hasn't been proven. Before you ship ADD CONSTRAINT on a live table, write and run the DROP CONSTRAINT rollback in a dry-run first — and on a hot table add it `NOT VALID`, then `VALIDATE CONSTRAINT` separately, so validation doesn't hold an ACCESS EXCLUSIVE lock while production waits. SWEBOK V4 names this under data integrity + maintenance: an invariant you can't safely reverse is a liability, not a guarantee."
+      "text": "The senior tell: a constraint that's never been rolled back hasn't been proven. Before you ship ADD CONSTRAINT on a live table, write and run the DROP CONSTRAINT rollback in a dry-run first — and on a hot table add it `NOT VALID`, then `VALIDATE CONSTRAINT` separately, so validation doesn't hold an ACCESS EXCLUSIVE lock while production waits. A hard-won maintenance lesson: an invariant you can't safely reverse is a liability, not a guarantee."
     },
     {
       "type": "quiz",
@@ -1354,7 +1354,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is reading EXPLAIN, not trusting CREATE INDEX. Every index is a standing write cost (SWEBOK lists index maintenance as a non-functional liability): each INSERT/UPDATE rewrites every matching B-tree. So a pro deletes the indexes no query plan actually uses as fast as they add the one the hot path needs — an unused index is pure tax with no service."
+      "text": "The senior tell is reading EXPLAIN, not trusting CREATE INDEX. Every index is a standing write cost: each INSERT (and each UPDATE touching an indexed column) has to update every matching index, not just the table. So a pro deletes the indexes no query plan actually uses as fast as they add the one the hot path needs — an unused index is pure tax with no service."
     },
     {
       "type": "quiz",
@@ -1649,7 +1649,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Senior reviewers read a JOIN by asking one question first: 'what is one row here?' If you cannot state the grain in a sentence, the SUM cannot be trusted. SWEBOK V4 and ACM/IEEE CS2023 both frame query design as preserving data integrity under transformation — a fan-out join violates that integrity invisibly, which is exactly why it caps a lesson without a proof: the result is plausible, never verified."
+      "text": "Senior reviewers read a JOIN by asking one question first: 'what is one row here?' If you cannot state the grain in a sentence, the SUM cannot be trusted. CS2023's Data Management knowledge area covers relational query design and data integrity; SWEBOK V4 has no query-design or database content. A fan-out join violates row-level integrity invisibly, which is exactly why it caps a lesson without a proof: the result is plausible, never verified."
     },
     {
       "type": "quiz",
@@ -1914,7 +1914,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Atomicity is the A in ACID, anchored in SWEBOK V4's data-management body of knowledge: a transaction is the unit of recovery. The reviewer's lens is integrity under failure, not under success. Pair it with a CHECK constraint and you get two layers — the constraint refuses bad data, the transaction guarantees that refusal undoes the whole unit rather than half of it."
+      "text": "Atomicity is the A in ACID: a transaction is the unit of recovery. (SWEBOK V4 has no 'data-management body of knowledge'; ACID/transaction concepts live in the ACM/IEEE CS2023 Data Management knowledge area, not SWEBOK.) The reviewer's lens is integrity under failure, not under success. Pair it with a CHECK constraint and you get two layers — the constraint refuses bad data, the transaction guarantees that refusal undoes the whole unit rather than half of it."
     },
     {
       "type": "quiz",
@@ -2199,7 +2199,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding (ACM/IEEE CS2023, SWEBOK V4): the SQL standard's four levels are defined by which phenomena they forbid, and most databases do not match the names. PostgreSQL's default is READ COMMITTED, its 'REPEATABLE READ' is actually snapshot isolation (which prevents lost updates but NOT write skew), and only SERIALIZABLE forbids write skew. Never reason from the level's name — reason from the anomaly it is documented to prevent on your engine."
+      "text": "Standards grounding (ACM/IEEE CS2023, Data Management): the SQL standard's four isolation levels are defined by which phenomena they forbid, and most databases do not match the names. (SWEBOK V4 does not cover SQL isolation levels; drop it as an authority here.) PostgreSQL's default is READ COMMITTED, its 'REPEATABLE READ' is actually snapshot isolation (which prevents lost updates but NOT write skew), and only SERIALIZABLE forbids write skew. Never reason from the level's name — reason from the anomaly it is documented to prevent on your engine."
     },
     {
       "type": "quiz",
@@ -2808,7 +2808,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: read 'Rows Removed by Filter' and the estimate-vs-actual gap before you read anything else. If the planner expected 200 rows and got 200,000, your statistics are stale — run ANALYZE and re-plan before adding a single index. Half of 'we need an index' incidents are really 'we never ran ANALYZE after a bulk load,' and the planner was mis-estimating selectivity the whole time. Grounded in SWEBOK V4's data-management knowledge area: optimization decisions must be evidence-driven, and the plan is the evidence."
+      "text": "The senior tell: read 'Rows Removed by Filter' and the estimate-vs-actual gap before you read anything else. If the planner expected 200 rows and got 200,000, your statistics are stale — run ANALYZE and re-plan before adding a single index. Half of 'we need an index' incidents are really 'we never ran ANALYZE after a bulk load,' and the planner was mis-estimating selectivity the whole time. Grounded in engineering discipline (and reinforced by SWEBOK V4's emphasis on evidence-based measurement): optimization decisions must be evidence-driven, and the query plan is the evidence. (SWEBOK V4 has no 'data-management knowledge area.')"
     },
     {
       "type": "quiz",
@@ -3508,7 +3508,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: fixtures live in version control next to the migration that shaped the schema, and the seed is re-derived whenever the schema changes — never hand-patched. SWEBOK and ACM/IEEE CS2023 both frame this as data-quality discipline: test data is an artifact with the same change-control as the schema it populates. A fixture that drifts from the current constraints is a silent lie your whole suite trusts."
+      "text": "The senior tell: fixtures live in version control next to the migration that shaped the schema, and the seed is re-derived whenever the schema changes — never hand-patched. SWEBOK V4 (data quality model in Software Quality; configuration management) and ACM/IEEE CS2023 support treating this as data-quality and change-control discipline: test data is an artifact with the same change-control as the schema it populates. (SWEBOK does not tie test data to schemas specifically; that framing is inference, not a stated standard.) A fixture that drifts from the current constraints is a silent lie your whole suite trusts."
     },
     {
       "type": "quiz",
@@ -3787,7 +3787,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, data quality): the senior tell is treating a quality rule as an executable, falsifiable assertion versioned alongside the schema — not a paragraph in a runbook. If your check isn't a query you can run in CI and watch turn red, it isn't enforced; it's a hope. Run the contract pre-promote and again post-migration so the rollback decision keys off evidence, not vibes."
+      "text": "Standards grounding (SWEBOK V4 Software Quality, which defines a general data quality model): the senior tell is treating a quality rule as an executable, falsifiable assertion versioned alongside the schema — not a paragraph in a runbook. (SWEBOK defines data-quality characteristics but does not prescribe executable assertions versioned with a schema; that specific practice is the author's, not the standard's.) If your check isn't a query you can run in CI and watch turn red, it isn't enforced; it's a hope. Run the contract pre-promote and again post-migration so the rollback decision keys off evidence, not vibes."
     },
     {
       "type": "quiz",
@@ -4640,7 +4640,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: they design the cache MISS, not the cache hit. Anyone can serve the precomputed row. The judgment is in what happens when the read model is missing, mid-rebuild, or past its staleness bound — do you serve stale-but-flagged, fall back to the source query, or fail closed? SWEBOK V4 frames this as the data-quality/operability axis: a read model without a defined behavior on staleness and on rebuild failure has no recovery story, and a cache with no recovery story is a future incident wearing a latency win."
+      "text": "The senior tell: they design the cache MISS, not the cache hit. Anyone can serve the precomputed row. The judgment is in what happens when the read model is missing, mid-rebuild, or past its staleness bound — do you serve stale-but-flagged, fall back to the source query, or fail closed? SWEBOK V4's data-quality (Software Quality) and operability (Software Engineering Operations) axes support this: a read model without a defined behavior on staleness and on rebuild failure has no recovery story, and a cache with no recovery story is a future incident wearing a latency win. (SWEBOK does not discuss caches or read models specifically; the mapping is inference.)"
     },
     {
       "type": "quiz",
@@ -4882,7 +4882,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is which side owns the constraint. Constraints (foreign keys, unique, NOT NULL) belong where writes are authoritative -- the OLTP source of truth. In the warehouse you VALIDATE with tests and tolerances, you do not ENFORCE with constraints, because a late or replayed fact must be allowed to land. Grounding: SWEBOK V4 treats data integrity as a property of the system of record; CS2023 separates transactional consistency from analytical derivation. (References ground coverage; they are not endorsements.)"
+      "text": "The senior tell is which side owns the constraint. Constraints (foreign keys, unique, NOT NULL) belong where writes are authoritative -- the OLTP source of truth. In the warehouse you VALIDATE with tests and tolerances, you do not ENFORCE with constraints, because a late or replayed fact must be allowed to land. Grounding: ACM/IEEE CS2023's Data Management knowledge area treats data integrity and separates transactional consistency from analytical derivation. (SWEBOK V4 has no data-management KA and does not treat 'data integrity as a property of the system of record'; drop the SWEBOK attribution.) (References ground coverage; they are not endorsements.)"
     },
     {
       "type": "quiz",
@@ -5514,7 +5514,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, data management): the senior tell on a migration is not that it works — it's that the rollback was tested before the forward run shipped. Reviewers trust the engineer who can answer 'what happens when this is wrong at 2 a.m.?' with a script, not a shrug. Reversibility is the whole game; a one-way migration with no proven back path is an outage waiting for a trigger."
+      "text": "Standards grounding (SWEBOK V4 Software Configuration Management and Maintenance): the senior tell on a migration is not that it works — it's that the rollback was tested before the forward run shipped. (There is no SWEBOK 'data management' KA; controlled/reversible change belongs to Configuration Management.) Reviewers trust the engineer who can answer 'what happens when this is wrong at 2 a.m.?' with a script, not a shrug. Reversibility is the whole game; a one-way migration with no proven back path is an outage waiting for a trigger."
     },
     {
       "type": "quiz",
@@ -5838,7 +5838,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, data management): a schema change is a contract change. The professional move the whole course builds toward is making that contract change reversible and observable — the rollback script proves reversibility, the EXPLAIN diff proves the new path, and the constraint proves the invariant survived. A change you cannot put back is technical debt you took on without a vote."
+      "text": "Standards grounding (interface/contract discipline; SWEBOK V4 Software Configuration Management treats changes as controlled contract-affecting events): a schema change is a contract change. (SWEBOK V4 has no 'data management' KA and does not state this.) The professional move the whole course builds toward is making that contract change reversible and observable — the rollback script proves reversibility, the EXPLAIN diff proves the new path, and the constraint proves the invariant survived. A change you cannot put back is technical debt you took on without a vote."
     },
     {
       "type": "quiz",

@@ -520,7 +520,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, per SWEBOK V4 on data quality: enforce constraints at the boundary you do not control, not the one you do. Junior teams validate their own transforms and trust the vendor; the failure almost always enters at the source you cannot see. The contract lives on the untrusted edge — that is where it earns its keep."
+      "text": "The senior tell on data quality: enforce constraints at the boundary you do not control, not the one you do. Junior teams validate their own transforms and trust the vendor; the failure almost always enters at the source you cannot see. The contract lives on the untrusted edge — that is where it earns its keep."
     },
     {
       "type": "quiz",
@@ -1332,7 +1332,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK V4 treats data provenance as a first-class quality attribute — and the senior tell is quarantine over silence. Amateurs let a malformed CSV fail the whole job or, worse, drop the bad rows so the load 'succeeds'. A pro routes bad records to a quarantine table with a count, so the load completes AND the failure is visible and reconcilable. A green pipeline that quietly ate 4% of rows is the most dangerous kind of success."
+      "text": "Treat data provenance as a first-class quality attribute — and the senior tell is quarantine over silence. Amateurs let a malformed CSV fail the whole job or, worse, drop the bad rows so the load 'succeeds'. A pro routes bad records to a quarantine table with a count, so the load completes AND the failure is visible and reconcilable. A green pipeline that quietly ate 4% of rows is the most dangerous kind of success."
     },
     {
       "type": "quiz",
@@ -2485,7 +2485,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (SWEBOK V4 data quality, echoed in DORA's 2024 reliability findings): test the DATA, not just the SQL. Juniors assert 'the model compiled'; seniors assert 'the newest row is < 6h old AND the total reconciles to source.' Freshness is the test everyone skips and the one that catches the incident that never throws an error — late data is silently wrong data."
+      "text": "The senior tell: test the DATA, not just the SQL. Juniors assert 'the model compiled'; seniors assert 'the newest row is < 6h old AND the total reconciles to source.' Freshness is the test everyone skips and the one that catches the incident that never throws an error — late data is silently wrong data."
     },
     {
       "type": "quiz",
@@ -3056,7 +3056,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the reconciliation check, not the schema check. Schema checks catch malformed data (a null where a number belongs); reconciliation catches data that is perfectly well-formed and still WRONG — a metric that ties out against the source-of-truth (Stripe's own balance report) is the only kind you can defend in a finance review. SWEBOK V4 puts this under quality assurance: verification proves the shape, validation proves the number."
+      "text": "The senior tell is the reconciliation check, not the schema check. Schema checks catch malformed data (a null where a number belongs); reconciliation catches data that is perfectly well-formed and still WRONG — a metric that ties out against the source-of-truth (Stripe's own balance report) is the only kind you can defend in a finance review. SWEBOK V4's Software Quality knowledge area distinguishes verification from validation; here: verification proves the shape, validation proves the number."
     },
     {
       "type": "quiz",
@@ -3889,7 +3889,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4 / DORA): senior data engineers tune to the QUERY, not the table. Before choosing a partition key, they read the actual WHERE clauses in the query logs and partition on the column that appears most in filters — high-cardinality columns like user_id become cluster keys, low-cardinality time columns become partitions. Partitioning on a column nobody filters on is cost with no benefit; it's the most common self-inflicted warehouse bill."
+      "text": "Senior data engineers tune to the QUERY, not the table. Before choosing a partition key, they read the actual WHERE clauses in the query logs and partition on the column that appears most in filters — high-cardinality columns like user_id become cluster keys, low-cardinality time columns become partitions. Partitioning on a column nobody filters on is cost with no benefit; it's the most common self-inflicted warehouse bill."
     },
     {
       "type": "quiz",
@@ -4770,7 +4770,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, operations & maintenance): a pipeline's cost is an operability property, not an accounting afterthought. The senior tell is a budget expressed as bytes-scanned-per-run and a freshness SLA in the source contract — both machine-checkable in CI — rather than 'we'll watch the Snowflake bill.' A budget a human has to remember to watch is a budget you have already blown."
+      "text": "Consistent with SWEBOK V4's Operations, Maintenance, and Economics knowledge areas: a pipeline's cost is an operability property, not an accounting afterthought. The senior tell is a budget expressed as bytes-scanned-per-run and a freshness SLA in the source contract — both machine-checkable in CI — rather than 'we'll watch the Snowflake bill.' A budget a human has to remember to watch is a budget you have already blown."
     },
     {
       "type": "quiz",
@@ -5611,7 +5611,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "SWEBOK V4 and DORA both put the same weight on this: a change is only 'delivered' when its quality is verifiable in production. For a data product that means the packet must show the freshness check, the reconciliation, and the quarantine report — not just that the DAG is green. Coverage of the contract is the deliverable; a passing run without those checks is an unverified claim."
+      "text": "SWEBOK V4's Operations knowledge area and DORA's delivery metrics converge here: a change is only 'delivered' when its quality is verifiable in production. For a data product that means the packet must show the freshness check, the reconciliation, and the quarantine report — not just that the DAG is green. Coverage of the contract is the deliverable; a passing run without those checks is an unverified claim."
     },
     {
       "type": "quiz",

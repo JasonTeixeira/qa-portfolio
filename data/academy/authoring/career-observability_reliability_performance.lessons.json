@@ -2255,7 +2255,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding (W3C Trace Context + SWEBOK V4 observability): the traceparent header is a fixed format — version-traceid-parentid-flags, e.g. 00-4bf92f...-00f067aa0ba902b7-01. Any compliant library reads any other's traceparent, which is why cross-vendor traces work at all. The pro tell: propagation breaks silently at the boundaries you DON'T own — a legacy proxy that strips unknown headers, a queue SDK that doesn't forward attributes, a thread pool that loses the context-local. Trace the seams, not the services."
+      "text": "Standards grounding (W3C Trace Context): the traceparent header is a fixed format — version-traceid-parentid-flags, e.g. (The traceparent field order is exactly correct per the W3C spec. Drop the 'SWEBOK V4 observability' co-citation — SWEBOK does not define or reference the traceparent header; the W3C recommendation is the sole authority for this format.) 00-4bf92f...-00f067aa0ba902b7-01. Any compliant library reads any other's traceparent, which is why cross-vendor traces work at all. The pro tell: propagation breaks silently at the boundaries you DON'T own — a legacy proxy that strips unknown headers, a queue SDK that doesn't forward attributes, a thread pool that loses the context-local. Trace the seams, not the services."
     },
     {
       "type": "quiz",

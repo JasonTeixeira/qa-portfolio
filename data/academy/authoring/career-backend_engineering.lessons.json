@@ -1186,7 +1186,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Grounding, not vibes: OWASP API Security Top 10 lists Broken Object/Property-Level Authorization and excessive data exposure among the top risks — a leaked stack trace in an error body hits both at once. RFC 9457 (Problem Details) exists precisely so you do not invent a bespoke error shape per service. SWEBOK V4 frames this as the contract being part of the design, not an afterthought. The senior tell: their error model is designed with the success path, never bolted on after the demo."
+      "text": "Grounding, not vibes: OWASP API Security Top 10 lists Broken Object/Property-Level Authorization and excessive data exposure among the top risks — a leaked stack trace in an error body hits both at once. RFC 9457 (Problem Details) exists precisely so you do not invent a bespoke error shape per service. A sound design principle is that the contract is part of the design, not an afterthought (consistent with SWEBOK V4's Software Design knowledge area). The senior tell: their error model is designed with the success path, never bolted on after the demo."
     },
     {
       "type": "quiz",
@@ -5556,7 +5556,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: OWASP API Top 10 puts broken object/function authorization at the top — so the auth boundary fires before any write, never after. SWEBOK V4 frames this as construction-for-verification: the unique(actorId,key) constraint and the transactional outbox move correctness from 'the app remembers to check' to 'the database makes the wrong state impossible'. The senior tell is pushing the invariant down to the constraint, where a careless caller can't bypass it."
+      "text": "Standards grounding: OWASP API Top 10 puts broken object/function authorization at the top — so the auth boundary fires before any write, never after. This is a construction-for-verification pattern: the unique(actorId,key) constraint and the transactional outbox move correctness from 'the app remembers to check' to 'the database makes the wrong state impossible'. The senior tell is pushing the invariant down to the constraint, where a careless caller can't bypass it."
     },
     {
       "type": "quiz",

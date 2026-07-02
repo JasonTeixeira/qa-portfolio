@@ -1642,7 +1642,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "WCAG 2.2 grounds this: each state is a perceivable announcement, not just a pixel. loading sets aria-busy=\"true\"; error renders role=\"alert\" so a screen reader announces it without a focus jump; success moves focus to the result heading so keyboard and AT users are not stranded on a dead button. The senior tell: a state machine whose transitions each name what is ANNOUNCED and where FOCUS goes, not just what is drawn. SWEBOK calls this making the model explicit; a reviewer calls it the row in your matrix that proves you thought about the user who cannot see the spinner."
+      "text": "WCAG 2.2 grounds this: each state is a perceivable announcement, not just a pixel. loading sets aria-busy=\"true\"; error renders role=\"alert\" so a screen reader announces it without a focus jump; success moves focus to the result heading so keyboard and AT users are not stranded on a dead button. The senior tell: a state machine whose transitions each name what is ANNOUNCED and where FOCUS goes, not just what is drawn. A reviewer calls this the row in your matrix that proves you thought about the user who cannot see the spinner. (SWEBOK does not use the phrase 'making the model explicit'; remove the SWEBOK attribution.)"
     },
     {
       "type": "quiz",

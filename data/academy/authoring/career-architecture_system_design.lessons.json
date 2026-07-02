@@ -521,7 +521,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a design review isn't a bigger number — it's the peak factor and the reversal condition. SWEBOK-grounded capacity work sizes to the worst hour and names the measurement that would undo the choice. A packet that provisions for the mean and calls the decision final is the one that pages on-call at launch and can never be walked back."
+      "text": "The senior tell in a design review isn't a bigger number — it's the peak factor and the reversal condition. Good capacity work sizes to the worst-case hour and names the measurement that would undo the choice — and SWEBOK's requirements KA backs the underlying discipline: capacity targets must be stated quantitatively and verifiably, not vaguely. A packet that provisions for the mean and calls the decision final is the one that pages on-call at launch and can never be walked back."
     },
     {
       "type": "quiz",
@@ -802,7 +802,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the direction of the arrow, not the number of boxes. Anyone can split a monolith into services; the judgment is refusing to let a dependency cross a boundary in two directions or through a shared table. SWEBOK V4 calls this the coupling that determines whether your ‘microservices’ are actually a distributed monolith — and DORA’s 2024 data ties loosely-coupled boundaries directly to deploy frequency and change-fail rate."
+      "text": "The senior tell is the direction of the arrow, not the number of boxes. Anyone can split a monolith into services; the judgment is refusing to let a dependency cross a boundary in two directions or through a shared table. This is the coupling that determines whether your ‘microservices’ are actually a distributed monolith — SWEBOK V4's Software Architecture KA treats low coupling and high cohesion as core architecture principles, and DORA's State of DevOps research ties loosely-coupled architecture to higher deploy frequency and lower change-fail rate."
     },
     {
       "type": "quiz",
@@ -1077,7 +1077,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, software design + construction): the senior move is consumer-driven contract testing — the CONSUMER writes a test asserting the fields it depends on, and the producer runs it in CI. Then a breaking rename fails the producer's build before it ships, not the consumer's pager at 2 a.m. A contract you cannot fail in CI is a wish, not a guarantee."
+      "text": "A senior move here is consumer-driven contract testing — the CONSUMER writes a test asserting the fields it depends on, and the producer runs it in CI. This operationalizes SWEBOK V4's design/construction emphasis on well-defined interfaces and integration verification, though the specific technique is industry practice, not SWEBOK text. Then a breaking rename fails the producer's build before it ships, not the consumer's pager at 2 a.m. A contract you cannot fail in CI is a wish, not a guarantee."
     },
     {
       "type": "quiz",
@@ -1352,7 +1352,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell, straight from SWEBOK and DORA practice: consistency is a per-read-path contract, not a database setting. Juniors ask 'is the system consistent?'; seniors ask 'which read is allowed to be stale, for how long, and what breaks if it is?' — and write that answer into the ADR so the next incident has somewhere to stand."
+      "text": "The senior tell: consistency is a per-read-path contract, not a database setting. Juniors ask 'is the system consistent?'; seniors ask 'which read is allowed to be stale, for how long, and what breaks if it is?' — and write that answer into the ADR so the next incident has somewhere to stand."
     },
     {
       "type": "quiz",
@@ -1932,7 +1932,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK frames design as managing tradeoffs under constraints — and caching is the purest example. The senior tell: they state the tolerated-staleness window as a number with an owner's name attached, before writing any code. If your \"strategy\" can't say how wrong the data is allowed to be and who agreed to that, you have tuned a latency knob, not made an architecture decision."
+      "text": "SWEBOK frames design as choosing among alternatives under goals and constraints — and caching is a clean example of that tradeoff. The senior tell: they state the tolerated-staleness window as a number with an owner's name attached, before writing any code. If your \"strategy\" can't say how wrong the data is allowed to be and who agreed to that, you have tuned a latency knob, not made an architecture decision."
     },
     {
       "type": "quiz",
@@ -2171,7 +2171,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "SWEBOK and every senior reviewer treat 'at-least-once delivery' as a given, not a bug — networks and crashes make exactly-once delivery effectively impossible. The senior move is not chasing exactly-once delivery; it is designing idempotent consumers so at-least-once delivery produces exactly-once EFFECT. If your design assumes each message arrives exactly once, it is already broken."
+      "text": "Experienced reviewers treat 'at-least-once delivery' as a given, not a bug — networks and crashes make exactly-once delivery effectively impossible. The senior move is not chasing exactly-once delivery; it is designing idempotent consumers so at-least-once delivery produces exactly-once EFFECT. If your design assumes each message arrives exactly once, it is already broken."
     },
     {
       "type": "quiz",
@@ -2795,7 +2795,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: a retry budget and a circuit breaker are load-shedding controls, not reliability decorations. SWEBOK's fault-tolerance guidance and DORA's reliability research both point the same way — resilience is about bounding failure blast radius, not eliminating failure. If your retry policy has no answer for 'what happens when the dependency is at 0% capacity?', you have a load multiplier, not a resilience policy."
+      "text": "The senior tell: a retry budget and a circuit breaker are load-shedding controls, not reliability decorations. SWEBOK's fault-tolerance and reliability guidance points the same way experienced practice does — resilience is about bounding a failure's blast radius, not eliminating failure. If your retry policy has no answer for 'what happens when the dependency is at 0% capacity?', you have a load multiplier, not a resilience policy."
     },
     {
       "type": "quiz",
@@ -3080,7 +3080,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK V4 and ABET both frame security as a design-time responsibility, not a bolt-on: the senior tell is modeling the adversary at the boundary, not listing controls after the fact. Run STRIDE while the data flow is still on the whiteboard - the cheapest place to move a trust boundary is before it exists in code. And 'we accept this risk' is a legitimate cell, but only when it is written down with a likelihood x impact and an owner; an unspoken accepted risk is the one that becomes the incident."
+      "text": "SWEBOK V4's Software Security KA frames security as a lifecycle responsibility integrated from design, not a bolt-on: the senior tell is modeling the adversary at the boundary, not listing controls after the fact. Run STRIDE while the data flow is still on the whiteboard - the cheapest place to move a trust boundary is before it exists in code. And 'we accept this risk' is a legitimate cell, but only when it is written down with a likelihood x impact and an owner; an unspoken accepted risk is the one that becomes the incident."
     },
     {
       "type": "quiz",
@@ -3646,7 +3646,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK frames partitioning as a capacity + boundary decision, not a knob. The pro move is to write the reversal condition first: resharding a live 2 TB store is a near one-way door, so the '>15% cross-shard reads → revisit' trip-wire is worth more than the shard count. A partition choice with no trip-wire is a bet nobody agreed to place."
+      "text": "Partitioning is best treated as a capacity + boundary decision, not a knob. The pro move is to write the reversal condition first: resharding a live 2 TB store is a near one-way door, so the '>15% cross-shard reads → revisit' trip-wire is worth more than the shard count. A partition choice with no trip-wire is a bet nobody agreed to place."
     },
     {
       "type": "quiz",
@@ -3941,7 +3941,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding (SWEBOK V4, DORA 2024): elite teams don't migrate faster by being braver — they migrate faster because every change is small and reversible, so a bad step costs a flag flip, not an incident. The senior tell is that the ADR names a reversal CONDITION (a metric threshold that triggers rollback), not just a reversal ability. 'We can roll back' is a capability; 'we roll back if parity drift exceeds 0.1% for 5 minutes' is a plan."
+      "text": "Standards grounding (DORA State of DevOps): elite teams don't migrate faster by being braver — they migrate faster because every change is small and reversible, so a bad step costs a flag flip, not an incident. The senior tell is that the ADR names a reversal CONDITION (a metric threshold that triggers rollback), not just a reversal ability. 'We can roll back' is a capability; 'we roll back if parity drift exceeds 0.1% for 5 minutes' is a plan."
     },
     {
       "type": "quiz",
@@ -4501,7 +4501,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell is the reversal condition, not the choice. Anyone can pick Kafka; a senior engineer writes down the measured condition under which picking Kafka becomes the wrong call — a threshold, not a mood. SWEBOK and DORA both treat decision reversibility as a first-class property: a decision you cannot cleanly undo is a risk you took, not a call you made."
+      "text": "The senior tell is the reversal condition, not the choice. Anyone can pick Kafka; a senior engineer writes down the measured condition under which picking Kafka becomes the wrong call — a threshold, not a mood. DORA's research treats change reversibility as a first-class property: a decision you cannot cleanly undo is a risk you took, not a call you made."
     },
     {
       "type": "quiz",
@@ -4847,7 +4847,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "SWEBOK V4 and ABET computing outcomes both frame review as verification against stated constraints, not aesthetic approval — and DORA's 2024 findings tie reversibility (small, safe-to-revert changes) to elite delivery. The senior tell aligns with all three: a reviewer who signs off without naming the reversal condition has skipped the one thing the standards actually ask review to do."
+      "text": "SWEBOK V4 frames review as verification against stated requirements and constraints, not aesthetic approval — and DORA's State of DevOps findings tie reversibility (small, safe-to-revert changes) to elite delivery. The senior tell aligns with all three: a reviewer who signs off without naming the reversal condition has skipped the one thing the standards actually ask review to do."
     },
     {
       "type": "quiz",
@@ -5118,7 +5118,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK V4 and the DORA research both frame senior engineering as reversible decisions under constraint, not correct guesses. In the room, the tell is identical: a candidate who says \"strong consistency here, eventual there, and here's the number that made me choose\" outscores one who recites patterns — because the first one's confidence is grounded in an estimate the interviewer can check."
+      "text": "SWEBOK V4 frames engineering as decisions under constraints, and DORA's research emphasizes small, reversible changes — together they favor reversible decisions under constraint over correct guesses. In the room, the tell is identical: a candidate who says \"strong consistency here, eventual there, and here's the number that made me choose\" outscores one who recites patterns — because the first one's confidence is grounded in an estimate the interviewer can check."
     },
     {
       "type": "quiz",
@@ -5740,7 +5740,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK, ABET, and DORA all point at the same thing this packet operationalizes: an architecture claim is only credible with evidence and a way to change your mind. The senior tell is per-path consistency — juniors declare the system \"eventually consistent\" and ship a data-loss complaint; seniors make the write path strong, the browse path eventual, and write down exactly where the seam is and who is on each side of it."
+      "text": "Good engineering judgment converges on the same idea this packet operationalizes: an architecture claim is only credible with evidence and a way to change your mind. The senior tell is per-path consistency — juniors declare the system \"eventually consistent\" and ship a data-loss complaint; seniors make the write path strong, the browse path eventual, and write down exactly where the seam is and who is on each side of it."
     },
     {
       "type": "quiz",

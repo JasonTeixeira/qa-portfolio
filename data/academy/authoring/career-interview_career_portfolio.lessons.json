@@ -217,7 +217,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in targeting is naming your own gap before the interviewer finds it. Grounded against real hiring rubrics (ABET computing outcomes, SWEBOK V4), a portfolio claim is only credible when it ties to an artifact — so \"here is the one requirement I cannot yet prove, and here is the adjacent evidence closest to it\" reads as calibration, not weakness. The candidate who hides the gap gets caught; the one who names it controls the conversation."
+      "text": "The senior tell in targeting is naming your own gap before the interviewer finds it. A portfolio claim is more credible when it ties to an artifact — so \"here is the one requirement I cannot yet prove, and here is the adjacent evidence closest to it\" reads as calibration, not weakness. (SWEBOK V4 is a body-of-knowledge catalog, not a hiring rubric; do not cite it as 'grounding' this framing.) The candidate who hides the gap gets caught; the one who names it controls the conversation."
     },
     {
       "type": "quiz",
@@ -494,7 +494,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a targeted candidate from a hopeful one: they can state the top requirement of the role in the exact language the postings used, then point to the artifact that proves it. SWEBOK and ABET frame competence as demonstrated, inspectable capability — not self-report. A recruiter screen is the market applying the same rule in six seconds: claim mapped to evidence, or next resume."
+      "text": "The tell that separates a targeted candidate from a hopeful one: they can state the top requirement of the role in the exact language the postings used, then point to the artifact that proves it. Good engineering practice frames competence as demonstrated, inspectable capability — not self-report. (Drop the SWEBOK attribution; SWEBOK catalogs knowledge areas, it does not frame competence assessment.) A recruiter screen is the market applying the same rule in six seconds: claim mapped to evidence, or next resume."
     },
     {
       "type": "quiz",
@@ -780,7 +780,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: a positioned claim is one your toughest reviewer could re-derive from the artifact you linked — without asking you a single follow-up. If defending the number requires you in the room narrating, you have a story, not positioning. Standards grounding: ABET Computing Outcomes and SWEBOK V4 both treat claims of engineering ability as valid only when tied to inspectable evidence — the same bar a recruiter screen enforces in six seconds."
+      "text": "The senior tell: a positioned claim is one your toughest reviewer could re-derive from the artifact you linked — without asking you a single follow-up. If defending the number requires you in the room narrating, you have a story, not positioning. As a matter of engineering discipline, a claim of engineering ability is more credible when tied to inspectable evidence — the same bar a recruiter screen enforces in six seconds. (Remove the false SWEBOK/standards attribution.)"
     },
     {
       "type": "quiz",
@@ -1062,7 +1062,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: strong engineers position with numbers a skeptic could verify, not adjectives a fan would applaud. 'Passionate, hard-working, team player' is unfalsifiable — it survives on every profile, so it distinguishes none. 'Cut p99 latency from 4s to 800ms' can be checked, so it carries weight. If a competitor could copy your headline word-for-word without lying, it is not positioning. This mirrors SWEBOK V4's grounding of engineering claims in verifiable artifacts, not assertions."
+      "text": "The senior tell: strong engineers position with numbers a skeptic could verify, not adjectives a fan would applaud. 'Passionate, hard-working, team player' is unfalsifiable — it survives on every profile, so it distinguishes none. 'Cut p99 latency from 4s to 800ms' can be checked, so it carries weight. If a competitor could copy your headline word-for-word without lying, it is not positioning. This mirrors the general engineering principle of grounding a claim in verifiable evidence, not assertion. (SWEBOK V4 covers verification/validation of software artifacts; it does not make the stated claim about 'engineering claims,' so do not attribute this framing to it.)"
     },
     {
       "type": "quiz",
@@ -1358,7 +1358,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a portfolio review is bonding, not vocabulary. Anyone can say \"scalable, resilient, performant\"; a strong candidate says \"here is the PR, here is the before/after graph, here is the test that proves it's safe.\" Grounded against ABET Computing Outcomes and SWEBOK V4: a claim of engineering competence is only credible when the evidence is inspectable — a résumé phrase a reviewer can't open is a keyword, not a proof."
+      "text": "The senior tell in a portfolio review is bonding, not vocabulary. Anyone can say \"scalable, resilient, performant\"; a strong candidate says \"here is the PR, here is the before/after graph, here is the test that proves it's safe.\" A claim of engineering competence is more credible when the evidence is inspectable — a résumé phrase a reviewer can't open is a keyword, not a proof. (Remove the ABET/SWEBOK 'grounding'; the source does not support it.)"
     },
     {
       "type": "quiz",
@@ -1673,7 +1673,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a case study is the rejected approach. Anyone can narrate what they built; naming what they deliberately did NOT build — and why it violated a constraint — is what separates \"I executed a ticket\" from \"I made a judgment call.\" ABET and SWEBOK both grade engineering as decision-making under constraint, not code volume. Your packet should read that way."
+      "text": "The senior tell in a case study is the rejected approach. Anyone can narrate what they built; naming what they deliberately did NOT build — and why it violated a constraint — is what separates \"I executed a ticket\" from \"I made a judgment call.\" SWEBOK V4 frames engineering design as tradeoff decisions under competing constraints, not code volume. (SWEBOK describes, it does not 'grade'; and drop the ABET co-attribution unless separately verified.) Your packet should read that way."
     },
     {
       "type": "quiz",
@@ -1947,7 +1947,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a behavioral round: they answer the objection before it's asked. 'Latency dropped the deploy hour, not gradually, and traffic was flat — so it's the change, not the week.' Naming how you'd rule out luck signals you think in evidence, not anecdotes — the same discipline ABET and SWEBOK grade as engineering judgment, now aimed at your own track record."
+      "text": "The senior tell in a behavioral round: they answer the objection before it's asked. 'Latency dropped the deploy hour, not gradually, and traffic was flat — so it's the change, not the week.' Naming how you'd rule out luck signals you think in evidence, not anecdotes — the same evidence-and-verification discipline SWEBOK treats as central to engineering. (Remove 'grade'; SWEBOK describes practice, it does not assess individuals.)"
     },
     {
       "type": "quiz",
@@ -2253,7 +2253,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (grounded in ABET/SWEBOK communication outcomes): a strong explanation is one the person who would have chosen the OTHER option could still sign as accurate. If your story only sounds impressive to people who already like your choice, it is a pitch. If it fairly states the tradeoff and still lands, it is evidence — and that is what a reviewer is actually screening for."
+      "text": "The senior tell: a strong explanation is one the person who would have chosen the OTHER option could still sign as accurate. (Remove the SWEBOK/ABET 'communication outcomes' grounding; SWEBOK has no such outcome statement.) If your story only sounds impressive to people who already like your choice, it is a pitch. If it fairly states the tradeoff and still lands, it is evidence — and that is what a reviewer is actually screening for."
     },
     {
       "type": "quiz",
@@ -2496,7 +2496,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a hire from a no-hire: the strong candidate states a tradeoff the interviewer who disagrees would still sign. \"I chose cache-aside over write-through, accepting cold-start risk, because reads are 100x writes\" is defensible from both sides. \"I used Redis because it's fast\" is a preference wearing a decision's clothes. Grounded in ABET Computing Outcomes and SWEBOK V4: engineering judgment is defending a choice against its own downside, not reciting the winner."
+      "text": "The tell that separates a hire from a no-hire: the strong candidate states a tradeoff the interviewer who disagrees would still sign. \"I chose cache-aside over write-through, accepting cold-start risk, because reads are 100x writes\" is defensible from both sides. \"I used Redis because it's fast\" is a preference wearing a decision's clothes. Consistent with SWEBOK V4's framing of design as tradeoffs among competing quality attributes: engineering judgment is defending a choice against its own downside, not reciting the winner. (Attribute only the tradeoff framing to SWEBOK; drop the unverified ABET co-grounding.)"
     },
     {
       "type": "quiz",
@@ -2814,7 +2814,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a walkthrough (SWEBOK V4 frames this as engineering judgment, not recall): a strong candidate volunteers the rejected option and the failure case before being asked. Interviewers stop probing when you have already shown the tradeoff — because the thing they are screening for is whether you know where your own solution breaks."
+      "text": "The senior tell in a walkthrough: a strong candidate volunteers the rejected option and the failure case before being asked — which reflects SWEBOK V4's framing of design as evaluating alternatives and tradeoffs. (SWEBOK addresses design decision-making, not candidate walkthroughs; soften the attribution accordingly.) Interviewers stop probing when you have already shown the tradeoff — because the thing they are screening for is whether you know where your own solution breaks."
     },
     {
       "type": "quiz",
@@ -3115,7 +3115,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in a debugging interview is not the size of the bug — it is whether your story has a falsifiable proof. Junior candidates prove the fix by asserting it worked; senior candidates point to the regression test that fails on the offending commit and passes on the fix. ABET's computing outcomes and SWEBOK both frame this as the core of the discipline: an engineer's claims are backed by verification, not narrative. In the room, 'here is the test that would catch it again' beats 'trust me, it was faster.'"
+      "text": "The senior tell in a debugging interview is not the size of the bug — it is whether your story has a falsifiable proof. Junior candidates prove the fix by asserting it worked; senior candidates point to the regression test that fails on the offending commit and passes on the fix. SWEBOK treats verification and validation (Software Testing, Software Quality) as core knowledge areas of the discipline: sound work is backed by verification, not narrative. (Reframe from 'an engineer's claims' to 'the work/software,' which is what SWEBOK actually addresses, and drop the unverified ABET co-attribution.) In the room, 'here is the test that would catch it again' beats 'trust me, it was faster.'"
     },
     {
       "type": "quiz",
@@ -3681,7 +3681,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Standards grounding: ABET Computing Outcomes and SWEBOK V4 both weight judgment and verification over tool operation — an accredited program certifies that you can evaluate and validate a solution, not that you can invoke a generator. Interviewers apply the same bar: the reviewable signal is your evaluation of the AI's output, backed by an artifact. Note the honesty boundary — these references ground correctness, they are not endorsements, and they do not replace a real reviewer signing off on your packet."
+      "text": "SWEBOK V4 weights judgment and verification (evaluation, validation, quality) as core to the discipline, over mere tool operation — the emphasis is on evaluating and validating a solution, not invoking a generator. (Move the 'accredited program certifies' clause to ABET only, or drop it; SWEBOK does not accredit.) Interviewers apply the same bar: the reviewable signal is your evaluation of the AI's output, backed by an artifact. Note the honesty boundary — these references ground correctness, they are not endorsements, and they do not replace a real reviewer signing off on your packet."
     },
     {
       "type": "quiz",
@@ -3976,7 +3976,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "SWEBOK and ABET both grade engineers on evidence and verification, not vocabulary — and interviewers do the same instinctively. The senior-vs-junior tell: a strong candidate volunteers the artifact and the rejected option before being asked, because they know the interviewer's real question is never 'do you know the words' — it's 'can you prove the claim and defend the tradeoff.' Rehearse the proof, not the paragraph."
+      "text": "SWEBOK centers evidence and verification, not vocabulary — and interviewers do the same instinctively. (Replace 'grade engineers on' with 'center'; SWEBOK describes the discipline, it does not grade individuals, and drop the unverified ABET co-attribution.) The senior-vs-junior tell: a strong candidate volunteers the artifact and the rejected option before being asked, because they know the interviewer's real question is never 'do you know the words' — it's 'can you prove the claim and defend the tradeoff.' Rehearse the proof, not the paragraph."
     },
     {
       "type": "quiz",
@@ -4287,7 +4287,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The tell that separates a strong take-home from an average one is not clean code — it is the candidate who autopsies their own failure before the reviewer can. 'Here's where this breaks and what I'd change' converts a walkthrough from an interrogation into a peer review. ABET's computing outcomes and SWEBOK both grade the ability to evaluate and defend a solution over the ability to merely produce one — the packet is that evaluation, written down."
+      "text": "The tell that separates a strong take-home from an average one is not clean code — it is the candidate who autopsies their own failure before the reviewer can. 'Here's where this breaks and what I'd change' converts a walkthrough from an interrogation into a peer review. SWEBOK centers the ability to evaluate and validate a solution, not merely produce one — the packet is that evaluation, written down. (Replace 'grade' with 'centers'; keep the grading/accreditation framing to ABET only.)"
     },
     {
       "type": "quiz",
@@ -4584,7 +4584,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior move: outreach is a claim you would defend under interview pressure, sent early. Never put a number in a DM you cannot walk a reviewer through in a technical walkthrough — because the moment it works, the reply is 'tell me more,' and now your outreach IS your first interview answer. Grounded against SWEBOK V4's emphasis on evidence-tied engineering communication and ABET's outcome on communicating effectively with a range of audiences."
+      "text": "The senior move: outreach is a claim you would defend under interview pressure, sent early. Never put a number in a DM you cannot walk a reviewer through in a technical walkthrough — because the moment it works, the reply is 'tell me more,' and now your outreach IS your first interview answer. Grounded against SWEBOK V4's Software Engineering Professional Practice area, which stresses communication with stakeholders and the broader professional community, and ABET's Student Outcome 3, 'Communicate effectively in a variety of professional contexts.' (Note: 'evidence-tied engineering communication' is not a phrase SWEBOK uses, and ABET says 'in a variety of professional contexts,' not 'with a range of audiences.')"
     },
     {
       "type": "quiz",
@@ -4881,7 +4881,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell in an application is the rejected option. Anyone can list what they built; the candidate who says \"I rejected a full reindex because it violated the no-daytime-downtime constraint\" proves they made a decision under a real trade-off — which is exactly what ABET Computing Outcomes and SWEBOK V4 call engineering judgment. A resume bullet with a metric gets you the screen; a defended rejection gets you the offer."
+      "text": "The senior tell in an application is the rejected option. Anyone can list what they built; the candidate who says \"I rejected a full reindex because it violated the no-daytime-downtime constraint\" proves they made a decision under a real trade-off — the kind of analysis-and-informed-judgment that ABET's computing outcomes describe (SO1 'analyze a complex computing problem'; SO4 'make informed judgments'). (Neither ABET nor SWEBOK V4 uses the term 'engineering judgment' for this; drop that specific attribution.) A resume bullet with a metric gets you the screen; a defended rejection gets you the offer."
     },
     {
       "type": "quiz",
@@ -5172,7 +5172,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell: negotiate the WHOLE offer, not just base. Base is one lever; sign-on bonus, equity refresh, start date, level, and remote days are others — and the ones they can move fastest when base is 'capped by band.' SWEBOK V4 and ABET frame the engineer's job as reasoning under constraints; comp is the same skill pointed at your own career. Anchor to a market range, then trade across levers instead of arm-wrestling on one."
+      "text": "The senior tell: negotiate the WHOLE offer, not just base. Base is one lever; sign-on bonus, equity refresh, start date, level, and remote days are others — and the ones they can move fastest when base is 'capped by band.' Analyzing a problem against real constraints to identify solutions is the core engineering skill (echoing ABET Student Outcome 1); comp is the same skill pointed at your own career. (Remove the SWEBOK V4/ABET 'reasoning under constraints' attribution — neither source frames the engineer's job that way, and neither addresses compensation.) Anchor to a market range, then trade across levers instead of arm-wrestling on one."
     },
     {
       "type": "quiz",
@@ -5475,7 +5475,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "The senior tell (ABET/SWEBOK 'apply, analyze, communicate' framing): a strong candidate treats every objection as a gift that reveals which claim is under-proven, and rewrites that claim on the spot. If your retro only produces claims your interviewer already believed, it's a comfort exercise, not a retro. The claim you dread being asked about is the one the retro must rebuild first."
+      "text": "The senior tell: a strong candidate treats every objection as a gift that reveals which claim is under-proven, and rewrites that claim on the spot. (The phrase 'apply, analyze, communicate' is not ABET or SWEBOK language — ABET's outcomes are separate items: analyze a problem (SO1), design/implement/evaluate (SO2), and communicate effectively (SO3). Remove the invented framing or replace with the actual outcome numbers.) If your retro only produces claims your interviewer already believed, it's a comfort exercise, not a retro. The claim you dread being asked about is the one the retro must rebuild first."
     },
     {
       "type": "quiz",
@@ -5793,7 +5793,7 @@
     {
       "type": "callout",
       "tone": "tip",
-      "text": "Grounded in SWEBOK V4 and the ABET computing outcomes: engineering credibility is claims tied to verifiable evidence, not eloquence. The senior tell in an interview is the same as in a design review — a candidate who volunteers what would have proven them wrong ('if staleness had crept in, conversions would have dropped') reads as trustworthy, because their confidence is information, not noise."
+      "text": "Consistent with SWEBOK V4's emphasis on verification and professional practice, and ABET's outcome on communicating effectively: engineering credibility is claims tied to verifiable evidence, not eloquence. (Neither source states this proposition as written; it is a reasonable synthesis, not a direct quotation, so soften 'Grounded in' to 'Consistent with.') The senior tell in an interview is the same as in a design review — a candidate who volunteers what would have proven them wrong ('if staleness had crept in, conversions would have dropped') reads as trustworthy, because their confidence is information, not noise."
     },
     {
       "type": "quiz",

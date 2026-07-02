@@ -1172,7 +1172,7 @@
         "label": "Structured, status-correct, idempotent",
         "tone": "success",
         "lines": [
-          "422 with RFC 9457 body + errors[]:[{field:'quantity'…}]",
+          "422 with RFC 9457 body + an application-defined errors[] extension (e.g. [{field:'quantity'…}]); note that 9457's own example uses a JSON 'pointer' member, and the exact field-error shape is your convention, not mandated by the RFC",
           "Status line is the first branch; clients act before reading prose",
           "ONE shape across 400 / 401 / 403 / 409 / 422",
           "type URI lets clients switch on the error class",

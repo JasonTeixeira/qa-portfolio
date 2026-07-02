@@ -1588,7 +1588,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "RFC 9110 is explicit: a client MUST NOT automatically retry a non-idempotent request unless it has a way to know the request semantics are actually idempotent. A dropped connection is not evidence the write failed — it is evidence the response was lost. Senior tell: when someone says '5xx, so fix the endpoint,' the senior asks 'which 5xx, on which route, for which clients?' — because 502/503/504 are almost always the path, not the handler."
+      "text": "RFC 9110 is explicit: a client SHOULD NOT automatically retry a non-idempotent request unless it has a way to know the request semantics are actually idempotent. A dropped connection is not evidence the write failed — it is evidence the response was lost. Senior tell: when someone says '5xx, so fix the endpoint,' the senior asks 'which 5xx, on which route, for which clients?' — because 502/503/504 are almost always the path, not the handler."
     },
     {
       "type": "quiz",
@@ -2181,7 +2181,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "The standards make the fallback mandatory, not optional: RFC 9114 (HTTP/3) is discovered via the Alt-Svc header (RFC 7838) layered over an existing HTTP/2 origin — the client only tries QUIC after it already has a TCP answer. That's why 'HTTP/3-only' fights the protocol's own design. The senior tell: you don't measure a QUIC rollout by p50, you measure it by the h3-vs-h2 negotiation ratio — the clients quietly on h2 are your reachability canary."
+      "text": "The standards make the fallback advisory, not mandatory: HTTP/3 (RFC 9114) over QUIC is typically discovered via the Alt-Svc header (RFC 7838) advertised over an existing HTTP/1.1 or HTTP/2 origin — so the client usually only tries QUIC after it already has a TCP-based answer, but per RFC 7838 using the alternative is OPTIONAL. That's why 'HTTP/3-only' fights the protocol's own design. The senior tell: you don't measure a QUIC rollout by p50, you measure it by the h3-vs-h2 negotiation ratio — the clients quietly on h2 are your reachability canary."
     },
     {
       "type": "quiz",
@@ -3004,7 +3004,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "text": "Standards grounding: an L4 load balancer operates at OSI transport (TCP/UDP, RFC 793 semantics) and cannot see HTTP; an L7 balancer terminates TLS and reads the request, which is why only L7 supports path/host routing and real HTTP health checks (per the HTTP semantics in RFC 9110). Direct Server Return (DSR) exists because at high scale, forcing every reply back through the LB (SNAT) makes it the bottleneck — DSR lets backends answer clients directly, at the cost of the LB no longer seeing return traffic. The mode is a throughput-vs-observability trade, and you must name which side the constraint puts you on."
+      "text": "Standards grounding: an L4 load balancer operates at OSI transport (TCP per RFC 793/9293, UDP per RFC 768) and cannot see HTTP; an L7 balancer terminates TLS and reads the request, which is why only L7 supports path/host routing and real HTTP health checks (against the HTTP semantics defined in RFC 9110). Note: 'L4/L7' is industry layering terminology, not an RFC 9110 term. Direct Server Return (DSR) exists because at high scale, forcing every reply back through the LB (SNAT) makes it the bottleneck — DSR lets backends answer clients directly, at the cost of the LB no longer seeing return traffic. The mode is a throughput-vs-observability trade, and you must name which side the constraint puts you on."
     },
     {
       "type": "quiz",

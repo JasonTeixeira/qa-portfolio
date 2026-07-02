@@ -77,7 +77,7 @@ Exit: installable PWA live; store builds submitted.
 | Program | Status |
 |---|---|
 | P0 complete content (448) | **✅ DONE — 448/448 lessons, 23/23 courses visual-first, all ≥95 (DB-verified 2026-07-02)** |
-| P1 accuracy verification | STARTING — harness build + course-by-course run (context7 + OWASP/RFC/MDN) |
+| P1 accuracy verification | **✅ DONE (targeted standards pass) — 469/471 standards-claims verified vs primary sources, 261 corrected, re-applied clean + committed (2026-07-02). Deep per-lesson verify remains optional.** |
 | P2 interactivity + labs | queued (30/448 have labs today) |
 | P3 translation | queued (after P1) |
 | P4 mobile | queued (PWA can start in parallel) |
@@ -95,7 +95,27 @@ occurrences → re-apply affected courses → commit. Order by false-attribution
 | WCAG | 132 | 101 | **31** | 77% confirmed — corrections were the WCAG-vs-ARIA conflation (aria-busy/role=alert/aria-modal cited as "WCAG requirements" when they're ARIA techniques; WCAG sets the outcome) + omitted SC exceptions (1.4.10 Reflow). Fixed across 4 courses, re-applied clean. |
 | NIST | 36 | 6 | **30** | 83% false/imprecise (framework over-attributed like SWEBOK/DORA) — "traceability" cited as a named trustworthiness property (it's "accountable and transparent"), "abstention" prescribed (word absent), cost/latency named as a monitored triad (not in text). Fixed across 3 courses, re-applied clean. |
 | SOC2 | 18 | 5 | **13** | "SOC 2 certified" (it's an attestation report, not a certification), invented SLA windows (24h/15min attributed to CC6.3, which sets none), a non-existent "access-review control", mandated quarterly cadence (org-chosen). Fixed across 2 courses, re-applied clean. |
-| RFC | 10 | — | — | running last |
+| RFC | 10 | 5 | **5** | 50% — real spec errors: MUST NOT vs SHOULD NOT (9110 §9.2.2 retry rule), Alt-Svc "mandatory" vs OPTIONAL (7838), a garbled "404 (not 404)" corrupting the 403/404 existence-leak point, TCP-only RFC 793 vs UDP 768. Fixed across 3 courses, re-applied clean. |
+| **TOTAL** | **469** | **208 (44%)** | **261** | 7 standards, verified by primary source, all fixes applied verbatim across every occurrence + re-applied clean. |
+
+### P1 summary — the systemic finding
+Across 469 standards-claims, only **44% survived verification**; **261 were false or imprecise**.
+The failure was uniform in kind: standards were cited as **rhetorical authority, not checked
+citation** — "SWEBOK says X", "DORA prescribes Y", "WCAG requires Z" — where the primary text
+says no such thing. The split by standard is diagnostic:
+- **Broad frameworks were worst** (invoked to lend weight to techniques they never name): SWEBOK
+  **11%** confirmed, NIST **17%**, DORA **19%**. These bodies describe outcomes/knowledge areas;
+  authors wrongly made them *prescribe* implementation practices (idempotency, DLQ, RED method,
+  12-factor, abstention, "traceability").
+- **Concrete standards fared best** (real, checkable categories): WCAG **77%**, OWASP **63%**,
+  RFC **50%**, SOC2 **28%**. Errors here were miscited specifics — wrong OWASP API numbers, the
+  WCAG-vs-ARIA conflation (ARIA techniques cited as WCAG requirements), invented SOC2 SLAs and
+  "certification" (it's an attestation report), MUST NOT vs SHOULD NOT.
+Every fix **preserves the pedagogy and strips (or corrects) the false authority** — the teaching
+point stands; the fabricated citation is gone. This was the marketing moat and the biggest
+integrity risk in the corpus; it is now closed for standards-attribution. (Note: this pass
+targets *standards citations* specifically — the highest-risk error class. A full per-lesson
+technical-claim deep-verify, POC'd on 3 lessons, remains available as an optional deeper pass.)
 | (security_identity) | POC: 3 lessons 82–98 | 1 (403→404) | proof-of-concept done before the full run |
 
 ## Guardrails (unchanged)

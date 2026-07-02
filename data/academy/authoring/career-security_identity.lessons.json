@@ -170,7 +170,7 @@
             14
           ],
           "label": "Deny AND hide existence (404)",
-          "note": "On a non-owned id the row is None → return 404, and log it. Per RFC 9110, returning 404 (not 404) hides whether the object exists; a 404 would confirm it exists but is forbidden."
+          "note": "On a non-owned id the row is None → return 404, and log it. Per RFC 9110 (§15.5.4), returning 404 instead of 403 hides whether the object exists; a 403 would confirm it exists but is forbidden."
         },
         {
           "lines": [

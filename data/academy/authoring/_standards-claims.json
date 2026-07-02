@@ -1,0 +1,4716 @@
+{
+  "total": 471,
+  "distinct": 471,
+  "claims": [
+    {
+      "claim": "The NIST AI RMF frames trustworthy AI around GOVERN-MAP-MEASURE-MANAGE — and MAP comes before MEASURE for a reason: you cannot evaluate a system whose intended use and failure modes you never stated.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "ai-product-framing"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's Generative AI Profile treats confident fabrication (confabulation) as a top risk to manage, not a rough edge to tolerate — so a grounded system is judged first on how cleanly it abstains, not on how well it answers the easy questions.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "prompt-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (OWASP API Top 10, NIST GenAI Profile): the model output is an external, untrusted boundary — treat it exactly like a request body.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "structured-outputs"
+        }
+      ]
+    },
+    {
+      "claim": "Per the NIST AI RMF, traceability is a first-class property of a trustworthy AI system — and provenance metadata on every chunk is where a RAG pipeline actually earns it.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "document-ingestion"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's GenAI Profile calls this out as provenance and data-integrity risk (MP/MS): un-versioned, un-attributable retrieval sources are a documented failure mode, not a nicety.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "chunking-metadata"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, and what NIST AI RMF calls measurable trustworthiness: retrieval quality is a NUMBER on a held-out set, not an anecdote.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "embeddings-indexing"
+        }
+      ]
+    },
+    {
+      "claim": "The NIST AI RMF 'Measure' function is exactly this move: you cannot manage a risk you have not measured.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "retrieval-quality"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's GenAI Profile calls this out directly as a confabulation risk that requires provenance and abstention.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "rag-answer-grounding"
+        }
+      ]
+    },
+    {
+      "claim": "The senior move, straight from NIST's GenAI Profile: an eval set is a living safety control, not a one-time gate.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "eval-dataset-design"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's GenAI Profile treats measurement validity as a first-class risk — an unvalidated evaluator is not a safety control, it is a second liability.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "llm-judges-graders"
+        }
+      ]
+    },
+    {
+      "claim": "A guardrail is the independent layer that decides refuse, ground, or escalate — and the eval that proves it holds under attack, the way NIST's GenAI Profile asks you to measure risk, not assert it.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "safety-policy-guardrails"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's GenAI Profile and the OWASP API/LLM top-ten both treat prompt injection as a design assumption, not an edge case: assume the user's text will try to override your instructions, and put enforcement where they can't reach it.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "safety-policy-guardrails"
+        }
+      ]
+    },
+    {
+      "claim": "A workflow that trusts the model's JSON is not a workflow — it is an injection surface (OWASP API1: Broken Object Level Authorization).",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "tool-calling-workflows"
+        }
+      ]
+    },
+    {
+      "claim": "An allowlist of real tools is the first gate — OWASP API1.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "tool-calling-workflows"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF's MEASURE function and OWASP API Top 10 both land on the same rule — validate at the boundary.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "tool-calling-workflows"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF names this MEASURE + MANAGE: you cannot manage a risk (hallucination) you have not measured (the eval set) or bounded (the budget + grounding gate).",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "agent-workflow-control"
+        }
+      ]
+    },
+    {
+      "claim": "The NIST GenAI Profile treats operational monitoring — cost, latency, and drift — as a first-class risk control, not an ops nicety: a system you cannot measure in production is a system you cannot govern.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "observability-cost-latency"
+        }
+      ]
+    },
+    {
+      "claim": "Standards back this (NIST AI RMF MEASURE, OWASP API Top 10): continuous, versioned measurement against a known-good reference is the control, and an unversioned eval set that mutates silently is the vulnerability it warns against.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "regression-testing-drift"
+        }
+      ]
+    },
+    {
+      "claim": "The NIST AI RMF and GenAI Profile make this a control, not a vibe: MEASURE the risk (a red-team eval suite) and MANAGE it (guardrails + least-privilege), then gate release on it.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "security-privacy-ai"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP's LLM Top 10 ranks prompt injection #1 for exactly this reason — the senior tell is treating retrieved context as an untrusted input boundary, the same way you'd never trust a query string.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "security-privacy-ai"
+        }
+      ]
+    },
+    {
+      "claim": "NIST's GenAI Profile leans on human oversight precisely because inter-rater agreement is the signal that your 'grounded' means the same thing twice — a 94% automated score with no human agreement number behind the gate is a number nobody can defend in an incident review.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "human-feedback-review"
+        }
+      ]
+    },
+    {
+      "claim": "A gate with no baseline can only answer 'is this good?' A gate with a baseline answers the question that actually ships product: 'is this better, and did it break anything that already worked?' NIST's AI RMF calls this continuous measurement against a known reference; in practice it is one pinned filename and one pinned baseline run.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "llmops-release-process"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in NIST AI RMF and its Generative AI Profile: 'measure' means demonstrated behavior on an eval set plus provenance (the retrieval trace showing which source grounded the answer), not a description of intent.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "ai-interview-portfolio"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding the packet in the NIST GenAI Profile: the release gate maps to MEASURE (an eval set that quantifies grounded-answer rate) and MANAGE (a guardrail + reversal condition that bounds the harm of a wrong answer).",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "ai-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "A reviewer trained on NIST AI RMF reads this packet and sees the risk function named, measured, and mitigated — not asserted.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-ai_engineering_rag_eval",
+          "slug": "ai-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, Software Requirements KA): a requirement is not usable until it is verifiable — quantified and testable.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "problem-framing-requirements"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK-grounded capacity work sizes to the worst hour and names the measurement that would undo the choice.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "capacity-estimation"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 calls this the coupling that determines whether your ‘microservices’ are actually a distributed monolith — and DORA’s 2024 data ties loosely-coupled boundaries directly to deploy frequency and change-fail rate.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "domain-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, software design + construction): the senior move is consumer-driven contract testing — the CONSUMER writes a test asserting the fields it depends on, and the producer runs it in CI.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "api-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from SWEBOK and DORA practice: consistency is a per-read-path contract, not a database setting.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "data-architecture"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell is a one-line anomaly budget: 'reads may be up to 5s stale; payment and inventory reconcile within one saga retry; the order invariant never breaks.' Grounded in DORA's finding that elite teams recover fast because failure modes are explicit — a consistency model you cannot state as a bounded, named anomaly is a model you have not actually chosen.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "consistency-transactions"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK frames design as managing tradeoffs under constraints — and caching is the purest example.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "caching-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and every senior reviewer treat 'at-least-once delivery' as a given, not a bug — networks and crashes make exactly-once delivery effectively impossible.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "queue-event-architecture"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research ties independent deployability to delivery performance — but only when the data boundary is real, not just the repo boundary.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "service-decomposition"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK's fault-tolerance guidance and DORA's reliability research both point the same way — resilience is about bounding failure blast radius, not eliminating failure.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "resilience-timeouts-retries"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 and ABET both frame security as a design-time responsibility, not a bolt-on: the senior tell is modeling the adversary at the boundary, not listing controls after the fact.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "security-privacy-threat-model"
+        }
+      ]
+    },
+    {
+      "claim": "\"We follow OWASP Top 10 and use HTTPS everywhere, so the common attacks are covered.\"",
+      "standard": "OWASP Top 10",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "security-privacy-threat-model"
+        }
+      ]
+    },
+    {
+      "claim": "Latency, traffic, errors, saturation — the DORA/SRE quartet.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "observability-operability"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from DORA and Google's SRE practice: alert on SYMPTOMS and BURN RATE, not on causes or raw thresholds.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "observability-operability"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK frames partitioning as a capacity + boundary decision, not a knob.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "scaling-partitioning"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, DORA 2024): elite teams don't migrate faster by being braver — they migrate faster because every change is small and reversible, so a bad step costs a flag flip, not an incident.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "migration-evolution"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research is blunt on this: past a point, more reliability effort stops improving outcomes and starts hurting throughput and cost — the elite move is matching the target to the service, not maximizing it everywhere.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "cost-reliability-tradeoffs"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and DORA both treat decision reversibility as a first-class property: a decision you cannot cleanly undo is a risk you took, not a call you made.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "architecture-decision-records"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 and ABET computing outcomes both frame review as verification against stated constraints, not aesthetic approval — and DORA's 2024 findings tie reversibility (small, safe-to-revert changes) to elite delivery.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "design-review-critique"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 and the DORA research both frame senior engineering as reversible decisions under constraint, not correct guesses.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "interview-system-design"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 frames architecture as decisions under constraints, and DORA's research ties elite delivery to reversibility — small, recoverable changes over big-bang bets.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "architecture-proof-packet"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK, ABET, and DORA all point at the same thing this packet operationalizes: an architecture claim is only credible with evidence and a way to change your mind.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-architecture_system_design",
+          "slug": "architecture-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "This is OWASP API1 — broken object-level authorization — caught at the door.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-request-response"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in OWASP API Security Top 10: the #1 risk is broken object-level authorization — a handler that authenticates ('you have a valid token') but never authorizes ('this token may act on THIS order').",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-request-response"
+        }
+      ]
+    },
+    {
+      "claim": "Either way, this closes a mass-assignment hole (OWASP API3).",
+      "standard": "OWASP API3",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "resource-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "The moment a field that decides 'who owns this' or 'what may this become' comes from untrusted input, you have an IDOR or a broken-object-authorization bug (OWASP API1/API3) waiting for the request you didn't imagine.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "resource-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "This is exactly what OWASP API Security flags as the difference between a hardened endpoint and one waiting to be exploited: unvalidated input and leaked 500 stack traces are top-10 API risks, not style nits.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "api-contracts-schemas"
+        }
+      ]
+    },
+    {
+      "claim": "RFC 9457 Problem Details as the envelope, one Zod gate, one error mapper — every rejection exits the same door.",
+      "standard": "RFC 9457",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "// The ONE error shape (RFC 9457 Problem Details + a field-level errors[]).",
+      "standard": "RFC 9457",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "422 with RFC 9457 body + errors[]:[{field:'quantity'…}]",
+      "standard": "RFC 9457",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding, not vibes: OWASP API Security Top 10 lists Broken Object/Property-Level Authorization and excessive data exposure among the top risks — a leaked stack trace in an error body hits both at once.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "RFC 9457 (Problem Details) exists precisely so you do not invent a bespoke error shape per service.",
+      "standard": "RFC 9457",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 frames this as the contract being part of the design, not an afterthought.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "validation-error-model"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Security flags both extremes: leaking detail in error bodies AND hiding real failures behind 200s.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "http-status-codes"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, grounded in OWASP API Top 10: the dangerous failures are not the loud 500s — they're the 200s that hide an error and the 5xx that leaks a stack trace.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "http-status-codes"
+        }
+      ]
+    },
+    {
+      "claim": "Mislabeling it 5xx triggers automatic retries of a doomed request, corrupts reliability metrics (DORA change-failure-rate, error budgets), and wakes on-call for a caller bug — the exact 'happy-path answer' the reviewer is hunting for.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "http-status-codes"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API4 (Unrestricted Resource Consumption) names the uncapped limit explicitly: a list endpoint with no maximum page size is a denial-of-service primitive, not a convenience.",
+      "standard": "OWASP API4",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "pagination-filtering-sorting"
+        }
+      ]
+    },
+    {
+      "claim": "Replayed state-changing requests relate to OWASP API6:2023 (Unrestricted Access to Sensitive Business Flows), where idempotency keys are a commonly recommended MITIGATION — the Top 10 text itself doesn't name retry-safety.",
+      "standard": "OWASP API6",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "idempotency-retry-safety"
+        }
+      ]
+    },
+    {
+      "claim": "That single missing line is OWASP API Top 10 #1, and it ships to production constantly.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "auth-authorization-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "BOLA / IDOR — OWASP API #1, ships silently",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "auth-authorization-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP grounds this: Broken Object-Level Authorization is API Security Top 10 #1, precisely because the happy-path test always passes and the boundary is one easy-to-omit line.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "auth-authorization-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "If the answer is \"the client shouldn't retry,\" you have a leak with a nice interface bolted on top (OWASP API6: unrestricted access to business flows starts exactly here).",
+      "standard": "OWASP API6",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "persistence-repository-boundary"
+        }
+      ]
+    },
+    {
+      "claim": "True exactly-once delivery across a network is effectively impossible (Two Generals Problem) — so make every worker idempotent and let the queue redeliver freely.",
+      "standard": "Two Generals",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "background-jobs-queue-basics"
+        }
+      ]
+    },
+    {
+      "claim": "A double-charge is a data-integrity / idempotency failure, not something the OWASP API Top 10 names directly.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "background-jobs-queue-basics"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell from reliability engineering (AWS SQS dead-letter queues, the Enterprise Integration Patterns 'Dead Letter Channel', general SRE practice): a poison message must FAIL LOUDLY, not silently retry.",
+      "standard": "Enterprise Integration Patterns",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "worker-state-retries-dlq"
+        }
+      ]
+    },
+    {
+      "claim": "That is a business-logic idempotency flaw; the retry *volume* itself can separately trip OWASP API4:2023 'Unrestricted Resource Consumption', but the duplicate-charge harm is an idempotency defect, not a resource-consumption one.",
+      "standard": "OWASP API4",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "event-vs-command"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, and a DORA change-failure-rate lever: the auth boundary lives on the COMMAND (one place to check 'who may ask'), never on the event — facts are not authorized, they simply happened.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "event-vs-command"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, grounded in DORA and the RED method: don't alert on \"a 500 happened\" — alert on the error RATE and the latency p99 crossing your SLO, both sliced by request so a spike points you straight at the affected requests.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "observability-request-ids-logs-metrics"
+        }
+      ]
+    },
+    {
+      "claim": "And never log a token, password, or full card number into your structured fields — logging secrets/PII is a security-misconfiguration / sensitive-data-in-logs risk (OWASP API8:2023 Security Misconfiguration; general OWASP A09:2021 Security Logging and Monitoring Failures), and request IDs exist precisely so you can correlate without logging the sensitive payload.",
+      "standard": "OWASP API8",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "observability-request-ids-logs-metrics"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight out of OWASP API Top 10: most production incidents live on the unhappy paths — broken object-level auth, missing input validation, unsafe retries — not the happy path.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-testing-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API4:2023 (Unrestricted Resource Consumption) makes the limiter a security control, not just a perf knob — an endpoint with no rate limit is a documented API vulnerability.",
+      "standard": "OWASP API4",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "rate-limits-backpressure"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from the OWASP API and SWEBOK V4 evolution guidance: backward compatibility is owned by the CONSUMER, not the producer.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "versioning-compatibility"
+        }
+      ]
+    },
+    {
+      "claim": "An endpoint that authenticates the caller but trusts the id in the body to pick the row is an IDOR waiting to happen — the #1 item on the OWASP API Top 10.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "security-privacy-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "Skipping the per-object authorization check is Broken Object Level Authorization (BOLA/IDOR) — OWASP API #1 — and it passes every happy-path test because the attacker is a real, logged-in user.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "security-privacy-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Top 10 ranks Broken Object Level Authorization (BOLA/IDOR) #1 for a reason: it is invisible to the test suite.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "security-privacy-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (OWASP API Top 10 + DORA): the senior tell is proving the FAILURE path, not the happy path.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-debugging-incident-loop"
+        }
+      ]
+    },
+    {
+      "claim": "High-performing teams (DORA) make mean-time-to-restore low precisely because the repair ships with the replay.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-debugging-incident-loop"
+        }
+      ]
+    },
+    {
+      "claim": "This is the OWASP API broken-authorization control on the write path.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-integration-mini-project"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: OWASP API Top 10 puts broken object/function authorization at the top — so the auth boundary fires before any write, never after.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-integration-mini-project"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 frames this as construction-for-verification: the unique(actorId,key) constraint and the transactional outbox move correctness from 'the app remembers to check' to 'the database makes the wrong state impossible'.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-integration-mini-project"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Security Top 10 puts Broken Object Level Authorization at #1 for a reason: the most common capstone failure is an endpoint that authenticates the caller but never checks they own the specific resource.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "\"I followed OWASP and the request/response contract from the earlier lessons.\"",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-backend_engineering",
+          "slug": "backend-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA 2024): the four keys — deploy frequency, lead time, change-fail rate, and failed-deployment recovery time — are all properties of THIS loop.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-operating-model"
+        }
+      ]
+    },
+    {
+      "claim": "Connect your loop to one DORA key: which of deploy frequency, lead time, change-fail rate, or recovery time does your rollback evidence most directly improve, and why?",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-operating-model"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA): elite teams win on fast, evidence-backed recovery, not on never breaking.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "linux-processes-ports"
+        }
+      ]
+    },
+    {
+      "claim": "12-factor (DORA, SWEBOK) exists to make that answer \"seconds\".",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "environment-config-secrets"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's elite performers restore service fast because every deploy is a reproducible, pinned artifact — so rollback is \"redeploy this exact sha256,\" not \"rebuild and pray.\" If your rollback target is a mutable tag like :latest or :prod, you do not have a rollback; you have a rebuild with your fingers crossed.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "container-image-design"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research ties elite delivery to fast, reliable feedback loops — and that loop starts with a stack any engineer can rebuild in one command.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "docker-compose-local-stack"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's elite performers keep change-failure low precisely by making the failure observable per hop — an incident note that says 'endpoints was empty because a label drifted' is reusable; 'we restarted it and it came back' teaches no one and will page you again next week.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "networking-dns-tls"
+        }
+      ]
+    },
+    {
+      "claim": "It is the control that turns DORA's change-failure-rate from luck into policy, and it is the evidence a reviewer trusts before they trust your service.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "ci-pipeline-quality-gates"
+        }
+      ]
+    },
+    {
+      "claim": "The senior move DORA makes explicit: a good gate is FAST and TRUSTWORTHY, not just strict.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "ci-pipeline-quality-gates"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's elite performers restore service fast because a prior good artifact still exists and is addressable; SWEBOK's configuration-management discipline says the build is reproducible and identifiable, not re-derived.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "artifact-versioning-releases"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: DORA's four keys measure exactly this — deployment frequency, lead time, change-failure rate, and time-to-restore.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "deployment-strategies"
+        }
+      ]
+    },
+    {
+      "claim": "The DORA elite-performer signal isn't 'we have health checks' — it's low change-failure rate and fast recovery, and mis-scoped probes are a top hidden cause of both.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "health-readiness-liveness"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding (DORA 2024): the elite-performer signal is not deploy frequency alone — it is change-fail rate and failed-deployment recovery time.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "kubernetes-manifests"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research ties reproducible, version-controlled infrastructure directly to elite delivery: teams whose infra changes flow through code recover from incidents faster and deploy more safely, because rollback is `git revert` not archaeology.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "infrastructure-as-code"
+        }
+      ]
+    },
+    {
+      "claim": "IaC is also how NIST-style controls become auditable — 'the config is in the repo, reviewed, and diffable' is evidence; 'someone set it in the console' is not.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "infrastructure-as-code"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding, not vibes: DORA's 2024 report ties elite delivery to fast, reliable recovery — and you cannot recover fast on a system you cannot see.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "observability-logs-metrics-traces"
+        }
+      ]
+    },
+    {
+      "claim": "The Google SRE workbook standard (and DORA's reliability guidance) is exactly this: alert on error-budget burn rate over MULTIPLE windows, page fast burn, ticket slow burn.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "alerting-slo-error-budgets"
+        }
+      ]
+    },
+    {
+      "claim": "This is the DORA signal, not an opinion: elite teams optimize change-failure rate and time-to-restore TOGETHER.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "rollbacks-incident-response"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF frames the same idea as governed recoverability: a system you cannot quickly return to a known-good state is a system you cannot responsibly operate.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "rollbacks-incident-response"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's 2024 research ties secure delivery practices to both stability and throughput: the teams that enforce artifact integrity ship MORE, not less, because a trusted pipeline removes the manual review fear-tax.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "security-supply-chain"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from DORA and SRE practice: reliability is a feature you fund, and it has a floor set by an SLO — not by the invoice.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cost-capacity-finops"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's elite performers are defined by deployment frequency AND change-failure rate together — and the lever that moves both is promoting one small, immutable artifact behind automated gates.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "multi-env-promotion"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF frames the same idea as traceability: you must be able to prove which exact version is in production and reverse it fast.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "multi-env-promotion"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from DORA's elite-performer research: the teams that ship fastest are the ones with the SHORTEST time-to-restore, and that comes from a rehearsed rollback, not a careful deploy.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "production-readiness-review"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's four keys measure exactly this capstone: deployment frequency and lead time (your CI/CD gate), change-failure rate (the bad :v2.4), and time-to-restore (your rollout undo transcript).",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-devops-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "A packet with a fast, proven recovery is DORA-grade evidence; a packet with only a green deploy is not.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-devops-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "Reversible, measured, reusable — DORA-grade evidence",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-devops-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "Defend rollback-first over root-cause-live to a skeptical teammate, naming the reversibility (two-way vs one-way door) and the DORA metric it protects.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-cloud_devops_operations",
+          "slug": "cloud-devops-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, per SWEBOK V4 on data quality: enforce constraints at the boundary you do not control, not the one you do.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "source-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research ties reliable delivery to exactly this kind of fast, automated failure signal.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "ingestion-patterns"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in ACM/IEEE CS2023 and DORA's change-failure-rate discipline: reliability comes from catching bad state early, not from more retries.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "orchestration-dags"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 treats data provenance as a first-class quality attribute — and the senior tell is quarantine over silence.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "raw-bronze-layer"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's 2024 findings tie reliability to exactly this: catch the defect at the earliest contracted boundary, not three models downstream in production.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "staging-models"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in CS2023 data-management and DORA's 'quality gates before delivery': the gate lives upstream of the number, not beside it.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "transformations-marts"
+        }
+      ]
+    },
+    {
+      "claim": "Grounds it in DORA/SWEBOK data-quality practice: every threshold in a pipeline should trace to a measurement, not a vibe.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "incremental-processing"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (SWEBOK V4 data quality, echoed in DORA's 2024 reliability findings): test the DATA, not just the SQL.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "data-quality-tests"
+        }
+      ]
+    },
+    {
+      "claim": "This is what ACM/IEEE CS2023 and DORA's reliability guidance mean by observable, recoverable data pipelines — the failure is visible and the path back is defined.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "reconciliation"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 puts this under quality assurance: verification proves the shape, validation proves the number.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "lineage-catalog-docs"
+        }
+      ]
+    },
+    {
+      "claim": "DORA-elite teams treat a data backfill like a deploy with a rollback plan: bounded change, a proof gate, and a reversal condition.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "backfills-reprocessing"
+        }
+      ]
+    },
+    {
+      "claim": "This is also the DORA/CS2023 discipline — treat late and malformed events as expected states with a defined path, not exceptions you swallow.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "streaming-event-data"
+        }
+      ]
+    },
+    {
+      "claim": "(Anchors: ACM/IEEE CS2023, DORA 2024.)",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "streaming-event-data"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4 / DORA): senior data engineers tune to the QUERY, not the table.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "warehouse-performance"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA 2024): elite teams treat governance as a build gate, not a review meeting — the same discipline that makes deploys safe makes data safe.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "privacy-governance"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA 2024): the teams with the best reliability outcomes don't alert on more things — they alert on fewer, sharper signals tied to a runbook, and they measure alert-to-action time.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "observability-alerting"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, operations & maintenance): a pipeline's cost is an operability property, not an accounting afterthought.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "cost-capacity"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (and the DORA one): elite teams deploy data pipelines frequently AND recover fast — impossible if humans hand-verify every metric.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "ci-cd-data"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA 2024): elite teams are separated less by having fewer incidents than by low change-fail rate and fast, evidence-based recovery.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "incident-response"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 and DORA both put the same weight on this: a change is only 'delivered' when its quality is verifiable in production.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-data_engineering_analytics",
+          "slug": "data-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4's data-management knowledge area frames this as choosing the data model and consistency guarantees BEFORE the implementation - the map is how you make that choice visible and reviewable.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "database-systems-map"
+        }
+      ]
+    },
+    {
+      "claim": "CASCADE says 'this child cannot exist without its parent' (order items); RESTRICT says 'this parent is referenced, refuse to orphan it' (a product on live orders); SET NULL says 'the link is optional, keep the row.' Grounded in SWEBOK V4 data-modeling and the relational integrity rules of the SQL standard, the constraint is where the domain rule lives — not in a code comment.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "entities-relationships"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell is not 'normalize everything' — it is 'normalize by default, denormalize on evidence.' SWEBOK and the relational model both start from one-fact-one-home; a pro deviates only with a measured query plan AND a named sync rule, and writes both into the migration.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "normalization-denormalization"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 names this under data integrity + maintenance: an invariant you can't safely reverse is a liability, not a guarantee.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "constraints-invariants"
+        }
+      ]
+    },
+    {
+      "claim": "Every index is a standing write cost (SWEBOK lists index maintenance as a non-functional liability): each INSERT/UPDATE rewrites every matching B-tree.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "indexes-access-patterns"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 and ACM/IEEE CS2023 both frame query design as preserving data integrity under transformation — a fan-out join violates that integrity invisibly, which is exactly why it caps a lesson without a proof: the result is plausible, never verified.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "query-design-joins"
+        }
+      ]
+    },
+    {
+      "claim": "Atomicity is the A in ACID, anchored in SWEBOK V4's data-management body of knowledge: a transaction is the unit of recovery.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "transactions-atomicity"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (ACM/IEEE CS2023, SWEBOK V4): the SQL standard's four levels are defined by which phenomena they forbid, and most databases do not match the names.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "isolation-concurrency"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and ABET both frame this as the difference between a change and a controlled, verifiable change.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "migrations-schema-evolution"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in SWEBOK V4's data-management knowledge area: optimization decisions must be evidence-driven, and the plan is the evidence.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "query-plans-performance"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and ACM/IEEE CS2023 both frame this as data-quality discipline: test data is an artifact with the same change-control as the schema it populates.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "seed-fixtures-test-data"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, data quality): the senior tell is treating a quality rule as an executable, falsifiable assertion versioned alongside the schema — not a paragraph in a runbook.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "data-quality-checks"
+        }
+      ]
+    },
+    {
+      "claim": "(SWEBOK V4 Software Security; ABET Computing Outcomes.)",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "security-privacy-compliance"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK V4 frames this as the data-quality/operability axis: a read model without a defined behavior on staleness and on rebuild failure has no recovery story, and a cache with no recovery story is a future incident wearing a latency win.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "caching-read-models"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding: SWEBOK V4 treats data integrity as a property of the system of record; CS2023 separates transactional consistency from analytical derivation.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "analytics-warehouse-boundaries"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: SWEBOK V4 and ACM/IEEE CS2023 both treat operability and evidence-based diagnosis as core software-engineering competencies, and ABET Computing Outcomes require the ability to analyze a problem and identify solutions using evidence.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "observability-incidents"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, data management): the senior tell on a migration is not that it works — it's that the rollback was tested before the forward run shipped.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "integration-mini-project"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (SWEBOK V4, data management): a schema change is a contract change.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-databases_data_modeling",
+          "slug": "database-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "The staff tell, straight from the SRE/DORA playbook: a strong leadership answer proves judgment through artifacts, not charisma.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "judgment-under-ambiguity"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell borrowed from SRE and DORA: a staff engineer writes the decision so the person who disagreed with them would still sign the CONSTRAINT and the INVALIDATION condition.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "evidence-backed-leadership"
+        }
+      ]
+    },
+    {
+      "claim": "Anchor it to the operating review cadence and DORA/SRE language (SLO, blast radius, error budget) so the decision is legible to the whole org, not just the room.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "architecture-review"
+        }
+      ]
+    },
+    {
+      "claim": "no daytime downtime, SLO, DORA lead time)",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "tradeoff-framing"
+        }
+      ]
+    },
+    {
+      "claim": "| DORA lead time <= 1d  | quarterly exec goal   | hand-rolled per-team adapters    |",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "tradeoff-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Confirm the rejected approach is recorded WITH the operational evidence that fails it (an SLO, a DORA metric, a downtime rule) — not 'we preferred the other one'.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "tradeoff-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Which single constraint in your table eliminates an option before any debate, and what operational evidence backs it (SLO, DORA lead time, on-call capacity)?",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "tradeoff-framing"
+        }
+      ]
+    },
+    {
+      "claim": "The staff-level tell, straight from DORA/SRE practice: the strongest decision record states the option it rejected in terms the champion of that option would sign.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "decision-record"
+        }
+      ]
+    },
+    {
+      "claim": "- Reversal condition: if DORA change-failure-rate > 15% for two deploys, reopen the decision",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "Tie it to a measurable signal (DORA change-failure-rate).",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "Reversal tied to DORA change-failure-rate",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "Separate signal from noise on the record — write what is directly observed (the DORA numbers), what is inferred (the likely cause), and what would INVALIDATE the direction.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "Confirm a reversal condition exists and is tied to an observable signal (a DORA metric, an incident, a checklist result) — not \"if it feels wrong\".",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "State your reversal condition and the DORA or reliability signal it rides on.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "Apply it to a smaller team (the cadence collapses to one owner and a lighter record, but the forced decision and reversal condition stay), a regulated enterprise (the record hardens into an auditable ADR and the stakeholder cadence gains compliance sign-off), and a high-scale product (the reversal condition rides harder on SRE and DORA signals).",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "planning-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "DORA and SRE thinking apply upward — treat a cross-team dependency like an SLO with an error budget and an alert, not a promise you hope holds.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "dependency-management"
+        }
+      ]
+    },
+    {
+      "claim": "A register wired to your SRE dashboards and DORA signals (change-failure rate, time-to-restore) is one a reviewer trusts because it is grounded in operational evidence, not adjectives.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "risk-register"
+        }
+      ]
+    },
+    {
+      "claim": "DORA and SRE cultures make this measurable — a mentored decision shows up as a durable ADR and a repair loop, not a Slack thread that dies when you go on call.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "mentoring"
+        }
+      ]
+    },
+    {
+      "claim": "- Method: DORA change-failure-rate on the migrated slice stays < baseline",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Tie proof to DORA change-failure-rate and SRE error-budget burn — observable signals, not 'it felt aligned'.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Failure trigger (replay dual-write, diff stores) + DORA/SRE proof",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "\"Here is the decision record with the rejected big-bang option, the per-team rate cap that Platform's feedback added, the dual-write failure trigger, the DORA/SRE verification, and an owner map signed by all three leads.\"",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Only option 2 is inspectable: it points to the delta feedback caused (the rate cap), records the rejected option and why it fails, names a replayable failure trigger, ties proof to observable DORA/SRE signals, and shows signed ownership.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Confirm verification is observable or executable — a DORA change-failure-rate bar, an SRE error-budget check, a checklist result — not 'it felt aligned'.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Scale it to a regulated enterprise and the constraint hardens (an auditor now reads the ADR) and the risk register gains a compliance owner; scale it to a high-throughput product and the verification shifts to DORA and SRE error-budget burn on live traffic.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "feedback"
+        }
+      ]
+    },
+    {
+      "claim": "Attach the rejected-option reasoning and a risk register with owners, and the disagreement stops being about people — DORA, SRE, and the SLO decide it, and the packet survives into your incident learning.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "conflict-repair"
+        }
+      ]
+    },
+    {
+      "claim": "The senior move is to separate what you can directly observe from what you must infer, and to state the invalidation condition out loud: 'this decision is wrong if shadow-read drift exceeds 0.1%.' An executive update that names its own kill-condition earns trust the way a DORA/SRE post-incident review does - by being falsifiable, not by sounding confident.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "executive-updates"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's high performers recover fast because command is a named role with a timeline and a repair loop — MTTR is an organizational property, not a hero's reflex.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "incident-command"
+        }
+      ]
+    },
+    {
+      "claim": "- DORA: this is our MTTR event for the quarter — detection lag was 4h 40m of the 5h 12m.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "postmortem-quality"
+        }
+      ]
+    },
+    {
+      "claim": "Lead with customer/revenue impact AND the DORA framing (this is your MTTR event).",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "postmortem-quality"
+        }
+      ]
+    },
+    {
+      "claim": "No blast radius, no DORA/MTTR framing",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "postmortem-quality"
+        }
+      ]
+    },
+    {
+      "claim": "The staff-level tell in incident learning: the DORA / SRE crowd doesn't grade a postmortem by how contrite it is — they grade it by whether the same class of failure can recur.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "systemic-repair"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: the DORA / SRE tell is that a good operating cadence is an inspection loop, not a status ritual.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-engineering_leadership_staff_execution",
+          "slug": "operating-cadence"
+        }
+      ]
+    },
+    {
+      "claim": "- Non-negotiable: a terminated user MUST lose all SaaS access within 24h (SOC 2 CC6.3)",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "business-system-map"
+        }
+      ]
+    },
+    {
+      "claim": "Name the non-negotiable before the solution — here a 24h deprovision SLA tied to a real control (SOC 2 CC6.3).",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "business-system-map"
+        }
+      ]
+    },
+    {
+      "claim": "Offboarding MUST revoke all access within 24h — SOC2 access-review control.",
+      "standard": "SOC2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "workflow-lifecycle"
+        }
+      ]
+    },
+    {
+      "claim": "This is the SOC2 access-review control — it must rule out the manual approach, or it is decoration.",
+      "standard": "SOC2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "workflow-lifecycle"
+        }
+      ]
+    },
+    {
+      "claim": "Constraint: 24h revoke on offboard (SOC2 control)",
+      "standard": "SOC2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "workflow-lifecycle"
+        }
+      ]
+    },
+    {
+      "claim": "Deprovisioning and audit are the stages that decide whether you pass SOC2, precisely because they only surface months later, at review.",
+      "standard": "SOC2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "workflow-lifecycle"
+        }
+      ]
+    },
+    {
+      "claim": "- Constraint: SOC 2 access-review is quarterly; every revocation needs an audit-log line + approver.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "access-review"
+        }
+      ]
+    },
+    {
+      "claim": "Only one would survive the SOC 2 auditor.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "access-review"
+        }
+      ]
+    },
+    {
+      "claim": "Standards like SOX and SOC 2 change management ask the same question: separation of duties, approval, and an inspectable trail — not 'trust me, it worked.'",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "change-control"
+        }
+      ]
+    },
+    {
+      "claim": "The senior move mapped to SOC 2 / SOX access controls: an auditor does not accept 'the webhook fired.' They ask for evidence that access MATCHES the source of truth right now, and for the failure path when it doesn't.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "api-and-webhook-integration"
+        }
+      ]
+    },
+    {
+      "claim": "\"The vendor is SOC 2 certified, so the integration is compliant.\"",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "api-and-webhook-integration"
+        }
+      ]
+    },
+    {
+      "claim": "\"The vendor is SOC 2 certified and their docs say they support SAML and SCIM.\"",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "security-review"
+        }
+      ]
+    },
+    {
+      "claim": "The SOC 2 auditor points at one line — 'show me that the terminated contractor lost access everywhere' — and the room goes quiet, because the SSO looked green, the RBAC matrix looked right, but nobody kept the SCIM deprovisioning event or the audit-log entry that proves it.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "grc-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "- Non-negotiable: terminated identities lose access in ALL apps within 15 min (SOC 2 CC6.3)",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "grc-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "Name the non-negotiable first (15-min revoke, mapped to SOC 2 CC6.3) and what it rules out.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "grc-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "A vendor's SOC 2 report asserting they support SCIM.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-enterprise_it_saas_admin_business_systems",
+          "slug": "grc-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "The visual spinner alone is invisible to assistive tech — WCAG 2.2 Status Messages (4.1.3).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "product-workflow-states"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 Status Messages (4.1.3) says a state change a sighted user sees (spinner, error banner, 'saved') must also reach assistive tech via role=\"alert\" or aria-live — without moving focus.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "product-workflow-states"
+        }
+      ]
+    },
+    {
+      "claim": "Explain the difference between a state that LOOKS handled (a visible error banner) and one that IS handled (announced to assistive tech) — using WCAG 4.1.3 and your own component.",
+      "standard": "WCAG 4.1.3",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "product-workflow-states"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 grounds the senior tell here: 1.3.1 Info and Relationships requires that structure conveyed visually is also available programmatically, and 4.1.2 Name, Role, Value requires every control to expose exactly that.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "semantic-html-structure"
+        }
+      ]
+    },
+    {
+      "claim": "Bolting role+tabindex onto divs (3) is the weak version: it re-implements a button by hand, usually missing Enter/Space and disabled state, and is what WCAG 4.1.2 exists to catch.",
+      "standard": "WCAG 4.1.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "semantic-html-structure"
+        }
+      ]
+    },
+    {
+      "claim": "'clickable, no name' fails WCAG 4.1.2.",
+      "standard": "WCAG 4.1.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "semantic-html-structure"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, and the WCAG 2.2 receipt: Success Criterion 1.4.10 (Reflow) requires content to render at 320 CSS px wide with no two-dimensional scrolling.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-layout-grid"
+        }
+      ]
+    },
+    {
+      "claim": "'Responsive' is not an aesthetic — it is an accessibility conformance requirement (WCAG 2.2 · SWEBOK V4 software-design quality · ABET problem-solving outcomes), and your state matrix is the evidence that you met it.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-layout-grid"
+        }
+      ]
+    },
+    {
+      "claim": "Option 2 names the rendered result at each breakpoint, the WCAG 1.4.10 no-overflow check at 320px, and the specific line (min-width:0) that defends against the realistic failure — that is the evidence a reviewer can re-run.",
+      "standard": "WCAG 1.4.10",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-layout-grid"
+        }
+      ]
+    },
+    {
+      "claim": "This is WCAG 2.2 SC 1.4.10 — if it fails, the layout fails, full stop.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-layout-grid"
+        }
+      ]
+    },
+    {
+      "claim": "Point at your state matrix: which row is the proof that this layout meets WCAG 2.2 Reflow, and why is 'it looks fine on my screen' not that proof?",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-layout-grid"
+        }
+      ]
+    },
+    {
+      "claim": "component_state_matrix_and_accessibility_packet.md: a TypeScript state union where the compiler rejects illegal combinations (data present while loading, error and success at once), a 5-row state matrix (loading/empty/error/disabled/success → what renders + the a11y signal), and a note tying each error/empty state to a WCAG 2.2 success criterion.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "types-and-ui-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "A skeleton with aria-busy='true' tells assistive tech 'content is coming', satisfying WCAG 2.2 status-message expectations.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "types-and-ui-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in WCAG 2.2, every one of those five states is also an accessibility surface: loading needs aria-busy, error needs role='alert', disabled needs aria-disabled plus a reason.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "types-and-ui-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "A discriminated-union state type plus a 5-row state matrix mapping each state to its rendering and its WCAG a11y signal, with an assertNever exhaustiveness check that fails the build if a state is unhandled.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "types-and-ui-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "Tie each non-happy state to a WCAG 2.2 signal: loading→aria-busy, error→role='alert', disabled→aria-disabled + visible reason.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "types-and-ui-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from WCAG 2.2: every non-success state must be a real, announced thing, not a vanished UI.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "component-composition"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 grounds this: each state is a perceivable announcement, not just a pixel.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "client-state-machine"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK calls this making the model explicit; a reviewer calls it the row in your matrix that proves you thought about the user who cannot see the spinner.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "client-state-machine"
+        }
+      ]
+    },
+    {
+      "claim": "Text + icon, not color alone (WCAG 1.4.1)",
+      "standard": "WCAG 1.4.1",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "forms-validation"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 SC 1.4.1 (Use of Color) and 3.3.1 (Error Identification): an error a user must SEE in red to know about is not identified for everyone.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "forms-validation"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 SC 3.3.1 wants the error identified — but a keyboard user who submitted from the bottom of the form has no idea anything changed 600px above them.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "forms-validation"
+        }
+      ]
+    },
+    {
+      "claim": "Remove color from the equation (grayscale the screen): the error is still identifiable by text and/or icon, satisfying WCAG 1.4.1.",
+      "standard": "WCAG 1.4.1",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "forms-validation"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 makes this non-optional, not nice-to-have: a sighted user sees the spinner stop, but a screen-reader user gets silence unless you announce the change.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "loading-empty-error-success"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (WCAG 2.2 + SWEBOK V4): the error state is not done when it renders red — it is done when it is announced.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "api-client-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 is why empty and loading are first-class states, not afterthoughts.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "tables-filters-pagination"
+        }
+      ]
+    },
+    {
+      "claim": "If filtering is silent to assistive tech, it fails WCAG 4.1.3.",
+      "standard": "WCAG 4.1.3",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "tables-filters-pagination"
+        }
+      ]
+    },
+    {
+      "claim": "This is the WCAG line.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "dashboard-metrics-charts"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 (1.1.1, 4.1.3) makes it non-negotiable — a chart with no text alternative and a status change with no aria-live is inaccessible by definition.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "dashboard-metrics-charts"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 grounding the pros internalize: a drawer is a modal, so it must trap focus, restore focus to the triggering row on close, close on Escape, and carry aria-modal / role=dialog.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "detail-routes-drawers"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 grounding: a state change the user can SEE must also be perceivable without sight (success criterion 4.1.3, Status Messages).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "action-safety-optimistic-ui"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 closes the loop: a route transition (the redirect, and the protected page mounting) must move focus and announce, or a screen-reader user is silently teleported.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "auth-protected-routes"
+        }
+      ]
+    },
+    {
+      "claim": "A user-facing surface that only works with a mouse fails everyone who navigates by keyboard — power users, motor-impaired users, screen-reader users — and silently fails a WCAG audit.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "accessibility-keyboard"
+        }
+      ]
+    },
+    {
+      "claim": "Fails keyboard, role, and focus — three WCAG criteria",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "accessibility-keyboard"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 names this directly: 2.1.1 Keyboard (every function reachable by keyboard), 2.1.2 No Keyboard Trap (you can always Tab back out), and 2.4.7 Focus Visible (you can always see where focus is).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "accessibility-keyboard"
+        }
+      ]
+    },
+    {
+      "claim": "Only option 2 produces inspectable proof of operability: a keyboard-only flow that exercises every binding and asserts the focus-restore (WCAG 2.1.2).",
+      "standard": "WCAG 2.1.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "accessibility-keyboard"
+        }
+      ]
+    },
+    {
+      "claim": "Confirm a visible focus indicator on every focusable element (WCAG 2.4.7) — Tab through and watch the ring move.",
+      "standard": "WCAG 2.4.7",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "accessibility-keyboard"
+        }
+      ]
+    },
+    {
+      "claim": "Keyboard + focus check (WCAG 2.2)",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-visual-proof"
+        }
+      ]
+    },
+    {
+      "claim": "Tab must land on the primary action and focus must be visible (WCAG 2.2 SC 2.4.7 / 2.4.11).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-visual-proof"
+        }
+      ]
+    },
+    {
+      "claim": "Keyboard checklist: Tab reaches + focus visible (WCAG 2.2)",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-visual-proof"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 (SC 1.4.10 Reflow) requires content to work at 320px CSS width with no horizontal scrolling — that's not a nice-to-have, it's the line the law draws.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-visual-proof"
+        }
+      ]
+    },
+    {
+      "claim": "A keyboard-only pass reaches the primary action and focus is visible at each cell (WCAG 2.2 SC 2.4.7 / 2.4.11) — recorded as a checklist, not a memory.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "responsive-visual-proof"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 lives in the layer the happy path never reaches.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "frontend-testing-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in WCAG 2.2 (w3.org/TR/WCAG22) and SWEBOK V4 verification.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "frontend-testing-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "Only option 2 points to tests that can FAIL on the non-success states — empty, error, disabled — plus the keyboard + viewport check WCAG demands.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "frontend-testing-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 keyboard-operable is non-negotiable.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "frontend-testing-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding, not vibes: WCAG 2.2 SC 4.1.3 (Status Messages) requires that a status change — 'subscribed', 'that email is already in use' — reach assistive tech WITHOUT moving focus, which is exactly what aria-live gives you.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "fullstack-integration-workflow"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell is that the error and empty states ship with the same care as success; SWEBOK frames this as handling the full input domain, not the happy case.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "fullstack-integration-workflow"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, grounded in WCAG 2.2: observability isn't only logs — it's the user-facing states.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "deployment-env-observability"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 is not a final-checklist item — it is a state-machine constraint.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-frontend_fullstack",
+          "slug": "fullstack-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded against real hiring rubrics (ABET computing outcomes, SWEBOK V4), a portfolio claim is only credible when it ties to an artifact — so \"here is the one requirement I cannot yet prove, and here is the adjacent evidence closest to it\" reads as calibration, not weakness.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "role-targeting"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and ABET frame competence as demonstrated, inspectable capability — not self-report.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "market-scan"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: ABET Computing Outcomes and SWEBOK V4 both treat claims of engineering ability as valid only when tied to inspectable evidence — the same bar a recruiter screen enforces in six seconds.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "resume-positioning"
+        }
+      ]
+    },
+    {
+      "claim": "This mirrors SWEBOK V4's grounding of engineering claims in verifiable artifacts, not assertions.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "linkedin-github-positioning"
+        }
+      ]
+    },
+    {
+      "claim": "Anyone can say \"scalable, resilient, performant\"; a strong candidate says \"here is the PR, here is the before/after graph, here is the test that proves it's safe.\" Grounded against ABET Computing Outcomes and SWEBOK V4: a claim of engineering competence is only credible when the evidence is inspectable — a résumé phrase a reviewer can't open is a keyword, not a proof.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "portfolio-proof-map"
+        }
+      ]
+    },
+    {
+      "claim": "Anyone can narrate what they built; naming what they deliberately did NOT build — and why it violated a constraint — is what separates \"I executed a ticket\" from \"I made a judgment call.\" ABET and SWEBOK both grade engineering as decision-making under constraint, not code volume.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "project-case-studies"
+        }
+      ]
+    },
+    {
+      "claim": "'Latency dropped the deploy hour, not gradually, and traffic was flat — so it's the change, not the week.' Naming how you'd rule out luck signals you think in evidence, not anecdotes — the same discipline ABET and SWEBOK grade as engineering judgment, now aimed at your own track record.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "behavioral-story-bank"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (grounded in ABET/SWEBOK communication outcomes): a strong explanation is one the person who would have chosen the OTHER option could still sign as accurate.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "technical-explanation"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in ABET Computing Outcomes and SWEBOK V4: engineering judgment is defending a choice against its own downside, not reciting the winner.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "system-design-interview"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell in a walkthrough (SWEBOK V4 frames this as engineering judgment, not recall): a strong candidate volunteers the rejected option and the failure case before being asked.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "coding-interview-loop"
+        }
+      ]
+    },
+    {
+      "claim": "ABET's computing outcomes and SWEBOK both frame this as the core of the discipline: an engineer's claims are backed by verification, not narrative.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "debugging-interview"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK frames architecture as tradeoff analysis under quality-attribute constraints, not component selection.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "architecture-tradeoffs"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: ABET Computing Outcomes and SWEBOK V4 both weight judgment and verification over tool operation — an accredited program certifies that you can evaluate and validate a solution, not that you can invoke a generator.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "ai-tooling-interview"
+        }
+      ]
+    },
+    {
+      "claim": "SWEBOK and ABET both grade engineers on evidence and verification, not vocabulary — and interviewers do the same instinctively.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "cloud-data-interview"
+        }
+      ]
+    },
+    {
+      "claim": "ABET's computing outcomes and SWEBOK both grade the ability to evaluate and defend a solution over the ability to merely produce one — the packet is that evaluation, written down.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "take-home-execution"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded against SWEBOK V4's emphasis on evidence-tied engineering communication and ABET's outcome on communicating effectively with a range of audiences.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "outreach-networking"
+        }
+      ]
+    },
+    {
+      "claim": "Anyone can list what they built; the candidate who says \"I rejected a full reindex because it violated the no-daytime-downtime constraint\" proves they made a decision under a real trade-off — which is exactly what ABET Computing Outcomes and SWEBOK V4 call engineering judgment.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "application-pipeline"
+        }
+      ]
+    },
+    {
+      "claim": "Base is one lever; sign-on bonus, equity refresh, start date, level, and remote days are others — and the ones they can move fastest when base is 'capped by band.' SWEBOK V4 and ABET frame the engineer's job as reasoning under constraints; comp is the same skill pointed at your own career.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "offer-negotiation"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (ABET/SWEBOK 'apply, analyze, communicate' framing): a strong candidate treats every objection as a gift that reveals which claim is under-proven, and rewrites that claim on the spot.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "feedback-retro"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in SWEBOK V4 and the ABET computing outcomes: engineering credibility is claims tied to verifiable evidence, not eloquence.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-interview_career_portfolio",
+          "slug": "career-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP MASVS-STORAGE is explicit: credentials must live in the platform keystore, never in app-scoped plaintext (Preferences, files, or DBs).",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-mobile_engineering_deep_dive",
+          "slug": "secure-token-storage"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from WCAG's own scope: automated tools catch about a third of accessibility issues — the rest need a human.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-mobile_engineering_deep_dive",
+          "slug": "mobile-accessibility"
+        }
+      ]
+    },
+    {
+      "claim": "RFC 1035 makes TTL the contract: a record cached with TTL 3600 can serve a stale answer for up to an hour after you 'fixed' DNS.",
+      "standard": "RFC 1035",
+      "occurrences": [
+        {
+          "course": "career-networking_fundamentals_advanced_networking",
+          "slug": "dns-resolution"
+        }
+      ]
+    },
+    {
+      "claim": "RFC 9110 is explicit: a client MUST NOT automatically retry a non-idempotent request unless it has a way to know the request semantics are actually idempotent.",
+      "standard": "RFC 9110",
+      "occurrences": [
+        {
+          "course": "career-networking_fundamentals_advanced_networking",
+          "slug": "http-semantics"
+        }
+      ]
+    },
+    {
+      "claim": "The standards make the fallback mandatory, not optional: RFC 9114 (HTTP/3) is discovered via the Alt-Svc header (RFC 7838) layered over an existing HTTP/2 origin — the client only tries QUIC after it already has a TCP answer.",
+      "standard": "RFC 9114",
+      "occurrences": [
+        {
+          "course": "career-networking_fundamentals_advanced_networking",
+          "slug": "quic-tradeoffs"
+        }
+      ]
+    },
+    {
+      "claim": "RFC 1918 gives you 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16 — burning 10.0.0.0/16 for a tiny dev VPC is how two teams end up peering into a collision.",
+      "standard": "RFC 1918",
+      "occurrences": [
+        {
+          "course": "career-networking_fundamentals_advanced_networking",
+          "slug": "cidr-and-subnets"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: an L4 load balancer operates at OSI transport (TCP/UDP, RFC 793 semantics) and cannot see HTTP; an L7 balancer terminates TLS and reads the request, which is why only L7 supports path/host routing and real HTTP health checks (per the HTTP semantics in RFC 9110).",
+      "standard": "RFC 793",
+      "occurrences": [
+        {
+          "course": "career-networking_fundamentals_advanced_networking",
+          "slug": "load-balancer-modes"
+        }
+      ]
+    },
+    {
+      "claim": "The senior move, grounded in the DORA research: alert on symptoms (SLO burn the user feels), page on burn RATE not raw thresholds, and treat your error budget as a spendable currency — it decides whether you ship or freeze.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "observability-mindset"
+        }
+      ]
+    },
+    {
+      "claim": "Google's SRE practice (and DORA's reliability findings) converge on one insight beginners miss: the error budget is a feature, not a failure.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "service-level-objectives"
+        }
+      ]
+    },
+    {
+      "claim": "USE Method grounding (Brendan Gregg; echoed in Google SRE's saturation signal and DORA's reliability findings): utilization is necessary but never sufficient.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "use-method-resources"
+        }
+      ]
+    },
+    {
+      "claim": "DORA-elite teams gate telemetry the way they gate public APIs: version it, diff it in CI, and require a migration.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "instrumentation-contracts"
+        }
+      ]
+    },
+    {
+      "claim": "DORA and SWEBOK both put observability behind the same discipline: telemetry is only useful when it's structured enough to query under pressure.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "structured-logging"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA 2024): elite performers pair fast delivery with fast RESTORE, and traces are what collapse mean-time-to-restore — you find the guilty span in seconds instead of bisecting five services by hand.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "distributed-tracing"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (W3C Trace Context + SWEBOK V4 observability): the traceparent header is a fixed format — version-traceid-parentid-flags, e.g.",
+      "standard": "SWEBOK",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "trace-context-propagation"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: DORA ties elite performance to version control and peer review of ALL production changes — and a dashboard is a production change.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "dashboards-as-code"
+        }
+      ]
+    },
+    {
+      "claim": "Multi-window burn-rate alerting (fast window for speed, long window to suppress single-spike noise) is how you get both a low false-positive AND a low false-negative rate — the DORA-linked teams treat pager fatigue as a reliability defect, not a personality flaw.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "alert-design"
+        }
+      ]
+    },
+    {
+      "claim": "That's your Standards Grounding: DORA + the SRE Workbook, not a gut-feel '>1%'.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "burn-rate-alerting"
+        }
+      ]
+    },
+    {
+      "claim": "(Grounded in DORA reliability practice and the SRE golden-signals model.)",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "incident-triage"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from DORA's research on incident response: teams with low change-fail recovery communicate a next-update cadence and hold it, even when the update is 'no change, still investigating, next by X.' A boring on-time update beats a brilliant late one — predictability is the trust, and trust is what lets you keep working instead of fielding escalations.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "incident-communication"
+        }
+      ]
+    },
+    {
+      "claim": "DORA and SWEBOK both frame reliability as measured against user-facing SLIs, not machine utilization.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "performance-profiling"
+        }
+      ]
+    },
+    {
+      "claim": "The standards-grounded tell (DORA, SWEBOK): reliable teams trigger scaling on SLO-relevant saturation, not on CPU.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "capacity-planning"
+        }
+      ]
+    },
+    {
+      "claim": "DORA and SRE practice both rank saturation among the signals worth paging on precisely because it's predictive.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "queue-backpressure"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, straight from DORA and SRE practice: resilience is only real if it's observable and rehearsed.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "resilience-patterns"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research ties elite delivery to a low change-failure rate and fast time-to-restore — both of which depend on catching a bad release from a signal, not a support ticket.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "release-observability"
+        }
+      ]
+    },
+    {
+      "claim": "Google's SRE guidance and the DORA research point the same way: alert on symptoms (user-facing SLO burn), not causes (CPU, disk).",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-observability_reliability_performance",
+          "slug": "observability-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "In a regulated enterprise, the same policy becomes a compliance control with an audit trail (SOC 2, PCI): the deny log IS your evidence that no unowned service ever reached prod.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-platform_engineering_internal_developer_platforms",
+          "slug": "policy-as-code"
+        }
+      ]
+    },
+    {
+      "claim": "(This is the falsifiability discipline behind NIST-style risk framing and ABET's evidence-based decision outcomes: a claim you cannot disprove is not evidence.)",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "This discipline is exactly what DORA and the NIST AI RMF call for: decisions gated on measured signal, not on confidence.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "customer-discovery"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in NIST AI RMF and DORA thinking: the senior tell is treating your landscape as a testable claim about the world, not a positioning slide.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "competitive-landscape"
+        }
+      ]
+    },
+    {
+      "claim": "Change the customer segment (enterprise vs prosumer) and the incumbents, substitutes, and unmet axis change with it — a self-serve wedge that wins seed-stage ops teams is worthless against a segment that demands SOC 2 and an admin console.",
+      "standard": "SOC 2",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "competitive-landscape"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, grounded in NIST AI RMF and DORA validation discipline: a strong value prop is one where you can name the exact number that would make you NOT ship.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "value-proposition"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding (DORA, NIST AI RMF): the same discipline that governs engineering delivery governs product feedback — a claim only counts when it's tied to evidence a skeptic would inspect.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "user-journey"
+        }
+      ]
+    },
+    {
+      "claim": "Pros pre-register the kill-number in the packet before the experiment runs (NIST AI RMF's 'measure against a threshold you set in advance' discipline).",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "experiment-design"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (grounded in NIST AI RMF's 'map risk before you build' and DORA's small-batch discipline): scope the experiment around the assumption a person who DISAGREES with you would attack first.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "mvp-scope"
+        }
+      ]
+    },
+    {
+      "claim": "Naming the number that would make you kill your own idea — while you still love it — is the discipline DORA and product review actually reward.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "prd-rfc"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell (echoed in NIST AI RMF's measure function): design the invalidation threshold before you run the experiment, not after you see the chart.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "metric-design"
+        }
+      ]
+    },
+    {
+      "claim": "Pre-committed thresholds (DORA-style) are the difference between a feedback loop and a confirmation loop.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "instrumentation"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell, grounded in DORA's research on evidence-driven delivery: teams that decide from a metric read faster and reverse cheaper than teams that decide from the loudest quote.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "feedback-intake"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF calls this making uncertainty explicit so it can be managed; a blank confidence column is unmanaged risk wearing a roadmap.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "prioritization"
+        }
+      ]
+    },
+    {
+      "claim": "The senior product tell, and the ABET/NIST-AI-RMF instinct behind it: decisions are traceable to evidence and carry a stated reversal condition.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "roadmap-strategy"
+        }
+      ]
+    },
+    {
+      "claim": "DORA's research on delivery performance rewards this exact loop: tight, measured feedback beats big-bang launches.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "go-to-market"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in the NIST AI RMF discipline: a metric you can't tie to measured value is a metric you can't govern.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "pricing-packaging"
+        }
+      ]
+    },
+    {
+      "claim": "(Grounded in NIST AI RMF's measure-before-deploy discipline and DORA's evidence-over-opinion signal.)",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "launch-readiness"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: DORA's research frames delivery as a feedback loop where change must be measured against a prior expectation, not judged after the fact.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "post-launch-analysis"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding — this is the market-feedback face of NIST AI RMF's MEASURE/MANAGE discipline and DORA's build-measure-learn: decisions are gated on pre-committed, instrumented signals, not retrospective narrative.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "iteration-loop"
+        }
+      ]
+    },
+    {
+      "claim": "NIST AI RMF and DORA both treat a named reversal threshold as the mark of a governed decision, not a hopeful one.",
+      "standard": "NIST",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "stakeholder-communication"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: DORA and NIST AI RMF both hinge on the same move this packet enforces — decisions are trustworthy only when tied to evidence defined in advance, not narrated after.",
+      "standard": "DORA",
+      "occurrences": [
+        {
+          "course": "career-product_execution_market_feedback",
+          "slug": "product-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "In a regulated enterprise, the gate hardens: signed test evidence, contract tests as a merge blocker, WCAG conformance recorded per release, and an audit trail the invalidation condition maps to a change-control ticket.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "release-confidence-model"
+        }
+      ]
+    },
+    {
+      "claim": "- Retry-all-3x-then-pass: hides D1 and D4 behind green; ships a real bug + WCAG fail",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "defect-taxonomy"
+        }
+      ]
+    },
+    {
+      "claim": "axe-core flags 2.1:1 contrast on the primary CTA — below WCAG 1.4.3's 4.5:1.",
+      "standard": "WCAG 1.4.3",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "defect-taxonomy"
+        }
+      ]
+    },
+    {
+      "claim": "Ships D1 (tax bug) and D4 (WCAG fail) to prod",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "defect-taxonomy"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 1.4.3 makes contrast a hard conformance line, not an opinion — 4.5:1 for normal text — so an accessibility gap is a defect class with a spec behind it, not a design preference.",
+      "standard": "WCAG 1.4.3",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "defect-taxonomy"
+        }
+      ]
+    },
+    {
+      "claim": "At least one accessibility failure is classified with its axe rule / WCAG criterion (e.g.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "defect-taxonomy"
+        }
+      ]
+    },
+    {
+      "claim": "Scoped WCAG tags",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "withTags pins the ruleset (WCAG 2.1 A + AA) so the gate is deterministic and defensible — 'which rules?' has a written answer, not 'whatever axe defaults to this version.'",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.1 A+AA tags named in code",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: automated tooling like axe-core catches roughly 30-40% of WCAG issues — missing labels, contrast, ARIA misuse, tab order violations it can infer.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "Confirm the seriousness threshold and WCAG tag set are written in the code, not implied.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "A reviewer should read 'serious/critical, WCAG 2.1 AA' without asking you.",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "axe-core covers ~30-40% of WCAG.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-qa_sdet_test_automation_engineering",
+          "slug": "accessibility-checks"
+        }
+      ]
+    },
+    {
+      "claim": "That single missing check is OWASP's #1 web risk, and it ships in production every day.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-mindset-risk"
+        }
+      ]
+    },
+    {
+      "claim": "This is a Broken Object Level Authorization (BOLA / IDOR) flaw — OWASP API #1 — and it feels secure precisely because the login worked.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-mindset-risk"
+        }
+      ]
+    },
+    {
+      "claim": "This is the exact mechanism behind OWASP API #1.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-mindset-risk"
+        }
+      ]
+    },
+    {
+      "claim": "Per RFC 9110, returning 404 (not 404) hides whether the object exists; a 404 would confirm it exists but is forbidden.",
+      "standard": "RFC 9110",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-mindset-risk"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP grounding: Broken Object Level Authorization is API Security Top 10 #1 (2023) and the engine behind classic IDOR in Web Top 10 A01 Broken Access Control.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-mindset-risk"
+        }
+      ]
+    },
+    {
+      "claim": "A replayed logged-out token is the realistic OWASP-class attack (broken authentication / identification).",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "identity-authentication"
+        }
+      ]
+    },
+    {
+      "claim": "Vulnerable: OWASP broken-authentication by construction",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "identity-authentication"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding in OWASP: \"Identification and Authentication Failures\" (A07) is a Top 10 category precisely because teams verify credentials at login and then trust the token forever.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "identity-authentication"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Top 10 lists Broken Authentication (API2) precisely because teams verify the signature and stop.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "session-token-security"
+        }
+      ]
+    },
+    {
+      "claim": "A packet with roles but no ownership/tenant predicate is a horizontal-privilege escalation (OWASP BOLA) waiting to happen — not authorization.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "authorization-rbac-abac"
+        }
+      ]
+    },
+    {
+      "claim": "That single missing attribute is the most-exploited API flaw on the OWASP API Top 10.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "authorization-rbac-abac"
+        }
+      ]
+    },
+    {
+      "claim": "Horizontal privilege escalation — BOLA (Broken Object Level Authorization), OWASP API #1.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "authorization-rbac-abac"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP grounding (API Security Top 10): API1 Broken Object Level Authorization is the #1 API risk precisely because RBAC-only code looks correct in review — the role check is right there.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "authorization-rbac-abac"
+        }
+      ]
+    },
+    {
+      "claim": "The reviewer's symptom — same role, wrong tenant, still allowed — is textbook BOLA (OWASP API#1).",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "authorization-rbac-abac"
+        }
+      ]
+    },
+    {
+      "claim": "They just walked through a door the code forgot to lock, and OWASP calls it the number-one API risk for a reason.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "object-level-authorization"
+        }
+      ]
+    },
+    {
+      "claim": "Object level authorization is the check that the caller may touch THIS specific object — the missing check behind Broken Object Level Authorization (BOLA), OWASP API Security #1.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "object-level-authorization"
+        }
+      ]
+    },
+    {
+      "claim": "Broken Object Level Authorization — OWASP API #1",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "object-level-authorization"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Security Top 10 ranks Broken Object Level Authorization #1 because it is the most common and most damaging API flaw — one unchecked ID exposes every record.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "object-level-authorization"
+        }
+      ]
+    },
+    {
+      "claim": "Injection is OWASP's oldest survivor because every app has a trust boundary where external strings meet an interpreter — SQL, a shell, a template, a file path.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "input-validation-injection"
+        }
+      ]
+    },
+    {
+      "claim": "This is the OWASP A03 injection.",
+      "standard": "OWASP A03",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "input-validation-injection"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP A03:2021 folds Injection and XSS into one category for a reason: the fix is identical across sinks — keep untrusted data out of the interpreter's code channel.",
+      "standard": "OWASP A03",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "input-validation-injection"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in OWASP (A07: Identification & Authentication Failures, and the secrets-exposure patterns behind A05: Security Misconfiguration) and the NICE Framework's least-privilege tasks: the reviewable evidence is not \"we use a vault.\" It is the access matrix (who can read this secret) plus a captured audit event proving reads are logged.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secrets-management"
+        }
+      ]
+    },
+    {
+      "claim": "An endpoint that trusts the id in the URL is Broken Object Level Authorization (OWASP API1) — authenticated and still wide open.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-api-design"
+        }
+      ]
+    },
+    {
+      "claim": "This is Broken Object Level Authorization (OWASP API1:2023), the single most common API vulnerability.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-api-design"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API1: cross-tenant data leak",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-api-design"
+        }
+      ]
+    },
+    {
+      "claim": "Broken Object Level Authorization tops the OWASP API Security Top 10 precisely because \"require a token\" feels like security while every endpoint still trusts the id in the URL.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-api-design"
+        }
+      ]
+    },
+    {
+      "claim": "A pentester types your own user ID into someone else's invoice URL, hits enter, and your API cheerfully returns their bank details — OWASP API1, Broken Object Level Authorization, the single most-exploited API flaw on the internet.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "That is Broken Object Level Authorization (OWASP API1), and 'we have auth' is exactly the false comfort that ships it.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "abuse path — valid authn, broken object authz (OWASP API1)",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "This is OWASP API1 stated concretely, not 'broken auth' in the abstract.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP puts Broken Object Level Authorization at API1 for a reason: it's invisible to authentication tests.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "Abuse case: user A reads user B's invoice (OWASP API1)",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "threat-modeling"
+        }
+      ]
+    },
+    {
+      "claim": "It sits in the applied-skill phase of threat modeling: it is where OWASP findings and STRIDE categories become a prioritized, defendable plan for which control to build first.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "attack-trees"
+        }
+      ]
+    },
+    {
+      "claim": "STRIDE Spoofing / OWASP A07 territory.",
+      "standard": "OWASP A07",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "attack-trees"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in NICE Framework threat-modeling tasks and OWASP A07 (Identification & Authentication Failures): the senior tell is pricing leaves by ATTACKER cost, not defender effort.",
+      "standard": "OWASP A07",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "attack-trees"
+        }
+      ]
+    },
+    {
+      "claim": "\"The tree lists every OWASP Top 10 category as a branch, so it's comprehensive.\"",
+      "standard": "OWASP Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "attack-trees"
+        }
+      ]
+    },
+    {
+      "claim": "Listing OWASP categories (1) or blanket-rating everything CRITICAL (3) destroys the prioritization the tree exists to produce; a pretty diagram (4) is not evidence.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "attack-trees"
+        }
+      ]
+    },
+    {
+      "claim": "Broken Object Level Authorization (OWASP API #1 / A01 Broken Access Control) is the failure that authentication alone never catches.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-coding-review"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP grounding: Broken Object Level Authorization is #1 on the OWASP API Security Top 10 and the core of A01 Broken Access Control in the OWASP Top 10 — the most exploited class in production because every reviewer's eye slides past a passing auth decorator.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "secure-coding-review"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP ranks vulnerable-and-outdated components and software/data integrity failures in its Top 10 for a reason: the highest-leverage attack is not against your code, it is against your trust.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "dependency-supply-chain"
+        }
+      ]
+    },
+    {
+      "claim": "Grounding this in the standards: OWASP maps this to Broken Access Control (A01) and the NICE Framework treats least-privilege authorization as a core work role.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "cloud-iam-least-privilege"
+        }
+      ]
+    },
+    {
+      "claim": "inspect payload · OWASP ruleset",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "network-edge-security"
+        }
+      ]
+    },
+    {
+      "claim": "ruleset: owasp-crs-4.0         # OWASP Core Rule Set: SQLi, XSS, path traversal",
+      "standard": "owasp",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "network-edge-security"
+        }
+      ]
+    },
+    {
+      "claim": "The OWASP Core Rule Set inspects the decrypted payload for injection/XSS/traversal.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "network-edge-security"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP Top 10 and the API Top 10 both map cleanly onto edge controls — A05 Security Misconfiguration and API4 Unrestricted Resource Consumption are edge failures by construction.",
+      "standard": "OWASP Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "network-edge-security"
+        }
+      ]
+    },
+    {
+      "claim": "WAF blocking mode, OWASP CRS; route policy default-deny",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "network-edge-security"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Top 10 calls the gap here BOLA (Broken Object Level Authorization, API1) plus Excessive Data Exposure (API3): a logged-in caller requests user 42's record and the server hands it over without asking whether THIS identity may read THAT object, or filtering which fields it may see.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "data-protection-privacy"
+        }
+      ]
+    },
+    {
+      "claim": "The check that OWASP API1 exists to force: may THIS caller read THIS record?",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "data-protection-privacy"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API Top 10 ranks Broken Object Level Authorization (API1) as the #1 API risk precisely because it hides behind working authentication — the happy path is byte-identical to the exploit.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "data-protection-privacy"
+        }
+      ]
+    },
+    {
+      "claim": "Explain, using your own endpoint, why authentication passing does NOT mean the data is protected — and name the OWASP risk that gap maps to.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "data-protection-privacy"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in the NICE Framework and OWASP: the OWASP Top 10 lists \"Security Logging and Monitoring Failures\" as a category precisely because most teams log the happy path and never detect the abuse.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "logging-detection-response"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: this maps to OWASP Top 10 A01 Broken Access Control and A09 Security Logging & Monitoring Failures — the two most common findings in real audits.",
+      "standard": "OWASP Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "incident-response"
+        }
+      ]
+    },
+    {
+      "claim": "Explain why an unobserved denial (403 with no audit line) is the failure this lesson exists to kill, and how it maps to OWASP A09.",
+      "standard": "OWASP A09",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "incident-response"
+        }
+      ]
+    },
+    {
+      "claim": "## Abuse case (OWASP API1: Broken Object Level Authorization)",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "The abuse case (map to OWASP)",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "A member deleting another user's record IS OWASP API1 Broken Object Level Authorization.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "The standard the auditor is actually holding: OWASP API Top 10 (API1 Broken Object Level Authorization) and the NICE Framework both demand that a control be VERIFIABLE, not merely declared.",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP API1), not a happy-path request.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "Abuse case mapped to OWASP API1 (BOLA)",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "compliance-evidence"
+        }
+      ]
+    },
+    {
+      "claim": "Authentication answers \"who are you\"; it says nothing about \"may THIS subject touch THIS object.\" Both users are authenticated — that is exactly the setup for BOLA / IDOR (OWASP API #1: Broken Object Level Authorization).",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "the OBJECT -> classic BOLA / IDOR (OWASP API Top 10 #1).",
+      "standard": "OWASP API Top 10",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "Naming the rejected option and mapping it to OWASP API #1 is what separates gold from vocabulary.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "Denies the abuse case WITH proof — maps to OWASP API #1",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "Grounded in OWASP API Security Top 10: Broken Object Level Authorization (BOLA/API #1) is the most exploited API flaw precisely because auth checks the user, not the object.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "\"I explained least privilege and named the OWASP category, so the concept is covered.\"",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "You named the REJECTED control (logged-in-only / URL check) and mapped it to BOLA / OWASP API #1 — a reviewer can see what you chose against and why.",
+      "standard": "OWASP API",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-interview-practice"
+        }
+      ]
+    },
+    {
+      "claim": "That is a real breach (OWASP API1: Broken Object Level Authorization), and tonight you assemble every skill in this course into the one packet that proves it can't happen.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "The invariant is comparing the SUBJECT's tenant to the OBJECT's owner — the OWASP API1 BOLA check that role checks miss.",
+      "standard": "OWASP API1",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "OWASP puts Broken Object Level Authorization at API1 because it is the most common and most damaging API flaw — and it hides behind green tests.",
+      "standard": "OWASP",
+      "occurrences": [
+        {
+          "course": "career-security_identity",
+          "slug": "security-capstone"
+        }
+      ]
+    },
+    {
+      "claim": "the non-negotiable (WCAG AA, no daytime downtime)",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "- Non-negotiable constraint: WCAG 2.2 AA + no new blocking layout during business hours.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "This packet threads the whole module — journey map, wireframe, WCAG checklist, usability notes all hang off this one Frame.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG AA is not decoration here: it rules out at least one plausible design (a mouse-only drag reorder, a color-only error).",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Constraint: WCAG AA — status can't be color-only",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "\"First-time users abandon at the address step; the constraint is WCAG AA, the feared failure is an unlabeled error they can't recover from with a screen reader, and all five states (loading/empty/error/disabled/success) are inventoried.\"",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Only option 2 states a quantified user problem (abandon at address step), a real constraint (WCAG AA), a specific feared failure (unlabeled, unrecoverable error under assistive tech), and the full state inventory — with no component named.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Check the constraint actually constrains: name one plausible design your WCAG-AA (or other) constraint rules out.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "problem-framing"
+        }
+      ]
+    },
+    {
+      "claim": "Take one high-friction workflow (real or realistic) and design its information architecture: the labels users see, the groups they scan, and the path from entry to done — then build ux_state_accessibility_and_review_packet.md with a state table, a WCAG checklist, and one before/after critique that proves the structure improves task completion.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "information-architecture"
+        }
+      ]
+    },
+    {
+      "claim": "Accessibility checklist (WCAG 2.1 AA)",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "information-architecture"
+        }
+      ]
+    },
+    {
+      "claim": "- Keyboard focus order + screen-reader labels — GOAL: release/review blocker, WCAG 2.1 AA",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "non-goals"
+        }
+      ]
+    },
+    {
+      "claim": "This is the WCAG floor from earlier in the module.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "non-goals"
+        }
+      ]
+    },
+    {
+      "claim": "If your non-goals quietly demote WCAG focus order or a visible error state, you didn't scope — you shipped a release/review failure with a paper trail.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "non-goals"
+        }
+      ]
+    },
+    {
+      "claim": "ux_state_accessibility_and_review_packet.md: a journey/task flow, a loading/empty/error/disabled/success state matrix, a WCAG checklist (keyboard, screen reader, contrast, labels, focus order), the selected approach, the rejected approach, the expected failure, and one before/after critique.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "workflow-structure"
+        }
+      ]
+    },
+    {
+      "claim": "Accessibility checklist (WCAG)",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "workflow-structure"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 makes this concrete: focus must be visible and never trapped, and status changes must be programmatically announced — that is the difference between an interface that looks accessible and one that a screen-reader user can actually complete.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "workflow-structure"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell against WCAG: error color is never the only signal (SC 1.4.1 Use of Color) — pair red with an icon and text, or a colorblind user sees a normal field.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "forms-and-validation"
+        }
+      ]
+    },
+    {
+      "claim": "The `ux_state_accessibility_and_review_packet.md` artifact: a state matrix (loading/empty/error/disabled/success) for one screen, WCAG notes for keyboard, screen reader, contrast, labels, and focus order, plus one before/after critique.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "empty-loading-error-states"
+        }
+      ]
+    },
+    {
+      "claim": "Color-only error signaling (red border, no icon or text) is invisible to color-blind users and violates WCAG 1.4.1.",
+      "standard": "WCAG 1.4.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "empty-loading-error-states"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 status-message and focus-order criteria are not a compliance chore — they are the exact mechanics that make 'the interface tells you what happened and what to do' true for everyone, not just sighted users on a fast network.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "edge-case-ux"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 1.3.1 (Info & Relationships) and 2.4.3 (Focus Order) require that the DOM/heading/tab order convey the SAME sequence a sighted user sees.",
+      "standard": "WCAG 1.3.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "layout-hierarchy"
+        }
+      ]
+    },
+    {
+      "claim": "Real proof is inspectable behavior: keyboard and screen-reader order matching the visual rank (WCAG 2.4.3 / 1.3.1) and a designed error state with reachable recovery.",
+      "standard": "WCAG 2.4.3",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "layout-hierarchy"
+        }
+      ]
+    },
+    {
+      "claim": "Walk through what breaks for a keyboard or screen-reader user if the visual hierarchy and the source/focus order disagree, using the WCAG rule that catches it.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "layout-hierarchy"
+        }
+      ]
+    },
+    {
+      "claim": "ux_state_accessibility_and_review_packet.md with a two-tier token table (primitive → semantic), the target screen retokenized, a WCAG contrast check resolved FROM the tokens (not eyeballed), and a before/after critique of one state (error or disabled).",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-tokens"
+        }
+      ]
+    },
+    {
+      "claim": "A semantic token color.text.error whose resolved value is contrast-checked against its background (passes WCAG AA), consumed by the error component and DISTINCT from color.action.disabled.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-tokens"
+        }
+      ]
+    },
+    {
+      "claim": "Run the contrast check FROM the token: resolve color.text.error against its actual background and confirm it passes WCAG AA (4.5:1 text).",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-tokens"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 4.1.3 (Status Messages) is explicit: a status change the user didn't trigger by moving focus must still be announced (aria-live / role=alert).",
+      "standard": "WCAG 4.1.3",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "component-states"
+        }
+      ]
+    },
+    {
+      "claim": "ux_state_accessibility_and_review_packet.md with a five-state matrix (every state has copy, primary action, and recovery), a WCAG checklist run with axe + one keyboard-only walkthrough, a named blast radius for the unclear state, and one before/after critique a reviewer can inspect without you narrating.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "data-ui-clarity"
+        }
+      ]
+    },
+    {
+      "claim": "- Non-negotiable: WCAG 2.1 AA + keyboard-only complete-able",
+      "standard": "WCAG 2.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "data-ui-clarity"
+        }
+      ]
+    },
+    {
+      "claim": "Name the operating constraint (unclear state = abandonment; WCAG AA + keyboard-completable) before any pixel.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "data-ui-clarity"
+        }
+      ]
+    },
+    {
+      "claim": "Take one high-friction screen (a form, a checkout, an error state) and write the WCAG section of your accessibility packet: name the POUR principle each real interaction violates, the observable failure, the fix, and the inspection hook that proves the fix — not a vague 'made it accessible' claim.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "The WCAG section of ux_state_accessibility_and_review_packet.md: each flagged interaction mapped to Perceivable / Operable / Understandable / Robust, a concrete failure a user hits, the repair, and one hook output (axe scan line, keyboard-walkthrough note, or screen-reader smoke pass).",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Do not claim a screen is WCAG-conformant because it 'looks fine' or passed an automated scan alone.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG's four principles — Perceivable, Operable, Understandable, Robust (POUR) — are the checklist that turns 'accessibility' from a vibe into an inspectable decision.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "This is the WCAG section of the accessibility packet you carry through this module.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Perceivable: color alone carries the meaning, so a colorblind user (or a screen reader) gets nothing (WCAG 1.4.1 Use of Color).",
+      "standard": "WCAG 1.4.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Understandable: red says 'wrong' but never says what to fix (WCAG 3.3.1 Error Identification, 3.3.3 Error Suggestion).",
+      "standard": "WCAG 3.3.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "This is WCAG 4.1.2 (Name, Role, Value) satisfied by construction.",
+      "standard": "WCAG 4.1.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 3.3.1 (Error Identification) — the error is named in code, not just painted.",
+      "standard": "WCAG 3.3.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 3.3.3 (Error Suggestion) — tell users how to recover, do not just say 'invalid'.",
+      "standard": "WCAG 3.3.3",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG is the difference you cannot see in a screenshot — which is exactly why it needs an inspection hook, not an eyeball.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "The senior tell: automated scanners (axe, Lighthouse) catch roughly a third of WCAG issues — missing alt text, contrast, absent labels — the machine-checkable ones.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 AA is the legal bar most regulations point to (ADA, EN 301 549, the European Accessibility Act).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "axe covers the machine-checkable slice (~30–40%); the keyboard walkthrough proves Operable (focus order, no traps — WCAG 2.4.3, 2.1.2) and the screen-reader pass proves Understandable + Robust (errors announced with a suggestion — 3.3.1, 3.3.3, 4.1.2).",
+      "standard": "WCAG 2.4.3",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Prove the WCAG section holds — no vibes, use at least two hooks:",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Every interactive element is reachable, focus is always visible, and no keyboard trap exists (WCAG 2.1.2, 2.4.3, 2.4.7).",
+      "standard": "WCAG 2.1.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Each one names WHAT is wrong and HOW to fix it, and moves focus to the problem — not a generic 'submission failed' (WCAG 3.3.1, 3.3.3).",
+      "standard": "WCAG 3.3.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Every field announces its label, role, and current value; errors are announced via role=alert or aria-describedby (WCAG 4.1.2).",
+      "standard": "WCAG 4.1.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "On a mobile viewport, Operable shifts to touch-target size (min 44px, WCAG 2.5.8) and Perceivable to reflow at 320px.",
+      "standard": "WCAG 2.5.8",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "Carry the WCAG section forward — the module's capstone reuses this exact ux_state_accessibility_and_review_packet.md, and the accessibility flags you wrote here become the audit trail a reviewer replays.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "wcag-principles"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 SC 2.4.3 (Focus Order), 2.4.7 (Focus Visible), 3.3.1 (Error Identification) and 4.1.3 (Status Messages) are all about behavior, not markup — axe can pass every one of them while the flow is unusable.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "keyboard-and-screen-reader-flows"
+        }
+      ]
+    },
+    {
+      "claim": "ux_state_accessibility_and_review_packet.md containing a task/journey, a state matrix (loading/empty/error/disabled/success), a WCAG checklist, ONE non-leading participant prompt, a success metric, and a before/after critique — plus usability_test_plan_risk_register.md naming the top three risks that survive the test.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "usability-test-plan"
+        }
+      ]
+    },
+    {
+      "claim": "You already have a journey map, wireframe, and WCAG checklist from earlier in this module — but a polished artifact that no one watched a user attempt is untested confidence.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "usability-test-plan"
+        }
+      ]
+    },
+    {
+      "claim": "ux_state_accessibility_and_review_packet.md with a constraint, selected approach, rejected approach, expected failure, a before/after critique, a WCAG checklist result, one usability-test prompt, and a reviewer-objection response — PLUS critique_loop_risk_register.md naming the top 3 risks that remain.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG 2.2 AA · task completion · recovery",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "- Users must complete address entry keyboard-only AND with a screen reader; WCAG 2.2 AA; no daytime deploy freeze.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "Name the non-negotiable first — keyboard AND screen reader, WCAG 2.2 AA.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "Constraint: keyboard + SR, WCAG 2.2 AA, no deploy freeze",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: WCAG 2.2 AA does the arguing for you.",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "Walk through your break-then-repair on one state: what was the realistic failure, which WCAG success criterion did it violate, and how does the repair prove recovery?",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "critique-loop"
+        }
+      ]
+    },
+    {
+      "claim": "- Constraint: primary conversion path — no full-screen blocking, WCAG 2.2 AA",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "prototype-to-code-handoff"
+        }
+      ]
+    },
+    {
+      "claim": "Name the exact surface, the flow it lives in, and the hard constraint (conversion path, WCAG 2.2 AA).",
+      "standard": "WCAG 2.2",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "prototype-to-code-handoff"
+        }
+      ]
+    },
+    {
+      "claim": "Toast-only errors fail WCAG 3.3.1 (Error Identification) — they vanish before assistive tech announces them.",
+      "standard": "WCAG 3.3.1",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "prototype-to-code-handoff"
+        }
+      ]
+    },
+    {
+      "claim": "Standards grounding: an instrumentation plan is only trustworthy when it inherits from the earlier artifacts — the journey map gives you the steps to instrument, the state inventory gives you the loading/empty/error/success events, and the WCAG checklist tells you which paths to segment by assistive tech.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "instrumentation-plan"
+        }
+      ]
+    },
+    {
+      "claim": "Take one real (or realistic) high-friction workflow you are about to ship and assemble a Design Review Packet: a journey/state inventory, the loading/empty/error/disabled/success states, WCAG notes for keyboard/screen-reader/contrast/labels/focus order, one before/after critique, and the release risk another reviewer can inspect.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    },
+    {
+      "claim": "Your packet inventories every interaction state, carries a WCAG checklist with real hook output, and names the release/review risk with a repair — not just a polished screenshot.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    },
+    {
+      "claim": "Package the flow so a reviewer can inspect it: journey + state inventory (loading/empty/error/disabled/success), a WCAG checklist backed by real hook output, one before/after critique, and the release risk with a repair.",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    },
+    {
+      "claim": "## Accessibility (WCAG)",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG checklist with hooks named",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    },
+    {
+      "claim": "WCAG checklist backed by axe + keyboard + SR output",
+      "standard": "WCAG",
+      "occurrences": [
+        {
+          "course": "career-ux_ui_product_design_for_engineers",
+          "slug": "design-review-packet"
+        }
+      ]
+    }
+  ]
+}

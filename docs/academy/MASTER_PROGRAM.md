@@ -65,7 +65,9 @@ fail → `collect-labs` (insert before consolidation tail) → `apply-course` �
 | course (code lane) | labs | verified-executable | notes |
 |---|---|---|---|
 | career-programming_cs_foundations | 20 | **20/20** | slice-1 proof. All solutions run + satisfy checks under production semantics; 3-lesson render sweep clean (0 overflow). Applied (303 blocks). Runtime = Pyodide/Python. |
-| backend/frontend/databases/data-eng/ai-eng/mobile/qa | — | — | queued — same engine, Python-expressible labs; SQL(sql.js)/JS(quickjs) runtimes later |
+| career-backend_engineering | 20 | **20/20** | idempotency/exactly-once, auth boundaries, DLQ/retries, rate-limits, contract-testing. All execute + satisfy checks. Render sweep clean. Applied (302 blocks). |
+| data-eng / ai-eng / qa (Python-native) | — | — | in progress — same engine, this scaling run |
+| frontend / databases / mobile | — | — | RUNTIME-GATED — need quickjs (JS) / sql.js (SQL); Python labs would be forced/hollow. Deferred until runtimes wired. |
 
 ## P3 — TRANSLATION (top world languages)
 Infra: `scripts/translate-academy.ts` + `i18n:audit` + `i18n:verify`. Translate block

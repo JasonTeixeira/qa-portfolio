@@ -5,7 +5,7 @@
       "outcome": "Take one real action that crosses an authorization boundary (a user reading an object they may not own) and write threat_model_and_access_control_packet.md: the asset, the trust boundary, the least-privilege control, the abuse case that would defeat a weak version, and the evidence that proves the control holds.",
       "intensity": "standard",
       "time": "25 min",
-      "proof": "threat_model_and_access_control_packet.md with: context, the asset + trust boundary, selected control, rejected control, the abuse case, a failing unauthorized request (403/denied), audit-log evidence, and a reviewer objection. A reviewer can point to the exact denied request — not a description of one.",
+      "proof": "threat_model_and_access_control_packet.md with: context, the asset + trust boundary, selected control, rejected control, the abuse case, a failing unauthorized request (404/denied), audit-log evidence, and a reviewer objection. A reviewer can point to the exact denied request — not a description of one.",
       "unlock": "Your packet names an asset, draws the trust boundary, enforces least privilege at that boundary, and shows a real unauthorized request being denied with a log line to prove it.",
       "doNotClaim": "Do not claim you 'secured' the endpoint if your only evidence is that the happy path works. A 200 for the legitimate owner proves nothing about the attacker. The security claim lives in the DENIED request, not the allowed one."
     },
@@ -139,7 +139,7 @@
       "subtitle": "The weak handler trusts the URL id; the gold handler scopes the query to the caller and proves the deny. This block is section 'Selected approach' of threat_model_and_access_control_packet.md.",
       "filename": "orders_handler.py",
       "language": "python",
-      "code": "# WEAK — authenticated, but no object-level authorization\ndef get_order_weak(request, order_id):\n    user = require_auth(request)          # proves WHO — that's all it proves\n    order = db.orders.find(id=order_id)   # trusts the id from the URL\n    return order                          # BOLA: any user reads any order\n\n# GOLD — least privilege enforced AT the trust boundary\ndef get_order(request, order_id):\n    user = require_auth(request)\n    order = db.orders.find(id=order_id, owner_id=user.id)  # scope to caller\n    if order is None:\n        audit.log('order.read.deny', user=user.id, target=order_id)\n        raise Forbidden(403)              # prove the denial, don't leak existence\n    audit.log('order.read.allow', user=user.id, target=order_id)\n    return order",
+      "code": "# WEAK — authenticated, but no object-level authorization\ndef get_order_weak(request, order_id):\n    user = require_auth(request)          # proves WHO — that's all it proves\n    order = db.orders.find(id=order_id)   # trusts the id from the URL\n    return order                          # BOLA: any user reads any order\n\n# GOLD — least privilege enforced AT the trust boundary\ndef get_order(request, order_id):\n    user = require_auth(request)\n    order = db.orders.find(id=order_id, owner_id=user.id)  # scope to caller\n    if order is None:\n        audit.log('order.read.deny', user=user.id, target=order_id)\n        raise NotFound(404)               # deny AND hide existence (404, not 403)\n    audit.log('order.read.allow', user=user.id, target=order_id)\n    return order",
       "steps": [
         {
           "lines": [
@@ -169,7 +169,7 @@
             13,
             14
           ],
-          "label": "Prove the denial, hide existence",
+          "label": "Deny AND hide existence (404)",
           "note": "On a non-owned id the row is None → return 403, and log it. Returning 403 (not 404-with-details) avoids leaking whether the object exists."
         },
         {
@@ -192,7 +192,7 @@
       "question": "Reviewer challenge: which single piece of evidence best proves your access control actually works — not just that the happy path runs?",
       "options": [
         "A screenshot of the legitimate owner successfully loading their own order (HTTP 200).",
-        "A failing unauthorized request — user B asking for user A's order id returns 403 — with a matching 'deny' line in the audit log.",
+        "A failing unauthorized request — user B asking for user A's order id returns 404 — with a matching 'deny' line in the audit log.",
         "A comment in the code that says '# authorization enforced here'.",
         "The fact that every user must log in before reaching the endpoint."
       ],
@@ -237,7 +237,7 @@
       "items": [
         "Name the asset in one line (what data/action is exposed) and mark exactly where it crosses a trust boundary. If you cannot point to the boundary, you have not modeled the threat.",
         "Show the control is per-object, not just per-role: the check must reference THIS object's owner, not merely 'is an admin/user'.",
-        "Run the abuse case: as a different user, request an object you do not own. Capture the actual 403/denied response — not a description of one.",
+        "Run the abuse case: as a different user, request an object you do not own. Capture the actual 404/denied response — not a description of one.",
         "Find the matching 'deny' line in the audit log. If the denial is not logged, you have no evidence it fired.",
         "State the rejected control and why it loses (e.g. role-only check misses object-level ownership), and write one reviewer objection you would have to answer."
       ]
@@ -252,7 +252,7 @@
     },
     {
       "type": "transfer",
-      "text": "The same mindset — asset, trust boundary, least privilege, proven denial — transfers to every boundary in the course. Multi-tenant SaaS: the boundary is the tenant_id, the abuse case is one tenant reading another's rows, the control is row-level scoping, the evidence is a cross-tenant 403. Cloud IAM: the asset is an S3 object, the boundary is the policy, least privilege replaces 's3:*' with a scoped action, and the proof is a denied AccessDenied in CloudTrail. What stays invariant is the packet; what changes is the asset and the attacker path. Carry threat_model_and_access_control_packet.md into the security capstone — it is reused directly as the threat model + access-control evidence behind the exploit regression, IAM policy, and incident runbook."
+      "text": "The same mindset — asset, trust boundary, least privilege, proven denial — transfers to every boundary in the course. Multi-tenant SaaS: the boundary is the tenant_id, the abuse case is one tenant reading another's rows, the control is row-level scoping, the evidence is a cross-tenant 404. Cloud IAM: the asset is an S3 object, the boundary is the policy, least privilege replaces 's3:*' with a scoped action, and the proof is a denied AccessDenied in CloudTrail. What stays invariant is the packet; what changes is the asset and the attacker path. Carry threat_model_and_access_control_packet.md into the security capstone — it is reused directly as the threat model + access-control evidence behind the exploit regression, IAM policy, and incident runbook."
     },
     {
       "type": "spaced-review",

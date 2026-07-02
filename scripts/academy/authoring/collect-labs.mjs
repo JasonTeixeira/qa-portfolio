@@ -21,7 +21,10 @@ if (!course || !labs.length) { console.error('no course/labs in input'); process
 const jsonPath = `data/academy/authoring/${course}.lessons.json`
 const data = JSON.parse(readFileSync(jsonPath, 'utf8'))
 
-const TAIL = new Set(['verification', 'teachback', 'spaced-review', 'transfer', 'sprint-contract'])
+// The lab is the hands-on checkpoint: it goes AFTER the learn/practice blocks and BEFORE
+// the consolidation tail. NOTE: 'sprint-contract' is the OPENING block (index 0), not a
+// tail block — excluded here so the lab lands before 'verification', not at the top.
+const TAIL = new Set(['verification', 'teachback', 'spaced-review', 'transfer'])
 let inserted = 0, skipped = 0, missing = 0
 const report = []
 for (const lab of labs) {

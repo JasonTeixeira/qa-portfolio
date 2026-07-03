@@ -66,8 +66,19 @@ keeping backend/logic, swapping presentation.
 ## Ledger
 | phase | status |
 |---|---|
-| P0 foundation (token alignment) | starting |
-| P1 Home one-for-one | queued |
-| P2 Field Notes blog | queued |
-| P3 app surfaces | queued |
-| P4 root swap | operator-gated |
+| P0 foundation (token alignment) | tokens already match; align exact hex during P3 |
+| P1 Home one-for-one | **DONE** — live at /home-v2, render-verified vs design |
+| P2 Field Notes blog | **DONE** — /field-notes (list) + /field-notes/[slug] (article), markdown-driven (content/field-notes/*.mdx, 8 real posts), render-verified one-for-one |
+| P3 app surfaces | in progress — restyle existing surfaces to their design screens, one at a time |
+| P4 root swap | operator-gated (retire agency home; repoint / to new Home) |
+
+### P3 surface ledger
+| surface | design screen | status |
+|---|---|---|
+| Courses | Sage Courses | queued |
+| Course landing | Sage Course Landing | queued |
+| Lesson Player | Sage Lesson Player | queued |
+| Dashboard | Sage Dashboard Cockpit | queued |
+| Pricing | Sage Pricing | queued |
+| How It Works | Sage How It Works | queued |
+| Progress / Leagues / Certificate / Auth / Checkout / Settings / About | (respective) | queued |

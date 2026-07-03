@@ -1,0 +1,33 @@
+---
+slug: the-cron-that-ran-on-two-clocks
+title: The cron that ran on two clocks
+date: 2026-05-19
+category: Systems
+tags: [cron, timezones, scheduling, operations]
+summary: A nightly job ran twice one Sunday and skipped the next. No code changed. The bug was that two machines disagreed about what time it was — and one of them was right about the wrong thing.
+---
+
+The job runs at 02:00 every night. One Sunday it ran twice — once at 02:00 and once at 03:00 — and the following Sunday it didn't run at all. No deploy went out. No config changed. The only thing that moved was the clock, because that weekend was a daylight-saving transition, and our scheduler and our application disagreed about what "02:00" meant.
+
+## Two clocks, one job
+
+The scheduler was configured in a local timezone with DST. The application logic that decided "did today's run already happen?" checked timestamps in UTC. On a normal night, local and UTC track each other cleanly. On the night the clocks jump, the local 02:00 happens, then the clock falls back to 01:00, then reaches 02:00 *again* — and the scheduler, thinking in local time, fired both. The application, thinking in UTC, saw two distinct valid runs and let them both proceed.
+
+The next transition ran the opposite play: the clock sprang forward, 02:00 never existed that night, and the local-time scheduler had no 02:00 to fire at. UTC would have caught it. Local time silently skipped it.
+
+## The deeper mistake wasn't the timezone
+
+It was having two authorities for the same fact. The schedule lived in local time; the idempotency check lived in UTC. Neither was wrong in isolation. Together they were a system that could not agree with itself about whether a night had happened. Every "it ran twice / it didn't run" bug I've ever chased has this shape: two components each holding a correct-looking piece of a fact that only makes sense when they share one representation.
+
+## The fix
+
+Two rules, and they generalize far past cron:
+
+1. **Schedule in UTC. Always.** Human-facing displays can localize. The *machine's* notion of when to fire should never pass through a timezone that has discontinuities. UTC has no DST, no spring-forward gap, no fall-back overlap. There is exactly one 02:00 per day.
+2. **Make the job idempotent on a run key, not a wall-clock time.** The key is `job:{name}:{utc-date}`. First worker to claim the key runs; everyone else sees it's claimed and exits. Now "did today run?" has one answer, held in one place, immune to whatever the clocks are doing.
+
+With those two, the double-run becomes a no-op — the second fire finds the key claimed and stops. The skipped run stops being possible, because UTC never loses a date.
+
+## The lesson
+
+A schedule and a de-dupe check are two views of the same question: *has this unit of work happened yet?* If they answer in different units — one in local time, one in UTC — you don't have a scheduler, you have two clocks arguing. Pick one clock. Make it UTC. Anchor idempotency to the date, not the moment. The twice-a-year incident that has no code change is almost always this.

@@ -1,0 +1,45 @@
+---
+slug: the-invoice-that-emailed-itself-twice
+title: The invoice that emailed itself twice
+date: 2026-06-22
+category: Repair log
+tags: [idempotency, retries, billing, incident]
+summary: Four customers got billed twice, eleven minutes apart, from a job that logs say ran once. The retry wrapper we added to fix reliability couldn't tell a slow success from a failure.
+---
+
+Tuesday, 09:14. Finance says four customers got their monthly invoice twice. Same invoice ID, same amounts, eleven minutes apart. The billing job ran once — the logs swear it. The email service shows two sends, both "accepted." Somebody in the war room says the sentence that always precedes disaster: "it can't be the retry wrapper, we added that to *fix* reliability."
+
+It was the retry wrapper.
+
+## The map we should have drawn in March
+
+Between the billing job and the customer's inbox sit four systems: the job, a queue, the retry wrapper we shipped in March, and the email provider. Only one of them is dangerous, and it's the one we were proud of.
+
+The wrapper's rule was simple: if a downstream call doesn't return within eight seconds, retry it. Reasonable, until you notice what a timeout actually means. A timeout is not a failure. It's the absence of an answer. The first send had succeeded — the provider accepted it — but the acknowledgement came back at 8.3 seconds. The wrapper never saw the ack. It saw silence, called that a failure, and sent again.
+
+```text
+billing job → queue → retry wrapper (suspect) → email provider
+                              │
+                    "timeout" ≠ "failed"
+                    it means "unknown — go ask"
+```
+
+## Why the logs lied
+
+The job logs said "ran once" because the job *did* run once. The duplication happened one layer down, inside the wrapper, which logged retries at DEBUG — filtered out in production. The provider dashboard showed two accepted sends but attributed both to the same job run, so nobody cross-referenced. Three sources of truth, none of them lying, none of them complete. That's the normal texture of an incident: not a smoking gun, a set of half-truths that only indict when you lay them side by side.
+
+## The fix took forty minutes
+
+Three changes:
+
+1. **Derive an idempotency key from the invoice ID**, not from a random request ID. `send:invoice:{invoiceId}:{billingPeriod}`. Same invoice, same period, same key, forever.
+2. **Check a send ledger before calling the provider.** One row per key, written *before* the send, with a unique constraint. If the insert fails, the send already happened. Don't send.
+3. **Teach the wrapper that timeout means "unknown."** On timeout, it no longer retries blindly — it re-reads the ledger. If the key is marked sent, stop. If not, retry is safe.
+
+The unique constraint is the actual safety net. Everything else is optimization. Even if two workers race, the database refuses the second insert, and the second send never leaves the building.
+
+## The lesson worth keeping
+
+A retry without an idempotency key isn't reliability. It's a duplicate generator with good intentions. We added the wrapper to make the system more trustworthy and made it less so, because we reasoned about the happy path and the failure path but forgot the third path — the *ambiguous* path, where you don't know whether the thing happened.
+
+Every external call has three outcomes, not two: succeeded, failed, and unknown. Systems that only model two eventually bill someone twice. Draw the third arrow before Friday, not after.

@@ -1,0 +1,32 @@
+---
+slug: blast-radius-the-map-nobody-draws-before-friday-deploys
+title: "Blast radius: the map nobody draws before Friday deploys"
+date: 2026-06-15
+category: Systems
+tags: [deploys, risk, systems-thinking, review]
+summary: Everyone estimates how long a change will take. Almost nobody estimates how far it reaches when it's wrong. The blast-radius map is a ten-minute drawing that decides whether Friday is safe.
+---
+
+We are excellent at estimating effort and terrible at estimating reach. "This is a one-line change" is a statement about the diff. It says nothing about how many systems inherit the consequence when that one line is wrong. The blast radius is the second number, and almost nobody writes it down before they merge.
+
+## What a blast-radius map actually is
+
+It's not architecture. It's a targeted question: *if this change is silently wrong, what is downstream of the wrongness?* You draw the changed component in the center and trace outward — every caller, every cache it populates, every queue it feeds, every report built on its output. You stop when you reach something a human would notice, or a customer.
+
+A payment-rounding change that touches one function has a blast radius that includes the ledger, the nightly reconciliation, the tax report, and three months of historical aggregates if the value is denormalized anywhere. The diff is one line. The radius is the whole finance surface.
+
+## Why Friday is the tell
+
+Friday deploys aren't dangerous because of the day. They're dangerous because Friday is when we're most tempted to skip the map. The change is small, the week is ending, the map feels like ceremony. So the one deploy that most needs its reach traced is the one that ships without it. The blast-radius map is cheap insurance that costs the most exactly when you least want to pay it.
+
+## The three things a good map surfaces
+
+1. **Fan-out you forgot.** The function you're changing is called by a cron job you didn't know existed. The map makes callers explicit, and callers are where surprise lives.
+2. **Silent consumers.** A cache, a materialized view, a denormalized column. These don't error when your change is wrong — they quietly serve stale or incorrect data until someone notices weeks later. They're the most expensive kind of blast radius because they delay detection.
+3. **The irreversible edge.** Anything that leaves the system — an email, a webhook, a charge, a partner API call. Once it crosses that line you can't take it back. If the irreversible edge is inside your radius, the deploy needs a different level of care, and probably a feature flag.
+
+## How to make it a habit, not a ritual
+
+Put one line in the PR template: **Blast radius (what's downstream if this is silently wrong?)**. Not a diagram — a sentence. "Touches the invoice total; downstream: ledger, reconciliation, monthly report." Ninety seconds. It changes the conversation from "does this code look right" to "what does this code reach," and reviewers catch different, worse bugs when you point them at reach instead of syntax.
+
+The smallest changes have the widest radii, because we guard them the least. Draw the map. Especially on Friday. *Especially* when it feels unnecessary.

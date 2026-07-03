@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { completeOnboarding } from '@/app/academy/_actions/onboarding'
 import { GoalPicker } from '@/components/academy/goals/GoalPicker'
-import { Icon, type IconName } from '@/components/academy/ui/Icon'
+import { Icon } from '@/components/academy/ui/Icon'
 import { Course00 } from './Course00'
 import styles from './onboarding.module.css'
 
@@ -26,14 +26,32 @@ const GOAL_XP = [
   { xp: 60, label: 'Serious', sub: '~3 lessons / day' },
 ]
 
-const LOOP: { icon: IconName; label: string; sub: string }[] = [
-  { icon: 'book', label: 'Learn', sub: 'Tight, no-fluff concepts' },
-  { icon: 'bolt', label: 'Build', sub: 'Real code in the browser' },
-  { icon: 'refresh', label: 'Review', sub: 'Spaced so it sticks' },
-  { icon: 'trophy', label: 'Prove', sub: 'Certs + a proof-of-work record' },
+/** The three-move welcome deck — the operator's authored intro (design-verbatim copy). */
+const MOVES = [
+  {
+    num: '01 · LEARN BY DOING',
+    numTone: 'accent' as const,
+    title: 'Lessons end in labs',
+    text: 'The starter code fails on purpose. Your fix is the lesson.',
+  },
+  {
+    num: '02 · PROVE IT',
+    numTone: 'green' as const,
+    title: 'No vibes, ever',
+    text: 'Every claim gets a check a skeptic can run. Proofs stack into a ledger you can show anyone.',
+  },
+  {
+    num: '03 · KEEP IT',
+    numTone: 'gold' as const,
+    title: 'Six minutes a day',
+    text: 'Spaced recall at 1 / 3 / 7 / 30 days, so it holds under pressure — not just until Friday.',
+  },
 ]
 
-const STEPS = 5
+/** Four progress dots that track the four setup steps (step 0 is the welcome deck). */
+const DOTS = [0, 1, 2, 3]
+
+const CRUMBS = ['how it works', 'your goal', 'your pace', 'your route']
 
 type Props = {
   /** The learner's already-chosen commitment goal (pre-selects the GoalPicker). */
@@ -56,157 +74,214 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
     })
   }
 
+  const shell = (children: React.ReactNode) => (
+    <div className={styles.page}>
+      <header className={styles.topbar}>
+        <span className={styles.brand}>
+          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <span className={styles.brandName}>Sage Academy</span>
+        </span>
+        <span className={styles.breadcrumb}>
+          setup · {showPrimer ? 'how it works' : CRUMBS[Math.min(step, CRUMBS.length - 1)]} · ~2 min
+        </span>
+      </header>
+      <main className={styles.main}>{children}</main>
+    </div>
+  )
+
   if (showPrimer) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.primerShell}>
-          <Course00 />
-          <div className={styles.primerActions}>
-            <button type="button" className={styles.primary} onClick={() => setShowPrimer(false)}>
-              Continue — set up my account <Icon name="arrow-right" size={16} />
-            </button>
-          </div>
+    return shell(
+      <div className={styles.primerShell}>
+        <Course00 />
+        <div className={styles.primerActions}>
+          <button type="button" className={styles.primary} onClick={() => setShowPrimer(false)}>
+            Continue — set up my account <Icon name="arrow-right" size={16} />
+          </button>
         </div>
-      </div>
+      </div>,
     )
   }
 
-  return (
-    <div className={styles.page}>
-      <div className={styles.shell}>
-        <div className={styles.track} aria-hidden="true">
-          {Array.from({ length: STEPS }).map((_, i) => (
-            <span key={i} data-on={i <= step} />
-          ))}
-        </div>
+  return shell(
+    <div className={styles.shell}>
+      <div className={styles.dots} aria-hidden="true">
+        {DOTS.map((i) => {
+          const state = i < step ? 'done' : i === step ? 'active' : 'off'
+          return <span key={i} className={styles.dot} data-state={state} />
+        })}
+      </div>
 
-        {step === 0 && (
-          <section className={styles.stepCard}>
-            <p className={styles.kicker}>How Sage Academy works</p>
-            <h1 className={styles.title}>You don’t watch. You build — and it sticks.</h1>
-            <p className={styles.lede}>The whole loop in 30 seconds:</p>
-            <div className={styles.loop}>
-              {LOOP.map((l, i) => (
-                <div key={l.label} className={styles.loopStep}>
-                  <span className={styles.loopGlyph} aria-hidden="true"><Icon name={l.icon} size={20} /></span>
-                  <span className={styles.loopLabel}>{l.label}</span>
-                  <span className={styles.loopSub}>{l.sub}</span>
-                  {i < LOOP.length - 1 ? <span className={styles.loopArrow} aria-hidden="true"><Icon name="arrow-right" size={15} /></span> : null}
-                </div>
-              ))}
-            </div>
-            <p className={styles.loopFoot}>
-              …and a <strong>daily streak</strong> + <strong>XP</strong> keep you moving. Miss a day? A streak freeze has your back.
-            </p>
-            <button type="button" className={styles.primary} onClick={() => setStep(1)}>
-              Got it — set me up <Icon name="arrow-right" size={16} />
-            </button>
-          </section>
-        )}
-
-        {step === 1 && (
-          <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 1 of 4</p>
-            <h1 className={styles.title}>What do you want to build?</h1>
-            <div className={styles.options}>
-              {GOALS.map((g) => (
-                <button
-                  key={g.key}
-                  type="button"
-                  data-on={goal === g.key}
-                  className={styles.option}
-                  onClick={() => {
-                    setGoal(g.key)
-                    setStep(2)
-                  }}
+      {step === 0 && (
+        <section className={styles.step}>
+          <div className={styles.center}>
+            <p className={styles.kicker}>Welcome — here&rsquo;s the whole system</p>
+            <h1 className={styles.title}>Three moves. Everything else is detail.</h1>
+          </div>
+          <div className={styles.cards}>
+            {MOVES.map((m) => (
+              <div
+                key={m.num}
+                className={m.numTone === 'green' ? `${styles.card} ${styles.cardAccentGreen}` : styles.card}
+              >
+                <div
+                  className={`${styles.cardNum} ${
+                    m.numTone === 'green'
+                      ? styles.cardNumGreen
+                      : m.numTone === 'gold'
+                        ? styles.cardNumGold
+                        : ''
+                  }`}
                 >
-                  <span className={styles.optLabel}>{g.label}</span>
-                  <span className={styles.optSub}>{g.sub}</span>
-                </button>
-              ))}
-            </div>
-            <button type="button" className={styles.back} onClick={() => setStep(0)}><Icon name="arrow-left" size={15} /> Back</button>
-          </section>
-        )}
+                  {m.num}
+                </div>
+                <div className={styles.cardTitle}>{m.title}</div>
+                <div className={styles.cardText}>{m.text}</div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.actions}>
+            <button type="button" className={styles.primary} onClick={() => setStep(1)}>
+              Got it →
+            </button>
+          </div>
+        </section>
+      )}
 
-        {step === 2 && (
-          <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 2 of 4</p>
+      {step === 1 && (
+        <section className={styles.step}>
+          <div className={styles.center}>
+            <p className={styles.kicker}>Step 1 of 4 — your goal</p>
+            <h1 className={styles.title}>What do you want to build?</h1>
+          </div>
+          <div className={styles.options}>
+            {GOALS.map((g) => (
+              <button
+                key={g.key}
+                type="button"
+                data-on={goal === g.key}
+                className={styles.option}
+                onClick={() => {
+                  setGoal(g.key)
+                  setStep(2)
+                }}
+              >
+                <span className={styles.optLabel}>{g.label}</span>
+                <span className={styles.optSub}>{g.sub}</span>
+              </button>
+            ))}
+          </div>
+          <div className={styles.actions}>
+            <button type="button" className={styles.back} onClick={() => setStep(0)}>
+              <Icon name="arrow-left" size={14} /> Back
+            </button>
+          </div>
+        </section>
+      )}
+
+      {step === 2 && (
+        <section className={styles.step}>
+          <div className={styles.center}>
+            <p className={styles.kicker}>Step 2 of 4 — your pace</p>
             <h1 className={styles.title}>What do you want to achieve?</h1>
-            <p className={styles.lede}>Pick a goal to commit to. We’ll track your progress toward it — you can change it anytime.</p>
-            <GoalPicker
-              initialGoalKey={commitmentGoal}
-              onSaved={(key) => {
-                setCommitmentGoal(key)
-                setStep(3)
-              }}
-            />
+            <p className={styles.lede}>
+              Pick a goal to commit to. We&rsquo;ll track your progress toward it — you can change it anytime.
+            </p>
+          </div>
+          <GoalPicker
+            initialGoalKey={commitmentGoal}
+            onSaved={(key) => {
+              setCommitmentGoal(key)
+              setStep(3)
+            }}
+          />
+          <div className={styles.actions}>
             {commitmentGoal ? (
               <button type="button" className={styles.primary} onClick={() => setStep(3)}>
                 Continue <Icon name="arrow-right" size={16} />
               </button>
             ) : null}
-            <button type="button" className={styles.back} onClick={() => setStep(1)}><Icon name="arrow-left" size={15} /> Back</button>
-          </section>
-        )}
-
-        {step === 3 && (
-          <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 3 of 4</p>
-            <h1 className={styles.title}>Where are you starting?</h1>
-            <div className={styles.options}>
-              {CALIBRATION.map((c) => (
-                <button
-                  key={c.key}
-                  type="button"
-                  data-on={calibration === c.key}
-                  className={styles.option}
-                  onClick={() => {
-                    setCalibration(c.key)
-                    setStep(4)
-                  }}
-                >
-                  <span className={styles.optLabel}>{c.label}</span>
-                  <span className={styles.optSub}>{c.sub}</span>
-                </button>
-              ))}
-            </div>
-            <button type="button" className={styles.back} onClick={() => setStep(2)}><Icon name="arrow-left" size={15} /> Back</button>
-          </section>
-        )}
-
-        {step === 4 && (
-          <section className={styles.stepCard}>
-            <p className={styles.kicker}>Step 4 of 4</p>
-            <h1 className={styles.title}>Set your daily goal.</h1>
-            <p className={styles.lede}>A small daily commitment is what builds the habit. You can change it anytime.</p>
-            <div className={styles.goals}>
-              {GOAL_XP.map((g) => (
-                <button
-                  key={g.xp}
-                  type="button"
-                  data-on={dailyGoalXp === g.xp}
-                  className={styles.goalCard}
-                  onClick={() => setDailyGoalXp(g.xp)}
-                >
-                  {g.recommended ? <span className={styles.recommend}>Recommended</span> : null}
-                  <span className={styles.goalLabel}>{g.label}</span>
-                  <span className={styles.goalXp}>{g.xp} XP</span>
-                  <span className={styles.goalSub}>{g.sub}</span>
-                </button>
-              ))}
-            </div>
-            <p className={styles.firstWin}>
-              Next: we put your first step on the board right now — a real start toward
-              your goal, before you read a single lesson.
-            </p>
-            <button type="button" className={styles.primary} disabled={!dailyGoalXp || pending} onClick={finish}>
-              {pending ? 'Setting up…' : (<>Claim my first win <Icon name="arrow-right" size={16} /></>)}
+            <button type="button" className={styles.back} onClick={() => setStep(1)}>
+              <Icon name="arrow-left" size={14} /> Back
             </button>
-            <button type="button" className={styles.back} onClick={() => setStep(3)}><Icon name="arrow-left" size={15} /> Back</button>
-          </section>
-        )}
-      </div>
-    </div>
+          </div>
+        </section>
+      )}
+
+      {step === 3 && (
+        <section className={styles.step}>
+          <div className={styles.center}>
+            <p className={styles.kicker}>Step 3 of 4 — your route</p>
+            <h1 className={styles.title}>Where are you starting?</h1>
+          </div>
+          <div className={styles.options}>
+            {CALIBRATION.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                data-on={calibration === c.key}
+                className={styles.option}
+                onClick={() => {
+                  setCalibration(c.key)
+                  setStep(4)
+                }}
+              >
+                <span className={styles.optLabel}>{c.label}</span>
+                <span className={styles.optSub}>{c.sub}</span>
+              </button>
+            ))}
+          </div>
+          <div className={styles.actions}>
+            <button type="button" className={styles.back} onClick={() => setStep(2)}>
+              <Icon name="arrow-left" size={14} /> Back
+            </button>
+          </div>
+        </section>
+      )}
+
+      {step === 4 && (
+        <section className={styles.step}>
+          <div className={styles.center}>
+            <p className={styles.kicker}>Step 4 of 4 — done</p>
+            <h1 className={styles.title}>Set your daily goal.</h1>
+            <p className={styles.lede}>
+              A small daily commitment is what builds the habit. You can change it anytime.
+            </p>
+          </div>
+          <div className={styles.goals}>
+            {GOAL_XP.map((g) => (
+              <button
+                key={g.xp}
+                type="button"
+                data-on={dailyGoalXp === g.xp}
+                className={styles.goalCard}
+                onClick={() => setDailyGoalXp(g.xp)}
+              >
+                {g.recommended ? <span className={styles.recommend}>Recommended</span> : null}
+                <span className={styles.goalLabel}>{g.label}</span>
+                <span className={styles.goalXp}>{g.xp} XP</span>
+                <span className={styles.goalSub}>{g.sub}</span>
+              </button>
+            ))}
+          </div>
+          <p className={styles.firstWin}>
+            Next: we put your first step on the board right now — a real start toward your goal, before
+            you read a single lesson.
+          </p>
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.primary}
+              disabled={!dailyGoalXp || pending}
+              onClick={finish}
+            >
+              {pending ? 'Setting up…' : <>Claim my first win <Icon name="arrow-right" size={16} /></>}
+            </button>
+            <button type="button" className={styles.back} onClick={() => setStep(3)}>
+              <Icon name="arrow-left" size={14} /> Back
+            </button>
+          </div>
+        </section>
+      )}
+    </div>,
   )
 }

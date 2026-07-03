@@ -13,6 +13,37 @@ type Block = Record<string, any> & { type: string }
 
 const INTENSITY_KEYS: SprintIntensity[] = ['micro', 'standard', 'deep', 'capstone']
 
+/** Human label for a block in the arc rail — loop label first, else the raw type. */
+function blockLabel(type: string): string {
+  return loopStep(type)?.label ?? type
+}
+
+/**
+ * Real, content-derived status for the arc rail. No fabricated state — we read
+ * the block's own fields. 'empty' = nothing authored yet, 'done' = has content.
+ */
+function blockState(b: Block): 'done' | 'empty' {
+  const filled = Object.entries(b).some(([k, v]) => {
+    if (k === 'type' || k === '_id' || k === 'tone' || k === 'language' || k === 'intensity' || k === 'time') return false
+    if (typeof v === 'string') return v.trim().length > 0
+    if (Array.isArray(v)) return v.some((x) => (typeof x === 'string' ? x.trim().length > 0 : Boolean(x)))
+    if (v && typeof v === 'object') return Object.values(v).some((x) => (typeof x === 'string' ? x.trim().length > 0 : Boolean(x)))
+    return false
+  })
+  return filled ? 'done' : 'empty'
+}
+
+const STATUS_LABEL: Record<'done' | 'empty', string> = { done: '✓', empty: 'empty' }
+
+/** Approx word count for a block's primary text field — powers the arc word meter. */
+function blockWordCount(b: Block): number {
+  const text = [b.text, b.outcome, b.prompt, b.intro, b.question, b.summary, b.guidance]
+    .filter((v): v is string => typeof v === 'string')
+    .join(' ')
+    .trim()
+  return text ? text.split(/\s+/).length : 0
+}
+
 export function LessonEditor({
   courseSlug,
   initial,
@@ -82,10 +113,25 @@ export function LessonEditor({
   }
 
   return (
-    <div className={styles.page}>
-      <nav className={styles.crumb}>
-        <Link href="/academy-admin">Studio</Link> / <Link href={`/academy-admin/${courseSlug}`}>{courseSlug}</Link> / {isNew ? 'new lesson' : slug}
-      </nav>
+    <div className={styles.shell}>
+      <header className={styles.appBar}>
+        <Link href="/academy-admin" className={styles.brand}>
+          <span className={styles.logoTile} aria-hidden="true">◆</span>
+          <span className={styles.wordmark}>Sage Studio</span>
+          <span className={styles.authorPill}>Author</span>
+        </Link>
+        <span className={styles.appBarCrumb}>
+          editing: <Link href={`/academy-admin/${courseSlug}`}>{courseSlug}</Link> · {isNew ? 'new lesson' : slug}
+        </span>
+        <div className={styles.appBarRight}>
+          {msg ? <span className={styles.saveState} data-kind={msg.kind}>{msg.kind === 'ok' ? `✓ ${msg.text}` : msg.text}</span> : null}
+          <button type="button" className={styles.publish} onClick={onSave} disabled={saving || !slug || !title}>
+            {saving ? 'Saving…' : status === 'published' ? 'Publish lesson' : 'Save lesson'}
+          </button>
+        </div>
+      </header>
+
+      <div className={styles.shellBody}>
       <p className={styles.kicker}>Lesson editor</p>
       <h1 className={styles.h1}>{isNew ? 'New lesson' : title || slug}</h1>
 
@@ -176,13 +222,23 @@ export function LessonEditor({
       </div>
 
       <div className={styles.section}>
-        <h2 className={styles.h2}>Content blocks</h2>
+        <div className={styles.arcHead}>
+          <span className={styles.arcKicker}>The lesson arc — {blocks.length} block{blocks.length === 1 ? '' : 's'}</span>
+          <span className={styles.arcHint}>reorder with ↑ ↓</span>
+        </div>
         <div className={styles.blocks}>
-          {blocks.map((b, i) => (
-            <div key={b._id ?? i} className={styles.block}>
+          {blocks.map((b, i) => {
+            const state = blockState(b)
+            const words = blockWordCount(b)
+            return (
+            <div key={b._id ?? i} className={`${styles.block} ${styles.blockActive}`}>
               <div className={styles.blockBar}>
-                <span className={styles.blockType}>{b.type}</span>
-                <span className={styles.blockCtrls}>
+                <span className={styles.blockNum}>{String(i + 1).padStart(2, '0')}</span>
+                <span className={styles.blockLabel}>{blockLabel(b.type)}</span>
+                <span className={styles.blockKind}>{b.type}</span>
+                <span className={styles.blockStatus} data-state={state}>{STATUS_LABEL[state]}</span>
+                {words > 0 ? <span className={styles.wordCount}>{words} words</span> : null}
+                <span className={styles.blockCtrls} style={words > 0 ? undefined : { marginLeft: 'auto' }}>
                   <button type="button" onClick={() => moveBlock(i, -1)} disabled={i === 0} aria-label="Move block up"><Icon name="chevron-up" size={14} aria-hidden="true" /></button>
                   <button type="button" onClick={() => moveBlock(i, 1)} disabled={i === blocks.length - 1} aria-label="Move block down"><Icon name="chevron-down" size={14} aria-hidden="true" /></button>
                   <button type="button" onClick={() => removeBlock(i)} aria-label="Remove block"><Icon name="x" size={14} aria-hidden="true" /></button>
@@ -328,8 +384,10 @@ export function LessonEditor({
                 )}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
+        <p className={styles.arcNote}>the arc is the guardrail — a lesson can’t publish with an empty proof block</p>
         <div className={styles.addGroup}>
           <span className={styles.addLabel}>Sprint sections</span>
           <div className={styles.addBar}>
@@ -354,6 +412,7 @@ export function LessonEditor({
         </button>
         {!isNew ? <Link href={`/academy/learn/${courseSlug}/${slug}`} className={styles.ghost} target="_blank">Preview <Icon name="arrow-right" size={13} aria-hidden="true" /></Link> : null}
         {msg ? <span className={`${styles.msg} ${msg.kind === 'err' ? styles.msgErr : styles.msgOk}`}>{msg.text}</span> : null}
+      </div>
       </div>
     </div>
   )

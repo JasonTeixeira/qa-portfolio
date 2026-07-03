@@ -2,22 +2,19 @@
 
 import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
-import type { PathItem, CourseItem, Level } from '@/data/academy/learn-catalog'
-import { ProgressBar } from '@/components/academy/shell/ProgressBar'
+import { TOPICS, type TopicKey } from '@/lib/academy/topics'
+import type { PathItem, CourseItem } from '@/data/academy/learn-catalog'
 import { Icon } from '@/components/academy/ui/Icon'
-import { DOMAIN_BLURB, groupByDomain } from './domains'
+import { groupByDomain } from './domains'
 import styles from './catalog.module.css'
 
 type ResumeCard = { kicker: string; title: string; sub: string; href: string; pct: number }
-type Scope = 'browse' | 'mine'
 
-const LEVELS: Array<'All' | Level> = ['All', 'Beginner', 'Intermediate', 'Advanced']
+/** 'all' plus every real topic key — the client-side track filter. */
+type TrackFilter = 'all' | TopicKey
 
-function tvars(key: TopicKey): CSSProperties {
-  const t = topic(key)
-  return { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
+function topicVars(key: TopicKey): CSSProperties {
+  return { '--topic': TOPICS[key].color } as CSSProperties
 }
 
 export function CatalogClient({
@@ -34,67 +31,38 @@ export function CatalogClient({
   /** Completed-lesson count per course slug (RLS-scoped, 0 when signed out). */
   progress?: Record<string, number>
 }) {
-  const [scope, setScope] = useState<Scope>('browse')
-  const [level, setLevel] = useState<'All' | Level>('All')
-  const [query, setQuery] = useState('')
+  const [track, setTrack] = useState<TrackFilter>('all')
 
-  /** A course is "mine" only when there is real recorded progress (no fake state). */
-  const startedCount = useMemo(
-    () => courses.filter((c) => (progress[c.slug] ?? 0) > 0).length,
-    [courses, progress],
+  // Real catalog stats for the kicker line — computed, never invented.
+  const totalLessons = useMemo(
+    () => courses.reduce((sum, c) => sum + (c.lessons ?? 0), 0),
+    [courses],
   )
+
+  // The real tracks present, in curriculum order (Foundations → … → Growth).
+  const trackKeys = useMemo(() => groupByDomain(courses), [courses])
 
   const filtered = useMemo(
-    () =>
-      courses.filter((c) => {
-        if (scope === 'mine' && (progress[c.slug] ?? 0) <= 0) return false
-        if (level !== 'All' && c.level !== level) return false
-        if (query && !c.title.toLowerCase().includes(query.toLowerCase())) return false
-        return true
-      }),
-    [courses, scope, level, query, progress],
+    () => (track === 'all' ? courses : courses.filter((c) => c.topic === track)),
+    [courses, track],
   )
-
-  // Group the filtered (DB-sorted) courses into the six domains, in curriculum order.
-  const domainKeys = useMemo(() => groupByDomain(filtered), [filtered])
-  const byDomain = useMemo(() => {
-    const map = new Map<TopicKey, CourseItem[]>()
-    for (const c of filtered) {
-      const list = map.get(c.topic)
-      if (list) list.push(c)
-      else map.set(c.topic, [c])
-    }
-    return map
-  }, [filtered])
-
-  const filtersActive = scope !== 'browse' || level !== 'All' || query !== ''
 
   return (
     <div className={styles.page}>
-      {/* heading — say plainly what this page is, over the academy scene */}
-      <header className={styles.hero}>
-        <Image
-          src="/path/scenes/academy.png"
-          alt=""
-          aria-hidden
-          fill
-          priority
-          sizes="(max-width: 1100px) 100vw, 1100px"
-          className={styles.heroScene}
-        />
-        <span className={styles.heroVeil} aria-hidden />
-        <div className={styles.heroContent}>
-          <p className={styles.heroKicker}>Sage Academy</p>
-          <h1 className={styles.heroTitle}>The curriculum</h1>
-          <p className={styles.heroSub}>
-            {totalCourses === 1
-              ? 'One course is ready. Start from lesson one — the path begins at Foundations.'
-              : `${totalCourses} courses across six domains. New here? Start at Foundations and work down.`}
-          </p>
-        </div>
+      {/* Header — the catalog stat line + the editorial promise. */}
+      <header className={styles.header}>
+        <p className={styles.kicker}>
+          The catalog · {totalCourses} {totalCourses === 1 ? 'course' : 'courses'} ·{' '}
+          {totalLessons} lessons · {trackKeys.length}{' '}
+          {trackKeys.length === 1 ? 'track' : 'tracks'}
+        </p>
+        <h1 className={styles.headline}>
+          Every course ends in <em className={styles.headlineEm}>an artifact</em> a reviewer
+          trusts.
+        </h1>
       </header>
 
-      {/* continue — only when there is real recorded progress */}
+      {/* Continue — only when there is real recorded progress. */}
       {resume && (
         <Link href={resume.href} className={styles.resume}>
           <span className={styles.resumeAccent} aria-hidden="true" />
@@ -109,60 +77,40 @@ export function CatalogClient({
             </span>
             <span className={styles.resumeBtn}>
               {resume.pct > 0 ? 'Resume' : 'Start'}
-              <Icon name="arrow-right" size={16} />
+              <Icon name="arrow-right" size={16} aria-hidden="true" />
             </span>
           </div>
         </Link>
       )}
 
-      {/* Demoted controls: My/Browse scope + search + level. Quiet utility row that
-          sits above the curriculum map without competing with it. */}
-      <div className={styles.controlsBar}>
-        <div className={styles.scope} role="group" aria-label="Filter by enrollment">
+      {/* Track filter chips — real tracks, filtered client-side. */}
+      <div
+        className={styles.filterBar}
+        role="group"
+        aria-label="Filter courses by track"
+      >
+        <button
+          type="button"
+          className={`${styles.chip} ${track === 'all' ? styles.chipOn : ''}`}
+          onClick={() => setTrack('all')}
+          aria-pressed={track === 'all'}
+        >
+          All tracks
+        </button>
+        {trackKeys.map((key) => (
           <button
+            key={key}
             type="button"
-            className={`${styles.scopeBtn} ${scope === 'browse' ? styles.scopeOn : ''}`}
-            onClick={() => setScope('browse')}
-            aria-pressed={scope === 'browse'}
+            className={`${styles.chip} ${track === key ? styles.chipOn : ''}`}
+            onClick={() => setTrack(key)}
+            aria-pressed={track === key}
           >
-            Browse all
+            {TOPICS[key].label}
           </button>
-          <button
-            type="button"
-            className={`${styles.scopeBtn} ${scope === 'mine' ? styles.scopeOn : ''}`}
-            onClick={() => setScope('mine')}
-            aria-pressed={scope === 'mine'}
-            disabled={startedCount === 0}
-          >
-            My courses
-            {startedCount > 0 ? <span className={styles.scopeCount}>{startedCount}</span> : null}
-          </button>
-        </div>
-        <div className={styles.controls}>
-          <label className={styles.search}>
-            <Icon name="search" size={16} aria-hidden="true" />
-            <input
-              type="search"
-              placeholder="Search courses"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search courses"
-            />
-          </label>
-          <div className={styles.levels} role="group" aria-label="Filter by level">
-            {LEVELS.map((l) => (
-              <button
-                key={l}
-                type="button"
-                className={`${styles.level} ${level === l ? styles.levelOn : ''}`}
-                onClick={() => setLevel(l)}
-                aria-pressed={level === l}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-        </div>
+        ))}
+        <span className={styles.countLine} role="status">
+          {filtered.length} {filtered.length === 1 ? 'course' : 'courses'}
+        </span>
       </div>
 
       {filtered.length === 0 ? (
@@ -170,118 +118,85 @@ export function CatalogClient({
           <span className={styles.emptyGlyph} aria-hidden="true">
             <Icon name="search" size={22} />
           </span>
-          <p>
-            {scope === 'mine'
-              ? 'You have no courses in progress yet.'
-              : 'No courses match your search.'}
-          </p>
+          <p>No courses in this track yet.</p>
           <button
             type="button"
             className={styles.clearFilter}
-            onClick={() => {
-              setScope('browse')
-              setQuery('')
-              setLevel('All')
-            }}
+            onClick={() => setTrack('all')}
           >
-            Show the full curriculum
+            Show the full catalog
           </button>
         </div>
       ) : (
-        <div className={styles.curriculum}>
-          {filtersActive ? (
-            <p className={styles.filterNote} role="status">
-              Showing {filtered.length} {filtered.length === 1 ? 'course' : 'courses'}.
-            </p>
-          ) : null}
-
-          {domainKeys.map((key) => {
-            const list = byDomain.get(key) ?? []
-            if (list.length === 0) return null
-            const t = TOPICS[key]
-            const headingId = `domain-${key}`
+        <ul className={styles.grid}>
+          {filtered.map((c) => {
+            const done = Math.min(progress[c.slug] ?? 0, c.lessons)
+            const started = done > 0
+            const finished = c.lessons > 0 && done >= c.lessons
+            const pct = c.lessons ? Math.round((done / c.lessons) * 100) : 0
+            const action = finished ? 'Review' : started ? 'Continue' : 'Start'
             return (
-              <section
-                key={key}
-                className={styles.domain}
-                style={tvars(key)}
-                aria-labelledby={headingId}
-              >
-                <div className={styles.domainHead}>
-                  <span className={styles.domainRail} aria-hidden="true" />
-                  <div className={styles.domainHeadText}>
-                    <h2 id={headingId} className={styles.domainTitle}>
-                      {t.label}
-                    </h2>
-                    <p className={styles.domainBlurb}>{DOMAIN_BLURB[key]}</p>
+              <li key={c.slug}>
+                <Link
+                  href={`/academy/course/${c.slug}`}
+                  className={styles.card}
+                  style={topicVars(c.topic)}
+                  data-state={finished ? 'done' : started ? 'active' : 'new'}
+                >
+                  <div className={styles.cardTop}>
+                    <span className={styles.cardTrack}>{TOPICS[c.topic].label}</span>
+                    <span className={styles.cardLevel}>{c.level}</span>
                   </div>
-                  <span className={styles.domainCount}>
-                    {list.length} {list.length === 1 ? 'course' : 'courses'}
-                  </span>
-                </div>
 
-                <ul className={styles.courseGrid}>
-                  {list.map((c) => {
-                    const done = Math.min(progress[c.slug] ?? 0, c.lessons)
-                    const started = done > 0
-                    const pct = c.lessons ? Math.round((done / c.lessons) * 100) : 0
-                    const finished = c.lessons > 0 && done >= c.lessons
-                    const action = finished ? 'Review' : started ? 'Continue' : 'Start'
-                    return (
-                      <li key={c.slug}>
-                        <Link
-                          href={`/academy/course/${c.slug}`}
-                          className={styles.courseCard}
-                          style={tvars(c.topic)}
-                          data-state={finished ? 'done' : started ? 'active' : 'new'}
-                        >
-                          <div className={styles.courseTop}>
-                            <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
-                            <span className={styles.courseLevel}>{c.level}</span>
-                          </div>
-                          <h3 className={styles.courseTitle}>{c.title}</h3>
-                          <span className={styles.courseMeta}>
-                            {c.lessons} lessons · {c.hours}h
-                          </span>
+                  <h2 className={styles.cardTitle}>{c.title}</h2>
 
-                          {/* Progress only when there's real recorded progress — no fake 0% bars. */}
-                          {started && !finished ? (
-                            <div className={styles.courseProgress}>
-                              <ProgressBar
-                                value={pct}
-                                size="sm"
-                                ariaLabel={`${c.title}: ${done} of ${c.lessons} lessons complete`}
-                              />
-                              <span className={styles.courseProgressLabel}>
-                                {done}/{c.lessons} lessons · {pct}%
-                              </span>
-                            </div>
-                          ) : null}
-                          {finished ? (
-                            <span className={styles.courseDone}>
-                              <Icon name="check" size={15} aria-hidden="true" />
-                              Completed
-                            </span>
-                          ) : null}
+                  {c.subtitle ? <p className={styles.cardDesc}>{c.subtitle}</p> : null}
 
-                          {/* ONE obvious action per course */}
-                          <span className={styles.courseAction}>
-                            {action}
-                            <Icon name="arrow-right" size={16} aria-hidden="true" />
-                          </span>
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </section>
+                  {/* Progress only when real recorded progress exists — no fake 0% bars. */}
+                  {started && !finished ? (
+                    <div
+                      className={styles.cardProgress}
+                      role="img"
+                      aria-label={`${done} of ${c.lessons} lessons complete`}
+                    >
+                      <span className={styles.cardProgressBar} aria-hidden="true">
+                        <span style={{ width: `${pct}%` }} />
+                      </span>
+                      <span className={styles.cardProgressLabel}>
+                        {done}/{c.lessons} · {pct}%
+                      </span>
+                    </div>
+                  ) : null}
+
+                  <div className={styles.cardFoot}>
+                    <span className={styles.cardMeta}>
+                      {c.lessons} lessons · {c.hours}h
+                    </span>
+                    <span
+                      className={`${styles.cardAction} ${finished ? styles.cardDone : ''}`}
+                    >
+                      {finished ? (
+                        <>
+                          <Icon name="check" size={14} aria-hidden="true" />
+                          {action}
+                        </>
+                      ) : (
+                        <>
+                          {action}
+                          <Icon name="arrow-right" size={14} aria-hidden="true" />
+                        </>
+                      )}
+                    </span>
+                  </div>
+                </Link>
+              </li>
             )
           })}
-        </div>
+        </ul>
       )}
 
-      {/* quiet escape hatch — never competes with the courses above */}
-      <Link href="/academy/build" className={styles.buildLink}>
+      {/* Quiet escape hatch — assemble your own path. */}
+      <Link href="/academy/build" className={styles.build}>
         <Icon name="plus" size={15} aria-hidden="true" />
         Prefer to assemble your own path? Build one
       </Link>

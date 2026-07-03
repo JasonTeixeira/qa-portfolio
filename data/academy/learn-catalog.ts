@@ -21,6 +21,8 @@ export type CourseItem = {
   level: Level
   lessons: number
   hours: number
+  /** One-line course description (from the DB `subtitle`); empty when unset. */
+  subtitle?: string
 }
 
 export const paths: PathItem[] = [

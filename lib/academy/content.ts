@@ -9,7 +9,7 @@ export async function getCatalogCourses(): Promise<CourseItem[]> {
     const sb = await createSupabaseServerClient()
     const { data } = await sb
       .from('academy_courses')
-      .select('slug, title, topic, level, lessons, hours')
+      .select('slug, title, subtitle, topic, level, lessons, hours')
       .eq('status', 'published')
       .order('sort')
     if (!data?.length) return []
@@ -20,6 +20,7 @@ export async function getCatalogCourses(): Promise<CourseItem[]> {
       level: r.level as Level,
       lessons: r.lessons,
       hours: r.hours,
+      subtitle: r.subtitle ?? '',
     }))
   } catch (err) {
     console.error('[academy/content] getCatalogCourses failed', err)

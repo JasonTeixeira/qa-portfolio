@@ -93,7 +93,7 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 ### P3 surface ledger
 | surface | design screen | status |
 |---|---|---|
-| Courses | Sage Courses | queued |
+| Courses | Sage Courses | **DONE** — catalog one-for-one; real 23 courses/448 lessons from Supabase, track filter, honest progress states (Start/Continue/Review, no fake bars). Auth-verified render. |
 | Course landing | Sage Course Landing | queued |
 | Lesson Player | Sage Lesson Player | queued |
 | Dashboard | Sage Dashboard Cockpit | queued |

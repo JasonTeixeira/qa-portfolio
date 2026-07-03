@@ -1,0 +1,307 @@
+/*
+ * Progress — "The honest picture." Reskin to the Sage Academy design.
+ * Palette is pinned to the design's exact hex (bg #0B0B0E, surface #111115,
+ * text #F2EFE9, muted #9598A2, lines #1E1E24, accent #3D5AFE, green #18B663,
+ * gold #E0A93E, red #E5484D). Mono is used for every number/label.
+ */
+
+.page {
+  --p-bg: #0b0b0e;
+  --p-surface: #111115;
+  --p-text: #f2efe9;
+  --p-muted: #9598a2;
+  --p-line: #1e1e24;
+  --p-track: #1a1a20;
+  --p-accent: #3d5afe;
+  --p-accent-text: #8fa0ff;
+
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px;
+  color: var(--p-text);
+  font-family: var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -0.025em;
+}
+
+.titleAccent {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--p-accent-text);
+}
+
+.sub {
+  margin: 0 0 32px;
+  color: var(--p-muted);
+  max-width: 60ch;
+}
+
+/* ── surfaces ── */
+
+.card {
+  border: 1px solid var(--p-line);
+  border-radius: 16px;
+  background: var(--p-surface);
+  padding: 26px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--p-muted);
+}
+
+.emptyBody {
+  margin: 12px 0 0;
+  color: var(--p-muted);
+  max-width: 60ch;
+}
+
+/* ── mastery chart ── */
+
+.chartHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.legend {
+  display: flex;
+  gap: 18px;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  color: var(--p-muted);
+}
+
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── grid of side panels ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 18px;
+}
+
+/* ── per-course panel ── */
+
+.coursePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.courseRow {
+  display: block;
+}
+
+.courseTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+
+.courseName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.courseScore {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+}
+
+.barTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--p-track);
+}
+
+.barFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+
+.courseFoot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.courseMeta {
+  color: var(--p-muted);
+}
+
+.courseAction {
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+
+.courseAction:hover {
+  opacity: 0.82;
+  text-decoration: underline;
+}
+
+/* ── evidence velocity ── */
+
+.velocityBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 110px;
+  margin-top: 20px;
+}
+
+.velCol {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 6px;
+}
+
+.velBar {
+  border-radius: 4px 4px 2px 2px;
+}
+
+.velLabel {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 8.5px;
+  color: var(--p-muted);
+  text-align: center;
+}
+
+.velCaption {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--p-muted);
+}
+
+/* ── skill graph · recall ── */
+
+.recallCard {
+  margin-top: 28px;
+  border: 1px solid var(--p-line);
+  border-radius: 16px;
+  background: var(--p-surface);
+  overflow: hidden;
+}
+
+.recallHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--p-line);
+  flex-wrap: wrap;
+}
+
+.recallHeadNote {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: #e0a93e;
+}
+
+.recallRow {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--p-line);
+}
+
+.recallRow:last-of-type {
+  border-bottom: none;
+}
+
+.recallName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recallTrack {
+  position: relative;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--p-track);
+  overflow: hidden;
+}
+
+.recallFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+.recallDecay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.recallScore {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.recallDue {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: #4a4a54;
+  white-space: nowrap;
+}
+
+.recallAction {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+
+.recallAction:hover {
+  opacity: 0.82;
+  text-decoration: underline;
+}
+
+.recallCaption {
+  padding: 13px 24px;
+  border-top: 1px solid var(--p-line);
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: #4a4a54;
+  font-style: italic;
+}

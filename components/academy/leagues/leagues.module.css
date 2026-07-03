@@ -1,219 +1,472 @@
+/* Sage Academy · Leagues — reskinned one-for-one to design-source/rendered/leagues.html.
+   Exact palette locked to the design's hexes (scoped locally, additive to the global
+   --ac-* font tokens). Real data drives every value the page renders. */
 .page {
+  --bg: #0b0b0e;
+  --surface: #111115;
   --ink: #f2efe9;
-  --dim: #c4c5cd;
-  --muted: #8a8b96;
-  --line: rgba(255, 255, 255, 0.08);
+  --muted: #9598a2;
+  --line: #1e1e24;
+  --line-2: #2a2a33;
+  --faint: #4a4a54;
+  --accent: #3d5afe;
+  --accent-text: #8fa0ff;
+  --green: #18b663;
+  --gold: #e0a93e;
+  --red: #e5484d;
+
   position: relative;
-  max-width: 760px;
+  min-height: 100%;
+  background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) var(--bg);
+  color: var(--ink);
+  font-family: var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.main {
+  max-width: 980px;
   margin: 0 auto;
-  padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 6rem;
-  font-family: var(--ac-font-body);
+  padding: clamp(28px, 5vw, 48px) clamp(16px, 3vw, 32px) 72px;
+}
+
+/* ── HERO ─────────────────────────────────────────────────────────────── */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.heroText {
+  min-width: 0;
+}
+.title {
+  margin: 0 0 6px;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   color: var(--ink);
 }
-
-/* Flat institutional treatment: a restrained tier-tinted surface band behind
-   the hero, capped by a hairline rule — no colored bloom. */
-.atmosphere {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 220px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 5%, transparent), transparent);
-  border-bottom: 1px solid var(--ac-rule);
-  pointer-events: none;
-  z-index: 0;
+.sub {
+  margin: 0;
+  color: var(--muted);
+  max-width: 58ch;
+  font-size: 15px;
+}
+.subEm {
+  color: #b6b6c0;
+}
+.heroMeta {
+  margin-top: 12px;
 }
 
-.head { position: relative; z-index: 1; margin-bottom: 1.6rem; text-align: center; }
-.kicker { margin: 0; font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--tier); }
-.title { margin: 0.55rem 0 0; display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--ac-font-display); font-weight: 500; font-size: clamp(2rem, 1.5rem + 2vw, 3rem); letter-spacing: -0.02em; }
-.gem { display: inline-flex; align-items: center; color: var(--tier); }
-.sub { margin: 0.7rem 0 0; font-size: 0.98rem; color: var(--dim); }
-.sub strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+/* Status card — real relegation margin (accent), or a neutral rank card when
+   relegation can't bite (bottom tier / thin cohort). */
+.status {
+  border: 1px solid rgba(61, 90, 254, 0.4);
+  border-radius: 12px;
+  background: rgba(61, 90, 254, 0.07);
+  padding: 14px 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.status[data-neutral='true'] {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.02);
+}
+.statusLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-text);
+}
+.status[data-neutral='true'] .statusLabel {
+  color: var(--muted);
+}
+.statusValue {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.statusTail {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--ac-font-body, sans-serif);
+  font-weight: 400;
+}
 
-/* Live league-reset countdown under the hero sub. A tier-tinted pill carrying the
-   ticking remainder. Compositor-only: the dot pulse is transform/opacity and is
-   fully suppressed under prefers-reduced-motion — the text keeps ticking. */
+/* ── LEADERBOARD ──────────────────────────────────────────────────────── */
+.board {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.boardHead,
+.row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 24px;
+}
+.boardHead {
+  border-bottom: 1px solid var(--line);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.headXp {
+  text-align: right;
+}
+.row {
+  padding: 13px 24px;
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid transparent;
+  background: transparent;
+}
+.rowYou {
+  background: rgba(61, 90, 254, 0.08);
+  border-left-color: var(--accent);
+}
+.rowBelow {
+  opacity: 0.65;
+}
+.rank {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.rowYou .rank {
+  color: var(--accent-text);
+}
+.member {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1a1a20;
+  border: 1px solid var(--line-2);
+  display: grid;
+  place-items: center;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.avatarYou {
+  background: rgba(61, 90, 254, 0.2);
+  border-color: rgba(61, 90, 254, 0.5);
+  color: var(--accent-text);
+}
+.handle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.handleYou {
+  font-weight: 700;
+  color: var(--ink);
+}
+.tagPromote {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+.tagYou {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--accent-text);
+  flex-shrink: 0;
+}
+.tagYouRisk {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--red);
+  flex-shrink: 0;
+}
+.detail {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.xp {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: #b6b6c0;
+  text-align: right;
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+.xpYou {
+  color: var(--accent-text);
+}
+
+/* Solo / forming cohort — honest empty state, never invented competitors. */
+.forming {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.formingLine {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+/* Drop line divider */
+.dropLine {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  background: rgba(229, 72, 77, 0.04);
+}
+.dropRule {
+  flex: 1;
+  border-top: 1.5px dashed rgba(229, 72, 77, 0.5);
+}
+.dropLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+/* ── LEGEND ───────────────────────────────────────────────────────────── */
+.legend {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.legendLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.legendItem {
+  font-size: 13px;
+  color: var(--muted);
+}
+.legendGreen {
+  color: var(--green);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendGold {
+  color: var(--gold);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendAccent {
+  color: var(--accent-text);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendMuted {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ── INVITE ───────────────────────────────────────────────────────────── */
+.invite {
+  margin-top: 28px;
+  border: 1px solid rgba(61, 90, 254, 0.35);
+  border-radius: 16px;
+  background: linear-gradient(165deg, #14141c, var(--surface));
+  padding: 26px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.inviteBody {
+  flex: 1;
+  min-width: 250px;
+}
+.inviteKicker {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+.inviteTitle {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.inviteCopy {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 6px;
+  max-width: 52ch;
+}
+.inviteActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.inviteLink {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: #b6b6c0;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  padding: 11px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.copyBtn:hover {
+  filter: brightness(1.08);
+}
+.copyBtn:active {
+  transform: translateY(1px);
+}
+.copyBtn:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+.inviteFallback {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: var(--accent-text);
+  background: rgba(61, 90, 254, 0.1);
+  border: 1px solid rgba(61, 90, 254, 0.4);
+  border-radius: 10px;
+  padding: 11px 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.inviteFallback:hover {
+  filter: brightness(1.1);
+}
+
+/* ── COUNTDOWN (consumed by LeagueCountdown.tsx — preserved) ──────────── */
 .countdown {
-  margin: 0.7rem auto 0;
-  display: inline-flex; align-items: center; gap: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.34rem 0.8rem;
-  border: 1px solid color-mix(in srgb, var(--tier) 28%, var(--line));
+  border: 1px solid var(--line-2);
   border-radius: 100px;
-  background: color-mix(in srgb, var(--tier) 7%, transparent);
-  font-family: var(--ac-font-mono); font-size: 0.74rem;
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
 }
-.countdownLabel { color: var(--dim); letter-spacing: 0.02em; }
-.countdownValue { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.countdownLabel {
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.countdownValue {
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
 .countdownDot {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-  background: var(--tier);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--accent);
   animation: countdownPulse 2s ease-in-out infinite;
 }
 @keyframes countdownPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.78); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.78);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .countdownDot { animation: none; opacity: 1; }
+  .countdownDot {
+    animation: none;
+    opacity: 1;
+  }
 }
 
-/* Loss-aversion stake line — the personal relegation distance. Flat, label-weight
-   text in a tier-neutral row; the number carries the semantic color. Text colors
-   are full-saturation (not opacity-dimmed) to stay AA on the dark surface. */
-.stake {
-  position: relative; z-index: 1;
-  margin: 0 0 1.1rem;
-  text-align: center;
-  font-size: 0.92rem; line-height: 1.45;
-  color: var(--dim);
-}
-.stake strong { color: var(--ink); font-weight: 600; }
-.stakeNum { font-variant-numeric: tabular-nums; }
-.stakeSafe .stakeNum { color: #34d399; }
-.stakeDanger .stakeNum { color: #f87171; }
-.stakeDanger strong { color: #f8a3a3; }
-
-/* Overtake hook — the page hero. A tier-accented band carrying the near-miss
-   line at display scale plus the one dominant CTA. Flat surface + accent rail,
-   no glow. The leader variant swaps the danger of relegation for "defend it". */
-.overtake {
-  position: relative; z-index: 1;
-  margin: 0 0 1.6rem;
-  padding: clamp(1.1rem, 0.8rem + 1.4vw, 1.6rem) clamp(1.2rem, 0.9rem + 1.4vw, 1.7rem);
-  border: 1px solid color-mix(in srgb, var(--tier) 30%, var(--line));
-  border-left: 3px solid var(--tier);
-  border-radius: 16px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 11%, transparent), color-mix(in srgb, var(--tier) 3%, transparent));
-  display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start;
-}
-.overtake[data-leader='true'] {
-  border-left-color: #34d399;
-  border-color: color-mix(in srgb, #34d399 28%, var(--line));
-  background: linear-gradient(180deg, color-mix(in srgb, #34d399 10%, transparent), transparent 90%);
-}
-.overtakeKicker {
-  margin: 0;
-  font-family: var(--ac-font-mono); font-size: 0.66rem;
-  text-transform: uppercase; letter-spacing: 0.16em; color: var(--tier);
-}
-.overtake[data-leader='true'] .overtakeKicker { color: #34d399; }
-.overtakeLine {
-  margin: 0;
-  font-family: var(--ac-font-display); font-weight: 500;
-  font-size: clamp(1.35rem, 1.05rem + 1.5vw, 1.9rem); line-height: 1.25; letter-spacing: -0.01em;
-  color: var(--ink);
-}
-.overtakeLine strong { font-weight: 600; }
-.overtakeGap { color: var(--tier); font-variant-numeric: tabular-nums; }
-/* Stable AA-verified primary: white-on-accent-strong, not the variable tier
-   color (tier hues range light-to-dark and can't guarantee text contrast). */
-.overtakeCta {
-  margin-top: 0.35rem;
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.7rem 1.3rem; border-radius: 26px;
-  background: var(--ac-accent-strong, #3458e0); color: #fff; text-decoration: none;
-  font-family: var(--ac-font-display); font-weight: 700; font-size: 0.9rem;
-  transition: filter 0.15s ease, transform 0.1s ease;
-}
-.overtakeCta:hover { filter: brightness(1.08); }
-.overtakeCta:active { transform: translateY(1px); }
-.overtakeCta:focus-visible { outline: 2px solid color-mix(in srgb, var(--tier) 60%, transparent); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .overtakeCta { transition: none; } }
-
-/* tier ladder */
-.ladder {
-  position: relative; z-index: 1;
-  list-style: none; margin: 0 0 1.4rem; padding: 0;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem;
-}
-/* Dim the DOT per-state — never the whole rung, which drags the label text below
-   AA (axe: opacity 0.4 -> 1.85:1). The label keeps a readable color in every state. */
-.rung { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-.rungDot { width: 14px; height: 14px; border-radius: 50%; background: var(--rung); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); opacity: 0.4; transition: opacity 0.2s ease; }
-.rungPast .rungDot { opacity: 0.7; }
-.rungOn .rungDot { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, var(--rung) 55%, transparent); }
-.rungName { font-family: var(--ac-font-mono); font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.rungPast .rungName { color: var(--dim); }
-.rungOn .rungName { color: var(--ink); }
-
-/* legend */
-.legend { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.2rem; }
-.legChip { display: inline-flex; align-items: center; gap: 0.3rem; font-family: var(--ac-font-mono); font-size: 0.66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 100px; padding: 0.32rem 0.75rem; }
-.legPromote { color: #34d399; border-color: color-mix(in srgb, #34d399 35%, transparent); }
-.legRelegate { color: #f87171; border-color: color-mix(in srgb, #f87171 35%, transparent); }
-
-/* standings — ledger frame: a sparse 2-row board still reads as a designed
-   table, not a stub. The board owns the rows; a dotted-rule filler below
-   (.boardFill) carries the unused height as empty ledger lines. */
-.ledger {
-  position: relative; z-index: 1;
-  display: flex; flex-direction: column;
-  border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008));
-}
-.board {
-  list-style: none; margin: 0; padding: 0;
-}
-/* empty ledger lines that backfill the frame so 2 rows don't fall into a void */
-.boardFill {
-  flex: 1; min-height: 7.5rem;
-  background-image: repeating-linear-gradient(
-    180deg,
-    transparent 0,
-    transparent calc(2.6rem - 1px),
-    var(--line) calc(2.6rem - 1px),
-    var(--line) 2.6rem
-  );
-  border-top: 1px solid var(--line);
-  opacity: 0.5;
-}
-.row {
-  display: grid; grid-template-columns: 2.2rem 2rem 1fr auto auto; align-items: center; gap: 0.85rem;
-  padding: 0.85rem 1.1rem; border-top: 1px solid var(--line);
-}
-.row:first-child { border-top: none; }
-.promote { background: linear-gradient(90deg, color-mix(in srgb, #34d399 9%, transparent), transparent 60%); }
-.relegate { background: linear-gradient(90deg, color-mix(in srgb, #f87171 9%, transparent), transparent 60%); }
-.you {
-  background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 18%, transparent), transparent 70%);
-  box-shadow: inset 2px 0 0 var(--tier);
-}
-
-.rank { font-family: var(--ac-font-display); font-weight: 800; font-size: 1rem; color: var(--dim); font-variant-numeric: tabular-nums; text-align: center; }
-.avatar {
-  width: 2rem; height: 2rem; display: grid; place-items: center;
-  border-radius: 50%; border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  font-family: var(--ac-font-mono); font-size: 0.7rem; text-transform: uppercase; color: var(--dim);
-}
-.you .avatar { border-color: color-mix(in srgb, var(--tier) 55%, transparent); color: var(--tier); }
-.name { font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.you .name { color: var(--ink); }
-.moveTag { display: inline-flex; align-items: center; font-size: 0.7rem; }
-.promote .moveTag { color: #34d399; }
-.relegate .moveTag { color: #f87171; }
-.xp { font-family: var(--ac-font-display); font-weight: 700; font-size: 1rem; font-variant-numeric: tabular-nums; }
-.xpUnit { font-family: var(--ac-font-mono); font-size: 0.6rem; color: var(--muted); font-weight: 400; }
-
-.thinNote { position: relative; z-index: 1; margin: 1.2rem 0 0; text-align: center; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
-
-/* Next-tier strip — a composed footer band under the board so the lower
-   viewport reads intentional, not as trailing black space. */
-.nextTier {
-  position: relative; z-index: 1; margin: 1.1rem 0 0;
-  display: flex; align-items: center; gap: 0.9rem;
-  padding: 0.95rem 1.2rem;
-  border: 1px solid var(--line); border-radius: 14px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 8%, transparent), transparent 80%);
-}
-.nextTierGem { display: inline-flex; align-items: center; flex-shrink: 0; color: var(--nextColor, var(--tier)); }
-.nextTierBody { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
-.nextTierLabel { font-family: var(--ac-font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
-.nextTierName { font-family: var(--ac-font-display); font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; color: var(--ink); }
-.nextTierHint { margin-left: auto; flex-shrink: 0; font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--dim); text-align: right; }
-@media (max-width: 520px) { .nextTierHint { display: none; } }
-
-@media (max-width: 520px) {
-  .ladder { gap: 0.2rem; }
-  .rungName { font-size: 0.5rem; }
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hero {
+    align-items: stretch;
+  }
+  .status {
+    text-align: left;
+    width: 100%;
+  }
+  .boardHead,
+  .row {
+    grid-template-columns: 34px 1fr auto;
+    gap: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .detail {
+    display: none;
+  }
+  .legendMuted {
+    margin-left: 0;
+    width: 100%;
+  }
+  .inviteLink {
+    max-width: 100%;
+  }
 }

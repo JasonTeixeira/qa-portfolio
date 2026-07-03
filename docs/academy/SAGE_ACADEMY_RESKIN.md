@@ -98,5 +98,5 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 | Lesson Player | Sage Lesson Player | queued |
 | Dashboard | Sage Dashboard Cockpit | queued |
 | Pricing | Sage Pricing | **DONE** — one-for-one; rewired agency pricing → real academy plans (lib/academy/plans.ts, $25/mo·$250/yr, live academy_allaccess Stripe checkout); "Honest answers" FAQ. Render-verified. |
-| How It Works | Sage How It Works | queued |
+| How It Works | Sage How It Works | **DONE** — one-for-one; "Frame it. Map it. Prove it." mastery-loop (10 steps, each with its diagram card); CTAs → real /academy. Render-verified. |
 | Progress / Leagues / Certificate / Auth / Checkout / Settings / About | (respective) | queued |

@@ -79,6 +79,6 @@ keeping backend/logic, swapping presentation.
 | Course landing | Sage Course Landing | queued |
 | Lesson Player | Sage Lesson Player | queued |
 | Dashboard | Sage Dashboard Cockpit | queued |
-| Pricing | Sage Pricing | queued |
+| Pricing | Sage Pricing | **DONE** — one-for-one; rewired agency pricing → real academy plans (lib/academy/plans.ts, $25/mo·$250/yr, live academy_allaccess Stripe checkout); "Honest answers" FAQ. Render-verified. |
 | How It Works | Sage How It Works | queued |
 | Progress / Leagues / Certificate / Auth / Checkout / Settings / About | (respective) | queued |

@@ -94,7 +94,7 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 | surface | design screen | status |
 |---|---|---|
 | Courses | Sage Courses | **DONE** — catalog one-for-one; real 23 courses/448 lessons from Supabase, track filter, honest progress states (Start/Continue/Review, no fake bars). Auth-verified render. |
-| Course landing | Sage Course Landing | queued |
+| Course landing | Sage Course Landing | **DONE** — one-for-one, data-driven for any [slug]; real modules/lessons, "the arc" module cards, sample-lesson player from real free-preview, honest omissions where mock had no backing. Auth-verified (Backend Engineering). |
 | Lesson Player | Sage Lesson Player | queued |
 | Dashboard | Sage Dashboard Cockpit | queued |
 | Pricing | Sage Pricing | **DONE** — one-for-one; rewired agency pricing → real academy plans (lib/academy/plans.ts, $25/mo·$250/yr, live academy_allaccess Stripe checkout); "Honest answers" FAQ. Render-verified. |

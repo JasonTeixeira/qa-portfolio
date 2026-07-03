@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { topic, TOPICS } from '@/lib/academy/topics'
-import type { CourseOverview as Overview } from '@/lib/academy/content'
+import type { CourseOverview as Overview, OverviewLesson } from '@/lib/academy/content'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import { Icon } from '@/components/academy/ui/Icon'
 import type { CSSProperties } from 'react'
@@ -34,6 +34,21 @@ function Ring({ pct, color, size = 72, stroke = 6 }: { pct: number; color: strin
   )
 }
 
+/** Flatten modules to an ordered lesson list carrying its 1-based course index + module. */
+type FlatLesson = OverviewLesson & { index: number; moduleTitle: string }
+
+function flatten(overview: Overview): FlatLesson[] {
+  const out: FlatLesson[] = []
+  let i = 0
+  for (const m of overview.modules) {
+    for (const l of m.lessons) {
+      i += 1
+      out.push({ ...l, index: i, moduleTitle: m.title })
+    }
+  }
+  return out
+}
+
 export function CourseOverview({
   overview,
   completed,
@@ -51,76 +66,253 @@ export function CourseOverview({
   const ctaSlug = continueSlug ?? overview.firstLessonSlug
   const pct = overview.lessonsTotal ? Math.round((doneCount / overview.lessonsTotal) * 100) : 0
 
+  const flat = flatten(overview)
+  const moduleCount = overview.modules.length
+  const topicLabel = TOPICS[overview.topic].label
+
+  // Real free-preview lesson (design's "Preview lesson NN free" / sample-player / free-lesson CTA).
+  const preview = flat.find((l) => l.isFreePreview) ?? null
+  const previewNum = preview ? String(preview.index).padStart(2, '0') : null
+  const previewHref = preview ? `/academy/learn/${overview.slug}/${preview.slug}` : null
+
+  const learnHref = ctaSlug ? `/academy/learn/${overview.slug}/${ctaSlug}` : null
+
   return (
     <div className={styles.page} style={rootStyle}>
+      {/* ── Hero: breadcrumb kicker · ghost numeral · title · outcomes card ── */}
       <header className={styles.hero}>
-        {started ? (
-          <div className={styles.heroRing}>
-            <Ring pct={pct} color={t.color} />
-          </div>
-        ) : null}
-        <p className={styles.eyebrow}>
-          <span className={styles.tag}>{TOPICS[overview.topic].label}</span>
-          <span className={styles.sep}>·</span>
-          <span className={styles.level}>{overview.level}</span>
-        </p>
-        <h1 className={styles.title}>{overview.title}</h1>
-        {overview.subtitle ? <p className={styles.subtitle}>{overview.subtitle}</p> : null}
-        <p className={styles.meta}>
-          {overview.lessonsTotal} lessons · {overview.hours}h · {overview.level}
-        </p>
-        {/* Overall course progress — only with real recorded progress (honest empty state otherwise). */}
-        {started ? (
-          <div className={styles.progress}>
-            <ProgressBar
-              value={pct}
-              ariaLabel={`Course progress: ${doneCount} of ${overview.lessonsTotal} lessons complete`}
-            />
-            <span className={styles.progressLabel}>
-              {doneCount}/{overview.lessonsTotal} lessons done · {pct}%
-            </span>
-          </div>
-        ) : null}
-        <div className={styles.actions}>
-          {ctaSlug ? (
-            <Link href={`/academy/learn/${overview.slug}/${ctaSlug}`} className={styles.cta}>
-              {started ? 'Continue' : 'Start course'} <Icon name="arrow-right" size={15} aria-hidden="true" />
-            </Link>
-          ) : (
-            <span className={styles.soon}>Lessons coming soon</span>
-          )}
-          <Link href="/academy/catalog" className={styles.back}>
-            <Icon name="arrow-left" size={15} aria-hidden="true" /> All courses
+        <div className={styles.ghost} aria-hidden="true">
+          {String(moduleCount).padStart(2, '0')}
+        </div>
+
+        <p className={styles.crumb}>
+          <Link href="/academy/catalog" className={styles.crumbLink}>
+            Catalog
           </Link>
+          <span className={styles.crumbSep}>/</span>
+          <span>{topicLabel}</span>
+          <span className={styles.crumbSep}>/</span>
+          <span className={styles.crumbHere}>{overview.title}</span>
+        </p>
+
+        <div className={styles.heroGrid}>
+          <div className={styles.heroMain}>
+            <div className={styles.badges}>
+              <span className={styles.badge}>{topicLabel}</span>
+              <span className={styles.badgeLive}>
+                ✓ {started ? `${pct}% done` : 'live'} · {overview.lessonsTotal} lessons · {moduleCount} module
+                {moduleCount === 1 ? '' : 's'}
+              </span>
+            </div>
+
+            <h1 className={styles.title}>{overview.title}</h1>
+            {overview.subtitle ? <p className={styles.subtitle}>{overview.subtitle}</p> : null}
+
+            <div className={styles.actions}>
+              <Link href="/academy/catalog#pricing" className={styles.cta}>
+                Enrol — all access
+              </Link>
+              {previewHref && previewNum ? (
+                <Link href={previewHref} className={styles.ctaGhost}>
+                  Preview lesson {previewNum} free
+                </Link>
+              ) : learnHref ? (
+                <Link href={learnHref} className={styles.ctaGhost}>
+                  {started ? 'Continue' : 'Start course'}
+                </Link>
+              ) : null}
+            </div>
+
+            <p className={styles.meta}>
+              {overview.lessonsTotal} lessons · {overview.hours}h · {overview.level}
+            </p>
+
+            {/* Honest progress — only with real recorded progress. */}
+            {started ? (
+              <div className={styles.progress}>
+                <ProgressBar
+                  value={pct}
+                  ariaLabel={`Course progress: ${doneCount} of ${overview.lessonsTotal} lessons complete`}
+                />
+                <span className={styles.progressLabel}>
+                  {doneCount}/{overview.lessonsTotal} lessons done · {pct}%
+                </span>
+              </div>
+            ) : null}
+          </div>
+
+          {/* Outcomes / "what you'll learn" card — modules stand in as the proof points. */}
+          <aside className={styles.outcomes}>
+            <div className={styles.outcomesHead}>What you&apos;ll cover</div>
+            {overview.modules.map((m) => (
+              <div key={m.title} className={styles.outcomeRow}>
+                <span className={styles.outcomeCheck} aria-hidden="true">
+                  ✓
+                </span>
+                <span className={styles.outcomeText}>{m.title}</span>
+              </div>
+            ))}
+            <div className={styles.outcomesFoot}>
+              {overview.lessonsTotal} lessons · <span className={styles.outcomesHours}>{overview.hours}h total</span>
+            </div>
+            {started ? (
+              <div className={styles.outcomesRing}>
+                <Ring pct={pct} color={t.color} size={64} />
+              </div>
+            ) : null}
+          </aside>
         </div>
       </header>
 
-      <section className={styles.syllabus} aria-label="Syllabus">
-        <div className={styles.syllabusHead}>
-          <h2 className={styles.h2}>Syllabus</h2>
-          <span className={styles.syllabusMeta}>{doneCount} / {overview.lessonsTotal} complete</span>
-        </div>
-        {overview.modules.map((m) => (
-          <div key={m.title} className={styles.module}>
-            <h3 className={styles.moduleTitle}>{m.title}</h3>
-            <ol className={styles.lessons}>
-              {m.lessons.map((l, i) => {
-                const done = completed.has(l.slug)
-                return (
-                  <li key={l.slug}>
-                    <Link href={`/academy/learn/${overview.slug}/${l.slug}`} className={styles.lesson} data-done={done}>
-                      <span className={styles.lessonNum} aria-hidden="true">{done ? <Icon name="check" size={14} /> : String(i + 1).padStart(2, '0')}</span>
-                      <span className={styles.lessonTitle}>{l.title}</span>
-                      {l.isFreePreview ? <span className={styles.free}>Free</span> : null}
-                      <span className={styles.lessonMin}>{l.estMinutes} min</span>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ol>
+      {/* ── The arc — module cards ── */}
+      <section className={styles.arc} aria-label="Modules">
+        <div className={styles.arcInner}>
+          <h2 className={styles.h2}>
+            The arc — {moduleCount} module{moduleCount === 1 ? '' : 's'}, one running syllabus
+          </h2>
+          <div className={styles.moduleGrid}>
+            {overview.modules.map((m, mi) => {
+              const first = m.lessons[0]
+              const href = first ? `/academy/learn/${overview.slug}/${first.slug}` : null
+              const card = (
+                <>
+                  <div className={styles.moduleTop}>
+                    <span className={styles.moduleNum}>MODULE {String(mi + 1).padStart(2, '0')}</span>
+                    <span className={styles.moduleCount}>
+                      {m.lessons.length} lesson{m.lessons.length === 1 ? '' : 's'}
+                    </span>
+                  </div>
+                  <div className={styles.moduleTitle}>{m.title}</div>
+                  {first ? <div className={styles.moduleDesc}>Starts with “{first.title}”.</div> : null}
+                  <div className={styles.moduleArtifact}>
+                    {m.lessons.some((l) => l.isFreePreview) ? 'includes a free preview lesson' : `${m.lessons.length} lessons in this module`}
+                  </div>
+                </>
+              )
+              return href ? (
+                <Link key={m.title} href={href} className={styles.moduleCard}>
+                  {card}
+                </Link>
+              ) : (
+                <div key={m.title} className={styles.moduleCard}>
+                  {card}
+                </div>
+              )
+            })}
           </div>
-        ))}
+        </div>
       </section>
+
+      {/* ── Sample lesson, in the real player — mini preview built from the free lesson ── */}
+      {preview ? (
+        <section id="sample" className={styles.sample} aria-label="Sample lesson">
+          <div className={styles.sampleInner}>
+            <div className={styles.sampleHead}>
+              <h2 className={styles.h2}>Sample lesson, in the real player</h2>
+              <span className={styles.sampleTag}>
+                free preview · lesson {previewNum} of {overview.lessonsTotal}
+              </span>
+            </div>
+
+            <div className={styles.player}>
+              <div className={styles.playerBar}>
+                <span className={styles.playerLesson}>
+                  {previewNum} · {preview.title}
+                </span>
+                <span className={styles.playerBlock}>~{preview.estMinutes} min · free</span>
+              </div>
+              <div className={styles.playerBody}>
+                <div className={styles.playerRail}>
+                  <div className={styles.railHead}>This module</div>
+                  {overview.modules
+                    .find((m) => m.title === preview.moduleTitle)
+                    ?.lessons.map((l) => {
+                      const isThis = l.slug === preview.slug
+                      const done = completed.has(l.slug)
+                      return (
+                        <div key={l.slug} className={styles.railItem} data-active={isThis} data-done={done}>
+                          <span className={styles.railDot} aria-hidden="true" />
+                          <span className={styles.railText}>{l.title}</span>
+                        </div>
+                      )
+                    })}
+                </div>
+                <div className={styles.playerMain}>
+                  <div className={styles.playerLede}>
+                    <span className={styles.playerLedeStrong}>{preview.title}</span> — the full lesson in the real
+                    player: reading, diagram, and a hands-on lab. No account, no card.
+                  </div>
+                  <div className={styles.playerDiagram} aria-hidden="true">
+                    <span className={styles.diagNode}>read</span>
+                    <span className={styles.diagArrow}>→</span>
+                    <span className={styles.diagNodeWarn}>lab · run it</span>
+                    <span className={styles.diagArrow}>→</span>
+                    <span className={styles.diagNodeMuted}>verification</span>
+                    <span className={styles.diagCaption}>SageLab</span>
+                  </div>
+                  <div className={styles.playerFoot}>
+                    <span className={styles.playerScroll}>
+                      Scroll continues: concept → lab → verification → spaced review…
+                    </span>
+                    <Link href="/academy/catalog#pricing" className={styles.playerUnlock}>
+                      Unlock all {overview.lessonsTotal} lessons
+                    </Link>
+                    {previewHref ? (
+                      <Link href={previewHref} className={styles.playerOpen}>
+                        Open lesson {previewNum} free →
+                      </Link>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* ── Closing free-lesson CTA ── */}
+      {preview && previewHref && previewNum ? (
+        <section className={styles.onramp} aria-label="Free lesson">
+          <div className={styles.onrampInner}>
+            <div className={styles.onrampCard}>
+              <div className={styles.onrampKicker}>Free on-ramp · zero risk</div>
+              <h2 className={styles.onrampTitle}>Take lesson {previewNum} — no account, no card.</h2>
+              <p className={styles.onrampBody}>
+                The full lesson, in the real player — reading, diagram, lab and all. If the way it teaches doesn&apos;t
+                click, you&apos;ll know inside {preview.estMinutes} minutes.
+              </p>
+              <div className={styles.onrampActions}>
+                <Link href={previewHref} className={styles.onrampCta}>
+                  Start lesson {previewNum} free
+                </Link>
+                <Link href="/academy/catalog" className={styles.back}>
+                  <Icon name="arrow-left" size={15} aria-hidden="true" /> All courses
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className={styles.onramp} aria-label="Enroll">
+          <div className={styles.onrampInner}>
+            <div className={styles.onrampCardBlue}>
+              <h2 className={styles.onrampTitle}>Ready to start {overview.title}?</h2>
+              <div className={styles.onrampActions}>
+                {learnHref ? (
+                  <Link href={learnHref} className={styles.cta}>
+                    {started ? 'Continue' : 'Start course'} <Icon name="arrow-right" size={15} aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <span className={styles.soon}>Lessons coming soon</span>
+                )}
+                <Link href="/academy/catalog" className={styles.back}>
+                  <Icon name="arrow-left" size={15} aria-hidden="true" /> All courses
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

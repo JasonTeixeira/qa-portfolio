@@ -101,4 +101,5 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 | How It Works | Sage How It Works | **DONE** — one-for-one; "Frame it. Map it. Prove it." mastery-loop (10 steps, each with its diagram card); CTAs → real /academy. Render-verified. |
 | Progress | Sage Progress | **DONE** — one-for-one; 4 panels wired to REAL data (mastery time-series reconstructed from evidence events, per-course, evidence velocity, FSRS recall skill-graph); "by dimension" honestly OMITTED (no real per-dimension data — no fabrication). Auth-verified. |
 | Leagues | Sage Leagues | **DONE** — one-for-one; 100% real/honest: real tier+reset countdown, NO fabricated members (honest solo/empty-cohort state), REAL academy XP economy (lesson+20/lab+30/quiz+15/review+10, not the mock's cockpit economy), real referral invite link. Auth-verified. |
-| Certificate / Auth / Checkout / Settings / About + remaining | (respective) | queued |
+| Certificate | Sage Certificate | **DONE** — one-for-one (green proof theme); real cert (code/course/recipient/date/lessons), real modules→COVERED + artifacts→SHIPPED (discarded mock's fake competency claims), verify-curl → REAL public URL with honest fields, no fabricated revocation. Verified on real cert SAGE-PYTH-0AD13FAD. |
+| Auth / Checkout / Settings / About + remaining | (respective) | queued |

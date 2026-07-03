@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useTransition } from 'react'
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { verifyLab } from '@/app/academy/_actions/evidence'
@@ -43,6 +43,7 @@ export function LabRunner({
   const [completing, startComplete] = useTransition()
   const { play } = useSound()
   const runtimeRef = useRef<LabRuntime | null>(null)
+  const gutterRef = useRef<HTMLDivElement | null>(null)
   // The exact stdout buffer from the most recent run — submitted to the server so
   // it can verify the lab against the server-held `check` string. The expected
   // value never reaches the client.
@@ -119,69 +120,139 @@ export function LabRunner({
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); run() }
   }
 
+  // Purely-visual line-number gutter — derived from the real editor content, so it
+  // stays in sync as the learner types. No syntax engine, no editor lib.
+  const lineCount = useMemo(() => Math.max(1, code.split('\n').length), [code])
+
+  // Keep the gutter's scroll position locked to the textarea's.
+  const syncScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
+    if (gutterRef.current) gutterRef.current.scrollTop = e.currentTarget.scrollTop
+  }
+
   return (
     <div className={styles.root}>
       <header className={styles.topbar}>
-        <Link href={backHref} className={styles.back}><Icon name="arrow-left" size={15} /> Back to lesson</Link>
-        <span className={styles.title}><Icon name="bolt" size={14} /> LAB · {title}</span>
+        <Link href={backHref} className={styles.back}>
+          <span className={styles.mark} aria-hidden="true">◆</span>
+          <Icon name="arrow-left" size={13} /> lesson
+        </Link>
+        <span className={styles.crumb}>
+          <span className={styles.crumbLab}>Lab · {title}</span>
+          <span className={styles.crumbDot} aria-hidden="true">·</span>
+          {RUNTIME_LABEL[lang]} (in-browser)
+        </span>
         <span className={styles.spacer} />
+        {/* Honest static chip: reflects the real ready state, not a fabricated count. */}
+        <span className={styles.chip} data-ready={status === 'ready' || undefined}>
+          {status === 'ready' ? 'starter loaded' : status === 'error' ? 'runtime error' : `loading ${RUNTIME_LABEL[lang]}…`}
+        </span>
         <span className={styles.kbdHint} aria-hidden="true"><kbd>⌘</kbd><kbd>↵</kbd> run</span>
-        <button type="button" className={styles.reset} onClick={() => { setCode(starter); setOutput(null); setPassed(false); lastOutputRef.current = '' }}>Reset</button>
-        <button type="button" className={styles.run} onClick={run} disabled={!runnable} aria-keyshortcuts="Meta+Enter Control+Enter">
-          {status === 'loading' ? `Loading ${RUNTIME_LABEL[lang]}…` : status === 'running' ? 'Running…' : (<><Icon name="play" size={14} /> Run</>)}
-        </button>
       </header>
 
-      <p className={styles.summary}>{summary}</p>
-
-      {hasCheck ? (
-        <div className={styles.checkpoint} data-passed={passed} role="status" aria-live="polite">
-          {passed ? (
-            completed ? (
-              <span className={styles.cpDone}>
-                <Icon name="check" size={15} /> Checkpoint complete — saved to your progress.{' '}
-                <Link href={backHref} className={styles.cpLink}>Back to lesson <Icon name="arrow-right" size={14} /></Link>
-              </span>
-            ) : (
-              <>
-                <span className={styles.cpPass}><Icon name="check" size={15} /> Checkpoint verified! Your solution is correct.</span>
-                <button type="button" className={styles.cpComplete} onClick={complete} disabled={completing}>
-                  {completing ? 'Saving…' : (<>Mark lesson complete <Icon name="arrow-right" size={14} /></>)}
-                </button>
-              </>
-            )
-          ) : (
-            <>
-              <span className={styles.cpGoal}><Icon name="target" size={15} /> Checkpoint: edit and Run your code, then check your solution.</span>
-              <button type="button" className={styles.cpComplete} onClick={verify} disabled={verifying || status !== 'ready'}>
-                {verifying ? 'Checking…' : 'Check my solution'}
-              </button>
-            </>
-          )}
-        </div>
-      ) : null}
-
       <div className={styles.grid}>
+        {/* ── LEFT: editor + docked terminal output ── */}
         <section className={styles.editorPane} aria-label="Code editor">
-          <div className={styles.paneBar}><span className={styles.dots}><i /><i /><i /></span><span className={styles.fileName}>{RUNTIME_FILE[lang]}</span></div>
-          <textarea className={styles.editor} value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={onEditorKeyDown} spellCheck={false} autoCapitalize="off" autoCorrect="off" aria-label={`${RUNTIME_LABEL[lang]} code`} />
-        </section>
-        <section className={styles.outputPane} aria-label="Output">
-          <div className={styles.paneBar}><span className={styles.outLabel}><Icon name="chevron-right" size={13} /> output</span>
-            {status === 'error' ? <span className={styles.errTag}>runtime failed to load</span> : null}
+          <div className={styles.paneBar}>
+            <span className={styles.fileName}>{RUNTIME_FILE[lang]}</span>
+            <div className={styles.controls}>
+              <button
+                type="button"
+                className={styles.reset}
+                onClick={() => { setCode(starter); setOutput(null); setPassed(false); lastOutputRef.current = '' }}
+              >
+                <Icon name="refresh" size={13} /> Reset
+              </button>
+              <button
+                type="button"
+                className={styles.run}
+                onClick={run}
+                disabled={!runnable}
+                aria-keyshortcuts="Meta+Enter Control+Enter"
+              >
+                {status === 'loading' ? `Loading ${RUNTIME_LABEL[lang]}…`
+                  : status === 'running' ? 'Running…'
+                  : (<><Icon name="play" size={13} /> Run</>)}
+              </button>
+            </div>
           </div>
-          <pre className={styles.output} data-empty={status !== 'error' && output == null ? 'true' : undefined} role="status" aria-live="polite">
-            {status === 'error' ? `Could not load the ${RUNTIME_LABEL[lang]} runtime. Check your connection and reload.`
-              : output != null ? output
-              : (
-                <span className={styles.outEmpty}>
-                  <span className={styles.outEmptyMark} aria-hidden="true"><Icon name="play" size={18} /></span>
-                  <span className={styles.outEmptyLine}>
-                    {status === 'loading' ? `Booting the ${RUNTIME_LABEL[lang]} runtime…` : 'Press Run to execute your code.'}
-                  </span>
+
+          <div className={styles.editorBody}>
+            <div className={styles.gutter} ref={gutterRef} aria-hidden="true">
+              {Array.from({ length: lineCount }, (_, i) => (
+                <span key={i} className={styles.lineNo}>{i + 1}</span>
+              ))}
+            </div>
+            <textarea
+              className={styles.editor}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              onKeyDown={onEditorKeyDown}
+              onScroll={syncScroll}
+              spellCheck={false}
+              autoCapitalize="off"
+              autoCorrect="off"
+              wrap="off"
+              aria-label={`${RUNTIME_LABEL[lang]} code`}
+            />
+          </div>
+
+          {/* Docked terminal OUTPUT strip — real run output, empty state, or load error. */}
+          <div className={styles.terminal} aria-label="Output">
+            <pre className={styles.output} data-state={status === 'error' ? 'error' : output != null ? 'ran' : 'empty'} role="status" aria-live="polite">
+              {status === 'error'
+                ? `$ could not load the ${RUNTIME_LABEL[lang]} runtime — check your connection and reload.`
+                : output != null
+                ? output
+                : status === 'loading'
+                ? `$ booting the ${RUNTIME_LABEL[lang]} runtime…`
+                : '$ awaiting first run — press Run to execute your code.'}
+            </pre>
+          </div>
+        </section>
+
+        {/* ── RIGHT: the brief + the honest single check ── */}
+        <section className={styles.briefPane} aria-label="Brief">
+          <div className={styles.brief}>
+            <p className={styles.kicker}>The brief</p>
+            <h1 className={styles.briefTitle}>{title}</h1>
+            <p className={styles.briefBody}>{summary}</p>
+          </div>
+
+          {hasCheck ? (
+            <div className={styles.check} data-passed={passed || undefined} role="status" aria-live="polite">
+              <p className={styles.checkKicker}>The check — can&rsquo;t be faked</p>
+              {/* ONE real criterion — a lab holds exactly one server-side check. */}
+              <div className={styles.checkRow}>
+                <span className={styles.checkMark} data-met={passed || undefined} aria-hidden="true">
+                  {passed ? <Icon name="check" size={14} /> : '○'}
                 </span>
-              )}
-          </pre>
+                <span className={styles.checkText}>
+                  {passed
+                    ? 'Solution verified — checked server-side, can’t be faked.'
+                    : 'Run your code, then check your solution against the server.'}
+                </span>
+              </div>
+
+              <div className={styles.checkActions}>
+                {passed ? (
+                  completed ? (
+                    <span className={styles.cpDone}>
+                      <Icon name="check" size={14} /> Saved to your progress.{' '}
+                      <Link href={backHref} className={styles.cpLink}>Back to lesson <Icon name="arrow-right" size={13} /></Link>
+                    </span>
+                  ) : (
+                    <button type="button" className={styles.cpComplete} onClick={complete} disabled={completing}>
+                      {completing ? 'Saving…' : (<>Mark lesson complete <Icon name="arrow-right" size={13} /></>)}
+                    </button>
+                  )
+                ) : (
+                  <button type="button" className={styles.cpCheck} onClick={verify} disabled={verifying || status !== 'ready'}>
+                    {verifying ? 'Checking…' : 'Check my solution'}
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : null}
         </section>
       </div>
     </div>

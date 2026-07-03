@@ -23,7 +23,7 @@ export default async function AcademySignupPage({ searchParams }: Props) {
       mode="signup"
       kicker="Free account · instant access"
       heading="Start building today."
-      sub="Create a free account to track progress and keep what you build. Upgrade to Pro ($20/mo) any time for every course and lab."
+      sub="Create a free account to track progress and keep what you build. Upgrade to Pro ($25/mo) any time for every course and lab."
       error={error}
       next="/academy/dashboard"
       signInHref="/login?audience=academy&next=/academy/dashboard"

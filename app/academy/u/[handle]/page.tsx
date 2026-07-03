@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPublicProfile } from '@/lib/academy/profiles'
+import { getPublicProfile, getProfileVisibility } from '@/lib/academy/profiles'
 import { PublicProfileView } from '@/components/academy/profile/PublicProfileView'
+import { PrivateProfileView } from '@/components/academy/profile/PrivateProfileView'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sageideas.dev'
 
@@ -41,7 +42,16 @@ export async function generateMetadata({
 export default async function PublicProfilePage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
   const profile = await getPublicProfile(handle)
-  if (!profile) notFound()
+
+  if (!profile) {
+    // Distinguish an unknown handle (404) from a real learner who has kept their
+    // ledger private — the latter gets an honest "this profile is private" state.
+    const visibility = await getProfileVisibility(handle)
+    if (visibility.kind === 'private') {
+      return <PrivateProfileView handle={visibility.handle} displayName={visibility.displayName} />
+    }
+    notFound()
+  }
 
   return <PublicProfileView profile={profile} shareUrl={`${SITE}/academy/u/${profile.handle}`} />
 }

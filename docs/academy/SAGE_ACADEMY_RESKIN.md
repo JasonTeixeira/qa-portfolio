@@ -32,7 +32,25 @@ keeping backend/logic, swapping presentation.
   build fresh, coordinate the swap.
 - Scoped commits only, never `git add -A`, never push. No fake gates. tsc-clean per surface.
 
-## Phase plan
+## MASTER PROGRAM — 7 phases to production (autonomous harness)
+sageideas.dev BECOMES the academy; the agency moves to `studio.sageideas.dev` (operator wires
+DNS/domain in Vercel separately; this repo provides the hostname middleware). The harness runs
+each phase autonomously (self-paced loop + verified subagents, one surface/unit per iteration,
+render-verified + scoped-committed), and STOPS at the 3 operator gates below.
+
+| # | Phase | Runs | Exit gate |
+|---|---|---|---|
+| 1 | **Rescan + Reskin** — capture all 38 design screens; reskin every academy surface one-for-one, real backend/data + 140 labs preserved | autonomous (loop) | every academy screen matches its design, render-verified, committed |
+| 2 | **Shell + tokens** — one shared AcademyNav/AcademyFooter; align --ac-* token VALUES to exact design hex; componentize Home (retire the dangerouslySetInnerHTML blob) | autonomous | consistent shell on every page; Home is real components; tokens exact |
+| 3 | **Two-site split + root swap** — `middleware.ts` hostname routing (sageideas.dev→academy root, studio.*→agency); repoint `/` to academy Home; retire agency framing on academy host; redirects/sitemap/canonical/OG | build autonomous · **⛔ OPERATOR GATE: production root-repoint + agency domain** | both sites serve correctly by hostname; academy is root |
+| 4 | **Operational wiring** — billing end-to-end (real Stripe price IDs → checkout → access grant → unlock); auth/onboarding/placement on the new skin; full journey signup→onboard→placement→course→lesson→lab→verify→certificate→evidence | autonomous · **⛔ OPERATOR GATE: live Stripe price IDs/secrets** | a real user can sign up, pay, and complete a lesson+lab+certificate end-to-end (verified) |
+| 5 | **Hardening** — a11y (WCAG, keyboard, contrast, reduced-motion), perf/CWV (kill the HTML-blob, image/font strategy, bundle budget), SEO (metadata/structured-data/sitemap/robots), analytics + Sentry, e2e tests on the critical flows | autonomous | a11y 0-serious · CWV targets met · e2e green |
+| 6 | **Polish (world-class)** — motion/micro-interactions from the design; activate the 7-language i18n (switcher wired to existing ar/de/es/fr/hi/ja/pt content); mobile/PWA installable | autonomous | motion + i18n + PWA live |
+| 7 | **QA + launch** — verify all 448 lessons + 140 labs render under the new skin; certificates generate; evidence/leagues populate; full QA sweep; production deploy + smoke | autonomous build · **⛔ OPERATOR GATE: production deploy** | verified production launch |
+
+**3 operator gates only:** (3) production root-repoint + agency domain, (4) live Stripe secrets, (7) production deploy. Everything else runs autonomously.
+
+## Legacy phase plan (subsumed by the 7-phase program above)
 - **P0 Foundation** — align `--ac-*` token values to the exact design hex; confirm fonts wired.
 - **P1 Home (proof surface)** — port `Sage Home.dc.html` one-for-one to a real route
   (`/home-v2` preview), render-verify vs the design screenshot, operator sign-off.

@@ -1,0 +1,217 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Settings"><div data-dc-tpl="7" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 15px; line-height: 1.6; overflow-x: hidden;">
+
+  
+  <div data-dc-tpl="8" style="position: sticky; top: 0px; z-index: 50; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(16px, 3vw, 28px); border-bottom: 1px solid rgb(30, 30, 36); background: rgba(11, 11, 14, 0.9); backdrop-filter: blur(14px);">
+    <a data-dc-tpl="9" href="Sage Dashboard Cockpit.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit;">
+      <span data-dc-tpl="10" style="display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 11px;">◆</span>
+      <span data-dc-tpl="11" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">← cockpit</span>
+    </a>
+    <span data-dc-tpl="12" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">Settings · the boring page, done right</span>
+    <sage-notify data-dc-tpl="13" style="margin-left: auto;"></sage-notify>
+  </div>
+
+  <main data-dc-tpl="14" style="max-width: 760px; margin: 0px auto; padding: clamp(32px, 5vw, 52px) clamp(16px, 3vw, 32px) 88px;">
+    <h1 data-dc-tpl="15" style="margin: 0px 0px 26px; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.022em;">Settings</h1>
+
+    
+    <section data-dc-tpl="16" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; margin-bottom: 18px;">
+      <div data-dc-tpl="17" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162); margin-bottom: 18px;">Profile</div>
+      <div data-dc-tpl="18" style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+        <image-slot data-dc-tpl="19" id="settings-avatar" shape="circle" placeholder="JT" style="width: 72px; height: 72px; flex-shrink: 0; border-radius: 50%; border: 1px solid rgba(61, 90, 254, 0.4); overflow: hidden;"></image-slot>
+        <div data-dc-tpl="20" style="flex: 1 1 0%; min-width: 240px; display: flex; flex-direction: column; gap: 12px;">
+          <div data-dc-tpl="21">
+            <div data-dc-tpl="22" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: rgb(74, 74, 84); margin-bottom: 6px;">Display name</div>
+            <input data-dc-tpl="23" class="scp0" value="Jason T." style="width: 100%; background: rgb(15, 15, 19); border: 1px solid rgb(42, 42, 51); border-radius: 10px; padding: 12px 15px; font-size: 14px; color: rgb(242, 239, 233); font-family: inherit; outline: none;">
+          </div>
+          <div data-dc-tpl="24">
+            <div data-dc-tpl="25" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: rgb(74, 74, 84); margin-bottom: 6px;">Public profile</div>
+            <div data-dc-tpl="26" style="display: flex; align-items: center; gap: 0px;">
+              <span data-dc-tpl="27" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 12.5px; color: rgb(74, 74, 84); background: rgb(15, 15, 19); border-width: 1px medium 1px 1px; border-style: solid none solid solid; border-color: rgb(42, 42, 51) currentcolor rgb(42, 42, 51) rgb(42, 42, 51); border-image: initial; border-radius: 10px 0px 0px 10px; padding: 12px 0px 12px 15px;">sageideas.dev/@</span>
+              <input data-dc-tpl="28" value="jasont" style="flex: 1 1 0%; min-width: 0px; background: rgb(15, 15, 19); border-width: 1px 1px 1px medium; border-style: solid solid solid none; border-color: rgb(42, 42, 51) rgb(42, 42, 51) rgb(42, 42, 51) currentcolor; border-image: initial; border-radius: 0px 10px 10px 0px; padding: 12px 15px 12px 2px; font-size: 12.5px; color: rgb(242, 239, 233); font-family: &quot;JetBrains Mono&quot;, monospace; outline: none;">
+              <a data-dc-tpl="29" href="Sage Public Profile.dc.html" class="scp1" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); text-decoration: none; margin-left: 12px; white-space: nowrap;">view →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-dc-tpl="30" style="display: flex; justify-content: flex-end; margin-top: 16px;">
+        <span data-dc-tpl="31" tabindex="0" class="scp2" style="display: inline-flex; color: rgb(255, 255, 255); background: rgb(61, 90, 254); border: 1px solid rgb(61, 90, 254); font-size: 13.5px; font-weight: 600; padding: 10px 22px; border-radius: 20px; cursor: pointer; user-select: none; white-space: nowrap;"><span class="sc-interp">Save changes</span></span>
+      </div>
+    </section>
+
+    
+    <section data-dc-tpl="32" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; margin-bottom: 18px;">
+      <div data-dc-tpl="33" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162); margin-bottom: 18px;">Plan &amp; billing</div>
+      <div data-dc-tpl="34" style="border: 1px solid rgba(61, 90, 254, 0.35); border-radius: 12px; background: rgba(61, 90, 254, 0.04); padding: 18px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px;">
+        <div data-dc-tpl="35" style="flex: 1 1 0%; min-width: 200px;">
+          <div data-dc-tpl="36" style="font-size: 15px; font-weight: 700;">Annual · $250/year</div>
+          <div data-dc-tpl="37" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162); margin-top: 2px;">renews Jul 2, 2027 · Visa ···· 4242</div>
+        </div>
+        <a data-dc-tpl="38" href="Sage Checkout.dc.html" class="scp1" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255); text-decoration: none; white-space: nowrap;">change plan →</a>
+        <a data-dc-tpl="39" href="Sage Cancel.dc.html" class="scp3" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162); text-decoration: none; white-space: nowrap;">cancel</a>
+      </div>
+      <div data-dc-tpl="40" style="display: flex; flex-direction: column;">
+        
+          <div data-dc-tpl="42" style="display: flex; align-items: center; gap: 14px; padding: 11px 4px; border-bottom: 1px solid rgb(30, 30, 36); font-size: 13px;">
+            <span data-dc-tpl="43" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255);"><span class="sc-interp">INV-2026-07-0412</span></span>
+            <span data-dc-tpl="44" style="color: rgb(149, 152, 162); flex: 1 1 0%;"><span class="sc-interp">Jul 2, 2026 · Annual</span></span>
+            <span data-dc-tpl="45" style="font-weight: 600;"><span class="sc-interp">$250.00</span></span>
+            <span data-dc-tpl="46" class="scp4" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(149, 152, 162); cursor: pointer; white-space: nowrap;">PDF ↓</span>
+          </div>
+        
+          <div data-dc-tpl="42" style="display: flex; align-items: center; gap: 14px; padding: 11px 4px; border-bottom: 1px solid rgb(30, 30, 36); font-size: 13px;">
+            <span data-dc-tpl="43" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255);"><span class="sc-interp">INV-2026-06-0208</span></span>
+            <span data-dc-tpl="44" style="color: rgb(149, 152, 162); flex: 1 1 0%;"><span class="sc-interp">Jun 2, 2026 · Monthly</span></span>
+            <span data-dc-tpl="45" style="font-weight: 600;"><span class="sc-interp">$29.00</span></span>
+            <span data-dc-tpl="46" class="scp4" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(149, 152, 162); cursor: pointer; white-space: nowrap;">PDF ↓</span>
+          </div>
+        
+          <div data-dc-tpl="42" style="display: flex; align-items: center; gap: 14px; padding: 11px 4px; border-bottom: 1px solid rgb(30, 30, 36); font-size: 13px;">
+            <span data-dc-tpl="43" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255);"><span class="sc-interp">INV-2026-05-0197</span></span>
+            <span data-dc-tpl="44" style="color: rgb(149, 152, 162); flex: 1 1 0%;"><span class="sc-interp">May 2, 2026 · Monthly</span></span>
+            <span data-dc-tpl="45" style="font-weight: 600;"><span class="sc-interp">$29.00</span></span>
+            <span data-dc-tpl="46" class="scp4" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(149, 152, 162); cursor: pointer; white-space: nowrap;">PDF ↓</span>
+          </div>
+        
+      </div>
+    </section>
+
+    
+    <section data-dc-tpl="47" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; margin-bottom: 18px;">
+      <div data-dc-tpl="48" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162); margin-bottom: 6px;">Notifications</div>
+      <div data-dc-tpl="49" style="font-size: 12.5px; color: rgb(74, 74, 84); margin-bottom: 16px;">We send few, on purpose. Each one exists to protect something you built.</div>
+      
+        <div data-dc-tpl="51" style="display: flex; align-items: center; gap: 16px; padding: 13px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <div data-dc-tpl="52" style="flex: 1 1 0%; min-width: 0px;">
+            <div data-dc-tpl="53" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Recall due</span></div>
+            <div data-dc-tpl="54" style="font-size: 12.5px; color: rgb(149, 152, 162);"><span class="sc-interp">One nudge when prompts hit their window — protects retention.</span></div>
+          </div>
+          <span data-dc-tpl="55" tabindex="0" style="position: relative; width: 40px; height: 22px; border-radius: 11px; background: rgba(24, 182, 99, 0.25); border: 1px solid rgba(24, 182, 99, 0.5); cursor: pointer; flex-shrink: 0;">
+            <span data-dc-tpl="56" style="position: absolute; top: 2px; left: 20px; width: 16px; height: 16px; border-radius: 50%; background: rgb(24, 182, 99);"></span>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="51" style="display: flex; align-items: center; gap: 16px; padding: 13px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <div data-dc-tpl="52" style="flex: 1 1 0%; min-width: 0px;">
+            <div data-dc-tpl="53" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Sprout's weekly read</span></div>
+            <div data-dc-tpl="54" style="font-size: 12.5px; color: rgb(149, 152, 162);"><span class="sc-interp">Sunday email: your pattern, your one move. No filler.</span></div>
+          </div>
+          <span data-dc-tpl="55" tabindex="0" style="position: relative; width: 40px; height: 22px; border-radius: 11px; background: rgba(24, 182, 99, 0.25); border: 1px solid rgba(24, 182, 99, 0.5); cursor: pointer; flex-shrink: 0;">
+            <span data-dc-tpl="56" style="position: absolute; top: 2px; left: 20px; width: 16px; height: 16px; border-radius: 50%; background: rgb(24, 182, 99);"></span>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="51" style="display: flex; align-items: center; gap: 16px; padding: 13px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <div data-dc-tpl="52" style="flex: 1 1 0%; min-width: 0px;">
+            <div data-dc-tpl="53" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Streak at risk</span></div>
+            <div data-dc-tpl="54" style="font-size: 12.5px; color: rgb(149, 152, 162);"><span class="sc-interp">Only fires the evening before a streak would break.</span></div>
+          </div>
+          <span data-dc-tpl="55" tabindex="0" style="position: relative; width: 40px; height: 22px; border-radius: 11px; background: rgba(24, 182, 99, 0.25); border: 1px solid rgba(24, 182, 99, 0.5); cursor: pointer; flex-shrink: 0;">
+            <span data-dc-tpl="56" style="position: absolute; top: 2px; left: 20px; width: 16px; height: 16px; border-radius: 50%; background: rgb(24, 182, 99);"></span>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="51" style="display: flex; align-items: center; gap: 16px; padding: 13px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <div data-dc-tpl="52" style="flex: 1 1 0%; min-width: 0px;">
+            <div data-dc-tpl="53" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">League updates</span></div>
+            <div data-dc-tpl="54" style="font-size: 12.5px; color: rgb(149, 152, 162);"><span class="sc-interp">Promotion week and final standings. Off by default — it can wait.</span></div>
+          </div>
+          <span data-dc-tpl="55" tabindex="0" style="position: relative; width: 40px; height: 22px; border-radius: 11px; background: rgb(26, 26, 32); border: 1px solid rgb(42, 42, 51); cursor: pointer; flex-shrink: 0;">
+            <span data-dc-tpl="56" style="position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: rgb(74, 74, 84);"></span>
+          </span>
+        </div>
+      
+    </section>
+
+    
+    <section data-dc-tpl="57" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; margin-bottom: 18px;">
+      <div data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162); margin-bottom: 16px;">Preferences &amp; connections</div>
+      <div data-dc-tpl="59" style="display: flex; align-items: center; gap: 16px; padding: 12px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+        <div data-dc-tpl="60" style="flex: 1 1 0%;"><div data-dc-tpl="61" style="font-size: 14px; font-weight: 600;">Language</div><div data-dc-tpl="62" style="font-size: 12.5px; color: rgb(149, 152, 162);">applies across the whole academy</div></div>
+        <sage-lang-switch data-dc-tpl="63" style="flex-shrink: 0;"></sage-lang-switch>
+      </div>
+      <div data-dc-tpl="64" style="display: flex; align-items: center; gap: 16px; padding: 12px 4px; border-bottom: 1px solid rgb(30, 30, 36);">
+        <div data-dc-tpl="65" style="flex: 1 1 0%;"><div data-dc-tpl="66" style="font-size: 14px; font-weight: 600;">GitHub</div><div data-dc-tpl="67" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99);">connected · @jasonteixeira</div></div>
+        <span data-dc-tpl="68" class="scp4" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162); cursor: pointer; white-space: nowrap;">disconnect</span>
+      </div>
+      <div data-dc-tpl="69" style="display: flex; align-items: center; gap: 16px; padding: 12px 4px;">
+        <div data-dc-tpl="70" style="flex: 1 1 0%;"><div data-dc-tpl="71" style="font-size: 14px; font-weight: 600;">Google</div><div data-dc-tpl="72" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(74, 74, 84);">not connected</div></div>
+        <span data-dc-tpl="73" class="scp1" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); cursor: pointer; white-space: nowrap;">connect →</span>
+      </div>
+    </section>
+
+    
+    <section data-dc-tpl="74" style="border: 1px solid rgba(229, 72, 77, 0.3); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px;">
+      <div data-dc-tpl="75" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(229, 72, 77); margin-bottom: 16px;">Danger zone</div>
+      <div data-dc-tpl="76" style="display: flex; align-items: center; gap: 16px; padding: 10px 4px; border-bottom: 1px solid rgb(30, 30, 36); flex-wrap: wrap;">
+        <div data-dc-tpl="77" style="flex: 1 1 0%; min-width: 220px;"><div data-dc-tpl="78" style="font-size: 14px; font-weight: 600;">Export everything</div><div data-dc-tpl="79" style="font-size: 12.5px; color: rgb(149, 152, 162);">Your full ledger, artifacts, and recall history — a zip, yours forever.</div></div>
+        <span data-dc-tpl="80" class="scp5" style="display: inline-flex; border: 1px solid rgb(42, 42, 51); border-radius: 18px; padding: 9px 18px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(182, 182, 192); cursor: pointer; white-space: nowrap;">↓ export ledger</span>
+      </div>
+      <div data-dc-tpl="81" style="display: flex; align-items: center; gap: 16px; padding: 14px 4px 4px; flex-wrap: wrap;">
+        <div data-dc-tpl="82" style="flex: 1 1 0%; min-width: 220px;"><div data-dc-tpl="83" style="font-size: 14px; font-weight: 600;">Delete account</div><div data-dc-tpl="84" style="font-size: 12.5px; color: rgb(149, 152, 162);"><span class="sc-interp">Permanent. We'll email your export first, automatically — deleting shouldn't cost you your work.</span></div></div>
+        <span data-dc-tpl="85" tabindex="0" class="scp6" style="display: inline-flex; border: 1px solid rgba(229, 72, 77, 0.45); border-radius: 18px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; color: rgb(229, 72, 77); cursor: pointer; user-select: none; white-space: nowrap;"><span class="sc-interp">Delete account</span></span>
+      </div>
+    </section>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{}">
+class Component extends DCLogic {
+  state = { saved: false, deleteArmed: false, notifs: { recall: true, digest: true, streak: true, league: false } };
+
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._d); }
+
+  renderVals() {
+    const s = this.state;
+    const defs = [
+      { key: 'recall', name: 'Recall due', desc: 'One nudge when prompts hit their window — protects retention.' },
+      { key: 'digest', name: "Sprout's weekly read", desc: 'Sunday email: your pattern, your one move. No filler.' },
+      { key: 'streak', name: 'Streak at risk', desc: 'Only fires the evening before a streak would break.' },
+      { key: 'league', name: 'League updates', desc: 'Promotion week and final standings. Off by default — it can wait.' },
+    ];
+    return {
+      noop: () => {},
+      save: () => {
+        this.setState({ saved: true });
+        clearTimeout(this._t);
+        this._t = setTimeout(() => this.setState({ saved: false }), 1800);
+      },
+      saveLabel: s.saved ? '✓ saved' : 'Save changes',
+      saveInk: s.saved ? '#04130C' : '#fff',
+      saveBg: s.saved ? '#18B663' : '#3D5AFE',
+      saveBorder: s.saved ? '#18B663' : '#3D5AFE',
+
+      invoices: [
+        { id: 'INV-2026-07-0412', date: 'Jul 2, 2026 · Annual', amount: '$250.00' },
+        { id: 'INV-2026-06-0208', date: 'Jun 2, 2026 · Monthly', amount: '$29.00' },
+        { id: 'INV-2026-05-0197', date: 'May 2, 2026 · Monthly', amount: '$29.00' },
+      ],
+
+      notifs: defs.map((d) => {
+        const on = s.notifs[d.key];
+        return {
+          name: d.name, desc: d.desc,
+          toggle: () => this.setState({ notifs: { ...s.notifs, [d.key]: !on } }),
+          bg: on ? 'rgba(24,182,99,0.25)' : '#1A1A20',
+          border: on ? 'rgba(24,182,99,0.5)' : '#2A2A33',
+          knob: on ? '20px' : '2px',
+          knobColor: on ? '#18B663' : '#4A4A54',
+        };
+      }),
+
+      deleteLabel: s.deleteArmed ? 'Click again to confirm' : 'Delete account',
+      deleteDesc: s.deleteArmed
+        ? 'Are you sure? Certificates stay verifiable (they\'re public record), but everything else goes — permanently, within 30 days.'
+        : 'Permanent. We\'ll email your export first, automatically — deleting shouldn\'t cost you your work.',
+      deleteClick: () => {
+        if (!s.deleteArmed) {
+          this.setState({ deleteArmed: true });
+          clearTimeout(this._d);
+          this._d = setTimeout(() => this.setState({ deleteArmed: false }), 4000);
+        }
+      },
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>
